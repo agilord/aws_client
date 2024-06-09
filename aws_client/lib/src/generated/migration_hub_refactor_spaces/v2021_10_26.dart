@@ -115,7 +115,7 @@ class MigrationHubRefactorSpaces {
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
-      'ProxyType': proxyType.toValue(),
+      'ProxyType': proxyType.value,
       'VpcId': vpcId,
       if (apiGatewayProxy != null) 'ApiGatewayProxy': apiGatewayProxy,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -182,7 +182,7 @@ class MigrationHubRefactorSpaces {
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
-      'NetworkFabricType': networkFabricType.toValue(),
+      'NetworkFabricType': networkFabricType.value,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (tags != null) 'Tags': tags,
@@ -336,7 +336,7 @@ class MigrationHubRefactorSpaces {
     UriPathRouteInput? uriPathRoute,
   }) async {
     final $payload = <String, dynamic>{
-      'RouteType': routeType.toValue(),
+      'RouteType': routeType.value,
       'ServiceIdentifier': serviceIdentifier,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (defaultRoute != null) 'DefaultRoute': defaultRoute,
@@ -423,7 +423,7 @@ class MigrationHubRefactorSpaces {
     String? vpcId,
   }) async {
     final $payload = <String, dynamic>{
-      'EndpointType': endpointType.toValue(),
+      'EndpointType': endpointType.value,
       'Name': name,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
@@ -1103,7 +1103,7 @@ class MigrationHubRefactorSpaces {
     required String routeIdentifier,
   }) async {
     final $payload = <String, dynamic>{
-      'ActivationState': activationState.toValue(),
+      'ActivationState': activationState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1117,31 +1117,18 @@ class MigrationHubRefactorSpaces {
 }
 
 enum ApiGatewayEndpointType {
-  regional,
-  private,
-}
+  regional('REGIONAL'),
+  private('PRIVATE'),
+  ;
 
-extension ApiGatewayEndpointTypeValueExtension on ApiGatewayEndpointType {
-  String toValue() {
-    switch (this) {
-      case ApiGatewayEndpointType.regional:
-        return 'REGIONAL';
-      case ApiGatewayEndpointType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension ApiGatewayEndpointTypeFromString on String {
-  ApiGatewayEndpointType toApiGatewayEndpointType() {
-    switch (this) {
-      case 'REGIONAL':
-        return ApiGatewayEndpointType.regional;
-      case 'PRIVATE':
-        return ApiGatewayEndpointType.private;
-    }
-    throw Exception('$this is not known in enum ApiGatewayEndpointType');
-  }
+  const ApiGatewayEndpointType(this.value);
+
+  static ApiGatewayEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApiGatewayEndpointType'));
 }
 
 /// A wrapper object holding the Amazon API Gateway proxy configuration.
@@ -1182,8 +1169,8 @@ class ApiGatewayProxyConfig {
   factory ApiGatewayProxyConfig.fromJson(Map<String, dynamic> json) {
     return ApiGatewayProxyConfig(
       apiGatewayId: json['ApiGatewayId'] as String?,
-      endpointType:
-          (json['EndpointType'] as String?)?.toApiGatewayEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
       nlbArn: json['NlbArn'] as String?,
       nlbName: json['NlbName'] as String?,
       proxyUrl: json['ProxyUrl'] as String?,
@@ -1202,7 +1189,7 @@ class ApiGatewayProxyConfig {
     final vpcLinkId = this.vpcLinkId;
     return {
       if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (nlbArn != null) 'NlbArn': nlbArn,
       if (nlbName != null) 'NlbName': nlbName,
       if (proxyUrl != null) 'ProxyUrl': proxyUrl,
@@ -1240,8 +1227,8 @@ class ApiGatewayProxyInput {
 
   factory ApiGatewayProxyInput.fromJson(Map<String, dynamic> json) {
     return ApiGatewayProxyInput(
-      endpointType:
-          (json['EndpointType'] as String?)?.toApiGatewayEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
       stageName: json['StageName'] as String?,
     );
   }
@@ -1250,7 +1237,7 @@ class ApiGatewayProxyInput {
     final endpointType = this.endpointType;
     final stageName = this.stageName;
     return {
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (stageName != null) 'StageName': stageName,
     };
   }
@@ -1294,8 +1281,8 @@ class ApiGatewayProxySummary {
   factory ApiGatewayProxySummary.fromJson(Map<String, dynamic> json) {
     return ApiGatewayProxySummary(
       apiGatewayId: json['ApiGatewayId'] as String?,
-      endpointType:
-          (json['EndpointType'] as String?)?.toApiGatewayEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
       nlbArn: json['NlbArn'] as String?,
       nlbName: json['NlbName'] as String?,
       proxyUrl: json['ProxyUrl'] as String?,
@@ -1314,7 +1301,7 @@ class ApiGatewayProxySummary {
     final vpcLinkId = this.vpcLinkId;
     return {
       if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (nlbArn != null) 'NlbArn': nlbArn,
       if (nlbName != null) 'NlbName': nlbName,
       if (proxyUrl != null) 'ProxyUrl': proxyUrl,
@@ -1325,46 +1312,21 @@ class ApiGatewayProxySummary {
 }
 
 enum ApplicationState {
-  creating,
-  active,
-  deleting,
-  failed,
-  updating,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  ;
 
-extension ApplicationStateValueExtension on ApplicationState {
-  String toValue() {
-    switch (this) {
-      case ApplicationState.creating:
-        return 'CREATING';
-      case ApplicationState.active:
-        return 'ACTIVE';
-      case ApplicationState.deleting:
-        return 'DELETING';
-      case ApplicationState.failed:
-        return 'FAILED';
-      case ApplicationState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStateFromString on String {
-  ApplicationState toApplicationState() {
-    switch (this) {
-      case 'CREATING':
-        return ApplicationState.creating;
-      case 'ACTIVE':
-        return ApplicationState.active;
-      case 'DELETING':
-        return ApplicationState.deleting;
-      case 'FAILED':
-        return ApplicationState.failed;
-      case 'UPDATING':
-        return ApplicationState.updating;
-    }
-    throw Exception('$this is not known in enum ApplicationState');
-  }
+  const ApplicationState(this.value);
+
+  static ApplicationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationState'));
 }
 
 /// The list of <code>ApplicationSummary</code> objects.
@@ -1446,8 +1408,8 @@ class ApplicationSummary {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      proxyType: (json['ProxyType'] as String?)?.toProxyType(),
-      state: (json['State'] as String?)?.toApplicationState(),
+      proxyType: (json['ProxyType'] as String?)?.let(ProxyType.fromString),
+      state: (json['State'] as String?)?.let(ApplicationState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['VpcId'] as String?,
@@ -1481,8 +1443,8 @@ class ApplicationSummary {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (proxyType != null) 'ProxyType': proxyType.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (proxyType != null) 'ProxyType': proxyType.value,
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (vpcId != null) 'VpcId': vpcId,
     };
@@ -1568,8 +1530,8 @@ class CreateApplicationResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      proxyType: (json['ProxyType'] as String?)?.toProxyType(),
-      state: (json['State'] as String?)?.toApplicationState(),
+      proxyType: (json['ProxyType'] as String?)?.let(ProxyType.fromString),
+      state: (json['State'] as String?)?.let(ApplicationState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['VpcId'] as String?,
@@ -1601,8 +1563,8 @@ class CreateApplicationResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (proxyType != null) 'ProxyType': proxyType.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (proxyType != null) 'ProxyType': proxyType.value,
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (vpcId != null) 'VpcId': vpcId,
     };
@@ -1663,10 +1625,10 @@ class CreateEnvironmentResponse {
       environmentId: json['EnvironmentId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      networkFabricType:
-          (json['NetworkFabricType'] as String?)?.toNetworkFabricType(),
+      networkFabricType: (json['NetworkFabricType'] as String?)
+          ?.let(NetworkFabricType.fromString),
       ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.toEnvironmentState(),
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1692,9 +1654,9 @@ class CreateEnvironmentResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (networkFabricType != null)
-        'NetworkFabricType': networkFabricType.toValue(),
+        'NetworkFabricType': networkFabricType.value,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -1770,9 +1732,9 @@ class CreateRouteResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       ownerAccountId: json['OwnerAccountId'] as String?,
       routeId: json['RouteId'] as String?,
-      routeType: (json['RouteType'] as String?)?.toRouteType(),
+      routeType: (json['RouteType'] as String?)?.let(RouteType.fromString),
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uriPathRoute: json['UriPathRoute'] != null
@@ -1804,9 +1766,9 @@ class CreateRouteResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (routeId != null) 'RouteId': routeId,
-      if (routeType != null) 'RouteType': routeType.toValue(),
+      if (routeType != null) 'RouteType': routeType.value,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (uriPathRoute != null) 'UriPathRoute': uriPathRoute,
     };
@@ -1889,7 +1851,8 @@ class CreateServiceResponse {
       createdByAccountId: json['CreatedByAccountId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      endpointType: (json['EndpointType'] as String?)?.toServiceEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ServiceEndpointType.fromString),
       environmentId: json['EnvironmentId'] as String?,
       lambdaEndpoint: json['LambdaEndpoint'] != null
           ? LambdaEndpointInput.fromJson(
@@ -1899,7 +1862,7 @@ class CreateServiceResponse {
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toServiceState(),
+      state: (json['State'] as String?)?.let(ServiceState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       urlEndpoint: json['UrlEndpoint'] != null
@@ -1933,7 +1896,7 @@ class CreateServiceResponse {
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (lambdaEndpoint != null) 'LambdaEndpoint': lambdaEndpoint,
       if (lastUpdatedTime != null)
@@ -1941,7 +1904,7 @@ class CreateServiceResponse {
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (urlEndpoint != null) 'UrlEndpoint': urlEndpoint,
       if (vpcId != null) 'VpcId': vpcId,
@@ -1962,7 +1925,7 @@ class DefaultRouteInput {
   Map<String, dynamic> toJson() {
     final activationState = this.activationState;
     return {
-      if (activationState != null) 'ActivationState': activationState.toValue(),
+      if (activationState != null) 'ActivationState': activationState.value,
     };
   }
 }
@@ -2002,7 +1965,7 @@ class DeleteApplicationResponse {
       environmentId: json['EnvironmentId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toApplicationState(),
+      state: (json['State'] as String?)?.let(ApplicationState.fromString),
     );
   }
 
@@ -2020,7 +1983,7 @@ class DeleteApplicationResponse {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2055,7 +2018,7 @@ class DeleteEnvironmentResponse {
       environmentId: json['EnvironmentId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toEnvironmentState(),
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
     );
   }
 
@@ -2071,7 +2034,7 @@ class DeleteEnvironmentResponse {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2123,7 +2086,7 @@ class DeleteRouteResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       routeId: json['RouteId'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
     );
   }
 
@@ -2141,7 +2104,7 @@ class DeleteRouteResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (routeId != null) 'RouteId': routeId,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2186,7 +2149,7 @@ class DeleteServiceResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toServiceState(),
+      state: (json['State'] as String?)?.let(ServiceState.fromString),
     );
   }
 
@@ -2206,47 +2169,26 @@ class DeleteServiceResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum EnvironmentState {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension EnvironmentStateValueExtension on EnvironmentState {
-  String toValue() {
-    switch (this) {
-      case EnvironmentState.creating:
-        return 'CREATING';
-      case EnvironmentState.active:
-        return 'ACTIVE';
-      case EnvironmentState.deleting:
-        return 'DELETING';
-      case EnvironmentState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStateFromString on String {
-  EnvironmentState toEnvironmentState() {
-    switch (this) {
-      case 'CREATING':
-        return EnvironmentState.creating;
-      case 'ACTIVE':
-        return EnvironmentState.active;
-      case 'DELETING':
-        return EnvironmentState.deleting;
-      case 'FAILED':
-        return EnvironmentState.failed;
-    }
-    throw Exception('$this is not known in enum EnvironmentState');
-  }
+  const EnvironmentState(this.value);
+
+  static EnvironmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentState'));
 }
 
 /// The summary information for environments as a response to
@@ -2314,10 +2256,10 @@ class EnvironmentSummary {
           : null,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      networkFabricType:
-          (json['NetworkFabricType'] as String?)?.toNetworkFabricType(),
+      networkFabricType: (json['NetworkFabricType'] as String?)
+          ?.let(NetworkFabricType.fromString),
       ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.toEnvironmentState(),
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       transitGatewayId: json['TransitGatewayId'] as String?,
@@ -2347,9 +2289,9 @@ class EnvironmentSummary {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (networkFabricType != null)
-        'NetworkFabricType': networkFabricType.toValue(),
+        'NetworkFabricType': networkFabricType.value,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
     };
@@ -2427,194 +2369,59 @@ class EnvironmentVpc {
 }
 
 enum ErrorCode {
-  invalidResourceState,
-  resourceLimitExceeded,
-  resourceCreationFailure,
-  resourceUpdateFailure,
-  serviceEndpointHealthCheckFailure,
-  resourceDeletionFailure,
-  resourceRetrievalFailure,
-  resourceInUse,
-  resourceNotFound,
-  stateTransitionFailure,
-  requestLimitExceeded,
-  notAuthorized,
-}
+  invalidResourceState('INVALID_RESOURCE_STATE'),
+  resourceLimitExceeded('RESOURCE_LIMIT_EXCEEDED'),
+  resourceCreationFailure('RESOURCE_CREATION_FAILURE'),
+  resourceUpdateFailure('RESOURCE_UPDATE_FAILURE'),
+  serviceEndpointHealthCheckFailure('SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE'),
+  resourceDeletionFailure('RESOURCE_DELETION_FAILURE'),
+  resourceRetrievalFailure('RESOURCE_RETRIEVAL_FAILURE'),
+  resourceInUse('RESOURCE_IN_USE'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  stateTransitionFailure('STATE_TRANSITION_FAILURE'),
+  requestLimitExceeded('REQUEST_LIMIT_EXCEEDED'),
+  notAuthorized('NOT_AUTHORIZED'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.invalidResourceState:
-        return 'INVALID_RESOURCE_STATE';
-      case ErrorCode.resourceLimitExceeded:
-        return 'RESOURCE_LIMIT_EXCEEDED';
-      case ErrorCode.resourceCreationFailure:
-        return 'RESOURCE_CREATION_FAILURE';
-      case ErrorCode.resourceUpdateFailure:
-        return 'RESOURCE_UPDATE_FAILURE';
-      case ErrorCode.serviceEndpointHealthCheckFailure:
-        return 'SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE';
-      case ErrorCode.resourceDeletionFailure:
-        return 'RESOURCE_DELETION_FAILURE';
-      case ErrorCode.resourceRetrievalFailure:
-        return 'RESOURCE_RETRIEVAL_FAILURE';
-      case ErrorCode.resourceInUse:
-        return 'RESOURCE_IN_USE';
-      case ErrorCode.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case ErrorCode.stateTransitionFailure:
-        return 'STATE_TRANSITION_FAILURE';
-      case ErrorCode.requestLimitExceeded:
-        return 'REQUEST_LIMIT_EXCEEDED';
-      case ErrorCode.notAuthorized:
-        return 'NOT_AUTHORIZED';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'INVALID_RESOURCE_STATE':
-        return ErrorCode.invalidResourceState;
-      case 'RESOURCE_LIMIT_EXCEEDED':
-        return ErrorCode.resourceLimitExceeded;
-      case 'RESOURCE_CREATION_FAILURE':
-        return ErrorCode.resourceCreationFailure;
-      case 'RESOURCE_UPDATE_FAILURE':
-        return ErrorCode.resourceUpdateFailure;
-      case 'SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE':
-        return ErrorCode.serviceEndpointHealthCheckFailure;
-      case 'RESOURCE_DELETION_FAILURE':
-        return ErrorCode.resourceDeletionFailure;
-      case 'RESOURCE_RETRIEVAL_FAILURE':
-        return ErrorCode.resourceRetrievalFailure;
-      case 'RESOURCE_IN_USE':
-        return ErrorCode.resourceInUse;
-      case 'RESOURCE_NOT_FOUND':
-        return ErrorCode.resourceNotFound;
-      case 'STATE_TRANSITION_FAILURE':
-        return ErrorCode.stateTransitionFailure;
-      case 'REQUEST_LIMIT_EXCEEDED':
-        return ErrorCode.requestLimitExceeded;
-      case 'NOT_AUTHORIZED':
-        return ErrorCode.notAuthorized;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 enum ErrorResourceType {
-  environment,
-  application,
-  route,
-  service,
-  transitGateway,
-  transitGatewayAttachment,
-  apiGateway,
-  nlb,
-  targetGroup,
-  loadBalancerListener,
-  vpcLink,
-  lambda,
-  vpc,
-  subnet,
-  routeTable,
-  securityGroup,
-  vpcEndpointServiceConfiguration,
-  resourceShare,
-  iamRole,
-}
+  environment('ENVIRONMENT'),
+  application('APPLICATION'),
+  route('ROUTE'),
+  service('SERVICE'),
+  transitGateway('TRANSIT_GATEWAY'),
+  transitGatewayAttachment('TRANSIT_GATEWAY_ATTACHMENT'),
+  apiGateway('API_GATEWAY'),
+  nlb('NLB'),
+  targetGroup('TARGET_GROUP'),
+  loadBalancerListener('LOAD_BALANCER_LISTENER'),
+  vpcLink('VPC_LINK'),
+  lambda('LAMBDA'),
+  vpc('VPC'),
+  subnet('SUBNET'),
+  routeTable('ROUTE_TABLE'),
+  securityGroup('SECURITY_GROUP'),
+  vpcEndpointServiceConfiguration('VPC_ENDPOINT_SERVICE_CONFIGURATION'),
+  resourceShare('RESOURCE_SHARE'),
+  iamRole('IAM_ROLE'),
+  ;
 
-extension ErrorResourceTypeValueExtension on ErrorResourceType {
-  String toValue() {
-    switch (this) {
-      case ErrorResourceType.environment:
-        return 'ENVIRONMENT';
-      case ErrorResourceType.application:
-        return 'APPLICATION';
-      case ErrorResourceType.route:
-        return 'ROUTE';
-      case ErrorResourceType.service:
-        return 'SERVICE';
-      case ErrorResourceType.transitGateway:
-        return 'TRANSIT_GATEWAY';
-      case ErrorResourceType.transitGatewayAttachment:
-        return 'TRANSIT_GATEWAY_ATTACHMENT';
-      case ErrorResourceType.apiGateway:
-        return 'API_GATEWAY';
-      case ErrorResourceType.nlb:
-        return 'NLB';
-      case ErrorResourceType.targetGroup:
-        return 'TARGET_GROUP';
-      case ErrorResourceType.loadBalancerListener:
-        return 'LOAD_BALANCER_LISTENER';
-      case ErrorResourceType.vpcLink:
-        return 'VPC_LINK';
-      case ErrorResourceType.lambda:
-        return 'LAMBDA';
-      case ErrorResourceType.vpc:
-        return 'VPC';
-      case ErrorResourceType.subnet:
-        return 'SUBNET';
-      case ErrorResourceType.routeTable:
-        return 'ROUTE_TABLE';
-      case ErrorResourceType.securityGroup:
-        return 'SECURITY_GROUP';
-      case ErrorResourceType.vpcEndpointServiceConfiguration:
-        return 'VPC_ENDPOINT_SERVICE_CONFIGURATION';
-      case ErrorResourceType.resourceShare:
-        return 'RESOURCE_SHARE';
-      case ErrorResourceType.iamRole:
-        return 'IAM_ROLE';
-    }
-  }
-}
+  final String value;
 
-extension ErrorResourceTypeFromString on String {
-  ErrorResourceType toErrorResourceType() {
-    switch (this) {
-      case 'ENVIRONMENT':
-        return ErrorResourceType.environment;
-      case 'APPLICATION':
-        return ErrorResourceType.application;
-      case 'ROUTE':
-        return ErrorResourceType.route;
-      case 'SERVICE':
-        return ErrorResourceType.service;
-      case 'TRANSIT_GATEWAY':
-        return ErrorResourceType.transitGateway;
-      case 'TRANSIT_GATEWAY_ATTACHMENT':
-        return ErrorResourceType.transitGatewayAttachment;
-      case 'API_GATEWAY':
-        return ErrorResourceType.apiGateway;
-      case 'NLB':
-        return ErrorResourceType.nlb;
-      case 'TARGET_GROUP':
-        return ErrorResourceType.targetGroup;
-      case 'LOAD_BALANCER_LISTENER':
-        return ErrorResourceType.loadBalancerListener;
-      case 'VPC_LINK':
-        return ErrorResourceType.vpcLink;
-      case 'LAMBDA':
-        return ErrorResourceType.lambda;
-      case 'VPC':
-        return ErrorResourceType.vpc;
-      case 'SUBNET':
-        return ErrorResourceType.subnet;
-      case 'ROUTE_TABLE':
-        return ErrorResourceType.routeTable;
-      case 'SECURITY_GROUP':
-        return ErrorResourceType.securityGroup;
-      case 'VPC_ENDPOINT_SERVICE_CONFIGURATION':
-        return ErrorResourceType.vpcEndpointServiceConfiguration;
-      case 'RESOURCE_SHARE':
-        return ErrorResourceType.resourceShare;
-      case 'IAM_ROLE':
-        return ErrorResourceType.iamRole;
-    }
-    throw Exception('$this is not known in enum ErrorResourceType');
-  }
+  const ErrorResourceType(this.value);
+
+  static ErrorResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ErrorResourceType'));
 }
 
 /// Error associated with a resource returned for a Get or List resource
@@ -2652,10 +2459,11 @@ class ErrorResponse {
       accountId: json['AccountId'] as String?,
       additionalDetails: (json['AdditionalDetails'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      code: (json['Code'] as String?)?.toErrorCode(),
+      code: (json['Code'] as String?)?.let(ErrorCode.fromString),
       message: json['Message'] as String?,
       resourceIdentifier: json['ResourceIdentifier'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toErrorResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ErrorResourceType.fromString),
     );
   }
 
@@ -2669,10 +2477,10 @@ class ErrorResponse {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (additionalDetails != null) 'AdditionalDetails': additionalDetails,
-      if (code != null) 'Code': code.toValue(),
+      if (code != null) 'Code': code.value,
       if (message != null) 'Message': message,
       if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -2756,8 +2564,8 @@ class GetApplicationResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      proxyType: (json['ProxyType'] as String?)?.toProxyType(),
-      state: (json['State'] as String?)?.toApplicationState(),
+      proxyType: (json['ProxyType'] as String?)?.let(ProxyType.fromString),
+      state: (json['State'] as String?)?.let(ApplicationState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['VpcId'] as String?,
@@ -2791,8 +2599,8 @@ class GetApplicationResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (proxyType != null) 'ProxyType': proxyType.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (proxyType != null) 'ProxyType': proxyType.value,
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (vpcId != null) 'VpcId': vpcId,
     };
@@ -2863,10 +2671,10 @@ class GetEnvironmentResponse {
           : null,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      networkFabricType:
-          (json['NetworkFabricType'] as String?)?.toNetworkFabricType(),
+      networkFabricType: (json['NetworkFabricType'] as String?)
+          ?.let(NetworkFabricType.fromString),
       ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.toEnvironmentState(),
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       transitGatewayId: json['TransitGatewayId'] as String?,
@@ -2896,9 +2704,9 @@ class GetEnvironmentResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (networkFabricType != null)
-        'NetworkFabricType': networkFabricType.toValue(),
+        'NetworkFabricType': networkFabricType.value,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
     };
@@ -3034,16 +2842,16 @@ class GetRouteResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       methods: (json['Methods'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHttpMethod())
+          .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
       ownerAccountId: json['OwnerAccountId'] as String?,
       pathResourceToId: (json['PathResourceToId'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       routeId: json['RouteId'] as String?,
-      routeType: (json['RouteType'] as String?)?.toRouteType(),
+      routeType: (json['RouteType'] as String?)?.let(RouteType.fromString),
       serviceId: json['ServiceId'] as String?,
       sourcePath: json['SourcePath'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3079,14 +2887,14 @@ class GetRouteResponse {
       if (includeChildPaths != null) 'IncludeChildPaths': includeChildPaths,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (methods != null) 'Methods': methods.map((e) => e.toValue()).toList(),
+      if (methods != null) 'Methods': methods.map((e) => e.value).toList(),
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (pathResourceToId != null) 'PathResourceToId': pathResourceToId,
       if (routeId != null) 'RouteId': routeId,
-      if (routeType != null) 'RouteType': routeType.toValue(),
+      if (routeType != null) 'RouteType': routeType.value,
       if (serviceId != null) 'ServiceId': serviceId,
       if (sourcePath != null) 'SourcePath': sourcePath,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3179,7 +2987,8 @@ class GetServiceResponse {
       createdByAccountId: json['CreatedByAccountId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      endpointType: (json['EndpointType'] as String?)?.toServiceEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ServiceEndpointType.fromString),
       environmentId: json['EnvironmentId'] as String?,
       error: json['Error'] != null
           ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
@@ -3192,7 +3001,7 @@ class GetServiceResponse {
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toServiceState(),
+      state: (json['State'] as String?)?.let(ServiceState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       urlEndpoint: json['UrlEndpoint'] != null
@@ -3227,7 +3036,7 @@ class GetServiceResponse {
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (error != null) 'Error': error,
       if (lambdaEndpoint != null) 'LambdaEndpoint': lambdaEndpoint,
@@ -3236,7 +3045,7 @@ class GetServiceResponse {
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (urlEndpoint != null) 'UrlEndpoint': urlEndpoint,
       if (vpcId != null) 'VpcId': vpcId,
@@ -3245,56 +3054,22 @@ class GetServiceResponse {
 }
 
 enum HttpMethod {
-  delete,
-  get,
-  head,
-  options,
-  patch,
-  post,
-  put,
-}
+  delete('DELETE'),
+  get('GET'),
+  head('HEAD'),
+  options('OPTIONS'),
+  patch('PATCH'),
+  post('POST'),
+  put('PUT'),
+  ;
 
-extension HttpMethodValueExtension on HttpMethod {
-  String toValue() {
-    switch (this) {
-      case HttpMethod.delete:
-        return 'DELETE';
-      case HttpMethod.get:
-        return 'GET';
-      case HttpMethod.head:
-        return 'HEAD';
-      case HttpMethod.options:
-        return 'OPTIONS';
-      case HttpMethod.patch:
-        return 'PATCH';
-      case HttpMethod.post:
-        return 'POST';
-      case HttpMethod.put:
-        return 'PUT';
-    }
-  }
-}
+  final String value;
 
-extension HttpMethodFromString on String {
-  HttpMethod toHttpMethod() {
-    switch (this) {
-      case 'DELETE':
-        return HttpMethod.delete;
-      case 'GET':
-        return HttpMethod.get;
-      case 'HEAD':
-        return HttpMethod.head;
-      case 'OPTIONS':
-        return HttpMethod.options;
-      case 'PATCH':
-        return HttpMethod.patch;
-      case 'POST':
-        return HttpMethod.post;
-      case 'PUT':
-        return HttpMethod.put;
-    }
-    throw Exception('$this is not known in enum HttpMethod');
-  }
+  const HttpMethod(this.value);
+
+  static HttpMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HttpMethod'));
 }
 
 /// The configuration for the Lambda endpoint type.
@@ -3552,54 +3327,31 @@ class ListTagsForResourceResponse {
 }
 
 enum NetworkFabricType {
-  transitGateway,
-  none,
-}
+  transitGateway('TRANSIT_GATEWAY'),
+  none('NONE'),
+  ;
 
-extension NetworkFabricTypeValueExtension on NetworkFabricType {
-  String toValue() {
-    switch (this) {
-      case NetworkFabricType.transitGateway:
-        return 'TRANSIT_GATEWAY';
-      case NetworkFabricType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension NetworkFabricTypeFromString on String {
-  NetworkFabricType toNetworkFabricType() {
-    switch (this) {
-      case 'TRANSIT_GATEWAY':
-        return NetworkFabricType.transitGateway;
-      case 'NONE':
-        return NetworkFabricType.none;
-    }
-    throw Exception('$this is not known in enum NetworkFabricType');
-  }
+  const NetworkFabricType(this.value);
+
+  static NetworkFabricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkFabricType'));
 }
 
 enum ProxyType {
-  apiGateway,
-}
+  apiGateway('API_GATEWAY'),
+  ;
 
-extension ProxyTypeValueExtension on ProxyType {
-  String toValue() {
-    switch (this) {
-      case ProxyType.apiGateway:
-        return 'API_GATEWAY';
-    }
-  }
-}
+  final String value;
 
-extension ProxyTypeFromString on String {
-  ProxyType toProxyType() {
-    switch (this) {
-      case 'API_GATEWAY':
-        return ProxyType.apiGateway;
-    }
-    throw Exception('$this is not known in enum ProxyType');
-  }
+  const ProxyType(this.value);
+
+  static ProxyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ProxyType'));
 }
 
 class PutResourcePolicyResponse {
@@ -3615,79 +3367,36 @@ class PutResourcePolicyResponse {
 }
 
 enum RouteActivationState {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension RouteActivationStateValueExtension on RouteActivationState {
-  String toValue() {
-    switch (this) {
-      case RouteActivationState.active:
-        return 'ACTIVE';
-      case RouteActivationState.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RouteActivationStateFromString on String {
-  RouteActivationState toRouteActivationState() {
-    switch (this) {
-      case 'ACTIVE':
-        return RouteActivationState.active;
-      case 'INACTIVE':
-        return RouteActivationState.inactive;
-    }
-    throw Exception('$this is not known in enum RouteActivationState');
-  }
+  const RouteActivationState(this.value);
+
+  static RouteActivationState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RouteActivationState'));
 }
 
 enum RouteState {
-  creating,
-  active,
-  deleting,
-  failed,
-  updating,
-  inactive,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  inactive('INACTIVE'),
+  ;
 
-extension RouteStateValueExtension on RouteState {
-  String toValue() {
-    switch (this) {
-      case RouteState.creating:
-        return 'CREATING';
-      case RouteState.active:
-        return 'ACTIVE';
-      case RouteState.deleting:
-        return 'DELETING';
-      case RouteState.failed:
-        return 'FAILED';
-      case RouteState.updating:
-        return 'UPDATING';
-      case RouteState.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RouteStateFromString on String {
-  RouteState toRouteState() {
-    switch (this) {
-      case 'CREATING':
-        return RouteState.creating;
-      case 'ACTIVE':
-        return RouteState.active;
-      case 'DELETING':
-        return RouteState.deleting;
-      case 'FAILED':
-        return RouteState.failed;
-      case 'UPDATING':
-        return RouteState.updating;
-      case 'INACTIVE':
-        return RouteState.inactive;
-    }
-    throw Exception('$this is not known in enum RouteState');
-  }
+  const RouteState(this.value);
+
+  static RouteState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RouteState'));
 }
 
 /// The summary information for the routes as a response to
@@ -3792,16 +3501,16 @@ class RouteSummary {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       methods: (json['Methods'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHttpMethod())
+          .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
       ownerAccountId: json['OwnerAccountId'] as String?,
       pathResourceToId: (json['PathResourceToId'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       routeId: json['RouteId'] as String?,
-      routeType: (json['RouteType'] as String?)?.toRouteType(),
+      routeType: (json['RouteType'] as String?)?.let(RouteType.fromString),
       serviceId: json['ServiceId'] as String?,
       sourcePath: json['SourcePath'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3837,111 +3546,63 @@ class RouteSummary {
       if (includeChildPaths != null) 'IncludeChildPaths': includeChildPaths,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (methods != null) 'Methods': methods.map((e) => e.toValue()).toList(),
+      if (methods != null) 'Methods': methods.map((e) => e.value).toList(),
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (pathResourceToId != null) 'PathResourceToId': pathResourceToId,
       if (routeId != null) 'RouteId': routeId,
-      if (routeType != null) 'RouteType': routeType.toValue(),
+      if (routeType != null) 'RouteType': routeType.value,
       if (serviceId != null) 'ServiceId': serviceId,
       if (sourcePath != null) 'SourcePath': sourcePath,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum RouteType {
-  $default,
-  uriPath,
-}
+  $default('DEFAULT'),
+  uriPath('URI_PATH'),
+  ;
 
-extension RouteTypeValueExtension on RouteType {
-  String toValue() {
-    switch (this) {
-      case RouteType.$default:
-        return 'DEFAULT';
-      case RouteType.uriPath:
-        return 'URI_PATH';
-    }
-  }
-}
+  final String value;
 
-extension RouteTypeFromString on String {
-  RouteType toRouteType() {
-    switch (this) {
-      case 'DEFAULT':
-        return RouteType.$default;
-      case 'URI_PATH':
-        return RouteType.uriPath;
-    }
-    throw Exception('$this is not known in enum RouteType');
-  }
+  const RouteType(this.value);
+
+  static RouteType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RouteType'));
 }
 
 enum ServiceEndpointType {
-  lambda,
-  url,
-}
+  lambda('LAMBDA'),
+  url('URL'),
+  ;
 
-extension ServiceEndpointTypeValueExtension on ServiceEndpointType {
-  String toValue() {
-    switch (this) {
-      case ServiceEndpointType.lambda:
-        return 'LAMBDA';
-      case ServiceEndpointType.url:
-        return 'URL';
-    }
-  }
-}
+  final String value;
 
-extension ServiceEndpointTypeFromString on String {
-  ServiceEndpointType toServiceEndpointType() {
-    switch (this) {
-      case 'LAMBDA':
-        return ServiceEndpointType.lambda;
-      case 'URL':
-        return ServiceEndpointType.url;
-    }
-    throw Exception('$this is not known in enum ServiceEndpointType');
-  }
+  const ServiceEndpointType(this.value);
+
+  static ServiceEndpointType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ServiceEndpointType'));
 }
 
 enum ServiceState {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ServiceStateValueExtension on ServiceState {
-  String toValue() {
-    switch (this) {
-      case ServiceState.creating:
-        return 'CREATING';
-      case ServiceState.active:
-        return 'ACTIVE';
-      case ServiceState.deleting:
-        return 'DELETING';
-      case ServiceState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ServiceStateFromString on String {
-  ServiceState toServiceState() {
-    switch (this) {
-      case 'CREATING':
-        return ServiceState.creating;
-      case 'ACTIVE':
-        return ServiceState.active;
-      case 'DELETING':
-        return ServiceState.deleting;
-      case 'FAILED':
-        return ServiceState.failed;
-    }
-    throw Exception('$this is not known in enum ServiceState');
-  }
+  const ServiceState(this.value);
+
+  static ServiceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServiceState'));
 }
 
 /// A summary for the service as a response to <code>ListServices</code>.
@@ -4024,7 +3685,8 @@ class ServiceSummary {
       createdByAccountId: json['CreatedByAccountId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      endpointType: (json['EndpointType'] as String?)?.toServiceEndpointType(),
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ServiceEndpointType.fromString),
       environmentId: json['EnvironmentId'] as String?,
       error: json['Error'] != null
           ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
@@ -4037,7 +3699,7 @@ class ServiceSummary {
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toServiceState(),
+      state: (json['State'] as String?)?.let(ServiceState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       urlEndpoint: json['UrlEndpoint'] != null
@@ -4072,7 +3734,7 @@ class ServiceSummary {
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (endpointType != null) 'EndpointType': endpointType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (error != null) 'Error': error,
       if (lambdaEndpoint != null) 'LambdaEndpoint': lambdaEndpoint,
@@ -4081,7 +3743,7 @@ class ServiceSummary {
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (urlEndpoint != null) 'UrlEndpoint': urlEndpoint,
       if (vpcId != null) 'VpcId': vpcId,
@@ -4154,7 +3816,7 @@ class UpdateRouteResponse {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       routeId: json['RouteId'] as String?,
       serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
     );
   }
 
@@ -4172,7 +3834,7 @@ class UpdateRouteResponse {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (routeId != null) 'RouteId': routeId,
       if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -4215,13 +3877,13 @@ class UriPathRouteInput {
   factory UriPathRouteInput.fromJson(Map<String, dynamic> json) {
     return UriPathRouteInput(
       activationState:
-          (json['ActivationState'] as String).toRouteActivationState(),
+          RouteActivationState.fromString((json['ActivationState'] as String)),
       sourcePath: json['SourcePath'] as String,
       appendSourcePath: json['AppendSourcePath'] as bool?,
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       methods: (json['Methods'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHttpMethod())
+          .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
     );
   }
@@ -4233,11 +3895,11 @@ class UriPathRouteInput {
     final includeChildPaths = this.includeChildPaths;
     final methods = this.methods;
     return {
-      'ActivationState': activationState.toValue(),
+      'ActivationState': activationState.value,
       'SourcePath': sourcePath,
       if (appendSourcePath != null) 'AppendSourcePath': appendSourcePath,
       if (includeChildPaths != null) 'IncludeChildPaths': includeChildPaths,
-      if (methods != null) 'Methods': methods.map((e) => e.toValue()).toList(),
+      if (methods != null) 'Methods': methods.map((e) => e.value).toList(),
     };
   }
 }

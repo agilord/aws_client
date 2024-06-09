@@ -361,7 +361,7 @@ class SnowDeviceManagement {
       'taskId': [taskId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (state != null) 'state': [state.toValue()],
+      if (state != null) 'state': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -422,7 +422,7 @@ class SnowDeviceManagement {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (state != null) 'state': [state.toValue()],
+      if (state != null) 'state': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -493,41 +493,20 @@ class SnowDeviceManagement {
 }
 
 enum AttachmentStatus {
-  attaching,
-  attached,
-  detaching,
-  detached,
-}
+  attaching('ATTACHING'),
+  attached('ATTACHED'),
+  detaching('DETACHING'),
+  detached('DETACHED'),
+  ;
 
-extension AttachmentStatusValueExtension on AttachmentStatus {
-  String toValue() {
-    switch (this) {
-      case AttachmentStatus.attaching:
-        return 'ATTACHING';
-      case AttachmentStatus.attached:
-        return 'ATTACHED';
-      case AttachmentStatus.detaching:
-        return 'DETACHING';
-      case AttachmentStatus.detached:
-        return 'DETACHED';
-    }
-  }
-}
+  final String value;
 
-extension AttachmentStatusFromString on String {
-  AttachmentStatus toAttachmentStatus() {
-    switch (this) {
-      case 'ATTACHING':
-        return AttachmentStatus.attaching;
-      case 'ATTACHED':
-        return AttachmentStatus.attached;
-      case 'DETACHING':
-        return AttachmentStatus.detaching;
-      case 'DETACHED':
-        return AttachmentStatus.detached;
-    }
-    throw Exception('$this is not known in enum AttachmentStatus');
-  }
+  const AttachmentStatus(this.value);
+
+  static AttachmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttachmentStatus'));
 }
 
 class CancelTaskOutput {
@@ -769,7 +748,8 @@ class DescribeDeviceOutput {
           ?.whereNotNull()
           .map((e) => Capacity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      deviceState: (json['deviceState'] as String?)?.toUnlockState(),
+      deviceState:
+          (json['deviceState'] as String?)?.let(UnlockState.fromString),
       deviceType: json['deviceType'] as String?,
       lastReachedOutAt: timeStampFromJson(json['lastReachedOutAt']),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -804,7 +784,7 @@ class DescribeDeviceOutput {
     return {
       if (associatedWithJob != null) 'associatedWithJob': associatedWithJob,
       if (deviceCapacities != null) 'deviceCapacities': deviceCapacities,
-      if (deviceState != null) 'deviceState': deviceState.toValue(),
+      if (deviceState != null) 'deviceState': deviceState.value,
       if (deviceType != null) 'deviceType': deviceType,
       if (lastReachedOutAt != null)
         'lastReachedOutAt': unixTimestampToJson(lastReachedOutAt),
@@ -854,7 +834,7 @@ class DescribeExecutionOutput {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       managedDeviceId: json['managedDeviceId'] as String?,
       startedAt: timeStampFromJson(json['startedAt']),
-      state: (json['state'] as String?)?.toExecutionState(),
+      state: (json['state'] as String?)?.let(ExecutionState.fromString),
       taskId: json['taskId'] as String?,
     );
   }
@@ -872,7 +852,7 @@ class DescribeExecutionOutput {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (managedDeviceId != null) 'managedDeviceId': managedDeviceId,
       if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (taskId != null) 'taskId': taskId,
     };
   }
@@ -926,7 +906,7 @@ class DescribeTaskOutput {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      state: (json['state'] as String?)?.toTaskState(),
+      state: (json['state'] as String?)?.let(TaskState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targets: (json['targets'] as List?)
@@ -954,7 +934,7 @@ class DescribeTaskOutput {
       if (description != null) 'description': description,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (targets != null) 'targets': targets,
       if (taskArn != null) 'taskArn': taskArn,
@@ -1037,7 +1017,7 @@ class EbsInstanceBlockDevice {
     return EbsInstanceBlockDevice(
       attachTime: timeStampFromJson(json['attachTime']),
       deleteOnTermination: json['deleteOnTermination'] as bool?,
-      status: (json['status'] as String?)?.toAttachmentStatus(),
+      status: (json['status'] as String?)?.let(AttachmentStatus.fromString),
       volumeId: json['volumeId'] as String?,
     );
   }
@@ -1051,63 +1031,30 @@ class EbsInstanceBlockDevice {
       if (attachTime != null) 'attachTime': unixTimestampToJson(attachTime),
       if (deleteOnTermination != null)
         'deleteOnTermination': deleteOnTermination,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (volumeId != null) 'volumeId': volumeId,
     };
   }
 }
 
 enum ExecutionState {
-  queued,
-  inProgress,
-  canceled,
-  failed,
-  succeeded,
-  rejected,
-  timedOut,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  canceled('CANCELED'),
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  rejected('REJECTED'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension ExecutionStateValueExtension on ExecutionState {
-  String toValue() {
-    switch (this) {
-      case ExecutionState.queued:
-        return 'QUEUED';
-      case ExecutionState.inProgress:
-        return 'IN_PROGRESS';
-      case ExecutionState.canceled:
-        return 'CANCELED';
-      case ExecutionState.failed:
-        return 'FAILED';
-      case ExecutionState.succeeded:
-        return 'SUCCEEDED';
-      case ExecutionState.rejected:
-        return 'REJECTED';
-      case ExecutionState.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStateFromString on String {
-  ExecutionState toExecutionState() {
-    switch (this) {
-      case 'QUEUED':
-        return ExecutionState.queued;
-      case 'IN_PROGRESS':
-        return ExecutionState.inProgress;
-      case 'CANCELED':
-        return ExecutionState.canceled;
-      case 'FAILED':
-        return ExecutionState.failed;
-      case 'SUCCEEDED':
-        return ExecutionState.succeeded;
-      case 'REJECTED':
-        return ExecutionState.rejected;
-      case 'TIMED_OUT':
-        return ExecutionState.timedOut;
-    }
-    throw Exception('$this is not known in enum ExecutionState');
-  }
+  const ExecutionState(this.value);
+
+  static ExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionState'));
 }
 
 /// The summary of a task execution on a specified device.
@@ -1135,7 +1082,7 @@ class ExecutionSummary {
     return ExecutionSummary(
       executionId: json['executionId'] as String?,
       managedDeviceId: json['managedDeviceId'] as String?,
-      state: (json['state'] as String?)?.toExecutionState(),
+      state: (json['state'] as String?)?.let(ExecutionState.fromString),
       taskId: json['taskId'] as String?,
     );
   }
@@ -1148,7 +1095,7 @@ class ExecutionSummary {
     return {
       if (executionId != null) 'executionId': executionId,
       if (managedDeviceId != null) 'managedDeviceId': managedDeviceId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (taskId != null) 'taskId': taskId,
     };
   }
@@ -1357,7 +1304,7 @@ class InstanceState {
   factory InstanceState.fromJson(Map<String, dynamic> json) {
     return InstanceState(
       code: json['code'] as int?,
-      name: (json['name'] as String?)?.toInstanceStateName(),
+      name: (json['name'] as String?)?.let(InstanceStateName.fromString),
     );
   }
 
@@ -1366,57 +1313,28 @@ class InstanceState {
     final name = this.name;
     return {
       if (code != null) 'code': code,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
     };
   }
 }
 
 enum InstanceStateName {
-  pending,
-  running,
-  shuttingDown,
-  terminated,
-  stopping,
-  stopped,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  shuttingDown('SHUTTING_DOWN'),
+  terminated('TERMINATED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension InstanceStateNameValueExtension on InstanceStateName {
-  String toValue() {
-    switch (this) {
-      case InstanceStateName.pending:
-        return 'PENDING';
-      case InstanceStateName.running:
-        return 'RUNNING';
-      case InstanceStateName.shuttingDown:
-        return 'SHUTTING_DOWN';
-      case InstanceStateName.terminated:
-        return 'TERMINATED';
-      case InstanceStateName.stopping:
-        return 'STOPPING';
-      case InstanceStateName.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension InstanceStateNameFromString on String {
-  InstanceStateName toInstanceStateName() {
-    switch (this) {
-      case 'PENDING':
-        return InstanceStateName.pending;
-      case 'RUNNING':
-        return InstanceStateName.running;
-      case 'SHUTTING_DOWN':
-        return InstanceStateName.shuttingDown;
-      case 'TERMINATED':
-        return InstanceStateName.terminated;
-      case 'STOPPING':
-        return InstanceStateName.stopping;
-      case 'STOPPED':
-        return InstanceStateName.stopped;
-    }
-    throw Exception('$this is not known in enum InstanceStateName');
-  }
+  const InstanceStateName(this.value);
+
+  static InstanceStateName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceStateName'));
 }
 
 /// The details about the instance.
@@ -1453,31 +1371,18 @@ class InstanceSummary {
 }
 
 enum IpAddressAssignment {
-  dhcp,
-  static,
-}
+  dhcp('DHCP'),
+  static('STATIC'),
+  ;
 
-extension IpAddressAssignmentValueExtension on IpAddressAssignment {
-  String toValue() {
-    switch (this) {
-      case IpAddressAssignment.dhcp:
-        return 'DHCP';
-      case IpAddressAssignment.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension IpAddressAssignmentFromString on String {
-  IpAddressAssignment toIpAddressAssignment() {
-    switch (this) {
-      case 'DHCP':
-        return IpAddressAssignment.dhcp;
-      case 'STATIC':
-        return IpAddressAssignment.static;
-    }
-    throw Exception('$this is not known in enum IpAddressAssignment');
-  }
+  const IpAddressAssignment(this.value);
+
+  static IpAddressAssignment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IpAddressAssignment'));
 }
 
 class ListDeviceResourcesOutput {
@@ -1634,46 +1539,21 @@ class ListTasksOutput {
 }
 
 enum PhysicalConnectorType {
-  rj45,
-  sfpPlus,
-  qsfp,
-  rj45_2,
-  wifi,
-}
+  rj45('RJ45'),
+  sfpPlus('SFP_PLUS'),
+  qsfp('QSFP'),
+  rj45_2('RJ45_2'),
+  wifi('WIFI'),
+  ;
 
-extension PhysicalConnectorTypeValueExtension on PhysicalConnectorType {
-  String toValue() {
-    switch (this) {
-      case PhysicalConnectorType.rj45:
-        return 'RJ45';
-      case PhysicalConnectorType.sfpPlus:
-        return 'SFP_PLUS';
-      case PhysicalConnectorType.qsfp:
-        return 'QSFP';
-      case PhysicalConnectorType.rj45_2:
-        return 'RJ45_2';
-      case PhysicalConnectorType.wifi:
-        return 'WIFI';
-    }
-  }
-}
+  final String value;
 
-extension PhysicalConnectorTypeFromString on String {
-  PhysicalConnectorType toPhysicalConnectorType() {
-    switch (this) {
-      case 'RJ45':
-        return PhysicalConnectorType.rj45;
-      case 'SFP_PLUS':
-        return PhysicalConnectorType.sfpPlus;
-      case 'QSFP':
-        return PhysicalConnectorType.qsfp;
-      case 'RJ45_2':
-        return PhysicalConnectorType.rj45_2;
-      case 'WIFI':
-        return PhysicalConnectorType.wifi;
-    }
-    throw Exception('$this is not known in enum PhysicalConnectorType');
-  }
+  const PhysicalConnectorType(this.value);
+
+  static PhysicalConnectorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PhysicalConnectorType'));
 }
 
 /// The details about the physical network interface for the device.
@@ -1713,12 +1593,12 @@ class PhysicalNetworkInterface {
     return PhysicalNetworkInterface(
       defaultGateway: json['defaultGateway'] as String?,
       ipAddress: json['ipAddress'] as String?,
-      ipAddressAssignment:
-          (json['ipAddressAssignment'] as String?)?.toIpAddressAssignment(),
+      ipAddressAssignment: (json['ipAddressAssignment'] as String?)
+          ?.let(IpAddressAssignment.fromString),
       macAddress: json['macAddress'] as String?,
       netmask: json['netmask'] as String?,
-      physicalConnectorType:
-          (json['physicalConnectorType'] as String?)?.toPhysicalConnectorType(),
+      physicalConnectorType: (json['physicalConnectorType'] as String?)
+          ?.let(PhysicalConnectorType.fromString),
       physicalNetworkInterfaceId: json['physicalNetworkInterfaceId'] as String?,
     );
   }
@@ -1735,11 +1615,11 @@ class PhysicalNetworkInterface {
       if (defaultGateway != null) 'defaultGateway': defaultGateway,
       if (ipAddress != null) 'ipAddress': ipAddress,
       if (ipAddressAssignment != null)
-        'ipAddressAssignment': ipAddressAssignment.toValue(),
+        'ipAddressAssignment': ipAddressAssignment.value,
       if (macAddress != null) 'macAddress': macAddress,
       if (netmask != null) 'netmask': netmask,
       if (physicalConnectorType != null)
-        'physicalConnectorType': physicalConnectorType.toValue(),
+        'physicalConnectorType': physicalConnectorType.value,
       if (physicalNetworkInterfaceId != null)
         'physicalNetworkInterfaceId': physicalNetworkInterfaceId,
     };
@@ -1861,36 +1741,18 @@ class SoftwareInformation {
 }
 
 enum TaskState {
-  inProgress,
-  canceled,
-  completed,
-}
+  inProgress('IN_PROGRESS'),
+  canceled('CANCELED'),
+  completed('COMPLETED'),
+  ;
 
-extension TaskStateValueExtension on TaskState {
-  String toValue() {
-    switch (this) {
-      case TaskState.inProgress:
-        return 'IN_PROGRESS';
-      case TaskState.canceled:
-        return 'CANCELED';
-      case TaskState.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension TaskStateFromString on String {
-  TaskState toTaskState() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return TaskState.inProgress;
-      case 'CANCELED':
-        return TaskState.canceled;
-      case 'COMPLETED':
-        return TaskState.completed;
-    }
-    throw Exception('$this is not known in enum TaskState');
-  }
+  const TaskState(this.value);
+
+  static TaskState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskState'));
 }
 
 /// Information about the task assigned to one or many devices.
@@ -1919,7 +1781,7 @@ class TaskSummary {
   factory TaskSummary.fromJson(Map<String, dynamic> json) {
     return TaskSummary(
       taskId: json['taskId'] as String,
-      state: (json['state'] as String?)?.toTaskState(),
+      state: (json['state'] as String?)?.let(TaskState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       taskArn: json['taskArn'] as String?,
@@ -1933,7 +1795,7 @@ class TaskSummary {
     final taskArn = this.taskArn;
     return {
       'taskId': taskId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (taskArn != null) 'taskArn': taskArn,
     };
@@ -1950,36 +1812,18 @@ class Unlock {
 }
 
 enum UnlockState {
-  unlocked,
-  locked,
-  unlocking,
-}
+  unlocked('UNLOCKED'),
+  locked('LOCKED'),
+  unlocking('UNLOCKING'),
+  ;
 
-extension UnlockStateValueExtension on UnlockState {
-  String toValue() {
-    switch (this) {
-      case UnlockState.unlocked:
-        return 'UNLOCKED';
-      case UnlockState.locked:
-        return 'LOCKED';
-      case UnlockState.unlocking:
-        return 'UNLOCKING';
-    }
-  }
-}
+  final String value;
 
-extension UnlockStateFromString on String {
-  UnlockState toUnlockState() {
-    switch (this) {
-      case 'UNLOCKED':
-        return UnlockState.unlocked;
-      case 'LOCKED':
-        return UnlockState.locked;
-      case 'UNLOCKING':
-        return UnlockState.unlocking;
-    }
-    throw Exception('$this is not known in enum UnlockState');
-  }
+  const UnlockState(this.value);
+
+  static UnlockState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UnlockState'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

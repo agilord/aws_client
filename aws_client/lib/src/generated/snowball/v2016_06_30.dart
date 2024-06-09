@@ -340,9 +340,9 @@ class Snowball {
       headers: headers,
       payload: {
         'AddressId': addressId,
-        'JobType': jobType.toValue(),
-        'ShippingOption': shippingOption.toValue(),
-        'SnowballType': snowballType.toValue(),
+        'JobType': jobType.value,
+        'ShippingOption': shippingOption.value,
+        'SnowballType': snowballType.value,
         if (description != null) 'Description': description,
         if (forceCreateJobs != null) 'ForceCreateJobs': forceCreateJobs,
         if (forwardingAddressId != null)
@@ -356,11 +356,11 @@ class Snowball {
         if (onDeviceServiceConfiguration != null)
           'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (remoteManagement != null)
-          'RemoteManagement': remoteManagement.toValue(),
+          'RemoteManagement': remoteManagement.value,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+          'SnowballCapacityPreference': snowballCapacityPreference.value,
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -693,8 +693,8 @@ class Snowball {
           'DeviceConfiguration': deviceConfiguration,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
-        if (impactLevel != null) 'ImpactLevel': impactLevel.toValue(),
-        if (jobType != null) 'JobType': jobType.toValue(),
+        if (impactLevel != null) 'ImpactLevel': impactLevel.value,
+        if (jobType != null) 'JobType': jobType.value,
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
         if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
         if (notification != null) 'Notification': notification,
@@ -702,13 +702,13 @@ class Snowball {
           'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (pickupDetails != null) 'PickupDetails': pickupDetails,
         if (remoteManagement != null)
-          'RemoteManagement': remoteManagement.toValue(),
+          'RemoteManagement': remoteManagement.value,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.value,
         if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
-        if (snowballType != null) 'SnowballType': snowballType.toValue(),
+          'SnowballCapacityPreference': snowballCapacityPreference.value,
+        if (snowballType != null) 'SnowballType': snowballType.value,
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -749,8 +749,8 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LongTermPricingType': longTermPricingType.toValue(),
-        'SnowballType': snowballType.toValue(),
+        'LongTermPricingType': longTermPricingType.value,
+        'SnowballType': snowballType.value,
         if (isLongTermPricingAutoRenew != null)
           'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
       },
@@ -794,7 +794,7 @@ class Snowball {
       headers: headers,
       payload: {
         'JobId': jobId,
-        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.value,
       },
     );
 
@@ -1422,7 +1422,7 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceName': serviceName.toValue(),
+        'ServiceName': serviceName.value,
         if (dependentServices != null) 'DependentServices': dependentServices,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -1512,7 +1512,7 @@ class Snowball {
           'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.value,
       },
     );
   }
@@ -1611,9 +1611,9 @@ class Snowball {
         if (pickupDetails != null) 'PickupDetails': pickupDetails,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.value,
         if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+          'SnowballCapacityPreference': snowballCapacityPreference.value,
       },
     );
   }
@@ -1650,7 +1650,7 @@ class Snowball {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'ShipmentState': shipmentState.toValue(),
+        'ShipmentState': shipmentState.value,
       },
     );
   }
@@ -1786,7 +1786,7 @@ class Address {
       street1: json['Street1'] as String?,
       street2: json['Street2'] as String?,
       street3: json['Street3'] as String?,
-      type: (json['Type'] as String?)?.toAddressType(),
+      type: (json['Type'] as String?)?.let(AddressType.fromString),
     );
   }
 
@@ -1822,37 +1822,23 @@ class Address {
       if (street1 != null) 'Street1': street1,
       if (street2 != null) 'Street2': street2,
       if (street3 != null) 'Street3': street3,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum AddressType {
-  custPickup,
-  awsShip,
-}
+  custPickup('CUST_PICKUP'),
+  awsShip('AWS_SHIP'),
+  ;
 
-extension AddressTypeValueExtension on AddressType {
-  String toValue() {
-    switch (this) {
-      case AddressType.custPickup:
-        return 'CUST_PICKUP';
-      case AddressType.awsShip:
-        return 'AWS_SHIP';
-    }
-  }
-}
+  final String value;
 
-extension AddressTypeFromString on String {
-  AddressType toAddressType() {
-    switch (this) {
-      case 'CUST_PICKUP':
-        return AddressType.custPickup;
-      case 'AWS_SHIP':
-        return AddressType.awsShip;
-    }
-    throw Exception('$this is not known in enum AddressType');
-  }
+  const AddressType(this.value);
+
+  static AddressType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AddressType'));
 }
 
 class CancelClusterResult {
@@ -1906,7 +1892,8 @@ class ClusterListEntry {
   factory ClusterListEntry.fromJson(Map<String, dynamic> json) {
     return ClusterListEntry(
       clusterId: json['ClusterId'] as String?,
-      clusterState: (json['ClusterState'] as String?)?.toClusterState(),
+      clusterState:
+          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
     );
@@ -1919,7 +1906,7 @@ class ClusterListEntry {
     final description = this.description;
     return {
       if (clusterId != null) 'ClusterId': clusterId,
-      if (clusterState != null) 'ClusterState': clusterState.toValue(),
+      if (clusterState != null) 'ClusterState': clusterState.value,
       if (creationDate != null)
         'CreationDate': unixTimestampToJson(creationDate),
       if (description != null) 'Description': description,
@@ -2032,11 +2019,12 @@ class ClusterMetadata {
     return ClusterMetadata(
       addressId: json['AddressId'] as String?,
       clusterId: json['ClusterId'] as String?,
-      clusterState: (json['ClusterState'] as String?)?.toClusterState(),
+      clusterState:
+          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       forwardingAddressId: json['ForwardingAddressId'] as String?,
-      jobType: (json['JobType'] as String?)?.toJobType(),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
       kmsKeyARN: json['KmsKeyARN'] as String?,
       notification: json['Notification'] != null
           ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
@@ -2049,8 +2037,10 @@ class ClusterMetadata {
           ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
           : null,
       roleARN: json['RoleARN'] as String?,
-      shippingOption: (json['ShippingOption'] as String?)?.toShippingOption(),
-      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      shippingOption:
+          (json['ShippingOption'] as String?)?.let(ShippingOption.fromString),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
       taxDocuments: json['TaxDocuments'] != null
           ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
           : null,
@@ -2076,67 +2066,42 @@ class ClusterMetadata {
     return {
       if (addressId != null) 'AddressId': addressId,
       if (clusterId != null) 'ClusterId': clusterId,
-      if (clusterState != null) 'ClusterState': clusterState.toValue(),
+      if (clusterState != null) 'ClusterState': clusterState.value,
       if (creationDate != null)
         'CreationDate': unixTimestampToJson(creationDate),
       if (description != null) 'Description': description,
       if (forwardingAddressId != null)
         'ForwardingAddressId': forwardingAddressId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
       if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
       if (notification != null) 'Notification': notification,
       if (onDeviceServiceConfiguration != null)
         'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
       if (resources != null) 'Resources': resources,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
-      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (shippingOption != null) 'ShippingOption': shippingOption.value,
+      if (snowballType != null) 'SnowballType': snowballType.value,
       if (taxDocuments != null) 'TaxDocuments': taxDocuments,
     };
   }
 }
 
 enum ClusterState {
-  awaitingQuorum,
-  pending,
-  inUse,
-  complete,
-  cancelled,
-}
+  awaitingQuorum('AwaitingQuorum'),
+  pending('Pending'),
+  inUse('InUse'),
+  complete('Complete'),
+  cancelled('Cancelled'),
+  ;
 
-extension ClusterStateValueExtension on ClusterState {
-  String toValue() {
-    switch (this) {
-      case ClusterState.awaitingQuorum:
-        return 'AwaitingQuorum';
-      case ClusterState.pending:
-        return 'Pending';
-      case ClusterState.inUse:
-        return 'InUse';
-      case ClusterState.complete:
-        return 'Complete';
-      case ClusterState.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStateFromString on String {
-  ClusterState toClusterState() {
-    switch (this) {
-      case 'AwaitingQuorum':
-        return ClusterState.awaitingQuorum;
-      case 'Pending':
-        return ClusterState.pending;
-      case 'InUse':
-        return ClusterState.inUse;
-      case 'Complete':
-        return ClusterState.complete;
-      case 'Cancelled':
-        return ClusterState.cancelled;
-    }
-    throw Exception('$this is not known in enum ClusterState');
-  }
+  const ClusterState(this.value);
+
+  static ClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterState'));
 }
 
 /// A JSON-formatted object that describes a compatible Amazon Machine Image
@@ -2286,14 +2251,14 @@ class CreateReturnShippingLabelResult {
 
   factory CreateReturnShippingLabelResult.fromJson(Map<String, dynamic> json) {
     return CreateReturnShippingLabelResult(
-      status: (json['Status'] as String?)?.toShippingLabelStatus(),
+      status: (json['Status'] as String?)?.let(ShippingLabelStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2364,7 +2329,8 @@ class DependentService {
 
   factory DependentService.fromJson(Map<String, dynamic> json) {
     return DependentService(
-      serviceName: (json['ServiceName'] as String?)?.toServiceName(),
+      serviceName:
+          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
       serviceVersion: json['ServiceVersion'] != null
           ? ServiceVersion.fromJson(
               json['ServiceVersion'] as Map<String, dynamic>)
@@ -2376,7 +2342,7 @@ class DependentService {
     final serviceName = this.serviceName;
     final serviceVersion = this.serviceVersion;
     return {
-      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (serviceName != null) 'ServiceName': serviceName.value,
       if (serviceVersion != null) 'ServiceVersion': serviceVersion,
     };
   }
@@ -2526,7 +2492,7 @@ class DescribeReturnShippingLabelResult {
     return DescribeReturnShippingLabelResult(
       expirationDate: timeStampFromJson(json['ExpirationDate']),
       returnShippingLabelURI: json['ReturnShippingLabelURI'] as String?,
-      status: (json['Status'] as String?)?.toShippingLabelStatus(),
+      status: (json['Status'] as String?)?.let(ShippingLabelStatus.fromString),
     );
   }
 
@@ -2539,7 +2505,7 @@ class DescribeReturnShippingLabelResult {
         'ExpirationDate': unixTimestampToJson(expirationDate),
       if (returnShippingLabelURI != null)
         'ReturnShippingLabelURI': returnShippingLabelURI,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2572,31 +2538,18 @@ class DeviceConfiguration {
 }
 
 enum DeviceServiceName {
-  nfsOnDeviceService,
-  s3OnDeviceService,
-}
+  nfsOnDeviceService('NFS_ON_DEVICE_SERVICE'),
+  s3OnDeviceService('S3_ON_DEVICE_SERVICE'),
+  ;
 
-extension DeviceServiceNameValueExtension on DeviceServiceName {
-  String toValue() {
-    switch (this) {
-      case DeviceServiceName.nfsOnDeviceService:
-        return 'NFS_ON_DEVICE_SERVICE';
-      case DeviceServiceName.s3OnDeviceService:
-        return 'S3_ON_DEVICE_SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceServiceNameFromString on String {
-  DeviceServiceName toDeviceServiceName() {
-    switch (this) {
-      case 'NFS_ON_DEVICE_SERVICE':
-        return DeviceServiceName.nfsOnDeviceService;
-      case 'S3_ON_DEVICE_SERVICE':
-        return DeviceServiceName.s3OnDeviceService;
-    }
-    throw Exception('$this is not known in enum DeviceServiceName');
-  }
+  const DeviceServiceName(this.value);
+
+  static DeviceServiceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceServiceName'));
 }
 
 /// An object representing the metadata and configuration settings of EKS
@@ -2815,46 +2768,20 @@ class INDTaxDocuments {
 }
 
 enum ImpactLevel {
-  il2,
-  il4,
-  il5,
-  il6,
-  il99,
-}
+  il2('IL2'),
+  il4('IL4'),
+  il5('IL5'),
+  il6('IL6'),
+  il99('IL99'),
+  ;
 
-extension ImpactLevelValueExtension on ImpactLevel {
-  String toValue() {
-    switch (this) {
-      case ImpactLevel.il2:
-        return 'IL2';
-      case ImpactLevel.il4:
-        return 'IL4';
-      case ImpactLevel.il5:
-        return 'IL5';
-      case ImpactLevel.il6:
-        return 'IL6';
-      case ImpactLevel.il99:
-        return 'IL99';
-    }
-  }
-}
+  final String value;
 
-extension ImpactLevelFromString on String {
-  ImpactLevel toImpactLevel() {
-    switch (this) {
-      case 'IL2':
-        return ImpactLevel.il2;
-      case 'IL4':
-        return ImpactLevel.il4;
-      case 'IL5':
-        return ImpactLevel.il5;
-      case 'IL6':
-        return ImpactLevel.il6;
-      case 'IL99':
-        return ImpactLevel.il99;
-    }
-    throw Exception('$this is not known in enum ImpactLevel');
-  }
+  const ImpactLevel(this.value);
+
+  static ImpactLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImpactLevel'));
 }
 
 /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
@@ -2905,9 +2832,10 @@ class JobListEntry {
       description: json['Description'] as String?,
       isMaster: json['IsMaster'] as bool?,
       jobId: json['JobId'] as String?,
-      jobState: (json['JobState'] as String?)?.toJobState(),
-      jobType: (json['JobType'] as String?)?.toJobType(),
-      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
     );
   }
 
@@ -2925,9 +2853,9 @@ class JobListEntry {
       if (description != null) 'Description': description,
       if (isMaster != null) 'IsMaster': isMaster,
       if (jobId != null) 'JobId': jobId,
-      if (jobState != null) 'JobState': jobState.toValue(),
-      if (jobType != null) 'JobType': jobType.toValue(),
-      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (jobState != null) 'JobState': jobState.value,
+      if (jobType != null) 'JobType': jobType.value,
+      if (snowballType != null) 'SnowballType': snowballType.value,
     };
   }
 }
@@ -3145,13 +3073,14 @@ class JobMetadata {
               json['DeviceConfiguration'] as Map<String, dynamic>)
           : null,
       forwardingAddressId: json['ForwardingAddressId'] as String?,
-      impactLevel: (json['ImpactLevel'] as String?)?.toImpactLevel(),
+      impactLevel:
+          (json['ImpactLevel'] as String?)?.let(ImpactLevel.fromString),
       jobId: json['JobId'] as String?,
       jobLogInfo: json['JobLogInfo'] != null
           ? JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>)
           : null,
-      jobState: (json['JobState'] as String?)?.toJobState(),
-      jobType: (json['JobType'] as String?)?.toJobType(),
+      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
       kmsKeyARN: json['KmsKeyARN'] as String?,
       longTermPricingId: json['LongTermPricingId'] as String?,
       notification: json['Notification'] != null
@@ -3165,8 +3094,8 @@ class JobMetadata {
           ? PickupDetails.fromJson(
               json['PickupDetails'] as Map<String, dynamic>)
           : null,
-      remoteManagement:
-          (json['RemoteManagement'] as String?)?.toRemoteManagement(),
+      remoteManagement: (json['RemoteManagement'] as String?)
+          ?.let(RemoteManagement.fromString),
       resources: json['Resources'] != null
           ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
           : null,
@@ -3176,9 +3105,11 @@ class JobMetadata {
               json['ShippingDetails'] as Map<String, dynamic>)
           : null,
       snowballCapacityPreference:
-          (json['SnowballCapacityPreference'] as String?)?.toSnowballCapacity(),
+          (json['SnowballCapacityPreference'] as String?)
+              ?.let(SnowballCapacity.fromString),
       snowballId: json['SnowballId'] as String?,
-      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
       taxDocuments: json['TaxDocuments'] != null
           ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
           : null,
@@ -3223,26 +3154,25 @@ class JobMetadata {
         'DeviceConfiguration': deviceConfiguration,
       if (forwardingAddressId != null)
         'ForwardingAddressId': forwardingAddressId,
-      if (impactLevel != null) 'ImpactLevel': impactLevel.toValue(),
+      if (impactLevel != null) 'ImpactLevel': impactLevel.value,
       if (jobId != null) 'JobId': jobId,
       if (jobLogInfo != null) 'JobLogInfo': jobLogInfo,
-      if (jobState != null) 'JobState': jobState.toValue(),
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobState != null) 'JobState': jobState.value,
+      if (jobType != null) 'JobType': jobType.value,
       if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
       if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
       if (notification != null) 'Notification': notification,
       if (onDeviceServiceConfiguration != null)
         'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
       if (pickupDetails != null) 'PickupDetails': pickupDetails,
-      if (remoteManagement != null)
-        'RemoteManagement': remoteManagement.toValue(),
+      if (remoteManagement != null) 'RemoteManagement': remoteManagement.value,
       if (resources != null) 'Resources': resources,
       if (roleARN != null) 'RoleARN': roleARN,
       if (shippingDetails != null) 'ShippingDetails': shippingDetails,
       if (snowballCapacityPreference != null)
-        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+        'SnowballCapacityPreference': snowballCapacityPreference.value,
       if (snowballId != null) 'SnowballId': snowballId,
-      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (snowballType != null) 'SnowballType': snowballType.value,
       if (taxDocuments != null) 'TaxDocuments': taxDocuments,
     };
   }
@@ -3297,119 +3227,43 @@ class JobResource {
 }
 
 enum JobState {
-  $new,
-  preparingAppliance,
-  preparingShipment,
-  inTransitToCustomer,
-  withCustomer,
-  inTransitToAWS,
-  withAWSSortingFacility,
-  withAWS,
-  inProgress,
-  complete,
-  cancelled,
-  listing,
-  pending,
-}
+  $new('New'),
+  preparingAppliance('PreparingAppliance'),
+  preparingShipment('PreparingShipment'),
+  inTransitToCustomer('InTransitToCustomer'),
+  withCustomer('WithCustomer'),
+  inTransitToAWS('InTransitToAWS'),
+  withAWSSortingFacility('WithAWSSortingFacility'),
+  withAWS('WithAWS'),
+  inProgress('InProgress'),
+  complete('Complete'),
+  cancelled('Cancelled'),
+  listing('Listing'),
+  pending('Pending'),
+  ;
 
-extension JobStateValueExtension on JobState {
-  String toValue() {
-    switch (this) {
-      case JobState.$new:
-        return 'New';
-      case JobState.preparingAppliance:
-        return 'PreparingAppliance';
-      case JobState.preparingShipment:
-        return 'PreparingShipment';
-      case JobState.inTransitToCustomer:
-        return 'InTransitToCustomer';
-      case JobState.withCustomer:
-        return 'WithCustomer';
-      case JobState.inTransitToAWS:
-        return 'InTransitToAWS';
-      case JobState.withAWSSortingFacility:
-        return 'WithAWSSortingFacility';
-      case JobState.withAWS:
-        return 'WithAWS';
-      case JobState.inProgress:
-        return 'InProgress';
-      case JobState.complete:
-        return 'Complete';
-      case JobState.cancelled:
-        return 'Cancelled';
-      case JobState.listing:
-        return 'Listing';
-      case JobState.pending:
-        return 'Pending';
-    }
-  }
-}
+  final String value;
 
-extension JobStateFromString on String {
-  JobState toJobState() {
-    switch (this) {
-      case 'New':
-        return JobState.$new;
-      case 'PreparingAppliance':
-        return JobState.preparingAppliance;
-      case 'PreparingShipment':
-        return JobState.preparingShipment;
-      case 'InTransitToCustomer':
-        return JobState.inTransitToCustomer;
-      case 'WithCustomer':
-        return JobState.withCustomer;
-      case 'InTransitToAWS':
-        return JobState.inTransitToAWS;
-      case 'WithAWSSortingFacility':
-        return JobState.withAWSSortingFacility;
-      case 'WithAWS':
-        return JobState.withAWS;
-      case 'InProgress':
-        return JobState.inProgress;
-      case 'Complete':
-        return JobState.complete;
-      case 'Cancelled':
-        return JobState.cancelled;
-      case 'Listing':
-        return JobState.listing;
-      case 'Pending':
-        return JobState.pending;
-    }
-    throw Exception('$this is not known in enum JobState');
-  }
+  const JobState(this.value);
+
+  static JobState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobState'));
 }
 
 enum JobType {
-  import,
-  export,
-  localUse,
-}
+  import('IMPORT'),
+  export('EXPORT'),
+  localUse('LOCAL_USE'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.import:
-        return 'IMPORT';
-      case JobType.export:
-        return 'EXPORT';
-      case JobType.localUse:
-        return 'LOCAL_USE';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'IMPORT':
-        return JobType.import;
-      case 'EXPORT':
-        return JobType.export;
-      case 'LOCAL_USE':
-        return JobType.localUse;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// Contains a key range. For export jobs, a <code>S3Resource</code> object can
@@ -3722,7 +3576,7 @@ class ListServiceVersionsResult {
 
   factory ListServiceVersionsResult.fromJson(Map<String, dynamic> json) {
     return ListServiceVersionsResult(
-      serviceName: (json['ServiceName'] as String).toServiceName(),
+      serviceName: ServiceName.fromString((json['ServiceName'] as String)),
       serviceVersions: (json['ServiceVersions'] as List)
           .whereNotNull()
           .map((e) => ServiceVersion.fromJson(e as Map<String, dynamic>))
@@ -3741,7 +3595,7 @@ class ListServiceVersionsResult {
     final dependentServices = this.dependentServices;
     final nextToken = this.nextToken;
     return {
-      'ServiceName': serviceName.toValue(),
+      'ServiceName': serviceName.value,
       'ServiceVersions': serviceVersions,
       if (dependentServices != null) 'DependentServices': dependentServices,
       if (nextToken != null) 'NextToken': nextToken,
@@ -3810,10 +3664,11 @@ class LongTermPricingListEntry {
       longTermPricingStartDate:
           timeStampFromJson(json['LongTermPricingStartDate']),
       longTermPricingStatus: json['LongTermPricingStatus'] as String?,
-      longTermPricingType:
-          (json['LongTermPricingType'] as String?)?.toLongTermPricingType(),
+      longTermPricingType: (json['LongTermPricingType'] as String?)
+          ?.let(LongTermPricingType.fromString),
       replacementJob: json['ReplacementJob'] as String?,
-      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
     );
   }
 
@@ -3842,44 +3697,27 @@ class LongTermPricingListEntry {
       if (longTermPricingStatus != null)
         'LongTermPricingStatus': longTermPricingStatus,
       if (longTermPricingType != null)
-        'LongTermPricingType': longTermPricingType.toValue(),
+        'LongTermPricingType': longTermPricingType.value,
       if (replacementJob != null) 'ReplacementJob': replacementJob,
-      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (snowballType != null) 'SnowballType': snowballType.value,
     };
   }
 }
 
 enum LongTermPricingType {
-  oneYear,
-  threeYear,
-  oneMonth,
-}
+  oneYear('OneYear'),
+  threeYear('ThreeYear'),
+  oneMonth('OneMonth'),
+  ;
 
-extension LongTermPricingTypeValueExtension on LongTermPricingType {
-  String toValue() {
-    switch (this) {
-      case LongTermPricingType.oneYear:
-        return 'OneYear';
-      case LongTermPricingType.threeYear:
-        return 'ThreeYear';
-      case LongTermPricingType.oneMonth:
-        return 'OneMonth';
-    }
-  }
-}
+  final String value;
 
-extension LongTermPricingTypeFromString on String {
-  LongTermPricingType toLongTermPricingType() {
-    switch (this) {
-      case 'OneYear':
-        return LongTermPricingType.oneYear;
-      case 'ThreeYear':
-        return LongTermPricingType.threeYear;
-      case 'OneMonth':
-        return LongTermPricingType.oneMonth;
-    }
-    throw Exception('$this is not known in enum LongTermPricingType');
-  }
+  const LongTermPricingType(this.value);
+
+  static LongTermPricingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LongTermPricingType'));
 }
 
 /// An object that represents the metadata and configuration settings for the
@@ -3902,7 +3740,8 @@ class NFSOnDeviceServiceConfiguration {
   factory NFSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
     return NFSOnDeviceServiceConfiguration(
       storageLimit: json['StorageLimit'] as int?,
-      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
     );
   }
 
@@ -3911,7 +3750,7 @@ class NFSOnDeviceServiceConfiguration {
     final storageUnit = this.storageUnit;
     return {
       if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
     };
   }
 }
@@ -3960,7 +3799,7 @@ class Notification {
       devicePickupSnsTopicARN: json['DevicePickupSnsTopicARN'] as String?,
       jobStatesToNotify: (json['JobStatesToNotify'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toJobState())
+          .map((e) => JobState.fromString((e as String)))
           .toList(),
       notifyAll: json['NotifyAll'] as bool?,
       snsTopicARN: json['SnsTopicARN'] as String?,
@@ -3976,7 +3815,7 @@ class Notification {
       if (devicePickupSnsTopicARN != null)
         'DevicePickupSnsTopicARN': devicePickupSnsTopicARN,
       if (jobStatesToNotify != null)
-        'JobStatesToNotify': jobStatesToNotify.map((e) => e.toValue()).toList(),
+        'JobStatesToNotify': jobStatesToNotify.map((e) => e.value).toList(),
       if (notifyAll != null) 'NotifyAll': notifyAll,
       if (snsTopicARN != null) 'SnsTopicARN': snsTopicARN,
     };
@@ -4114,36 +3953,19 @@ class PickupDetails {
 }
 
 enum RemoteManagement {
-  installedOnly,
-  installedAutostart,
-  notInstalled,
-}
+  installedOnly('INSTALLED_ONLY'),
+  installedAutostart('INSTALLED_AUTOSTART'),
+  notInstalled('NOT_INSTALLED'),
+  ;
 
-extension RemoteManagementValueExtension on RemoteManagement {
-  String toValue() {
-    switch (this) {
-      case RemoteManagement.installedOnly:
-        return 'INSTALLED_ONLY';
-      case RemoteManagement.installedAutostart:
-        return 'INSTALLED_AUTOSTART';
-      case RemoteManagement.notInstalled:
-        return 'NOT_INSTALLED';
-    }
-  }
-}
+  final String value;
 
-extension RemoteManagementFromString on String {
-  RemoteManagement toRemoteManagement() {
-    switch (this) {
-      case 'INSTALLED_ONLY':
-        return RemoteManagement.installedOnly;
-      case 'INSTALLED_AUTOSTART':
-        return RemoteManagement.installedAutostart;
-      case 'NOT_INSTALLED':
-        return RemoteManagement.notInstalled;
-    }
-    throw Exception('$this is not known in enum RemoteManagement');
-  }
+  const RemoteManagement(this.value);
+
+  static RemoteManagement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RemoteManagement'));
 }
 
 /// Amazon S3 compatible storage on Snow family devices configuration items.
@@ -4182,7 +4004,8 @@ class S3OnDeviceServiceConfiguration {
       faultTolerance: json['FaultTolerance'] as int?,
       serviceSize: json['ServiceSize'] as int?,
       storageLimit: json['StorageLimit'] as double?,
-      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
     );
   }
 
@@ -4195,7 +4018,7 @@ class S3OnDeviceServiceConfiguration {
       if (faultTolerance != null) 'FaultTolerance': faultTolerance,
       if (serviceSize != null) 'ServiceSize': serviceSize,
       if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
     };
   }
 }
@@ -4254,31 +4077,17 @@ class S3Resource {
 }
 
 enum ServiceName {
-  kubernetes,
-  eksAnywhere,
-}
+  kubernetes('KUBERNETES'),
+  eksAnywhere('EKS_ANYWHERE'),
+  ;
 
-extension ServiceNameValueExtension on ServiceName {
-  String toValue() {
-    switch (this) {
-      case ServiceName.kubernetes:
-        return 'KUBERNETES';
-      case ServiceName.eksAnywhere:
-        return 'EKS_ANYWHERE';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNameFromString on String {
-  ServiceName toServiceName() {
-    switch (this) {
-      case 'KUBERNETES':
-        return ServiceName.kubernetes;
-      case 'EKS_ANYWHERE':
-        return ServiceName.eksAnywhere;
-    }
-    throw Exception('$this is not known in enum ServiceName');
-  }
+  const ServiceName(this.value);
+
+  static ServiceName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceName'));
 }
 
 /// The version of the requested service.
@@ -4341,31 +4150,18 @@ class Shipment {
 }
 
 enum ShipmentState {
-  received,
-  returned,
-}
+  received('RECEIVED'),
+  returned('RETURNED'),
+  ;
 
-extension ShipmentStateValueExtension on ShipmentState {
-  String toValue() {
-    switch (this) {
-      case ShipmentState.received:
-        return 'RECEIVED';
-      case ShipmentState.returned:
-        return 'RETURNED';
-    }
-  }
-}
+  final String value;
 
-extension ShipmentStateFromString on String {
-  ShipmentState toShipmentState() {
-    switch (this) {
-      case 'RECEIVED':
-        return ShipmentState.received;
-      case 'RETURNED':
-        return ShipmentState.returned;
-    }
-    throw Exception('$this is not known in enum ShipmentState');
-  }
+  const ShipmentState(this.value);
+
+  static ShipmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShipmentState'));
 }
 
 /// A job's shipping information, including inbound and outbound tracking
@@ -4420,7 +4216,8 @@ class ShippingDetails {
       outboundShipment: json['OutboundShipment'] != null
           ? Shipment.fromJson(json['OutboundShipment'] as Map<String, dynamic>)
           : null,
-      shippingOption: (json['ShippingOption'] as String?)?.toShippingOption(),
+      shippingOption:
+          (json['ShippingOption'] as String?)?.let(ShippingOption.fromString),
     );
   }
 
@@ -4431,226 +4228,90 @@ class ShippingDetails {
     return {
       if (inboundShipment != null) 'InboundShipment': inboundShipment,
       if (outboundShipment != null) 'OutboundShipment': outboundShipment,
-      if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+      if (shippingOption != null) 'ShippingOption': shippingOption.value,
     };
   }
 }
 
 enum ShippingLabelStatus {
-  inProgress,
-  timedOut,
-  succeeded,
-  failed,
-}
+  inProgress('InProgress'),
+  timedOut('TimedOut'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  ;
 
-extension ShippingLabelStatusValueExtension on ShippingLabelStatus {
-  String toValue() {
-    switch (this) {
-      case ShippingLabelStatus.inProgress:
-        return 'InProgress';
-      case ShippingLabelStatus.timedOut:
-        return 'TimedOut';
-      case ShippingLabelStatus.succeeded:
-        return 'Succeeded';
-      case ShippingLabelStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ShippingLabelStatusFromString on String {
-  ShippingLabelStatus toShippingLabelStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ShippingLabelStatus.inProgress;
-      case 'TimedOut':
-        return ShippingLabelStatus.timedOut;
-      case 'Succeeded':
-        return ShippingLabelStatus.succeeded;
-      case 'Failed':
-        return ShippingLabelStatus.failed;
-    }
-    throw Exception('$this is not known in enum ShippingLabelStatus');
-  }
+  const ShippingLabelStatus(this.value);
+
+  static ShippingLabelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ShippingLabelStatus'));
 }
 
 enum ShippingOption {
-  secondDay,
-  nextDay,
-  express,
-  standard,
-}
+  secondDay('SECOND_DAY'),
+  nextDay('NEXT_DAY'),
+  express('EXPRESS'),
+  standard('STANDARD'),
+  ;
 
-extension ShippingOptionValueExtension on ShippingOption {
-  String toValue() {
-    switch (this) {
-      case ShippingOption.secondDay:
-        return 'SECOND_DAY';
-      case ShippingOption.nextDay:
-        return 'NEXT_DAY';
-      case ShippingOption.express:
-        return 'EXPRESS';
-      case ShippingOption.standard:
-        return 'STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension ShippingOptionFromString on String {
-  ShippingOption toShippingOption() {
-    switch (this) {
-      case 'SECOND_DAY':
-        return ShippingOption.secondDay;
-      case 'NEXT_DAY':
-        return ShippingOption.nextDay;
-      case 'EXPRESS':
-        return ShippingOption.express;
-      case 'STANDARD':
-        return ShippingOption.standard;
-    }
-    throw Exception('$this is not known in enum ShippingOption');
-  }
+  const ShippingOption(this.value);
+
+  static ShippingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShippingOption'));
 }
 
 enum SnowballCapacity {
-  t50,
-  t80,
-  t100,
-  t42,
-  t98,
-  t8,
-  t14,
-  t32,
-  noPreference,
-  t240,
-  t13,
-}
+  t50('T50'),
+  t80('T80'),
+  t100('T100'),
+  t42('T42'),
+  t98('T98'),
+  t8('T8'),
+  t14('T14'),
+  t32('T32'),
+  noPreference('NoPreference'),
+  t240('T240'),
+  t13('T13'),
+  ;
 
-extension SnowballCapacityValueExtension on SnowballCapacity {
-  String toValue() {
-    switch (this) {
-      case SnowballCapacity.t50:
-        return 'T50';
-      case SnowballCapacity.t80:
-        return 'T80';
-      case SnowballCapacity.t100:
-        return 'T100';
-      case SnowballCapacity.t42:
-        return 'T42';
-      case SnowballCapacity.t98:
-        return 'T98';
-      case SnowballCapacity.t8:
-        return 'T8';
-      case SnowballCapacity.t14:
-        return 'T14';
-      case SnowballCapacity.t32:
-        return 'T32';
-      case SnowballCapacity.noPreference:
-        return 'NoPreference';
-      case SnowballCapacity.t240:
-        return 'T240';
-      case SnowballCapacity.t13:
-        return 'T13';
-    }
-  }
-}
+  final String value;
 
-extension SnowballCapacityFromString on String {
-  SnowballCapacity toSnowballCapacity() {
-    switch (this) {
-      case 'T50':
-        return SnowballCapacity.t50;
-      case 'T80':
-        return SnowballCapacity.t80;
-      case 'T100':
-        return SnowballCapacity.t100;
-      case 'T42':
-        return SnowballCapacity.t42;
-      case 'T98':
-        return SnowballCapacity.t98;
-      case 'T8':
-        return SnowballCapacity.t8;
-      case 'T14':
-        return SnowballCapacity.t14;
-      case 'T32':
-        return SnowballCapacity.t32;
-      case 'NoPreference':
-        return SnowballCapacity.noPreference;
-      case 'T240':
-        return SnowballCapacity.t240;
-      case 'T13':
-        return SnowballCapacity.t13;
-    }
-    throw Exception('$this is not known in enum SnowballCapacity');
-  }
+  const SnowballCapacity(this.value);
+
+  static SnowballCapacity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnowballCapacity'));
 }
 
 enum SnowballType {
-  standard,
-  edge,
-  edgeC,
-  edgeCg,
-  edgeS,
-  snc1Hdd,
-  snc1Ssd,
-  v3_5c,
-  v3_5s,
-  rack_5uC,
-}
+  standard('STANDARD'),
+  edge('EDGE'),
+  edgeC('EDGE_C'),
+  edgeCg('EDGE_CG'),
+  edgeS('EDGE_S'),
+  snc1Hdd('SNC1_HDD'),
+  snc1Ssd('SNC1_SSD'),
+  v3_5c('V3_5C'),
+  v3_5s('V3_5S'),
+  rack_5uC('RACK_5U_C'),
+  ;
 
-extension SnowballTypeValueExtension on SnowballType {
-  String toValue() {
-    switch (this) {
-      case SnowballType.standard:
-        return 'STANDARD';
-      case SnowballType.edge:
-        return 'EDGE';
-      case SnowballType.edgeC:
-        return 'EDGE_C';
-      case SnowballType.edgeCg:
-        return 'EDGE_CG';
-      case SnowballType.edgeS:
-        return 'EDGE_S';
-      case SnowballType.snc1Hdd:
-        return 'SNC1_HDD';
-      case SnowballType.snc1Ssd:
-        return 'SNC1_SSD';
-      case SnowballType.v3_5c:
-        return 'V3_5C';
-      case SnowballType.v3_5s:
-        return 'V3_5S';
-      case SnowballType.rack_5uC:
-        return 'RACK_5U_C';
-    }
-  }
-}
+  final String value;
 
-extension SnowballTypeFromString on String {
-  SnowballType toSnowballType() {
-    switch (this) {
-      case 'STANDARD':
-        return SnowballType.standard;
-      case 'EDGE':
-        return SnowballType.edge;
-      case 'EDGE_C':
-        return SnowballType.edgeC;
-      case 'EDGE_CG':
-        return SnowballType.edgeCg;
-      case 'EDGE_S':
-        return SnowballType.edgeS;
-      case 'SNC1_HDD':
-        return SnowballType.snc1Hdd;
-      case 'SNC1_SSD':
-        return SnowballType.snc1Ssd;
-      case 'V3_5C':
-        return SnowballType.v3_5c;
-      case 'V3_5S':
-        return SnowballType.v3_5s;
-      case 'RACK_5U_C':
-        return SnowballType.rack_5uC;
-    }
-    throw Exception('$this is not known in enum SnowballType');
-  }
+  const SnowballType(this.value);
+
+  static SnowballType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnowballType'));
 }
 
 /// Specifies the device configuration for an Snowcone job.
@@ -4680,26 +4341,16 @@ class SnowconeDeviceConfiguration {
 }
 
 enum StorageUnit {
-  tb,
-}
+  tb('TB'),
+  ;
 
-extension StorageUnitValueExtension on StorageUnit {
-  String toValue() {
-    switch (this) {
-      case StorageUnit.tb:
-        return 'TB';
-    }
-  }
-}
+  final String value;
 
-extension StorageUnitFromString on String {
-  StorageUnit toStorageUnit() {
-    switch (this) {
-      case 'TB':
-        return StorageUnit.tb;
-    }
-    throw Exception('$this is not known in enum StorageUnit');
-  }
+  const StorageUnit(this.value);
+
+  static StorageUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageUnit'));
 }
 
 /// An object that represents the metadata and configuration settings for the
@@ -4722,7 +4373,8 @@ class TGWOnDeviceServiceConfiguration {
   factory TGWOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
     return TGWOnDeviceServiceConfiguration(
       storageLimit: json['StorageLimit'] as int?,
-      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
     );
   }
 
@@ -4731,7 +4383,7 @@ class TGWOnDeviceServiceConfiguration {
     final storageUnit = this.storageUnit;
     return {
       if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
     };
   }
 }
@@ -4755,8 +4407,10 @@ class TargetOnDeviceService {
 
   factory TargetOnDeviceService.fromJson(Map<String, dynamic> json) {
     return TargetOnDeviceService(
-      serviceName: (json['ServiceName'] as String?)?.toDeviceServiceName(),
-      transferOption: (json['TransferOption'] as String?)?.toTransferOption(),
+      serviceName:
+          (json['ServiceName'] as String?)?.let(DeviceServiceName.fromString),
+      transferOption:
+          (json['TransferOption'] as String?)?.let(TransferOption.fromString),
     );
   }
 
@@ -4764,8 +4418,8 @@ class TargetOnDeviceService {
     final serviceName = this.serviceName;
     final transferOption = this.transferOption;
     return {
-      if (serviceName != null) 'ServiceName': serviceName.toValue(),
-      if (transferOption != null) 'TransferOption': transferOption.toValue(),
+      if (serviceName != null) 'ServiceName': serviceName.value,
+      if (transferOption != null) 'TransferOption': transferOption.value,
     };
   }
 }
@@ -4795,36 +4449,19 @@ class TaxDocuments {
 }
 
 enum TransferOption {
-  import,
-  export,
-  localUse,
-}
+  import('IMPORT'),
+  export('EXPORT'),
+  localUse('LOCAL_USE'),
+  ;
 
-extension TransferOptionValueExtension on TransferOption {
-  String toValue() {
-    switch (this) {
-      case TransferOption.import:
-        return 'IMPORT';
-      case TransferOption.export:
-        return 'EXPORT';
-      case TransferOption.localUse:
-        return 'LOCAL_USE';
-    }
-  }
-}
+  final String value;
 
-extension TransferOptionFromString on String {
-  TransferOption toTransferOption() {
-    switch (this) {
-      case 'IMPORT':
-        return TransferOption.import;
-      case 'EXPORT':
-        return TransferOption.export;
-      case 'LOCAL_USE':
-        return TransferOption.localUse;
-    }
-    throw Exception('$this is not known in enum TransferOption');
-  }
+  const TransferOption(this.value);
+
+  static TransferOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TransferOption'));
 }
 
 class UpdateClusterResult {

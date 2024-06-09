@@ -664,46 +664,21 @@ class CampaignFilters {
 
 /// State of a campaign
 enum CampaignState {
-  initialized,
-  running,
-  paused,
-  stopped,
-  failed,
-}
+  initialized('Initialized'),
+  running('Running'),
+  paused('Paused'),
+  stopped('Stopped'),
+  failed('Failed'),
+  ;
 
-extension CampaignStateValueExtension on CampaignState {
-  String toValue() {
-    switch (this) {
-      case CampaignState.initialized:
-        return 'Initialized';
-      case CampaignState.running:
-        return 'Running';
-      case CampaignState.paused:
-        return 'Paused';
-      case CampaignState.stopped:
-        return 'Stopped';
-      case CampaignState.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension CampaignStateFromString on String {
-  CampaignState toCampaignState() {
-    switch (this) {
-      case 'Initialized':
-        return CampaignState.initialized;
-      case 'Running':
-        return CampaignState.running;
-      case 'Paused':
-        return CampaignState.paused;
-      case 'Stopped':
-        return CampaignState.stopped;
-      case 'Failed':
-        return CampaignState.failed;
-    }
-    throw Exception('$this is not known in enum CampaignState');
-  }
+  const CampaignState(this.value);
+
+  static CampaignState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CampaignState'));
 }
 
 /// An Amazon Connect campaign summary.
@@ -890,7 +865,8 @@ class EncryptionConfig {
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
       enabled: json['enabled'] as bool,
-      encryptionType: (json['encryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['encryptionType'] as String?)?.let(EncryptionType.fromString),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -901,7 +877,7 @@ class EncryptionConfig {
     final keyArn = this.keyArn;
     return {
       'enabled': enabled,
-      if (encryptionType != null) 'encryptionType': encryptionType.toValue(),
+      if (encryptionType != null) 'encryptionType': encryptionType.value,
       if (keyArn != null) 'keyArn': keyArn,
     };
   }
@@ -909,26 +885,17 @@ class EncryptionConfig {
 
 /// Server-side encryption type.
 enum EncryptionType {
-  kms,
-}
+  kms('KMS'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'KMS':
-        return EncryptionType.kms;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// Failed response of campaign state
@@ -945,7 +912,7 @@ class FailedCampaignStateResponse {
     return FailedCampaignStateResponse(
       campaignId: json['campaignId'] as String?,
       failureCode: (json['failureCode'] as String?)
-          ?.toGetCampaignStateBatchFailureCode(),
+          ?.let(GetCampaignStateBatchFailureCode.fromString),
     );
   }
 
@@ -954,7 +921,7 @@ class FailedCampaignStateResponse {
     final failureCode = this.failureCode;
     return {
       if (campaignId != null) 'campaignId': campaignId,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
     };
   }
 }
@@ -974,7 +941,8 @@ class FailedRequest {
   factory FailedRequest.fromJson(Map<String, dynamic> json) {
     return FailedRequest(
       clientToken: json['clientToken'] as String?,
-      failureCode: (json['failureCode'] as String?)?.toFailureCode(),
+      failureCode:
+          (json['failureCode'] as String?)?.let(FailureCode.fromString),
       id: json['id'] as String?,
     );
   }
@@ -985,7 +953,7 @@ class FailedRequest {
     final id = this.id;
     return {
       if (clientToken != null) 'clientToken': clientToken,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (id != null) 'id': id,
     };
   }
@@ -993,68 +961,35 @@ class FailedRequest {
 
 /// A predefined code indicating the error that caused the failure.
 enum FailureCode {
-  invalidInput,
-  requestThrottled,
-  unknownError,
-}
+  invalidInput('InvalidInput'),
+  requestThrottled('RequestThrottled'),
+  unknownError('UnknownError'),
+  ;
 
-extension FailureCodeValueExtension on FailureCode {
-  String toValue() {
-    switch (this) {
-      case FailureCode.invalidInput:
-        return 'InvalidInput';
-      case FailureCode.requestThrottled:
-        return 'RequestThrottled';
-      case FailureCode.unknownError:
-        return 'UnknownError';
-    }
-  }
-}
+  final String value;
 
-extension FailureCodeFromString on String {
-  FailureCode toFailureCode() {
-    switch (this) {
-      case 'InvalidInput':
-        return FailureCode.invalidInput;
-      case 'RequestThrottled':
-        return FailureCode.requestThrottled;
-      case 'UnknownError':
-        return FailureCode.unknownError;
-    }
-    throw Exception('$this is not known in enum FailureCode');
-  }
+  const FailureCode(this.value);
+
+  static FailureCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FailureCode'));
 }
 
 /// A predefined code indicating the error that caused the failure in getting
 /// state of campaigns
 enum GetCampaignStateBatchFailureCode {
-  resourceNotFound,
-  unknownError,
-}
+  resourceNotFound('ResourceNotFound'),
+  unknownError('UnknownError'),
+  ;
 
-extension GetCampaignStateBatchFailureCodeValueExtension
-    on GetCampaignStateBatchFailureCode {
-  String toValue() {
-    switch (this) {
-      case GetCampaignStateBatchFailureCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case GetCampaignStateBatchFailureCode.unknownError:
-        return 'UnknownError';
-    }
-  }
-}
+  final String value;
 
-extension GetCampaignStateBatchFailureCodeFromString on String {
-  GetCampaignStateBatchFailureCode toGetCampaignStateBatchFailureCode() {
-    switch (this) {
-      case 'ResourceNotFound':
-        return GetCampaignStateBatchFailureCode.resourceNotFound;
-      case 'UnknownError':
-        return GetCampaignStateBatchFailureCode.unknownError;
-    }
-    throw Exception(
-        '$this is not known in enum GetCampaignStateBatchFailureCode');
-  }
+  const GetCampaignStateBatchFailureCode(this.value);
+
+  static GetCampaignStateBatchFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GetCampaignStateBatchFailureCode'));
 }
 
 /// GetCampaignStateBatchResponse
@@ -1102,14 +1037,14 @@ class GetCampaignStateResponse {
 
   factory GetCampaignStateResponse.fromJson(Map<String, dynamic> json) {
     return GetCampaignStateResponse(
-      state: (json['state'] as String?)?.toCampaignState(),
+      state: (json['state'] as String?)?.let(CampaignState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final state = this.state;
     return {
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
@@ -1218,7 +1153,7 @@ class InstanceIdFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      'operator': operator.toValue(),
+      'operator': operator.value,
       'value': value,
     };
   }
@@ -1226,78 +1161,38 @@ class InstanceIdFilter {
 
 /// Operators for Connect instance identifier filter
 enum InstanceIdFilterOperator {
-  eq,
-}
+  eq('Eq'),
+  ;
 
-extension InstanceIdFilterOperatorValueExtension on InstanceIdFilterOperator {
-  String toValue() {
-    switch (this) {
-      case InstanceIdFilterOperator.eq:
-        return 'Eq';
-    }
-  }
-}
+  final String value;
 
-extension InstanceIdFilterOperatorFromString on String {
-  InstanceIdFilterOperator toInstanceIdFilterOperator() {
-    switch (this) {
-      case 'Eq':
-        return InstanceIdFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum InstanceIdFilterOperator');
-  }
+  const InstanceIdFilterOperator(this.value);
+
+  static InstanceIdFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceIdFilterOperator'));
 }
 
 /// Enumeration of the possible failure codes for instance onboarding job
 enum InstanceOnboardingJobFailureCode {
-  eventBridgeAccessDenied,
-  eventBridgeManagedRuleLimitExceeded,
-  iamAccessDenied,
-  kmsAccessDenied,
-  kmsKeyNotFound,
-  internalFailure,
-}
+  eventBridgeAccessDenied('EVENT_BRIDGE_ACCESS_DENIED'),
+  eventBridgeManagedRuleLimitExceeded(
+      'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED'),
+  iamAccessDenied('IAM_ACCESS_DENIED'),
+  kmsAccessDenied('KMS_ACCESS_DENIED'),
+  kmsKeyNotFound('KMS_KEY_NOT_FOUND'),
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension InstanceOnboardingJobFailureCodeValueExtension
-    on InstanceOnboardingJobFailureCode {
-  String toValue() {
-    switch (this) {
-      case InstanceOnboardingJobFailureCode.eventBridgeAccessDenied:
-        return 'EVENT_BRIDGE_ACCESS_DENIED';
-      case InstanceOnboardingJobFailureCode.eventBridgeManagedRuleLimitExceeded:
-        return 'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED';
-      case InstanceOnboardingJobFailureCode.iamAccessDenied:
-        return 'IAM_ACCESS_DENIED';
-      case InstanceOnboardingJobFailureCode.kmsAccessDenied:
-        return 'KMS_ACCESS_DENIED';
-      case InstanceOnboardingJobFailureCode.kmsKeyNotFound:
-        return 'KMS_KEY_NOT_FOUND';
-      case InstanceOnboardingJobFailureCode.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension InstanceOnboardingJobFailureCodeFromString on String {
-  InstanceOnboardingJobFailureCode toInstanceOnboardingJobFailureCode() {
-    switch (this) {
-      case 'EVENT_BRIDGE_ACCESS_DENIED':
-        return InstanceOnboardingJobFailureCode.eventBridgeAccessDenied;
-      case 'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED':
-        return InstanceOnboardingJobFailureCode
-            .eventBridgeManagedRuleLimitExceeded;
-      case 'IAM_ACCESS_DENIED':
-        return InstanceOnboardingJobFailureCode.iamAccessDenied;
-      case 'KMS_ACCESS_DENIED':
-        return InstanceOnboardingJobFailureCode.kmsAccessDenied;
-      case 'KMS_KEY_NOT_FOUND':
-        return InstanceOnboardingJobFailureCode.kmsKeyNotFound;
-      case 'INTERNAL_FAILURE':
-        return InstanceOnboardingJobFailureCode.internalFailure;
-    }
-    throw Exception(
-        '$this is not known in enum InstanceOnboardingJobFailureCode');
-  }
+  const InstanceOnboardingJobFailureCode(this.value);
+
+  static InstanceOnboardingJobFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceOnboardingJobFailureCode'));
 }
 
 /// Instance onboarding job status object
@@ -1315,9 +1210,10 @@ class InstanceOnboardingJobStatus {
   factory InstanceOnboardingJobStatus.fromJson(Map<String, dynamic> json) {
     return InstanceOnboardingJobStatus(
       connectInstanceId: json['connectInstanceId'] as String,
-      status: (json['status'] as String).toInstanceOnboardingJobStatusCode(),
+      status: InstanceOnboardingJobStatusCode.fromString(
+          (json['status'] as String)),
       failureCode: (json['failureCode'] as String?)
-          ?.toInstanceOnboardingJobFailureCode(),
+          ?.let(InstanceOnboardingJobFailureCode.fromString),
     );
   }
 
@@ -1327,46 +1223,27 @@ class InstanceOnboardingJobStatus {
     final failureCode = this.failureCode;
     return {
       'connectInstanceId': connectInstanceId,
-      'status': status.toValue(),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      'status': status.value,
+      if (failureCode != null) 'failureCode': failureCode.value,
     };
   }
 }
 
 /// Enumeration of the possible states for instance onboarding job
 enum InstanceOnboardingJobStatusCode {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension InstanceOnboardingJobStatusCodeValueExtension
-    on InstanceOnboardingJobStatusCode {
-  String toValue() {
-    switch (this) {
-      case InstanceOnboardingJobStatusCode.inProgress:
-        return 'IN_PROGRESS';
-      case InstanceOnboardingJobStatusCode.succeeded:
-        return 'SUCCEEDED';
-      case InstanceOnboardingJobStatusCode.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension InstanceOnboardingJobStatusCodeFromString on String {
-  InstanceOnboardingJobStatusCode toInstanceOnboardingJobStatusCode() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return InstanceOnboardingJobStatusCode.inProgress;
-      case 'SUCCEEDED':
-        return InstanceOnboardingJobStatusCode.succeeded;
-      case 'FAILED':
-        return InstanceOnboardingJobStatusCode.failed;
-    }
-    throw Exception(
-        '$this is not known in enum InstanceOnboardingJobStatusCode');
-  }
+  const InstanceOnboardingJobStatusCode(this.value);
+
+  static InstanceOnboardingJobStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceOnboardingJobStatusCode'));
 }
 
 /// ListCampaignsResponse
@@ -1596,7 +1473,7 @@ class SuccessfulCampaignStateResponse {
   factory SuccessfulCampaignStateResponse.fromJson(Map<String, dynamic> json) {
     return SuccessfulCampaignStateResponse(
       campaignId: json['campaignId'] as String?,
-      state: (json['state'] as String?)?.toCampaignState(),
+      state: (json['state'] as String?)?.let(CampaignState.fromString),
     );
   }
 
@@ -1605,7 +1482,7 @@ class SuccessfulCampaignStateResponse {
     final state = this.state;
     return {
       if (campaignId != null) 'campaignId': campaignId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }

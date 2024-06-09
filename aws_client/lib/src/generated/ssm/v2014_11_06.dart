@@ -203,7 +203,7 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'Tags': tags,
       },
     );
@@ -753,7 +753,7 @@ class Ssm {
           'AutomationTargetParameterName': automationTargetParameterName,
         if (calendarNames != null) 'CalendarNames': calendarNames,
         if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity.toValue(),
+          'ComplianceSeverity': complianceSeverity.value,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (duration != null) 'Duration': duration,
         if (instanceId != null) 'InstanceId': instanceId,
@@ -764,7 +764,7 @@ class Ssm {
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
         if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
-        if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+        if (syncCompliance != null) 'SyncCompliance': syncCompliance.value,
         if (tags != null) 'Tags': tags,
         if (targetLocations != null) 'TargetLocations': targetLocations,
         if (targetMaps != null) 'TargetMaps': targetMaps,
@@ -985,8 +985,8 @@ class Ssm {
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
         if (displayName != null) 'DisplayName': displayName,
-        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
-        if (documentType != null) 'DocumentType': documentType.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.value,
+        if (documentType != null) 'DocumentType': documentType.value,
         if (requires != null) 'Requires': requires,
         if (tags != null) 'Tags': tags,
         if (targetType != null) 'TargetType': targetType,
@@ -1563,17 +1563,16 @@ class Ssm {
         if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
         if (approvedPatchesComplianceLevel != null)
           'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel.toValue(),
+              approvedPatchesComplianceLevel.value,
         if (approvedPatchesEnableNonSecurity != null)
           'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (globalFilters != null) 'GlobalFilters': globalFilters,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem.toValue(),
+        if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
         if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
         if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+          'RejectedPatchesAction': rejectedPatchesAction.value,
         if (sources != null) 'Sources': sources,
         if (tags != null) 'Tags': tags,
       },
@@ -1870,7 +1869,7 @@ class Ssm {
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (dryRun != null) 'DryRun': dryRun,
         if (schemaDeleteOption != null)
-          'SchemaDeleteOption': schemaDeleteOption.toValue(),
+          'SchemaDeleteOption': schemaDeleteOption.value,
       },
     );
 
@@ -2919,7 +2918,7 @@ class Ssm {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType.toValue(),
+        'PermissionType': permissionType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -3716,7 +3715,7 @@ class Ssm {
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.value,
         if (targets != null) 'Targets': targets,
         if (windowId != null) 'WindowId': windowId,
       },
@@ -3934,7 +3933,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'Targets': targets,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4413,11 +4412,11 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem.toValue(),
-        'Property': property.toValue(),
+        'OperatingSystem': operatingSystem.value,
+        'Property': property.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (patchSet != null) 'PatchSet': patchSet.toValue(),
+        if (patchSet != null) 'PatchSet': patchSet.value,
       },
     );
 
@@ -4469,7 +4468,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'State': state.toValue(),
+        'State': state.value,
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4722,8 +4721,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem.toValue(),
+        if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       },
     );
 
@@ -4825,7 +4823,7 @@ class Ssm {
       headers: headers,
       payload: {
         'Name': name,
-        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.value,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (versionName != null) 'VersionName': versionName,
       },
@@ -5631,8 +5629,7 @@ class Ssm {
       headers: headers,
       payload: {
         'PatchGroup': patchGroup,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem.toValue(),
+        if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       },
     );
 
@@ -6261,7 +6258,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Metadata': metadata.toValue(),
+        'Metadata': metadata.value,
         'Name': name,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -6747,7 +6744,7 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
       },
     );
 
@@ -6806,7 +6803,7 @@ class Ssm {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType.toValue(),
+        'PermissionType': permissionType.value,
         if (accountIdsToAdd != null) 'AccountIdsToAdd': accountIdsToAdd,
         if (accountIdsToRemove != null)
           'AccountIdsToRemove': accountIdsToRemove,
@@ -6956,7 +6953,7 @@ class Ssm {
         'ResourceId': resourceId,
         'ResourceType': resourceType,
         if (itemContentHash != null) 'ItemContentHash': itemContentHash,
-        if (uploadType != null) 'UploadType': uploadType.toValue(),
+        if (uploadType != null) 'UploadType': uploadType.value,
       },
     );
   }
@@ -7334,8 +7331,8 @@ class Ssm {
         if (overwrite != null) 'Overwrite': overwrite,
         if (policies != null) 'Policies': policies,
         if (tags != null) 'Tags': tags,
-        if (tier != null) 'Tier': tier.toValue(),
-        if (type != null) 'Type': type.toValue(),
+        if (tier != null) 'Tier': tier.value,
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -7603,7 +7600,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'Targets': targets,
         'WindowId': windowId,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -7809,12 +7806,12 @@ class Ssm {
       headers: headers,
       payload: {
         'TaskArn': taskArn,
-        'TaskType': taskType.toValue(),
+        'TaskType': taskType.value,
         'WindowId': windowId,
         if (alarmConfiguration != null)
           'AlarmConfiguration': alarmConfiguration,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.toValue(),
+        if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.value,
         if (description != null) 'Description': description,
         if (loggingInfo != null) 'LoggingInfo': loggingInfo,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -7895,7 +7892,7 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'TagKeys': tagKeys,
       },
     );
@@ -8062,7 +8059,7 @@ class Ssm {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType.toValue(),
+        'SignalType': signalType.value,
         if (payload != null) 'Payload': payload,
       },
     );
@@ -8265,7 +8262,7 @@ class Ssm {
         if (comment != null) 'Comment': comment,
         if (documentHash != null) 'DocumentHash': documentHash,
         if (documentHashType != null)
-          'DocumentHashType': documentHashType.toValue(),
+          'DocumentHashType': documentHashType.value,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (instanceIds != null) 'InstanceIds': instanceIds,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -8446,7 +8443,7 @@ class Ssm {
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
         if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (mode != null) 'Mode': mode.toValue(),
+        if (mode != null) 'Mode': mode.value,
         if (parameters != null) 'Parameters': parameters,
         if (tags != null) 'Tags': tags,
         if (targetLocations != null) 'TargetLocations': targetLocations,
@@ -8690,7 +8687,7 @@ class Ssm {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
   }
@@ -9062,7 +9059,7 @@ class Ssm {
           'AutomationTargetParameterName': automationTargetParameterName,
         if (calendarNames != null) 'CalendarNames': calendarNames,
         if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity.toValue(),
+          'ComplianceSeverity': complianceSeverity.value,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (duration != null) 'Duration': duration,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -9073,7 +9070,7 @@ class Ssm {
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
         if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
-        if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+        if (syncCompliance != null) 'SyncCompliance': syncCompliance.value,
         if (targetLocations != null) 'TargetLocations': targetLocations,
         if (targetMaps != null) 'TargetMaps': targetMaps,
         if (targets != null) 'Targets': targets,
@@ -9207,7 +9204,7 @@ class Ssm {
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
         if (displayName != null) 'DisplayName': displayName,
-        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.value,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (targetType != null) 'TargetType': targetType,
         if (versionName != null) 'VersionName': versionName,
@@ -9787,7 +9784,7 @@ class Ssm {
         'WindowTaskId': windowTaskId,
         if (alarmConfiguration != null)
           'AlarmConfiguration': alarmConfiguration,
-        if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.toValue(),
+        if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.value,
         if (description != null) 'Description': description,
         if (loggingInfo != null) 'LoggingInfo': loggingInfo,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -10018,7 +10015,7 @@ class Ssm {
         if (priority != null) 'Priority': priority,
         if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
         if (severity != null) 'Severity': severity,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
         if (title != null) 'Title': title,
       },
     );
@@ -10178,7 +10175,7 @@ class Ssm {
         if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
         if (approvedPatchesComplianceLevel != null)
           'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel.toValue(),
+              approvedPatchesComplianceLevel.value,
         if (approvedPatchesEnableNonSecurity != null)
           'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         if (description != null) 'Description': description,
@@ -10186,7 +10183,7 @@ class Ssm {
         if (name != null) 'Name': name,
         if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
         if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+          'RejectedPatchesAction': rejectedPatchesAction.value,
         if (replace != null) 'Replace': replace,
         if (sources != null) 'Sources': sources,
       },
@@ -10586,7 +10583,7 @@ class AlarmStateInformation {
   factory AlarmStateInformation.fromJson(Map<String, dynamic> json) {
     return AlarmStateInformation(
       name: json['Name'] as String,
-      state: (json['State'] as String).toExternalAlarmState(),
+      state: ExternalAlarmState.fromString((json['State'] as String)),
     );
   }
 
@@ -10595,7 +10592,7 @@ class AlarmStateInformation {
     final state = this.state;
     return {
       'Name': name,
-      'State': state.toValue(),
+      'State': state.value,
     };
   }
 }
@@ -10762,47 +10759,21 @@ class Association {
 }
 
 enum AssociationComplianceSeverity {
-  critical,
-  high,
-  medium,
-  low,
-  unspecified,
-}
+  critical('CRITICAL'),
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  unspecified('UNSPECIFIED'),
+  ;
 
-extension AssociationComplianceSeverityValueExtension
-    on AssociationComplianceSeverity {
-  String toValue() {
-    switch (this) {
-      case AssociationComplianceSeverity.critical:
-        return 'CRITICAL';
-      case AssociationComplianceSeverity.high:
-        return 'HIGH';
-      case AssociationComplianceSeverity.medium:
-        return 'MEDIUM';
-      case AssociationComplianceSeverity.low:
-        return 'LOW';
-      case AssociationComplianceSeverity.unspecified:
-        return 'UNSPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension AssociationComplianceSeverityFromString on String {
-  AssociationComplianceSeverity toAssociationComplianceSeverity() {
-    switch (this) {
-      case 'CRITICAL':
-        return AssociationComplianceSeverity.critical;
-      case 'HIGH':
-        return AssociationComplianceSeverity.high;
-      case 'MEDIUM':
-        return AssociationComplianceSeverity.medium;
-      case 'LOW':
-        return AssociationComplianceSeverity.low;
-      case 'UNSPECIFIED':
-        return AssociationComplianceSeverity.unspecified;
-    }
-    throw Exception('$this is not known in enum AssociationComplianceSeverity');
-  }
+  const AssociationComplianceSeverity(this.value);
+
+  static AssociationComplianceSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociationComplianceSeverity'));
 }
 
 /// Describes the parameters for a document.
@@ -10992,7 +10963,7 @@ class AssociationDescription {
           .map((e) => e as String)
           .toList(),
       complianceSeverity: (json['ComplianceSeverity'] as String?)
-          ?.toAssociationComplianceSeverity(),
+          ?.let(AssociationComplianceSeverity.fromString),
       date: timeStampFromJson(json['Date']),
       documentVersion: json['DocumentVersion'] as String?,
       duration: json['Duration'] as int?,
@@ -11021,8 +10992,8 @@ class AssociationDescription {
       status: json['Status'] != null
           ? AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>)
           : null,
-      syncCompliance:
-          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      syncCompliance: (json['SyncCompliance'] as String?)
+          ?.let(AssociationSyncCompliance.fromString),
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
@@ -11084,7 +11055,7 @@ class AssociationDescription {
         'AutomationTargetParameterName': automationTargetParameterName,
       if (calendarNames != null) 'CalendarNames': calendarNames,
       if (complianceSeverity != null)
-        'ComplianceSeverity': complianceSeverity.toValue(),
+        'ComplianceSeverity': complianceSeverity.value,
       if (date != null) 'Date': unixTimestampToJson(date),
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (duration != null) 'Duration': duration,
@@ -11106,7 +11077,7 @@ class AssociationDescription {
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
       if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
       if (status != null) 'Status': status,
-      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.value,
       if (targetLocations != null) 'TargetLocations': targetLocations,
       if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
@@ -11231,45 +11202,27 @@ class AssociationExecutionFilter {
     final type = this.type;
     final value = this.value;
     return {
-      'Key': key.toValue(),
-      'Type': type.toValue(),
+      'Key': key.value,
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum AssociationExecutionFilterKey {
-  executionId,
-  status,
-  createdTime,
-}
+  executionId('ExecutionId'),
+  status('Status'),
+  createdTime('CreatedTime'),
+  ;
 
-extension AssociationExecutionFilterKeyValueExtension
-    on AssociationExecutionFilterKey {
-  String toValue() {
-    switch (this) {
-      case AssociationExecutionFilterKey.executionId:
-        return 'ExecutionId';
-      case AssociationExecutionFilterKey.status:
-        return 'Status';
-      case AssociationExecutionFilterKey.createdTime:
-        return 'CreatedTime';
-    }
-  }
-}
+  final String value;
 
-extension AssociationExecutionFilterKeyFromString on String {
-  AssociationExecutionFilterKey toAssociationExecutionFilterKey() {
-    switch (this) {
-      case 'ExecutionId':
-        return AssociationExecutionFilterKey.executionId;
-      case 'Status':
-        return AssociationExecutionFilterKey.status;
-      case 'CreatedTime':
-        return AssociationExecutionFilterKey.createdTime;
-    }
-    throw Exception('$this is not known in enum AssociationExecutionFilterKey');
-  }
+  const AssociationExecutionFilterKey(this.value);
+
+  static AssociationExecutionFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociationExecutionFilterKey'));
 }
 
 /// Includes information about the specified association execution.
@@ -11371,46 +11324,26 @@ class AssociationExecutionTargetsFilter {
     final key = this.key;
     final value = this.value;
     return {
-      'Key': key.toValue(),
+      'Key': key.value,
       'Value': value,
     };
   }
 }
 
 enum AssociationExecutionTargetsFilterKey {
-  status,
-  resourceId,
-  resourceType,
-}
+  status('Status'),
+  resourceId('ResourceId'),
+  resourceType('ResourceType'),
+  ;
 
-extension AssociationExecutionTargetsFilterKeyValueExtension
-    on AssociationExecutionTargetsFilterKey {
-  String toValue() {
-    switch (this) {
-      case AssociationExecutionTargetsFilterKey.status:
-        return 'Status';
-      case AssociationExecutionTargetsFilterKey.resourceId:
-        return 'ResourceId';
-      case AssociationExecutionTargetsFilterKey.resourceType:
-        return 'ResourceType';
-    }
-  }
-}
+  final String value;
 
-extension AssociationExecutionTargetsFilterKeyFromString on String {
-  AssociationExecutionTargetsFilterKey
-      toAssociationExecutionTargetsFilterKey() {
-    switch (this) {
-      case 'Status':
-        return AssociationExecutionTargetsFilterKey.status;
-      case 'ResourceId':
-        return AssociationExecutionTargetsFilterKey.resourceId;
-      case 'ResourceType':
-        return AssociationExecutionTargetsFilterKey.resourceType;
-    }
-    throw Exception(
-        '$this is not known in enum AssociationExecutionTargetsFilterKey');
-  }
+  const AssociationExecutionTargetsFilterKey(this.value);
+
+  static AssociationExecutionTargetsFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociationExecutionTargetsFilterKey'));
 }
 
 /// Describes a filter.
@@ -11433,102 +11366,47 @@ class AssociationFilter {
     final key = this.key;
     final value = this.value;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'value': value,
     };
   }
 }
 
 enum AssociationFilterKey {
-  instanceId,
-  name,
-  associationId,
-  associationStatusName,
-  lastExecutedBefore,
-  lastExecutedAfter,
-  associationName,
-  resourceGroupName,
-}
+  instanceId('InstanceId'),
+  name('Name'),
+  associationId('AssociationId'),
+  associationStatusName('AssociationStatusName'),
+  lastExecutedBefore('LastExecutedBefore'),
+  lastExecutedAfter('LastExecutedAfter'),
+  associationName('AssociationName'),
+  resourceGroupName('ResourceGroupName'),
+  ;
 
-extension AssociationFilterKeyValueExtension on AssociationFilterKey {
-  String toValue() {
-    switch (this) {
-      case AssociationFilterKey.instanceId:
-        return 'InstanceId';
-      case AssociationFilterKey.name:
-        return 'Name';
-      case AssociationFilterKey.associationId:
-        return 'AssociationId';
-      case AssociationFilterKey.associationStatusName:
-        return 'AssociationStatusName';
-      case AssociationFilterKey.lastExecutedBefore:
-        return 'LastExecutedBefore';
-      case AssociationFilterKey.lastExecutedAfter:
-        return 'LastExecutedAfter';
-      case AssociationFilterKey.associationName:
-        return 'AssociationName';
-      case AssociationFilterKey.resourceGroupName:
-        return 'ResourceGroupName';
-    }
-  }
-}
+  final String value;
 
-extension AssociationFilterKeyFromString on String {
-  AssociationFilterKey toAssociationFilterKey() {
-    switch (this) {
-      case 'InstanceId':
-        return AssociationFilterKey.instanceId;
-      case 'Name':
-        return AssociationFilterKey.name;
-      case 'AssociationId':
-        return AssociationFilterKey.associationId;
-      case 'AssociationStatusName':
-        return AssociationFilterKey.associationStatusName;
-      case 'LastExecutedBefore':
-        return AssociationFilterKey.lastExecutedBefore;
-      case 'LastExecutedAfter':
-        return AssociationFilterKey.lastExecutedAfter;
-      case 'AssociationName':
-        return AssociationFilterKey.associationName;
-      case 'ResourceGroupName':
-        return AssociationFilterKey.resourceGroupName;
-    }
-    throw Exception('$this is not known in enum AssociationFilterKey');
-  }
+  const AssociationFilterKey(this.value);
+
+  static AssociationFilterKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssociationFilterKey'));
 }
 
 enum AssociationFilterOperatorType {
-  equal,
-  lessThan,
-  greaterThan,
-}
+  equal('EQUAL'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  ;
 
-extension AssociationFilterOperatorTypeValueExtension
-    on AssociationFilterOperatorType {
-  String toValue() {
-    switch (this) {
-      case AssociationFilterOperatorType.equal:
-        return 'EQUAL';
-      case AssociationFilterOperatorType.lessThan:
-        return 'LESS_THAN';
-      case AssociationFilterOperatorType.greaterThan:
-        return 'GREATER_THAN';
-    }
-  }
-}
+  final String value;
 
-extension AssociationFilterOperatorTypeFromString on String {
-  AssociationFilterOperatorType toAssociationFilterOperatorType() {
-    switch (this) {
-      case 'EQUAL':
-        return AssociationFilterOperatorType.equal;
-      case 'LESS_THAN':
-        return AssociationFilterOperatorType.lessThan;
-      case 'GREATER_THAN':
-        return AssociationFilterOperatorType.greaterThan;
-    }
-    throw Exception('$this is not known in enum AssociationFilterOperatorType');
-  }
+  const AssociationFilterOperatorType(this.value);
+
+  static AssociationFilterOperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociationFilterOperatorType'));
 }
 
 /// Information about the association.
@@ -11599,7 +11477,7 @@ class AssociationStatus {
     return AssociationStatus(
       date: nonNullableTimeStampFromJson(json['Date'] as Object),
       message: json['Message'] as String,
-      name: (json['Name'] as String).toAssociationStatusName(),
+      name: AssociationStatusName.fromString((json['Name'] as String)),
       additionalInfo: json['AdditionalInfo'] as String?,
     );
   }
@@ -11612,71 +11490,41 @@ class AssociationStatus {
     return {
       'Date': unixTimestampToJson(date),
       'Message': message,
-      'Name': name.toValue(),
+      'Name': name.value,
       if (additionalInfo != null) 'AdditionalInfo': additionalInfo,
     };
   }
 }
 
 enum AssociationStatusName {
-  pending,
-  success,
-  failed,
-}
+  pending('Pending'),
+  success('Success'),
+  failed('Failed'),
+  ;
 
-extension AssociationStatusNameValueExtension on AssociationStatusName {
-  String toValue() {
-    switch (this) {
-      case AssociationStatusName.pending:
-        return 'Pending';
-      case AssociationStatusName.success:
-        return 'Success';
-      case AssociationStatusName.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension AssociationStatusNameFromString on String {
-  AssociationStatusName toAssociationStatusName() {
-    switch (this) {
-      case 'Pending':
-        return AssociationStatusName.pending;
-      case 'Success':
-        return AssociationStatusName.success;
-      case 'Failed':
-        return AssociationStatusName.failed;
-    }
-    throw Exception('$this is not known in enum AssociationStatusName');
-  }
+  const AssociationStatusName(this.value);
+
+  static AssociationStatusName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssociationStatusName'));
 }
 
 enum AssociationSyncCompliance {
-  auto,
-  manual,
-}
+  auto('AUTO'),
+  manual('MANUAL'),
+  ;
 
-extension AssociationSyncComplianceValueExtension on AssociationSyncCompliance {
-  String toValue() {
-    switch (this) {
-      case AssociationSyncCompliance.auto:
-        return 'AUTO';
-      case AssociationSyncCompliance.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension AssociationSyncComplianceFromString on String {
-  AssociationSyncCompliance toAssociationSyncCompliance() {
-    switch (this) {
-      case 'AUTO':
-        return AssociationSyncCompliance.auto;
-      case 'MANUAL':
-        return AssociationSyncCompliance.manual;
-    }
-    throw Exception('$this is not known in enum AssociationSyncCompliance');
-  }
+  const AssociationSyncCompliance(this.value);
+
+  static AssociationSyncCompliance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociationSyncCompliance'));
 }
 
 /// Information about the association version.
@@ -11829,7 +11677,7 @@ class AssociationVersionInfo {
           .map((e) => e as String)
           .toList(),
       complianceSeverity: (json['ComplianceSeverity'] as String?)
-          ?.toAssociationComplianceSeverity(),
+          ?.let(AssociationComplianceSeverity.fromString),
       createdDate: timeStampFromJson(json['CreatedDate']),
       documentVersion: json['DocumentVersion'] as String?,
       duration: json['Duration'] as int?,
@@ -11845,8 +11693,8 @@ class AssociationVersionInfo {
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       scheduleExpression: json['ScheduleExpression'] as String?,
       scheduleOffset: json['ScheduleOffset'] as int?,
-      syncCompliance:
-          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      syncCompliance: (json['SyncCompliance'] as String?)
+          ?.let(AssociationSyncCompliance.fromString),
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
@@ -11892,7 +11740,7 @@ class AssociationVersionInfo {
       if (associationVersion != null) 'AssociationVersion': associationVersion,
       if (calendarNames != null) 'CalendarNames': calendarNames,
       if (complianceSeverity != null)
-        'ComplianceSeverity': complianceSeverity.toValue(),
+        'ComplianceSeverity': complianceSeverity.value,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (duration != null) 'Duration': duration,
@@ -11903,7 +11751,7 @@ class AssociationVersionInfo {
       if (parameters != null) 'Parameters': parameters,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
       if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
-      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.value,
       if (targetLocations != null) 'TargetLocations': targetLocations,
       if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
@@ -11939,7 +11787,8 @@ class AttachmentContent {
   factory AttachmentContent.fromJson(Map<String, dynamic> json) {
     return AttachmentContent(
       hash: json['Hash'] as String?,
-      hashType: (json['HashType'] as String?)?.toAttachmentHashType(),
+      hashType:
+          (json['HashType'] as String?)?.let(AttachmentHashType.fromString),
       name: json['Name'] as String?,
       size: json['Size'] as int?,
       url: json['Url'] as String?,
@@ -11954,7 +11803,7 @@ class AttachmentContent {
     final url = this.url;
     return {
       if (hash != null) 'Hash': hash,
-      if (hashType != null) 'HashType': hashType.toValue(),
+      if (hashType != null) 'HashType': hashType.value,
       if (name != null) 'Name': name,
       if (size != null) 'Size': size,
       if (url != null) 'Url': url,
@@ -11963,26 +11812,17 @@ class AttachmentContent {
 }
 
 enum AttachmentHashType {
-  sha256,
-}
+  sha256('Sha256'),
+  ;
 
-extension AttachmentHashTypeValueExtension on AttachmentHashType {
-  String toValue() {
-    switch (this) {
-      case AttachmentHashType.sha256:
-        return 'Sha256';
-    }
-  }
-}
+  final String value;
 
-extension AttachmentHashTypeFromString on String {
-  AttachmentHashType toAttachmentHashType() {
-    switch (this) {
-      case 'Sha256':
-        return AttachmentHashType.sha256;
-    }
-    throw Exception('$this is not known in enum AttachmentHashType');
-  }
+  const AttachmentHashType(this.value);
+
+  static AttachmentHashType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AttachmentHashType'));
 }
 
 /// An attribute of an attachment, such as the attachment name.
@@ -12066,7 +11906,7 @@ class AttachmentsSource {
     final name = this.name;
     final values = this.values;
     return {
-      if (key != null) 'Key': key.toValue(),
+      if (key != null) 'Key': key.value,
       if (name != null) 'Name': name,
       if (values != null) 'Values': values,
     };
@@ -12074,36 +11914,19 @@ class AttachmentsSource {
 }
 
 enum AttachmentsSourceKey {
-  sourceUrl,
-  s3FileUrl,
-  attachmentReference,
-}
+  sourceUrl('SourceUrl'),
+  s3FileUrl('S3FileUrl'),
+  attachmentReference('AttachmentReference'),
+  ;
 
-extension AttachmentsSourceKeyValueExtension on AttachmentsSourceKey {
-  String toValue() {
-    switch (this) {
-      case AttachmentsSourceKey.sourceUrl:
-        return 'SourceUrl';
-      case AttachmentsSourceKey.s3FileUrl:
-        return 'S3FileUrl';
-      case AttachmentsSourceKey.attachmentReference:
-        return 'AttachmentReference';
-    }
-  }
-}
+  final String value;
 
-extension AttachmentsSourceKeyFromString on String {
-  AttachmentsSourceKey toAttachmentsSourceKey() {
-    switch (this) {
-      case 'SourceUrl':
-        return AttachmentsSourceKey.sourceUrl;
-      case 'S3FileUrl':
-        return AttachmentsSourceKey.s3FileUrl;
-      case 'AttachmentReference':
-        return AttachmentsSourceKey.attachmentReference;
-    }
-    throw Exception('$this is not known in enum AttachmentsSourceKey');
-  }
+  const AttachmentsSourceKey(this.value);
+
+  static AttachmentsSourceKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AttachmentsSourceKey'));
 }
 
 /// Detailed information about the current state of an individual Automation
@@ -12275,9 +12098,9 @@ class AutomationExecution {
       associationId: json['AssociationId'] as String?,
       automationExecutionId: json['AutomationExecutionId'] as String?,
       automationExecutionStatus: (json['AutomationExecutionStatus'] as String?)
-          ?.toAutomationExecutionStatus(),
-      automationSubtype:
-          (json['AutomationSubtype'] as String?)?.toAutomationSubtype(),
+          ?.let(AutomationExecutionStatus.fromString),
+      automationSubtype: (json['AutomationSubtype'] as String?)
+          ?.let(AutomationSubtype.fromString),
       changeRequestName: json['ChangeRequestName'] as String?,
       currentAction: json['CurrentAction'] as String?,
       currentStepName: json['CurrentStepName'] as String?,
@@ -12289,7 +12112,7 @@ class AutomationExecution {
       failureMessage: json['FailureMessage'] as String?,
       maxConcurrency: json['MaxConcurrency'] as String?,
       maxErrors: json['MaxErrors'] as String?,
-      mode: (json['Mode'] as String?)?.toExecutionMode(),
+      mode: (json['Mode'] as String?)?.let(ExecutionMode.fromString),
       opsItemId: json['OpsItemId'] as String?,
       outputs: (json['Outputs'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
@@ -12383,9 +12206,9 @@ class AutomationExecution {
       if (automationExecutionId != null)
         'AutomationExecutionId': automationExecutionId,
       if (automationExecutionStatus != null)
-        'AutomationExecutionStatus': automationExecutionStatus.toValue(),
+        'AutomationExecutionStatus': automationExecutionStatus.value,
       if (automationSubtype != null)
-        'AutomationSubtype': automationSubtype.toValue(),
+        'AutomationSubtype': automationSubtype.value,
       if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
       if (currentAction != null) 'CurrentAction': currentAction,
       if (currentStepName != null) 'CurrentStepName': currentStepName,
@@ -12399,7 +12222,7 @@ class AutomationExecution {
       if (failureMessage != null) 'FailureMessage': failureMessage,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
       if (maxErrors != null) 'MaxErrors': maxErrors,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (opsItemId != null) 'OpsItemId': opsItemId,
       if (outputs != null) 'Outputs': outputs,
       if (parameters != null) 'Parameters': parameters,
@@ -12444,89 +12267,35 @@ class AutomationExecutionFilter {
     final key = this.key;
     final values = this.values;
     return {
-      'Key': key.toValue(),
+      'Key': key.value,
       'Values': values,
     };
   }
 }
 
 enum AutomationExecutionFilterKey {
-  documentNamePrefix,
-  executionStatus,
-  executionId,
-  parentExecutionId,
-  currentAction,
-  startTimeBefore,
-  startTimeAfter,
-  automationType,
-  tagKey,
-  targetResourceGroup,
-  automationSubtype,
-  opsItemId,
-}
+  documentNamePrefix('DocumentNamePrefix'),
+  executionStatus('ExecutionStatus'),
+  executionId('ExecutionId'),
+  parentExecutionId('ParentExecutionId'),
+  currentAction('CurrentAction'),
+  startTimeBefore('StartTimeBefore'),
+  startTimeAfter('StartTimeAfter'),
+  automationType('AutomationType'),
+  tagKey('TagKey'),
+  targetResourceGroup('TargetResourceGroup'),
+  automationSubtype('AutomationSubtype'),
+  opsItemId('OpsItemId'),
+  ;
 
-extension AutomationExecutionFilterKeyValueExtension
-    on AutomationExecutionFilterKey {
-  String toValue() {
-    switch (this) {
-      case AutomationExecutionFilterKey.documentNamePrefix:
-        return 'DocumentNamePrefix';
-      case AutomationExecutionFilterKey.executionStatus:
-        return 'ExecutionStatus';
-      case AutomationExecutionFilterKey.executionId:
-        return 'ExecutionId';
-      case AutomationExecutionFilterKey.parentExecutionId:
-        return 'ParentExecutionId';
-      case AutomationExecutionFilterKey.currentAction:
-        return 'CurrentAction';
-      case AutomationExecutionFilterKey.startTimeBefore:
-        return 'StartTimeBefore';
-      case AutomationExecutionFilterKey.startTimeAfter:
-        return 'StartTimeAfter';
-      case AutomationExecutionFilterKey.automationType:
-        return 'AutomationType';
-      case AutomationExecutionFilterKey.tagKey:
-        return 'TagKey';
-      case AutomationExecutionFilterKey.targetResourceGroup:
-        return 'TargetResourceGroup';
-      case AutomationExecutionFilterKey.automationSubtype:
-        return 'AutomationSubtype';
-      case AutomationExecutionFilterKey.opsItemId:
-        return 'OpsItemId';
-    }
-  }
-}
+  final String value;
 
-extension AutomationExecutionFilterKeyFromString on String {
-  AutomationExecutionFilterKey toAutomationExecutionFilterKey() {
-    switch (this) {
-      case 'DocumentNamePrefix':
-        return AutomationExecutionFilterKey.documentNamePrefix;
-      case 'ExecutionStatus':
-        return AutomationExecutionFilterKey.executionStatus;
-      case 'ExecutionId':
-        return AutomationExecutionFilterKey.executionId;
-      case 'ParentExecutionId':
-        return AutomationExecutionFilterKey.parentExecutionId;
-      case 'CurrentAction':
-        return AutomationExecutionFilterKey.currentAction;
-      case 'StartTimeBefore':
-        return AutomationExecutionFilterKey.startTimeBefore;
-      case 'StartTimeAfter':
-        return AutomationExecutionFilterKey.startTimeAfter;
-      case 'AutomationType':
-        return AutomationExecutionFilterKey.automationType;
-      case 'TagKey':
-        return AutomationExecutionFilterKey.tagKey;
-      case 'TargetResourceGroup':
-        return AutomationExecutionFilterKey.targetResourceGroup;
-      case 'AutomationSubtype':
-        return AutomationExecutionFilterKey.automationSubtype;
-      case 'OpsItemId':
-        return AutomationExecutionFilterKey.opsItemId;
-    }
-    throw Exception('$this is not known in enum AutomationExecutionFilterKey');
-  }
+  const AutomationExecutionFilterKey(this.value);
+
+  static AutomationExecutionFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomationExecutionFilterKey'));
 }
 
 /// Details about a specific Automation execution.
@@ -12679,10 +12448,11 @@ class AutomationExecutionMetadata {
       associationId: json['AssociationId'] as String?,
       automationExecutionId: json['AutomationExecutionId'] as String?,
       automationExecutionStatus: (json['AutomationExecutionStatus'] as String?)
-          ?.toAutomationExecutionStatus(),
-      automationSubtype:
-          (json['AutomationSubtype'] as String?)?.toAutomationSubtype(),
-      automationType: (json['AutomationType'] as String?)?.toAutomationType(),
+          ?.let(AutomationExecutionStatus.fromString),
+      automationSubtype: (json['AutomationSubtype'] as String?)
+          ?.let(AutomationSubtype.fromString),
+      automationType:
+          (json['AutomationType'] as String?)?.let(AutomationType.fromString),
       changeRequestName: json['ChangeRequestName'] as String?,
       currentAction: json['CurrentAction'] as String?,
       currentStepName: json['CurrentStepName'] as String?,
@@ -12695,7 +12465,7 @@ class AutomationExecutionMetadata {
       logFile: json['LogFile'] as String?,
       maxConcurrency: json['MaxConcurrency'] as String?,
       maxErrors: json['MaxErrors'] as String?,
-      mode: (json['Mode'] as String?)?.toExecutionMode(),
+      mode: (json['Mode'] as String?)?.let(ExecutionMode.fromString),
       opsItemId: json['OpsItemId'] as String?,
       outputs: (json['Outputs'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
@@ -12766,10 +12536,10 @@ class AutomationExecutionMetadata {
       if (automationExecutionId != null)
         'AutomationExecutionId': automationExecutionId,
       if (automationExecutionStatus != null)
-        'AutomationExecutionStatus': automationExecutionStatus.toValue(),
+        'AutomationExecutionStatus': automationExecutionStatus.value,
       if (automationSubtype != null)
-        'AutomationSubtype': automationSubtype.toValue(),
-      if (automationType != null) 'AutomationType': automationType.toValue(),
+        'AutomationSubtype': automationSubtype.value,
+      if (automationType != null) 'AutomationType': automationType.value,
       if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
       if (currentAction != null) 'CurrentAction': currentAction,
       if (currentStepName != null) 'CurrentStepName': currentStepName,
@@ -12784,7 +12554,7 @@ class AutomationExecutionMetadata {
       if (logFile != null) 'LogFile': logFile,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
       if (maxErrors != null) 'MaxErrors': maxErrors,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (opsItemId != null) 'OpsItemId': opsItemId,
       if (outputs != null) 'Outputs': outputs,
       if (parentAutomationExecutionId != null)
@@ -12804,167 +12574,64 @@ class AutomationExecutionMetadata {
 }
 
 enum AutomationExecutionStatus {
-  pending,
-  inProgress,
-  waiting,
-  success,
-  timedOut,
-  cancelling,
-  cancelled,
-  failed,
-  pendingApproval,
-  approved,
-  rejected,
-  scheduled,
-  runbookInProgress,
-  pendingChangeCalendarOverride,
-  changeCalendarOverrideApproved,
-  changeCalendarOverrideRejected,
-  completedWithSuccess,
-  completedWithFailure,
-  exited,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  waiting('Waiting'),
+  success('Success'),
+  timedOut('TimedOut'),
+  cancelling('Cancelling'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  pendingApproval('PendingApproval'),
+  approved('Approved'),
+  rejected('Rejected'),
+  scheduled('Scheduled'),
+  runbookInProgress('RunbookInProgress'),
+  pendingChangeCalendarOverride('PendingChangeCalendarOverride'),
+  changeCalendarOverrideApproved('ChangeCalendarOverrideApproved'),
+  changeCalendarOverrideRejected('ChangeCalendarOverrideRejected'),
+  completedWithSuccess('CompletedWithSuccess'),
+  completedWithFailure('CompletedWithFailure'),
+  exited('Exited'),
+  ;
 
-extension AutomationExecutionStatusValueExtension on AutomationExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case AutomationExecutionStatus.pending:
-        return 'Pending';
-      case AutomationExecutionStatus.inProgress:
-        return 'InProgress';
-      case AutomationExecutionStatus.waiting:
-        return 'Waiting';
-      case AutomationExecutionStatus.success:
-        return 'Success';
-      case AutomationExecutionStatus.timedOut:
-        return 'TimedOut';
-      case AutomationExecutionStatus.cancelling:
-        return 'Cancelling';
-      case AutomationExecutionStatus.cancelled:
-        return 'Cancelled';
-      case AutomationExecutionStatus.failed:
-        return 'Failed';
-      case AutomationExecutionStatus.pendingApproval:
-        return 'PendingApproval';
-      case AutomationExecutionStatus.approved:
-        return 'Approved';
-      case AutomationExecutionStatus.rejected:
-        return 'Rejected';
-      case AutomationExecutionStatus.scheduled:
-        return 'Scheduled';
-      case AutomationExecutionStatus.runbookInProgress:
-        return 'RunbookInProgress';
-      case AutomationExecutionStatus.pendingChangeCalendarOverride:
-        return 'PendingChangeCalendarOverride';
-      case AutomationExecutionStatus.changeCalendarOverrideApproved:
-        return 'ChangeCalendarOverrideApproved';
-      case AutomationExecutionStatus.changeCalendarOverrideRejected:
-        return 'ChangeCalendarOverrideRejected';
-      case AutomationExecutionStatus.completedWithSuccess:
-        return 'CompletedWithSuccess';
-      case AutomationExecutionStatus.completedWithFailure:
-        return 'CompletedWithFailure';
-      case AutomationExecutionStatus.exited:
-        return 'Exited';
-    }
-  }
-}
+  final String value;
 
-extension AutomationExecutionStatusFromString on String {
-  AutomationExecutionStatus toAutomationExecutionStatus() {
-    switch (this) {
-      case 'Pending':
-        return AutomationExecutionStatus.pending;
-      case 'InProgress':
-        return AutomationExecutionStatus.inProgress;
-      case 'Waiting':
-        return AutomationExecutionStatus.waiting;
-      case 'Success':
-        return AutomationExecutionStatus.success;
-      case 'TimedOut':
-        return AutomationExecutionStatus.timedOut;
-      case 'Cancelling':
-        return AutomationExecutionStatus.cancelling;
-      case 'Cancelled':
-        return AutomationExecutionStatus.cancelled;
-      case 'Failed':
-        return AutomationExecutionStatus.failed;
-      case 'PendingApproval':
-        return AutomationExecutionStatus.pendingApproval;
-      case 'Approved':
-        return AutomationExecutionStatus.approved;
-      case 'Rejected':
-        return AutomationExecutionStatus.rejected;
-      case 'Scheduled':
-        return AutomationExecutionStatus.scheduled;
-      case 'RunbookInProgress':
-        return AutomationExecutionStatus.runbookInProgress;
-      case 'PendingChangeCalendarOverride':
-        return AutomationExecutionStatus.pendingChangeCalendarOverride;
-      case 'ChangeCalendarOverrideApproved':
-        return AutomationExecutionStatus.changeCalendarOverrideApproved;
-      case 'ChangeCalendarOverrideRejected':
-        return AutomationExecutionStatus.changeCalendarOverrideRejected;
-      case 'CompletedWithSuccess':
-        return AutomationExecutionStatus.completedWithSuccess;
-      case 'CompletedWithFailure':
-        return AutomationExecutionStatus.completedWithFailure;
-      case 'Exited':
-        return AutomationExecutionStatus.exited;
-    }
-    throw Exception('$this is not known in enum AutomationExecutionStatus');
-  }
+  const AutomationExecutionStatus(this.value);
+
+  static AutomationExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomationExecutionStatus'));
 }
 
 enum AutomationSubtype {
-  changeRequest,
-}
+  changeRequest('ChangeRequest'),
+  ;
 
-extension AutomationSubtypeValueExtension on AutomationSubtype {
-  String toValue() {
-    switch (this) {
-      case AutomationSubtype.changeRequest:
-        return 'ChangeRequest';
-    }
-  }
-}
+  final String value;
 
-extension AutomationSubtypeFromString on String {
-  AutomationSubtype toAutomationSubtype() {
-    switch (this) {
-      case 'ChangeRequest':
-        return AutomationSubtype.changeRequest;
-    }
-    throw Exception('$this is not known in enum AutomationSubtype');
-  }
+  const AutomationSubtype(this.value);
+
+  static AutomationSubtype fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutomationSubtype'));
 }
 
 enum AutomationType {
-  crossAccount,
-  local,
-}
+  crossAccount('CrossAccount'),
+  local('Local'),
+  ;
 
-extension AutomationTypeValueExtension on AutomationType {
-  String toValue() {
-    switch (this) {
-      case AutomationType.crossAccount:
-        return 'CrossAccount';
-      case AutomationType.local:
-        return 'Local';
-    }
-  }
-}
+  final String value;
 
-extension AutomationTypeFromString on String {
-  AutomationType toAutomationType() {
-    switch (this) {
-      case 'CrossAccount':
-        return AutomationType.crossAccount;
-      case 'Local':
-        return AutomationType.local;
-    }
-    throw Exception('$this is not known in enum AutomationType');
-  }
+  const AutomationType(this.value);
+
+  static AutomationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutomationType'));
 }
 
 /// Defines the basic information about a patch baseline override.
@@ -13041,46 +12708,32 @@ class BaselineOverride {
       if (approvalRules != null) 'ApprovalRules': approvalRules,
       if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
       if (approvedPatchesComplianceLevel != null)
-        'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel.toValue(),
+        'ApprovedPatchesComplianceLevel': approvedPatchesComplianceLevel.value,
       if (approvedPatchesEnableNonSecurity != null)
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
       if (globalFilters != null) 'GlobalFilters': globalFilters,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
       if (rejectedPatchesAction != null)
-        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+        'RejectedPatchesAction': rejectedPatchesAction.value,
       if (sources != null) 'Sources': sources,
     };
   }
 }
 
 enum CalendarState {
-  open,
-  closed,
-}
+  open('OPEN'),
+  closed('CLOSED'),
+  ;
 
-extension CalendarStateValueExtension on CalendarState {
-  String toValue() {
-    switch (this) {
-      case CalendarState.open:
-        return 'OPEN';
-      case CalendarState.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension CalendarStateFromString on String {
-  CalendarState toCalendarState() {
-    switch (this) {
-      case 'OPEN':
-        return CalendarState.open;
-      case 'CLOSED':
-        return CalendarState.closed;
-    }
-    throw Exception('$this is not known in enum CalendarState');
-  }
+  const CalendarState(this.value);
+
+  static CalendarState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CalendarState'));
 }
 
 /// Whether or not the command was successfully canceled. There is no guarantee
@@ -13386,7 +13039,7 @@ class Command {
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       requestedDateTime: timeStampFromJson(json['RequestedDateTime']),
       serviceRole: json['ServiceRole'] as String?,
-      status: (json['Status'] as String?)?.toCommandStatus(),
+      status: (json['Status'] as String?)?.let(CommandStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       targetCount: json['TargetCount'] as int?,
       targets: (json['Targets'] as List?)
@@ -13453,7 +13106,7 @@ class Command {
       if (requestedDateTime != null)
         'RequestedDateTime': unixTimestampToJson(requestedDateTime),
       if (serviceRole != null) 'ServiceRole': serviceRole,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (targetCount != null) 'TargetCount': targetCount,
       if (targets != null) 'Targets': targets,
@@ -13611,53 +13264,28 @@ class CommandFilter {
     final key = this.key;
     final value = this.value;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'value': value,
     };
   }
 }
 
 enum CommandFilterKey {
-  invokedAfter,
-  invokedBefore,
-  status,
-  executionStage,
-  documentName,
-}
+  invokedAfter('InvokedAfter'),
+  invokedBefore('InvokedBefore'),
+  status('Status'),
+  executionStage('ExecutionStage'),
+  documentName('DocumentName'),
+  ;
 
-extension CommandFilterKeyValueExtension on CommandFilterKey {
-  String toValue() {
-    switch (this) {
-      case CommandFilterKey.invokedAfter:
-        return 'InvokedAfter';
-      case CommandFilterKey.invokedBefore:
-        return 'InvokedBefore';
-      case CommandFilterKey.status:
-        return 'Status';
-      case CommandFilterKey.executionStage:
-        return 'ExecutionStage';
-      case CommandFilterKey.documentName:
-        return 'DocumentName';
-    }
-  }
-}
+  final String value;
 
-extension CommandFilterKeyFromString on String {
-  CommandFilterKey toCommandFilterKey() {
-    switch (this) {
-      case 'InvokedAfter':
-        return CommandFilterKey.invokedAfter;
-      case 'InvokedBefore':
-        return CommandFilterKey.invokedBefore;
-      case 'Status':
-        return CommandFilterKey.status;
-      case 'ExecutionStage':
-        return CommandFilterKey.executionStage;
-      case 'DocumentName':
-        return CommandFilterKey.documentName;
-    }
-    throw Exception('$this is not known in enum CommandFilterKey');
-  }
+  const CommandFilterKey(this.value);
+
+  static CommandFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CommandFilterKey'));
 }
 
 /// An invocation is a copy of a command sent to a specific managed node. A
@@ -13830,7 +13458,8 @@ class CommandInvocation {
       serviceRole: json['ServiceRole'] as String?,
       standardErrorUrl: json['StandardErrorUrl'] as String?,
       standardOutputUrl: json['StandardOutputUrl'] as String?,
-      status: (json['Status'] as String?)?.toCommandInvocationStatus(),
+      status:
+          (json['Status'] as String?)?.let(CommandInvocationStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       traceOutput: json['TraceOutput'] as String?,
     );
@@ -13869,7 +13498,7 @@ class CommandInvocation {
       if (serviceRole != null) 'ServiceRole': serviceRole,
       if (standardErrorUrl != null) 'StandardErrorUrl': standardErrorUrl,
       if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (traceOutput != null) 'TraceOutput': traceOutput,
     };
@@ -13877,61 +13506,24 @@ class CommandInvocation {
 }
 
 enum CommandInvocationStatus {
-  pending,
-  inProgress,
-  delayed,
-  success,
-  cancelled,
-  timedOut,
-  failed,
-  cancelling,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  delayed('Delayed'),
+  success('Success'),
+  cancelled('Cancelled'),
+  timedOut('TimedOut'),
+  failed('Failed'),
+  cancelling('Cancelling'),
+  ;
 
-extension CommandInvocationStatusValueExtension on CommandInvocationStatus {
-  String toValue() {
-    switch (this) {
-      case CommandInvocationStatus.pending:
-        return 'Pending';
-      case CommandInvocationStatus.inProgress:
-        return 'InProgress';
-      case CommandInvocationStatus.delayed:
-        return 'Delayed';
-      case CommandInvocationStatus.success:
-        return 'Success';
-      case CommandInvocationStatus.cancelled:
-        return 'Cancelled';
-      case CommandInvocationStatus.timedOut:
-        return 'TimedOut';
-      case CommandInvocationStatus.failed:
-        return 'Failed';
-      case CommandInvocationStatus.cancelling:
-        return 'Cancelling';
-    }
-  }
-}
+  final String value;
 
-extension CommandInvocationStatusFromString on String {
-  CommandInvocationStatus toCommandInvocationStatus() {
-    switch (this) {
-      case 'Pending':
-        return CommandInvocationStatus.pending;
-      case 'InProgress':
-        return CommandInvocationStatus.inProgress;
-      case 'Delayed':
-        return CommandInvocationStatus.delayed;
-      case 'Success':
-        return CommandInvocationStatus.success;
-      case 'Cancelled':
-        return CommandInvocationStatus.cancelled;
-      case 'TimedOut':
-        return CommandInvocationStatus.timedOut;
-      case 'Failed':
-        return CommandInvocationStatus.failed;
-      case 'Cancelling':
-        return CommandInvocationStatus.cancelling;
-    }
-    throw Exception('$this is not known in enum CommandInvocationStatus');
-  }
+  const CommandInvocationStatus(this.value);
+
+  static CommandInvocationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CommandInvocationStatus'));
 }
 
 /// Describes plugin details.
@@ -14091,7 +13683,7 @@ class CommandPlugin {
       responseStartDateTime: timeStampFromJson(json['ResponseStartDateTime']),
       standardErrorUrl: json['StandardErrorUrl'] as String?,
       standardOutputUrl: json['StandardOutputUrl'] as String?,
-      status: (json['Status'] as String?)?.toCommandPluginStatus(),
+      status: (json['Status'] as String?)?.let(CommandPluginStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
     );
   }
@@ -14122,111 +13714,49 @@ class CommandPlugin {
         'ResponseStartDateTime': unixTimestampToJson(responseStartDateTime),
       if (standardErrorUrl != null) 'StandardErrorUrl': standardErrorUrl,
       if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
     };
   }
 }
 
 enum CommandPluginStatus {
-  pending,
-  inProgress,
-  success,
-  timedOut,
-  cancelled,
-  failed,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  success('Success'),
+  timedOut('TimedOut'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  ;
 
-extension CommandPluginStatusValueExtension on CommandPluginStatus {
-  String toValue() {
-    switch (this) {
-      case CommandPluginStatus.pending:
-        return 'Pending';
-      case CommandPluginStatus.inProgress:
-        return 'InProgress';
-      case CommandPluginStatus.success:
-        return 'Success';
-      case CommandPluginStatus.timedOut:
-        return 'TimedOut';
-      case CommandPluginStatus.cancelled:
-        return 'Cancelled';
-      case CommandPluginStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension CommandPluginStatusFromString on String {
-  CommandPluginStatus toCommandPluginStatus() {
-    switch (this) {
-      case 'Pending':
-        return CommandPluginStatus.pending;
-      case 'InProgress':
-        return CommandPluginStatus.inProgress;
-      case 'Success':
-        return CommandPluginStatus.success;
-      case 'TimedOut':
-        return CommandPluginStatus.timedOut;
-      case 'Cancelled':
-        return CommandPluginStatus.cancelled;
-      case 'Failed':
-        return CommandPluginStatus.failed;
-    }
-    throw Exception('$this is not known in enum CommandPluginStatus');
-  }
+  const CommandPluginStatus(this.value);
+
+  static CommandPluginStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CommandPluginStatus'));
 }
 
 enum CommandStatus {
-  pending,
-  inProgress,
-  success,
-  cancelled,
-  failed,
-  timedOut,
-  cancelling,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  success('Success'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  timedOut('TimedOut'),
+  cancelling('Cancelling'),
+  ;
 
-extension CommandStatusValueExtension on CommandStatus {
-  String toValue() {
-    switch (this) {
-      case CommandStatus.pending:
-        return 'Pending';
-      case CommandStatus.inProgress:
-        return 'InProgress';
-      case CommandStatus.success:
-        return 'Success';
-      case CommandStatus.cancelled:
-        return 'Cancelled';
-      case CommandStatus.failed:
-        return 'Failed';
-      case CommandStatus.timedOut:
-        return 'TimedOut';
-      case CommandStatus.cancelling:
-        return 'Cancelling';
-    }
-  }
-}
+  final String value;
 
-extension CommandStatusFromString on String {
-  CommandStatus toCommandStatus() {
-    switch (this) {
-      case 'Pending':
-        return CommandStatus.pending;
-      case 'InProgress':
-        return CommandStatus.inProgress;
-      case 'Success':
-        return CommandStatus.success;
-      case 'Cancelled':
-        return CommandStatus.cancelled;
-      case 'Failed':
-        return CommandStatus.failed;
-      case 'TimedOut':
-        return CommandStatus.timedOut;
-      case 'Cancelling':
-        return CommandStatus.cancelling;
-    }
-    throw Exception('$this is not known in enum CommandStatus');
-  }
+  const CommandStatus(this.value);
+
+  static CommandStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CommandStatus'));
 }
 
 /// A summary of the call execution that includes an execution ID, the type of
@@ -14340,8 +13870,9 @@ class ComplianceItem {
       id: json['Id'] as String?,
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
-      severity: (json['Severity'] as String?)?.toComplianceSeverity(),
-      status: (json['Status'] as String?)?.toComplianceStatus(),
+      severity:
+          (json['Severity'] as String?)?.let(ComplianceSeverity.fromString),
+      status: (json['Status'] as String?)?.let(ComplianceStatus.fromString),
       title: json['Title'] as String?,
     );
   }
@@ -14363,8 +13894,8 @@ class ComplianceItem {
       if (id != null) 'Id': id,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (severity != null) 'Severity': severity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
       if (title != null) 'Title': title,
     };
   }
@@ -14407,8 +13938,8 @@ class ComplianceItemEntry {
     final id = this.id;
     final title = this.title;
     return {
-      'Severity': severity.toValue(),
-      'Status': status.toValue(),
+      'Severity': severity.value,
+      'Status': status.value,
       if (details != null) 'Details': details,
       if (id != null) 'Id': id,
       if (title != null) 'Title': title,
@@ -14417,123 +13948,55 @@ class ComplianceItemEntry {
 }
 
 enum ComplianceQueryOperatorType {
-  equal,
-  notEqual,
-  beginWith,
-  lessThan,
-  greaterThan,
-}
+  equal('EQUAL'),
+  notEqual('NOT_EQUAL'),
+  beginWith('BEGIN_WITH'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  ;
 
-extension ComplianceQueryOperatorTypeValueExtension
-    on ComplianceQueryOperatorType {
-  String toValue() {
-    switch (this) {
-      case ComplianceQueryOperatorType.equal:
-        return 'EQUAL';
-      case ComplianceQueryOperatorType.notEqual:
-        return 'NOT_EQUAL';
-      case ComplianceQueryOperatorType.beginWith:
-        return 'BEGIN_WITH';
-      case ComplianceQueryOperatorType.lessThan:
-        return 'LESS_THAN';
-      case ComplianceQueryOperatorType.greaterThan:
-        return 'GREATER_THAN';
-    }
-  }
-}
+  final String value;
 
-extension ComplianceQueryOperatorTypeFromString on String {
-  ComplianceQueryOperatorType toComplianceQueryOperatorType() {
-    switch (this) {
-      case 'EQUAL':
-        return ComplianceQueryOperatorType.equal;
-      case 'NOT_EQUAL':
-        return ComplianceQueryOperatorType.notEqual;
-      case 'BEGIN_WITH':
-        return ComplianceQueryOperatorType.beginWith;
-      case 'LESS_THAN':
-        return ComplianceQueryOperatorType.lessThan;
-      case 'GREATER_THAN':
-        return ComplianceQueryOperatorType.greaterThan;
-    }
-    throw Exception('$this is not known in enum ComplianceQueryOperatorType');
-  }
+  const ComplianceQueryOperatorType(this.value);
+
+  static ComplianceQueryOperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ComplianceQueryOperatorType'));
 }
 
 enum ComplianceSeverity {
-  critical,
-  high,
-  medium,
-  low,
-  informational,
-  unspecified,
-}
+  critical('CRITICAL'),
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  informational('INFORMATIONAL'),
+  unspecified('UNSPECIFIED'),
+  ;
 
-extension ComplianceSeverityValueExtension on ComplianceSeverity {
-  String toValue() {
-    switch (this) {
-      case ComplianceSeverity.critical:
-        return 'CRITICAL';
-      case ComplianceSeverity.high:
-        return 'HIGH';
-      case ComplianceSeverity.medium:
-        return 'MEDIUM';
-      case ComplianceSeverity.low:
-        return 'LOW';
-      case ComplianceSeverity.informational:
-        return 'INFORMATIONAL';
-      case ComplianceSeverity.unspecified:
-        return 'UNSPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension ComplianceSeverityFromString on String {
-  ComplianceSeverity toComplianceSeverity() {
-    switch (this) {
-      case 'CRITICAL':
-        return ComplianceSeverity.critical;
-      case 'HIGH':
-        return ComplianceSeverity.high;
-      case 'MEDIUM':
-        return ComplianceSeverity.medium;
-      case 'LOW':
-        return ComplianceSeverity.low;
-      case 'INFORMATIONAL':
-        return ComplianceSeverity.informational;
-      case 'UNSPECIFIED':
-        return ComplianceSeverity.unspecified;
-    }
-    throw Exception('$this is not known in enum ComplianceSeverity');
-  }
+  const ComplianceSeverity(this.value);
+
+  static ComplianceSeverity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComplianceSeverity'));
 }
 
 enum ComplianceStatus {
-  compliant,
-  nonCompliant,
-}
+  compliant('COMPLIANT'),
+  nonCompliant('NON_COMPLIANT'),
+  ;
 
-extension ComplianceStatusValueExtension on ComplianceStatus {
-  String toValue() {
-    switch (this) {
-      case ComplianceStatus.compliant:
-        return 'COMPLIANT';
-      case ComplianceStatus.nonCompliant:
-        return 'NON_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension ComplianceStatusFromString on String {
-  ComplianceStatus toComplianceStatus() {
-    switch (this) {
-      case 'COMPLIANT':
-        return ComplianceStatus.compliant;
-      case 'NON_COMPLIANT':
-        return ComplianceStatus.nonCompliant;
-    }
-    throw Exception('$this is not known in enum ComplianceStatus');
-  }
+  const ComplianceStatus(this.value);
+
+  static ComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComplianceStatus'));
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
@@ -14560,7 +14023,7 @@ class ComplianceStringFilter {
     final values = this.values;
     return {
       if (key != null) 'Key': key,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (values != null) 'Values': values,
     };
   }
@@ -14612,31 +14075,18 @@ class ComplianceSummaryItem {
 }
 
 enum ComplianceUploadType {
-  complete,
-  partial,
-}
+  complete('COMPLETE'),
+  partial('PARTIAL'),
+  ;
 
-extension ComplianceUploadTypeValueExtension on ComplianceUploadType {
-  String toValue() {
-    switch (this) {
-      case ComplianceUploadType.complete:
-        return 'COMPLETE';
-      case ComplianceUploadType.partial:
-        return 'PARTIAL';
-    }
-  }
-}
+  final String value;
 
-extension ComplianceUploadTypeFromString on String {
-  ComplianceUploadType toComplianceUploadType() {
-    switch (this) {
-      case 'COMPLETE':
-        return ComplianceUploadType.complete;
-      case 'PARTIAL':
-        return ComplianceUploadType.partial;
-    }
-    throw Exception('$this is not known in enum ComplianceUploadType');
-  }
+  const ComplianceUploadType(this.value);
+
+  static ComplianceUploadType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComplianceUploadType'));
 }
 
 /// A summary of resources that are compliant. The summary is organized
@@ -14674,31 +14124,18 @@ class CompliantSummary {
 }
 
 enum ConnectionStatus {
-  connected,
-  notconnected,
-}
+  connected('connected'),
+  notconnected('notconnected'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.connected:
-        return 'connected';
-      case ConnectionStatus.notconnected:
-        return 'notconnected';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'connected':
-        return ConnectionStatus.connected;
-      case 'notconnected':
-        return ConnectionStatus.notconnected;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 class CreateActivationResult {
@@ -14932,7 +14369,7 @@ class CreateAssociationBatchRequestEntry {
           .map((e) => e as String)
           .toList(),
       complianceSeverity: (json['ComplianceSeverity'] as String?)
-          ?.toAssociationComplianceSeverity(),
+          ?.let(AssociationComplianceSeverity.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       duration: json['Duration'] as int?,
       instanceId: json['InstanceId'] as String?,
@@ -14947,8 +14384,8 @@ class CreateAssociationBatchRequestEntry {
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       scheduleExpression: json['ScheduleExpression'] as String?,
       scheduleOffset: json['ScheduleOffset'] as int?,
-      syncCompliance:
-          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      syncCompliance: (json['SyncCompliance'] as String?)
+          ?.let(AssociationSyncCompliance.fromString),
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
@@ -14996,7 +14433,7 @@ class CreateAssociationBatchRequestEntry {
         'AutomationTargetParameterName': automationTargetParameterName,
       if (calendarNames != null) 'CalendarNames': calendarNames,
       if (complianceSeverity != null)
-        'ComplianceSeverity': complianceSeverity.toValue(),
+        'ComplianceSeverity': complianceSeverity.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (duration != null) 'Duration': duration,
       if (instanceId != null) 'InstanceId': instanceId,
@@ -15006,7 +14443,7 @@ class CreateAssociationBatchRequestEntry {
       if (parameters != null) 'Parameters': parameters,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
       if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
-      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.value,
       if (targetLocations != null) 'TargetLocations': targetLocations,
       if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
@@ -15552,44 +14989,26 @@ class DescribeActivationsFilter {
     final filterKey = this.filterKey;
     final filterValues = this.filterValues;
     return {
-      if (filterKey != null) 'FilterKey': filterKey.toValue(),
+      if (filterKey != null) 'FilterKey': filterKey.value,
       if (filterValues != null) 'FilterValues': filterValues,
     };
   }
 }
 
 enum DescribeActivationsFilterKeys {
-  activationIds,
-  defaultInstanceName,
-  iamRole,
-}
+  activationIds('ActivationIds'),
+  defaultInstanceName('DefaultInstanceName'),
+  iamRole('IamRole'),
+  ;
 
-extension DescribeActivationsFilterKeysValueExtension
-    on DescribeActivationsFilterKeys {
-  String toValue() {
-    switch (this) {
-      case DescribeActivationsFilterKeys.activationIds:
-        return 'ActivationIds';
-      case DescribeActivationsFilterKeys.defaultInstanceName:
-        return 'DefaultInstanceName';
-      case DescribeActivationsFilterKeys.iamRole:
-        return 'IamRole';
-    }
-  }
-}
+  final String value;
 
-extension DescribeActivationsFilterKeysFromString on String {
-  DescribeActivationsFilterKeys toDescribeActivationsFilterKeys() {
-    switch (this) {
-      case 'ActivationIds':
-        return DescribeActivationsFilterKeys.activationIds;
-      case 'DefaultInstanceName':
-        return DescribeActivationsFilterKeys.defaultInstanceName;
-      case 'IamRole':
-        return DescribeActivationsFilterKeys.iamRole;
-    }
-    throw Exception('$this is not known in enum DescribeActivationsFilterKeys');
-  }
+  const DescribeActivationsFilterKeys(this.value);
+
+  static DescribeActivationsFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribeActivationsFilterKeys'));
 }
 
 class DescribeActivationsResult {
@@ -17114,11 +16533,13 @@ class DocumentDescription {
       defaultVersion: json['DefaultVersion'] as String?,
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
-      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
-      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentFormat:
+          (json['DocumentFormat'] as String?)?.let(DocumentFormat.fromString),
+      documentType:
+          (json['DocumentType'] as String?)?.let(DocumentType.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       hash: json['Hash'] as String?,
-      hashType: (json['HashType'] as String?)?.toDocumentHashType(),
+      hashType: (json['HashType'] as String?)?.let(DocumentHashType.fromString),
       latestVersion: json['LatestVersion'] as String?,
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
@@ -17129,7 +16550,7 @@ class DocumentDescription {
       pendingReviewVersion: json['PendingReviewVersion'] as String?,
       platformTypes: (json['PlatformTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPlatformType())
+          .map((e) => PlatformType.fromString((e as String)))
           .toList(),
       requires: (json['Requires'] as List?)
           ?.whereNotNull()
@@ -17139,10 +16560,11 @@ class DocumentDescription {
           ?.whereNotNull()
           .map((e) => ReviewInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      reviewStatus:
+          (json['ReviewStatus'] as String?)?.let(ReviewStatus.fromString),
       schemaVersion: json['SchemaVersion'] as String?,
       sha1: json['Sha1'] as String?,
-      status: (json['Status'] as String?)?.toDocumentStatus(),
+      status: (json['Status'] as String?)?.let(DocumentStatus.fromString),
       statusInformation: json['StatusInformation'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -17195,11 +16617,11 @@ class DocumentDescription {
       if (defaultVersion != null) 'DefaultVersion': defaultVersion,
       if (description != null) 'Description': description,
       if (displayName != null) 'DisplayName': displayName,
-      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentFormat != null) 'DocumentFormat': documentFormat.value,
+      if (documentType != null) 'DocumentType': documentType.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (hash != null) 'Hash': hash,
-      if (hashType != null) 'HashType': hashType.toValue(),
+      if (hashType != null) 'HashType': hashType.value,
       if (latestVersion != null) 'LatestVersion': latestVersion,
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
@@ -17207,13 +16629,13 @@ class DocumentDescription {
       if (pendingReviewVersion != null)
         'PendingReviewVersion': pendingReviewVersion,
       if (platformTypes != null)
-        'PlatformTypes': platformTypes.map((e) => e.toValue()).toList(),
+        'PlatformTypes': platformTypes.map((e) => e.value).toList(),
       if (requires != null) 'Requires': requires,
       if (reviewInformation != null) 'ReviewInformation': reviewInformation,
-      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.value,
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
       if (sha1 != null) 'Sha1': sha1,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusInformation != null) 'StatusInformation': statusInformation,
       if (tags != null) 'Tags': tags,
       if (targetType != null) 'TargetType': targetType,
@@ -17239,109 +16661,58 @@ class DocumentFilter {
     final key = this.key;
     final value = this.value;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'value': value,
     };
   }
 }
 
 enum DocumentFilterKey {
-  name,
-  owner,
-  platformTypes,
-  documentType,
-}
+  name('Name'),
+  owner('Owner'),
+  platformTypes('PlatformTypes'),
+  documentType('DocumentType'),
+  ;
 
-extension DocumentFilterKeyValueExtension on DocumentFilterKey {
-  String toValue() {
-    switch (this) {
-      case DocumentFilterKey.name:
-        return 'Name';
-      case DocumentFilterKey.owner:
-        return 'Owner';
-      case DocumentFilterKey.platformTypes:
-        return 'PlatformTypes';
-      case DocumentFilterKey.documentType:
-        return 'DocumentType';
-    }
-  }
-}
+  final String value;
 
-extension DocumentFilterKeyFromString on String {
-  DocumentFilterKey toDocumentFilterKey() {
-    switch (this) {
-      case 'Name':
-        return DocumentFilterKey.name;
-      case 'Owner':
-        return DocumentFilterKey.owner;
-      case 'PlatformTypes':
-        return DocumentFilterKey.platformTypes;
-      case 'DocumentType':
-        return DocumentFilterKey.documentType;
-    }
-    throw Exception('$this is not known in enum DocumentFilterKey');
-  }
+  const DocumentFilterKey(this.value);
+
+  static DocumentFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentFilterKey'));
 }
 
 enum DocumentFormat {
-  yaml,
-  json,
-  text,
-}
+  yaml('YAML'),
+  json('JSON'),
+  text('TEXT'),
+  ;
 
-extension DocumentFormatValueExtension on DocumentFormat {
-  String toValue() {
-    switch (this) {
-      case DocumentFormat.yaml:
-        return 'YAML';
-      case DocumentFormat.json:
-        return 'JSON';
-      case DocumentFormat.text:
-        return 'TEXT';
-    }
-  }
-}
+  final String value;
 
-extension DocumentFormatFromString on String {
-  DocumentFormat toDocumentFormat() {
-    switch (this) {
-      case 'YAML':
-        return DocumentFormat.yaml;
-      case 'JSON':
-        return DocumentFormat.json;
-      case 'TEXT':
-        return DocumentFormat.text;
-    }
-    throw Exception('$this is not known in enum DocumentFormat');
-  }
+  const DocumentFormat(this.value);
+
+  static DocumentFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentFormat'));
 }
 
 enum DocumentHashType {
-  sha256,
-  sha1,
-}
+  sha256('Sha256'),
+  sha1('Sha1'),
+  ;
 
-extension DocumentHashTypeValueExtension on DocumentHashType {
-  String toValue() {
-    switch (this) {
-      case DocumentHashType.sha256:
-        return 'Sha256';
-      case DocumentHashType.sha1:
-        return 'Sha1';
-    }
-  }
-}
+  final String value;
 
-extension DocumentHashTypeFromString on String {
-  DocumentHashType toDocumentHashType() {
-    switch (this) {
-      case 'Sha256':
-        return DocumentHashType.sha256;
-      case 'Sha1':
-        return DocumentHashType.sha1;
-    }
-    throw Exception('$this is not known in enum DocumentHashType');
-  }
+  const DocumentHashType(this.value);
+
+  static DocumentHashType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentHashType'));
 }
 
 /// Describes the name of a SSM document.
@@ -17425,20 +16796,23 @@ class DocumentIdentifier {
       author: json['Author'] as String?,
       createdDate: timeStampFromJson(json['CreatedDate']),
       displayName: json['DisplayName'] as String?,
-      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
-      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentFormat:
+          (json['DocumentFormat'] as String?)?.let(DocumentFormat.fromString),
+      documentType:
+          (json['DocumentType'] as String?)?.let(DocumentType.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
       platformTypes: (json['PlatformTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPlatformType())
+          .map((e) => PlatformType.fromString((e as String)))
           .toList(),
       requires: (json['Requires'] as List?)
           ?.whereNotNull()
           .map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
           .toList(),
-      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      reviewStatus:
+          (json['ReviewStatus'] as String?)?.let(ReviewStatus.fromString),
       schemaVersion: json['SchemaVersion'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -17469,15 +16843,15 @@ class DocumentIdentifier {
       if (author != null) 'Author': author,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (displayName != null) 'DisplayName': displayName,
-      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentFormat != null) 'DocumentFormat': documentFormat.value,
+      if (documentType != null) 'DocumentType': documentType.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
       if (platformTypes != null)
-        'PlatformTypes': platformTypes.map((e) => e.toValue()).toList(),
+        'PlatformTypes': platformTypes.map((e) => e.value).toList(),
       if (requires != null) 'Requires': requires,
-      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.value,
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
       if (tags != null) 'Tags': tags,
       if (targetType != null) 'TargetType': targetType,
@@ -17600,26 +16974,17 @@ class DocumentKeyValuesFilter {
 }
 
 enum DocumentMetadataEnum {
-  documentReviews,
-}
+  documentReviews('DocumentReviews'),
+  ;
 
-extension DocumentMetadataEnumValueExtension on DocumentMetadataEnum {
-  String toValue() {
-    switch (this) {
-      case DocumentMetadataEnum.documentReviews:
-        return 'DocumentReviews';
-    }
-  }
-}
+  final String value;
 
-extension DocumentMetadataEnumFromString on String {
-  DocumentMetadataEnum toDocumentMetadataEnum() {
-    switch (this) {
-      case 'DocumentReviews':
-        return DocumentMetadataEnum.documentReviews;
-    }
-    throw Exception('$this is not known in enum DocumentMetadataEnum');
-  }
+  const DocumentMetadataEnum(this.value);
+
+  static DocumentMetadataEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentMetadataEnum'));
 }
 
 /// Details about the response to a document review request.
@@ -17678,7 +17043,7 @@ class DocumentParameter {
       defaultValue: json['DefaultValue'] as String?,
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toDocumentParameterType(),
+      type: (json['Type'] as String?)?.let(DocumentParameterType.fromString),
     );
   }
 
@@ -17691,60 +17056,38 @@ class DocumentParameter {
       if (defaultValue != null) 'DefaultValue': defaultValue,
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DocumentParameterType {
-  string,
-  stringList,
-}
+  string('String'),
+  stringList('StringList'),
+  ;
 
-extension DocumentParameterTypeValueExtension on DocumentParameterType {
-  String toValue() {
-    switch (this) {
-      case DocumentParameterType.string:
-        return 'String';
-      case DocumentParameterType.stringList:
-        return 'StringList';
-    }
-  }
-}
+  final String value;
 
-extension DocumentParameterTypeFromString on String {
-  DocumentParameterType toDocumentParameterType() {
-    switch (this) {
-      case 'String':
-        return DocumentParameterType.string;
-      case 'StringList':
-        return DocumentParameterType.stringList;
-    }
-    throw Exception('$this is not known in enum DocumentParameterType');
-  }
+  const DocumentParameterType(this.value);
+
+  static DocumentParameterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentParameterType'));
 }
 
 enum DocumentPermissionType {
-  share,
-}
+  share('Share'),
+  ;
 
-extension DocumentPermissionTypeValueExtension on DocumentPermissionType {
-  String toValue() {
-    switch (this) {
-      case DocumentPermissionType.share:
-        return 'Share';
-    }
-  }
-}
+  final String value;
 
-extension DocumentPermissionTypeFromString on String {
-  DocumentPermissionType toDocumentPermissionType() {
-    switch (this) {
-      case 'Share':
-        return DocumentPermissionType.share;
-    }
-    throw Exception('$this is not known in enum DocumentPermissionType');
-  }
+  const DocumentPermissionType(this.value);
+
+  static DocumentPermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentPermissionType'));
 }
 
 /// An SSM document required by the current document.
@@ -17795,41 +17138,20 @@ class DocumentRequires {
 }
 
 enum DocumentReviewAction {
-  sendForReview,
-  updateReview,
-  approve,
-  reject,
-}
+  sendForReview('SendForReview'),
+  updateReview('UpdateReview'),
+  approve('Approve'),
+  reject('Reject'),
+  ;
 
-extension DocumentReviewActionValueExtension on DocumentReviewAction {
-  String toValue() {
-    switch (this) {
-      case DocumentReviewAction.sendForReview:
-        return 'SendForReview';
-      case DocumentReviewAction.updateReview:
-        return 'UpdateReview';
-      case DocumentReviewAction.approve:
-        return 'Approve';
-      case DocumentReviewAction.reject:
-        return 'Reject';
-    }
-  }
-}
+  final String value;
 
-extension DocumentReviewActionFromString on String {
-  DocumentReviewAction toDocumentReviewAction() {
-    switch (this) {
-      case 'SendForReview':
-        return DocumentReviewAction.sendForReview;
-      case 'UpdateReview':
-        return DocumentReviewAction.updateReview;
-      case 'Approve':
-        return DocumentReviewAction.approve;
-      case 'Reject':
-        return DocumentReviewAction.reject;
-    }
-    throw Exception('$this is not known in enum DocumentReviewAction');
-  }
+  const DocumentReviewAction(this.value);
+
+  static DocumentReviewAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentReviewAction'));
 }
 
 /// Information about comments added to a document review request.
@@ -17850,7 +17172,8 @@ class DocumentReviewCommentSource {
   factory DocumentReviewCommentSource.fromJson(Map<String, dynamic> json) {
     return DocumentReviewCommentSource(
       content: json['Content'] as String?,
-      type: (json['Type'] as String?)?.toDocumentReviewCommentType(),
+      type:
+          (json['Type'] as String?)?.let(DocumentReviewCommentType.fromString),
     );
   }
 
@@ -17859,32 +17182,23 @@ class DocumentReviewCommentSource {
     final type = this.type;
     return {
       if (content != null) 'Content': content,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DocumentReviewCommentType {
-  comment,
-}
+  comment('Comment'),
+  ;
 
-extension DocumentReviewCommentTypeValueExtension on DocumentReviewCommentType {
-  String toValue() {
-    switch (this) {
-      case DocumentReviewCommentType.comment:
-        return 'Comment';
-    }
-  }
-}
+  final String value;
 
-extension DocumentReviewCommentTypeFromString on String {
-  DocumentReviewCommentType toDocumentReviewCommentType() {
-    switch (this) {
-      case 'Comment':
-        return DocumentReviewCommentType.comment;
-    }
-    throw Exception('$this is not known in enum DocumentReviewCommentType');
-  }
+  const DocumentReviewCommentType(this.value);
+
+  static DocumentReviewCommentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentReviewCommentType'));
 }
 
 /// Information about a reviewer's response to a document review request.
@@ -17929,7 +17243,8 @@ class DocumentReviewerResponseSource {
               DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       createTime: timeStampFromJson(json['CreateTime']),
-      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      reviewStatus:
+          (json['ReviewStatus'] as String?)?.let(ReviewStatus.fromString),
       reviewer: json['Reviewer'] as String?,
       updatedTime: timeStampFromJson(json['UpdatedTime']),
     );
@@ -17944,7 +17259,7 @@ class DocumentReviewerResponseSource {
     return {
       if (comment != null) 'Comment': comment,
       if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.value,
       if (reviewer != null) 'Reviewer': reviewer,
       if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
     };
@@ -17969,7 +17284,7 @@ class DocumentReviews {
     final action = this.action;
     final comment = this.comment;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       if (comment != null) 'Comment': comment,
     };
   }
@@ -17977,139 +17292,49 @@ class DocumentReviews {
 
 /// The status of a document.
 enum DocumentStatus {
-  creating,
-  active,
-  updating,
-  deleting,
-  failed,
-}
+  creating('Creating'),
+  active('Active'),
+  updating('Updating'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension DocumentStatusValueExtension on DocumentStatus {
-  String toValue() {
-    switch (this) {
-      case DocumentStatus.creating:
-        return 'Creating';
-      case DocumentStatus.active:
-        return 'Active';
-      case DocumentStatus.updating:
-        return 'Updating';
-      case DocumentStatus.deleting:
-        return 'Deleting';
-      case DocumentStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DocumentStatusFromString on String {
-  DocumentStatus toDocumentStatus() {
-    switch (this) {
-      case 'Creating':
-        return DocumentStatus.creating;
-      case 'Active':
-        return DocumentStatus.active;
-      case 'Updating':
-        return DocumentStatus.updating;
-      case 'Deleting':
-        return DocumentStatus.deleting;
-      case 'Failed':
-        return DocumentStatus.failed;
-    }
-    throw Exception('$this is not known in enum DocumentStatus');
-  }
+  const DocumentStatus(this.value);
+
+  static DocumentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentStatus'));
 }
 
 enum DocumentType {
-  command,
-  policy,
-  automation,
-  session,
-  package,
-  applicationConfiguration,
-  applicationConfigurationSchema,
-  deploymentStrategy,
-  changeCalendar,
-  automationChangeTemplate,
-  problemAnalysis,
-  problemAnalysisTemplate,
-  cloudFormation,
-  conformancePackTemplate,
-  quickSetup,
-}
+  command('Command'),
+  policy('Policy'),
+  automation('Automation'),
+  session('Session'),
+  package('Package'),
+  applicationConfiguration('ApplicationConfiguration'),
+  applicationConfigurationSchema('ApplicationConfigurationSchema'),
+  deploymentStrategy('DeploymentStrategy'),
+  changeCalendar('ChangeCalendar'),
+  automationChangeTemplate('Automation.ChangeTemplate'),
+  problemAnalysis('ProblemAnalysis'),
+  problemAnalysisTemplate('ProblemAnalysisTemplate'),
+  cloudFormation('CloudFormation'),
+  conformancePackTemplate('ConformancePackTemplate'),
+  quickSetup('QuickSetup'),
+  ;
 
-extension DocumentTypeValueExtension on DocumentType {
-  String toValue() {
-    switch (this) {
-      case DocumentType.command:
-        return 'Command';
-      case DocumentType.policy:
-        return 'Policy';
-      case DocumentType.automation:
-        return 'Automation';
-      case DocumentType.session:
-        return 'Session';
-      case DocumentType.package:
-        return 'Package';
-      case DocumentType.applicationConfiguration:
-        return 'ApplicationConfiguration';
-      case DocumentType.applicationConfigurationSchema:
-        return 'ApplicationConfigurationSchema';
-      case DocumentType.deploymentStrategy:
-        return 'DeploymentStrategy';
-      case DocumentType.changeCalendar:
-        return 'ChangeCalendar';
-      case DocumentType.automationChangeTemplate:
-        return 'Automation.ChangeTemplate';
-      case DocumentType.problemAnalysis:
-        return 'ProblemAnalysis';
-      case DocumentType.problemAnalysisTemplate:
-        return 'ProblemAnalysisTemplate';
-      case DocumentType.cloudFormation:
-        return 'CloudFormation';
-      case DocumentType.conformancePackTemplate:
-        return 'ConformancePackTemplate';
-      case DocumentType.quickSetup:
-        return 'QuickSetup';
-    }
-  }
-}
+  final String value;
 
-extension DocumentTypeFromString on String {
-  DocumentType toDocumentType() {
-    switch (this) {
-      case 'Command':
-        return DocumentType.command;
-      case 'Policy':
-        return DocumentType.policy;
-      case 'Automation':
-        return DocumentType.automation;
-      case 'Session':
-        return DocumentType.session;
-      case 'Package':
-        return DocumentType.package;
-      case 'ApplicationConfiguration':
-        return DocumentType.applicationConfiguration;
-      case 'ApplicationConfigurationSchema':
-        return DocumentType.applicationConfigurationSchema;
-      case 'DeploymentStrategy':
-        return DocumentType.deploymentStrategy;
-      case 'ChangeCalendar':
-        return DocumentType.changeCalendar;
-      case 'Automation.ChangeTemplate':
-        return DocumentType.automationChangeTemplate;
-      case 'ProblemAnalysis':
-        return DocumentType.problemAnalysis;
-      case 'ProblemAnalysisTemplate':
-        return DocumentType.problemAnalysisTemplate;
-      case 'CloudFormation':
-        return DocumentType.cloudFormation;
-      case 'ConformancePackTemplate':
-        return DocumentType.conformancePackTemplate;
-      case 'QuickSetup':
-        return DocumentType.quickSetup;
-    }
-    throw Exception('$this is not known in enum DocumentType');
-  }
+  const DocumentType(this.value);
+
+  static DocumentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentType'));
 }
 
 /// Version information about the document.
@@ -18170,12 +17395,14 @@ class DocumentVersionInfo {
     return DocumentVersionInfo(
       createdDate: timeStampFromJson(json['CreatedDate']),
       displayName: json['DisplayName'] as String?,
-      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
+      documentFormat:
+          (json['DocumentFormat'] as String?)?.let(DocumentFormat.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       isDefaultVersion: json['IsDefaultVersion'] as bool?,
       name: json['Name'] as String?,
-      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
-      status: (json['Status'] as String?)?.toDocumentStatus(),
+      reviewStatus:
+          (json['ReviewStatus'] as String?)?.let(ReviewStatus.fromString),
+      status: (json['Status'] as String?)?.let(DocumentStatus.fromString),
       statusInformation: json['StatusInformation'] as String?,
       versionName: json['VersionName'] as String?,
     );
@@ -18195,12 +17422,12 @@ class DocumentVersionInfo {
     return {
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (displayName != null) 'DisplayName': displayName,
-      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+      if (documentFormat != null) 'DocumentFormat': documentFormat.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (isDefaultVersion != null) 'IsDefaultVersion': isDefaultVersion,
       if (name != null) 'Name': name,
-      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.value,
+      if (status != null) 'Status': status.value,
       if (statusInformation != null) 'StatusInformation': statusInformation,
       if (versionName != null) 'VersionName': versionName,
     };
@@ -18251,59 +17478,33 @@ class EffectivePatch {
 }
 
 enum ExecutionMode {
-  auto,
-  interactive,
-}
+  auto('Auto'),
+  interactive('Interactive'),
+  ;
 
-extension ExecutionModeValueExtension on ExecutionMode {
-  String toValue() {
-    switch (this) {
-      case ExecutionMode.auto:
-        return 'Auto';
-      case ExecutionMode.interactive:
-        return 'Interactive';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionModeFromString on String {
-  ExecutionMode toExecutionMode() {
-    switch (this) {
-      case 'Auto':
-        return ExecutionMode.auto;
-      case 'Interactive':
-        return ExecutionMode.interactive;
-    }
-    throw Exception('$this is not known in enum ExecutionMode');
-  }
+  const ExecutionMode(this.value);
+
+  static ExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionMode'));
 }
 
 enum ExternalAlarmState {
-  unknown,
-  alarm,
-}
+  unknown('UNKNOWN'),
+  alarm('ALARM'),
+  ;
 
-extension ExternalAlarmStateValueExtension on ExternalAlarmState {
-  String toValue() {
-    switch (this) {
-      case ExternalAlarmState.unknown:
-        return 'UNKNOWN';
-      case ExternalAlarmState.alarm:
-        return 'ALARM';
-    }
-  }
-}
+  final String value;
 
-extension ExternalAlarmStateFromString on String {
-  ExternalAlarmState toExternalAlarmState() {
-    switch (this) {
-      case 'UNKNOWN':
-        return ExternalAlarmState.unknown;
-      case 'ALARM':
-        return ExternalAlarmState.alarm;
-    }
-    throw Exception('$this is not known in enum ExternalAlarmState');
-  }
+  const ExternalAlarmState(this.value);
+
+  static ExternalAlarmState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExternalAlarmState'));
 }
 
 /// Describes a failed association.
@@ -18329,7 +17530,7 @@ class FailedCreateAssociation {
           ? CreateAssociationBatchRequestEntry.fromJson(
               json['Entry'] as Map<String, dynamic>)
           : null,
-      fault: (json['Fault'] as String?)?.toFault(),
+      fault: (json['Fault'] as String?)?.let(Fault.fromString),
       message: json['Message'] as String?,
     );
   }
@@ -18340,7 +17541,7 @@ class FailedCreateAssociation {
     final message = this.message;
     return {
       if (entry != null) 'Entry': entry,
-      if (fault != null) 'Fault': fault.toValue(),
+      if (fault != null) 'Fault': fault.value,
       if (message != null) 'Message': message,
     };
   }
@@ -18389,36 +17590,18 @@ class FailureDetails {
 }
 
 enum Fault {
-  client,
-  server,
-  unknown,
-}
+  client('Client'),
+  server('Server'),
+  unknown('Unknown'),
+  ;
 
-extension FaultValueExtension on Fault {
-  String toValue() {
-    switch (this) {
-      case Fault.client:
-        return 'Client';
-      case Fault.server:
-        return 'Server';
-      case Fault.unknown:
-        return 'Unknown';
-    }
-  }
-}
+  final String value;
 
-extension FaultFromString on String {
-  Fault toFault() {
-    switch (this) {
-      case 'Client':
-        return Fault.client;
-      case 'Server':
-        return Fault.server;
-      case 'Unknown':
-        return Fault.unknown;
-    }
-    throw Exception('$this is not known in enum Fault');
-  }
+  const Fault(this.value);
+
+  static Fault fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Fault'));
 }
 
 class GetAutomationExecutionResult {
@@ -18475,7 +17658,7 @@ class GetCalendarStateResponse {
     return GetCalendarStateResponse(
       atTime: json['AtTime'] as String?,
       nextTransitionTime: json['NextTransitionTime'] as String?,
-      state: (json['State'] as String?)?.toCalendarState(),
+      state: (json['State'] as String?)?.let(CalendarState.fromString),
     );
   }
 
@@ -18486,7 +17669,7 @@ class GetCalendarStateResponse {
     return {
       if (atTime != null) 'AtTime': atTime,
       if (nextTransitionTime != null) 'NextTransitionTime': nextTransitionTime,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -18677,7 +17860,8 @@ class GetCommandInvocationResult {
       standardErrorUrl: json['StandardErrorUrl'] as String?,
       standardOutputContent: json['StandardOutputContent'] as String?,
       standardOutputUrl: json['StandardOutputUrl'] as String?,
-      status: (json['Status'] as String?)?.toCommandInvocationStatus(),
+      status:
+          (json['Status'] as String?)?.let(CommandInvocationStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
     );
   }
@@ -18722,7 +17906,7 @@ class GetCommandInvocationResult {
       if (standardOutputContent != null)
         'StandardOutputContent': standardOutputContent,
       if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
     };
   }
@@ -18742,7 +17926,7 @@ class GetConnectionStatusResponse {
 
   factory GetConnectionStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectionStatusResponse(
-      status: (json['Status'] as String?)?.toConnectionStatus(),
+      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
       target: json['Target'] as String?,
     );
   }
@@ -18751,7 +17935,7 @@ class GetConnectionStatusResponse {
     final status = this.status;
     final target = this.target;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (target != null) 'Target': target,
     };
   }
@@ -18773,7 +17957,7 @@ class GetDefaultPatchBaselineResult {
     return GetDefaultPatchBaselineResult(
       baselineId: json['BaselineId'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
     );
   }
 
@@ -18782,7 +17966,7 @@ class GetDefaultPatchBaselineResult {
     final operatingSystem = this.operatingSystem;
     return {
       if (baselineId != null) 'BaselineId': baselineId,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
     };
   }
 }
@@ -18919,16 +18103,19 @@ class GetDocumentResult {
       content: json['Content'] as String?,
       createdDate: timeStampFromJson(json['CreatedDate']),
       displayName: json['DisplayName'] as String?,
-      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
-      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentFormat:
+          (json['DocumentFormat'] as String?)?.let(DocumentFormat.fromString),
+      documentType:
+          (json['DocumentType'] as String?)?.let(DocumentType.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       name: json['Name'] as String?,
       requires: (json['Requires'] as List?)
           ?.whereNotNull()
           .map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
           .toList(),
-      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
-      status: (json['Status'] as String?)?.toDocumentStatus(),
+      reviewStatus:
+          (json['ReviewStatus'] as String?)?.let(ReviewStatus.fromString),
+      status: (json['Status'] as String?)?.let(DocumentStatus.fromString),
       statusInformation: json['StatusInformation'] as String?,
       versionName: json['VersionName'] as String?,
     );
@@ -18953,13 +18140,13 @@ class GetDocumentResult {
       if (content != null) 'Content': content,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (displayName != null) 'DisplayName': displayName,
-      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentFormat != null) 'DocumentFormat': documentFormat.value,
+      if (documentType != null) 'DocumentType': documentType.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (name != null) 'Name': name,
       if (requires != null) 'Requires': requires,
-      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.value,
+      if (status != null) 'Status': status.value,
       if (statusInformation != null) 'StatusInformation': statusInformation,
       if (versionName != null) 'VersionName': versionName,
     };
@@ -19066,7 +18253,8 @@ class GetMaintenanceWindowExecutionResult {
     return GetMaintenanceWindowExecutionResult(
       endTime: timeStampFromJson(json['EndTime']),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       taskIds: (json['TaskIds'] as List?)
           ?.whereNotNull()
@@ -19086,7 +18274,7 @@ class GetMaintenanceWindowExecutionResult {
     return {
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (taskIds != null) 'TaskIds': taskIds,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
@@ -19158,10 +18346,12 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
       ownerInformation: json['OwnerInformation'] as String?,
       parameters: json['Parameters'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       taskExecutionId: json['TaskExecutionId'] as String?,
-      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      taskType: (json['TaskType'] as String?)
+          ?.let(MaintenanceWindowTaskType.fromString),
       windowExecutionId: json['WindowExecutionId'] as String?,
       windowTargetId: json['WindowTargetId'] as String?,
     );
@@ -19187,10 +18377,10 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
       if (ownerInformation != null) 'OwnerInformation': ownerInformation,
       if (parameters != null) 'Parameters': parameters,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
-      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (taskType != null) 'TaskType': taskType.value,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
       if (windowTargetId != null) 'WindowTargetId': windowTargetId,
     };
@@ -19296,7 +18486,8 @@ class GetMaintenanceWindowExecutionTaskResult {
       priority: json['Priority'] as int?,
       serviceRole: json['ServiceRole'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       taskArn: json['TaskArn'] as String?,
       taskExecutionId: json['TaskExecutionId'] as String?,
@@ -19311,7 +18502,8 @@ class GetMaintenanceWindowExecutionTaskResult {
           ?.whereNotNull()
           .map((e) => AlarmStateInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toMaintenanceWindowTaskType(),
+      type:
+          (json['Type'] as String?)?.let(MaintenanceWindowTaskType.fromString),
       windowExecutionId: json['WindowExecutionId'] as String?,
     );
   }
@@ -19340,13 +18532,13 @@ class GetMaintenanceWindowExecutionTaskResult {
       if (priority != null) 'Priority': priority,
       if (serviceRole != null) 'ServiceRole': serviceRole,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (taskArn != null) 'TaskArn': taskArn,
       if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
       if (taskParameters != null) 'TaskParameters': taskParameters,
       if (triggeredAlarms != null) 'TriggeredAlarms': triggeredAlarms,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
     };
   }
@@ -19607,7 +18799,7 @@ class GetMaintenanceWindowTaskResult {
               json['AlarmConfiguration'] as Map<String, dynamic>)
           : null,
       cutoffBehavior: (json['CutoffBehavior'] as String?)
-          ?.toMaintenanceWindowTaskCutoffBehavior(),
+          ?.let(MaintenanceWindowTaskCutoffBehavior.fromString),
       description: json['Description'] as String?,
       loggingInfo: json['LoggingInfo'] != null
           ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
@@ -19631,7 +18823,8 @@ class GetMaintenanceWindowTaskResult {
               k,
               MaintenanceWindowTaskParameterValueExpression.fromJson(
                   e as Map<String, dynamic>))),
-      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      taskType: (json['TaskType'] as String?)
+          ?.let(MaintenanceWindowTaskType.fromString),
       windowId: json['WindowId'] as String?,
       windowTaskId: json['WindowTaskId'] as String?,
     );
@@ -19656,7 +18849,7 @@ class GetMaintenanceWindowTaskResult {
     final windowTaskId = this.windowTaskId;
     return {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
-      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.toValue(),
+      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.value,
       if (description != null) 'Description': description,
       if (loggingInfo != null) 'LoggingInfo': loggingInfo,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -19669,7 +18862,7 @@ class GetMaintenanceWindowTaskResult {
       if (taskInvocationParameters != null)
         'TaskInvocationParameters': taskInvocationParameters,
       if (taskParameters != null) 'TaskParameters': taskParameters,
-      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (taskType != null) 'TaskType': taskType.value,
       if (windowId != null) 'WindowId': windowId,
       if (windowTaskId != null) 'WindowTaskId': windowTaskId,
     };
@@ -19919,7 +19112,7 @@ class GetPatchBaselineForPatchGroupResult {
     return GetPatchBaselineForPatchGroupResult(
       baselineId: json['BaselineId'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
       patchGroup: json['PatchGroup'] as String?,
     );
   }
@@ -19930,7 +19123,7 @@ class GetPatchBaselineForPatchGroupResult {
     final patchGroup = this.patchGroup;
     return {
       if (baselineId != null) 'BaselineId': baselineId,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       if (patchGroup != null) 'PatchGroup': patchGroup,
     };
   }
@@ -20020,7 +19213,7 @@ class GetPatchBaselineResult {
           .toList(),
       approvedPatchesComplianceLevel:
           (json['ApprovedPatchesComplianceLevel'] as String?)
-              ?.toPatchComplianceLevel(),
+              ?.let(PatchComplianceLevel.fromString),
       approvedPatchesEnableNonSecurity:
           json['ApprovedPatchesEnableNonSecurity'] as bool?,
       baselineId: json['BaselineId'] as String?,
@@ -20033,7 +19226,7 @@ class GetPatchBaselineResult {
       modifiedDate: timeStampFromJson(json['ModifiedDate']),
       name: json['Name'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
       patchGroups: (json['PatchGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -20042,8 +19235,8 @@ class GetPatchBaselineResult {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      rejectedPatchesAction:
-          (json['RejectedPatchesAction'] as String?)?.toPatchAction(),
+      rejectedPatchesAction: (json['RejectedPatchesAction'] as String?)
+          ?.let(PatchAction.fromString),
       sources: (json['Sources'] as List?)
           ?.whereNotNull()
           .map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
@@ -20072,8 +19265,7 @@ class GetPatchBaselineResult {
       if (approvalRules != null) 'ApprovalRules': approvalRules,
       if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
       if (approvedPatchesComplianceLevel != null)
-        'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel.toValue(),
+        'ApprovedPatchesComplianceLevel': approvedPatchesComplianceLevel.value,
       if (approvedPatchesEnableNonSecurity != null)
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
       if (baselineId != null) 'BaselineId': baselineId,
@@ -20083,11 +19275,11 @@ class GetPatchBaselineResult {
       if (modifiedDate != null)
         'ModifiedDate': unixTimestampToJson(modifiedDate),
       if (name != null) 'Name': name,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       if (patchGroups != null) 'PatchGroups': patchGroups,
       if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
       if (rejectedPatchesAction != null)
-        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+        'RejectedPatchesAction': rejectedPatchesAction.value,
       if (sources != null) 'Sources': sources,
     };
   }
@@ -20589,14 +19781,16 @@ class InstanceInformation {
       lastSuccessfulAssociationExecutionDate:
           timeStampFromJson(json['LastSuccessfulAssociationExecutionDate']),
       name: json['Name'] as String?,
-      pingStatus: (json['PingStatus'] as String?)?.toPingStatus(),
+      pingStatus: (json['PingStatus'] as String?)?.let(PingStatus.fromString),
       platformName: json['PlatformName'] as String?,
-      platformType: (json['PlatformType'] as String?)?.toPlatformType(),
+      platformType:
+          (json['PlatformType'] as String?)?.let(PlatformType.fromString),
       platformVersion: json['PlatformVersion'] as String?,
       registrationDate: timeStampFromJson(json['RegistrationDate']),
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
       sourceId: json['SourceId'] as String?,
-      sourceType: (json['SourceType'] as String?)?.toSourceType(),
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
     );
   }
 
@@ -20643,15 +19837,15 @@ class InstanceInformation {
         'LastSuccessfulAssociationExecutionDate':
             unixTimestampToJson(lastSuccessfulAssociationExecutionDate),
       if (name != null) 'Name': name,
-      if (pingStatus != null) 'PingStatus': pingStatus.toValue(),
+      if (pingStatus != null) 'PingStatus': pingStatus.value,
       if (platformName != null) 'PlatformName': platformName,
-      if (platformType != null) 'PlatformType': platformType.toValue(),
+      if (platformType != null) 'PlatformType': platformType.value,
       if (platformVersion != null) 'PlatformVersion': platformVersion,
       if (registrationDate != null)
         'RegistrationDate': unixTimestampToJson(registrationDate),
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
       if (sourceId != null) 'SourceId': sourceId,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -20679,69 +19873,31 @@ class InstanceInformationFilter {
     final key = this.key;
     final valueSet = this.valueSet;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'valueSet': valueSet,
     };
   }
 }
 
 enum InstanceInformationFilterKey {
-  instanceIds,
-  agentVersion,
-  pingStatus,
-  platformTypes,
-  activationIds,
-  iamRole,
-  resourceType,
-  associationStatus,
-}
+  instanceIds('InstanceIds'),
+  agentVersion('AgentVersion'),
+  pingStatus('PingStatus'),
+  platformTypes('PlatformTypes'),
+  activationIds('ActivationIds'),
+  iamRole('IamRole'),
+  resourceType('ResourceType'),
+  associationStatus('AssociationStatus'),
+  ;
 
-extension InstanceInformationFilterKeyValueExtension
-    on InstanceInformationFilterKey {
-  String toValue() {
-    switch (this) {
-      case InstanceInformationFilterKey.instanceIds:
-        return 'InstanceIds';
-      case InstanceInformationFilterKey.agentVersion:
-        return 'AgentVersion';
-      case InstanceInformationFilterKey.pingStatus:
-        return 'PingStatus';
-      case InstanceInformationFilterKey.platformTypes:
-        return 'PlatformTypes';
-      case InstanceInformationFilterKey.activationIds:
-        return 'ActivationIds';
-      case InstanceInformationFilterKey.iamRole:
-        return 'IamRole';
-      case InstanceInformationFilterKey.resourceType:
-        return 'ResourceType';
-      case InstanceInformationFilterKey.associationStatus:
-        return 'AssociationStatus';
-    }
-  }
-}
+  final String value;
 
-extension InstanceInformationFilterKeyFromString on String {
-  InstanceInformationFilterKey toInstanceInformationFilterKey() {
-    switch (this) {
-      case 'InstanceIds':
-        return InstanceInformationFilterKey.instanceIds;
-      case 'AgentVersion':
-        return InstanceInformationFilterKey.agentVersion;
-      case 'PingStatus':
-        return InstanceInformationFilterKey.pingStatus;
-      case 'PlatformTypes':
-        return InstanceInformationFilterKey.platformTypes;
-      case 'ActivationIds':
-        return InstanceInformationFilterKey.activationIds;
-      case 'IamRole':
-        return InstanceInformationFilterKey.iamRole;
-      case 'ResourceType':
-        return InstanceInformationFilterKey.resourceType;
-      case 'AssociationStatus':
-        return InstanceInformationFilterKey.associationStatus;
-    }
-    throw Exception('$this is not known in enum InstanceInformationFilterKey');
-  }
+  const InstanceInformationFilterKey(this.value);
+
+  static InstanceInformationFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceInformationFilterKey'));
 }
 
 /// The filters to describe or get information about your managed nodes.
@@ -20967,7 +20123,7 @@ class InstancePatchState {
     return InstancePatchState(
       baselineId: json['BaselineId'] as String,
       instanceId: json['InstanceId'] as String,
-      operation: (json['Operation'] as String).toPatchOperationType(),
+      operation: PatchOperationType.fromString((json['Operation'] as String)),
       operationEndTime:
           nonNullableTimeStampFromJson(json['OperationEndTime'] as Object),
       operationStartTime:
@@ -20986,7 +20142,8 @@ class InstancePatchState {
       notApplicableCount: json['NotApplicableCount'] as int?,
       otherNonCompliantCount: json['OtherNonCompliantCount'] as int?,
       ownerInformation: json['OwnerInformation'] as String?,
-      rebootOption: (json['RebootOption'] as String?)?.toRebootOption(),
+      rebootOption:
+          (json['RebootOption'] as String?)?.let(RebootOption.fromString),
       securityNonCompliantCount: json['SecurityNonCompliantCount'] as int?,
       snapshotId: json['SnapshotId'] as String?,
       unreportedNotApplicableCount:
@@ -21021,7 +20178,7 @@ class InstancePatchState {
     return {
       'BaselineId': baselineId,
       'InstanceId': instanceId,
-      'Operation': operation.toValue(),
+      'Operation': operation.value,
       'OperationEndTime': unixTimestampToJson(operationEndTime),
       'OperationStartTime': unixTimestampToJson(operationStartTime),
       'PatchGroup': patchGroup,
@@ -21045,7 +20202,7 @@ class InstancePatchState {
       if (otherNonCompliantCount != null)
         'OtherNonCompliantCount': otherNonCompliantCount,
       if (ownerInformation != null) 'OwnerInformation': ownerInformation,
-      if (rebootOption != null) 'RebootOption': rebootOption.toValue(),
+      if (rebootOption != null) 'RebootOption': rebootOption.value,
       if (securityNonCompliantCount != null)
         'SecurityNonCompliantCount': securityNonCompliantCount,
       if (snapshotId != null) 'SnapshotId': snapshotId,
@@ -21122,50 +20279,27 @@ class InstancePatchStateFilter {
     final values = this.values;
     return {
       'Key': key,
-      'Type': type.toValue(),
+      'Type': type.value,
       'Values': values,
     };
   }
 }
 
 enum InstancePatchStateOperatorType {
-  equal,
-  notEqual,
-  lessThan,
-  greaterThan,
-}
+  equal('Equal'),
+  notEqual('NotEqual'),
+  lessThan('LessThan'),
+  greaterThan('GreaterThan'),
+  ;
 
-extension InstancePatchStateOperatorTypeValueExtension
-    on InstancePatchStateOperatorType {
-  String toValue() {
-    switch (this) {
-      case InstancePatchStateOperatorType.equal:
-        return 'Equal';
-      case InstancePatchStateOperatorType.notEqual:
-        return 'NotEqual';
-      case InstancePatchStateOperatorType.lessThan:
-        return 'LessThan';
-      case InstancePatchStateOperatorType.greaterThan:
-        return 'GreaterThan';
-    }
-  }
-}
+  final String value;
 
-extension InstancePatchStateOperatorTypeFromString on String {
-  InstancePatchStateOperatorType toInstancePatchStateOperatorType() {
-    switch (this) {
-      case 'Equal':
-        return InstancePatchStateOperatorType.equal;
-      case 'NotEqual':
-        return InstancePatchStateOperatorType.notEqual;
-      case 'LessThan':
-        return InstancePatchStateOperatorType.lessThan;
-      case 'GreaterThan':
-        return InstancePatchStateOperatorType.greaterThan;
-    }
-    throw Exception(
-        '$this is not known in enum InstancePatchStateOperatorType');
-  }
+  const InstancePatchStateOperatorType(this.value);
+
+  static InstancePatchStateOperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstancePatchStateOperatorType'));
 }
 
 /// An object containing various properties of a managed node.
@@ -21308,14 +20442,15 @@ class InstanceProperty {
           timeStampFromJson(json['LastSuccessfulAssociationExecutionDate']),
       launchTime: timeStampFromJson(json['LaunchTime']),
       name: json['Name'] as String?,
-      pingStatus: (json['PingStatus'] as String?)?.toPingStatus(),
+      pingStatus: (json['PingStatus'] as String?)?.let(PingStatus.fromString),
       platformName: json['PlatformName'] as String?,
-      platformType: (json['PlatformType'] as String?)?.toPlatformType(),
+      platformType:
+          (json['PlatformType'] as String?)?.let(PlatformType.fromString),
       platformVersion: json['PlatformVersion'] as String?,
       registrationDate: timeStampFromJson(json['RegistrationDate']),
       resourceType: json['ResourceType'] as String?,
       sourceId: json['SourceId'] as String?,
-      sourceType: (json['SourceType'] as String?)?.toSourceType(),
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
     );
   }
 
@@ -21372,15 +20507,15 @@ class InstanceProperty {
             unixTimestampToJson(lastSuccessfulAssociationExecutionDate),
       if (launchTime != null) 'LaunchTime': unixTimestampToJson(launchTime),
       if (name != null) 'Name': name,
-      if (pingStatus != null) 'PingStatus': pingStatus.toValue(),
+      if (pingStatus != null) 'PingStatus': pingStatus.value,
       if (platformName != null) 'PlatformName': platformName,
-      if (platformType != null) 'PlatformType': platformType.toValue(),
+      if (platformType != null) 'PlatformType': platformType.value,
       if (platformVersion != null) 'PlatformVersion': platformVersion,
       if (registrationDate != null)
         'RegistrationDate': unixTimestampToJson(registrationDate),
       if (resourceType != null) 'ResourceType': resourceType,
       if (sourceId != null) 'SourceId': sourceId,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -21403,118 +20538,50 @@ class InstancePropertyFilter {
     final key = this.key;
     final valueSet = this.valueSet;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'valueSet': valueSet,
     };
   }
 }
 
 enum InstancePropertyFilterKey {
-  instanceIds,
-  agentVersion,
-  pingStatus,
-  platformTypes,
-  documentName,
-  activationIds,
-  iamRole,
-  resourceType,
-  associationStatus,
-}
+  instanceIds('InstanceIds'),
+  agentVersion('AgentVersion'),
+  pingStatus('PingStatus'),
+  platformTypes('PlatformTypes'),
+  documentName('DocumentName'),
+  activationIds('ActivationIds'),
+  iamRole('IamRole'),
+  resourceType('ResourceType'),
+  associationStatus('AssociationStatus'),
+  ;
 
-extension InstancePropertyFilterKeyValueExtension on InstancePropertyFilterKey {
-  String toValue() {
-    switch (this) {
-      case InstancePropertyFilterKey.instanceIds:
-        return 'InstanceIds';
-      case InstancePropertyFilterKey.agentVersion:
-        return 'AgentVersion';
-      case InstancePropertyFilterKey.pingStatus:
-        return 'PingStatus';
-      case InstancePropertyFilterKey.platformTypes:
-        return 'PlatformTypes';
-      case InstancePropertyFilterKey.documentName:
-        return 'DocumentName';
-      case InstancePropertyFilterKey.activationIds:
-        return 'ActivationIds';
-      case InstancePropertyFilterKey.iamRole:
-        return 'IamRole';
-      case InstancePropertyFilterKey.resourceType:
-        return 'ResourceType';
-      case InstancePropertyFilterKey.associationStatus:
-        return 'AssociationStatus';
-    }
-  }
-}
+  final String value;
 
-extension InstancePropertyFilterKeyFromString on String {
-  InstancePropertyFilterKey toInstancePropertyFilterKey() {
-    switch (this) {
-      case 'InstanceIds':
-        return InstancePropertyFilterKey.instanceIds;
-      case 'AgentVersion':
-        return InstancePropertyFilterKey.agentVersion;
-      case 'PingStatus':
-        return InstancePropertyFilterKey.pingStatus;
-      case 'PlatformTypes':
-        return InstancePropertyFilterKey.platformTypes;
-      case 'DocumentName':
-        return InstancePropertyFilterKey.documentName;
-      case 'ActivationIds':
-        return InstancePropertyFilterKey.activationIds;
-      case 'IamRole':
-        return InstancePropertyFilterKey.iamRole;
-      case 'ResourceType':
-        return InstancePropertyFilterKey.resourceType;
-      case 'AssociationStatus':
-        return InstancePropertyFilterKey.associationStatus;
-    }
-    throw Exception('$this is not known in enum InstancePropertyFilterKey');
-  }
+  const InstancePropertyFilterKey(this.value);
+
+  static InstancePropertyFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstancePropertyFilterKey'));
 }
 
 enum InstancePropertyFilterOperator {
-  equal,
-  notEqual,
-  beginWith,
-  lessThan,
-  greaterThan,
-}
+  equal('Equal'),
+  notEqual('NotEqual'),
+  beginWith('BeginWith'),
+  lessThan('LessThan'),
+  greaterThan('GreaterThan'),
+  ;
 
-extension InstancePropertyFilterOperatorValueExtension
-    on InstancePropertyFilterOperator {
-  String toValue() {
-    switch (this) {
-      case InstancePropertyFilterOperator.equal:
-        return 'Equal';
-      case InstancePropertyFilterOperator.notEqual:
-        return 'NotEqual';
-      case InstancePropertyFilterOperator.beginWith:
-        return 'BeginWith';
-      case InstancePropertyFilterOperator.lessThan:
-        return 'LessThan';
-      case InstancePropertyFilterOperator.greaterThan:
-        return 'GreaterThan';
-    }
-  }
-}
+  final String value;
 
-extension InstancePropertyFilterOperatorFromString on String {
-  InstancePropertyFilterOperator toInstancePropertyFilterOperator() {
-    switch (this) {
-      case 'Equal':
-        return InstancePropertyFilterOperator.equal;
-      case 'NotEqual':
-        return InstancePropertyFilterOperator.notEqual;
-      case 'BeginWith':
-        return InstancePropertyFilterOperator.beginWith;
-      case 'LessThan':
-        return InstancePropertyFilterOperator.lessThan;
-      case 'GreaterThan':
-        return InstancePropertyFilterOperator.greaterThan;
-    }
-    throw Exception(
-        '$this is not known in enum InstancePropertyFilterOperator');
-  }
+  const InstancePropertyFilterOperator(this.value);
+
+  static InstancePropertyFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstancePropertyFilterOperator'));
 }
 
 /// The filters to describe or get information about your managed nodes.
@@ -21541,7 +20608,7 @@ class InstancePropertyStringFilter {
     return {
       'Key': key,
       'Values': values,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
     };
   }
 }
@@ -21578,60 +20645,33 @@ class InventoryAggregator {
 }
 
 enum InventoryAttributeDataType {
-  string,
-  number,
-}
+  string('string'),
+  number('number'),
+  ;
 
-extension InventoryAttributeDataTypeValueExtension
-    on InventoryAttributeDataType {
-  String toValue() {
-    switch (this) {
-      case InventoryAttributeDataType.string:
-        return 'string';
-      case InventoryAttributeDataType.number:
-        return 'number';
-    }
-  }
-}
+  final String value;
 
-extension InventoryAttributeDataTypeFromString on String {
-  InventoryAttributeDataType toInventoryAttributeDataType() {
-    switch (this) {
-      case 'string':
-        return InventoryAttributeDataType.string;
-      case 'number':
-        return InventoryAttributeDataType.number;
-    }
-    throw Exception('$this is not known in enum InventoryAttributeDataType');
-  }
+  const InventoryAttributeDataType(this.value);
+
+  static InventoryAttributeDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InventoryAttributeDataType'));
 }
 
 enum InventoryDeletionStatus {
-  inProgress,
-  complete,
-}
+  inProgress('InProgress'),
+  complete('Complete'),
+  ;
 
-extension InventoryDeletionStatusValueExtension on InventoryDeletionStatus {
-  String toValue() {
-    switch (this) {
-      case InventoryDeletionStatus.inProgress:
-        return 'InProgress';
-      case InventoryDeletionStatus.complete:
-        return 'Complete';
-    }
-  }
-}
+  final String value;
 
-extension InventoryDeletionStatusFromString on String {
-  InventoryDeletionStatus toInventoryDeletionStatus() {
-    switch (this) {
-      case 'InProgress':
-        return InventoryDeletionStatus.inProgress;
-      case 'Complete':
-        return InventoryDeletionStatus.complete;
-    }
-    throw Exception('$this is not known in enum InventoryDeletionStatus');
-  }
+  const InventoryDeletionStatus(this.value);
+
+  static InventoryDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InventoryDeletionStatus'));
 }
 
 /// Status information returned by the <code>DeleteInventory</code> operation.
@@ -21679,7 +20719,8 @@ class InventoryDeletionStatusItem {
           ? InventoryDeletionSummary.fromJson(
               json['DeletionSummary'] as Map<String, dynamic>)
           : null,
-      lastStatus: (json['LastStatus'] as String?)?.toInventoryDeletionStatus(),
+      lastStatus: (json['LastStatus'] as String?)
+          ?.let(InventoryDeletionStatus.fromString),
       lastStatusMessage: json['LastStatusMessage'] as String?,
       lastStatusUpdateTime: timeStampFromJson(json['LastStatusUpdateTime']),
       typeName: json['TypeName'] as String?,
@@ -21699,7 +20740,7 @@ class InventoryDeletionStatusItem {
       if (deletionStartTime != null)
         'DeletionStartTime': unixTimestampToJson(deletionStartTime),
       if (deletionSummary != null) 'DeletionSummary': deletionSummary,
-      if (lastStatus != null) 'LastStatus': lastStatus.toValue(),
+      if (lastStatus != null) 'LastStatus': lastStatus.value,
       if (lastStatusMessage != null) 'LastStatusMessage': lastStatusMessage,
       if (lastStatusUpdateTime != null)
         'LastStatusUpdateTime': unixTimestampToJson(lastStatusUpdateTime),
@@ -21821,7 +20862,7 @@ class InventoryFilter {
     return {
       'Key': key,
       'Values': values,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -21929,7 +20970,8 @@ class InventoryItemAttribute {
 
   factory InventoryItemAttribute.fromJson(Map<String, dynamic> json) {
     return InventoryItemAttribute(
-      dataType: (json['DataType'] as String).toInventoryAttributeDataType(),
+      dataType:
+          InventoryAttributeDataType.fromString((json['DataType'] as String)),
       name: json['Name'] as String,
     );
   }
@@ -21938,7 +20980,7 @@ class InventoryItemAttribute {
     final dataType = this.dataType;
     final name = this.name;
     return {
-      'DataType': dataType.toValue(),
+      'DataType': dataType.value,
       'Name': name,
     };
   }
@@ -22001,52 +21043,22 @@ class InventoryItemSchema {
 }
 
 enum InventoryQueryOperatorType {
-  equal,
-  notEqual,
-  beginWith,
-  lessThan,
-  greaterThan,
-  exists,
-}
+  equal('Equal'),
+  notEqual('NotEqual'),
+  beginWith('BeginWith'),
+  lessThan('LessThan'),
+  greaterThan('GreaterThan'),
+  exists('Exists'),
+  ;
 
-extension InventoryQueryOperatorTypeValueExtension
-    on InventoryQueryOperatorType {
-  String toValue() {
-    switch (this) {
-      case InventoryQueryOperatorType.equal:
-        return 'Equal';
-      case InventoryQueryOperatorType.notEqual:
-        return 'NotEqual';
-      case InventoryQueryOperatorType.beginWith:
-        return 'BeginWith';
-      case InventoryQueryOperatorType.lessThan:
-        return 'LessThan';
-      case InventoryQueryOperatorType.greaterThan:
-        return 'GreaterThan';
-      case InventoryQueryOperatorType.exists:
-        return 'Exists';
-    }
-  }
-}
+  final String value;
 
-extension InventoryQueryOperatorTypeFromString on String {
-  InventoryQueryOperatorType toInventoryQueryOperatorType() {
-    switch (this) {
-      case 'Equal':
-        return InventoryQueryOperatorType.equal;
-      case 'NotEqual':
-        return InventoryQueryOperatorType.notEqual;
-      case 'BeginWith':
-        return InventoryQueryOperatorType.beginWith;
-      case 'LessThan':
-        return InventoryQueryOperatorType.lessThan;
-      case 'GreaterThan':
-        return InventoryQueryOperatorType.greaterThan;
-      case 'Exists':
-        return InventoryQueryOperatorType.exists;
-    }
-    throw Exception('$this is not known in enum InventoryQueryOperatorType');
-  }
+  const InventoryQueryOperatorType(this.value);
+
+  static InventoryQueryOperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InventoryQueryOperatorType'));
 }
 
 /// Inventory query results.
@@ -22142,32 +21154,18 @@ class InventoryResultItem {
 }
 
 enum InventorySchemaDeleteOption {
-  disableSchema,
-  deleteSchema,
-}
+  disableSchema('DisableSchema'),
+  deleteSchema('DeleteSchema'),
+  ;
 
-extension InventorySchemaDeleteOptionValueExtension
-    on InventorySchemaDeleteOption {
-  String toValue() {
-    switch (this) {
-      case InventorySchemaDeleteOption.disableSchema:
-        return 'DisableSchema';
-      case InventorySchemaDeleteOption.deleteSchema:
-        return 'DeleteSchema';
-    }
-  }
-}
+  final String value;
 
-extension InventorySchemaDeleteOptionFromString on String {
-  InventorySchemaDeleteOption toInventorySchemaDeleteOption() {
-    switch (this) {
-      case 'DisableSchema':
-        return InventorySchemaDeleteOption.disableSchema;
-      case 'DeleteSchema':
-        return InventorySchemaDeleteOption.deleteSchema;
-    }
-    throw Exception('$this is not known in enum InventorySchemaDeleteOption');
-  }
+  const InventorySchemaDeleteOption(this.value);
+
+  static InventorySchemaDeleteOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InventorySchemaDeleteOption'));
 }
 
 class LabelParameterVersionResult {
@@ -22207,37 +21205,19 @@ class LabelParameterVersionResult {
 }
 
 enum LastResourceDataSyncStatus {
-  successful,
-  failed,
-  inProgress,
-}
+  successful('Successful'),
+  failed('Failed'),
+  inProgress('InProgress'),
+  ;
 
-extension LastResourceDataSyncStatusValueExtension
-    on LastResourceDataSyncStatus {
-  String toValue() {
-    switch (this) {
-      case LastResourceDataSyncStatus.successful:
-        return 'Successful';
-      case LastResourceDataSyncStatus.failed:
-        return 'Failed';
-      case LastResourceDataSyncStatus.inProgress:
-        return 'InProgress';
-    }
-  }
-}
+  final String value;
 
-extension LastResourceDataSyncStatusFromString on String {
-  LastResourceDataSyncStatus toLastResourceDataSyncStatus() {
-    switch (this) {
-      case 'Successful':
-        return LastResourceDataSyncStatus.successful;
-      case 'Failed':
-        return LastResourceDataSyncStatus.failed;
-      case 'InProgress':
-        return LastResourceDataSyncStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum LastResourceDataSyncStatus');
-  }
+  const LastResourceDataSyncStatus(this.value);
+
+  static LastResourceDataSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LastResourceDataSyncStatus'));
 }
 
 class ListAssociationVersionsResult {
@@ -22966,7 +21946,8 @@ class MaintenanceWindowExecution {
     return MaintenanceWindowExecution(
       endTime: timeStampFromJson(json['EndTime']),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       windowExecutionId: json['WindowExecutionId'] as String?,
       windowId: json['WindowId'] as String?,
@@ -22983,7 +21964,7 @@ class MaintenanceWindowExecution {
     return {
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
       if (windowId != null) 'WindowId': windowId,
@@ -22992,63 +21973,24 @@ class MaintenanceWindowExecution {
 }
 
 enum MaintenanceWindowExecutionStatus {
-  pending,
-  inProgress,
-  success,
-  failed,
-  timedOut,
-  cancelling,
-  cancelled,
-  skippedOverlapping,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  timedOut('TIMED_OUT'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  skippedOverlapping('SKIPPED_OVERLAPPING'),
+  ;
 
-extension MaintenanceWindowExecutionStatusValueExtension
-    on MaintenanceWindowExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowExecutionStatus.pending:
-        return 'PENDING';
-      case MaintenanceWindowExecutionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case MaintenanceWindowExecutionStatus.success:
-        return 'SUCCESS';
-      case MaintenanceWindowExecutionStatus.failed:
-        return 'FAILED';
-      case MaintenanceWindowExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-      case MaintenanceWindowExecutionStatus.cancelling:
-        return 'CANCELLING';
-      case MaintenanceWindowExecutionStatus.cancelled:
-        return 'CANCELLED';
-      case MaintenanceWindowExecutionStatus.skippedOverlapping:
-        return 'SKIPPED_OVERLAPPING';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceWindowExecutionStatusFromString on String {
-  MaintenanceWindowExecutionStatus toMaintenanceWindowExecutionStatus() {
-    switch (this) {
-      case 'PENDING':
-        return MaintenanceWindowExecutionStatus.pending;
-      case 'IN_PROGRESS':
-        return MaintenanceWindowExecutionStatus.inProgress;
-      case 'SUCCESS':
-        return MaintenanceWindowExecutionStatus.success;
-      case 'FAILED':
-        return MaintenanceWindowExecutionStatus.failed;
-      case 'TIMED_OUT':
-        return MaintenanceWindowExecutionStatus.timedOut;
-      case 'CANCELLING':
-        return MaintenanceWindowExecutionStatus.cancelling;
-      case 'CANCELLED':
-        return MaintenanceWindowExecutionStatus.cancelled;
-      case 'SKIPPED_OVERLAPPING':
-        return MaintenanceWindowExecutionStatus.skippedOverlapping;
-    }
-    throw Exception(
-        '$this is not known in enum MaintenanceWindowExecutionStatus');
-  }
+  const MaintenanceWindowExecutionStatus(this.value);
+
+  static MaintenanceWindowExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaintenanceWindowExecutionStatus'));
 }
 
 /// Information about a task execution performed as part of a maintenance window
@@ -23108,11 +22050,13 @@ class MaintenanceWindowExecutionTaskIdentity {
           : null,
       endTime: timeStampFromJson(json['EndTime']),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       taskArn: json['TaskArn'] as String?,
       taskExecutionId: json['TaskExecutionId'] as String?,
-      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      taskType: (json['TaskType'] as String?)
+          ?.let(MaintenanceWindowTaskType.fromString),
       triggeredAlarms: (json['TriggeredAlarms'] as List?)
           ?.whereNotNull()
           .map((e) => AlarmStateInformation.fromJson(e as Map<String, dynamic>))
@@ -23136,11 +22080,11 @@ class MaintenanceWindowExecutionTaskIdentity {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (taskArn != null) 'TaskArn': taskArn,
       if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
-      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (taskType != null) 'TaskType': taskType.value,
       if (triggeredAlarms != null) 'TriggeredAlarms': triggeredAlarms,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
     };
@@ -23217,10 +22161,12 @@ class MaintenanceWindowExecutionTaskInvocationIdentity {
       ownerInformation: json['OwnerInformation'] as String?,
       parameters: json['Parameters'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MaintenanceWindowExecutionStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       taskExecutionId: json['TaskExecutionId'] as String?,
-      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      taskType: (json['TaskType'] as String?)
+          ?.let(MaintenanceWindowTaskType.fromString),
       windowExecutionId: json['WindowExecutionId'] as String?,
       windowTargetId: json['WindowTargetId'] as String?,
     );
@@ -23246,10 +22192,10 @@ class MaintenanceWindowExecutionTaskInvocationIdentity {
       if (ownerInformation != null) 'OwnerInformation': ownerInformation,
       if (parameters != null) 'Parameters': parameters,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
-      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (taskType != null) 'TaskType': taskType.value,
       if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
       if (windowTargetId != null) 'WindowTargetId': windowTargetId,
     };
@@ -23508,32 +22454,18 @@ class MaintenanceWindowLambdaParameters {
 }
 
 enum MaintenanceWindowResourceType {
-  instance,
-  resourceGroup,
-}
+  instance('INSTANCE'),
+  resourceGroup('RESOURCE_GROUP'),
+  ;
 
-extension MaintenanceWindowResourceTypeValueExtension
-    on MaintenanceWindowResourceType {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowResourceType.instance:
-        return 'INSTANCE';
-      case MaintenanceWindowResourceType.resourceGroup:
-        return 'RESOURCE_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceWindowResourceTypeFromString on String {
-  MaintenanceWindowResourceType toMaintenanceWindowResourceType() {
-    switch (this) {
-      case 'INSTANCE':
-        return MaintenanceWindowResourceType.instance;
-      case 'RESOURCE_GROUP':
-        return MaintenanceWindowResourceType.resourceGroup;
-    }
-    throw Exception('$this is not known in enum MaintenanceWindowResourceType');
-  }
+  const MaintenanceWindowResourceType(this.value);
+
+  static MaintenanceWindowResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaintenanceWindowResourceType'));
 }
 
 /// The parameters for a <code>RUN_COMMAND</code> task type.
@@ -23633,8 +22565,8 @@ class MaintenanceWindowRunCommandParameters {
           : null,
       comment: json['Comment'] as String?,
       documentHash: json['DocumentHash'] as String?,
-      documentHashType:
-          (json['DocumentHashType'] as String?)?.toDocumentHashType(),
+      documentHashType: (json['DocumentHashType'] as String?)
+          ?.let(DocumentHashType.fromString),
       documentVersion: json['DocumentVersion'] as String?,
       notificationConfig: json['NotificationConfig'] != null
           ? NotificationConfig.fromJson(
@@ -23667,8 +22599,7 @@ class MaintenanceWindowRunCommandParameters {
         'CloudWatchOutputConfig': cloudWatchOutputConfig,
       if (comment != null) 'Comment': comment,
       if (documentHash != null) 'DocumentHash': documentHash,
-      if (documentHashType != null)
-        'DocumentHashType': documentHashType.toValue(),
+      if (documentHashType != null) 'DocumentHashType': documentHashType.value,
       if (documentVersion != null) 'DocumentVersion': documentVersion,
       if (notificationConfig != null) 'NotificationConfig': notificationConfig,
       if (outputS3BucketName != null) 'OutputS3BucketName': outputS3BucketName,
@@ -23782,8 +22713,8 @@ class MaintenanceWindowTarget {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       ownerInformation: json['OwnerInformation'] as String?,
-      resourceType:
-          (json['ResourceType'] as String?)?.toMaintenanceWindowResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(MaintenanceWindowResourceType.fromString),
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
@@ -23805,7 +22736,7 @@ class MaintenanceWindowTarget {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
       if (ownerInformation != null) 'OwnerInformation': ownerInformation,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
       if (targets != null) 'Targets': targets,
       if (windowId != null) 'WindowId': windowId,
       if (windowTargetId != null) 'WindowTargetId': windowTargetId,
@@ -23937,7 +22868,7 @@ class MaintenanceWindowTask {
               json['AlarmConfiguration'] as Map<String, dynamic>)
           : null,
       cutoffBehavior: (json['CutoffBehavior'] as String?)
-          ?.toMaintenanceWindowTaskCutoffBehavior(),
+          ?.let(MaintenanceWindowTaskCutoffBehavior.fromString),
       description: json['Description'] as String?,
       loggingInfo: json['LoggingInfo'] != null
           ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
@@ -23957,7 +22888,8 @@ class MaintenanceWindowTask {
               k,
               MaintenanceWindowTaskParameterValueExpression.fromJson(
                   e as Map<String, dynamic>))),
-      type: (json['Type'] as String?)?.toMaintenanceWindowTaskType(),
+      type:
+          (json['Type'] as String?)?.let(MaintenanceWindowTaskType.fromString),
       windowId: json['WindowId'] as String?,
       windowTaskId: json['WindowTaskId'] as String?,
     );
@@ -23981,7 +22913,7 @@ class MaintenanceWindowTask {
     final windowTaskId = this.windowTaskId;
     return {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
-      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.toValue(),
+      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.value,
       if (description != null) 'Description': description,
       if (loggingInfo != null) 'LoggingInfo': loggingInfo,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -23992,7 +22924,7 @@ class MaintenanceWindowTask {
       if (targets != null) 'Targets': targets,
       if (taskArn != null) 'TaskArn': taskArn,
       if (taskParameters != null) 'TaskParameters': taskParameters,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (windowId != null) 'WindowId': windowId,
       if (windowTaskId != null) 'WindowTaskId': windowTaskId,
     };
@@ -24000,33 +22932,18 @@ class MaintenanceWindowTask {
 }
 
 enum MaintenanceWindowTaskCutoffBehavior {
-  continueTask,
-  cancelTask,
-}
+  continueTask('CONTINUE_TASK'),
+  cancelTask('CANCEL_TASK'),
+  ;
 
-extension MaintenanceWindowTaskCutoffBehaviorValueExtension
-    on MaintenanceWindowTaskCutoffBehavior {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowTaskCutoffBehavior.continueTask:
-        return 'CONTINUE_TASK';
-      case MaintenanceWindowTaskCutoffBehavior.cancelTask:
-        return 'CANCEL_TASK';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceWindowTaskCutoffBehaviorFromString on String {
-  MaintenanceWindowTaskCutoffBehavior toMaintenanceWindowTaskCutoffBehavior() {
-    switch (this) {
-      case 'CONTINUE_TASK':
-        return MaintenanceWindowTaskCutoffBehavior.continueTask;
-      case 'CANCEL_TASK':
-        return MaintenanceWindowTaskCutoffBehavior.cancelTask;
-    }
-    throw Exception(
-        '$this is not known in enum MaintenanceWindowTaskCutoffBehavior');
-  }
+  const MaintenanceWindowTaskCutoffBehavior(this.value);
+
+  static MaintenanceWindowTaskCutoffBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaintenanceWindowTaskCutoffBehavior'));
 }
 
 /// The parameters for task execution.
@@ -24115,41 +23032,20 @@ class MaintenanceWindowTaskParameterValueExpression {
 }
 
 enum MaintenanceWindowTaskType {
-  runCommand,
-  automation,
-  stepFunctions,
-  lambda,
-}
+  runCommand('RUN_COMMAND'),
+  automation('AUTOMATION'),
+  stepFunctions('STEP_FUNCTIONS'),
+  lambda('LAMBDA'),
+  ;
 
-extension MaintenanceWindowTaskTypeValueExtension on MaintenanceWindowTaskType {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowTaskType.runCommand:
-        return 'RUN_COMMAND';
-      case MaintenanceWindowTaskType.automation:
-        return 'AUTOMATION';
-      case MaintenanceWindowTaskType.stepFunctions:
-        return 'STEP_FUNCTIONS';
-      case MaintenanceWindowTaskType.lambda:
-        return 'LAMBDA';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceWindowTaskTypeFromString on String {
-  MaintenanceWindowTaskType toMaintenanceWindowTaskType() {
-    switch (this) {
-      case 'RUN_COMMAND':
-        return MaintenanceWindowTaskType.runCommand;
-      case 'AUTOMATION':
-        return MaintenanceWindowTaskType.automation;
-      case 'STEP_FUNCTIONS':
-        return MaintenanceWindowTaskType.stepFunctions;
-      case 'LAMBDA':
-        return MaintenanceWindowTaskType.lambda;
-    }
-    throw Exception('$this is not known in enum MaintenanceWindowTaskType');
-  }
+  const MaintenanceWindowTaskType(this.value);
+
+  static MaintenanceWindowTaskType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaintenanceWindowTaskType'));
 }
 
 /// Metadata to assign to an Application Manager application.
@@ -24261,10 +23157,10 @@ class NotificationConfig {
       notificationArn: json['NotificationArn'] as String?,
       notificationEvents: (json['NotificationEvents'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toNotificationEvent())
+          .map((e) => NotificationEvent.fromString((e as String)))
           .toList(),
-      notificationType:
-          (json['NotificationType'] as String?)?.toNotificationType(),
+      notificationType: (json['NotificationType'] as String?)
+          ?.let(NotificationType.fromString),
     );
   }
 
@@ -24275,181 +23171,72 @@ class NotificationConfig {
     return {
       if (notificationArn != null) 'NotificationArn': notificationArn,
       if (notificationEvents != null)
-        'NotificationEvents':
-            notificationEvents.map((e) => e.toValue()).toList(),
-      if (notificationType != null)
-        'NotificationType': notificationType.toValue(),
+        'NotificationEvents': notificationEvents.map((e) => e.value).toList(),
+      if (notificationType != null) 'NotificationType': notificationType.value,
     };
   }
 }
 
 enum NotificationEvent {
-  all,
-  inProgress,
-  success,
-  timedOut,
-  cancelled,
-  failed,
-}
+  all('All'),
+  inProgress('InProgress'),
+  success('Success'),
+  timedOut('TimedOut'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  ;
 
-extension NotificationEventValueExtension on NotificationEvent {
-  String toValue() {
-    switch (this) {
-      case NotificationEvent.all:
-        return 'All';
-      case NotificationEvent.inProgress:
-        return 'InProgress';
-      case NotificationEvent.success:
-        return 'Success';
-      case NotificationEvent.timedOut:
-        return 'TimedOut';
-      case NotificationEvent.cancelled:
-        return 'Cancelled';
-      case NotificationEvent.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension NotificationEventFromString on String {
-  NotificationEvent toNotificationEvent() {
-    switch (this) {
-      case 'All':
-        return NotificationEvent.all;
-      case 'InProgress':
-        return NotificationEvent.inProgress;
-      case 'Success':
-        return NotificationEvent.success;
-      case 'TimedOut':
-        return NotificationEvent.timedOut;
-      case 'Cancelled':
-        return NotificationEvent.cancelled;
-      case 'Failed':
-        return NotificationEvent.failed;
-    }
-    throw Exception('$this is not known in enum NotificationEvent');
-  }
+  const NotificationEvent(this.value);
+
+  static NotificationEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationEvent'));
 }
 
 enum NotificationType {
-  command,
-  invocation,
-}
+  command('Command'),
+  invocation('Invocation'),
+  ;
 
-extension NotificationTypeValueExtension on NotificationType {
-  String toValue() {
-    switch (this) {
-      case NotificationType.command:
-        return 'Command';
-      case NotificationType.invocation:
-        return 'Invocation';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTypeFromString on String {
-  NotificationType toNotificationType() {
-    switch (this) {
-      case 'Command':
-        return NotificationType.command;
-      case 'Invocation':
-        return NotificationType.invocation;
-    }
-    throw Exception('$this is not known in enum NotificationType');
-  }
+  const NotificationType(this.value);
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationType'));
 }
 
 enum OperatingSystem {
-  windows,
-  amazonLinux,
-  amazonLinux_2,
-  amazonLinux_2022,
-  ubuntu,
-  redhatEnterpriseLinux,
-  suse,
-  centos,
-  oracleLinux,
-  debian,
-  macos,
-  raspbian,
-  rockyLinux,
-  almaLinux,
-  amazonLinux_2023,
-}
+  windows('WINDOWS'),
+  amazonLinux('AMAZON_LINUX'),
+  amazonLinux_2('AMAZON_LINUX_2'),
+  amazonLinux_2022('AMAZON_LINUX_2022'),
+  ubuntu('UBUNTU'),
+  redhatEnterpriseLinux('REDHAT_ENTERPRISE_LINUX'),
+  suse('SUSE'),
+  centos('CENTOS'),
+  oracleLinux('ORACLE_LINUX'),
+  debian('DEBIAN'),
+  macos('MACOS'),
+  raspbian('RASPBIAN'),
+  rockyLinux('ROCKY_LINUX'),
+  almaLinux('ALMA_LINUX'),
+  amazonLinux_2023('AMAZON_LINUX_2023'),
+  ;
 
-extension OperatingSystemValueExtension on OperatingSystem {
-  String toValue() {
-    switch (this) {
-      case OperatingSystem.windows:
-        return 'WINDOWS';
-      case OperatingSystem.amazonLinux:
-        return 'AMAZON_LINUX';
-      case OperatingSystem.amazonLinux_2:
-        return 'AMAZON_LINUX_2';
-      case OperatingSystem.amazonLinux_2022:
-        return 'AMAZON_LINUX_2022';
-      case OperatingSystem.ubuntu:
-        return 'UBUNTU';
-      case OperatingSystem.redhatEnterpriseLinux:
-        return 'REDHAT_ENTERPRISE_LINUX';
-      case OperatingSystem.suse:
-        return 'SUSE';
-      case OperatingSystem.centos:
-        return 'CENTOS';
-      case OperatingSystem.oracleLinux:
-        return 'ORACLE_LINUX';
-      case OperatingSystem.debian:
-        return 'DEBIAN';
-      case OperatingSystem.macos:
-        return 'MACOS';
-      case OperatingSystem.raspbian:
-        return 'RASPBIAN';
-      case OperatingSystem.rockyLinux:
-        return 'ROCKY_LINUX';
-      case OperatingSystem.almaLinux:
-        return 'ALMA_LINUX';
-      case OperatingSystem.amazonLinux_2023:
-        return 'AMAZON_LINUX_2023';
-    }
-  }
-}
+  final String value;
 
-extension OperatingSystemFromString on String {
-  OperatingSystem toOperatingSystem() {
-    switch (this) {
-      case 'WINDOWS':
-        return OperatingSystem.windows;
-      case 'AMAZON_LINUX':
-        return OperatingSystem.amazonLinux;
-      case 'AMAZON_LINUX_2':
-        return OperatingSystem.amazonLinux_2;
-      case 'AMAZON_LINUX_2022':
-        return OperatingSystem.amazonLinux_2022;
-      case 'UBUNTU':
-        return OperatingSystem.ubuntu;
-      case 'REDHAT_ENTERPRISE_LINUX':
-        return OperatingSystem.redhatEnterpriseLinux;
-      case 'SUSE':
-        return OperatingSystem.suse;
-      case 'CENTOS':
-        return OperatingSystem.centos;
-      case 'ORACLE_LINUX':
-        return OperatingSystem.oracleLinux;
-      case 'DEBIAN':
-        return OperatingSystem.debian;
-      case 'MACOS':
-        return OperatingSystem.macos;
-      case 'RASPBIAN':
-        return OperatingSystem.raspbian;
-      case 'ROCKY_LINUX':
-        return OperatingSystem.rockyLinux;
-      case 'ALMA_LINUX':
-        return OperatingSystem.almaLinux;
-      case 'AMAZON_LINUX_2023':
-        return OperatingSystem.amazonLinux_2023;
-    }
-    throw Exception('$this is not known in enum OperatingSystem');
-  }
+  const OperatingSystem(this.value);
+
+  static OperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperatingSystem'));
 }
 
 /// One or more aggregators for viewing counts of OpsData using different
@@ -24591,57 +23378,28 @@ class OpsFilter {
     return {
       'Key': key,
       'Values': values,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum OpsFilterOperatorType {
-  equal,
-  notEqual,
-  beginWith,
-  lessThan,
-  greaterThan,
-  exists,
-}
+  equal('Equal'),
+  notEqual('NotEqual'),
+  beginWith('BeginWith'),
+  lessThan('LessThan'),
+  greaterThan('GreaterThan'),
+  exists('Exists'),
+  ;
 
-extension OpsFilterOperatorTypeValueExtension on OpsFilterOperatorType {
-  String toValue() {
-    switch (this) {
-      case OpsFilterOperatorType.equal:
-        return 'Equal';
-      case OpsFilterOperatorType.notEqual:
-        return 'NotEqual';
-      case OpsFilterOperatorType.beginWith:
-        return 'BeginWith';
-      case OpsFilterOperatorType.lessThan:
-        return 'LessThan';
-      case OpsFilterOperatorType.greaterThan:
-        return 'GreaterThan';
-      case OpsFilterOperatorType.exists:
-        return 'Exists';
-    }
-  }
-}
+  final String value;
 
-extension OpsFilterOperatorTypeFromString on String {
-  OpsFilterOperatorType toOpsFilterOperatorType() {
-    switch (this) {
-      case 'Equal':
-        return OpsFilterOperatorType.equal;
-      case 'NotEqual':
-        return OpsFilterOperatorType.notEqual;
-      case 'BeginWith':
-        return OpsFilterOperatorType.beginWith;
-      case 'LessThan':
-        return OpsFilterOperatorType.lessThan;
-      case 'GreaterThan':
-        return OpsFilterOperatorType.greaterThan;
-      case 'Exists':
-        return OpsFilterOperatorType.exists;
-    }
-    throw Exception('$this is not known in enum OpsFilterOperatorType');
-  }
+  const OpsFilterOperatorType(this.value);
+
+  static OpsFilterOperatorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpsFilterOperatorType'));
 }
 
 /// Operations engineers and IT professionals use Amazon Web Services Systems
@@ -24851,7 +23609,7 @@ class OpsItem {
           .toList(),
       severity: json['Severity'] as String?,
       source: json['Source'] as String?,
-      status: (json['Status'] as String?)?.toOpsItemStatus(),
+      status: (json['Status'] as String?)?.let(OpsItemStatus.fromString),
       title: json['Title'] as String?,
       version: json['Version'] as String?,
     );
@@ -24905,7 +23663,7 @@ class OpsItem {
       if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
       if (severity != null) 'Severity': severity,
       if (source != null) 'Source': source,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (title != null) 'Title': title,
       if (version != null) 'Version': version,
     };
@@ -24913,31 +23671,18 @@ class OpsItem {
 }
 
 enum OpsItemDataType {
-  searchableString,
-  string,
-}
+  searchableString('SearchableString'),
+  string('String'),
+  ;
 
-extension OpsItemDataTypeValueExtension on OpsItemDataType {
-  String toValue() {
-    switch (this) {
-      case OpsItemDataType.searchableString:
-        return 'SearchableString';
-      case OpsItemDataType.string:
-        return 'String';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemDataTypeFromString on String {
-  OpsItemDataType toOpsItemDataType() {
-    switch (this) {
-      case 'SearchableString':
-        return OpsItemDataType.searchableString;
-      case 'String':
-        return OpsItemDataType.string;
-    }
-    throw Exception('$this is not known in enum OpsItemDataType');
-  }
+  const OpsItemDataType(this.value);
+
+  static OpsItemDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpsItemDataType'));
 }
 
 /// An object that defines the value of the key and its type in the
@@ -24957,7 +23702,7 @@ class OpsItemDataValue {
 
   factory OpsItemDataValue.fromJson(Map<String, dynamic> json) {
     return OpsItemDataValue(
-      type: (json['Type'] as String?)?.toOpsItemDataType(),
+      type: (json['Type'] as String?)?.let(OpsItemDataType.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -24966,7 +23711,7 @@ class OpsItemDataValue {
     final type = this.type;
     final value = this.value;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
@@ -24998,58 +23743,39 @@ class OpsItemEventFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Key': key.toValue(),
-      'Operator': operator.toValue(),
+      'Key': key.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum OpsItemEventFilterKey {
-  opsItemId,
-}
+  opsItemId('OpsItemId'),
+  ;
 
-extension OpsItemEventFilterKeyValueExtension on OpsItemEventFilterKey {
-  String toValue() {
-    switch (this) {
-      case OpsItemEventFilterKey.opsItemId:
-        return 'OpsItemId';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemEventFilterKeyFromString on String {
-  OpsItemEventFilterKey toOpsItemEventFilterKey() {
-    switch (this) {
-      case 'OpsItemId':
-        return OpsItemEventFilterKey.opsItemId;
-    }
-    throw Exception('$this is not known in enum OpsItemEventFilterKey');
-  }
+  const OpsItemEventFilterKey(this.value);
+
+  static OpsItemEventFilterKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpsItemEventFilterKey'));
 }
 
 enum OpsItemEventFilterOperator {
-  equal,
-}
+  equal('Equal'),
+  ;
 
-extension OpsItemEventFilterOperatorValueExtension
-    on OpsItemEventFilterOperator {
-  String toValue() {
-    switch (this) {
-      case OpsItemEventFilterOperator.equal:
-        return 'Equal';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemEventFilterOperatorFromString on String {
-  OpsItemEventFilterOperator toOpsItemEventFilterOperator() {
-    switch (this) {
-      case 'Equal':
-        return OpsItemEventFilterOperator.equal;
-    }
-    throw Exception('$this is not known in enum OpsItemEventFilterOperator');
-  }
+  const OpsItemEventFilterOperator(this.value);
+
+  static OpsItemEventFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OpsItemEventFilterOperator'));
 }
 
 /// Summary information about an OpsItem event or that associated an OpsItem
@@ -25142,207 +23868,69 @@ class OpsItemFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Key': key.toValue(),
-      'Operator': operator.toValue(),
+      'Key': key.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum OpsItemFilterKey {
-  status,
-  createdBy,
-  source,
-  priority,
-  title,
-  opsItemId,
-  createdTime,
-  lastModifiedTime,
-  actualStartTime,
-  actualEndTime,
-  plannedStartTime,
-  plannedEndTime,
-  operationalData,
-  operationalDataKey,
-  operationalDataValue,
-  resourceId,
-  automationId,
-  category,
-  severity,
-  opsItemType,
-  changeRequestByRequesterArn,
-  changeRequestByRequesterName,
-  changeRequestByApproverArn,
-  changeRequestByApproverName,
-  changeRequestByTemplate,
-  changeRequestByTargetsResourceGroup,
-  insightByType,
-  accountId,
-}
+  status('Status'),
+  createdBy('CreatedBy'),
+  source('Source'),
+  priority('Priority'),
+  title('Title'),
+  opsItemId('OpsItemId'),
+  createdTime('CreatedTime'),
+  lastModifiedTime('LastModifiedTime'),
+  actualStartTime('ActualStartTime'),
+  actualEndTime('ActualEndTime'),
+  plannedStartTime('PlannedStartTime'),
+  plannedEndTime('PlannedEndTime'),
+  operationalData('OperationalData'),
+  operationalDataKey('OperationalDataKey'),
+  operationalDataValue('OperationalDataValue'),
+  resourceId('ResourceId'),
+  automationId('AutomationId'),
+  category('Category'),
+  severity('Severity'),
+  opsItemType('OpsItemType'),
+  changeRequestByRequesterArn('ChangeRequestByRequesterArn'),
+  changeRequestByRequesterName('ChangeRequestByRequesterName'),
+  changeRequestByApproverArn('ChangeRequestByApproverArn'),
+  changeRequestByApproverName('ChangeRequestByApproverName'),
+  changeRequestByTemplate('ChangeRequestByTemplate'),
+  changeRequestByTargetsResourceGroup('ChangeRequestByTargetsResourceGroup'),
+  insightByType('InsightByType'),
+  accountId('AccountId'),
+  ;
 
-extension OpsItemFilterKeyValueExtension on OpsItemFilterKey {
-  String toValue() {
-    switch (this) {
-      case OpsItemFilterKey.status:
-        return 'Status';
-      case OpsItemFilterKey.createdBy:
-        return 'CreatedBy';
-      case OpsItemFilterKey.source:
-        return 'Source';
-      case OpsItemFilterKey.priority:
-        return 'Priority';
-      case OpsItemFilterKey.title:
-        return 'Title';
-      case OpsItemFilterKey.opsItemId:
-        return 'OpsItemId';
-      case OpsItemFilterKey.createdTime:
-        return 'CreatedTime';
-      case OpsItemFilterKey.lastModifiedTime:
-        return 'LastModifiedTime';
-      case OpsItemFilterKey.actualStartTime:
-        return 'ActualStartTime';
-      case OpsItemFilterKey.actualEndTime:
-        return 'ActualEndTime';
-      case OpsItemFilterKey.plannedStartTime:
-        return 'PlannedStartTime';
-      case OpsItemFilterKey.plannedEndTime:
-        return 'PlannedEndTime';
-      case OpsItemFilterKey.operationalData:
-        return 'OperationalData';
-      case OpsItemFilterKey.operationalDataKey:
-        return 'OperationalDataKey';
-      case OpsItemFilterKey.operationalDataValue:
-        return 'OperationalDataValue';
-      case OpsItemFilterKey.resourceId:
-        return 'ResourceId';
-      case OpsItemFilterKey.automationId:
-        return 'AutomationId';
-      case OpsItemFilterKey.category:
-        return 'Category';
-      case OpsItemFilterKey.severity:
-        return 'Severity';
-      case OpsItemFilterKey.opsItemType:
-        return 'OpsItemType';
-      case OpsItemFilterKey.changeRequestByRequesterArn:
-        return 'ChangeRequestByRequesterArn';
-      case OpsItemFilterKey.changeRequestByRequesterName:
-        return 'ChangeRequestByRequesterName';
-      case OpsItemFilterKey.changeRequestByApproverArn:
-        return 'ChangeRequestByApproverArn';
-      case OpsItemFilterKey.changeRequestByApproverName:
-        return 'ChangeRequestByApproverName';
-      case OpsItemFilterKey.changeRequestByTemplate:
-        return 'ChangeRequestByTemplate';
-      case OpsItemFilterKey.changeRequestByTargetsResourceGroup:
-        return 'ChangeRequestByTargetsResourceGroup';
-      case OpsItemFilterKey.insightByType:
-        return 'InsightByType';
-      case OpsItemFilterKey.accountId:
-        return 'AccountId';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemFilterKeyFromString on String {
-  OpsItemFilterKey toOpsItemFilterKey() {
-    switch (this) {
-      case 'Status':
-        return OpsItemFilterKey.status;
-      case 'CreatedBy':
-        return OpsItemFilterKey.createdBy;
-      case 'Source':
-        return OpsItemFilterKey.source;
-      case 'Priority':
-        return OpsItemFilterKey.priority;
-      case 'Title':
-        return OpsItemFilterKey.title;
-      case 'OpsItemId':
-        return OpsItemFilterKey.opsItemId;
-      case 'CreatedTime':
-        return OpsItemFilterKey.createdTime;
-      case 'LastModifiedTime':
-        return OpsItemFilterKey.lastModifiedTime;
-      case 'ActualStartTime':
-        return OpsItemFilterKey.actualStartTime;
-      case 'ActualEndTime':
-        return OpsItemFilterKey.actualEndTime;
-      case 'PlannedStartTime':
-        return OpsItemFilterKey.plannedStartTime;
-      case 'PlannedEndTime':
-        return OpsItemFilterKey.plannedEndTime;
-      case 'OperationalData':
-        return OpsItemFilterKey.operationalData;
-      case 'OperationalDataKey':
-        return OpsItemFilterKey.operationalDataKey;
-      case 'OperationalDataValue':
-        return OpsItemFilterKey.operationalDataValue;
-      case 'ResourceId':
-        return OpsItemFilterKey.resourceId;
-      case 'AutomationId':
-        return OpsItemFilterKey.automationId;
-      case 'Category':
-        return OpsItemFilterKey.category;
-      case 'Severity':
-        return OpsItemFilterKey.severity;
-      case 'OpsItemType':
-        return OpsItemFilterKey.opsItemType;
-      case 'ChangeRequestByRequesterArn':
-        return OpsItemFilterKey.changeRequestByRequesterArn;
-      case 'ChangeRequestByRequesterName':
-        return OpsItemFilterKey.changeRequestByRequesterName;
-      case 'ChangeRequestByApproverArn':
-        return OpsItemFilterKey.changeRequestByApproverArn;
-      case 'ChangeRequestByApproverName':
-        return OpsItemFilterKey.changeRequestByApproverName;
-      case 'ChangeRequestByTemplate':
-        return OpsItemFilterKey.changeRequestByTemplate;
-      case 'ChangeRequestByTargetsResourceGroup':
-        return OpsItemFilterKey.changeRequestByTargetsResourceGroup;
-      case 'InsightByType':
-        return OpsItemFilterKey.insightByType;
-      case 'AccountId':
-        return OpsItemFilterKey.accountId;
-    }
-    throw Exception('$this is not known in enum OpsItemFilterKey');
-  }
+  const OpsItemFilterKey(this.value);
+
+  static OpsItemFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpsItemFilterKey'));
 }
 
 enum OpsItemFilterOperator {
-  equal,
-  contains,
-  greaterThan,
-  lessThan,
-}
+  equal('Equal'),
+  contains('Contains'),
+  greaterThan('GreaterThan'),
+  lessThan('LessThan'),
+  ;
 
-extension OpsItemFilterOperatorValueExtension on OpsItemFilterOperator {
-  String toValue() {
-    switch (this) {
-      case OpsItemFilterOperator.equal:
-        return 'Equal';
-      case OpsItemFilterOperator.contains:
-        return 'Contains';
-      case OpsItemFilterOperator.greaterThan:
-        return 'GreaterThan';
-      case OpsItemFilterOperator.lessThan:
-        return 'LessThan';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemFilterOperatorFromString on String {
-  OpsItemFilterOperator toOpsItemFilterOperator() {
-    switch (this) {
-      case 'Equal':
-        return OpsItemFilterOperator.equal;
-      case 'Contains':
-        return OpsItemFilterOperator.contains;
-      case 'GreaterThan':
-        return OpsItemFilterOperator.greaterThan;
-      case 'LessThan':
-        return OpsItemFilterOperator.lessThan;
-    }
-    throw Exception('$this is not known in enum OpsItemFilterOperator');
-  }
+  const OpsItemFilterOperator(this.value);
+
+  static OpsItemFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpsItemFilterOperator'));
 }
 
 /// Information about the user or resource that created an OpsItem event.
@@ -25500,183 +24088,73 @@ class OpsItemRelatedItemsFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Key': key.toValue(),
-      'Operator': operator.toValue(),
+      'Key': key.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum OpsItemRelatedItemsFilterKey {
-  resourceType,
-  associationId,
-  resourceUri,
-}
+  resourceType('ResourceType'),
+  associationId('AssociationId'),
+  resourceUri('ResourceUri'),
+  ;
 
-extension OpsItemRelatedItemsFilterKeyValueExtension
-    on OpsItemRelatedItemsFilterKey {
-  String toValue() {
-    switch (this) {
-      case OpsItemRelatedItemsFilterKey.resourceType:
-        return 'ResourceType';
-      case OpsItemRelatedItemsFilterKey.associationId:
-        return 'AssociationId';
-      case OpsItemRelatedItemsFilterKey.resourceUri:
-        return 'ResourceUri';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemRelatedItemsFilterKeyFromString on String {
-  OpsItemRelatedItemsFilterKey toOpsItemRelatedItemsFilterKey() {
-    switch (this) {
-      case 'ResourceType':
-        return OpsItemRelatedItemsFilterKey.resourceType;
-      case 'AssociationId':
-        return OpsItemRelatedItemsFilterKey.associationId;
-      case 'ResourceUri':
-        return OpsItemRelatedItemsFilterKey.resourceUri;
-    }
-    throw Exception('$this is not known in enum OpsItemRelatedItemsFilterKey');
-  }
+  const OpsItemRelatedItemsFilterKey(this.value);
+
+  static OpsItemRelatedItemsFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OpsItemRelatedItemsFilterKey'));
 }
 
 enum OpsItemRelatedItemsFilterOperator {
-  equal,
-}
+  equal('Equal'),
+  ;
 
-extension OpsItemRelatedItemsFilterOperatorValueExtension
-    on OpsItemRelatedItemsFilterOperator {
-  String toValue() {
-    switch (this) {
-      case OpsItemRelatedItemsFilterOperator.equal:
-        return 'Equal';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemRelatedItemsFilterOperatorFromString on String {
-  OpsItemRelatedItemsFilterOperator toOpsItemRelatedItemsFilterOperator() {
-    switch (this) {
-      case 'Equal':
-        return OpsItemRelatedItemsFilterOperator.equal;
-    }
-    throw Exception(
-        '$this is not known in enum OpsItemRelatedItemsFilterOperator');
-  }
+  const OpsItemRelatedItemsFilterOperator(this.value);
+
+  static OpsItemRelatedItemsFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OpsItemRelatedItemsFilterOperator'));
 }
 
 enum OpsItemStatus {
-  open,
-  inProgress,
-  resolved,
-  pending,
-  timedOut,
-  cancelling,
-  cancelled,
-  failed,
-  completedWithSuccess,
-  completedWithFailure,
-  scheduled,
-  runbookInProgress,
-  pendingChangeCalendarOverride,
-  changeCalendarOverrideApproved,
-  changeCalendarOverrideRejected,
-  pendingApproval,
-  approved,
-  rejected,
-  closed,
-}
+  open('Open'),
+  inProgress('InProgress'),
+  resolved('Resolved'),
+  pending('Pending'),
+  timedOut('TimedOut'),
+  cancelling('Cancelling'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  completedWithSuccess('CompletedWithSuccess'),
+  completedWithFailure('CompletedWithFailure'),
+  scheduled('Scheduled'),
+  runbookInProgress('RunbookInProgress'),
+  pendingChangeCalendarOverride('PendingChangeCalendarOverride'),
+  changeCalendarOverrideApproved('ChangeCalendarOverrideApproved'),
+  changeCalendarOverrideRejected('ChangeCalendarOverrideRejected'),
+  pendingApproval('PendingApproval'),
+  approved('Approved'),
+  rejected('Rejected'),
+  closed('Closed'),
+  ;
 
-extension OpsItemStatusValueExtension on OpsItemStatus {
-  String toValue() {
-    switch (this) {
-      case OpsItemStatus.open:
-        return 'Open';
-      case OpsItemStatus.inProgress:
-        return 'InProgress';
-      case OpsItemStatus.resolved:
-        return 'Resolved';
-      case OpsItemStatus.pending:
-        return 'Pending';
-      case OpsItemStatus.timedOut:
-        return 'TimedOut';
-      case OpsItemStatus.cancelling:
-        return 'Cancelling';
-      case OpsItemStatus.cancelled:
-        return 'Cancelled';
-      case OpsItemStatus.failed:
-        return 'Failed';
-      case OpsItemStatus.completedWithSuccess:
-        return 'CompletedWithSuccess';
-      case OpsItemStatus.completedWithFailure:
-        return 'CompletedWithFailure';
-      case OpsItemStatus.scheduled:
-        return 'Scheduled';
-      case OpsItemStatus.runbookInProgress:
-        return 'RunbookInProgress';
-      case OpsItemStatus.pendingChangeCalendarOverride:
-        return 'PendingChangeCalendarOverride';
-      case OpsItemStatus.changeCalendarOverrideApproved:
-        return 'ChangeCalendarOverrideApproved';
-      case OpsItemStatus.changeCalendarOverrideRejected:
-        return 'ChangeCalendarOverrideRejected';
-      case OpsItemStatus.pendingApproval:
-        return 'PendingApproval';
-      case OpsItemStatus.approved:
-        return 'Approved';
-      case OpsItemStatus.rejected:
-        return 'Rejected';
-      case OpsItemStatus.closed:
-        return 'Closed';
-    }
-  }
-}
+  final String value;
 
-extension OpsItemStatusFromString on String {
-  OpsItemStatus toOpsItemStatus() {
-    switch (this) {
-      case 'Open':
-        return OpsItemStatus.open;
-      case 'InProgress':
-        return OpsItemStatus.inProgress;
-      case 'Resolved':
-        return OpsItemStatus.resolved;
-      case 'Pending':
-        return OpsItemStatus.pending;
-      case 'TimedOut':
-        return OpsItemStatus.timedOut;
-      case 'Cancelling':
-        return OpsItemStatus.cancelling;
-      case 'Cancelled':
-        return OpsItemStatus.cancelled;
-      case 'Failed':
-        return OpsItemStatus.failed;
-      case 'CompletedWithSuccess':
-        return OpsItemStatus.completedWithSuccess;
-      case 'CompletedWithFailure':
-        return OpsItemStatus.completedWithFailure;
-      case 'Scheduled':
-        return OpsItemStatus.scheduled;
-      case 'RunbookInProgress':
-        return OpsItemStatus.runbookInProgress;
-      case 'PendingChangeCalendarOverride':
-        return OpsItemStatus.pendingChangeCalendarOverride;
-      case 'ChangeCalendarOverrideApproved':
-        return OpsItemStatus.changeCalendarOverrideApproved;
-      case 'ChangeCalendarOverrideRejected':
-        return OpsItemStatus.changeCalendarOverrideRejected;
-      case 'PendingApproval':
-        return OpsItemStatus.pendingApproval;
-      case 'Approved':
-        return OpsItemStatus.approved;
-      case 'Rejected':
-        return OpsItemStatus.rejected;
-      case 'Closed':
-        return OpsItemStatus.closed;
-    }
-    throw Exception('$this is not known in enum OpsItemStatus');
-  }
+  const OpsItemStatus(this.value);
+
+  static OpsItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpsItemStatus'));
 }
 
 /// A count of OpsItems.
@@ -25801,7 +24279,7 @@ class OpsItemSummary {
       priority: json['Priority'] as int?,
       severity: json['Severity'] as String?,
       source: json['Source'] as String?,
-      status: (json['Status'] as String?)?.toOpsItemStatus(),
+      status: (json['Status'] as String?)?.let(OpsItemStatus.fromString),
       title: json['Title'] as String?,
     );
   }
@@ -25845,7 +24323,7 @@ class OpsItemSummary {
       if (priority != null) 'Priority': priority,
       if (severity != null) 'Severity': severity,
       if (source != null) 'Source': source,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (title != null) 'Title': title,
     };
   }
@@ -26045,7 +24523,7 @@ class Parameter {
       name: json['Name'] as String?,
       selector: json['Selector'] as String?,
       sourceResult: json['SourceResult'] as String?,
-      type: (json['Type'] as String?)?.toParameterType(),
+      type: (json['Type'] as String?)?.let(ParameterType.fromString),
       value: json['Value'] as String?,
       version: json['Version'] as int?,
     );
@@ -26069,7 +24547,7 @@ class Parameter {
       if (name != null) 'Name': name,
       if (selector != null) 'Selector': selector,
       if (sourceResult != null) 'SourceResult': sourceResult,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
       if (version != null) 'Version': version,
     };
@@ -26160,8 +24638,8 @@ class ParameterHistory {
           ?.whereNotNull()
           .map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tier: (json['Tier'] as String?)?.toParameterTier(),
-      type: (json['Type'] as String?)?.toParameterType(),
+      tier: (json['Tier'] as String?)?.let(ParameterTier.fromString),
+      type: (json['Type'] as String?)?.let(ParameterType.fromString),
       value: json['Value'] as String?,
       version: json['Version'] as int?,
     );
@@ -26192,8 +24670,8 @@ class ParameterHistory {
       if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
       if (name != null) 'Name': name,
       if (policies != null) 'Policies': policies,
-      if (tier != null) 'Tier': tier.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (tier != null) 'Tier': tier.value,
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
       if (version != null) 'Version': version,
     };
@@ -26317,8 +24795,8 @@ class ParameterMetadata {
           ?.whereNotNull()
           .map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tier: (json['Tier'] as String?)?.toParameterTier(),
-      type: (json['Type'] as String?)?.toParameterType(),
+      tier: (json['Tier'] as String?)?.let(ParameterTier.fromString),
+      type: (json['Type'] as String?)?.let(ParameterType.fromString),
       version: json['Version'] as int?,
     );
   }
@@ -26347,8 +24825,8 @@ class ParameterMetadata {
       if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
       if (name != null) 'Name': name,
       if (policies != null) 'Policies': policies,
-      if (tier != null) 'Tier': tier.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (tier != null) 'Tier': tier.value,
+      if (type != null) 'Type': type.value,
       if (version != null) 'Version': version,
     };
   }
@@ -26411,69 +24889,35 @@ class ParameterStringFilter {
 }
 
 enum ParameterTier {
-  standard,
-  advanced,
-  intelligentTiering,
-}
+  standard('Standard'),
+  advanced('Advanced'),
+  intelligentTiering('Intelligent-Tiering'),
+  ;
 
-extension ParameterTierValueExtension on ParameterTier {
-  String toValue() {
-    switch (this) {
-      case ParameterTier.standard:
-        return 'Standard';
-      case ParameterTier.advanced:
-        return 'Advanced';
-      case ParameterTier.intelligentTiering:
-        return 'Intelligent-Tiering';
-    }
-  }
-}
+  final String value;
 
-extension ParameterTierFromString on String {
-  ParameterTier toParameterTier() {
-    switch (this) {
-      case 'Standard':
-        return ParameterTier.standard;
-      case 'Advanced':
-        return ParameterTier.advanced;
-      case 'Intelligent-Tiering':
-        return ParameterTier.intelligentTiering;
-    }
-    throw Exception('$this is not known in enum ParameterTier');
-  }
+  const ParameterTier(this.value);
+
+  static ParameterTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParameterTier'));
 }
 
 enum ParameterType {
-  string,
-  stringList,
-  secureString,
-}
+  string('String'),
+  stringList('StringList'),
+  secureString('SecureString'),
+  ;
 
-extension ParameterTypeValueExtension on ParameterType {
-  String toValue() {
-    switch (this) {
-      case ParameterType.string:
-        return 'String';
-      case ParameterType.stringList:
-        return 'StringList';
-      case ParameterType.secureString:
-        return 'SecureString';
-    }
-  }
-}
+  final String value;
 
-extension ParameterTypeFromString on String {
-  ParameterType toParameterType() {
-    switch (this) {
-      case 'String':
-        return ParameterType.string;
-      case 'StringList':
-        return ParameterType.stringList;
-      case 'SecureString':
-        return ParameterType.secureString;
-    }
-    throw Exception('$this is not known in enum ParameterType');
-  }
+  const ParameterType(this.value);
+
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParameterType'));
 }
 
 /// This data type is deprecated. Instead, use <a>ParameterStringFilter</a>.
@@ -26493,43 +24937,26 @@ class ParametersFilter {
     final key = this.key;
     final values = this.values;
     return {
-      'Key': key.toValue(),
+      'Key': key.value,
       'Values': values,
     };
   }
 }
 
 enum ParametersFilterKey {
-  name,
-  type,
-  keyId,
-}
+  name('Name'),
+  type('Type'),
+  keyId('KeyId'),
+  ;
 
-extension ParametersFilterKeyValueExtension on ParametersFilterKey {
-  String toValue() {
-    switch (this) {
-      case ParametersFilterKey.name:
-        return 'Name';
-      case ParametersFilterKey.type:
-        return 'Type';
-      case ParametersFilterKey.keyId:
-        return 'KeyId';
-    }
-  }
-}
+  final String value;
 
-extension ParametersFilterKeyFromString on String {
-  ParametersFilterKey toParametersFilterKey() {
-    switch (this) {
-      case 'Name':
-        return ParametersFilterKey.name;
-      case 'Type':
-        return ParametersFilterKey.type;
-      case 'KeyId':
-        return ParametersFilterKey.keyId;
-    }
-    throw Exception('$this is not known in enum ParametersFilterKey');
-  }
+  const ParametersFilterKey(this.value);
+
+  static ParametersFilterKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ParametersFilterKey'));
 }
 
 /// A detailed status of the parent step.
@@ -26796,31 +25223,17 @@ class Patch {
 }
 
 enum PatchAction {
-  allowAsDependency,
-  block,
-}
+  allowAsDependency('ALLOW_AS_DEPENDENCY'),
+  block('BLOCK'),
+  ;
 
-extension PatchActionValueExtension on PatchAction {
-  String toValue() {
-    switch (this) {
-      case PatchAction.allowAsDependency:
-        return 'ALLOW_AS_DEPENDENCY';
-      case PatchAction.block:
-        return 'BLOCK';
-    }
-  }
-}
+  final String value;
 
-extension PatchActionFromString on String {
-  PatchAction toPatchAction() {
-    switch (this) {
-      case 'ALLOW_AS_DEPENDENCY':
-        return PatchAction.allowAsDependency;
-      case 'BLOCK':
-        return PatchAction.block;
-    }
-    throw Exception('$this is not known in enum PatchAction');
-  }
+  const PatchAction(this.value);
+
+  static PatchAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PatchAction'));
 }
 
 /// Defines the basic information about a patch baseline.
@@ -26858,7 +25271,7 @@ class PatchBaselineIdentity {
       baselineName: json['BaselineName'] as String?,
       defaultBaseline: json['DefaultBaseline'] as bool?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
     );
   }
 
@@ -26874,7 +25287,7 @@ class PatchBaselineIdentity {
       if (baselineId != null) 'BaselineId': baselineId,
       if (baselineName != null) 'BaselineName': baselineName,
       if (defaultBaseline != null) 'DefaultBaseline': defaultBaseline,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
     };
   }
 }
@@ -26933,7 +25346,7 @@ class PatchComplianceData {
           nonNullableTimeStampFromJson(json['InstalledTime'] as Object),
       kBId: json['KBId'] as String,
       severity: json['Severity'] as String,
-      state: (json['State'] as String).toPatchComplianceDataState(),
+      state: PatchComplianceDataState.fromString((json['State'] as String)),
       title: json['Title'] as String,
       cVEIds: json['CVEIds'] as String?,
     );
@@ -26952,7 +25365,7 @@ class PatchComplianceData {
       'InstalledTime': unixTimestampToJson(installedTime),
       'KBId': kBId,
       'Severity': severity,
-      'State': state.toValue(),
+      'State': state.value,
       'Title': title,
       if (cVEIds != null) 'CVEIds': cVEIds,
     };
@@ -26960,142 +25373,59 @@ class PatchComplianceData {
 }
 
 enum PatchComplianceDataState {
-  installed,
-  installedOther,
-  installedPendingReboot,
-  installedRejected,
-  missing,
-  notApplicable,
-  failed,
-}
+  installed('INSTALLED'),
+  installedOther('INSTALLED_OTHER'),
+  installedPendingReboot('INSTALLED_PENDING_REBOOT'),
+  installedRejected('INSTALLED_REJECTED'),
+  missing('MISSING'),
+  notApplicable('NOT_APPLICABLE'),
+  failed('FAILED'),
+  ;
 
-extension PatchComplianceDataStateValueExtension on PatchComplianceDataState {
-  String toValue() {
-    switch (this) {
-      case PatchComplianceDataState.installed:
-        return 'INSTALLED';
-      case PatchComplianceDataState.installedOther:
-        return 'INSTALLED_OTHER';
-      case PatchComplianceDataState.installedPendingReboot:
-        return 'INSTALLED_PENDING_REBOOT';
-      case PatchComplianceDataState.installedRejected:
-        return 'INSTALLED_REJECTED';
-      case PatchComplianceDataState.missing:
-        return 'MISSING';
-      case PatchComplianceDataState.notApplicable:
-        return 'NOT_APPLICABLE';
-      case PatchComplianceDataState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension PatchComplianceDataStateFromString on String {
-  PatchComplianceDataState toPatchComplianceDataState() {
-    switch (this) {
-      case 'INSTALLED':
-        return PatchComplianceDataState.installed;
-      case 'INSTALLED_OTHER':
-        return PatchComplianceDataState.installedOther;
-      case 'INSTALLED_PENDING_REBOOT':
-        return PatchComplianceDataState.installedPendingReboot;
-      case 'INSTALLED_REJECTED':
-        return PatchComplianceDataState.installedRejected;
-      case 'MISSING':
-        return PatchComplianceDataState.missing;
-      case 'NOT_APPLICABLE':
-        return PatchComplianceDataState.notApplicable;
-      case 'FAILED':
-        return PatchComplianceDataState.failed;
-    }
-    throw Exception('$this is not known in enum PatchComplianceDataState');
-  }
+  const PatchComplianceDataState(this.value);
+
+  static PatchComplianceDataState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PatchComplianceDataState'));
 }
 
 enum PatchComplianceLevel {
-  critical,
-  high,
-  medium,
-  low,
-  informational,
-  unspecified,
-}
+  critical('CRITICAL'),
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  informational('INFORMATIONAL'),
+  unspecified('UNSPECIFIED'),
+  ;
 
-extension PatchComplianceLevelValueExtension on PatchComplianceLevel {
-  String toValue() {
-    switch (this) {
-      case PatchComplianceLevel.critical:
-        return 'CRITICAL';
-      case PatchComplianceLevel.high:
-        return 'HIGH';
-      case PatchComplianceLevel.medium:
-        return 'MEDIUM';
-      case PatchComplianceLevel.low:
-        return 'LOW';
-      case PatchComplianceLevel.informational:
-        return 'INFORMATIONAL';
-      case PatchComplianceLevel.unspecified:
-        return 'UNSPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension PatchComplianceLevelFromString on String {
-  PatchComplianceLevel toPatchComplianceLevel() {
-    switch (this) {
-      case 'CRITICAL':
-        return PatchComplianceLevel.critical;
-      case 'HIGH':
-        return PatchComplianceLevel.high;
-      case 'MEDIUM':
-        return PatchComplianceLevel.medium;
-      case 'LOW':
-        return PatchComplianceLevel.low;
-      case 'INFORMATIONAL':
-        return PatchComplianceLevel.informational;
-      case 'UNSPECIFIED':
-        return PatchComplianceLevel.unspecified;
-    }
-    throw Exception('$this is not known in enum PatchComplianceLevel');
-  }
+  const PatchComplianceLevel(this.value);
+
+  static PatchComplianceLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PatchComplianceLevel'));
 }
 
 enum PatchDeploymentStatus {
-  approved,
-  pendingApproval,
-  explicitApproved,
-  explicitRejected,
-}
+  approved('APPROVED'),
+  pendingApproval('PENDING_APPROVAL'),
+  explicitApproved('EXPLICIT_APPROVED'),
+  explicitRejected('EXPLICIT_REJECTED'),
+  ;
 
-extension PatchDeploymentStatusValueExtension on PatchDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case PatchDeploymentStatus.approved:
-        return 'APPROVED';
-      case PatchDeploymentStatus.pendingApproval:
-        return 'PENDING_APPROVAL';
-      case PatchDeploymentStatus.explicitApproved:
-        return 'EXPLICIT_APPROVED';
-      case PatchDeploymentStatus.explicitRejected:
-        return 'EXPLICIT_REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension PatchDeploymentStatusFromString on String {
-  PatchDeploymentStatus toPatchDeploymentStatus() {
-    switch (this) {
-      case 'APPROVED':
-        return PatchDeploymentStatus.approved;
-      case 'PENDING_APPROVAL':
-        return PatchDeploymentStatus.pendingApproval;
-      case 'EXPLICIT_APPROVED':
-        return PatchDeploymentStatus.explicitApproved;
-      case 'EXPLICIT_REJECTED':
-        return PatchDeploymentStatus.explicitRejected;
-    }
-    throw Exception('$this is not known in enum PatchDeploymentStatus');
-  }
+  const PatchDeploymentStatus(this.value);
+
+  static PatchDeploymentStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PatchDeploymentStatus'));
 }
 
 /// Defines which patches should be included in a patch baseline.
@@ -27137,7 +25467,7 @@ class PatchFilter {
 
   factory PatchFilter.fromJson(Map<String, dynamic> json) {
     return PatchFilter(
-      key: (json['Key'] as String).toPatchFilterKey(),
+      key: PatchFilterKey.fromString((json['Key'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -27149,7 +25479,7 @@ class PatchFilter {
     final key = this.key;
     final values = this.values;
     return {
-      'Key': key.toValue(),
+      'Key': key.value,
       'Values': values,
     };
   }
@@ -27182,116 +25512,35 @@ class PatchFilterGroup {
 }
 
 enum PatchFilterKey {
-  arch,
-  advisoryId,
-  bugzillaId,
-  patchSet,
-  product,
-  productFamily,
-  classification,
-  cveId,
-  epoch,
-  msrcSeverity,
-  name,
-  patchId,
-  section,
-  priority,
-  repository,
-  release,
-  severity,
-  security,
-  version,
-}
+  arch('ARCH'),
+  advisoryId('ADVISORY_ID'),
+  bugzillaId('BUGZILLA_ID'),
+  patchSet('PATCH_SET'),
+  product('PRODUCT'),
+  productFamily('PRODUCT_FAMILY'),
+  classification('CLASSIFICATION'),
+  cveId('CVE_ID'),
+  epoch('EPOCH'),
+  msrcSeverity('MSRC_SEVERITY'),
+  name('NAME'),
+  patchId('PATCH_ID'),
+  section('SECTION'),
+  priority('PRIORITY'),
+  repository('REPOSITORY'),
+  release('RELEASE'),
+  severity('SEVERITY'),
+  security('SECURITY'),
+  version('VERSION'),
+  ;
 
-extension PatchFilterKeyValueExtension on PatchFilterKey {
-  String toValue() {
-    switch (this) {
-      case PatchFilterKey.arch:
-        return 'ARCH';
-      case PatchFilterKey.advisoryId:
-        return 'ADVISORY_ID';
-      case PatchFilterKey.bugzillaId:
-        return 'BUGZILLA_ID';
-      case PatchFilterKey.patchSet:
-        return 'PATCH_SET';
-      case PatchFilterKey.product:
-        return 'PRODUCT';
-      case PatchFilterKey.productFamily:
-        return 'PRODUCT_FAMILY';
-      case PatchFilterKey.classification:
-        return 'CLASSIFICATION';
-      case PatchFilterKey.cveId:
-        return 'CVE_ID';
-      case PatchFilterKey.epoch:
-        return 'EPOCH';
-      case PatchFilterKey.msrcSeverity:
-        return 'MSRC_SEVERITY';
-      case PatchFilterKey.name:
-        return 'NAME';
-      case PatchFilterKey.patchId:
-        return 'PATCH_ID';
-      case PatchFilterKey.section:
-        return 'SECTION';
-      case PatchFilterKey.priority:
-        return 'PRIORITY';
-      case PatchFilterKey.repository:
-        return 'REPOSITORY';
-      case PatchFilterKey.release:
-        return 'RELEASE';
-      case PatchFilterKey.severity:
-        return 'SEVERITY';
-      case PatchFilterKey.security:
-        return 'SECURITY';
-      case PatchFilterKey.version:
-        return 'VERSION';
-    }
-  }
-}
+  final String value;
 
-extension PatchFilterKeyFromString on String {
-  PatchFilterKey toPatchFilterKey() {
-    switch (this) {
-      case 'ARCH':
-        return PatchFilterKey.arch;
-      case 'ADVISORY_ID':
-        return PatchFilterKey.advisoryId;
-      case 'BUGZILLA_ID':
-        return PatchFilterKey.bugzillaId;
-      case 'PATCH_SET':
-        return PatchFilterKey.patchSet;
-      case 'PRODUCT':
-        return PatchFilterKey.product;
-      case 'PRODUCT_FAMILY':
-        return PatchFilterKey.productFamily;
-      case 'CLASSIFICATION':
-        return PatchFilterKey.classification;
-      case 'CVE_ID':
-        return PatchFilterKey.cveId;
-      case 'EPOCH':
-        return PatchFilterKey.epoch;
-      case 'MSRC_SEVERITY':
-        return PatchFilterKey.msrcSeverity;
-      case 'NAME':
-        return PatchFilterKey.name;
-      case 'PATCH_ID':
-        return PatchFilterKey.patchId;
-      case 'SECTION':
-        return PatchFilterKey.section;
-      case 'PRIORITY':
-        return PatchFilterKey.priority;
-      case 'REPOSITORY':
-        return PatchFilterKey.repository;
-      case 'RELEASE':
-        return PatchFilterKey.release;
-      case 'SEVERITY':
-        return PatchFilterKey.severity;
-      case 'SECURITY':
-        return PatchFilterKey.security;
-      case 'VERSION':
-        return PatchFilterKey.version;
-    }
-    throw Exception('$this is not known in enum PatchFilterKey');
-  }
+  const PatchFilterKey(this.value);
+
+  static PatchFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PatchFilterKey'));
 }
 
 /// The mapping between a patch group and the patch baseline the patch group is
@@ -27329,31 +25578,18 @@ class PatchGroupPatchBaselineMapping {
 }
 
 enum PatchOperationType {
-  scan,
-  install,
-}
+  scan('Scan'),
+  install('Install'),
+  ;
 
-extension PatchOperationTypeValueExtension on PatchOperationType {
-  String toValue() {
-    switch (this) {
-      case PatchOperationType.scan:
-        return 'Scan';
-      case PatchOperationType.install:
-        return 'Install';
-    }
-  }
-}
+  final String value;
 
-extension PatchOperationTypeFromString on String {
-  PatchOperationType toPatchOperationType() {
-    switch (this) {
-      case 'Scan':
-        return PatchOperationType.scan;
-      case 'Install':
-        return PatchOperationType.install;
-    }
-    throw Exception('$this is not known in enum PatchOperationType');
-  }
+  const PatchOperationType(this.value);
+
+  static PatchOperationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PatchOperationType'));
 }
 
 /// Defines a filter used in Patch Manager APIs. Supported filter keys depend on
@@ -27397,51 +25633,22 @@ class PatchOrchestratorFilter {
 }
 
 enum PatchProperty {
-  product,
-  productFamily,
-  classification,
-  msrcSeverity,
-  priority,
-  severity,
-}
+  product('PRODUCT'),
+  productFamily('PRODUCT_FAMILY'),
+  classification('CLASSIFICATION'),
+  msrcSeverity('MSRC_SEVERITY'),
+  priority('PRIORITY'),
+  severity('SEVERITY'),
+  ;
 
-extension PatchPropertyValueExtension on PatchProperty {
-  String toValue() {
-    switch (this) {
-      case PatchProperty.product:
-        return 'PRODUCT';
-      case PatchProperty.productFamily:
-        return 'PRODUCT_FAMILY';
-      case PatchProperty.classification:
-        return 'CLASSIFICATION';
-      case PatchProperty.msrcSeverity:
-        return 'MSRC_SEVERITY';
-      case PatchProperty.priority:
-        return 'PRIORITY';
-      case PatchProperty.severity:
-        return 'SEVERITY';
-    }
-  }
-}
+  final String value;
 
-extension PatchPropertyFromString on String {
-  PatchProperty toPatchProperty() {
-    switch (this) {
-      case 'PRODUCT':
-        return PatchProperty.product;
-      case 'PRODUCT_FAMILY':
-        return PatchProperty.productFamily;
-      case 'CLASSIFICATION':
-        return PatchProperty.classification;
-      case 'MSRC_SEVERITY':
-        return PatchProperty.msrcSeverity;
-      case 'PRIORITY':
-        return PatchProperty.priority;
-      case 'SEVERITY':
-        return PatchProperty.severity;
-    }
-    throw Exception('$this is not known in enum PatchProperty');
-  }
+  const PatchProperty(this.value);
+
+  static PatchProperty fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PatchProperty'));
 }
 
 /// Defines an approval rule for a patch baseline.
@@ -27486,8 +25693,8 @@ class PatchRule {
           json['PatchFilterGroup'] as Map<String, dynamic>),
       approveAfterDays: json['ApproveAfterDays'] as int?,
       approveUntilDate: json['ApproveUntilDate'] as String?,
-      complianceLevel:
-          (json['ComplianceLevel'] as String?)?.toPatchComplianceLevel(),
+      complianceLevel: (json['ComplianceLevel'] as String?)
+          ?.let(PatchComplianceLevel.fromString),
       enableNonSecurity: json['EnableNonSecurity'] as bool?,
     );
   }
@@ -27502,7 +25709,7 @@ class PatchRule {
       'PatchFilterGroup': patchFilterGroup,
       if (approveAfterDays != null) 'ApproveAfterDays': approveAfterDays,
       if (approveUntilDate != null) 'ApproveUntilDate': approveUntilDate,
-      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.toValue(),
+      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.value,
       if (enableNonSecurity != null) 'EnableNonSecurity': enableNonSecurity,
     };
   }
@@ -27535,31 +25742,17 @@ class PatchRuleGroup {
 }
 
 enum PatchSet {
-  os,
-  application,
-}
+  os('OS'),
+  application('APPLICATION'),
+  ;
 
-extension PatchSetValueExtension on PatchSet {
-  String toValue() {
-    switch (this) {
-      case PatchSet.os:
-        return 'OS';
-      case PatchSet.application:
-        return 'APPLICATION';
-    }
-  }
-}
+  final String value;
 
-extension PatchSetFromString on String {
-  PatchSet toPatchSet() {
-    switch (this) {
-      case 'OS':
-        return PatchSet.os;
-      case 'APPLICATION':
-        return PatchSet.application;
-    }
-    throw Exception('$this is not known in enum PatchSet');
-  }
+  const PatchSet(this.value);
+
+  static PatchSet fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PatchSet'));
 }
 
 /// Information about the patches to use to update the managed nodes, including
@@ -27640,10 +25833,10 @@ class PatchStatus {
   factory PatchStatus.fromJson(Map<String, dynamic> json) {
     return PatchStatus(
       approvalDate: timeStampFromJson(json['ApprovalDate']),
-      complianceLevel:
-          (json['ComplianceLevel'] as String?)?.toPatchComplianceLevel(),
-      deploymentStatus:
-          (json['DeploymentStatus'] as String?)?.toPatchDeploymentStatus(),
+      complianceLevel: (json['ComplianceLevel'] as String?)
+          ?.let(PatchComplianceLevel.fromString),
+      deploymentStatus: (json['DeploymentStatus'] as String?)
+          ?.let(PatchDeploymentStatus.fromString),
     );
   }
 
@@ -27654,77 +25847,41 @@ class PatchStatus {
     return {
       if (approvalDate != null)
         'ApprovalDate': unixTimestampToJson(approvalDate),
-      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.toValue(),
-      if (deploymentStatus != null)
-        'DeploymentStatus': deploymentStatus.toValue(),
+      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.value,
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus.value,
     };
   }
 }
 
 enum PingStatus {
-  online,
-  connectionLost,
-  inactive,
-}
+  online('Online'),
+  connectionLost('ConnectionLost'),
+  inactive('Inactive'),
+  ;
 
-extension PingStatusValueExtension on PingStatus {
-  String toValue() {
-    switch (this) {
-      case PingStatus.online:
-        return 'Online';
-      case PingStatus.connectionLost:
-        return 'ConnectionLost';
-      case PingStatus.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension PingStatusFromString on String {
-  PingStatus toPingStatus() {
-    switch (this) {
-      case 'Online':
-        return PingStatus.online;
-      case 'ConnectionLost':
-        return PingStatus.connectionLost;
-      case 'Inactive':
-        return PingStatus.inactive;
-    }
-    throw Exception('$this is not known in enum PingStatus');
-  }
+  const PingStatus(this.value);
+
+  static PingStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PingStatus'));
 }
 
 enum PlatformType {
-  windows,
-  linux,
-  macOS,
-}
+  windows('Windows'),
+  linux('Linux'),
+  macOS('MacOS'),
+  ;
 
-extension PlatformTypeValueExtension on PlatformType {
-  String toValue() {
-    switch (this) {
-      case PlatformType.windows:
-        return 'Windows';
-      case PlatformType.linux:
-        return 'Linux';
-      case PlatformType.macOS:
-        return 'MacOS';
-    }
-  }
-}
+  final String value;
 
-extension PlatformTypeFromString on String {
-  PlatformType toPlatformType() {
-    switch (this) {
-      case 'Windows':
-        return PlatformType.windows;
-      case 'Linux':
-        return PlatformType.linux;
-      case 'MacOS':
-        return PlatformType.macOS;
-    }
-    throw Exception('$this is not known in enum PlatformType');
-  }
+  const PlatformType(this.value);
+
+  static PlatformType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PlatformType'));
 }
 
 /// An aggregate of step execution statuses displayed in the Amazon Web Services
@@ -27842,7 +25999,7 @@ class PutParameterResult {
 
   factory PutParameterResult.fromJson(Map<String, dynamic> json) {
     return PutParameterResult(
-      tier: (json['Tier'] as String?)?.toParameterTier(),
+      tier: (json['Tier'] as String?)?.let(ParameterTier.fromString),
       version: json['Version'] as int?,
     );
   }
@@ -27851,7 +26008,7 @@ class PutParameterResult {
     final tier = this.tier;
     final version = this.version;
     return {
-      if (tier != null) 'Tier': tier.toValue(),
+      if (tier != null) 'Tier': tier.value,
       if (version != null) 'Version': version,
     };
   }
@@ -27888,31 +26045,18 @@ class PutResourcePolicyResponse {
 }
 
 enum RebootOption {
-  rebootIfNeeded,
-  noReboot,
-}
+  rebootIfNeeded('RebootIfNeeded'),
+  noReboot('NoReboot'),
+  ;
 
-extension RebootOptionValueExtension on RebootOption {
-  String toValue() {
-    switch (this) {
-      case RebootOption.rebootIfNeeded:
-        return 'RebootIfNeeded';
-      case RebootOption.noReboot:
-        return 'NoReboot';
-    }
-  }
-}
+  final String value;
 
-extension RebootOptionFromString on String {
-  RebootOption toRebootOption() {
-    switch (this) {
-      case 'RebootIfNeeded':
-        return RebootOption.rebootIfNeeded;
-      case 'NoReboot':
-        return RebootOption.noReboot;
-    }
-    throw Exception('$this is not known in enum RebootOption');
-  }
+  const RebootOption(this.value);
+
+  static RebootOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RebootOption'));
 }
 
 class RegisterDefaultPatchBaselineResult {
@@ -28188,11 +26332,11 @@ class ResourceComplianceSummaryItem {
           ? NonCompliantSummary.fromJson(
               json['NonCompliantSummary'] as Map<String, dynamic>)
           : null,
-      overallSeverity:
-          (json['OverallSeverity'] as String?)?.toComplianceSeverity(),
+      overallSeverity: (json['OverallSeverity'] as String?)
+          ?.let(ComplianceSeverity.fromString),
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
-      status: (json['Status'] as String?)?.toComplianceStatus(),
+      status: (json['Status'] as String?)?.let(ComplianceStatus.fromString),
     );
   }
 
@@ -28211,10 +26355,10 @@ class ResourceComplianceSummaryItem {
       if (executionSummary != null) 'ExecutionSummary': executionSummary,
       if (nonCompliantSummary != null)
         'NonCompliantSummary': nonCompliantSummary,
-      if (overallSeverity != null) 'OverallSeverity': overallSeverity.toValue(),
+      if (overallSeverity != null) 'OverallSeverity': overallSeverity.value,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -28344,8 +26488,8 @@ class ResourceDataSyncItem {
 
   factory ResourceDataSyncItem.fromJson(Map<String, dynamic> json) {
     return ResourceDataSyncItem(
-      lastStatus:
-          (json['LastStatus'] as String?)?.toLastResourceDataSyncStatus(),
+      lastStatus: (json['LastStatus'] as String?)
+          ?.let(LastResourceDataSyncStatus.fromString),
       lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
       lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
       lastSyncTime: timeStampFromJson(json['LastSyncTime']),
@@ -28376,7 +26520,7 @@ class ResourceDataSyncItem {
     final syncSource = this.syncSource;
     final syncType = this.syncType;
     return {
-      if (lastStatus != null) 'LastStatus': lastStatus.toValue(),
+      if (lastStatus != null) 'LastStatus': lastStatus.value,
       if (lastSuccessfulSyncTime != null)
         'LastSuccessfulSyncTime': unixTimestampToJson(lastSuccessfulSyncTime),
       if (lastSyncStatusMessage != null)
@@ -28457,7 +26601,8 @@ class ResourceDataSyncS3Destination {
     return ResourceDataSyncS3Destination(
       bucketName: json['BucketName'] as String,
       region: json['Region'] as String,
-      syncFormat: (json['SyncFormat'] as String).toResourceDataSyncS3Format(),
+      syncFormat:
+          ResourceDataSyncS3Format.fromString((json['SyncFormat'] as String)),
       awsKMSKeyARN: json['AWSKMSKeyARN'] as String?,
       destinationDataSharing: json['DestinationDataSharing'] != null
           ? ResourceDataSyncDestinationDataSharing.fromJson(
@@ -28477,7 +26622,7 @@ class ResourceDataSyncS3Destination {
     return {
       'BucketName': bucketName,
       'Region': region,
-      'SyncFormat': syncFormat.toValue(),
+      'SyncFormat': syncFormat.value,
       if (awsKMSKeyARN != null) 'AWSKMSKeyARN': awsKMSKeyARN,
       if (destinationDataSharing != null)
         'DestinationDataSharing': destinationDataSharing,
@@ -28487,26 +26632,17 @@ class ResourceDataSyncS3Destination {
 }
 
 enum ResourceDataSyncS3Format {
-  jsonSerDe,
-}
+  jsonSerDe('JsonSerDe'),
+  ;
 
-extension ResourceDataSyncS3FormatValueExtension on ResourceDataSyncS3Format {
-  String toValue() {
-    switch (this) {
-      case ResourceDataSyncS3Format.jsonSerDe:
-        return 'JsonSerDe';
-    }
-  }
-}
+  final String value;
 
-extension ResourceDataSyncS3FormatFromString on String {
-  ResourceDataSyncS3Format toResourceDataSyncS3Format() {
-    switch (this) {
-      case 'JsonSerDe':
-        return ResourceDataSyncS3Format.jsonSerDe;
-    }
-    throw Exception('$this is not known in enum ResourceDataSyncS3Format');
-  }
+  const ResourceDataSyncS3Format(this.value);
+
+  static ResourceDataSyncS3Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceDataSyncS3Format'));
 }
 
 /// Information about the source of the data included in the resource data sync.
@@ -28671,94 +26807,40 @@ class ResourceDataSyncSourceWithState {
 }
 
 enum ResourceType {
-  managedInstance,
-  eC2Instance,
-}
+  managedInstance('ManagedInstance'),
+  eC2Instance('EC2Instance'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.managedInstance:
-        return 'ManagedInstance';
-      case ResourceType.eC2Instance:
-        return 'EC2Instance';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'ManagedInstance':
-        return ResourceType.managedInstance;
-      case 'EC2Instance':
-        return ResourceType.eC2Instance;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 enum ResourceTypeForTagging {
-  document,
-  managedInstance,
-  maintenanceWindow,
-  parameter,
-  patchBaseline,
-  opsItem,
-  opsMetadata,
-  automation,
-  association,
-}
+  document('Document'),
+  managedInstance('ManagedInstance'),
+  maintenanceWindow('MaintenanceWindow'),
+  parameter('Parameter'),
+  patchBaseline('PatchBaseline'),
+  opsItem('OpsItem'),
+  opsMetadata('OpsMetadata'),
+  automation('Automation'),
+  association('Association'),
+  ;
 
-extension ResourceTypeForTaggingValueExtension on ResourceTypeForTagging {
-  String toValue() {
-    switch (this) {
-      case ResourceTypeForTagging.document:
-        return 'Document';
-      case ResourceTypeForTagging.managedInstance:
-        return 'ManagedInstance';
-      case ResourceTypeForTagging.maintenanceWindow:
-        return 'MaintenanceWindow';
-      case ResourceTypeForTagging.parameter:
-        return 'Parameter';
-      case ResourceTypeForTagging.patchBaseline:
-        return 'PatchBaseline';
-      case ResourceTypeForTagging.opsItem:
-        return 'OpsItem';
-      case ResourceTypeForTagging.opsMetadata:
-        return 'OpsMetadata';
-      case ResourceTypeForTagging.automation:
-        return 'Automation';
-      case ResourceTypeForTagging.association:
-        return 'Association';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeForTaggingFromString on String {
-  ResourceTypeForTagging toResourceTypeForTagging() {
-    switch (this) {
-      case 'Document':
-        return ResourceTypeForTagging.document;
-      case 'ManagedInstance':
-        return ResourceTypeForTagging.managedInstance;
-      case 'MaintenanceWindow':
-        return ResourceTypeForTagging.maintenanceWindow;
-      case 'Parameter':
-        return ResourceTypeForTagging.parameter;
-      case 'PatchBaseline':
-        return ResourceTypeForTagging.patchBaseline;
-      case 'OpsItem':
-        return ResourceTypeForTagging.opsItem;
-      case 'OpsMetadata':
-        return ResourceTypeForTagging.opsMetadata;
-      case 'Automation':
-        return ResourceTypeForTagging.automation;
-      case 'Association':
-        return ResourceTypeForTagging.association;
-    }
-    throw Exception('$this is not known in enum ResourceTypeForTagging');
-  }
+  const ResourceTypeForTagging(this.value);
+
+  static ResourceTypeForTagging fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceTypeForTagging'));
 }
 
 /// The inventory item result attribute.
@@ -28851,7 +26933,7 @@ class ReviewInformation {
     return ReviewInformation(
       reviewedTime: timeStampFromJson(json['ReviewedTime']),
       reviewer: json['Reviewer'] as String?,
-      status: (json['Status'] as String?)?.toReviewStatus(),
+      status: (json['Status'] as String?)?.let(ReviewStatus.fromString),
     );
   }
 
@@ -28863,47 +26945,26 @@ class ReviewInformation {
       if (reviewedTime != null)
         'ReviewedTime': unixTimestampToJson(reviewedTime),
       if (reviewer != null) 'Reviewer': reviewer,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ReviewStatus {
-  approved,
-  notReviewed,
-  pending,
-  rejected,
-}
+  approved('APPROVED'),
+  notReviewed('NOT_REVIEWED'),
+  pending('PENDING'),
+  rejected('REJECTED'),
+  ;
 
-extension ReviewStatusValueExtension on ReviewStatus {
-  String toValue() {
-    switch (this) {
-      case ReviewStatus.approved:
-        return 'APPROVED';
-      case ReviewStatus.notReviewed:
-        return 'NOT_REVIEWED';
-      case ReviewStatus.pending:
-        return 'PENDING';
-      case ReviewStatus.rejected:
-        return 'REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension ReviewStatusFromString on String {
-  ReviewStatus toReviewStatus() {
-    switch (this) {
-      case 'APPROVED':
-        return ReviewStatus.approved;
-      case 'NOT_REVIEWED':
-        return ReviewStatus.notReviewed;
-      case 'PENDING':
-        return ReviewStatus.pending;
-      case 'REJECTED':
-        return ReviewStatus.rejected;
-    }
-    throw Exception('$this is not known in enum ReviewStatus');
-  }
+  const ReviewStatus(this.value);
+
+  static ReviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReviewStatus'));
 }
 
 /// Information about an Automation runbook used in a runbook workflow in Change
@@ -29308,7 +27369,7 @@ class Session {
       reason: json['Reason'] as String?,
       sessionId: json['SessionId'] as String?,
       startDate: timeStampFromJson(json['StartDate']),
-      status: (json['Status'] as String?)?.toSessionStatus(),
+      status: (json['Status'] as String?)?.let(SessionStatus.fromString),
       target: json['Target'] as String?,
     );
   }
@@ -29335,7 +27396,7 @@ class Session {
       if (reason != null) 'Reason': reason,
       if (sessionId != null) 'SessionId': sessionId,
       if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (target != null) 'Target': target,
     };
   }
@@ -29405,58 +27466,29 @@ class SessionFilter {
     final key = this.key;
     final value = this.value;
     return {
-      'key': key.toValue(),
+      'key': key.value,
       'value': value,
     };
   }
 }
 
 enum SessionFilterKey {
-  invokedAfter,
-  invokedBefore,
-  target,
-  owner,
-  status,
-  sessionId,
-}
+  invokedAfter('InvokedAfter'),
+  invokedBefore('InvokedBefore'),
+  target('Target'),
+  owner('Owner'),
+  status('Status'),
+  sessionId('SessionId'),
+  ;
 
-extension SessionFilterKeyValueExtension on SessionFilterKey {
-  String toValue() {
-    switch (this) {
-      case SessionFilterKey.invokedAfter:
-        return 'InvokedAfter';
-      case SessionFilterKey.invokedBefore:
-        return 'InvokedBefore';
-      case SessionFilterKey.target:
-        return 'Target';
-      case SessionFilterKey.owner:
-        return 'Owner';
-      case SessionFilterKey.status:
-        return 'Status';
-      case SessionFilterKey.sessionId:
-        return 'SessionId';
-    }
-  }
-}
+  final String value;
 
-extension SessionFilterKeyFromString on String {
-  SessionFilterKey toSessionFilterKey() {
-    switch (this) {
-      case 'InvokedAfter':
-        return SessionFilterKey.invokedAfter;
-      case 'InvokedBefore':
-        return SessionFilterKey.invokedBefore;
-      case 'Target':
-        return SessionFilterKey.target;
-      case 'Owner':
-        return SessionFilterKey.owner;
-      case 'Status':
-        return SessionFilterKey.status;
-      case 'SessionId':
-        return SessionFilterKey.sessionId;
-    }
-    throw Exception('$this is not known in enum SessionFilterKey');
-  }
+  const SessionFilterKey(this.value);
+
+  static SessionFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SessionFilterKey'));
 }
 
 /// Reserved for future use.
@@ -29491,79 +27523,37 @@ class SessionManagerOutputUrl {
 }
 
 enum SessionState {
-  active,
-  history,
-}
+  active('Active'),
+  history('History'),
+  ;
 
-extension SessionStateValueExtension on SessionState {
-  String toValue() {
-    switch (this) {
-      case SessionState.active:
-        return 'Active';
-      case SessionState.history:
-        return 'History';
-    }
-  }
-}
+  final String value;
 
-extension SessionStateFromString on String {
-  SessionState toSessionState() {
-    switch (this) {
-      case 'Active':
-        return SessionState.active;
-      case 'History':
-        return SessionState.history;
-    }
-    throw Exception('$this is not known in enum SessionState');
-  }
+  const SessionState(this.value);
+
+  static SessionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SessionState'));
 }
 
 enum SessionStatus {
-  connected,
-  connecting,
-  disconnected,
-  terminated,
-  terminating,
-  failed,
-}
+  connected('Connected'),
+  connecting('Connecting'),
+  disconnected('Disconnected'),
+  terminated('Terminated'),
+  terminating('Terminating'),
+  failed('Failed'),
+  ;
 
-extension SessionStatusValueExtension on SessionStatus {
-  String toValue() {
-    switch (this) {
-      case SessionStatus.connected:
-        return 'Connected';
-      case SessionStatus.connecting:
-        return 'Connecting';
-      case SessionStatus.disconnected:
-        return 'Disconnected';
-      case SessionStatus.terminated:
-        return 'Terminated';
-      case SessionStatus.terminating:
-        return 'Terminating';
-      case SessionStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension SessionStatusFromString on String {
-  SessionStatus toSessionStatus() {
-    switch (this) {
-      case 'Connected':
-        return SessionStatus.connected;
-      case 'Connecting':
-        return SessionStatus.connecting;
-      case 'Disconnected':
-        return SessionStatus.disconnected;
-      case 'Terminated':
-        return SessionStatus.terminated;
-      case 'Terminating':
-        return SessionStatus.terminating;
-      case 'Failed':
-        return SessionStatus.failed;
-    }
-    throw Exception('$this is not known in enum SessionStatus');
-  }
+  const SessionStatus(this.value);
+
+  static SessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SessionStatus'));
 }
 
 /// The number of managed nodes found for each patch severity level defined in
@@ -29638,79 +27628,35 @@ class SeveritySummary {
 }
 
 enum SignalType {
-  approve,
-  reject,
-  startStep,
-  stopStep,
-  resume,
-}
+  approve('Approve'),
+  reject('Reject'),
+  startStep('StartStep'),
+  stopStep('StopStep'),
+  resume('Resume'),
+  ;
 
-extension SignalTypeValueExtension on SignalType {
-  String toValue() {
-    switch (this) {
-      case SignalType.approve:
-        return 'Approve';
-      case SignalType.reject:
-        return 'Reject';
-      case SignalType.startStep:
-        return 'StartStep';
-      case SignalType.stopStep:
-        return 'StopStep';
-      case SignalType.resume:
-        return 'Resume';
-    }
-  }
-}
+  final String value;
 
-extension SignalTypeFromString on String {
-  SignalType toSignalType() {
-    switch (this) {
-      case 'Approve':
-        return SignalType.approve;
-      case 'Reject':
-        return SignalType.reject;
-      case 'StartStep':
-        return SignalType.startStep;
-      case 'StopStep':
-        return SignalType.stopStep;
-      case 'Resume':
-        return SignalType.resume;
-    }
-    throw Exception('$this is not known in enum SignalType');
-  }
+  const SignalType(this.value);
+
+  static SignalType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SignalType'));
 }
 
 enum SourceType {
-  awsEc2Instance,
-  awsIoTThing,
-  awsSsmManagedInstance,
-}
+  awsEc2Instance('AWS::EC2::Instance'),
+  awsIoTThing('AWS::IoT::Thing'),
+  awsSsmManagedInstance('AWS::SSM::ManagedInstance'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.awsEc2Instance:
-        return 'AWS::EC2::Instance';
-      case SourceType.awsIoTThing:
-        return 'AWS::IoT::Thing';
-      case SourceType.awsSsmManagedInstance:
-        return 'AWS::SSM::ManagedInstance';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'AWS::EC2::Instance':
-        return SourceType.awsEc2Instance;
-      case 'AWS::IoT::Thing':
-        return SourceType.awsIoTThing;
-      case 'AWS::SSM::ManagedInstance':
-        return SourceType.awsSsmManagedInstance;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 class StartAssociationsOnceResult {
@@ -29970,8 +27916,8 @@ class StepExecution {
       responseCode: json['ResponseCode'] as String?,
       stepExecutionId: json['StepExecutionId'] as String?,
       stepName: json['StepName'] as String?,
-      stepStatus:
-          (json['StepStatus'] as String?)?.toAutomationExecutionStatus(),
+      stepStatus: (json['StepStatus'] as String?)
+          ?.let(AutomationExecutionStatus.fromString),
       targetLocation: json['TargetLocation'] != null
           ? TargetLocation.fromJson(
               json['TargetLocation'] as Map<String, dynamic>)
@@ -30039,7 +27985,7 @@ class StepExecution {
       if (responseCode != null) 'ResponseCode': responseCode,
       if (stepExecutionId != null) 'StepExecutionId': stepExecutionId,
       if (stepName != null) 'StepName': stepName,
-      if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
+      if (stepStatus != null) 'StepStatus': stepStatus.value,
       if (targetLocation != null) 'TargetLocation': targetLocation,
       if (targets != null) 'Targets': targets,
       if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
@@ -30067,73 +28013,32 @@ class StepExecutionFilter {
     final key = this.key;
     final values = this.values;
     return {
-      'Key': key.toValue(),
+      'Key': key.value,
       'Values': values,
     };
   }
 }
 
 enum StepExecutionFilterKey {
-  startTimeBefore,
-  startTimeAfter,
-  stepExecutionStatus,
-  stepExecutionId,
-  stepName,
-  action,
-  parentStepExecutionId,
-  parentStepIteration,
-  parentStepIteratorValue,
-}
+  startTimeBefore('StartTimeBefore'),
+  startTimeAfter('StartTimeAfter'),
+  stepExecutionStatus('StepExecutionStatus'),
+  stepExecutionId('StepExecutionId'),
+  stepName('StepName'),
+  action('Action'),
+  parentStepExecutionId('ParentStepExecutionId'),
+  parentStepIteration('ParentStepIteration'),
+  parentStepIteratorValue('ParentStepIteratorValue'),
+  ;
 
-extension StepExecutionFilterKeyValueExtension on StepExecutionFilterKey {
-  String toValue() {
-    switch (this) {
-      case StepExecutionFilterKey.startTimeBefore:
-        return 'StartTimeBefore';
-      case StepExecutionFilterKey.startTimeAfter:
-        return 'StartTimeAfter';
-      case StepExecutionFilterKey.stepExecutionStatus:
-        return 'StepExecutionStatus';
-      case StepExecutionFilterKey.stepExecutionId:
-        return 'StepExecutionId';
-      case StepExecutionFilterKey.stepName:
-        return 'StepName';
-      case StepExecutionFilterKey.action:
-        return 'Action';
-      case StepExecutionFilterKey.parentStepExecutionId:
-        return 'ParentStepExecutionId';
-      case StepExecutionFilterKey.parentStepIteration:
-        return 'ParentStepIteration';
-      case StepExecutionFilterKey.parentStepIteratorValue:
-        return 'ParentStepIteratorValue';
-    }
-  }
-}
+  final String value;
 
-extension StepExecutionFilterKeyFromString on String {
-  StepExecutionFilterKey toStepExecutionFilterKey() {
-    switch (this) {
-      case 'StartTimeBefore':
-        return StepExecutionFilterKey.startTimeBefore;
-      case 'StartTimeAfter':
-        return StepExecutionFilterKey.startTimeAfter;
-      case 'StepExecutionStatus':
-        return StepExecutionFilterKey.stepExecutionStatus;
-      case 'StepExecutionId':
-        return StepExecutionFilterKey.stepExecutionId;
-      case 'StepName':
-        return StepExecutionFilterKey.stepName;
-      case 'Action':
-        return StepExecutionFilterKey.action;
-      case 'ParentStepExecutionId':
-        return StepExecutionFilterKey.parentStepExecutionId;
-      case 'ParentStepIteration':
-        return StepExecutionFilterKey.parentStepIteration;
-      case 'ParentStepIteratorValue':
-        return StepExecutionFilterKey.parentStepIteratorValue;
-    }
-    throw Exception('$this is not known in enum StepExecutionFilterKey');
-  }
+  const StepExecutionFilterKey(this.value);
+
+  static StepExecutionFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StepExecutionFilterKey'));
 }
 
 class StopAutomationExecutionResult {
@@ -30149,31 +28054,17 @@ class StopAutomationExecutionResult {
 }
 
 enum StopType {
-  complete,
-  cancel,
-}
+  complete('Complete'),
+  cancel('Cancel'),
+  ;
 
-extension StopTypeValueExtension on StopType {
-  String toValue() {
-    switch (this) {
-      case StopType.complete:
-        return 'Complete';
-      case StopType.cancel:
-        return 'Cancel';
-    }
-  }
-}
+  final String value;
 
-extension StopTypeFromString on String {
-  StopType toStopType() {
-    switch (this) {
-      case 'Complete':
-        return StopType.complete;
-      case 'Cancel':
-        return StopType.cancel;
-    }
-    throw Exception('$this is not known in enum StopType');
-  }
+  const StopType(this.value);
+
+  static StopType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StopType'));
 }
 
 /// Metadata that you assign to your Amazon Web Services resources. Tags enable
@@ -30857,7 +28748,7 @@ class UpdateMaintenanceWindowTaskResult {
               json['AlarmConfiguration'] as Map<String, dynamic>)
           : null,
       cutoffBehavior: (json['CutoffBehavior'] as String?)
-          ?.toMaintenanceWindowTaskCutoffBehavior(),
+          ?.let(MaintenanceWindowTaskCutoffBehavior.fromString),
       description: json['Description'] as String?,
       loggingInfo: json['LoggingInfo'] != null
           ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
@@ -30904,7 +28795,7 @@ class UpdateMaintenanceWindowTaskResult {
     final windowTaskId = this.windowTaskId;
     return {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
-      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.toValue(),
+      if (cutoffBehavior != null) 'CutoffBehavior': cutoffBehavior.value,
       if (description != null) 'Description': description,
       if (loggingInfo != null) 'LoggingInfo': loggingInfo,
       if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -31049,7 +28940,7 @@ class UpdatePatchBaselineResult {
           .toList(),
       approvedPatchesComplianceLevel:
           (json['ApprovedPatchesComplianceLevel'] as String?)
-              ?.toPatchComplianceLevel(),
+              ?.let(PatchComplianceLevel.fromString),
       approvedPatchesEnableNonSecurity:
           json['ApprovedPatchesEnableNonSecurity'] as bool?,
       baselineId: json['BaselineId'] as String?,
@@ -31062,13 +28953,13 @@ class UpdatePatchBaselineResult {
       modifiedDate: timeStampFromJson(json['ModifiedDate']),
       name: json['Name'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
       rejectedPatches: (json['RejectedPatches'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      rejectedPatchesAction:
-          (json['RejectedPatchesAction'] as String?)?.toPatchAction(),
+      rejectedPatchesAction: (json['RejectedPatchesAction'] as String?)
+          ?.let(PatchAction.fromString),
       sources: (json['Sources'] as List?)
           ?.whereNotNull()
           .map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
@@ -31096,8 +28987,7 @@ class UpdatePatchBaselineResult {
       if (approvalRules != null) 'ApprovalRules': approvalRules,
       if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
       if (approvedPatchesComplianceLevel != null)
-        'ApprovedPatchesComplianceLevel':
-            approvedPatchesComplianceLevel.toValue(),
+        'ApprovedPatchesComplianceLevel': approvedPatchesComplianceLevel.value,
       if (approvedPatchesEnableNonSecurity != null)
         'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
       if (baselineId != null) 'BaselineId': baselineId,
@@ -31107,10 +28997,10 @@ class UpdatePatchBaselineResult {
       if (modifiedDate != null)
         'ModifiedDate': unixTimestampToJson(modifiedDate),
       if (name != null) 'Name': name,
-      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
       if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
       if (rejectedPatchesAction != null)
-        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+        'RejectedPatchesAction': rejectedPatchesAction.value,
       if (sources != null) 'Sources': sources,
     };
   }

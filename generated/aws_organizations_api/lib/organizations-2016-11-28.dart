@@ -664,7 +664,7 @@ class Organizations {
         'AccountName': accountName,
         'Email': email,
         if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
+          'IamUserAccessToBilling': iamUserAccessToBilling.value,
         if (roleName != null) 'RoleName': roleName,
         if (tags != null) 'Tags': tags,
       },
@@ -975,7 +975,7 @@ class Organizations {
         'AccountName': accountName,
         'Email': email,
         if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
+          'IamUserAccessToBilling': iamUserAccessToBilling.value,
         if (roleName != null) 'RoleName': roleName,
         if (tags != null) 'Tags': tags,
       },
@@ -1049,7 +1049,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (featureSet != null) 'FeatureSet': featureSet.toValue(),
+        if (featureSet != null) 'FeatureSet': featureSet.value,
       },
     );
 
@@ -1242,7 +1242,7 @@ class Organizations {
         'Content': content,
         'Description': description,
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1653,7 +1653,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType.value,
         if (targetId != null) 'TargetId': targetId,
       },
     );
@@ -2129,7 +2129,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType.value,
         'RootId': rootId,
       },
     );
@@ -2333,7 +2333,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType.toValue(),
+        'PolicyType': policyType.value,
         'RootId': rootId,
       },
     );
@@ -2863,7 +2863,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChildType': childType.toValue(),
+        'ChildType': childType.value,
         'ParentId': parentId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -2941,7 +2941,7 @@ class Organizations {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (states != null) 'States': states.map((e) => e.toValue()).toList(),
+        if (states != null) 'States': states.map((e) => e.value).toList(),
       },
     );
 
@@ -3536,7 +3536,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter.toValue(),
+        'Filter': filter.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -3656,7 +3656,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter.toValue(),
+        'Filter': filter.value,
         'TargetId': targetId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4538,111 +4538,60 @@ class Account {
       arn: json['Arn'] as String?,
       email: json['Email'] as String?,
       id: json['Id'] as String?,
-      joinedMethod: (json['JoinedMethod'] as String?)?.toAccountJoinedMethod(),
+      joinedMethod: (json['JoinedMethod'] as String?)
+          ?.let(AccountJoinedMethod.fromString),
       joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toAccountStatus(),
+      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
     );
   }
 }
 
 enum AccountJoinedMethod {
-  invited,
-  created,
-}
+  invited('INVITED'),
+  created('CREATED'),
+  ;
 
-extension AccountJoinedMethodValueExtension on AccountJoinedMethod {
-  String toValue() {
-    switch (this) {
-      case AccountJoinedMethod.invited:
-        return 'INVITED';
-      case AccountJoinedMethod.created:
-        return 'CREATED';
-    }
-  }
-}
+  final String value;
 
-extension AccountJoinedMethodFromString on String {
-  AccountJoinedMethod toAccountJoinedMethod() {
-    switch (this) {
-      case 'INVITED':
-        return AccountJoinedMethod.invited;
-      case 'CREATED':
-        return AccountJoinedMethod.created;
-    }
-    throw Exception('$this is not known in enum AccountJoinedMethod');
-  }
+  const AccountJoinedMethod(this.value);
+
+  static AccountJoinedMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccountJoinedMethod'));
 }
 
 enum AccountStatus {
-  active,
-  suspended,
-  pendingClosure,
-}
+  active('ACTIVE'),
+  suspended('SUSPENDED'),
+  pendingClosure('PENDING_CLOSURE'),
+  ;
 
-extension AccountStatusValueExtension on AccountStatus {
-  String toValue() {
-    switch (this) {
-      case AccountStatus.active:
-        return 'ACTIVE';
-      case AccountStatus.suspended:
-        return 'SUSPENDED';
-      case AccountStatus.pendingClosure:
-        return 'PENDING_CLOSURE';
-    }
-  }
-}
+  final String value;
 
-extension AccountStatusFromString on String {
-  AccountStatus toAccountStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AccountStatus.active;
-      case 'SUSPENDED':
-        return AccountStatus.suspended;
-      case 'PENDING_CLOSURE':
-        return AccountStatus.pendingClosure;
-    }
-    throw Exception('$this is not known in enum AccountStatus');
-  }
+  const AccountStatus(this.value);
+
+  static AccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountStatus'));
 }
 
 enum ActionType {
-  invite,
-  enableAllFeatures,
-  approveAllFeatures,
-  addOrganizationsServiceLinkedRole,
-}
+  invite('INVITE'),
+  enableAllFeatures('ENABLE_ALL_FEATURES'),
+  approveAllFeatures('APPROVE_ALL_FEATURES'),
+  addOrganizationsServiceLinkedRole('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE'),
+  ;
 
-extension ActionTypeValueExtension on ActionType {
-  String toValue() {
-    switch (this) {
-      case ActionType.invite:
-        return 'INVITE';
-      case ActionType.enableAllFeatures:
-        return 'ENABLE_ALL_FEATURES';
-      case ActionType.approveAllFeatures:
-        return 'APPROVE_ALL_FEATURES';
-      case ActionType.addOrganizationsServiceLinkedRole:
-        return 'ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE';
-    }
-  }
-}
+  final String value;
 
-extension ActionTypeFromString on String {
-  ActionType toActionType() {
-    switch (this) {
-      case 'INVITE':
-        return ActionType.invite;
-      case 'ENABLE_ALL_FEATURES':
-        return ActionType.enableAllFeatures;
-      case 'APPROVE_ALL_FEATURES':
-        return ActionType.approveAllFeatures;
-      case 'ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE':
-        return ActionType.addOrganizationsServiceLinkedRole;
-    }
-    throw Exception('$this is not known in enum ActionType');
-  }
+  const ActionType(this.value);
+
+  static ActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionType'));
 }
 
 class CancelHandshakeResponse {
@@ -4693,133 +4642,53 @@ class Child {
   factory Child.fromJson(Map<String, dynamic> json) {
     return Child(
       id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.toChildType(),
+      type: (json['Type'] as String?)?.let(ChildType.fromString),
     );
   }
 }
 
 enum ChildType {
-  account,
-  organizationalUnit,
-}
+  account('ACCOUNT'),
+  organizationalUnit('ORGANIZATIONAL_UNIT'),
+  ;
 
-extension ChildTypeValueExtension on ChildType {
-  String toValue() {
-    switch (this) {
-      case ChildType.account:
-        return 'ACCOUNT';
-      case ChildType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension ChildTypeFromString on String {
-  ChildType toChildType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return ChildType.account;
-      case 'ORGANIZATIONAL_UNIT':
-        return ChildType.organizationalUnit;
-    }
-    throw Exception('$this is not known in enum ChildType');
-  }
+  const ChildType(this.value);
+
+  static ChildType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChildType'));
 }
 
 enum CreateAccountFailureReason {
-  accountLimitExceeded,
-  emailAlreadyExists,
-  invalidAddress,
-  invalidEmail,
-  concurrentAccountModification,
-  internalFailure,
-  govcloudAccountAlreadyExists,
-  missingBusinessValidation,
-  failedBusinessValidation,
-  pendingBusinessValidation,
-  invalidIdentityForBusinessValidation,
-  unknownBusinessValidation,
-  missingPaymentInstrument,
-  invalidPaymentInstrument,
-  updateExistingResourcePolicyWithTagsNotSupported,
-}
+  accountLimitExceeded('ACCOUNT_LIMIT_EXCEEDED'),
+  emailAlreadyExists('EMAIL_ALREADY_EXISTS'),
+  invalidAddress('INVALID_ADDRESS'),
+  invalidEmail('INVALID_EMAIL'),
+  concurrentAccountModification('CONCURRENT_ACCOUNT_MODIFICATION'),
+  internalFailure('INTERNAL_FAILURE'),
+  govcloudAccountAlreadyExists('GOVCLOUD_ACCOUNT_ALREADY_EXISTS'),
+  missingBusinessValidation('MISSING_BUSINESS_VALIDATION'),
+  failedBusinessValidation('FAILED_BUSINESS_VALIDATION'),
+  pendingBusinessValidation('PENDING_BUSINESS_VALIDATION'),
+  invalidIdentityForBusinessValidation(
+      'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION'),
+  unknownBusinessValidation('UNKNOWN_BUSINESS_VALIDATION'),
+  missingPaymentInstrument('MISSING_PAYMENT_INSTRUMENT'),
+  invalidPaymentInstrument('INVALID_PAYMENT_INSTRUMENT'),
+  updateExistingResourcePolicyWithTagsNotSupported(
+      'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED'),
+  ;
 
-extension CreateAccountFailureReasonValueExtension
-    on CreateAccountFailureReason {
-  String toValue() {
-    switch (this) {
-      case CreateAccountFailureReason.accountLimitExceeded:
-        return 'ACCOUNT_LIMIT_EXCEEDED';
-      case CreateAccountFailureReason.emailAlreadyExists:
-        return 'EMAIL_ALREADY_EXISTS';
-      case CreateAccountFailureReason.invalidAddress:
-        return 'INVALID_ADDRESS';
-      case CreateAccountFailureReason.invalidEmail:
-        return 'INVALID_EMAIL';
-      case CreateAccountFailureReason.concurrentAccountModification:
-        return 'CONCURRENT_ACCOUNT_MODIFICATION';
-      case CreateAccountFailureReason.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case CreateAccountFailureReason.govcloudAccountAlreadyExists:
-        return 'GOVCLOUD_ACCOUNT_ALREADY_EXISTS';
-      case CreateAccountFailureReason.missingBusinessValidation:
-        return 'MISSING_BUSINESS_VALIDATION';
-      case CreateAccountFailureReason.failedBusinessValidation:
-        return 'FAILED_BUSINESS_VALIDATION';
-      case CreateAccountFailureReason.pendingBusinessValidation:
-        return 'PENDING_BUSINESS_VALIDATION';
-      case CreateAccountFailureReason.invalidIdentityForBusinessValidation:
-        return 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION';
-      case CreateAccountFailureReason.unknownBusinessValidation:
-        return 'UNKNOWN_BUSINESS_VALIDATION';
-      case CreateAccountFailureReason.missingPaymentInstrument:
-        return 'MISSING_PAYMENT_INSTRUMENT';
-      case CreateAccountFailureReason.invalidPaymentInstrument:
-        return 'INVALID_PAYMENT_INSTRUMENT';
-      case CreateAccountFailureReason
-            .updateExistingResourcePolicyWithTagsNotSupported:
-        return 'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED';
-    }
-  }
-}
+  final String value;
 
-extension CreateAccountFailureReasonFromString on String {
-  CreateAccountFailureReason toCreateAccountFailureReason() {
-    switch (this) {
-      case 'ACCOUNT_LIMIT_EXCEEDED':
-        return CreateAccountFailureReason.accountLimitExceeded;
-      case 'EMAIL_ALREADY_EXISTS':
-        return CreateAccountFailureReason.emailAlreadyExists;
-      case 'INVALID_ADDRESS':
-        return CreateAccountFailureReason.invalidAddress;
-      case 'INVALID_EMAIL':
-        return CreateAccountFailureReason.invalidEmail;
-      case 'CONCURRENT_ACCOUNT_MODIFICATION':
-        return CreateAccountFailureReason.concurrentAccountModification;
-      case 'INTERNAL_FAILURE':
-        return CreateAccountFailureReason.internalFailure;
-      case 'GOVCLOUD_ACCOUNT_ALREADY_EXISTS':
-        return CreateAccountFailureReason.govcloudAccountAlreadyExists;
-      case 'MISSING_BUSINESS_VALIDATION':
-        return CreateAccountFailureReason.missingBusinessValidation;
-      case 'FAILED_BUSINESS_VALIDATION':
-        return CreateAccountFailureReason.failedBusinessValidation;
-      case 'PENDING_BUSINESS_VALIDATION':
-        return CreateAccountFailureReason.pendingBusinessValidation;
-      case 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION':
-        return CreateAccountFailureReason.invalidIdentityForBusinessValidation;
-      case 'UNKNOWN_BUSINESS_VALIDATION':
-        return CreateAccountFailureReason.unknownBusinessValidation;
-      case 'MISSING_PAYMENT_INSTRUMENT':
-        return CreateAccountFailureReason.missingPaymentInstrument;
-      case 'INVALID_PAYMENT_INSTRUMENT':
-        return CreateAccountFailureReason.invalidPaymentInstrument;
-      case 'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED':
-        return CreateAccountFailureReason
-            .updateExistingResourcePolicyWithTagsNotSupported;
-    }
-    throw Exception('$this is not known in enum CreateAccountFailureReason');
-  }
+  const CreateAccountFailureReason(this.value);
+
+  static CreateAccountFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CreateAccountFailureReason'));
 }
 
 class CreateAccountResponse {
@@ -4849,36 +4718,19 @@ class CreateAccountResponse {
 }
 
 enum CreateAccountState {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension CreateAccountStateValueExtension on CreateAccountState {
-  String toValue() {
-    switch (this) {
-      case CreateAccountState.inProgress:
-        return 'IN_PROGRESS';
-      case CreateAccountState.succeeded:
-        return 'SUCCEEDED';
-      case CreateAccountState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CreateAccountStateFromString on String {
-  CreateAccountState toCreateAccountState() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return CreateAccountState.inProgress;
-      case 'SUCCEEDED':
-        return CreateAccountState.succeeded;
-      case 'FAILED':
-        return CreateAccountState.failed;
-    }
-    throw Exception('$this is not known in enum CreateAccountState');
-  }
+  const CreateAccountState(this.value);
+
+  static CreateAccountState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CreateAccountState'));
 }
 
 /// Contains the status about a <a>CreateAccount</a> or
@@ -5004,12 +4856,12 @@ class CreateAccountStatus {
       accountId: json['AccountId'] as String?,
       accountName: json['AccountName'] as String?,
       completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
-      failureReason:
-          (json['FailureReason'] as String?)?.toCreateAccountFailureReason(),
+      failureReason: (json['FailureReason'] as String?)
+          ?.let(CreateAccountFailureReason.fromString),
       govCloudAccountId: json['GovCloudAccountId'] as String?,
       id: json['Id'] as String?,
       requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
-      state: (json['State'] as String?)?.toCreateAccountState(),
+      state: (json['State'] as String?)?.let(CreateAccountState.fromString),
     );
   }
 }
@@ -5147,10 +4999,11 @@ class DelegatedAdministrator {
       delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
       email: json['Email'] as String?,
       id: json['Id'] as String?,
-      joinedMethod: (json['JoinedMethod'] as String?)?.toAccountJoinedMethod(),
+      joinedMethod: (json['JoinedMethod'] as String?)
+          ?.let(AccountJoinedMethod.fromString),
       joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toAccountStatus(),
+      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
     );
   }
 }
@@ -5373,43 +5226,27 @@ class EffectivePolicy {
     return EffectivePolicy(
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       policyContent: json['PolicyContent'] as String?,
-      policyType: (json['PolicyType'] as String?)?.toEffectivePolicyType(),
+      policyType:
+          (json['PolicyType'] as String?)?.let(EffectivePolicyType.fromString),
       targetId: json['TargetId'] as String?,
     );
   }
 }
 
 enum EffectivePolicyType {
-  tagPolicy,
-  backupPolicy,
-  aiservicesOptOutPolicy,
-}
+  tagPolicy('TAG_POLICY'),
+  backupPolicy('BACKUP_POLICY'),
+  aiservicesOptOutPolicy('AISERVICES_OPT_OUT_POLICY'),
+  ;
 
-extension EffectivePolicyTypeValueExtension on EffectivePolicyType {
-  String toValue() {
-    switch (this) {
-      case EffectivePolicyType.tagPolicy:
-        return 'TAG_POLICY';
-      case EffectivePolicyType.backupPolicy:
-        return 'BACKUP_POLICY';
-      case EffectivePolicyType.aiservicesOptOutPolicy:
-        return 'AISERVICES_OPT_OUT_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension EffectivePolicyTypeFromString on String {
-  EffectivePolicyType toEffectivePolicyType() {
-    switch (this) {
-      case 'TAG_POLICY':
-        return EffectivePolicyType.tagPolicy;
-      case 'BACKUP_POLICY':
-        return EffectivePolicyType.backupPolicy;
-      case 'AISERVICES_OPT_OUT_POLICY':
-        return EffectivePolicyType.aiservicesOptOutPolicy;
-    }
-    throw Exception('$this is not known in enum EffectivePolicyType');
-  }
+  const EffectivePolicyType(this.value);
+
+  static EffectivePolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EffectivePolicyType'));
 }
 
 class EnableAllFeaturesResponse {
@@ -5588,7 +5425,7 @@ class Handshake {
 
   factory Handshake.fromJson(Map<String, dynamic> json) {
     return Handshake(
-      action: (json['Action'] as String?)?.toActionType(),
+      action: (json['Action'] as String?)?.let(ActionType.fromString),
       arn: json['Arn'] as String?,
       expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
       id: json['Id'] as String?,
@@ -5601,7 +5438,7 @@ class Handshake {
           ?.whereNotNull()
           .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      state: (json['State'] as String?)?.toHandshakeState(),
+      state: (json['State'] as String?)?.let(HandshakeState.fromString),
     );
   }
 }
@@ -5635,7 +5472,7 @@ class HandshakeFilter {
     final actionType = this.actionType;
     final parentHandshakeId = this.parentHandshakeId;
     return {
-      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (actionType != null) 'ActionType': actionType.value,
       if (parentHandshakeId != null) 'ParentHandshakeId': parentHandshakeId,
     };
   }
@@ -5661,7 +5498,7 @@ class HandshakeParty {
   factory HandshakeParty.fromJson(Map<String, dynamic> json) {
     return HandshakeParty(
       id: json['Id'] as String,
-      type: (json['Type'] as String).toHandshakePartyType(),
+      type: HandshakePartyType.fromString((json['Type'] as String)),
     );
   }
 
@@ -5670,42 +5507,25 @@ class HandshakeParty {
     final type = this.type;
     return {
       'Id': id,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum HandshakePartyType {
-  account,
-  organization,
-  email,
-}
+  account('ACCOUNT'),
+  organization('ORGANIZATION'),
+  email('EMAIL'),
+  ;
 
-extension HandshakePartyTypeValueExtension on HandshakePartyType {
-  String toValue() {
-    switch (this) {
-      case HandshakePartyType.account:
-        return 'ACCOUNT';
-      case HandshakePartyType.organization:
-        return 'ORGANIZATION';
-      case HandshakePartyType.email:
-        return 'EMAIL';
-    }
-  }
-}
+  final String value;
 
-extension HandshakePartyTypeFromString on String {
-  HandshakePartyType toHandshakePartyType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return HandshakePartyType.account;
-      case 'ORGANIZATION':
-        return HandshakePartyType.organization;
-      case 'EMAIL':
-        return HandshakePartyType.email;
-    }
-    throw Exception('$this is not known in enum HandshakePartyType');
-  }
+  const HandshakePartyType(this.value);
+
+  static HandshakePartyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HandshakePartyType'));
 }
 
 /// Contains additional data that is needed to process a handshake.
@@ -5760,144 +5580,65 @@ class HandshakeResource {
           ?.whereNotNull()
           .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toHandshakeResourceType(),
+      type: (json['Type'] as String?)?.let(HandshakeResourceType.fromString),
       value: json['Value'] as String?,
     );
   }
 }
 
 enum HandshakeResourceType {
-  account,
-  organization,
-  organizationFeatureSet,
-  email,
-  masterEmail,
-  masterName,
-  notes,
-  parentHandshake,
-}
+  account('ACCOUNT'),
+  organization('ORGANIZATION'),
+  organizationFeatureSet('ORGANIZATION_FEATURE_SET'),
+  email('EMAIL'),
+  masterEmail('MASTER_EMAIL'),
+  masterName('MASTER_NAME'),
+  notes('NOTES'),
+  parentHandshake('PARENT_HANDSHAKE'),
+  ;
 
-extension HandshakeResourceTypeValueExtension on HandshakeResourceType {
-  String toValue() {
-    switch (this) {
-      case HandshakeResourceType.account:
-        return 'ACCOUNT';
-      case HandshakeResourceType.organization:
-        return 'ORGANIZATION';
-      case HandshakeResourceType.organizationFeatureSet:
-        return 'ORGANIZATION_FEATURE_SET';
-      case HandshakeResourceType.email:
-        return 'EMAIL';
-      case HandshakeResourceType.masterEmail:
-        return 'MASTER_EMAIL';
-      case HandshakeResourceType.masterName:
-        return 'MASTER_NAME';
-      case HandshakeResourceType.notes:
-        return 'NOTES';
-      case HandshakeResourceType.parentHandshake:
-        return 'PARENT_HANDSHAKE';
-    }
-  }
-}
+  final String value;
 
-extension HandshakeResourceTypeFromString on String {
-  HandshakeResourceType toHandshakeResourceType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return HandshakeResourceType.account;
-      case 'ORGANIZATION':
-        return HandshakeResourceType.organization;
-      case 'ORGANIZATION_FEATURE_SET':
-        return HandshakeResourceType.organizationFeatureSet;
-      case 'EMAIL':
-        return HandshakeResourceType.email;
-      case 'MASTER_EMAIL':
-        return HandshakeResourceType.masterEmail;
-      case 'MASTER_NAME':
-        return HandshakeResourceType.masterName;
-      case 'NOTES':
-        return HandshakeResourceType.notes;
-      case 'PARENT_HANDSHAKE':
-        return HandshakeResourceType.parentHandshake;
-    }
-    throw Exception('$this is not known in enum HandshakeResourceType');
-  }
+  const HandshakeResourceType(this.value);
+
+  static HandshakeResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HandshakeResourceType'));
 }
 
 enum HandshakeState {
-  requested,
-  open,
-  canceled,
-  accepted,
-  declined,
-  expired,
-}
+  requested('REQUESTED'),
+  open('OPEN'),
+  canceled('CANCELED'),
+  accepted('ACCEPTED'),
+  declined('DECLINED'),
+  expired('EXPIRED'),
+  ;
 
-extension HandshakeStateValueExtension on HandshakeState {
-  String toValue() {
-    switch (this) {
-      case HandshakeState.requested:
-        return 'REQUESTED';
-      case HandshakeState.open:
-        return 'OPEN';
-      case HandshakeState.canceled:
-        return 'CANCELED';
-      case HandshakeState.accepted:
-        return 'ACCEPTED';
-      case HandshakeState.declined:
-        return 'DECLINED';
-      case HandshakeState.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension HandshakeStateFromString on String {
-  HandshakeState toHandshakeState() {
-    switch (this) {
-      case 'REQUESTED':
-        return HandshakeState.requested;
-      case 'OPEN':
-        return HandshakeState.open;
-      case 'CANCELED':
-        return HandshakeState.canceled;
-      case 'ACCEPTED':
-        return HandshakeState.accepted;
-      case 'DECLINED':
-        return HandshakeState.declined;
-      case 'EXPIRED':
-        return HandshakeState.expired;
-    }
-    throw Exception('$this is not known in enum HandshakeState');
-  }
+  const HandshakeState(this.value);
+
+  static HandshakeState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HandshakeState'));
 }
 
 enum IAMUserAccessToBilling {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension IAMUserAccessToBillingValueExtension on IAMUserAccessToBilling {
-  String toValue() {
-    switch (this) {
-      case IAMUserAccessToBilling.allow:
-        return 'ALLOW';
-      case IAMUserAccessToBilling.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension IAMUserAccessToBillingFromString on String {
-  IAMUserAccessToBilling toIAMUserAccessToBilling() {
-    switch (this) {
-      case 'ALLOW':
-        return IAMUserAccessToBilling.allow;
-      case 'DENY':
-        return IAMUserAccessToBilling.deny;
-    }
-    throw Exception('$this is not known in enum IAMUserAccessToBilling');
-  }
+  const IAMUserAccessToBilling(this.value);
+
+  static IAMUserAccessToBilling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IAMUserAccessToBilling'));
 }
 
 class InviteAccountToOrganizationResponse {
@@ -6442,7 +6183,8 @@ class Organization {
           ?.whereNotNull()
           .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      featureSet: (json['FeatureSet'] as String?)?.toOrganizationFeatureSet(),
+      featureSet: (json['FeatureSet'] as String?)
+          ?.let(OrganizationFeatureSet.fromString),
       id: json['Id'] as String?,
       masterAccountArn: json['MasterAccountArn'] as String?,
       masterAccountEmail: json['MasterAccountEmail'] as String?,
@@ -6452,31 +6194,18 @@ class Organization {
 }
 
 enum OrganizationFeatureSet {
-  all,
-  consolidatedBilling,
-}
+  all('ALL'),
+  consolidatedBilling('CONSOLIDATED_BILLING'),
+  ;
 
-extension OrganizationFeatureSetValueExtension on OrganizationFeatureSet {
-  String toValue() {
-    switch (this) {
-      case OrganizationFeatureSet.all:
-        return 'ALL';
-      case OrganizationFeatureSet.consolidatedBilling:
-        return 'CONSOLIDATED_BILLING';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationFeatureSetFromString on String {
-  OrganizationFeatureSet toOrganizationFeatureSet() {
-    switch (this) {
-      case 'ALL':
-        return OrganizationFeatureSet.all;
-      case 'CONSOLIDATED_BILLING':
-        return OrganizationFeatureSet.consolidatedBilling;
-    }
-    throw Exception('$this is not known in enum OrganizationFeatureSet');
-  }
+  const OrganizationFeatureSet(this.value);
+
+  static OrganizationFeatureSet fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationFeatureSet'));
 }
 
 /// Contains details about an organizational unit (OU). An OU is a container of
@@ -6557,37 +6286,23 @@ class Parent {
   factory Parent.fromJson(Map<String, dynamic> json) {
     return Parent(
       id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.toParentType(),
+      type: (json['Type'] as String?)?.let(ParentType.fromString),
     );
   }
 }
 
 enum ParentType {
-  root,
-  organizationalUnit,
-}
+  root('ROOT'),
+  organizationalUnit('ORGANIZATIONAL_UNIT'),
+  ;
 
-extension ParentTypeValueExtension on ParentType {
-  String toValue() {
-    switch (this) {
-      case ParentType.root:
-        return 'ROOT';
-      case ParentType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension ParentTypeFromString on String {
-  ParentType toParentType() {
-    switch (this) {
-      case 'ROOT':
-        return ParentType.root;
-      case 'ORGANIZATIONAL_UNIT':
-        return ParentType.organizationalUnit;
-    }
-    throw Exception('$this is not known in enum ParentType');
-  }
+  const ParentType(this.value);
+
+  static ParentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ParentType'));
 }
 
 /// Contains rules to be applied to the affected accounts. Policies can be
@@ -6668,7 +6383,7 @@ class PolicySummary {
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toPolicyType(),
+      type: (json['Type'] as String?)?.let(PolicyType.fromString),
     );
   }
 }
@@ -6728,80 +6443,41 @@ class PolicyTargetSummary {
       arn: json['Arn'] as String?,
       name: json['Name'] as String?,
       targetId: json['TargetId'] as String?,
-      type: (json['Type'] as String?)?.toTargetType(),
+      type: (json['Type'] as String?)?.let(TargetType.fromString),
     );
   }
 }
 
 enum PolicyType {
-  serviceControlPolicy,
-  tagPolicy,
-  backupPolicy,
-  aiservicesOptOutPolicy,
-}
+  serviceControlPolicy('SERVICE_CONTROL_POLICY'),
+  tagPolicy('TAG_POLICY'),
+  backupPolicy('BACKUP_POLICY'),
+  aiservicesOptOutPolicy('AISERVICES_OPT_OUT_POLICY'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.serviceControlPolicy:
-        return 'SERVICE_CONTROL_POLICY';
-      case PolicyType.tagPolicy:
-        return 'TAG_POLICY';
-      case PolicyType.backupPolicy:
-        return 'BACKUP_POLICY';
-      case PolicyType.aiservicesOptOutPolicy:
-        return 'AISERVICES_OPT_OUT_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'SERVICE_CONTROL_POLICY':
-        return PolicyType.serviceControlPolicy;
-      case 'TAG_POLICY':
-        return PolicyType.tagPolicy;
-      case 'BACKUP_POLICY':
-        return PolicyType.backupPolicy;
-      case 'AISERVICES_OPT_OUT_POLICY':
-        return PolicyType.aiservicesOptOutPolicy;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 enum PolicyTypeStatus {
-  enabled,
-  pendingEnable,
-  pendingDisable,
-}
+  enabled('ENABLED'),
+  pendingEnable('PENDING_ENABLE'),
+  pendingDisable('PENDING_DISABLE'),
+  ;
 
-extension PolicyTypeStatusValueExtension on PolicyTypeStatus {
-  String toValue() {
-    switch (this) {
-      case PolicyTypeStatus.enabled:
-        return 'ENABLED';
-      case PolicyTypeStatus.pendingEnable:
-        return 'PENDING_ENABLE';
-      case PolicyTypeStatus.pendingDisable:
-        return 'PENDING_DISABLE';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeStatusFromString on String {
-  PolicyTypeStatus toPolicyTypeStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return PolicyTypeStatus.enabled;
-      case 'PENDING_ENABLE':
-        return PolicyTypeStatus.pendingEnable;
-      case 'PENDING_DISABLE':
-        return PolicyTypeStatus.pendingDisable;
-    }
-    throw Exception('$this is not known in enum PolicyTypeStatus');
-  }
+  const PolicyTypeStatus(this.value);
+
+  static PolicyTypeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicyTypeStatus'));
 }
 
 /// Contains information about a policy type and its status in the associated
@@ -6823,8 +6499,8 @@ class PolicyTypeSummary {
 
   factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) {
     return PolicyTypeSummary(
-      status: (json['Status'] as String?)?.toPolicyTypeStatus(),
-      type: (json['Type'] as String?)?.toPolicyType(),
+      status: (json['Status'] as String?)?.let(PolicyTypeStatus.fromString),
+      type: (json['Type'] as String?)?.let(PolicyType.fromString),
     );
   }
 }
@@ -7001,36 +6677,18 @@ class Tag {
 }
 
 enum TargetType {
-  account,
-  organizationalUnit,
-  root,
-}
+  account('ACCOUNT'),
+  organizationalUnit('ORGANIZATIONAL_UNIT'),
+  root('ROOT'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.account:
-        return 'ACCOUNT';
-      case TargetType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-      case TargetType.root:
-        return 'ROOT';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return TargetType.account;
-      case 'ORGANIZATIONAL_UNIT':
-        return TargetType.organizationalUnit;
-      case 'ROOT':
-        return TargetType.root;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 class UpdateOrganizationalUnitResponse {

@@ -134,7 +134,7 @@ class MainframeModernization {
   }) async {
     final $payload = <String, dynamic>{
       'definition': definition,
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
@@ -331,7 +331,7 @@ class MainframeModernization {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'instanceType': instanceType,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -847,7 +847,7 @@ class MainframeModernization {
         'startedAfter': [_s.iso8601ToJson(startedAfter).toString()],
       if (startedBefore != null)
         'startedBefore': [_s.iso8601ToJson(startedBefore).toString()],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1074,7 +1074,7 @@ class MainframeModernization {
       2000,
     );
     final $query = <String, List<String>>{
-      if (engineType != null) 'engineType': [engineType.toValue()],
+      if (engineType != null) 'engineType': [engineType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1120,7 +1120,7 @@ class MainframeModernization {
       2000,
     );
     final $query = <String, List<String>>{
-      if (engineType != null) 'engineType': [engineType.toValue()],
+      if (engineType != null) 'engineType': [engineType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (names != null) 'names': names,
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1490,106 +1490,42 @@ class AlternateKey {
 }
 
 enum ApplicationDeploymentLifecycle {
-  deploying,
-  deployed,
-}
+  deploying('Deploying'),
+  deployed('Deployed'),
+  ;
 
-extension ApplicationDeploymentLifecycleValueExtension
-    on ApplicationDeploymentLifecycle {
-  String toValue() {
-    switch (this) {
-      case ApplicationDeploymentLifecycle.deploying:
-        return 'Deploying';
-      case ApplicationDeploymentLifecycle.deployed:
-        return 'Deployed';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationDeploymentLifecycleFromString on String {
-  ApplicationDeploymentLifecycle toApplicationDeploymentLifecycle() {
-    switch (this) {
-      case 'Deploying':
-        return ApplicationDeploymentLifecycle.deploying;
-      case 'Deployed':
-        return ApplicationDeploymentLifecycle.deployed;
-    }
-    throw Exception(
-        '$this is not known in enum ApplicationDeploymentLifecycle');
-  }
+  const ApplicationDeploymentLifecycle(this.value);
+
+  static ApplicationDeploymentLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationDeploymentLifecycle'));
 }
 
 enum ApplicationLifecycle {
-  creating,
-  created,
-  available,
-  ready,
-  starting,
-  running,
-  stopping,
-  stopped,
-  failed,
-  deleting,
-  deletingFromEnvironment,
-}
+  creating('Creating'),
+  created('Created'),
+  available('Available'),
+  ready('Ready'),
+  starting('Starting'),
+  running('Running'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  failed('Failed'),
+  deleting('Deleting'),
+  deletingFromEnvironment('Deleting From Environment'),
+  ;
 
-extension ApplicationLifecycleValueExtension on ApplicationLifecycle {
-  String toValue() {
-    switch (this) {
-      case ApplicationLifecycle.creating:
-        return 'Creating';
-      case ApplicationLifecycle.created:
-        return 'Created';
-      case ApplicationLifecycle.available:
-        return 'Available';
-      case ApplicationLifecycle.ready:
-        return 'Ready';
-      case ApplicationLifecycle.starting:
-        return 'Starting';
-      case ApplicationLifecycle.running:
-        return 'Running';
-      case ApplicationLifecycle.stopping:
-        return 'Stopping';
-      case ApplicationLifecycle.stopped:
-        return 'Stopped';
-      case ApplicationLifecycle.failed:
-        return 'Failed';
-      case ApplicationLifecycle.deleting:
-        return 'Deleting';
-      case ApplicationLifecycle.deletingFromEnvironment:
-        return 'Deleting From Environment';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationLifecycleFromString on String {
-  ApplicationLifecycle toApplicationLifecycle() {
-    switch (this) {
-      case 'Creating':
-        return ApplicationLifecycle.creating;
-      case 'Created':
-        return ApplicationLifecycle.created;
-      case 'Available':
-        return ApplicationLifecycle.available;
-      case 'Ready':
-        return ApplicationLifecycle.ready;
-      case 'Starting':
-        return ApplicationLifecycle.starting;
-      case 'Running':
-        return ApplicationLifecycle.running;
-      case 'Stopping':
-        return ApplicationLifecycle.stopping;
-      case 'Stopped':
-        return ApplicationLifecycle.stopped;
-      case 'Failed':
-        return ApplicationLifecycle.failed;
-      case 'Deleting':
-        return ApplicationLifecycle.deleting;
-      case 'Deleting From Environment':
-        return ApplicationLifecycle.deletingFromEnvironment;
-    }
-    throw Exception('$this is not known in enum ApplicationLifecycle');
-  }
+  const ApplicationLifecycle(this.value);
+
+  static ApplicationLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApplicationLifecycle'));
 }
 
 /// A subset of the possible application attributes. Used in the application
@@ -1660,17 +1596,17 @@ class ApplicationSummary {
       applicationVersion: json['applicationVersion'] as int,
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      engineType: (json['engineType'] as String).toEngineType(),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       name: json['name'] as String,
-      status: (json['status'] as String).toApplicationLifecycle(),
+      status: ApplicationLifecycle.fromString((json['status'] as String)),
       deploymentStatus: (json['deploymentStatus'] as String?)
-          ?.toApplicationDeploymentLifecycle(),
+          ?.let(ApplicationDeploymentLifecycle.fromString),
       description: json['description'] as String?,
       environmentId: json['environmentId'] as String?,
       lastStartTime: timeStampFromJson(json['lastStartTime']),
       roleArn: json['roleArn'] as String?,
-      versionStatus:
-          (json['versionStatus'] as String?)?.toApplicationVersionLifecycle(),
+      versionStatus: (json['versionStatus'] as String?)
+          ?.let(ApplicationVersionLifecycle.fromString),
     );
   }
 
@@ -1693,53 +1629,34 @@ class ApplicationSummary {
       'applicationId': applicationId,
       'applicationVersion': applicationVersion,
       'creationTime': unixTimestampToJson(creationTime),
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'name': name,
-      'status': status.toValue(),
-      if (deploymentStatus != null)
-        'deploymentStatus': deploymentStatus.toValue(),
+      'status': status.value,
+      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
       if (description != null) 'description': description,
       if (environmentId != null) 'environmentId': environmentId,
       if (lastStartTime != null)
         'lastStartTime': unixTimestampToJson(lastStartTime),
       if (roleArn != null) 'roleArn': roleArn,
-      if (versionStatus != null) 'versionStatus': versionStatus.toValue(),
+      if (versionStatus != null) 'versionStatus': versionStatus.value,
     };
   }
 }
 
 enum ApplicationVersionLifecycle {
-  creating,
-  available,
-  failed,
-}
+  creating('Creating'),
+  available('Available'),
+  failed('Failed'),
+  ;
 
-extension ApplicationVersionLifecycleValueExtension
-    on ApplicationVersionLifecycle {
-  String toValue() {
-    switch (this) {
-      case ApplicationVersionLifecycle.creating:
-        return 'Creating';
-      case ApplicationVersionLifecycle.available:
-        return 'Available';
-      case ApplicationVersionLifecycle.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationVersionLifecycleFromString on String {
-  ApplicationVersionLifecycle toApplicationVersionLifecycle() {
-    switch (this) {
-      case 'Creating':
-        return ApplicationVersionLifecycle.creating;
-      case 'Available':
-        return ApplicationVersionLifecycle.available;
-      case 'Failed':
-        return ApplicationVersionLifecycle.failed;
-    }
-    throw Exception('$this is not known in enum ApplicationVersionLifecycle');
-  }
+  const ApplicationVersionLifecycle(this.value);
+
+  static ApplicationVersionLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationVersionLifecycle'));
 }
 
 /// Defines an application version summary.
@@ -1768,7 +1685,8 @@ class ApplicationVersionSummary {
       applicationVersion: json['applicationVersion'] as int,
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      status: (json['status'] as String).toApplicationVersionLifecycle(),
+      status:
+          ApplicationVersionLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1781,7 +1699,7 @@ class ApplicationVersionSummary {
     return {
       'applicationVersion': applicationVersion,
       'creationTime': unixTimestampToJson(creationTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -1826,71 +1744,26 @@ class BatchJobDefinition {
 }
 
 enum BatchJobExecutionStatus {
-  submitting,
-  holding,
-  dispatching,
-  running,
-  cancelling,
-  cancelled,
-  succeeded,
-  failed,
-  purged,
-  succeededWithWarning,
-}
+  submitting('Submitting'),
+  holding('Holding'),
+  dispatching('Dispatching'),
+  running('Running'),
+  cancelling('Cancelling'),
+  cancelled('Cancelled'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  purged('Purged'),
+  succeededWithWarning('Succeeded With Warning'),
+  ;
 
-extension BatchJobExecutionStatusValueExtension on BatchJobExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case BatchJobExecutionStatus.submitting:
-        return 'Submitting';
-      case BatchJobExecutionStatus.holding:
-        return 'Holding';
-      case BatchJobExecutionStatus.dispatching:
-        return 'Dispatching';
-      case BatchJobExecutionStatus.running:
-        return 'Running';
-      case BatchJobExecutionStatus.cancelling:
-        return 'Cancelling';
-      case BatchJobExecutionStatus.cancelled:
-        return 'Cancelled';
-      case BatchJobExecutionStatus.succeeded:
-        return 'Succeeded';
-      case BatchJobExecutionStatus.failed:
-        return 'Failed';
-      case BatchJobExecutionStatus.purged:
-        return 'Purged';
-      case BatchJobExecutionStatus.succeededWithWarning:
-        return 'Succeeded With Warning';
-    }
-  }
-}
+  final String value;
 
-extension BatchJobExecutionStatusFromString on String {
-  BatchJobExecutionStatus toBatchJobExecutionStatus() {
-    switch (this) {
-      case 'Submitting':
-        return BatchJobExecutionStatus.submitting;
-      case 'Holding':
-        return BatchJobExecutionStatus.holding;
-      case 'Dispatching':
-        return BatchJobExecutionStatus.dispatching;
-      case 'Running':
-        return BatchJobExecutionStatus.running;
-      case 'Cancelling':
-        return BatchJobExecutionStatus.cancelling;
-      case 'Cancelled':
-        return BatchJobExecutionStatus.cancelled;
-      case 'Succeeded':
-        return BatchJobExecutionStatus.succeeded;
-      case 'Failed':
-        return BatchJobExecutionStatus.failed;
-      case 'Purged':
-        return BatchJobExecutionStatus.purged;
-      case 'Succeeded With Warning':
-        return BatchJobExecutionStatus.succeededWithWarning;
-    }
-    throw Exception('$this is not known in enum BatchJobExecutionStatus');
-  }
+  const BatchJobExecutionStatus(this.value);
+
+  static BatchJobExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchJobExecutionStatus'));
 }
 
 /// A subset of the possible batch job attributes. Used in the batch job list.
@@ -1947,7 +1820,7 @@ class BatchJobExecutionSummary {
       applicationId: json['applicationId'] as String,
       executionId: json['executionId'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toBatchJobExecutionStatus(),
+      status: BatchJobExecutionStatus.fromString((json['status'] as String)),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
               json['batchJobIdentifier'] as Map<String, dynamic>)
@@ -1955,7 +1828,7 @@ class BatchJobExecutionSummary {
       endTime: timeStampFromJson(json['endTime']),
       jobId: json['jobId'] as String?,
       jobName: json['jobName'] as String?,
-      jobType: (json['jobType'] as String?)?.toBatchJobType(),
+      jobType: (json['jobType'] as String?)?.let(BatchJobType.fromString),
       returnCode: json['returnCode'] as String?,
     );
   }
@@ -1975,12 +1848,12 @@ class BatchJobExecutionSummary {
       'applicationId': applicationId,
       'executionId': executionId,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (batchJobIdentifier != null) 'batchJobIdentifier': batchJobIdentifier,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (jobId != null) 'jobId': jobId,
       if (jobName != null) 'jobName': jobName,
-      if (jobType != null) 'jobType': jobType.toValue(),
+      if (jobType != null) 'jobType': jobType.value,
       if (returnCode != null) 'returnCode': returnCode,
     };
   }
@@ -2050,36 +1923,19 @@ class BatchJobIdentifier {
 }
 
 enum BatchJobType {
-  vse,
-  jes2,
-  jes3,
-}
+  vse('VSE'),
+  jes2('JES2'),
+  jes3('JES3'),
+  ;
 
-extension BatchJobTypeValueExtension on BatchJobType {
-  String toValue() {
-    switch (this) {
-      case BatchJobType.vse:
-        return 'VSE';
-      case BatchJobType.jes2:
-        return 'JES2';
-      case BatchJobType.jes3:
-        return 'JES3';
-    }
-  }
-}
+  final String value;
 
-extension BatchJobTypeFromString on String {
-  BatchJobType toBatchJobType() {
-    switch (this) {
-      case 'VSE':
-        return BatchJobType.vse;
-      case 'JES2':
-        return BatchJobType.jes2;
-      case 'JES3':
-        return BatchJobType.jes3;
-    }
-    throw Exception('$this is not known in enum BatchJobType');
-  }
+  const BatchJobType(this.value);
+
+  static BatchJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BatchJobType'));
 }
 
 class CancelBatchJobExecutionResponse {
@@ -2363,7 +2219,7 @@ class DataSetImportTask {
 
   factory DataSetImportTask.fromJson(Map<String, dynamic> json) {
     return DataSetImportTask(
-      status: (json['status'] as String).toDataSetTaskLifecycle(),
+      status: DataSetTaskLifecycle.fromString((json['status'] as String)),
       summary: DataSetImportSummary.fromJson(
           json['summary'] as Map<String, dynamic>),
       taskId: json['taskId'] as String,
@@ -2377,7 +2233,7 @@ class DataSetImportTask {
     final taskId = this.taskId;
     final statusReason = this.statusReason;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       'summary': summary,
       'taskId': taskId,
       if (statusReason != null) 'statusReason': statusReason,
@@ -2447,41 +2303,20 @@ class DataSetSummary {
 }
 
 enum DataSetTaskLifecycle {
-  creating,
-  running,
-  completed,
-  failed,
-}
+  creating('Creating'),
+  running('Running'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension DataSetTaskLifecycleValueExtension on DataSetTaskLifecycle {
-  String toValue() {
-    switch (this) {
-      case DataSetTaskLifecycle.creating:
-        return 'Creating';
-      case DataSetTaskLifecycle.running:
-        return 'Running';
-      case DataSetTaskLifecycle.completed:
-        return 'Completed';
-      case DataSetTaskLifecycle.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DataSetTaskLifecycleFromString on String {
-  DataSetTaskLifecycle toDataSetTaskLifecycle() {
-    switch (this) {
-      case 'Creating':
-        return DataSetTaskLifecycle.creating;
-      case 'Running':
-        return DataSetTaskLifecycle.running;
-      case 'Completed':
-        return DataSetTaskLifecycle.completed;
-      case 'Failed':
-        return DataSetTaskLifecycle.failed;
-    }
-    throw Exception('$this is not known in enum DataSetTaskLifecycle');
-  }
+  const DataSetTaskLifecycle(this.value);
+
+  static DataSetTaskLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataSetTaskLifecycle'));
 }
 
 /// Additional details about the data set. Different attributes correspond to
@@ -2657,7 +2492,7 @@ class DeployedVersionSummary {
   factory DeployedVersionSummary.fromJson(Map<String, dynamic> json) {
     return DeployedVersionSummary(
       applicationVersion: json['applicationVersion'] as int,
-      status: (json['status'] as String).toDeploymentLifecycle(),
+      status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2668,48 +2503,27 @@ class DeployedVersionSummary {
     final statusReason = this.statusReason;
     return {
       'applicationVersion': applicationVersion,
-      'status': status.toValue(),
+      'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
 }
 
 enum DeploymentLifecycle {
-  deploying,
-  succeeded,
-  failed,
-  updatingDeployment,
-}
+  deploying('Deploying'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  updatingDeployment('Updating Deployment'),
+  ;
 
-extension DeploymentLifecycleValueExtension on DeploymentLifecycle {
-  String toValue() {
-    switch (this) {
-      case DeploymentLifecycle.deploying:
-        return 'Deploying';
-      case DeploymentLifecycle.succeeded:
-        return 'Succeeded';
-      case DeploymentLifecycle.failed:
-        return 'Failed';
-      case DeploymentLifecycle.updatingDeployment:
-        return 'Updating Deployment';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentLifecycleFromString on String {
-  DeploymentLifecycle toDeploymentLifecycle() {
-    switch (this) {
-      case 'Deploying':
-        return DeploymentLifecycle.deploying;
-      case 'Succeeded':
-        return DeploymentLifecycle.succeeded;
-      case 'Failed':
-        return DeploymentLifecycle.failed;
-      case 'Updating Deployment':
-        return DeploymentLifecycle.updatingDeployment;
-    }
-    throw Exception('$this is not known in enum DeploymentLifecycle');
-  }
+  const DeploymentLifecycle(this.value);
+
+  static DeploymentLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeploymentLifecycle'));
 }
 
 /// A subset of information about a specific deployment.
@@ -2753,7 +2567,7 @@ class DeploymentSummary {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       deploymentId: json['deploymentId'] as String,
       environmentId: json['environmentId'] as String,
-      status: (json['status'] as String).toDeploymentLifecycle(),
+      status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2772,7 +2586,7 @@ class DeploymentSummary {
       'creationTime': unixTimestampToJson(creationTime),
       'deploymentId': deploymentId,
       'environmentId': environmentId,
-      'status': status.toValue(),
+      'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -2809,31 +2623,17 @@ class EfsStorageConfiguration {
 }
 
 enum EngineType {
-  microfocus,
-  bluage,
-}
+  microfocus('microfocus'),
+  bluage('bluage'),
+  ;
 
-extension EngineTypeValueExtension on EngineType {
-  String toValue() {
-    switch (this) {
-      case EngineType.microfocus:
-        return 'microfocus';
-      case EngineType.bluage:
-        return 'bluage';
-    }
-  }
-}
+  final String value;
 
-extension EngineTypeFromString on String {
-  EngineType toEngineType() {
-    switch (this) {
-      case 'microfocus':
-        return EngineType.microfocus;
-      case 'bluage':
-        return EngineType.bluage;
-    }
-    throw Exception('$this is not known in enum EngineType');
-  }
+  const EngineType(this.value);
+
+  static EngineType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EngineType'));
 }
 
 /// A subset of information about the engine version for a specific application.
@@ -2867,46 +2667,21 @@ class EngineVersionsSummary {
 }
 
 enum EnvironmentLifecycle {
-  creating,
-  available,
-  updating,
-  deleting,
-  failed,
-}
+  creating('Creating'),
+  available('Available'),
+  updating('Updating'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension EnvironmentLifecycleValueExtension on EnvironmentLifecycle {
-  String toValue() {
-    switch (this) {
-      case EnvironmentLifecycle.creating:
-        return 'Creating';
-      case EnvironmentLifecycle.available:
-        return 'Available';
-      case EnvironmentLifecycle.updating:
-        return 'Updating';
-      case EnvironmentLifecycle.deleting:
-        return 'Deleting';
-      case EnvironmentLifecycle.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentLifecycleFromString on String {
-  EnvironmentLifecycle toEnvironmentLifecycle() {
-    switch (this) {
-      case 'Creating':
-        return EnvironmentLifecycle.creating;
-      case 'Available':
-        return EnvironmentLifecycle.available;
-      case 'Updating':
-        return EnvironmentLifecycle.updating;
-      case 'Deleting':
-        return EnvironmentLifecycle.deleting;
-      case 'Failed':
-        return EnvironmentLifecycle.failed;
-    }
-    throw Exception('$this is not known in enum EnvironmentLifecycle');
-  }
+  const EnvironmentLifecycle(this.value);
+
+  static EnvironmentLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EnvironmentLifecycle'));
 }
 
 /// Contains a subset of the possible runtime environment attributes. Used in
@@ -2951,13 +2726,13 @@ class EnvironmentSummary {
     return EnvironmentSummary(
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      engineType: (json['engineType'] as String).toEngineType(),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       engineVersion: json['engineVersion'] as String,
       environmentArn: json['environmentArn'] as String,
       environmentId: json['environmentId'] as String,
       instanceType: json['instanceType'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toEnvironmentLifecycle(),
+      status: EnvironmentLifecycle.fromString((json['status'] as String)),
     );
   }
 
@@ -2972,13 +2747,13 @@ class EnvironmentSummary {
     final status = this.status;
     return {
       'creationTime': unixTimestampToJson(creationTime),
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'engineVersion': engineVersion,
       'environmentArn': environmentArn,
       'environmentId': environmentId,
       'instanceType': instanceType,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -3257,11 +3032,11 @@ class GetApplicationResponse {
       applicationId: json['applicationId'] as String,
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      engineType: (json['engineType'] as String).toEngineType(),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       latestVersion: ApplicationVersionSummary.fromJson(
           json['latestVersion'] as Map<String, dynamic>),
       name: json['name'] as String,
-      status: (json['status'] as String).toApplicationLifecycle(),
+      status: ApplicationLifecycle.fromString((json['status'] as String)),
       deployedVersion: json['deployedVersion'] != null
           ? DeployedVersionSummary.fromJson(
               json['deployedVersion'] as Map<String, dynamic>)
@@ -3319,10 +3094,10 @@ class GetApplicationResponse {
       'applicationArn': applicationArn,
       'applicationId': applicationId,
       'creationTime': unixTimestampToJson(creationTime),
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'latestVersion': latestVersion,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (deployedVersion != null) 'deployedVersion': deployedVersion,
       if (description != null) 'description': description,
       if (environmentId != null) 'environmentId': environmentId,
@@ -3383,7 +3158,8 @@ class GetApplicationVersionResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       definitionContent: json['definitionContent'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toApplicationVersionLifecycle(),
+      status:
+          ApplicationVersionLifecycle.fromString((json['status'] as String)),
       description: json['description'] as String?,
       statusReason: json['statusReason'] as String?,
     );
@@ -3402,7 +3178,7 @@ class GetApplicationVersionResponse {
       'creationTime': unixTimestampToJson(creationTime),
       'definitionContent': definitionContent,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (description != null) 'description': description,
       if (statusReason != null) 'statusReason': statusReason,
     };
@@ -3474,7 +3250,7 @@ class GetBatchJobExecutionResponse {
       applicationId: json['applicationId'] as String,
       executionId: json['executionId'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toBatchJobExecutionStatus(),
+      status: BatchJobExecutionStatus.fromString((json['status'] as String)),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
               json['batchJobIdentifier'] as Map<String, dynamic>)
@@ -3486,7 +3262,7 @@ class GetBatchJobExecutionResponse {
           ? JobStepRestartMarker.fromJson(
               json['jobStepRestartMarker'] as Map<String, dynamic>)
           : null,
-      jobType: (json['jobType'] as String?)?.toBatchJobType(),
+      jobType: (json['jobType'] as String?)?.let(BatchJobType.fromString),
       jobUser: json['jobUser'] as String?,
       returnCode: json['returnCode'] as String?,
       statusReason: json['statusReason'] as String?,
@@ -3511,14 +3287,14 @@ class GetBatchJobExecutionResponse {
       'applicationId': applicationId,
       'executionId': executionId,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (batchJobIdentifier != null) 'batchJobIdentifier': batchJobIdentifier,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (jobId != null) 'jobId': jobId,
       if (jobName != null) 'jobName': jobName,
       if (jobStepRestartMarker != null)
         'jobStepRestartMarker': jobStepRestartMarker,
-      if (jobType != null) 'jobType': jobType.toValue(),
+      if (jobType != null) 'jobType': jobType.value,
       if (jobUser != null) 'jobUser': jobUser,
       if (returnCode != null) 'returnCode': returnCode,
       if (statusReason != null) 'statusReason': statusReason,
@@ -3628,7 +3404,7 @@ class GetDataSetImportTaskResponse {
 
   factory GetDataSetImportTaskResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetImportTaskResponse(
-      status: (json['status'] as String).toDataSetTaskLifecycle(),
+      status: DataSetTaskLifecycle.fromString((json['status'] as String)),
       taskId: json['taskId'] as String,
       summary: json['summary'] != null
           ? DataSetImportSummary.fromJson(
@@ -3642,7 +3418,7 @@ class GetDataSetImportTaskResponse {
     final taskId = this.taskId;
     final summary = this.summary;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       'taskId': taskId,
       if (summary != null) 'summary': summary,
     };
@@ -3689,7 +3465,7 @@ class GetDeploymentResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       deploymentId: json['deploymentId'] as String,
       environmentId: json['environmentId'] as String,
-      status: (json['status'] as String).toDeploymentLifecycle(),
+      status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -3708,7 +3484,7 @@ class GetDeploymentResponse {
       'creationTime': unixTimestampToJson(creationTime),
       'deploymentId': deploymentId,
       'environmentId': environmentId,
-      'status': status.toValue(),
+      'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -3817,7 +3593,7 @@ class GetEnvironmentResponse {
     return GetEnvironmentResponse(
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      engineType: (json['engineType'] as String).toEngineType(),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       engineVersion: json['engineVersion'] as String,
       environmentArn: json['environmentArn'] as String,
       environmentId: json['environmentId'] as String,
@@ -3827,7 +3603,7 @@ class GetEnvironmentResponse {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String).toEnvironmentLifecycle(),
+      status: EnvironmentLifecycle.fromString((json['status'] as String)),
       subnetIds: (json['subnetIds'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -3882,14 +3658,14 @@ class GetEnvironmentResponse {
     final tags = this.tags;
     return {
       'creationTime': unixTimestampToJson(creationTime),
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'engineVersion': engineVersion,
       'environmentArn': environmentArn,
       'environmentId': environmentId,
       'instanceType': instanceType,
       'name': name,
       'securityGroupIds': securityGroupIds,
-      'status': status.toValue(),
+      'status': status.value,
       'subnetIds': subnetIds,
       'vpcId': vpcId,
       if (actualCapacity != null) 'actualCapacity': actualCapacity,

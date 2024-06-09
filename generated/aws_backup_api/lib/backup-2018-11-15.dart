@@ -1755,12 +1755,12 @@ class Backup {
     final $query = <String, List<String>>{
       if (accountId != null) 'AccountId': [accountId],
       if (aggregationPeriod != null)
-        'AggregationPeriod': [aggregationPeriod.toValue()],
+        'AggregationPeriod': [aggregationPeriod.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (messageCategory != null) 'MessageCategory': [messageCategory],
       if (nextToken != null) 'NextToken': [nextToken],
       if (resourceType != null) 'ResourceType': [resourceType],
-      if (state != null) 'State': [state.toValue()],
+      if (state != null) 'State': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1944,7 +1944,7 @@ class Backup {
       if (byParentJobId != null) 'parentJobId': [byParentJobId],
       if (byResourceArn != null) 'resourceArn': [byResourceArn],
       if (byResourceType != null) 'resourceType': [byResourceType],
-      if (byState != null) 'state': [byState.toValue()],
+      if (byState != null) 'state': [byState.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2173,7 +2173,7 @@ class Backup {
     );
     final $query = <String, List<String>>{
       if (byShared != null) 'shared': [byShared.toString()],
-      if (byVaultType != null) 'vaultType': [byVaultType.toValue()],
+      if (byVaultType != null) 'vaultType': [byVaultType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2290,12 +2290,12 @@ class Backup {
     final $query = <String, List<String>>{
       if (accountId != null) 'AccountId': [accountId],
       if (aggregationPeriod != null)
-        'AggregationPeriod': [aggregationPeriod.toValue()],
+        'AggregationPeriod': [aggregationPeriod.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (messageCategory != null) 'MessageCategory': [messageCategory],
       if (nextToken != null) 'NextToken': [nextToken],
       if (resourceType != null) 'ResourceType': [resourceType],
-      if (state != null) 'State': [state.toValue()],
+      if (state != null) 'State': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2461,7 +2461,7 @@ class Backup {
       if (byParentJobId != null) 'parentJobId': [byParentJobId],
       if (byResourceArn != null) 'resourceArn': [byResourceArn],
       if (byResourceType != null) 'resourceType': [byResourceType],
-      if (byState != null) 'state': [byState.toValue()],
+      if (byState != null) 'state': [byState.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3095,11 +3095,11 @@ class Backup {
     final $query = <String, List<String>>{
       if (accountId != null) 'AccountId': [accountId],
       if (aggregationPeriod != null)
-        'AggregationPeriod': [aggregationPeriod.toValue()],
+        'AggregationPeriod': [aggregationPeriod.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (resourceType != null) 'ResourceType': [resourceType],
-      if (state != null) 'State': [state.toValue()],
+      if (state != null) 'State': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3238,7 +3238,7 @@ class Backup {
       if (byResourceType != null) 'resourceType': [byResourceType],
       if (byRestoreTestingPlanArn != null)
         'restoreTestingPlanArn': [byRestoreTestingPlanArn],
-      if (byStatus != null) 'status': [byStatus.toValue()],
+      if (byStatus != null) 'status': [byStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3311,7 +3311,7 @@ class Backup {
         'recoveryPointCreationDateBefore': [
           _s.iso8601ToJson(byRecoveryPointCreationDateBefore).toString()
         ],
-      if (byStatus != null) 'status': [byStatus.toValue()],
+      if (byStatus != null) 'status': [byStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3653,7 +3653,7 @@ class Backup {
     required String sNSTopicArn,
   }) async {
     final $payload = <String, dynamic>{
-      'BackupVaultEvents': backupVaultEvents.map((e) => e.toValue()).toList(),
+      'BackupVaultEvents': backupVaultEvents.map((e) => e.value).toList(),
       'SNSTopicArn': sNSTopicArn,
     };
     await _protocol.send(
@@ -3691,7 +3691,7 @@ class Backup {
     String? validationStatusMessage,
   }) async {
     final $payload = <String, dynamic>{
-      'ValidationStatus': validationStatus.toValue(),
+      'ValidationStatus': validationStatus.value,
       if (validationStatusMessage != null)
         'ValidationStatusMessage': validationStatusMessage,
     };
@@ -4596,36 +4596,19 @@ class AdvancedBackupSetting {
 }
 
 enum AggregationPeriod {
-  oneDay,
-  sevenDays,
-  fourteenDays,
-}
+  oneDay('ONE_DAY'),
+  sevenDays('SEVEN_DAYS'),
+  fourteenDays('FOURTEEN_DAYS'),
+  ;
 
-extension AggregationPeriodValueExtension on AggregationPeriod {
-  String toValue() {
-    switch (this) {
-      case AggregationPeriod.oneDay:
-        return 'ONE_DAY';
-      case AggregationPeriod.sevenDays:
-        return 'SEVEN_DAYS';
-      case AggregationPeriod.fourteenDays:
-        return 'FOURTEEN_DAYS';
-    }
-  }
-}
+  final String value;
 
-extension AggregationPeriodFromString on String {
-  AggregationPeriod toAggregationPeriod() {
-    switch (this) {
-      case 'ONE_DAY':
-        return AggregationPeriod.oneDay;
-      case 'SEVEN_DAYS':
-        return AggregationPeriod.sevenDays;
-      case 'FOURTEEN_DAYS':
-        return AggregationPeriod.fourteenDays;
-    }
-    throw Exception('$this is not known in enum AggregationPeriod');
-  }
+  const AggregationPeriod(this.value);
+
+  static AggregationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AggregationPeriod'));
 }
 
 /// Contains detailed information about a backup job.
@@ -4816,146 +4799,56 @@ class BackupJob {
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
       startBy: timeStampFromJson(json['StartBy']),
-      state: (json['State'] as String?)?.toBackupJobState(),
+      state: (json['State'] as String?)?.let(BackupJobState.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
 }
 
 enum BackupJobState {
-  created,
-  pending,
-  running,
-  aborting,
-  aborted,
-  completed,
-  failed,
-  expired,
-  partial,
-}
+  created('CREATED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  aborting('ABORTING'),
+  aborted('ABORTED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  expired('EXPIRED'),
+  partial('PARTIAL'),
+  ;
 
-extension BackupJobStateValueExtension on BackupJobState {
-  String toValue() {
-    switch (this) {
-      case BackupJobState.created:
-        return 'CREATED';
-      case BackupJobState.pending:
-        return 'PENDING';
-      case BackupJobState.running:
-        return 'RUNNING';
-      case BackupJobState.aborting:
-        return 'ABORTING';
-      case BackupJobState.aborted:
-        return 'ABORTED';
-      case BackupJobState.completed:
-        return 'COMPLETED';
-      case BackupJobState.failed:
-        return 'FAILED';
-      case BackupJobState.expired:
-        return 'EXPIRED';
-      case BackupJobState.partial:
-        return 'PARTIAL';
-    }
-  }
-}
+  final String value;
 
-extension BackupJobStateFromString on String {
-  BackupJobState toBackupJobState() {
-    switch (this) {
-      case 'CREATED':
-        return BackupJobState.created;
-      case 'PENDING':
-        return BackupJobState.pending;
-      case 'RUNNING':
-        return BackupJobState.running;
-      case 'ABORTING':
-        return BackupJobState.aborting;
-      case 'ABORTED':
-        return BackupJobState.aborted;
-      case 'COMPLETED':
-        return BackupJobState.completed;
-      case 'FAILED':
-        return BackupJobState.failed;
-      case 'EXPIRED':
-        return BackupJobState.expired;
-      case 'PARTIAL':
-        return BackupJobState.partial;
-    }
-    throw Exception('$this is not known in enum BackupJobState');
-  }
+  const BackupJobState(this.value);
+
+  static BackupJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupJobState'));
 }
 
 enum BackupJobStatus {
-  created,
-  pending,
-  running,
-  aborting,
-  aborted,
-  completed,
-  failed,
-  expired,
-  partial,
-  aggregateAll,
-  any,
-}
+  created('CREATED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  aborting('ABORTING'),
+  aborted('ABORTED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  expired('EXPIRED'),
+  partial('PARTIAL'),
+  aggregateAll('AGGREGATE_ALL'),
+  any('ANY'),
+  ;
 
-extension BackupJobStatusValueExtension on BackupJobStatus {
-  String toValue() {
-    switch (this) {
-      case BackupJobStatus.created:
-        return 'CREATED';
-      case BackupJobStatus.pending:
-        return 'PENDING';
-      case BackupJobStatus.running:
-        return 'RUNNING';
-      case BackupJobStatus.aborting:
-        return 'ABORTING';
-      case BackupJobStatus.aborted:
-        return 'ABORTED';
-      case BackupJobStatus.completed:
-        return 'COMPLETED';
-      case BackupJobStatus.failed:
-        return 'FAILED';
-      case BackupJobStatus.expired:
-        return 'EXPIRED';
-      case BackupJobStatus.partial:
-        return 'PARTIAL';
-      case BackupJobStatus.aggregateAll:
-        return 'AGGREGATE_ALL';
-      case BackupJobStatus.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension BackupJobStatusFromString on String {
-  BackupJobStatus toBackupJobStatus() {
-    switch (this) {
-      case 'CREATED':
-        return BackupJobStatus.created;
-      case 'PENDING':
-        return BackupJobStatus.pending;
-      case 'RUNNING':
-        return BackupJobStatus.running;
-      case 'ABORTING':
-        return BackupJobStatus.aborting;
-      case 'ABORTED':
-        return BackupJobStatus.aborted;
-      case 'COMPLETED':
-        return BackupJobStatus.completed;
-      case 'FAILED':
-        return BackupJobStatus.failed;
-      case 'EXPIRED':
-        return BackupJobStatus.expired;
-      case 'PARTIAL':
-        return BackupJobStatus.partial;
-      case 'AGGREGATE_ALL':
-        return BackupJobStatus.aggregateAll;
-      case 'ANY':
-        return BackupJobStatus.any;
-    }
-    throw Exception('$this is not known in enum BackupJobStatus');
-  }
+  const BackupJobStatus(this.value);
+
+  static BackupJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupJobStatus'));
 }
 
 /// This is a summary of jobs created or running within the most recent 30 days.
@@ -5028,7 +4921,7 @@ class BackupJobSummary {
       region: json['Region'] as String?,
       resourceType: json['ResourceType'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toBackupJobStatus(),
+      state: (json['State'] as String?)?.let(BackupJobStatus.fromString),
     );
   }
 }
@@ -5606,106 +5499,33 @@ class BackupSelectionsListMember {
 }
 
 enum BackupVaultEvent {
-  backupJobStarted,
-  backupJobCompleted,
-  backupJobSuccessful,
-  backupJobFailed,
-  backupJobExpired,
-  restoreJobStarted,
-  restoreJobCompleted,
-  restoreJobSuccessful,
-  restoreJobFailed,
-  copyJobStarted,
-  copyJobSuccessful,
-  copyJobFailed,
-  recoveryPointModified,
-  backupPlanCreated,
-  backupPlanModified,
-  s3BackupObjectFailed,
-  s3RestoreObjectFailed,
-}
+  backupJobStarted('BACKUP_JOB_STARTED'),
+  backupJobCompleted('BACKUP_JOB_COMPLETED'),
+  backupJobSuccessful('BACKUP_JOB_SUCCESSFUL'),
+  backupJobFailed('BACKUP_JOB_FAILED'),
+  backupJobExpired('BACKUP_JOB_EXPIRED'),
+  restoreJobStarted('RESTORE_JOB_STARTED'),
+  restoreJobCompleted('RESTORE_JOB_COMPLETED'),
+  restoreJobSuccessful('RESTORE_JOB_SUCCESSFUL'),
+  restoreJobFailed('RESTORE_JOB_FAILED'),
+  copyJobStarted('COPY_JOB_STARTED'),
+  copyJobSuccessful('COPY_JOB_SUCCESSFUL'),
+  copyJobFailed('COPY_JOB_FAILED'),
+  recoveryPointModified('RECOVERY_POINT_MODIFIED'),
+  backupPlanCreated('BACKUP_PLAN_CREATED'),
+  backupPlanModified('BACKUP_PLAN_MODIFIED'),
+  s3BackupObjectFailed('S3_BACKUP_OBJECT_FAILED'),
+  s3RestoreObjectFailed('S3_RESTORE_OBJECT_FAILED'),
+  ;
 
-extension BackupVaultEventValueExtension on BackupVaultEvent {
-  String toValue() {
-    switch (this) {
-      case BackupVaultEvent.backupJobStarted:
-        return 'BACKUP_JOB_STARTED';
-      case BackupVaultEvent.backupJobCompleted:
-        return 'BACKUP_JOB_COMPLETED';
-      case BackupVaultEvent.backupJobSuccessful:
-        return 'BACKUP_JOB_SUCCESSFUL';
-      case BackupVaultEvent.backupJobFailed:
-        return 'BACKUP_JOB_FAILED';
-      case BackupVaultEvent.backupJobExpired:
-        return 'BACKUP_JOB_EXPIRED';
-      case BackupVaultEvent.restoreJobStarted:
-        return 'RESTORE_JOB_STARTED';
-      case BackupVaultEvent.restoreJobCompleted:
-        return 'RESTORE_JOB_COMPLETED';
-      case BackupVaultEvent.restoreJobSuccessful:
-        return 'RESTORE_JOB_SUCCESSFUL';
-      case BackupVaultEvent.restoreJobFailed:
-        return 'RESTORE_JOB_FAILED';
-      case BackupVaultEvent.copyJobStarted:
-        return 'COPY_JOB_STARTED';
-      case BackupVaultEvent.copyJobSuccessful:
-        return 'COPY_JOB_SUCCESSFUL';
-      case BackupVaultEvent.copyJobFailed:
-        return 'COPY_JOB_FAILED';
-      case BackupVaultEvent.recoveryPointModified:
-        return 'RECOVERY_POINT_MODIFIED';
-      case BackupVaultEvent.backupPlanCreated:
-        return 'BACKUP_PLAN_CREATED';
-      case BackupVaultEvent.backupPlanModified:
-        return 'BACKUP_PLAN_MODIFIED';
-      case BackupVaultEvent.s3BackupObjectFailed:
-        return 'S3_BACKUP_OBJECT_FAILED';
-      case BackupVaultEvent.s3RestoreObjectFailed:
-        return 'S3_RESTORE_OBJECT_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension BackupVaultEventFromString on String {
-  BackupVaultEvent toBackupVaultEvent() {
-    switch (this) {
-      case 'BACKUP_JOB_STARTED':
-        return BackupVaultEvent.backupJobStarted;
-      case 'BACKUP_JOB_COMPLETED':
-        return BackupVaultEvent.backupJobCompleted;
-      case 'BACKUP_JOB_SUCCESSFUL':
-        return BackupVaultEvent.backupJobSuccessful;
-      case 'BACKUP_JOB_FAILED':
-        return BackupVaultEvent.backupJobFailed;
-      case 'BACKUP_JOB_EXPIRED':
-        return BackupVaultEvent.backupJobExpired;
-      case 'RESTORE_JOB_STARTED':
-        return BackupVaultEvent.restoreJobStarted;
-      case 'RESTORE_JOB_COMPLETED':
-        return BackupVaultEvent.restoreJobCompleted;
-      case 'RESTORE_JOB_SUCCESSFUL':
-        return BackupVaultEvent.restoreJobSuccessful;
-      case 'RESTORE_JOB_FAILED':
-        return BackupVaultEvent.restoreJobFailed;
-      case 'COPY_JOB_STARTED':
-        return BackupVaultEvent.copyJobStarted;
-      case 'COPY_JOB_SUCCESSFUL':
-        return BackupVaultEvent.copyJobSuccessful;
-      case 'COPY_JOB_FAILED':
-        return BackupVaultEvent.copyJobFailed;
-      case 'RECOVERY_POINT_MODIFIED':
-        return BackupVaultEvent.recoveryPointModified;
-      case 'BACKUP_PLAN_CREATED':
-        return BackupVaultEvent.backupPlanCreated;
-      case 'BACKUP_PLAN_MODIFIED':
-        return BackupVaultEvent.backupPlanModified;
-      case 'S3_BACKUP_OBJECT_FAILED':
-        return BackupVaultEvent.s3BackupObjectFailed;
-      case 'S3_RESTORE_OBJECT_FAILED':
-        return BackupVaultEvent.s3RestoreObjectFailed;
-    }
-    throw Exception('$this is not known in enum BackupVaultEvent');
-  }
+  const BackupVaultEvent(this.value);
+
+  static BackupVaultEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupVaultEvent'));
 }
 
 /// Contains metadata about a backup vault.
@@ -5900,7 +5720,8 @@ class Condition {
   factory Condition.fromJson(Map<String, dynamic> json) {
     return Condition(
       conditionKey: json['ConditionKey'] as String,
-      conditionType: (json['ConditionType'] as String).toConditionType(),
+      conditionType:
+          ConditionType.fromString((json['ConditionType'] as String)),
       conditionValue: json['ConditionValue'] as String,
     );
   }
@@ -5911,7 +5732,7 @@ class Condition {
     final conditionValue = this.conditionValue;
     return {
       'ConditionKey': conditionKey,
-      'ConditionType': conditionType.toValue(),
+      'ConditionType': conditionType.value,
       'ConditionValue': conditionValue,
     };
   }
@@ -5951,26 +5772,17 @@ class ConditionParameter {
 }
 
 enum ConditionType {
-  stringequals,
-}
+  stringequals('STRINGEQUALS'),
+  ;
 
-extension ConditionTypeValueExtension on ConditionType {
-  String toValue() {
-    switch (this) {
-      case ConditionType.stringequals:
-        return 'STRINGEQUALS';
-    }
-  }
-}
+  final String value;
 
-extension ConditionTypeFromString on String {
-  ConditionType toConditionType() {
-    switch (this) {
-      case 'STRINGEQUALS':
-        return ConditionType.stringequals;
-    }
-    throw Exception('$this is not known in enum ConditionType');
-  }
+  const ConditionType(this.value);
+
+  static ConditionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConditionType'));
 }
 
 /// Contains information about which resources to include or exclude from a
@@ -6292,7 +6104,7 @@ class CopyJob {
       accountId: json['AccountId'] as String?,
       backupSizeInBytes: json['BackupSizeInBytes'] as int?,
       childJobsInState: (json['ChildJobsInState'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toCopyJobState(), e as int)),
+          ?.map((k, e) => MapEntry(CopyJobState.fromString(k), e as int)),
       completionDate: timeStampFromJson(json['CompletionDate']),
       compositeMemberIdentifier: json['CompositeMemberIdentifier'] as String?,
       copyJobId: json['CopyJobId'] as String?,
@@ -6314,126 +6126,52 @@ class CopyJob {
       resourceType: json['ResourceType'] as String?,
       sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
       sourceRecoveryPointArn: json['SourceRecoveryPointArn'] as String?,
-      state: (json['State'] as String?)?.toCopyJobState(),
+      state: (json['State'] as String?)?.let(CopyJobState.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
 }
 
 enum CopyJobState {
-  created,
-  running,
-  completed,
-  failed,
-  partial,
-}
+  created('CREATED'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  partial('PARTIAL'),
+  ;
 
-extension CopyJobStateValueExtension on CopyJobState {
-  String toValue() {
-    switch (this) {
-      case CopyJobState.created:
-        return 'CREATED';
-      case CopyJobState.running:
-        return 'RUNNING';
-      case CopyJobState.completed:
-        return 'COMPLETED';
-      case CopyJobState.failed:
-        return 'FAILED';
-      case CopyJobState.partial:
-        return 'PARTIAL';
-    }
-  }
-}
+  final String value;
 
-extension CopyJobStateFromString on String {
-  CopyJobState toCopyJobState() {
-    switch (this) {
-      case 'CREATED':
-        return CopyJobState.created;
-      case 'RUNNING':
-        return CopyJobState.running;
-      case 'COMPLETED':
-        return CopyJobState.completed;
-      case 'FAILED':
-        return CopyJobState.failed;
-      case 'PARTIAL':
-        return CopyJobState.partial;
-    }
-    throw Exception('$this is not known in enum CopyJobState');
-  }
+  const CopyJobState(this.value);
+
+  static CopyJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CopyJobState'));
 }
 
 enum CopyJobStatus {
-  created,
-  running,
-  aborting,
-  aborted,
-  completing,
-  completed,
-  failing,
-  failed,
-  partial,
-  aggregateAll,
-  any,
-}
+  created('CREATED'),
+  running('RUNNING'),
+  aborting('ABORTING'),
+  aborted('ABORTED'),
+  completing('COMPLETING'),
+  completed('COMPLETED'),
+  failing('FAILING'),
+  failed('FAILED'),
+  partial('PARTIAL'),
+  aggregateAll('AGGREGATE_ALL'),
+  any('ANY'),
+  ;
 
-extension CopyJobStatusValueExtension on CopyJobStatus {
-  String toValue() {
-    switch (this) {
-      case CopyJobStatus.created:
-        return 'CREATED';
-      case CopyJobStatus.running:
-        return 'RUNNING';
-      case CopyJobStatus.aborting:
-        return 'ABORTING';
-      case CopyJobStatus.aborted:
-        return 'ABORTED';
-      case CopyJobStatus.completing:
-        return 'COMPLETING';
-      case CopyJobStatus.completed:
-        return 'COMPLETED';
-      case CopyJobStatus.failing:
-        return 'FAILING';
-      case CopyJobStatus.failed:
-        return 'FAILED';
-      case CopyJobStatus.partial:
-        return 'PARTIAL';
-      case CopyJobStatus.aggregateAll:
-        return 'AGGREGATE_ALL';
-      case CopyJobStatus.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension CopyJobStatusFromString on String {
-  CopyJobStatus toCopyJobStatus() {
-    switch (this) {
-      case 'CREATED':
-        return CopyJobStatus.created;
-      case 'RUNNING':
-        return CopyJobStatus.running;
-      case 'ABORTING':
-        return CopyJobStatus.aborting;
-      case 'ABORTED':
-        return CopyJobStatus.aborted;
-      case 'COMPLETING':
-        return CopyJobStatus.completing;
-      case 'COMPLETED':
-        return CopyJobStatus.completed;
-      case 'FAILING':
-        return CopyJobStatus.failing;
-      case 'FAILED':
-        return CopyJobStatus.failed;
-      case 'PARTIAL':
-        return CopyJobStatus.partial;
-      case 'AGGREGATE_ALL':
-        return CopyJobStatus.aggregateAll;
-      case 'ANY':
-        return CopyJobStatus.any;
-    }
-    throw Exception('$this is not known in enum CopyJobStatus');
-  }
+  const CopyJobStatus(this.value);
+
+  static CopyJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CopyJobStatus'));
 }
 
 /// This is a summary of copy jobs created or running within the most recent 30
@@ -6507,7 +6245,7 @@ class CopyJobSummary {
       region: json['Region'] as String?,
       resourceType: json['ResourceType'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toCopyJobStatus(),
+      state: (json['State'] as String?)?.let(CopyJobStatus.fromString),
     );
   }
 }
@@ -6689,7 +6427,7 @@ class CreateLegalHoldOutput {
           ? RecoveryPointSelection.fromJson(
               json['RecoveryPointSelection'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toLegalHoldStatus(),
+      status: (json['Status'] as String?)?.let(LegalHoldStatus.fromString),
       title: json['Title'] as String?,
     );
   }
@@ -6728,7 +6466,7 @@ class CreateLogicallyAirGappedBackupVaultOutput {
       backupVaultArn: json['BackupVaultArn'] as String?,
       backupVaultName: json['BackupVaultName'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
-      vaultState: (json['VaultState'] as String?)?.toVaultState(),
+      vaultState: (json['VaultState'] as String?)?.let(VaultState.fromString),
     );
   }
 }
@@ -7078,7 +6816,7 @@ class DescribeBackupJobOutput {
       backupVaultName: json['BackupVaultName'] as String?,
       bytesTransferred: json['BytesTransferred'] as int?,
       childJobsInState: (json['ChildJobsInState'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toBackupJobState(), e as int)),
+          ?.map((k, e) => MapEntry(BackupJobState.fromString(k), e as int)),
       completionDate: timeStampFromJson(json['CompletionDate']),
       createdBy: json['CreatedBy'] != null
           ? RecoveryPointCreator.fromJson(
@@ -7098,7 +6836,7 @@ class DescribeBackupJobOutput {
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
       startBy: timeStampFromJson(json['StartBy']),
-      state: (json['State'] as String?)?.toBackupJobState(),
+      state: (json['State'] as String?)?.let(BackupJobState.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -7208,7 +6946,7 @@ class DescribeBackupVaultOutput {
       maxRetentionDays: json['MaxRetentionDays'] as int?,
       minRetentionDays: json['MinRetentionDays'] as int?,
       numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
-      vaultType: (json['VaultType'] as String?)?.toVaultType(),
+      vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
 }
@@ -7619,10 +7357,11 @@ class DescribeRecoveryPointOutput {
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
       sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
-      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+      status: (json['Status'] as String?)?.let(RecoveryPointStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
-      vaultType: (json['VaultType'] as String?)?.toVaultType(),
+      storageClass:
+          (json['StorageClass'] as String?)?.let(StorageClass.fromString),
+      vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
 }
@@ -7812,8 +7551,8 @@ class DescribeRestoreJobOutput {
           : null,
       createdResourceArn: json['CreatedResourceArn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
-      deletionStatus:
-          (json['DeletionStatus'] as String?)?.toRestoreDeletionStatus(),
+      deletionStatus: (json['DeletionStatus'] as String?)
+          ?.let(RestoreDeletionStatus.fromString),
       deletionStatusMessage: json['DeletionStatusMessage'] as String?,
       expectedCompletionTimeMinutes:
           json['ExpectedCompletionTimeMinutes'] as int?,
@@ -7824,10 +7563,10 @@ class DescribeRestoreJobOutput {
           timeStampFromJson(json['RecoveryPointCreationDate']),
       resourceType: json['ResourceType'] as String?,
       restoreJobId: json['RestoreJobId'] as String?,
-      status: (json['Status'] as String?)?.toRestoreJobStatus(),
+      status: (json['Status'] as String?)?.let(RestoreJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      validationStatus:
-          (json['ValidationStatus'] as String?)?.toRestoreValidationStatus(),
+      validationStatus: (json['ValidationStatus'] as String?)
+          ?.let(RestoreValidationStatus.fromString),
       validationStatusMessage: json['ValidationStatusMessage'] as String?,
     );
   }
@@ -8175,7 +7914,7 @@ class GetBackupVaultNotificationsOutput {
       backupVaultArn: json['BackupVaultArn'] as String?,
       backupVaultEvents: (json['BackupVaultEvents'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toBackupVaultEvent())
+          .map((e) => BackupVaultEvent.fromString((e as String)))
           .toList(),
       backupVaultName: json['BackupVaultName'] as String?,
       sNSTopicArn: json['SNSTopicArn'] as String?,
@@ -8245,7 +7984,7 @@ class GetLegalHoldOutput {
               json['RecoveryPointSelection'] as Map<String, dynamic>)
           : null,
       retainRecordUntil: timeStampFromJson(json['RetainRecordUntil']),
-      status: (json['Status'] as String?)?.toLegalHoldStatus(),
+      status: (json['Status'] as String?)?.let(LegalHoldStatus.fromString),
       title: json['Title'] as String?,
     );
   }
@@ -8499,48 +8238,27 @@ class LegalHold {
       description: json['Description'] as String?,
       legalHoldArn: json['LegalHoldArn'] as String?,
       legalHoldId: json['LegalHoldId'] as String?,
-      status: (json['Status'] as String?)?.toLegalHoldStatus(),
+      status: (json['Status'] as String?)?.let(LegalHoldStatus.fromString),
       title: json['Title'] as String?,
     );
   }
 }
 
 enum LegalHoldStatus {
-  creating,
-  active,
-  canceling,
-  canceled,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  canceling('CANCELING'),
+  canceled('CANCELED'),
+  ;
 
-extension LegalHoldStatusValueExtension on LegalHoldStatus {
-  String toValue() {
-    switch (this) {
-      case LegalHoldStatus.creating:
-        return 'CREATING';
-      case LegalHoldStatus.active:
-        return 'ACTIVE';
-      case LegalHoldStatus.canceling:
-        return 'CANCELING';
-      case LegalHoldStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension LegalHoldStatusFromString on String {
-  LegalHoldStatus toLegalHoldStatus() {
-    switch (this) {
-      case 'CREATING':
-        return LegalHoldStatus.creating;
-      case 'ACTIVE':
-        return LegalHoldStatus.active;
-      case 'CANCELING':
-        return LegalHoldStatus.canceling;
-      case 'CANCELED':
-        return LegalHoldStatus.canceled;
-    }
-    throw Exception('$this is not known in enum LegalHoldStatus');
-  }
+  const LegalHoldStatus(this.value);
+
+  static LegalHoldStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LegalHoldStatus'));
 }
 
 /// Contains an array of <code>Transition</code> objects specifying how long in
@@ -9582,9 +9300,9 @@ class RecoveryPointByBackupVault {
       resourceName: json['ResourceName'] as String?,
       resourceType: json['ResourceType'] as String?,
       sourceBackupVaultArn: json['SourceBackupVaultArn'] as String?,
-      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+      status: (json['Status'] as String?)?.let(RecoveryPointStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      vaultType: (json['VaultType'] as String?)?.toVaultType(),
+      vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
 }
@@ -9661,9 +9379,9 @@ class RecoveryPointByResource {
       parentRecoveryPointArn: json['ParentRecoveryPointArn'] as String?,
       recoveryPointArn: json['RecoveryPointArn'] as String?,
       resourceName: json['ResourceName'] as String?,
-      status: (json['Status'] as String?)?.toRecoveryPointStatus(),
+      status: (json['Status'] as String?)?.let(RecoveryPointStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      vaultType: (json['VaultType'] as String?)?.toVaultType(),
+      vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
 }
@@ -9791,41 +9509,20 @@ class RecoveryPointSelection {
 }
 
 enum RecoveryPointStatus {
-  completed,
-  partial,
-  deleting,
-  expired,
-}
+  completed('COMPLETED'),
+  partial('PARTIAL'),
+  deleting('DELETING'),
+  expired('EXPIRED'),
+  ;
 
-extension RecoveryPointStatusValueExtension on RecoveryPointStatus {
-  String toValue() {
-    switch (this) {
-      case RecoveryPointStatus.completed:
-        return 'COMPLETED';
-      case RecoveryPointStatus.partial:
-        return 'PARTIAL';
-      case RecoveryPointStatus.deleting:
-        return 'DELETING';
-      case RecoveryPointStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension RecoveryPointStatusFromString on String {
-  RecoveryPointStatus toRecoveryPointStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return RecoveryPointStatus.completed;
-      case 'PARTIAL':
-        return RecoveryPointStatus.partial;
-      case 'DELETING':
-        return RecoveryPointStatus.deleting;
-      case 'EXPIRED':
-        return RecoveryPointStatus.expired;
-    }
-    throw Exception('$this is not known in enum RecoveryPointStatus');
-  }
+  const RecoveryPointStatus(this.value);
+
+  static RecoveryPointStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecoveryPointStatus'));
 }
 
 /// Contains information from your report plan about where to deliver your
@@ -10139,36 +9836,19 @@ class ReportSetting {
 }
 
 enum RestoreDeletionStatus {
-  deleting,
-  failed,
-  successful,
-}
+  deleting('DELETING'),
+  failed('FAILED'),
+  successful('SUCCESSFUL'),
+  ;
 
-extension RestoreDeletionStatusValueExtension on RestoreDeletionStatus {
-  String toValue() {
-    switch (this) {
-      case RestoreDeletionStatus.deleting:
-        return 'DELETING';
-      case RestoreDeletionStatus.failed:
-        return 'FAILED';
-      case RestoreDeletionStatus.successful:
-        return 'SUCCESSFUL';
-    }
-  }
-}
+  final String value;
 
-extension RestoreDeletionStatusFromString on String {
-  RestoreDeletionStatus toRestoreDeletionStatus() {
-    switch (this) {
-      case 'DELETING':
-        return RestoreDeletionStatus.deleting;
-      case 'FAILED':
-        return RestoreDeletionStatus.failed;
-      case 'SUCCESSFUL':
-        return RestoreDeletionStatus.successful;
-    }
-    throw Exception('$this is not known in enum RestoreDeletionStatus');
-  }
+  const RestoreDeletionStatus(this.value);
+
+  static RestoreDeletionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RestoreDeletionStatus'));
 }
 
 /// Contains information about the restore testing plan that Backup used to
@@ -10190,104 +9870,42 @@ class RestoreJobCreator {
 }
 
 enum RestoreJobState {
-  created,
-  pending,
-  running,
-  aborted,
-  completed,
-  failed,
-  aggregateAll,
-  any,
-}
+  created('CREATED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  aborted('ABORTED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  aggregateAll('AGGREGATE_ALL'),
+  any('ANY'),
+  ;
 
-extension RestoreJobStateValueExtension on RestoreJobState {
-  String toValue() {
-    switch (this) {
-      case RestoreJobState.created:
-        return 'CREATED';
-      case RestoreJobState.pending:
-        return 'PENDING';
-      case RestoreJobState.running:
-        return 'RUNNING';
-      case RestoreJobState.aborted:
-        return 'ABORTED';
-      case RestoreJobState.completed:
-        return 'COMPLETED';
-      case RestoreJobState.failed:
-        return 'FAILED';
-      case RestoreJobState.aggregateAll:
-        return 'AGGREGATE_ALL';
-      case RestoreJobState.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension RestoreJobStateFromString on String {
-  RestoreJobState toRestoreJobState() {
-    switch (this) {
-      case 'CREATED':
-        return RestoreJobState.created;
-      case 'PENDING':
-        return RestoreJobState.pending;
-      case 'RUNNING':
-        return RestoreJobState.running;
-      case 'ABORTED':
-        return RestoreJobState.aborted;
-      case 'COMPLETED':
-        return RestoreJobState.completed;
-      case 'FAILED':
-        return RestoreJobState.failed;
-      case 'AGGREGATE_ALL':
-        return RestoreJobState.aggregateAll;
-      case 'ANY':
-        return RestoreJobState.any;
-    }
-    throw Exception('$this is not known in enum RestoreJobState');
-  }
+  const RestoreJobState(this.value);
+
+  static RestoreJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RestoreJobState'));
 }
 
 enum RestoreJobStatus {
-  pending,
-  running,
-  completed,
-  aborted,
-  failed,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  aborted('ABORTED'),
+  failed('FAILED'),
+  ;
 
-extension RestoreJobStatusValueExtension on RestoreJobStatus {
-  String toValue() {
-    switch (this) {
-      case RestoreJobStatus.pending:
-        return 'PENDING';
-      case RestoreJobStatus.running:
-        return 'RUNNING';
-      case RestoreJobStatus.completed:
-        return 'COMPLETED';
-      case RestoreJobStatus.aborted:
-        return 'ABORTED';
-      case RestoreJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RestoreJobStatusFromString on String {
-  RestoreJobStatus toRestoreJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RestoreJobStatus.pending;
-      case 'RUNNING':
-        return RestoreJobStatus.running;
-      case 'COMPLETED':
-        return RestoreJobStatus.completed;
-      case 'ABORTED':
-        return RestoreJobStatus.aborted;
-      case 'FAILED':
-        return RestoreJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum RestoreJobStatus');
-  }
+  const RestoreJobStatus(this.value);
+
+  static RestoreJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RestoreJobStatus'));
 }
 
 /// This is a summary of restore jobs created or running within the most recent
@@ -10346,7 +9964,7 @@ class RestoreJobSummary {
       region: json['Region'] as String?,
       resourceType: json['ResourceType'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toRestoreJobState(),
+      state: (json['State'] as String?)?.let(RestoreJobState.fromString),
     );
   }
 }
@@ -10461,8 +10079,8 @@ class RestoreJobsListMember {
           : null,
       createdResourceArn: json['CreatedResourceArn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
-      deletionStatus:
-          (json['DeletionStatus'] as String?)?.toRestoreDeletionStatus(),
+      deletionStatus: (json['DeletionStatus'] as String?)
+          ?.let(RestoreDeletionStatus.fromString),
       deletionStatusMessage: json['DeletionStatusMessage'] as String?,
       expectedCompletionTimeMinutes:
           json['ExpectedCompletionTimeMinutes'] as int?,
@@ -10473,10 +10091,10 @@ class RestoreJobsListMember {
           timeStampFromJson(json['RecoveryPointCreationDate']),
       resourceType: json['ResourceType'] as String?,
       restoreJobId: json['RestoreJobId'] as String?,
-      status: (json['Status'] as String?)?.toRestoreJobStatus(),
+      status: (json['Status'] as String?)?.let(RestoreJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      validationStatus:
-          (json['ValidationStatus'] as String?)?.toRestoreValidationStatus(),
+      validationStatus: (json['ValidationStatus'] as String?)
+          ?.let(RestoreValidationStatus.fromString),
       validationStatusMessage: json['ValidationStatusMessage'] as String?,
     );
   }
@@ -10779,7 +10397,7 @@ class RestoreTestingRecoveryPointSelection {
       Map<String, dynamic> json) {
     return RestoreTestingRecoveryPointSelection(
       algorithm: (json['Algorithm'] as String?)
-          ?.toRestoreTestingRecoveryPointSelectionAlgorithm(),
+          ?.let(RestoreTestingRecoveryPointSelectionAlgorithm.fromString),
       excludeVaults: (json['ExcludeVaults'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -10790,7 +10408,7 @@ class RestoreTestingRecoveryPointSelection {
           .toList(),
       recoveryPointTypes: (json['RecoveryPointTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toRestoreTestingRecoveryPointType())
+          .map((e) => RestoreTestingRecoveryPointType.fromString((e as String)))
           .toList(),
       selectionWindowDays: json['SelectionWindowDays'] as int?,
     );
@@ -10803,12 +10421,11 @@ class RestoreTestingRecoveryPointSelection {
     final recoveryPointTypes = this.recoveryPointTypes;
     final selectionWindowDays = this.selectionWindowDays;
     return {
-      if (algorithm != null) 'Algorithm': algorithm.toValue(),
+      if (algorithm != null) 'Algorithm': algorithm.value,
       if (excludeVaults != null) 'ExcludeVaults': excludeVaults,
       if (includeVaults != null) 'IncludeVaults': includeVaults,
       if (recoveryPointTypes != null)
-        'RecoveryPointTypes':
-            recoveryPointTypes.map((e) => e.toValue()).toList(),
+        'RecoveryPointTypes': recoveryPointTypes.map((e) => e.value).toList(),
       if (selectionWindowDays != null)
         'SelectionWindowDays': selectionWindowDays,
     };
@@ -10816,64 +10433,34 @@ class RestoreTestingRecoveryPointSelection {
 }
 
 enum RestoreTestingRecoveryPointSelectionAlgorithm {
-  latestWithinWindow,
-  randomWithinWindow,
-}
+  latestWithinWindow('LATEST_WITHIN_WINDOW'),
+  randomWithinWindow('RANDOM_WITHIN_WINDOW'),
+  ;
 
-extension RestoreTestingRecoveryPointSelectionAlgorithmValueExtension
-    on RestoreTestingRecoveryPointSelectionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case RestoreTestingRecoveryPointSelectionAlgorithm.latestWithinWindow:
-        return 'LATEST_WITHIN_WINDOW';
-      case RestoreTestingRecoveryPointSelectionAlgorithm.randomWithinWindow:
-        return 'RANDOM_WITHIN_WINDOW';
-    }
-  }
-}
+  final String value;
 
-extension RestoreTestingRecoveryPointSelectionAlgorithmFromString on String {
-  RestoreTestingRecoveryPointSelectionAlgorithm
-      toRestoreTestingRecoveryPointSelectionAlgorithm() {
-    switch (this) {
-      case 'LATEST_WITHIN_WINDOW':
-        return RestoreTestingRecoveryPointSelectionAlgorithm.latestWithinWindow;
-      case 'RANDOM_WITHIN_WINDOW':
-        return RestoreTestingRecoveryPointSelectionAlgorithm.randomWithinWindow;
-    }
-    throw Exception(
-        '$this is not known in enum RestoreTestingRecoveryPointSelectionAlgorithm');
-  }
+  const RestoreTestingRecoveryPointSelectionAlgorithm(this.value);
+
+  static RestoreTestingRecoveryPointSelectionAlgorithm fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RestoreTestingRecoveryPointSelectionAlgorithm'));
 }
 
 enum RestoreTestingRecoveryPointType {
-  continuous,
-  snapshot,
-}
+  continuous('CONTINUOUS'),
+  snapshot('SNAPSHOT'),
+  ;
 
-extension RestoreTestingRecoveryPointTypeValueExtension
-    on RestoreTestingRecoveryPointType {
-  String toValue() {
-    switch (this) {
-      case RestoreTestingRecoveryPointType.continuous:
-        return 'CONTINUOUS';
-      case RestoreTestingRecoveryPointType.snapshot:
-        return 'SNAPSHOT';
-    }
-  }
-}
+  final String value;
 
-extension RestoreTestingRecoveryPointTypeFromString on String {
-  RestoreTestingRecoveryPointType toRestoreTestingRecoveryPointType() {
-    switch (this) {
-      case 'CONTINUOUS':
-        return RestoreTestingRecoveryPointType.continuous;
-      case 'SNAPSHOT':
-        return RestoreTestingRecoveryPointType.snapshot;
-    }
-    throw Exception(
-        '$this is not known in enum RestoreTestingRecoveryPointType');
-  }
+  const RestoreTestingRecoveryPointType(this.value);
+
+  static RestoreTestingRecoveryPointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RestoreTestingRecoveryPointType'));
 }
 
 /// This contains metadata about a specific restore testing selection.
@@ -11226,41 +10813,20 @@ class RestoreTestingSelectionForUpdate {
 }
 
 enum RestoreValidationStatus {
-  failed,
-  successful,
-  timedOut,
-  validating,
-}
+  failed('FAILED'),
+  successful('SUCCESSFUL'),
+  timedOut('TIMED_OUT'),
+  validating('VALIDATING'),
+  ;
 
-extension RestoreValidationStatusValueExtension on RestoreValidationStatus {
-  String toValue() {
-    switch (this) {
-      case RestoreValidationStatus.failed:
-        return 'FAILED';
-      case RestoreValidationStatus.successful:
-        return 'SUCCESSFUL';
-      case RestoreValidationStatus.timedOut:
-        return 'TIMED_OUT';
-      case RestoreValidationStatus.validating:
-        return 'VALIDATING';
-    }
-  }
-}
+  final String value;
 
-extension RestoreValidationStatusFromString on String {
-  RestoreValidationStatus toRestoreValidationStatus() {
-    switch (this) {
-      case 'FAILED':
-        return RestoreValidationStatus.failed;
-      case 'SUCCESSFUL':
-        return RestoreValidationStatus.successful;
-      case 'TIMED_OUT':
-        return RestoreValidationStatus.timedOut;
-      case 'VALIDATING':
-        return RestoreValidationStatus.validating;
-    }
-    throw Exception('$this is not known in enum RestoreValidationStatus');
-  }
+  const RestoreValidationStatus(this.value);
+
+  static RestoreValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RestoreValidationStatus'));
 }
 
 class StartBackupJobOutput {
@@ -11363,36 +10929,19 @@ class StartRestoreJobOutput {
 }
 
 enum StorageClass {
-  warm,
-  cold,
-  deleted,
-}
+  warm('WARM'),
+  cold('COLD'),
+  deleted('DELETED'),
+  ;
 
-extension StorageClassValueExtension on StorageClass {
-  String toValue() {
-    switch (this) {
-      case StorageClass.warm:
-        return 'WARM';
-      case StorageClass.cold:
-        return 'COLD';
-      case StorageClass.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension StorageClassFromString on String {
-  StorageClass toStorageClass() {
-    switch (this) {
-      case 'WARM':
-        return StorageClass.warm;
-      case 'COLD':
-        return StorageClass.cold;
-      case 'DELETED':
-        return StorageClass.deleted;
-    }
-    throw Exception('$this is not known in enum StorageClass');
-  }
+  const StorageClass(this.value);
+
+  static StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StorageClass'));
 }
 
 class UpdateBackupPlanOutput {
@@ -11625,64 +11174,32 @@ class UpdateRestoreTestingSelectionOutput {
 }
 
 enum VaultState {
-  creating,
-  available,
-  failed,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  failed('FAILED'),
+  ;
 
-extension VaultStateValueExtension on VaultState {
-  String toValue() {
-    switch (this) {
-      case VaultState.creating:
-        return 'CREATING';
-      case VaultState.available:
-        return 'AVAILABLE';
-      case VaultState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VaultStateFromString on String {
-  VaultState toVaultState() {
-    switch (this) {
-      case 'CREATING':
-        return VaultState.creating;
-      case 'AVAILABLE':
-        return VaultState.available;
-      case 'FAILED':
-        return VaultState.failed;
-    }
-    throw Exception('$this is not known in enum VaultState');
-  }
+  const VaultState(this.value);
+
+  static VaultState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VaultState'));
 }
 
 enum VaultType {
-  backupVault,
-  logicallyAirGappedBackupVault,
-}
+  backupVault('BACKUP_VAULT'),
+  logicallyAirGappedBackupVault('LOGICALLY_AIR_GAPPED_BACKUP_VAULT'),
+  ;
 
-extension VaultTypeValueExtension on VaultType {
-  String toValue() {
-    switch (this) {
-      case VaultType.backupVault:
-        return 'BACKUP_VAULT';
-      case VaultType.logicallyAirGappedBackupVault:
-        return 'LOGICALLY_AIR_GAPPED_BACKUP_VAULT';
-    }
-  }
-}
+  final String value;
 
-extension VaultTypeFromString on String {
-  VaultType toVaultType() {
-    switch (this) {
-      case 'BACKUP_VAULT':
-        return VaultType.backupVault;
-      case 'LOGICALLY_AIR_GAPPED_BACKUP_VAULT':
-        return VaultType.logicallyAirGappedBackupVault;
-    }
-    throw Exception('$this is not known in enum VaultType');
-  }
+  const VaultType(this.value);
+
+  static VaultType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VaultType'));
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

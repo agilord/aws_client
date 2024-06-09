@@ -376,8 +376,8 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension.value,
+        'ServiceNamespace': serviceNamespace.value,
       },
     );
   }
@@ -618,9 +618,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension.value,
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
       },
     );
   }
@@ -858,8 +858,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension.value,
+        'ServiceNamespace': serviceNamespace.value,
       },
     );
   }
@@ -1110,12 +1110,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceIds != null) 'ResourceIds': resourceIds,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension.toValue(),
+          'ScalableDimension': scalableDimension.value,
       },
     );
 
@@ -1384,14 +1384,14 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         if (includeNotScaledActivities != null)
           'IncludeNotScaledActivities': includeNotScaledActivities,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension.toValue(),
+          'ScalableDimension': scalableDimension.value,
       },
     );
 
@@ -1656,13 +1656,13 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (policyNames != null) 'PolicyNames': policyNames,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension.toValue(),
+          'ScalableDimension': scalableDimension.value,
       },
     );
 
@@ -1927,12 +1927,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension.toValue(),
+          'ScalableDimension': scalableDimension.value,
         if (scheduledActionNames != null)
           'ScheduledActionNames': scheduledActionNames,
       },
@@ -2288,9 +2288,9 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
-        if (policyType != null) 'PolicyType': policyType.toValue(),
+        'ScalableDimension': scalableDimension.value,
+        'ServiceNamespace': serviceNamespace.value,
+        if (policyType != null) 'PolicyType': policyType.value,
         if (stepScalingPolicyConfiguration != null)
           'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
         if (targetTrackingScalingPolicyConfiguration != null)
@@ -2620,9 +2620,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension.value,
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (scalableTargetAction != null)
           'ScalableTargetAction': scalableTargetAction,
@@ -3034,8 +3034,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ScalableDimension': scalableDimension.value,
+        'ServiceNamespace': serviceNamespace.value,
         if (maxCapacity != null) 'MaxCapacity': maxCapacity,
         if (minCapacity != null) 'MinCapacity': minCapacity,
         if (roleARN != null) 'RoleARN': roleARN,
@@ -3161,36 +3161,19 @@ class ApplicationAutoScaling {
 }
 
 enum AdjustmentType {
-  changeInCapacity,
-  percentChangeInCapacity,
-  exactCapacity,
-}
+  changeInCapacity('ChangeInCapacity'),
+  percentChangeInCapacity('PercentChangeInCapacity'),
+  exactCapacity('ExactCapacity'),
+  ;
 
-extension AdjustmentTypeValueExtension on AdjustmentType {
-  String toValue() {
-    switch (this) {
-      case AdjustmentType.changeInCapacity:
-        return 'ChangeInCapacity';
-      case AdjustmentType.percentChangeInCapacity:
-        return 'PercentChangeInCapacity';
-      case AdjustmentType.exactCapacity:
-        return 'ExactCapacity';
-    }
-  }
-}
+  final String value;
 
-extension AdjustmentTypeFromString on String {
-  AdjustmentType toAdjustmentType() {
-    switch (this) {
-      case 'ChangeInCapacity':
-        return AdjustmentType.changeInCapacity;
-      case 'PercentChangeInCapacity':
-        return AdjustmentType.percentChangeInCapacity;
-      case 'ExactCapacity':
-        return AdjustmentType.exactCapacity;
-    }
-    throw Exception('$this is not known in enum AdjustmentType');
-  }
+  const AdjustmentType(this.value);
+
+  static AdjustmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AdjustmentType'));
 }
 
 /// Represents a CloudWatch alarm associated with a scaling policy.
@@ -3304,7 +3287,8 @@ class CustomizedMetricSpecification {
               TargetTrackingMetricDataQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespace: json['Namespace'] as String?,
-      statistic: (json['Statistic'] as String?)?.toMetricStatistic(),
+      statistic:
+          (json['Statistic'] as String?)?.let(MetricStatistic.fromString),
       unit: json['Unit'] as String?,
     );
   }
@@ -3321,7 +3305,7 @@ class CustomizedMetricSpecification {
       if (metricName != null) 'MetricName': metricName,
       if (metrics != null) 'Metrics': metrics,
       if (namespace != null) 'Namespace': namespace,
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (unit != null) 'Unit': unit,
     };
   }
@@ -3520,36 +3504,19 @@ class ListTagsForResourceResponse {
 }
 
 enum MetricAggregationType {
-  average,
-  minimum,
-  maximum,
-}
+  average('Average'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  ;
 
-extension MetricAggregationTypeValueExtension on MetricAggregationType {
-  String toValue() {
-    switch (this) {
-      case MetricAggregationType.average:
-        return 'Average';
-      case MetricAggregationType.minimum:
-        return 'Minimum';
-      case MetricAggregationType.maximum:
-        return 'Maximum';
-    }
-  }
-}
+  final String value;
 
-extension MetricAggregationTypeFromString on String {
-  MetricAggregationType toMetricAggregationType() {
-    switch (this) {
-      case 'Average':
-        return MetricAggregationType.average;
-      case 'Minimum':
-        return MetricAggregationType.minimum;
-      case 'Maximum':
-        return MetricAggregationType.maximum;
-    }
-    throw Exception('$this is not known in enum MetricAggregationType');
-  }
+  const MetricAggregationType(this.value);
+
+  static MetricAggregationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MetricAggregationType'));
 }
 
 /// Describes the dimension names and values associated with a metric.
@@ -3583,186 +3550,66 @@ class MetricDimension {
 }
 
 enum MetricStatistic {
-  average,
-  minimum,
-  maximum,
-  sampleCount,
-  sum,
-}
+  average('Average'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  sampleCount('SampleCount'),
+  sum('Sum'),
+  ;
 
-extension MetricStatisticValueExtension on MetricStatistic {
-  String toValue() {
-    switch (this) {
-      case MetricStatistic.average:
-        return 'Average';
-      case MetricStatistic.minimum:
-        return 'Minimum';
-      case MetricStatistic.maximum:
-        return 'Maximum';
-      case MetricStatistic.sampleCount:
-        return 'SampleCount';
-      case MetricStatistic.sum:
-        return 'Sum';
-    }
-  }
-}
+  final String value;
 
-extension MetricStatisticFromString on String {
-  MetricStatistic toMetricStatistic() {
-    switch (this) {
-      case 'Average':
-        return MetricStatistic.average;
-      case 'Minimum':
-        return MetricStatistic.minimum;
-      case 'Maximum':
-        return MetricStatistic.maximum;
-      case 'SampleCount':
-        return MetricStatistic.sampleCount;
-      case 'Sum':
-        return MetricStatistic.sum;
-    }
-    throw Exception('$this is not known in enum MetricStatistic');
-  }
+  const MetricStatistic(this.value);
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricStatistic'));
 }
 
 enum MetricType {
-  dynamoDBReadCapacityUtilization,
-  dynamoDBWriteCapacityUtilization,
-  aLBRequestCountPerTarget,
-  rDSReaderAverageCPUUtilization,
-  rDSReaderAverageDatabaseConnections,
-  eC2SpotFleetRequestAverageCPUUtilization,
-  eC2SpotFleetRequestAverageNetworkIn,
-  eC2SpotFleetRequestAverageNetworkOut,
-  sageMakerVariantInvocationsPerInstance,
-  eCSServiceAverageCPUUtilization,
-  eCSServiceAverageMemoryUtilization,
-  appStreamAverageCapacityUtilization,
-  comprehendInferenceUtilization,
-  lambdaProvisionedConcurrencyUtilization,
-  cassandraReadCapacityUtilization,
-  cassandraWriteCapacityUtilization,
-  kafkaBrokerStorageUtilization,
-  elastiCachePrimaryEngineCPUUtilization,
-  elastiCacheReplicaEngineCPUUtilization,
-  elastiCacheDatabaseMemoryUsageCountedForEvictPercentage,
-  neptuneReaderAverageCPUUtilization,
-  sageMakerVariantProvisionedConcurrencyUtilization,
-  elastiCacheDatabaseCapacityUsageCountedForEvictPercentage,
-  sageMakerInferenceComponentInvocationsPerCopy,
-}
+  dynamoDBReadCapacityUtilization('DynamoDBReadCapacityUtilization'),
+  dynamoDBWriteCapacityUtilization('DynamoDBWriteCapacityUtilization'),
+  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
+  rDSReaderAverageCPUUtilization('RDSReaderAverageCPUUtilization'),
+  rDSReaderAverageDatabaseConnections('RDSReaderAverageDatabaseConnections'),
+  eC2SpotFleetRequestAverageCPUUtilization(
+      'EC2SpotFleetRequestAverageCPUUtilization'),
+  eC2SpotFleetRequestAverageNetworkIn('EC2SpotFleetRequestAverageNetworkIn'),
+  eC2SpotFleetRequestAverageNetworkOut('EC2SpotFleetRequestAverageNetworkOut'),
+  sageMakerVariantInvocationsPerInstance(
+      'SageMakerVariantInvocationsPerInstance'),
+  eCSServiceAverageCPUUtilization('ECSServiceAverageCPUUtilization'),
+  eCSServiceAverageMemoryUtilization('ECSServiceAverageMemoryUtilization'),
+  appStreamAverageCapacityUtilization('AppStreamAverageCapacityUtilization'),
+  comprehendInferenceUtilization('ComprehendInferenceUtilization'),
+  lambdaProvisionedConcurrencyUtilization(
+      'LambdaProvisionedConcurrencyUtilization'),
+  cassandraReadCapacityUtilization('CassandraReadCapacityUtilization'),
+  cassandraWriteCapacityUtilization('CassandraWriteCapacityUtilization'),
+  kafkaBrokerStorageUtilization('KafkaBrokerStorageUtilization'),
+  elastiCachePrimaryEngineCPUUtilization(
+      'ElastiCachePrimaryEngineCPUUtilization'),
+  elastiCacheReplicaEngineCPUUtilization(
+      'ElastiCacheReplicaEngineCPUUtilization'),
+  elastiCacheDatabaseMemoryUsageCountedForEvictPercentage(
+      'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage'),
+  neptuneReaderAverageCPUUtilization('NeptuneReaderAverageCPUUtilization'),
+  sageMakerVariantProvisionedConcurrencyUtilization(
+      'SageMakerVariantProvisionedConcurrencyUtilization'),
+  elastiCacheDatabaseCapacityUsageCountedForEvictPercentage(
+      'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage'),
+  sageMakerInferenceComponentInvocationsPerCopy(
+      'SageMakerInferenceComponentInvocationsPerCopy'),
+  ;
 
-extension MetricTypeValueExtension on MetricType {
-  String toValue() {
-    switch (this) {
-      case MetricType.dynamoDBReadCapacityUtilization:
-        return 'DynamoDBReadCapacityUtilization';
-      case MetricType.dynamoDBWriteCapacityUtilization:
-        return 'DynamoDBWriteCapacityUtilization';
-      case MetricType.aLBRequestCountPerTarget:
-        return 'ALBRequestCountPerTarget';
-      case MetricType.rDSReaderAverageCPUUtilization:
-        return 'RDSReaderAverageCPUUtilization';
-      case MetricType.rDSReaderAverageDatabaseConnections:
-        return 'RDSReaderAverageDatabaseConnections';
-      case MetricType.eC2SpotFleetRequestAverageCPUUtilization:
-        return 'EC2SpotFleetRequestAverageCPUUtilization';
-      case MetricType.eC2SpotFleetRequestAverageNetworkIn:
-        return 'EC2SpotFleetRequestAverageNetworkIn';
-      case MetricType.eC2SpotFleetRequestAverageNetworkOut:
-        return 'EC2SpotFleetRequestAverageNetworkOut';
-      case MetricType.sageMakerVariantInvocationsPerInstance:
-        return 'SageMakerVariantInvocationsPerInstance';
-      case MetricType.eCSServiceAverageCPUUtilization:
-        return 'ECSServiceAverageCPUUtilization';
-      case MetricType.eCSServiceAverageMemoryUtilization:
-        return 'ECSServiceAverageMemoryUtilization';
-      case MetricType.appStreamAverageCapacityUtilization:
-        return 'AppStreamAverageCapacityUtilization';
-      case MetricType.comprehendInferenceUtilization:
-        return 'ComprehendInferenceUtilization';
-      case MetricType.lambdaProvisionedConcurrencyUtilization:
-        return 'LambdaProvisionedConcurrencyUtilization';
-      case MetricType.cassandraReadCapacityUtilization:
-        return 'CassandraReadCapacityUtilization';
-      case MetricType.cassandraWriteCapacityUtilization:
-        return 'CassandraWriteCapacityUtilization';
-      case MetricType.kafkaBrokerStorageUtilization:
-        return 'KafkaBrokerStorageUtilization';
-      case MetricType.elastiCachePrimaryEngineCPUUtilization:
-        return 'ElastiCachePrimaryEngineCPUUtilization';
-      case MetricType.elastiCacheReplicaEngineCPUUtilization:
-        return 'ElastiCacheReplicaEngineCPUUtilization';
-      case MetricType.elastiCacheDatabaseMemoryUsageCountedForEvictPercentage:
-        return 'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage';
-      case MetricType.neptuneReaderAverageCPUUtilization:
-        return 'NeptuneReaderAverageCPUUtilization';
-      case MetricType.sageMakerVariantProvisionedConcurrencyUtilization:
-        return 'SageMakerVariantProvisionedConcurrencyUtilization';
-      case MetricType.elastiCacheDatabaseCapacityUsageCountedForEvictPercentage:
-        return 'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage';
-      case MetricType.sageMakerInferenceComponentInvocationsPerCopy:
-        return 'SageMakerInferenceComponentInvocationsPerCopy';
-    }
-  }
-}
+  final String value;
 
-extension MetricTypeFromString on String {
-  MetricType toMetricType() {
-    switch (this) {
-      case 'DynamoDBReadCapacityUtilization':
-        return MetricType.dynamoDBReadCapacityUtilization;
-      case 'DynamoDBWriteCapacityUtilization':
-        return MetricType.dynamoDBWriteCapacityUtilization;
-      case 'ALBRequestCountPerTarget':
-        return MetricType.aLBRequestCountPerTarget;
-      case 'RDSReaderAverageCPUUtilization':
-        return MetricType.rDSReaderAverageCPUUtilization;
-      case 'RDSReaderAverageDatabaseConnections':
-        return MetricType.rDSReaderAverageDatabaseConnections;
-      case 'EC2SpotFleetRequestAverageCPUUtilization':
-        return MetricType.eC2SpotFleetRequestAverageCPUUtilization;
-      case 'EC2SpotFleetRequestAverageNetworkIn':
-        return MetricType.eC2SpotFleetRequestAverageNetworkIn;
-      case 'EC2SpotFleetRequestAverageNetworkOut':
-        return MetricType.eC2SpotFleetRequestAverageNetworkOut;
-      case 'SageMakerVariantInvocationsPerInstance':
-        return MetricType.sageMakerVariantInvocationsPerInstance;
-      case 'ECSServiceAverageCPUUtilization':
-        return MetricType.eCSServiceAverageCPUUtilization;
-      case 'ECSServiceAverageMemoryUtilization':
-        return MetricType.eCSServiceAverageMemoryUtilization;
-      case 'AppStreamAverageCapacityUtilization':
-        return MetricType.appStreamAverageCapacityUtilization;
-      case 'ComprehendInferenceUtilization':
-        return MetricType.comprehendInferenceUtilization;
-      case 'LambdaProvisionedConcurrencyUtilization':
-        return MetricType.lambdaProvisionedConcurrencyUtilization;
-      case 'CassandraReadCapacityUtilization':
-        return MetricType.cassandraReadCapacityUtilization;
-      case 'CassandraWriteCapacityUtilization':
-        return MetricType.cassandraWriteCapacityUtilization;
-      case 'KafkaBrokerStorageUtilization':
-        return MetricType.kafkaBrokerStorageUtilization;
-      case 'ElastiCachePrimaryEngineCPUUtilization':
-        return MetricType.elastiCachePrimaryEngineCPUUtilization;
-      case 'ElastiCacheReplicaEngineCPUUtilization':
-        return MetricType.elastiCacheReplicaEngineCPUUtilization;
-      case 'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage':
-        return MetricType
-            .elastiCacheDatabaseMemoryUsageCountedForEvictPercentage;
-      case 'NeptuneReaderAverageCPUUtilization':
-        return MetricType.neptuneReaderAverageCPUUtilization;
-      case 'SageMakerVariantProvisionedConcurrencyUtilization':
-        return MetricType.sageMakerVariantProvisionedConcurrencyUtilization;
-      case 'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage':
-        return MetricType
-            .elastiCacheDatabaseCapacityUsageCountedForEvictPercentage;
-      case 'SageMakerInferenceComponentInvocationsPerCopy':
-        return MetricType.sageMakerInferenceComponentInvocationsPerCopy;
-    }
-    throw Exception('$this is not known in enum MetricType');
-  }
+  const MetricType(this.value);
+
+  static MetricType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricType'));
 }
 
 /// Describes the reason for an activity that isn't scaled (<i>not scaled
@@ -3834,31 +3681,17 @@ class NotScaledReason {
 }
 
 enum PolicyType {
-  stepScaling,
-  targetTrackingScaling,
-}
+  stepScaling('StepScaling'),
+  targetTrackingScaling('TargetTrackingScaling'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.stepScaling:
-        return 'StepScaling';
-      case PolicyType.targetTrackingScaling:
-        return 'TargetTrackingScaling';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'StepScaling':
-        return PolicyType.stepScaling;
-      case 'TargetTrackingScaling':
-        return PolicyType.targetTrackingScaling;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 /// Represents a predefined metric for a target tracking scaling policy to use
@@ -3915,7 +3748,7 @@ class PredefinedMetricSpecification {
   factory PredefinedMetricSpecification.fromJson(Map<String, dynamic> json) {
     return PredefinedMetricSpecification(
       predefinedMetricType:
-          (json['PredefinedMetricType'] as String).toMetricType(),
+          MetricType.fromString((json['PredefinedMetricType'] as String)),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -3924,7 +3757,7 @@ class PredefinedMetricSpecification {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -3997,135 +3830,46 @@ class RegisterScalableTargetResponse {
 }
 
 enum ScalableDimension {
-  ecsServiceDesiredCount,
-  ec2SpotFleetRequestTargetCapacity,
-  elasticmapreduceInstancegroupInstanceCount,
-  appstreamFleetDesiredCapacity,
-  dynamodbTableReadCapacityUnits,
-  dynamodbTableWriteCapacityUnits,
-  dynamodbIndexReadCapacityUnits,
-  dynamodbIndexWriteCapacityUnits,
-  rdsClusterReadReplicaCount,
-  sagemakerVariantDesiredInstanceCount,
-  customResourceResourceTypeProperty,
-  comprehendDocumentClassifierEndpointDesiredInferenceUnits,
-  comprehendEntityRecognizerEndpointDesiredInferenceUnits,
-  lambdaFunctionProvisionedConcurrency,
-  cassandraTableReadCapacityUnits,
-  cassandraTableWriteCapacityUnits,
-  kafkaBrokerStorageVolumeSize,
-  elasticacheReplicationGroupNodeGroups,
-  elasticacheReplicationGroupReplicas,
-  neptuneClusterReadReplicaCount,
-  sagemakerVariantDesiredProvisionedConcurrency,
-  sagemakerInferenceComponentDesiredCopyCount,
-}
+  ecsServiceDesiredCount('ecs:service:DesiredCount'),
+  ec2SpotFleetRequestTargetCapacity('ec2:spot-fleet-request:TargetCapacity'),
+  elasticmapreduceInstancegroupInstanceCount(
+      'elasticmapreduce:instancegroup:InstanceCount'),
+  appstreamFleetDesiredCapacity('appstream:fleet:DesiredCapacity'),
+  dynamodbTableReadCapacityUnits('dynamodb:table:ReadCapacityUnits'),
+  dynamodbTableWriteCapacityUnits('dynamodb:table:WriteCapacityUnits'),
+  dynamodbIndexReadCapacityUnits('dynamodb:index:ReadCapacityUnits'),
+  dynamodbIndexWriteCapacityUnits('dynamodb:index:WriteCapacityUnits'),
+  rdsClusterReadReplicaCount('rds:cluster:ReadReplicaCount'),
+  sagemakerVariantDesiredInstanceCount(
+      'sagemaker:variant:DesiredInstanceCount'),
+  customResourceResourceTypeProperty('custom-resource:ResourceType:Property'),
+  comprehendDocumentClassifierEndpointDesiredInferenceUnits(
+      'comprehend:document-classifier-endpoint:DesiredInferenceUnits'),
+  comprehendEntityRecognizerEndpointDesiredInferenceUnits(
+      'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits'),
+  lambdaFunctionProvisionedConcurrency(
+      'lambda:function:ProvisionedConcurrency'),
+  cassandraTableReadCapacityUnits('cassandra:table:ReadCapacityUnits'),
+  cassandraTableWriteCapacityUnits('cassandra:table:WriteCapacityUnits'),
+  kafkaBrokerStorageVolumeSize('kafka:broker-storage:VolumeSize'),
+  elasticacheReplicationGroupNodeGroups(
+      'elasticache:replication-group:NodeGroups'),
+  elasticacheReplicationGroupReplicas('elasticache:replication-group:Replicas'),
+  neptuneClusterReadReplicaCount('neptune:cluster:ReadReplicaCount'),
+  sagemakerVariantDesiredProvisionedConcurrency(
+      'sagemaker:variant:DesiredProvisionedConcurrency'),
+  sagemakerInferenceComponentDesiredCopyCount(
+      'sagemaker:inference-component:DesiredCopyCount'),
+  ;
 
-extension ScalableDimensionValueExtension on ScalableDimension {
-  String toValue() {
-    switch (this) {
-      case ScalableDimension.ecsServiceDesiredCount:
-        return 'ecs:service:DesiredCount';
-      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-        return 'ec2:spot-fleet-request:TargetCapacity';
-      case ScalableDimension.elasticmapreduceInstancegroupInstanceCount:
-        return 'elasticmapreduce:instancegroup:InstanceCount';
-      case ScalableDimension.appstreamFleetDesiredCapacity:
-        return 'appstream:fleet:DesiredCapacity';
-      case ScalableDimension.dynamodbTableReadCapacityUnits:
-        return 'dynamodb:table:ReadCapacityUnits';
-      case ScalableDimension.dynamodbTableWriteCapacityUnits:
-        return 'dynamodb:table:WriteCapacityUnits';
-      case ScalableDimension.dynamodbIndexReadCapacityUnits:
-        return 'dynamodb:index:ReadCapacityUnits';
-      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
-        return 'dynamodb:index:WriteCapacityUnits';
-      case ScalableDimension.rdsClusterReadReplicaCount:
-        return 'rds:cluster:ReadReplicaCount';
-      case ScalableDimension.sagemakerVariantDesiredInstanceCount:
-        return 'sagemaker:variant:DesiredInstanceCount';
-      case ScalableDimension.customResourceResourceTypeProperty:
-        return 'custom-resource:ResourceType:Property';
-      case ScalableDimension
-            .comprehendDocumentClassifierEndpointDesiredInferenceUnits:
-        return 'comprehend:document-classifier-endpoint:DesiredInferenceUnits';
-      case ScalableDimension
-            .comprehendEntityRecognizerEndpointDesiredInferenceUnits:
-        return 'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits';
-      case ScalableDimension.lambdaFunctionProvisionedConcurrency:
-        return 'lambda:function:ProvisionedConcurrency';
-      case ScalableDimension.cassandraTableReadCapacityUnits:
-        return 'cassandra:table:ReadCapacityUnits';
-      case ScalableDimension.cassandraTableWriteCapacityUnits:
-        return 'cassandra:table:WriteCapacityUnits';
-      case ScalableDimension.kafkaBrokerStorageVolumeSize:
-        return 'kafka:broker-storage:VolumeSize';
-      case ScalableDimension.elasticacheReplicationGroupNodeGroups:
-        return 'elasticache:replication-group:NodeGroups';
-      case ScalableDimension.elasticacheReplicationGroupReplicas:
-        return 'elasticache:replication-group:Replicas';
-      case ScalableDimension.neptuneClusterReadReplicaCount:
-        return 'neptune:cluster:ReadReplicaCount';
-      case ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency:
-        return 'sagemaker:variant:DesiredProvisionedConcurrency';
-      case ScalableDimension.sagemakerInferenceComponentDesiredCopyCount:
-        return 'sagemaker:inference-component:DesiredCopyCount';
-    }
-  }
-}
+  final String value;
 
-extension ScalableDimensionFromString on String {
-  ScalableDimension toScalableDimension() {
-    switch (this) {
-      case 'ecs:service:DesiredCount':
-        return ScalableDimension.ecsServiceDesiredCount;
-      case 'ec2:spot-fleet-request:TargetCapacity':
-        return ScalableDimension.ec2SpotFleetRequestTargetCapacity;
-      case 'elasticmapreduce:instancegroup:InstanceCount':
-        return ScalableDimension.elasticmapreduceInstancegroupInstanceCount;
-      case 'appstream:fleet:DesiredCapacity':
-        return ScalableDimension.appstreamFleetDesiredCapacity;
-      case 'dynamodb:table:ReadCapacityUnits':
-        return ScalableDimension.dynamodbTableReadCapacityUnits;
-      case 'dynamodb:table:WriteCapacityUnits':
-        return ScalableDimension.dynamodbTableWriteCapacityUnits;
-      case 'dynamodb:index:ReadCapacityUnits':
-        return ScalableDimension.dynamodbIndexReadCapacityUnits;
-      case 'dynamodb:index:WriteCapacityUnits':
-        return ScalableDimension.dynamodbIndexWriteCapacityUnits;
-      case 'rds:cluster:ReadReplicaCount':
-        return ScalableDimension.rdsClusterReadReplicaCount;
-      case 'sagemaker:variant:DesiredInstanceCount':
-        return ScalableDimension.sagemakerVariantDesiredInstanceCount;
-      case 'custom-resource:ResourceType:Property':
-        return ScalableDimension.customResourceResourceTypeProperty;
-      case 'comprehend:document-classifier-endpoint:DesiredInferenceUnits':
-        return ScalableDimension
-            .comprehendDocumentClassifierEndpointDesiredInferenceUnits;
-      case 'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits':
-        return ScalableDimension
-            .comprehendEntityRecognizerEndpointDesiredInferenceUnits;
-      case 'lambda:function:ProvisionedConcurrency':
-        return ScalableDimension.lambdaFunctionProvisionedConcurrency;
-      case 'cassandra:table:ReadCapacityUnits':
-        return ScalableDimension.cassandraTableReadCapacityUnits;
-      case 'cassandra:table:WriteCapacityUnits':
-        return ScalableDimension.cassandraTableWriteCapacityUnits;
-      case 'kafka:broker-storage:VolumeSize':
-        return ScalableDimension.kafkaBrokerStorageVolumeSize;
-      case 'elasticache:replication-group:NodeGroups':
-        return ScalableDimension.elasticacheReplicationGroupNodeGroups;
-      case 'elasticache:replication-group:Replicas':
-        return ScalableDimension.elasticacheReplicationGroupReplicas;
-      case 'neptune:cluster:ReadReplicaCount':
-        return ScalableDimension.neptuneClusterReadReplicaCount;
-      case 'sagemaker:variant:DesiredProvisionedConcurrency':
-        return ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency;
-      case 'sagemaker:inference-component:DesiredCopyCount':
-        return ScalableDimension.sagemakerInferenceComponentDesiredCopyCount;
-    }
-    throw Exception('$this is not known in enum ScalableDimension');
-  }
+  const ScalableDimension(this.value);
+
+  static ScalableDimension fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalableDimension'));
 }
 
 /// Represents a scalable target.
@@ -4371,9 +4115,9 @@ class ScalableTarget {
       resourceId: json['ResourceId'] as String,
       roleARN: json['RoleARN'] as String,
       scalableDimension:
-          (json['ScalableDimension'] as String).toScalableDimension(),
+          ScalableDimension.fromString((json['ScalableDimension'] as String)),
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       scalableTargetARN: json['ScalableTargetARN'] as String?,
       suspendedState: json['SuspendedState'] != null
           ? SuspendedState.fromJson(
@@ -4398,8 +4142,8 @@ class ScalableTarget {
       'MinCapacity': minCapacity,
       'ResourceId': resourceId,
       'RoleARN': roleARN,
-      'ScalableDimension': scalableDimension.toValue(),
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ScalableDimension': scalableDimension.value,
+      'ServiceNamespace': serviceNamespace.value,
       if (scalableTargetARN != null) 'ScalableTargetARN': scalableTargetARN,
       if (suspendedState != null) 'SuspendedState': suspendedState,
     };
@@ -4705,11 +4449,12 @@ class ScalingActivity {
       description: json['Description'] as String,
       resourceId: json['ResourceId'] as String,
       scalableDimension:
-          (json['ScalableDimension'] as String).toScalableDimension(),
+          ScalableDimension.fromString((json['ScalableDimension'] as String)),
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
-      statusCode: (json['StatusCode'] as String).toScalingActivityStatusCode(),
+      statusCode:
+          ScalingActivityStatusCode.fromString((json['StatusCode'] as String)),
       details: json['Details'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       notScaledReasons: (json['NotScaledReasons'] as List?)
@@ -4738,10 +4483,10 @@ class ScalingActivity {
       'Cause': cause,
       'Description': description,
       'ResourceId': resourceId,
-      'ScalableDimension': scalableDimension.toValue(),
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ScalableDimension': scalableDimension.value,
+      'ServiceNamespace': serviceNamespace.value,
       'StartTime': unixTimestampToJson(startTime),
-      'StatusCode': statusCode.toValue(),
+      'StatusCode': statusCode.value,
       if (details != null) 'Details': details,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (notScaledReasons != null) 'NotScaledReasons': notScaledReasons,
@@ -4751,51 +4496,22 @@ class ScalingActivity {
 }
 
 enum ScalingActivityStatusCode {
-  pending,
-  inProgress,
-  successful,
-  overridden,
-  unfulfilled,
-  failed,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  successful('Successful'),
+  overridden('Overridden'),
+  unfulfilled('Unfulfilled'),
+  failed('Failed'),
+  ;
 
-extension ScalingActivityStatusCodeValueExtension on ScalingActivityStatusCode {
-  String toValue() {
-    switch (this) {
-      case ScalingActivityStatusCode.pending:
-        return 'Pending';
-      case ScalingActivityStatusCode.inProgress:
-        return 'InProgress';
-      case ScalingActivityStatusCode.successful:
-        return 'Successful';
-      case ScalingActivityStatusCode.overridden:
-        return 'Overridden';
-      case ScalingActivityStatusCode.unfulfilled:
-        return 'Unfulfilled';
-      case ScalingActivityStatusCode.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ScalingActivityStatusCodeFromString on String {
-  ScalingActivityStatusCode toScalingActivityStatusCode() {
-    switch (this) {
-      case 'Pending':
-        return ScalingActivityStatusCode.pending;
-      case 'InProgress':
-        return ScalingActivityStatusCode.inProgress;
-      case 'Successful':
-        return ScalingActivityStatusCode.successful;
-      case 'Overridden':
-        return ScalingActivityStatusCode.overridden;
-      case 'Unfulfilled':
-        return ScalingActivityStatusCode.unfulfilled;
-      case 'Failed':
-        return ScalingActivityStatusCode.failed;
-    }
-    throw Exception('$this is not known in enum ScalingActivityStatusCode');
-  }
+  const ScalingActivityStatusCode(this.value);
+
+  static ScalingActivityStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScalingActivityStatusCode'));
 }
 
 /// Represents a scaling policy to use with Application Auto Scaling.
@@ -5054,12 +4770,12 @@ class ScalingPolicy {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       policyARN: json['PolicyARN'] as String,
       policyName: json['PolicyName'] as String,
-      policyType: (json['PolicyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['PolicyType'] as String)),
       resourceId: json['ResourceId'] as String,
       scalableDimension:
-          (json['ScalableDimension'] as String).toScalableDimension(),
+          ScalableDimension.fromString((json['ScalableDimension'] as String)),
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       alarms: (json['Alarms'] as List?)
           ?.whereNotNull()
           .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
@@ -5094,10 +4810,10 @@ class ScalingPolicy {
       'CreationTime': unixTimestampToJson(creationTime),
       'PolicyARN': policyARN,
       'PolicyName': policyName,
-      'PolicyType': policyType.toValue(),
+      'PolicyType': policyType.value,
       'ResourceId': resourceId,
-      'ScalableDimension': scalableDimension.toValue(),
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ScalableDimension': scalableDimension.value,
+      'ServiceNamespace': serviceNamespace.value,
       if (alarms != null) 'Alarms': alarms,
       if (stepScalingPolicyConfiguration != null)
         'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
@@ -5393,10 +5109,10 @@ class ScheduledAction {
       scheduledActionARN: json['ScheduledActionARN'] as String,
       scheduledActionName: json['ScheduledActionName'] as String,
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       endTime: timeStampFromJson(json['EndTime']),
-      scalableDimension:
-          (json['ScalableDimension'] as String?)?.toScalableDimension(),
+      scalableDimension: (json['ScalableDimension'] as String?)
+          ?.let(ScalableDimension.fromString),
       scalableTargetAction: json['ScalableTargetAction'] != null
           ? ScalableTargetAction.fromJson(
               json['ScalableTargetAction'] as Map<String, dynamic>)
@@ -5424,10 +5140,10 @@ class ScheduledAction {
       'Schedule': schedule,
       'ScheduledActionARN': scheduledActionARN,
       'ScheduledActionName': scheduledActionName,
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ServiceNamespace': serviceNamespace.value,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (scalableDimension != null)
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension.value,
       if (scalableTargetAction != null)
         'ScalableTargetAction': scalableTargetAction,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
@@ -5437,91 +5153,30 @@ class ScheduledAction {
 }
 
 enum ServiceNamespace {
-  ecs,
-  elasticmapreduce,
-  ec2,
-  appstream,
-  dynamodb,
-  rds,
-  sagemaker,
-  customResource,
-  comprehend,
-  lambda,
-  cassandra,
-  kafka,
-  elasticache,
-  neptune,
-}
+  ecs('ecs'),
+  elasticmapreduce('elasticmapreduce'),
+  ec2('ec2'),
+  appstream('appstream'),
+  dynamodb('dynamodb'),
+  rds('rds'),
+  sagemaker('sagemaker'),
+  customResource('custom-resource'),
+  comprehend('comprehend'),
+  lambda('lambda'),
+  cassandra('cassandra'),
+  kafka('kafka'),
+  elasticache('elasticache'),
+  neptune('neptune'),
+  ;
 
-extension ServiceNamespaceValueExtension on ServiceNamespace {
-  String toValue() {
-    switch (this) {
-      case ServiceNamespace.ecs:
-        return 'ecs';
-      case ServiceNamespace.elasticmapreduce:
-        return 'elasticmapreduce';
-      case ServiceNamespace.ec2:
-        return 'ec2';
-      case ServiceNamespace.appstream:
-        return 'appstream';
-      case ServiceNamespace.dynamodb:
-        return 'dynamodb';
-      case ServiceNamespace.rds:
-        return 'rds';
-      case ServiceNamespace.sagemaker:
-        return 'sagemaker';
-      case ServiceNamespace.customResource:
-        return 'custom-resource';
-      case ServiceNamespace.comprehend:
-        return 'comprehend';
-      case ServiceNamespace.lambda:
-        return 'lambda';
-      case ServiceNamespace.cassandra:
-        return 'cassandra';
-      case ServiceNamespace.kafka:
-        return 'kafka';
-      case ServiceNamespace.elasticache:
-        return 'elasticache';
-      case ServiceNamespace.neptune:
-        return 'neptune';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNamespaceFromString on String {
-  ServiceNamespace toServiceNamespace() {
-    switch (this) {
-      case 'ecs':
-        return ServiceNamespace.ecs;
-      case 'elasticmapreduce':
-        return ServiceNamespace.elasticmapreduce;
-      case 'ec2':
-        return ServiceNamespace.ec2;
-      case 'appstream':
-        return ServiceNamespace.appstream;
-      case 'dynamodb':
-        return ServiceNamespace.dynamodb;
-      case 'rds':
-        return ServiceNamespace.rds;
-      case 'sagemaker':
-        return ServiceNamespace.sagemaker;
-      case 'custom-resource':
-        return ServiceNamespace.customResource;
-      case 'comprehend':
-        return ServiceNamespace.comprehend;
-      case 'lambda':
-        return ServiceNamespace.lambda;
-      case 'cassandra':
-        return ServiceNamespace.cassandra;
-      case 'kafka':
-        return ServiceNamespace.kafka;
-      case 'elasticache':
-        return ServiceNamespace.elasticache;
-      case 'neptune':
-        return ServiceNamespace.neptune;
-    }
-    throw Exception('$this is not known in enum ServiceNamespace');
-  }
+  const ServiceNamespace(this.value);
+
+  static ServiceNamespace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServiceNamespace'));
 }
 
 /// Represents a step adjustment for a <a
@@ -5673,10 +5328,11 @@ class StepScalingPolicyConfiguration {
 
   factory StepScalingPolicyConfiguration.fromJson(Map<String, dynamic> json) {
     return StepScalingPolicyConfiguration(
-      adjustmentType: (json['AdjustmentType'] as String?)?.toAdjustmentType(),
+      adjustmentType:
+          (json['AdjustmentType'] as String?)?.let(AdjustmentType.fromString),
       cooldown: json['Cooldown'] as int?,
-      metricAggregationType:
-          (json['MetricAggregationType'] as String?)?.toMetricAggregationType(),
+      metricAggregationType: (json['MetricAggregationType'] as String?)
+          ?.let(MetricAggregationType.fromString),
       minAdjustmentMagnitude: json['MinAdjustmentMagnitude'] as int?,
       stepAdjustments: (json['StepAdjustments'] as List?)
           ?.whereNotNull()
@@ -5692,10 +5348,10 @@ class StepScalingPolicyConfiguration {
     final minAdjustmentMagnitude = this.minAdjustmentMagnitude;
     final stepAdjustments = this.stepAdjustments;
     return {
-      if (adjustmentType != null) 'AdjustmentType': adjustmentType.toValue(),
+      if (adjustmentType != null) 'AdjustmentType': adjustmentType.value,
       if (cooldown != null) 'Cooldown': cooldown,
       if (metricAggregationType != null)
-        'MetricAggregationType': metricAggregationType.toValue(),
+        'MetricAggregationType': metricAggregationType.value,
       if (minAdjustmentMagnitude != null)
         'MinAdjustmentMagnitude': minAdjustmentMagnitude,
       if (stepAdjustments != null) 'StepAdjustments': stepAdjustments,

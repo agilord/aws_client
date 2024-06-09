@@ -499,7 +499,7 @@ class CognitoSync {
     required String token,
   }) async {
     final $payload = <String, dynamic>{
-      'Platform': platform.toValue(),
+      'Platform': platform.value,
       'Token': token,
     };
     final response = await _protocol.send(
@@ -776,41 +776,20 @@ class BulkPublishResponse {
 }
 
 enum BulkPublishStatus {
-  notStarted,
-  inProgress,
-  failed,
-  succeeded,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension BulkPublishStatusValueExtension on BulkPublishStatus {
-  String toValue() {
-    switch (this) {
-      case BulkPublishStatus.notStarted:
-        return 'NOT_STARTED';
-      case BulkPublishStatus.inProgress:
-        return 'IN_PROGRESS';
-      case BulkPublishStatus.failed:
-        return 'FAILED';
-      case BulkPublishStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension BulkPublishStatusFromString on String {
-  BulkPublishStatus toBulkPublishStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return BulkPublishStatus.notStarted;
-      case 'IN_PROGRESS':
-        return BulkPublishStatus.inProgress;
-      case 'FAILED':
-        return BulkPublishStatus.failed;
-      case 'SUCCEEDED':
-        return BulkPublishStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum BulkPublishStatus');
-  }
+  const BulkPublishStatus(this.value);
+
+  static BulkPublishStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BulkPublishStatus'));
 }
 
 /// Configuration options for configure Cognito streams.
@@ -842,7 +821,7 @@ class CognitoStreams {
       roleArn: json['RoleArn'] as String?,
       streamName: json['StreamName'] as String?,
       streamingStatus:
-          (json['StreamingStatus'] as String?)?.toStreamingStatus(),
+          (json['StreamingStatus'] as String?)?.let(StreamingStatus.fromString),
     );
   }
 
@@ -853,7 +832,7 @@ class CognitoStreams {
     return {
       if (roleArn != null) 'RoleArn': roleArn,
       if (streamName != null) 'StreamName': streamName,
-      if (streamingStatus != null) 'StreamingStatus': streamingStatus.toValue(),
+      if (streamingStatus != null) 'StreamingStatus': streamingStatus.value,
     };
   }
 }
@@ -1037,8 +1016,8 @@ class GetBulkPublishDetailsResponse {
       bulkPublishCompleteTime:
           timeStampFromJson(json['BulkPublishCompleteTime']),
       bulkPublishStartTime: timeStampFromJson(json['BulkPublishStartTime']),
-      bulkPublishStatus:
-          (json['BulkPublishStatus'] as String?)?.toBulkPublishStatus(),
+      bulkPublishStatus: (json['BulkPublishStatus'] as String?)
+          ?.let(BulkPublishStatus.fromString),
       failureMessage: json['FailureMessage'] as String?,
       identityPoolId: json['IdentityPoolId'] as String?,
     );
@@ -1295,69 +1274,33 @@ class ListRecordsResponse {
 }
 
 enum Operation {
-  replace,
-  remove,
-}
+  replace('replace'),
+  remove('remove'),
+  ;
 
-extension OperationValueExtension on Operation {
-  String toValue() {
-    switch (this) {
-      case Operation.replace:
-        return 'replace';
-      case Operation.remove:
-        return 'remove';
-    }
-  }
-}
+  final String value;
 
-extension OperationFromString on String {
-  Operation toOperation() {
-    switch (this) {
-      case 'replace':
-        return Operation.replace;
-      case 'remove':
-        return Operation.remove;
-    }
-    throw Exception('$this is not known in enum Operation');
-  }
+  const Operation(this.value);
+
+  static Operation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operation'));
 }
 
 enum Platform {
-  apns,
-  apnsSandbox,
-  gcm,
-  adm,
-}
+  apns('APNS'),
+  apnsSandbox('APNS_SANDBOX'),
+  gcm('GCM'),
+  adm('ADM'),
+  ;
 
-extension PlatformValueExtension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.apns:
-        return 'APNS';
-      case Platform.apnsSandbox:
-        return 'APNS_SANDBOX';
-      case Platform.gcm:
-        return 'GCM';
-      case Platform.adm:
-        return 'ADM';
-    }
-  }
-}
+  final String value;
 
-extension PlatformFromString on String {
-  Platform toPlatform() {
-    switch (this) {
-      case 'APNS':
-        return Platform.apns;
-      case 'APNS_SANDBOX':
-        return Platform.apnsSandbox;
-      case 'GCM':
-        return Platform.gcm;
-      case 'ADM':
-        return Platform.adm;
-    }
-    throw Exception('$this is not known in enum Platform');
-  }
+  const Platform(this.value);
+
+  static Platform fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Platform'));
 }
 
 /// Configuration options to be applied to the identity pool.
@@ -1467,7 +1410,7 @@ class RecordPatch {
     final value = this.value;
     return {
       'Key': key,
-      'Op': op.toValue(),
+      'Op': op.value,
       'SyncCount': syncCount,
       if (deviceLastModifiedDate != null)
         'DeviceLastModifiedDate': unixTimestampToJson(deviceLastModifiedDate),
@@ -1526,31 +1469,18 @@ class SetIdentityPoolConfigurationResponse {
 }
 
 enum StreamingStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StreamingStatusValueExtension on StreamingStatus {
-  String toValue() {
-    switch (this) {
-      case StreamingStatus.enabled:
-        return 'ENABLED';
-      case StreamingStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingStatusFromString on String {
-  StreamingStatus toStreamingStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return StreamingStatus.enabled;
-      case 'DISABLED':
-        return StreamingStatus.disabled;
-    }
-    throw Exception('$this is not known in enum StreamingStatus');
-  }
+  const StreamingStatus(this.value);
+
+  static StreamingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StreamingStatus'));
 }
 
 /// Response to a SubscribeToDataset request.

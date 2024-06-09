@@ -294,10 +294,10 @@ class SageMakerGeospatialCapabilities {
     final $query = <String, List<String>>{
       'Arn': [arn],
       'ImageAssets': imageAssets,
-      'Target': [target.toValue()],
+      'Target': [target.value],
       if (executionRoleArn != null) 'ExecutionRoleArn': [executionRoleArn],
       if (imageMask != null) 'ImageMask': [imageMask.toString()],
-      if (outputDataType != null) 'OutputDataType': [outputDataType.toValue()],
+      if (outputDataType != null) 'OutputDataType': [outputDataType.value],
       if (outputFormat != null) 'OutputFormat': [outputFormat],
       if (propertyFilters != null) 'PropertyFilters': [propertyFilters],
       if (timeRangeFilter != null) 'TimeRangeFilter': [timeRangeFilter],
@@ -380,8 +380,8 @@ class SageMakerGeospatialCapabilities {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (sortBy != null) 'SortBy': sortBy,
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-      if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+      if (statusEquals != null) 'StatusEquals': statusEquals.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -493,7 +493,7 @@ class SageMakerGeospatialCapabilities {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (sortBy != null) 'SortBy': sortBy,
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
       if (statusEquals != null) 'StatusEquals': statusEquals,
     };
     final response = await _protocol.send(
@@ -776,202 +776,71 @@ class SageMakerGeospatialCapabilities {
 }
 
 enum AlgorithmNameCloudRemoval {
-  interpolation,
-}
+  interpolation('INTERPOLATION'),
+  ;
 
-extension AlgorithmNameCloudRemovalValueExtension on AlgorithmNameCloudRemoval {
-  String toValue() {
-    switch (this) {
-      case AlgorithmNameCloudRemoval.interpolation:
-        return 'INTERPOLATION';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmNameCloudRemovalFromString on String {
-  AlgorithmNameCloudRemoval toAlgorithmNameCloudRemoval() {
-    switch (this) {
-      case 'INTERPOLATION':
-        return AlgorithmNameCloudRemoval.interpolation;
-    }
-    throw Exception('$this is not known in enum AlgorithmNameCloudRemoval');
-  }
+  const AlgorithmNameCloudRemoval(this.value);
+
+  static AlgorithmNameCloudRemoval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AlgorithmNameCloudRemoval'));
 }
 
 enum AlgorithmNameGeoMosaic {
-  near,
-  bilinear,
-  cubic,
-  cubicspline,
-  lanczos,
-  average,
-  rms,
-  mode,
-  max,
-  min,
-  med,
-  q1,
-  q3,
-  sum,
-}
+  near('NEAR'),
+  bilinear('BILINEAR'),
+  cubic('CUBIC'),
+  cubicspline('CUBICSPLINE'),
+  lanczos('LANCZOS'),
+  average('AVERAGE'),
+  rms('RMS'),
+  mode('MODE'),
+  max('MAX'),
+  min('MIN'),
+  med('MED'),
+  q1('Q1'),
+  q3('Q3'),
+  sum('SUM'),
+  ;
 
-extension AlgorithmNameGeoMosaicValueExtension on AlgorithmNameGeoMosaic {
-  String toValue() {
-    switch (this) {
-      case AlgorithmNameGeoMosaic.near:
-        return 'NEAR';
-      case AlgorithmNameGeoMosaic.bilinear:
-        return 'BILINEAR';
-      case AlgorithmNameGeoMosaic.cubic:
-        return 'CUBIC';
-      case AlgorithmNameGeoMosaic.cubicspline:
-        return 'CUBICSPLINE';
-      case AlgorithmNameGeoMosaic.lanczos:
-        return 'LANCZOS';
-      case AlgorithmNameGeoMosaic.average:
-        return 'AVERAGE';
-      case AlgorithmNameGeoMosaic.rms:
-        return 'RMS';
-      case AlgorithmNameGeoMosaic.mode:
-        return 'MODE';
-      case AlgorithmNameGeoMosaic.max:
-        return 'MAX';
-      case AlgorithmNameGeoMosaic.min:
-        return 'MIN';
-      case AlgorithmNameGeoMosaic.med:
-        return 'MED';
-      case AlgorithmNameGeoMosaic.q1:
-        return 'Q1';
-      case AlgorithmNameGeoMosaic.q3:
-        return 'Q3';
-      case AlgorithmNameGeoMosaic.sum:
-        return 'SUM';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmNameGeoMosaicFromString on String {
-  AlgorithmNameGeoMosaic toAlgorithmNameGeoMosaic() {
-    switch (this) {
-      case 'NEAR':
-        return AlgorithmNameGeoMosaic.near;
-      case 'BILINEAR':
-        return AlgorithmNameGeoMosaic.bilinear;
-      case 'CUBIC':
-        return AlgorithmNameGeoMosaic.cubic;
-      case 'CUBICSPLINE':
-        return AlgorithmNameGeoMosaic.cubicspline;
-      case 'LANCZOS':
-        return AlgorithmNameGeoMosaic.lanczos;
-      case 'AVERAGE':
-        return AlgorithmNameGeoMosaic.average;
-      case 'RMS':
-        return AlgorithmNameGeoMosaic.rms;
-      case 'MODE':
-        return AlgorithmNameGeoMosaic.mode;
-      case 'MAX':
-        return AlgorithmNameGeoMosaic.max;
-      case 'MIN':
-        return AlgorithmNameGeoMosaic.min;
-      case 'MED':
-        return AlgorithmNameGeoMosaic.med;
-      case 'Q1':
-        return AlgorithmNameGeoMosaic.q1;
-      case 'Q3':
-        return AlgorithmNameGeoMosaic.q3;
-      case 'SUM':
-        return AlgorithmNameGeoMosaic.sum;
-    }
-    throw Exception('$this is not known in enum AlgorithmNameGeoMosaic');
-  }
+  const AlgorithmNameGeoMosaic(this.value);
+
+  static AlgorithmNameGeoMosaic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AlgorithmNameGeoMosaic'));
 }
 
 enum AlgorithmNameResampling {
-  near,
-  bilinear,
-  cubic,
-  cubicspline,
-  lanczos,
-  average,
-  rms,
-  mode,
-  max,
-  min,
-  med,
-  q1,
-  q3,
-  sum,
-}
+  near('NEAR'),
+  bilinear('BILINEAR'),
+  cubic('CUBIC'),
+  cubicspline('CUBICSPLINE'),
+  lanczos('LANCZOS'),
+  average('AVERAGE'),
+  rms('RMS'),
+  mode('MODE'),
+  max('MAX'),
+  min('MIN'),
+  med('MED'),
+  q1('Q1'),
+  q3('Q3'),
+  sum('SUM'),
+  ;
 
-extension AlgorithmNameResamplingValueExtension on AlgorithmNameResampling {
-  String toValue() {
-    switch (this) {
-      case AlgorithmNameResampling.near:
-        return 'NEAR';
-      case AlgorithmNameResampling.bilinear:
-        return 'BILINEAR';
-      case AlgorithmNameResampling.cubic:
-        return 'CUBIC';
-      case AlgorithmNameResampling.cubicspline:
-        return 'CUBICSPLINE';
-      case AlgorithmNameResampling.lanczos:
-        return 'LANCZOS';
-      case AlgorithmNameResampling.average:
-        return 'AVERAGE';
-      case AlgorithmNameResampling.rms:
-        return 'RMS';
-      case AlgorithmNameResampling.mode:
-        return 'MODE';
-      case AlgorithmNameResampling.max:
-        return 'MAX';
-      case AlgorithmNameResampling.min:
-        return 'MIN';
-      case AlgorithmNameResampling.med:
-        return 'MED';
-      case AlgorithmNameResampling.q1:
-        return 'Q1';
-      case AlgorithmNameResampling.q3:
-        return 'Q3';
-      case AlgorithmNameResampling.sum:
-        return 'SUM';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmNameResamplingFromString on String {
-  AlgorithmNameResampling toAlgorithmNameResampling() {
-    switch (this) {
-      case 'NEAR':
-        return AlgorithmNameResampling.near;
-      case 'BILINEAR':
-        return AlgorithmNameResampling.bilinear;
-      case 'CUBIC':
-        return AlgorithmNameResampling.cubic;
-      case 'CUBICSPLINE':
-        return AlgorithmNameResampling.cubicspline;
-      case 'LANCZOS':
-        return AlgorithmNameResampling.lanczos;
-      case 'AVERAGE':
-        return AlgorithmNameResampling.average;
-      case 'RMS':
-        return AlgorithmNameResampling.rms;
-      case 'MODE':
-        return AlgorithmNameResampling.mode;
-      case 'MAX':
-        return AlgorithmNameResampling.max;
-      case 'MIN':
-        return AlgorithmNameResampling.min;
-      case 'MED':
-        return AlgorithmNameResampling.med;
-      case 'Q1':
-        return AlgorithmNameResampling.q1;
-      case 'Q3':
-        return AlgorithmNameResampling.q3;
-      case 'SUM':
-        return AlgorithmNameResampling.sum;
-    }
-    throw Exception('$this is not known in enum AlgorithmNameResampling');
-  }
+  const AlgorithmNameResampling(this.value);
+
+  static AlgorithmNameResampling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AlgorithmNameResampling'));
 }
 
 /// The geographic extent of the Earth Observation job.
@@ -1132,8 +1001,8 @@ class CloudRemovalConfigInput {
 
   factory CloudRemovalConfigInput.fromJson(Map<String, dynamic> json) {
     return CloudRemovalConfigInput(
-      algorithmName:
-          (json['AlgorithmName'] as String?)?.toAlgorithmNameCloudRemoval(),
+      algorithmName: (json['AlgorithmName'] as String?)
+          ?.let(AlgorithmNameCloudRemoval.fromString),
       interpolationValue: json['InterpolationValue'] as String?,
       targetBands: (json['TargetBands'] as List?)
           ?.whereNotNull()
@@ -1147,7 +1016,7 @@ class CloudRemovalConfigInput {
     final interpolationValue = this.interpolationValue;
     final targetBands = this.targetBands;
     return {
-      if (algorithmName != null) 'AlgorithmName': algorithmName.toValue(),
+      if (algorithmName != null) 'AlgorithmName': algorithmName.value,
       if (interpolationValue != null) 'InterpolationValue': interpolationValue,
       if (targetBands != null) 'TargetBands': targetBands,
     };
@@ -1155,36 +1024,19 @@ class CloudRemovalConfigInput {
 }
 
 enum ComparisonOperator {
-  equals,
-  notEquals,
-  startsWith,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  startsWith('STARTS_WITH'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.equals:
-        return 'EQUALS';
-      case ComparisonOperator.notEquals:
-        return 'NOT_EQUALS';
-      case ComparisonOperator.startsWith:
-        return 'STARTS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return ComparisonOperator.equals;
-      case 'NOT_EQUALS':
-        return ComparisonOperator.notEquals;
-      case 'STARTS_WITH':
-        return ComparisonOperator.startsWith;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 /// Input object defining the custom BandMath indices to compute.
@@ -1214,36 +1066,19 @@ class CustomIndicesInput {
 }
 
 enum DataCollectionType {
-  public,
-  premium,
-  user,
-}
+  public('PUBLIC'),
+  premium('PREMIUM'),
+  user('USER'),
+  ;
 
-extension DataCollectionTypeValueExtension on DataCollectionType {
-  String toValue() {
-    switch (this) {
-      case DataCollectionType.public:
-        return 'PUBLIC';
-      case DataCollectionType.premium:
-        return 'PREMIUM';
-      case DataCollectionType.user:
-        return 'USER';
-    }
-  }
-}
+  final String value;
 
-extension DataCollectionTypeFromString on String {
-  DataCollectionType toDataCollectionType() {
-    switch (this) {
-      case 'PUBLIC':
-        return DataCollectionType.public;
-      case 'PREMIUM':
-        return DataCollectionType.premium;
-      case 'USER':
-        return DataCollectionType.user;
-    }
-    throw Exception('$this is not known in enum DataCollectionType');
-  }
+  const DataCollectionType(this.value);
+
+  static DataCollectionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataCollectionType'));
 }
 
 class DeleteEarthObservationJobOutput {
@@ -1286,7 +1121,8 @@ class EarthObservationJobErrorDetails {
   factory EarthObservationJobErrorDetails.fromJson(Map<String, dynamic> json) {
     return EarthObservationJobErrorDetails(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toEarthObservationJobErrorType(),
+      type: (json['Type'] as String?)
+          ?.let(EarthObservationJobErrorType.fromString),
     );
   }
 
@@ -1295,131 +1131,61 @@ class EarthObservationJobErrorDetails {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum EarthObservationJobErrorType {
-  clientError,
-  serverError,
-}
+  clientError('CLIENT_ERROR'),
+  serverError('SERVER_ERROR'),
+  ;
 
-extension EarthObservationJobErrorTypeValueExtension
-    on EarthObservationJobErrorType {
-  String toValue() {
-    switch (this) {
-      case EarthObservationJobErrorType.clientError:
-        return 'CLIENT_ERROR';
-      case EarthObservationJobErrorType.serverError:
-        return 'SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension EarthObservationJobErrorTypeFromString on String {
-  EarthObservationJobErrorType toEarthObservationJobErrorType() {
-    switch (this) {
-      case 'CLIENT_ERROR':
-        return EarthObservationJobErrorType.clientError;
-      case 'SERVER_ERROR':
-        return EarthObservationJobErrorType.serverError;
-    }
-    throw Exception('$this is not known in enum EarthObservationJobErrorType');
-  }
+  const EarthObservationJobErrorType(this.value);
+
+  static EarthObservationJobErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EarthObservationJobErrorType'));
 }
 
 enum EarthObservationJobExportStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension EarthObservationJobExportStatusValueExtension
-    on EarthObservationJobExportStatus {
-  String toValue() {
-    switch (this) {
-      case EarthObservationJobExportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case EarthObservationJobExportStatus.succeeded:
-        return 'SUCCEEDED';
-      case EarthObservationJobExportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension EarthObservationJobExportStatusFromString on String {
-  EarthObservationJobExportStatus toEarthObservationJobExportStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return EarthObservationJobExportStatus.inProgress;
-      case 'SUCCEEDED':
-        return EarthObservationJobExportStatus.succeeded;
-      case 'FAILED':
-        return EarthObservationJobExportStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum EarthObservationJobExportStatus');
-  }
+  const EarthObservationJobExportStatus(this.value);
+
+  static EarthObservationJobExportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EarthObservationJobExportStatus'));
 }
 
 enum EarthObservationJobStatus {
-  initializing,
-  inProgress,
-  stopping,
-  completed,
-  stopped,
-  failed,
-  deleting,
-  deleted,
-}
+  initializing('INITIALIZING'),
+  inProgress('IN_PROGRESS'),
+  stopping('STOPPING'),
+  completed('COMPLETED'),
+  stopped('STOPPED'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension EarthObservationJobStatusValueExtension on EarthObservationJobStatus {
-  String toValue() {
-    switch (this) {
-      case EarthObservationJobStatus.initializing:
-        return 'INITIALIZING';
-      case EarthObservationJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case EarthObservationJobStatus.stopping:
-        return 'STOPPING';
-      case EarthObservationJobStatus.completed:
-        return 'COMPLETED';
-      case EarthObservationJobStatus.stopped:
-        return 'STOPPED';
-      case EarthObservationJobStatus.failed:
-        return 'FAILED';
-      case EarthObservationJobStatus.deleting:
-        return 'DELETING';
-      case EarthObservationJobStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension EarthObservationJobStatusFromString on String {
-  EarthObservationJobStatus toEarthObservationJobStatus() {
-    switch (this) {
-      case 'INITIALIZING':
-        return EarthObservationJobStatus.initializing;
-      case 'IN_PROGRESS':
-        return EarthObservationJobStatus.inProgress;
-      case 'STOPPING':
-        return EarthObservationJobStatus.stopping;
-      case 'COMPLETED':
-        return EarthObservationJobStatus.completed;
-      case 'STOPPED':
-        return EarthObservationJobStatus.stopped;
-      case 'FAILED':
-        return EarthObservationJobStatus.failed;
-      case 'DELETING':
-        return EarthObservationJobStatus.deleting;
-      case 'DELETED':
-        return EarthObservationJobStatus.deleted;
-    }
-    throw Exception('$this is not known in enum EarthObservationJobStatus');
-  }
+  const EarthObservationJobStatus(this.value);
+
+  static EarthObservationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EarthObservationJobStatus'));
 }
 
 /// The structure representing the EoCloudCover filter.
@@ -1488,8 +1254,8 @@ class ExportEarthObservationJobOutput {
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       executionRoleArn: json['ExecutionRoleArn'] as String,
-      exportStatus:
-          (json['ExportStatus'] as String).toEarthObservationJobExportStatus(),
+      exportStatus: EarthObservationJobExportStatus.fromString(
+          (json['ExportStatus'] as String)),
       outputConfig: OutputConfigInput.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
       exportSourceImages: json['ExportSourceImages'] as bool?,
@@ -1507,7 +1273,7 @@ class ExportEarthObservationJobOutput {
       'Arn': arn,
       'CreationTime': iso8601ToJson(creationTime),
       'ExecutionRoleArn': executionRoleArn,
-      'ExportStatus': exportStatus.toValue(),
+      'ExportStatus': exportStatus.value,
       'OutputConfig': outputConfig,
       if (exportSourceImages != null) 'ExportSourceImages': exportSourceImages,
     };
@@ -1571,7 +1337,7 @@ class ExportErrorDetailsOutput {
   factory ExportErrorDetailsOutput.fromJson(Map<String, dynamic> json) {
     return ExportErrorDetailsOutput(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toExportErrorType(),
+      type: (json['Type'] as String?)?.let(ExportErrorType.fromString),
     );
   }
 
@@ -1580,37 +1346,24 @@ class ExportErrorDetailsOutput {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ExportErrorType {
-  clientError,
-  serverError,
-}
+  clientError('CLIENT_ERROR'),
+  serverError('SERVER_ERROR'),
+  ;
 
-extension ExportErrorTypeValueExtension on ExportErrorType {
-  String toValue() {
-    switch (this) {
-      case ExportErrorType.clientError:
-        return 'CLIENT_ERROR';
-      case ExportErrorType.serverError:
-        return 'SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ExportErrorTypeFromString on String {
-  ExportErrorType toExportErrorType() {
-    switch (this) {
-      case 'CLIENT_ERROR':
-        return ExportErrorType.clientError;
-      case 'SERVER_ERROR':
-        return ExportErrorType.serverError;
-    }
-    throw Exception('$this is not known in enum ExportErrorType');
-  }
+  const ExportErrorType(this.value);
+
+  static ExportErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportErrorType'));
 }
 
 /// The structure containing the Amazon S3 path to export the Earth Observation
@@ -1675,8 +1428,8 @@ class ExportVectorEnrichmentJobOutput {
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       executionRoleArn: json['ExecutionRoleArn'] as String,
-      exportStatus:
-          (json['ExportStatus'] as String).toVectorEnrichmentJobExportStatus(),
+      exportStatus: VectorEnrichmentJobExportStatus.fromString(
+          (json['ExportStatus'] as String)),
       outputConfig: ExportVectorEnrichmentJobOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
     );
@@ -1692,7 +1445,7 @@ class ExportVectorEnrichmentJobOutput {
       'Arn': arn,
       'CreationTime': iso8601ToJson(creationTime),
       'ExecutionRoleArn': executionRoleArn,
-      'ExportStatus': exportStatus.toValue(),
+      'ExportStatus': exportStatus.value,
       'OutputConfig': outputConfig,
     };
   }
@@ -1783,8 +1536,8 @@ class GeoMosaicConfigInput {
 
   factory GeoMosaicConfigInput.fromJson(Map<String, dynamic> json) {
     return GeoMosaicConfigInput(
-      algorithmName:
-          (json['AlgorithmName'] as String?)?.toAlgorithmNameGeoMosaic(),
+      algorithmName: (json['AlgorithmName'] as String?)
+          ?.let(AlgorithmNameGeoMosaic.fromString),
       targetBands: (json['TargetBands'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1796,7 +1549,7 @@ class GeoMosaicConfigInput {
     final algorithmName = this.algorithmName;
     final targetBands = this.targetBands;
     return {
-      if (algorithmName != null) 'AlgorithmName': algorithmName.toValue(),
+      if (algorithmName != null) 'AlgorithmName': algorithmName.value,
       if (targetBands != null) 'TargetBands': targetBands,
     };
   }
@@ -1912,7 +1665,7 @@ class GetEarthObservationJobOutput {
       jobConfig:
           JobConfigInput.fromJson(json['JobConfig'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toEarthObservationJobStatus(),
+      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       errorDetails: json['ErrorDetails'] != null
           ? EarthObservationJobErrorDetails.fromJson(
               json['ErrorDetails'] as Map<String, dynamic>)
@@ -1923,7 +1676,7 @@ class GetEarthObservationJobOutput {
               json['ExportErrorDetails'] as Map<String, dynamic>)
           : null,
       exportStatus: (json['ExportStatus'] as String?)
-          ?.toEarthObservationJobExportStatus(),
+          ?.let(EarthObservationJobExportStatus.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       outputBands: (json['OutputBands'] as List?)
           ?.whereNotNull()
@@ -1956,11 +1709,11 @@ class GetEarthObservationJobOutput {
       'InputConfig': inputConfig,
       'JobConfig': jobConfig,
       'Name': name,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (exportErrorDetails != null) 'ExportErrorDetails': exportErrorDetails,
-      if (exportStatus != null) 'ExportStatus': exportStatus.toValue(),
+      if (exportStatus != null) 'ExportStatus': exportStatus.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (outputBands != null) 'OutputBands': outputBands,
       if (tags != null) 'Tags': tags,
@@ -2018,7 +1771,7 @@ class GetRasterDataCollectionOutput {
           .whereNotNull()
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String).toDataCollectionType(),
+      type: DataCollectionType.fromString((json['Type'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2040,7 +1793,7 @@ class GetRasterDataCollectionOutput {
       'ImageSourceBands': imageSourceBands,
       'Name': name,
       'SupportedFilters': supportedFilters,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2135,8 +1888,8 @@ class GetVectorEnrichmentJobOutput {
       jobConfig: VectorEnrichmentJobConfig.fromJson(
           json['JobConfig'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toVectorEnrichmentJobStatus(),
-      type: (json['Type'] as String).toVectorEnrichmentJobType(),
+      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       errorDetails: json['ErrorDetails'] != null
           ? VectorEnrichmentJobErrorDetails.fromJson(
               json['ErrorDetails'] as Map<String, dynamic>)
@@ -2146,7 +1899,7 @@ class GetVectorEnrichmentJobOutput {
               json['ExportErrorDetails'] as Map<String, dynamic>)
           : null,
       exportStatus: (json['ExportStatus'] as String?)
-          ?.toVectorEnrichmentJobExportStatus(),
+          ?.let(VectorEnrichmentJobExportStatus.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2176,11 +1929,11 @@ class GetVectorEnrichmentJobOutput {
       'InputConfig': inputConfig,
       'JobConfig': jobConfig,
       'Name': name,
-      'Status': status.toValue(),
-      'Type': type.toValue(),
+      'Status': status.value,
+      'Type': type.value,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (exportErrorDetails != null) 'ExportErrorDetails': exportErrorDetails,
-      if (exportStatus != null) 'ExportStatus': exportStatus.toValue(),
+      if (exportStatus != null) 'ExportStatus': exportStatus.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (tags != null) 'Tags': tags,
     };
@@ -2188,31 +1941,17 @@ class GetVectorEnrichmentJobOutput {
 }
 
 enum GroupBy {
-  all,
-  yearly,
-}
+  all('ALL'),
+  yearly('YEARLY'),
+  ;
 
-extension GroupByValueExtension on GroupBy {
-  String toValue() {
-    switch (this) {
-      case GroupBy.all:
-        return 'ALL';
-      case GroupBy.yearly:
-        return 'YEARLY';
-    }
-  }
-}
+  final String value;
 
-extension GroupByFromString on String {
-  GroupBy toGroupBy() {
-    switch (this) {
-      case 'ALL':
-        return GroupBy.all;
-      case 'YEARLY':
-        return GroupBy.yearly;
-    }
-    throw Exception('$this is not known in enum GroupBy');
-  }
+  const GroupBy(this.value);
+
+  static GroupBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum GroupBy'));
 }
 
 /// Input configuration information.
@@ -2573,7 +2312,7 @@ class ListEarthObservationJobOutputConfig {
       durationInSeconds: json['DurationInSeconds'] as int,
       name: json['Name'] as String,
       operationType: json['OperationType'] as String,
-      status: (json['Status'] as String).toEarthObservationJobStatus(),
+      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2593,7 +2332,7 @@ class ListEarthObservationJobOutputConfig {
       'DurationInSeconds': durationInSeconds,
       'Name': name,
       'OperationType': operationType,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2733,8 +2472,8 @@ class ListVectorEnrichmentJobOutputConfig {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       durationInSeconds: json['DurationInSeconds'] as int,
       name: json['Name'] as String,
-      status: (json['Status'] as String).toVectorEnrichmentJobStatus(),
-      type: (json['Type'] as String).toVectorEnrichmentJobType(),
+      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2753,34 +2492,25 @@ class ListVectorEnrichmentJobOutputConfig {
       'CreationTime': iso8601ToJson(creationTime),
       'DurationInSeconds': durationInSeconds,
       'Name': name,
-      'Status': status.toValue(),
-      'Type': type.toValue(),
+      'Status': status.value,
+      'Type': type.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum LogicalOperator {
-  and,
-}
+  and('AND'),
+  ;
 
-extension LogicalOperatorValueExtension on LogicalOperator {
-  String toValue() {
-    switch (this) {
-      case LogicalOperator.and:
-        return 'AND';
-    }
-  }
-}
+  final String value;
 
-extension LogicalOperatorFromString on String {
-  LogicalOperator toLogicalOperator() {
-    switch (this) {
-      case 'AND':
-        return LogicalOperator.and;
-    }
-    throw Exception('$this is not known in enum LogicalOperator');
-  }
+  const LogicalOperator(this.value);
+
+  static LogicalOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogicalOperator'));
 }
 
 /// The input structure for Map Matching operation type.
@@ -2887,7 +2617,7 @@ class Operation {
     return Operation(
       equation: json['Equation'] as String,
       name: json['Name'] as String,
-      outputType: (json['OutputType'] as String?)?.toOutputType(),
+      outputType: (json['OutputType'] as String?)?.let(OutputType.fromString),
     );
   }
 
@@ -2898,7 +2628,7 @@ class Operation {
     return {
       'Equation': equation,
       'Name': name,
-      if (outputType != null) 'OutputType': outputType.toValue(),
+      if (outputType != null) 'OutputType': outputType.value,
     };
   }
 }
@@ -2919,7 +2649,7 @@ class OutputBand {
   factory OutputBand.fromJson(Map<String, dynamic> json) {
     return OutputBand(
       bandName: json['BandName'] as String,
-      outputDataType: (json['OutputDataType'] as String).toOutputType(),
+      outputDataType: OutputType.fromString((json['OutputDataType'] as String)),
     );
   }
 
@@ -2928,7 +2658,7 @@ class OutputBand {
     final outputDataType = this.outputDataType;
     return {
       'BandName': bandName,
-      'OutputDataType': outputDataType.toValue(),
+      'OutputDataType': outputDataType.value,
     };
   }
 }
@@ -3002,7 +2732,8 @@ class OutputResolutionStackInput {
 
   factory OutputResolutionStackInput.fromJson(Map<String, dynamic> json) {
     return OutputResolutionStackInput(
-      predefined: (json['Predefined'] as String?)?.toPredefinedResolution(),
+      predefined:
+          (json['Predefined'] as String?)?.let(PredefinedResolution.fromString),
       userDefined: json['UserDefined'] != null
           ? UserDefined.fromJson(json['UserDefined'] as Map<String, dynamic>)
           : null,
@@ -3013,53 +2744,27 @@ class OutputResolutionStackInput {
     final predefined = this.predefined;
     final userDefined = this.userDefined;
     return {
-      if (predefined != null) 'Predefined': predefined.toValue(),
+      if (predefined != null) 'Predefined': predefined.value,
       if (userDefined != null) 'UserDefined': userDefined,
     };
   }
 }
 
 enum OutputType {
-  int32,
-  float32,
-  int16,
-  float64,
-  uint16,
-}
+  int32('INT32'),
+  float32('FLOAT32'),
+  int16('INT16'),
+  float64('FLOAT64'),
+  uint16('UINT16'),
+  ;
 
-extension OutputTypeValueExtension on OutputType {
-  String toValue() {
-    switch (this) {
-      case OutputType.int32:
-        return 'INT32';
-      case OutputType.float32:
-        return 'FLOAT32';
-      case OutputType.int16:
-        return 'INT16';
-      case OutputType.float64:
-        return 'FLOAT64';
-      case OutputType.uint16:
-        return 'UINT16';
-    }
-  }
-}
+  final String value;
 
-extension OutputTypeFromString on String {
-  OutputType toOutputType() {
-    switch (this) {
-      case 'INT32':
-        return OutputType.int32;
-      case 'FLOAT32':
-        return OutputType.float32;
-      case 'INT16':
-        return OutputType.int16;
-      case 'FLOAT64':
-        return OutputType.float64;
-      case 'UINT16':
-        return OutputType.uint16;
-    }
-    throw Exception('$this is not known in enum OutputType');
-  }
+  const OutputType(this.value);
+
+  static OutputType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OutputType'));
 }
 
 /// The input structure for specifying Platform. Platform refers to the unique
@@ -3080,8 +2785,8 @@ class PlatformInput {
   factory PlatformInput.fromJson(Map<String, dynamic> json) {
     return PlatformInput(
       value: json['Value'] as String,
-      comparisonOperator:
-          (json['ComparisonOperator'] as String?)?.toComparisonOperator(),
+      comparisonOperator: (json['ComparisonOperator'] as String?)
+          ?.let(ComparisonOperator.fromString),
     );
   }
 
@@ -3091,7 +2796,7 @@ class PlatformInput {
     return {
       'Value': value,
       if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.toValue(),
+        'ComparisonOperator': comparisonOperator.value,
     };
   }
 }
@@ -3131,36 +2836,19 @@ class PolygonGeometryInput {
 }
 
 enum PredefinedResolution {
-  highest,
-  lowest,
-  average,
-}
+  highest('HIGHEST'),
+  lowest('LOWEST'),
+  average('AVERAGE'),
+  ;
 
-extension PredefinedResolutionValueExtension on PredefinedResolution {
-  String toValue() {
-    switch (this) {
-      case PredefinedResolution.highest:
-        return 'HIGHEST';
-      case PredefinedResolution.lowest:
-        return 'LOWEST';
-      case PredefinedResolution.average:
-        return 'AVERAGE';
-    }
-  }
-}
+  final String value;
 
-extension PredefinedResolutionFromString on String {
-  PredefinedResolution toPredefinedResolution() {
-    switch (this) {
-      case 'HIGHEST':
-        return PredefinedResolution.highest;
-      case 'LOWEST':
-        return PredefinedResolution.lowest;
-      case 'AVERAGE':
-        return PredefinedResolution.average;
-    }
-    throw Exception('$this is not known in enum PredefinedResolution');
-  }
+  const PredefinedResolution(this.value);
+
+  static PredefinedResolution fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PredefinedResolution'));
 }
 
 /// Properties associated with the Item.
@@ -3354,7 +3042,7 @@ class PropertyFilters {
   factory PropertyFilters.fromJson(Map<String, dynamic> json) {
     return PropertyFilters(
       logicalOperator:
-          (json['LogicalOperator'] as String?)?.toLogicalOperator(),
+          (json['LogicalOperator'] as String?)?.let(LogicalOperator.fromString),
       properties: (json['Properties'] as List?)
           ?.whereNotNull()
           .map((e) => PropertyFilter.fromJson(e as Map<String, dynamic>))
@@ -3366,7 +3054,7 @@ class PropertyFilters {
     final logicalOperator = this.logicalOperator;
     final properties = this.properties;
     return {
-      if (logicalOperator != null) 'LogicalOperator': logicalOperator.toValue(),
+      if (logicalOperator != null) 'LogicalOperator': logicalOperator.value,
       if (properties != null) 'Properties': properties,
     };
   }
@@ -3414,7 +3102,7 @@ class RasterDataCollectionMetadata {
           .whereNotNull()
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String).toDataCollectionType(),
+      type: DataCollectionType.fromString((json['Type'] as String)),
       descriptionPageUrl: json['DescriptionPageUrl'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3434,7 +3122,7 @@ class RasterDataCollectionMetadata {
       'Description': description,
       'Name': name,
       'SupportedFilters': supportedFilters,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (descriptionPageUrl != null) 'DescriptionPageUrl': descriptionPageUrl,
       if (tags != null) 'Tags': tags,
     };
@@ -3595,8 +3283,8 @@ class ResamplingConfigInput {
     return ResamplingConfigInput(
       outputResolution: OutputResolutionResamplingInput.fromJson(
           json['OutputResolution'] as Map<String, dynamic>),
-      algorithmName:
-          (json['AlgorithmName'] as String?)?.toAlgorithmNameResampling(),
+      algorithmName: (json['AlgorithmName'] as String?)
+          ?.let(AlgorithmNameResampling.fromString),
       targetBands: (json['TargetBands'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3610,7 +3298,7 @@ class ResamplingConfigInput {
     final targetBands = this.targetBands;
     return {
       'OutputResolution': outputResolution,
-      if (algorithmName != null) 'AlgorithmName': algorithmName.toValue(),
+      if (algorithmName != null) 'AlgorithmName': algorithmName.value,
       if (targetBands != null) 'TargetBands': targetBands,
     };
   }
@@ -3689,31 +3377,17 @@ class SearchRasterDataCollectionOutput {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// The input structure for Stacking Operation.
@@ -3810,7 +3484,7 @@ class StartEarthObservationJobOutput {
       jobConfig:
           JobConfigInput.fromJson(json['JobConfig'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toEarthObservationJobStatus(),
+      status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       inputConfig: json['InputConfig'] != null
           ? InputConfigOutput.fromJson(
               json['InputConfig'] as Map<String, dynamic>)
@@ -3839,7 +3513,7 @@ class StartEarthObservationJobOutput {
       'ExecutionRoleArn': executionRoleArn,
       'JobConfig': jobConfig,
       'Name': name,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (inputConfig != null) 'InputConfig': inputConfig,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (tags != null) 'Tags': tags,
@@ -3908,8 +3582,8 @@ class StartVectorEnrichmentJobOutput {
       jobConfig: VectorEnrichmentJobConfig.fromJson(
           json['JobConfig'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toVectorEnrichmentJobStatus(),
-      type: (json['Type'] as String).toVectorEnrichmentJobType(),
+      status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
+      type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       kmsKeyId: json['KmsKeyId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3936,8 +3610,8 @@ class StartVectorEnrichmentJobOutput {
       'InputConfig': inputConfig,
       'JobConfig': jobConfig,
       'Name': name,
-      'Status': status.toValue(),
-      'Type': type.toValue(),
+      'Status': status.value,
+      'Type': type.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (tags != null) 'Tags': tags,
     };
@@ -3981,64 +3655,34 @@ class TagResourceResponse {
 }
 
 enum TargetOptions {
-  input,
-  output,
-}
+  input('INPUT'),
+  output('OUTPUT'),
+  ;
 
-extension TargetOptionsValueExtension on TargetOptions {
-  String toValue() {
-    switch (this) {
-      case TargetOptions.input:
-        return 'INPUT';
-      case TargetOptions.output:
-        return 'OUTPUT';
-    }
-  }
-}
+  final String value;
 
-extension TargetOptionsFromString on String {
-  TargetOptions toTargetOptions() {
-    switch (this) {
-      case 'INPUT':
-        return TargetOptions.input;
-      case 'OUTPUT':
-        return TargetOptions.output;
-    }
-    throw Exception('$this is not known in enum TargetOptions');
-  }
+  const TargetOptions(this.value);
+
+  static TargetOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetOptions'));
 }
 
 enum TemporalStatistics {
-  mean,
-  median,
-  standardDeviation,
-}
+  mean('MEAN'),
+  median('MEDIAN'),
+  standardDeviation('STANDARD_DEVIATION'),
+  ;
 
-extension TemporalStatisticsValueExtension on TemporalStatistics {
-  String toValue() {
-    switch (this) {
-      case TemporalStatistics.mean:
-        return 'MEAN';
-      case TemporalStatistics.median:
-        return 'MEDIAN';
-      case TemporalStatistics.standardDeviation:
-        return 'STANDARD_DEVIATION';
-    }
-  }
-}
+  final String value;
 
-extension TemporalStatisticsFromString on String {
-  TemporalStatistics toTemporalStatistics() {
-    switch (this) {
-      case 'MEAN':
-        return TemporalStatistics.mean;
-      case 'MEDIAN':
-        return TemporalStatistics.median;
-      case 'STANDARD_DEVIATION':
-        return TemporalStatistics.standardDeviation;
-    }
-    throw Exception('$this is not known in enum TemporalStatistics');
-  }
+  const TemporalStatistics(this.value);
+
+  static TemporalStatistics fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TemporalStatistics'));
 }
 
 /// The structure representing the configuration for Temporal Statistics
@@ -4063,9 +3707,9 @@ class TemporalStatisticsConfigInput {
     return TemporalStatisticsConfigInput(
       statistics: (json['Statistics'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toTemporalStatistics())
+          .map((e) => TemporalStatistics.fromString((e as String)))
           .toList(),
-      groupBy: (json['GroupBy'] as String?)?.toGroupBy(),
+      groupBy: (json['GroupBy'] as String?)?.let(GroupBy.fromString),
       targetBands: (json['TargetBands'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4078,8 +3722,8 @@ class TemporalStatisticsConfigInput {
     final groupBy = this.groupBy;
     final targetBands = this.targetBands;
     return {
-      'Statistics': statistics.map((e) => e.toValue()).toList(),
-      if (groupBy != null) 'GroupBy': groupBy.toValue(),
+      'Statistics': statistics.map((e) => e.value).toList(),
+      if (groupBy != null) 'GroupBy': groupBy.value,
       if (targetBands != null) 'TargetBands': targetBands,
     };
   }
@@ -4139,26 +3783,16 @@ class TimeRangeFilterOutput {
 }
 
 enum Unit {
-  meters,
-}
+  meters('METERS'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.meters:
-        return 'METERS';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'METERS':
-        return Unit.meters;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 class UntagResourceResponse {
@@ -4189,7 +3823,7 @@ class UserDefined {
 
   factory UserDefined.fromJson(Map<String, dynamic> json) {
     return UserDefined(
-      unit: (json['Unit'] as String).toUnit(),
+      unit: Unit.fromString((json['Unit'] as String)),
       value: json['Value'] as double,
     );
   }
@@ -4198,7 +3832,7 @@ class UserDefined {
     final unit = this.unit;
     final value = this.value;
     return {
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       'Value': value,
     };
   }
@@ -4271,28 +3905,17 @@ class VectorEnrichmentJobDataSourceConfigInput {
 }
 
 enum VectorEnrichmentJobDocumentType {
-  csv,
-}
+  csv('CSV'),
+  ;
 
-extension VectorEnrichmentJobDocumentTypeValueExtension
-    on VectorEnrichmentJobDocumentType {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobDocumentType.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobDocumentTypeFromString on String {
-  VectorEnrichmentJobDocumentType toVectorEnrichmentJobDocumentType() {
-    switch (this) {
-      case 'CSV':
-        return VectorEnrichmentJobDocumentType.csv;
-    }
-    throw Exception(
-        '$this is not known in enum VectorEnrichmentJobDocumentType');
-  }
+  const VectorEnrichmentJobDocumentType(this.value);
+
+  static VectorEnrichmentJobDocumentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobDocumentType'));
 }
 
 /// VectorEnrichmentJob error details in response from GetVectorEnrichmentJob.
@@ -4312,8 +3935,8 @@ class VectorEnrichmentJobErrorDetails {
   factory VectorEnrichmentJobErrorDetails.fromJson(Map<String, dynamic> json) {
     return VectorEnrichmentJobErrorDetails(
       errorMessage: json['ErrorMessage'] as String?,
-      errorType:
-          (json['ErrorType'] as String?)?.toVectorEnrichmentJobErrorType(),
+      errorType: (json['ErrorType'] as String?)
+          ?.let(VectorEnrichmentJobErrorType.fromString),
     );
   }
 
@@ -4322,38 +3945,24 @@ class VectorEnrichmentJobErrorDetails {
     final errorType = this.errorType;
     return {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorType != null) 'ErrorType': errorType.toValue(),
+      if (errorType != null) 'ErrorType': errorType.value,
     };
   }
 }
 
 enum VectorEnrichmentJobErrorType {
-  clientError,
-  serverError,
-}
+  clientError('CLIENT_ERROR'),
+  serverError('SERVER_ERROR'),
+  ;
 
-extension VectorEnrichmentJobErrorTypeValueExtension
-    on VectorEnrichmentJobErrorType {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobErrorType.clientError:
-        return 'CLIENT_ERROR';
-      case VectorEnrichmentJobErrorType.serverError:
-        return 'SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobErrorTypeFromString on String {
-  VectorEnrichmentJobErrorType toVectorEnrichmentJobErrorType() {
-    switch (this) {
-      case 'CLIENT_ERROR':
-        return VectorEnrichmentJobErrorType.clientError;
-      case 'SERVER_ERROR':
-        return VectorEnrichmentJobErrorType.serverError;
-    }
-    throw Exception('$this is not known in enum VectorEnrichmentJobErrorType');
-  }
+  const VectorEnrichmentJobErrorType(this.value);
+
+  static VectorEnrichmentJobErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobErrorType'));
 }
 
 /// VectorEnrichmentJob export error details in response from
@@ -4375,7 +3984,8 @@ class VectorEnrichmentJobExportErrorDetails {
       Map<String, dynamic> json) {
     return VectorEnrichmentJobExportErrorDetails(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toVectorEnrichmentJobExportErrorType(),
+      type: (json['Type'] as String?)
+          ?.let(VectorEnrichmentJobExportErrorType.fromString),
     );
   }
 
@@ -4384,74 +3994,40 @@ class VectorEnrichmentJobExportErrorDetails {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum VectorEnrichmentJobExportErrorType {
-  clientError,
-  serverError,
-}
+  clientError('CLIENT_ERROR'),
+  serverError('SERVER_ERROR'),
+  ;
 
-extension VectorEnrichmentJobExportErrorTypeValueExtension
-    on VectorEnrichmentJobExportErrorType {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobExportErrorType.clientError:
-        return 'CLIENT_ERROR';
-      case VectorEnrichmentJobExportErrorType.serverError:
-        return 'SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobExportErrorTypeFromString on String {
-  VectorEnrichmentJobExportErrorType toVectorEnrichmentJobExportErrorType() {
-    switch (this) {
-      case 'CLIENT_ERROR':
-        return VectorEnrichmentJobExportErrorType.clientError;
-      case 'SERVER_ERROR':
-        return VectorEnrichmentJobExportErrorType.serverError;
-    }
-    throw Exception(
-        '$this is not known in enum VectorEnrichmentJobExportErrorType');
-  }
+  const VectorEnrichmentJobExportErrorType(this.value);
+
+  static VectorEnrichmentJobExportErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobExportErrorType'));
 }
 
 enum VectorEnrichmentJobExportStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension VectorEnrichmentJobExportStatusValueExtension
-    on VectorEnrichmentJobExportStatus {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobExportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case VectorEnrichmentJobExportStatus.succeeded:
-        return 'SUCCEEDED';
-      case VectorEnrichmentJobExportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobExportStatusFromString on String {
-  VectorEnrichmentJobExportStatus toVectorEnrichmentJobExportStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return VectorEnrichmentJobExportStatus.inProgress;
-      case 'SUCCEEDED':
-        return VectorEnrichmentJobExportStatus.succeeded;
-      case 'FAILED':
-        return VectorEnrichmentJobExportStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum VectorEnrichmentJobExportStatus');
-  }
+  const VectorEnrichmentJobExportStatus(this.value);
+
+  static VectorEnrichmentJobExportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobExportStatus'));
 }
 
 /// The input structure for the InputConfig in a VectorEnrichmentJob.
@@ -4472,8 +4048,8 @@ class VectorEnrichmentJobInputConfig {
     return VectorEnrichmentJobInputConfig(
       dataSourceConfig: VectorEnrichmentJobDataSourceConfigInput.fromJson(
           json['DataSourceConfig'] as Map<String, dynamic>),
-      documentType:
-          (json['DocumentType'] as String).toVectorEnrichmentJobDocumentType(),
+      documentType: VectorEnrichmentJobDocumentType.fromString(
+          (json['DocumentType'] as String)),
     );
   }
 
@@ -4482,7 +4058,7 @@ class VectorEnrichmentJobInputConfig {
     final documentType = this.documentType;
     return {
       'DataSourceConfig': dataSourceConfig,
-      'DocumentType': documentType.toValue(),
+      'DocumentType': documentType.value,
     };
   }
 }
@@ -4518,89 +4094,39 @@ class VectorEnrichmentJobS3Data {
 }
 
 enum VectorEnrichmentJobStatus {
-  initializing,
-  inProgress,
-  stopping,
-  stopped,
-  completed,
-  failed,
-  deleting,
-  deleted,
-}
+  initializing('INITIALIZING'),
+  inProgress('IN_PROGRESS'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension VectorEnrichmentJobStatusValueExtension on VectorEnrichmentJobStatus {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobStatus.initializing:
-        return 'INITIALIZING';
-      case VectorEnrichmentJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case VectorEnrichmentJobStatus.stopping:
-        return 'STOPPING';
-      case VectorEnrichmentJobStatus.stopped:
-        return 'STOPPED';
-      case VectorEnrichmentJobStatus.completed:
-        return 'COMPLETED';
-      case VectorEnrichmentJobStatus.failed:
-        return 'FAILED';
-      case VectorEnrichmentJobStatus.deleting:
-        return 'DELETING';
-      case VectorEnrichmentJobStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobStatusFromString on String {
-  VectorEnrichmentJobStatus toVectorEnrichmentJobStatus() {
-    switch (this) {
-      case 'INITIALIZING':
-        return VectorEnrichmentJobStatus.initializing;
-      case 'IN_PROGRESS':
-        return VectorEnrichmentJobStatus.inProgress;
-      case 'STOPPING':
-        return VectorEnrichmentJobStatus.stopping;
-      case 'STOPPED':
-        return VectorEnrichmentJobStatus.stopped;
-      case 'COMPLETED':
-        return VectorEnrichmentJobStatus.completed;
-      case 'FAILED':
-        return VectorEnrichmentJobStatus.failed;
-      case 'DELETING':
-        return VectorEnrichmentJobStatus.deleting;
-      case 'DELETED':
-        return VectorEnrichmentJobStatus.deleted;
-    }
-    throw Exception('$this is not known in enum VectorEnrichmentJobStatus');
-  }
+  const VectorEnrichmentJobStatus(this.value);
+
+  static VectorEnrichmentJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobStatus'));
 }
 
 enum VectorEnrichmentJobType {
-  reverseGeocoding,
-  mapMatching,
-}
+  reverseGeocoding('REVERSE_GEOCODING'),
+  mapMatching('MAP_MATCHING'),
+  ;
 
-extension VectorEnrichmentJobTypeValueExtension on VectorEnrichmentJobType {
-  String toValue() {
-    switch (this) {
-      case VectorEnrichmentJobType.reverseGeocoding:
-        return 'REVERSE_GEOCODING';
-      case VectorEnrichmentJobType.mapMatching:
-        return 'MAP_MATCHING';
-    }
-  }
-}
+  final String value;
 
-extension VectorEnrichmentJobTypeFromString on String {
-  VectorEnrichmentJobType toVectorEnrichmentJobType() {
-    switch (this) {
-      case 'REVERSE_GEOCODING':
-        return VectorEnrichmentJobType.reverseGeocoding;
-      case 'MAP_MATCHING':
-        return VectorEnrichmentJobType.mapMatching;
-    }
-    throw Exception('$this is not known in enum VectorEnrichmentJobType');
-  }
+  const VectorEnrichmentJobType(this.value);
+
+  static VectorEnrichmentJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VectorEnrichmentJobType'));
 }
 
 /// The input structure for specifying ViewOffNadir property filter.
@@ -4703,51 +4229,22 @@ class ViewSunElevationInput {
 }
 
 enum ZonalStatistics {
-  mean,
-  median,
-  standardDeviation,
-  max,
-  min,
-  sum,
-}
+  mean('MEAN'),
+  median('MEDIAN'),
+  standardDeviation('STANDARD_DEVIATION'),
+  max('MAX'),
+  min('MIN'),
+  sum('SUM'),
+  ;
 
-extension ZonalStatisticsValueExtension on ZonalStatistics {
-  String toValue() {
-    switch (this) {
-      case ZonalStatistics.mean:
-        return 'MEAN';
-      case ZonalStatistics.median:
-        return 'MEDIAN';
-      case ZonalStatistics.standardDeviation:
-        return 'STANDARD_DEVIATION';
-      case ZonalStatistics.max:
-        return 'MAX';
-      case ZonalStatistics.min:
-        return 'MIN';
-      case ZonalStatistics.sum:
-        return 'SUM';
-    }
-  }
-}
+  final String value;
 
-extension ZonalStatisticsFromString on String {
-  ZonalStatistics toZonalStatistics() {
-    switch (this) {
-      case 'MEAN':
-        return ZonalStatistics.mean;
-      case 'MEDIAN':
-        return ZonalStatistics.median;
-      case 'STANDARD_DEVIATION':
-        return ZonalStatistics.standardDeviation;
-      case 'MAX':
-        return ZonalStatistics.max;
-      case 'MIN':
-        return ZonalStatistics.min;
-      case 'SUM':
-        return ZonalStatistics.sum;
-    }
-    throw Exception('$this is not known in enum ZonalStatistics');
-  }
+  const ZonalStatistics(this.value);
+
+  static ZonalStatistics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ZonalStatistics'));
 }
 
 /// The structure representing input configuration of ZonalStatistics operation.
@@ -4799,7 +4296,7 @@ class ZonalStatisticsConfigInput {
     return ZonalStatisticsConfigInput(
       statistics: (json['Statistics'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toZonalStatistics())
+          .map((e) => ZonalStatistics.fromString((e as String)))
           .toList(),
       zoneS3Path: json['ZoneS3Path'] as String,
       targetBands: (json['TargetBands'] as List?)
@@ -4816,7 +4313,7 @@ class ZonalStatisticsConfigInput {
     final targetBands = this.targetBands;
     final zoneS3PathKmsKeyId = this.zoneS3PathKmsKeyId;
     return {
-      'Statistics': statistics.map((e) => e.toValue()).toList(),
+      'Statistics': statistics.map((e) => e.value).toList(),
       'ZoneS3Path': zoneS3Path,
       if (targetBands != null) 'TargetBands': targetBands,
       if (zoneS3PathKmsKeyId != null) 'ZoneS3PathKmsKeyId': zoneS3PathKmsKeyId,

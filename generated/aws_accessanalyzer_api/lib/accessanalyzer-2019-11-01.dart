@@ -172,7 +172,7 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'access': access,
       'policyDocument': policyDocument,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -224,7 +224,7 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'existingPolicyDocument': existingPolicyDocument,
       'newPolicyDocument': newPolicyDocument,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -325,7 +325,7 @@ class AccessAnalyzer {
   }) async {
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
-      'type': type.toValue(),
+      'type': type.value,
       if (archiveRules != null) 'archiveRules': archiveRules,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configuration != null) 'configuration': configuration,
@@ -823,7 +823,7 @@ class AccessAnalyzer {
       'analyzerArn': analyzerArn,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -857,7 +857,7 @@ class AccessAnalyzer {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (type != null) 'type': [type.toValue()],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1296,7 +1296,7 @@ class AccessAnalyzer {
   }) async {
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
-      'status': status.toValue(),
+      'status': status.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (ids != null) 'ids': ids,
       if (resourceArn != null) 'resourceArn': resourceArn,
@@ -1372,10 +1372,10 @@ class AccessAnalyzer {
     };
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
-      'policyType': policyType.toValue(),
-      if (locale != null) 'locale': locale.toValue(),
+      'policyType': policyType.value,
+      if (locale != null) 'locale': locale.value,
       if (validatePolicyResourceType != null)
-        'validatePolicyResourceType': validatePolicyResourceType.toValue(),
+        'validatePolicyResourceType': validatePolicyResourceType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1408,31 +1408,18 @@ class Access {
 }
 
 enum AccessCheckPolicyType {
-  identityPolicy,
-  resourcePolicy,
-}
+  identityPolicy('IDENTITY_POLICY'),
+  resourcePolicy('RESOURCE_POLICY'),
+  ;
 
-extension AccessCheckPolicyTypeValueExtension on AccessCheckPolicyType {
-  String toValue() {
-    switch (this) {
-      case AccessCheckPolicyType.identityPolicy:
-        return 'IDENTITY_POLICY';
-      case AccessCheckPolicyType.resourcePolicy:
-        return 'RESOURCE_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension AccessCheckPolicyTypeFromString on String {
-  AccessCheckPolicyType toAccessCheckPolicyType() {
-    switch (this) {
-      case 'IDENTITY_POLICY':
-        return AccessCheckPolicyType.identityPolicy;
-      case 'RESOURCE_POLICY':
-        return AccessCheckPolicyType.resourcePolicy;
-    }
-    throw Exception('$this is not known in enum AccessCheckPolicyType');
-  }
+  const AccessCheckPolicyType(this.value);
+
+  static AccessCheckPolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccessCheckPolicyType'));
 }
 
 /// Contains information about an access preview.
@@ -1490,7 +1477,7 @@ class AccessPreview {
               MapEntry(k, Configuration.fromJson(e as Map<String, dynamic>))),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
-      status: (json['status'] as String).toAccessPreviewStatus(),
+      status: AccessPreviewStatus.fromString((json['status'] as String)),
       statusReason: json['statusReason'] != null
           ? AccessPreviewStatusReason.fromJson(
               json['statusReason'] as Map<String, dynamic>)
@@ -1599,12 +1586,12 @@ class AccessPreviewFinding {
 
   factory AccessPreviewFinding.fromJson(Map<String, dynamic> json) {
     return AccessPreviewFinding(
-      changeType: (json['changeType'] as String).toFindingChangeType(),
+      changeType: FindingChangeType.fromString((json['changeType'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
-      status: (json['status'] as String).toFindingStatus(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      status: FindingStatus.fromString((json['status'] as String)),
       action: (json['action'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1613,8 +1600,8 @@ class AccessPreviewFinding {
           ?.map((k, e) => MapEntry(k, e as String)),
       error: json['error'] as String?,
       existingFindingId: json['existingFindingId'] as String?,
-      existingFindingStatus:
-          (json['existingFindingStatus'] as String?)?.toFindingStatus(),
+      existingFindingStatus: (json['existingFindingStatus'] as String?)
+          ?.let(FindingStatus.fromString),
       isPublic: json['isPublic'] as bool?,
       principal: (json['principal'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1628,36 +1615,19 @@ class AccessPreviewFinding {
 }
 
 enum AccessPreviewStatus {
-  completed,
-  creating,
-  failed,
-}
+  completed('COMPLETED'),
+  creating('CREATING'),
+  failed('FAILED'),
+  ;
 
-extension AccessPreviewStatusValueExtension on AccessPreviewStatus {
-  String toValue() {
-    switch (this) {
-      case AccessPreviewStatus.completed:
-        return 'COMPLETED';
-      case AccessPreviewStatus.creating:
-        return 'CREATING';
-      case AccessPreviewStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AccessPreviewStatusFromString on String {
-  AccessPreviewStatus toAccessPreviewStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return AccessPreviewStatus.completed;
-      case 'CREATING':
-        return AccessPreviewStatus.creating;
-      case 'FAILED':
-        return AccessPreviewStatus.failed;
-    }
-    throw Exception('$this is not known in enum AccessPreviewStatus');
-  }
+  const AccessPreviewStatus(this.value);
+
+  static AccessPreviewStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccessPreviewStatus'));
 }
 
 /// Provides more details about the current status of the access preview. For
@@ -1674,38 +1644,24 @@ class AccessPreviewStatusReason {
 
   factory AccessPreviewStatusReason.fromJson(Map<String, dynamic> json) {
     return AccessPreviewStatusReason(
-      code: (json['code'] as String).toAccessPreviewStatusReasonCode(),
+      code: AccessPreviewStatusReasonCode.fromString((json['code'] as String)),
     );
   }
 }
 
 enum AccessPreviewStatusReasonCode {
-  internalError,
-  invalidConfiguration,
-}
+  internalError('INTERNAL_ERROR'),
+  invalidConfiguration('INVALID_CONFIGURATION'),
+  ;
 
-extension AccessPreviewStatusReasonCodeValueExtension
-    on AccessPreviewStatusReasonCode {
-  String toValue() {
-    switch (this) {
-      case AccessPreviewStatusReasonCode.internalError:
-        return 'INTERNAL_ERROR';
-      case AccessPreviewStatusReasonCode.invalidConfiguration:
-        return 'INVALID_CONFIGURATION';
-    }
-  }
-}
+  final String value;
 
-extension AccessPreviewStatusReasonCodeFromString on String {
-  AccessPreviewStatusReasonCode toAccessPreviewStatusReasonCode() {
-    switch (this) {
-      case 'INTERNAL_ERROR':
-        return AccessPreviewStatusReasonCode.internalError;
-      case 'INVALID_CONFIGURATION':
-        return AccessPreviewStatusReasonCode.invalidConfiguration;
-    }
-    throw Exception('$this is not known in enum AccessPreviewStatusReasonCode');
-  }
+  const AccessPreviewStatusReasonCode(this.value);
+
+  static AccessPreviewStatusReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AccessPreviewStatusReasonCode'));
 }
 
 /// Contains a summary of information about an access preview.
@@ -1749,7 +1705,7 @@ class AccessPreviewSummary {
       analyzerArn: json['analyzerArn'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
-      status: (json['status'] as String).toAccessPreviewStatus(),
+      status: AccessPreviewStatus.fromString((json['status'] as String)),
       statusReason: json['statusReason'] != null
           ? AccessPreviewStatusReason.fromJson(
               json['statusReason'] as Map<String, dynamic>)
@@ -1792,46 +1748,21 @@ class AclGrantee {
 }
 
 enum AclPermission {
-  read,
-  write,
-  readAcp,
-  writeAcp,
-  fullControl,
-}
+  read('READ'),
+  write('WRITE'),
+  readAcp('READ_ACP'),
+  writeAcp('WRITE_ACP'),
+  fullControl('FULL_CONTROL'),
+  ;
 
-extension AclPermissionValueExtension on AclPermission {
-  String toValue() {
-    switch (this) {
-      case AclPermission.read:
-        return 'READ';
-      case AclPermission.write:
-        return 'WRITE';
-      case AclPermission.readAcp:
-        return 'READ_ACP';
-      case AclPermission.writeAcp:
-        return 'WRITE_ACP';
-      case AclPermission.fullControl:
-        return 'FULL_CONTROL';
-    }
-  }
-}
+  final String value;
 
-extension AclPermissionFromString on String {
-  AclPermission toAclPermission() {
-    switch (this) {
-      case 'READ':
-        return AclPermission.read;
-      case 'WRITE':
-        return AclPermission.write;
-      case 'READ_ACP':
-        return AclPermission.readAcp;
-      case 'WRITE_ACP':
-        return AclPermission.writeAcp;
-      case 'FULL_CONTROL':
-        return AclPermission.fullControl;
-    }
-    throw Exception('$this is not known in enum AclPermission');
-  }
+  const AclPermission(this.value);
+
+  static AclPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AclPermission'));
 }
 
 /// Contains details about the analyzed resource.
@@ -1893,7 +1824,7 @@ class AnalyzedResource {
       isPublic: json['isPublic'] as bool,
       resourceArn: json['resourceArn'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       actions: (json['actions'] as List?)
           ?.whereNotNull()
@@ -1904,7 +1835,7 @@ class AnalyzedResource {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toFindingStatus(),
+      status: (json['status'] as String?)?.let(FindingStatus.fromString),
     );
   }
 }
@@ -1930,7 +1861,7 @@ class AnalyzedResourceSummary {
     return AnalyzedResourceSummary(
       resourceArn: json['resourceArn'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
     );
   }
 }
@@ -1965,41 +1896,20 @@ class AnalyzerConfiguration {
 }
 
 enum AnalyzerStatus {
-  active,
-  creating,
-  disabled,
-  failed,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  disabled('DISABLED'),
+  failed('FAILED'),
+  ;
 
-extension AnalyzerStatusValueExtension on AnalyzerStatus {
-  String toValue() {
-    switch (this) {
-      case AnalyzerStatus.active:
-        return 'ACTIVE';
-      case AnalyzerStatus.creating:
-        return 'CREATING';
-      case AnalyzerStatus.disabled:
-        return 'DISABLED';
-      case AnalyzerStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AnalyzerStatusFromString on String {
-  AnalyzerStatus toAnalyzerStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AnalyzerStatus.active;
-      case 'CREATING':
-        return AnalyzerStatus.creating;
-      case 'DISABLED':
-        return AnalyzerStatus.disabled;
-      case 'FAILED':
-        return AnalyzerStatus.failed;
-    }
-    throw Exception('$this is not known in enum AnalyzerStatus');
-  }
+  const AnalyzerStatus(this.value);
+
+  static AnalyzerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalyzerStatus'));
 }
 
 /// Contains information about the analyzer.
@@ -2065,8 +1975,8 @@ class AnalyzerSummary {
       arn: json['arn'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAnalyzerStatus(),
-      type: (json['type'] as String).toType(),
+      status: AnalyzerStatus.fromString((json['status'] as String)),
+      type: Type.fromString((json['type'] as String)),
       configuration: json['configuration'] != null
           ? AnalyzerConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -2149,38 +2059,25 @@ class CheckAccessNotGrantedResponse {
           ?.whereNotNull()
           .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      result: (json['result'] as String?)?.toCheckAccessNotGrantedResult(),
+      result: (json['result'] as String?)
+          ?.let(CheckAccessNotGrantedResult.fromString),
     );
   }
 }
 
 enum CheckAccessNotGrantedResult {
-  pass,
-  fail,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  ;
 
-extension CheckAccessNotGrantedResultValueExtension
-    on CheckAccessNotGrantedResult {
-  String toValue() {
-    switch (this) {
-      case CheckAccessNotGrantedResult.pass:
-        return 'PASS';
-      case CheckAccessNotGrantedResult.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension CheckAccessNotGrantedResultFromString on String {
-  CheckAccessNotGrantedResult toCheckAccessNotGrantedResult() {
-    switch (this) {
-      case 'PASS':
-        return CheckAccessNotGrantedResult.pass;
-      case 'FAIL':
-        return CheckAccessNotGrantedResult.fail;
-    }
-    throw Exception('$this is not known in enum CheckAccessNotGrantedResult');
-  }
+  const CheckAccessNotGrantedResult(this.value);
+
+  static CheckAccessNotGrantedResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CheckAccessNotGrantedResult'));
 }
 
 class CheckNoNewAccessResponse {
@@ -2208,37 +2105,25 @@ class CheckNoNewAccessResponse {
           ?.whereNotNull()
           .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      result: (json['result'] as String?)?.toCheckNoNewAccessResult(),
+      result:
+          (json['result'] as String?)?.let(CheckNoNewAccessResult.fromString),
     );
   }
 }
 
 enum CheckNoNewAccessResult {
-  pass,
-  fail,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  ;
 
-extension CheckNoNewAccessResultValueExtension on CheckNoNewAccessResult {
-  String toValue() {
-    switch (this) {
-      case CheckNoNewAccessResult.pass:
-        return 'PASS';
-      case CheckNoNewAccessResult.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension CheckNoNewAccessResultFromString on String {
-  CheckNoNewAccessResult toCheckNoNewAccessResult() {
-    switch (this) {
-      case 'PASS':
-        return CheckNoNewAccessResult.pass;
-      case 'FAIL':
-        return CheckNoNewAccessResult.fail;
-    }
-    throw Exception('$this is not known in enum CheckNoNewAccessResult');
-  }
+  const CheckNoNewAccessResult(this.value);
+
+  static CheckNoNewAccessResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CheckNoNewAccessResult'));
 }
 
 /// Contains information about CloudTrail access.
@@ -2969,8 +2854,8 @@ class Finding {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
-      status: (json['status'] as String).toFindingStatus(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       action: (json['action'] as List?)
           ?.whereNotNull()
@@ -2990,36 +2875,19 @@ class Finding {
 }
 
 enum FindingChangeType {
-  changed,
-  $new,
-  unchanged,
-}
+  changed('CHANGED'),
+  $new('NEW'),
+  unchanged('UNCHANGED'),
+  ;
 
-extension FindingChangeTypeValueExtension on FindingChangeType {
-  String toValue() {
-    switch (this) {
-      case FindingChangeType.changed:
-        return 'CHANGED';
-      case FindingChangeType.$new:
-        return 'NEW';
-      case FindingChangeType.unchanged:
-        return 'UNCHANGED';
-    }
-  }
-}
+  final String value;
 
-extension FindingChangeTypeFromString on String {
-  FindingChangeType toFindingChangeType() {
-    switch (this) {
-      case 'CHANGED':
-        return FindingChangeType.changed;
-      case 'NEW':
-        return FindingChangeType.$new;
-      case 'UNCHANGED':
-        return FindingChangeType.unchanged;
-    }
-    throw Exception('$this is not known in enum FindingChangeType');
-  }
+  const FindingChangeType(this.value);
+
+  static FindingChangeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingChangeType'));
 }
 
 /// Contains information about an external access or unused access finding. Only
@@ -3096,7 +2964,7 @@ class FindingSource {
 
   factory FindingSource.fromJson(Map<String, dynamic> json) {
     return FindingSource(
-      type: (json['type'] as String).toFindingSourceType(),
+      type: FindingSourceType.fromString((json['type'] as String)),
       detail: json['detail'] != null
           ? FindingSourceDetail.fromJson(json['detail'] as Map<String, dynamic>)
           : null,
@@ -3129,102 +2997,51 @@ class FindingSourceDetail {
 }
 
 enum FindingSourceType {
-  policy,
-  bucketAcl,
-  s3AccessPoint,
-  s3AccessPointAccount,
-}
+  policy('POLICY'),
+  bucketAcl('BUCKET_ACL'),
+  s3AccessPoint('S3_ACCESS_POINT'),
+  s3AccessPointAccount('S3_ACCESS_POINT_ACCOUNT'),
+  ;
 
-extension FindingSourceTypeValueExtension on FindingSourceType {
-  String toValue() {
-    switch (this) {
-      case FindingSourceType.policy:
-        return 'POLICY';
-      case FindingSourceType.bucketAcl:
-        return 'BUCKET_ACL';
-      case FindingSourceType.s3AccessPoint:
-        return 'S3_ACCESS_POINT';
-      case FindingSourceType.s3AccessPointAccount:
-        return 'S3_ACCESS_POINT_ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension FindingSourceTypeFromString on String {
-  FindingSourceType toFindingSourceType() {
-    switch (this) {
-      case 'POLICY':
-        return FindingSourceType.policy;
-      case 'BUCKET_ACL':
-        return FindingSourceType.bucketAcl;
-      case 'S3_ACCESS_POINT':
-        return FindingSourceType.s3AccessPoint;
-      case 'S3_ACCESS_POINT_ACCOUNT':
-        return FindingSourceType.s3AccessPointAccount;
-    }
-    throw Exception('$this is not known in enum FindingSourceType');
-  }
+  const FindingSourceType(this.value);
+
+  static FindingSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingSourceType'));
 }
 
 enum FindingStatus {
-  active,
-  archived,
-  resolved,
-}
+  active('ACTIVE'),
+  archived('ARCHIVED'),
+  resolved('RESOLVED'),
+  ;
 
-extension FindingStatusValueExtension on FindingStatus {
-  String toValue() {
-    switch (this) {
-      case FindingStatus.active:
-        return 'ACTIVE';
-      case FindingStatus.archived:
-        return 'ARCHIVED';
-      case FindingStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension FindingStatusFromString on String {
-  FindingStatus toFindingStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return FindingStatus.active;
-      case 'ARCHIVED':
-        return FindingStatus.archived;
-      case 'RESOLVED':
-        return FindingStatus.resolved;
-    }
-    throw Exception('$this is not known in enum FindingStatus');
-  }
+  const FindingStatus(this.value);
+
+  static FindingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingStatus'));
 }
 
 enum FindingStatusUpdate {
-  active,
-  archived,
-}
+  active('ACTIVE'),
+  archived('ARCHIVED'),
+  ;
 
-extension FindingStatusUpdateValueExtension on FindingStatusUpdate {
-  String toValue() {
-    switch (this) {
-      case FindingStatusUpdate.active:
-        return 'ACTIVE';
-      case FindingStatusUpdate.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension FindingStatusUpdateFromString on String {
-  FindingStatusUpdate toFindingStatusUpdate() {
-    switch (this) {
-      case 'ACTIVE':
-        return FindingStatusUpdate.active;
-      case 'ARCHIVED':
-        return FindingStatusUpdate.archived;
-    }
-    throw Exception('$this is not known in enum FindingStatusUpdate');
-  }
+  const FindingStatusUpdate(this.value);
+
+  static FindingStatusUpdate fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FindingStatusUpdate'));
 }
 
 /// Contains information about a finding.
@@ -3301,8 +3118,8 @@ class FindingSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
-      status: (json['status'] as String).toFindingStatus(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       action: (json['action'] as List?)
           ?.whereNotNull()
@@ -3373,57 +3190,32 @@ class FindingSummaryV2 {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
-      status: (json['status'] as String).toFindingStatus(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       error: json['error'] as String?,
-      findingType: (json['findingType'] as String?)?.toFindingType(),
+      findingType:
+          (json['findingType'] as String?)?.let(FindingType.fromString),
       resource: json['resource'] as String?,
     );
   }
 }
 
 enum FindingType {
-  externalAccess,
-  unusedIAMRole,
-  unusedIAMUserAccessKey,
-  unusedIAMUserPassword,
-  unusedPermission,
-}
+  externalAccess('ExternalAccess'),
+  unusedIAMRole('UnusedIAMRole'),
+  unusedIAMUserAccessKey('UnusedIAMUserAccessKey'),
+  unusedIAMUserPassword('UnusedIAMUserPassword'),
+  unusedPermission('UnusedPermission'),
+  ;
 
-extension FindingTypeValueExtension on FindingType {
-  String toValue() {
-    switch (this) {
-      case FindingType.externalAccess:
-        return 'ExternalAccess';
-      case FindingType.unusedIAMRole:
-        return 'UnusedIAMRole';
-      case FindingType.unusedIAMUserAccessKey:
-        return 'UnusedIAMUserAccessKey';
-      case FindingType.unusedIAMUserPassword:
-        return 'UnusedIAMUserPassword';
-      case FindingType.unusedPermission:
-        return 'UnusedPermission';
-    }
-  }
-}
+  final String value;
 
-extension FindingTypeFromString on String {
-  FindingType toFindingType() {
-    switch (this) {
-      case 'ExternalAccess':
-        return FindingType.externalAccess;
-      case 'UnusedIAMRole':
-        return FindingType.unusedIAMRole;
-      case 'UnusedIAMUserAccessKey':
-        return FindingType.unusedIAMUserAccessKey;
-      case 'UnusedIAMUserPassword':
-        return FindingType.unusedIAMUserPassword;
-      case 'UnusedPermission':
-        return FindingType.unusedPermission;
-    }
-    throw Exception('$this is not known in enum FindingType');
-  }
+  const FindingType(this.value);
+
+  static FindingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FindingType'));
 }
 
 /// Contains the text for the generated policy.
@@ -3660,11 +3452,12 @@ class GetFindingV2Response {
           .toList(),
       id: json['id'] as String,
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
-      status: (json['status'] as String).toFindingStatus(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
+      status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       error: json['error'] as String?,
-      findingType: (json['findingType'] as String?)?.toFindingType(),
+      findingType:
+          (json['findingType'] as String?)?.let(FindingType.fromString),
       nextToken: json['nextToken'] as String?,
       resource: json['resource'] as String?,
     );
@@ -3798,7 +3591,7 @@ class JobDetails {
     return JobDetails(
       jobId: json['jobId'] as String,
       startedOn: nonNullableTimeStampFromJson(json['startedOn'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       completedOn: timeStampFromJson(json['completedOn']),
       jobError: json['jobError'] != null
           ? JobError.fromJson(json['jobError'] as Map<String, dynamic>)
@@ -3823,86 +3616,43 @@ class JobError {
 
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
-      code: (json['code'] as String).toJobErrorCode(),
+      code: JobErrorCode.fromString((json['code'] as String)),
       message: json['message'] as String,
     );
   }
 }
 
 enum JobErrorCode {
-  authorizationError,
-  resourceNotFoundError,
-  serviceQuotaExceededError,
-  serviceError,
-}
+  authorizationError('AUTHORIZATION_ERROR'),
+  resourceNotFoundError('RESOURCE_NOT_FOUND_ERROR'),
+  serviceQuotaExceededError('SERVICE_QUOTA_EXCEEDED_ERROR'),
+  serviceError('SERVICE_ERROR'),
+  ;
 
-extension JobErrorCodeValueExtension on JobErrorCode {
-  String toValue() {
-    switch (this) {
-      case JobErrorCode.authorizationError:
-        return 'AUTHORIZATION_ERROR';
-      case JobErrorCode.resourceNotFoundError:
-        return 'RESOURCE_NOT_FOUND_ERROR';
-      case JobErrorCode.serviceQuotaExceededError:
-        return 'SERVICE_QUOTA_EXCEEDED_ERROR';
-      case JobErrorCode.serviceError:
-        return 'SERVICE_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension JobErrorCodeFromString on String {
-  JobErrorCode toJobErrorCode() {
-    switch (this) {
-      case 'AUTHORIZATION_ERROR':
-        return JobErrorCode.authorizationError;
-      case 'RESOURCE_NOT_FOUND_ERROR':
-        return JobErrorCode.resourceNotFoundError;
-      case 'SERVICE_QUOTA_EXCEEDED_ERROR':
-        return JobErrorCode.serviceQuotaExceededError;
-      case 'SERVICE_ERROR':
-        return JobErrorCode.serviceError;
-    }
-    throw Exception('$this is not known in enum JobErrorCode');
-  }
+  const JobErrorCode(this.value);
+
+  static JobErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobErrorCode'));
 }
 
 enum JobStatus {
-  inProgress,
-  succeeded,
-  failed,
-  canceled,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  canceled('CANCELED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'SUCCEEDED':
-        return JobStatus.succeeded;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'CANCELED':
-        return JobStatus.canceled;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// A proposed grant configuration for a KMS key. For more information, see <a
@@ -3947,7 +3697,7 @@ class KmsGrantConfiguration {
       issuingAccount: json['issuingAccount'] as String,
       operations: (json['operations'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toKmsGrantOperation())
+          .map((e) => KmsGrantOperation.fromString((e as String)))
           .toList(),
       constraints: json['constraints'] != null
           ? KmsGrantConstraints.fromJson(
@@ -3966,7 +3716,7 @@ class KmsGrantConfiguration {
     return {
       'granteePrincipal': granteePrincipal,
       'issuingAccount': issuingAccount,
-      'operations': operations.map((e) => e.toValue()).toList(),
+      'operations': operations.map((e) => e.value).toList(),
       if (constraints != null) 'constraints': constraints,
       if (retiringPrincipal != null) 'retiringPrincipal': retiringPrincipal,
     };
@@ -4027,91 +3777,30 @@ class KmsGrantConstraints {
 }
 
 enum KmsGrantOperation {
-  createGrant,
-  decrypt,
-  describeKey,
-  encrypt,
-  generateDataKey,
-  generateDataKeyPair,
-  generateDataKeyPairWithoutPlaintext,
-  generateDataKeyWithoutPlaintext,
-  getPublicKey,
-  reEncryptFrom,
-  reEncryptTo,
-  retireGrant,
-  sign,
-  verify,
-}
+  createGrant('CreateGrant'),
+  decrypt('Decrypt'),
+  describeKey('DescribeKey'),
+  encrypt('Encrypt'),
+  generateDataKey('GenerateDataKey'),
+  generateDataKeyPair('GenerateDataKeyPair'),
+  generateDataKeyPairWithoutPlaintext('GenerateDataKeyPairWithoutPlaintext'),
+  generateDataKeyWithoutPlaintext('GenerateDataKeyWithoutPlaintext'),
+  getPublicKey('GetPublicKey'),
+  reEncryptFrom('ReEncryptFrom'),
+  reEncryptTo('ReEncryptTo'),
+  retireGrant('RetireGrant'),
+  sign('Sign'),
+  verify('Verify'),
+  ;
 
-extension KmsGrantOperationValueExtension on KmsGrantOperation {
-  String toValue() {
-    switch (this) {
-      case KmsGrantOperation.createGrant:
-        return 'CreateGrant';
-      case KmsGrantOperation.decrypt:
-        return 'Decrypt';
-      case KmsGrantOperation.describeKey:
-        return 'DescribeKey';
-      case KmsGrantOperation.encrypt:
-        return 'Encrypt';
-      case KmsGrantOperation.generateDataKey:
-        return 'GenerateDataKey';
-      case KmsGrantOperation.generateDataKeyPair:
-        return 'GenerateDataKeyPair';
-      case KmsGrantOperation.generateDataKeyPairWithoutPlaintext:
-        return 'GenerateDataKeyPairWithoutPlaintext';
-      case KmsGrantOperation.generateDataKeyWithoutPlaintext:
-        return 'GenerateDataKeyWithoutPlaintext';
-      case KmsGrantOperation.getPublicKey:
-        return 'GetPublicKey';
-      case KmsGrantOperation.reEncryptFrom:
-        return 'ReEncryptFrom';
-      case KmsGrantOperation.reEncryptTo:
-        return 'ReEncryptTo';
-      case KmsGrantOperation.retireGrant:
-        return 'RetireGrant';
-      case KmsGrantOperation.sign:
-        return 'Sign';
-      case KmsGrantOperation.verify:
-        return 'Verify';
-    }
-  }
-}
+  final String value;
 
-extension KmsGrantOperationFromString on String {
-  KmsGrantOperation toKmsGrantOperation() {
-    switch (this) {
-      case 'CreateGrant':
-        return KmsGrantOperation.createGrant;
-      case 'Decrypt':
-        return KmsGrantOperation.decrypt;
-      case 'DescribeKey':
-        return KmsGrantOperation.describeKey;
-      case 'Encrypt':
-        return KmsGrantOperation.encrypt;
-      case 'GenerateDataKey':
-        return KmsGrantOperation.generateDataKey;
-      case 'GenerateDataKeyPair':
-        return KmsGrantOperation.generateDataKeyPair;
-      case 'GenerateDataKeyPairWithoutPlaintext':
-        return KmsGrantOperation.generateDataKeyPairWithoutPlaintext;
-      case 'GenerateDataKeyWithoutPlaintext':
-        return KmsGrantOperation.generateDataKeyWithoutPlaintext;
-      case 'GetPublicKey':
-        return KmsGrantOperation.getPublicKey;
-      case 'ReEncryptFrom':
-        return KmsGrantOperation.reEncryptFrom;
-      case 'ReEncryptTo':
-        return KmsGrantOperation.reEncryptTo;
-      case 'RetireGrant':
-        return KmsGrantOperation.retireGrant;
-      case 'Sign':
-        return KmsGrantOperation.sign;
-      case 'Verify':
-        return KmsGrantOperation.verify;
-    }
-    throw Exception('$this is not known in enum KmsGrantOperation');
-  }
+  const KmsGrantOperation(this.value);
+
+  static KmsGrantOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KmsGrantOperation'));
 }
 
 /// Proposed access control configuration for a KMS key. You can propose a
@@ -4377,71 +4066,25 @@ class ListTagsForResourceResponse {
 }
 
 enum Locale {
-  de,
-  en,
-  es,
-  fr,
-  it,
-  ja,
-  ko,
-  ptBr,
-  zhCn,
-  zhTw,
-}
+  de('DE'),
+  en('EN'),
+  es('ES'),
+  fr('FR'),
+  it('IT'),
+  ja('JA'),
+  ko('KO'),
+  ptBr('PT_BR'),
+  zhCn('ZH_CN'),
+  zhTw('ZH_TW'),
+  ;
 
-extension LocaleValueExtension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.de:
-        return 'DE';
-      case Locale.en:
-        return 'EN';
-      case Locale.es:
-        return 'ES';
-      case Locale.fr:
-        return 'FR';
-      case Locale.it:
-        return 'IT';
-      case Locale.ja:
-        return 'JA';
-      case Locale.ko:
-        return 'KO';
-      case Locale.ptBr:
-        return 'PT_BR';
-      case Locale.zhCn:
-        return 'ZH_CN';
-      case Locale.zhTw:
-        return 'ZH_TW';
-    }
-  }
-}
+  final String value;
 
-extension LocaleFromString on String {
-  Locale toLocale() {
-    switch (this) {
-      case 'DE':
-        return Locale.de;
-      case 'EN':
-        return Locale.en;
-      case 'ES':
-        return Locale.es;
-      case 'FR':
-        return Locale.fr;
-      case 'IT':
-        return Locale.it;
-      case 'JA':
-        return Locale.ja;
-      case 'KO':
-        return Locale.ko;
-      case 'PT_BR':
-        return Locale.ptBr;
-      case 'ZH_CN':
-        return Locale.zhCn;
-      case 'ZH_TW':
-        return Locale.zhTw;
-    }
-    throw Exception('$this is not known in enum Locale');
-  }
+  const Locale(this.value);
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Locale'));
 }
 
 /// A location in a policy that is represented as a path through the JSON
@@ -4514,31 +4157,17 @@ class NetworkOriginConfiguration {
 }
 
 enum OrderBy {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension OrderByValueExtension on OrderBy {
-  String toValue() {
-    switch (this) {
-      case OrderBy.asc:
-        return 'ASC';
-      case OrderBy.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension OrderByFromString on String {
-  OrderBy toOrderBy() {
-    switch (this) {
-      case 'ASC':
-        return OrderBy.asc;
-      case 'DESC':
-        return OrderBy.desc;
-    }
-    throw Exception('$this is not known in enum OrderBy');
-  }
+  const OrderBy(this.value);
+
+  static OrderBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OrderBy'));
 }
 
 /// A single element in a path through the JSON representation of a policy.
@@ -4609,7 +4238,7 @@ class PolicyGeneration {
       jobId: json['jobId'] as String,
       principalArn: json['principalArn'] as String,
       startedOn: nonNullableTimeStampFromJson(json['startedOn'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       completedOn: timeStampFromJson(json['completedOn']),
     );
   }
@@ -4635,36 +4264,18 @@ class PolicyGenerationDetails {
 }
 
 enum PolicyType {
-  identityPolicy,
-  resourcePolicy,
-  serviceControlPolicy,
-}
+  identityPolicy('IDENTITY_POLICY'),
+  resourcePolicy('RESOURCE_POLICY'),
+  serviceControlPolicy('SERVICE_CONTROL_POLICY'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.identityPolicy:
-        return 'IDENTITY_POLICY';
-      case PolicyType.resourcePolicy:
-        return 'RESOURCE_POLICY';
-      case PolicyType.serviceControlPolicy:
-        return 'SERVICE_CONTROL_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'IDENTITY_POLICY':
-        return PolicyType.identityPolicy;
-      case 'RESOURCE_POLICY':
-        return PolicyType.resourcePolicy;
-      case 'SERVICE_CONTROL_POLICY':
-        return PolicyType.serviceControlPolicy;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 /// A position in a policy.
@@ -4909,41 +4520,19 @@ class RdsDbSnapshotConfiguration {
 }
 
 enum ReasonCode {
-  awsServiceAccessDisabled,
-  delegatedAdministratorDeregistered,
-  organizationDeleted,
-  serviceLinkedRoleCreationFailed,
-}
+  awsServiceAccessDisabled('AWS_SERVICE_ACCESS_DISABLED'),
+  delegatedAdministratorDeregistered('DELEGATED_ADMINISTRATOR_DEREGISTERED'),
+  organizationDeleted('ORGANIZATION_DELETED'),
+  serviceLinkedRoleCreationFailed('SERVICE_LINKED_ROLE_CREATION_FAILED'),
+  ;
 
-extension ReasonCodeValueExtension on ReasonCode {
-  String toValue() {
-    switch (this) {
-      case ReasonCode.awsServiceAccessDisabled:
-        return 'AWS_SERVICE_ACCESS_DISABLED';
-      case ReasonCode.delegatedAdministratorDeregistered:
-        return 'DELEGATED_ADMINISTRATOR_DEREGISTERED';
-      case ReasonCode.organizationDeleted:
-        return 'ORGANIZATION_DELETED';
-      case ReasonCode.serviceLinkedRoleCreationFailed:
-        return 'SERVICE_LINKED_ROLE_CREATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReasonCodeFromString on String {
-  ReasonCode toReasonCode() {
-    switch (this) {
-      case 'AWS_SERVICE_ACCESS_DISABLED':
-        return ReasonCode.awsServiceAccessDisabled;
-      case 'DELEGATED_ADMINISTRATOR_DEREGISTERED':
-        return ReasonCode.delegatedAdministratorDeregistered;
-      case 'ORGANIZATION_DELETED':
-        return ReasonCode.organizationDeleted;
-      case 'SERVICE_LINKED_ROLE_CREATION_FAILED':
-        return ReasonCode.serviceLinkedRoleCreationFailed;
-    }
-    throw Exception('$this is not known in enum ReasonCode');
-  }
+  const ReasonCode(this.value);
+
+  static ReasonCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReasonCode'));
 }
 
 /// Contains information about the reasoning why a check for access passed or
@@ -4974,101 +4563,32 @@ class ReasonSummary {
 }
 
 enum ResourceType {
-  awsS3Bucket,
-  awsIamRole,
-  awsSqsQueue,
-  awsLambdaFunction,
-  awsLambdaLayerVersion,
-  awsKmsKey,
-  awsSecretsManagerSecret,
-  awsEfsFileSystem,
-  awsEc2Snapshot,
-  awsEcrRepository,
-  awsRdsDBSnapshot,
-  awsRdsDBClusterSnapshot,
-  awsSnsTopic,
-  awsS3ExpressDirectoryBucket,
-  awsDynamoDBTable,
-  awsDynamoDBStream,
-}
+  awsS3Bucket('AWS::S3::Bucket'),
+  awsIamRole('AWS::IAM::Role'),
+  awsSqsQueue('AWS::SQS::Queue'),
+  awsLambdaFunction('AWS::Lambda::Function'),
+  awsLambdaLayerVersion('AWS::Lambda::LayerVersion'),
+  awsKmsKey('AWS::KMS::Key'),
+  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
+  awsEfsFileSystem('AWS::EFS::FileSystem'),
+  awsEc2Snapshot('AWS::EC2::Snapshot'),
+  awsEcrRepository('AWS::ECR::Repository'),
+  awsRdsDBSnapshot('AWS::RDS::DBSnapshot'),
+  awsRdsDBClusterSnapshot('AWS::RDS::DBClusterSnapshot'),
+  awsSnsTopic('AWS::SNS::Topic'),
+  awsS3ExpressDirectoryBucket('AWS::S3Express::DirectoryBucket'),
+  awsDynamoDBTable('AWS::DynamoDB::Table'),
+  awsDynamoDBStream('AWS::DynamoDB::Stream'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.awsS3Bucket:
-        return 'AWS::S3::Bucket';
-      case ResourceType.awsIamRole:
-        return 'AWS::IAM::Role';
-      case ResourceType.awsSqsQueue:
-        return 'AWS::SQS::Queue';
-      case ResourceType.awsLambdaFunction:
-        return 'AWS::Lambda::Function';
-      case ResourceType.awsLambdaLayerVersion:
-        return 'AWS::Lambda::LayerVersion';
-      case ResourceType.awsKmsKey:
-        return 'AWS::KMS::Key';
-      case ResourceType.awsSecretsManagerSecret:
-        return 'AWS::SecretsManager::Secret';
-      case ResourceType.awsEfsFileSystem:
-        return 'AWS::EFS::FileSystem';
-      case ResourceType.awsEc2Snapshot:
-        return 'AWS::EC2::Snapshot';
-      case ResourceType.awsEcrRepository:
-        return 'AWS::ECR::Repository';
-      case ResourceType.awsRdsDBSnapshot:
-        return 'AWS::RDS::DBSnapshot';
-      case ResourceType.awsRdsDBClusterSnapshot:
-        return 'AWS::RDS::DBClusterSnapshot';
-      case ResourceType.awsSnsTopic:
-        return 'AWS::SNS::Topic';
-      case ResourceType.awsS3ExpressDirectoryBucket:
-        return 'AWS::S3Express::DirectoryBucket';
-      case ResourceType.awsDynamoDBTable:
-        return 'AWS::DynamoDB::Table';
-      case ResourceType.awsDynamoDBStream:
-        return 'AWS::DynamoDB::Stream';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'AWS::S3::Bucket':
-        return ResourceType.awsS3Bucket;
-      case 'AWS::IAM::Role':
-        return ResourceType.awsIamRole;
-      case 'AWS::SQS::Queue':
-        return ResourceType.awsSqsQueue;
-      case 'AWS::Lambda::Function':
-        return ResourceType.awsLambdaFunction;
-      case 'AWS::Lambda::LayerVersion':
-        return ResourceType.awsLambdaLayerVersion;
-      case 'AWS::KMS::Key':
-        return ResourceType.awsKmsKey;
-      case 'AWS::SecretsManager::Secret':
-        return ResourceType.awsSecretsManagerSecret;
-      case 'AWS::EFS::FileSystem':
-        return ResourceType.awsEfsFileSystem;
-      case 'AWS::EC2::Snapshot':
-        return ResourceType.awsEc2Snapshot;
-      case 'AWS::ECR::Repository':
-        return ResourceType.awsEcrRepository;
-      case 'AWS::RDS::DBSnapshot':
-        return ResourceType.awsRdsDBSnapshot;
-      case 'AWS::RDS::DBClusterSnapshot':
-        return ResourceType.awsRdsDBClusterSnapshot;
-      case 'AWS::SNS::Topic':
-        return ResourceType.awsSnsTopic;
-      case 'AWS::S3Express::DirectoryBucket':
-        return ResourceType.awsS3ExpressDirectoryBucket;
-      case 'AWS::DynamoDB::Table':
-        return ResourceType.awsDynamoDBTable;
-      case 'AWS::DynamoDB::Stream':
-        return ResourceType.awsDynamoDBStream;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// The configuration for an Amazon S3 access point or multi-region access point
@@ -5151,7 +4671,7 @@ class S3BucketAclGrantConfiguration {
   factory S3BucketAclGrantConfiguration.fromJson(Map<String, dynamic> json) {
     return S3BucketAclGrantConfiguration(
       grantee: AclGrantee.fromJson(json['grantee'] as Map<String, dynamic>),
-      permission: (json['permission'] as String).toAclPermission(),
+      permission: AclPermission.fromString((json['permission'] as String)),
     );
   }
 
@@ -5160,7 +4680,7 @@ class S3BucketAclGrantConfiguration {
     final permission = this.permission;
     return {
       'grantee': grantee,
-      'permission': permission.toValue(),
+      'permission': permission.value,
     };
   }
 }
@@ -5414,7 +4934,7 @@ class SortCriteria {
     final orderBy = this.orderBy;
     return {
       if (attributeName != null) 'attributeName': attributeName,
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -5509,7 +5029,7 @@ class StatusReason {
 
   factory StatusReason.fromJson(Map<String, dynamic> json) {
     return StatusReason(
-      code: (json['code'] as String).toReasonCode(),
+      code: ReasonCode.fromString((json['code'] as String)),
     );
   }
 }
@@ -5613,41 +5133,19 @@ class TrailProperties {
 }
 
 enum Type {
-  account,
-  organization,
-  accountUnusedAccess,
-  organizationUnusedAccess,
-}
+  account('ACCOUNT'),
+  organization('ORGANIZATION'),
+  accountUnusedAccess('ACCOUNT_UNUSED_ACCESS'),
+  organizationUnusedAccess('ORGANIZATION_UNUSED_ACCESS'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.account:
-        return 'ACCOUNT';
-      case Type.organization:
-        return 'ORGANIZATION';
-      case Type.accountUnusedAccess:
-        return 'ACCOUNT_UNUSED_ACCESS';
-      case Type.organizationUnusedAccess:
-        return 'ORGANIZATION_UNUSED_ACCESS';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return Type.account;
-      case 'ORGANIZATION':
-        return Type.organization;
-      case 'ACCOUNT_UNUSED_ACCESS':
-        return Type.accountUnusedAccess;
-      case 'ORGANIZATION_UNUSED_ACCESS':
-        return Type.organizationUnusedAccess;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 /// The response to the request.
@@ -5857,7 +5355,7 @@ class ValidatePolicyFinding {
     return ValidatePolicyFinding(
       findingDetails: json['findingDetails'] as String,
       findingType:
-          (json['findingType'] as String).toValidatePolicyFindingType(),
+          ValidatePolicyFindingType.fromString((json['findingType'] as String)),
       issueCode: json['issueCode'] as String,
       learnMoreLink: json['learnMoreLink'] as String,
       locations: (json['locations'] as List)
@@ -5869,90 +5367,39 @@ class ValidatePolicyFinding {
 }
 
 enum ValidatePolicyFindingType {
-  error,
-  securityWarning,
-  suggestion,
-  warning,
-}
+  error('ERROR'),
+  securityWarning('SECURITY_WARNING'),
+  suggestion('SUGGESTION'),
+  warning('WARNING'),
+  ;
 
-extension ValidatePolicyFindingTypeValueExtension on ValidatePolicyFindingType {
-  String toValue() {
-    switch (this) {
-      case ValidatePolicyFindingType.error:
-        return 'ERROR';
-      case ValidatePolicyFindingType.securityWarning:
-        return 'SECURITY_WARNING';
-      case ValidatePolicyFindingType.suggestion:
-        return 'SUGGESTION';
-      case ValidatePolicyFindingType.warning:
-        return 'WARNING';
-    }
-  }
-}
+  final String value;
 
-extension ValidatePolicyFindingTypeFromString on String {
-  ValidatePolicyFindingType toValidatePolicyFindingType() {
-    switch (this) {
-      case 'ERROR':
-        return ValidatePolicyFindingType.error;
-      case 'SECURITY_WARNING':
-        return ValidatePolicyFindingType.securityWarning;
-      case 'SUGGESTION':
-        return ValidatePolicyFindingType.suggestion;
-      case 'WARNING':
-        return ValidatePolicyFindingType.warning;
-    }
-    throw Exception('$this is not known in enum ValidatePolicyFindingType');
-  }
+  const ValidatePolicyFindingType(this.value);
+
+  static ValidatePolicyFindingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ValidatePolicyFindingType'));
 }
 
 enum ValidatePolicyResourceType {
-  awsS3Bucket,
-  awsS3AccessPoint,
-  awsS3MultiRegionAccessPoint,
-  awsS3ObjectLambdaAccessPoint,
-  awsIamAssumeRolePolicyDocument,
-  awsDynamoDBTable,
-}
+  awsS3Bucket('AWS::S3::Bucket'),
+  awsS3AccessPoint('AWS::S3::AccessPoint'),
+  awsS3MultiRegionAccessPoint('AWS::S3::MultiRegionAccessPoint'),
+  awsS3ObjectLambdaAccessPoint('AWS::S3ObjectLambda::AccessPoint'),
+  awsIamAssumeRolePolicyDocument('AWS::IAM::AssumeRolePolicyDocument'),
+  awsDynamoDBTable('AWS::DynamoDB::Table'),
+  ;
 
-extension ValidatePolicyResourceTypeValueExtension
-    on ValidatePolicyResourceType {
-  String toValue() {
-    switch (this) {
-      case ValidatePolicyResourceType.awsS3Bucket:
-        return 'AWS::S3::Bucket';
-      case ValidatePolicyResourceType.awsS3AccessPoint:
-        return 'AWS::S3::AccessPoint';
-      case ValidatePolicyResourceType.awsS3MultiRegionAccessPoint:
-        return 'AWS::S3::MultiRegionAccessPoint';
-      case ValidatePolicyResourceType.awsS3ObjectLambdaAccessPoint:
-        return 'AWS::S3ObjectLambda::AccessPoint';
-      case ValidatePolicyResourceType.awsIamAssumeRolePolicyDocument:
-        return 'AWS::IAM::AssumeRolePolicyDocument';
-      case ValidatePolicyResourceType.awsDynamoDBTable:
-        return 'AWS::DynamoDB::Table';
-    }
-  }
-}
+  final String value;
 
-extension ValidatePolicyResourceTypeFromString on String {
-  ValidatePolicyResourceType toValidatePolicyResourceType() {
-    switch (this) {
-      case 'AWS::S3::Bucket':
-        return ValidatePolicyResourceType.awsS3Bucket;
-      case 'AWS::S3::AccessPoint':
-        return ValidatePolicyResourceType.awsS3AccessPoint;
-      case 'AWS::S3::MultiRegionAccessPoint':
-        return ValidatePolicyResourceType.awsS3MultiRegionAccessPoint;
-      case 'AWS::S3ObjectLambda::AccessPoint':
-        return ValidatePolicyResourceType.awsS3ObjectLambdaAccessPoint;
-      case 'AWS::IAM::AssumeRolePolicyDocument':
-        return ValidatePolicyResourceType.awsIamAssumeRolePolicyDocument;
-      case 'AWS::DynamoDB::Table':
-        return ValidatePolicyResourceType.awsDynamoDBTable;
-    }
-    throw Exception('$this is not known in enum ValidatePolicyResourceType');
-  }
+  const ValidatePolicyResourceType(this.value);
+
+  static ValidatePolicyResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ValidatePolicyResourceType'));
 }
 
 class ValidatePolicyResponse {

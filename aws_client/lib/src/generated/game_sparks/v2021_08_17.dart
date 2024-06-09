@@ -1354,31 +1354,18 @@ class DeleteStageResult {
 }
 
 enum DeploymentAction {
-  deploy,
-  undeploy,
-}
+  deploy('DEPLOY'),
+  undeploy('UNDEPLOY'),
+  ;
 
-extension DeploymentActionValueExtension on DeploymentAction {
-  String toValue() {
-    switch (this) {
-      case DeploymentAction.deploy:
-        return 'DEPLOY';
-      case DeploymentAction.undeploy:
-        return 'UNDEPLOY';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentActionFromString on String {
-  DeploymentAction toDeploymentAction() {
-    switch (this) {
-      case 'DEPLOY':
-        return DeploymentAction.deploy;
-      case 'UNDEPLOY':
-        return DeploymentAction.undeploy;
-    }
-    throw Exception('$this is not known in enum DeploymentAction');
-  }
+  const DeploymentAction(this.value);
+
+  static DeploymentAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentAction'));
 }
 
 /// The result of the deployment.
@@ -1397,7 +1384,7 @@ class DeploymentResult {
   factory DeploymentResult.fromJson(Map<String, dynamic> json) {
     return DeploymentResult(
       message: json['Message'] as String?,
-      resultCode: (json['ResultCode'] as String?)?.toResultCode(),
+      resultCode: (json['ResultCode'] as String?)?.let(ResultCode.fromString),
     );
   }
 
@@ -1406,47 +1393,26 @@ class DeploymentResult {
     final resultCode = this.resultCode;
     return {
       if (message != null) 'Message': message,
-      if (resultCode != null) 'ResultCode': resultCode.toValue(),
+      if (resultCode != null) 'ResultCode': resultCode.value,
     };
   }
 }
 
 enum DeploymentState {
-  pending,
-  inProgress,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension DeploymentStateValueExtension on DeploymentState {
-  String toValue() {
-    switch (this) {
-      case DeploymentState.pending:
-        return 'PENDING';
-      case DeploymentState.inProgress:
-        return 'IN_PROGRESS';
-      case DeploymentState.completed:
-        return 'COMPLETED';
-      case DeploymentState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStateFromString on String {
-  DeploymentState toDeploymentState() {
-    switch (this) {
-      case 'PENDING':
-        return DeploymentState.pending;
-      case 'IN_PROGRESS':
-        return DeploymentState.inProgress;
-      case 'COMPLETED':
-        return DeploymentState.completed;
-      case 'FAILED':
-        return DeploymentState.failed;
-    }
-    throw Exception('$this is not known in enum DeploymentState');
-  }
+  const DeploymentState(this.value);
+
+  static DeploymentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentState'));
 }
 
 class DisconnectPlayerResult {
@@ -1692,7 +1658,7 @@ class GameDetails {
       enableTerminationProtection: json['EnableTerminationProtection'] as bool?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toGameState(),
+      state: (json['State'] as String?)?.let(GameState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1715,38 +1681,24 @@ class GameDetails {
         'EnableTerminationProtection': enableTerminationProtection,
       if (lastUpdated != null) 'LastUpdated': iso8601ToJson(lastUpdated),
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum GameState {
-  active,
-  deleting,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  ;
 
-extension GameStateValueExtension on GameState {
-  String toValue() {
-    switch (this) {
-      case GameState.active:
-        return 'ACTIVE';
-      case GameState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension GameStateFromString on String {
-  GameState toGameState() {
-    switch (this) {
-      case 'ACTIVE':
-        return GameState.active;
-      case 'DELETING':
-        return GameState.deleting;
-    }
-    throw Exception('$this is not known in enum GameState');
-  }
+  const GameState(this.value);
+
+  static GameState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GameState'));
 }
 
 /// The summary of the properties of a game.
@@ -1774,7 +1726,7 @@ class GameSummary {
     return GameSummary(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toGameState(),
+      state: (json['State'] as String?)?.let(GameState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1788,7 +1740,7 @@ class GameSummary {
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -1827,7 +1779,8 @@ class GeneratedCodeJobDetails {
       expirationTime: timeStampFromJson(json['ExpirationTime']),
       generatedCodeJobId: json['GeneratedCodeJobId'] as String?,
       s3Url: json['S3Url'] as String?,
-      status: (json['Status'] as String?)?.toGeneratedCodeJobState(),
+      status:
+          (json['Status'] as String?)?.let(GeneratedCodeJobState.fromString),
     );
   }
 
@@ -1843,47 +1796,26 @@ class GeneratedCodeJobDetails {
         'ExpirationTime': iso8601ToJson(expirationTime),
       if (generatedCodeJobId != null) 'GeneratedCodeJobId': generatedCodeJobId,
       if (s3Url != null) 'S3Url': s3Url,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum GeneratedCodeJobState {
-  inProgress,
-  completed,
-  failed,
-  pending,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  pending('PENDING'),
+  ;
 
-extension GeneratedCodeJobStateValueExtension on GeneratedCodeJobState {
-  String toValue() {
-    switch (this) {
-      case GeneratedCodeJobState.inProgress:
-        return 'IN_PROGRESS';
-      case GeneratedCodeJobState.completed:
-        return 'COMPLETED';
-      case GeneratedCodeJobState.failed:
-        return 'FAILED';
-      case GeneratedCodeJobState.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension GeneratedCodeJobStateFromString on String {
-  GeneratedCodeJobState toGeneratedCodeJobState() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return GeneratedCodeJobState.inProgress;
-      case 'COMPLETED':
-        return GeneratedCodeJobState.completed;
-      case 'FAILED':
-        return GeneratedCodeJobState.failed;
-      case 'PENDING':
-        return GeneratedCodeJobState.pending;
-    }
-    throw Exception('$this is not known in enum GeneratedCodeJobState');
-  }
+  const GeneratedCodeJobState(this.value);
+
+  static GeneratedCodeJobState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GeneratedCodeJobState'));
 }
 
 /// Properties that specify the code generator for a generated code job.
@@ -2459,69 +2391,33 @@ class ListTagsForResourceResult {
 }
 
 enum Operation {
-  add,
-  remove,
-  replace,
-}
+  add('ADD'),
+  remove('REMOVE'),
+  replace('REPLACE'),
+  ;
 
-extension OperationValueExtension on Operation {
-  String toValue() {
-    switch (this) {
-      case Operation.add:
-        return 'ADD';
-      case Operation.remove:
-        return 'REMOVE';
-      case Operation.replace:
-        return 'REPLACE';
-    }
-  }
-}
+  final String value;
 
-extension OperationFromString on String {
-  Operation toOperation() {
-    switch (this) {
-      case 'ADD':
-        return Operation.add;
-      case 'REMOVE':
-        return Operation.remove;
-      case 'REPLACE':
-        return Operation.replace;
-    }
-    throw Exception('$this is not known in enum Operation');
-  }
+  const Operation(this.value);
+
+  static Operation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operation'));
 }
 
 enum ResultCode {
-  success,
-  invalidRoleFailure,
-  unspecifiedFailure,
-}
+  success('SUCCESS'),
+  invalidRoleFailure('INVALID_ROLE_FAILURE'),
+  unspecifiedFailure('UNSPECIFIED_FAILURE'),
+  ;
 
-extension ResultCodeValueExtension on ResultCode {
-  String toValue() {
-    switch (this) {
-      case ResultCode.success:
-        return 'SUCCESS';
-      case ResultCode.invalidRoleFailure:
-        return 'INVALID_ROLE_FAILURE';
-      case ResultCode.unspecifiedFailure:
-        return 'UNSPECIFIED_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ResultCodeFromString on String {
-  ResultCode toResultCode() {
-    switch (this) {
-      case 'SUCCESS':
-        return ResultCode.success;
-      case 'INVALID_ROLE_FAILURE':
-        return ResultCode.invalidRoleFailure;
-      case 'UNSPECIFIED_FAILURE':
-        return ResultCode.unspecifiedFailure;
-    }
-    throw Exception('$this is not known in enum ResultCode');
-  }
+  const ResultCode(this.value);
+
+  static ResultCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ResultCode'));
 }
 
 /// The configuration section.
@@ -2594,7 +2490,7 @@ class SectionModification {
     final section = this.section;
     final value = this.value;
     return {
-      'Operation': operation.toValue(),
+      'Operation': operation.value,
       'Path': path,
       'Section': section,
       if (value != null) 'Value': value,
@@ -2734,15 +2630,15 @@ class StageDeploymentDetails {
   factory StageDeploymentDetails.fromJson(Map<String, dynamic> json) {
     return StageDeploymentDetails(
       created: timeStampFromJson(json['Created']),
-      deploymentAction:
-          (json['DeploymentAction'] as String?)?.toDeploymentAction(),
+      deploymentAction: (json['DeploymentAction'] as String?)
+          ?.let(DeploymentAction.fromString),
       deploymentId: json['DeploymentId'] as String?,
       deploymentResult: json['DeploymentResult'] != null
           ? DeploymentResult.fromJson(
               json['DeploymentResult'] as Map<String, dynamic>)
           : null,
       deploymentState:
-          (json['DeploymentState'] as String?)?.toDeploymentState(),
+          (json['DeploymentState'] as String?)?.let(DeploymentState.fromString),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       snapshotId: json['SnapshotId'] as String?,
     );
@@ -2758,11 +2654,10 @@ class StageDeploymentDetails {
     final snapshotId = this.snapshotId;
     return {
       if (created != null) 'Created': iso8601ToJson(created),
-      if (deploymentAction != null)
-        'DeploymentAction': deploymentAction.toValue(),
+      if (deploymentAction != null) 'DeploymentAction': deploymentAction.value,
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (deploymentResult != null) 'DeploymentResult': deploymentResult,
-      if (deploymentState != null) 'DeploymentState': deploymentState.toValue(),
+      if (deploymentState != null) 'DeploymentState': deploymentState.value,
       if (lastUpdated != null) 'LastUpdated': iso8601ToJson(lastUpdated),
       if (snapshotId != null) 'SnapshotId': snapshotId,
     };
@@ -2800,15 +2695,15 @@ class StageDeploymentSummary {
 
   factory StageDeploymentSummary.fromJson(Map<String, dynamic> json) {
     return StageDeploymentSummary(
-      deploymentAction:
-          (json['DeploymentAction'] as String?)?.toDeploymentAction(),
+      deploymentAction: (json['DeploymentAction'] as String?)
+          ?.let(DeploymentAction.fromString),
       deploymentId: json['DeploymentId'] as String?,
       deploymentResult: json['DeploymentResult'] != null
           ? DeploymentResult.fromJson(
               json['DeploymentResult'] as Map<String, dynamic>)
           : null,
       deploymentState:
-          (json['DeploymentState'] as String?)?.toDeploymentState(),
+          (json['DeploymentState'] as String?)?.let(DeploymentState.fromString),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       snapshotId: json['SnapshotId'] as String?,
     );
@@ -2822,11 +2717,10 @@ class StageDeploymentSummary {
     final lastUpdated = this.lastUpdated;
     final snapshotId = this.snapshotId;
     return {
-      if (deploymentAction != null)
-        'DeploymentAction': deploymentAction.toValue(),
+      if (deploymentAction != null) 'DeploymentAction': deploymentAction.value,
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (deploymentResult != null) 'DeploymentResult': deploymentResult,
-      if (deploymentState != null) 'DeploymentState': deploymentState.toValue(),
+      if (deploymentState != null) 'DeploymentState': deploymentState.value,
       if (lastUpdated != null) 'LastUpdated': iso8601ToJson(lastUpdated),
       if (snapshotId != null) 'SnapshotId': snapshotId,
     };
@@ -2892,7 +2786,7 @@ class StageDetails {
       logGroup: json['LogGroup'] as String?,
       name: json['Name'] as String?,
       role: json['Role'] as String?,
-      state: (json['State'] as String?)?.toStageState(),
+      state: (json['State'] as String?)?.let(StageState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2918,38 +2812,24 @@ class StageDetails {
       if (logGroup != null) 'LogGroup': logGroup,
       if (name != null) 'Name': name,
       if (role != null) 'Role': role,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum StageState {
-  active,
-  deleting,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  ;
 
-extension StageStateValueExtension on StageState {
-  String toValue() {
-    switch (this) {
-      case StageState.active:
-        return 'ACTIVE';
-      case StageState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension StageStateFromString on String {
-  StageState toStageState() {
-    switch (this) {
-      case 'ACTIVE':
-        return StageState.active;
-      case 'DELETING':
-        return StageState.deleting;
-    }
-    throw Exception('$this is not known in enum StageState');
-  }
+  const StageState(this.value);
+
+  static StageState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StageState'));
 }
 
 /// The summary of the properties of a stage.
@@ -2985,7 +2865,7 @@ class StageSummary {
       description: json['Description'] as String?,
       gameKey: json['GameKey'] as String?,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toStageState(),
+      state: (json['State'] as String?)?.let(StageState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3001,7 +2881,7 @@ class StageSummary {
       if (description != null) 'Description': description,
       if (gameKey != null) 'GameKey': gameKey,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }

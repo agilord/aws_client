@@ -575,31 +575,18 @@ class Column {
 }
 
 enum CompressionOption {
-  gzip,
-  parquet,
-}
+  gzip('GZIP'),
+  parquet('PARQUET'),
+  ;
 
-extension CompressionOptionValueExtension on CompressionOption {
-  String toValue() {
-    switch (this) {
-      case CompressionOption.gzip:
-        return 'GZIP';
-      case CompressionOption.parquet:
-        return 'PARQUET';
-    }
-  }
-}
+  final String value;
 
-extension CompressionOptionFromString on String {
-  CompressionOption toCompressionOption() {
-    switch (this) {
-      case 'GZIP':
-        return CompressionOption.gzip;
-      case 'PARQUET':
-        return CompressionOption.parquet;
-    }
-    throw Exception('$this is not known in enum CompressionOption');
-  }
+  const CompressionOption(this.value);
+
+  static CompressionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CompressionOption'));
 }
 
 class CreateExportResponse {
@@ -768,9 +755,10 @@ class ExecutionStatus {
       completedAt: timeStampFromJson(json['CompletedAt']),
       createdAt: timeStampFromJson(json['CreatedAt']),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      statusCode: (json['StatusCode'] as String?)?.toExecutionStatusCode(),
-      statusReason:
-          (json['StatusReason'] as String?)?.toExecutionStatusReason(),
+      statusCode:
+          (json['StatusCode'] as String?)?.let(ExecutionStatusCode.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(ExecutionStatusReason.fromString),
     );
   }
 
@@ -784,96 +772,46 @@ class ExecutionStatus {
       if (completedAt != null) 'CompletedAt': iso8601ToJson(completedAt),
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (lastUpdatedAt != null) 'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
     };
   }
 }
 
 enum ExecutionStatusCode {
-  initiationInProcess,
-  queryQueued,
-  queryInProcess,
-  queryFailure,
-  deliveryInProcess,
-  deliverySuccess,
-  deliveryFailure,
-}
+  initiationInProcess('INITIATION_IN_PROCESS'),
+  queryQueued('QUERY_QUEUED'),
+  queryInProcess('QUERY_IN_PROCESS'),
+  queryFailure('QUERY_FAILURE'),
+  deliveryInProcess('DELIVERY_IN_PROCESS'),
+  deliverySuccess('DELIVERY_SUCCESS'),
+  deliveryFailure('DELIVERY_FAILURE'),
+  ;
 
-extension ExecutionStatusCodeValueExtension on ExecutionStatusCode {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatusCode.initiationInProcess:
-        return 'INITIATION_IN_PROCESS';
-      case ExecutionStatusCode.queryQueued:
-        return 'QUERY_QUEUED';
-      case ExecutionStatusCode.queryInProcess:
-        return 'QUERY_IN_PROCESS';
-      case ExecutionStatusCode.queryFailure:
-        return 'QUERY_FAILURE';
-      case ExecutionStatusCode.deliveryInProcess:
-        return 'DELIVERY_IN_PROCESS';
-      case ExecutionStatusCode.deliverySuccess:
-        return 'DELIVERY_SUCCESS';
-      case ExecutionStatusCode.deliveryFailure:
-        return 'DELIVERY_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusCodeFromString on String {
-  ExecutionStatusCode toExecutionStatusCode() {
-    switch (this) {
-      case 'INITIATION_IN_PROCESS':
-        return ExecutionStatusCode.initiationInProcess;
-      case 'QUERY_QUEUED':
-        return ExecutionStatusCode.queryQueued;
-      case 'QUERY_IN_PROCESS':
-        return ExecutionStatusCode.queryInProcess;
-      case 'QUERY_FAILURE':
-        return ExecutionStatusCode.queryFailure;
-      case 'DELIVERY_IN_PROCESS':
-        return ExecutionStatusCode.deliveryInProcess;
-      case 'DELIVERY_SUCCESS':
-        return ExecutionStatusCode.deliverySuccess;
-      case 'DELIVERY_FAILURE':
-        return ExecutionStatusCode.deliveryFailure;
-    }
-    throw Exception('$this is not known in enum ExecutionStatusCode');
-  }
+  const ExecutionStatusCode(this.value);
+
+  static ExecutionStatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExecutionStatusCode'));
 }
 
 enum ExecutionStatusReason {
-  insufficientPermission,
-  billOwnerChanged,
-  internalFailure,
-}
+  insufficientPermission('INSUFFICIENT_PERMISSION'),
+  billOwnerChanged('BILL_OWNER_CHANGED'),
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension ExecutionStatusReasonValueExtension on ExecutionStatusReason {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatusReason.insufficientPermission:
-        return 'INSUFFICIENT_PERMISSION';
-      case ExecutionStatusReason.billOwnerChanged:
-        return 'BILL_OWNER_CHANGED';
-      case ExecutionStatusReason.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusReasonFromString on String {
-  ExecutionStatusReason toExecutionStatusReason() {
-    switch (this) {
-      case 'INSUFFICIENT_PERMISSION':
-        return ExecutionStatusReason.insufficientPermission;
-      case 'BILL_OWNER_CHANGED':
-        return ExecutionStatusReason.billOwnerChanged;
-      case 'INTERNAL_FAILURE':
-        return ExecutionStatusReason.internalFailure;
-    }
-    throw Exception('$this is not known in enum ExecutionStatusReason');
-  }
+  const ExecutionStatusReason(this.value);
+
+  static ExecutionStatusReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExecutionStatusReason'));
 }
 
 /// The details that are available for an export.
@@ -1004,9 +942,10 @@ class ExportStatus {
       createdAt: timeStampFromJson(json['CreatedAt']),
       lastRefreshedAt: timeStampFromJson(json['LastRefreshedAt']),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      statusCode: (json['StatusCode'] as String?)?.toExportStatusCode(),
-      statusReason:
-          (json['StatusReason'] as String?)?.toExecutionStatusReason(),
+      statusCode:
+          (json['StatusCode'] as String?)?.let(ExportStatusCode.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(ExecutionStatusReason.fromString),
     );
   }
 
@@ -1021,89 +960,54 @@ class ExportStatus {
       if (lastRefreshedAt != null)
         'LastRefreshedAt': iso8601ToJson(lastRefreshedAt),
       if (lastUpdatedAt != null) 'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
     };
   }
 }
 
 enum ExportStatusCode {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension ExportStatusCodeValueExtension on ExportStatusCode {
-  String toValue() {
-    switch (this) {
-      case ExportStatusCode.healthy:
-        return 'HEALTHY';
-      case ExportStatusCode.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension ExportStatusCodeFromString on String {
-  ExportStatusCode toExportStatusCode() {
-    switch (this) {
-      case 'HEALTHY':
-        return ExportStatusCode.healthy;
-      case 'UNHEALTHY':
-        return ExportStatusCode.unhealthy;
-    }
-    throw Exception('$this is not known in enum ExportStatusCode');
-  }
+  const ExportStatusCode(this.value);
+
+  static ExportStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportStatusCode'));
 }
 
 enum FormatOption {
-  textOrCsv,
-  parquet,
-}
+  textOrCsv('TEXT_OR_CSV'),
+  parquet('PARQUET'),
+  ;
 
-extension FormatOptionValueExtension on FormatOption {
-  String toValue() {
-    switch (this) {
-      case FormatOption.textOrCsv:
-        return 'TEXT_OR_CSV';
-      case FormatOption.parquet:
-        return 'PARQUET';
-    }
-  }
-}
+  final String value;
 
-extension FormatOptionFromString on String {
-  FormatOption toFormatOption() {
-    switch (this) {
-      case 'TEXT_OR_CSV':
-        return FormatOption.textOrCsv;
-      case 'PARQUET':
-        return FormatOption.parquet;
-    }
-    throw Exception('$this is not known in enum FormatOption');
-  }
+  const FormatOption(this.value);
+
+  static FormatOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FormatOption'));
 }
 
 enum FrequencyOption {
-  synchronous,
-}
+  synchronous('SYNCHRONOUS'),
+  ;
 
-extension FrequencyOptionValueExtension on FrequencyOption {
-  String toValue() {
-    switch (this) {
-      case FrequencyOption.synchronous:
-        return 'SYNCHRONOUS';
-    }
-  }
-}
+  final String value;
 
-extension FrequencyOptionFromString on String {
-  FrequencyOption toFrequencyOption() {
-    switch (this) {
-      case 'SYNCHRONOUS':
-        return FrequencyOption.synchronous;
-    }
-    throw Exception('$this is not known in enum FrequencyOption');
-  }
+  const FrequencyOption(this.value);
+
+  static FrequencyOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FrequencyOption'));
 }
 
 class GetExecutionResponse {
@@ -1363,31 +1267,18 @@ class ListTagsForResourceResponse {
 }
 
 enum OverwriteOption {
-  createNewReport,
-  overwriteReport,
-}
+  createNewReport('CREATE_NEW_REPORT'),
+  overwriteReport('OVERWRITE_REPORT'),
+  ;
 
-extension OverwriteOptionValueExtension on OverwriteOption {
-  String toValue() {
-    switch (this) {
-      case OverwriteOption.createNewReport:
-        return 'CREATE_NEW_REPORT';
-      case OverwriteOption.overwriteReport:
-        return 'OVERWRITE_REPORT';
-    }
-  }
-}
+  final String value;
 
-extension OverwriteOptionFromString on String {
-  OverwriteOption toOverwriteOption() {
-    switch (this) {
-      case 'CREATE_NEW_REPORT':
-        return OverwriteOption.createNewReport;
-      case 'OVERWRITE_REPORT':
-        return OverwriteOption.overwriteReport;
-    }
-    throw Exception('$this is not known in enum OverwriteOption');
-  }
+  const OverwriteOption(this.value);
+
+  static OverwriteOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OverwriteOption'));
 }
 
 /// The cadence for Amazon Web Services to update the data export in your S3
@@ -1403,14 +1294,14 @@ class RefreshCadence {
 
   factory RefreshCadence.fromJson(Map<String, dynamic> json) {
     return RefreshCadence(
-      frequency: (json['Frequency'] as String).toFrequencyOption(),
+      frequency: FrequencyOption.fromString((json['Frequency'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final frequency = this.frequency;
     return {
-      'Frequency': frequency.toValue(),
+      'Frequency': frequency.value,
     };
   }
 }
@@ -1520,10 +1411,11 @@ class S3OutputConfigurations {
 
   factory S3OutputConfigurations.fromJson(Map<String, dynamic> json) {
     return S3OutputConfigurations(
-      compression: (json['Compression'] as String).toCompressionOption(),
-      format: (json['Format'] as String).toFormatOption(),
-      outputType: (json['OutputType'] as String).toS3OutputType(),
-      overwrite: (json['Overwrite'] as String).toOverwriteOption(),
+      compression:
+          CompressionOption.fromString((json['Compression'] as String)),
+      format: FormatOption.fromString((json['Format'] as String)),
+      outputType: S3OutputType.fromString((json['OutputType'] as String)),
+      overwrite: OverwriteOption.fromString((json['Overwrite'] as String)),
     );
   }
 
@@ -1533,35 +1425,26 @@ class S3OutputConfigurations {
     final outputType = this.outputType;
     final overwrite = this.overwrite;
     return {
-      'Compression': compression.toValue(),
-      'Format': format.toValue(),
-      'OutputType': outputType.toValue(),
-      'Overwrite': overwrite.toValue(),
+      'Compression': compression.value,
+      'Format': format.value,
+      'OutputType': outputType.value,
+      'Overwrite': overwrite.value,
     };
   }
 }
 
 enum S3OutputType {
-  custom,
-}
+  custom('CUSTOM'),
+  ;
 
-extension S3OutputTypeValueExtension on S3OutputType {
-  String toValue() {
-    switch (this) {
-      case S3OutputType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension S3OutputTypeFromString on String {
-  S3OutputType toS3OutputType() {
-    switch (this) {
-      case 'CUSTOM':
-        return S3OutputType.custom;
-    }
-    throw Exception('$this is not known in enum S3OutputType');
-  }
+  const S3OutputType(this.value);
+
+  static S3OutputType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3OutputType'));
 }
 
 /// The details for the data export table.

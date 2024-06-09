@@ -512,7 +512,7 @@ class DeleteDeploymentOutput {
 
   factory DeleteDeploymentOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDeploymentOutput(
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -521,7 +521,7 @@ class DeleteDeploymentOutput {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -634,7 +634,7 @@ class DeploymentData {
       resourceGroup: json['resourceGroup'] as String?,
       specifications: (json['specifications'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       workloadName: json['workloadName'] as String?,
@@ -662,7 +662,7 @@ class DeploymentData {
       if (patternName != null) 'patternName': patternName,
       if (resourceGroup != null) 'resourceGroup': resourceGroup,
       if (specifications != null) 'specifications': specifications,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (workloadName != null) 'workloadName': workloadName,
     };
@@ -704,7 +704,7 @@ class DeploymentDataSummary {
       id: json['id'] as String?,
       name: json['name'] as String?,
       patternName: json['patternName'] as String?,
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
       workloadName: json['workloadName'] as String?,
     );
   }
@@ -721,7 +721,7 @@ class DeploymentDataSummary {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (patternName != null) 'patternName': patternName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (workloadName != null) 'workloadName': workloadName,
     };
   }
@@ -756,7 +756,7 @@ class DeploymentEventDataSummary {
     return DeploymentEventDataSummary(
       description: json['description'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEventStatus(),
+      status: (json['status'] as String?)?.let(EventStatus.fromString),
       statusReason: json['statusReason'] as String?,
       timestamp: timeStampFromJson(json['timestamp']),
     );
@@ -771,7 +771,7 @@ class DeploymentEventDataSummary {
     return {
       if (description != null) 'description': description,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
     };
@@ -799,38 +799,25 @@ class DeploymentFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (values != null) 'values': values,
     };
   }
 }
 
 enum DeploymentFilterKey {
-  workloadName,
-  deploymentStatus,
-}
+  workloadName('WORKLOAD_NAME'),
+  deploymentStatus('DEPLOYMENT_STATUS'),
+  ;
 
-extension DeploymentFilterKeyValueExtension on DeploymentFilterKey {
-  String toValue() {
-    switch (this) {
-      case DeploymentFilterKey.workloadName:
-        return 'WORKLOAD_NAME';
-      case DeploymentFilterKey.deploymentStatus:
-        return 'DEPLOYMENT_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentFilterKeyFromString on String {
-  DeploymentFilterKey toDeploymentFilterKey() {
-    switch (this) {
-      case 'WORKLOAD_NAME':
-        return DeploymentFilterKey.workloadName;
-      case 'DEPLOYMENT_STATUS':
-        return DeploymentFilterKey.deploymentStatus;
-    }
-    throw Exception('$this is not known in enum DeploymentFilterKey');
-  }
+  const DeploymentFilterKey(this.value);
+
+  static DeploymentFilterKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeploymentFilterKey'));
 }
 
 /// A field that details a specification of a deployment pattern.
@@ -892,124 +879,45 @@ class DeploymentSpecificationsField {
 }
 
 enum DeploymentStatus {
-  completed,
-  creating,
-  deleteInProgress,
-  deleteInitiating,
-  deleteFailed,
-  deleted,
-  failed,
-  inProgress,
-  validating,
-}
+  completed('COMPLETED'),
+  creating('CREATING'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteInitiating('DELETE_INITIATING'),
+  deleteFailed('DELETE_FAILED'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  validating('VALIDATING'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.completed:
-        return 'COMPLETED';
-      case DeploymentStatus.creating:
-        return 'CREATING';
-      case DeploymentStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case DeploymentStatus.deleteInitiating:
-        return 'DELETE_INITIATING';
-      case DeploymentStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case DeploymentStatus.deleted:
-        return 'DELETED';
-      case DeploymentStatus.failed:
-        return 'FAILED';
-      case DeploymentStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DeploymentStatus.validating:
-        return 'VALIDATING';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return DeploymentStatus.completed;
-      case 'CREATING':
-        return DeploymentStatus.creating;
-      case 'DELETE_IN_PROGRESS':
-        return DeploymentStatus.deleteInProgress;
-      case 'DELETE_INITIATING':
-        return DeploymentStatus.deleteInitiating;
-      case 'DELETE_FAILED':
-        return DeploymentStatus.deleteFailed;
-      case 'DELETED':
-        return DeploymentStatus.deleted;
-      case 'FAILED':
-        return DeploymentStatus.failed;
-      case 'IN_PROGRESS':
-        return DeploymentStatus.inProgress;
-      case 'VALIDATING':
-        return DeploymentStatus.validating;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 enum EventStatus {
-  canceled,
-  canceling,
-  completed,
-  created,
-  failed,
-  inProgress,
-  pending,
-  timedOut,
-}
+  canceled('CANCELED'),
+  canceling('CANCELING'),
+  completed('COMPLETED'),
+  created('CREATED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  pending('PENDING'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension EventStatusValueExtension on EventStatus {
-  String toValue() {
-    switch (this) {
-      case EventStatus.canceled:
-        return 'CANCELED';
-      case EventStatus.canceling:
-        return 'CANCELING';
-      case EventStatus.completed:
-        return 'COMPLETED';
-      case EventStatus.created:
-        return 'CREATED';
-      case EventStatus.failed:
-        return 'FAILED';
-      case EventStatus.inProgress:
-        return 'IN_PROGRESS';
-      case EventStatus.pending:
-        return 'PENDING';
-      case EventStatus.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension EventStatusFromString on String {
-  EventStatus toEventStatus() {
-    switch (this) {
-      case 'CANCELED':
-        return EventStatus.canceled;
-      case 'CANCELING':
-        return EventStatus.canceling;
-      case 'COMPLETED':
-        return EventStatus.completed;
-      case 'CREATED':
-        return EventStatus.created;
-      case 'FAILED':
-        return EventStatus.failed;
-      case 'IN_PROGRESS':
-        return EventStatus.inProgress;
-      case 'PENDING':
-        return EventStatus.pending;
-      case 'TIMED_OUT':
-        return EventStatus.timedOut;
-    }
-    throw Exception('$this is not known in enum EventStatus');
-  }
+  const EventStatus(this.value);
+
+  static EventStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventStatus'));
 }
 
 class GetDeploymentOutput {
@@ -1309,7 +1217,7 @@ class WorkloadData {
       displayName: json['displayName'] as String?,
       documentationUrl: json['documentationUrl'] as String?,
       iconUrl: json['iconUrl'] as String?,
-      status: (json['status'] as String?)?.toWorkloadStatus(),
+      status: (json['status'] as String?)?.let(WorkloadStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       workloadName: json['workloadName'] as String?,
     );
@@ -1328,7 +1236,7 @@ class WorkloadData {
       if (displayName != null) 'displayName': displayName,
       if (documentationUrl != null) 'documentationUrl': documentationUrl,
       if (iconUrl != null) 'iconUrl': iconUrl,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (workloadName != null) 'workloadName': workloadName,
     };
@@ -1420,7 +1328,8 @@ class WorkloadDeploymentPatternData {
           .map((e) =>
               DeploymentSpecificationsField.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toWorkloadDeploymentPatternStatus(),
+      status: (json['status'] as String?)
+          ?.let(WorkloadDeploymentPatternStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       workloadName: json['workloadName'] as String?,
       workloadVersionName: json['workloadVersionName'] as String?,
@@ -1442,7 +1351,7 @@ class WorkloadDeploymentPatternData {
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
       if (specifications != null) 'specifications': specifications,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (workloadName != null) 'workloadName': workloadName,
       if (workloadVersionName != null)
@@ -1490,7 +1399,8 @@ class WorkloadDeploymentPatternDataSummary {
       deploymentPatternName: json['deploymentPatternName'] as String?,
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
-      status: (json['status'] as String?)?.toWorkloadDeploymentPatternStatus(),
+      status: (json['status'] as String?)
+          ?.let(WorkloadDeploymentPatternStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       workloadName: json['workloadName'] as String?,
       workloadVersionName: json['workloadVersionName'] as String?,
@@ -1510,7 +1420,7 @@ class WorkloadDeploymentPatternDataSummary {
         'deploymentPatternName': deploymentPatternName,
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (workloadName != null) 'workloadName': workloadName,
       if (workloadVersionName != null)
@@ -1520,81 +1430,37 @@ class WorkloadDeploymentPatternDataSummary {
 }
 
 enum WorkloadDeploymentPatternStatus {
-  active,
-  inactive,
-  disabled,
-  deleted,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  disabled('DISABLED'),
+  deleted('DELETED'),
+  ;
 
-extension WorkloadDeploymentPatternStatusValueExtension
-    on WorkloadDeploymentPatternStatus {
-  String toValue() {
-    switch (this) {
-      case WorkloadDeploymentPatternStatus.active:
-        return 'ACTIVE';
-      case WorkloadDeploymentPatternStatus.inactive:
-        return 'INACTIVE';
-      case WorkloadDeploymentPatternStatus.disabled:
-        return 'DISABLED';
-      case WorkloadDeploymentPatternStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension WorkloadDeploymentPatternStatusFromString on String {
-  WorkloadDeploymentPatternStatus toWorkloadDeploymentPatternStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return WorkloadDeploymentPatternStatus.active;
-      case 'INACTIVE':
-        return WorkloadDeploymentPatternStatus.inactive;
-      case 'DISABLED':
-        return WorkloadDeploymentPatternStatus.disabled;
-      case 'DELETED':
-        return WorkloadDeploymentPatternStatus.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum WorkloadDeploymentPatternStatus');
-  }
+  const WorkloadDeploymentPatternStatus(this.value);
+
+  static WorkloadDeploymentPatternStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkloadDeploymentPatternStatus'));
 }
 
 enum WorkloadStatus {
-  active,
-  inactive,
-  disabled,
-  deleted,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  disabled('DISABLED'),
+  deleted('DELETED'),
+  ;
 
-extension WorkloadStatusValueExtension on WorkloadStatus {
-  String toValue() {
-    switch (this) {
-      case WorkloadStatus.active:
-        return 'ACTIVE';
-      case WorkloadStatus.inactive:
-        return 'INACTIVE';
-      case WorkloadStatus.disabled:
-        return 'DISABLED';
-      case WorkloadStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension WorkloadStatusFromString on String {
-  WorkloadStatus toWorkloadStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return WorkloadStatus.active;
-      case 'INACTIVE':
-        return WorkloadStatus.inactive;
-      case 'DISABLED':
-        return WorkloadStatus.disabled;
-      case 'DELETED':
-        return WorkloadStatus.deleted;
-    }
-    throw Exception('$this is not known in enum WorkloadStatus');
-  }
+  const WorkloadStatus(this.value);
+
+  static WorkloadStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkloadStatus'));
 }
 
 class InternalServerException extends _s.GenericAwsException {

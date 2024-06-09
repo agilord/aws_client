@@ -231,7 +231,7 @@ class LicenseManagerLinuxSubscriptions {
     bool? allowUpdate,
   }) async {
     final $payload = <String, dynamic>{
-      'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.toValue(),
+      'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.value,
       'LinuxSubscriptionsDiscoverySettings':
           linuxSubscriptionsDiscoverySettings,
       if (allowUpdate != null) 'AllowUpdate': allowUpdate,
@@ -271,7 +271,7 @@ class Filter {
     final values = this.values;
     return {
       if (name != null) 'Name': name,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
       if (values != null) 'Values': values,
     };
   }
@@ -314,14 +314,14 @@ class GetServiceSettingsResponse {
           .toList(),
       linuxSubscriptionsDiscovery:
           (json['LinuxSubscriptionsDiscovery'] as String?)
-              ?.toLinuxSubscriptionsDiscovery(),
+              ?.let(LinuxSubscriptionsDiscovery.fromString),
       linuxSubscriptionsDiscoverySettings:
           json['LinuxSubscriptionsDiscoverySettings'] != null
               ? LinuxSubscriptionsDiscoverySettings.fromJson(
                   json['LinuxSubscriptionsDiscoverySettings']
                       as Map<String, dynamic>)
               : null,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       statusMessage: (json['StatusMessage'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -337,11 +337,11 @@ class GetServiceSettingsResponse {
     return {
       if (homeRegions != null) 'HomeRegions': homeRegions,
       if (linuxSubscriptionsDiscovery != null)
-        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.toValue(),
+        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.value,
       if (linuxSubscriptionsDiscoverySettings != null)
         'LinuxSubscriptionsDiscoverySettings':
             linuxSubscriptionsDiscoverySettings,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -443,32 +443,18 @@ class Instance {
 }
 
 enum LinuxSubscriptionsDiscovery {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension LinuxSubscriptionsDiscoveryValueExtension
-    on LinuxSubscriptionsDiscovery {
-  String toValue() {
-    switch (this) {
-      case LinuxSubscriptionsDiscovery.enabled:
-        return 'Enabled';
-      case LinuxSubscriptionsDiscovery.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension LinuxSubscriptionsDiscoveryFromString on String {
-  LinuxSubscriptionsDiscovery toLinuxSubscriptionsDiscovery() {
-    switch (this) {
-      case 'Enabled':
-        return LinuxSubscriptionsDiscovery.enabled;
-      case 'Disabled':
-        return LinuxSubscriptionsDiscovery.disabled;
-    }
-    throw Exception('$this is not known in enum LinuxSubscriptionsDiscovery');
-  }
+  const LinuxSubscriptionsDiscovery(this.value);
+
+  static LinuxSubscriptionsDiscovery fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LinuxSubscriptionsDiscovery'));
 }
 
 /// Lists the settings defined for discovering Linux subscriptions.
@@ -488,8 +474,8 @@ class LinuxSubscriptionsDiscoverySettings {
   factory LinuxSubscriptionsDiscoverySettings.fromJson(
       Map<String, dynamic> json) {
     return LinuxSubscriptionsDiscoverySettings(
-      organizationIntegration: (json['OrganizationIntegration'] as String)
-          .toOrganizationIntegration(),
+      organizationIntegration: OrganizationIntegration.fromString(
+          (json['OrganizationIntegration'] as String)),
       sourceRegions: (json['SourceRegions'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -501,7 +487,7 @@ class LinuxSubscriptionsDiscoverySettings {
     final organizationIntegration = this.organizationIntegration;
     final sourceRegions = this.sourceRegions;
     return {
-      'OrganizationIntegration': organizationIntegration.toValue(),
+      'OrganizationIntegration': organizationIntegration.value,
       'SourceRegions': sourceRegions,
     };
   }
@@ -573,102 +559,49 @@ class ListLinuxSubscriptionsResponse {
 }
 
 enum Operator {
-  equal,
-  notEqual,
-  contains,
-}
+  equal('Equal'),
+  notEqual('NotEqual'),
+  contains('Contains'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equal:
-        return 'Equal';
-      case Operator.notEqual:
-        return 'NotEqual';
-      case Operator.contains:
-        return 'Contains';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'Equal':
-        return Operator.equal;
-      case 'NotEqual':
-        return Operator.notEqual;
-      case 'Contains':
-        return Operator.contains;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 enum OrganizationIntegration {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension OrganizationIntegrationValueExtension on OrganizationIntegration {
-  String toValue() {
-    switch (this) {
-      case OrganizationIntegration.enabled:
-        return 'Enabled';
-      case OrganizationIntegration.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationIntegrationFromString on String {
-  OrganizationIntegration toOrganizationIntegration() {
-    switch (this) {
-      case 'Enabled':
-        return OrganizationIntegration.enabled;
-      case 'Disabled':
-        return OrganizationIntegration.disabled;
-    }
-    throw Exception('$this is not known in enum OrganizationIntegration');
-  }
+  const OrganizationIntegration(this.value);
+
+  static OrganizationIntegration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationIntegration'));
 }
 
 enum Status {
-  inProgress,
-  completed,
-  successful,
-  failed,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  successful('Successful'),
+  failed('Failed'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.inProgress:
-        return 'InProgress';
-      case Status.completed:
-        return 'Completed';
-      case Status.successful:
-        return 'Successful';
-      case Status.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'InProgress':
-        return Status.inProgress;
-      case 'Completed':
-        return Status.completed;
-      case 'Successful':
-        return Status.successful;
-      case 'Failed':
-        return Status.failed;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// An object which details a discovered Linux subscription.
@@ -749,14 +682,14 @@ class UpdateServiceSettingsResponse {
           .toList(),
       linuxSubscriptionsDiscovery:
           (json['LinuxSubscriptionsDiscovery'] as String?)
-              ?.toLinuxSubscriptionsDiscovery(),
+              ?.let(LinuxSubscriptionsDiscovery.fromString),
       linuxSubscriptionsDiscoverySettings:
           json['LinuxSubscriptionsDiscoverySettings'] != null
               ? LinuxSubscriptionsDiscoverySettings.fromJson(
                   json['LinuxSubscriptionsDiscoverySettings']
                       as Map<String, dynamic>)
               : null,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       statusMessage: (json['StatusMessage'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -772,11 +705,11 @@ class UpdateServiceSettingsResponse {
     return {
       if (homeRegions != null) 'HomeRegions': homeRegions,
       if (linuxSubscriptionsDiscovery != null)
-        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.toValue(),
+        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.value,
       if (linuxSubscriptionsDiscoverySettings != null)
         'LinuxSubscriptionsDiscoverySettings':
             linuxSubscriptionsDiscoverySettings,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }

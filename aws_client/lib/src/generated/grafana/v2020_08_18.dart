@@ -99,7 +99,7 @@ class ManagedGrafana {
       payload: null,
       method: 'POST',
       requestUri:
-          '/workspaces/${Uri.encodeComponent(workspaceId)}/licenses/${Uri.encodeComponent(licenseType.toValue())}',
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/licenses/${Uri.encodeComponent(licenseType.value)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -256,10 +256,10 @@ class ManagedGrafana {
     String? workspaceRoleArn,
   }) async {
     final $payload = <String, dynamic>{
-      'accountAccessType': accountAccessType.toValue(),
+      'accountAccessType': accountAccessType.value,
       'authenticationProviders':
-          authenticationProviders.map((e) => e.toValue()).toList(),
-      'permissionType': permissionType.toValue(),
+          authenticationProviders.map((e) => e.value).toList(),
+      'permissionType': permissionType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configuration != null) 'configuration': jsonEncode(configuration),
       if (grafanaVersion != null) 'grafanaVersion': grafanaVersion,
@@ -272,13 +272,13 @@ class ManagedGrafana {
       if (vpcConfiguration != null) 'vpcConfiguration': vpcConfiguration,
       if (workspaceDataSources != null)
         'workspaceDataSources':
-            workspaceDataSources.map((e) => e.toValue()).toList(),
+            workspaceDataSources.map((e) => e.value).toList(),
       if (workspaceDescription != null)
         'workspaceDescription': workspaceDescription,
       if (workspaceName != null) 'workspaceName': workspaceName,
       if (workspaceNotificationDestinations != null)
         'workspaceNotificationDestinations':
-            workspaceNotificationDestinations.map((e) => e.toValue()).toList(),
+            workspaceNotificationDestinations.map((e) => e.value).toList(),
       if (workspaceOrganizationalUnits != null)
         'workspaceOrganizationalUnits': workspaceOrganizationalUnits,
       if (workspaceRoleArn != null) 'workspaceRoleArn': workspaceRoleArn,
@@ -398,7 +398,7 @@ class ManagedGrafana {
     required String workspaceId,
   }) async {
     final $payload = <String, dynamic>{
-      'grafanaRole': grafanaRole.toValue(),
+      'grafanaRole': grafanaRole.value,
       'name': name,
     };
     final response = await _protocol.send(
@@ -698,7 +698,7 @@ class ManagedGrafana {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/workspaces/${Uri.encodeComponent(workspaceId)}/licenses/${Uri.encodeComponent(licenseType.toValue())}',
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/licenses/${Uri.encodeComponent(licenseType.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateLicenseResponse.fromJson(response);
@@ -759,7 +759,7 @@ class ManagedGrafana {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (userId != null) 'userId': [userId],
-      if (userType != null) 'userType': [userType.toValue()],
+      if (userType != null) 'userType': [userType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1228,12 +1228,12 @@ class ManagedGrafana {
   }) async {
     final $payload = <String, dynamic>{
       if (accountAccessType != null)
-        'accountAccessType': accountAccessType.toValue(),
+        'accountAccessType': accountAccessType.value,
       if (networkAccessControl != null)
         'networkAccessControl': networkAccessControl,
       if (organizationRoleName != null)
         'organizationRoleName': organizationRoleName,
-      if (permissionType != null) 'permissionType': permissionType.toValue(),
+      if (permissionType != null) 'permissionType': permissionType.value,
       if (removeNetworkAccessConfiguration != null)
         'removeNetworkAccessConfiguration': removeNetworkAccessConfiguration,
       if (removeVpcConfiguration != null)
@@ -1242,13 +1242,13 @@ class ManagedGrafana {
       if (vpcConfiguration != null) 'vpcConfiguration': vpcConfiguration,
       if (workspaceDataSources != null)
         'workspaceDataSources':
-            workspaceDataSources.map((e) => e.toValue()).toList(),
+            workspaceDataSources.map((e) => e.value).toList(),
       if (workspaceDescription != null)
         'workspaceDescription': workspaceDescription,
       if (workspaceName != null) 'workspaceName': workspaceName,
       if (workspaceNotificationDestinations != null)
         'workspaceNotificationDestinations':
-            workspaceNotificationDestinations.map((e) => e.toValue()).toList(),
+            workspaceNotificationDestinations.map((e) => e.value).toList(),
       if (workspaceOrganizationalUnits != null)
         'workspaceOrganizationalUnits': workspaceOrganizationalUnits,
       if (workspaceRoleArn != null) 'workspaceRoleArn': workspaceRoleArn,
@@ -1301,7 +1301,7 @@ class ManagedGrafana {
   }) async {
     final $payload = <String, dynamic>{
       'authenticationProviders':
-          authenticationProviders.map((e) => e.toValue()).toList(),
+          authenticationProviders.map((e) => e.value).toList(),
       if (samlConfiguration != null) 'samlConfiguration': samlConfiguration,
     };
     final response = await _protocol.send(
@@ -1363,31 +1363,18 @@ class ManagedGrafana {
 }
 
 enum AccountAccessType {
-  currentAccount,
-  organization,
-}
+  currentAccount('CURRENT_ACCOUNT'),
+  organization('ORGANIZATION'),
+  ;
 
-extension AccountAccessTypeValueExtension on AccountAccessType {
-  String toValue() {
-    switch (this) {
-      case AccountAccessType.currentAccount:
-        return 'CURRENT_ACCOUNT';
-      case AccountAccessType.organization:
-        return 'ORGANIZATION';
-    }
-  }
-}
+  final String value;
 
-extension AccountAccessTypeFromString on String {
-  AccountAccessType toAccountAccessType() {
-    switch (this) {
-      case 'CURRENT_ACCOUNT':
-        return AccountAccessType.currentAccount;
-      case 'ORGANIZATION':
-        return AccountAccessType.organization;
-    }
-    throw Exception('$this is not known in enum AccountAccessType');
-  }
+  const AccountAccessType(this.value);
+
+  static AccountAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountAccessType'));
 }
 
 /// A structure that defines which attributes in the IdP assertion are to be
@@ -1506,7 +1493,7 @@ class AuthenticationDescription {
     return AuthenticationDescription(
       providers: (json['providers'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAuthenticationProviderTypes())
+          .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
       awsSso: json['awsSso'] != null
           ? AwsSsoAuthentication.fromJson(
@@ -1523,7 +1510,7 @@ class AuthenticationDescription {
     final awsSso = this.awsSso;
     final saml = this.saml;
     return {
-      'providers': providers.map((e) => e.toValue()).toList(),
+      'providers': providers.map((e) => e.value).toList(),
       if (awsSso != null) 'awsSso': awsSso,
       if (saml != null) 'saml': saml,
     };
@@ -1531,32 +1518,18 @@ class AuthenticationDescription {
 }
 
 enum AuthenticationProviderTypes {
-  awsSso,
-  saml,
-}
+  awsSso('AWS_SSO'),
+  saml('SAML'),
+  ;
 
-extension AuthenticationProviderTypesValueExtension
-    on AuthenticationProviderTypes {
-  String toValue() {
-    switch (this) {
-      case AuthenticationProviderTypes.awsSso:
-        return 'AWS_SSO';
-      case AuthenticationProviderTypes.saml:
-        return 'SAML';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationProviderTypesFromString on String {
-  AuthenticationProviderTypes toAuthenticationProviderTypes() {
-    switch (this) {
-      case 'AWS_SSO':
-        return AuthenticationProviderTypes.awsSso;
-      case 'SAML':
-        return AuthenticationProviderTypes.saml;
-    }
-    throw Exception('$this is not known in enum AuthenticationProviderTypes');
-  }
+  const AuthenticationProviderTypes(this.value);
+
+  static AuthenticationProviderTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticationProviderTypes'));
 }
 
 /// A structure that describes whether the workspace uses SAML, IAM Identity
@@ -1580,10 +1553,10 @@ class AuthenticationSummary {
     return AuthenticationSummary(
       providers: (json['providers'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAuthenticationProviderTypes())
+          .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
       samlConfigurationStatus: (json['samlConfigurationStatus'] as String?)
-          ?.toSamlConfigurationStatus(),
+          ?.let(SamlConfigurationStatus.fromString),
     );
   }
 
@@ -1591,9 +1564,9 @@ class AuthenticationSummary {
     final providers = this.providers;
     final samlConfigurationStatus = this.samlConfigurationStatus;
     return {
-      'providers': providers.map((e) => e.toValue()).toList(),
+      'providers': providers.map((e) => e.value).toList(),
       if (samlConfigurationStatus != null)
-        'samlConfigurationStatus': samlConfigurationStatus.toValue(),
+        'samlConfigurationStatus': samlConfigurationStatus.value,
     };
   }
 }
@@ -1706,7 +1679,7 @@ class CreateWorkspaceServiceAccountResponse {
   factory CreateWorkspaceServiceAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateWorkspaceServiceAccountResponse(
-      grafanaRole: (json['grafanaRole'] as String).toRole(),
+      grafanaRole: Role.fromString((json['grafanaRole'] as String)),
       id: json['id'] as String,
       name: json['name'] as String,
       workspaceId: json['workspaceId'] as String,
@@ -1719,7 +1692,7 @@ class CreateWorkspaceServiceAccountResponse {
     final name = this.name;
     final workspaceId = this.workspaceId;
     return {
-      'grafanaRole': grafanaRole.toValue(),
+      'grafanaRole': grafanaRole.value,
       'id': id,
       'name': name,
       'workspaceId': workspaceId,
@@ -1767,66 +1740,25 @@ class CreateWorkspaceServiceAccountTokenResponse {
 }
 
 enum DataSourceType {
-  amazonOpensearchService,
-  cloudwatch,
-  prometheus,
-  xray,
-  timestream,
-  sitewise,
-  athena,
-  redshift,
-  twinmaker,
-}
+  amazonOpensearchService('AMAZON_OPENSEARCH_SERVICE'),
+  cloudwatch('CLOUDWATCH'),
+  prometheus('PROMETHEUS'),
+  xray('XRAY'),
+  timestream('TIMESTREAM'),
+  sitewise('SITEWISE'),
+  athena('ATHENA'),
+  redshift('REDSHIFT'),
+  twinmaker('TWINMAKER'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.amazonOpensearchService:
-        return 'AMAZON_OPENSEARCH_SERVICE';
-      case DataSourceType.cloudwatch:
-        return 'CLOUDWATCH';
-      case DataSourceType.prometheus:
-        return 'PROMETHEUS';
-      case DataSourceType.xray:
-        return 'XRAY';
-      case DataSourceType.timestream:
-        return 'TIMESTREAM';
-      case DataSourceType.sitewise:
-        return 'SITEWISE';
-      case DataSourceType.athena:
-        return 'ATHENA';
-      case DataSourceType.redshift:
-        return 'REDSHIFT';
-      case DataSourceType.twinmaker:
-        return 'TWINMAKER';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'AMAZON_OPENSEARCH_SERVICE':
-        return DataSourceType.amazonOpensearchService;
-      case 'CLOUDWATCH':
-        return DataSourceType.cloudwatch;
-      case 'PROMETHEUS':
-        return DataSourceType.prometheus;
-      case 'XRAY':
-        return DataSourceType.xray;
-      case 'TIMESTREAM':
-        return DataSourceType.timestream;
-      case 'SITEWISE':
-        return DataSourceType.sitewise;
-      case 'ATHENA':
-        return DataSourceType.athena;
-      case 'REDSHIFT':
-        return DataSourceType.redshift;
-      case 'TWINMAKER':
-        return DataSourceType.twinmaker;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 class DeleteWorkspaceApiKeyResponse {
@@ -2087,31 +2019,17 @@ class IdpMetadata {
 }
 
 enum LicenseType {
-  enterprise,
-  enterpriseFreeTrial,
-}
+  enterprise('ENTERPRISE'),
+  enterpriseFreeTrial('ENTERPRISE_FREE_TRIAL'),
+  ;
 
-extension LicenseTypeValueExtension on LicenseType {
-  String toValue() {
-    switch (this) {
-      case LicenseType.enterprise:
-        return 'ENTERPRISE';
-      case LicenseType.enterpriseFreeTrial:
-        return 'ENTERPRISE_FREE_TRIAL';
-    }
-  }
-}
+  final String value;
 
-extension LicenseTypeFromString on String {
-  LicenseType toLicenseType() {
-    switch (this) {
-      case 'ENTERPRISE':
-        return LicenseType.enterprise;
-      case 'ENTERPRISE_FREE_TRIAL':
-        return LicenseType.enterpriseFreeTrial;
-    }
-    throw Exception('$this is not known in enum LicenseType');
-  }
+  const LicenseType(this.value);
+
+  static LicenseType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LicenseType'));
 }
 
 class ListPermissionsResponse {
@@ -2408,27 +2326,17 @@ class NetworkAccessConfiguration {
 }
 
 enum NotificationDestinationType {
-  sns,
-}
+  sns('SNS'),
+  ;
 
-extension NotificationDestinationTypeValueExtension
-    on NotificationDestinationType {
-  String toValue() {
-    switch (this) {
-      case NotificationDestinationType.sns:
-        return 'SNS';
-    }
-  }
-}
+  final String value;
 
-extension NotificationDestinationTypeFromString on String {
-  NotificationDestinationType toNotificationDestinationType() {
-    switch (this) {
-      case 'SNS':
-        return NotificationDestinationType.sns;
-    }
-    throw Exception('$this is not known in enum NotificationDestinationType');
-  }
+  const NotificationDestinationType(this.value);
+
+  static NotificationDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotificationDestinationType'));
 }
 
 /// A structure containing the identity of one user or group and the
@@ -2449,7 +2357,7 @@ class PermissionEntry {
 
   factory PermissionEntry.fromJson(Map<String, dynamic> json) {
     return PermissionEntry(
-      role: (json['role'] as String).toRole(),
+      role: Role.fromString((json['role'] as String)),
       user: User.fromJson(json['user'] as Map<String, dynamic>),
     );
   }
@@ -2458,71 +2366,40 @@ class PermissionEntry {
     final role = this.role;
     final user = this.user;
     return {
-      'role': role.toValue(),
+      'role': role.value,
       'user': user,
     };
   }
 }
 
 enum PermissionType {
-  customerManaged,
-  serviceManaged,
-}
+  customerManaged('CUSTOMER_MANAGED'),
+  serviceManaged('SERVICE_MANAGED'),
+  ;
 
-extension PermissionTypeValueExtension on PermissionType {
-  String toValue() {
-    switch (this) {
-      case PermissionType.customerManaged:
-        return 'CUSTOMER_MANAGED';
-      case PermissionType.serviceManaged:
-        return 'SERVICE_MANAGED';
-    }
-  }
-}
+  final String value;
 
-extension PermissionTypeFromString on String {
-  PermissionType toPermissionType() {
-    switch (this) {
-      case 'CUSTOMER_MANAGED':
-        return PermissionType.customerManaged;
-      case 'SERVICE_MANAGED':
-        return PermissionType.serviceManaged;
-    }
-    throw Exception('$this is not known in enum PermissionType');
-  }
+  const PermissionType(this.value);
+
+  static PermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PermissionType'));
 }
 
 enum Role {
-  admin,
-  editor,
-  viewer,
-}
+  admin('ADMIN'),
+  editor('EDITOR'),
+  viewer('VIEWER'),
+  ;
 
-extension RoleValueExtension on Role {
-  String toValue() {
-    switch (this) {
-      case Role.admin:
-        return 'ADMIN';
-      case Role.editor:
-        return 'EDITOR';
-      case Role.viewer:
-        return 'VIEWER';
-    }
-  }
-}
+  final String value;
 
-extension RoleFromString on String {
-  Role toRole() {
-    switch (this) {
-      case 'ADMIN':
-        return Role.admin;
-      case 'EDITOR':
-        return Role.editor;
-      case 'VIEWER':
-        return Role.viewer;
-    }
-    throw Exception('$this is not known in enum Role');
-  }
+  const Role(this.value);
+
+  static Role fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Role'));
 }
 
 /// This structure defines which groups defined in the SAML assertion attribute
@@ -2582,7 +2459,7 @@ class SamlAuthentication {
 
   factory SamlAuthentication.fromJson(Map<String, dynamic> json) {
     return SamlAuthentication(
-      status: (json['status'] as String).toSamlConfigurationStatus(),
+      status: SamlConfigurationStatus.fromString((json['status'] as String)),
       configuration: json['configuration'] != null
           ? SamlConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -2594,7 +2471,7 @@ class SamlAuthentication {
     final status = this.status;
     final configuration = this.configuration;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       if (configuration != null) 'configuration': configuration,
     };
   }
@@ -2672,31 +2549,18 @@ class SamlConfiguration {
 }
 
 enum SamlConfigurationStatus {
-  configured,
-  notConfigured,
-}
+  configured('CONFIGURED'),
+  notConfigured('NOT_CONFIGURED'),
+  ;
 
-extension SamlConfigurationStatusValueExtension on SamlConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case SamlConfigurationStatus.configured:
-        return 'CONFIGURED';
-      case SamlConfigurationStatus.notConfigured:
-        return 'NOT_CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension SamlConfigurationStatusFromString on String {
-  SamlConfigurationStatus toSamlConfigurationStatus() {
-    switch (this) {
-      case 'CONFIGURED':
-        return SamlConfigurationStatus.configured;
-      case 'NOT_CONFIGURED':
-        return SamlConfigurationStatus.notConfigured;
-    }
-    throw Exception('$this is not known in enum SamlConfigurationStatus');
-  }
+  const SamlConfigurationStatus(this.value);
+
+  static SamlConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SamlConfigurationStatus'));
 }
 
 /// A structure that contains the information about one service account.
@@ -2724,7 +2588,7 @@ class ServiceAccountSummary {
 
   factory ServiceAccountSummary.fromJson(Map<String, dynamic> json) {
     return ServiceAccountSummary(
-      grafanaRole: (json['grafanaRole'] as String).toRole(),
+      grafanaRole: Role.fromString((json['grafanaRole'] as String)),
       id: json['id'] as String,
       isDisabled: json['isDisabled'] as String,
       name: json['name'] as String,
@@ -2737,7 +2601,7 @@ class ServiceAccountSummary {
     final isDisabled = this.isDisabled;
     final name = this.name;
     return {
-      'grafanaRole': grafanaRole.toValue(),
+      'grafanaRole': grafanaRole.value,
       'id': id,
       'isDisabled': isDisabled,
       'name': name,
@@ -2867,31 +2731,18 @@ class UntagResourceResponse {
 }
 
 enum UpdateAction {
-  add,
-  revoke,
-}
+  add('ADD'),
+  revoke('REVOKE'),
+  ;
 
-extension UpdateActionValueExtension on UpdateAction {
-  String toValue() {
-    switch (this) {
-      case UpdateAction.add:
-        return 'ADD';
-      case UpdateAction.revoke:
-        return 'REVOKE';
-    }
-  }
-}
+  final String value;
 
-extension UpdateActionFromString on String {
-  UpdateAction toUpdateAction() {
-    switch (this) {
-      case 'ADD':
-        return UpdateAction.add;
-      case 'REVOKE':
-        return UpdateAction.revoke;
-    }
-    throw Exception('$this is not known in enum UpdateAction');
-  }
+  const UpdateAction(this.value);
+
+  static UpdateAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateAction'));
 }
 
 /// A structure containing information about one error encountered while
@@ -2957,8 +2808,8 @@ class UpdateInstruction {
 
   factory UpdateInstruction.fromJson(Map<String, dynamic> json) {
     return UpdateInstruction(
-      action: (json['action'] as String).toUpdateAction(),
-      role: (json['role'] as String).toRole(),
+      action: UpdateAction.fromString((json['action'] as String)),
+      role: Role.fromString((json['role'] as String)),
       users: (json['users'] as List)
           .whereNotNull()
           .map((e) => User.fromJson(e as Map<String, dynamic>))
@@ -2971,8 +2822,8 @@ class UpdateInstruction {
     final role = this.role;
     final users = this.users;
     return {
-      'action': action.toValue(),
-      'role': role.toValue(),
+      'action': action.value,
+      'role': role.value,
       'users': users,
     };
   }
@@ -3083,7 +2934,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as String,
-      type: (json['type'] as String).toUserType(),
+      type: UserType.fromString((json['type'] as String)),
     );
   }
 
@@ -3092,37 +2943,23 @@ class User {
     final type = this.type;
     return {
       'id': id,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum UserType {
-  ssoUser,
-  ssoGroup,
-}
+  ssoUser('SSO_USER'),
+  ssoGroup('SSO_GROUP'),
+  ;
 
-extension UserTypeValueExtension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.ssoUser:
-        return 'SSO_USER';
-      case UserType.ssoGroup:
-        return 'SSO_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension UserTypeFromString on String {
-  UserType toUserType() {
-    switch (this) {
-      case 'SSO_USER':
-        return UserType.ssoUser;
-      case 'SSO_GROUP':
-        return UserType.ssoGroup;
-    }
-    throw Exception('$this is not known in enum UserType');
-  }
+  const UserType(this.value);
+
+  static UserType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserType'));
 }
 
 /// The configuration settings for an Amazon VPC that contains data sources for
@@ -3347,21 +3184,22 @@ class WorkspaceDescription {
       created: nonNullableTimeStampFromJson(json['created'] as Object),
       dataSources: (json['dataSources'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toDataSourceType())
+          .map((e) => DataSourceType.fromString((e as String)))
           .toList(),
       endpoint: json['endpoint'] as String,
       grafanaVersion: json['grafanaVersion'] as String,
       id: json['id'] as String,
       modified: nonNullableTimeStampFromJson(json['modified'] as Object),
-      status: (json['status'] as String).toWorkspaceStatus(),
-      accountAccessType:
-          (json['accountAccessType'] as String?)?.toAccountAccessType(),
+      status: WorkspaceStatus.fromString((json['status'] as String)),
+      accountAccessType: (json['accountAccessType'] as String?)
+          ?.let(AccountAccessType.fromString),
       description: json['description'] as String?,
       freeTrialConsumed: json['freeTrialConsumed'] as bool?,
       freeTrialExpiration: timeStampFromJson(json['freeTrialExpiration']),
       grafanaToken: json['grafanaToken'] as String?,
       licenseExpiration: timeStampFromJson(json['licenseExpiration']),
-      licenseType: (json['licenseType'] as String?)?.toLicenseType(),
+      licenseType:
+          (json['licenseType'] as String?)?.let(LicenseType.fromString),
       name: json['name'] as String?,
       networkAccessControl: json['networkAccessControl'] != null
           ? NetworkAccessConfiguration.fromJson(
@@ -3369,14 +3207,15 @@ class WorkspaceDescription {
           : null,
       notificationDestinations: (json['notificationDestinations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toNotificationDestinationType())
+          .map((e) => NotificationDestinationType.fromString((e as String)))
           .toList(),
       organizationRoleName: json['organizationRoleName'] as String?,
       organizationalUnits: (json['organizationalUnits'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      permissionType: (json['permissionType'] as String?)?.toPermissionType(),
+      permissionType:
+          (json['permissionType'] as String?)?.let(PermissionType.fromString),
       stackSetName: json['stackSetName'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3417,14 +3256,14 @@ class WorkspaceDescription {
     return {
       'authentication': authentication,
       'created': unixTimestampToJson(created),
-      'dataSources': dataSources.map((e) => e.toValue()).toList(),
+      'dataSources': dataSources.map((e) => e.value).toList(),
       'endpoint': endpoint,
       'grafanaVersion': grafanaVersion,
       'id': id,
       'modified': unixTimestampToJson(modified),
-      'status': status.toValue(),
+      'status': status.value,
       if (accountAccessType != null)
-        'accountAccessType': accountAccessType.toValue(),
+        'accountAccessType': accountAccessType.value,
       if (description != null) 'description': description,
       if (freeTrialConsumed != null) 'freeTrialConsumed': freeTrialConsumed,
       if (freeTrialExpiration != null)
@@ -3432,18 +3271,18 @@ class WorkspaceDescription {
       if (grafanaToken != null) 'grafanaToken': grafanaToken,
       if (licenseExpiration != null)
         'licenseExpiration': unixTimestampToJson(licenseExpiration),
-      if (licenseType != null) 'licenseType': licenseType.toValue(),
+      if (licenseType != null) 'licenseType': licenseType.value,
       if (name != null) 'name': name,
       if (networkAccessControl != null)
         'networkAccessControl': networkAccessControl,
       if (notificationDestinations != null)
         'notificationDestinations':
-            notificationDestinations.map((e) => e.toValue()).toList(),
+            notificationDestinations.map((e) => e.value).toList(),
       if (organizationRoleName != null)
         'organizationRoleName': organizationRoleName,
       if (organizationalUnits != null)
         'organizationalUnits': organizationalUnits,
-      if (permissionType != null) 'permissionType': permissionType.toValue(),
+      if (permissionType != null) 'permissionType': permissionType.value,
       if (stackSetName != null) 'stackSetName': stackSetName,
       if (tags != null) 'tags': tags,
       if (vpcConfiguration != null) 'vpcConfiguration': vpcConfiguration,
@@ -3453,86 +3292,29 @@ class WorkspaceDescription {
 }
 
 enum WorkspaceStatus {
-  active,
-  creating,
-  deleting,
-  failed,
-  updating,
-  upgrading,
-  deletionFailed,
-  creationFailed,
-  updateFailed,
-  upgradeFailed,
-  licenseRemovalFailed,
-  versionUpdating,
-  versionUpdateFailed,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  upgrading('UPGRADING'),
+  deletionFailed('DELETION_FAILED'),
+  creationFailed('CREATION_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  upgradeFailed('UPGRADE_FAILED'),
+  licenseRemovalFailed('LICENSE_REMOVAL_FAILED'),
+  versionUpdating('VERSION_UPDATING'),
+  versionUpdateFailed('VERSION_UPDATE_FAILED'),
+  ;
 
-extension WorkspaceStatusValueExtension on WorkspaceStatus {
-  String toValue() {
-    switch (this) {
-      case WorkspaceStatus.active:
-        return 'ACTIVE';
-      case WorkspaceStatus.creating:
-        return 'CREATING';
-      case WorkspaceStatus.deleting:
-        return 'DELETING';
-      case WorkspaceStatus.failed:
-        return 'FAILED';
-      case WorkspaceStatus.updating:
-        return 'UPDATING';
-      case WorkspaceStatus.upgrading:
-        return 'UPGRADING';
-      case WorkspaceStatus.deletionFailed:
-        return 'DELETION_FAILED';
-      case WorkspaceStatus.creationFailed:
-        return 'CREATION_FAILED';
-      case WorkspaceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case WorkspaceStatus.upgradeFailed:
-        return 'UPGRADE_FAILED';
-      case WorkspaceStatus.licenseRemovalFailed:
-        return 'LICENSE_REMOVAL_FAILED';
-      case WorkspaceStatus.versionUpdating:
-        return 'VERSION_UPDATING';
-      case WorkspaceStatus.versionUpdateFailed:
-        return 'VERSION_UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceStatusFromString on String {
-  WorkspaceStatus toWorkspaceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return WorkspaceStatus.active;
-      case 'CREATING':
-        return WorkspaceStatus.creating;
-      case 'DELETING':
-        return WorkspaceStatus.deleting;
-      case 'FAILED':
-        return WorkspaceStatus.failed;
-      case 'UPDATING':
-        return WorkspaceStatus.updating;
-      case 'UPGRADING':
-        return WorkspaceStatus.upgrading;
-      case 'DELETION_FAILED':
-        return WorkspaceStatus.deletionFailed;
-      case 'CREATION_FAILED':
-        return WorkspaceStatus.creationFailed;
-      case 'UPDATE_FAILED':
-        return WorkspaceStatus.updateFailed;
-      case 'UPGRADE_FAILED':
-        return WorkspaceStatus.upgradeFailed;
-      case 'LICENSE_REMOVAL_FAILED':
-        return WorkspaceStatus.licenseRemovalFailed;
-      case 'VERSION_UPDATING':
-        return WorkspaceStatus.versionUpdating;
-      case 'VERSION_UPDATE_FAILED':
-        return WorkspaceStatus.versionUpdateFailed;
-    }
-    throw Exception('$this is not known in enum WorkspaceStatus');
-  }
+  const WorkspaceStatus(this.value);
+
+  static WorkspaceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkspaceStatus'));
 }
 
 /// A structure that contains some information about one workspace in the
@@ -3612,14 +3394,15 @@ class WorkspaceSummary {
       grafanaVersion: json['grafanaVersion'] as String,
       id: json['id'] as String,
       modified: nonNullableTimeStampFromJson(json['modified'] as Object),
-      status: (json['status'] as String).toWorkspaceStatus(),
+      status: WorkspaceStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       grafanaToken: json['grafanaToken'] as String?,
-      licenseType: (json['licenseType'] as String?)?.toLicenseType(),
+      licenseType:
+          (json['licenseType'] as String?)?.let(LicenseType.fromString),
       name: json['name'] as String?,
       notificationDestinations: (json['notificationDestinations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toNotificationDestinationType())
+          .map((e) => NotificationDestinationType.fromString((e as String)))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3647,14 +3430,14 @@ class WorkspaceSummary {
       'grafanaVersion': grafanaVersion,
       'id': id,
       'modified': unixTimestampToJson(modified),
-      'status': status.toValue(),
+      'status': status.value,
       if (description != null) 'description': description,
       if (grafanaToken != null) 'grafanaToken': grafanaToken,
-      if (licenseType != null) 'licenseType': licenseType.toValue(),
+      if (licenseType != null) 'licenseType': licenseType.value,
       if (name != null) 'name': name,
       if (notificationDestinations != null)
         'notificationDestinations':
-            notificationDestinations.map((e) => e.toValue()).toList(),
+            notificationDestinations.map((e) => e.value).toList(),
       if (tags != null) 'tags': tags,
     };
   }

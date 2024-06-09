@@ -209,7 +209,7 @@ class MigrationHubOrchestrator {
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      'stepActionType': stepActionType.toValue(),
+      'stepActionType': stepActionType.value,
       'stepGroupId': stepGroupId,
       'workflowId': workflowId,
       if (description != null) 'description': description,
@@ -865,7 +865,7 @@ class MigrationHubOrchestrator {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (name != null) 'name': [name],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
       if (templateId != null) 'templateId': [templateId],
     };
     final response = await _protocol.send(
@@ -1160,8 +1160,8 @@ class MigrationHubOrchestrator {
       if (next != null) 'next': next,
       if (outputs != null) 'outputs': outputs,
       if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.toValue(),
-      if (stepActionType != null) 'stepActionType': stepActionType.toValue(),
+      if (status != null) 'status': status.value,
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
       if (stepTarget != null) 'stepTarget': stepTarget,
       if (workflowStepAutomationConfiguration != null)
         'workflowStepAutomationConfiguration':
@@ -1287,7 +1287,8 @@ class CreateMigrationWorkflowResponse {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       stepTargets: (json['stepTargets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1321,7 +1322,7 @@ class CreateMigrationWorkflowResponse {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stepTargets != null) 'stepTargets': stepTargets,
       if (tags != null) 'tags': tags,
       if (templateId != null) 'templateId': templateId,
@@ -1497,41 +1498,19 @@ class CreateWorkflowStepResponse {
 }
 
 enum DataType {
-  string,
-  integer,
-  stringlist,
-  stringmap,
-}
+  string('STRING'),
+  integer('INTEGER'),
+  stringlist('STRINGLIST'),
+  stringmap('STRINGMAP'),
+  ;
 
-extension DataTypeValueExtension on DataType {
-  String toValue() {
-    switch (this) {
-      case DataType.string:
-        return 'STRING';
-      case DataType.integer:
-        return 'INTEGER';
-      case DataType.stringlist:
-        return 'STRINGLIST';
-      case DataType.stringmap:
-        return 'STRINGMAP';
-    }
-  }
-}
+  final String value;
 
-extension DataTypeFromString on String {
-  DataType toDataType() {
-    switch (this) {
-      case 'STRING':
-        return DataType.string;
-      case 'INTEGER':
-        return DataType.integer;
-      case 'STRINGLIST':
-        return DataType.stringlist;
-      case 'STRINGMAP':
-        return DataType.stringmap;
-    }
-    throw Exception('$this is not known in enum DataType');
-  }
+  const DataType(this.value);
+
+  static DataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataType'));
 }
 
 class DeleteMigrationWorkflowResponse {
@@ -1554,7 +1533,8 @@ class DeleteMigrationWorkflowResponse {
     return DeleteMigrationWorkflowResponse(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
     );
   }
 
@@ -1565,7 +1545,7 @@ class DeleteMigrationWorkflowResponse {
     return {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1706,7 +1686,8 @@ class GetMigrationWorkflowResponse {
       lastStartTime: timeStampFromJson(json['lastStartTime']),
       lastStopTime: timeStampFromJson(json['lastStopTime']),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1761,7 +1742,7 @@ class GetMigrationWorkflowResponse {
       if (lastStopTime != null)
         'lastStopTime': unixTimestampToJson(lastStopTime),
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
       if (templateId != null) 'templateId': templateId,
@@ -1864,7 +1845,7 @@ class GetMigrationWorkflowTemplateResponse {
           .toList(),
       name: json['name'] as String?,
       owner: json['owner'] as String?,
-      status: (json['status'] as String?)?.toTemplateStatus(),
+      status: (json['status'] as String?)?.let(TemplateStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1898,7 +1879,7 @@ class GetMigrationWorkflowTemplateResponse {
       if (inputs != null) 'inputs': inputs,
       if (name != null) 'name': name,
       if (owner != null) 'owner': owner,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
       if (templateArn != null) 'templateArn': templateArn,
@@ -1967,7 +1948,7 @@ class GetTemplateStepGroupResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toStepGroupStatus(),
+      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
       templateId: json['templateId'] as String?,
       tools: (json['tools'] as List?)
           ?.whereNotNull()
@@ -1997,7 +1978,7 @@ class GetTemplateStepGroupResponse {
       if (name != null) 'name': name,
       if (next != null) 'next': next,
       if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (templateId != null) 'templateId': templateId,
       if (tools != null) 'tools': tools,
     };
@@ -2071,7 +2052,8 @@ class GetTemplateStepResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      stepActionType: (json['stepActionType'] as String?)?.toStepActionType(),
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
       stepAutomationConfiguration: json['stepAutomationConfiguration'] != null
           ? StepAutomationConfiguration.fromJson(
               json['stepAutomationConfiguration'] as Map<String, dynamic>)
@@ -2101,7 +2083,7 @@ class GetTemplateStepResponse {
       if (next != null) 'next': next,
       if (outputs != null) 'outputs': outputs,
       if (previous != null) 'previous': previous,
-      if (stepActionType != null) 'stepActionType': stepActionType.toValue(),
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
       if (stepAutomationConfiguration != null)
         'stepAutomationConfiguration': stepAutomationConfiguration,
       if (stepGroupId != null) 'stepGroupId': stepGroupId,
@@ -2174,12 +2156,12 @@ class GetWorkflowStepGroupResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      owner: (json['owner'] as String?)?.toOwner(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toStepGroupStatus(),
+      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
       tools: (json['tools'] as List?)
           ?.whereNotNull()
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
@@ -2211,9 +2193,9 @@ class GetWorkflowStepGroupResponse {
         'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'name': name,
       if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.toValue(),
+      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tools != null) 'tools': tools,
       if (workflowId != null) 'workflowId': workflowId,
     };
@@ -2327,15 +2309,16 @@ class GetWorkflowStepResponse {
           ?.whereNotNull()
           .map((e) => WorkflowStepOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
-      owner: (json['owner'] as String?)?.toOwner(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       scriptOutputLocation: json['scriptOutputLocation'] as String?,
-      status: (json['status'] as String?)?.toStepStatus(),
+      status: (json['status'] as String?)?.let(StepStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
-      stepActionType: (json['stepActionType'] as String?)?.toStepActionType(),
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
       stepGroupId: json['stepGroupId'] as String?,
       stepId: json['stepId'] as String?,
       stepTarget: (json['stepTarget'] as List?)
@@ -2388,13 +2371,13 @@ class GetWorkflowStepResponse {
       if (noOfSrvCompleted != null) 'noOfSrvCompleted': noOfSrvCompleted,
       if (noOfSrvFailed != null) 'noOfSrvFailed': noOfSrvFailed,
       if (outputs != null) 'outputs': outputs,
-      if (owner != null) 'owner': owner.toValue(),
+      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
       if (scriptOutputLocation != null)
         'scriptOutputLocation': scriptOutputLocation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
-      if (stepActionType != null) 'stepActionType': stepActionType.toValue(),
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
       if (stepGroupId != null) 'stepGroupId': stepGroupId,
       if (stepId != null) 'stepId': stepId,
       if (stepTarget != null) 'stepTarget': stepTarget,
@@ -2660,92 +2643,30 @@ class ListWorkflowStepsResponse {
 }
 
 enum MigrationWorkflowStatusEnum {
-  creating,
-  notStarted,
-  creationFailed,
-  starting,
-  inProgress,
-  workflowFailed,
-  paused,
-  pausing,
-  pausingFailed,
-  userAttentionRequired,
-  deleting,
-  deletionFailed,
-  deleted,
-  completed,
-}
+  creating('CREATING'),
+  notStarted('NOT_STARTED'),
+  creationFailed('CREATION_FAILED'),
+  starting('STARTING'),
+  inProgress('IN_PROGRESS'),
+  workflowFailed('WORKFLOW_FAILED'),
+  paused('PAUSED'),
+  pausing('PAUSING'),
+  pausingFailed('PAUSING_FAILED'),
+  userAttentionRequired('USER_ATTENTION_REQUIRED'),
+  deleting('DELETING'),
+  deletionFailed('DELETION_FAILED'),
+  deleted('DELETED'),
+  completed('COMPLETED'),
+  ;
 
-extension MigrationWorkflowStatusEnumValueExtension
-    on MigrationWorkflowStatusEnum {
-  String toValue() {
-    switch (this) {
-      case MigrationWorkflowStatusEnum.creating:
-        return 'CREATING';
-      case MigrationWorkflowStatusEnum.notStarted:
-        return 'NOT_STARTED';
-      case MigrationWorkflowStatusEnum.creationFailed:
-        return 'CREATION_FAILED';
-      case MigrationWorkflowStatusEnum.starting:
-        return 'STARTING';
-      case MigrationWorkflowStatusEnum.inProgress:
-        return 'IN_PROGRESS';
-      case MigrationWorkflowStatusEnum.workflowFailed:
-        return 'WORKFLOW_FAILED';
-      case MigrationWorkflowStatusEnum.paused:
-        return 'PAUSED';
-      case MigrationWorkflowStatusEnum.pausing:
-        return 'PAUSING';
-      case MigrationWorkflowStatusEnum.pausingFailed:
-        return 'PAUSING_FAILED';
-      case MigrationWorkflowStatusEnum.userAttentionRequired:
-        return 'USER_ATTENTION_REQUIRED';
-      case MigrationWorkflowStatusEnum.deleting:
-        return 'DELETING';
-      case MigrationWorkflowStatusEnum.deletionFailed:
-        return 'DELETION_FAILED';
-      case MigrationWorkflowStatusEnum.deleted:
-        return 'DELETED';
-      case MigrationWorkflowStatusEnum.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension MigrationWorkflowStatusEnumFromString on String {
-  MigrationWorkflowStatusEnum toMigrationWorkflowStatusEnum() {
-    switch (this) {
-      case 'CREATING':
-        return MigrationWorkflowStatusEnum.creating;
-      case 'NOT_STARTED':
-        return MigrationWorkflowStatusEnum.notStarted;
-      case 'CREATION_FAILED':
-        return MigrationWorkflowStatusEnum.creationFailed;
-      case 'STARTING':
-        return MigrationWorkflowStatusEnum.starting;
-      case 'IN_PROGRESS':
-        return MigrationWorkflowStatusEnum.inProgress;
-      case 'WORKFLOW_FAILED':
-        return MigrationWorkflowStatusEnum.workflowFailed;
-      case 'PAUSED':
-        return MigrationWorkflowStatusEnum.paused;
-      case 'PAUSING':
-        return MigrationWorkflowStatusEnum.pausing;
-      case 'PAUSING_FAILED':
-        return MigrationWorkflowStatusEnum.pausingFailed;
-      case 'USER_ATTENTION_REQUIRED':
-        return MigrationWorkflowStatusEnum.userAttentionRequired;
-      case 'DELETING':
-        return MigrationWorkflowStatusEnum.deleting;
-      case 'DELETION_FAILED':
-        return MigrationWorkflowStatusEnum.deletionFailed;
-      case 'DELETED':
-        return MigrationWorkflowStatusEnum.deleted;
-      case 'COMPLETED':
-        return MigrationWorkflowStatusEnum.completed;
-    }
-    throw Exception('$this is not known in enum MigrationWorkflowStatusEnum');
-  }
+  const MigrationWorkflowStatusEnum(this.value);
+
+  static MigrationWorkflowStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MigrationWorkflowStatusEnum'));
 }
 
 /// The summary of a migration workflow.
@@ -2802,7 +2723,8 @@ class MigrationWorkflowSummary {
       endTime: timeStampFromJson(json['endTime']),
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       statusMessage: json['statusMessage'] as String?,
       templateId: json['templateId'] as String?,
       totalSteps: json['totalSteps'] as int?,
@@ -2830,7 +2752,7 @@ class MigrationWorkflowSummary {
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (templateId != null) 'templateId': templateId,
       if (totalSteps != null) 'totalSteps': totalSteps,
@@ -2839,31 +2761,17 @@ class MigrationWorkflowSummary {
 }
 
 enum Owner {
-  awsManaged,
-  custom,
-}
+  awsManaged('AWS_MANAGED'),
+  custom('CUSTOM'),
+  ;
 
-extension OwnerValueExtension on Owner {
-  String toValue() {
-    switch (this) {
-      case Owner.awsManaged:
-        return 'AWS_MANAGED';
-      case Owner.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension OwnerFromString on String {
-  Owner toOwner() {
-    switch (this) {
-      case 'AWS_MANAGED':
-        return Owner.awsManaged;
-      case 'CUSTOM':
-        return Owner.custom;
-    }
-    throw Exception('$this is not known in enum Owner');
-  }
+  const Owner(this.value);
+
+  static Owner fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Owner'));
 }
 
 /// Command to be run on a particular operating system.
@@ -2927,31 +2835,18 @@ class PlatformScriptKey {
 }
 
 enum PluginHealth {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension PluginHealthValueExtension on PluginHealth {
-  String toValue() {
-    switch (this) {
-      case PluginHealth.healthy:
-        return 'HEALTHY';
-      case PluginHealth.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension PluginHealthFromString on String {
-  PluginHealth toPluginHealth() {
-    switch (this) {
-      case 'HEALTHY':
-        return PluginHealth.healthy;
-      case 'UNHEALTHY':
-        return PluginHealth.unhealthy;
-    }
-    throw Exception('$this is not known in enum PluginHealth');
-  }
+  const PluginHealth(this.value);
+
+  static PluginHealth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PluginHealth'));
 }
 
 /// The summary of the Migration Hub Orchestrator plugin.
@@ -2989,7 +2884,7 @@ class PluginSummary {
       ipAddress: json['ipAddress'] as String?,
       pluginId: json['pluginId'] as String?,
       registeredTime: json['registeredTime'] as String?,
-      status: (json['status'] as String?)?.toPluginHealth(),
+      status: (json['status'] as String?)?.let(PluginHealth.fromString),
       version: json['version'] as String?,
     );
   }
@@ -3006,7 +2901,7 @@ class PluginSummary {
       if (ipAddress != null) 'ipAddress': ipAddress,
       if (pluginId != null) 'pluginId': pluginId,
       if (registeredTime != null) 'registeredTime': registeredTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (version != null) 'version': version,
     };
   }
@@ -3035,7 +2930,7 @@ class RetryWorkflowStepResponse {
   factory RetryWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
     return RetryWorkflowStepResponse(
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toStepStatus(),
+      status: (json['status'] as String?)?.let(StepStatus.fromString),
       stepGroupId: json['stepGroupId'] as String?,
       workflowId: json['workflowId'] as String?,
     );
@@ -3048,7 +2943,7 @@ class RetryWorkflowStepResponse {
     final workflowId = this.workflowId;
     return {
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stepGroupId != null) 'stepGroupId': stepGroupId,
       if (workflowId != null) 'workflowId': workflowId,
     };
@@ -3056,31 +2951,18 @@ class RetryWorkflowStepResponse {
 }
 
 enum RunEnvironment {
-  aws,
-  onpremise,
-}
+  aws('AWS'),
+  onpremise('ONPREMISE'),
+  ;
 
-extension RunEnvironmentValueExtension on RunEnvironment {
-  String toValue() {
-    switch (this) {
-      case RunEnvironment.aws:
-        return 'AWS';
-      case RunEnvironment.onpremise:
-        return 'ONPREMISE';
-    }
-  }
-}
+  final String value;
 
-extension RunEnvironmentFromString on String {
-  RunEnvironment toRunEnvironment() {
-    switch (this) {
-      case 'AWS':
-        return RunEnvironment.aws;
-      case 'ONPREMISE':
-        return RunEnvironment.onpremise;
-    }
-    throw Exception('$this is not known in enum RunEnvironment');
-  }
+  const RunEnvironment(this.value);
+
+  static RunEnvironment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RunEnvironment'));
 }
 
 class StartMigrationWorkflowResponse {
@@ -3112,7 +2994,8 @@ class StartMigrationWorkflowResponse {
       arn: json['arn'] as String?,
       id: json['id'] as String?,
       lastStartTime: timeStampFromJson(json['lastStartTime']),
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -3128,38 +3011,25 @@ class StartMigrationWorkflowResponse {
       if (id != null) 'id': id,
       if (lastStartTime != null)
         'lastStartTime': unixTimestampToJson(lastStartTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
 }
 
 enum StepActionType {
-  manual,
-  automated,
-}
+  manual('MANUAL'),
+  automated('AUTOMATED'),
+  ;
 
-extension StepActionTypeValueExtension on StepActionType {
-  String toValue() {
-    switch (this) {
-      case StepActionType.manual:
-        return 'MANUAL';
-      case StepActionType.automated:
-        return 'AUTOMATED';
-    }
-  }
-}
+  final String value;
 
-extension StepActionTypeFromString on String {
-  StepActionType toStepActionType() {
-    switch (this) {
-      case 'MANUAL':
-        return StepActionType.manual;
-      case 'AUTOMATED':
-        return StepActionType.automated;
-    }
-    throw Exception('$this is not known in enum StepActionType');
-  }
+  const StepActionType(this.value);
+
+  static StepActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StepActionType'));
 }
 
 /// The custom script to run tests on source or target environments.
@@ -3192,13 +3062,14 @@ class StepAutomationConfiguration {
       command: json['command'] != null
           ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
           : null,
-      runEnvironment: (json['runEnvironment'] as String?)?.toRunEnvironment(),
+      runEnvironment:
+          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
       scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
       scriptLocationS3Key: json['scriptLocationS3Key'] != null
           ? PlatformScriptKey.fromJson(
               json['scriptLocationS3Key'] as Map<String, dynamic>)
           : null,
-      targetType: (json['targetType'] as String?)?.toTargetType(),
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
     );
   }
 
@@ -3210,72 +3081,35 @@ class StepAutomationConfiguration {
     final targetType = this.targetType;
     return {
       if (command != null) 'command': command,
-      if (runEnvironment != null) 'runEnvironment': runEnvironment.toValue(),
+      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
       if (scriptLocationS3Bucket != null)
         'scriptLocationS3Bucket': scriptLocationS3Bucket,
       if (scriptLocationS3Key != null)
         'scriptLocationS3Key': scriptLocationS3Key,
-      if (targetType != null) 'targetType': targetType.toValue(),
+      if (targetType != null) 'targetType': targetType.value,
     };
   }
 }
 
 enum StepGroupStatus {
-  awaitingDependencies,
-  ready,
-  inProgress,
-  completed,
-  failed,
-  paused,
-  pausing,
-  userAttentionRequired,
-}
+  awaitingDependencies('AWAITING_DEPENDENCIES'),
+  ready('READY'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  paused('PAUSED'),
+  pausing('PAUSING'),
+  userAttentionRequired('USER_ATTENTION_REQUIRED'),
+  ;
 
-extension StepGroupStatusValueExtension on StepGroupStatus {
-  String toValue() {
-    switch (this) {
-      case StepGroupStatus.awaitingDependencies:
-        return 'AWAITING_DEPENDENCIES';
-      case StepGroupStatus.ready:
-        return 'READY';
-      case StepGroupStatus.inProgress:
-        return 'IN_PROGRESS';
-      case StepGroupStatus.completed:
-        return 'COMPLETED';
-      case StepGroupStatus.failed:
-        return 'FAILED';
-      case StepGroupStatus.paused:
-        return 'PAUSED';
-      case StepGroupStatus.pausing:
-        return 'PAUSING';
-      case StepGroupStatus.userAttentionRequired:
-        return 'USER_ATTENTION_REQUIRED';
-    }
-  }
-}
+  final String value;
 
-extension StepGroupStatusFromString on String {
-  StepGroupStatus toStepGroupStatus() {
-    switch (this) {
-      case 'AWAITING_DEPENDENCIES':
-        return StepGroupStatus.awaitingDependencies;
-      case 'READY':
-        return StepGroupStatus.ready;
-      case 'IN_PROGRESS':
-        return StepGroupStatus.inProgress;
-      case 'COMPLETED':
-        return StepGroupStatus.completed;
-      case 'FAILED':
-        return StepGroupStatus.failed;
-      case 'PAUSED':
-        return StepGroupStatus.paused;
-      case 'PAUSING':
-        return StepGroupStatus.pausing;
-      case 'USER_ATTENTION_REQUIRED':
-        return StepGroupStatus.userAttentionRequired;
-    }
-    throw Exception('$this is not known in enum StepGroupStatus');
-  }
+  const StepGroupStatus(this.value);
+
+  static StepGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StepGroupStatus'));
 }
 
 /// A map of key value pairs that is generated when you create a migration
@@ -3347,7 +3181,7 @@ class StepOutput {
 
   factory StepOutput.fromJson(Map<String, dynamic> json) {
     return StepOutput(
-      dataType: (json['dataType'] as String?)?.toDataType(),
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
       name: json['name'] as String?,
       required: json['required'] as bool?,
     );
@@ -3358,7 +3192,7 @@ class StepOutput {
     final name = this.name;
     final required = this.required;
     return {
-      if (dataType != null) 'dataType': dataType.toValue(),
+      if (dataType != null) 'dataType': dataType.value,
       if (name != null) 'name': name,
       if (required != null) 'required': required,
     };
@@ -3366,61 +3200,23 @@ class StepOutput {
 }
 
 enum StepStatus {
-  awaitingDependencies,
-  skipped,
-  ready,
-  inProgress,
-  completed,
-  failed,
-  paused,
-  userAttentionRequired,
-}
+  awaitingDependencies('AWAITING_DEPENDENCIES'),
+  skipped('SKIPPED'),
+  ready('READY'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  paused('PAUSED'),
+  userAttentionRequired('USER_ATTENTION_REQUIRED'),
+  ;
 
-extension StepStatusValueExtension on StepStatus {
-  String toValue() {
-    switch (this) {
-      case StepStatus.awaitingDependencies:
-        return 'AWAITING_DEPENDENCIES';
-      case StepStatus.skipped:
-        return 'SKIPPED';
-      case StepStatus.ready:
-        return 'READY';
-      case StepStatus.inProgress:
-        return 'IN_PROGRESS';
-      case StepStatus.completed:
-        return 'COMPLETED';
-      case StepStatus.failed:
-        return 'FAILED';
-      case StepStatus.paused:
-        return 'PAUSED';
-      case StepStatus.userAttentionRequired:
-        return 'USER_ATTENTION_REQUIRED';
-    }
-  }
-}
+  final String value;
 
-extension StepStatusFromString on String {
-  StepStatus toStepStatus() {
-    switch (this) {
-      case 'AWAITING_DEPENDENCIES':
-        return StepStatus.awaitingDependencies;
-      case 'SKIPPED':
-        return StepStatus.skipped;
-      case 'READY':
-        return StepStatus.ready;
-      case 'IN_PROGRESS':
-        return StepStatus.inProgress;
-      case 'COMPLETED':
-        return StepStatus.completed;
-      case 'FAILED':
-        return StepStatus.failed;
-      case 'PAUSED':
-        return StepStatus.paused;
-      case 'USER_ATTENTION_REQUIRED':
-        return StepStatus.userAttentionRequired;
-    }
-    throw Exception('$this is not known in enum StepStatus');
-  }
+  const StepStatus(this.value);
+
+  static StepStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StepStatus'));
 }
 
 class StopMigrationWorkflowResponse {
@@ -3452,7 +3248,8 @@ class StopMigrationWorkflowResponse {
       arn: json['arn'] as String?,
       id: json['id'] as String?,
       lastStopTime: timeStampFromJson(json['lastStopTime']),
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -3468,7 +3265,7 @@ class StopMigrationWorkflowResponse {
       if (id != null) 'id': id,
       if (lastStopTime != null)
         'lastStopTime': unixTimestampToJson(lastStopTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
@@ -3487,36 +3284,18 @@ class TagResourceResponse {
 }
 
 enum TargetType {
-  single,
-  all,
-  none,
-}
+  single('SINGLE'),
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.single:
-        return 'SINGLE';
-      case TargetType.all:
-        return 'ALL';
-      case TargetType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'SINGLE':
-        return TargetType.single;
-      case 'ALL':
-        return TargetType.all;
-      case 'NONE':
-        return TargetType.none;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 /// The input parameters of a template.
@@ -3538,7 +3317,7 @@ class TemplateInput {
 
   factory TemplateInput.fromJson(Map<String, dynamic> json) {
     return TemplateInput(
-      dataType: (json['dataType'] as String?)?.toDataType(),
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
       inputName: json['inputName'] as String?,
       required: json['required'] as bool?,
     );
@@ -3549,7 +3328,7 @@ class TemplateInput {
     final inputName = this.inputName;
     final required = this.required;
     return {
-      if (dataType != null) 'dataType': dataType.toValue(),
+      if (dataType != null) 'dataType': dataType.value,
       if (inputName != null) 'inputName': inputName,
       if (required != null) 'required': required,
     };
@@ -3574,46 +3353,21 @@ class TemplateSource {
 }
 
 enum TemplateStatus {
-  created,
-  ready,
-  pendingCreation,
-  creating,
-  creationFailed,
-}
+  created('CREATED'),
+  ready('READY'),
+  pendingCreation('PENDING_CREATION'),
+  creating('CREATING'),
+  creationFailed('CREATION_FAILED'),
+  ;
 
-extension TemplateStatusValueExtension on TemplateStatus {
-  String toValue() {
-    switch (this) {
-      case TemplateStatus.created:
-        return 'CREATED';
-      case TemplateStatus.ready:
-        return 'READY';
-      case TemplateStatus.pendingCreation:
-        return 'PENDING_CREATION';
-      case TemplateStatus.creating:
-        return 'CREATING';
-      case TemplateStatus.creationFailed:
-        return 'CREATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension TemplateStatusFromString on String {
-  TemplateStatus toTemplateStatus() {
-    switch (this) {
-      case 'CREATED':
-        return TemplateStatus.created;
-      case 'READY':
-        return TemplateStatus.ready;
-      case 'PENDING_CREATION':
-        return TemplateStatus.pendingCreation;
-      case 'CREATING':
-        return TemplateStatus.creating;
-      case 'CREATION_FAILED':
-        return TemplateStatus.creationFailed;
-    }
-    throw Exception('$this is not known in enum TemplateStatus');
-  }
+  const TemplateStatus(this.value);
+
+  static TemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateStatus'));
 }
 
 /// The summary of the step group in the template.
@@ -3716,14 +3470,15 @@ class TemplateStepSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      owner: (json['owner'] as String?)?.toOwner(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      stepActionType: (json['stepActionType'] as String?)?.toStepActionType(),
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
       stepGroupId: json['stepGroupId'] as String?,
-      targetType: (json['targetType'] as String?)?.toTargetType(),
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
       templateId: json['templateId'] as String?,
     );
   }
@@ -3742,11 +3497,11 @@ class TemplateStepSummary {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.toValue(),
+      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
-      if (stepActionType != null) 'stepActionType': stepActionType.toValue(),
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
       if (stepGroupId != null) 'stepGroupId': stepGroupId,
-      if (targetType != null) 'targetType': targetType.toValue(),
+      if (targetType != null) 'targetType': targetType.value,
       if (templateId != null) 'templateId': templateId,
     };
   }
@@ -3900,7 +3655,8 @@ class UpdateMigrationWorkflowResponse {
       id: json['id'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toMigrationWorkflowStatusEnum(),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
       stepTargets: (json['stepTargets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3937,7 +3693,7 @@ class UpdateMigrationWorkflowResponse {
       if (lastModifiedTime != null)
         'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stepTargets != null) 'stepTargets': stepTargets,
       if (tags != null) 'tags': tags,
       if (templateId != null) 'templateId': templateId,
@@ -4143,13 +3899,14 @@ class WorkflowStepAutomationConfiguration {
       command: json['command'] != null
           ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
           : null,
-      runEnvironment: (json['runEnvironment'] as String?)?.toRunEnvironment(),
+      runEnvironment:
+          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
       scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
       scriptLocationS3Key: json['scriptLocationS3Key'] != null
           ? PlatformScriptKey.fromJson(
               json['scriptLocationS3Key'] as Map<String, dynamic>)
           : null,
-      targetType: (json['targetType'] as String?)?.toTargetType(),
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
     );
   }
 
@@ -4161,12 +3918,12 @@ class WorkflowStepAutomationConfiguration {
     final targetType = this.targetType;
     return {
       if (command != null) 'command': command,
-      if (runEnvironment != null) 'runEnvironment': runEnvironment.toValue(),
+      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
       if (scriptLocationS3Bucket != null)
         'scriptLocationS3Bucket': scriptLocationS3Bucket,
       if (scriptLocationS3Key != null)
         'scriptLocationS3Key': scriptLocationS3Key,
-      if (targetType != null) 'targetType': targetType.toValue(),
+      if (targetType != null) 'targetType': targetType.value,
     };
   }
 }
@@ -4208,12 +3965,12 @@ class WorkflowStepGroupSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      owner: (json['owner'] as String?)?.toOwner(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toStepGroupStatus(),
+      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
     );
   }
 
@@ -4228,9 +3985,9 @@ class WorkflowStepGroupSummary {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.toValue(),
+      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4258,7 +4015,7 @@ class WorkflowStepOutput {
 
   factory WorkflowStepOutput.fromJson(Map<String, dynamic> json) {
     return WorkflowStepOutput(
-      dataType: (json['dataType'] as String?)?.toDataType(),
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
       name: json['name'] as String?,
       required: json['required'] as bool?,
       value: json['value'] != null
@@ -4274,7 +4031,7 @@ class WorkflowStepOutput {
     final required = this.required;
     final value = this.value;
     return {
-      if (dataType != null) 'dataType': dataType.toValue(),
+      if (dataType != null) 'dataType': dataType.value,
       if (name != null) 'name': name,
       if (required != null) 'required': required,
       if (value != null) 'value': value,
@@ -4390,15 +4147,16 @@ class WorkflowStepSummary {
           .toList(),
       noOfSrvCompleted: json['noOfSrvCompleted'] as int?,
       noOfSrvFailed: json['noOfSrvFailed'] as int?,
-      owner: (json['owner'] as String?)?.toOwner(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       scriptLocation: json['scriptLocation'] as String?,
-      status: (json['status'] as String?)?.toStepStatus(),
+      status: (json['status'] as String?)?.let(StepStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
-      stepActionType: (json['stepActionType'] as String?)?.toStepActionType(),
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
       stepId: json['stepId'] as String?,
       totalNoOfSrv: json['totalNoOfSrv'] as int?,
     );
@@ -4424,12 +4182,12 @@ class WorkflowStepSummary {
       if (next != null) 'next': next,
       if (noOfSrvCompleted != null) 'noOfSrvCompleted': noOfSrvCompleted,
       if (noOfSrvFailed != null) 'noOfSrvFailed': noOfSrvFailed,
-      if (owner != null) 'owner': owner.toValue(),
+      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
       if (scriptLocation != null) 'scriptLocation': scriptLocation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
-      if (stepActionType != null) 'stepActionType': stepActionType.toValue(),
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
       if (stepId != null) 'stepId': stepId,
       if (totalNoOfSrv != null) 'totalNoOfSrv': totalNoOfSrv,
     };

@@ -240,13 +240,13 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption.toValue(),
+        'mergeOption': mergeOption.value,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (filePaths != null) 'filePaths': filePaths,
         if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
         if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
@@ -1034,17 +1034,17 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption.toValue(),
+        'mergeOption': mergeOption.value,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (authorName != null) 'authorName': authorName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolution != null)
           'conflictResolution': conflictResolution,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (email != null) 'email': email,
         if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
       },
@@ -1435,13 +1435,13 @@ class CodeCommit {
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'filePath': filePath,
-        'mergeOption': mergeOption.toValue(),
+        'mergeOption': mergeOption.value,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1510,7 +1510,7 @@ class CodeCommit {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (pullRequestEventType != null)
-          'pullRequestEventType': pullRequestEventType.toValue(),
+          'pullRequestEventType': pullRequestEventType.value,
       },
     );
 
@@ -2277,9 +2277,9 @@ class CodeCommit {
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
       },
     );
 
@@ -2367,13 +2367,13 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption.toValue(),
+        'mergeOption': mergeOption.value,
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -2449,9 +2449,9 @@ class CodeCommit {
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
       },
     );
 
@@ -2913,7 +2913,7 @@ class CodeCommit {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (pullRequestStatus != null)
-          'pullRequestStatus': pullRequestStatus.toValue(),
+          'pullRequestStatus': pullRequestStatus.value,
       },
     );
 
@@ -2954,8 +2954,8 @@ class CodeCommit {
       headers: headers,
       payload: {
         if (nextToken != null) 'nextToken': nextToken,
-        if (order != null) 'order': order.toValue(),
-        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (order != null) 'order': order.value,
+        if (sortBy != null) 'sortBy': sortBy.value,
       },
     );
 
@@ -3236,11 +3236,11 @@ class CodeCommit {
         if (authorName != null) 'authorName': authorName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolution != null)
           'conflictResolution': conflictResolution,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (email != null) 'email': email,
         if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
         if (targetBranch != null) 'targetBranch': targetBranch,
@@ -3368,11 +3368,11 @@ class CodeCommit {
         if (authorName != null) 'authorName': authorName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolution != null)
           'conflictResolution': conflictResolution,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (email != null) 'email': email,
         if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
         if (targetBranch != null) 'targetBranch': targetBranch,
@@ -3561,11 +3561,11 @@ class CodeCommit {
         if (authorName != null) 'authorName': authorName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolution != null)
           'conflictResolution': conflictResolution,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (email != null) 'email': email,
         if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
         if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
@@ -3692,11 +3692,11 @@ class CodeCommit {
         if (authorName != null) 'authorName': authorName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel.toValue(),
+          'conflictDetailLevel': conflictDetailLevel.value,
         if (conflictResolution != null)
           'conflictResolution': conflictResolution,
         if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy.toValue(),
+          'conflictResolutionStrategy': conflictResolutionStrategy.value,
         if (email != null) 'email': email,
         if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
         if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
@@ -3755,7 +3755,7 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'overrideStatus': overrideStatus.toValue(),
+        'overrideStatus': overrideStatus.value,
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -4142,7 +4142,7 @@ class CodeCommit {
         'repositoryName': repositoryName,
         if (commitMessage != null) 'commitMessage': commitMessage,
         if (email != null) 'email': email,
-        if (fileMode != null) 'fileMode': fileMode.toValue(),
+        if (fileMode != null) 'fileMode': fileMode.value,
         if (name != null) 'name': name,
         if (parentCommitId != null) 'parentCommitId': parentCommitId,
       },
@@ -4695,7 +4695,7 @@ class CodeCommit {
       // TODO queryParams
       headers: headers,
       payload: {
-        'approvalState': approvalState.toValue(),
+        'approvalState': approvalState.value,
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -4778,7 +4778,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'pullRequestId': pullRequestId,
-        'pullRequestStatus': pullRequestStatus.toValue(),
+        'pullRequestStatus': pullRequestStatus.value,
       },
     );
 
@@ -4976,7 +4976,8 @@ class Approval {
 
   factory Approval.fromJson(Map<String, dynamic> json) {
     return Approval(
-      approvalState: (json['approvalState'] as String?)?.toApprovalState(),
+      approvalState:
+          (json['approvalState'] as String?)?.let(ApprovalState.fromString),
       userArn: json['userArn'] as String?,
     );
   }
@@ -5080,7 +5081,8 @@ class ApprovalRuleOverriddenEventMetadata {
   factory ApprovalRuleOverriddenEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return ApprovalRuleOverriddenEventMetadata(
-      overrideStatus: (json['overrideStatus'] as String?)?.toOverrideStatus(),
+      overrideStatus:
+          (json['overrideStatus'] as String?)?.let(OverrideStatus.fromString),
       revisionId: json['revisionId'] as String?,
     );
   }
@@ -5142,31 +5144,18 @@ class ApprovalRuleTemplate {
 }
 
 enum ApprovalState {
-  approve,
-  revoke,
-}
+  approve('APPROVE'),
+  revoke('REVOKE'),
+  ;
 
-extension ApprovalStateValueExtension on ApprovalState {
-  String toValue() {
-    switch (this) {
-      case ApprovalState.approve:
-        return 'APPROVE';
-      case ApprovalState.revoke:
-        return 'REVOKE';
-    }
-  }
-}
+  final String value;
 
-extension ApprovalStateFromString on String {
-  ApprovalState toApprovalState() {
-    switch (this) {
-      case 'APPROVE':
-        return ApprovalState.approve;
-      case 'REVOKE':
-        return ApprovalState.revoke;
-    }
-    throw Exception('$this is not known in enum ApprovalState');
-  }
+  const ApprovalState(this.value);
+
+  static ApprovalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApprovalState'));
 }
 
 /// Returns information about a change in the approval state for a pull request.
@@ -5185,7 +5174,8 @@ class ApprovalStateChangedEventMetadata {
   factory ApprovalStateChangedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return ApprovalStateChangedEventMetadata(
-      approvalStatus: (json['approvalStatus'] as String?)?.toApprovalState(),
+      approvalStatus:
+          (json['approvalStatus'] as String?)?.let(ApprovalState.fromString),
       revisionId: json['revisionId'] as String?,
     );
   }
@@ -5477,8 +5467,8 @@ class BatchGetRepositoriesError {
 
   factory BatchGetRepositoriesError.fromJson(Map<String, dynamic> json) {
     return BatchGetRepositoriesError(
-      errorCode:
-          (json['errorCode'] as String?)?.toBatchGetRepositoriesErrorCodeEnum(),
+      errorCode: (json['errorCode'] as String?)
+          ?.let(BatchGetRepositoriesErrorCodeEnum.fromString),
       errorMessage: json['errorMessage'] as String?,
       repositoryId: json['repositoryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
@@ -5487,58 +5477,23 @@ class BatchGetRepositoriesError {
 }
 
 enum BatchGetRepositoriesErrorCodeEnum {
-  encryptionIntegrityChecksFailedException,
-  encryptionKeyAccessDeniedException,
-  encryptionKeyDisabledException,
-  encryptionKeyNotFoundException,
-  encryptionKeyUnavailableException,
-  repositoryDoesNotExistException,
-}
+  encryptionIntegrityChecksFailedException(
+      'EncryptionIntegrityChecksFailedException'),
+  encryptionKeyAccessDeniedException('EncryptionKeyAccessDeniedException'),
+  encryptionKeyDisabledException('EncryptionKeyDisabledException'),
+  encryptionKeyNotFoundException('EncryptionKeyNotFoundException'),
+  encryptionKeyUnavailableException('EncryptionKeyUnavailableException'),
+  repositoryDoesNotExistException('RepositoryDoesNotExistException'),
+  ;
 
-extension BatchGetRepositoriesErrorCodeEnumValueExtension
-    on BatchGetRepositoriesErrorCodeEnum {
-  String toValue() {
-    switch (this) {
-      case BatchGetRepositoriesErrorCodeEnum
-            .encryptionIntegrityChecksFailedException:
-        return 'EncryptionIntegrityChecksFailedException';
-      case BatchGetRepositoriesErrorCodeEnum.encryptionKeyAccessDeniedException:
-        return 'EncryptionKeyAccessDeniedException';
-      case BatchGetRepositoriesErrorCodeEnum.encryptionKeyDisabledException:
-        return 'EncryptionKeyDisabledException';
-      case BatchGetRepositoriesErrorCodeEnum.encryptionKeyNotFoundException:
-        return 'EncryptionKeyNotFoundException';
-      case BatchGetRepositoriesErrorCodeEnum.encryptionKeyUnavailableException:
-        return 'EncryptionKeyUnavailableException';
-      case BatchGetRepositoriesErrorCodeEnum.repositoryDoesNotExistException:
-        return 'RepositoryDoesNotExistException';
-    }
-  }
-}
+  final String value;
 
-extension BatchGetRepositoriesErrorCodeEnumFromString on String {
-  BatchGetRepositoriesErrorCodeEnum toBatchGetRepositoriesErrorCodeEnum() {
-    switch (this) {
-      case 'EncryptionIntegrityChecksFailedException':
-        return BatchGetRepositoriesErrorCodeEnum
-            .encryptionIntegrityChecksFailedException;
-      case 'EncryptionKeyAccessDeniedException':
-        return BatchGetRepositoriesErrorCodeEnum
-            .encryptionKeyAccessDeniedException;
-      case 'EncryptionKeyDisabledException':
-        return BatchGetRepositoriesErrorCodeEnum.encryptionKeyDisabledException;
-      case 'EncryptionKeyNotFoundException':
-        return BatchGetRepositoriesErrorCodeEnum.encryptionKeyNotFoundException;
-      case 'EncryptionKeyUnavailableException':
-        return BatchGetRepositoriesErrorCodeEnum
-            .encryptionKeyUnavailableException;
-      case 'RepositoryDoesNotExistException':
-        return BatchGetRepositoriesErrorCodeEnum
-            .repositoryDoesNotExistException;
-    }
-    throw Exception(
-        '$this is not known in enum BatchGetRepositoriesErrorCodeEnum');
-  }
+  const BatchGetRepositoriesErrorCodeEnum(this.value);
+
+  static BatchGetRepositoriesErrorCodeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchGetRepositoriesErrorCodeEnum'));
 }
 
 /// Represents the output of a batch get repositories operation.
@@ -5641,36 +5596,19 @@ class BranchInfo {
 }
 
 enum ChangeTypeEnum {
-  a,
-  m,
-  d,
-}
+  a('A'),
+  m('M'),
+  d('D'),
+  ;
 
-extension ChangeTypeEnumValueExtension on ChangeTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ChangeTypeEnum.a:
-        return 'A';
-      case ChangeTypeEnum.m:
-        return 'M';
-      case ChangeTypeEnum.d:
-        return 'D';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeEnumFromString on String {
-  ChangeTypeEnum toChangeTypeEnum() {
-    switch (this) {
-      case 'A':
-        return ChangeTypeEnum.a;
-      case 'M':
-        return ChangeTypeEnum.m;
-      case 'D':
-        return ChangeTypeEnum.d;
-    }
-    throw Exception('$this is not known in enum ChangeTypeEnum');
-  }
+  const ChangeTypeEnum(this.value);
+
+  static ChangeTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeTypeEnum'));
 }
 
 /// Returns information about a specific comment.
@@ -5959,32 +5897,18 @@ class Conflict {
 }
 
 enum ConflictDetailLevelTypeEnum {
-  fileLevel,
-  lineLevel,
-}
+  fileLevel('FILE_LEVEL'),
+  lineLevel('LINE_LEVEL'),
+  ;
 
-extension ConflictDetailLevelTypeEnumValueExtension
-    on ConflictDetailLevelTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ConflictDetailLevelTypeEnum.fileLevel:
-        return 'FILE_LEVEL';
-      case ConflictDetailLevelTypeEnum.lineLevel:
-        return 'LINE_LEVEL';
-    }
-  }
-}
+  final String value;
 
-extension ConflictDetailLevelTypeEnumFromString on String {
-  ConflictDetailLevelTypeEnum toConflictDetailLevelTypeEnum() {
-    switch (this) {
-      case 'FILE_LEVEL':
-        return ConflictDetailLevelTypeEnum.fileLevel;
-      case 'LINE_LEVEL':
-        return ConflictDetailLevelTypeEnum.lineLevel;
-    }
-    throw Exception('$this is not known in enum ConflictDetailLevelTypeEnum');
-  }
+  const ConflictDetailLevelTypeEnum(this.value);
+
+  static ConflictDetailLevelTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConflictDetailLevelTypeEnum'));
 }
 
 /// Information about the metadata for a conflict in a merge operation.
@@ -6098,43 +6022,20 @@ class ConflictResolution {
 }
 
 enum ConflictResolutionStrategyTypeEnum {
-  none,
-  acceptSource,
-  acceptDestination,
-  automerge,
-}
+  none('NONE'),
+  acceptSource('ACCEPT_SOURCE'),
+  acceptDestination('ACCEPT_DESTINATION'),
+  automerge('AUTOMERGE'),
+  ;
 
-extension ConflictResolutionStrategyTypeEnumValueExtension
-    on ConflictResolutionStrategyTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ConflictResolutionStrategyTypeEnum.none:
-        return 'NONE';
-      case ConflictResolutionStrategyTypeEnum.acceptSource:
-        return 'ACCEPT_SOURCE';
-      case ConflictResolutionStrategyTypeEnum.acceptDestination:
-        return 'ACCEPT_DESTINATION';
-      case ConflictResolutionStrategyTypeEnum.automerge:
-        return 'AUTOMERGE';
-    }
-  }
-}
+  final String value;
 
-extension ConflictResolutionStrategyTypeEnumFromString on String {
-  ConflictResolutionStrategyTypeEnum toConflictResolutionStrategyTypeEnum() {
-    switch (this) {
-      case 'NONE':
-        return ConflictResolutionStrategyTypeEnum.none;
-      case 'ACCEPT_SOURCE':
-        return ConflictResolutionStrategyTypeEnum.acceptSource;
-      case 'ACCEPT_DESTINATION':
-        return ConflictResolutionStrategyTypeEnum.acceptDestination;
-      case 'AUTOMERGE':
-        return ConflictResolutionStrategyTypeEnum.automerge;
-    }
-    throw Exception(
-        '$this is not known in enum ConflictResolutionStrategyTypeEnum');
-  }
+  const ConflictResolutionStrategyTypeEnum(this.value);
+
+  static ConflictResolutionStrategyTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConflictResolutionStrategyTypeEnum'));
 }
 
 class CreateApprovalRuleTemplateOutput {
@@ -6509,7 +6410,8 @@ class Difference {
       beforeBlob: json['beforeBlob'] != null
           ? BlobMetadata.fromJson(json['beforeBlob'] as Map<String, dynamic>)
           : null,
-      changeType: (json['changeType'] as String?)?.toChangeTypeEnum(),
+      changeType:
+          (json['changeType'] as String?)?.let(ChangeTypeEnum.fromString),
     );
   }
 }
@@ -6600,7 +6502,7 @@ class File {
     return File(
       absolutePath: json['absolutePath'] as String?,
       blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
       relativePath: json['relativePath'] as String?,
     );
   }
@@ -6629,42 +6531,25 @@ class FileMetadata {
     return FileMetadata(
       absolutePath: json['absolutePath'] as String?,
       blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
     );
   }
 }
 
 enum FileModeTypeEnum {
-  executable,
-  normal,
-  symlink,
-}
+  executable('EXECUTABLE'),
+  normal('NORMAL'),
+  symlink('SYMLINK'),
+  ;
 
-extension FileModeTypeEnumValueExtension on FileModeTypeEnum {
-  String toValue() {
-    switch (this) {
-      case FileModeTypeEnum.executable:
-        return 'EXECUTABLE';
-      case FileModeTypeEnum.normal:
-        return 'NORMAL';
-      case FileModeTypeEnum.symlink:
-        return 'SYMLINK';
-    }
-  }
-}
+  final String value;
 
-extension FileModeTypeEnumFromString on String {
-  FileModeTypeEnum toFileModeTypeEnum() {
-    switch (this) {
-      case 'EXECUTABLE':
-        return FileModeTypeEnum.executable;
-      case 'NORMAL':
-        return FileModeTypeEnum.normal;
-      case 'SYMLINK':
-        return FileModeTypeEnum.symlink;
-    }
-    throw Exception('$this is not known in enum FileModeTypeEnum');
-  }
+  const FileModeTypeEnum(this.value);
+
+  static FileModeTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileModeTypeEnum'));
 }
 
 /// Information about file modes in a merge or pull request.
@@ -6686,9 +6571,10 @@ class FileModes {
 
   factory FileModes.fromJson(Map<String, dynamic> json) {
     return FileModes(
-      base: (json['base'] as String?)?.toFileModeTypeEnum(),
-      destination: (json['destination'] as String?)?.toFileModeTypeEnum(),
-      source: (json['source'] as String?)?.toFileModeTypeEnum(),
+      base: (json['base'] as String?)?.let(FileModeTypeEnum.fromString),
+      destination:
+          (json['destination'] as String?)?.let(FileModeTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(FileModeTypeEnum.fromString),
     );
   }
 }
@@ -7012,7 +6898,7 @@ class GetFileOutput {
       blobId: json['blobId'] as String,
       commitId: json['commitId'] as String,
       fileContent: _s.decodeUint8List(json['fileContent']! as String),
-      fileMode: (json['fileMode'] as String).toFileModeTypeEnum(),
+      fileMode: FileModeTypeEnum.fromString((json['fileMode'] as String)),
       filePath: json['filePath'] as String,
       fileSize: json['fileSize'] as int,
     );
@@ -7189,7 +7075,7 @@ class GetMergeOptionsOutput {
       destinationCommitId: json['destinationCommitId'] as String,
       mergeOptions: (json['mergeOptions'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toMergeOptionTypeEnum())
+          .map((e) => MergeOptionTypeEnum.fromString((e as String)))
           .toList(),
       sourceCommitId: json['sourceCommitId'] as String,
     );
@@ -7548,8 +7434,8 @@ class Location {
     return Location(
       filePath: json['filePath'] as String?,
       filePosition: json['filePosition'] as int?,
-      relativeFileVersion:
-          (json['relativeFileVersion'] as String?)?.toRelativeFileVersionEnum(),
+      relativeFileVersion: (json['relativeFileVersion'] as String?)
+          ?.let(RelativeFileVersionEnum.fromString),
     );
   }
 
@@ -7561,7 +7447,7 @@ class Location {
       if (filePath != null) 'filePath': filePath,
       if (filePosition != null) 'filePosition': filePosition,
       if (relativeFileVersion != null)
-        'relativeFileVersion': relativeFileVersion.toValue(),
+        'relativeFileVersion': relativeFileVersion.value,
     };
   }
 }
@@ -7724,7 +7610,8 @@ class MergeMetadata {
     return MergeMetadata(
       isMerged: json['isMerged'] as bool?,
       mergeCommitId: json['mergeCommitId'] as String?,
-      mergeOption: (json['mergeOption'] as String?)?.toMergeOptionTypeEnum(),
+      mergeOption:
+          (json['mergeOption'] as String?)?.let(MergeOptionTypeEnum.fromString),
       mergedBy: json['mergedBy'] as String?,
     );
   }
@@ -7746,43 +7633,27 @@ class MergeOperations {
 
   factory MergeOperations.fromJson(Map<String, dynamic> json) {
     return MergeOperations(
-      destination: (json['destination'] as String?)?.toChangeTypeEnum(),
-      source: (json['source'] as String?)?.toChangeTypeEnum(),
+      destination:
+          (json['destination'] as String?)?.let(ChangeTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(ChangeTypeEnum.fromString),
     );
   }
 }
 
 enum MergeOptionTypeEnum {
-  fastForwardMerge,
-  squashMerge,
-  threeWayMerge,
-}
+  fastForwardMerge('FAST_FORWARD_MERGE'),
+  squashMerge('SQUASH_MERGE'),
+  threeWayMerge('THREE_WAY_MERGE'),
+  ;
 
-extension MergeOptionTypeEnumValueExtension on MergeOptionTypeEnum {
-  String toValue() {
-    switch (this) {
-      case MergeOptionTypeEnum.fastForwardMerge:
-        return 'FAST_FORWARD_MERGE';
-      case MergeOptionTypeEnum.squashMerge:
-        return 'SQUASH_MERGE';
-      case MergeOptionTypeEnum.threeWayMerge:
-        return 'THREE_WAY_MERGE';
-    }
-  }
-}
+  final String value;
 
-extension MergeOptionTypeEnumFromString on String {
-  MergeOptionTypeEnum toMergeOptionTypeEnum() {
-    switch (this) {
-      case 'FAST_FORWARD_MERGE':
-        return MergeOptionTypeEnum.fastForwardMerge;
-      case 'SQUASH_MERGE':
-        return MergeOptionTypeEnum.squashMerge;
-      case 'THREE_WAY_MERGE':
-        return MergeOptionTypeEnum.threeWayMerge;
-    }
-    throw Exception('$this is not known in enum MergeOptionTypeEnum');
-  }
+  const MergeOptionTypeEnum(this.value);
+
+  static MergeOptionTypeEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MergeOptionTypeEnum'));
 }
 
 class MergePullRequestByFastForwardOutput {
@@ -7836,41 +7707,20 @@ class MergePullRequestByThreeWayOutput {
 }
 
 enum ObjectTypeEnum {
-  file,
-  directory,
-  gitLink,
-  symbolicLink,
-}
+  file('FILE'),
+  directory('DIRECTORY'),
+  gitLink('GIT_LINK'),
+  symbolicLink('SYMBOLIC_LINK'),
+  ;
 
-extension ObjectTypeEnumValueExtension on ObjectTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ObjectTypeEnum.file:
-        return 'FILE';
-      case ObjectTypeEnum.directory:
-        return 'DIRECTORY';
-      case ObjectTypeEnum.gitLink:
-        return 'GIT_LINK';
-      case ObjectTypeEnum.symbolicLink:
-        return 'SYMBOLIC_LINK';
-    }
-  }
-}
+  final String value;
 
-extension ObjectTypeEnumFromString on String {
-  ObjectTypeEnum toObjectTypeEnum() {
-    switch (this) {
-      case 'FILE':
-        return ObjectTypeEnum.file;
-      case 'DIRECTORY':
-        return ObjectTypeEnum.directory;
-      case 'GIT_LINK':
-        return ObjectTypeEnum.gitLink;
-      case 'SYMBOLIC_LINK':
-        return ObjectTypeEnum.symbolicLink;
-    }
-    throw Exception('$this is not known in enum ObjectTypeEnum');
-  }
+  const ObjectTypeEnum(this.value);
+
+  static ObjectTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ObjectTypeEnum'));
 }
 
 /// Information about the type of an object in a merge operation.
@@ -7892,39 +7742,26 @@ class ObjectTypes {
 
   factory ObjectTypes.fromJson(Map<String, dynamic> json) {
     return ObjectTypes(
-      base: (json['base'] as String?)?.toObjectTypeEnum(),
-      destination: (json['destination'] as String?)?.toObjectTypeEnum(),
-      source: (json['source'] as String?)?.toObjectTypeEnum(),
+      base: (json['base'] as String?)?.let(ObjectTypeEnum.fromString),
+      destination:
+          (json['destination'] as String?)?.let(ObjectTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(ObjectTypeEnum.fromString),
     );
   }
 }
 
 enum OrderEnum {
-  ascending,
-  descending,
-}
+  ascending('ascending'),
+  descending('descending'),
+  ;
 
-extension OrderEnumValueExtension on OrderEnum {
-  String toValue() {
-    switch (this) {
-      case OrderEnum.ascending:
-        return 'ascending';
-      case OrderEnum.descending:
-        return 'descending';
-    }
-  }
-}
+  final String value;
 
-extension OrderEnumFromString on String {
-  OrderEnum toOrderEnum() {
-    switch (this) {
-      case 'ascending':
-        return OrderEnum.ascending;
-      case 'descending':
-        return OrderEnum.descending;
-    }
-    throw Exception('$this is not known in enum OrderEnum');
-  }
+  const OrderEnum(this.value);
+
+  static OrderEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderEnum'));
 }
 
 /// Returns information about the template that created the approval rule for a
@@ -7950,31 +7787,18 @@ class OriginApprovalRuleTemplate {
 }
 
 enum OverrideStatus {
-  override,
-  revoke,
-}
+  override('OVERRIDE'),
+  revoke('REVOKE'),
+  ;
 
-extension OverrideStatusValueExtension on OverrideStatus {
-  String toValue() {
-    switch (this) {
-      case OverrideStatus.override:
-        return 'OVERRIDE';
-      case OverrideStatus.revoke:
-        return 'REVOKE';
-    }
-  }
-}
+  final String value;
 
-extension OverrideStatusFromString on String {
-  OverrideStatus toOverrideStatus() {
-    switch (this) {
-      case 'OVERRIDE':
-        return OverrideStatus.override;
-      case 'REVOKE':
-        return OverrideStatus.revoke;
-    }
-    throw Exception('$this is not known in enum OverrideStatus');
-  }
+  const OverrideStatus(this.value);
+
+  static OverrideStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OverrideStatus'));
 }
 
 class PostCommentForComparedCommitOutput {
@@ -8174,8 +7998,8 @@ class PullRequest {
       description: json['description'] as String?,
       lastActivityDate: timeStampFromJson(json['lastActivityDate']),
       pullRequestId: json['pullRequestId'] as String?,
-      pullRequestStatus:
-          (json['pullRequestStatus'] as String?)?.toPullRequestStatusEnum(),
+      pullRequestStatus: (json['pullRequestStatus'] as String?)
+          ?.let(PullRequestStatusEnum.fromString),
       pullRequestTargets: (json['pullRequestTargets'] as List?)
           ?.whereNotNull()
           .map((e) => PullRequestTarget.fromJson(e as Map<String, dynamic>))
@@ -8304,8 +8128,8 @@ class PullRequestEvent {
                   json['pullRequestCreatedEventMetadata']
                       as Map<String, dynamic>)
               : null,
-      pullRequestEventType:
-          (json['pullRequestEventType'] as String?)?.toPullRequestEventType(),
+      pullRequestEventType: (json['pullRequestEventType'] as String?)
+          ?.let(PullRequestEventType.fromString),
       pullRequestId: json['pullRequestId'] as String?,
       pullRequestMergedStateChangedEventMetadata:
           json['pullRequestMergedStateChangedEventMetadata'] != null
@@ -8330,66 +8154,25 @@ class PullRequestEvent {
 }
 
 enum PullRequestEventType {
-  pullRequestCreated,
-  pullRequestStatusChanged,
-  pullRequestSourceReferenceUpdated,
-  pullRequestMergeStateChanged,
-  pullRequestApprovalRuleCreated,
-  pullRequestApprovalRuleUpdated,
-  pullRequestApprovalRuleDeleted,
-  pullRequestApprovalRuleOverridden,
-  pullRequestApprovalStateChanged,
-}
+  pullRequestCreated('PULL_REQUEST_CREATED'),
+  pullRequestStatusChanged('PULL_REQUEST_STATUS_CHANGED'),
+  pullRequestSourceReferenceUpdated('PULL_REQUEST_SOURCE_REFERENCE_UPDATED'),
+  pullRequestMergeStateChanged('PULL_REQUEST_MERGE_STATE_CHANGED'),
+  pullRequestApprovalRuleCreated('PULL_REQUEST_APPROVAL_RULE_CREATED'),
+  pullRequestApprovalRuleUpdated('PULL_REQUEST_APPROVAL_RULE_UPDATED'),
+  pullRequestApprovalRuleDeleted('PULL_REQUEST_APPROVAL_RULE_DELETED'),
+  pullRequestApprovalRuleOverridden('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN'),
+  pullRequestApprovalStateChanged('PULL_REQUEST_APPROVAL_STATE_CHANGED'),
+  ;
 
-extension PullRequestEventTypeValueExtension on PullRequestEventType {
-  String toValue() {
-    switch (this) {
-      case PullRequestEventType.pullRequestCreated:
-        return 'PULL_REQUEST_CREATED';
-      case PullRequestEventType.pullRequestStatusChanged:
-        return 'PULL_REQUEST_STATUS_CHANGED';
-      case PullRequestEventType.pullRequestSourceReferenceUpdated:
-        return 'PULL_REQUEST_SOURCE_REFERENCE_UPDATED';
-      case PullRequestEventType.pullRequestMergeStateChanged:
-        return 'PULL_REQUEST_MERGE_STATE_CHANGED';
-      case PullRequestEventType.pullRequestApprovalRuleCreated:
-        return 'PULL_REQUEST_APPROVAL_RULE_CREATED';
-      case PullRequestEventType.pullRequestApprovalRuleUpdated:
-        return 'PULL_REQUEST_APPROVAL_RULE_UPDATED';
-      case PullRequestEventType.pullRequestApprovalRuleDeleted:
-        return 'PULL_REQUEST_APPROVAL_RULE_DELETED';
-      case PullRequestEventType.pullRequestApprovalRuleOverridden:
-        return 'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN';
-      case PullRequestEventType.pullRequestApprovalStateChanged:
-        return 'PULL_REQUEST_APPROVAL_STATE_CHANGED';
-    }
-  }
-}
+  final String value;
 
-extension PullRequestEventTypeFromString on String {
-  PullRequestEventType toPullRequestEventType() {
-    switch (this) {
-      case 'PULL_REQUEST_CREATED':
-        return PullRequestEventType.pullRequestCreated;
-      case 'PULL_REQUEST_STATUS_CHANGED':
-        return PullRequestEventType.pullRequestStatusChanged;
-      case 'PULL_REQUEST_SOURCE_REFERENCE_UPDATED':
-        return PullRequestEventType.pullRequestSourceReferenceUpdated;
-      case 'PULL_REQUEST_MERGE_STATE_CHANGED':
-        return PullRequestEventType.pullRequestMergeStateChanged;
-      case 'PULL_REQUEST_APPROVAL_RULE_CREATED':
-        return PullRequestEventType.pullRequestApprovalRuleCreated;
-      case 'PULL_REQUEST_APPROVAL_RULE_UPDATED':
-        return PullRequestEventType.pullRequestApprovalRuleUpdated;
-      case 'PULL_REQUEST_APPROVAL_RULE_DELETED':
-        return PullRequestEventType.pullRequestApprovalRuleDeleted;
-      case 'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN':
-        return PullRequestEventType.pullRequestApprovalRuleOverridden;
-      case 'PULL_REQUEST_APPROVAL_STATE_CHANGED':
-        return PullRequestEventType.pullRequestApprovalStateChanged;
-    }
-    throw Exception('$this is not known in enum PullRequestEventType');
-  }
+  const PullRequestEventType(this.value);
+
+  static PullRequestEventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PullRequestEventType'));
 }
 
 /// Returns information about the change in the merge state for a pull request
@@ -8470,38 +8253,25 @@ class PullRequestStatusChangedEventMetadata {
   factory PullRequestStatusChangedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return PullRequestStatusChangedEventMetadata(
-      pullRequestStatus:
-          (json['pullRequestStatus'] as String?)?.toPullRequestStatusEnum(),
+      pullRequestStatus: (json['pullRequestStatus'] as String?)
+          ?.let(PullRequestStatusEnum.fromString),
     );
   }
 }
 
 enum PullRequestStatusEnum {
-  open,
-  closed,
-}
+  open('OPEN'),
+  closed('CLOSED'),
+  ;
 
-extension PullRequestStatusEnumValueExtension on PullRequestStatusEnum {
-  String toValue() {
-    switch (this) {
-      case PullRequestStatusEnum.open:
-        return 'OPEN';
-      case PullRequestStatusEnum.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension PullRequestStatusEnumFromString on String {
-  PullRequestStatusEnum toPullRequestStatusEnum() {
-    switch (this) {
-      case 'OPEN':
-        return PullRequestStatusEnum.open;
-      case 'CLOSED':
-        return PullRequestStatusEnum.closed;
-    }
-    throw Exception('$this is not known in enum PullRequestStatusEnum');
-  }
+  const PullRequestStatusEnum(this.value);
+
+  static PullRequestStatusEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PullRequestStatusEnum'));
 }
 
 /// Returns information about a pull request target.
@@ -8593,7 +8363,7 @@ class PutFileEntry {
     return {
       'filePath': filePath,
       if (fileContent != null) 'fileContent': base64Encode(fileContent),
-      if (fileMode != null) 'fileMode': fileMode.toValue(),
+      if (fileMode != null) 'fileMode': fileMode.value,
       if (sourceFile != null) 'sourceFile': sourceFile,
     };
   }
@@ -8708,31 +8478,18 @@ class ReactionValueFormats {
 }
 
 enum RelativeFileVersionEnum {
-  before,
-  after,
-}
+  before('BEFORE'),
+  after('AFTER'),
+  ;
 
-extension RelativeFileVersionEnumValueExtension on RelativeFileVersionEnum {
-  String toValue() {
-    switch (this) {
-      case RelativeFileVersionEnum.before:
-        return 'BEFORE';
-      case RelativeFileVersionEnum.after:
-        return 'AFTER';
-    }
-  }
-}
+  final String value;
 
-extension RelativeFileVersionEnumFromString on String {
-  RelativeFileVersionEnum toRelativeFileVersionEnum() {
-    switch (this) {
-      case 'BEFORE':
-        return RelativeFileVersionEnum.before;
-      case 'AFTER':
-        return RelativeFileVersionEnum.after;
-    }
-    throw Exception('$this is not known in enum RelativeFileVersionEnum');
-  }
+  const RelativeFileVersionEnum(this.value);
+
+  static RelativeFileVersionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RelativeFileVersionEnum'));
 }
 
 /// Information about a replacement content entry in the conflict of a merge or
@@ -8765,49 +8522,28 @@ class ReplaceContentEntry {
     final fileMode = this.fileMode;
     return {
       'filePath': filePath,
-      'replacementType': replacementType.toValue(),
+      'replacementType': replacementType.value,
       if (content != null) 'content': base64Encode(content),
-      if (fileMode != null) 'fileMode': fileMode.toValue(),
+      if (fileMode != null) 'fileMode': fileMode.value,
     };
   }
 }
 
 enum ReplacementTypeEnum {
-  keepBase,
-  keepSource,
-  keepDestination,
-  useNewContent,
-}
+  keepBase('KEEP_BASE'),
+  keepSource('KEEP_SOURCE'),
+  keepDestination('KEEP_DESTINATION'),
+  useNewContent('USE_NEW_CONTENT'),
+  ;
 
-extension ReplacementTypeEnumValueExtension on ReplacementTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ReplacementTypeEnum.keepBase:
-        return 'KEEP_BASE';
-      case ReplacementTypeEnum.keepSource:
-        return 'KEEP_SOURCE';
-      case ReplacementTypeEnum.keepDestination:
-        return 'KEEP_DESTINATION';
-      case ReplacementTypeEnum.useNewContent:
-        return 'USE_NEW_CONTENT';
-    }
-  }
-}
+  final String value;
 
-extension ReplacementTypeEnumFromString on String {
-  ReplacementTypeEnum toReplacementTypeEnum() {
-    switch (this) {
-      case 'KEEP_BASE':
-        return ReplacementTypeEnum.keepBase;
-      case 'KEEP_SOURCE':
-        return ReplacementTypeEnum.keepSource;
-      case 'KEEP_DESTINATION':
-        return ReplacementTypeEnum.keepDestination;
-      case 'USE_NEW_CONTENT':
-        return ReplacementTypeEnum.useNewContent;
-    }
-    throw Exception('$this is not known in enum ReplacementTypeEnum');
-  }
+  const ReplacementTypeEnum(this.value);
+
+  static ReplacementTypeEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReplacementTypeEnum'));
 }
 
 /// Information about a repository.
@@ -8945,7 +8681,7 @@ class RepositoryTrigger {
       destinationArn: json['destinationArn'] as String,
       events: (json['events'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRepositoryTriggerEventEnum())
+          .map((e) => RepositoryTriggerEventEnum.fromString((e as String)))
           .toList(),
       name: json['name'] as String,
       branches: (json['branches'] as List?)
@@ -8964,7 +8700,7 @@ class RepositoryTrigger {
     final customData = this.customData;
     return {
       'destinationArn': destinationArn,
-      'events': events.map((e) => e.toValue()).toList(),
+      'events': events.map((e) => e.value).toList(),
       'name': name,
       if (branches != null) 'branches': branches,
       if (customData != null) 'customData': customData,
@@ -8973,42 +8709,20 @@ class RepositoryTrigger {
 }
 
 enum RepositoryTriggerEventEnum {
-  all,
-  updateReference,
-  createReference,
-  deleteReference,
-}
+  all('all'),
+  updateReference('updateReference'),
+  createReference('createReference'),
+  deleteReference('deleteReference'),
+  ;
 
-extension RepositoryTriggerEventEnumValueExtension
-    on RepositoryTriggerEventEnum {
-  String toValue() {
-    switch (this) {
-      case RepositoryTriggerEventEnum.all:
-        return 'all';
-      case RepositoryTriggerEventEnum.updateReference:
-        return 'updateReference';
-      case RepositoryTriggerEventEnum.createReference:
-        return 'createReference';
-      case RepositoryTriggerEventEnum.deleteReference:
-        return 'deleteReference';
-    }
-  }
-}
+  final String value;
 
-extension RepositoryTriggerEventEnumFromString on String {
-  RepositoryTriggerEventEnum toRepositoryTriggerEventEnum() {
-    switch (this) {
-      case 'all':
-        return RepositoryTriggerEventEnum.all;
-      case 'updateReference':
-        return RepositoryTriggerEventEnum.updateReference;
-      case 'createReference':
-        return RepositoryTriggerEventEnum.createReference;
-      case 'deleteReference':
-        return RepositoryTriggerEventEnum.deleteReference;
-    }
-    throw Exception('$this is not known in enum RepositoryTriggerEventEnum');
-  }
+  const RepositoryTriggerEventEnum(this.value);
+
+  static RepositoryTriggerEventEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RepositoryTriggerEventEnum'));
 }
 
 /// A trigger failed to run.
@@ -9050,38 +8764,24 @@ class SetFileModeEntry {
     final fileMode = this.fileMode;
     final filePath = this.filePath;
     return {
-      'fileMode': fileMode.toValue(),
+      'fileMode': fileMode.value,
       'filePath': filePath,
     };
   }
 }
 
 enum SortByEnum {
-  repositoryName,
-  lastModifiedDate,
-}
+  repositoryName('repositoryName'),
+  lastModifiedDate('lastModifiedDate'),
+  ;
 
-extension SortByEnumValueExtension on SortByEnum {
-  String toValue() {
-    switch (this) {
-      case SortByEnum.repositoryName:
-        return 'repositoryName';
-      case SortByEnum.lastModifiedDate:
-        return 'lastModifiedDate';
-    }
-  }
-}
+  final String value;
 
-extension SortByEnumFromString on String {
-  SortByEnum toSortByEnum() {
-    switch (this) {
-      case 'repositoryName':
-        return SortByEnum.repositoryName;
-      case 'lastModifiedDate':
-        return SortByEnum.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum SortByEnum');
-  }
+  const SortByEnum(this.value);
+
+  static SortByEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortByEnum'));
 }
 
 /// Information about a source file that is part of changes made in a commit.
@@ -9162,7 +8862,7 @@ class SymbolicLink {
     return SymbolicLink(
       absolutePath: json['absolutePath'] as String?,
       blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
       relativePath: json['relativePath'] as String?,
     );
   }

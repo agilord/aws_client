@@ -415,7 +415,7 @@ class BedrockRuntime {
         'X-Amzn-Bedrock-GuardrailIdentifier': guardrailIdentifier.toString(),
       if (guardrailVersion != null)
         'X-Amzn-Bedrock-GuardrailVersion': guardrailVersion.toString(),
-      if (trace != null) 'X-Amzn-Bedrock-Trace': trace.toValue(),
+      if (trace != null) 'X-Amzn-Bedrock-Trace': trace.value,
     };
     final response = await _protocol.sendRaw(
       payload: body,
@@ -550,7 +550,7 @@ class BedrockRuntime {
         'X-Amzn-Bedrock-GuardrailIdentifier': guardrailIdentifier.toString(),
       if (guardrailVersion != null)
         'X-Amzn-Bedrock-GuardrailVersion': guardrailVersion.toString(),
-      if (trace != null) 'X-Amzn-Bedrock-Trace': trace.toValue(),
+      if (trace != null) 'X-Amzn-Bedrock-Trace': trace.value,
     };
     final response = await _protocol.sendRaw(
       payload: body,
@@ -782,31 +782,18 @@ class ContentBlockStopEvent {
 }
 
 enum ConversationRole {
-  user,
-  assistant,
-}
+  user('user'),
+  assistant('assistant'),
+  ;
 
-extension ConversationRoleValueExtension on ConversationRole {
-  String toValue() {
-    switch (this) {
-      case ConversationRole.user:
-        return 'user';
-      case ConversationRole.assistant:
-        return 'assistant';
-    }
-  }
-}
+  final String value;
 
-extension ConversationRoleFromString on String {
-  ConversationRole toConversationRole() {
-    switch (this) {
-      case 'user':
-        return ConversationRole.user;
-      case 'assistant':
-        return ConversationRole.assistant;
-    }
-    throw Exception('$this is not known in enum ConversationRole');
-  }
+  const ConversationRole(this.value);
+
+  static ConversationRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConversationRole'));
 }
 
 /// Metrics for a call to <a
@@ -890,7 +877,7 @@ class ConverseResponse {
       metrics:
           ConverseMetrics.fromJson(json['metrics'] as Map<String, dynamic>),
       output: ConverseOutput.fromJson(json['output'] as Map<String, dynamic>),
-      stopReason: (json['stopReason'] as String).toStopReason(),
+      stopReason: StopReason.fromString((json['stopReason'] as String)),
       usage: TokenUsage.fromJson(json['usage'] as Map<String, dynamic>),
       additionalModelResponseFields:
           json['additionalModelResponseFields'] != null
@@ -909,7 +896,7 @@ class ConverseResponse {
     return {
       'metrics': metrics,
       'output': output,
-      'stopReason': stopReason.toValue(),
+      'stopReason': stopReason.value,
       'usage': usage,
       if (additionalModelResponseFields != null)
         'additionalModelResponseFields': additionalModelResponseFields,
@@ -1135,7 +1122,7 @@ class ImageBlock {
 
   factory ImageBlock.fromJson(Map<String, dynamic> json) {
     return ImageBlock(
-      format: (json['format'] as String).toImageFormat(),
+      format: ImageFormat.fromString((json['format'] as String)),
       source: ImageSource.fromJson(json['source'] as Map<String, dynamic>),
     );
   }
@@ -1144,48 +1131,26 @@ class ImageBlock {
     final format = this.format;
     final source = this.source;
     return {
-      'format': format.toValue(),
+      'format': format.value,
       'source': source,
     };
   }
 }
 
 enum ImageFormat {
-  png,
-  jpeg,
-  gif,
-  webp,
-}
+  png('png'),
+  jpeg('jpeg'),
+  gif('gif'),
+  webp('webp'),
+  ;
 
-extension ImageFormatValueExtension on ImageFormat {
-  String toValue() {
-    switch (this) {
-      case ImageFormat.png:
-        return 'png';
-      case ImageFormat.jpeg:
-        return 'jpeg';
-      case ImageFormat.gif:
-        return 'gif';
-      case ImageFormat.webp:
-        return 'webp';
-    }
-  }
-}
+  final String value;
 
-extension ImageFormatFromString on String {
-  ImageFormat toImageFormat() {
-    switch (this) {
-      case 'png':
-        return ImageFormat.png;
-      case 'jpeg':
-        return ImageFormat.jpeg;
-      case 'gif':
-        return ImageFormat.gif;
-      case 'webp':
-        return ImageFormat.webp;
-    }
-    throw Exception('$this is not known in enum ImageFormat');
-  }
+  const ImageFormat(this.value);
+
+  static ImageFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImageFormat'));
 }
 
 /// The source for an image.
@@ -1387,7 +1352,7 @@ class Message {
           .whereNotNull()
           .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
-      role: (json['role'] as String).toConversationRole(),
+      role: ConversationRole.fromString((json['role'] as String)),
     );
   }
 
@@ -1396,7 +1361,7 @@ class Message {
     final role = this.role;
     return {
       'content': content,
-      'role': role.toValue(),
+      'role': role.value,
     };
   }
 }
@@ -1412,14 +1377,14 @@ class MessageStartEvent {
 
   factory MessageStartEvent.fromJson(Map<String, dynamic> json) {
     return MessageStartEvent(
-      role: (json['role'] as String).toConversationRole(),
+      role: ConversationRole.fromString((json['role'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final role = this.role;
     return {
-      'role': role.toValue(),
+      'role': role.value,
     };
   }
 }
@@ -1439,7 +1404,7 @@ class MessageStopEvent {
 
   factory MessageStopEvent.fromJson(Map<String, dynamic> json) {
     return MessageStopEvent(
-      stopReason: (json['stopReason'] as String).toStopReason(),
+      stopReason: StopReason.fromString((json['stopReason'] as String)),
       additionalModelResponseFields:
           json['additionalModelResponseFields'] != null
               ? Document.fromJson(
@@ -1452,7 +1417,7 @@ class MessageStopEvent {
     final stopReason = this.stopReason;
     final additionalModelResponseFields = this.additionalModelResponseFields;
     return {
-      'stopReason': stopReason.toValue(),
+      'stopReason': stopReason.value,
       if (additionalModelResponseFields != null)
         'additionalModelResponseFields': additionalModelResponseFields,
     };
@@ -1645,46 +1610,20 @@ class SpecificToolChoice {
 }
 
 enum StopReason {
-  endTurn,
-  toolUse,
-  maxTokens,
-  stopSequence,
-  contentFiltered,
-}
+  endTurn('end_turn'),
+  toolUse('tool_use'),
+  maxTokens('max_tokens'),
+  stopSequence('stop_sequence'),
+  contentFiltered('content_filtered'),
+  ;
 
-extension StopReasonValueExtension on StopReason {
-  String toValue() {
-    switch (this) {
-      case StopReason.endTurn:
-        return 'end_turn';
-      case StopReason.toolUse:
-        return 'tool_use';
-      case StopReason.maxTokens:
-        return 'max_tokens';
-      case StopReason.stopSequence:
-        return 'stop_sequence';
-      case StopReason.contentFiltered:
-        return 'content_filtered';
-    }
-  }
-}
+  final String value;
 
-extension StopReasonFromString on String {
-  StopReason toStopReason() {
-    switch (this) {
-      case 'end_turn':
-        return StopReason.endTurn;
-      case 'tool_use':
-        return StopReason.toolUse;
-      case 'max_tokens':
-        return StopReason.maxTokens;
-      case 'stop_sequence':
-        return StopReason.stopSequence;
-      case 'content_filtered':
-        return StopReason.contentFiltered;
-    }
-    throw Exception('$this is not known in enum StopReason');
-  }
+  const StopReason(this.value);
+
+  static StopReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StopReason'));
 }
 
 /// A system content block
@@ -1886,7 +1825,7 @@ class ToolResultBlock {
               (e) => ToolResultContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
       toolUseId: json['toolUseId'] as String,
-      status: (json['status'] as String?)?.toToolResultStatus(),
+      status: (json['status'] as String?)?.let(ToolResultStatus.fromString),
     );
   }
 
@@ -1897,7 +1836,7 @@ class ToolResultBlock {
     return {
       'content': content,
       'toolUseId': toolUseId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1947,31 +1886,18 @@ class ToolResultContentBlock {
 }
 
 enum ToolResultStatus {
-  success,
-  error,
-}
+  success('success'),
+  error('error'),
+  ;
 
-extension ToolResultStatusValueExtension on ToolResultStatus {
-  String toValue() {
-    switch (this) {
-      case ToolResultStatus.success:
-        return 'success';
-      case ToolResultStatus.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension ToolResultStatusFromString on String {
-  ToolResultStatus toToolResultStatus() {
-    switch (this) {
-      case 'success':
-        return ToolResultStatus.success;
-      case 'error':
-        return ToolResultStatus.error;
-    }
-    throw Exception('$this is not known in enum ToolResultStatus');
-  }
+  const ToolResultStatus(this.value);
+
+  static ToolResultStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ToolResultStatus'));
 }
 
 /// The specification for the tool.
@@ -2096,31 +2022,17 @@ class ToolUseBlockStart {
 }
 
 enum Trace {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension TraceValueExtension on Trace {
-  String toValue() {
-    switch (this) {
-      case Trace.enabled:
-        return 'ENABLED';
-      case Trace.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension TraceFromString on String {
-  Trace toTrace() {
-    switch (this) {
-      case 'ENABLED':
-        return Trace.enabled;
-      case 'DISABLED':
-        return Trace.disabled;
-    }
-    throw Exception('$this is not known in enum Trace');
-  }
+  const Trace(this.value);
+
+  static Trace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Trace'));
 }
 
 /// Input validation failed. Check your request parameters and retry the

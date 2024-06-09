@@ -89,7 +89,7 @@ class ElasticInference {
     List<String>? acceleratorTypes,
   }) async {
     final $payload = <String, dynamic>{
-      'locationType': locationType.toValue(),
+      'locationType': locationType.value,
       if (acceleratorTypes != null) 'acceleratorTypes': acceleratorTypes,
     };
     final response = await _protocol.send(
@@ -345,7 +345,8 @@ class AcceleratorTypeOffering {
     return AcceleratorTypeOffering(
       acceleratorType: json['acceleratorType'] as String?,
       location: json['location'] as String?,
-      locationType: (json['locationType'] as String?)?.toLocationType(),
+      locationType:
+          (json['locationType'] as String?)?.let(LocationType.fromString),
     );
   }
 }
@@ -535,36 +536,19 @@ class ListTagsForResourceResult {
 }
 
 enum LocationType {
-  region,
-  availabilityZone,
-  availabilityZoneId,
-}
+  region('region'),
+  availabilityZone('availability-zone'),
+  availabilityZoneId('availability-zone-id'),
+  ;
 
-extension LocationTypeValueExtension on LocationType {
-  String toValue() {
-    switch (this) {
-      case LocationType.region:
-        return 'region';
-      case LocationType.availabilityZone:
-        return 'availability-zone';
-      case LocationType.availabilityZoneId:
-        return 'availability-zone-id';
-    }
-  }
-}
+  final String value;
 
-extension LocationTypeFromString on String {
-  LocationType toLocationType() {
-    switch (this) {
-      case 'region':
-        return LocationType.region;
-      case 'availability-zone':
-        return LocationType.availabilityZone;
-      case 'availability-zone-id':
-        return LocationType.availabilityZoneId;
-    }
-    throw Exception('$this is not known in enum LocationType');
-  }
+  const LocationType(this.value);
+
+  static LocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LocationType'));
 }
 
 /// The memory information of an Elastic Inference Accelerator type.

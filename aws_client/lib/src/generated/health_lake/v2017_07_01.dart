@@ -102,7 +102,7 @@ class HealthLake {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DatastoreTypeVersion': datastoreTypeVersion.toValue(),
+        'DatastoreTypeVersion': datastoreTypeVersion.value,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (datastoreName != null) 'DatastoreName': datastoreName,
         if (identityProviderConfiguration != null)
@@ -364,7 +364,7 @@ class HealthLake {
       payload: {
         'DatastoreId': datastoreId,
         if (jobName != null) 'JobName': jobName,
-        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (jobStatus != null) 'JobStatus': jobStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (submittedAfter != null)
@@ -440,7 +440,7 @@ class HealthLake {
       payload: {
         'DatastoreId': datastoreId,
         if (jobName != null) 'JobName': jobName,
-        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (jobStatus != null) 'JobStatus': jobStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (submittedAfter != null)
@@ -656,59 +656,32 @@ class HealthLake {
 }
 
 enum AuthorizationStrategy {
-  smartOnFhirV1,
-  awsAuth,
-}
+  smartOnFhirV1('SMART_ON_FHIR_V1'),
+  awsAuth('AWS_AUTH'),
+  ;
 
-extension AuthorizationStrategyValueExtension on AuthorizationStrategy {
-  String toValue() {
-    switch (this) {
-      case AuthorizationStrategy.smartOnFhirV1:
-        return 'SMART_ON_FHIR_V1';
-      case AuthorizationStrategy.awsAuth:
-        return 'AWS_AUTH';
-    }
-  }
-}
+  final String value;
 
-extension AuthorizationStrategyFromString on String {
-  AuthorizationStrategy toAuthorizationStrategy() {
-    switch (this) {
-      case 'SMART_ON_FHIR_V1':
-        return AuthorizationStrategy.smartOnFhirV1;
-      case 'AWS_AUTH':
-        return AuthorizationStrategy.awsAuth;
-    }
-    throw Exception('$this is not known in enum AuthorizationStrategy');
-  }
+  const AuthorizationStrategy(this.value);
+
+  static AuthorizationStrategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthorizationStrategy'));
 }
 
 enum CmkType {
-  customerManagedKmsKey,
-  awsOwnedKmsKey,
-}
+  customerManagedKmsKey('CUSTOMER_MANAGED_KMS_KEY'),
+  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
+  ;
 
-extension CmkTypeValueExtension on CmkType {
-  String toValue() {
-    switch (this) {
-      case CmkType.customerManagedKmsKey:
-        return 'CUSTOMER_MANAGED_KMS_KEY';
-      case CmkType.awsOwnedKmsKey:
-        return 'AWS_OWNED_KMS_KEY';
-    }
-  }
-}
+  final String value;
 
-extension CmkTypeFromString on String {
-  CmkType toCmkType() {
-    switch (this) {
-      case 'CUSTOMER_MANAGED_KMS_KEY':
-        return CmkType.customerManagedKmsKey;
-      case 'AWS_OWNED_KMS_KEY':
-        return CmkType.awsOwnedKmsKey;
-    }
-    throw Exception('$this is not known in enum CmkType');
-  }
+  const CmkType(this.value);
+
+  static CmkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum CmkType'));
 }
 
 class CreateFHIRDatastoreResponse {
@@ -738,7 +711,8 @@ class CreateFHIRDatastoreResponse {
       datastoreArn: json['DatastoreArn'] as String,
       datastoreEndpoint: json['DatastoreEndpoint'] as String,
       datastoreId: json['DatastoreId'] as String,
-      datastoreStatus: (json['DatastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
     );
   }
 
@@ -751,7 +725,7 @@ class CreateFHIRDatastoreResponse {
       'DatastoreArn': datastoreArn,
       'DatastoreEndpoint': datastoreEndpoint,
       'DatastoreId': datastoreId,
-      'DatastoreStatus': datastoreStatus.toValue(),
+      'DatastoreStatus': datastoreStatus.value,
     };
   }
 }
@@ -790,7 +764,7 @@ class DatastoreFilter {
       if (createdBefore != null)
         'CreatedBefore': unixTimestampToJson(createdBefore),
       if (datastoreName != null) 'DatastoreName': datastoreName,
-      if (datastoreStatus != null) 'DatastoreStatus': datastoreStatus.toValue(),
+      if (datastoreStatus != null) 'DatastoreStatus': datastoreStatus.value,
     };
   }
 }
@@ -853,9 +827,10 @@ class DatastoreProperties {
       datastoreArn: json['DatastoreArn'] as String,
       datastoreEndpoint: json['DatastoreEndpoint'] as String,
       datastoreId: json['DatastoreId'] as String,
-      datastoreStatus: (json['DatastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
       datastoreTypeVersion:
-          (json['DatastoreTypeVersion'] as String).toFHIRVersion(),
+          FHIRVersion.fromString((json['DatastoreTypeVersion'] as String)),
       createdAt: timeStampFromJson(json['CreatedAt']),
       datastoreName: json['DatastoreName'] as String?,
       errorCause: json['ErrorCause'] != null
@@ -893,8 +868,8 @@ class DatastoreProperties {
       'DatastoreArn': datastoreArn,
       'DatastoreEndpoint': datastoreEndpoint,
       'DatastoreId': datastoreId,
-      'DatastoreStatus': datastoreStatus.toValue(),
-      'DatastoreTypeVersion': datastoreTypeVersion.toValue(),
+      'DatastoreStatus': datastoreStatus.value,
+      'DatastoreTypeVersion': datastoreTypeVersion.value,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (datastoreName != null) 'DatastoreName': datastoreName,
       if (errorCause != null) 'ErrorCause': errorCause,
@@ -907,46 +882,21 @@ class DatastoreProperties {
 }
 
 enum DatastoreStatus {
-  creating,
-  active,
-  deleting,
-  deleted,
-  createFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  createFailed('CREATE_FAILED'),
+  ;
 
-extension DatastoreStatusValueExtension on DatastoreStatus {
-  String toValue() {
-    switch (this) {
-      case DatastoreStatus.creating:
-        return 'CREATING';
-      case DatastoreStatus.active:
-        return 'ACTIVE';
-      case DatastoreStatus.deleting:
-        return 'DELETING';
-      case DatastoreStatus.deleted:
-        return 'DELETED';
-      case DatastoreStatus.createFailed:
-        return 'CREATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DatastoreStatusFromString on String {
-  DatastoreStatus toDatastoreStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DatastoreStatus.creating;
-      case 'ACTIVE':
-        return DatastoreStatus.active;
-      case 'DELETING':
-        return DatastoreStatus.deleting;
-      case 'DELETED':
-        return DatastoreStatus.deleted;
-      case 'CREATE_FAILED':
-        return DatastoreStatus.createFailed;
-    }
-    throw Exception('$this is not known in enum DatastoreStatus');
-  }
+  const DatastoreStatus(this.value);
+
+  static DatastoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatastoreStatus'));
 }
 
 class DeleteFHIRDatastoreResponse {
@@ -974,7 +924,8 @@ class DeleteFHIRDatastoreResponse {
       datastoreArn: json['DatastoreArn'] as String,
       datastoreEndpoint: json['DatastoreEndpoint'] as String,
       datastoreId: json['DatastoreId'] as String,
-      datastoreStatus: (json['DatastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
     );
   }
 
@@ -987,7 +938,7 @@ class DeleteFHIRDatastoreResponse {
       'DatastoreArn': datastoreArn,
       'DatastoreEndpoint': datastoreEndpoint,
       'DatastoreId': datastoreId,
-      'DatastoreStatus': datastoreStatus.toValue(),
+      'DatastoreStatus': datastoreStatus.value,
     };
   }
 }
@@ -1066,31 +1017,18 @@ class DescribeFHIRImportJobResponse {
 }
 
 enum ErrorCategory {
-  retryableError,
-  nonRetryableError,
-}
+  retryableError('RETRYABLE_ERROR'),
+  nonRetryableError('NON_RETRYABLE_ERROR'),
+  ;
 
-extension ErrorCategoryValueExtension on ErrorCategory {
-  String toValue() {
-    switch (this) {
-      case ErrorCategory.retryableError:
-        return 'RETRYABLE_ERROR';
-      case ErrorCategory.nonRetryableError:
-        return 'NON_RETRYABLE_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCategoryFromString on String {
-  ErrorCategory toErrorCategory() {
-    switch (this) {
-      case 'RETRYABLE_ERROR':
-        return ErrorCategory.retryableError;
-      case 'NON_RETRYABLE_ERROR':
-        return ErrorCategory.nonRetryableError;
-    }
-    throw Exception('$this is not known in enum ErrorCategory');
-  }
+  const ErrorCategory(this.value);
+
+  static ErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ErrorCategory'));
 }
 
 /// The error info of the create/delete data store operation.
@@ -1109,7 +1047,8 @@ class ErrorCause {
 
   factory ErrorCause.fromJson(Map<String, dynamic> json) {
     return ErrorCause(
-      errorCategory: (json['ErrorCategory'] as String?)?.toErrorCategory(),
+      errorCategory:
+          (json['ErrorCategory'] as String?)?.let(ErrorCategory.fromString),
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
@@ -1118,7 +1057,7 @@ class ErrorCause {
     final errorCategory = this.errorCategory;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCategory != null) 'ErrorCategory': errorCategory.toValue(),
+      if (errorCategory != null) 'ErrorCategory': errorCategory.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
@@ -1173,7 +1112,7 @@ class ExportJobProperties {
     return ExportJobProperties(
       datastoreId: json['DatastoreId'] as String,
       jobId: json['JobId'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       outputDataConfig: OutputDataConfig.fromJson(
           json['OutputDataConfig'] as Map<String, dynamic>),
       submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] as Object),
@@ -1197,7 +1136,7 @@ class ExportJobProperties {
     return {
       'DatastoreId': datastoreId,
       'JobId': jobId,
-      'JobStatus': jobStatus.toValue(),
+      'JobStatus': jobStatus.value,
       'OutputDataConfig': outputDataConfig,
       'SubmitTime': unixTimestampToJson(submitTime),
       if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
@@ -1209,26 +1148,16 @@ class ExportJobProperties {
 }
 
 enum FHIRVersion {
-  r4,
-}
+  r4('R4'),
+  ;
 
-extension FHIRVersionValueExtension on FHIRVersion {
-  String toValue() {
-    switch (this) {
-      case FHIRVersion.r4:
-        return 'R4';
-    }
-  }
-}
+  final String value;
 
-extension FHIRVersionFromString on String {
-  FHIRVersion toFHIRVersion() {
-    switch (this) {
-      case 'R4':
-        return FHIRVersion.r4;
-    }
-    throw Exception('$this is not known in enum FHIRVersion');
-  }
+  const FHIRVersion(this.value);
+
+  static FHIRVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FHIRVersion'));
 }
 
 /// The identity provider configuration that you gave when the data store was
@@ -1279,8 +1208,8 @@ class IdentityProviderConfiguration {
 
   factory IdentityProviderConfiguration.fromJson(Map<String, dynamic> json) {
     return IdentityProviderConfiguration(
-      authorizationStrategy:
-          (json['AuthorizationStrategy'] as String).toAuthorizationStrategy(),
+      authorizationStrategy: AuthorizationStrategy.fromString(
+          (json['AuthorizationStrategy'] as String)),
       fineGrainedAuthorizationEnabled:
           json['FineGrainedAuthorizationEnabled'] as bool?,
       idpLambdaArn: json['IdpLambdaArn'] as String?,
@@ -1295,7 +1224,7 @@ class IdentityProviderConfiguration {
     final idpLambdaArn = this.idpLambdaArn;
     final metadata = this.metadata;
     return {
-      'AuthorizationStrategy': authorizationStrategy.toValue(),
+      'AuthorizationStrategy': authorizationStrategy.value,
       if (fineGrainedAuthorizationEnabled != null)
         'FineGrainedAuthorizationEnabled': fineGrainedAuthorizationEnabled,
       if (idpLambdaArn != null) 'IdpLambdaArn': idpLambdaArn,
@@ -1363,7 +1292,7 @@ class ImportJobProperties {
       inputDataConfig: InputDataConfig.fromJson(
           json['InputDataConfig'] as Map<String, dynamic>),
       jobId: json['JobId'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] as Object),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
@@ -1396,7 +1325,7 @@ class ImportJobProperties {
       'DatastoreId': datastoreId,
       'InputDataConfig': inputDataConfig,
       'JobId': jobId,
-      'JobStatus': jobStatus.toValue(),
+      'JobStatus': jobStatus.value,
       'SubmitTime': unixTimestampToJson(submitTime),
       if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
@@ -1523,66 +1452,24 @@ class JobProgressReport {
 }
 
 enum JobStatus {
-  submitted,
-  inProgress,
-  completedWithErrors,
-  completed,
-  failed,
-  cancelSubmitted,
-  cancelInProgress,
-  cancelCompleted,
-  cancelFailed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completedWithErrors('COMPLETED_WITH_ERRORS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  cancelSubmitted('CANCEL_SUBMITTED'),
+  cancelInProgress('CANCEL_IN_PROGRESS'),
+  cancelCompleted('CANCEL_COMPLETED'),
+  cancelFailed('CANCEL_FAILED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.completedWithErrors:
-        return 'COMPLETED_WITH_ERRORS';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.cancelSubmitted:
-        return 'CANCEL_SUBMITTED';
-      case JobStatus.cancelInProgress:
-        return 'CANCEL_IN_PROGRESS';
-      case JobStatus.cancelCompleted:
-        return 'CANCEL_COMPLETED';
-      case JobStatus.cancelFailed:
-        return 'CANCEL_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'COMPLETED_WITH_ERRORS':
-        return JobStatus.completedWithErrors;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'CANCEL_SUBMITTED':
-        return JobStatus.cancelSubmitted;
-      case 'CANCEL_IN_PROGRESS':
-        return JobStatus.cancelInProgress;
-      case 'CANCEL_COMPLETED':
-        return JobStatus.cancelCompleted;
-      case 'CANCEL_FAILED':
-        return JobStatus.cancelFailed;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// The customer-managed-key(CMK) used when creating a data store. If a customer
@@ -1603,7 +1490,7 @@ class KmsEncryptionConfig {
 
   factory KmsEncryptionConfig.fromJson(Map<String, dynamic> json) {
     return KmsEncryptionConfig(
-      cmkType: (json['CmkType'] as String).toCmkType(),
+      cmkType: CmkType.fromString((json['CmkType'] as String)),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -1612,7 +1499,7 @@ class KmsEncryptionConfig {
     final cmkType = this.cmkType;
     final kmsKeyId = this.kmsKeyId;
     return {
-      'CmkType': cmkType.toValue(),
+      'CmkType': cmkType.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
@@ -1783,39 +1670,31 @@ class PreloadDataConfig {
 
   factory PreloadDataConfig.fromJson(Map<String, dynamic> json) {
     return PreloadDataConfig(
-      preloadDataType: (json['PreloadDataType'] as String).toPreloadDataType(),
+      preloadDataType:
+          PreloadDataType.fromString((json['PreloadDataType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final preloadDataType = this.preloadDataType;
     return {
-      'PreloadDataType': preloadDataType.toValue(),
+      'PreloadDataType': preloadDataType.value,
     };
   }
 }
 
 enum PreloadDataType {
-  synthea,
-}
+  synthea('SYNTHEA'),
+  ;
 
-extension PreloadDataTypeValueExtension on PreloadDataType {
-  String toValue() {
-    switch (this) {
-      case PreloadDataType.synthea:
-        return 'SYNTHEA';
-    }
-  }
-}
+  final String value;
 
-extension PreloadDataTypeFromString on String {
-  PreloadDataType toPreloadDataType() {
-    switch (this) {
-      case 'SYNTHEA':
-        return PreloadDataType.synthea;
-    }
-    throw Exception('$this is not known in enum PreloadDataType');
-  }
+  const PreloadDataType(this.value);
+
+  static PreloadDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PreloadDataType'));
 }
 
 /// The configuration of the S3 bucket for either an import or export job. This
@@ -1897,7 +1776,7 @@ class StartFHIRExportJobResponse {
   factory StartFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRExportJobResponse(
       jobId: json['JobId'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       datastoreId: json['DatastoreId'] as String?,
     );
   }
@@ -1908,7 +1787,7 @@ class StartFHIRExportJobResponse {
     final datastoreId = this.datastoreId;
     return {
       'JobId': jobId,
-      'JobStatus': jobStatus.toValue(),
+      'JobStatus': jobStatus.value,
       if (datastoreId != null) 'DatastoreId': datastoreId,
     };
   }
@@ -1933,7 +1812,7 @@ class StartFHIRImportJobResponse {
   factory StartFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRImportJobResponse(
       jobId: json['JobId'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       datastoreId: json['DatastoreId'] as String?,
     );
   }
@@ -1944,7 +1823,7 @@ class StartFHIRImportJobResponse {
     final datastoreId = this.datastoreId;
     return {
       'JobId': jobId,
-      'JobStatus': jobStatus.toValue(),
+      'JobStatus': jobStatus.value,
       if (datastoreId != null) 'DatastoreId': datastoreId,
     };
   }

@@ -461,7 +461,7 @@ class WorkSpacesWeb {
     final $payload = <String, dynamic>{
       'identityProviderDetails': identityProviderDetails,
       'identityProviderName': identityProviderName,
-      'identityProviderType': identityProviderType.toValue(),
+      'identityProviderType': identityProviderType.value,
       'portalArn': portalArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
@@ -671,11 +671,11 @@ class WorkSpacesWeb {
       if (additionalEncryptionContext != null)
         'additionalEncryptionContext': additionalEncryptionContext,
       if (authenticationType != null)
-        'authenticationType': authenticationType.toValue(),
+        'authenticationType': authenticationType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (customerManagedKey != null) 'customerManagedKey': customerManagedKey,
       if (displayName != null) 'displayName': displayName,
-      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (instanceType != null) 'instanceType': instanceType.value,
       if (maxConcurrentSessions != null)
         'maxConcurrentSessions': maxConcurrentSessions,
       if (tags != null) 'tags': tags,
@@ -872,11 +872,11 @@ class WorkSpacesWeb {
       60,
     );
     final $payload = <String, dynamic>{
-      'copyAllowed': copyAllowed.toValue(),
-      'downloadAllowed': downloadAllowed.toValue(),
-      'pasteAllowed': pasteAllowed.toValue(),
-      'printAllowed': printAllowed.toValue(),
-      'uploadAllowed': uploadAllowed.toValue(),
+      'copyAllowed': copyAllowed.value,
+      'downloadAllowed': downloadAllowed.value,
+      'pasteAllowed': pasteAllowed.value,
+      'printAllowed': printAllowed.value,
+      'uploadAllowed': uploadAllowed.value,
       if (additionalEncryptionContext != null)
         'additionalEncryptionContext': additionalEncryptionContext,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -2083,7 +2083,7 @@ class WorkSpacesWeb {
       if (identityProviderName != null)
         'identityProviderName': identityProviderName,
       if (identityProviderType != null)
-        'identityProviderType': identityProviderType.toValue(),
+        'identityProviderType': identityProviderType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2253,9 +2253,9 @@ class WorkSpacesWeb {
     );
     final $payload = <String, dynamic>{
       if (authenticationType != null)
-        'authenticationType': authenticationType.toValue(),
+        'authenticationType': authenticationType.value,
       if (displayName != null) 'displayName': displayName,
-      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (instanceType != null) 'instanceType': instanceType.value,
       if (maxConcurrentSessions != null)
         'maxConcurrentSessions': maxConcurrentSessions,
     };
@@ -2445,15 +2445,15 @@ class WorkSpacesWeb {
       if (cookieSynchronizationConfiguration != null)
         'cookieSynchronizationConfiguration':
             cookieSynchronizationConfiguration,
-      if (copyAllowed != null) 'copyAllowed': copyAllowed.toValue(),
+      if (copyAllowed != null) 'copyAllowed': copyAllowed.value,
       if (disconnectTimeoutInMinutes != null)
         'disconnectTimeoutInMinutes': disconnectTimeoutInMinutes,
-      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.toValue(),
+      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.value,
       if (idleDisconnectTimeoutInMinutes != null)
         'idleDisconnectTimeoutInMinutes': idleDisconnectTimeoutInMinutes,
-      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.toValue(),
-      if (printAllowed != null) 'printAllowed': printAllowed.toValue(),
-      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.toValue(),
+      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.value,
+      if (printAllowed != null) 'printAllowed': printAllowed.value,
+      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2644,31 +2644,18 @@ class AssociateUserSettingsResponse {
 }
 
 enum AuthenticationType {
-  standard,
-  iamIdentityCenter,
-}
+  standard('Standard'),
+  iamIdentityCenter('IAM_Identity_Center'),
+  ;
 
-extension AuthenticationTypeValueExtension on AuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AuthenticationType.standard:
-        return 'Standard';
-      case AuthenticationType.iamIdentityCenter:
-        return 'IAM_Identity_Center';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationTypeFromString on String {
-  AuthenticationType toAuthenticationType() {
-    switch (this) {
-      case 'Standard':
-        return AuthenticationType.standard;
-      case 'IAM_Identity_Center':
-        return AuthenticationType.iamIdentityCenter;
-    }
-    throw Exception('$this is not known in enum AuthenticationType');
-  }
+  const AuthenticationType(this.value);
+
+  static AuthenticationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationType'));
 }
 
 /// The browser settings resource that can be associated with a web portal. Once
@@ -2757,26 +2744,16 @@ class BrowserSettingsSummary {
 }
 
 enum BrowserType {
-  chrome,
-}
+  chrome('Chrome'),
+  ;
 
-extension BrowserTypeValueExtension on BrowserType {
-  String toValue() {
-    switch (this) {
-      case BrowserType.chrome:
-        return 'Chrome';
-    }
-  }
-}
+  final String value;
 
-extension BrowserTypeFromString on String {
-  BrowserType toBrowserType() {
-    switch (this) {
-      case 'Chrome':
-        return BrowserType.chrome;
-    }
-    throw Exception('$this is not known in enum BrowserType');
-  }
+  const BrowserType(this.value);
+
+  static BrowserType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BrowserType'));
 }
 
 /// The certificate.
@@ -3327,31 +3304,17 @@ class DisassociateUserSettingsResponse {
 }
 
 enum EnabledType {
-  disabled,
-  enabled,
-}
+  disabled('Disabled'),
+  enabled('Enabled'),
+  ;
 
-extension EnabledTypeValueExtension on EnabledType {
-  String toValue() {
-    switch (this) {
-      case EnabledType.disabled:
-        return 'Disabled';
-      case EnabledType.enabled:
-        return 'Enabled';
-    }
-  }
-}
+  final String value;
 
-extension EnabledTypeFromString on String {
-  EnabledType toEnabledType() {
-    switch (this) {
-      case 'Disabled':
-        return EnabledType.disabled;
-      case 'Enabled':
-        return EnabledType.enabled;
-    }
-    throw Exception('$this is not known in enum EnabledType');
-  }
+  const EnabledType(this.value);
+
+  static EnabledType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EnabledType'));
 }
 
 class GetBrowserSettingsResponse {
@@ -3756,8 +3719,8 @@ class IdentityProvider {
           (json['identityProviderDetails'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       identityProviderName: json['identityProviderName'] as String?,
-      identityProviderType:
-          (json['identityProviderType'] as String?)?.toIdentityProviderType(),
+      identityProviderType: (json['identityProviderType'] as String?)
+          ?.let(IdentityProviderType.fromString),
     );
   }
 
@@ -3773,7 +3736,7 @@ class IdentityProvider {
       if (identityProviderName != null)
         'identityProviderName': identityProviderName,
       if (identityProviderType != null)
-        'identityProviderType': identityProviderType.toValue(),
+        'identityProviderType': identityProviderType.value,
     };
   }
 }
@@ -3799,8 +3762,8 @@ class IdentityProviderSummary {
     return IdentityProviderSummary(
       identityProviderArn: json['identityProviderArn'] as String,
       identityProviderName: json['identityProviderName'] as String?,
-      identityProviderType:
-          (json['identityProviderType'] as String?)?.toIdentityProviderType(),
+      identityProviderType: (json['identityProviderType'] as String?)
+          ?.let(IdentityProviderType.fromString),
     );
   }
 
@@ -3813,90 +3776,44 @@ class IdentityProviderSummary {
       if (identityProviderName != null)
         'identityProviderName': identityProviderName,
       if (identityProviderType != null)
-        'identityProviderType': identityProviderType.toValue(),
+        'identityProviderType': identityProviderType.value,
     };
   }
 }
 
 enum IdentityProviderType {
-  saml,
-  facebook,
-  google,
-  loginWithAmazon,
-  signInWithApple,
-  oidc,
-}
+  saml('SAML'),
+  facebook('Facebook'),
+  google('Google'),
+  loginWithAmazon('LoginWithAmazon'),
+  signInWithApple('SignInWithApple'),
+  oidc('OIDC'),
+  ;
 
-extension IdentityProviderTypeValueExtension on IdentityProviderType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderType.saml:
-        return 'SAML';
-      case IdentityProviderType.facebook:
-        return 'Facebook';
-      case IdentityProviderType.google:
-        return 'Google';
-      case IdentityProviderType.loginWithAmazon:
-        return 'LoginWithAmazon';
-      case IdentityProviderType.signInWithApple:
-        return 'SignInWithApple';
-      case IdentityProviderType.oidc:
-        return 'OIDC';
-    }
-  }
-}
+  final String value;
 
-extension IdentityProviderTypeFromString on String {
-  IdentityProviderType toIdentityProviderType() {
-    switch (this) {
-      case 'SAML':
-        return IdentityProviderType.saml;
-      case 'Facebook':
-        return IdentityProviderType.facebook;
-      case 'Google':
-        return IdentityProviderType.google;
-      case 'LoginWithAmazon':
-        return IdentityProviderType.loginWithAmazon;
-      case 'SignInWithApple':
-        return IdentityProviderType.signInWithApple;
-      case 'OIDC':
-        return IdentityProviderType.oidc;
-    }
-    throw Exception('$this is not known in enum IdentityProviderType');
-  }
+  const IdentityProviderType(this.value);
+
+  static IdentityProviderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IdentityProviderType'));
 }
 
 enum InstanceType {
-  standardRegular,
-  standardLarge,
-  standardXlarge,
-}
+  standardRegular('standard.regular'),
+  standardLarge('standard.large'),
+  standardXlarge('standard.xlarge'),
+  ;
 
-extension InstanceTypeValueExtension on InstanceType {
-  String toValue() {
-    switch (this) {
-      case InstanceType.standardRegular:
-        return 'standard.regular';
-      case InstanceType.standardLarge:
-        return 'standard.large';
-      case InstanceType.standardXlarge:
-        return 'standard.xlarge';
-    }
-  }
-}
+  final String value;
 
-extension InstanceTypeFromString on String {
-  InstanceType toInstanceType() {
-    switch (this) {
-      case 'standard.regular':
-        return InstanceType.standardRegular;
-      case 'standard.large':
-        return InstanceType.standardLarge;
-      case 'standard.xlarge':
-        return InstanceType.standardXlarge;
-    }
-    throw Exception('$this is not known in enum InstanceType');
-  }
+  const InstanceType(this.value);
+
+  static InstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceType'));
 }
 
 /// The IP access settings resource that can be associated with a web portal.
@@ -4593,20 +4510,24 @@ class Portal {
       additionalEncryptionContext:
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
-      authenticationType:
-          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      authenticationType: (json['authenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
       browserSettingsArn: json['browserSettingsArn'] as String?,
-      browserType: (json['browserType'] as String?)?.toBrowserType(),
+      browserType:
+          (json['browserType'] as String?)?.let(BrowserType.fromString),
       creationDate: timeStampFromJson(json['creationDate']),
       customerManagedKey: json['customerManagedKey'] as String?,
       displayName: json['displayName'] as String?,
-      instanceType: (json['instanceType'] as String?)?.toInstanceType(),
+      instanceType:
+          (json['instanceType'] as String?)?.let(InstanceType.fromString),
       ipAccessSettingsArn: json['ipAccessSettingsArn'] as String?,
       maxConcurrentSessions: json['maxConcurrentSessions'] as int?,
       networkSettingsArn: json['networkSettingsArn'] as String?,
       portalEndpoint: json['portalEndpoint'] as String?,
-      portalStatus: (json['portalStatus'] as String?)?.toPortalStatus(),
-      rendererType: (json['rendererType'] as String?)?.toRendererType(),
+      portalStatus:
+          (json['portalStatus'] as String?)?.let(PortalStatus.fromString),
+      rendererType:
+          (json['rendererType'] as String?)?.let(RendererType.fromString),
       statusReason: json['statusReason'] as String?,
       trustStoreArn: json['trustStoreArn'] as String?,
       userAccessLoggingSettingsArn:
@@ -4640,22 +4561,22 @@ class Portal {
       if (additionalEncryptionContext != null)
         'additionalEncryptionContext': additionalEncryptionContext,
       if (authenticationType != null)
-        'authenticationType': authenticationType.toValue(),
+        'authenticationType': authenticationType.value,
       if (browserSettingsArn != null) 'browserSettingsArn': browserSettingsArn,
-      if (browserType != null) 'browserType': browserType.toValue(),
+      if (browserType != null) 'browserType': browserType.value,
       if (creationDate != null)
         'creationDate': unixTimestampToJson(creationDate),
       if (customerManagedKey != null) 'customerManagedKey': customerManagedKey,
       if (displayName != null) 'displayName': displayName,
-      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (instanceType != null) 'instanceType': instanceType.value,
       if (ipAccessSettingsArn != null)
         'ipAccessSettingsArn': ipAccessSettingsArn,
       if (maxConcurrentSessions != null)
         'maxConcurrentSessions': maxConcurrentSessions,
       if (networkSettingsArn != null) 'networkSettingsArn': networkSettingsArn,
       if (portalEndpoint != null) 'portalEndpoint': portalEndpoint,
-      if (portalStatus != null) 'portalStatus': portalStatus.toValue(),
-      if (rendererType != null) 'rendererType': rendererType.toValue(),
+      if (portalStatus != null) 'portalStatus': portalStatus.value,
+      if (rendererType != null) 'rendererType': rendererType.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (trustStoreArn != null) 'trustStoreArn': trustStoreArn,
       if (userAccessLoggingSettingsArn != null)
@@ -4666,36 +4587,19 @@ class Portal {
 }
 
 enum PortalStatus {
-  incomplete,
-  pending,
-  active,
-}
+  incomplete('Incomplete'),
+  pending('Pending'),
+  active('Active'),
+  ;
 
-extension PortalStatusValueExtension on PortalStatus {
-  String toValue() {
-    switch (this) {
-      case PortalStatus.incomplete:
-        return 'Incomplete';
-      case PortalStatus.pending:
-        return 'Pending';
-      case PortalStatus.active:
-        return 'Active';
-    }
-  }
-}
+  final String value;
 
-extension PortalStatusFromString on String {
-  PortalStatus toPortalStatus() {
-    switch (this) {
-      case 'Incomplete':
-        return PortalStatus.incomplete;
-      case 'Pending':
-        return PortalStatus.pending;
-      case 'Active':
-        return PortalStatus.active;
-    }
-    throw Exception('$this is not known in enum PortalStatus');
-  }
+  const PortalStatus(this.value);
+
+  static PortalStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PortalStatus'));
 }
 
 /// The summary of the portal.
@@ -4783,19 +4687,23 @@ class PortalSummary {
   factory PortalSummary.fromJson(Map<String, dynamic> json) {
     return PortalSummary(
       portalArn: json['portalArn'] as String,
-      authenticationType:
-          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      authenticationType: (json['authenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
       browserSettingsArn: json['browserSettingsArn'] as String?,
-      browserType: (json['browserType'] as String?)?.toBrowserType(),
+      browserType:
+          (json['browserType'] as String?)?.let(BrowserType.fromString),
       creationDate: timeStampFromJson(json['creationDate']),
       displayName: json['displayName'] as String?,
-      instanceType: (json['instanceType'] as String?)?.toInstanceType(),
+      instanceType:
+          (json['instanceType'] as String?)?.let(InstanceType.fromString),
       ipAccessSettingsArn: json['ipAccessSettingsArn'] as String?,
       maxConcurrentSessions: json['maxConcurrentSessions'] as int?,
       networkSettingsArn: json['networkSettingsArn'] as String?,
       portalEndpoint: json['portalEndpoint'] as String?,
-      portalStatus: (json['portalStatus'] as String?)?.toPortalStatus(),
-      rendererType: (json['rendererType'] as String?)?.toRendererType(),
+      portalStatus:
+          (json['portalStatus'] as String?)?.let(PortalStatus.fromString),
+      rendererType:
+          (json['rendererType'] as String?)?.let(RendererType.fromString),
       trustStoreArn: json['trustStoreArn'] as String?,
       userAccessLoggingSettingsArn:
           json['userAccessLoggingSettingsArn'] as String?,
@@ -4823,21 +4731,21 @@ class PortalSummary {
     return {
       'portalArn': portalArn,
       if (authenticationType != null)
-        'authenticationType': authenticationType.toValue(),
+        'authenticationType': authenticationType.value,
       if (browserSettingsArn != null) 'browserSettingsArn': browserSettingsArn,
-      if (browserType != null) 'browserType': browserType.toValue(),
+      if (browserType != null) 'browserType': browserType.value,
       if (creationDate != null)
         'creationDate': unixTimestampToJson(creationDate),
       if (displayName != null) 'displayName': displayName,
-      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (instanceType != null) 'instanceType': instanceType.value,
       if (ipAccessSettingsArn != null)
         'ipAccessSettingsArn': ipAccessSettingsArn,
       if (maxConcurrentSessions != null)
         'maxConcurrentSessions': maxConcurrentSessions,
       if (networkSettingsArn != null) 'networkSettingsArn': networkSettingsArn,
       if (portalEndpoint != null) 'portalEndpoint': portalEndpoint,
-      if (portalStatus != null) 'portalStatus': portalStatus.toValue(),
-      if (rendererType != null) 'rendererType': rendererType.toValue(),
+      if (portalStatus != null) 'portalStatus': portalStatus.value,
+      if (rendererType != null) 'rendererType': rendererType.value,
       if (trustStoreArn != null) 'trustStoreArn': trustStoreArn,
       if (userAccessLoggingSettingsArn != null)
         'userAccessLoggingSettingsArn': userAccessLoggingSettingsArn,
@@ -4847,26 +4755,17 @@ class PortalSummary {
 }
 
 enum RendererType {
-  appStream,
-}
+  appStream('AppStream'),
+  ;
 
-extension RendererTypeValueExtension on RendererType {
-  String toValue() {
-    switch (this) {
-      case RendererType.appStream:
-        return 'AppStream';
-    }
-  }
-}
+  final String value;
 
-extension RendererTypeFromString on String {
-  RendererType toRendererType() {
-    switch (this) {
-      case 'AppStream':
-        return RendererType.appStream;
-    }
-    throw Exception('$this is not known in enum RendererType');
-  }
+  const RendererType(this.value);
+
+  static RendererType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RendererType'));
 }
 
 /// The tag.
@@ -5325,15 +5224,20 @@ class UserSettings {
                   json['cookieSynchronizationConfiguration']
                       as Map<String, dynamic>)
               : null,
-      copyAllowed: (json['copyAllowed'] as String?)?.toEnabledType(),
+      copyAllowed:
+          (json['copyAllowed'] as String?)?.let(EnabledType.fromString),
       customerManagedKey: json['customerManagedKey'] as String?,
       disconnectTimeoutInMinutes: json['disconnectTimeoutInMinutes'] as int?,
-      downloadAllowed: (json['downloadAllowed'] as String?)?.toEnabledType(),
+      downloadAllowed:
+          (json['downloadAllowed'] as String?)?.let(EnabledType.fromString),
       idleDisconnectTimeoutInMinutes:
           json['idleDisconnectTimeoutInMinutes'] as int?,
-      pasteAllowed: (json['pasteAllowed'] as String?)?.toEnabledType(),
-      printAllowed: (json['printAllowed'] as String?)?.toEnabledType(),
-      uploadAllowed: (json['uploadAllowed'] as String?)?.toEnabledType(),
+      pasteAllowed:
+          (json['pasteAllowed'] as String?)?.let(EnabledType.fromString),
+      printAllowed:
+          (json['printAllowed'] as String?)?.let(EnabledType.fromString),
+      uploadAllowed:
+          (json['uploadAllowed'] as String?)?.let(EnabledType.fromString),
     );
   }
 
@@ -5360,16 +5264,16 @@ class UserSettings {
       if (cookieSynchronizationConfiguration != null)
         'cookieSynchronizationConfiguration':
             cookieSynchronizationConfiguration,
-      if (copyAllowed != null) 'copyAllowed': copyAllowed.toValue(),
+      if (copyAllowed != null) 'copyAllowed': copyAllowed.value,
       if (customerManagedKey != null) 'customerManagedKey': customerManagedKey,
       if (disconnectTimeoutInMinutes != null)
         'disconnectTimeoutInMinutes': disconnectTimeoutInMinutes,
-      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.toValue(),
+      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.value,
       if (idleDisconnectTimeoutInMinutes != null)
         'idleDisconnectTimeoutInMinutes': idleDisconnectTimeoutInMinutes,
-      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.toValue(),
-      if (printAllowed != null) 'printAllowed': printAllowed.toValue(),
-      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.toValue(),
+      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.value,
+      if (printAllowed != null) 'printAllowed': printAllowed.value,
+      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.value,
     };
   }
 }
@@ -5432,14 +5336,19 @@ class UserSettingsSummary {
                   json['cookieSynchronizationConfiguration']
                       as Map<String, dynamic>)
               : null,
-      copyAllowed: (json['copyAllowed'] as String?)?.toEnabledType(),
+      copyAllowed:
+          (json['copyAllowed'] as String?)?.let(EnabledType.fromString),
       disconnectTimeoutInMinutes: json['disconnectTimeoutInMinutes'] as int?,
-      downloadAllowed: (json['downloadAllowed'] as String?)?.toEnabledType(),
+      downloadAllowed:
+          (json['downloadAllowed'] as String?)?.let(EnabledType.fromString),
       idleDisconnectTimeoutInMinutes:
           json['idleDisconnectTimeoutInMinutes'] as int?,
-      pasteAllowed: (json['pasteAllowed'] as String?)?.toEnabledType(),
-      printAllowed: (json['printAllowed'] as String?)?.toEnabledType(),
-      uploadAllowed: (json['uploadAllowed'] as String?)?.toEnabledType(),
+      pasteAllowed:
+          (json['pasteAllowed'] as String?)?.let(EnabledType.fromString),
+      printAllowed:
+          (json['printAllowed'] as String?)?.let(EnabledType.fromString),
+      uploadAllowed:
+          (json['uploadAllowed'] as String?)?.let(EnabledType.fromString),
     );
   }
 
@@ -5459,15 +5368,15 @@ class UserSettingsSummary {
       if (cookieSynchronizationConfiguration != null)
         'cookieSynchronizationConfiguration':
             cookieSynchronizationConfiguration,
-      if (copyAllowed != null) 'copyAllowed': copyAllowed.toValue(),
+      if (copyAllowed != null) 'copyAllowed': copyAllowed.value,
       if (disconnectTimeoutInMinutes != null)
         'disconnectTimeoutInMinutes': disconnectTimeoutInMinutes,
-      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.toValue(),
+      if (downloadAllowed != null) 'downloadAllowed': downloadAllowed.value,
       if (idleDisconnectTimeoutInMinutes != null)
         'idleDisconnectTimeoutInMinutes': idleDisconnectTimeoutInMinutes,
-      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.toValue(),
-      if (printAllowed != null) 'printAllowed': printAllowed.toValue(),
-      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.toValue(),
+      if (pasteAllowed != null) 'pasteAllowed': pasteAllowed.value,
+      if (printAllowed != null) 'printAllowed': printAllowed.value,
+      if (uploadAllowed != null) 'uploadAllowed': uploadAllowed.value,
     };
   }
 }

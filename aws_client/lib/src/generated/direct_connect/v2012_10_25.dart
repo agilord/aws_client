@@ -1752,7 +1752,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.value,
         if (providerName != null) 'providerName': providerName,
       },
     );
@@ -2177,7 +2177,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'interconnectId': interconnectId,
-        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.value,
         if (providerName != null) 'providerName': providerName,
       },
     );
@@ -2283,7 +2283,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.value,
         if (providerName != null) 'providerName': providerName,
       },
     );
@@ -3035,31 +3035,18 @@ class AcceptDirectConnectGatewayAssociationProposalResult {
 }
 
 enum AddressFamily {
-  ipv4,
-  ipv6,
-}
+  ipv4('ipv4'),
+  ipv6('ipv6'),
+  ;
 
-extension AddressFamilyValueExtension on AddressFamily {
-  String toValue() {
-    switch (this) {
-      case AddressFamily.ipv4:
-        return 'ipv4';
-      case AddressFamily.ipv6:
-        return 'ipv6';
-    }
-  }
-}
+  final String value;
 
-extension AddressFamilyFromString on String {
-  AddressFamily toAddressFamily() {
-    switch (this) {
-      case 'ipv4':
-        return AddressFamily.ipv4;
-      case 'ipv6':
-        return AddressFamily.ipv6;
-    }
-    throw Exception('$this is not known in enum AddressFamily');
-  }
+  const AddressFamily(this.value);
+
+  static AddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AddressFamily'));
 }
 
 class AllocateTransitVirtualInterfaceResult {
@@ -3148,7 +3135,7 @@ class AssociatedGateway {
       id: json['id'] as String?,
       ownerAccount: json['ownerAccount'] as String?,
       region: json['region'] as String?,
-      type: (json['type'] as String?)?.toGatewayType(),
+      type: (json['type'] as String?)?.let(GatewayType.fromString),
     );
   }
 
@@ -3161,7 +3148,7 @@ class AssociatedGateway {
       if (id != null) 'id': id,
       if (ownerAccount != null) 'ownerAccount': ownerAccount,
       if (region != null) 'region': region,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3252,15 +3239,17 @@ class BGPPeer {
 
   factory BGPPeer.fromJson(Map<String, dynamic> json) {
     return BGPPeer(
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       amazonAddress: json['amazonAddress'] as String?,
       asn: json['asn'] as int?,
       authKey: json['authKey'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
       awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bgpPeerId: json['bgpPeerId'] as String?,
-      bgpPeerState: (json['bgpPeerState'] as String?)?.toBGPPeerState(),
-      bgpStatus: (json['bgpStatus'] as String?)?.toBGPStatus(),
+      bgpPeerState:
+          (json['bgpPeerState'] as String?)?.let(BGPPeerState.fromString),
+      bgpStatus: (json['bgpStatus'] as String?)?.let(BGPStatus.fromString),
       customerAddress: json['customerAddress'] as String?,
     );
   }
@@ -3277,94 +3266,51 @@ class BGPPeer {
     final bgpStatus = this.bgpStatus;
     final customerAddress = this.customerAddress;
     return {
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
       if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
-      if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.toValue(),
-      if (bgpStatus != null) 'bgpStatus': bgpStatus.toValue(),
+      if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.value,
+      if (bgpStatus != null) 'bgpStatus': bgpStatus.value,
       if (customerAddress != null) 'customerAddress': customerAddress,
     };
   }
 }
 
 enum BGPPeerState {
-  verifying,
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  verifying('verifying'),
+  pending('pending'),
+  available('available'),
+  deleting('deleting'),
+  deleted('deleted'),
+  ;
 
-extension BGPPeerStateValueExtension on BGPPeerState {
-  String toValue() {
-    switch (this) {
-      case BGPPeerState.verifying:
-        return 'verifying';
-      case BGPPeerState.pending:
-        return 'pending';
-      case BGPPeerState.available:
-        return 'available';
-      case BGPPeerState.deleting:
-        return 'deleting';
-      case BGPPeerState.deleted:
-        return 'deleted';
-    }
-  }
-}
+  final String value;
 
-extension BGPPeerStateFromString on String {
-  BGPPeerState toBGPPeerState() {
-    switch (this) {
-      case 'verifying':
-        return BGPPeerState.verifying;
-      case 'pending':
-        return BGPPeerState.pending;
-      case 'available':
-        return BGPPeerState.available;
-      case 'deleting':
-        return BGPPeerState.deleting;
-      case 'deleted':
-        return BGPPeerState.deleted;
-    }
-    throw Exception('$this is not known in enum BGPPeerState');
-  }
+  const BGPPeerState(this.value);
+
+  static BGPPeerState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BGPPeerState'));
 }
 
 enum BGPStatus {
-  up,
-  down,
-  unknown,
-}
+  up('up'),
+  down('down'),
+  unknown('unknown'),
+  ;
 
-extension BGPStatusValueExtension on BGPStatus {
-  String toValue() {
-    switch (this) {
-      case BGPStatus.up:
-        return 'up';
-      case BGPStatus.down:
-        return 'down';
-      case BGPStatus.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension BGPStatusFromString on String {
-  BGPStatus toBGPStatus() {
-    switch (this) {
-      case 'up':
-        return BGPStatus.up;
-      case 'down':
-        return BGPStatus.down;
-      case 'unknown':
-        return BGPStatus.unknown;
-    }
-    throw Exception('$this is not known in enum BGPStatus');
-  }
+  const BGPStatus(this.value);
+
+  static BGPStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BGPStatus'));
 }
 
 class ConfirmConnectionResponse {
@@ -3416,14 +3362,14 @@ class ConfirmConnectionResponse {
   factory ConfirmConnectionResponse.fromJson(Map<String, dynamic> json) {
     return ConfirmConnectionResponse(
       connectionState:
-          (json['connectionState'] as String?)?.toConnectionState(),
+          (json['connectionState'] as String?)?.let(ConnectionState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final connectionState = this.connectionState;
     return {
-      if (connectionState != null) 'connectionState': connectionState.toValue(),
+      if (connectionState != null) 'connectionState': connectionState.value,
     };
   }
 }
@@ -3504,8 +3450,8 @@ class ConfirmPrivateVirtualInterfaceResponse {
   factory ConfirmPrivateVirtualInterfaceResponse.fromJson(
       Map<String, dynamic> json) {
     return ConfirmPrivateVirtualInterfaceResponse(
-      virtualInterfaceState:
-          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
     );
   }
 
@@ -3513,7 +3459,7 @@ class ConfirmPrivateVirtualInterfaceResponse {
     final virtualInterfaceState = this.virtualInterfaceState;
     return {
       if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.toValue(),
+        'virtualInterfaceState': virtualInterfaceState.value,
     };
   }
 }
@@ -3571,8 +3517,8 @@ class ConfirmPublicVirtualInterfaceResponse {
   factory ConfirmPublicVirtualInterfaceResponse.fromJson(
       Map<String, dynamic> json) {
     return ConfirmPublicVirtualInterfaceResponse(
-      virtualInterfaceState:
-          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
     );
   }
 
@@ -3580,7 +3526,7 @@ class ConfirmPublicVirtualInterfaceResponse {
     final virtualInterfaceState = this.virtualInterfaceState;
     return {
       if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.toValue(),
+        'virtualInterfaceState': virtualInterfaceState.value,
     };
   }
 }
@@ -3638,8 +3584,8 @@ class ConfirmTransitVirtualInterfaceResponse {
   factory ConfirmTransitVirtualInterfaceResponse.fromJson(
       Map<String, dynamic> json) {
     return ConfirmTransitVirtualInterfaceResponse(
-      virtualInterfaceState:
-          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
     );
   }
 
@@ -3647,7 +3593,7 @@ class ConfirmTransitVirtualInterfaceResponse {
     final virtualInterfaceState = this.virtualInterfaceState;
     return {
       if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.toValue(),
+        'virtualInterfaceState': virtualInterfaceState.value,
     };
   }
 }
@@ -3802,10 +3748,10 @@ class Connection {
       connectionId: json['connectionId'] as String?,
       connectionName: json['connectionName'] as String?,
       connectionState:
-          (json['connectionState'] as String?)?.toConnectionState(),
+          (json['connectionState'] as String?)?.let(ConnectionState.fromString),
       encryptionMode: json['encryptionMode'] as String?,
-      hasLogicalRedundancy:
-          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
       jumboFrameCapable: json['jumboFrameCapable'] as bool?,
       lagId: json['lagId'] as String?,
       loaIssueTime: timeStampFromJson(json['loaIssueTime']),
@@ -3858,10 +3804,10 @@ class Connection {
       if (bandwidth != null) 'bandwidth': bandwidth,
       if (connectionId != null) 'connectionId': connectionId,
       if (connectionName != null) 'connectionName': connectionName,
-      if (connectionState != null) 'connectionState': connectionState.toValue(),
+      if (connectionState != null) 'connectionState': connectionState.value,
       if (encryptionMode != null) 'encryptionMode': encryptionMode,
       if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
       if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
       if (lagId != null) 'lagId': lagId,
       if (loaIssueTime != null)
@@ -3882,66 +3828,25 @@ class Connection {
 }
 
 enum ConnectionState {
-  ordering,
-  requested,
-  pending,
-  available,
-  down,
-  deleting,
-  deleted,
-  rejected,
-  unknown,
-}
+  ordering('ordering'),
+  requested('requested'),
+  pending('pending'),
+  available('available'),
+  down('down'),
+  deleting('deleting'),
+  deleted('deleted'),
+  rejected('rejected'),
+  unknown('unknown'),
+  ;
 
-extension ConnectionStateValueExtension on ConnectionState {
-  String toValue() {
-    switch (this) {
-      case ConnectionState.ordering:
-        return 'ordering';
-      case ConnectionState.requested:
-        return 'requested';
-      case ConnectionState.pending:
-        return 'pending';
-      case ConnectionState.available:
-        return 'available';
-      case ConnectionState.down:
-        return 'down';
-      case ConnectionState.deleting:
-        return 'deleting';
-      case ConnectionState.deleted:
-        return 'deleted';
-      case ConnectionState.rejected:
-        return 'rejected';
-      case ConnectionState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStateFromString on String {
-  ConnectionState toConnectionState() {
-    switch (this) {
-      case 'ordering':
-        return ConnectionState.ordering;
-      case 'requested':
-        return ConnectionState.requested;
-      case 'pending':
-        return ConnectionState.pending;
-      case 'available':
-        return ConnectionState.available;
-      case 'down':
-        return ConnectionState.down;
-      case 'deleting':
-        return ConnectionState.deleting;
-      case 'deleted':
-        return ConnectionState.deleted;
-      case 'rejected':
-        return ConnectionState.rejected;
-      case 'unknown':
-        return ConnectionState.unknown;
-    }
-    throw Exception('$this is not known in enum ConnectionState');
-  }
+  const ConnectionState(this.value);
+
+  static ConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionState'));
 }
 
 class Connections {
@@ -4289,8 +4194,8 @@ class DeleteInterconnectResponse {
 
   factory DeleteInterconnectResponse.fromJson(Map<String, dynamic> json) {
     return DeleteInterconnectResponse(
-      interconnectState:
-          (json['interconnectState'] as String?)?.toInterconnectState(),
+      interconnectState: (json['interconnectState'] as String?)
+          ?.let(InterconnectState.fromString),
     );
   }
 
@@ -4298,7 +4203,7 @@ class DeleteInterconnectResponse {
     final interconnectState = this.interconnectState;
     return {
       if (interconnectState != null)
-        'interconnectState': interconnectState.toValue(),
+        'interconnectState': interconnectState.value,
     };
   }
 }
@@ -4355,8 +4260,8 @@ class DeleteVirtualInterfaceResponse {
 
   factory DeleteVirtualInterfaceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVirtualInterfaceResponse(
-      virtualInterfaceState:
-          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
     );
   }
 
@@ -4364,7 +4269,7 @@ class DeleteVirtualInterfaceResponse {
     final virtualInterfaceState = this.virtualInterfaceState;
     return {
       if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.toValue(),
+        'virtualInterfaceState': virtualInterfaceState.value,
     };
   }
 }
@@ -4426,7 +4331,8 @@ class DescribeCustomerMetadataResponse {
           ?.whereNotNull()
           .map((e) => CustomerAgreement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nniPartnerType: (json['nniPartnerType'] as String?)?.toNniPartnerType(),
+      nniPartnerType:
+          (json['nniPartnerType'] as String?)?.let(NniPartnerType.fromString),
     );
   }
 
@@ -4435,7 +4341,7 @@ class DescribeCustomerMetadataResponse {
     final nniPartnerType = this.nniPartnerType;
     return {
       if (agreements != null) 'agreements': agreements,
-      if (nniPartnerType != null) 'nniPartnerType': nniPartnerType.toValue(),
+      if (nniPartnerType != null) 'nniPartnerType': nniPartnerType.value,
     };
   }
 }
@@ -4741,7 +4647,7 @@ class DirectConnectGateway {
       directConnectGatewayId: json['directConnectGatewayId'] as String?,
       directConnectGatewayName: json['directConnectGatewayName'] as String?,
       directConnectGatewayState: (json['directConnectGatewayState'] as String?)
-          ?.toDirectConnectGatewayState(),
+          ?.let(DirectConnectGatewayState.fromString),
       ownerAccount: json['ownerAccount'] as String?,
       stateChangeError: json['stateChangeError'] as String?,
     );
@@ -4761,7 +4667,7 @@ class DirectConnectGateway {
       if (directConnectGatewayName != null)
         'directConnectGatewayName': directConnectGatewayName,
       if (directConnectGatewayState != null)
-        'directConnectGatewayState': directConnectGatewayState.toValue(),
+        'directConnectGatewayState': directConnectGatewayState.value,
       if (ownerAccount != null) 'ownerAccount': ownerAccount,
       if (stateChangeError != null) 'stateChangeError': stateChangeError,
     };
@@ -4856,7 +4762,7 @@ class DirectConnectGatewayAssociation {
           : null,
       associationId: json['associationId'] as String?,
       associationState: (json['associationState'] as String?)
-          ?.toDirectConnectGatewayAssociationState(),
+          ?.let(DirectConnectGatewayAssociationState.fromString),
       directConnectGatewayId: json['directConnectGatewayId'] as String?,
       directConnectGatewayOwnerAccount:
           json['directConnectGatewayOwnerAccount'] as String?,
@@ -4886,8 +4792,7 @@ class DirectConnectGatewayAssociation {
             allowedPrefixesToDirectConnectGateway,
       if (associatedGateway != null) 'associatedGateway': associatedGateway,
       if (associationId != null) 'associationId': associationId,
-      if (associationState != null)
-        'associationState': associationState.toValue(),
+      if (associationState != null) 'associationState': associationState.value,
       if (directConnectGatewayId != null)
         'directConnectGatewayId': directConnectGatewayId,
       if (directConnectGatewayOwnerAccount != null)
@@ -4970,7 +4875,7 @@ class DirectConnectGatewayAssociationProposal {
               .toList(),
       proposalId: json['proposalId'] as String?,
       proposalState: (json['proposalState'] as String?)
-          ?.toDirectConnectGatewayAssociationProposalState(),
+          ?.let(DirectConnectGatewayAssociationProposalState.fromString),
       requestedAllowedPrefixesToDirectConnectGateway:
           (json['requestedAllowedPrefixesToDirectConnectGateway'] as List?)
               ?.whereNotNull()
@@ -5000,7 +4905,7 @@ class DirectConnectGatewayAssociationProposal {
         'existingAllowedPrefixesToDirectConnectGateway':
             existingAllowedPrefixesToDirectConnectGateway,
       if (proposalId != null) 'proposalId': proposalId,
-      if (proposalState != null) 'proposalState': proposalState.toValue(),
+      if (proposalState != null) 'proposalState': proposalState.value,
       if (requestedAllowedPrefixesToDirectConnectGateway != null)
         'requestedAllowedPrefixesToDirectConnectGateway':
             requestedAllowedPrefixesToDirectConnectGateway,
@@ -5009,85 +4914,38 @@ class DirectConnectGatewayAssociationProposal {
 }
 
 enum DirectConnectGatewayAssociationProposalState {
-  requested,
-  accepted,
-  deleted,
-}
+  requested('requested'),
+  accepted('accepted'),
+  deleted('deleted'),
+  ;
 
-extension DirectConnectGatewayAssociationProposalStateValueExtension
-    on DirectConnectGatewayAssociationProposalState {
-  String toValue() {
-    switch (this) {
-      case DirectConnectGatewayAssociationProposalState.requested:
-        return 'requested';
-      case DirectConnectGatewayAssociationProposalState.accepted:
-        return 'accepted';
-      case DirectConnectGatewayAssociationProposalState.deleted:
-        return 'deleted';
-    }
-  }
-}
+  final String value;
 
-extension DirectConnectGatewayAssociationProposalStateFromString on String {
-  DirectConnectGatewayAssociationProposalState
-      toDirectConnectGatewayAssociationProposalState() {
-    switch (this) {
-      case 'requested':
-        return DirectConnectGatewayAssociationProposalState.requested;
-      case 'accepted':
-        return DirectConnectGatewayAssociationProposalState.accepted;
-      case 'deleted':
-        return DirectConnectGatewayAssociationProposalState.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum DirectConnectGatewayAssociationProposalState');
-  }
+  const DirectConnectGatewayAssociationProposalState(this.value);
+
+  static DirectConnectGatewayAssociationProposalState fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectConnectGatewayAssociationProposalState'));
 }
 
 enum DirectConnectGatewayAssociationState {
-  associating,
-  associated,
-  disassociating,
-  disassociated,
-  updating,
-}
+  associating('associating'),
+  associated('associated'),
+  disassociating('disassociating'),
+  disassociated('disassociated'),
+  updating('updating'),
+  ;
 
-extension DirectConnectGatewayAssociationStateValueExtension
-    on DirectConnectGatewayAssociationState {
-  String toValue() {
-    switch (this) {
-      case DirectConnectGatewayAssociationState.associating:
-        return 'associating';
-      case DirectConnectGatewayAssociationState.associated:
-        return 'associated';
-      case DirectConnectGatewayAssociationState.disassociating:
-        return 'disassociating';
-      case DirectConnectGatewayAssociationState.disassociated:
-        return 'disassociated';
-      case DirectConnectGatewayAssociationState.updating:
-        return 'updating';
-    }
-  }
-}
+  final String value;
 
-extension DirectConnectGatewayAssociationStateFromString on String {
-  DirectConnectGatewayAssociationState
-      toDirectConnectGatewayAssociationState() {
-    switch (this) {
-      case 'associating':
-        return DirectConnectGatewayAssociationState.associating;
-      case 'associated':
-        return DirectConnectGatewayAssociationState.associated;
-      case 'disassociating':
-        return DirectConnectGatewayAssociationState.disassociating;
-      case 'disassociated':
-        return DirectConnectGatewayAssociationState.disassociated;
-      case 'updating':
-        return DirectConnectGatewayAssociationState.updating;
-    }
-    throw Exception(
-        '$this is not known in enum DirectConnectGatewayAssociationState');
-  }
+  const DirectConnectGatewayAssociationState(this.value);
+
+  static DirectConnectGatewayAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectConnectGatewayAssociationState'));
 }
 
 /// Information about an attachment between a Direct Connect gateway and a
@@ -5147,9 +5005,9 @@ class DirectConnectGatewayAttachment {
   factory DirectConnectGatewayAttachment.fromJson(Map<String, dynamic> json) {
     return DirectConnectGatewayAttachment(
       attachmentState: (json['attachmentState'] as String?)
-          ?.toDirectConnectGatewayAttachmentState(),
+          ?.let(DirectConnectGatewayAttachmentState.fromString),
       attachmentType: (json['attachmentType'] as String?)
-          ?.toDirectConnectGatewayAttachmentType(),
+          ?.let(DirectConnectGatewayAttachmentType.fromString),
       directConnectGatewayId: json['directConnectGatewayId'] as String?,
       stateChangeError: json['stateChangeError'] as String?,
       virtualInterfaceId: json['virtualInterfaceId'] as String?,
@@ -5168,8 +5026,8 @@ class DirectConnectGatewayAttachment {
     final virtualInterfaceOwnerAccount = this.virtualInterfaceOwnerAccount;
     final virtualInterfaceRegion = this.virtualInterfaceRegion;
     return {
-      if (attachmentState != null) 'attachmentState': attachmentState.toValue(),
-      if (attachmentType != null) 'attachmentType': attachmentType.toValue(),
+      if (attachmentState != null) 'attachmentState': attachmentState.value,
+      if (attachmentType != null) 'attachmentType': attachmentType.value,
       if (directConnectGatewayId != null)
         'directConnectGatewayId': directConnectGatewayId,
       if (stateChangeError != null) 'stateChangeError': stateChangeError,
@@ -5183,111 +5041,52 @@ class DirectConnectGatewayAttachment {
 }
 
 enum DirectConnectGatewayAttachmentState {
-  attaching,
-  attached,
-  detaching,
-  detached,
-}
+  attaching('attaching'),
+  attached('attached'),
+  detaching('detaching'),
+  detached('detached'),
+  ;
 
-extension DirectConnectGatewayAttachmentStateValueExtension
-    on DirectConnectGatewayAttachmentState {
-  String toValue() {
-    switch (this) {
-      case DirectConnectGatewayAttachmentState.attaching:
-        return 'attaching';
-      case DirectConnectGatewayAttachmentState.attached:
-        return 'attached';
-      case DirectConnectGatewayAttachmentState.detaching:
-        return 'detaching';
-      case DirectConnectGatewayAttachmentState.detached:
-        return 'detached';
-    }
-  }
-}
+  final String value;
 
-extension DirectConnectGatewayAttachmentStateFromString on String {
-  DirectConnectGatewayAttachmentState toDirectConnectGatewayAttachmentState() {
-    switch (this) {
-      case 'attaching':
-        return DirectConnectGatewayAttachmentState.attaching;
-      case 'attached':
-        return DirectConnectGatewayAttachmentState.attached;
-      case 'detaching':
-        return DirectConnectGatewayAttachmentState.detaching;
-      case 'detached':
-        return DirectConnectGatewayAttachmentState.detached;
-    }
-    throw Exception(
-        '$this is not known in enum DirectConnectGatewayAttachmentState');
-  }
+  const DirectConnectGatewayAttachmentState(this.value);
+
+  static DirectConnectGatewayAttachmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectConnectGatewayAttachmentState'));
 }
 
 enum DirectConnectGatewayAttachmentType {
-  transitVirtualInterface,
-  privateVirtualInterface,
-}
+  transitVirtualInterface('TransitVirtualInterface'),
+  privateVirtualInterface('PrivateVirtualInterface'),
+  ;
 
-extension DirectConnectGatewayAttachmentTypeValueExtension
-    on DirectConnectGatewayAttachmentType {
-  String toValue() {
-    switch (this) {
-      case DirectConnectGatewayAttachmentType.transitVirtualInterface:
-        return 'TransitVirtualInterface';
-      case DirectConnectGatewayAttachmentType.privateVirtualInterface:
-        return 'PrivateVirtualInterface';
-    }
-  }
-}
+  final String value;
 
-extension DirectConnectGatewayAttachmentTypeFromString on String {
-  DirectConnectGatewayAttachmentType toDirectConnectGatewayAttachmentType() {
-    switch (this) {
-      case 'TransitVirtualInterface':
-        return DirectConnectGatewayAttachmentType.transitVirtualInterface;
-      case 'PrivateVirtualInterface':
-        return DirectConnectGatewayAttachmentType.privateVirtualInterface;
-    }
-    throw Exception(
-        '$this is not known in enum DirectConnectGatewayAttachmentType');
-  }
+  const DirectConnectGatewayAttachmentType(this.value);
+
+  static DirectConnectGatewayAttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectConnectGatewayAttachmentType'));
 }
 
 enum DirectConnectGatewayState {
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  pending('pending'),
+  available('available'),
+  deleting('deleting'),
+  deleted('deleted'),
+  ;
 
-extension DirectConnectGatewayStateValueExtension on DirectConnectGatewayState {
-  String toValue() {
-    switch (this) {
-      case DirectConnectGatewayState.pending:
-        return 'pending';
-      case DirectConnectGatewayState.available:
-        return 'available';
-      case DirectConnectGatewayState.deleting:
-        return 'deleting';
-      case DirectConnectGatewayState.deleted:
-        return 'deleted';
-    }
-  }
-}
+  final String value;
 
-extension DirectConnectGatewayStateFromString on String {
-  DirectConnectGatewayState toDirectConnectGatewayState() {
-    switch (this) {
-      case 'pending':
-        return DirectConnectGatewayState.pending;
-      case 'available':
-        return DirectConnectGatewayState.available;
-      case 'deleting':
-        return DirectConnectGatewayState.deleting;
-      case 'deleted':
-        return DirectConnectGatewayState.deleted;
-    }
-    throw Exception('$this is not known in enum DirectConnectGatewayState');
-  }
+  const DirectConnectGatewayState(this.value);
+
+  static DirectConnectGatewayState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectConnectGatewayState'));
 }
 
 class DisassociateMacSecKeyResponse {
@@ -5325,64 +5124,33 @@ class DisassociateMacSecKeyResponse {
 }
 
 enum GatewayType {
-  virtualPrivateGateway,
-  transitGateway,
-}
+  virtualPrivateGateway('virtualPrivateGateway'),
+  transitGateway('transitGateway'),
+  ;
 
-extension GatewayTypeValueExtension on GatewayType {
-  String toValue() {
-    switch (this) {
-      case GatewayType.virtualPrivateGateway:
-        return 'virtualPrivateGateway';
-      case GatewayType.transitGateway:
-        return 'transitGateway';
-    }
-  }
-}
+  final String value;
 
-extension GatewayTypeFromString on String {
-  GatewayType toGatewayType() {
-    switch (this) {
-      case 'virtualPrivateGateway':
-        return GatewayType.virtualPrivateGateway;
-      case 'transitGateway':
-        return GatewayType.transitGateway;
-    }
-    throw Exception('$this is not known in enum GatewayType');
-  }
+  const GatewayType(this.value);
+
+  static GatewayType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GatewayType'));
 }
 
 enum HasLogicalRedundancy {
-  unknown,
-  yes,
-  no,
-}
+  unknown('unknown'),
+  yes('yes'),
+  no('no'),
+  ;
 
-extension HasLogicalRedundancyValueExtension on HasLogicalRedundancy {
-  String toValue() {
-    switch (this) {
-      case HasLogicalRedundancy.unknown:
-        return 'unknown';
-      case HasLogicalRedundancy.yes:
-        return 'yes';
-      case HasLogicalRedundancy.no:
-        return 'no';
-    }
-  }
-}
+  final String value;
 
-extension HasLogicalRedundancyFromString on String {
-  HasLogicalRedundancy toHasLogicalRedundancy() {
-    switch (this) {
-      case 'unknown':
-        return HasLogicalRedundancy.unknown;
-      case 'yes':
-        return HasLogicalRedundancy.yes;
-      case 'no':
-        return HasLogicalRedundancy.no;
-    }
-    throw Exception('$this is not known in enum HasLogicalRedundancy');
-  }
+  const HasLogicalRedundancy(this.value);
+
+  static HasLogicalRedundancy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HasLogicalRedundancy'));
 }
 
 /// Information about an interconnect.
@@ -5487,12 +5255,12 @@ class Interconnect {
       awsDeviceV2: json['awsDeviceV2'] as String?,
       awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bandwidth: json['bandwidth'] as String?,
-      hasLogicalRedundancy:
-          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
       interconnectId: json['interconnectId'] as String?,
       interconnectName: json['interconnectName'] as String?,
-      interconnectState:
-          (json['interconnectState'] as String?)?.toInterconnectState(),
+      interconnectState: (json['interconnectState'] as String?)
+          ?.let(InterconnectState.fromString),
       jumboFrameCapable: json['jumboFrameCapable'] as bool?,
       lagId: json['lagId'] as String?,
       loaIssueTime: timeStampFromJson(json['loaIssueTime']),
@@ -5528,11 +5296,11 @@ class Interconnect {
       if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bandwidth != null) 'bandwidth': bandwidth,
       if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
       if (interconnectId != null) 'interconnectId': interconnectId,
       if (interconnectName != null) 'interconnectName': interconnectName,
       if (interconnectState != null)
-        'interconnectState': interconnectState.toValue(),
+        'interconnectState': interconnectState.value,
       if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
       if (lagId != null) 'lagId': lagId,
       if (loaIssueTime != null)
@@ -5546,56 +5314,23 @@ class Interconnect {
 }
 
 enum InterconnectState {
-  requested,
-  pending,
-  available,
-  down,
-  deleting,
-  deleted,
-  unknown,
-}
+  requested('requested'),
+  pending('pending'),
+  available('available'),
+  down('down'),
+  deleting('deleting'),
+  deleted('deleted'),
+  unknown('unknown'),
+  ;
 
-extension InterconnectStateValueExtension on InterconnectState {
-  String toValue() {
-    switch (this) {
-      case InterconnectState.requested:
-        return 'requested';
-      case InterconnectState.pending:
-        return 'pending';
-      case InterconnectState.available:
-        return 'available';
-      case InterconnectState.down:
-        return 'down';
-      case InterconnectState.deleting:
-        return 'deleting';
-      case InterconnectState.deleted:
-        return 'deleted';
-      case InterconnectState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension InterconnectStateFromString on String {
-  InterconnectState toInterconnectState() {
-    switch (this) {
-      case 'requested':
-        return InterconnectState.requested;
-      case 'pending':
-        return InterconnectState.pending;
-      case 'available':
-        return InterconnectState.available;
-      case 'down':
-        return InterconnectState.down;
-      case 'deleting':
-        return InterconnectState.deleting;
-      case 'deleted':
-        return InterconnectState.deleted;
-      case 'unknown':
-        return InterconnectState.unknown;
-    }
-    throw Exception('$this is not known in enum InterconnectState');
-  }
+  const InterconnectState(this.value);
+
+  static InterconnectState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InterconnectState'));
 }
 
 class Interconnects {
@@ -5759,12 +5494,12 @@ class Lag {
           .toList(),
       connectionsBandwidth: json['connectionsBandwidth'] as String?,
       encryptionMode: json['encryptionMode'] as String?,
-      hasLogicalRedundancy:
-          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
       jumboFrameCapable: json['jumboFrameCapable'] as bool?,
       lagId: json['lagId'] as String?,
       lagName: json['lagName'] as String?,
-      lagState: (json['lagState'] as String?)?.toLagState(),
+      lagState: (json['lagState'] as String?)?.let(LagState.fromString),
       location: json['location'] as String?,
       macSecCapable: json['macSecCapable'] as bool?,
       macSecKeys: (json['macSecKeys'] as List?)
@@ -5816,11 +5551,11 @@ class Lag {
         'connectionsBandwidth': connectionsBandwidth,
       if (encryptionMode != null) 'encryptionMode': encryptionMode,
       if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
       if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
       if (lagId != null) 'lagId': lagId,
       if (lagName != null) 'lagName': lagName,
-      if (lagState != null) 'lagState': lagState.toValue(),
+      if (lagState != null) 'lagState': lagState.value,
       if (location != null) 'location': location,
       if (macSecCapable != null) 'macSecCapable': macSecCapable,
       if (macSecKeys != null) 'macSecKeys': macSecKeys,
@@ -5836,56 +5571,22 @@ class Lag {
 }
 
 enum LagState {
-  requested,
-  pending,
-  available,
-  down,
-  deleting,
-  deleted,
-  unknown,
-}
+  requested('requested'),
+  pending('pending'),
+  available('available'),
+  down('down'),
+  deleting('deleting'),
+  deleted('deleted'),
+  unknown('unknown'),
+  ;
 
-extension LagStateValueExtension on LagState {
-  String toValue() {
-    switch (this) {
-      case LagState.requested:
-        return 'requested';
-      case LagState.pending:
-        return 'pending';
-      case LagState.available:
-        return 'available';
-      case LagState.down:
-        return 'down';
-      case LagState.deleting:
-        return 'deleting';
-      case LagState.deleted:
-        return 'deleted';
-      case LagState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension LagStateFromString on String {
-  LagState toLagState() {
-    switch (this) {
-      case 'requested':
-        return LagState.requested;
-      case 'pending':
-        return LagState.pending;
-      case 'available':
-        return LagState.available;
-      case 'down':
-        return LagState.down;
-      case 'deleting':
-        return LagState.deleting;
-      case 'deleted':
-        return LagState.deleted;
-      case 'unknown':
-        return LagState.unknown;
-    }
-    throw Exception('$this is not known in enum LagState');
-  }
+  const LagState(this.value);
+
+  static LagState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LagState'));
 }
 
 class Lags {
@@ -5968,7 +5669,8 @@ class Loa {
   factory Loa.fromJson(Map<String, dynamic> json) {
     return Loa(
       loaContent: _s.decodeNullableUint8List(json['loaContent'] as String?),
-      loaContentType: (json['loaContentType'] as String?)?.toLoaContentType(),
+      loaContentType:
+          (json['loaContentType'] as String?)?.let(LoaContentType.fromString),
     );
   }
 
@@ -5977,32 +5679,23 @@ class Loa {
     final loaContentType = this.loaContentType;
     return {
       if (loaContent != null) 'loaContent': base64Encode(loaContent),
-      if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
+      if (loaContentType != null) 'loaContentType': loaContentType.value,
     };
   }
 }
 
 enum LoaContentType {
-  applicationPdf,
-}
+  applicationPdf('application/pdf'),
+  ;
 
-extension LoaContentTypeValueExtension on LoaContentType {
-  String toValue() {
-    switch (this) {
-      case LoaContentType.applicationPdf:
-        return 'application/pdf';
-    }
-  }
-}
+  final String value;
 
-extension LoaContentTypeFromString on String {
-  LoaContentType toLoaContentType() {
-    switch (this) {
-      case 'application/pdf':
-        return LoaContentType.applicationPdf;
-    }
-    throw Exception('$this is not known in enum LoaContentType');
-  }
+  const LoaContentType(this.value);
+
+  static LoaContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LoaContentType'));
 }
 
 /// Information about an Direct Connect location.
@@ -6200,7 +5893,7 @@ class NewBGPPeer {
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     return {
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
@@ -6286,7 +5979,7 @@ class NewPrivateVirtualInterface {
       'asn': asn,
       'virtualInterfaceName': virtualInterfaceName,
       'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
@@ -6363,7 +6056,7 @@ class NewPrivateVirtualInterfaceAllocation {
       'asn': asn,
       'virtualInterfaceName': virtualInterfaceName,
       'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
@@ -6435,7 +6128,7 @@ class NewPublicVirtualInterface {
       'asn': asn,
       'virtualInterfaceName': virtualInterfaceName,
       'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
@@ -6509,7 +6202,7 @@ class NewPublicVirtualInterfaceAllocation {
       'asn': asn,
       'virtualInterfaceName': virtualInterfaceName,
       'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
@@ -6589,7 +6282,7 @@ class NewTransitVirtualInterface {
     final virtualInterfaceName = this.virtualInterfaceName;
     final vlan = this.vlan;
     return {
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
@@ -6666,7 +6359,7 @@ class NewTransitVirtualInterfaceAllocation {
     final virtualInterfaceName = this.virtualInterfaceName;
     final vlan = this.vlan;
     return {
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
@@ -6681,36 +6374,19 @@ class NewTransitVirtualInterfaceAllocation {
 }
 
 enum NniPartnerType {
-  v1,
-  v2,
-  nonPartner,
-}
+  v1('v1'),
+  v2('v2'),
+  nonPartner('nonPartner'),
+  ;
 
-extension NniPartnerTypeValueExtension on NniPartnerType {
-  String toValue() {
-    switch (this) {
-      case NniPartnerType.v1:
-        return 'v1';
-      case NniPartnerType.v2:
-        return 'v2';
-      case NniPartnerType.nonPartner:
-        return 'nonPartner';
-    }
-  }
-}
+  final String value;
 
-extension NniPartnerTypeFromString on String {
-  NniPartnerType toNniPartnerType() {
-    switch (this) {
-      case 'v1':
-        return NniPartnerType.v1;
-      case 'v2':
-        return NniPartnerType.v2;
-      case 'nonPartner':
-        return NniPartnerType.nonPartner;
-    }
-    throw Exception('$this is not known in enum NniPartnerType');
-  }
+  const NniPartnerType(this.value);
+
+  static NniPartnerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NniPartnerType'));
 }
 
 /// Information about a tag associated with an Direct Connect resource.
@@ -7233,7 +6909,8 @@ class VirtualInterface {
 
   factory VirtualInterface.fromJson(Map<String, dynamic> json) {
     return VirtualInterface(
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       amazonAddress: json['amazonAddress'] as String?,
       amazonSideAsn: json['amazonSideAsn'] as int?,
       asn: json['asn'] as int?,
@@ -7265,8 +6942,8 @@ class VirtualInterface {
       virtualGatewayId: json['virtualGatewayId'] as String?,
       virtualInterfaceId: json['virtualInterfaceId'] as String?,
       virtualInterfaceName: json['virtualInterfaceName'] as String?,
-      virtualInterfaceState:
-          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
       virtualInterfaceType: json['virtualInterfaceType'] as String?,
       vlan: json['vlan'] as int?,
     );
@@ -7300,7 +6977,7 @@ class VirtualInterface {
     final virtualInterfaceType = this.virtualInterfaceType;
     final vlan = this.vlan;
     return {
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
       if (asn != null) 'asn': asn,
@@ -7328,7 +7005,7 @@ class VirtualInterface {
       if (virtualInterfaceName != null)
         'virtualInterfaceName': virtualInterfaceName,
       if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.toValue(),
+        'virtualInterfaceState': virtualInterfaceState.value,
       if (virtualInterfaceType != null)
         'virtualInterfaceType': virtualInterfaceType,
       if (vlan != null) 'vlan': vlan,
@@ -7337,66 +7014,25 @@ class VirtualInterface {
 }
 
 enum VirtualInterfaceState {
-  confirming,
-  verifying,
-  pending,
-  available,
-  down,
-  deleting,
-  deleted,
-  rejected,
-  unknown,
-}
+  confirming('confirming'),
+  verifying('verifying'),
+  pending('pending'),
+  available('available'),
+  down('down'),
+  deleting('deleting'),
+  deleted('deleted'),
+  rejected('rejected'),
+  unknown('unknown'),
+  ;
 
-extension VirtualInterfaceStateValueExtension on VirtualInterfaceState {
-  String toValue() {
-    switch (this) {
-      case VirtualInterfaceState.confirming:
-        return 'confirming';
-      case VirtualInterfaceState.verifying:
-        return 'verifying';
-      case VirtualInterfaceState.pending:
-        return 'pending';
-      case VirtualInterfaceState.available:
-        return 'available';
-      case VirtualInterfaceState.down:
-        return 'down';
-      case VirtualInterfaceState.deleting:
-        return 'deleting';
-      case VirtualInterfaceState.deleted:
-        return 'deleted';
-      case VirtualInterfaceState.rejected:
-        return 'rejected';
-      case VirtualInterfaceState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension VirtualInterfaceStateFromString on String {
-  VirtualInterfaceState toVirtualInterfaceState() {
-    switch (this) {
-      case 'confirming':
-        return VirtualInterfaceState.confirming;
-      case 'verifying':
-        return VirtualInterfaceState.verifying;
-      case 'pending':
-        return VirtualInterfaceState.pending;
-      case 'available':
-        return VirtualInterfaceState.available;
-      case 'down':
-        return VirtualInterfaceState.down;
-      case 'deleting':
-        return VirtualInterfaceState.deleting;
-      case 'deleted':
-        return VirtualInterfaceState.deleted;
-      case 'rejected':
-        return VirtualInterfaceState.rejected;
-      case 'unknown':
-        return VirtualInterfaceState.unknown;
-    }
-    throw Exception('$this is not known in enum VirtualInterfaceState');
-  }
+  const VirtualInterfaceState(this.value);
+
+  static VirtualInterfaceState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VirtualInterfaceState'));
 }
 
 /// Information about the virtual interface failover test.

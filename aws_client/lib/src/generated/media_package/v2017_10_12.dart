@@ -228,7 +228,7 @@ class MediaPackage {
       if (hlsPackage != null) 'hlsPackage': hlsPackage,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (tags != null) 'tags': tags,
@@ -683,7 +683,7 @@ class MediaPackage {
       if (hlsPackage != null) 'hlsPackage': hlsPackage,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (timeDelaySeconds != null) 'timeDelaySeconds': timeDelaySeconds,
@@ -700,41 +700,19 @@ class MediaPackage {
 }
 
 enum AdMarkers {
-  none,
-  scte35Enhanced,
-  passthrough,
-  daterange,
-}
+  none('NONE'),
+  scte35Enhanced('SCTE35_ENHANCED'),
+  passthrough('PASSTHROUGH'),
+  daterange('DATERANGE'),
+  ;
 
-extension AdMarkersValueExtension on AdMarkers {
-  String toValue() {
-    switch (this) {
-      case AdMarkers.none:
-        return 'NONE';
-      case AdMarkers.scte35Enhanced:
-        return 'SCTE35_ENHANCED';
-      case AdMarkers.passthrough:
-        return 'PASSTHROUGH';
-      case AdMarkers.daterange:
-        return 'DATERANGE';
-    }
-  }
-}
+  final String value;
 
-extension AdMarkersFromString on String {
-  AdMarkers toAdMarkers() {
-    switch (this) {
-      case 'NONE':
-        return AdMarkers.none;
-      case 'SCTE35_ENHANCED':
-        return AdMarkers.scte35Enhanced;
-      case 'PASSTHROUGH':
-        return AdMarkers.passthrough;
-      case 'DATERANGE':
-        return AdMarkers.daterange;
-    }
-    throw Exception('$this is not known in enum AdMarkers');
-  }
+  const AdMarkers(this.value);
+
+  static AdMarkers fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AdMarkers'));
 }
 
 /// This setting allows the delivery restriction flags on SCTE-35 segmentation
@@ -753,41 +731,20 @@ extension AdMarkersFromString on String {
 /// have these flags
 /// and are always treated as ads if specified in AdTriggers.
 enum AdsOnDeliveryRestrictions {
-  none,
-  restricted,
-  unrestricted,
-  both,
-}
+  none('NONE'),
+  restricted('RESTRICTED'),
+  unrestricted('UNRESTRICTED'),
+  both('BOTH'),
+  ;
 
-extension AdsOnDeliveryRestrictionsValueExtension on AdsOnDeliveryRestrictions {
-  String toValue() {
-    switch (this) {
-      case AdsOnDeliveryRestrictions.none:
-        return 'NONE';
-      case AdsOnDeliveryRestrictions.restricted:
-        return 'RESTRICTED';
-      case AdsOnDeliveryRestrictions.unrestricted:
-        return 'UNRESTRICTED';
-      case AdsOnDeliveryRestrictions.both:
-        return 'BOTH';
-    }
-  }
-}
+  final String value;
 
-extension AdsOnDeliveryRestrictionsFromString on String {
-  AdsOnDeliveryRestrictions toAdsOnDeliveryRestrictions() {
-    switch (this) {
-      case 'NONE':
-        return AdsOnDeliveryRestrictions.none;
-      case 'RESTRICTED':
-        return AdsOnDeliveryRestrictions.restricted;
-      case 'UNRESTRICTED':
-        return AdsOnDeliveryRestrictions.unrestricted;
-      case 'BOTH':
-        return AdsOnDeliveryRestrictions.both;
-    }
-    throw Exception('$this is not known in enum AdsOnDeliveryRestrictions');
-  }
+  const AdsOnDeliveryRestrictions(this.value);
+
+  static AdsOnDeliveryRestrictions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdsOnDeliveryRestrictions'));
 }
 
 /// CDN Authorization credentials
@@ -922,8 +879,8 @@ class CmafEncryption {
           json['spekeKeyProvider'] as Map<String, dynamic>),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
-      encryptionMethod:
-          (json['encryptionMethod'] as String?)?.toCmafEncryptionMethod(),
+      encryptionMethod: (json['encryptionMethod'] as String?)
+          ?.let(CmafEncryptionMethod.fromString),
       keyRotationIntervalSeconds: json['keyRotationIntervalSeconds'] as int?,
     );
   }
@@ -937,8 +894,7 @@ class CmafEncryption {
       'spekeKeyProvider': spekeKeyProvider,
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
-      if (encryptionMethod != null)
-        'encryptionMethod': encryptionMethod.toValue(),
+      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
       if (keyRotationIntervalSeconds != null)
         'keyRotationIntervalSeconds': keyRotationIntervalSeconds,
     };
@@ -947,31 +903,18 @@ class CmafEncryption {
 
 /// The encryption method to use.
 enum CmafEncryptionMethod {
-  sampleAes,
-  aesCtr,
-}
+  sampleAes('SAMPLE_AES'),
+  aesCtr('AES_CTR'),
+  ;
 
-extension CmafEncryptionMethodValueExtension on CmafEncryptionMethod {
-  String toValue() {
-    switch (this) {
-      case CmafEncryptionMethod.sampleAes:
-        return 'SAMPLE_AES';
-      case CmafEncryptionMethod.aesCtr:
-        return 'AES_CTR';
-    }
-  }
-}
+  final String value;
 
-extension CmafEncryptionMethodFromString on String {
-  CmafEncryptionMethod toCmafEncryptionMethod() {
-    switch (this) {
-      case 'SAMPLE_AES':
-        return CmafEncryptionMethod.sampleAes;
-      case 'AES_CTR':
-        return CmafEncryptionMethod.aesCtr;
-    }
-    throw Exception('$this is not known in enum CmafEncryptionMethod');
-  }
+  const CmafEncryptionMethod(this.value);
+
+  static CmafEncryptionMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafEncryptionMethod'));
 }
 
 /// A Common Media Application Format (CMAF) packaging configuration.
@@ -1275,7 +1218,7 @@ class CreateHarvestJobResponse {
               json['s3Destination'] as Map<String, dynamic>)
           : null,
       startTime: json['startTime'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -1298,7 +1241,7 @@ class CreateHarvestJobResponse {
       if (originEndpointId != null) 'originEndpointId': originEndpointId,
       if (s3Destination != null) 's3Destination': s3Destination,
       if (startTime != null) 'startTime': startTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1397,7 +1340,8 @@ class CreateOriginEndpointResponse {
       mssPackage: json['mssPackage'] != null
           ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
           : null,
-      origination: (json['origination'] as String?)?.toOrigination(),
+      origination:
+          (json['origination'] as String?)?.let(Origination.fromString),
       startoverWindowSeconds: json['startoverWindowSeconds'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1440,7 +1384,7 @@ class CreateOriginEndpointResponse {
       if (id != null) 'id': id,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (tags != null) 'tags': tags,
@@ -1571,33 +1515,34 @@ class DashPackage {
     return DashPackage(
       adTriggers: (json['adTriggers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAdTriggersElement())
+          .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
-          ?.toAdsOnDeliveryRestrictions(),
+          ?.let(AdsOnDeliveryRestrictions.fromString),
       encryption: json['encryption'] != null
           ? DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
       includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
-      manifestLayout: (json['manifestLayout'] as String?)?.toManifestLayout(),
+      manifestLayout:
+          (json['manifestLayout'] as String?)?.let(ManifestLayout.fromString),
       manifestWindowSeconds: json['manifestWindowSeconds'] as int?,
       minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
       minUpdatePeriodSeconds: json['minUpdatePeriodSeconds'] as int?,
       periodTriggers: (json['periodTriggers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPeriodTriggersElement())
+          .map((e) => PeriodTriggersElement.fromString((e as String)))
           .toList(),
-      profile: (json['profile'] as String?)?.toProfile(),
+      profile: (json['profile'] as String?)?.let(Profile.fromString),
       segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
-      segmentTemplateFormat:
-          (json['segmentTemplateFormat'] as String?)?.toSegmentTemplateFormat(),
+      segmentTemplateFormat: (json['segmentTemplateFormat'] as String?)
+          ?.let(SegmentTemplateFormat.fromString),
       streamSelection: json['streamSelection'] != null
           ? StreamSelection.fromJson(
               json['streamSelection'] as Map<String, dynamic>)
           : null,
       suggestedPresentationDelaySeconds:
           json['suggestedPresentationDelaySeconds'] as int?,
-      utcTiming: (json['utcTiming'] as String?)?.toUtcTiming(),
+      utcTiming: (json['utcTiming'] as String?)?.let(UtcTiming.fromString),
       utcTimingUri: json['utcTimingUri'] as String?,
     );
   }
@@ -1622,13 +1567,13 @@ class DashPackage {
     final utcTimingUri = this.utcTimingUri;
     return {
       if (adTriggers != null)
-        'adTriggers': adTriggers.map((e) => e.toValue()).toList(),
+        'adTriggers': adTriggers.map((e) => e.value).toList(),
       if (adsOnDeliveryRestrictions != null)
-        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
+        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.value,
       if (encryption != null) 'encryption': encryption,
       if (includeIframeOnlyStream != null)
         'includeIframeOnlyStream': includeIframeOnlyStream,
-      if (manifestLayout != null) 'manifestLayout': manifestLayout.toValue(),
+      if (manifestLayout != null) 'manifestLayout': manifestLayout.value,
       if (manifestWindowSeconds != null)
         'manifestWindowSeconds': manifestWindowSeconds,
       if (minBufferTimeSeconds != null)
@@ -1636,16 +1581,16 @@ class DashPackage {
       if (minUpdatePeriodSeconds != null)
         'minUpdatePeriodSeconds': minUpdatePeriodSeconds,
       if (periodTriggers != null)
-        'periodTriggers': periodTriggers.map((e) => e.toValue()).toList(),
-      if (profile != null) 'profile': profile.toValue(),
+        'periodTriggers': periodTriggers.map((e) => e.value).toList(),
+      if (profile != null) 'profile': profile.value,
       if (segmentDurationSeconds != null)
         'segmentDurationSeconds': segmentDurationSeconds,
       if (segmentTemplateFormat != null)
-        'segmentTemplateFormat': segmentTemplateFormat.toValue(),
+        'segmentTemplateFormat': segmentTemplateFormat.value,
       if (streamSelection != null) 'streamSelection': streamSelection,
       if (suggestedPresentationDelaySeconds != null)
         'suggestedPresentationDelaySeconds': suggestedPresentationDelaySeconds,
-      if (utcTiming != null) 'utcTiming': utcTiming.toValue(),
+      if (utcTiming != null) 'utcTiming': utcTiming.value,
       if (utcTimingUri != null) 'utcTimingUri': utcTimingUri,
     };
   }
@@ -1804,7 +1749,7 @@ class DescribeHarvestJobResponse {
               json['s3Destination'] as Map<String, dynamic>)
           : null,
       startTime: json['startTime'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -1827,7 +1772,7 @@ class DescribeHarvestJobResponse {
       if (originEndpointId != null) 'originEndpointId': originEndpointId,
       if (s3Destination != null) 's3Destination': s3Destination,
       if (startTime != null) 'startTime': startTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1926,7 +1871,8 @@ class DescribeOriginEndpointResponse {
       mssPackage: json['mssPackage'] != null
           ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
           : null,
-      origination: (json['origination'] as String?)?.toOrigination(),
+      origination:
+          (json['origination'] as String?)?.let(Origination.fromString),
       startoverWindowSeconds: json['startoverWindowSeconds'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1969,7 +1915,7 @@ class DescribeOriginEndpointResponse {
       if (id != null) 'id': id,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (tags != null) 'tags': tags,
@@ -2030,9 +1976,9 @@ class EncryptionContractConfiguration {
   factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionContractConfiguration(
       presetSpeke20Audio:
-          (json['presetSpeke20Audio'] as String).toPresetSpeke20Audio(),
+          PresetSpeke20Audio.fromString((json['presetSpeke20Audio'] as String)),
       presetSpeke20Video:
-          (json['presetSpeke20Video'] as String).toPresetSpeke20Video(),
+          PresetSpeke20Video.fromString((json['presetSpeke20Video'] as String)),
     );
   }
 
@@ -2040,38 +1986,25 @@ class EncryptionContractConfiguration {
     final presetSpeke20Audio = this.presetSpeke20Audio;
     final presetSpeke20Video = this.presetSpeke20Video;
     return {
-      'presetSpeke20Audio': presetSpeke20Audio.toValue(),
-      'presetSpeke20Video': presetSpeke20Video.toValue(),
+      'presetSpeke20Audio': presetSpeke20Audio.value,
+      'presetSpeke20Video': presetSpeke20Video.value,
     };
   }
 }
 
 enum EncryptionMethod {
-  aes_128,
-  sampleAes,
-}
+  aes_128('AES_128'),
+  sampleAes('SAMPLE_AES'),
+  ;
 
-extension EncryptionMethodValueExtension on EncryptionMethod {
-  String toValue() {
-    switch (this) {
-      case EncryptionMethod.aes_128:
-        return 'AES_128';
-      case EncryptionMethod.sampleAes:
-        return 'SAMPLE_AES';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionMethodFromString on String {
-  EncryptionMethod toEncryptionMethod() {
-    switch (this) {
-      case 'AES_128':
-        return EncryptionMethod.aes_128;
-      case 'SAMPLE_AES':
-        return EncryptionMethod.sampleAes;
-    }
-    throw Exception('$this is not known in enum EncryptionMethod');
-  }
+  const EncryptionMethod(this.value);
+
+  static EncryptionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionMethod'));
 }
 
 /// A HarvestJob resource configuration
@@ -2132,7 +2065,7 @@ class HarvestJob {
               json['s3Destination'] as Map<String, dynamic>)
           : null,
       startTime: json['startTime'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -2155,7 +2088,7 @@ class HarvestJob {
       if (originEndpointId != null) 'originEndpointId': originEndpointId,
       if (s3Destination != null) 's3Destination': s3Destination,
       if (startTime != null) 'startTime': startTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2191,8 +2124,8 @@ class HlsEncryption {
           json['spekeKeyProvider'] as Map<String, dynamic>),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
-      encryptionMethod:
-          (json['encryptionMethod'] as String?)?.toEncryptionMethod(),
+      encryptionMethod: (json['encryptionMethod'] as String?)
+          ?.let(EncryptionMethod.fromString),
       keyRotationIntervalSeconds: json['keyRotationIntervalSeconds'] as int?,
       repeatExtXKey: json['repeatExtXKey'] as bool?,
     );
@@ -2208,8 +2141,7 @@ class HlsEncryption {
       'spekeKeyProvider': spekeKeyProvider,
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
-      if (encryptionMethod != null)
-        'encryptionMethod': encryptionMethod.toValue(),
+      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
       if (keyRotationIntervalSeconds != null)
         'keyRotationIntervalSeconds': keyRotationIntervalSeconds,
       if (repeatExtXKey != null) 'repeatExtXKey': repeatExtXKey,
@@ -2313,16 +2245,17 @@ class HlsManifest {
   factory HlsManifest.fromJson(Map<String, dynamic> json) {
     return HlsManifest(
       id: json['id'] as String,
-      adMarkers: (json['adMarkers'] as String?)?.toAdMarkers(),
+      adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
       adTriggers: (json['adTriggers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAdTriggersElement())
+          .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
-          ?.toAdsOnDeliveryRestrictions(),
+          ?.let(AdsOnDeliveryRestrictions.fromString),
       includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
       manifestName: json['manifestName'] as String?,
-      playlistType: (json['playlistType'] as String?)?.toPlaylistType(),
+      playlistType:
+          (json['playlistType'] as String?)?.let(PlaylistType.fromString),
       playlistWindowSeconds: json['playlistWindowSeconds'] as int?,
       programDateTimeIntervalSeconds:
           json['programDateTimeIntervalSeconds'] as int?,
@@ -2343,15 +2276,15 @@ class HlsManifest {
     final url = this.url;
     return {
       'id': id,
-      if (adMarkers != null) 'adMarkers': adMarkers.toValue(),
+      if (adMarkers != null) 'adMarkers': adMarkers.value,
       if (adTriggers != null)
-        'adTriggers': adTriggers.map((e) => e.toValue()).toList(),
+        'adTriggers': adTriggers.map((e) => e.value).toList(),
       if (adsOnDeliveryRestrictions != null)
-        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
+        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.value,
       if (includeIframeOnlyStream != null)
         'includeIframeOnlyStream': includeIframeOnlyStream,
       if (manifestName != null) 'manifestName': manifestName,
-      if (playlistType != null) 'playlistType': playlistType.toValue(),
+      if (playlistType != null) 'playlistType': playlistType.value,
       if (playlistWindowSeconds != null)
         'playlistWindowSeconds': playlistWindowSeconds,
       if (programDateTimeIntervalSeconds != null)
@@ -2436,15 +2369,15 @@ class HlsManifestCreateOrUpdateParameters {
     final programDateTimeIntervalSeconds = this.programDateTimeIntervalSeconds;
     return {
       'id': id,
-      if (adMarkers != null) 'adMarkers': adMarkers.toValue(),
+      if (adMarkers != null) 'adMarkers': adMarkers.value,
       if (adTriggers != null)
-        'adTriggers': adTriggers.map((e) => e.toValue()).toList(),
+        'adTriggers': adTriggers.map((e) => e.value).toList(),
       if (adsOnDeliveryRestrictions != null)
-        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
+        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.value,
       if (includeIframeOnlyStream != null)
         'includeIframeOnlyStream': includeIframeOnlyStream,
       if (manifestName != null) 'manifestName': manifestName,
-      if (playlistType != null) 'playlistType': playlistType.toValue(),
+      if (playlistType != null) 'playlistType': playlistType.value,
       if (playlistWindowSeconds != null)
         'playlistWindowSeconds': playlistWindowSeconds,
       if (programDateTimeIntervalSeconds != null)
@@ -2527,19 +2460,20 @@ class HlsPackage {
 
   factory HlsPackage.fromJson(Map<String, dynamic> json) {
     return HlsPackage(
-      adMarkers: (json['adMarkers'] as String?)?.toAdMarkers(),
+      adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
       adTriggers: (json['adTriggers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAdTriggersElement())
+          .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
-          ?.toAdsOnDeliveryRestrictions(),
+          ?.let(AdsOnDeliveryRestrictions.fromString),
       encryption: json['encryption'] != null
           ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
       includeDvbSubtitles: json['includeDvbSubtitles'] as bool?,
       includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
-      playlistType: (json['playlistType'] as String?)?.toPlaylistType(),
+      playlistType:
+          (json['playlistType'] as String?)?.let(PlaylistType.fromString),
       playlistWindowSeconds: json['playlistWindowSeconds'] as int?,
       programDateTimeIntervalSeconds:
           json['programDateTimeIntervalSeconds'] as int?,
@@ -2566,17 +2500,17 @@ class HlsPackage {
     final streamSelection = this.streamSelection;
     final useAudioRenditionGroup = this.useAudioRenditionGroup;
     return {
-      if (adMarkers != null) 'adMarkers': adMarkers.toValue(),
+      if (adMarkers != null) 'adMarkers': adMarkers.value,
       if (adTriggers != null)
-        'adTriggers': adTriggers.map((e) => e.toValue()).toList(),
+        'adTriggers': adTriggers.map((e) => e.value).toList(),
       if (adsOnDeliveryRestrictions != null)
-        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
+        'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.value,
       if (encryption != null) 'encryption': encryption,
       if (includeDvbSubtitles != null)
         'includeDvbSubtitles': includeDvbSubtitles,
       if (includeIframeOnlyStream != null)
         'includeIframeOnlyStream': includeIframeOnlyStream,
-      if (playlistType != null) 'playlistType': playlistType.toValue(),
+      if (playlistType != null) 'playlistType': playlistType.value,
       if (playlistWindowSeconds != null)
         'playlistWindowSeconds': playlistWindowSeconds,
       if (programDateTimeIntervalSeconds != null)
@@ -2779,36 +2713,19 @@ class ListTagsForResourceResponse {
 }
 
 enum ManifestLayout {
-  full,
-  compact,
-  drmTopLevelCompact,
-}
+  full('FULL'),
+  compact('COMPACT'),
+  drmTopLevelCompact('DRM_TOP_LEVEL_COMPACT'),
+  ;
 
-extension ManifestLayoutValueExtension on ManifestLayout {
-  String toValue() {
-    switch (this) {
-      case ManifestLayout.full:
-        return 'FULL';
-      case ManifestLayout.compact:
-        return 'COMPACT';
-      case ManifestLayout.drmTopLevelCompact:
-        return 'DRM_TOP_LEVEL_COMPACT';
-    }
-  }
-}
+  final String value;
 
-extension ManifestLayoutFromString on String {
-  ManifestLayout toManifestLayout() {
-    switch (this) {
-      case 'FULL':
-        return ManifestLayout.full;
-      case 'COMPACT':
-        return ManifestLayout.compact;
-      case 'DRM_TOP_LEVEL_COMPACT':
-        return ManifestLayout.drmTopLevelCompact;
-    }
-    throw Exception('$this is not known in enum ManifestLayout');
-  }
+  const ManifestLayout(this.value);
+
+  static ManifestLayout fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ManifestLayout'));
 }
 
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
@@ -2977,7 +2894,8 @@ class OriginEndpoint {
       mssPackage: json['mssPackage'] != null
           ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
           : null,
-      origination: (json['origination'] as String?)?.toOrigination(),
+      origination:
+          (json['origination'] as String?)?.let(Origination.fromString),
       startoverWindowSeconds: json['startoverWindowSeconds'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3020,7 +2938,7 @@ class OriginEndpoint {
       if (id != null) 'id': id,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (tags != null) 'tags': tags,
@@ -3032,213 +2950,90 @@ class OriginEndpoint {
 }
 
 enum Origination {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension OriginationValueExtension on Origination {
-  String toValue() {
-    switch (this) {
-      case Origination.allow:
-        return 'ALLOW';
-      case Origination.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension OriginationFromString on String {
-  Origination toOrigination() {
-    switch (this) {
-      case 'ALLOW':
-        return Origination.allow;
-      case 'DENY':
-        return Origination.deny;
-    }
-    throw Exception('$this is not known in enum Origination');
-  }
+  const Origination(this.value);
+
+  static Origination fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Origination'));
 }
 
 enum PlaylistType {
-  none,
-  event,
-  vod,
-}
+  none('NONE'),
+  event('EVENT'),
+  vod('VOD'),
+  ;
 
-extension PlaylistTypeValueExtension on PlaylistType {
-  String toValue() {
-    switch (this) {
-      case PlaylistType.none:
-        return 'NONE';
-      case PlaylistType.event:
-        return 'EVENT';
-      case PlaylistType.vod:
-        return 'VOD';
-    }
-  }
-}
+  final String value;
 
-extension PlaylistTypeFromString on String {
-  PlaylistType toPlaylistType() {
-    switch (this) {
-      case 'NONE':
-        return PlaylistType.none;
-      case 'EVENT':
-        return PlaylistType.event;
-      case 'VOD':
-        return PlaylistType.vod;
-    }
-    throw Exception('$this is not known in enum PlaylistType');
-  }
+  const PlaylistType(this.value);
+
+  static PlaylistType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PlaylistType'));
 }
 
 enum PresetSpeke20Audio {
-  presetAudio_1,
-  presetAudio_2,
-  presetAudio_3,
-  shared,
-  unencrypted,
-}
+  presetAudio_1('PRESET-AUDIO-1'),
+  presetAudio_2('PRESET-AUDIO-2'),
+  presetAudio_3('PRESET-AUDIO-3'),
+  shared('SHARED'),
+  unencrypted('UNENCRYPTED'),
+  ;
 
-extension PresetSpeke20AudioValueExtension on PresetSpeke20Audio {
-  String toValue() {
-    switch (this) {
-      case PresetSpeke20Audio.presetAudio_1:
-        return 'PRESET-AUDIO-1';
-      case PresetSpeke20Audio.presetAudio_2:
-        return 'PRESET-AUDIO-2';
-      case PresetSpeke20Audio.presetAudio_3:
-        return 'PRESET-AUDIO-3';
-      case PresetSpeke20Audio.shared:
-        return 'SHARED';
-      case PresetSpeke20Audio.unencrypted:
-        return 'UNENCRYPTED';
-    }
-  }
-}
+  final String value;
 
-extension PresetSpeke20AudioFromString on String {
-  PresetSpeke20Audio toPresetSpeke20Audio() {
-    switch (this) {
-      case 'PRESET-AUDIO-1':
-        return PresetSpeke20Audio.presetAudio_1;
-      case 'PRESET-AUDIO-2':
-        return PresetSpeke20Audio.presetAudio_2;
-      case 'PRESET-AUDIO-3':
-        return PresetSpeke20Audio.presetAudio_3;
-      case 'SHARED':
-        return PresetSpeke20Audio.shared;
-      case 'UNENCRYPTED':
-        return PresetSpeke20Audio.unencrypted;
-    }
-    throw Exception('$this is not known in enum PresetSpeke20Audio');
-  }
+  const PresetSpeke20Audio(this.value);
+
+  static PresetSpeke20Audio fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PresetSpeke20Audio'));
 }
 
 enum PresetSpeke20Video {
-  presetVideo_1,
-  presetVideo_2,
-  presetVideo_3,
-  presetVideo_4,
-  presetVideo_5,
-  presetVideo_6,
-  presetVideo_7,
-  presetVideo_8,
-  shared,
-  unencrypted,
-}
+  presetVideo_1('PRESET-VIDEO-1'),
+  presetVideo_2('PRESET-VIDEO-2'),
+  presetVideo_3('PRESET-VIDEO-3'),
+  presetVideo_4('PRESET-VIDEO-4'),
+  presetVideo_5('PRESET-VIDEO-5'),
+  presetVideo_6('PRESET-VIDEO-6'),
+  presetVideo_7('PRESET-VIDEO-7'),
+  presetVideo_8('PRESET-VIDEO-8'),
+  shared('SHARED'),
+  unencrypted('UNENCRYPTED'),
+  ;
 
-extension PresetSpeke20VideoValueExtension on PresetSpeke20Video {
-  String toValue() {
-    switch (this) {
-      case PresetSpeke20Video.presetVideo_1:
-        return 'PRESET-VIDEO-1';
-      case PresetSpeke20Video.presetVideo_2:
-        return 'PRESET-VIDEO-2';
-      case PresetSpeke20Video.presetVideo_3:
-        return 'PRESET-VIDEO-3';
-      case PresetSpeke20Video.presetVideo_4:
-        return 'PRESET-VIDEO-4';
-      case PresetSpeke20Video.presetVideo_5:
-        return 'PRESET-VIDEO-5';
-      case PresetSpeke20Video.presetVideo_6:
-        return 'PRESET-VIDEO-6';
-      case PresetSpeke20Video.presetVideo_7:
-        return 'PRESET-VIDEO-7';
-      case PresetSpeke20Video.presetVideo_8:
-        return 'PRESET-VIDEO-8';
-      case PresetSpeke20Video.shared:
-        return 'SHARED';
-      case PresetSpeke20Video.unencrypted:
-        return 'UNENCRYPTED';
-    }
-  }
-}
+  final String value;
 
-extension PresetSpeke20VideoFromString on String {
-  PresetSpeke20Video toPresetSpeke20Video() {
-    switch (this) {
-      case 'PRESET-VIDEO-1':
-        return PresetSpeke20Video.presetVideo_1;
-      case 'PRESET-VIDEO-2':
-        return PresetSpeke20Video.presetVideo_2;
-      case 'PRESET-VIDEO-3':
-        return PresetSpeke20Video.presetVideo_3;
-      case 'PRESET-VIDEO-4':
-        return PresetSpeke20Video.presetVideo_4;
-      case 'PRESET-VIDEO-5':
-        return PresetSpeke20Video.presetVideo_5;
-      case 'PRESET-VIDEO-6':
-        return PresetSpeke20Video.presetVideo_6;
-      case 'PRESET-VIDEO-7':
-        return PresetSpeke20Video.presetVideo_7;
-      case 'PRESET-VIDEO-8':
-        return PresetSpeke20Video.presetVideo_8;
-      case 'SHARED':
-        return PresetSpeke20Video.shared;
-      case 'UNENCRYPTED':
-        return PresetSpeke20Video.unencrypted;
-    }
-    throw Exception('$this is not known in enum PresetSpeke20Video');
-  }
+  const PresetSpeke20Video(this.value);
+
+  static PresetSpeke20Video fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PresetSpeke20Video'));
 }
 
 enum Profile {
-  none,
-  hbbtv_1_5,
-  hybridcast,
-  dvbDash_2014,
-}
+  none('NONE'),
+  hbbtv_1_5('HBBTV_1_5'),
+  hybridcast('HYBRIDCAST'),
+  dvbDash_2014('DVB_DASH_2014'),
+  ;
 
-extension ProfileValueExtension on Profile {
-  String toValue() {
-    switch (this) {
-      case Profile.none:
-        return 'NONE';
-      case Profile.hbbtv_1_5:
-        return 'HBBTV_1_5';
-      case Profile.hybridcast:
-        return 'HYBRIDCAST';
-      case Profile.dvbDash_2014:
-        return 'DVB_DASH_2014';
-    }
-  }
-}
+  final String value;
 
-extension ProfileFromString on String {
-  Profile toProfile() {
-    switch (this) {
-      case 'NONE':
-        return Profile.none;
-      case 'HBBTV_1_5':
-        return Profile.hbbtv_1_5;
-      case 'HYBRIDCAST':
-        return Profile.hybridcast;
-      case 'DVB_DASH_2014':
-        return Profile.dvbDash_2014;
-    }
-    throw Exception('$this is not known in enum Profile');
-  }
+  const Profile(this.value);
+
+  static Profile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Profile'));
 }
 
 @Deprecated('Deprecated')
@@ -3427,36 +3222,19 @@ class S3Destination {
 }
 
 enum SegmentTemplateFormat {
-  numberWithTimeline,
-  timeWithTimeline,
-  numberWithDuration,
-}
+  numberWithTimeline('NUMBER_WITH_TIMELINE'),
+  timeWithTimeline('TIME_WITH_TIMELINE'),
+  numberWithDuration('NUMBER_WITH_DURATION'),
+  ;
 
-extension SegmentTemplateFormatValueExtension on SegmentTemplateFormat {
-  String toValue() {
-    switch (this) {
-      case SegmentTemplateFormat.numberWithTimeline:
-        return 'NUMBER_WITH_TIMELINE';
-      case SegmentTemplateFormat.timeWithTimeline:
-        return 'TIME_WITH_TIMELINE';
-      case SegmentTemplateFormat.numberWithDuration:
-        return 'NUMBER_WITH_DURATION';
-    }
-  }
-}
+  final String value;
 
-extension SegmentTemplateFormatFromString on String {
-  SegmentTemplateFormat toSegmentTemplateFormat() {
-    switch (this) {
-      case 'NUMBER_WITH_TIMELINE':
-        return SegmentTemplateFormat.numberWithTimeline;
-      case 'TIME_WITH_TIMELINE':
-        return SegmentTemplateFormat.timeWithTimeline;
-      case 'NUMBER_WITH_DURATION':
-        return SegmentTemplateFormat.numberWithDuration;
-    }
-    throw Exception('$this is not known in enum SegmentTemplateFormat');
-  }
+  const SegmentTemplateFormat(this.value);
+
+  static SegmentTemplateFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SegmentTemplateFormat'));
 }
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
@@ -3530,69 +3308,33 @@ class SpekeKeyProvider {
 }
 
 enum Status {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.inProgress:
-        return 'IN_PROGRESS';
-      case Status.succeeded:
-        return 'SUCCEEDED';
-      case Status.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return Status.inProgress;
-      case 'SUCCEEDED':
-        return Status.succeeded;
-      case 'FAILED':
-        return Status.failed;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 enum StreamOrder {
-  original,
-  videoBitrateAscending,
-  videoBitrateDescending,
-}
+  original('ORIGINAL'),
+  videoBitrateAscending('VIDEO_BITRATE_ASCENDING'),
+  videoBitrateDescending('VIDEO_BITRATE_DESCENDING'),
+  ;
 
-extension StreamOrderValueExtension on StreamOrder {
-  String toValue() {
-    switch (this) {
-      case StreamOrder.original:
-        return 'ORIGINAL';
-      case StreamOrder.videoBitrateAscending:
-        return 'VIDEO_BITRATE_ASCENDING';
-      case StreamOrder.videoBitrateDescending:
-        return 'VIDEO_BITRATE_DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension StreamOrderFromString on String {
-  StreamOrder toStreamOrder() {
-    switch (this) {
-      case 'ORIGINAL':
-        return StreamOrder.original;
-      case 'VIDEO_BITRATE_ASCENDING':
-        return StreamOrder.videoBitrateAscending;
-      case 'VIDEO_BITRATE_DESCENDING':
-        return StreamOrder.videoBitrateDescending;
-    }
-    throw Exception('$this is not known in enum StreamOrder');
-  }
+  const StreamOrder(this.value);
+
+  static StreamOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StreamOrder'));
 }
 
 /// A StreamSelection configuration.
@@ -3616,7 +3358,8 @@ class StreamSelection {
     return StreamSelection(
       maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int?,
       minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int?,
-      streamOrder: (json['streamOrder'] as String?)?.toStreamOrder(),
+      streamOrder:
+          (json['streamOrder'] as String?)?.let(StreamOrder.fromString),
     );
   }
 
@@ -3629,7 +3372,7 @@ class StreamSelection {
         'maxVideoBitsPerSecond': maxVideoBitsPerSecond,
       if (minVideoBitsPerSecond != null)
         'minVideoBitsPerSecond': minVideoBitsPerSecond,
-      if (streamOrder != null) 'streamOrder': streamOrder.toValue(),
+      if (streamOrder != null) 'streamOrder': streamOrder.value,
     };
   }
 }
@@ -3800,7 +3543,8 @@ class UpdateOriginEndpointResponse {
       mssPackage: json['mssPackage'] != null
           ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
           : null,
-      origination: (json['origination'] as String?)?.toOrigination(),
+      origination:
+          (json['origination'] as String?)?.let(Origination.fromString),
       startoverWindowSeconds: json['startoverWindowSeconds'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3843,7 +3587,7 @@ class UpdateOriginEndpointResponse {
       if (id != null) 'id': id,
       if (manifestName != null) 'manifestName': manifestName,
       if (mssPackage != null) 'mssPackage': mssPackage,
-      if (origination != null) 'origination': origination.toValue(),
+      if (origination != null) 'origination': origination.value,
       if (startoverWindowSeconds != null)
         'startoverWindowSeconds': startoverWindowSeconds,
       if (tags != null) 'tags': tags,
@@ -3855,122 +3599,55 @@ class UpdateOriginEndpointResponse {
 }
 
 enum UtcTiming {
-  none,
-  httpHead,
-  httpIso,
-  httpXsdate,
-}
+  none('NONE'),
+  httpHead('HTTP-HEAD'),
+  httpIso('HTTP-ISO'),
+  httpXsdate('HTTP-XSDATE'),
+  ;
 
-extension UtcTimingValueExtension on UtcTiming {
-  String toValue() {
-    switch (this) {
-      case UtcTiming.none:
-        return 'NONE';
-      case UtcTiming.httpHead:
-        return 'HTTP-HEAD';
-      case UtcTiming.httpIso:
-        return 'HTTP-ISO';
-      case UtcTiming.httpXsdate:
-        return 'HTTP-XSDATE';
-    }
-  }
-}
+  final String value;
 
-extension UtcTimingFromString on String {
-  UtcTiming toUtcTiming() {
-    switch (this) {
-      case 'NONE':
-        return UtcTiming.none;
-      case 'HTTP-HEAD':
-        return UtcTiming.httpHead;
-      case 'HTTP-ISO':
-        return UtcTiming.httpIso;
-      case 'HTTP-XSDATE':
-        return UtcTiming.httpXsdate;
-    }
-    throw Exception('$this is not known in enum UtcTiming');
-  }
+  const UtcTiming(this.value);
+
+  static UtcTiming fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UtcTiming'));
 }
 
 enum AdTriggersElement {
-  spliceInsert,
-  $break,
-  providerAdvertisement,
-  distributorAdvertisement,
-  providerPlacementOpportunity,
-  distributorPlacementOpportunity,
-  providerOverlayPlacementOpportunity,
-  distributorOverlayPlacementOpportunity,
-}
+  spliceInsert('SPLICE_INSERT'),
+  $break('BREAK'),
+  providerAdvertisement('PROVIDER_ADVERTISEMENT'),
+  distributorAdvertisement('DISTRIBUTOR_ADVERTISEMENT'),
+  providerPlacementOpportunity('PROVIDER_PLACEMENT_OPPORTUNITY'),
+  distributorPlacementOpportunity('DISTRIBUTOR_PLACEMENT_OPPORTUNITY'),
+  providerOverlayPlacementOpportunity('PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY'),
+  distributorOverlayPlacementOpportunity(
+      'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY'),
+  ;
 
-extension AdTriggersElementValueExtension on AdTriggersElement {
-  String toValue() {
-    switch (this) {
-      case AdTriggersElement.spliceInsert:
-        return 'SPLICE_INSERT';
-      case AdTriggersElement.$break:
-        return 'BREAK';
-      case AdTriggersElement.providerAdvertisement:
-        return 'PROVIDER_ADVERTISEMENT';
-      case AdTriggersElement.distributorAdvertisement:
-        return 'DISTRIBUTOR_ADVERTISEMENT';
-      case AdTriggersElement.providerPlacementOpportunity:
-        return 'PROVIDER_PLACEMENT_OPPORTUNITY';
-      case AdTriggersElement.distributorPlacementOpportunity:
-        return 'DISTRIBUTOR_PLACEMENT_OPPORTUNITY';
-      case AdTriggersElement.providerOverlayPlacementOpportunity:
-        return 'PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY';
-      case AdTriggersElement.distributorOverlayPlacementOpportunity:
-        return 'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY';
-    }
-  }
-}
+  final String value;
 
-extension AdTriggersElementFromString on String {
-  AdTriggersElement toAdTriggersElement() {
-    switch (this) {
-      case 'SPLICE_INSERT':
-        return AdTriggersElement.spliceInsert;
-      case 'BREAK':
-        return AdTriggersElement.$break;
-      case 'PROVIDER_ADVERTISEMENT':
-        return AdTriggersElement.providerAdvertisement;
-      case 'DISTRIBUTOR_ADVERTISEMENT':
-        return AdTriggersElement.distributorAdvertisement;
-      case 'PROVIDER_PLACEMENT_OPPORTUNITY':
-        return AdTriggersElement.providerPlacementOpportunity;
-      case 'DISTRIBUTOR_PLACEMENT_OPPORTUNITY':
-        return AdTriggersElement.distributorPlacementOpportunity;
-      case 'PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY':
-        return AdTriggersElement.providerOverlayPlacementOpportunity;
-      case 'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY':
-        return AdTriggersElement.distributorOverlayPlacementOpportunity;
-    }
-    throw Exception('$this is not known in enum AdTriggersElement');
-  }
+  const AdTriggersElement(this.value);
+
+  static AdTriggersElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AdTriggersElement'));
 }
 
 enum PeriodTriggersElement {
-  ads,
-}
+  ads('ADS'),
+  ;
 
-extension PeriodTriggersElementValueExtension on PeriodTriggersElement {
-  String toValue() {
-    switch (this) {
-      case PeriodTriggersElement.ads:
-        return 'ADS';
-    }
-  }
-}
+  final String value;
 
-extension PeriodTriggersElementFromString on String {
-  PeriodTriggersElement toPeriodTriggersElement() {
-    switch (this) {
-      case 'ADS':
-        return PeriodTriggersElement.ads;
-    }
-    throw Exception('$this is not known in enum PeriodTriggersElement');
-  }
+  const PeriodTriggersElement(this.value);
+
+  static PeriodTriggersElement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PeriodTriggersElement'));
 }
 
 class ForbiddenException extends _s.GenericAwsException {

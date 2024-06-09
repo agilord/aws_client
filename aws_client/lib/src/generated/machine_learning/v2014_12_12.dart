@@ -86,7 +86,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'Tags': tags,
       },
     );
@@ -782,7 +782,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelType': mLModelType.toValue(),
+        'MLModelType': mLModelType.value,
         'TrainingDataSourceId': trainingDataSourceId,
         if (mLModelName != null) 'MLModelName': mLModelName,
         if (parameters != null) 'Parameters': parameters,
@@ -1039,7 +1039,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         'TagKeys': tagKeys,
       },
     );
@@ -1193,7 +1193,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.value,
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1202,7 +1202,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -1345,7 +1345,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.value,
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1354,7 +1354,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -1505,7 +1505,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.value,
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1514,7 +1514,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -1676,7 +1676,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.value,
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1685,7 +1685,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -1719,7 +1719,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
       },
     );
 
@@ -2097,7 +2097,8 @@ class AddTagsOutput {
   factory AddTagsOutput.fromJson(Map<String, dynamic> json) {
     return AddTagsOutput(
       resourceId: json['ResourceId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(TaggableResourceType.fromString),
     );
   }
 
@@ -2106,7 +2107,7 @@ class AddTagsOutput {
     final resourceType = this.resourceType;
     return {
       if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -2123,26 +2124,16 @@ class AddTagsOutput {
 /// </li>
 /// </ul>
 enum Algorithm {
-  sgd,
-}
+  sgd('sgd'),
+  ;
 
-extension AlgorithmValueExtension on Algorithm {
-  String toValue() {
-    switch (this) {
-      case Algorithm.sgd:
-        return 'sgd';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmFromString on String {
-  Algorithm toAlgorithm() {
-    switch (this) {
-      case 'sgd':
-        return Algorithm.sgd;
-    }
-    throw Exception('$this is not known in enum Algorithm');
-  }
+  const Algorithm(this.value);
+
+  static Algorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Algorithm'));
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation.
@@ -2259,7 +2250,7 @@ class BatchPrediction {
       name: json['Name'] as String?,
       outputUri: json['OutputUri'] as String?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
       totalRecordCount: json['TotalRecordCount'] as int?,
     );
   }
@@ -2299,7 +2290,7 @@ class BatchPrediction {
       if (name != null) 'Name': name,
       if (outputUri != null) 'OutputUri': outputUri,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (totalRecordCount != null) 'TotalRecordCount': totalRecordCount,
     };
   }
@@ -2340,62 +2331,24 @@ class BatchPrediction {
 /// </li>
 /// </ul>
 enum BatchPredictionFilterVariable {
-  createdAt,
-  lastUpdatedAt,
-  status,
-  name,
-  iAMUser,
-  mLModelId,
-  dataSourceId,
-  dataURI,
-}
+  createdAt('CreatedAt'),
+  lastUpdatedAt('LastUpdatedAt'),
+  status('Status'),
+  name('Name'),
+  iAMUser('IAMUser'),
+  mLModelId('MLModelId'),
+  dataSourceId('DataSourceId'),
+  dataURI('DataURI'),
+  ;
 
-extension BatchPredictionFilterVariableValueExtension
-    on BatchPredictionFilterVariable {
-  String toValue() {
-    switch (this) {
-      case BatchPredictionFilterVariable.createdAt:
-        return 'CreatedAt';
-      case BatchPredictionFilterVariable.lastUpdatedAt:
-        return 'LastUpdatedAt';
-      case BatchPredictionFilterVariable.status:
-        return 'Status';
-      case BatchPredictionFilterVariable.name:
-        return 'Name';
-      case BatchPredictionFilterVariable.iAMUser:
-        return 'IAMUser';
-      case BatchPredictionFilterVariable.mLModelId:
-        return 'MLModelId';
-      case BatchPredictionFilterVariable.dataSourceId:
-        return 'DataSourceId';
-      case BatchPredictionFilterVariable.dataURI:
-        return 'DataURI';
-    }
-  }
-}
+  final String value;
 
-extension BatchPredictionFilterVariableFromString on String {
-  BatchPredictionFilterVariable toBatchPredictionFilterVariable() {
-    switch (this) {
-      case 'CreatedAt':
-        return BatchPredictionFilterVariable.createdAt;
-      case 'LastUpdatedAt':
-        return BatchPredictionFilterVariable.lastUpdatedAt;
-      case 'Status':
-        return BatchPredictionFilterVariable.status;
-      case 'Name':
-        return BatchPredictionFilterVariable.name;
-      case 'IAMUser':
-        return BatchPredictionFilterVariable.iAMUser;
-      case 'MLModelId':
-        return BatchPredictionFilterVariable.mLModelId;
-      case 'DataSourceId':
-        return BatchPredictionFilterVariable.dataSourceId;
-      case 'DataURI':
-        return BatchPredictionFilterVariable.dataURI;
-    }
-    throw Exception('$this is not known in enum BatchPredictionFilterVariable');
-  }
+  const BatchPredictionFilterVariable(this.value);
+
+  static BatchPredictionFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchPredictionFilterVariable'));
 }
 
 /// Represents the output of a <code>CreateBatchPrediction</code> operation, and
@@ -2749,7 +2702,7 @@ class DataSource {
           : null,
       roleARN: json['RoleARN'] as String?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
@@ -2791,7 +2744,7 @@ class DataSource {
       if (redshiftMetadata != null) 'RedshiftMetadata': redshiftMetadata,
       if (roleARN != null) 'RoleARN': roleARN,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2825,51 +2778,22 @@ class DataSource {
 /// <b>Note:</b> The variable names should match the variable names in the
 /// <code>DataSource</code>.
 enum DataSourceFilterVariable {
-  createdAt,
-  lastUpdatedAt,
-  status,
-  name,
-  dataLocationS3,
-  iAMUser,
-}
+  createdAt('CreatedAt'),
+  lastUpdatedAt('LastUpdatedAt'),
+  status('Status'),
+  name('Name'),
+  dataLocationS3('DataLocationS3'),
+  iAMUser('IAMUser'),
+  ;
 
-extension DataSourceFilterVariableValueExtension on DataSourceFilterVariable {
-  String toValue() {
-    switch (this) {
-      case DataSourceFilterVariable.createdAt:
-        return 'CreatedAt';
-      case DataSourceFilterVariable.lastUpdatedAt:
-        return 'LastUpdatedAt';
-      case DataSourceFilterVariable.status:
-        return 'Status';
-      case DataSourceFilterVariable.name:
-        return 'Name';
-      case DataSourceFilterVariable.dataLocationS3:
-        return 'DataLocationS3';
-      case DataSourceFilterVariable.iAMUser:
-        return 'IAMUser';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceFilterVariableFromString on String {
-  DataSourceFilterVariable toDataSourceFilterVariable() {
-    switch (this) {
-      case 'CreatedAt':
-        return DataSourceFilterVariable.createdAt;
-      case 'LastUpdatedAt':
-        return DataSourceFilterVariable.lastUpdatedAt;
-      case 'Status':
-        return DataSourceFilterVariable.status;
-      case 'Name':
-        return DataSourceFilterVariable.name;
-      case 'DataLocationS3':
-        return DataSourceFilterVariable.dataLocationS3;
-      case 'IAMUser':
-        return DataSourceFilterVariable.iAMUser;
-    }
-    throw Exception('$this is not known in enum DataSourceFilterVariable');
-  }
+  const DataSourceFilterVariable(this.value);
+
+  static DataSourceFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceFilterVariable'));
 }
 
 /// Represents the output of a <code>DeleteBatchPrediction</code> operation.
@@ -3041,7 +2965,8 @@ class DeleteTagsOutput {
   factory DeleteTagsOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTagsOutput(
       resourceId: json['ResourceId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(TaggableResourceType.fromString),
     );
   }
 
@@ -3050,7 +2975,7 @@ class DeleteTagsOutput {
     final resourceType = this.resourceType;
     return {
       if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -3216,7 +3141,8 @@ class DescribeTagsOutput {
   factory DescribeTagsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTagsOutput(
       resourceId: json['ResourceId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toTaggableResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(TaggableResourceType.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -3230,7 +3156,7 @@ class DescribeTagsOutput {
     final tags = this.tags;
     return {
       if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3249,31 +3175,18 @@ class DescribeTagsOutput {
 /// </li>
 /// </ul>
 enum DetailsAttributes {
-  predictiveModelType,
-  algorithm,
-}
+  predictiveModelType('PredictiveModelType'),
+  algorithm('Algorithm'),
+  ;
 
-extension DetailsAttributesValueExtension on DetailsAttributes {
-  String toValue() {
-    switch (this) {
-      case DetailsAttributes.predictiveModelType:
-        return 'PredictiveModelType';
-      case DetailsAttributes.algorithm:
-        return 'Algorithm';
-    }
-  }
-}
+  final String value;
 
-extension DetailsAttributesFromString on String {
-  DetailsAttributes toDetailsAttributes() {
-    switch (this) {
-      case 'PredictiveModelType':
-        return DetailsAttributes.predictiveModelType;
-      case 'Algorithm':
-        return DetailsAttributes.algorithm;
-    }
-    throw Exception('$this is not known in enum DetailsAttributes');
-  }
+  const DetailsAttributes(this.value);
+
+  static DetailsAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DetailsAttributes'));
 }
 
 /// Object status with the following possible values:
@@ -3296,46 +3209,21 @@ extension DetailsAttributesFromString on String {
 /// </li>
 /// </ul>
 enum EntityStatus {
-  pending,
-  inprogress,
-  failed,
-  completed,
-  deleted,
-}
+  pending('PENDING'),
+  inprogress('INPROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  deleted('DELETED'),
+  ;
 
-extension EntityStatusValueExtension on EntityStatus {
-  String toValue() {
-    switch (this) {
-      case EntityStatus.pending:
-        return 'PENDING';
-      case EntityStatus.inprogress:
-        return 'INPROGRESS';
-      case EntityStatus.failed:
-        return 'FAILED';
-      case EntityStatus.completed:
-        return 'COMPLETED';
-      case EntityStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension EntityStatusFromString on String {
-  EntityStatus toEntityStatus() {
-    switch (this) {
-      case 'PENDING':
-        return EntityStatus.pending;
-      case 'INPROGRESS':
-        return EntityStatus.inprogress;
-      case 'FAILED':
-        return EntityStatus.failed;
-      case 'COMPLETED':
-        return EntityStatus.completed;
-      case 'DELETED':
-        return EntityStatus.deleted;
-    }
-    throw Exception('$this is not known in enum EntityStatus');
-  }
+  const EntityStatus(this.value);
+
+  static EntityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntityStatus'));
 }
 
 /// Represents the output of <code>GetEvaluation</code> operation.
@@ -3465,7 +3353,7 @@ class Evaluation {
               json['PerformanceMetrics'] as Map<String, dynamic>)
           : null,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
@@ -3501,7 +3389,7 @@ class Evaluation {
       if (name != null) 'Name': name,
       if (performanceMetrics != null) 'PerformanceMetrics': performanceMetrics,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3541,61 +3429,24 @@ class Evaluation {
 /// </li>
 /// </ul>
 enum EvaluationFilterVariable {
-  createdAt,
-  lastUpdatedAt,
-  status,
-  name,
-  iAMUser,
-  mLModelId,
-  dataSourceId,
-  dataURI,
-}
+  createdAt('CreatedAt'),
+  lastUpdatedAt('LastUpdatedAt'),
+  status('Status'),
+  name('Name'),
+  iAMUser('IAMUser'),
+  mLModelId('MLModelId'),
+  dataSourceId('DataSourceId'),
+  dataURI('DataURI'),
+  ;
 
-extension EvaluationFilterVariableValueExtension on EvaluationFilterVariable {
-  String toValue() {
-    switch (this) {
-      case EvaluationFilterVariable.createdAt:
-        return 'CreatedAt';
-      case EvaluationFilterVariable.lastUpdatedAt:
-        return 'LastUpdatedAt';
-      case EvaluationFilterVariable.status:
-        return 'Status';
-      case EvaluationFilterVariable.name:
-        return 'Name';
-      case EvaluationFilterVariable.iAMUser:
-        return 'IAMUser';
-      case EvaluationFilterVariable.mLModelId:
-        return 'MLModelId';
-      case EvaluationFilterVariable.dataSourceId:
-        return 'DataSourceId';
-      case EvaluationFilterVariable.dataURI:
-        return 'DataURI';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationFilterVariableFromString on String {
-  EvaluationFilterVariable toEvaluationFilterVariable() {
-    switch (this) {
-      case 'CreatedAt':
-        return EvaluationFilterVariable.createdAt;
-      case 'LastUpdatedAt':
-        return EvaluationFilterVariable.lastUpdatedAt;
-      case 'Status':
-        return EvaluationFilterVariable.status;
-      case 'Name':
-        return EvaluationFilterVariable.name;
-      case 'IAMUser':
-        return EvaluationFilterVariable.iAMUser;
-      case 'MLModelId':
-        return EvaluationFilterVariable.mLModelId;
-      case 'DataSourceId':
-        return EvaluationFilterVariable.dataSourceId;
-      case 'DataURI':
-        return EvaluationFilterVariable.dataURI;
-    }
-    throw Exception('$this is not known in enum EvaluationFilterVariable');
-  }
+  const EvaluationFilterVariable(this.value);
+
+  static EvaluationFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EvaluationFilterVariable'));
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
@@ -3737,7 +3588,7 @@ class GetBatchPredictionOutput {
       name: json['Name'] as String?,
       outputUri: json['OutputUri'] as String?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
       totalRecordCount: json['TotalRecordCount'] as int?,
     );
   }
@@ -3779,7 +3630,7 @@ class GetBatchPredictionOutput {
       if (name != null) 'Name': name,
       if (outputUri != null) 'OutputUri': outputUri,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (totalRecordCount != null) 'TotalRecordCount': totalRecordCount,
     };
   }
@@ -3936,7 +3787,7 @@ class GetDataSourceOutput {
           : null,
       roleARN: json['RoleARN'] as String?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
@@ -3982,7 +3833,7 @@ class GetDataSourceOutput {
       if (redshiftMetadata != null) 'RedshiftMetadata': redshiftMetadata,
       if (roleARN != null) 'RoleARN': roleARN,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4132,7 +3983,7 @@ class GetEvaluationOutput {
               json['PerformanceMetrics'] as Map<String, dynamic>)
           : null,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
@@ -4170,7 +4021,7 @@ class GetEvaluationOutput {
       if (name != null) 'Name': name,
       if (performanceMetrics != null) 'PerformanceMetrics': performanceMetrics,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4396,7 +4247,8 @@ class GetMLModelOutput {
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       logUri: json['LogUri'] as String?,
       mLModelId: json['MLModelId'] as String?,
-      mLModelType: (json['MLModelType'] as String?)?.toMLModelType(),
+      mLModelType:
+          (json['MLModelType'] as String?)?.let(MLModelType.fromString),
       message: json['Message'] as String?,
       name: json['Name'] as String?,
       recipe: json['Recipe'] as String?,
@@ -4406,7 +4258,7 @@ class GetMLModelOutput {
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
       trainingDataSourceId: json['TrainingDataSourceId'] as String?,
       trainingParameters: (json['TrainingParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4447,7 +4299,7 @@ class GetMLModelOutput {
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (logUri != null) 'LogUri': logUri,
       if (mLModelId != null) 'MLModelId': mLModelId,
-      if (mLModelType != null) 'MLModelType': mLModelType.toValue(),
+      if (mLModelType != null) 'MLModelType': mLModelType.value,
       if (message != null) 'Message': message,
       if (name != null) 'Name': name,
       if (recipe != null) 'Recipe': recipe,
@@ -4458,7 +4310,7 @@ class GetMLModelOutput {
             unixTimestampToJson(scoreThresholdLastUpdatedAt),
       if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (trainingDataSourceId != null)
         'TrainingDataSourceId': trainingDataSourceId,
       if (trainingParameters != null) 'TrainingParameters': trainingParameters,
@@ -4646,7 +4498,7 @@ class MLModel {
 
   factory MLModel.fromJson(Map<String, dynamic> json) {
     return MLModel(
-      algorithm: (json['Algorithm'] as String?)?.toAlgorithm(),
+      algorithm: (json['Algorithm'] as String?)?.let(Algorithm.fromString),
       computeTime: json['ComputeTime'] as int?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       createdByIamUser: json['CreatedByIamUser'] as String?,
@@ -4658,7 +4510,8 @@ class MLModel {
       inputDataLocationS3: json['InputDataLocationS3'] as String?,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       mLModelId: json['MLModelId'] as String?,
-      mLModelType: (json['MLModelType'] as String?)?.toMLModelType(),
+      mLModelType:
+          (json['MLModelType'] as String?)?.let(MLModelType.fromString),
       message: json['Message'] as String?,
       name: json['Name'] as String?,
       scoreThreshold: json['ScoreThreshold'] as double?,
@@ -4666,7 +4519,7 @@ class MLModel {
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.toEntityStatus(),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
       trainingDataSourceId: json['TrainingDataSourceId'] as String?,
       trainingParameters: (json['TrainingParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4694,7 +4547,7 @@ class MLModel {
     final trainingDataSourceId = this.trainingDataSourceId;
     final trainingParameters = this.trainingParameters;
     return {
-      if (algorithm != null) 'Algorithm': algorithm.toValue(),
+      if (algorithm != null) 'Algorithm': algorithm.value,
       if (computeTime != null) 'ComputeTime': computeTime,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
@@ -4705,7 +4558,7 @@ class MLModel {
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (mLModelId != null) 'MLModelId': mLModelId,
-      if (mLModelType != null) 'MLModelType': mLModelType.toValue(),
+      if (mLModelType != null) 'MLModelType': mLModelType.value,
       if (message != null) 'Message': message,
       if (name != null) 'Name': name,
       if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
@@ -4714,7 +4567,7 @@ class MLModel {
             unixTimestampToJson(scoreThresholdLastUpdatedAt),
       if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
       if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (trainingDataSourceId != null)
         'TrainingDataSourceId': trainingDataSourceId,
       if (trainingParameters != null) 'TrainingParameters': trainingParameters,
@@ -4723,104 +4576,41 @@ class MLModel {
 }
 
 enum MLModelFilterVariable {
-  createdAt,
-  lastUpdatedAt,
-  status,
-  name,
-  iAMUser,
-  trainingDataSourceId,
-  realtimeEndpointStatus,
-  mLModelType,
-  algorithm,
-  trainingDataURI,
-}
+  createdAt('CreatedAt'),
+  lastUpdatedAt('LastUpdatedAt'),
+  status('Status'),
+  name('Name'),
+  iAMUser('IAMUser'),
+  trainingDataSourceId('TrainingDataSourceId'),
+  realtimeEndpointStatus('RealtimeEndpointStatus'),
+  mLModelType('MLModelType'),
+  algorithm('Algorithm'),
+  trainingDataURI('TrainingDataURI'),
+  ;
 
-extension MLModelFilterVariableValueExtension on MLModelFilterVariable {
-  String toValue() {
-    switch (this) {
-      case MLModelFilterVariable.createdAt:
-        return 'CreatedAt';
-      case MLModelFilterVariable.lastUpdatedAt:
-        return 'LastUpdatedAt';
-      case MLModelFilterVariable.status:
-        return 'Status';
-      case MLModelFilterVariable.name:
-        return 'Name';
-      case MLModelFilterVariable.iAMUser:
-        return 'IAMUser';
-      case MLModelFilterVariable.trainingDataSourceId:
-        return 'TrainingDataSourceId';
-      case MLModelFilterVariable.realtimeEndpointStatus:
-        return 'RealtimeEndpointStatus';
-      case MLModelFilterVariable.mLModelType:
-        return 'MLModelType';
-      case MLModelFilterVariable.algorithm:
-        return 'Algorithm';
-      case MLModelFilterVariable.trainingDataURI:
-        return 'TrainingDataURI';
-    }
-  }
-}
+  final String value;
 
-extension MLModelFilterVariableFromString on String {
-  MLModelFilterVariable toMLModelFilterVariable() {
-    switch (this) {
-      case 'CreatedAt':
-        return MLModelFilterVariable.createdAt;
-      case 'LastUpdatedAt':
-        return MLModelFilterVariable.lastUpdatedAt;
-      case 'Status':
-        return MLModelFilterVariable.status;
-      case 'Name':
-        return MLModelFilterVariable.name;
-      case 'IAMUser':
-        return MLModelFilterVariable.iAMUser;
-      case 'TrainingDataSourceId':
-        return MLModelFilterVariable.trainingDataSourceId;
-      case 'RealtimeEndpointStatus':
-        return MLModelFilterVariable.realtimeEndpointStatus;
-      case 'MLModelType':
-        return MLModelFilterVariable.mLModelType;
-      case 'Algorithm':
-        return MLModelFilterVariable.algorithm;
-      case 'TrainingDataURI':
-        return MLModelFilterVariable.trainingDataURI;
-    }
-    throw Exception('$this is not known in enum MLModelFilterVariable');
-  }
+  const MLModelFilterVariable(this.value);
+
+  static MLModelFilterVariable fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MLModelFilterVariable'));
 }
 
 enum MLModelType {
-  regression,
-  binary,
-  multiclass,
-}
+  regression('REGRESSION'),
+  binary('BINARY'),
+  multiclass('MULTICLASS'),
+  ;
 
-extension MLModelTypeValueExtension on MLModelType {
-  String toValue() {
-    switch (this) {
-      case MLModelType.regression:
-        return 'REGRESSION';
-      case MLModelType.binary:
-        return 'BINARY';
-      case MLModelType.multiclass:
-        return 'MULTICLASS';
-    }
-  }
-}
+  final String value;
 
-extension MLModelTypeFromString on String {
-  MLModelType toMLModelType() {
-    switch (this) {
-      case 'REGRESSION':
-        return MLModelType.regression;
-      case 'BINARY':
-        return MLModelType.binary;
-      case 'MULTICLASS':
-        return MLModelType.multiclass;
-    }
-    throw Exception('$this is not known in enum MLModelType');
-  }
+  const MLModelType(this.value);
+
+  static MLModelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MLModelType'));
 }
 
 /// Measurements of how well the <code>MLModel</code> performed on known
@@ -4931,8 +4721,8 @@ class Prediction {
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
     return Prediction(
-      details: (json['details'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDetailsAttributes(), e as String)),
+      details: (json['details'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DetailsAttributes.fromString(k), e as String)),
       predictedLabel: json['predictedLabel'] as String?,
       predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as double)),
@@ -4947,7 +4737,7 @@ class Prediction {
     final predictedValue = this.predictedValue;
     return {
       if (details != null)
-        'details': details.map((k, e) => MapEntry(k.toValue(), e)),
+        'details': details.map((k, e) => MapEntry(k.value, e)),
       if (predictedLabel != null) 'predictedLabel': predictedLabel,
       if (predictedScores != null) 'predictedScores': predictedScores,
       if (predictedValue != null) 'predictedValue': predictedValue,
@@ -5340,8 +5130,8 @@ class RealtimeEndpointInfo {
   factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) {
     return RealtimeEndpointInfo(
       createdAt: timeStampFromJson(json['CreatedAt']),
-      endpointStatus:
-          (json['EndpointStatus'] as String?)?.toRealtimeEndpointStatus(),
+      endpointStatus: (json['EndpointStatus'] as String?)
+          ?.let(RealtimeEndpointStatus.fromString),
       endpointUrl: json['EndpointUrl'] as String?,
       peakRequestsPerSecond: json['PeakRequestsPerSecond'] as int?,
     );
@@ -5354,7 +5144,7 @@ class RealtimeEndpointInfo {
     final peakRequestsPerSecond = this.peakRequestsPerSecond;
     return {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (endpointStatus != null) 'EndpointStatus': endpointStatus.toValue(),
+      if (endpointStatus != null) 'EndpointStatus': endpointStatus.value,
       if (endpointUrl != null) 'EndpointUrl': endpointUrl,
       if (peakRequestsPerSecond != null)
         'PeakRequestsPerSecond': peakRequestsPerSecond,
@@ -5363,41 +5153,20 @@ class RealtimeEndpointInfo {
 }
 
 enum RealtimeEndpointStatus {
-  none,
-  ready,
-  updating,
-  failed,
-}
+  none('NONE'),
+  ready('READY'),
+  updating('UPDATING'),
+  failed('FAILED'),
+  ;
 
-extension RealtimeEndpointStatusValueExtension on RealtimeEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case RealtimeEndpointStatus.none:
-        return 'NONE';
-      case RealtimeEndpointStatus.ready:
-        return 'READY';
-      case RealtimeEndpointStatus.updating:
-        return 'UPDATING';
-      case RealtimeEndpointStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RealtimeEndpointStatusFromString on String {
-  RealtimeEndpointStatus toRealtimeEndpointStatus() {
-    switch (this) {
-      case 'NONE':
-        return RealtimeEndpointStatus.none;
-      case 'READY':
-        return RealtimeEndpointStatus.ready;
-      case 'UPDATING':
-        return RealtimeEndpointStatus.updating;
-      case 'FAILED':
-        return RealtimeEndpointStatus.failed;
-    }
-    throw Exception('$this is not known in enum RealtimeEndpointStatus');
-  }
+  const RealtimeEndpointStatus(this.value);
+
+  static RealtimeEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RealtimeEndpointStatus'));
 }
 
 /// Describes the data specification of an Amazon Redshift
@@ -5853,31 +5622,17 @@ class S3DataSpec {
 /// </li>
 /// </ul>
 enum SortOrder {
-  asc,
-  dsc,
-}
+  asc('asc'),
+  dsc('dsc'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'asc';
-      case SortOrder.dsc:
-        return 'dsc';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'asc':
-        return SortOrder.asc;
-      case 'dsc':
-        return SortOrder.dsc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// A custom key-value pair associated with an ML object, such as an ML model.
@@ -5914,41 +5669,20 @@ class Tag {
 }
 
 enum TaggableResourceType {
-  batchPrediction,
-  dataSource,
-  evaluation,
-  mLModel,
-}
+  batchPrediction('BatchPrediction'),
+  dataSource('DataSource'),
+  evaluation('Evaluation'),
+  mLModel('MLModel'),
+  ;
 
-extension TaggableResourceTypeValueExtension on TaggableResourceType {
-  String toValue() {
-    switch (this) {
-      case TaggableResourceType.batchPrediction:
-        return 'BatchPrediction';
-      case TaggableResourceType.dataSource:
-        return 'DataSource';
-      case TaggableResourceType.evaluation:
-        return 'Evaluation';
-      case TaggableResourceType.mLModel:
-        return 'MLModel';
-    }
-  }
-}
+  final String value;
 
-extension TaggableResourceTypeFromString on String {
-  TaggableResourceType toTaggableResourceType() {
-    switch (this) {
-      case 'BatchPrediction':
-        return TaggableResourceType.batchPrediction;
-      case 'DataSource':
-        return TaggableResourceType.dataSource;
-      case 'Evaluation':
-        return TaggableResourceType.evaluation;
-      case 'MLModel':
-        return TaggableResourceType.mLModel;
-    }
-    throw Exception('$this is not known in enum TaggableResourceType');
-  }
+  const TaggableResourceType(this.value);
+
+  static TaggableResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TaggableResourceType'));
 }
 
 /// Represents the output of an <code>UpdateBatchPrediction</code> operation.

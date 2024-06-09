@@ -137,7 +137,7 @@ class Panorama {
   }) async {
     final $payload = <String, dynamic>{
       'DeviceIds': deviceIds,
-      'JobType': jobType.toValue(),
+      'JobType': jobType.value,
       if (deviceJobConfig != null) 'DeviceJobConfig': deviceJobConfig,
     };
     final response = await _protocol.send(
@@ -190,7 +190,7 @@ class Panorama {
       'OutputPackageName': outputPackageName,
       'OutputPackageVersion': outputPackageVersion,
       'TemplateParameters': templateParameters,
-      'TemplateType': templateType.toValue(),
+      'TemplateType': templateType.value,
       if (jobTags != null) 'JobTags': jobTags,
       if (nodeDescription != null) 'NodeDescription': nodeDescription,
     };
@@ -263,7 +263,7 @@ class Panorama {
     final $payload = <String, dynamic>{
       'ClientToken': clientToken,
       'InputConfig': inputConfig,
-      'JobType': jobType.toValue(),
+      'JobType': jobType.value,
       'OutputConfig': outputConfig,
       if (jobTags != null) 'JobTags': jobTags,
     };
@@ -719,7 +719,7 @@ class Panorama {
       if (deviceId != null) 'deviceId': [deviceId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (statusFilter != null) 'statusFilter': [statusFilter.toValue()],
+      if (statusFilter != null) 'statusFilter': [statusFilter.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -773,14 +773,12 @@ class Panorama {
     );
     final $query = <String, List<String>>{
       if (deviceAggregatedStatusFilter != null)
-        'DeviceAggregatedStatusFilter': [
-          deviceAggregatedStatusFilter.toValue()
-        ],
+        'DeviceAggregatedStatusFilter': [deviceAggregatedStatusFilter.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nameFilter != null) 'NameFilter': [nameFilter],
       if (nextToken != null) 'NextToken': [nextToken],
-      if (sortBy != null) 'SortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'SortOrder': [sortOrder.toValue()],
+      if (sortBy != null) 'SortBy': [sortBy.value],
+      if (sortOrder != null) 'SortOrder': [sortOrder.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -916,7 +914,7 @@ class Panorama {
       25,
     );
     final $query = <String, List<String>>{
-      if (category != null) 'category': [category.toValue()],
+      if (category != null) 'category': [category.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (ownerAccount != null) 'ownerAccount': [ownerAccount],
@@ -1339,14 +1337,15 @@ class ApplicationInstance {
           json['DefaultRuntimeContextDeviceName'] as String?,
       description: json['Description'] as String?,
       healthStatus: (json['HealthStatus'] as String?)
-          ?.toApplicationInstanceHealthStatus(),
+          ?.let(ApplicationInstanceHealthStatus.fromString),
       name: json['Name'] as String?,
       runtimeContextStates: (json['RuntimeContextStates'] as List?)
           ?.whereNotNull()
           .map((e) =>
               ReportedRuntimeContextState.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toApplicationInstanceStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ApplicationInstanceStatus.fromString),
       statusDescription: json['StatusDescription'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1377,11 +1376,11 @@ class ApplicationInstance {
       if (defaultRuntimeContextDeviceName != null)
         'DefaultRuntimeContextDeviceName': defaultRuntimeContextDeviceName,
       if (description != null) 'Description': description,
-      if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
+      if (healthStatus != null) 'HealthStatus': healthStatus.value,
       if (name != null) 'Name': name,
       if (runtimeContextStates != null)
         'RuntimeContextStates': runtimeContextStates,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDescription != null) 'StatusDescription': statusDescription,
       if (tags != null) 'Tags': tags,
     };
@@ -1389,139 +1388,58 @@ class ApplicationInstance {
 }
 
 enum ApplicationInstanceHealthStatus {
-  running,
-  error,
-  notAvailable,
-}
+  running('RUNNING'),
+  error('ERROR'),
+  notAvailable('NOT_AVAILABLE'),
+  ;
 
-extension ApplicationInstanceHealthStatusValueExtension
-    on ApplicationInstanceHealthStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationInstanceHealthStatus.running:
-        return 'RUNNING';
-      case ApplicationInstanceHealthStatus.error:
-        return 'ERROR';
-      case ApplicationInstanceHealthStatus.notAvailable:
-        return 'NOT_AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationInstanceHealthStatusFromString on String {
-  ApplicationInstanceHealthStatus toApplicationInstanceHealthStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return ApplicationInstanceHealthStatus.running;
-      case 'ERROR':
-        return ApplicationInstanceHealthStatus.error;
-      case 'NOT_AVAILABLE':
-        return ApplicationInstanceHealthStatus.notAvailable;
-    }
-    throw Exception(
-        '$this is not known in enum ApplicationInstanceHealthStatus');
-  }
+  const ApplicationInstanceHealthStatus(this.value);
+
+  static ApplicationInstanceHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationInstanceHealthStatus'));
 }
 
 enum ApplicationInstanceStatus {
-  deploymentPending,
-  deploymentRequested,
-  deploymentInProgress,
-  deploymentError,
-  deploymentSucceeded,
-  removalPending,
-  removalRequested,
-  removalInProgress,
-  removalFailed,
-  removalSucceeded,
-  deploymentFailed,
-}
+  deploymentPending('DEPLOYMENT_PENDING'),
+  deploymentRequested('DEPLOYMENT_REQUESTED'),
+  deploymentInProgress('DEPLOYMENT_IN_PROGRESS'),
+  deploymentError('DEPLOYMENT_ERROR'),
+  deploymentSucceeded('DEPLOYMENT_SUCCEEDED'),
+  removalPending('REMOVAL_PENDING'),
+  removalRequested('REMOVAL_REQUESTED'),
+  removalInProgress('REMOVAL_IN_PROGRESS'),
+  removalFailed('REMOVAL_FAILED'),
+  removalSucceeded('REMOVAL_SUCCEEDED'),
+  deploymentFailed('DEPLOYMENT_FAILED'),
+  ;
 
-extension ApplicationInstanceStatusValueExtension on ApplicationInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationInstanceStatus.deploymentPending:
-        return 'DEPLOYMENT_PENDING';
-      case ApplicationInstanceStatus.deploymentRequested:
-        return 'DEPLOYMENT_REQUESTED';
-      case ApplicationInstanceStatus.deploymentInProgress:
-        return 'DEPLOYMENT_IN_PROGRESS';
-      case ApplicationInstanceStatus.deploymentError:
-        return 'DEPLOYMENT_ERROR';
-      case ApplicationInstanceStatus.deploymentSucceeded:
-        return 'DEPLOYMENT_SUCCEEDED';
-      case ApplicationInstanceStatus.removalPending:
-        return 'REMOVAL_PENDING';
-      case ApplicationInstanceStatus.removalRequested:
-        return 'REMOVAL_REQUESTED';
-      case ApplicationInstanceStatus.removalInProgress:
-        return 'REMOVAL_IN_PROGRESS';
-      case ApplicationInstanceStatus.removalFailed:
-        return 'REMOVAL_FAILED';
-      case ApplicationInstanceStatus.removalSucceeded:
-        return 'REMOVAL_SUCCEEDED';
-      case ApplicationInstanceStatus.deploymentFailed:
-        return 'DEPLOYMENT_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationInstanceStatusFromString on String {
-  ApplicationInstanceStatus toApplicationInstanceStatus() {
-    switch (this) {
-      case 'DEPLOYMENT_PENDING':
-        return ApplicationInstanceStatus.deploymentPending;
-      case 'DEPLOYMENT_REQUESTED':
-        return ApplicationInstanceStatus.deploymentRequested;
-      case 'DEPLOYMENT_IN_PROGRESS':
-        return ApplicationInstanceStatus.deploymentInProgress;
-      case 'DEPLOYMENT_ERROR':
-        return ApplicationInstanceStatus.deploymentError;
-      case 'DEPLOYMENT_SUCCEEDED':
-        return ApplicationInstanceStatus.deploymentSucceeded;
-      case 'REMOVAL_PENDING':
-        return ApplicationInstanceStatus.removalPending;
-      case 'REMOVAL_REQUESTED':
-        return ApplicationInstanceStatus.removalRequested;
-      case 'REMOVAL_IN_PROGRESS':
-        return ApplicationInstanceStatus.removalInProgress;
-      case 'REMOVAL_FAILED':
-        return ApplicationInstanceStatus.removalFailed;
-      case 'REMOVAL_SUCCEEDED':
-        return ApplicationInstanceStatus.removalSucceeded;
-      case 'DEPLOYMENT_FAILED':
-        return ApplicationInstanceStatus.deploymentFailed;
-    }
-    throw Exception('$this is not known in enum ApplicationInstanceStatus');
-  }
+  const ApplicationInstanceStatus(this.value);
+
+  static ApplicationInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationInstanceStatus'));
 }
 
 enum ConnectionType {
-  staticIp,
-  dhcp,
-}
+  staticIp('STATIC_IP'),
+  dhcp('DHCP'),
+  ;
 
-extension ConnectionTypeValueExtension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.staticIp:
-        return 'STATIC_IP';
-      case ConnectionType.dhcp:
-        return 'DHCP';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionTypeFromString on String {
-  ConnectionType toConnectionType() {
-    switch (this) {
-      case 'STATIC_IP':
-        return ConnectionType.staticIp;
-      case 'DHCP':
-        return ConnectionType.dhcp;
-    }
-    throw Exception('$this is not known in enum ConnectionType');
-  }
+  const ConnectionType(this.value);
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionType'));
 }
 
 class CreateApplicationInstanceResponse {
@@ -1862,7 +1780,7 @@ class DescribeApplicationInstanceResponse {
           json['DefaultRuntimeContextDeviceName'] as String?,
       description: json['Description'] as String?,
       healthStatus: (json['HealthStatus'] as String?)
-          ?.toApplicationInstanceHealthStatus(),
+          ?.let(ApplicationInstanceHealthStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       runtimeContextStates: (json['RuntimeContextStates'] as List?)
@@ -1871,7 +1789,8 @@ class DescribeApplicationInstanceResponse {
               ReportedRuntimeContextState.fromJson(e as Map<String, dynamic>))
           .toList(),
       runtimeRoleArn: json['RuntimeRoleArn'] as String?,
-      status: (json['Status'] as String?)?.toApplicationInstanceStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ApplicationInstanceStatus.fromString),
       statusDescription: json['StatusDescription'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1907,14 +1826,14 @@ class DescribeApplicationInstanceResponse {
       if (defaultRuntimeContextDeviceName != null)
         'DefaultRuntimeContextDeviceName': defaultRuntimeContextDeviceName,
       if (description != null) 'Description': description,
-      if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
+      if (healthStatus != null) 'HealthStatus': healthStatus.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (runtimeContextStates != null)
         'RuntimeContextStates': runtimeContextStates,
       if (runtimeRoleArn != null) 'RuntimeRoleArn': runtimeRoleArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDescription != null) 'StatusDescription': statusDescription,
       if (tags != null) 'Tags': tags,
     };
@@ -1967,11 +1886,11 @@ class DescribeDeviceJobResponse {
       deviceArn: json['DeviceArn'] as String?,
       deviceId: json['DeviceId'] as String?,
       deviceName: json['DeviceName'] as String?,
-      deviceType: (json['DeviceType'] as String?)?.toDeviceType(),
+      deviceType: (json['DeviceType'] as String?)?.let(DeviceType.fromString),
       imageVersion: json['ImageVersion'] as String?,
       jobId: json['JobId'] as String?,
-      jobType: (json['JobType'] as String?)?.toJobType(),
-      status: (json['Status'] as String?)?.toUpdateProgress(),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
     );
   }
 
@@ -1990,11 +1909,11 @@ class DescribeDeviceJobResponse {
       if (deviceArn != null) 'DeviceArn': deviceArn,
       if (deviceId != null) 'DeviceId': deviceId,
       if (deviceName != null) 'DeviceName': deviceName,
-      if (deviceType != null) 'DeviceType': deviceType.toValue(),
+      if (deviceType != null) 'DeviceType': deviceType.value,
       if (imageVersion != null) 'ImageVersion': imageVersion,
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2093,7 +2012,7 @@ class DescribeDeviceResponse {
               AlternateSoftwareMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
-      brand: (json['Brand'] as String?)?.toDeviceBrand(),
+      brand: (json['Brand'] as String?)?.let(DeviceBrand.fromString),
       createdTime: timeStampFromJson(json['CreatedTime']),
       currentNetworkingStatus: json['CurrentNetworkingStatus'] != null
           ? NetworkStatus.fromJson(
@@ -2102,9 +2021,9 @@ class DescribeDeviceResponse {
       currentSoftware: json['CurrentSoftware'] as String?,
       description: json['Description'] as String?,
       deviceAggregatedStatus: (json['DeviceAggregatedStatus'] as String?)
-          ?.toDeviceAggregatedStatus(),
+          ?.let(DeviceAggregatedStatus.fromString),
       deviceConnectionStatus: (json['DeviceConnectionStatus'] as String?)
-          ?.toDeviceConnectionStatus(),
+          ?.let(DeviceConnectionStatus.fromString),
       deviceId: json['DeviceId'] as String?,
       latestAlternateSoftware: json['LatestAlternateSoftware'] as String?,
       latestDeviceJob: json['LatestDeviceJob'] != null
@@ -2119,11 +2038,11 @@ class DescribeDeviceResponse {
               json['NetworkingConfiguration'] as Map<String, dynamic>)
           : null,
       provisioningStatus:
-          (json['ProvisioningStatus'] as String?)?.toDeviceStatus(),
+          (json['ProvisioningStatus'] as String?)?.let(DeviceStatus.fromString),
       serialNumber: json['SerialNumber'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.toDeviceType(),
+      type: (json['Type'] as String?)?.let(DeviceType.fromString),
     );
   }
 
@@ -2151,16 +2070,16 @@ class DescribeDeviceResponse {
     return {
       if (alternateSoftwares != null) 'AlternateSoftwares': alternateSoftwares,
       if (arn != null) 'Arn': arn,
-      if (brand != null) 'Brand': brand.toValue(),
+      if (brand != null) 'Brand': brand.value,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (currentNetworkingStatus != null)
         'CurrentNetworkingStatus': currentNetworkingStatus,
       if (currentSoftware != null) 'CurrentSoftware': currentSoftware,
       if (description != null) 'Description': description,
       if (deviceAggregatedStatus != null)
-        'DeviceAggregatedStatus': deviceAggregatedStatus.toValue(),
+        'DeviceAggregatedStatus': deviceAggregatedStatus.value,
       if (deviceConnectionStatus != null)
-        'DeviceConnectionStatus': deviceConnectionStatus.toValue(),
+        'DeviceConnectionStatus': deviceConnectionStatus.value,
       if (deviceId != null) 'DeviceId': deviceId,
       if (latestAlternateSoftware != null)
         'LatestAlternateSoftware': latestAlternateSoftware,
@@ -2172,10 +2091,10 @@ class DescribeDeviceResponse {
       if (networkingConfiguration != null)
         'NetworkingConfiguration': networkingConfiguration,
       if (provisioningStatus != null)
-        'ProvisioningStatus': provisioningStatus.toValue(),
+        'ProvisioningStatus': provisioningStatus.value,
       if (serialNumber != null) 'SerialNumber': serialNumber,
       if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -2242,11 +2161,11 @@ class DescribeNodeFromTemplateJobResponse {
       nodeName: json['NodeName'] as String,
       outputPackageName: json['OutputPackageName'] as String,
       outputPackageVersion: json['OutputPackageVersion'] as String,
-      status: (json['Status'] as String).toNodeFromTemplateJobStatus(),
+      status: NodeFromTemplateJobStatus.fromString((json['Status'] as String)),
       statusMessage: json['StatusMessage'] as String,
       templateParameters: (json['TemplateParameters'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(k, e as String)),
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       jobTags: (json['JobTags'] as List?)
           ?.whereNotNull()
           .map((e) => JobResourceTags.fromJson(e as Map<String, dynamic>))
@@ -2275,10 +2194,10 @@ class DescribeNodeFromTemplateJobResponse {
       'NodeName': nodeName,
       'OutputPackageName': outputPackageName,
       'OutputPackageVersion': outputPackageVersion,
-      'Status': status.toValue(),
+      'Status': status.value,
       'StatusMessage': statusMessage,
       'TemplateParameters': templateParameters,
-      'TemplateType': templateType.toValue(),
+      'TemplateType': templateType.value,
       if (jobTags != null) 'JobTags': jobTags,
       if (nodeDescription != null) 'NodeDescription': nodeDescription,
     };
@@ -2347,7 +2266,7 @@ class DescribeNodeResponse {
 
   factory DescribeNodeResponse.fromJson(Map<String, dynamic> json) {
     return DescribeNodeResponse(
-      category: (json['Category'] as String).toNodeCategory(),
+      category: NodeCategory.fromString((json['Category'] as String)),
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
       description: json['Description'] as String,
       lastUpdatedTime:
@@ -2382,7 +2301,7 @@ class DescribeNodeResponse {
     final assetName = this.assetName;
     final packageArn = this.packageArn;
     return {
-      'Category': category.toValue(),
+      'Category': category.value,
       'CreatedTime': unixTimestampToJson(createdTime),
       'Description': description,
       'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
@@ -2454,14 +2373,14 @@ class DescribePackageImportJobResponse {
       inputConfig: PackageImportJobInputConfig.fromJson(
           json['InputConfig'] as Map<String, dynamic>),
       jobId: json['JobId'] as String,
-      jobType: (json['JobType'] as String).toPackageImportJobType(),
+      jobType: PackageImportJobType.fromString((json['JobType'] as String)),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['LastUpdatedTime'] as Object),
       output: PackageImportJobOutput.fromJson(
           json['Output'] as Map<String, dynamic>),
       outputConfig: PackageImportJobOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toPackageImportJobStatus(),
+      status: PackageImportJobStatus.fromString((json['Status'] as String)),
       statusMessage: json['StatusMessage'] as String,
       clientToken: json['ClientToken'] as String?,
       jobTags: (json['JobTags'] as List?)
@@ -2487,11 +2406,11 @@ class DescribePackageImportJobResponse {
       'CreatedTime': unixTimestampToJson(createdTime),
       'InputConfig': inputConfig,
       'JobId': jobId,
-      'JobType': jobType.toValue(),
+      'JobType': jobType.value,
       'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'Output': output,
       'OutputConfig': outputConfig,
-      'Status': status.toValue(),
+      'Status': status.value,
       'StatusMessage': statusMessage,
       if (clientToken != null) 'ClientToken': clientToken,
       if (jobTags != null) 'JobTags': jobTags,
@@ -2631,7 +2550,7 @@ class DescribePackageVersionResponse {
       packageName: json['PackageName'] as String,
       packageVersion: json['PackageVersion'] as String,
       patchVersion: json['PatchVersion'] as String,
-      status: (json['Status'] as String).toPackageVersionStatus(),
+      status: PackageVersionStatus.fromString((json['Status'] as String)),
       ownerAccount: json['OwnerAccount'] as String?,
       packageArn: json['PackageArn'] as String?,
       registeredTime: timeStampFromJson(json['RegisteredTime']),
@@ -2656,7 +2575,7 @@ class DescribePackageVersionResponse {
       'PackageName': packageName,
       'PackageVersion': packageVersion,
       'PatchVersion': patchVersion,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (ownerAccount != null) 'OwnerAccount': ownerAccount,
       if (packageArn != null) 'PackageArn': packageArn,
       if (registeredTime != null)
@@ -2667,36 +2586,19 @@ class DescribePackageVersionResponse {
 }
 
 enum DesiredState {
-  running,
-  stopped,
-  removed,
-}
+  running('RUNNING'),
+  stopped('STOPPED'),
+  removed('REMOVED'),
+  ;
 
-extension DesiredStateValueExtension on DesiredState {
-  String toValue() {
-    switch (this) {
-      case DesiredState.running:
-        return 'RUNNING';
-      case DesiredState.stopped:
-        return 'STOPPED';
-      case DesiredState.removed:
-        return 'REMOVED';
-    }
-  }
-}
+  final String value;
 
-extension DesiredStateFromString on String {
-  DesiredState toDesiredState() {
-    switch (this) {
-      case 'RUNNING':
-        return DesiredState.running;
-      case 'STOPPED':
-        return DesiredState.stopped;
-      case 'REMOVED':
-        return DesiredState.removed;
-    }
-    throw Exception('$this is not known in enum DesiredState');
-  }
+  const DesiredState(this.value);
+
+  static DesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DesiredState'));
 }
 
 /// A device.
@@ -2760,12 +2662,12 @@ class Device {
 
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
-      brand: (json['Brand'] as String?)?.toDeviceBrand(),
+      brand: (json['Brand'] as String?)?.let(DeviceBrand.fromString),
       createdTime: timeStampFromJson(json['CreatedTime']),
       currentSoftware: json['CurrentSoftware'] as String?,
       description: json['Description'] as String?,
       deviceAggregatedStatus: (json['DeviceAggregatedStatus'] as String?)
-          ?.toDeviceAggregatedStatus(),
+          ?.let(DeviceAggregatedStatus.fromString),
       deviceId: json['DeviceId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       latestDeviceJob: json['LatestDeviceJob'] != null
@@ -2775,10 +2677,10 @@ class Device {
       leaseExpirationTime: timeStampFromJson(json['LeaseExpirationTime']),
       name: json['Name'] as String?,
       provisioningStatus:
-          (json['ProvisioningStatus'] as String?)?.toDeviceStatus(),
+          (json['ProvisioningStatus'] as String?)?.let(DeviceStatus.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.toDeviceType(),
+      type: (json['Type'] as String?)?.let(DeviceType.fromString),
     );
   }
 
@@ -2797,12 +2699,12 @@ class Device {
     final tags = this.tags;
     final type = this.type;
     return {
-      if (brand != null) 'Brand': brand.toValue(),
+      if (brand != null) 'Brand': brand.value,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (currentSoftware != null) 'CurrentSoftware': currentSoftware,
       if (description != null) 'Description': description,
       if (deviceAggregatedStatus != null)
-        'DeviceAggregatedStatus': deviceAggregatedStatus.toValue(),
+        'DeviceAggregatedStatus': deviceAggregatedStatus.value,
       if (deviceId != null) 'DeviceId': deviceId,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
@@ -2811,150 +2713,66 @@ class Device {
         'LeaseExpirationTime': unixTimestampToJson(leaseExpirationTime),
       if (name != null) 'Name': name,
       if (provisioningStatus != null)
-        'ProvisioningStatus': provisioningStatus.toValue(),
+        'ProvisioningStatus': provisioningStatus.value,
       if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DeviceAggregatedStatus {
-  error,
-  awaitingProvisioning,
-  pending,
-  failed,
-  deleting,
-  online,
-  offline,
-  leaseExpired,
-  updateNeeded,
-  rebooting,
-}
+  error('ERROR'),
+  awaitingProvisioning('AWAITING_PROVISIONING'),
+  pending('PENDING'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  online('ONLINE'),
+  offline('OFFLINE'),
+  leaseExpired('LEASE_EXPIRED'),
+  updateNeeded('UPDATE_NEEDED'),
+  rebooting('REBOOTING'),
+  ;
 
-extension DeviceAggregatedStatusValueExtension on DeviceAggregatedStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceAggregatedStatus.error:
-        return 'ERROR';
-      case DeviceAggregatedStatus.awaitingProvisioning:
-        return 'AWAITING_PROVISIONING';
-      case DeviceAggregatedStatus.pending:
-        return 'PENDING';
-      case DeviceAggregatedStatus.failed:
-        return 'FAILED';
-      case DeviceAggregatedStatus.deleting:
-        return 'DELETING';
-      case DeviceAggregatedStatus.online:
-        return 'ONLINE';
-      case DeviceAggregatedStatus.offline:
-        return 'OFFLINE';
-      case DeviceAggregatedStatus.leaseExpired:
-        return 'LEASE_EXPIRED';
-      case DeviceAggregatedStatus.updateNeeded:
-        return 'UPDATE_NEEDED';
-      case DeviceAggregatedStatus.rebooting:
-        return 'REBOOTING';
-    }
-  }
-}
+  final String value;
 
-extension DeviceAggregatedStatusFromString on String {
-  DeviceAggregatedStatus toDeviceAggregatedStatus() {
-    switch (this) {
-      case 'ERROR':
-        return DeviceAggregatedStatus.error;
-      case 'AWAITING_PROVISIONING':
-        return DeviceAggregatedStatus.awaitingProvisioning;
-      case 'PENDING':
-        return DeviceAggregatedStatus.pending;
-      case 'FAILED':
-        return DeviceAggregatedStatus.failed;
-      case 'DELETING':
-        return DeviceAggregatedStatus.deleting;
-      case 'ONLINE':
-        return DeviceAggregatedStatus.online;
-      case 'OFFLINE':
-        return DeviceAggregatedStatus.offline;
-      case 'LEASE_EXPIRED':
-        return DeviceAggregatedStatus.leaseExpired;
-      case 'UPDATE_NEEDED':
-        return DeviceAggregatedStatus.updateNeeded;
-      case 'REBOOTING':
-        return DeviceAggregatedStatus.rebooting;
-    }
-    throw Exception('$this is not known in enum DeviceAggregatedStatus');
-  }
+  const DeviceAggregatedStatus(this.value);
+
+  static DeviceAggregatedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceAggregatedStatus'));
 }
 
 enum DeviceBrand {
-  awsPanorama,
-  lenovo,
-}
+  awsPanorama('AWS_PANORAMA'),
+  lenovo('LENOVO'),
+  ;
 
-extension DeviceBrandValueExtension on DeviceBrand {
-  String toValue() {
-    switch (this) {
-      case DeviceBrand.awsPanorama:
-        return 'AWS_PANORAMA';
-      case DeviceBrand.lenovo:
-        return 'LENOVO';
-    }
-  }
-}
+  final String value;
 
-extension DeviceBrandFromString on String {
-  DeviceBrand toDeviceBrand() {
-    switch (this) {
-      case 'AWS_PANORAMA':
-        return DeviceBrand.awsPanorama;
-      case 'LENOVO':
-        return DeviceBrand.lenovo;
-    }
-    throw Exception('$this is not known in enum DeviceBrand');
-  }
+  const DeviceBrand(this.value);
+
+  static DeviceBrand fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DeviceBrand'));
 }
 
 enum DeviceConnectionStatus {
-  online,
-  offline,
-  awaitingCredentials,
-  notAvailable,
-  error,
-}
+  online('ONLINE'),
+  offline('OFFLINE'),
+  awaitingCredentials('AWAITING_CREDENTIALS'),
+  notAvailable('NOT_AVAILABLE'),
+  error('ERROR'),
+  ;
 
-extension DeviceConnectionStatusValueExtension on DeviceConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceConnectionStatus.online:
-        return 'ONLINE';
-      case DeviceConnectionStatus.offline:
-        return 'OFFLINE';
-      case DeviceConnectionStatus.awaitingCredentials:
-        return 'AWAITING_CREDENTIALS';
-      case DeviceConnectionStatus.notAvailable:
-        return 'NOT_AVAILABLE';
-      case DeviceConnectionStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension DeviceConnectionStatusFromString on String {
-  DeviceConnectionStatus toDeviceConnectionStatus() {
-    switch (this) {
-      case 'ONLINE':
-        return DeviceConnectionStatus.online;
-      case 'OFFLINE':
-        return DeviceConnectionStatus.offline;
-      case 'AWAITING_CREDENTIALS':
-        return DeviceConnectionStatus.awaitingCredentials;
-      case 'NOT_AVAILABLE':
-        return DeviceConnectionStatus.notAvailable;
-      case 'ERROR':
-        return DeviceConnectionStatus.error;
-    }
-    throw Exception('$this is not known in enum DeviceConnectionStatus');
-  }
+  const DeviceConnectionStatus(this.value);
+
+  static DeviceConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceConnectionStatus'));
 }
 
 /// A job that runs on a device.
@@ -2988,7 +2806,7 @@ class DeviceJob {
       deviceId: json['DeviceId'] as String?,
       deviceName: json['DeviceName'] as String?,
       jobId: json['JobId'] as String?,
-      jobType: (json['JobType'] as String?)?.toJobType(),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
     );
   }
 
@@ -3003,7 +2821,7 @@ class DeviceJob {
       if (deviceId != null) 'DeviceId': deviceId,
       if (deviceName != null) 'DeviceName': deviceName,
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
     };
   }
 }
@@ -3026,152 +2844,60 @@ class DeviceJobConfig {
 }
 
 enum DeviceReportedStatus {
-  stopping,
-  stopped,
-  stopError,
-  removalFailed,
-  removalInProgress,
-  starting,
-  running,
-  installError,
-  launched,
-  launchError,
-  installInProgress,
-}
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  stopError('STOP_ERROR'),
+  removalFailed('REMOVAL_FAILED'),
+  removalInProgress('REMOVAL_IN_PROGRESS'),
+  starting('STARTING'),
+  running('RUNNING'),
+  installError('INSTALL_ERROR'),
+  launched('LAUNCHED'),
+  launchError('LAUNCH_ERROR'),
+  installInProgress('INSTALL_IN_PROGRESS'),
+  ;
 
-extension DeviceReportedStatusValueExtension on DeviceReportedStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceReportedStatus.stopping:
-        return 'STOPPING';
-      case DeviceReportedStatus.stopped:
-        return 'STOPPED';
-      case DeviceReportedStatus.stopError:
-        return 'STOP_ERROR';
-      case DeviceReportedStatus.removalFailed:
-        return 'REMOVAL_FAILED';
-      case DeviceReportedStatus.removalInProgress:
-        return 'REMOVAL_IN_PROGRESS';
-      case DeviceReportedStatus.starting:
-        return 'STARTING';
-      case DeviceReportedStatus.running:
-        return 'RUNNING';
-      case DeviceReportedStatus.installError:
-        return 'INSTALL_ERROR';
-      case DeviceReportedStatus.launched:
-        return 'LAUNCHED';
-      case DeviceReportedStatus.launchError:
-        return 'LAUNCH_ERROR';
-      case DeviceReportedStatus.installInProgress:
-        return 'INSTALL_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension DeviceReportedStatusFromString on String {
-  DeviceReportedStatus toDeviceReportedStatus() {
-    switch (this) {
-      case 'STOPPING':
-        return DeviceReportedStatus.stopping;
-      case 'STOPPED':
-        return DeviceReportedStatus.stopped;
-      case 'STOP_ERROR':
-        return DeviceReportedStatus.stopError;
-      case 'REMOVAL_FAILED':
-        return DeviceReportedStatus.removalFailed;
-      case 'REMOVAL_IN_PROGRESS':
-        return DeviceReportedStatus.removalInProgress;
-      case 'STARTING':
-        return DeviceReportedStatus.starting;
-      case 'RUNNING':
-        return DeviceReportedStatus.running;
-      case 'INSTALL_ERROR':
-        return DeviceReportedStatus.installError;
-      case 'LAUNCHED':
-        return DeviceReportedStatus.launched;
-      case 'LAUNCH_ERROR':
-        return DeviceReportedStatus.launchError;
-      case 'INSTALL_IN_PROGRESS':
-        return DeviceReportedStatus.installInProgress;
-    }
-    throw Exception('$this is not known in enum DeviceReportedStatus');
-  }
+  const DeviceReportedStatus(this.value);
+
+  static DeviceReportedStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeviceReportedStatus'));
 }
 
 enum DeviceStatus {
-  awaitingProvisioning,
-  pending,
-  succeeded,
-  failed,
-  error,
-  deleting,
-}
+  awaitingProvisioning('AWAITING_PROVISIONING'),
+  pending('PENDING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  error('ERROR'),
+  deleting('DELETING'),
+  ;
 
-extension DeviceStatusValueExtension on DeviceStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceStatus.awaitingProvisioning:
-        return 'AWAITING_PROVISIONING';
-      case DeviceStatus.pending:
-        return 'PENDING';
-      case DeviceStatus.succeeded:
-        return 'SUCCEEDED';
-      case DeviceStatus.failed:
-        return 'FAILED';
-      case DeviceStatus.error:
-        return 'ERROR';
-      case DeviceStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStatusFromString on String {
-  DeviceStatus toDeviceStatus() {
-    switch (this) {
-      case 'AWAITING_PROVISIONING':
-        return DeviceStatus.awaitingProvisioning;
-      case 'PENDING':
-        return DeviceStatus.pending;
-      case 'SUCCEEDED':
-        return DeviceStatus.succeeded;
-      case 'FAILED':
-        return DeviceStatus.failed;
-      case 'ERROR':
-        return DeviceStatus.error;
-      case 'DELETING':
-        return DeviceStatus.deleting;
-    }
-    throw Exception('$this is not known in enum DeviceStatus');
-  }
+  const DeviceStatus(this.value);
+
+  static DeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceStatus'));
 }
 
 enum DeviceType {
-  panoramaApplianceDeveloperKit,
-  panoramaAppliance,
-}
+  panoramaApplianceDeveloperKit('PANORAMA_APPLIANCE_DEVELOPER_KIT'),
+  panoramaAppliance('PANORAMA_APPLIANCE'),
+  ;
 
-extension DeviceTypeValueExtension on DeviceType {
-  String toValue() {
-    switch (this) {
-      case DeviceType.panoramaApplianceDeveloperKit:
-        return 'PANORAMA_APPLIANCE_DEVELOPER_KIT';
-      case DeviceType.panoramaAppliance:
-        return 'PANORAMA_APPLIANCE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceTypeFromString on String {
-  DeviceType toDeviceType() {
-    switch (this) {
-      case 'PANORAMA_APPLIANCE_DEVELOPER_KIT':
-        return DeviceType.panoramaApplianceDeveloperKit;
-      case 'PANORAMA_APPLIANCE':
-        return DeviceType.panoramaAppliance;
-    }
-    throw Exception('$this is not known in enum DeviceType');
-  }
+  const DeviceType(this.value);
+
+  static DeviceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DeviceType'));
 }
 
 /// A device's network configuration.
@@ -3189,7 +2915,8 @@ class EthernetPayload {
 
   factory EthernetPayload.fromJson(Map<String, dynamic> json) {
     return EthernetPayload(
-      connectionType: (json['ConnectionType'] as String).toConnectionType(),
+      connectionType:
+          ConnectionType.fromString((json['ConnectionType'] as String)),
       staticIpConnectionInfo: json['StaticIpConnectionInfo'] != null
           ? StaticIpConnectionInfo.fromJson(
               json['StaticIpConnectionInfo'] as Map<String, dynamic>)
@@ -3201,7 +2928,7 @@ class EthernetPayload {
     final connectionType = this.connectionType;
     final staticIpConnectionInfo = this.staticIpConnectionInfo;
     return {
-      'ConnectionType': connectionType.toValue(),
+      'ConnectionType': connectionType.value,
       if (staticIpConnectionInfo != null)
         'StaticIpConnectionInfo': staticIpConnectionInfo,
     };
@@ -3227,8 +2954,8 @@ class EthernetStatus {
 
   factory EthernetStatus.fromJson(Map<String, dynamic> json) {
     return EthernetStatus(
-      connectionStatus:
-          (json['ConnectionStatus'] as String?)?.toNetworkConnectionStatus(),
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(NetworkConnectionStatus.fromString),
       hwAddress: json['HwAddress'] as String?,
       ipAddress: json['IpAddress'] as String?,
     );
@@ -3239,8 +2966,7 @@ class EthernetStatus {
     final hwAddress = this.hwAddress;
     final ipAddress = this.ipAddress;
     return {
-      if (connectionStatus != null)
-        'ConnectionStatus': connectionStatus.toValue(),
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
       if (hwAddress != null) 'HwAddress': hwAddress,
       if (ipAddress != null) 'IpAddress': ipAddress,
     };
@@ -3292,7 +3018,8 @@ class JobResourceTags {
 
   factory JobResourceTags.fromJson(Map<String, dynamic> json) {
     return JobResourceTags(
-      resourceType: (json['ResourceType'] as String).toJobResourceType(),
+      resourceType:
+          JobResourceType.fromString((json['ResourceType'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(k, e as String)),
     );
@@ -3302,61 +3029,38 @@ class JobResourceTags {
     final resourceType = this.resourceType;
     final tags = this.tags;
     return {
-      'ResourceType': resourceType.toValue(),
+      'ResourceType': resourceType.value,
       'Tags': tags,
     };
   }
 }
 
 enum JobResourceType {
-  package,
-}
+  package('PACKAGE'),
+  ;
 
-extension JobResourceTypeValueExtension on JobResourceType {
-  String toValue() {
-    switch (this) {
-      case JobResourceType.package:
-        return 'PACKAGE';
-    }
-  }
-}
+  final String value;
 
-extension JobResourceTypeFromString on String {
-  JobResourceType toJobResourceType() {
-    switch (this) {
-      case 'PACKAGE':
-        return JobResourceType.package;
-    }
-    throw Exception('$this is not known in enum JobResourceType');
-  }
+  const JobResourceType(this.value);
+
+  static JobResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobResourceType'));
 }
 
 enum JobType {
-  ota,
-  reboot,
-}
+  ota('OTA'),
+  reboot('REBOOT'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.ota:
-        return 'OTA';
-      case JobType.reboot:
-        return 'REBOOT';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'OTA':
-        return JobType.ota;
-      case 'REBOOT':
-        return JobType.reboot;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// Returns information about the latest device job.
@@ -3379,8 +3083,8 @@ class LatestDeviceJob {
   factory LatestDeviceJob.fromJson(Map<String, dynamic> json) {
     return LatestDeviceJob(
       imageVersion: json['ImageVersion'] as String?,
-      jobType: (json['JobType'] as String?)?.toJobType(),
-      status: (json['Status'] as String?)?.toUpdateProgress(),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
     );
   }
 
@@ -3390,8 +3094,8 @@ class LatestDeviceJob {
     final status = this.status;
     return {
       if (imageVersion != null) 'ImageVersion': imageVersion,
-      if (jobType != null) 'JobType': jobType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3560,41 +3264,20 @@ class ListDevicesResponse {
 }
 
 enum ListDevicesSortBy {
-  deviceId,
-  createdTime,
-  name,
-  deviceAggregatedStatus,
-}
+  deviceId('DEVICE_ID'),
+  createdTime('CREATED_TIME'),
+  name('NAME'),
+  deviceAggregatedStatus('DEVICE_AGGREGATED_STATUS'),
+  ;
 
-extension ListDevicesSortByValueExtension on ListDevicesSortBy {
-  String toValue() {
-    switch (this) {
-      case ListDevicesSortBy.deviceId:
-        return 'DEVICE_ID';
-      case ListDevicesSortBy.createdTime:
-        return 'CREATED_TIME';
-      case ListDevicesSortBy.name:
-        return 'NAME';
-      case ListDevicesSortBy.deviceAggregatedStatus:
-        return 'DEVICE_AGGREGATED_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension ListDevicesSortByFromString on String {
-  ListDevicesSortBy toListDevicesSortBy() {
-    switch (this) {
-      case 'DEVICE_ID':
-        return ListDevicesSortBy.deviceId;
-      case 'CREATED_TIME':
-        return ListDevicesSortBy.createdTime;
-      case 'NAME':
-        return ListDevicesSortBy.name;
-      case 'DEVICE_AGGREGATED_STATUS':
-        return ListDevicesSortBy.deviceAggregatedStatus;
-    }
-    throw Exception('$this is not known in enum ListDevicesSortBy');
-  }
+  const ListDevicesSortBy(this.value);
+
+  static ListDevicesSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ListDevicesSortBy'));
 }
 
 class ListNodeFromTemplateJobsResponse {
@@ -3801,36 +3484,19 @@ class ManifestPayload {
 }
 
 enum NetworkConnectionStatus {
-  connected,
-  notConnected,
-  connecting,
-}
+  connected('CONNECTED'),
+  notConnected('NOT_CONNECTED'),
+  connecting('CONNECTING'),
+  ;
 
-extension NetworkConnectionStatusValueExtension on NetworkConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case NetworkConnectionStatus.connected:
-        return 'CONNECTED';
-      case NetworkConnectionStatus.notConnected:
-        return 'NOT_CONNECTED';
-      case NetworkConnectionStatus.connecting:
-        return 'CONNECTING';
-    }
-  }
-}
+  final String value;
 
-extension NetworkConnectionStatusFromString on String {
-  NetworkConnectionStatus toNetworkConnectionStatus() {
-    switch (this) {
-      case 'CONNECTED':
-        return NetworkConnectionStatus.connected;
-      case 'NOT_CONNECTED':
-        return NetworkConnectionStatus.notConnected;
-      case 'CONNECTING':
-        return NetworkConnectionStatus.connecting;
-    }
-    throw Exception('$this is not known in enum NetworkConnectionStatus');
-  }
+  const NetworkConnectionStatus(this.value);
+
+  static NetworkConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NetworkConnectionStatus'));
 }
 
 /// The network configuration for a device.
@@ -3981,7 +3647,7 @@ class Node {
 
   factory Node.fromJson(Map<String, dynamic> json) {
     return Node(
-      category: (json['Category'] as String).toNodeCategory(),
+      category: NodeCategory.fromString((json['Category'] as String)),
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
       name: json['Name'] as String,
       nodeId: json['NodeId'] as String,
@@ -4008,7 +3674,7 @@ class Node {
     final ownerAccount = this.ownerAccount;
     final packageArn = this.packageArn;
     return {
-      'Category': category.toValue(),
+      'Category': category.value,
       'CreatedTime': unixTimestampToJson(createdTime),
       'Name': name,
       'NodeId': nodeId,
@@ -4024,41 +3690,20 @@ class Node {
 }
 
 enum NodeCategory {
-  businessLogic,
-  mlModel,
-  mediaSource,
-  mediaSink,
-}
+  businessLogic('BUSINESS_LOGIC'),
+  mlModel('ML_MODEL'),
+  mediaSource('MEDIA_SOURCE'),
+  mediaSink('MEDIA_SINK'),
+  ;
 
-extension NodeCategoryValueExtension on NodeCategory {
-  String toValue() {
-    switch (this) {
-      case NodeCategory.businessLogic:
-        return 'BUSINESS_LOGIC';
-      case NodeCategory.mlModel:
-        return 'ML_MODEL';
-      case NodeCategory.mediaSource:
-        return 'MEDIA_SOURCE';
-      case NodeCategory.mediaSink:
-        return 'MEDIA_SINK';
-    }
-  }
-}
+  final String value;
 
-extension NodeCategoryFromString on String {
-  NodeCategory toNodeCategory() {
-    switch (this) {
-      case 'BUSINESS_LOGIC':
-        return NodeCategory.businessLogic;
-      case 'ML_MODEL':
-        return NodeCategory.mlModel;
-      case 'MEDIA_SOURCE':
-        return NodeCategory.mediaSource;
-      case 'MEDIA_SINK':
-        return NodeCategory.mediaSink;
-    }
-    throw Exception('$this is not known in enum NodeCategory');
-  }
+  const NodeCategory(this.value);
+
+  static NodeCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NodeCategory'));
 }
 
 /// A job to create a camera stream node.
@@ -4095,9 +3740,11 @@ class NodeFromTemplateJob {
       createdTime: timeStampFromJson(json['CreatedTime']),
       jobId: json['JobId'] as String?,
       nodeName: json['NodeName'] as String?,
-      status: (json['Status'] as String?)?.toNodeFromTemplateJobStatus(),
+      status: (json['Status'] as String?)
+          ?.let(NodeFromTemplateJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      templateType: (json['TemplateType'] as String?)?.toTemplateType(),
+      templateType:
+          (json['TemplateType'] as String?)?.let(TemplateType.fromString),
     );
   }
 
@@ -4112,44 +3759,27 @@ class NodeFromTemplateJob {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (jobId != null) 'JobId': jobId,
       if (nodeName != null) 'NodeName': nodeName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (templateType != null) 'TemplateType': templateType.toValue(),
+      if (templateType != null) 'TemplateType': templateType.value,
     };
   }
 }
 
 enum NodeFromTemplateJobStatus {
-  pending,
-  succeeded,
-  failed,
-}
+  pending('PENDING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension NodeFromTemplateJobStatusValueExtension on NodeFromTemplateJobStatus {
-  String toValue() {
-    switch (this) {
-      case NodeFromTemplateJobStatus.pending:
-        return 'PENDING';
-      case NodeFromTemplateJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case NodeFromTemplateJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension NodeFromTemplateJobStatusFromString on String {
-  NodeFromTemplateJobStatus toNodeFromTemplateJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return NodeFromTemplateJobStatus.pending;
-      case 'SUCCEEDED':
-        return NodeFromTemplateJobStatus.succeeded;
-      case 'FAILED':
-        return NodeFromTemplateJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum NodeFromTemplateJobStatus');
-  }
+  const NodeFromTemplateJobStatus(this.value);
+
+  static NodeFromTemplateJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NodeFromTemplateJobStatus'));
 }
 
 /// A node input port.
@@ -4183,7 +3813,7 @@ class NodeInputPort {
       description: json['Description'] as String?,
       maxConnections: json['MaxConnections'] as int?,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toPortType(),
+      type: (json['Type'] as String?)?.let(PortType.fromString),
     );
   }
 
@@ -4198,7 +3828,7 @@ class NodeInputPort {
       if (description != null) 'Description': description,
       if (maxConnections != null) 'MaxConnections': maxConnections,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -4238,7 +3868,8 @@ class NodeInstance {
 
   factory NodeInstance.fromJson(Map<String, dynamic> json) {
     return NodeInstance(
-      currentStatus: (json['CurrentStatus'] as String).toNodeInstanceStatus(),
+      currentStatus:
+          NodeInstanceStatus.fromString((json['CurrentStatus'] as String)),
       nodeInstanceId: json['NodeInstanceId'] as String,
       nodeId: json['NodeId'] as String?,
       nodeName: json['NodeName'] as String?,
@@ -4257,7 +3888,7 @@ class NodeInstance {
     final packagePatchVersion = this.packagePatchVersion;
     final packageVersion = this.packageVersion;
     return {
-      'CurrentStatus': currentStatus.toValue(),
+      'CurrentStatus': currentStatus.value,
       'NodeInstanceId': nodeInstanceId,
       if (nodeId != null) 'NodeId': nodeId,
       if (nodeName != null) 'NodeName': nodeName,
@@ -4270,41 +3901,20 @@ class NodeInstance {
 }
 
 enum NodeInstanceStatus {
-  running,
-  error,
-  notAvailable,
-  paused,
-}
+  running('RUNNING'),
+  error('ERROR'),
+  notAvailable('NOT_AVAILABLE'),
+  paused('PAUSED'),
+  ;
 
-extension NodeInstanceStatusValueExtension on NodeInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case NodeInstanceStatus.running:
-        return 'RUNNING';
-      case NodeInstanceStatus.error:
-        return 'ERROR';
-      case NodeInstanceStatus.notAvailable:
-        return 'NOT_AVAILABLE';
-      case NodeInstanceStatus.paused:
-        return 'PAUSED';
-    }
-  }
-}
+  final String value;
 
-extension NodeInstanceStatusFromString on String {
-  NodeInstanceStatus toNodeInstanceStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return NodeInstanceStatus.running;
-      case 'ERROR':
-        return NodeInstanceStatus.error;
-      case 'NOT_AVAILABLE':
-        return NodeInstanceStatus.notAvailable;
-      case 'PAUSED':
-        return NodeInstanceStatus.paused;
-    }
-    throw Exception('$this is not known in enum NodeInstanceStatus');
-  }
+  const NodeInstanceStatus(this.value);
+
+  static NodeInstanceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NodeInstanceStatus'));
 }
 
 /// A node interface.
@@ -4364,7 +3974,7 @@ class NodeOutputPort {
     return NodeOutputPort(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toPortType(),
+      type: (json['Type'] as String?)?.let(PortType.fromString),
     );
   }
 
@@ -4375,7 +3985,7 @@ class NodeOutputPort {
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -4398,37 +4008,24 @@ class NodeSignal {
     final signal = this.signal;
     return {
       'NodeInstanceId': nodeInstanceId,
-      'Signal': signal.toValue(),
+      'Signal': signal.value,
     };
   }
 }
 
 enum NodeSignalValue {
-  pause,
-  resume,
-}
+  pause('PAUSE'),
+  resume('RESUME'),
+  ;
 
-extension NodeSignalValueValueExtension on NodeSignalValue {
-  String toValue() {
-    switch (this) {
-      case NodeSignalValue.pause:
-        return 'PAUSE';
-      case NodeSignalValue.resume:
-        return 'RESUME';
-    }
-  }
-}
+  final String value;
 
-extension NodeSignalValueFromString on String {
-  NodeSignalValue toNodeSignalValue() {
-    switch (this) {
-      case 'PAUSE':
-        return NodeSignalValue.pause;
-      case 'RESUME':
-        return NodeSignalValue.resume;
-    }
-    throw Exception('$this is not known in enum NodeSignalValue');
-  }
+  const NodeSignalValue(this.value);
+
+  static NodeSignalValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NodeSignalValue'));
 }
 
 /// Network time protocol (NTP) server settings. Use this option to connect to
@@ -4477,8 +4074,8 @@ class NtpStatus {
 
   factory NtpStatus.fromJson(Map<String, dynamic> json) {
     return NtpStatus(
-      connectionStatus:
-          (json['ConnectionStatus'] as String?)?.toNetworkConnectionStatus(),
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(NetworkConnectionStatus.fromString),
       ipAddress: json['IpAddress'] as String?,
       ntpServerName: json['NtpServerName'] as String?,
     );
@@ -4489,8 +4086,7 @@ class NtpStatus {
     final ipAddress = this.ipAddress;
     final ntpServerName = this.ntpServerName;
     return {
-      if (connectionStatus != null)
-        'ConnectionStatus': connectionStatus.toValue(),
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
       if (ipAddress != null) 'IpAddress': ipAddress,
       if (ntpServerName != null) 'NtpServerName': ntpServerName,
     };
@@ -4584,9 +4180,11 @@ class PackageImportJob {
     return PackageImportJob(
       createdTime: timeStampFromJson(json['CreatedTime']),
       jobId: json['JobId'] as String?,
-      jobType: (json['JobType'] as String?)?.toPackageImportJobType(),
+      jobType:
+          (json['JobType'] as String?)?.let(PackageImportJobType.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      status: (json['Status'] as String?)?.toPackageImportJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(PackageImportJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -4601,10 +4199,10 @@ class PackageImportJob {
     return {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -4710,64 +4308,34 @@ class PackageImportJobOutputConfig {
 }
 
 enum PackageImportJobStatus {
-  pending,
-  succeeded,
-  failed,
-}
+  pending('PENDING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension PackageImportJobStatusValueExtension on PackageImportJobStatus {
-  String toValue() {
-    switch (this) {
-      case PackageImportJobStatus.pending:
-        return 'PENDING';
-      case PackageImportJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case PackageImportJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension PackageImportJobStatusFromString on String {
-  PackageImportJobStatus toPackageImportJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return PackageImportJobStatus.pending;
-      case 'SUCCEEDED':
-        return PackageImportJobStatus.succeeded;
-      case 'FAILED':
-        return PackageImportJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum PackageImportJobStatus');
-  }
+  const PackageImportJobStatus(this.value);
+
+  static PackageImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageImportJobStatus'));
 }
 
 enum PackageImportJobType {
-  nodePackageVersion,
-  marketplaceNodePackageVersion,
-}
+  nodePackageVersion('NODE_PACKAGE_VERSION'),
+  marketplaceNodePackageVersion('MARKETPLACE_NODE_PACKAGE_VERSION'),
+  ;
 
-extension PackageImportJobTypeValueExtension on PackageImportJobType {
-  String toValue() {
-    switch (this) {
-      case PackageImportJobType.nodePackageVersion:
-        return 'NODE_PACKAGE_VERSION';
-      case PackageImportJobType.marketplaceNodePackageVersion:
-        return 'MARKETPLACE_NODE_PACKAGE_VERSION';
-    }
-  }
-}
+  final String value;
 
-extension PackageImportJobTypeFromString on String {
-  PackageImportJobType toPackageImportJobType() {
-    switch (this) {
-      case 'NODE_PACKAGE_VERSION':
-        return PackageImportJobType.nodePackageVersion;
-      case 'MARKETPLACE_NODE_PACKAGE_VERSION':
-        return PackageImportJobType.marketplaceNodePackageVersion;
-    }
-    throw Exception('$this is not known in enum PackageImportJobType');
-  }
+  const PackageImportJobType(this.value);
+
+  static PackageImportJobType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PackageImportJobType'));
 }
 
 /// A package summary.
@@ -4921,84 +4489,37 @@ class PackageVersionOutputConfig {
 }
 
 enum PackageVersionStatus {
-  registerPending,
-  registerCompleted,
-  failed,
-  deleting,
-}
+  registerPending('REGISTER_PENDING'),
+  registerCompleted('REGISTER_COMPLETED'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  ;
 
-extension PackageVersionStatusValueExtension on PackageVersionStatus {
-  String toValue() {
-    switch (this) {
-      case PackageVersionStatus.registerPending:
-        return 'REGISTER_PENDING';
-      case PackageVersionStatus.registerCompleted:
-        return 'REGISTER_COMPLETED';
-      case PackageVersionStatus.failed:
-        return 'FAILED';
-      case PackageVersionStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension PackageVersionStatusFromString on String {
-  PackageVersionStatus toPackageVersionStatus() {
-    switch (this) {
-      case 'REGISTER_PENDING':
-        return PackageVersionStatus.registerPending;
-      case 'REGISTER_COMPLETED':
-        return PackageVersionStatus.registerCompleted;
-      case 'FAILED':
-        return PackageVersionStatus.failed;
-      case 'DELETING':
-        return PackageVersionStatus.deleting;
-    }
-    throw Exception('$this is not known in enum PackageVersionStatus');
-  }
+  const PackageVersionStatus(this.value);
+
+  static PackageVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PackageVersionStatus'));
 }
 
 enum PortType {
-  boolean,
-  string,
-  int32,
-  float32,
-  media,
-}
+  boolean('BOOLEAN'),
+  string('STRING'),
+  int32('INT32'),
+  float32('FLOAT32'),
+  media('MEDIA'),
+  ;
 
-extension PortTypeValueExtension on PortType {
-  String toValue() {
-    switch (this) {
-      case PortType.boolean:
-        return 'BOOLEAN';
-      case PortType.string:
-        return 'STRING';
-      case PortType.int32:
-        return 'INT32';
-      case PortType.float32:
-        return 'FLOAT32';
-      case PortType.media:
-        return 'MEDIA';
-    }
-  }
-}
+  final String value;
 
-extension PortTypeFromString on String {
-  PortType toPortType() {
-    switch (this) {
-      case 'BOOLEAN':
-        return PortType.boolean;
-      case 'STRING':
-        return PortType.string;
-      case 'INT32':
-        return PortType.int32;
-      case 'FLOAT32':
-        return PortType.float32;
-      case 'MEDIA':
-        return PortType.media;
-    }
-    throw Exception('$this is not known in enum PortType');
-  }
+  const PortType(this.value);
+
+  static PortType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PortType'));
 }
 
 class ProvisionDeviceResponse {
@@ -5028,7 +4549,7 @@ class ProvisionDeviceResponse {
   factory ProvisionDeviceResponse.fromJson(Map<String, dynamic> json) {
     return ProvisionDeviceResponse(
       arn: json['Arn'] as String,
-      status: (json['Status'] as String).toDeviceStatus(),
+      status: DeviceStatus.fromString((json['Status'] as String)),
       certificates: _s.decodeNullableUint8List(json['Certificates'] as String?),
       deviceId: json['DeviceId'] as String?,
       iotThingName: json['IotThingName'] as String?,
@@ -5043,7 +4564,7 @@ class ProvisionDeviceResponse {
     final iotThingName = this.iotThingName;
     return {
       'Arn': arn,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (certificates != null) 'Certificates': base64Encode(certificates),
       if (deviceId != null) 'DeviceId': deviceId,
       if (iotThingName != null) 'IotThingName': iotThingName,
@@ -5098,9 +4619,9 @@ class ReportedRuntimeContextState {
 
   factory ReportedRuntimeContextState.fromJson(Map<String, dynamic> json) {
     return ReportedRuntimeContextState(
-      desiredState: (json['DesiredState'] as String).toDesiredState(),
-      deviceReportedStatus:
-          (json['DeviceReportedStatus'] as String).toDeviceReportedStatus(),
+      desiredState: DesiredState.fromString((json['DesiredState'] as String)),
+      deviceReportedStatus: DeviceReportedStatus.fromString(
+          (json['DeviceReportedStatus'] as String)),
       deviceReportedTime:
           nonNullableTimeStampFromJson(json['DeviceReportedTime'] as Object),
       runtimeContextName: json['RuntimeContextName'] as String,
@@ -5113,8 +4634,8 @@ class ReportedRuntimeContextState {
     final deviceReportedTime = this.deviceReportedTime;
     final runtimeContextName = this.runtimeContextName;
     return {
-      'DesiredState': desiredState.toValue(),
-      'DeviceReportedStatus': deviceReportedStatus.toValue(),
+      'DesiredState': desiredState.value,
+      'DeviceReportedStatus': deviceReportedStatus.value,
       'DeviceReportedTime': unixTimestampToJson(deviceReportedTime),
       'RuntimeContextName': runtimeContextName,
     };
@@ -5182,31 +4703,17 @@ class SignalApplicationInstanceNodeInstancesResponse {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// A static IP configuration.
@@ -5255,56 +4762,23 @@ class StaticIpConnectionInfo {
 }
 
 enum StatusFilter {
-  deploymentSucceeded,
-  deploymentError,
-  removalSucceeded,
-  removalFailed,
-  processingDeployment,
-  processingRemoval,
-  deploymentFailed,
-}
+  deploymentSucceeded('DEPLOYMENT_SUCCEEDED'),
+  deploymentError('DEPLOYMENT_ERROR'),
+  removalSucceeded('REMOVAL_SUCCEEDED'),
+  removalFailed('REMOVAL_FAILED'),
+  processingDeployment('PROCESSING_DEPLOYMENT'),
+  processingRemoval('PROCESSING_REMOVAL'),
+  deploymentFailed('DEPLOYMENT_FAILED'),
+  ;
 
-extension StatusFilterValueExtension on StatusFilter {
-  String toValue() {
-    switch (this) {
-      case StatusFilter.deploymentSucceeded:
-        return 'DEPLOYMENT_SUCCEEDED';
-      case StatusFilter.deploymentError:
-        return 'DEPLOYMENT_ERROR';
-      case StatusFilter.removalSucceeded:
-        return 'REMOVAL_SUCCEEDED';
-      case StatusFilter.removalFailed:
-        return 'REMOVAL_FAILED';
-      case StatusFilter.processingDeployment:
-        return 'PROCESSING_DEPLOYMENT';
-      case StatusFilter.processingRemoval:
-        return 'PROCESSING_REMOVAL';
-      case StatusFilter.deploymentFailed:
-        return 'DEPLOYMENT_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFilterFromString on String {
-  StatusFilter toStatusFilter() {
-    switch (this) {
-      case 'DEPLOYMENT_SUCCEEDED':
-        return StatusFilter.deploymentSucceeded;
-      case 'DEPLOYMENT_ERROR':
-        return StatusFilter.deploymentError;
-      case 'REMOVAL_SUCCEEDED':
-        return StatusFilter.removalSucceeded;
-      case 'REMOVAL_FAILED':
-        return StatusFilter.removalFailed;
-      case 'PROCESSING_DEPLOYMENT':
-        return StatusFilter.processingDeployment;
-      case 'PROCESSING_REMOVAL':
-        return StatusFilter.processingRemoval;
-      case 'DEPLOYMENT_FAILED':
-        return StatusFilter.deploymentFailed;
-    }
-    throw Exception('$this is not known in enum StatusFilter');
-  }
+  const StatusFilter(this.value);
+
+  static StatusFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StatusFilter'));
 }
 
 /// A storage location.
@@ -5371,26 +4845,17 @@ class TagResourceResponse {
 }
 
 enum TemplateType {
-  rtspCameraStream,
-}
+  rtspCameraStream('RTSP_CAMERA_STREAM'),
+  ;
 
-extension TemplateTypeValueExtension on TemplateType {
-  String toValue() {
-    switch (this) {
-      case TemplateType.rtspCameraStream:
-        return 'RTSP_CAMERA_STREAM';
-    }
-  }
-}
+  final String value;
 
-extension TemplateTypeFromString on String {
-  TemplateType toTemplateType() {
-    switch (this) {
-      case 'RTSP_CAMERA_STREAM':
-        return TemplateType.rtspCameraStream;
-    }
-    throw Exception('$this is not known in enum TemplateType');
-  }
+  const TemplateType(this.value);
+
+  static TemplateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateType'));
 }
 
 class UntagResourceResponse {
@@ -5428,56 +4893,23 @@ class UpdateDeviceMetadataResponse {
 }
 
 enum UpdateProgress {
-  pending,
-  inProgress,
-  verifying,
-  rebooting,
-  downloading,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  verifying('VERIFYING'),
+  rebooting('REBOOTING'),
+  downloading('DOWNLOADING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension UpdateProgressValueExtension on UpdateProgress {
-  String toValue() {
-    switch (this) {
-      case UpdateProgress.pending:
-        return 'PENDING';
-      case UpdateProgress.inProgress:
-        return 'IN_PROGRESS';
-      case UpdateProgress.verifying:
-        return 'VERIFYING';
-      case UpdateProgress.rebooting:
-        return 'REBOOTING';
-      case UpdateProgress.downloading:
-        return 'DOWNLOADING';
-      case UpdateProgress.completed:
-        return 'COMPLETED';
-      case UpdateProgress.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UpdateProgressFromString on String {
-  UpdateProgress toUpdateProgress() {
-    switch (this) {
-      case 'PENDING':
-        return UpdateProgress.pending;
-      case 'IN_PROGRESS':
-        return UpdateProgress.inProgress;
-      case 'VERIFYING':
-        return UpdateProgress.verifying;
-      case 'REBOOTING':
-        return UpdateProgress.rebooting;
-      case 'DOWNLOADING':
-        return UpdateProgress.downloading;
-      case 'COMPLETED':
-        return UpdateProgress.completed;
-      case 'FAILED':
-        return UpdateProgress.failed;
-    }
-    throw Exception('$this is not known in enum UpdateProgress');
-  }
+  const UpdateProgress(this.value);
+
+  static UpdateProgress fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateProgress'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

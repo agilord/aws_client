@@ -719,79 +719,36 @@ class SimSpaceWeaver {
 }
 
 enum ClockStatus {
-  unknown,
-  starting,
-  started,
-  stopping,
-  stopped,
-}
+  unknown('UNKNOWN'),
+  starting('STARTING'),
+  started('STARTED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension ClockStatusValueExtension on ClockStatus {
-  String toValue() {
-    switch (this) {
-      case ClockStatus.unknown:
-        return 'UNKNOWN';
-      case ClockStatus.starting:
-        return 'STARTING';
-      case ClockStatus.started:
-        return 'STARTED';
-      case ClockStatus.stopping:
-        return 'STOPPING';
-      case ClockStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension ClockStatusFromString on String {
-  ClockStatus toClockStatus() {
-    switch (this) {
-      case 'UNKNOWN':
-        return ClockStatus.unknown;
-      case 'STARTING':
-        return ClockStatus.starting;
-      case 'STARTED':
-        return ClockStatus.started;
-      case 'STOPPING':
-        return ClockStatus.stopping;
-      case 'STOPPED':
-        return ClockStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ClockStatus');
-  }
+  const ClockStatus(this.value);
+
+  static ClockStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ClockStatus'));
 }
 
 enum ClockTargetStatus {
-  unknown,
-  started,
-  stopped,
-}
+  unknown('UNKNOWN'),
+  started('STARTED'),
+  stopped('STOPPED'),
+  ;
 
-extension ClockTargetStatusValueExtension on ClockTargetStatus {
-  String toValue() {
-    switch (this) {
-      case ClockTargetStatus.unknown:
-        return 'UNKNOWN';
-      case ClockTargetStatus.started:
-        return 'STARTED';
-      case ClockTargetStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension ClockTargetStatusFromString on String {
-  ClockTargetStatus toClockTargetStatus() {
-    switch (this) {
-      case 'UNKNOWN':
-        return ClockTargetStatus.unknown;
-      case 'STARTED':
-        return ClockTargetStatus.started;
-      case 'STOPPED':
-        return ClockTargetStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ClockTargetStatus');
-  }
+  const ClockTargetStatus(this.value);
+
+  static ClockTargetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClockTargetStatus'));
 }
 
 /// The Amazon CloudWatch Logs log group for the simulation. For more
@@ -913,9 +870,9 @@ class DescribeAppOutput {
           : null,
       name: json['Name'] as String?,
       simulation: json['Simulation'] as String?,
-      status: (json['Status'] as String?)?.toSimulationAppStatus(),
-      targetStatus:
-          (json['TargetStatus'] as String?)?.toSimulationAppTargetStatus(),
+      status: (json['Status'] as String?)?.let(SimulationAppStatus.fromString),
+      targetStatus: (json['TargetStatus'] as String?)
+          ?.let(SimulationAppTargetStatus.fromString),
     );
   }
 
@@ -935,8 +892,8 @@ class DescribeAppOutput {
       if (launchOverrides != null) 'LaunchOverrides': launchOverrides,
       if (name != null) 'Name': name,
       if (simulation != null) 'Simulation': simulation,
-      if (status != null) 'Status': status.toValue(),
-      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
@@ -1053,9 +1010,9 @@ class DescribeSimulationOutput {
               json['SnapshotS3Location'] as Map<String, dynamic>)
           : null,
       startError: json['StartError'] as String?,
-      status: (json['Status'] as String?)?.toSimulationStatus(),
-      targetStatus:
-          (json['TargetStatus'] as String?)?.toSimulationTargetStatus(),
+      status: (json['Status'] as String?)?.let(SimulationStatus.fromString),
+      targetStatus: (json['TargetStatus'] as String?)
+          ?.let(SimulationTargetStatus.fromString),
     );
   }
 
@@ -1092,8 +1049,8 @@ class DescribeSimulationOutput {
       if (schemaS3Location != null) 'SchemaS3Location': schemaS3Location,
       if (snapshotS3Location != null) 'SnapshotS3Location': snapshotS3Location,
       if (startError != null) 'StartError': startError,
-      if (status != null) 'Status': status.toValue(),
-      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
@@ -1136,8 +1093,8 @@ class Domain {
 
   factory Domain.fromJson(Map<String, dynamic> json) {
     return Domain(
-      lifecycle:
-          (json['Lifecycle'] as String?)?.toLifecycleManagementStrategy(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(LifecycleManagementStrategy.fromString),
       name: json['Name'] as String?,
     );
   }
@@ -1146,7 +1103,7 @@ class Domain {
     final lifecycle = this.lifecycle;
     final name = this.name;
     return {
-      if (lifecycle != null) 'Lifecycle': lifecycle.toValue(),
+      if (lifecycle != null) 'Lifecycle': lifecycle.value,
       if (name != null) 'Name': name,
     };
   }
@@ -1181,42 +1138,20 @@ class LaunchOverrides {
 }
 
 enum LifecycleManagementStrategy {
-  unknown,
-  perWorker,
-  bySpatialSubdivision,
-  byRequest,
-}
+  unknown('Unknown'),
+  perWorker('PerWorker'),
+  bySpatialSubdivision('BySpatialSubdivision'),
+  byRequest('ByRequest'),
+  ;
 
-extension LifecycleManagementStrategyValueExtension
-    on LifecycleManagementStrategy {
-  String toValue() {
-    switch (this) {
-      case LifecycleManagementStrategy.unknown:
-        return 'Unknown';
-      case LifecycleManagementStrategy.perWorker:
-        return 'PerWorker';
-      case LifecycleManagementStrategy.bySpatialSubdivision:
-        return 'BySpatialSubdivision';
-      case LifecycleManagementStrategy.byRequest:
-        return 'ByRequest';
-    }
-  }
-}
+  final String value;
 
-extension LifecycleManagementStrategyFromString on String {
-  LifecycleManagementStrategy toLifecycleManagementStrategy() {
-    switch (this) {
-      case 'Unknown':
-        return LifecycleManagementStrategy.unknown;
-      case 'PerWorker':
-        return LifecycleManagementStrategy.perWorker;
-      case 'BySpatialSubdivision':
-        return LifecycleManagementStrategy.bySpatialSubdivision;
-      case 'ByRequest':
-        return LifecycleManagementStrategy.byRequest;
-    }
-    throw Exception('$this is not known in enum LifecycleManagementStrategy');
-  }
+  const LifecycleManagementStrategy(this.value);
+
+  static LifecycleManagementStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LifecycleManagementStrategy'));
 }
 
 class ListAppsOutput {
@@ -1565,9 +1500,9 @@ class SimulationAppMetadata {
       domain: json['Domain'] as String?,
       name: json['Name'] as String?,
       simulation: json['Simulation'] as String?,
-      status: (json['Status'] as String?)?.toSimulationAppStatus(),
-      targetStatus:
-          (json['TargetStatus'] as String?)?.toSimulationAppTargetStatus(),
+      status: (json['Status'] as String?)?.let(SimulationAppStatus.fromString),
+      targetStatus: (json['TargetStatus'] as String?)
+          ?.let(SimulationAppTargetStatus.fromString),
     );
   }
 
@@ -1581,8 +1516,8 @@ class SimulationAppMetadata {
       if (domain != null) 'Domain': domain,
       if (name != null) 'Name': name,
       if (simulation != null) 'Simulation': simulation,
-      if (status != null) 'Status': status.toValue(),
-      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
@@ -1625,84 +1560,38 @@ class SimulationAppPortMapping {
 }
 
 enum SimulationAppStatus {
-  starting,
-  started,
-  stopping,
-  stopped,
-  error,
-  unknown,
-}
+  starting('STARTING'),
+  started('STARTED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  error('ERROR'),
+  unknown('UNKNOWN'),
+  ;
 
-extension SimulationAppStatusValueExtension on SimulationAppStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationAppStatus.starting:
-        return 'STARTING';
-      case SimulationAppStatus.started:
-        return 'STARTED';
-      case SimulationAppStatus.stopping:
-        return 'STOPPING';
-      case SimulationAppStatus.stopped:
-        return 'STOPPED';
-      case SimulationAppStatus.error:
-        return 'ERROR';
-      case SimulationAppStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension SimulationAppStatusFromString on String {
-  SimulationAppStatus toSimulationAppStatus() {
-    switch (this) {
-      case 'STARTING':
-        return SimulationAppStatus.starting;
-      case 'STARTED':
-        return SimulationAppStatus.started;
-      case 'STOPPING':
-        return SimulationAppStatus.stopping;
-      case 'STOPPED':
-        return SimulationAppStatus.stopped;
-      case 'ERROR':
-        return SimulationAppStatus.error;
-      case 'UNKNOWN':
-        return SimulationAppStatus.unknown;
-    }
-    throw Exception('$this is not known in enum SimulationAppStatus');
-  }
+  const SimulationAppStatus(this.value);
+
+  static SimulationAppStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SimulationAppStatus'));
 }
 
 enum SimulationAppTargetStatus {
-  unknown,
-  started,
-  stopped,
-}
+  unknown('UNKNOWN'),
+  started('STARTED'),
+  stopped('STOPPED'),
+  ;
 
-extension SimulationAppTargetStatusValueExtension on SimulationAppTargetStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationAppTargetStatus.unknown:
-        return 'UNKNOWN';
-      case SimulationAppTargetStatus.started:
-        return 'STARTED';
-      case SimulationAppTargetStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension SimulationAppTargetStatusFromString on String {
-  SimulationAppTargetStatus toSimulationAppTargetStatus() {
-    switch (this) {
-      case 'UNKNOWN':
-        return SimulationAppTargetStatus.unknown;
-      case 'STARTED':
-        return SimulationAppTargetStatus.started;
-      case 'STOPPED':
-        return SimulationAppTargetStatus.stopped;
-    }
-    throw Exception('$this is not known in enum SimulationAppTargetStatus');
-  }
+  const SimulationAppTargetStatus(this.value);
+
+  static SimulationAppTargetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationAppTargetStatus'));
 }
 
 /// Status information about the simulation clock.
@@ -1720,8 +1609,9 @@ class SimulationClock {
 
   factory SimulationClock.fromJson(Map<String, dynamic> json) {
     return SimulationClock(
-      status: (json['Status'] as String?)?.toClockStatus(),
-      targetStatus: (json['TargetStatus'] as String?)?.toClockTargetStatus(),
+      status: (json['Status'] as String?)?.let(ClockStatus.fromString),
+      targetStatus:
+          (json['TargetStatus'] as String?)?.let(ClockTargetStatus.fromString),
     );
   }
 
@@ -1729,8 +1619,8 @@ class SimulationClock {
     final status = this.status;
     final targetStatus = this.targetStatus;
     return {
-      if (status != null) 'Status': status.toValue(),
-      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
@@ -1770,9 +1660,9 @@ class SimulationMetadata {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toSimulationStatus(),
-      targetStatus:
-          (json['TargetStatus'] as String?)?.toSimulationTargetStatus(),
+      status: (json['Status'] as String?)?.let(SimulationStatus.fromString),
+      targetStatus: (json['TargetStatus'] as String?)
+          ?.let(SimulationTargetStatus.fromString),
     );
   }
 
@@ -1787,111 +1677,49 @@ class SimulationMetadata {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
-      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
 
 enum SimulationStatus {
-  unknown,
-  starting,
-  started,
-  stopping,
-  stopped,
-  failed,
-  deleting,
-  deleted,
-  snapshotInProgress,
-}
+  unknown('UNKNOWN'),
+  starting('STARTING'),
+  started('STARTED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  snapshotInProgress('SNAPSHOT_IN_PROGRESS'),
+  ;
 
-extension SimulationStatusValueExtension on SimulationStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationStatus.unknown:
-        return 'UNKNOWN';
-      case SimulationStatus.starting:
-        return 'STARTING';
-      case SimulationStatus.started:
-        return 'STARTED';
-      case SimulationStatus.stopping:
-        return 'STOPPING';
-      case SimulationStatus.stopped:
-        return 'STOPPED';
-      case SimulationStatus.failed:
-        return 'FAILED';
-      case SimulationStatus.deleting:
-        return 'DELETING';
-      case SimulationStatus.deleted:
-        return 'DELETED';
-      case SimulationStatus.snapshotInProgress:
-        return 'SNAPSHOT_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension SimulationStatusFromString on String {
-  SimulationStatus toSimulationStatus() {
-    switch (this) {
-      case 'UNKNOWN':
-        return SimulationStatus.unknown;
-      case 'STARTING':
-        return SimulationStatus.starting;
-      case 'STARTED':
-        return SimulationStatus.started;
-      case 'STOPPING':
-        return SimulationStatus.stopping;
-      case 'STOPPED':
-        return SimulationStatus.stopped;
-      case 'FAILED':
-        return SimulationStatus.failed;
-      case 'DELETING':
-        return SimulationStatus.deleting;
-      case 'DELETED':
-        return SimulationStatus.deleted;
-      case 'SNAPSHOT_IN_PROGRESS':
-        return SimulationStatus.snapshotInProgress;
-    }
-    throw Exception('$this is not known in enum SimulationStatus');
-  }
+  const SimulationStatus(this.value);
+
+  static SimulationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SimulationStatus'));
 }
 
 enum SimulationTargetStatus {
-  unknown,
-  started,
-  stopped,
-  deleted,
-}
+  unknown('UNKNOWN'),
+  started('STARTED'),
+  stopped('STOPPED'),
+  deleted('DELETED'),
+  ;
 
-extension SimulationTargetStatusValueExtension on SimulationTargetStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationTargetStatus.unknown:
-        return 'UNKNOWN';
-      case SimulationTargetStatus.started:
-        return 'STARTED';
-      case SimulationTargetStatus.stopped:
-        return 'STOPPED';
-      case SimulationTargetStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension SimulationTargetStatusFromString on String {
-  SimulationTargetStatus toSimulationTargetStatus() {
-    switch (this) {
-      case 'UNKNOWN':
-        return SimulationTargetStatus.unknown;
-      case 'STARTED':
-        return SimulationTargetStatus.started;
-      case 'STOPPED':
-        return SimulationTargetStatus.stopped;
-      case 'DELETED':
-        return SimulationTargetStatus.deleted;
-    }
-    throw Exception('$this is not known in enum SimulationTargetStatus');
-  }
+  const SimulationTargetStatus(this.value);
+
+  static SimulationTargetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationTargetStatus'));
 }
 
 class StartAppOutput {

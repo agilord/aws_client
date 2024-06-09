@@ -666,7 +666,8 @@ class UsageRecordResult {
   factory UsageRecordResult.fromJson(Map<String, dynamic> json) {
     return UsageRecordResult(
       meteringRecordId: json['MeteringRecordId'] as String?,
-      status: (json['Status'] as String?)?.toUsageRecordResultStatus(),
+      status:
+          (json['Status'] as String?)?.let(UsageRecordResultStatus.fromString),
       usageRecord: json['UsageRecord'] != null
           ? UsageRecord.fromJson(json['UsageRecord'] as Map<String, dynamic>)
           : null,
@@ -675,36 +676,19 @@ class UsageRecordResult {
 }
 
 enum UsageRecordResultStatus {
-  success,
-  customerNotSubscribed,
-  duplicateRecord,
-}
+  success('Success'),
+  customerNotSubscribed('CustomerNotSubscribed'),
+  duplicateRecord('DuplicateRecord'),
+  ;
 
-extension UsageRecordResultStatusValueExtension on UsageRecordResultStatus {
-  String toValue() {
-    switch (this) {
-      case UsageRecordResultStatus.success:
-        return 'Success';
-      case UsageRecordResultStatus.customerNotSubscribed:
-        return 'CustomerNotSubscribed';
-      case UsageRecordResultStatus.duplicateRecord:
-        return 'DuplicateRecord';
-    }
-  }
-}
+  final String value;
 
-extension UsageRecordResultStatusFromString on String {
-  UsageRecordResultStatus toUsageRecordResultStatus() {
-    switch (this) {
-      case 'Success':
-        return UsageRecordResultStatus.success;
-      case 'CustomerNotSubscribed':
-        return UsageRecordResultStatus.customerNotSubscribed;
-      case 'DuplicateRecord':
-        return UsageRecordResultStatus.duplicateRecord;
-    }
-    throw Exception('$this is not known in enum UsageRecordResultStatus');
-  }
+  const UsageRecordResultStatus(this.value);
+
+  static UsageRecordResultStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageRecordResultStatus'));
 }
 
 class CustomerNotEntitledException extends _s.GenericAwsException {

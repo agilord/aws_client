@@ -242,7 +242,7 @@ class CloudHsm {
         'IamRoleArn': iamRoleArn,
         'SshKey': sshKey,
         'SubnetId': subnetId,
-        'SubscriptionType': subscriptionType.toValue(),
+        'SubscriptionType': subscriptionType.value,
         if (clientToken != null) 'ClientToken': clientToken,
         if (eniIp != null) 'EniIp': eniIp,
         if (externalId != null) 'ExternalId': externalId,
@@ -646,7 +646,7 @@ class CloudHsm {
       headers: headers,
       payload: {
         'ClientArn': clientArn,
-        'ClientVersion': clientVersion.toValue(),
+        'ClientVersion': clientVersion.value,
         'HapgList': hapgList,
       },
     );
@@ -1174,64 +1174,34 @@ class AddTagsToResourceResponse {
 }
 
 enum ClientVersion {
-  $5_1,
-  $5_3,
-}
+  $5_1('5.1'),
+  $5_3('5.3'),
+  ;
 
-extension ClientVersionValueExtension on ClientVersion {
-  String toValue() {
-    switch (this) {
-      case ClientVersion.$5_1:
-        return '5.1';
-      case ClientVersion.$5_3:
-        return '5.3';
-    }
-  }
-}
+  final String value;
 
-extension ClientVersionFromString on String {
-  ClientVersion toClientVersion() {
-    switch (this) {
-      case '5.1':
-        return ClientVersion.$5_1;
-      case '5.3':
-        return ClientVersion.$5_3;
-    }
-    throw Exception('$this is not known in enum ClientVersion');
-  }
+  const ClientVersion(this.value);
+
+  static ClientVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClientVersion'));
 }
 
 enum CloudHsmObjectState {
-  ready,
-  updating,
-  degraded,
-}
+  ready('READY'),
+  updating('UPDATING'),
+  degraded('DEGRADED'),
+  ;
 
-extension CloudHsmObjectStateValueExtension on CloudHsmObjectState {
-  String toValue() {
-    switch (this) {
-      case CloudHsmObjectState.ready:
-        return 'READY';
-      case CloudHsmObjectState.updating:
-        return 'UPDATING';
-      case CloudHsmObjectState.degraded:
-        return 'DEGRADED';
-    }
-  }
-}
+  final String value;
 
-extension CloudHsmObjectStateFromString on String {
-  CloudHsmObjectState toCloudHsmObjectState() {
-    switch (this) {
-      case 'READY':
-        return CloudHsmObjectState.ready;
-      case 'UPDATING':
-        return CloudHsmObjectState.updating;
-      case 'DEGRADED':
-        return CloudHsmObjectState.degraded;
-    }
-    throw Exception('$this is not known in enum CloudHsmObjectState');
-  }
+  const CloudHsmObjectState(this.value);
+
+  static CloudHsmObjectState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CloudHsmObjectState'));
 }
 
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
@@ -1435,7 +1405,7 @@ class DescribeHapgResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      state: (json['State'] as String?)?.toCloudHsmObjectState(),
+      state: (json['State'] as String?)?.let(CloudHsmObjectState.fromString),
     );
   }
 
@@ -1463,7 +1433,7 @@ class DescribeHapgResponse {
         'LastModifiedTimestamp': lastModifiedTimestamp,
       if (partitionSerialList != null)
         'PartitionSerialList': partitionSerialList,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -1573,13 +1543,13 @@ class DescribeHsmResponse {
       softwareVersion: json['SoftwareVersion'] as String?,
       sshKeyLastUpdated: json['SshKeyLastUpdated'] as String?,
       sshPublicKey: json['SshPublicKey'] as String?,
-      status: (json['Status'] as String?)?.toHsmStatus(),
+      status: (json['Status'] as String?)?.let(HsmStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
       subnetId: json['SubnetId'] as String?,
       subscriptionEndDate: json['SubscriptionEndDate'] as String?,
       subscriptionStartDate: json['SubscriptionStartDate'] as String?,
-      subscriptionType:
-          (json['SubscriptionType'] as String?)?.toSubscriptionType(),
+      subscriptionType: (json['SubscriptionType'] as String?)
+          ?.let(SubscriptionType.fromString),
       vendorName: json['VendorName'] as String?,
       vpcId: json['VpcId'] as String?,
     );
@@ -1622,15 +1592,14 @@ class DescribeHsmResponse {
       if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
       if (sshKeyLastUpdated != null) 'SshKeyLastUpdated': sshKeyLastUpdated,
       if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (subnetId != null) 'SubnetId': subnetId,
       if (subscriptionEndDate != null)
         'SubscriptionEndDate': subscriptionEndDate,
       if (subscriptionStartDate != null)
         'SubscriptionStartDate': subscriptionStartDate,
-      if (subscriptionType != null)
-        'SubscriptionType': subscriptionType.toValue(),
+      if (subscriptionType != null) 'SubscriptionType': subscriptionType.value,
       if (vendorName != null) 'VendorName': vendorName,
       if (vpcId != null) 'VpcId': vpcId,
     };
@@ -1726,56 +1695,22 @@ class GetConfigResponse {
 }
 
 enum HsmStatus {
-  pending,
-  running,
-  updating,
-  suspended,
-  terminating,
-  terminated,
-  degraded,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  suspended('SUSPENDED'),
+  terminating('TERMINATING'),
+  terminated('TERMINATED'),
+  degraded('DEGRADED'),
+  ;
 
-extension HsmStatusValueExtension on HsmStatus {
-  String toValue() {
-    switch (this) {
-      case HsmStatus.pending:
-        return 'PENDING';
-      case HsmStatus.running:
-        return 'RUNNING';
-      case HsmStatus.updating:
-        return 'UPDATING';
-      case HsmStatus.suspended:
-        return 'SUSPENDED';
-      case HsmStatus.terminating:
-        return 'TERMINATING';
-      case HsmStatus.terminated:
-        return 'TERMINATED';
-      case HsmStatus.degraded:
-        return 'DEGRADED';
-    }
-  }
-}
+  final String value;
 
-extension HsmStatusFromString on String {
-  HsmStatus toHsmStatus() {
-    switch (this) {
-      case 'PENDING':
-        return HsmStatus.pending;
-      case 'RUNNING':
-        return HsmStatus.running;
-      case 'UPDATING':
-        return HsmStatus.updating;
-      case 'SUSPENDED':
-        return HsmStatus.suspended;
-      case 'TERMINATING':
-        return HsmStatus.terminating;
-      case 'TERMINATED':
-        return HsmStatus.terminated;
-      case 'DEGRADED':
-        return HsmStatus.degraded;
-    }
-    throw Exception('$this is not known in enum HsmStatus');
-  }
+  const HsmStatus(this.value);
+
+  static HsmStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HsmStatus'));
 }
 
 class ListAvailableZonesResponse {
@@ -2028,26 +1963,17 @@ class RemoveTagsFromResourceResponse {
 /// </li>
 /// </ul>
 enum SubscriptionType {
-  production,
-}
+  production('PRODUCTION'),
+  ;
 
-extension SubscriptionTypeValueExtension on SubscriptionType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionType.production:
-        return 'PRODUCTION';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionTypeFromString on String {
-  SubscriptionType toSubscriptionType() {
-    switch (this) {
-      case 'PRODUCTION':
-        return SubscriptionType.production;
-    }
-    throw Exception('$this is not known in enum SubscriptionType');
-  }
+  const SubscriptionType(this.value);
+
+  static SubscriptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubscriptionType'));
 }
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM

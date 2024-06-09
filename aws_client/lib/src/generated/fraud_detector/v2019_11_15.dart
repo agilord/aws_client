@@ -396,7 +396,7 @@ class FraudDetector {
           'externalModelEndpoints': externalModelEndpoints,
         if (modelVersions != null) 'modelVersions': modelVersions,
         if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode.toValue(),
+          'ruleExecutionMode': ruleExecutionMode.value,
         if (tags != null) 'tags': tags,
       },
     );
@@ -504,7 +504,7 @@ class FraudDetector {
       payload: {
         'eventTypeName': eventTypeName,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         if (description != null) 'description': description,
         if (tags != null) 'tags': tags,
       },
@@ -565,9 +565,9 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         'trainingDataSchema': trainingDataSchema,
-        'trainingDataSource': trainingDataSource.toValue(),
+        'trainingDataSource': trainingDataSource.value,
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
         if (ingestedEventsDetail != null)
@@ -628,7 +628,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'expression': expression,
-        'language': language.toValue(),
+        'language': language.value,
         'outcomes': outcomes,
         'ruleId': ruleId,
         if (description != null) 'description': description,
@@ -697,8 +697,8 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSource': dataSource.toValue(),
-        'dataType': dataType.toValue(),
+        'dataSource': dataSource.value,
+        'dataType': dataType.value,
         'defaultValue': defaultValue,
         'name': name,
         if (description != null) 'description': description,
@@ -1122,7 +1122,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
       },
     );
   }
@@ -1167,7 +1167,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -1373,7 +1373,7 @@ class FraudDetector {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType.toValue(),
+        if (modelType != null) 'modelType': modelType.value,
         if (modelVersionNumber != null)
           'modelVersionNumber': modelVersionNumber,
         if (nextToken != null) 'nextToken': nextToken,
@@ -2166,7 +2166,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -2229,7 +2229,7 @@ class FraudDetector {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType.toValue(),
+        if (modelType != null) 'modelType': modelType.value,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2692,7 +2692,7 @@ class FraudDetector {
         'eventVariables': eventVariables,
         'name': name,
         if (description != null) 'description': description,
-        if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
+        if (eventIngestion != null) 'eventIngestion': eventIngestion.value,
         if (eventOrchestration != null)
           'eventOrchestration': eventOrchestration,
         if (labels != null) 'labels': labels,
@@ -2754,8 +2754,8 @@ class FraudDetector {
         'inputConfiguration': inputConfiguration,
         'invokeModelEndpointRoleArn': invokeModelEndpointRoleArn,
         'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus.toValue(),
-        'modelSource': modelSource.toValue(),
+        'modelEndpointStatus': modelEndpointStatus.value,
+        'modelSource': modelSource.value,
         'outputConfiguration': outputConfiguration,
         if (tags != null) 'tags': tags,
       },
@@ -3080,7 +3080,7 @@ class FraudDetector {
         if (description != null) 'description': description,
         if (modelVersions != null) 'modelVersions': modelVersions,
         if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode.toValue(),
+          'ruleExecutionMode': ruleExecutionMode.value,
       },
     );
   }
@@ -3167,7 +3167,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'detectorVersionId': detectorVersionId,
-        'status': status.toValue(),
+        'status': status.value,
       },
     );
   }
@@ -3283,7 +3283,7 @@ class FraudDetector {
         'name': name,
         if (description != null) 'description': description,
         if (elements != null) 'elements': elements,
-        if (updateMode != null) 'updateMode': updateMode.toValue(),
+        if (updateMode != null) 'updateMode': updateMode.value,
         if (variableType != null) 'variableType': variableType,
       },
     );
@@ -3323,7 +3323,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         if (description != null) 'description': description,
       },
     );
@@ -3384,7 +3384,7 @@ class FraudDetector {
       payload: {
         'majorVersionNumber': majorVersionNumber,
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
         if (ingestedEventsDetail != null)
@@ -3447,9 +3447,9 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType.toValue(),
+        'modelType': modelType.value,
         'modelVersionNumber': modelVersionNumber,
-        'status': status.toValue(),
+        'status': status.value,
       },
     );
   }
@@ -3536,7 +3536,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'expression': expression,
-        'language': language.toValue(),
+        'language': language.value,
         'outcomes': outcomes,
         'rule': rule,
         if (description != null) 'description': description,
@@ -3913,51 +3913,22 @@ class AllowDenyList {
 }
 
 enum AsyncJobStatus {
-  inProgressInitializing,
-  inProgress,
-  cancelInProgress,
-  canceled,
-  complete,
-  failed,
-}
+  inProgressInitializing('IN_PROGRESS_INITIALIZING'),
+  inProgress('IN_PROGRESS'),
+  cancelInProgress('CANCEL_IN_PROGRESS'),
+  canceled('CANCELED'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  ;
 
-extension AsyncJobStatusValueExtension on AsyncJobStatus {
-  String toValue() {
-    switch (this) {
-      case AsyncJobStatus.inProgressInitializing:
-        return 'IN_PROGRESS_INITIALIZING';
-      case AsyncJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AsyncJobStatus.cancelInProgress:
-        return 'CANCEL_IN_PROGRESS';
-      case AsyncJobStatus.canceled:
-        return 'CANCELED';
-      case AsyncJobStatus.complete:
-        return 'COMPLETE';
-      case AsyncJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AsyncJobStatusFromString on String {
-  AsyncJobStatus toAsyncJobStatus() {
-    switch (this) {
-      case 'IN_PROGRESS_INITIALIZING':
-        return AsyncJobStatus.inProgressInitializing;
-      case 'IN_PROGRESS':
-        return AsyncJobStatus.inProgress;
-      case 'CANCEL_IN_PROGRESS':
-        return AsyncJobStatus.cancelInProgress;
-      case 'CANCELED':
-        return AsyncJobStatus.canceled;
-      case 'COMPLETE':
-        return AsyncJobStatus.complete;
-      case 'FAILED':
-        return AsyncJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum AsyncJobStatus');
-  }
+  const AsyncJobStatus(this.value);
+
+  static AsyncJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AsyncJobStatus'));
 }
 
 /// Provides the error of the batch create variable API.
@@ -4165,7 +4136,7 @@ class BatchImport {
       outputPath: json['outputPath'] as String?,
       processedRecordsCount: json['processedRecordsCount'] as int?,
       startTime: json['startTime'] as String?,
-      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      status: (json['status'] as String?)?.let(AsyncJobStatus.fromString),
       totalRecordsCount: json['totalRecordsCount'] as int?,
     );
   }
@@ -4197,7 +4168,7 @@ class BatchImport {
       if (processedRecordsCount != null)
         'processedRecordsCount': processedRecordsCount,
       if (startTime != null) 'startTime': startTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (totalRecordsCount != null) 'totalRecordsCount': totalRecordsCount,
     };
   }
@@ -4284,7 +4255,7 @@ class BatchPrediction {
       outputPath: json['outputPath'] as String?,
       processedRecordsCount: json['processedRecordsCount'] as int?,
       startTime: json['startTime'] as String?,
-      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      status: (json['status'] as String?)?.let(AsyncJobStatus.fromString),
       totalRecordsCount: json['totalRecordsCount'] as int?,
     );
   }
@@ -4320,7 +4291,7 @@ class BatchPrediction {
       if (processedRecordsCount != null)
         'processedRecordsCount': processedRecordsCount,
       if (startTime != null) 'startTime': startTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (totalRecordsCount != null) 'totalRecordsCount': totalRecordsCount,
     };
   }
@@ -4394,7 +4365,8 @@ class CreateDetectorVersionResult {
     return CreateDetectorVersionResult(
       detectorId: json['detectorId'] as String?,
       detectorVersionId: json['detectorVersionId'] as String?,
-      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+      status:
+          (json['status'] as String?)?.let(DetectorVersionStatus.fromString),
     );
   }
 
@@ -4405,7 +4377,7 @@ class CreateDetectorVersionResult {
     return {
       if (detectorId != null) 'detectorId': detectorId,
       if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4457,7 +4429,7 @@ class CreateModelVersionResult {
   factory CreateModelVersionResult.fromJson(Map<String, dynamic> json) {
     return CreateModelVersionResult(
       modelId: json['modelId'] as String?,
-      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelType: (json['modelType'] as String?)?.let(ModelTypeEnum.fromString),
       modelVersionNumber: json['modelVersionNumber'] as String?,
       status: json['status'] as String?,
     );
@@ -4470,7 +4442,7 @@ class CreateModelVersionResult {
     final status = this.status;
     return {
       if (modelId != null) 'modelId': modelId,
-      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelType != null) 'modelType': modelType.value,
       if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
       if (status != null) 'status': status,
     };
@@ -4514,79 +4486,35 @@ class CreateVariableResult {
 }
 
 enum DataSource {
-  event,
-  modelScore,
-  externalModelScore,
-}
+  event('EVENT'),
+  modelScore('MODEL_SCORE'),
+  externalModelScore('EXTERNAL_MODEL_SCORE'),
+  ;
 
-extension DataSourceValueExtension on DataSource {
-  String toValue() {
-    switch (this) {
-      case DataSource.event:
-        return 'EVENT';
-      case DataSource.modelScore:
-        return 'MODEL_SCORE';
-      case DataSource.externalModelScore:
-        return 'EXTERNAL_MODEL_SCORE';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceFromString on String {
-  DataSource toDataSource() {
-    switch (this) {
-      case 'EVENT':
-        return DataSource.event;
-      case 'MODEL_SCORE':
-        return DataSource.modelScore;
-      case 'EXTERNAL_MODEL_SCORE':
-        return DataSource.externalModelScore;
-    }
-    throw Exception('$this is not known in enum DataSource');
-  }
+  const DataSource(this.value);
+
+  static DataSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataSource'));
 }
 
 enum DataType {
-  string,
-  integer,
-  float,
-  boolean,
-  datetime,
-}
+  string('STRING'),
+  integer('INTEGER'),
+  float('FLOAT'),
+  boolean('BOOLEAN'),
+  datetime('DATETIME'),
+  ;
 
-extension DataTypeValueExtension on DataType {
-  String toValue() {
-    switch (this) {
-      case DataType.string:
-        return 'STRING';
-      case DataType.integer:
-        return 'INTEGER';
-      case DataType.float:
-        return 'FLOAT';
-      case DataType.boolean:
-        return 'BOOLEAN';
-      case DataType.datetime:
-        return 'DATETIME';
-    }
-  }
-}
+  final String value;
 
-extension DataTypeFromString on String {
-  DataType toDataType() {
-    switch (this) {
-      case 'STRING':
-        return DataType.string;
-      case 'INTEGER':
-        return DataType.integer;
-      case 'FLOAT':
-        return DataType.float;
-      case 'BOOLEAN':
-        return DataType.boolean;
-      case 'DATETIME':
-        return DataType.datetime;
-    }
-    throw Exception('$this is not known in enum DataType');
-  }
+  const DataType(this.value);
+
+  static DataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataType'));
 }
 
 /// The model training data validation metrics.
@@ -4976,36 +4904,19 @@ class Detector {
 }
 
 enum DetectorVersionStatus {
-  draft,
-  active,
-  inactive,
-}
+  draft('DRAFT'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension DetectorVersionStatusValueExtension on DetectorVersionStatus {
-  String toValue() {
-    switch (this) {
-      case DetectorVersionStatus.draft:
-        return 'DRAFT';
-      case DetectorVersionStatus.active:
-        return 'ACTIVE';
-      case DetectorVersionStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DetectorVersionStatusFromString on String {
-  DetectorVersionStatus toDetectorVersionStatus() {
-    switch (this) {
-      case 'DRAFT':
-        return DetectorVersionStatus.draft;
-      case 'ACTIVE':
-        return DetectorVersionStatus.active;
-      case 'INACTIVE':
-        return DetectorVersionStatus.inactive;
-    }
-    throw Exception('$this is not known in enum DetectorVersionStatus');
-  }
+  const DetectorVersionStatus(this.value);
+
+  static DetectorVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DetectorVersionStatus'));
 }
 
 /// The summary of the detector version.
@@ -5034,7 +4945,8 @@ class DetectorVersionSummary {
       description: json['description'] as String?,
       detectorVersionId: json['detectorVersionId'] as String?,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
-      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+      status:
+          (json['status'] as String?)?.let(DetectorVersionStatus.fromString),
     );
   }
 
@@ -5047,7 +4959,7 @@ class DetectorVersionSummary {
       if (description != null) 'description': description,
       if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -5375,31 +5287,18 @@ class Event {
 }
 
 enum EventIngestion {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EventIngestionValueExtension on EventIngestion {
-  String toValue() {
-    switch (this) {
-      case EventIngestion.enabled:
-        return 'ENABLED';
-      case EventIngestion.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EventIngestionFromString on String {
-  EventIngestion toEventIngestion() {
-    switch (this) {
-      case 'ENABLED':
-        return EventIngestion.enabled;
-      case 'DISABLED':
-        return EventIngestion.disabled;
-    }
-    throw Exception('$this is not known in enum EventIngestion');
-  }
+  const EventIngestion(this.value);
+
+  static EventIngestion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventIngestion'));
 }
 
 /// The event orchestration status.
@@ -5546,7 +5445,8 @@ class EventType {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      eventIngestion: (json['eventIngestion'] as String?)?.toEventIngestion(),
+      eventIngestion:
+          (json['eventIngestion'] as String?)?.let(EventIngestion.fromString),
       eventOrchestration: json['eventOrchestration'] != null
           ? EventOrchestration.fromJson(
               json['eventOrchestration'] as Map<String, dynamic>)
@@ -5585,7 +5485,7 @@ class EventType {
       if (createdTime != null) 'createdTime': createdTime,
       if (description != null) 'description': description,
       if (entityTypes != null) 'entityTypes': entityTypes,
-      if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
+      if (eventIngestion != null) 'eventIngestion': eventIngestion.value,
       if (eventOrchestration != null) 'eventOrchestration': eventOrchestration,
       if (eventVariables != null) 'eventVariables': eventVariables,
       if (ingestedEventStatistics != null)
@@ -5718,9 +5618,10 @@ class ExternalModel {
       invokeModelEndpointRoleArn: json['invokeModelEndpointRoleArn'] as String?,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelEndpoint: json['modelEndpoint'] as String?,
-      modelEndpointStatus:
-          (json['modelEndpointStatus'] as String?)?.toModelEndpointStatus(),
-      modelSource: (json['modelSource'] as String?)?.toModelSource(),
+      modelEndpointStatus: (json['modelEndpointStatus'] as String?)
+          ?.let(ModelEndpointStatus.fromString),
+      modelSource:
+          (json['modelSource'] as String?)?.let(ModelSource.fromString),
       outputConfiguration: json['outputConfiguration'] != null
           ? ModelOutputConfiguration.fromJson(
               json['outputConfiguration'] as Map<String, dynamic>)
@@ -5747,8 +5648,8 @@ class ExternalModel {
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
       if (modelEndpointStatus != null)
-        'modelEndpointStatus': modelEndpointStatus.toValue(),
-      if (modelSource != null) 'modelSource': modelSource.toValue(),
+        'modelEndpointStatus': modelEndpointStatus.value,
+      if (modelSource != null) 'modelSource': modelSource.value,
       if (outputConfiguration != null)
         'outputConfiguration': outputConfiguration,
     };
@@ -5805,7 +5706,8 @@ class ExternalModelSummary {
   factory ExternalModelSummary.fromJson(Map<String, dynamic> json) {
     return ExternalModelSummary(
       modelEndpoint: json['modelEndpoint'] as String?,
-      modelSource: (json['modelSource'] as String?)?.toModelSource(),
+      modelSource:
+          (json['modelSource'] as String?)?.let(ModelSource.fromString),
     );
   }
 
@@ -5814,7 +5716,7 @@ class ExternalModelSummary {
     final modelSource = this.modelSource;
     return {
       if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
-      if (modelSource != null) 'modelSource': modelSource.toValue(),
+      if (modelSource != null) 'modelSource': modelSource.value,
     };
   }
 }
@@ -6005,8 +5907,8 @@ class GetDeleteEventsByEventTypeStatusResult {
       Map<String, dynamic> json) {
     return GetDeleteEventsByEventTypeStatusResult(
       eventTypeName: json['eventTypeName'] as String?,
-      eventsDeletionStatus:
-          (json['eventsDeletionStatus'] as String?)?.toAsyncJobStatus(),
+      eventsDeletionStatus: (json['eventsDeletionStatus'] as String?)
+          ?.let(AsyncJobStatus.fromString),
     );
   }
 
@@ -6016,7 +5918,7 @@ class GetDeleteEventsByEventTypeStatusResult {
     return {
       if (eventTypeName != null) 'eventTypeName': eventTypeName,
       if (eventsDeletionStatus != null)
-        'eventsDeletionStatus': eventsDeletionStatus.toValue(),
+        'eventsDeletionStatus': eventsDeletionStatus.value,
     };
   }
 }
@@ -6094,13 +5996,14 @@ class GetDetectorVersionResult {
           ?.whereNotNull()
           .map((e) => ModelVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
-      ruleExecutionMode:
-          (json['ruleExecutionMode'] as String?)?.toRuleExecutionMode(),
+      ruleExecutionMode: (json['ruleExecutionMode'] as String?)
+          ?.let(RuleExecutionMode.fromString),
       rules: (json['rules'] as List?)
           ?.whereNotNull()
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+      status:
+          (json['status'] as String?)?.let(DetectorVersionStatus.fromString),
     );
   }
 
@@ -6127,9 +6030,9 @@ class GetDetectorVersionResult {
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (modelVersions != null) 'modelVersions': modelVersions,
       if (ruleExecutionMode != null)
-        'ruleExecutionMode': ruleExecutionMode.toValue(),
+        'ruleExecutionMode': ruleExecutionMode.value,
       if (rules != null) 'rules': rules,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6293,8 +6196,8 @@ class GetEventPredictionMetadataResult {
           .map((e) => e as String)
           .toList(),
       predictionTimestamp: json['predictionTimestamp'] as String?,
-      ruleExecutionMode:
-          (json['ruleExecutionMode'] as String?)?.toRuleExecutionMode(),
+      ruleExecutionMode: (json['ruleExecutionMode'] as String?)
+          ?.let(RuleExecutionMode.fromString),
       rules: (json['rules'] as List?)
           ?.whereNotNull()
           .map((e) => EvaluatedRule.fromJson(e as Map<String, dynamic>))
@@ -6337,7 +6240,7 @@ class GetEventPredictionMetadataResult {
       if (predictionTimestamp != null)
         'predictionTimestamp': predictionTimestamp,
       if (ruleExecutionMode != null)
-        'ruleExecutionMode': ruleExecutionMode.toValue(),
+        'ruleExecutionMode': ruleExecutionMode.value,
       if (rules != null) 'rules': rules,
     };
   }
@@ -6689,15 +6592,15 @@ class GetModelVersionResult {
               json['ingestedEventsDetail'] as Map<String, dynamic>)
           : null,
       modelId: json['modelId'] as String?,
-      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelType: (json['modelType'] as String?)?.let(ModelTypeEnum.fromString),
       modelVersionNumber: json['modelVersionNumber'] as String?,
       status: json['status'] as String?,
       trainingDataSchema: json['trainingDataSchema'] != null
           ? TrainingDataSchema.fromJson(
               json['trainingDataSchema'] as Map<String, dynamic>)
           : null,
-      trainingDataSource:
-          (json['trainingDataSource'] as String?)?.toTrainingDataSourceEnum(),
+      trainingDataSource: (json['trainingDataSource'] as String?)
+          ?.let(TrainingDataSourceEnum.fromString),
     );
   }
 
@@ -6718,12 +6621,12 @@ class GetModelVersionResult {
       if (ingestedEventsDetail != null)
         'ingestedEventsDetail': ingestedEventsDetail,
       if (modelId != null) 'modelId': modelId,
-      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelType != null) 'modelType': modelType.value,
       if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
       if (status != null) 'status': status,
       if (trainingDataSchema != null) 'trainingDataSchema': trainingDataSchema,
       if (trainingDataSource != null)
-        'trainingDataSource': trainingDataSource.toValue(),
+        'trainingDataSource': trainingDataSource.value,
     };
   }
 }
@@ -7088,7 +6991,7 @@ class LabelSchema {
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       unlabeledEventsTreatment: (json['unlabeledEventsTreatment'] as String?)
-          ?.toUnlabeledEventsTreatment(),
+          ?.let(UnlabeledEventsTreatment.fromString),
     );
   }
 
@@ -7098,32 +7001,22 @@ class LabelSchema {
     return {
       if (labelMapper != null) 'labelMapper': labelMapper,
       if (unlabeledEventsTreatment != null)
-        'unlabeledEventsTreatment': unlabeledEventsTreatment.toValue(),
+        'unlabeledEventsTreatment': unlabeledEventsTreatment.value,
     };
   }
 }
 
 enum Language {
-  detectorpl,
-}
+  detectorpl('DETECTORPL'),
+  ;
 
-extension LanguageValueExtension on Language {
-  String toValue() {
-    switch (this) {
-      case Language.detectorpl:
-        return 'DETECTORPL';
-    }
-  }
-}
+  final String value;
 
-extension LanguageFromString on String {
-  Language toLanguage() {
-    switch (this) {
-      case 'DETECTORPL':
-        return Language.detectorpl;
-    }
-    throw Exception('$this is not known in enum Language');
-  }
+  const Language(this.value);
+
+  static Language fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Language'));
 }
 
 class ListEventPredictionsResult {
@@ -7195,36 +7088,19 @@ class ListTagsForResourceResult {
 }
 
 enum ListUpdateMode {
-  replace,
-  append,
-  remove,
-}
+  replace('REPLACE'),
+  append('APPEND'),
+  remove('REMOVE'),
+  ;
 
-extension ListUpdateModeValueExtension on ListUpdateMode {
-  String toValue() {
-    switch (this) {
-      case ListUpdateMode.replace:
-        return 'REPLACE';
-      case ListUpdateMode.append:
-        return 'APPEND';
-      case ListUpdateMode.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension ListUpdateModeFromString on String {
-  ListUpdateMode toListUpdateMode() {
-    switch (this) {
-      case 'REPLACE':
-        return ListUpdateMode.replace;
-      case 'APPEND':
-        return ListUpdateMode.append;
-      case 'REMOVE':
-        return ListUpdateMode.remove;
-    }
-    throw Exception('$this is not known in enum ListUpdateMode');
-  }
+  const ListUpdateMode(this.value);
+
+  static ListUpdateMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ListUpdateMode'));
 }
 
 /// The log odds metric details.
@@ -7356,7 +7232,7 @@ class Model {
       eventTypeName: json['eventTypeName'] as String?,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelId: json['modelId'] as String?,
-      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelType: (json['modelType'] as String?)?.let(ModelTypeEnum.fromString),
     );
   }
 
@@ -7375,7 +7251,7 @@ class Model {
       if (eventTypeName != null) 'eventTypeName': eventTypeName,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (modelId != null) 'modelId': modelId,
-      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelType != null) 'modelType': modelType.value,
     };
   }
 }
@@ -7406,31 +7282,18 @@ class ModelEndpointDataBlob {
 }
 
 enum ModelEndpointStatus {
-  associated,
-  dissociated,
-}
+  associated('ASSOCIATED'),
+  dissociated('DISSOCIATED'),
+  ;
 
-extension ModelEndpointStatusValueExtension on ModelEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case ModelEndpointStatus.associated:
-        return 'ASSOCIATED';
-      case ModelEndpointStatus.dissociated:
-        return 'DISSOCIATED';
-    }
-  }
-}
+  final String value;
 
-extension ModelEndpointStatusFromString on String {
-  ModelEndpointStatus toModelEndpointStatus() {
-    switch (this) {
-      case 'ASSOCIATED':
-        return ModelEndpointStatus.associated;
-      case 'DISSOCIATED':
-        return ModelEndpointStatus.dissociated;
-    }
-    throw Exception('$this is not known in enum ModelEndpointStatus');
-  }
+  const ModelEndpointStatus(this.value);
+
+  static ModelEndpointStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelEndpointStatus'));
 }
 
 /// The Amazon SageMaker model input configuration.
@@ -7469,7 +7332,7 @@ class ModelInputConfiguration {
       useEventVariables: json['useEventVariables'] as bool,
       csvInputTemplate: json['csvInputTemplate'] as String?,
       eventTypeName: json['eventTypeName'] as String?,
-      format: (json['format'] as String?)?.toModelInputDataFormat(),
+      format: (json['format'] as String?)?.let(ModelInputDataFormat.fromString),
       jsonInputTemplate: json['jsonInputTemplate'] as String?,
     );
   }
@@ -7484,38 +7347,25 @@ class ModelInputConfiguration {
       'useEventVariables': useEventVariables,
       if (csvInputTemplate != null) 'csvInputTemplate': csvInputTemplate,
       if (eventTypeName != null) 'eventTypeName': eventTypeName,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (jsonInputTemplate != null) 'jsonInputTemplate': jsonInputTemplate,
     };
   }
 }
 
 enum ModelInputDataFormat {
-  textCsv,
-  applicationJson,
-}
+  textCsv('TEXT_CSV'),
+  applicationJson('APPLICATION_JSON'),
+  ;
 
-extension ModelInputDataFormatValueExtension on ModelInputDataFormat {
-  String toValue() {
-    switch (this) {
-      case ModelInputDataFormat.textCsv:
-        return 'TEXT_CSV';
-      case ModelInputDataFormat.applicationJson:
-        return 'APPLICATION_JSON';
-    }
-  }
-}
+  final String value;
 
-extension ModelInputDataFormatFromString on String {
-  ModelInputDataFormat toModelInputDataFormat() {
-    switch (this) {
-      case 'TEXT_CSV':
-        return ModelInputDataFormat.textCsv;
-      case 'APPLICATION_JSON':
-        return ModelInputDataFormat.applicationJson;
-    }
-    throw Exception('$this is not known in enum ModelInputDataFormat');
-  }
+  const ModelInputDataFormat(this.value);
+
+  static ModelInputDataFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelInputDataFormat'));
 }
 
 /// Provides the Amazon Sagemaker model output configuration.
@@ -7539,7 +7389,7 @@ class ModelOutputConfiguration {
 
   factory ModelOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelOutputConfiguration(
-      format: (json['format'] as String).toModelOutputDataFormat(),
+      format: ModelOutputDataFormat.fromString((json['format'] as String)),
       csvIndexToVariableMap:
           (json['csvIndexToVariableMap'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -7554,7 +7404,7 @@ class ModelOutputConfiguration {
     final csvIndexToVariableMap = this.csvIndexToVariableMap;
     final jsonKeyToVariableMap = this.jsonKeyToVariableMap;
     return {
-      'format': format.toValue(),
+      'format': format.value,
       if (csvIndexToVariableMap != null)
         'csvIndexToVariableMap': csvIndexToVariableMap,
       if (jsonKeyToVariableMap != null)
@@ -7564,31 +7414,18 @@ class ModelOutputConfiguration {
 }
 
 enum ModelOutputDataFormat {
-  textCsv,
-  applicationJsonlines,
-}
+  textCsv('TEXT_CSV'),
+  applicationJsonlines('APPLICATION_JSONLINES'),
+  ;
 
-extension ModelOutputDataFormatValueExtension on ModelOutputDataFormat {
-  String toValue() {
-    switch (this) {
-      case ModelOutputDataFormat.textCsv:
-        return 'TEXT_CSV';
-      case ModelOutputDataFormat.applicationJsonlines:
-        return 'APPLICATION_JSONLINES';
-    }
-  }
-}
+  final String value;
 
-extension ModelOutputDataFormatFromString on String {
-  ModelOutputDataFormat toModelOutputDataFormat() {
-    switch (this) {
-      case 'TEXT_CSV':
-        return ModelOutputDataFormat.textCsv;
-      case 'APPLICATION_JSONLINES':
-        return ModelOutputDataFormat.applicationJsonlines;
-    }
-    throw Exception('$this is not known in enum ModelOutputDataFormat');
-  }
+  const ModelOutputDataFormat(this.value);
+
+  static ModelOutputDataFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelOutputDataFormat'));
 }
 
 /// The fraud prediction scores.
@@ -7625,59 +7462,32 @@ class ModelScores {
 }
 
 enum ModelSource {
-  sagemaker,
-}
+  sagemaker('SAGEMAKER'),
+  ;
 
-extension ModelSourceValueExtension on ModelSource {
-  String toValue() {
-    switch (this) {
-      case ModelSource.sagemaker:
-        return 'SAGEMAKER';
-    }
-  }
-}
+  final String value;
 
-extension ModelSourceFromString on String {
-  ModelSource toModelSource() {
-    switch (this) {
-      case 'SAGEMAKER':
-        return ModelSource.sagemaker;
-    }
-    throw Exception('$this is not known in enum ModelSource');
-  }
+  const ModelSource(this.value);
+
+  static ModelSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelSource'));
 }
 
 enum ModelTypeEnum {
-  onlineFraudInsights,
-  transactionFraudInsights,
-  accountTakeoverInsights,
-}
+  onlineFraudInsights('ONLINE_FRAUD_INSIGHTS'),
+  transactionFraudInsights('TRANSACTION_FRAUD_INSIGHTS'),
+  accountTakeoverInsights('ACCOUNT_TAKEOVER_INSIGHTS'),
+  ;
 
-extension ModelTypeEnumValueExtension on ModelTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ModelTypeEnum.onlineFraudInsights:
-        return 'ONLINE_FRAUD_INSIGHTS';
-      case ModelTypeEnum.transactionFraudInsights:
-        return 'TRANSACTION_FRAUD_INSIGHTS';
-      case ModelTypeEnum.accountTakeoverInsights:
-        return 'ACCOUNT_TAKEOVER_INSIGHTS';
-    }
-  }
-}
+  final String value;
 
-extension ModelTypeEnumFromString on String {
-  ModelTypeEnum toModelTypeEnum() {
-    switch (this) {
-      case 'ONLINE_FRAUD_INSIGHTS':
-        return ModelTypeEnum.onlineFraudInsights;
-      case 'TRANSACTION_FRAUD_INSIGHTS':
-        return ModelTypeEnum.transactionFraudInsights;
-      case 'ACCOUNT_TAKEOVER_INSIGHTS':
-        return ModelTypeEnum.accountTakeoverInsights;
-    }
-    throw Exception('$this is not known in enum ModelTypeEnum');
-  }
+  const ModelTypeEnum(this.value);
+
+  static ModelTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelTypeEnum'));
 }
 
 /// The model version.
@@ -7704,7 +7514,7 @@ class ModelVersion {
   factory ModelVersion.fromJson(Map<String, dynamic> json) {
     return ModelVersion(
       modelId: json['modelId'] as String,
-      modelType: (json['modelType'] as String).toModelTypeEnum(),
+      modelType: ModelTypeEnum.fromString((json['modelType'] as String)),
       modelVersionNumber: json['modelVersionNumber'] as String,
       arn: json['arn'] as String?,
     );
@@ -7717,7 +7527,7 @@ class ModelVersion {
     final arn = this.arn;
     return {
       'modelId': modelId,
-      'modelType': modelType.toValue(),
+      'modelType': modelType.value,
       'modelVersionNumber': modelVersionNumber,
       if (arn != null) 'arn': arn,
     };
@@ -7800,15 +7610,15 @@ class ModelVersionDetail {
           : null,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelId: json['modelId'] as String?,
-      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelType: (json['modelType'] as String?)?.let(ModelTypeEnum.fromString),
       modelVersionNumber: json['modelVersionNumber'] as String?,
       status: json['status'] as String?,
       trainingDataSchema: json['trainingDataSchema'] != null
           ? TrainingDataSchema.fromJson(
               json['trainingDataSchema'] as Map<String, dynamic>)
           : null,
-      trainingDataSource:
-          (json['trainingDataSource'] as String?)?.toTrainingDataSourceEnum(),
+      trainingDataSource: (json['trainingDataSource'] as String?)
+          ?.let(TrainingDataSourceEnum.fromString),
       trainingResult: json['trainingResult'] != null
           ? TrainingResult.fromJson(
               json['trainingResult'] as Map<String, dynamic>)
@@ -7843,12 +7653,12 @@ class ModelVersionDetail {
         'ingestedEventsDetail': ingestedEventsDetail,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (modelId != null) 'modelId': modelId,
-      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelType != null) 'modelType': modelType.value,
       if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
       if (status != null) 'status': status,
       if (trainingDataSchema != null) 'trainingDataSchema': trainingDataSchema,
       if (trainingDataSource != null)
-        'trainingDataSource': trainingDataSource.toValue(),
+        'trainingDataSource': trainingDataSource.value,
       if (trainingResult != null) 'trainingResult': trainingResult,
       if (trainingResultV2 != null) 'trainingResultV2': trainingResultV2,
     };
@@ -7897,36 +7707,19 @@ class ModelVersionEvaluation {
 }
 
 enum ModelVersionStatus {
-  active,
-  inactive,
-  trainingCancelled,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  trainingCancelled('TRAINING_CANCELLED'),
+  ;
 
-extension ModelVersionStatusValueExtension on ModelVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ModelVersionStatus.active:
-        return 'ACTIVE';
-      case ModelVersionStatus.inactive:
-        return 'INACTIVE';
-      case ModelVersionStatus.trainingCancelled:
-        return 'TRAINING_CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension ModelVersionStatusFromString on String {
-  ModelVersionStatus toModelVersionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ModelVersionStatus.active;
-      case 'INACTIVE':
-        return ModelVersionStatus.inactive;
-      case 'TRAINING_CANCELLED':
-        return ModelVersionStatus.trainingCancelled;
-    }
-    throw Exception('$this is not known in enum ModelVersionStatus');
-  }
+  const ModelVersionStatus(this.value);
+
+  static ModelVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelVersionStatus'));
 }
 
 /// The Online Fraud Insights (OFI) model performance metrics data points.
@@ -8349,7 +8142,7 @@ class RuleDetail {
       description: json['description'] as String?,
       detectorId: json['detectorId'] as String?,
       expression: json['expression'] as String?,
-      language: (json['language'] as String?)?.toLanguage(),
+      language: (json['language'] as String?)?.let(Language.fromString),
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       outcomes: (json['outcomes'] as List?)
           ?.whereNotNull()
@@ -8377,7 +8170,7 @@ class RuleDetail {
       if (description != null) 'description': description,
       if (detectorId != null) 'detectorId': detectorId,
       if (expression != null) 'expression': expression,
-      if (language != null) 'language': language.toValue(),
+      if (language != null) 'language': language.value,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (outcomes != null) 'outcomes': outcomes,
       if (ruleId != null) 'ruleId': ruleId,
@@ -8387,31 +8180,18 @@ class RuleDetail {
 }
 
 enum RuleExecutionMode {
-  allMatched,
-  firstMatched,
-}
+  allMatched('ALL_MATCHED'),
+  firstMatched('FIRST_MATCHED'),
+  ;
 
-extension RuleExecutionModeValueExtension on RuleExecutionMode {
-  String toValue() {
-    switch (this) {
-      case RuleExecutionMode.allMatched:
-        return 'ALL_MATCHED';
-      case RuleExecutionMode.firstMatched:
-        return 'FIRST_MATCHED';
-    }
-  }
-}
+  final String value;
 
-extension RuleExecutionModeFromString on String {
-  RuleExecutionMode toRuleExecutionMode() {
-    switch (this) {
-      case 'ALL_MATCHED':
-        return RuleExecutionMode.allMatched;
-      case 'FIRST_MATCHED':
-        return RuleExecutionMode.firstMatched;
-    }
-    throw Exception('$this is not known in enum RuleExecutionMode');
-  }
+  const RuleExecutionMode(this.value);
+
+  static RuleExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleExecutionMode'));
 }
 
 /// The rule results.
@@ -8657,31 +8437,18 @@ class TrainingDataSchema {
 }
 
 enum TrainingDataSourceEnum {
-  externalEvents,
-  ingestedEvents,
-}
+  externalEvents('EXTERNAL_EVENTS'),
+  ingestedEvents('INGESTED_EVENTS'),
+  ;
 
-extension TrainingDataSourceEnumValueExtension on TrainingDataSourceEnum {
-  String toValue() {
-    switch (this) {
-      case TrainingDataSourceEnum.externalEvents:
-        return 'EXTERNAL_EVENTS';
-      case TrainingDataSourceEnum.ingestedEvents:
-        return 'INGESTED_EVENTS';
-    }
-  }
-}
+  final String value;
 
-extension TrainingDataSourceEnumFromString on String {
-  TrainingDataSourceEnum toTrainingDataSourceEnum() {
-    switch (this) {
-      case 'EXTERNAL_EVENTS':
-        return TrainingDataSourceEnum.externalEvents;
-      case 'INGESTED_EVENTS':
-        return TrainingDataSourceEnum.ingestedEvents;
-    }
-    throw Exception('$this is not known in enum TrainingDataSourceEnum');
-  }
+  const TrainingDataSourceEnum(this.value);
+
+  static TrainingDataSourceEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrainingDataSourceEnum'));
 }
 
 /// The training metric details.
@@ -8914,41 +8681,20 @@ class UncertaintyRange {
 }
 
 enum UnlabeledEventsTreatment {
-  ignore,
-  fraud,
-  legit,
-  auto,
-}
+  ignore('IGNORE'),
+  fraud('FRAUD'),
+  legit('LEGIT'),
+  auto('AUTO'),
+  ;
 
-extension UnlabeledEventsTreatmentValueExtension on UnlabeledEventsTreatment {
-  String toValue() {
-    switch (this) {
-      case UnlabeledEventsTreatment.ignore:
-        return 'IGNORE';
-      case UnlabeledEventsTreatment.fraud:
-        return 'FRAUD';
-      case UnlabeledEventsTreatment.legit:
-        return 'LEGIT';
-      case UnlabeledEventsTreatment.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension UnlabeledEventsTreatmentFromString on String {
-  UnlabeledEventsTreatment toUnlabeledEventsTreatment() {
-    switch (this) {
-      case 'IGNORE':
-        return UnlabeledEventsTreatment.ignore;
-      case 'FRAUD':
-        return UnlabeledEventsTreatment.fraud;
-      case 'LEGIT':
-        return UnlabeledEventsTreatment.legit;
-      case 'AUTO':
-        return UnlabeledEventsTreatment.auto;
-    }
-    throw Exception('$this is not known in enum UnlabeledEventsTreatment');
-  }
+  const UnlabeledEventsTreatment(this.value);
+
+  static UnlabeledEventsTreatment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnlabeledEventsTreatment'));
 }
 
 class UntagResourceResult {
@@ -9058,7 +8804,7 @@ class UpdateModelVersionResult {
   factory UpdateModelVersionResult.fromJson(Map<String, dynamic> json) {
     return UpdateModelVersionResult(
       modelId: json['modelId'] as String?,
-      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelType: (json['modelType'] as String?)?.let(ModelTypeEnum.fromString),
       modelVersionNumber: json['modelVersionNumber'] as String?,
       status: json['status'] as String?,
     );
@@ -9071,7 +8817,7 @@ class UpdateModelVersionResult {
     final status = this.status;
     return {
       if (modelId != null) 'modelId': modelId,
-      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelType != null) 'modelType': modelType.value,
       if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
       if (status != null) 'status': status,
     };
@@ -9194,8 +8940,8 @@ class Variable {
     return Variable(
       arn: json['arn'] as String?,
       createdTime: json['createdTime'] as String?,
-      dataSource: (json['dataSource'] as String?)?.toDataSource(),
-      dataType: (json['dataType'] as String?)?.toDataType(),
+      dataSource: (json['dataSource'] as String?)?.let(DataSource.fromString),
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
       defaultValue: json['defaultValue'] as String?,
       description: json['description'] as String?,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
@@ -9217,8 +8963,8 @@ class Variable {
     return {
       if (arn != null) 'arn': arn,
       if (createdTime != null) 'createdTime': createdTime,
-      if (dataSource != null) 'dataSource': dataSource.toValue(),
-      if (dataType != null) 'dataType': dataType.toValue(),
+      if (dataSource != null) 'dataSource': dataSource.value,
+      if (dataType != null) 'dataType': dataType.value,
       if (defaultValue != null) 'defaultValue': defaultValue,
       if (description != null) 'description': description,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,

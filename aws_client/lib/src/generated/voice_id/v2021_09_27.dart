@@ -745,7 +745,7 @@ class VoiceID {
       headers: headers,
       payload: {
         'DomainId': domainId,
-        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (jobStatus != null) 'JobStatus': jobStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -865,7 +865,7 @@ class VoiceID {
       headers: headers,
       payload: {
         'DomainId': domainId,
-        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (jobStatus != null) 'JobStatus': jobStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1435,56 +1435,23 @@ class AuthenticationConfiguration {
 }
 
 enum AuthenticationDecision {
-  accept,
-  reject,
-  notEnoughSpeech,
-  speakerNotEnrolled,
-  speakerOptedOut,
-  speakerIdNotProvided,
-  speakerExpired,
-}
+  accept('ACCEPT'),
+  reject('REJECT'),
+  notEnoughSpeech('NOT_ENOUGH_SPEECH'),
+  speakerNotEnrolled('SPEAKER_NOT_ENROLLED'),
+  speakerOptedOut('SPEAKER_OPTED_OUT'),
+  speakerIdNotProvided('SPEAKER_ID_NOT_PROVIDED'),
+  speakerExpired('SPEAKER_EXPIRED'),
+  ;
 
-extension AuthenticationDecisionValueExtension on AuthenticationDecision {
-  String toValue() {
-    switch (this) {
-      case AuthenticationDecision.accept:
-        return 'ACCEPT';
-      case AuthenticationDecision.reject:
-        return 'REJECT';
-      case AuthenticationDecision.notEnoughSpeech:
-        return 'NOT_ENOUGH_SPEECH';
-      case AuthenticationDecision.speakerNotEnrolled:
-        return 'SPEAKER_NOT_ENROLLED';
-      case AuthenticationDecision.speakerOptedOut:
-        return 'SPEAKER_OPTED_OUT';
-      case AuthenticationDecision.speakerIdNotProvided:
-        return 'SPEAKER_ID_NOT_PROVIDED';
-      case AuthenticationDecision.speakerExpired:
-        return 'SPEAKER_EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationDecisionFromString on String {
-  AuthenticationDecision toAuthenticationDecision() {
-    switch (this) {
-      case 'ACCEPT':
-        return AuthenticationDecision.accept;
-      case 'REJECT':
-        return AuthenticationDecision.reject;
-      case 'NOT_ENOUGH_SPEECH':
-        return AuthenticationDecision.notEnoughSpeech;
-      case 'SPEAKER_NOT_ENROLLED':
-        return AuthenticationDecision.speakerNotEnrolled;
-      case 'SPEAKER_OPTED_OUT':
-        return AuthenticationDecision.speakerOptedOut;
-      case 'SPEAKER_ID_NOT_PROVIDED':
-        return AuthenticationDecision.speakerIdNotProvided;
-      case 'SPEAKER_EXPIRED':
-        return AuthenticationDecision.speakerExpired;
-    }
-    throw Exception('$this is not known in enum AuthenticationDecision');
-  }
+  const AuthenticationDecision(this.value);
+
+  static AuthenticationDecision fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticationDecision'));
 }
 
 /// The authentication result produced by Voice ID, processed against the
@@ -1550,7 +1517,8 @@ class AuthenticationResult {
               json['Configuration'] as Map<String, dynamic>)
           : null,
       customerSpeakerId: json['CustomerSpeakerId'] as String?,
-      decision: (json['Decision'] as String?)?.toAuthenticationDecision(),
+      decision:
+          (json['Decision'] as String?)?.let(AuthenticationDecision.fromString),
       generatedSpeakerId: json['GeneratedSpeakerId'] as String?,
       score: json['Score'] as int?,
     );
@@ -1575,7 +1543,7 @@ class AuthenticationResult {
         'AuthenticationResultId': authenticationResultId,
       if (configuration != null) 'Configuration': configuration,
       if (customerSpeakerId != null) 'CustomerSpeakerId': customerSpeakerId,
-      if (decision != null) 'Decision': decision.toValue(),
+      if (decision != null) 'Decision': decision.value,
       if (generatedSpeakerId != null) 'GeneratedSpeakerId': generatedSpeakerId,
       if (score != null) 'Score': score,
     };
@@ -1856,7 +1824,8 @@ class Domain {
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       domainId: json['DomainId'] as String?,
-      domainStatus: (json['DomainStatus'] as String?)?.toDomainStatus(),
+      domainStatus:
+          (json['DomainStatus'] as String?)?.let(DomainStatus.fromString),
       name: json['Name'] as String?,
       serverSideEncryptionConfiguration:
           json['ServerSideEncryptionConfiguration'] != null
@@ -1896,7 +1865,7 @@ class Domain {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
       if (domainId != null) 'DomainId': domainId,
-      if (domainStatus != null) 'DomainStatus': domainStatus.toValue(),
+      if (domainStatus != null) 'DomainStatus': domainStatus.value,
       if (name != null) 'Name': name,
       if (serverSideEncryptionConfiguration != null)
         'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
@@ -1909,36 +1878,19 @@ class Domain {
 }
 
 enum DomainStatus {
-  active,
-  pending,
-  suspended,
-}
+  active('ACTIVE'),
+  pending('PENDING'),
+  suspended('SUSPENDED'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.active:
-        return 'ACTIVE';
-      case DomainStatus.pending:
-        return 'PENDING';
-      case DomainStatus.suspended:
-        return 'SUSPENDED';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DomainStatus.active;
-      case 'PENDING':
-        return DomainStatus.pending;
-      case 'SUSPENDED':
-        return DomainStatus.suspended;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// Contains a summary of information about a domain.
@@ -1997,7 +1949,8 @@ class DomainSummary {
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       domainId: json['DomainId'] as String?,
-      domainStatus: (json['DomainStatus'] as String?)?.toDomainStatus(),
+      domainStatus:
+          (json['DomainStatus'] as String?)?.let(DomainStatus.fromString),
       name: json['Name'] as String?,
       serverSideEncryptionConfiguration:
           json['ServerSideEncryptionConfiguration'] != null
@@ -2037,7 +1990,7 @@ class DomainSummary {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
       if (domainId != null) 'DomainId': domainId,
-      if (domainStatus != null) 'DomainStatus': domainStatus.toValue(),
+      if (domainStatus != null) 'DomainStatus': domainStatus.value,
       if (name != null) 'Name': name,
       if (serverSideEncryptionConfiguration != null)
         'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
@@ -2050,32 +2003,18 @@ class DomainSummary {
 }
 
 enum DuplicateRegistrationAction {
-  skip,
-  registerAsNew,
-}
+  skip('SKIP'),
+  registerAsNew('REGISTER_AS_NEW'),
+  ;
 
-extension DuplicateRegistrationActionValueExtension
-    on DuplicateRegistrationAction {
-  String toValue() {
-    switch (this) {
-      case DuplicateRegistrationAction.skip:
-        return 'SKIP';
-      case DuplicateRegistrationAction.registerAsNew:
-        return 'REGISTER_AS_NEW';
-    }
-  }
-}
+  final String value;
 
-extension DuplicateRegistrationActionFromString on String {
-  DuplicateRegistrationAction toDuplicateRegistrationAction() {
-    switch (this) {
-      case 'SKIP':
-        return DuplicateRegistrationAction.skip;
-      case 'REGISTER_AS_NEW':
-        return DuplicateRegistrationAction.registerAsNew;
-    }
-    throw Exception('$this is not known in enum DuplicateRegistrationAction');
-  }
+  const DuplicateRegistrationAction(this.value);
+
+  static DuplicateRegistrationAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DuplicateRegistrationAction'));
 }
 
 /// Contains configurations defining enrollment behavior for the batch job.
@@ -2098,7 +2037,7 @@ class EnrollmentConfig {
   factory EnrollmentConfig.fromJson(Map<String, dynamic> json) {
     return EnrollmentConfig(
       existingEnrollmentAction: (json['ExistingEnrollmentAction'] as String?)
-          ?.toExistingEnrollmentAction(),
+          ?.let(ExistingEnrollmentAction.fromString),
       fraudDetectionConfig: json['FraudDetectionConfig'] != null
           ? EnrollmentJobFraudDetectionConfig.fromJson(
               json['FraudDetectionConfig'] as Map<String, dynamic>)
@@ -2111,7 +2050,7 @@ class EnrollmentConfig {
     final fraudDetectionConfig = this.fraudDetectionConfig;
     return {
       if (existingEnrollmentAction != null)
-        'ExistingEnrollmentAction': existingEnrollmentAction.toValue(),
+        'ExistingEnrollmentAction': existingEnrollmentAction.value,
       if (fraudDetectionConfig != null)
         'FraudDetectionConfig': fraudDetectionConfig,
     };
@@ -2145,8 +2084,8 @@ class EnrollmentJobFraudDetectionConfig {
   factory EnrollmentJobFraudDetectionConfig.fromJson(
       Map<String, dynamic> json) {
     return EnrollmentJobFraudDetectionConfig(
-      fraudDetectionAction:
-          (json['FraudDetectionAction'] as String?)?.toFraudDetectionAction(),
+      fraudDetectionAction: (json['FraudDetectionAction'] as String?)
+          ?.let(FraudDetectionAction.fromString),
       riskThreshold: json['RiskThreshold'] as int?,
       watchlistIds: (json['WatchlistIds'] as List?)
           ?.whereNotNull()
@@ -2161,7 +2100,7 @@ class EnrollmentJobFraudDetectionConfig {
     final watchlistIds = this.watchlistIds;
     return {
       if (fraudDetectionAction != null)
-        'FraudDetectionAction': fraudDetectionAction.toValue(),
+        'FraudDetectionAction': fraudDetectionAction.value,
       if (riskThreshold != null) 'RiskThreshold': riskThreshold,
       if (watchlistIds != null) 'WatchlistIds': watchlistIds,
     };
@@ -2221,7 +2160,7 @@ class EvaluateSessionResponse {
       sessionId: json['SessionId'] as String?,
       sessionName: json['SessionName'] as String?,
       streamingStatus:
-          (json['StreamingStatus'] as String?)?.toStreamingStatus(),
+          (json['StreamingStatus'] as String?)?.let(StreamingStatus.fromString),
     );
   }
 
@@ -2240,37 +2179,24 @@ class EvaluateSessionResponse {
         'FraudDetectionResult': fraudDetectionResult,
       if (sessionId != null) 'SessionId': sessionId,
       if (sessionName != null) 'SessionName': sessionName,
-      if (streamingStatus != null) 'StreamingStatus': streamingStatus.toValue(),
+      if (streamingStatus != null) 'StreamingStatus': streamingStatus.value,
     };
   }
 }
 
 enum ExistingEnrollmentAction {
-  skip,
-  overwrite,
-}
+  skip('SKIP'),
+  overwrite('OVERWRITE'),
+  ;
 
-extension ExistingEnrollmentActionValueExtension on ExistingEnrollmentAction {
-  String toValue() {
-    switch (this) {
-      case ExistingEnrollmentAction.skip:
-        return 'SKIP';
-      case ExistingEnrollmentAction.overwrite:
-        return 'OVERWRITE';
-    }
-  }
-}
+  final String value;
 
-extension ExistingEnrollmentActionFromString on String {
-  ExistingEnrollmentAction toExistingEnrollmentAction() {
-    switch (this) {
-      case 'SKIP':
-        return ExistingEnrollmentAction.skip;
-      case 'OVERWRITE':
-        return ExistingEnrollmentAction.overwrite;
-    }
-    throw Exception('$this is not known in enum ExistingEnrollmentAction');
-  }
+  const ExistingEnrollmentAction(this.value);
+
+  static ExistingEnrollmentAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExistingEnrollmentAction'));
 }
 
 /// Contains error details for a failed batch job.
@@ -2304,31 +2230,18 @@ class FailureDetails {
 }
 
 enum FraudDetectionAction {
-  ignore,
-  fail,
-}
+  ignore('IGNORE'),
+  fail('FAIL'),
+  ;
 
-extension FraudDetectionActionValueExtension on FraudDetectionAction {
-  String toValue() {
-    switch (this) {
-      case FraudDetectionAction.ignore:
-        return 'IGNORE';
-      case FraudDetectionAction.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension FraudDetectionActionFromString on String {
-  FraudDetectionAction toFraudDetectionAction() {
-    switch (this) {
-      case 'IGNORE':
-        return FraudDetectionAction.ignore;
-      case 'FAIL':
-        return FraudDetectionAction.fail;
-    }
-    throw Exception('$this is not known in enum FraudDetectionAction');
-  }
+  const FraudDetectionAction(this.value);
+
+  static FraudDetectionAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FraudDetectionAction'));
 }
 
 /// The configuration used for performing fraud detection over a speaker during
@@ -2365,64 +2278,34 @@ class FraudDetectionConfiguration {
 }
 
 enum FraudDetectionDecision {
-  highRisk,
-  lowRisk,
-  notEnoughSpeech,
-}
+  highRisk('HIGH_RISK'),
+  lowRisk('LOW_RISK'),
+  notEnoughSpeech('NOT_ENOUGH_SPEECH'),
+  ;
 
-extension FraudDetectionDecisionValueExtension on FraudDetectionDecision {
-  String toValue() {
-    switch (this) {
-      case FraudDetectionDecision.highRisk:
-        return 'HIGH_RISK';
-      case FraudDetectionDecision.lowRisk:
-        return 'LOW_RISK';
-      case FraudDetectionDecision.notEnoughSpeech:
-        return 'NOT_ENOUGH_SPEECH';
-    }
-  }
-}
+  final String value;
 
-extension FraudDetectionDecisionFromString on String {
-  FraudDetectionDecision toFraudDetectionDecision() {
-    switch (this) {
-      case 'HIGH_RISK':
-        return FraudDetectionDecision.highRisk;
-      case 'LOW_RISK':
-        return FraudDetectionDecision.lowRisk;
-      case 'NOT_ENOUGH_SPEECH':
-        return FraudDetectionDecision.notEnoughSpeech;
-    }
-    throw Exception('$this is not known in enum FraudDetectionDecision');
-  }
+  const FraudDetectionDecision(this.value);
+
+  static FraudDetectionDecision fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FraudDetectionDecision'));
 }
 
 enum FraudDetectionReason {
-  knownFraudster,
-  voiceSpoofing,
-}
+  knownFraudster('KNOWN_FRAUDSTER'),
+  voiceSpoofing('VOICE_SPOOFING'),
+  ;
 
-extension FraudDetectionReasonValueExtension on FraudDetectionReason {
-  String toValue() {
-    switch (this) {
-      case FraudDetectionReason.knownFraudster:
-        return 'KNOWN_FRAUDSTER';
-      case FraudDetectionReason.voiceSpoofing:
-        return 'VOICE_SPOOFING';
-    }
-  }
-}
+  final String value;
 
-extension FraudDetectionReasonFromString on String {
-  FraudDetectionReason toFraudDetectionReason() {
-    switch (this) {
-      case 'KNOWN_FRAUDSTER':
-        return FraudDetectionReason.knownFraudster;
-      case 'VOICE_SPOOFING':
-        return FraudDetectionReason.voiceSpoofing;
-    }
-    throw Exception('$this is not known in enum FraudDetectionReason');
-  }
+  const FraudDetectionReason(this.value);
+
+  static FraudDetectionReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FraudDetectionReason'));
 }
 
 /// The fraud detection result produced by Voice ID, processed against the
@@ -2481,11 +2364,12 @@ class FraudDetectionResult {
           ? FraudDetectionConfiguration.fromJson(
               json['Configuration'] as Map<String, dynamic>)
           : null,
-      decision: (json['Decision'] as String?)?.toFraudDetectionDecision(),
+      decision:
+          (json['Decision'] as String?)?.let(FraudDetectionDecision.fromString),
       fraudDetectionResultId: json['FraudDetectionResultId'] as String?,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toFraudDetectionReason())
+          .map((e) => FraudDetectionReason.fromString((e as String)))
           .toList(),
       riskDetails: json['RiskDetails'] != null
           ? FraudRiskDetails.fromJson(
@@ -2509,10 +2393,10 @@ class FraudDetectionResult {
         'AudioAggregationStartedAt':
             unixTimestampToJson(audioAggregationStartedAt),
       if (configuration != null) 'Configuration': configuration,
-      if (decision != null) 'Decision': decision.toValue(),
+      if (decision != null) 'Decision': decision.value,
       if (fraudDetectionResultId != null)
         'FraudDetectionResultId': fraudDetectionResultId,
-      if (reasons != null) 'Reasons': reasons.map((e) => e.toValue()).toList(),
+      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
       if (riskDetails != null) 'RiskDetails': riskDetails,
     };
   }
@@ -2683,8 +2567,8 @@ class FraudsterRegistrationJob {
       jobProgress: json['JobProgress'] != null
           ? JobProgress.fromJson(json['JobProgress'] as Map<String, dynamic>)
           : null,
-      jobStatus:
-          (json['JobStatus'] as String?)?.toFraudsterRegistrationJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(FraudsterRegistrationJobStatus.fromString),
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
               json['OutputDataConfig'] as Map<String, dynamic>)
@@ -2719,7 +2603,7 @@ class FraudsterRegistrationJob {
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
       if (jobProgress != null) 'JobProgress': jobProgress,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
       if (registrationConfig != null) 'RegistrationConfig': registrationConfig,
     };
@@ -2727,48 +2611,21 @@ class FraudsterRegistrationJob {
 }
 
 enum FraudsterRegistrationJobStatus {
-  submitted,
-  inProgress,
-  completed,
-  completedWithErrors,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  completedWithErrors('COMPLETED_WITH_ERRORS'),
+  failed('FAILED'),
+  ;
 
-extension FraudsterRegistrationJobStatusValueExtension
-    on FraudsterRegistrationJobStatus {
-  String toValue() {
-    switch (this) {
-      case FraudsterRegistrationJobStatus.submitted:
-        return 'SUBMITTED';
-      case FraudsterRegistrationJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case FraudsterRegistrationJobStatus.completed:
-        return 'COMPLETED';
-      case FraudsterRegistrationJobStatus.completedWithErrors:
-        return 'COMPLETED_WITH_ERRORS';
-      case FraudsterRegistrationJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FraudsterRegistrationJobStatusFromString on String {
-  FraudsterRegistrationJobStatus toFraudsterRegistrationJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return FraudsterRegistrationJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return FraudsterRegistrationJobStatus.inProgress;
-      case 'COMPLETED':
-        return FraudsterRegistrationJobStatus.completed;
-      case 'COMPLETED_WITH_ERRORS':
-        return FraudsterRegistrationJobStatus.completedWithErrors;
-      case 'FAILED':
-        return FraudsterRegistrationJobStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum FraudsterRegistrationJobStatus');
-  }
+  const FraudsterRegistrationJobStatus(this.value);
+
+  static FraudsterRegistrationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FraudsterRegistrationJobStatus'));
 }
 
 /// Contains a summary of information about a fraudster registration job.
@@ -2827,8 +2684,8 @@ class FraudsterRegistrationJobSummary {
       jobProgress: json['JobProgress'] != null
           ? JobProgress.fromJson(json['JobProgress'] as Map<String, dynamic>)
           : null,
-      jobStatus:
-          (json['JobStatus'] as String?)?.toFraudsterRegistrationJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(FraudsterRegistrationJobStatus.fromString),
     );
   }
 
@@ -2849,7 +2706,7 @@ class FraudsterRegistrationJobSummary {
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
       if (jobProgress != null) 'JobProgress': jobProgress,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
     };
   }
 }
@@ -3314,7 +3171,7 @@ class RegistrationConfig {
     return RegistrationConfig(
       duplicateRegistrationAction:
           (json['DuplicateRegistrationAction'] as String?)
-              ?.toDuplicateRegistrationAction(),
+              ?.let(DuplicateRegistrationAction.fromString),
       fraudsterSimilarityThreshold:
           json['FraudsterSimilarityThreshold'] as int?,
       watchlistIds: (json['WatchlistIds'] as List?)
@@ -3330,7 +3187,7 @@ class RegistrationConfig {
     final watchlistIds = this.watchlistIds;
     return {
       if (duplicateRegistrationAction != null)
-        'DuplicateRegistrationAction': duplicateRegistrationAction.toValue(),
+        'DuplicateRegistrationAction': duplicateRegistrationAction.value,
       if (fraudsterSimilarityThreshold != null)
         'FraudsterSimilarityThreshold': fraudsterSimilarityThreshold,
       if (watchlistIds != null) 'WatchlistIds': watchlistIds,
@@ -3397,7 +3254,7 @@ class ServerSideEncryptionUpdateDetails {
       message: json['Message'] as String?,
       oldKmsKeyId: json['OldKmsKeyId'] as String?,
       updateStatus: (json['UpdateStatus'] as String?)
-          ?.toServerSideEncryptionUpdateStatus(),
+          ?.let(ServerSideEncryptionUpdateStatus.fromString),
     );
   }
 
@@ -3408,44 +3265,25 @@ class ServerSideEncryptionUpdateDetails {
     return {
       if (message != null) 'Message': message,
       if (oldKmsKeyId != null) 'OldKmsKeyId': oldKmsKeyId,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }
 }
 
 enum ServerSideEncryptionUpdateStatus {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension ServerSideEncryptionUpdateStatusValueExtension
-    on ServerSideEncryptionUpdateStatus {
-  String toValue() {
-    switch (this) {
-      case ServerSideEncryptionUpdateStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ServerSideEncryptionUpdateStatus.completed:
-        return 'COMPLETED';
-      case ServerSideEncryptionUpdateStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ServerSideEncryptionUpdateStatusFromString on String {
-  ServerSideEncryptionUpdateStatus toServerSideEncryptionUpdateStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ServerSideEncryptionUpdateStatus.inProgress;
-      case 'COMPLETED':
-        return ServerSideEncryptionUpdateStatus.completed;
-      case 'FAILED':
-        return ServerSideEncryptionUpdateStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ServerSideEncryptionUpdateStatus');
-  }
+  const ServerSideEncryptionUpdateStatus(this.value);
+
+  static ServerSideEncryptionUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServerSideEncryptionUpdateStatus'));
 }
 
 /// Contains all the information about a speaker.
@@ -3490,7 +3328,7 @@ class Speaker {
       domainId: json['DomainId'] as String?,
       generatedSpeakerId: json['GeneratedSpeakerId'] as String?,
       lastAccessedAt: timeStampFromJson(json['LastAccessedAt']),
-      status: (json['Status'] as String?)?.toSpeakerStatus(),
+      status: (json['Status'] as String?)?.let(SpeakerStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -3510,7 +3348,7 @@ class Speaker {
       if (generatedSpeakerId != null) 'GeneratedSpeakerId': generatedSpeakerId,
       if (lastAccessedAt != null)
         'LastAccessedAt': unixTimestampToJson(lastAccessedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -3603,7 +3441,8 @@ class SpeakerEnrollmentJob {
       jobProgress: json['JobProgress'] != null
           ? JobProgress.fromJson(json['JobProgress'] as Map<String, dynamic>)
           : null,
-      jobStatus: (json['JobStatus'] as String?)?.toSpeakerEnrollmentJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(SpeakerEnrollmentJobStatus.fromString),
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
               json['OutputDataConfig'] as Map<String, dynamic>)
@@ -3635,54 +3474,28 @@ class SpeakerEnrollmentJob {
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
       if (jobProgress != null) 'JobProgress': jobProgress,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
     };
   }
 }
 
 enum SpeakerEnrollmentJobStatus {
-  submitted,
-  inProgress,
-  completed,
-  completedWithErrors,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  completedWithErrors('COMPLETED_WITH_ERRORS'),
+  failed('FAILED'),
+  ;
 
-extension SpeakerEnrollmentJobStatusValueExtension
-    on SpeakerEnrollmentJobStatus {
-  String toValue() {
-    switch (this) {
-      case SpeakerEnrollmentJobStatus.submitted:
-        return 'SUBMITTED';
-      case SpeakerEnrollmentJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case SpeakerEnrollmentJobStatus.completed:
-        return 'COMPLETED';
-      case SpeakerEnrollmentJobStatus.completedWithErrors:
-        return 'COMPLETED_WITH_ERRORS';
-      case SpeakerEnrollmentJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension SpeakerEnrollmentJobStatusFromString on String {
-  SpeakerEnrollmentJobStatus toSpeakerEnrollmentJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return SpeakerEnrollmentJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return SpeakerEnrollmentJobStatus.inProgress;
-      case 'COMPLETED':
-        return SpeakerEnrollmentJobStatus.completed;
-      case 'COMPLETED_WITH_ERRORS':
-        return SpeakerEnrollmentJobStatus.completedWithErrors;
-      case 'FAILED':
-        return SpeakerEnrollmentJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum SpeakerEnrollmentJobStatus');
-  }
+  const SpeakerEnrollmentJobStatus(this.value);
+
+  static SpeakerEnrollmentJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SpeakerEnrollmentJobStatus'));
 }
 
 /// Contains a summary of information about a speaker enrollment job.
@@ -3741,7 +3554,8 @@ class SpeakerEnrollmentJobSummary {
       jobProgress: json['JobProgress'] != null
           ? JobProgress.fromJson(json['JobProgress'] as Map<String, dynamic>)
           : null,
-      jobStatus: (json['JobStatus'] as String?)?.toSpeakerEnrollmentJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(SpeakerEnrollmentJobStatus.fromString),
     );
   }
 
@@ -3762,47 +3576,26 @@ class SpeakerEnrollmentJobSummary {
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
       if (jobProgress != null) 'JobProgress': jobProgress,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
     };
   }
 }
 
 enum SpeakerStatus {
-  enrolled,
-  expired,
-  optedOut,
-  pending,
-}
+  enrolled('ENROLLED'),
+  expired('EXPIRED'),
+  optedOut('OPTED_OUT'),
+  pending('PENDING'),
+  ;
 
-extension SpeakerStatusValueExtension on SpeakerStatus {
-  String toValue() {
-    switch (this) {
-      case SpeakerStatus.enrolled:
-        return 'ENROLLED';
-      case SpeakerStatus.expired:
-        return 'EXPIRED';
-      case SpeakerStatus.optedOut:
-        return 'OPTED_OUT';
-      case SpeakerStatus.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension SpeakerStatusFromString on String {
-  SpeakerStatus toSpeakerStatus() {
-    switch (this) {
-      case 'ENROLLED':
-        return SpeakerStatus.enrolled;
-      case 'EXPIRED':
-        return SpeakerStatus.expired;
-      case 'OPTED_OUT':
-        return SpeakerStatus.optedOut;
-      case 'PENDING':
-        return SpeakerStatus.pending;
-    }
-    throw Exception('$this is not known in enum SpeakerStatus');
-  }
+  const SpeakerStatus(this.value);
+
+  static SpeakerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SpeakerStatus'));
 }
 
 /// Contains a summary of information about a speaker.
@@ -3847,7 +3640,7 @@ class SpeakerSummary {
       domainId: json['DomainId'] as String?,
       generatedSpeakerId: json['GeneratedSpeakerId'] as String?,
       lastAccessedAt: timeStampFromJson(json['LastAccessedAt']),
-      status: (json['Status'] as String?)?.toSpeakerStatus(),
+      status: (json['Status'] as String?)?.let(SpeakerStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -3867,7 +3660,7 @@ class SpeakerSummary {
       if (generatedSpeakerId != null) 'GeneratedSpeakerId': generatedSpeakerId,
       if (lastAccessedAt != null)
         'LastAccessedAt': unixTimestampToJson(lastAccessedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -3925,36 +3718,19 @@ class StartSpeakerEnrollmentJobResponse {
 }
 
 enum StreamingStatus {
-  pendingConfiguration,
-  ongoing,
-  ended,
-}
+  pendingConfiguration('PENDING_CONFIGURATION'),
+  ongoing('ONGOING'),
+  ended('ENDED'),
+  ;
 
-extension StreamingStatusValueExtension on StreamingStatus {
-  String toValue() {
-    switch (this) {
-      case StreamingStatus.pendingConfiguration:
-        return 'PENDING_CONFIGURATION';
-      case StreamingStatus.ongoing:
-        return 'ONGOING';
-      case StreamingStatus.ended:
-        return 'ENDED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingStatusFromString on String {
-  StreamingStatus toStreamingStatus() {
-    switch (this) {
-      case 'PENDING_CONFIGURATION':
-        return StreamingStatus.pendingConfiguration;
-      case 'ONGOING':
-        return StreamingStatus.ongoing;
-      case 'ENDED':
-        return StreamingStatus.ended;
-    }
-    throw Exception('$this is not known in enum StreamingStatus');
-  }
+  const StreamingStatus(this.value);
+
+  static StreamingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StreamingStatus'));
 }
 
 /// The tags used to organize, track, or control access for this resource. For

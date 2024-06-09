@@ -1528,7 +1528,7 @@ class DatasetDescription {
           : null,
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       projectName: json['ProjectName'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -1549,7 +1549,7 @@ class DatasetDescription {
       if (lastUpdatedTimestamp != null)
         'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (projectName != null) 'ProjectName': projectName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -1643,7 +1643,7 @@ class DatasetMetadata {
     return DatasetMetadata(
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       datasetType: json['DatasetType'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -1657,7 +1657,7 @@ class DatasetMetadata {
       if (creationTimestamp != null)
         'CreationTimestamp': unixTimestampToJson(creationTimestamp),
       if (datasetType != null) 'DatasetType': datasetType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -1683,71 +1683,26 @@ class DatasetSource {
 }
 
 enum DatasetStatus {
-  createInProgress,
-  createComplete,
-  createFailed,
-  updateInProgress,
-  updateComplete,
-  updateFailedRollbackInProgress,
-  updateFailedRollbackComplete,
-  deleteInProgress,
-  deleteComplete,
-  deleteFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  createFailed('CREATE_FAILED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateComplete('UPDATE_COMPLETE'),
+  updateFailedRollbackInProgress('UPDATE_FAILED_ROLLBACK_IN_PROGRESS'),
+  updateFailedRollbackComplete('UPDATE_FAILED_ROLLBACK_COMPLETE'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteComplete('DELETE_COMPLETE'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension DatasetStatusValueExtension on DatasetStatus {
-  String toValue() {
-    switch (this) {
-      case DatasetStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case DatasetStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case DatasetStatus.createFailed:
-        return 'CREATE_FAILED';
-      case DatasetStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case DatasetStatus.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case DatasetStatus.updateFailedRollbackInProgress:
-        return 'UPDATE_FAILED_ROLLBACK_IN_PROGRESS';
-      case DatasetStatus.updateFailedRollbackComplete:
-        return 'UPDATE_FAILED_ROLLBACK_COMPLETE';
-      case DatasetStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case DatasetStatus.deleteComplete:
-        return 'DELETE_COMPLETE';
-      case DatasetStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusFromString on String {
-  DatasetStatus toDatasetStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return DatasetStatus.createInProgress;
-      case 'CREATE_COMPLETE':
-        return DatasetStatus.createComplete;
-      case 'CREATE_FAILED':
-        return DatasetStatus.createFailed;
-      case 'UPDATE_IN_PROGRESS':
-        return DatasetStatus.updateInProgress;
-      case 'UPDATE_COMPLETE':
-        return DatasetStatus.updateComplete;
-      case 'UPDATE_FAILED_ROLLBACK_IN_PROGRESS':
-        return DatasetStatus.updateFailedRollbackInProgress;
-      case 'UPDATE_FAILED_ROLLBACK_COMPLETE':
-        return DatasetStatus.updateFailedRollbackComplete;
-      case 'DELETE_IN_PROGRESS':
-        return DatasetStatus.deleteInProgress;
-      case 'DELETE_COMPLETE':
-        return DatasetStatus.deleteComplete;
-      case 'DELETE_FAILED':
-        return DatasetStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum DatasetStatus');
-  }
+  const DatasetStatus(this.value);
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetStatus'));
 }
 
 class DeleteDatasetResponse {
@@ -2085,7 +2040,8 @@ class GreengrassConfiguration {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      targetDevice: (json['TargetDevice'] as String?)?.toTargetDevice(),
+      targetDevice:
+          (json['TargetDevice'] as String?)?.let(TargetDevice.fromString),
       targetPlatform: json['TargetPlatform'] != null
           ? TargetPlatform.fromJson(
               json['TargetPlatform'] as Map<String, dynamic>)
@@ -2110,7 +2066,7 @@ class GreengrassConfiguration {
         'ComponentDescription': componentDescription,
       if (componentVersion != null) 'ComponentVersion': componentVersion,
       if (tags != null) 'Tags': tags,
-      if (targetDevice != null) 'TargetDevice': targetDevice.toValue(),
+      if (targetDevice != null) 'TargetDevice': targetDevice.value,
       if (targetPlatform != null) 'TargetPlatform': targetPlatform,
     };
   }
@@ -2462,7 +2418,7 @@ class ModelDescription {
           ? ModelPerformance.fromJson(
               json['Performance'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -2497,53 +2453,28 @@ class ModelDescription {
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (outputConfig != null) 'OutputConfig': outputConfig,
       if (performance != null) 'Performance': performance,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
 enum ModelHostingStatus {
-  startingHosting,
-  hosted,
-  hostingFailed,
-  stoppingHosting,
-  systemUpdating,
-}
+  startingHosting('STARTING_HOSTING'),
+  hosted('HOSTED'),
+  hostingFailed('HOSTING_FAILED'),
+  stoppingHosting('STOPPING_HOSTING'),
+  systemUpdating('SYSTEM_UPDATING'),
+  ;
 
-extension ModelHostingStatusValueExtension on ModelHostingStatus {
-  String toValue() {
-    switch (this) {
-      case ModelHostingStatus.startingHosting:
-        return 'STARTING_HOSTING';
-      case ModelHostingStatus.hosted:
-        return 'HOSTED';
-      case ModelHostingStatus.hostingFailed:
-        return 'HOSTING_FAILED';
-      case ModelHostingStatus.stoppingHosting:
-        return 'STOPPING_HOSTING';
-      case ModelHostingStatus.systemUpdating:
-        return 'SYSTEM_UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ModelHostingStatusFromString on String {
-  ModelHostingStatus toModelHostingStatus() {
-    switch (this) {
-      case 'STARTING_HOSTING':
-        return ModelHostingStatus.startingHosting;
-      case 'HOSTED':
-        return ModelHostingStatus.hosted;
-      case 'HOSTING_FAILED':
-        return ModelHostingStatus.hostingFailed;
-      case 'STOPPING_HOSTING':
-        return ModelHostingStatus.stoppingHosting;
-      case 'SYSTEM_UPDATING':
-        return ModelHostingStatus.systemUpdating;
-    }
-    throw Exception('$this is not known in enum ModelHostingStatus');
-  }
+  const ModelHostingStatus(this.value);
+
+  static ModelHostingStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelHostingStatus'));
 }
 
 /// Describes an Amazon Lookout for Vision model.
@@ -2590,7 +2521,7 @@ class ModelMetadata {
           ? ModelPerformance.fromJson(
               json['Performance'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -2610,7 +2541,7 @@ class ModelMetadata {
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (performance != null) 'Performance': performance,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -2715,7 +2646,8 @@ class ModelPackagingDescription {
           : null,
       modelVersion: json['ModelVersion'] as String?,
       projectName: json['ProjectName'] as String?,
-      status: (json['Status'] as String?)?.toModelPackagingJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(ModelPackagingJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -2748,7 +2680,7 @@ class ModelPackagingDescription {
         'ModelPackagingOutputDetails': modelPackagingOutputDetails,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (projectName != null) 'ProjectName': projectName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -2809,7 +2741,8 @@ class ModelPackagingJobMetadata {
       modelPackagingMethod: json['ModelPackagingMethod'] as String?,
       modelVersion: json['ModelVersion'] as String?,
       projectName: json['ProjectName'] as String?,
-      status: (json['Status'] as String?)?.toModelPackagingJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(ModelPackagingJobStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -2836,48 +2769,27 @@ class ModelPackagingJobMetadata {
         'ModelPackagingMethod': modelPackagingMethod,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (projectName != null) 'ProjectName': projectName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
 enum ModelPackagingJobStatus {
-  created,
-  running,
-  succeeded,
-  failed,
-}
+  created('CREATED'),
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension ModelPackagingJobStatusValueExtension on ModelPackagingJobStatus {
-  String toValue() {
-    switch (this) {
-      case ModelPackagingJobStatus.created:
-        return 'CREATED';
-      case ModelPackagingJobStatus.running:
-        return 'RUNNING';
-      case ModelPackagingJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case ModelPackagingJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackagingJobStatusFromString on String {
-  ModelPackagingJobStatus toModelPackagingJobStatus() {
-    switch (this) {
-      case 'CREATED':
-        return ModelPackagingJobStatus.created;
-      case 'RUNNING':
-        return ModelPackagingJobStatus.running;
-      case 'SUCCEEDED':
-        return ModelPackagingJobStatus.succeeded;
-      case 'FAILED':
-        return ModelPackagingJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum ModelPackagingJobStatus');
-  }
+  const ModelPackagingJobStatus(this.value);
+
+  static ModelPackagingJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelPackagingJobStatus'));
 }
 
 /// Information about the output from a model packaging job.
@@ -2944,66 +2856,24 @@ class ModelPerformance {
 }
 
 enum ModelStatus {
-  training,
-  trained,
-  trainingFailed,
-  startingHosting,
-  hosted,
-  hostingFailed,
-  stoppingHosting,
-  systemUpdating,
-  deleting,
-}
+  training('TRAINING'),
+  trained('TRAINED'),
+  trainingFailed('TRAINING_FAILED'),
+  startingHosting('STARTING_HOSTING'),
+  hosted('HOSTED'),
+  hostingFailed('HOSTING_FAILED'),
+  stoppingHosting('STOPPING_HOSTING'),
+  systemUpdating('SYSTEM_UPDATING'),
+  deleting('DELETING'),
+  ;
 
-extension ModelStatusValueExtension on ModelStatus {
-  String toValue() {
-    switch (this) {
-      case ModelStatus.training:
-        return 'TRAINING';
-      case ModelStatus.trained:
-        return 'TRAINED';
-      case ModelStatus.trainingFailed:
-        return 'TRAINING_FAILED';
-      case ModelStatus.startingHosting:
-        return 'STARTING_HOSTING';
-      case ModelStatus.hosted:
-        return 'HOSTED';
-      case ModelStatus.hostingFailed:
-        return 'HOSTING_FAILED';
-      case ModelStatus.stoppingHosting:
-        return 'STOPPING_HOSTING';
-      case ModelStatus.systemUpdating:
-        return 'SYSTEM_UPDATING';
-      case ModelStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ModelStatusFromString on String {
-  ModelStatus toModelStatus() {
-    switch (this) {
-      case 'TRAINING':
-        return ModelStatus.training;
-      case 'TRAINED':
-        return ModelStatus.trained;
-      case 'TRAINING_FAILED':
-        return ModelStatus.trainingFailed;
-      case 'STARTING_HOSTING':
-        return ModelStatus.startingHosting;
-      case 'HOSTED':
-        return ModelStatus.hosted;
-      case 'HOSTING_FAILED':
-        return ModelStatus.hostingFailed;
-      case 'STOPPING_HOSTING':
-        return ModelStatus.stoppingHosting;
-      case 'SYSTEM_UPDATING':
-        return ModelStatus.systemUpdating;
-      case 'DELETING':
-        return ModelStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ModelStatus');
-  }
+  const ModelStatus(this.value);
+
+  static ModelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
 }
 
 /// The S3 location where Amazon Lookout for Vision saves model training files.
@@ -3250,14 +3120,14 @@ class StartModelResponse {
 
   factory StartModelResponse.fromJson(Map<String, dynamic> json) {
     return StartModelResponse(
-      status: (json['Status'] as String?)?.toModelHostingStatus(),
+      status: (json['Status'] as String?)?.let(ModelHostingStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3272,14 +3142,14 @@ class StopModelResponse {
 
   factory StopModelResponse.fromJson(Map<String, dynamic> json) {
     return StopModelResponse(
-      status: (json['Status'] as String?)?.toModelHostingStatus(),
+      status: (json['Status'] as String?)?.let(ModelHostingStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3328,26 +3198,17 @@ class TagResourceResponse {
 }
 
 enum TargetDevice {
-  jetsonXavier,
-}
+  jetsonXavier('jetson_xavier'),
+  ;
 
-extension TargetDeviceValueExtension on TargetDevice {
-  String toValue() {
-    switch (this) {
-      case TargetDevice.jetsonXavier:
-        return 'jetson_xavier';
-    }
-  }
-}
+  final String value;
 
-extension TargetDeviceFromString on String {
-  TargetDevice toTargetDevice() {
-    switch (this) {
-      case 'jetson_xavier':
-        return TargetDevice.jetsonXavier;
-    }
-    throw Exception('$this is not known in enum TargetDevice');
-  }
+  const TargetDevice(this.value);
+
+  static TargetDevice fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetDevice'));
 }
 
 /// The platform on which a model runs on an AWS IoT Greengrass core device.
@@ -3390,10 +3251,10 @@ class TargetPlatform {
 
   factory TargetPlatform.fromJson(Map<String, dynamic> json) {
     return TargetPlatform(
-      arch: (json['Arch'] as String).toTargetPlatformArch(),
-      os: (json['Os'] as String).toTargetPlatformOs(),
-      accelerator:
-          (json['Accelerator'] as String?)?.toTargetPlatformAccelerator(),
+      arch: TargetPlatformArch.fromString((json['Arch'] as String)),
+      os: TargetPlatformOs.fromString((json['Os'] as String)),
+      accelerator: (json['Accelerator'] as String?)
+          ?.let(TargetPlatformAccelerator.fromString),
     );
   }
 
@@ -3402,85 +3263,54 @@ class TargetPlatform {
     final os = this.os;
     final accelerator = this.accelerator;
     return {
-      'Arch': arch.toValue(),
-      'Os': os.toValue(),
-      if (accelerator != null) 'Accelerator': accelerator.toValue(),
+      'Arch': arch.value,
+      'Os': os.value,
+      if (accelerator != null) 'Accelerator': accelerator.value,
     };
   }
 }
 
 enum TargetPlatformAccelerator {
-  nvidia,
-}
+  nvidia('NVIDIA'),
+  ;
 
-extension TargetPlatformAcceleratorValueExtension on TargetPlatformAccelerator {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformAccelerator.nvidia:
-        return 'NVIDIA';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformAcceleratorFromString on String {
-  TargetPlatformAccelerator toTargetPlatformAccelerator() {
-    switch (this) {
-      case 'NVIDIA':
-        return TargetPlatformAccelerator.nvidia;
-    }
-    throw Exception('$this is not known in enum TargetPlatformAccelerator');
-  }
+  const TargetPlatformAccelerator(this.value);
+
+  static TargetPlatformAccelerator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TargetPlatformAccelerator'));
 }
 
 enum TargetPlatformArch {
-  arm64,
-  x86_64,
-}
+  arm64('ARM64'),
+  x86_64('X86_64'),
+  ;
 
-extension TargetPlatformArchValueExtension on TargetPlatformArch {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformArch.arm64:
-        return 'ARM64';
-      case TargetPlatformArch.x86_64:
-        return 'X86_64';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformArchFromString on String {
-  TargetPlatformArch toTargetPlatformArch() {
-    switch (this) {
-      case 'ARM64':
-        return TargetPlatformArch.arm64;
-      case 'X86_64':
-        return TargetPlatformArch.x86_64;
-    }
-    throw Exception('$this is not known in enum TargetPlatformArch');
-  }
+  const TargetPlatformArch(this.value);
+
+  static TargetPlatformArch fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetPlatformArch'));
 }
 
 enum TargetPlatformOs {
-  linux,
-}
+  linux('LINUX'),
+  ;
 
-extension TargetPlatformOsValueExtension on TargetPlatformOs {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformOs.linux:
-        return 'LINUX';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformOsFromString on String {
-  TargetPlatformOs toTargetPlatformOs() {
-    switch (this) {
-      case 'LINUX':
-        return TargetPlatformOs.linux;
-    }
-    throw Exception('$this is not known in enum TargetPlatformOs');
-  }
+  const TargetPlatformOs(this.value);
+
+  static TargetPlatformOs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetPlatformOs'));
 }
 
 class UntagResourceResponse {
@@ -3505,14 +3335,14 @@ class UpdateDatasetEntriesResponse {
 
   factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDatasetEntriesResponse(
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }

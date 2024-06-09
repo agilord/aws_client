@@ -389,12 +389,12 @@ class CloudWatch {
           'AlarmTypes': ''
         else
           for (var i1 = 0; i1 < alarmTypes.length; i1++)
-            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].toValue(),
+            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].value,
       if (endDate != null) 'EndDate': _s.iso8601ToJson(endDate),
-      if (historyItemType != null) 'HistoryItemType': historyItemType.toValue(),
+      if (historyItemType != null) 'HistoryItemType': historyItemType.value,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (nextToken != null) 'NextToken': nextToken,
-      if (scanBy != null) 'ScanBy': scanBy.toValue(),
+      if (scanBy != null) 'ScanBy': scanBy.value,
       if (startDate != null) 'StartDate': _s.iso8601ToJson(startDate),
     };
     final $result = await _protocol.send(
@@ -528,13 +528,13 @@ class CloudWatch {
           'AlarmTypes': ''
         else
           for (var i1 = 0; i1 < alarmTypes.length; i1++)
-            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].toValue(),
+            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].value,
       if (childrenOfAlarmName != null)
         'ChildrenOfAlarmName': childrenOfAlarmName,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (nextToken != null) 'NextToken': nextToken,
       if (parentsOfAlarmName != null) 'ParentsOfAlarmName': parentsOfAlarmName,
-      if (stateValue != null) 'StateValue': stateValue.toValue(),
+      if (stateValue != null) 'StateValue': stateValue.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -607,8 +607,8 @@ class CloudWatch {
               'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
       if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
       if (period != null) 'Period': period.toString(),
-      if (statistic != null) 'Statistic': statistic.toValue(),
-      if (unit != null) 'Unit': unit.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
+      if (unit != null) 'Unit': unit.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -687,7 +687,7 @@ class CloudWatch {
         else
           for (var i1 = 0; i1 < anomalyDetectorTypes.length; i1++)
             'AnomalyDetectorTypes.member.${i1 + 1}':
-                anomalyDetectorTypes[i1].toValue(),
+                anomalyDetectorTypes[i1].value,
       if (dimensions != null)
         if (dimensions.isEmpty)
           'Dimensions': ''
@@ -1236,7 +1236,7 @@ class CloudWatch {
           'LabelOptions.${e1.key}': e1.value,
       if (maxDatapoints != null) 'MaxDatapoints': maxDatapoints.toString(),
       if (nextToken != null) 'NextToken': nextToken,
-      if (scanBy != null) 'ScanBy': scanBy.toValue(),
+      if (scanBy != null) 'ScanBy': scanBy.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -1475,8 +1475,8 @@ class CloudWatch {
           'Statistics': ''
         else
           for (var i1 = 0; i1 < statistics.length; i1++)
-            'Statistics.member.${i1 + 1}': statistics[i1].toValue(),
-      if (unit != null) 'Unit': unit.toValue(),
+            'Statistics.member.${i1 + 1}': statistics[i1].value,
+      if (unit != null) 'Unit': unit.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -1830,7 +1830,7 @@ class CloudWatch {
       if (namespace != null) 'Namespace': namespace,
       if (nextToken != null) 'NextToken': nextToken,
       if (owningAccount != null) 'OwningAccount': owningAccount,
-      if (recentlyActive != null) 'RecentlyActive': recentlyActive.toValue(),
+      if (recentlyActive != null) 'RecentlyActive': recentlyActive.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -3153,7 +3153,7 @@ class CloudWatch {
     );
     final $request = <String, String>{
       'AlarmName': alarmName,
-      'ComparisonOperator': comparisonOperator.toValue(),
+      'ComparisonOperator': comparisonOperator.value,
       'EvaluationPeriods': evaluationPeriods.toString(),
       if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled.toString(),
       if (alarmActions != null)
@@ -3198,7 +3198,7 @@ class CloudWatch {
           for (var i1 = 0; i1 < oKActions.length; i1++)
             'OKActions.member.${i1 + 1}': oKActions[i1],
       if (period != null) 'Period': period.toString(),
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (tags != null)
         if (tags.isEmpty)
           'Tags': ''
@@ -3209,7 +3209,7 @@ class CloudWatch {
       if (threshold != null) 'Threshold': threshold.toString(),
       if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
       if (treatMissingData != null) 'TreatMissingData': treatMissingData,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
     await _protocol.send(
       $request,
@@ -3477,7 +3477,7 @@ class CloudWatch {
     final $request = <String, String>{
       'FirehoseArn': firehoseArn,
       'Name': name,
-      'OutputFormat': outputFormat.toValue(),
+      'OutputFormat': outputFormat.value,
       'RoleArn': roleArn,
       if (excludeFilters != null)
         if (excludeFilters.isEmpty)
@@ -3570,7 +3570,7 @@ class CloudWatch {
     final $request = <String, String>{
       'AlarmName': alarmName,
       'StateReason': stateReason,
-      'StateValue': stateValue.toValue(),
+      'StateValue': stateValue.value,
       if (stateReasonData != null) 'StateReasonData': stateReasonData,
     };
     await _protocol.send(
@@ -3765,36 +3765,19 @@ class CloudWatch {
 }
 
 enum ActionsSuppressedBy {
-  waitPeriod,
-  extensionPeriod,
-  alarm,
-}
+  waitPeriod('WaitPeriod'),
+  extensionPeriod('ExtensionPeriod'),
+  alarm('Alarm'),
+  ;
 
-extension ActionsSuppressedByValueExtension on ActionsSuppressedBy {
-  String toValue() {
-    switch (this) {
-      case ActionsSuppressedBy.waitPeriod:
-        return 'WaitPeriod';
-      case ActionsSuppressedBy.extensionPeriod:
-        return 'ExtensionPeriod';
-      case ActionsSuppressedBy.alarm:
-        return 'Alarm';
-    }
-  }
-}
+  final String value;
 
-extension ActionsSuppressedByFromString on String {
-  ActionsSuppressedBy toActionsSuppressedBy() {
-    switch (this) {
-      case 'WaitPeriod':
-        return ActionsSuppressedBy.waitPeriod;
-      case 'ExtensionPeriod':
-        return ActionsSuppressedBy.extensionPeriod;
-      case 'Alarm':
-        return ActionsSuppressedBy.alarm;
-    }
-    throw Exception('$this is not known in enum ActionsSuppressedBy');
-  }
+  const ActionsSuppressedBy(this.value);
+
+  static ActionsSuppressedBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActionsSuppressedBy'));
 }
 
 /// Represents the history of a specific alarm.
@@ -3828,11 +3811,13 @@ class AlarmHistoryItem {
   factory AlarmHistoryItem.fromXml(_s.XmlElement elem) {
     return AlarmHistoryItem(
       alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
-      alarmType: _s.extractXmlStringValue(elem, 'AlarmType')?.toAlarmType(),
+      alarmType: _s
+          .extractXmlStringValue(elem, 'AlarmType')
+          ?.let(AlarmType.fromString) /* Nullability(true, true) */,
       historyData: _s.extractXmlStringValue(elem, 'HistoryData'),
       historyItemType: _s
           .extractXmlStringValue(elem, 'HistoryItemType')
-          ?.toHistoryItemType(),
+          ?.let(HistoryItemType.fromString) /* Nullability(true, true) */,
       historySummary: _s.extractXmlStringValue(elem, 'HistorySummary'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
     );
@@ -3847,9 +3832,9 @@ class AlarmHistoryItem {
     final timestamp = this.timestamp;
     return {
       if (alarmName != null) 'AlarmName': alarmName,
-      if (alarmType != null) 'AlarmType': alarmType.toValue(),
+      if (alarmType != null) 'AlarmType': alarmType.value,
       if (historyData != null) 'HistoryData': historyData,
-      if (historyItemType != null) 'HistoryItemType': historyItemType.toValue(),
+      if (historyItemType != null) 'HistoryItemType': historyItemType.value,
       if (historySummary != null) 'HistorySummary': historySummary,
       if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
     };
@@ -3857,31 +3842,17 @@ class AlarmHistoryItem {
 }
 
 enum AlarmType {
-  compositeAlarm,
-  metricAlarm,
-}
+  compositeAlarm('CompositeAlarm'),
+  metricAlarm('MetricAlarm'),
+  ;
 
-extension AlarmTypeValueExtension on AlarmType {
-  String toValue() {
-    switch (this) {
-      case AlarmType.compositeAlarm:
-        return 'CompositeAlarm';
-      case AlarmType.metricAlarm:
-        return 'MetricAlarm';
-    }
-  }
-}
+  final String value;
 
-extension AlarmTypeFromString on String {
-  AlarmType toAlarmType() {
-    switch (this) {
-      case 'CompositeAlarm':
-        return AlarmType.compositeAlarm;
-      case 'MetricAlarm':
-        return AlarmType.metricAlarm;
-    }
-    throw Exception('$this is not known in enum AlarmType');
-  }
+  const AlarmType(this.value);
+
+  static AlarmType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AlarmType'));
 }
 
 /// An anomaly detection model associated with a particular CloudWatch metric,
@@ -3954,9 +3925,8 @@ class AnomalyDetector {
           .extractXmlChild(elem, 'SingleMetricAnomalyDetector')
           ?.let(SingleMetricAnomalyDetector.fromXml),
       stat: _s.extractXmlStringValue(elem, 'Stat'),
-      stateValue: _s
-          .extractXmlStringValue(elem, 'StateValue')
-          ?.toAnomalyDetectorStateValue(),
+      stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.let(
+          AnomalyDetectorStateValue.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -3982,7 +3952,7 @@ class AnomalyDetector {
       if (singleMetricAnomalyDetector != null)
         'SingleMetricAnomalyDetector': singleMetricAnomalyDetector,
       if (stat != null) 'Stat': stat,
-      if (stateValue != null) 'StateValue': stateValue.toValue(),
+      if (stateValue != null) 'StateValue': stateValue.value,
     };
   }
 }
@@ -4044,117 +4014,55 @@ class AnomalyDetectorConfiguration {
 }
 
 enum AnomalyDetectorStateValue {
-  pendingTraining,
-  trainedInsufficientData,
-  trained,
-}
+  pendingTraining('PENDING_TRAINING'),
+  trainedInsufficientData('TRAINED_INSUFFICIENT_DATA'),
+  trained('TRAINED'),
+  ;
 
-extension AnomalyDetectorStateValueValueExtension on AnomalyDetectorStateValue {
-  String toValue() {
-    switch (this) {
-      case AnomalyDetectorStateValue.pendingTraining:
-        return 'PENDING_TRAINING';
-      case AnomalyDetectorStateValue.trainedInsufficientData:
-        return 'TRAINED_INSUFFICIENT_DATA';
-      case AnomalyDetectorStateValue.trained:
-        return 'TRAINED';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyDetectorStateValueFromString on String {
-  AnomalyDetectorStateValue toAnomalyDetectorStateValue() {
-    switch (this) {
-      case 'PENDING_TRAINING':
-        return AnomalyDetectorStateValue.pendingTraining;
-      case 'TRAINED_INSUFFICIENT_DATA':
-        return AnomalyDetectorStateValue.trainedInsufficientData;
-      case 'TRAINED':
-        return AnomalyDetectorStateValue.trained;
-    }
-    throw Exception('$this is not known in enum AnomalyDetectorStateValue');
-  }
+  const AnomalyDetectorStateValue(this.value);
+
+  static AnomalyDetectorStateValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnomalyDetectorStateValue'));
 }
 
 enum AnomalyDetectorType {
-  singleMetric,
-  metricMath,
-}
+  singleMetric('SINGLE_METRIC'),
+  metricMath('METRIC_MATH'),
+  ;
 
-extension AnomalyDetectorTypeValueExtension on AnomalyDetectorType {
-  String toValue() {
-    switch (this) {
-      case AnomalyDetectorType.singleMetric:
-        return 'SINGLE_METRIC';
-      case AnomalyDetectorType.metricMath:
-        return 'METRIC_MATH';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyDetectorTypeFromString on String {
-  AnomalyDetectorType toAnomalyDetectorType() {
-    switch (this) {
-      case 'SINGLE_METRIC':
-        return AnomalyDetectorType.singleMetric;
-      case 'METRIC_MATH':
-        return AnomalyDetectorType.metricMath;
-    }
-    throw Exception('$this is not known in enum AnomalyDetectorType');
-  }
+  const AnomalyDetectorType(this.value);
+
+  static AnomalyDetectorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnomalyDetectorType'));
 }
 
 enum ComparisonOperator {
-  greaterThanOrEqualToThreshold,
-  greaterThanThreshold,
-  lessThanThreshold,
-  lessThanOrEqualToThreshold,
-  lessThanLowerOrGreaterThanUpperThreshold,
-  lessThanLowerThreshold,
-  greaterThanUpperThreshold,
-}
+  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
+  greaterThanThreshold('GreaterThanThreshold'),
+  lessThanThreshold('LessThanThreshold'),
+  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
+  lessThanLowerOrGreaterThanUpperThreshold(
+      'LessThanLowerOrGreaterThanUpperThreshold'),
+  lessThanLowerThreshold('LessThanLowerThreshold'),
+  greaterThanUpperThreshold('GreaterThanUpperThreshold'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.greaterThanOrEqualToThreshold:
-        return 'GreaterThanOrEqualToThreshold';
-      case ComparisonOperator.greaterThanThreshold:
-        return 'GreaterThanThreshold';
-      case ComparisonOperator.lessThanThreshold:
-        return 'LessThanThreshold';
-      case ComparisonOperator.lessThanOrEqualToThreshold:
-        return 'LessThanOrEqualToThreshold';
-      case ComparisonOperator.lessThanLowerOrGreaterThanUpperThreshold:
-        return 'LessThanLowerOrGreaterThanUpperThreshold';
-      case ComparisonOperator.lessThanLowerThreshold:
-        return 'LessThanLowerThreshold';
-      case ComparisonOperator.greaterThanUpperThreshold:
-        return 'GreaterThanUpperThreshold';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'GreaterThanOrEqualToThreshold':
-        return ComparisonOperator.greaterThanOrEqualToThreshold;
-      case 'GreaterThanThreshold':
-        return ComparisonOperator.greaterThanThreshold;
-      case 'LessThanThreshold':
-        return ComparisonOperator.lessThanThreshold;
-      case 'LessThanOrEqualToThreshold':
-        return ComparisonOperator.lessThanOrEqualToThreshold;
-      case 'LessThanLowerOrGreaterThanUpperThreshold':
-        return ComparisonOperator.lessThanLowerOrGreaterThanUpperThreshold;
-      case 'LessThanLowerThreshold':
-        return ComparisonOperator.lessThanLowerThreshold;
-      case 'GreaterThanUpperThreshold':
-        return ComparisonOperator.greaterThanUpperThreshold;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 /// The details about a composite alarm.
@@ -4273,7 +4181,7 @@ class CompositeAlarm {
       actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
       actionsSuppressedBy: _s
           .extractXmlStringValue(elem, 'ActionsSuppressedBy')
-          ?.toActionsSuppressedBy(),
+          ?.let(ActionsSuppressedBy.fromString) /* Nullability(true, true) */,
       actionsSuppressedReason:
           _s.extractXmlStringValue(elem, 'ActionsSuppressedReason'),
       actionsSuppressor: _s.extractXmlStringValue(elem, 'ActionsSuppressor'),
@@ -4302,7 +4210,9 @@ class CompositeAlarm {
           _s.extractXmlDateTimeValue(elem, 'StateTransitionedTimestamp'),
       stateUpdatedTimestamp:
           _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
-      stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.toStateValue(),
+      stateValue: _s
+          .extractXmlStringValue(elem, 'StateValue')
+          ?.let(StateValue.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -4331,7 +4241,7 @@ class CompositeAlarm {
     return {
       if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
       if (actionsSuppressedBy != null)
-        'ActionsSuppressedBy': actionsSuppressedBy.toValue(),
+        'ActionsSuppressedBy': actionsSuppressedBy.value,
       if (actionsSuppressedReason != null)
         'ActionsSuppressedReason': actionsSuppressedReason,
       if (actionsSuppressor != null) 'ActionsSuppressor': actionsSuppressor,
@@ -4356,7 +4266,7 @@ class CompositeAlarm {
         'StateTransitionedTimestamp': iso8601ToJson(stateTransitionedTimestamp),
       if (stateUpdatedTimestamp != null)
         'StateUpdatedTimestamp': iso8601ToJson(stateUpdatedTimestamp),
-      if (stateValue != null) 'StateValue': stateValue.toValue(),
+      if (stateValue != null) 'StateValue': stateValue.value,
     };
   }
 }
@@ -4489,7 +4399,9 @@ class Datapoint {
       sampleCount: _s.extractXmlDoubleValue(elem, 'SampleCount'),
       sum: _s.extractXmlDoubleValue(elem, 'Sum'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
-      unit: _s.extractXmlStringValue(elem, 'Unit')?.toStandardUnit(),
+      unit: _s
+          .extractXmlStringValue(elem, 'Unit')
+          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -4510,7 +4422,7 @@ class Datapoint {
       if (sampleCount != null) 'SampleCount': sampleCount,
       if (sum != null) 'Sum': sum,
       if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
   }
 }
@@ -4861,26 +4773,17 @@ class EnableInsightRulesOutput {
 }
 
 enum EvaluationState {
-  partialData,
-}
+  partialData('PARTIAL_DATA'),
+  ;
 
-extension EvaluationStateValueExtension on EvaluationState {
-  String toValue() {
-    switch (this) {
-      case EvaluationState.partialData:
-        return 'PARTIAL_DATA';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationStateFromString on String {
-  EvaluationState toEvaluationState() {
-    switch (this) {
-      case 'PARTIAL_DATA':
-        return EvaluationState.partialData;
-    }
-    throw Exception('$this is not known in enum EvaluationState');
-  }
+  const EvaluationState(this.value);
+
+  static EvaluationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationState'));
 }
 
 class GetDashboardOutput {
@@ -5156,9 +5059,8 @@ class GetMetricStreamOutput {
           _s.extractXmlBoolValue(elem, 'IncludeLinkedAccountsMetrics'),
       lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s
-          .extractXmlStringValue(elem, 'OutputFormat')
-          ?.toMetricStreamOutputFormat(),
+      outputFormat: _s.extractXmlStringValue(elem, 'OutputFormat')?.let(
+          MetricStreamOutputFormat.fromString) /* Nullability(true, true) */,
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       state: _s.extractXmlStringValue(elem, 'State'),
       statisticsConfigurations: _s
@@ -5194,7 +5096,7 @@ class GetMetricStreamOutput {
       if (lastUpdateDate != null)
         'LastUpdateDate': iso8601ToJson(lastUpdateDate),
       if (name != null) 'Name': name,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
       if (roleArn != null) 'RoleArn': roleArn,
       if (state != null) 'State': state,
       if (statisticsConfigurations != null)
@@ -5227,36 +5129,19 @@ class GetMetricWidgetImageOutput {
 }
 
 enum HistoryItemType {
-  configurationUpdate,
-  stateUpdate,
-  action,
-}
+  configurationUpdate('ConfigurationUpdate'),
+  stateUpdate('StateUpdate'),
+  action('Action'),
+  ;
 
-extension HistoryItemTypeValueExtension on HistoryItemType {
-  String toValue() {
-    switch (this) {
-      case HistoryItemType.configurationUpdate:
-        return 'ConfigurationUpdate';
-      case HistoryItemType.stateUpdate:
-        return 'StateUpdate';
-      case HistoryItemType.action:
-        return 'Action';
-    }
-  }
-}
+  final String value;
 
-extension HistoryItemTypeFromString on String {
-  HistoryItemType toHistoryItemType() {
-    switch (this) {
-      case 'ConfigurationUpdate':
-        return HistoryItemType.configurationUpdate;
-      case 'StateUpdate':
-        return HistoryItemType.stateUpdate;
-      case 'Action':
-        return HistoryItemType.action;
-    }
-    throw Exception('$this is not known in enum HistoryItemType');
-  }
+  const HistoryItemType(this.value);
+
+  static HistoryItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HistoryItemType'));
 }
 
 /// This structure contains the definition for a Contributor Insights rule. For
@@ -6093,7 +5978,7 @@ class MetricAlarm {
       alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
       comparisonOperator: _s
           .extractXmlStringValue(elem, 'ComparisonOperator')
-          ?.toComparisonOperator(),
+          ?.let(ComparisonOperator.fromString) /* Nullability(true, true) */,
       datapointsToAlarm: _s.extractXmlIntValue(elem, 'DatapointsToAlarm'),
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
           elem.findElements('member').map(Dimension.fromXml).toList()),
@@ -6102,7 +5987,7 @@ class MetricAlarm {
       evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods'),
       evaluationState: _s
           .extractXmlStringValue(elem, 'EvaluationState')
-          ?.toEvaluationState(),
+          ?.let(EvaluationState.fromString) /* Nullability(true, true) */,
       extendedStatistic: _s.extractXmlStringValue(elem, 'ExtendedStatistic'),
       insufficientDataActions: _s
           .extractXmlChild(elem, 'InsufficientDataActions')
@@ -6121,12 +6006,18 @@ class MetricAlarm {
           _s.extractXmlDateTimeValue(elem, 'StateTransitionedTimestamp'),
       stateUpdatedTimestamp:
           _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
-      stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.toStateValue(),
-      statistic: _s.extractXmlStringValue(elem, 'Statistic')?.toStatistic(),
+      stateValue: _s
+          .extractXmlStringValue(elem, 'StateValue')
+          ?.let(StateValue.fromString) /* Nullability(true, true) */,
+      statistic: _s
+          .extractXmlStringValue(elem, 'Statistic')
+          ?.let(Statistic.fromString) /* Nullability(true, true) */,
       threshold: _s.extractXmlDoubleValue(elem, 'Threshold'),
       thresholdMetricId: _s.extractXmlStringValue(elem, 'ThresholdMetricId'),
       treatMissingData: _s.extractXmlStringValue(elem, 'TreatMissingData'),
-      unit: _s.extractXmlStringValue(elem, 'Unit')?.toStandardUnit(),
+      unit: _s
+          .extractXmlStringValue(elem, 'Unit')
+          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -6172,13 +6063,13 @@ class MetricAlarm {
       if (alarmDescription != null) 'AlarmDescription': alarmDescription,
       if (alarmName != null) 'AlarmName': alarmName,
       if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.toValue(),
+        'ComparisonOperator': comparisonOperator.value,
       if (datapointsToAlarm != null) 'DatapointsToAlarm': datapointsToAlarm,
       if (dimensions != null) 'Dimensions': dimensions,
       if (evaluateLowSampleCountPercentile != null)
         'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
       if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
-      if (evaluationState != null) 'EvaluationState': evaluationState.toValue(),
+      if (evaluationState != null) 'EvaluationState': evaluationState.value,
       if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
       if (insufficientDataActions != null)
         'InsufficientDataActions': insufficientDataActions,
@@ -6193,12 +6084,12 @@ class MetricAlarm {
         'StateTransitionedTimestamp': iso8601ToJson(stateTransitionedTimestamp),
       if (stateUpdatedTimestamp != null)
         'StateUpdatedTimestamp': iso8601ToJson(stateUpdatedTimestamp),
-      if (stateValue != null) 'StateValue': stateValue.toValue(),
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (stateValue != null) 'StateValue': stateValue.value,
+      if (statistic != null) 'Statistic': statistic.value,
       if (threshold != null) 'Threshold': threshold,
       if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
       if (treatMissingData != null) 'TreatMissingData': treatMissingData,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
   }
 }
@@ -6455,7 +6346,9 @@ class MetricDataResult {
       label: _s.extractXmlStringValue(elem, 'Label'),
       messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
           elem.findElements('member').map(MessageData.fromXml).toList()),
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')?.toStatusCode(),
+      statusCode: _s
+          .extractXmlStringValue(elem, 'StatusCode')
+          ?.let(StatusCode.fromString) /* Nullability(true, true) */,
       timestamps: _s
           .extractXmlChild(elem, 'Timestamps')
           ?.let((elem) => _s.extractXmlDateTimeListValues(elem, 'member')),
@@ -6476,7 +6369,7 @@ class MetricDataResult {
       if (id != null) 'Id': id,
       if (label != null) 'Label': label,
       if (messages != null) 'Messages': messages,
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
       if (timestamps != null)
         'Timestamps': timestamps.map(unixTimestampToJson).toList(),
       if (values != null) 'Values': values,
@@ -6579,7 +6472,7 @@ class MetricDatum {
       if (statisticValues != null) 'StatisticValues': statisticValues,
       if (storageResolution != null) 'StorageResolution': storageResolution,
       if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value,
       if (values != null) 'Values': values,
     };
@@ -6616,7 +6509,7 @@ class MetricDatum {
       if (storageResolution != null)
         'StorageResolution': storageResolution.toString(),
       if (timestamp != null) 'Timestamp': _s.iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value.toString(),
       if (values != null)
         if (values.isEmpty)
@@ -6738,7 +6631,9 @@ class MetricStat {
       metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
       period: _s.extractXmlIntValue(elem, 'Period')!,
       stat: _s.extractXmlStringValue(elem, 'Stat')!,
-      unit: _s.extractXmlStringValue(elem, 'Unit')?.toStandardUnit(),
+      unit: _s
+          .extractXmlStringValue(elem, 'Unit')
+          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -6751,7 +6646,7 @@ class MetricStat {
       'Metric': metric,
       'Period': period,
       'Stat': stat,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
   }
 
@@ -6764,7 +6659,7 @@ class MetricStat {
       for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
       'Period': period.toString(),
       'Stat': stat,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
   }
 }
@@ -6813,9 +6708,8 @@ class MetricStreamEntry {
       firehoseArn: _s.extractXmlStringValue(elem, 'FirehoseArn'),
       lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s
-          .extractXmlStringValue(elem, 'OutputFormat')
-          ?.toMetricStreamOutputFormat(),
+      outputFormat: _s.extractXmlStringValue(elem, 'OutputFormat')?.let(
+          MetricStreamOutputFormat.fromString) /* Nullability(true, true) */,
       state: _s.extractXmlStringValue(elem, 'State'),
     );
   }
@@ -6835,7 +6729,7 @@ class MetricStreamEntry {
       if (lastUpdateDate != null)
         'LastUpdateDate': iso8601ToJson(lastUpdateDate),
       if (name != null) 'Name': name,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
       if (state != null) 'State': state,
     };
   }
@@ -6905,36 +6799,19 @@ class MetricStreamFilter {
 }
 
 enum MetricStreamOutputFormat {
-  json,
-  opentelemetry0_7,
-  opentelemetry1_0,
-}
+  json('json'),
+  opentelemetry0_7('opentelemetry0.7'),
+  opentelemetry1_0('opentelemetry1.0'),
+  ;
 
-extension MetricStreamOutputFormatValueExtension on MetricStreamOutputFormat {
-  String toValue() {
-    switch (this) {
-      case MetricStreamOutputFormat.json:
-        return 'json';
-      case MetricStreamOutputFormat.opentelemetry0_7:
-        return 'opentelemetry0.7';
-      case MetricStreamOutputFormat.opentelemetry1_0:
-        return 'opentelemetry1.0';
-    }
-  }
-}
+  final String value;
 
-extension MetricStreamOutputFormatFromString on String {
-  MetricStreamOutputFormat toMetricStreamOutputFormat() {
-    switch (this) {
-      case 'json':
-        return MetricStreamOutputFormat.json;
-      case 'opentelemetry0.7':
-        return MetricStreamOutputFormat.opentelemetry0_7;
-      case 'opentelemetry1.0':
-        return MetricStreamOutputFormat.opentelemetry1_0;
-    }
-    throw Exception('$this is not known in enum MetricStreamOutputFormat');
-  }
+  const MetricStreamOutputFormat(this.value);
+
+  static MetricStreamOutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MetricStreamOutputFormat'));
 }
 
 /// By default, a metric stream always sends the <code>MAX</code>,
@@ -7246,54 +7123,31 @@ class Range {
 }
 
 enum RecentlyActive {
-  pt3h,
-}
+  pt3h('PT3H'),
+  ;
 
-extension RecentlyActiveValueExtension on RecentlyActive {
-  String toValue() {
-    switch (this) {
-      case RecentlyActive.pt3h:
-        return 'PT3H';
-    }
-  }
-}
+  final String value;
 
-extension RecentlyActiveFromString on String {
-  RecentlyActive toRecentlyActive() {
-    switch (this) {
-      case 'PT3H':
-        return RecentlyActive.pt3h;
-    }
-    throw Exception('$this is not known in enum RecentlyActive');
-  }
+  const RecentlyActive(this.value);
+
+  static RecentlyActive fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecentlyActive'));
 }
 
 enum ScanBy {
-  timestampDescending,
-  timestampAscending,
-}
+  timestampDescending('TimestampDescending'),
+  timestampAscending('TimestampAscending'),
+  ;
 
-extension ScanByValueExtension on ScanBy {
-  String toValue() {
-    switch (this) {
-      case ScanBy.timestampDescending:
-        return 'TimestampDescending';
-      case ScanBy.timestampAscending:
-        return 'TimestampAscending';
-    }
-  }
-}
+  final String value;
 
-extension ScanByFromString on String {
-  ScanBy toScanBy() {
-    switch (this) {
-      case 'TimestampDescending':
-        return ScanBy.timestampDescending;
-      case 'TimestampAscending':
-        return ScanBy.timestampAscending;
-    }
-    throw Exception('$this is not known in enum ScanBy');
-  }
+  const ScanBy(this.value);
+
+  static ScanBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum ScanBy'));
 }
 
 /// Designates the CloudWatch metric and statistic that provides the time series
@@ -7374,156 +7228,43 @@ class SingleMetricAnomalyDetector {
 }
 
 enum StandardUnit {
-  seconds,
-  microseconds,
-  milliseconds,
-  bytes,
-  kilobytes,
-  megabytes,
-  gigabytes,
-  terabytes,
-  bits,
-  kilobits,
-  megabits,
-  gigabits,
-  terabits,
-  percent,
-  count,
-  bytesSecond,
-  kilobytesSecond,
-  megabytesSecond,
-  gigabytesSecond,
-  terabytesSecond,
-  bitsSecond,
-  kilobitsSecond,
-  megabitsSecond,
-  gigabitsSecond,
-  terabitsSecond,
-  countSecond,
-  none,
-}
+  seconds('Seconds'),
+  microseconds('Microseconds'),
+  milliseconds('Milliseconds'),
+  bytes('Bytes'),
+  kilobytes('Kilobytes'),
+  megabytes('Megabytes'),
+  gigabytes('Gigabytes'),
+  terabytes('Terabytes'),
+  bits('Bits'),
+  kilobits('Kilobits'),
+  megabits('Megabits'),
+  gigabits('Gigabits'),
+  terabits('Terabits'),
+  percent('Percent'),
+  count('Count'),
+  bytesSecond('Bytes/Second'),
+  kilobytesSecond('Kilobytes/Second'),
+  megabytesSecond('Megabytes/Second'),
+  gigabytesSecond('Gigabytes/Second'),
+  terabytesSecond('Terabytes/Second'),
+  bitsSecond('Bits/Second'),
+  kilobitsSecond('Kilobits/Second'),
+  megabitsSecond('Megabits/Second'),
+  gigabitsSecond('Gigabits/Second'),
+  terabitsSecond('Terabits/Second'),
+  countSecond('Count/Second'),
+  none('None'),
+  ;
 
-extension StandardUnitValueExtension on StandardUnit {
-  String toValue() {
-    switch (this) {
-      case StandardUnit.seconds:
-        return 'Seconds';
-      case StandardUnit.microseconds:
-        return 'Microseconds';
-      case StandardUnit.milliseconds:
-        return 'Milliseconds';
-      case StandardUnit.bytes:
-        return 'Bytes';
-      case StandardUnit.kilobytes:
-        return 'Kilobytes';
-      case StandardUnit.megabytes:
-        return 'Megabytes';
-      case StandardUnit.gigabytes:
-        return 'Gigabytes';
-      case StandardUnit.terabytes:
-        return 'Terabytes';
-      case StandardUnit.bits:
-        return 'Bits';
-      case StandardUnit.kilobits:
-        return 'Kilobits';
-      case StandardUnit.megabits:
-        return 'Megabits';
-      case StandardUnit.gigabits:
-        return 'Gigabits';
-      case StandardUnit.terabits:
-        return 'Terabits';
-      case StandardUnit.percent:
-        return 'Percent';
-      case StandardUnit.count:
-        return 'Count';
-      case StandardUnit.bytesSecond:
-        return 'Bytes/Second';
-      case StandardUnit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case StandardUnit.megabytesSecond:
-        return 'Megabytes/Second';
-      case StandardUnit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case StandardUnit.terabytesSecond:
-        return 'Terabytes/Second';
-      case StandardUnit.bitsSecond:
-        return 'Bits/Second';
-      case StandardUnit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case StandardUnit.megabitsSecond:
-        return 'Megabits/Second';
-      case StandardUnit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case StandardUnit.terabitsSecond:
-        return 'Terabits/Second';
-      case StandardUnit.countSecond:
-        return 'Count/Second';
-      case StandardUnit.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension StandardUnitFromString on String {
-  StandardUnit toStandardUnit() {
-    switch (this) {
-      case 'Seconds':
-        return StandardUnit.seconds;
-      case 'Microseconds':
-        return StandardUnit.microseconds;
-      case 'Milliseconds':
-        return StandardUnit.milliseconds;
-      case 'Bytes':
-        return StandardUnit.bytes;
-      case 'Kilobytes':
-        return StandardUnit.kilobytes;
-      case 'Megabytes':
-        return StandardUnit.megabytes;
-      case 'Gigabytes':
-        return StandardUnit.gigabytes;
-      case 'Terabytes':
-        return StandardUnit.terabytes;
-      case 'Bits':
-        return StandardUnit.bits;
-      case 'Kilobits':
-        return StandardUnit.kilobits;
-      case 'Megabits':
-        return StandardUnit.megabits;
-      case 'Gigabits':
-        return StandardUnit.gigabits;
-      case 'Terabits':
-        return StandardUnit.terabits;
-      case 'Percent':
-        return StandardUnit.percent;
-      case 'Count':
-        return StandardUnit.count;
-      case 'Bytes/Second':
-        return StandardUnit.bytesSecond;
-      case 'Kilobytes/Second':
-        return StandardUnit.kilobytesSecond;
-      case 'Megabytes/Second':
-        return StandardUnit.megabytesSecond;
-      case 'Gigabytes/Second':
-        return StandardUnit.gigabytesSecond;
-      case 'Terabytes/Second':
-        return StandardUnit.terabytesSecond;
-      case 'Bits/Second':
-        return StandardUnit.bitsSecond;
-      case 'Kilobits/Second':
-        return StandardUnit.kilobitsSecond;
-      case 'Megabits/Second':
-        return StandardUnit.megabitsSecond;
-      case 'Gigabits/Second':
-        return StandardUnit.gigabitsSecond;
-      case 'Terabits/Second':
-        return StandardUnit.terabitsSecond;
-      case 'Count/Second':
-        return StandardUnit.countSecond;
-      case 'None':
-        return StandardUnit.none;
-    }
-    throw Exception('$this is not known in enum StandardUnit');
-  }
+  const StandardUnit(this.value);
+
+  static StandardUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StandardUnit'));
 }
 
 class StartMetricStreamsOutput {
@@ -7540,79 +7281,35 @@ class StartMetricStreamsOutput {
 }
 
 enum StateValue {
-  ok,
-  alarm,
-  insufficientData,
-}
+  ok('OK'),
+  alarm('ALARM'),
+  insufficientData('INSUFFICIENT_DATA'),
+  ;
 
-extension StateValueValueExtension on StateValue {
-  String toValue() {
-    switch (this) {
-      case StateValue.ok:
-        return 'OK';
-      case StateValue.alarm:
-        return 'ALARM';
-      case StateValue.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-  }
-}
+  final String value;
 
-extension StateValueFromString on String {
-  StateValue toStateValue() {
-    switch (this) {
-      case 'OK':
-        return StateValue.ok;
-      case 'ALARM':
-        return StateValue.alarm;
-      case 'INSUFFICIENT_DATA':
-        return StateValue.insufficientData;
-    }
-    throw Exception('$this is not known in enum StateValue');
-  }
+  const StateValue(this.value);
+
+  static StateValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StateValue'));
 }
 
 enum Statistic {
-  sampleCount,
-  average,
-  sum,
-  minimum,
-  maximum,
-}
+  sampleCount('SampleCount'),
+  average('Average'),
+  sum('Sum'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  ;
 
-extension StatisticValueExtension on Statistic {
-  String toValue() {
-    switch (this) {
-      case Statistic.sampleCount:
-        return 'SampleCount';
-      case Statistic.average:
-        return 'Average';
-      case Statistic.sum:
-        return 'Sum';
-      case Statistic.minimum:
-        return 'Minimum';
-      case Statistic.maximum:
-        return 'Maximum';
-    }
-  }
-}
+  final String value;
 
-extension StatisticFromString on String {
-  Statistic toStatistic() {
-    switch (this) {
-      case 'SampleCount':
-        return Statistic.sampleCount;
-      case 'Average':
-        return Statistic.average;
-      case 'Sum':
-        return Statistic.sum;
-      case 'Minimum':
-        return Statistic.minimum;
-      case 'Maximum':
-        return Statistic.maximum;
-    }
-    throw Exception('$this is not known in enum Statistic');
-  }
+  const Statistic(this.value);
+
+  static Statistic fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Statistic'));
 }
 
 /// Represents a set of statistics that describes a specific metric.
@@ -7664,41 +7361,19 @@ class StatisticSet {
 }
 
 enum StatusCode {
-  complete,
-  internalError,
-  partialData,
-  forbidden,
-}
+  complete('Complete'),
+  internalError('InternalError'),
+  partialData('PartialData'),
+  forbidden('Forbidden'),
+  ;
 
-extension StatusCodeValueExtension on StatusCode {
-  String toValue() {
-    switch (this) {
-      case StatusCode.complete:
-        return 'Complete';
-      case StatusCode.internalError:
-        return 'InternalError';
-      case StatusCode.partialData:
-        return 'PartialData';
-      case StatusCode.forbidden:
-        return 'Forbidden';
-    }
-  }
-}
+  final String value;
 
-extension StatusCodeFromString on String {
-  StatusCode toStatusCode() {
-    switch (this) {
-      case 'Complete':
-        return StatusCode.complete;
-      case 'InternalError':
-        return StatusCode.internalError;
-      case 'PartialData':
-        return StatusCode.partialData;
-      case 'Forbidden':
-        return StatusCode.forbidden;
-    }
-    throw Exception('$this is not known in enum StatusCode');
-  }
+  const StatusCode(this.value);
+
+  static StatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusCode'));
 }
 
 class StopMetricStreamsOutput {

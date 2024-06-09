@@ -547,14 +547,13 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RuntimeEnvironment': runtimeEnvironment.toValue(),
+        'RuntimeEnvironment': runtimeEnvironment.value,
         'ServiceExecutionRole': serviceExecutionRole,
         if (applicationConfiguration != null)
           'ApplicationConfiguration': applicationConfiguration,
         if (applicationDescription != null)
           'ApplicationDescription': applicationDescription,
-        if (applicationMode != null)
-          'ApplicationMode': applicationMode.toValue(),
+        if (applicationMode != null) 'ApplicationMode': applicationMode.value,
         if (cloudWatchLoggingOptions != null)
           'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
         if (tags != null) 'Tags': tags,
@@ -619,7 +618,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'UrlType': urlType.toValue(),
+        'UrlType': urlType.value,
         if (sessionExpirationDurationInSeconds != null)
           'SessionExpirationDurationInSeconds':
               sessionExpirationDurationInSeconds,
@@ -1761,7 +1760,7 @@ class KinesisAnalyticsV2 {
         if (runConfigurationUpdate != null)
           'RunConfigurationUpdate': runConfigurationUpdate,
         if (runtimeEnvironmentUpdate != null)
-          'RuntimeEnvironmentUpdate': runtimeEnvironmentUpdate.toValue(),
+          'RuntimeEnvironmentUpdate': runtimeEnvironmentUpdate.value,
         if (serviceExecutionRoleUpdate != null)
           'ServiceExecutionRoleUpdate': serviceExecutionRoleUpdate,
       },
@@ -2132,7 +2131,7 @@ class ApplicationCodeConfiguration {
     final codeContentType = this.codeContentType;
     final codeContent = this.codeContent;
     return {
-      'CodeContentType': codeContentType.toValue(),
+      'CodeContentType': codeContentType.value,
       if (codeContent != null) 'CodeContent': codeContent,
     };
   }
@@ -2154,7 +2153,8 @@ class ApplicationCodeConfigurationDescription {
   factory ApplicationCodeConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ApplicationCodeConfigurationDescription(
-      codeContentType: (json['CodeContentType'] as String).toCodeContentType(),
+      codeContentType:
+          CodeContentType.fromString((json['CodeContentType'] as String)),
       codeContentDescription: json['CodeContentDescription'] != null
           ? CodeContentDescription.fromJson(
               json['CodeContentDescription'] as Map<String, dynamic>)
@@ -2166,7 +2166,7 @@ class ApplicationCodeConfigurationDescription {
     final codeContentType = this.codeContentType;
     final codeContentDescription = this.codeContentDescription;
     return {
-      'CodeContentType': codeContentType.toValue(),
+      'CodeContentType': codeContentType.value,
       if (codeContentDescription != null)
         'CodeContentDescription': codeContentDescription,
     };
@@ -2193,7 +2193,7 @@ class ApplicationCodeConfigurationUpdate {
     final codeContentUpdate = this.codeContentUpdate;
     return {
       if (codeContentTypeUpdate != null)
-        'CodeContentTypeUpdate': codeContentTypeUpdate.toValue(),
+        'CodeContentTypeUpdate': codeContentTypeUpdate.value,
       if (codeContentUpdate != null) 'CodeContentUpdate': codeContentUpdate,
     };
   }
@@ -2579,10 +2579,10 @@ class ApplicationDetail {
       applicationARN: json['ApplicationARN'] as String,
       applicationName: json['ApplicationName'] as String,
       applicationStatus:
-          (json['ApplicationStatus'] as String).toApplicationStatus(),
+          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
       applicationVersionId: json['ApplicationVersionId'] as int,
       runtimeEnvironment:
-          (json['RuntimeEnvironment'] as String).toRuntimeEnvironment(),
+          RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
       applicationConfigurationDescription:
           json['ApplicationConfigurationDescription'] != null
               ? ApplicationConfigurationDescription.fromJson(
@@ -2597,7 +2597,7 @@ class ApplicationDetail {
                       as Map<String, dynamic>)
               : null,
       applicationMode:
-          (json['ApplicationMode'] as String?)?.toApplicationMode(),
+          (json['ApplicationMode'] as String?)?.let(ApplicationMode.fromString),
       applicationVersionRolledBackFrom:
           json['ApplicationVersionRolledBackFrom'] as int?,
       applicationVersionRolledBackTo:
@@ -2642,9 +2642,9 @@ class ApplicationDetail {
     return {
       'ApplicationARN': applicationARN,
       'ApplicationName': applicationName,
-      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationStatus': applicationStatus.value,
       'ApplicationVersionId': applicationVersionId,
-      'RuntimeEnvironment': runtimeEnvironment.toValue(),
+      'RuntimeEnvironment': runtimeEnvironment.value,
       if (applicationConfigurationDescription != null)
         'ApplicationConfigurationDescription':
             applicationConfigurationDescription,
@@ -2653,7 +2653,7 @@ class ApplicationDetail {
       if (applicationMaintenanceConfigurationDescription != null)
         'ApplicationMaintenanceConfigurationDescription':
             applicationMaintenanceConfigurationDescription,
-      if (applicationMode != null) 'ApplicationMode': applicationMode.toValue(),
+      if (applicationMode != null) 'ApplicationMode': applicationMode.value,
       if (applicationVersionRolledBackFrom != null)
         'ApplicationVersionRolledBackFrom': applicationVersionRolledBackFrom,
       if (applicationVersionRolledBackTo != null)
@@ -2731,31 +2731,18 @@ class ApplicationMaintenanceConfigurationUpdate {
 }
 
 enum ApplicationMode {
-  streaming,
-  interactive,
-}
+  streaming('STREAMING'),
+  interactive('INTERACTIVE'),
+  ;
 
-extension ApplicationModeValueExtension on ApplicationMode {
-  String toValue() {
-    switch (this) {
-      case ApplicationMode.streaming:
-        return 'STREAMING';
-      case ApplicationMode.interactive:
-        return 'INTERACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationModeFromString on String {
-  ApplicationMode toApplicationMode() {
-    switch (this) {
-      case 'STREAMING':
-        return ApplicationMode.streaming;
-      case 'INTERACTIVE':
-        return ApplicationMode.interactive;
-    }
-    throw Exception('$this is not known in enum ApplicationMode');
-  }
+  const ApplicationMode(this.value);
+
+  static ApplicationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationMode'));
 }
 
 /// Specifies the method and snapshot to use when restarting an application
@@ -2777,8 +2764,8 @@ class ApplicationRestoreConfiguration {
 
   factory ApplicationRestoreConfiguration.fromJson(Map<String, dynamic> json) {
     return ApplicationRestoreConfiguration(
-      applicationRestoreType:
-          (json['ApplicationRestoreType'] as String).toApplicationRestoreType(),
+      applicationRestoreType: ApplicationRestoreType.fromString(
+          (json['ApplicationRestoreType'] as String)),
       snapshotName: json['SnapshotName'] as String?,
     );
   }
@@ -2787,43 +2774,26 @@ class ApplicationRestoreConfiguration {
     final applicationRestoreType = this.applicationRestoreType;
     final snapshotName = this.snapshotName;
     return {
-      'ApplicationRestoreType': applicationRestoreType.toValue(),
+      'ApplicationRestoreType': applicationRestoreType.value,
       if (snapshotName != null) 'SnapshotName': snapshotName,
     };
   }
 }
 
 enum ApplicationRestoreType {
-  skipRestoreFromSnapshot,
-  restoreFromLatestSnapshot,
-  restoreFromCustomSnapshot,
-}
+  skipRestoreFromSnapshot('SKIP_RESTORE_FROM_SNAPSHOT'),
+  restoreFromLatestSnapshot('RESTORE_FROM_LATEST_SNAPSHOT'),
+  restoreFromCustomSnapshot('RESTORE_FROM_CUSTOM_SNAPSHOT'),
+  ;
 
-extension ApplicationRestoreTypeValueExtension on ApplicationRestoreType {
-  String toValue() {
-    switch (this) {
-      case ApplicationRestoreType.skipRestoreFromSnapshot:
-        return 'SKIP_RESTORE_FROM_SNAPSHOT';
-      case ApplicationRestoreType.restoreFromLatestSnapshot:
-        return 'RESTORE_FROM_LATEST_SNAPSHOT';
-      case ApplicationRestoreType.restoreFromCustomSnapshot:
-        return 'RESTORE_FROM_CUSTOM_SNAPSHOT';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationRestoreTypeFromString on String {
-  ApplicationRestoreType toApplicationRestoreType() {
-    switch (this) {
-      case 'SKIP_RESTORE_FROM_SNAPSHOT':
-        return ApplicationRestoreType.skipRestoreFromSnapshot;
-      case 'RESTORE_FROM_LATEST_SNAPSHOT':
-        return ApplicationRestoreType.restoreFromLatestSnapshot;
-      case 'RESTORE_FROM_CUSTOM_SNAPSHOT':
-        return ApplicationRestoreType.restoreFromCustomSnapshot;
-    }
-    throw Exception('$this is not known in enum ApplicationRestoreType');
-  }
+  const ApplicationRestoreType(this.value);
+
+  static ApplicationRestoreType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationRestoreType'));
 }
 
 /// Describes whether snapshots are enabled for a Managed Service for Apache
@@ -2890,76 +2860,27 @@ class ApplicationSnapshotConfigurationUpdate {
 }
 
 enum ApplicationStatus {
-  deleting,
-  starting,
-  stopping,
-  ready,
-  running,
-  updating,
-  autoscaling,
-  forceStopping,
-  rollingBack,
-  maintenance,
-  rolledBack,
-}
+  deleting('DELETING'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  ready('READY'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  autoscaling('AUTOSCALING'),
+  forceStopping('FORCE_STOPPING'),
+  rollingBack('ROLLING_BACK'),
+  maintenance('MAINTENANCE'),
+  rolledBack('ROLLED_BACK'),
+  ;
 
-extension ApplicationStatusValueExtension on ApplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationStatus.deleting:
-        return 'DELETING';
-      case ApplicationStatus.starting:
-        return 'STARTING';
-      case ApplicationStatus.stopping:
-        return 'STOPPING';
-      case ApplicationStatus.ready:
-        return 'READY';
-      case ApplicationStatus.running:
-        return 'RUNNING';
-      case ApplicationStatus.updating:
-        return 'UPDATING';
-      case ApplicationStatus.autoscaling:
-        return 'AUTOSCALING';
-      case ApplicationStatus.forceStopping:
-        return 'FORCE_STOPPING';
-      case ApplicationStatus.rollingBack:
-        return 'ROLLING_BACK';
-      case ApplicationStatus.maintenance:
-        return 'MAINTENANCE';
-      case ApplicationStatus.rolledBack:
-        return 'ROLLED_BACK';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStatusFromString on String {
-  ApplicationStatus toApplicationStatus() {
-    switch (this) {
-      case 'DELETING':
-        return ApplicationStatus.deleting;
-      case 'STARTING':
-        return ApplicationStatus.starting;
-      case 'STOPPING':
-        return ApplicationStatus.stopping;
-      case 'READY':
-        return ApplicationStatus.ready;
-      case 'RUNNING':
-        return ApplicationStatus.running;
-      case 'UPDATING':
-        return ApplicationStatus.updating;
-      case 'AUTOSCALING':
-        return ApplicationStatus.autoscaling;
-      case 'FORCE_STOPPING':
-        return ApplicationStatus.forceStopping;
-      case 'ROLLING_BACK':
-        return ApplicationStatus.rollingBack;
-      case 'MAINTENANCE':
-        return ApplicationStatus.maintenance;
-      case 'ROLLED_BACK':
-        return ApplicationStatus.rolledBack;
-    }
-    throw Exception('$this is not known in enum ApplicationStatus');
-  }
+  const ApplicationStatus(this.value);
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationStatus'));
 }
 
 /// Provides application summary information, including the application Amazon
@@ -2999,12 +2920,12 @@ class ApplicationSummary {
       applicationARN: json['ApplicationARN'] as String,
       applicationName: json['ApplicationName'] as String,
       applicationStatus:
-          (json['ApplicationStatus'] as String).toApplicationStatus(),
+          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
       applicationVersionId: json['ApplicationVersionId'] as int,
       runtimeEnvironment:
-          (json['RuntimeEnvironment'] as String).toRuntimeEnvironment(),
+          RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
       applicationMode:
-          (json['ApplicationMode'] as String?)?.toApplicationMode(),
+          (json['ApplicationMode'] as String?)?.let(ApplicationMode.fromString),
     );
   }
 
@@ -3018,10 +2939,10 @@ class ApplicationSummary {
     return {
       'ApplicationARN': applicationARN,
       'ApplicationName': applicationName,
-      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationStatus': applicationStatus.value,
       'ApplicationVersionId': applicationVersionId,
-      'RuntimeEnvironment': runtimeEnvironment.toValue(),
-      if (applicationMode != null) 'ApplicationMode': applicationMode.toValue(),
+      'RuntimeEnvironment': runtimeEnvironment.value,
+      if (applicationMode != null) 'ApplicationMode': applicationMode.value,
     };
   }
 }
@@ -3043,7 +2964,7 @@ class ApplicationVersionSummary {
   factory ApplicationVersionSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationVersionSummary(
       applicationStatus:
-          (json['ApplicationStatus'] as String).toApplicationStatus(),
+          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
       applicationVersionId: json['ApplicationVersionId'] as int,
     );
   }
@@ -3052,38 +2973,25 @@ class ApplicationVersionSummary {
     final applicationStatus = this.applicationStatus;
     final applicationVersionId = this.applicationVersionId;
     return {
-      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationStatus': applicationStatus.value,
       'ApplicationVersionId': applicationVersionId,
     };
   }
 }
 
 enum ArtifactType {
-  udf,
-  dependencyJar,
-}
+  udf('UDF'),
+  dependencyJar('DEPENDENCY_JAR'),
+  ;
 
-extension ArtifactTypeValueExtension on ArtifactType {
-  String toValue() {
-    switch (this) {
-      case ArtifactType.udf:
-        return 'UDF';
-      case ArtifactType.dependencyJar:
-        return 'DEPENDENCY_JAR';
-    }
-  }
-}
+  final String value;
 
-extension ArtifactTypeFromString on String {
-  ArtifactType toArtifactType() {
-    switch (this) {
-      case 'UDF':
-        return ArtifactType.udf;
-      case 'DEPENDENCY_JAR':
-        return ArtifactType.dependencyJar;
-    }
-    throw Exception('$this is not known in enum ArtifactType');
-  }
+  const ArtifactType(this.value);
+
+  static ArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArtifactType'));
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides additional
@@ -3282,7 +3190,7 @@ class CheckpointConfiguration {
     final checkpointingEnabled = this.checkpointingEnabled;
     final minPauseBetweenCheckpoints = this.minPauseBetweenCheckpoints;
     return {
-      'ConfigurationType': configurationType.toValue(),
+      'ConfigurationType': configurationType.value,
       if (checkpointInterval != null) 'CheckpointInterval': checkpointInterval,
       if (checkpointingEnabled != null)
         'CheckpointingEnabled': checkpointingEnabled,
@@ -3356,8 +3264,8 @@ class CheckpointConfigurationDescription {
     return CheckpointConfigurationDescription(
       checkpointInterval: json['CheckpointInterval'] as int?,
       checkpointingEnabled: json['CheckpointingEnabled'] as bool?,
-      configurationType:
-          (json['ConfigurationType'] as String?)?.toConfigurationType(),
+      configurationType: (json['ConfigurationType'] as String?)
+          ?.let(ConfigurationType.fromString),
       minPauseBetweenCheckpoints: json['MinPauseBetweenCheckpoints'] as int?,
     );
   }
@@ -3372,7 +3280,7 @@ class CheckpointConfigurationDescription {
       if (checkpointingEnabled != null)
         'CheckpointingEnabled': checkpointingEnabled,
       if (configurationType != null)
-        'ConfigurationType': configurationType.toValue(),
+        'ConfigurationType': configurationType.value,
       if (minPauseBetweenCheckpoints != null)
         'MinPauseBetweenCheckpoints': minPauseBetweenCheckpoints,
     };
@@ -3453,7 +3361,7 @@ class CheckpointConfigurationUpdate {
       if (checkpointingEnabledUpdate != null)
         'CheckpointingEnabledUpdate': checkpointingEnabledUpdate,
       if (configurationTypeUpdate != null)
-        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
+        'ConfigurationTypeUpdate': configurationTypeUpdate.value,
       if (minPauseBetweenCheckpointsUpdate != null)
         'MinPauseBetweenCheckpointsUpdate': minPauseBetweenCheckpointsUpdate,
     };
@@ -3635,31 +3543,18 @@ class CodeContentDescription {
 }
 
 enum CodeContentType {
-  plaintext,
-  zipfile,
-}
+  plaintext('PLAINTEXT'),
+  zipfile('ZIPFILE'),
+  ;
 
-extension CodeContentTypeValueExtension on CodeContentType {
-  String toValue() {
-    switch (this) {
-      case CodeContentType.plaintext:
-        return 'PLAINTEXT';
-      case CodeContentType.zipfile:
-        return 'ZIPFILE';
-    }
-  }
-}
+  final String value;
 
-extension CodeContentTypeFromString on String {
-  CodeContentType toCodeContentType() {
-    switch (this) {
-      case 'PLAINTEXT':
-        return CodeContentType.plaintext;
-      case 'ZIPFILE':
-        return CodeContentType.zipfile;
-    }
-    throw Exception('$this is not known in enum CodeContentType');
-  }
+  const CodeContentType(this.value);
+
+  static CodeContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CodeContentType'));
 }
 
 /// Describes an update to the code of an application. Not supported for Apache
@@ -3695,31 +3590,18 @@ class CodeContentUpdate {
 }
 
 enum ConfigurationType {
-  $default,
-  custom,
-}
+  $default('DEFAULT'),
+  custom('CUSTOM'),
+  ;
 
-extension ConfigurationTypeValueExtension on ConfigurationType {
-  String toValue() {
-    switch (this) {
-      case ConfigurationType.$default:
-        return 'DEFAULT';
-      case ConfigurationType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationTypeFromString on String {
-  ConfigurationType toConfigurationType() {
-    switch (this) {
-      case 'DEFAULT':
-        return ConfigurationType.$default;
-      case 'CUSTOM':
-        return ConfigurationType.custom;
-    }
-    throw Exception('$this is not known in enum ConfigurationType');
-  }
+  const ConfigurationType(this.value);
+
+  static ConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfigurationType'));
 }
 
 class CreateApplicationPresignedUrlResponse {
@@ -3805,7 +3687,7 @@ class CustomArtifactConfiguration {
     final mavenReference = this.mavenReference;
     final s3ContentLocation = this.s3ContentLocation;
     return {
-      'ArtifactType': artifactType.toValue(),
+      'ArtifactType': artifactType.value,
       if (mavenReference != null) 'MavenReference': mavenReference,
       if (s3ContentLocation != null) 'S3ContentLocation': s3ContentLocation,
     };
@@ -3832,7 +3714,8 @@ class CustomArtifactConfigurationDescription {
   factory CustomArtifactConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return CustomArtifactConfigurationDescription(
-      artifactType: (json['ArtifactType'] as String?)?.toArtifactType(),
+      artifactType:
+          (json['ArtifactType'] as String?)?.let(ArtifactType.fromString),
       mavenReferenceDescription: json['MavenReferenceDescription'] != null
           ? MavenReference.fromJson(
               json['MavenReferenceDescription'] as Map<String, dynamic>)
@@ -3849,7 +3732,7 @@ class CustomArtifactConfigurationDescription {
     final mavenReferenceDescription = this.mavenReferenceDescription;
     final s3ContentLocationDescription = this.s3ContentLocationDescription;
     return {
-      if (artifactType != null) 'ArtifactType': artifactType.toValue(),
+      if (artifactType != null) 'ArtifactType': artifactType.value,
       if (mavenReferenceDescription != null)
         'MavenReferenceDescription': mavenReferenceDescription,
       if (s3ContentLocationDescription != null)
@@ -4210,14 +4093,14 @@ class DestinationSchema {
   factory DestinationSchema.fromJson(Map<String, dynamic> json) {
     return DestinationSchema(
       recordFormatType:
-          (json['RecordFormatType'] as String).toRecordFormatType(),
+          RecordFormatType.fromString((json['RecordFormatType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final recordFormatType = this.recordFormatType;
     return {
-      'RecordFormatType': recordFormatType.toValue(),
+      'RecordFormatType': recordFormatType.value,
     };
   }
 }
@@ -5050,36 +4933,19 @@ class InputSchemaUpdate {
 }
 
 enum InputStartingPosition {
-  now,
-  trimHorizon,
-  lastStoppedPoint,
-}
+  now('NOW'),
+  trimHorizon('TRIM_HORIZON'),
+  lastStoppedPoint('LAST_STOPPED_POINT'),
+  ;
 
-extension InputStartingPositionValueExtension on InputStartingPosition {
-  String toValue() {
-    switch (this) {
-      case InputStartingPosition.now:
-        return 'NOW';
-      case InputStartingPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case InputStartingPosition.lastStoppedPoint:
-        return 'LAST_STOPPED_POINT';
-    }
-  }
-}
+  final String value;
 
-extension InputStartingPositionFromString on String {
-  InputStartingPosition toInputStartingPosition() {
-    switch (this) {
-      case 'NOW':
-        return InputStartingPosition.now;
-      case 'TRIM_HORIZON':
-        return InputStartingPosition.trimHorizon;
-      case 'LAST_STOPPED_POINT':
-        return InputStartingPosition.lastStoppedPoint;
-    }
-    throw Exception('$this is not known in enum InputStartingPosition');
-  }
+  const InputStartingPosition(this.value);
+
+  static InputStartingPosition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputStartingPosition'));
 }
 
 /// Describes the point at which the application reads from the streaming
@@ -5111,8 +4977,8 @@ class InputStartingPositionConfiguration {
   factory InputStartingPositionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return InputStartingPositionConfiguration(
-      inputStartingPosition:
-          (json['InputStartingPosition'] as String?)?.toInputStartingPosition(),
+      inputStartingPosition: (json['InputStartingPosition'] as String?)
+          ?.let(InputStartingPosition.fromString),
     );
   }
 
@@ -5120,7 +4986,7 @@ class InputStartingPositionConfiguration {
     final inputStartingPosition = this.inputStartingPosition;
     return {
       if (inputStartingPosition != null)
-        'InputStartingPosition': inputStartingPosition.toValue(),
+        'InputStartingPosition': inputStartingPosition.value,
     };
   }
 }
@@ -5752,41 +5618,19 @@ class ListTagsForResourceResponse {
 }
 
 enum LogLevel {
-  info,
-  warn,
-  error,
-  debug,
-}
+  info('INFO'),
+  warn('WARN'),
+  error('ERROR'),
+  debug('DEBUG'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.info:
-        return 'INFO';
-      case LogLevel.warn:
-        return 'WARN';
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.debug:
-        return 'DEBUG';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'INFO':
-        return LogLevel.info;
-      case 'WARN':
-        return LogLevel.warn;
-      case 'ERROR':
-        return LogLevel.error;
-      case 'DEBUG':
-        return LogLevel.debug;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// When you configure a SQL-based Kinesis Data Analytics application's input at
@@ -5871,41 +5715,20 @@ class MavenReference {
 }
 
 enum MetricsLevel {
-  application,
-  task,
-  operator,
-  parallelism,
-}
+  application('APPLICATION'),
+  task('TASK'),
+  operator('OPERATOR'),
+  parallelism('PARALLELISM'),
+  ;
 
-extension MetricsLevelValueExtension on MetricsLevel {
-  String toValue() {
-    switch (this) {
-      case MetricsLevel.application:
-        return 'APPLICATION';
-      case MetricsLevel.task:
-        return 'TASK';
-      case MetricsLevel.operator:
-        return 'OPERATOR';
-      case MetricsLevel.parallelism:
-        return 'PARALLELISM';
-    }
-  }
-}
+  final String value;
 
-extension MetricsLevelFromString on String {
-  MetricsLevel toMetricsLevel() {
-    switch (this) {
-      case 'APPLICATION':
-        return MetricsLevel.application;
-      case 'TASK':
-        return MetricsLevel.task;
-      case 'OPERATOR':
-        return MetricsLevel.operator;
-      case 'PARALLELISM':
-        return MetricsLevel.parallelism;
-    }
-    throw Exception('$this is not known in enum MetricsLevel');
-  }
+  const MetricsLevel(this.value);
+
+  static MetricsLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricsLevel'));
 }
 
 /// Describes configuration parameters for Amazon CloudWatch logging for an
@@ -5936,9 +5759,9 @@ class MonitoringConfiguration {
     final logLevel = this.logLevel;
     final metricsLevel = this.metricsLevel;
     return {
-      'ConfigurationType': configurationType.toValue(),
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
-      if (metricsLevel != null) 'MetricsLevel': metricsLevel.toValue(),
+      'ConfigurationType': configurationType.value,
+      if (logLevel != null) 'LogLevel': logLevel.value,
+      if (metricsLevel != null) 'MetricsLevel': metricsLevel.value,
     };
   }
 }
@@ -5965,10 +5788,11 @@ class MonitoringConfigurationDescription {
   factory MonitoringConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return MonitoringConfigurationDescription(
-      configurationType:
-          (json['ConfigurationType'] as String?)?.toConfigurationType(),
-      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
-      metricsLevel: (json['MetricsLevel'] as String?)?.toMetricsLevel(),
+      configurationType: (json['ConfigurationType'] as String?)
+          ?.let(ConfigurationType.fromString),
+      logLevel: (json['LogLevel'] as String?)?.let(LogLevel.fromString),
+      metricsLevel:
+          (json['MetricsLevel'] as String?)?.let(MetricsLevel.fromString),
     );
   }
 
@@ -5978,9 +5802,9 @@ class MonitoringConfigurationDescription {
     final metricsLevel = this.metricsLevel;
     return {
       if (configurationType != null)
-        'ConfigurationType': configurationType.toValue(),
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
-      if (metricsLevel != null) 'MetricsLevel': metricsLevel.toValue(),
+        'ConfigurationType': configurationType.value,
+      if (logLevel != null) 'LogLevel': logLevel.value,
+      if (metricsLevel != null) 'MetricsLevel': metricsLevel.value,
     };
   }
 }
@@ -6015,10 +5839,10 @@ class MonitoringConfigurationUpdate {
     final metricsLevelUpdate = this.metricsLevelUpdate;
     return {
       if (configurationTypeUpdate != null)
-        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
-      if (logLevelUpdate != null) 'LogLevelUpdate': logLevelUpdate.toValue(),
+        'ConfigurationTypeUpdate': configurationTypeUpdate.value,
+      if (logLevelUpdate != null) 'LogLevelUpdate': logLevelUpdate.value,
       if (metricsLevelUpdate != null)
-        'MetricsLevelUpdate': metricsLevelUpdate.toValue(),
+        'MetricsLevelUpdate': metricsLevelUpdate.value,
     };
   }
 }
@@ -6261,7 +6085,7 @@ class ParallelismConfiguration {
     final parallelism = this.parallelism;
     final parallelismPerKPU = this.parallelismPerKPU;
     return {
-      'ConfigurationType': configurationType.toValue(),
+      'ConfigurationType': configurationType.value,
       if (autoScalingEnabled != null) 'AutoScalingEnabled': autoScalingEnabled,
       if (parallelism != null) 'Parallelism': parallelism,
       if (parallelismPerKPU != null) 'ParallelismPerKPU': parallelismPerKPU,
@@ -6321,8 +6145,8 @@ class ParallelismConfigurationDescription {
       Map<String, dynamic> json) {
     return ParallelismConfigurationDescription(
       autoScalingEnabled: json['AutoScalingEnabled'] as bool?,
-      configurationType:
-          (json['ConfigurationType'] as String?)?.toConfigurationType(),
+      configurationType: (json['ConfigurationType'] as String?)
+          ?.let(ConfigurationType.fromString),
       currentParallelism: json['CurrentParallelism'] as int?,
       parallelism: json['Parallelism'] as int?,
       parallelismPerKPU: json['ParallelismPerKPU'] as int?,
@@ -6338,7 +6162,7 @@ class ParallelismConfigurationDescription {
     return {
       if (autoScalingEnabled != null) 'AutoScalingEnabled': autoScalingEnabled,
       if (configurationType != null)
-        'ConfigurationType': configurationType.toValue(),
+        'ConfigurationType': configurationType.value,
       if (currentParallelism != null) 'CurrentParallelism': currentParallelism,
       if (parallelism != null) 'Parallelism': parallelism,
       if (parallelismPerKPU != null) 'ParallelismPerKPU': parallelismPerKPU,
@@ -6393,7 +6217,7 @@ class ParallelismConfigurationUpdate {
       if (autoScalingEnabledUpdate != null)
         'AutoScalingEnabledUpdate': autoScalingEnabledUpdate,
       if (configurationTypeUpdate != null)
-        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
+        'ConfigurationTypeUpdate': configurationTypeUpdate.value,
       if (parallelismPerKPUUpdate != null)
         'ParallelismPerKPUUpdate': parallelismPerKPUUpdate,
       if (parallelismUpdate != null) 'ParallelismUpdate': parallelismUpdate,
@@ -6497,7 +6321,7 @@ class RecordFormat {
   factory RecordFormat.fromJson(Map<String, dynamic> json) {
     return RecordFormat(
       recordFormatType:
-          (json['RecordFormatType'] as String).toRecordFormatType(),
+          RecordFormatType.fromString((json['RecordFormatType'] as String)),
       mappingParameters: json['MappingParameters'] != null
           ? MappingParameters.fromJson(
               json['MappingParameters'] as Map<String, dynamic>)
@@ -6509,38 +6333,25 @@ class RecordFormat {
     final recordFormatType = this.recordFormatType;
     final mappingParameters = this.mappingParameters;
     return {
-      'RecordFormatType': recordFormatType.toValue(),
+      'RecordFormatType': recordFormatType.value,
       if (mappingParameters != null) 'MappingParameters': mappingParameters,
     };
   }
 }
 
 enum RecordFormatType {
-  json,
-  csv,
-}
+  json('JSON'),
+  csv('CSV'),
+  ;
 
-extension RecordFormatTypeValueExtension on RecordFormatType {
-  String toValue() {
-    switch (this) {
-      case RecordFormatType.json:
-        return 'JSON';
-      case RecordFormatType.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension RecordFormatTypeFromString on String {
-  RecordFormatType toRecordFormatType() {
-    switch (this) {
-      case 'JSON':
-        return RecordFormatType.json;
-      case 'CSV':
-        return RecordFormatType.csv;
-    }
-    throw Exception('$this is not known in enum RecordFormatType');
-  }
+  const RecordFormatType(this.value);
+
+  static RecordFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordFormatType'));
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the reference
@@ -6815,71 +6626,26 @@ class RunConfigurationUpdate {
 }
 
 enum RuntimeEnvironment {
-  sql_1_0,
-  flink_1_6,
-  flink_1_8,
-  zeppelinFlink_1_0,
-  flink_1_11,
-  flink_1_13,
-  zeppelinFlink_2_0,
-  flink_1_15,
-  zeppelinFlink_3_0,
-  flink_1_18,
-}
+  sql_1_0('SQL-1_0'),
+  flink_1_6('FLINK-1_6'),
+  flink_1_8('FLINK-1_8'),
+  zeppelinFlink_1_0('ZEPPELIN-FLINK-1_0'),
+  flink_1_11('FLINK-1_11'),
+  flink_1_13('FLINK-1_13'),
+  zeppelinFlink_2_0('ZEPPELIN-FLINK-2_0'),
+  flink_1_15('FLINK-1_15'),
+  zeppelinFlink_3_0('ZEPPELIN-FLINK-3_0'),
+  flink_1_18('FLINK-1_18'),
+  ;
 
-extension RuntimeEnvironmentValueExtension on RuntimeEnvironment {
-  String toValue() {
-    switch (this) {
-      case RuntimeEnvironment.sql_1_0:
-        return 'SQL-1_0';
-      case RuntimeEnvironment.flink_1_6:
-        return 'FLINK-1_6';
-      case RuntimeEnvironment.flink_1_8:
-        return 'FLINK-1_8';
-      case RuntimeEnvironment.zeppelinFlink_1_0:
-        return 'ZEPPELIN-FLINK-1_0';
-      case RuntimeEnvironment.flink_1_11:
-        return 'FLINK-1_11';
-      case RuntimeEnvironment.flink_1_13:
-        return 'FLINK-1_13';
-      case RuntimeEnvironment.zeppelinFlink_2_0:
-        return 'ZEPPELIN-FLINK-2_0';
-      case RuntimeEnvironment.flink_1_15:
-        return 'FLINK-1_15';
-      case RuntimeEnvironment.zeppelinFlink_3_0:
-        return 'ZEPPELIN-FLINK-3_0';
-      case RuntimeEnvironment.flink_1_18:
-        return 'FLINK-1_18';
-    }
-  }
-}
+  final String value;
 
-extension RuntimeEnvironmentFromString on String {
-  RuntimeEnvironment toRuntimeEnvironment() {
-    switch (this) {
-      case 'SQL-1_0':
-        return RuntimeEnvironment.sql_1_0;
-      case 'FLINK-1_6':
-        return RuntimeEnvironment.flink_1_6;
-      case 'FLINK-1_8':
-        return RuntimeEnvironment.flink_1_8;
-      case 'ZEPPELIN-FLINK-1_0':
-        return RuntimeEnvironment.zeppelinFlink_1_0;
-      case 'FLINK-1_11':
-        return RuntimeEnvironment.flink_1_11;
-      case 'FLINK-1_13':
-        return RuntimeEnvironment.flink_1_13;
-      case 'ZEPPELIN-FLINK-2_0':
-        return RuntimeEnvironment.zeppelinFlink_2_0;
-      case 'FLINK-1_15':
-        return RuntimeEnvironment.flink_1_15;
-      case 'ZEPPELIN-FLINK-3_0':
-        return RuntimeEnvironment.zeppelinFlink_3_0;
-      case 'FLINK-1_18':
-        return RuntimeEnvironment.flink_1_18;
-    }
-    throw Exception('$this is not known in enum RuntimeEnvironment');
-  }
+  const RuntimeEnvironment(this.value);
+
+  static RuntimeEnvironment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuntimeEnvironment'));
 }
 
 /// Describes the location of an application's code stored in an S3 bucket.
@@ -7222,9 +6988,10 @@ class SnapshotDetails {
     return SnapshotDetails(
       applicationVersionId: json['ApplicationVersionId'] as int,
       snapshotName: json['SnapshotName'] as String,
-      snapshotStatus: (json['SnapshotStatus'] as String).toSnapshotStatus(),
-      runtimeEnvironment:
-          (json['RuntimeEnvironment'] as String?)?.toRuntimeEnvironment(),
+      snapshotStatus:
+          SnapshotStatus.fromString((json['SnapshotStatus'] as String)),
+      runtimeEnvironment: (json['RuntimeEnvironment'] as String?)
+          ?.let(RuntimeEnvironment.fromString),
       snapshotCreationTimestamp:
           timeStampFromJson(json['SnapshotCreationTimestamp']),
     );
@@ -7239,9 +7006,9 @@ class SnapshotDetails {
     return {
       'ApplicationVersionId': applicationVersionId,
       'SnapshotName': snapshotName,
-      'SnapshotStatus': snapshotStatus.toValue(),
+      'SnapshotStatus': snapshotStatus.value,
       if (runtimeEnvironment != null)
-        'RuntimeEnvironment': runtimeEnvironment.toValue(),
+        'RuntimeEnvironment': runtimeEnvironment.value,
       if (snapshotCreationTimestamp != null)
         'SnapshotCreationTimestamp':
             unixTimestampToJson(snapshotCreationTimestamp),
@@ -7250,41 +7017,20 @@ class SnapshotDetails {
 }
 
 enum SnapshotStatus {
-  creating,
-  ready,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  ready('READY'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension SnapshotStatusValueExtension on SnapshotStatus {
-  String toValue() {
-    switch (this) {
-      case SnapshotStatus.creating:
-        return 'CREATING';
-      case SnapshotStatus.ready:
-        return 'READY';
-      case SnapshotStatus.deleting:
-        return 'DELETING';
-      case SnapshotStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotStatusFromString on String {
-  SnapshotStatus toSnapshotStatus() {
-    switch (this) {
-      case 'CREATING':
-        return SnapshotStatus.creating;
-      case 'READY':
-        return SnapshotStatus.ready;
-      case 'DELETING':
-        return SnapshotStatus.deleting;
-      case 'FAILED':
-        return SnapshotStatus.failed;
-    }
-    throw Exception('$this is not known in enum SnapshotStatus');
-  }
+  const SnapshotStatus(this.value);
+
+  static SnapshotStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotStatus'));
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the format of
@@ -7628,31 +7374,17 @@ class UpdateApplicationResponse {
 }
 
 enum UrlType {
-  flinkDashboardUrl,
-  zeppelinUiUrl,
-}
+  flinkDashboardUrl('FLINK_DASHBOARD_URL'),
+  zeppelinUiUrl('ZEPPELIN_UI_URL'),
+  ;
 
-extension UrlTypeValueExtension on UrlType {
-  String toValue() {
-    switch (this) {
-      case UrlType.flinkDashboardUrl:
-        return 'FLINK_DASHBOARD_URL';
-      case UrlType.zeppelinUiUrl:
-        return 'ZEPPELIN_UI_URL';
-    }
-  }
-}
+  final String value;
 
-extension UrlTypeFromString on String {
-  UrlType toUrlType() {
-    switch (this) {
-      case 'FLINK_DASHBOARD_URL':
-        return UrlType.flinkDashboardUrl;
-      case 'ZEPPELIN_UI_URL':
-        return UrlType.zeppelinUiUrl;
-    }
-    throw Exception('$this is not known in enum UrlType');
-  }
+  const UrlType(this.value);
+
+  static UrlType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum UrlType'));
 }
 
 /// Describes the parameters of a VPC used by the application.
@@ -7952,7 +7684,7 @@ class ZeppelinMonitoringConfiguration {
   Map<String, dynamic> toJson() {
     final logLevel = this.logLevel;
     return {
-      'LogLevel': logLevel.toValue(),
+      'LogLevel': logLevel.value,
     };
   }
 }
@@ -7970,14 +7702,14 @@ class ZeppelinMonitoringConfigurationDescription {
   factory ZeppelinMonitoringConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ZeppelinMonitoringConfigurationDescription(
-      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      logLevel: (json['LogLevel'] as String?)?.let(LogLevel.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final logLevel = this.logLevel;
     return {
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.value,
     };
   }
 }
@@ -7996,7 +7728,7 @@ class ZeppelinMonitoringConfigurationUpdate {
   Map<String, dynamic> toJson() {
     final logLevelUpdate = this.logLevelUpdate;
     return {
-      'LogLevelUpdate': logLevelUpdate.toValue(),
+      'LogLevelUpdate': logLevelUpdate.value,
     };
   }
 }

@@ -3804,7 +3804,7 @@ class AutoScaling {
       if (maxGroupPreparedCapacity != null)
         'MaxGroupPreparedCapacity': maxGroupPreparedCapacity.toString(),
       if (minSize != null) 'MinSize': minSize.toString(),
-      if (poolState != null) 'PoolState': poolState.toValue(),
+      if (poolState != null) 'PoolState': poolState.value,
     };
     await _protocol.send(
       $request,
@@ -4262,7 +4262,7 @@ class AutoScaling {
       if (preferences != null)
         for (var e1 in preferences.toQueryMap().entries)
           'Preferences.${e1.key}': e1.value,
-      if (strategy != null) 'Strategy': strategy.toValue(),
+      if (strategy != null) 'Strategy': strategy.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4768,94 +4768,40 @@ class AcceleratorCountRequest {
 }
 
 enum AcceleratorManufacturer {
-  nvidia,
-  amd,
-  amazonWebServices,
-  xilinx,
-}
+  nvidia('nvidia'),
+  amd('amd'),
+  amazonWebServices('amazon-web-services'),
+  xilinx('xilinx'),
+  ;
 
-extension AcceleratorManufacturerValueExtension on AcceleratorManufacturer {
-  String toValue() {
-    switch (this) {
-      case AcceleratorManufacturer.nvidia:
-        return 'nvidia';
-      case AcceleratorManufacturer.amd:
-        return 'amd';
-      case AcceleratorManufacturer.amazonWebServices:
-        return 'amazon-web-services';
-      case AcceleratorManufacturer.xilinx:
-        return 'xilinx';
-    }
-  }
-}
+  final String value;
 
-extension AcceleratorManufacturerFromString on String {
-  AcceleratorManufacturer toAcceleratorManufacturer() {
-    switch (this) {
-      case 'nvidia':
-        return AcceleratorManufacturer.nvidia;
-      case 'amd':
-        return AcceleratorManufacturer.amd;
-      case 'amazon-web-services':
-        return AcceleratorManufacturer.amazonWebServices;
-      case 'xilinx':
-        return AcceleratorManufacturer.xilinx;
-    }
-    throw Exception('$this is not known in enum AcceleratorManufacturer');
-  }
+  const AcceleratorManufacturer(this.value);
+
+  static AcceleratorManufacturer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AcceleratorManufacturer'));
 }
 
 enum AcceleratorName {
-  a100,
-  v100,
-  k80,
-  t4,
-  m60,
-  radeonProV520,
-  vu9p,
-}
+  a100('a100'),
+  v100('v100'),
+  k80('k80'),
+  t4('t4'),
+  m60('m60'),
+  radeonProV520('radeon-pro-v520'),
+  vu9p('vu9p'),
+  ;
 
-extension AcceleratorNameValueExtension on AcceleratorName {
-  String toValue() {
-    switch (this) {
-      case AcceleratorName.a100:
-        return 'a100';
-      case AcceleratorName.v100:
-        return 'v100';
-      case AcceleratorName.k80:
-        return 'k80';
-      case AcceleratorName.t4:
-        return 't4';
-      case AcceleratorName.m60:
-        return 'm60';
-      case AcceleratorName.radeonProV520:
-        return 'radeon-pro-v520';
-      case AcceleratorName.vu9p:
-        return 'vu9p';
-    }
-  }
-}
+  final String value;
 
-extension AcceleratorNameFromString on String {
-  AcceleratorName toAcceleratorName() {
-    switch (this) {
-      case 'a100':
-        return AcceleratorName.a100;
-      case 'v100':
-        return AcceleratorName.v100;
-      case 'k80':
-        return AcceleratorName.k80;
-      case 't4':
-        return AcceleratorName.t4;
-      case 'm60':
-        return AcceleratorName.m60;
-      case 'radeon-pro-v520':
-        return AcceleratorName.radeonProV520;
-      case 'vu9p':
-        return AcceleratorName.vu9p;
-    }
-    throw Exception('$this is not known in enum AcceleratorName');
-  }
+  const AcceleratorName(this.value);
+
+  static AcceleratorName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceleratorName'));
 }
 
 /// Specifies the minimum and maximum for the
@@ -4899,36 +4845,19 @@ class AcceleratorTotalMemoryMiBRequest {
 }
 
 enum AcceleratorType {
-  gpu,
-  fpga,
-  inference,
-}
+  gpu('gpu'),
+  fpga('fpga'),
+  inference('inference'),
+  ;
 
-extension AcceleratorTypeValueExtension on AcceleratorType {
-  String toValue() {
-    switch (this) {
-      case AcceleratorType.gpu:
-        return 'gpu';
-      case AcceleratorType.fpga:
-        return 'fpga';
-      case AcceleratorType.inference:
-        return 'inference';
-    }
-  }
-}
+  final String value;
 
-extension AcceleratorTypeFromString on String {
-  AcceleratorType toAcceleratorType() {
-    switch (this) {
-      case 'gpu':
-        return AcceleratorType.gpu;
-      case 'fpga':
-        return AcceleratorType.fpga;
-      case 'inference':
-        return AcceleratorType.inference;
-    }
-    throw Exception('$this is not known in enum AcceleratorType');
-  }
+  const AcceleratorType(this.value);
+
+  static AcceleratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceleratorType'));
 }
 
 class ActivitiesType {
@@ -5022,7 +4951,7 @@ class Activity {
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
       statusCode: _s
           .extractXmlStringValue(elem, 'StatusCode')!
-          .toScalingActivityStatusCode(),
+          .let(ScalingActivityStatusCode.fromString),
       autoScalingGroupARN:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
       autoScalingGroupState:
@@ -5519,36 +5448,18 @@ class AutoScalingInstancesType {
 }
 
 enum BareMetal {
-  included,
-  excluded,
-  required,
-}
+  included('included'),
+  excluded('excluded'),
+  required('required'),
+  ;
 
-extension BareMetalValueExtension on BareMetal {
-  String toValue() {
-    switch (this) {
-      case BareMetal.included:
-        return 'included';
-      case BareMetal.excluded:
-        return 'excluded';
-      case BareMetal.required:
-        return 'required';
-    }
-  }
-}
+  final String value;
 
-extension BareMetalFromString on String {
-  BareMetal toBareMetal() {
-    switch (this) {
-      case 'included':
-        return BareMetal.included;
-      case 'excluded':
-        return BareMetal.excluded;
-      case 'required':
-        return BareMetal.required;
-    }
-    throw Exception('$this is not known in enum BareMetal');
-  }
+  const BareMetal(this.value);
+
+  static BareMetal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BareMetal'));
 }
 
 /// Specifies the minimum and maximum for the
@@ -5708,36 +5619,19 @@ class BlockDeviceMapping {
 }
 
 enum BurstablePerformance {
-  included,
-  excluded,
-  required,
-}
+  included('included'),
+  excluded('excluded'),
+  required('required'),
+  ;
 
-extension BurstablePerformanceValueExtension on BurstablePerformance {
-  String toValue() {
-    switch (this) {
-      case BurstablePerformance.included:
-        return 'included';
-      case BurstablePerformance.excluded:
-        return 'excluded';
-      case BurstablePerformance.required:
-        return 'required';
-    }
-  }
-}
+  final String value;
 
-extension BurstablePerformanceFromString on String {
-  BurstablePerformance toBurstablePerformance() {
-    switch (this) {
-      case 'included':
-        return BurstablePerformance.included;
-      case 'excluded':
-        return BurstablePerformance.excluded;
-      case 'required':
-        return BurstablePerformance.required;
-    }
-    throw Exception('$this is not known in enum BurstablePerformance');
-  }
+  const BurstablePerformance(this.value);
+
+  static BurstablePerformance fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BurstablePerformance'));
 }
 
 class CancelInstanceRefreshAnswer {
@@ -5790,36 +5684,19 @@ class CompleteLifecycleActionAnswer {
 }
 
 enum CpuManufacturer {
-  intel,
-  amd,
-  amazonWebServices,
-}
+  intel('intel'),
+  amd('amd'),
+  amazonWebServices('amazon-web-services'),
+  ;
 
-extension CpuManufacturerValueExtension on CpuManufacturer {
-  String toValue() {
-    switch (this) {
-      case CpuManufacturer.intel:
-        return 'intel';
-      case CpuManufacturer.amd:
-        return 'amd';
-      case CpuManufacturer.amazonWebServices:
-        return 'amazon-web-services';
-    }
-  }
-}
+  final String value;
 
-extension CpuManufacturerFromString on String {
-  CpuManufacturer toCpuManufacturer() {
-    switch (this) {
-      case 'intel':
-        return CpuManufacturer.intel;
-      case 'amd':
-        return CpuManufacturer.amd;
-      case 'amazon-web-services':
-        return CpuManufacturer.amazonWebServices;
-    }
-    throw Exception('$this is not known in enum CpuManufacturer');
-  }
+  const CpuManufacturer(this.value);
+
+  static CpuManufacturer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CpuManufacturer'));
 }
 
 /// Represents a CloudWatch metric of your choosing for a target tracking
@@ -5901,8 +5778,9 @@ class CustomizedMetricSpecification {
           .map(TargetTrackingMetricDataQuery.fromXml)
           .toList()),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      statistic:
-          _s.extractXmlStringValue(elem, 'Statistic')?.toMetricStatistic(),
+      statistic: _s
+          .extractXmlStringValue(elem, 'Statistic')
+          ?.let(MetricStatistic.fromString),
       unit: _s.extractXmlStringValue(elem, 'Unit'),
     );
   }
@@ -5919,7 +5797,7 @@ class CustomizedMetricSpecification {
       if (metricName != null) 'MetricName': metricName,
       if (metrics != null) 'Metrics': metrics,
       if (namespace != null) 'Namespace': namespace,
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (unit != null) 'Unit': unit,
     };
   }
@@ -5948,7 +5826,7 @@ class CustomizedMetricSpecification {
             for (var e3 in metrics[i1].toQueryMap().entries)
               'Metrics.member.${i1 + 1}.${e3.key}': e3.value,
       if (namespace != null) 'Namespace': namespace,
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (unit != null) 'Unit': unit,
     };
   }
@@ -6867,8 +6745,9 @@ class Instance {
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
       healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
       instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
-      lifecycleState:
-          _s.extractXmlStringValue(elem, 'LifecycleState')!.toLifecycleState(),
+      lifecycleState: _s
+          .extractXmlStringValue(elem, 'LifecycleState')!
+          .let(LifecycleState.fromString),
       protectedFromScaleIn:
           _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
@@ -6883,31 +6762,18 @@ class Instance {
 }
 
 enum InstanceGeneration {
-  current,
-  previous,
-}
+  current('current'),
+  previous('previous'),
+  ;
 
-extension InstanceGenerationValueExtension on InstanceGeneration {
-  String toValue() {
-    switch (this) {
-      case InstanceGeneration.current:
-        return 'current';
-      case InstanceGeneration.previous:
-        return 'previous';
-    }
-  }
-}
+  final String value;
 
-extension InstanceGenerationFromString on String {
-  InstanceGeneration toInstanceGeneration() {
-    switch (this) {
-      case 'current':
-        return InstanceGeneration.current;
-      case 'previous':
-        return InstanceGeneration.previous;
-    }
-    throw Exception('$this is not known in enum InstanceGeneration');
-  }
+  const InstanceGeneration(this.value);
+
+  static InstanceGeneration fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceGeneration'));
 }
 
 /// Describes an instance maintenance policy.
@@ -6971,62 +6837,33 @@ class InstanceMaintenancePolicy {
 }
 
 enum InstanceMetadataEndpointState {
-  disabled,
-  enabled,
-}
+  disabled('disabled'),
+  enabled('enabled'),
+  ;
 
-extension InstanceMetadataEndpointStateValueExtension
-    on InstanceMetadataEndpointState {
-  String toValue() {
-    switch (this) {
-      case InstanceMetadataEndpointState.disabled:
-        return 'disabled';
-      case InstanceMetadataEndpointState.enabled:
-        return 'enabled';
-    }
-  }
-}
+  final String value;
 
-extension InstanceMetadataEndpointStateFromString on String {
-  InstanceMetadataEndpointState toInstanceMetadataEndpointState() {
-    switch (this) {
-      case 'disabled':
-        return InstanceMetadataEndpointState.disabled;
-      case 'enabled':
-        return InstanceMetadataEndpointState.enabled;
-    }
-    throw Exception('$this is not known in enum InstanceMetadataEndpointState');
-  }
+  const InstanceMetadataEndpointState(this.value);
+
+  static InstanceMetadataEndpointState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceMetadataEndpointState'));
 }
 
 enum InstanceMetadataHttpTokensState {
-  optional,
-  required,
-}
+  optional('optional'),
+  required('required'),
+  ;
 
-extension InstanceMetadataHttpTokensStateValueExtension
-    on InstanceMetadataHttpTokensState {
-  String toValue() {
-    switch (this) {
-      case InstanceMetadataHttpTokensState.optional:
-        return 'optional';
-      case InstanceMetadataHttpTokensState.required:
-        return 'required';
-    }
-  }
-}
+  final String value;
 
-extension InstanceMetadataHttpTokensStateFromString on String {
-  InstanceMetadataHttpTokensState toInstanceMetadataHttpTokensState() {
-    switch (this) {
-      case 'optional':
-        return InstanceMetadataHttpTokensState.optional;
-      case 'required':
-        return InstanceMetadataHttpTokensState.required;
-    }
-    throw Exception(
-        '$this is not known in enum InstanceMetadataHttpTokensState');
-  }
+  const InstanceMetadataHttpTokensState(this.value);
+
+  static InstanceMetadataHttpTokensState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceMetadataHttpTokensState'));
 }
 
 /// The metadata options for the instances. For more information, see <a
@@ -7074,12 +6911,12 @@ class InstanceMetadataOptions {
     return InstanceMetadataOptions(
       httpEndpoint: _s
           .extractXmlStringValue(elem, 'HttpEndpoint')
-          ?.toInstanceMetadataEndpointState(),
+          ?.let(InstanceMetadataEndpointState.fromString),
       httpPutResponseHopLimit:
           _s.extractXmlIntValue(elem, 'HttpPutResponseHopLimit'),
       httpTokens: _s
           .extractXmlStringValue(elem, 'HttpTokens')
-          ?.toInstanceMetadataHttpTokensState(),
+          ?.let(InstanceMetadataHttpTokensState.fromString),
     );
   }
 
@@ -7088,10 +6925,10 @@ class InstanceMetadataOptions {
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     return {
-      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.toValue(),
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
       if (httpPutResponseHopLimit != null)
         'HttpPutResponseHopLimit': httpPutResponseHopLimit,
-      if (httpTokens != null) 'HttpTokens': httpTokens.toValue(),
+      if (httpTokens != null) 'HttpTokens': httpTokens.value,
     };
   }
 
@@ -7100,10 +6937,10 @@ class InstanceMetadataOptions {
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     return {
-      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.toValue(),
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
       if (httpPutResponseHopLimit != null)
         'HttpPutResponseHopLimit': httpPutResponseHopLimit.toString(),
-      if (httpTokens != null) 'HttpTokens': httpTokens.toValue(),
+      if (httpTokens != null) 'HttpTokens': httpTokens.value,
     };
   }
 }
@@ -7261,8 +7098,9 @@ class InstanceRefresh {
           .extractXmlChild(elem, 'RollbackDetails')
           ?.let(RollbackDetails.fromXml),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toInstanceRefreshStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(InstanceRefreshStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -7319,66 +7157,25 @@ class InstanceRefreshProgressDetails {
 }
 
 enum InstanceRefreshStatus {
-  pending,
-  inProgress,
-  successful,
-  failed,
-  cancelling,
-  cancelled,
-  rollbackInProgress,
-  rollbackFailed,
-  rollbackSuccessful,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  successful('Successful'),
+  failed('Failed'),
+  cancelling('Cancelling'),
+  cancelled('Cancelled'),
+  rollbackInProgress('RollbackInProgress'),
+  rollbackFailed('RollbackFailed'),
+  rollbackSuccessful('RollbackSuccessful'),
+  ;
 
-extension InstanceRefreshStatusValueExtension on InstanceRefreshStatus {
-  String toValue() {
-    switch (this) {
-      case InstanceRefreshStatus.pending:
-        return 'Pending';
-      case InstanceRefreshStatus.inProgress:
-        return 'InProgress';
-      case InstanceRefreshStatus.successful:
-        return 'Successful';
-      case InstanceRefreshStatus.failed:
-        return 'Failed';
-      case InstanceRefreshStatus.cancelling:
-        return 'Cancelling';
-      case InstanceRefreshStatus.cancelled:
-        return 'Cancelled';
-      case InstanceRefreshStatus.rollbackInProgress:
-        return 'RollbackInProgress';
-      case InstanceRefreshStatus.rollbackFailed:
-        return 'RollbackFailed';
-      case InstanceRefreshStatus.rollbackSuccessful:
-        return 'RollbackSuccessful';
-    }
-  }
-}
+  final String value;
 
-extension InstanceRefreshStatusFromString on String {
-  InstanceRefreshStatus toInstanceRefreshStatus() {
-    switch (this) {
-      case 'Pending':
-        return InstanceRefreshStatus.pending;
-      case 'InProgress':
-        return InstanceRefreshStatus.inProgress;
-      case 'Successful':
-        return InstanceRefreshStatus.successful;
-      case 'Failed':
-        return InstanceRefreshStatus.failed;
-      case 'Cancelling':
-        return InstanceRefreshStatus.cancelling;
-      case 'Cancelled':
-        return InstanceRefreshStatus.cancelled;
-      case 'RollbackInProgress':
-        return InstanceRefreshStatus.rollbackInProgress;
-      case 'RollbackFailed':
-        return InstanceRefreshStatus.rollbackFailed;
-      case 'RollbackSuccessful':
-        return InstanceRefreshStatus.rollbackSuccessful;
-    }
-    throw Exception('$this is not known in enum InstanceRefreshStatus');
-  }
+  const InstanceRefreshStatus(this.value);
+
+  static InstanceRefreshStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceRefreshStatus'));
 }
 
 /// Reports progress on replacing instances that are in the warm pool.
@@ -7806,12 +7603,12 @@ class InstanceRequirements {
           .extractXmlChild(elem, 'AcceleratorManufacturers')
           ?.let((elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toAcceleratorManufacturer())
+              .map(AcceleratorManufacturer.fromString)
               .toList()),
       acceleratorNames: _s.extractXmlChild(elem, 'AcceleratorNames')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toAcceleratorName())
+              .map(AcceleratorName.fromString)
               .toList()),
       acceleratorTotalMemoryMiB: _s
           .extractXmlChild(elem, 'AcceleratorTotalMemoryMiB')
@@ -7819,22 +7616,24 @@ class InstanceRequirements {
       acceleratorTypes: _s.extractXmlChild(elem, 'AcceleratorTypes')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toAcceleratorType())
+              .map(AcceleratorType.fromString)
               .toList()),
       allowedInstanceTypes: _s
           .extractXmlChild(elem, 'AllowedInstanceTypes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      bareMetal: _s.extractXmlStringValue(elem, 'BareMetal')?.toBareMetal(),
+      bareMetal: _s
+          .extractXmlStringValue(elem, 'BareMetal')
+          ?.let(BareMetal.fromString),
       baselineEbsBandwidthMbps: _s
           .extractXmlChild(elem, 'BaselineEbsBandwidthMbps')
           ?.let(BaselineEbsBandwidthMbpsRequest.fromXml),
       burstablePerformance: _s
           .extractXmlStringValue(elem, 'BurstablePerformance')
-          ?.toBurstablePerformance(),
+          ?.let(BurstablePerformance.fromString),
       cpuManufacturers: _s.extractXmlChild(elem, 'CpuManufacturers')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toCpuManufacturer())
+              .map(CpuManufacturer.fromString)
               .toList()),
       excludedInstanceTypes: _s
           .extractXmlChild(elem, 'ExcludedInstanceTypes')
@@ -7842,14 +7641,15 @@ class InstanceRequirements {
       instanceGenerations: _s.extractXmlChild(elem, 'InstanceGenerations')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toInstanceGeneration())
+              .map(InstanceGeneration.fromString)
               .toList()),
-      localStorage:
-          _s.extractXmlStringValue(elem, 'LocalStorage')?.toLocalStorage(),
+      localStorage: _s
+          .extractXmlStringValue(elem, 'LocalStorage')
+          ?.let(LocalStorage.fromString),
       localStorageTypes: _s.extractXmlChild(elem, 'LocalStorageTypes')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toLocalStorageType())
+              .map(LocalStorageType.fromString)
               .toList()),
       maxSpotPriceAsPercentageOfOptimalOnDemandPrice: _s.extractXmlIntValue(
           elem, 'MaxSpotPriceAsPercentageOfOptimalOnDemandPrice'),
@@ -7908,30 +7708,29 @@ class InstanceRequirements {
       if (acceleratorCount != null) 'AcceleratorCount': acceleratorCount,
       if (acceleratorManufacturers != null)
         'AcceleratorManufacturers':
-            acceleratorManufacturers.map((e) => e.toValue()).toList(),
+            acceleratorManufacturers.map((e) => e.value).toList(),
       if (acceleratorNames != null)
-        'AcceleratorNames': acceleratorNames.map((e) => e.toValue()).toList(),
+        'AcceleratorNames': acceleratorNames.map((e) => e.value).toList(),
       if (acceleratorTotalMemoryMiB != null)
         'AcceleratorTotalMemoryMiB': acceleratorTotalMemoryMiB,
       if (acceleratorTypes != null)
-        'AcceleratorTypes': acceleratorTypes.map((e) => e.toValue()).toList(),
+        'AcceleratorTypes': acceleratorTypes.map((e) => e.value).toList(),
       if (allowedInstanceTypes != null)
         'AllowedInstanceTypes': allowedInstanceTypes,
-      if (bareMetal != null) 'BareMetal': bareMetal.toValue(),
+      if (bareMetal != null) 'BareMetal': bareMetal.value,
       if (baselineEbsBandwidthMbps != null)
         'BaselineEbsBandwidthMbps': baselineEbsBandwidthMbps,
       if (burstablePerformance != null)
-        'BurstablePerformance': burstablePerformance.toValue(),
+        'BurstablePerformance': burstablePerformance.value,
       if (cpuManufacturers != null)
-        'CpuManufacturers': cpuManufacturers.map((e) => e.toValue()).toList(),
+        'CpuManufacturers': cpuManufacturers.map((e) => e.value).toList(),
       if (excludedInstanceTypes != null)
         'ExcludedInstanceTypes': excludedInstanceTypes,
       if (instanceGenerations != null)
-        'InstanceGenerations':
-            instanceGenerations.map((e) => e.toValue()).toList(),
-      if (localStorage != null) 'LocalStorage': localStorage.toValue(),
+        'InstanceGenerations': instanceGenerations.map((e) => e.value).toList(),
+      if (localStorage != null) 'LocalStorage': localStorage.value,
       if (localStorageTypes != null)
-        'LocalStorageTypes': localStorageTypes.map((e) => e.toValue()).toList(),
+        'LocalStorageTypes': localStorageTypes.map((e) => e.value).toList(),
       if (maxSpotPriceAsPercentageOfOptimalOnDemandPrice != null)
         'MaxSpotPriceAsPercentageOfOptimalOnDemandPrice':
             maxSpotPriceAsPercentageOfOptimalOnDemandPrice,
@@ -7995,13 +7794,13 @@ class InstanceRequirements {
         else
           for (var i1 = 0; i1 < acceleratorManufacturers.length; i1++)
             'AcceleratorManufacturers.member.${i1 + 1}':
-                acceleratorManufacturers[i1].toValue(),
+                acceleratorManufacturers[i1].value,
       if (acceleratorNames != null)
         if (acceleratorNames.isEmpty)
           'AcceleratorNames': ''
         else
           for (var i1 = 0; i1 < acceleratorNames.length; i1++)
-            'AcceleratorNames.member.${i1 + 1}': acceleratorNames[i1].toValue(),
+            'AcceleratorNames.member.${i1 + 1}': acceleratorNames[i1].value,
       if (acceleratorTotalMemoryMiB != null)
         for (var e1 in acceleratorTotalMemoryMiB.toQueryMap().entries)
           'AcceleratorTotalMemoryMiB.${e1.key}': e1.value,
@@ -8010,25 +7809,25 @@ class InstanceRequirements {
           'AcceleratorTypes': ''
         else
           for (var i1 = 0; i1 < acceleratorTypes.length; i1++)
-            'AcceleratorTypes.member.${i1 + 1}': acceleratorTypes[i1].toValue(),
+            'AcceleratorTypes.member.${i1 + 1}': acceleratorTypes[i1].value,
       if (allowedInstanceTypes != null)
         if (allowedInstanceTypes.isEmpty)
           'AllowedInstanceTypes': ''
         else
           for (var i1 = 0; i1 < allowedInstanceTypes.length; i1++)
             'AllowedInstanceTypes.member.${i1 + 1}': allowedInstanceTypes[i1],
-      if (bareMetal != null) 'BareMetal': bareMetal.toValue(),
+      if (bareMetal != null) 'BareMetal': bareMetal.value,
       if (baselineEbsBandwidthMbps != null)
         for (var e1 in baselineEbsBandwidthMbps.toQueryMap().entries)
           'BaselineEbsBandwidthMbps.${e1.key}': e1.value,
       if (burstablePerformance != null)
-        'BurstablePerformance': burstablePerformance.toValue(),
+        'BurstablePerformance': burstablePerformance.value,
       if (cpuManufacturers != null)
         if (cpuManufacturers.isEmpty)
           'CpuManufacturers': ''
         else
           for (var i1 = 0; i1 < cpuManufacturers.length; i1++)
-            'CpuManufacturers.member.${i1 + 1}': cpuManufacturers[i1].toValue(),
+            'CpuManufacturers.member.${i1 + 1}': cpuManufacturers[i1].value,
       if (excludedInstanceTypes != null)
         if (excludedInstanceTypes.isEmpty)
           'ExcludedInstanceTypes': ''
@@ -8041,15 +7840,14 @@ class InstanceRequirements {
         else
           for (var i1 = 0; i1 < instanceGenerations.length; i1++)
             'InstanceGenerations.member.${i1 + 1}':
-                instanceGenerations[i1].toValue(),
-      if (localStorage != null) 'LocalStorage': localStorage.toValue(),
+                instanceGenerations[i1].value,
+      if (localStorage != null) 'LocalStorage': localStorage.value,
       if (localStorageTypes != null)
         if (localStorageTypes.isEmpty)
           'LocalStorageTypes': ''
         else
           for (var i1 = 0; i1 < localStorageTypes.length; i1++)
-            'LocalStorageTypes.member.${i1 + 1}':
-                localStorageTypes[i1].toValue(),
+            'LocalStorageTypes.member.${i1 + 1}': localStorageTypes[i1].value,
       if (maxSpotPriceAsPercentageOfOptimalOnDemandPrice != null)
         'MaxSpotPriceAsPercentageOfOptimalOnDemandPrice':
             maxSpotPriceAsPercentageOfOptimalOnDemandPrice.toString(),
@@ -8959,136 +8757,39 @@ class LifecycleHookSpecification {
 }
 
 enum LifecycleState {
-  pending,
-  pendingWait,
-  pendingProceed,
-  quarantined,
-  inService,
-  terminating,
-  terminatingWait,
-  terminatingProceed,
-  terminated,
-  detaching,
-  detached,
-  enteringStandby,
-  standby,
-  warmedPending,
-  warmedPendingWait,
-  warmedPendingProceed,
-  warmedTerminating,
-  warmedTerminatingWait,
-  warmedTerminatingProceed,
-  warmedTerminated,
-  warmedStopped,
-  warmedRunning,
-  warmedHibernated,
-}
+  pending('Pending'),
+  pendingWait('Pending:Wait'),
+  pendingProceed('Pending:Proceed'),
+  quarantined('Quarantined'),
+  inService('InService'),
+  terminating('Terminating'),
+  terminatingWait('Terminating:Wait'),
+  terminatingProceed('Terminating:Proceed'),
+  terminated('Terminated'),
+  detaching('Detaching'),
+  detached('Detached'),
+  enteringStandby('EnteringStandby'),
+  standby('Standby'),
+  warmedPending('Warmed:Pending'),
+  warmedPendingWait('Warmed:Pending:Wait'),
+  warmedPendingProceed('Warmed:Pending:Proceed'),
+  warmedTerminating('Warmed:Terminating'),
+  warmedTerminatingWait('Warmed:Terminating:Wait'),
+  warmedTerminatingProceed('Warmed:Terminating:Proceed'),
+  warmedTerminated('Warmed:Terminated'),
+  warmedStopped('Warmed:Stopped'),
+  warmedRunning('Warmed:Running'),
+  warmedHibernated('Warmed:Hibernated'),
+  ;
 
-extension LifecycleStateValueExtension on LifecycleState {
-  String toValue() {
-    switch (this) {
-      case LifecycleState.pending:
-        return 'Pending';
-      case LifecycleState.pendingWait:
-        return 'Pending:Wait';
-      case LifecycleState.pendingProceed:
-        return 'Pending:Proceed';
-      case LifecycleState.quarantined:
-        return 'Quarantined';
-      case LifecycleState.inService:
-        return 'InService';
-      case LifecycleState.terminating:
-        return 'Terminating';
-      case LifecycleState.terminatingWait:
-        return 'Terminating:Wait';
-      case LifecycleState.terminatingProceed:
-        return 'Terminating:Proceed';
-      case LifecycleState.terminated:
-        return 'Terminated';
-      case LifecycleState.detaching:
-        return 'Detaching';
-      case LifecycleState.detached:
-        return 'Detached';
-      case LifecycleState.enteringStandby:
-        return 'EnteringStandby';
-      case LifecycleState.standby:
-        return 'Standby';
-      case LifecycleState.warmedPending:
-        return 'Warmed:Pending';
-      case LifecycleState.warmedPendingWait:
-        return 'Warmed:Pending:Wait';
-      case LifecycleState.warmedPendingProceed:
-        return 'Warmed:Pending:Proceed';
-      case LifecycleState.warmedTerminating:
-        return 'Warmed:Terminating';
-      case LifecycleState.warmedTerminatingWait:
-        return 'Warmed:Terminating:Wait';
-      case LifecycleState.warmedTerminatingProceed:
-        return 'Warmed:Terminating:Proceed';
-      case LifecycleState.warmedTerminated:
-        return 'Warmed:Terminated';
-      case LifecycleState.warmedStopped:
-        return 'Warmed:Stopped';
-      case LifecycleState.warmedRunning:
-        return 'Warmed:Running';
-      case LifecycleState.warmedHibernated:
-        return 'Warmed:Hibernated';
-    }
-  }
-}
+  final String value;
 
-extension LifecycleStateFromString on String {
-  LifecycleState toLifecycleState() {
-    switch (this) {
-      case 'Pending':
-        return LifecycleState.pending;
-      case 'Pending:Wait':
-        return LifecycleState.pendingWait;
-      case 'Pending:Proceed':
-        return LifecycleState.pendingProceed;
-      case 'Quarantined':
-        return LifecycleState.quarantined;
-      case 'InService':
-        return LifecycleState.inService;
-      case 'Terminating':
-        return LifecycleState.terminating;
-      case 'Terminating:Wait':
-        return LifecycleState.terminatingWait;
-      case 'Terminating:Proceed':
-        return LifecycleState.terminatingProceed;
-      case 'Terminated':
-        return LifecycleState.terminated;
-      case 'Detaching':
-        return LifecycleState.detaching;
-      case 'Detached':
-        return LifecycleState.detached;
-      case 'EnteringStandby':
-        return LifecycleState.enteringStandby;
-      case 'Standby':
-        return LifecycleState.standby;
-      case 'Warmed:Pending':
-        return LifecycleState.warmedPending;
-      case 'Warmed:Pending:Wait':
-        return LifecycleState.warmedPendingWait;
-      case 'Warmed:Pending:Proceed':
-        return LifecycleState.warmedPendingProceed;
-      case 'Warmed:Terminating':
-        return LifecycleState.warmedTerminating;
-      case 'Warmed:Terminating:Wait':
-        return LifecycleState.warmedTerminatingWait;
-      case 'Warmed:Terminating:Proceed':
-        return LifecycleState.warmedTerminatingProceed;
-      case 'Warmed:Terminated':
-        return LifecycleState.warmedTerminated;
-      case 'Warmed:Stopped':
-        return LifecycleState.warmedStopped;
-      case 'Warmed:Running':
-        return LifecycleState.warmedRunning;
-      case 'Warmed:Hibernated':
-        return LifecycleState.warmedHibernated;
-    }
-    throw Exception('$this is not known in enum LifecycleState');
-  }
+  const LifecycleState(this.value);
+
+  static LifecycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LifecycleState'));
 }
 
 /// Describes the state of a Classic Load Balancer.
@@ -9214,64 +8915,34 @@ class LoadForecast {
 }
 
 enum LocalStorage {
-  included,
-  excluded,
-  required,
-}
+  included('included'),
+  excluded('excluded'),
+  required('required'),
+  ;
 
-extension LocalStorageValueExtension on LocalStorage {
-  String toValue() {
-    switch (this) {
-      case LocalStorage.included:
-        return 'included';
-      case LocalStorage.excluded:
-        return 'excluded';
-      case LocalStorage.required:
-        return 'required';
-    }
-  }
-}
+  final String value;
 
-extension LocalStorageFromString on String {
-  LocalStorage toLocalStorage() {
-    switch (this) {
-      case 'included':
-        return LocalStorage.included;
-      case 'excluded':
-        return LocalStorage.excluded;
-      case 'required':
-        return LocalStorage.required;
-    }
-    throw Exception('$this is not known in enum LocalStorage');
-  }
+  const LocalStorage(this.value);
+
+  static LocalStorage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LocalStorage'));
 }
 
 enum LocalStorageType {
-  hdd,
-  ssd,
-}
+  hdd('hdd'),
+  ssd('ssd'),
+  ;
 
-extension LocalStorageTypeValueExtension on LocalStorageType {
-  String toValue() {
-    switch (this) {
-      case LocalStorageType.hdd:
-        return 'hdd';
-      case LocalStorageType.ssd:
-        return 'ssd';
-    }
-  }
-}
+  final String value;
 
-extension LocalStorageTypeFromString on String {
-  LocalStorageType toLocalStorageType() {
-    switch (this) {
-      case 'hdd':
-        return LocalStorageType.hdd;
-      case 'ssd':
-        return LocalStorageType.ssd;
-    }
-    throw Exception('$this is not known in enum LocalStorageType');
-  }
+  const LocalStorageType(this.value);
+
+  static LocalStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LocalStorageType'));
 }
 
 /// Specifies the minimum and maximum for the <code>MemoryGiBPerVCpu</code>
@@ -9720,84 +9391,37 @@ class MetricStat {
 }
 
 enum MetricStatistic {
-  average,
-  minimum,
-  maximum,
-  sampleCount,
-  sum,
-}
+  average('Average'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  sampleCount('SampleCount'),
+  sum('Sum'),
+  ;
 
-extension MetricStatisticValueExtension on MetricStatistic {
-  String toValue() {
-    switch (this) {
-      case MetricStatistic.average:
-        return 'Average';
-      case MetricStatistic.minimum:
-        return 'Minimum';
-      case MetricStatistic.maximum:
-        return 'Maximum';
-      case MetricStatistic.sampleCount:
-        return 'SampleCount';
-      case MetricStatistic.sum:
-        return 'Sum';
-    }
-  }
-}
+  final String value;
 
-extension MetricStatisticFromString on String {
-  MetricStatistic toMetricStatistic() {
-    switch (this) {
-      case 'Average':
-        return MetricStatistic.average;
-      case 'Minimum':
-        return MetricStatistic.minimum;
-      case 'Maximum':
-        return MetricStatistic.maximum;
-      case 'SampleCount':
-        return MetricStatistic.sampleCount;
-      case 'Sum':
-        return MetricStatistic.sum;
-    }
-    throw Exception('$this is not known in enum MetricStatistic');
-  }
+  const MetricStatistic(this.value);
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricStatistic'));
 }
 
 enum MetricType {
-  aSGAverageCPUUtilization,
-  aSGAverageNetworkIn,
-  aSGAverageNetworkOut,
-  aLBRequestCountPerTarget,
-}
+  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
+  aSGAverageNetworkIn('ASGAverageNetworkIn'),
+  aSGAverageNetworkOut('ASGAverageNetworkOut'),
+  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
+  ;
 
-extension MetricTypeValueExtension on MetricType {
-  String toValue() {
-    switch (this) {
-      case MetricType.aSGAverageCPUUtilization:
-        return 'ASGAverageCPUUtilization';
-      case MetricType.aSGAverageNetworkIn:
-        return 'ASGAverageNetworkIn';
-      case MetricType.aSGAverageNetworkOut:
-        return 'ASGAverageNetworkOut';
-      case MetricType.aLBRequestCountPerTarget:
-        return 'ALBRequestCountPerTarget';
-    }
-  }
-}
+  final String value;
 
-extension MetricTypeFromString on String {
-  MetricType toMetricType() {
-    switch (this) {
-      case 'ASGAverageCPUUtilization':
-        return MetricType.aSGAverageCPUUtilization;
-      case 'ASGAverageNetworkIn':
-        return MetricType.aSGAverageNetworkIn;
-      case 'ASGAverageNetworkOut':
-        return MetricType.aSGAverageNetworkOut;
-      case 'ALBRequestCountPerTarget':
-        return MetricType.aLBRequestCountPerTarget;
-    }
-    throw Exception('$this is not known in enum MetricType');
-  }
+  const MetricType(this.value);
+
+  static MetricType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricType'));
 }
 
 /// Use this structure to launch multiple instance types and On-Demand Instances
@@ -10036,79 +9660,37 @@ class PolicyARNType {
 }
 
 enum PredefinedLoadMetricType {
-  aSGTotalCPUUtilization,
-  aSGTotalNetworkIn,
-  aSGTotalNetworkOut,
-  aLBTargetGroupRequestCount,
-}
+  aSGTotalCPUUtilization('ASGTotalCPUUtilization'),
+  aSGTotalNetworkIn('ASGTotalNetworkIn'),
+  aSGTotalNetworkOut('ASGTotalNetworkOut'),
+  aLBTargetGroupRequestCount('ALBTargetGroupRequestCount'),
+  ;
 
-extension PredefinedLoadMetricTypeValueExtension on PredefinedLoadMetricType {
-  String toValue() {
-    switch (this) {
-      case PredefinedLoadMetricType.aSGTotalCPUUtilization:
-        return 'ASGTotalCPUUtilization';
-      case PredefinedLoadMetricType.aSGTotalNetworkIn:
-        return 'ASGTotalNetworkIn';
-      case PredefinedLoadMetricType.aSGTotalNetworkOut:
-        return 'ASGTotalNetworkOut';
-      case PredefinedLoadMetricType.aLBTargetGroupRequestCount:
-        return 'ALBTargetGroupRequestCount';
-    }
-  }
-}
+  final String value;
 
-extension PredefinedLoadMetricTypeFromString on String {
-  PredefinedLoadMetricType toPredefinedLoadMetricType() {
-    switch (this) {
-      case 'ASGTotalCPUUtilization':
-        return PredefinedLoadMetricType.aSGTotalCPUUtilization;
-      case 'ASGTotalNetworkIn':
-        return PredefinedLoadMetricType.aSGTotalNetworkIn;
-      case 'ASGTotalNetworkOut':
-        return PredefinedLoadMetricType.aSGTotalNetworkOut;
-      case 'ALBTargetGroupRequestCount':
-        return PredefinedLoadMetricType.aLBTargetGroupRequestCount;
-    }
-    throw Exception('$this is not known in enum PredefinedLoadMetricType');
-  }
+  const PredefinedLoadMetricType(this.value);
+
+  static PredefinedLoadMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PredefinedLoadMetricType'));
 }
 
 enum PredefinedMetricPairType {
-  aSGCPUUtilization,
-  aSGNetworkIn,
-  aSGNetworkOut,
-  aLBRequestCount,
-}
+  aSGCPUUtilization('ASGCPUUtilization'),
+  aSGNetworkIn('ASGNetworkIn'),
+  aSGNetworkOut('ASGNetworkOut'),
+  aLBRequestCount('ALBRequestCount'),
+  ;
 
-extension PredefinedMetricPairTypeValueExtension on PredefinedMetricPairType {
-  String toValue() {
-    switch (this) {
-      case PredefinedMetricPairType.aSGCPUUtilization:
-        return 'ASGCPUUtilization';
-      case PredefinedMetricPairType.aSGNetworkIn:
-        return 'ASGNetworkIn';
-      case PredefinedMetricPairType.aSGNetworkOut:
-        return 'ASGNetworkOut';
-      case PredefinedMetricPairType.aLBRequestCount:
-        return 'ALBRequestCount';
-    }
-  }
-}
+  final String value;
 
-extension PredefinedMetricPairTypeFromString on String {
-  PredefinedMetricPairType toPredefinedMetricPairType() {
-    switch (this) {
-      case 'ASGCPUUtilization':
-        return PredefinedMetricPairType.aSGCPUUtilization;
-      case 'ASGNetworkIn':
-        return PredefinedMetricPairType.aSGNetworkIn;
-      case 'ASGNetworkOut':
-        return PredefinedMetricPairType.aSGNetworkOut;
-      case 'ALBRequestCount':
-        return PredefinedMetricPairType.aLBRequestCount;
-    }
-    throw Exception('$this is not known in enum PredefinedMetricPairType');
-  }
+  const PredefinedMetricPairType(this.value);
+
+  static PredefinedMetricPairType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PredefinedMetricPairType'));
 }
 
 /// Represents a predefined metric for a target tracking scaling policy to use
@@ -10175,7 +9757,7 @@ class PredefinedMetricSpecification {
     return PredefinedMetricSpecification(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .toMetricType(),
+          .let(MetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -10184,7 +9766,7 @@ class PredefinedMetricSpecification {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10193,49 +9775,27 @@ class PredefinedMetricSpecification {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
 }
 
 enum PredefinedScalingMetricType {
-  aSGAverageCPUUtilization,
-  aSGAverageNetworkIn,
-  aSGAverageNetworkOut,
-  aLBRequestCountPerTarget,
-}
+  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
+  aSGAverageNetworkIn('ASGAverageNetworkIn'),
+  aSGAverageNetworkOut('ASGAverageNetworkOut'),
+  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
+  ;
 
-extension PredefinedScalingMetricTypeValueExtension
-    on PredefinedScalingMetricType {
-  String toValue() {
-    switch (this) {
-      case PredefinedScalingMetricType.aSGAverageCPUUtilization:
-        return 'ASGAverageCPUUtilization';
-      case PredefinedScalingMetricType.aSGAverageNetworkIn:
-        return 'ASGAverageNetworkIn';
-      case PredefinedScalingMetricType.aSGAverageNetworkOut:
-        return 'ASGAverageNetworkOut';
-      case PredefinedScalingMetricType.aLBRequestCountPerTarget:
-        return 'ALBRequestCountPerTarget';
-    }
-  }
-}
+  final String value;
 
-extension PredefinedScalingMetricTypeFromString on String {
-  PredefinedScalingMetricType toPredefinedScalingMetricType() {
-    switch (this) {
-      case 'ASGAverageCPUUtilization':
-        return PredefinedScalingMetricType.aSGAverageCPUUtilization;
-      case 'ASGAverageNetworkIn':
-        return PredefinedScalingMetricType.aSGAverageNetworkIn;
-      case 'ASGAverageNetworkOut':
-        return PredefinedScalingMetricType.aSGAverageNetworkOut;
-      case 'ALBRequestCountPerTarget':
-        return PredefinedScalingMetricType.aLBRequestCountPerTarget;
-    }
-    throw Exception('$this is not known in enum PredefinedScalingMetricType');
-  }
+  const PredefinedScalingMetricType(this.value);
+
+  static PredefinedScalingMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PredefinedScalingMetricType'));
 }
 
 /// Represents a predictive scaling policy configuration to use with Amazon EC2
@@ -10315,9 +9875,11 @@ class PredictiveScalingConfiguration {
           .toList(),
       maxCapacityBreachBehavior: _s
           .extractXmlStringValue(elem, 'MaxCapacityBreachBehavior')
-          ?.toPredictiveScalingMaxCapacityBreachBehavior(),
+          ?.let(PredictiveScalingMaxCapacityBreachBehavior.fromString),
       maxCapacityBuffer: _s.extractXmlIntValue(elem, 'MaxCapacityBuffer'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.toPredictiveScalingMode(),
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(PredictiveScalingMode.fromString),
       schedulingBufferTime: _s.extractXmlIntValue(elem, 'SchedulingBufferTime'),
     );
   }
@@ -10331,9 +9893,9 @@ class PredictiveScalingConfiguration {
     return {
       'MetricSpecifications': metricSpecifications,
       if (maxCapacityBreachBehavior != null)
-        'MaxCapacityBreachBehavior': maxCapacityBreachBehavior.toValue(),
+        'MaxCapacityBreachBehavior': maxCapacityBreachBehavior.value,
       if (maxCapacityBuffer != null) 'MaxCapacityBuffer': maxCapacityBuffer,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (schedulingBufferTime != null)
         'SchedulingBufferTime': schedulingBufferTime,
     };
@@ -10353,10 +9915,10 @@ class PredictiveScalingConfiguration {
           for (var e3 in metricSpecifications[i1].toQueryMap().entries)
             'MetricSpecifications.member.${i1 + 1}.${e3.key}': e3.value,
       if (maxCapacityBreachBehavior != null)
-        'MaxCapacityBreachBehavior': maxCapacityBreachBehavior.toValue(),
+        'MaxCapacityBreachBehavior': maxCapacityBreachBehavior.value,
       if (maxCapacityBuffer != null)
         'MaxCapacityBuffer': maxCapacityBuffer.toString(),
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (schedulingBufferTime != null)
         'SchedulingBufferTime': schedulingBufferTime.toString(),
     };
@@ -10485,34 +10047,18 @@ class PredictiveScalingCustomizedScalingMetric {
 }
 
 enum PredictiveScalingMaxCapacityBreachBehavior {
-  honorMaxCapacity,
-  increaseMaxCapacity,
-}
+  honorMaxCapacity('HonorMaxCapacity'),
+  increaseMaxCapacity('IncreaseMaxCapacity'),
+  ;
 
-extension PredictiveScalingMaxCapacityBreachBehaviorValueExtension
-    on PredictiveScalingMaxCapacityBreachBehavior {
-  String toValue() {
-    switch (this) {
-      case PredictiveScalingMaxCapacityBreachBehavior.honorMaxCapacity:
-        return 'HonorMaxCapacity';
-      case PredictiveScalingMaxCapacityBreachBehavior.increaseMaxCapacity:
-        return 'IncreaseMaxCapacity';
-    }
-  }
-}
+  final String value;
 
-extension PredictiveScalingMaxCapacityBreachBehaviorFromString on String {
-  PredictiveScalingMaxCapacityBreachBehavior
-      toPredictiveScalingMaxCapacityBreachBehavior() {
-    switch (this) {
-      case 'HonorMaxCapacity':
-        return PredictiveScalingMaxCapacityBreachBehavior.honorMaxCapacity;
-      case 'IncreaseMaxCapacity':
-        return PredictiveScalingMaxCapacityBreachBehavior.increaseMaxCapacity;
-    }
-    throw Exception(
-        '$this is not known in enum PredictiveScalingMaxCapacityBreachBehavior');
-  }
+  const PredictiveScalingMaxCapacityBreachBehavior(this.value);
+
+  static PredictiveScalingMaxCapacityBreachBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PredictiveScalingMaxCapacityBreachBehavior'));
 }
 
 /// This structure specifies the metrics and target utilization settings for a
@@ -10709,31 +10255,18 @@ class PredictiveScalingMetricSpecification {
 }
 
 enum PredictiveScalingMode {
-  forecastAndScale,
-  forecastOnly,
-}
+  forecastAndScale('ForecastAndScale'),
+  forecastOnly('ForecastOnly'),
+  ;
 
-extension PredictiveScalingModeValueExtension on PredictiveScalingMode {
-  String toValue() {
-    switch (this) {
-      case PredictiveScalingMode.forecastAndScale:
-        return 'ForecastAndScale';
-      case PredictiveScalingMode.forecastOnly:
-        return 'ForecastOnly';
-    }
-  }
-}
+  final String value;
 
-extension PredictiveScalingModeFromString on String {
-  PredictiveScalingMode toPredictiveScalingMode() {
-    switch (this) {
-      case 'ForecastAndScale':
-        return PredictiveScalingMode.forecastAndScale;
-      case 'ForecastOnly':
-        return PredictiveScalingMode.forecastOnly;
-    }
-    throw Exception('$this is not known in enum PredictiveScalingMode');
-  }
+  const PredictiveScalingMode(this.value);
+
+  static PredictiveScalingMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PredictiveScalingMode'));
 }
 
 /// Describes a load metric for a predictive scaling policy.
@@ -10784,7 +10317,7 @@ class PredictiveScalingPredefinedLoadMetric {
     return PredictiveScalingPredefinedLoadMetric(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .toPredefinedLoadMetricType(),
+          .let(PredefinedLoadMetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -10793,7 +10326,7 @@ class PredictiveScalingPredefinedLoadMetric {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10802,7 +10335,7 @@ class PredictiveScalingPredefinedLoadMetric {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10856,7 +10389,7 @@ class PredictiveScalingPredefinedMetricPair {
     return PredictiveScalingPredefinedMetricPair(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .toPredefinedMetricPairType(),
+          .let(PredefinedMetricPairType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -10865,7 +10398,7 @@ class PredictiveScalingPredefinedMetricPair {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10874,7 +10407,7 @@ class PredictiveScalingPredefinedMetricPair {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10928,7 +10461,7 @@ class PredictiveScalingPredefinedScalingMetric {
     return PredictiveScalingPredefinedScalingMetric(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .toPredefinedScalingMetricType(),
+          .let(PredefinedScalingMetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -10937,7 +10470,7 @@ class PredictiveScalingPredefinedScalingMetric {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -10946,7 +10479,7 @@ class PredictiveScalingPredefinedScalingMetric {
     final predefinedMetricType = this.predefinedMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedMetricType': predefinedMetricType.toValue(),
+      'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -11206,11 +10739,11 @@ class RefreshPreferences {
       minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
       scaleInProtectedInstances: _s
           .extractXmlStringValue(elem, 'ScaleInProtectedInstances')
-          ?.toScaleInProtectedInstances(),
+          ?.let(ScaleInProtectedInstances.fromString),
       skipMatching: _s.extractXmlBoolValue(elem, 'SkipMatching'),
       standbyInstances: _s
           .extractXmlStringValue(elem, 'StandbyInstances')
-          ?.toStandbyInstances(),
+          ?.let(StandbyInstances.fromString),
     );
   }
 
@@ -11237,10 +10770,9 @@ class RefreshPreferences {
       if (minHealthyPercentage != null)
         'MinHealthyPercentage': minHealthyPercentage,
       if (scaleInProtectedInstances != null)
-        'ScaleInProtectedInstances': scaleInProtectedInstances.toValue(),
+        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
       if (skipMatching != null) 'SkipMatching': skipMatching,
-      if (standbyInstances != null)
-        'StandbyInstances': standbyInstances.toValue(),
+      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
     };
   }
 
@@ -11275,35 +10807,25 @@ class RefreshPreferences {
       if (minHealthyPercentage != null)
         'MinHealthyPercentage': minHealthyPercentage.toString(),
       if (scaleInProtectedInstances != null)
-        'ScaleInProtectedInstances': scaleInProtectedInstances.toValue(),
+        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
       if (skipMatching != null) 'SkipMatching': skipMatching.toString(),
-      if (standbyInstances != null)
-        'StandbyInstances': standbyInstances.toValue(),
+      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
     };
   }
 }
 
 enum RefreshStrategy {
-  rolling,
-}
+  rolling('Rolling'),
+  ;
 
-extension RefreshStrategyValueExtension on RefreshStrategy {
-  String toValue() {
-    switch (this) {
-      case RefreshStrategy.rolling:
-        return 'Rolling';
-    }
-  }
-}
+  final String value;
 
-extension RefreshStrategyFromString on String {
-  RefreshStrategy toRefreshStrategy() {
-    switch (this) {
-      case 'Rolling':
-        return RefreshStrategy.rolling;
-    }
-    throw Exception('$this is not known in enum RefreshStrategy');
-  }
+  const RefreshStrategy(this.value);
+
+  static RefreshStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RefreshStrategy'));
 }
 
 /// Details about an instance refresh rollback.
@@ -11366,119 +10888,45 @@ class RollbackInstanceRefreshAnswer {
 }
 
 enum ScaleInProtectedInstances {
-  refresh,
-  ignore,
-  wait,
-}
+  refresh('Refresh'),
+  ignore('Ignore'),
+  wait('Wait'),
+  ;
 
-extension ScaleInProtectedInstancesValueExtension on ScaleInProtectedInstances {
-  String toValue() {
-    switch (this) {
-      case ScaleInProtectedInstances.refresh:
-        return 'Refresh';
-      case ScaleInProtectedInstances.ignore:
-        return 'Ignore';
-      case ScaleInProtectedInstances.wait:
-        return 'Wait';
-    }
-  }
-}
+  final String value;
 
-extension ScaleInProtectedInstancesFromString on String {
-  ScaleInProtectedInstances toScaleInProtectedInstances() {
-    switch (this) {
-      case 'Refresh':
-        return ScaleInProtectedInstances.refresh;
-      case 'Ignore':
-        return ScaleInProtectedInstances.ignore;
-      case 'Wait':
-        return ScaleInProtectedInstances.wait;
-    }
-    throw Exception('$this is not known in enum ScaleInProtectedInstances');
-  }
+  const ScaleInProtectedInstances(this.value);
+
+  static ScaleInProtectedInstances fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScaleInProtectedInstances'));
 }
 
 enum ScalingActivityStatusCode {
-  pendingSpotBidPlacement,
-  waitingForSpotInstanceRequestId,
-  waitingForSpotInstanceId,
-  waitingForInstanceId,
-  preInService,
-  inProgress,
-  waitingForELBConnectionDraining,
-  midLifecycleAction,
-  waitingForInstanceWarmup,
-  successful,
-  failed,
-  cancelled,
-  waitingForConnectionDraining,
-}
+  pendingSpotBidPlacement('PendingSpotBidPlacement'),
+  waitingForSpotInstanceRequestId('WaitingForSpotInstanceRequestId'),
+  waitingForSpotInstanceId('WaitingForSpotInstanceId'),
+  waitingForInstanceId('WaitingForInstanceId'),
+  preInService('PreInService'),
+  inProgress('InProgress'),
+  waitingForELBConnectionDraining('WaitingForELBConnectionDraining'),
+  midLifecycleAction('MidLifecycleAction'),
+  waitingForInstanceWarmup('WaitingForInstanceWarmup'),
+  successful('Successful'),
+  failed('Failed'),
+  cancelled('Cancelled'),
+  waitingForConnectionDraining('WaitingForConnectionDraining'),
+  ;
 
-extension ScalingActivityStatusCodeValueExtension on ScalingActivityStatusCode {
-  String toValue() {
-    switch (this) {
-      case ScalingActivityStatusCode.pendingSpotBidPlacement:
-        return 'PendingSpotBidPlacement';
-      case ScalingActivityStatusCode.waitingForSpotInstanceRequestId:
-        return 'WaitingForSpotInstanceRequestId';
-      case ScalingActivityStatusCode.waitingForSpotInstanceId:
-        return 'WaitingForSpotInstanceId';
-      case ScalingActivityStatusCode.waitingForInstanceId:
-        return 'WaitingForInstanceId';
-      case ScalingActivityStatusCode.preInService:
-        return 'PreInService';
-      case ScalingActivityStatusCode.inProgress:
-        return 'InProgress';
-      case ScalingActivityStatusCode.waitingForELBConnectionDraining:
-        return 'WaitingForELBConnectionDraining';
-      case ScalingActivityStatusCode.midLifecycleAction:
-        return 'MidLifecycleAction';
-      case ScalingActivityStatusCode.waitingForInstanceWarmup:
-        return 'WaitingForInstanceWarmup';
-      case ScalingActivityStatusCode.successful:
-        return 'Successful';
-      case ScalingActivityStatusCode.failed:
-        return 'Failed';
-      case ScalingActivityStatusCode.cancelled:
-        return 'Cancelled';
-      case ScalingActivityStatusCode.waitingForConnectionDraining:
-        return 'WaitingForConnectionDraining';
-    }
-  }
-}
+  final String value;
 
-extension ScalingActivityStatusCodeFromString on String {
-  ScalingActivityStatusCode toScalingActivityStatusCode() {
-    switch (this) {
-      case 'PendingSpotBidPlacement':
-        return ScalingActivityStatusCode.pendingSpotBidPlacement;
-      case 'WaitingForSpotInstanceRequestId':
-        return ScalingActivityStatusCode.waitingForSpotInstanceRequestId;
-      case 'WaitingForSpotInstanceId':
-        return ScalingActivityStatusCode.waitingForSpotInstanceId;
-      case 'WaitingForInstanceId':
-        return ScalingActivityStatusCode.waitingForInstanceId;
-      case 'PreInService':
-        return ScalingActivityStatusCode.preInService;
-      case 'InProgress':
-        return ScalingActivityStatusCode.inProgress;
-      case 'WaitingForELBConnectionDraining':
-        return ScalingActivityStatusCode.waitingForELBConnectionDraining;
-      case 'MidLifecycleAction':
-        return ScalingActivityStatusCode.midLifecycleAction;
-      case 'WaitingForInstanceWarmup':
-        return ScalingActivityStatusCode.waitingForInstanceWarmup;
-      case 'Successful':
-        return ScalingActivityStatusCode.successful;
-      case 'Failed':
-        return ScalingActivityStatusCode.failed;
-      case 'Cancelled':
-        return ScalingActivityStatusCode.cancelled;
-      case 'WaitingForConnectionDraining':
-        return ScalingActivityStatusCode.waitingForConnectionDraining;
-    }
-    throw Exception('$this is not known in enum ScalingActivityStatusCode');
-  }
+  const ScalingActivityStatusCode(this.value);
+
+  static ScalingActivityStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScalingActivityStatusCode'));
 }
 
 /// Describes a scaling policy.
@@ -11833,36 +11281,19 @@ class SetInstanceProtectionAnswer {
 }
 
 enum StandbyInstances {
-  terminate,
-  ignore,
-  wait,
-}
+  terminate('Terminate'),
+  ignore('Ignore'),
+  wait('Wait'),
+  ;
 
-extension StandbyInstancesValueExtension on StandbyInstances {
-  String toValue() {
-    switch (this) {
-      case StandbyInstances.terminate:
-        return 'Terminate';
-      case StandbyInstances.ignore:
-        return 'Ignore';
-      case StandbyInstances.wait:
-        return 'Wait';
-    }
-  }
-}
+  final String value;
 
-extension StandbyInstancesFromString on String {
-  StandbyInstances toStandbyInstances() {
-    switch (this) {
-      case 'Terminate':
-        return StandbyInstances.terminate;
-      case 'Ignore':
-        return StandbyInstances.ignore;
-      case 'Wait':
-        return StandbyInstances.wait;
-    }
-    throw Exception('$this is not known in enum StandbyInstances');
-  }
+  const StandbyInstances(this.value);
+
+  static StandbyInstances fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StandbyInstances'));
 }
 
 class StartInstanceRefreshAnswer {
@@ -12648,66 +12079,44 @@ class WarmPoolConfiguration {
       maxGroupPreparedCapacity:
           _s.extractXmlIntValue(elem, 'MaxGroupPreparedCapacity'),
       minSize: _s.extractXmlIntValue(elem, 'MinSize'),
-      poolState: _s.extractXmlStringValue(elem, 'PoolState')?.toWarmPoolState(),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toWarmPoolStatus(),
+      poolState: _s
+          .extractXmlStringValue(elem, 'PoolState')
+          ?.let(WarmPoolState.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(WarmPoolStatus.fromString),
     );
   }
 }
 
 enum WarmPoolState {
-  stopped,
-  running,
-  hibernated,
-}
+  stopped('Stopped'),
+  running('Running'),
+  hibernated('Hibernated'),
+  ;
 
-extension WarmPoolStateValueExtension on WarmPoolState {
-  String toValue() {
-    switch (this) {
-      case WarmPoolState.stopped:
-        return 'Stopped';
-      case WarmPoolState.running:
-        return 'Running';
-      case WarmPoolState.hibernated:
-        return 'Hibernated';
-    }
-  }
-}
+  final String value;
 
-extension WarmPoolStateFromString on String {
-  WarmPoolState toWarmPoolState() {
-    switch (this) {
-      case 'Stopped':
-        return WarmPoolState.stopped;
-      case 'Running':
-        return WarmPoolState.running;
-      case 'Hibernated':
-        return WarmPoolState.hibernated;
-    }
-    throw Exception('$this is not known in enum WarmPoolState');
-  }
+  const WarmPoolState(this.value);
+
+  static WarmPoolState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WarmPoolState'));
 }
 
 enum WarmPoolStatus {
-  pendingDelete,
-}
+  pendingDelete('PendingDelete'),
+  ;
 
-extension WarmPoolStatusValueExtension on WarmPoolStatus {
-  String toValue() {
-    switch (this) {
-      case WarmPoolStatus.pendingDelete:
-        return 'PendingDelete';
-    }
-  }
-}
+  final String value;
 
-extension WarmPoolStatusFromString on String {
-  WarmPoolStatus toWarmPoolStatus() {
-    switch (this) {
-      case 'PendingDelete':
-        return WarmPoolStatus.pendingDelete;
-    }
-    throw Exception('$this is not known in enum WarmPoolStatus');
-  }
+  const WarmPoolStatus(this.value);
+
+  static WarmPoolStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WarmPoolStatus'));
 }
 
 class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {

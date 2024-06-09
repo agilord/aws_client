@@ -350,9 +350,8 @@ class FSx {
         'VolumeId': volumeId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
-        if (copyStrategy != null) 'CopyStrategy': copyStrategy.toValue(),
-        if (options != null)
-          'Options': options.map((e) => e.toValue()).toList(),
+        if (copyStrategy != null) 'CopyStrategy': copyStrategy.value,
+        if (options != null) 'Options': options.map((e) => e.value).toList(),
       },
     );
 
@@ -743,7 +742,7 @@ class FSx {
       payload: {
         'FileSystemId': fileSystemId,
         'Report': report,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (capacityToRelease != null) 'CapacityToRelease': capacityToRelease,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -888,7 +887,7 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileCacheType': fileCacheType.toValue(),
+        'FileCacheType': fileCacheType.value,
         'FileCacheTypeVersion': fileCacheTypeVersion,
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
@@ -1153,7 +1152,7 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileSystemType': fileSystemType.toValue(),
+        'FileSystemType': fileSystemType.value,
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
         'ClientRequestToken':
@@ -1168,7 +1167,7 @@ class FSx {
         if (openZFSConfiguration != null)
           'OpenZFSConfiguration': openZFSConfiguration,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (storageType != null) 'StorageType': storageType.toValue(),
+        if (storageType != null) 'StorageType': storageType.value,
         if (tags != null) 'Tags': tags,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
@@ -1358,7 +1357,7 @@ class FSx {
           'OpenZFSConfiguration': openZFSConfiguration,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (storageCapacity != null) 'StorageCapacity': storageCapacity,
-        if (storageType != null) 'StorageType': storageType.toValue(),
+        if (storageType != null) 'StorageType': storageType.value,
         if (tags != null) 'Tags': tags,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
@@ -1514,7 +1513,7 @@ class FSx {
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (rootVolumeSecurityStyle != null)
-          'RootVolumeSecurityStyle': rootVolumeSecurityStyle.toValue(),
+          'RootVolumeSecurityStyle': rootVolumeSecurityStyle.value,
         if (svmAdminPassword != null) 'SvmAdminPassword': svmAdminPassword,
         if (tags != null) 'Tags': tags,
       },
@@ -1566,7 +1565,7 @@ class FSx {
       headers: headers,
       payload: {
         'Name': name,
-        'VolumeType': volumeType.toValue(),
+        'VolumeType': volumeType.value,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (ontapConfiguration != null)
@@ -2858,8 +2857,7 @@ class FSx {
         'VolumeId': volumeId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
-        if (options != null)
-          'Options': options.map((e) => e.toValue()).toList(),
+        if (options != null) 'Options': options.map((e) => e.value).toList(),
       },
     );
 
@@ -3336,7 +3334,7 @@ class FSx {
         if (openZFSConfiguration != null)
           'OpenZFSConfiguration': openZFSConfiguration,
         if (storageCapacity != null) 'StorageCapacity': storageCapacity,
-        if (storageType != null) 'StorageType': storageType.toValue(),
+        if (storageType != null) 'StorageType': storageType.value,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
       },
@@ -3638,7 +3636,7 @@ class AdministrativeAction {
   factory AdministrativeAction.fromJson(Map<String, dynamic> json) {
     return AdministrativeAction(
       administrativeActionType: (json['AdministrativeActionType'] as String?)
-          ?.toAdministrativeActionType(),
+          ?.let(AdministrativeActionType.fromString),
       failureDetails: json['FailureDetails'] != null
           ? AdministrativeActionFailureDetails.fromJson(
               json['FailureDetails'] as Map<String, dynamic>)
@@ -3646,7 +3644,7 @@ class AdministrativeAction {
       progressPercent: json['ProgressPercent'] as int?,
       remainingTransferBytes: json['RemainingTransferBytes'] as int?,
       requestTime: timeStampFromJson(json['RequestTime']),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       targetFileSystemValues: json['TargetFileSystemValues'] != null
           ? FileSystem.fromJson(
               json['TargetFileSystemValues'] as Map<String, dynamic>)
@@ -3806,91 +3804,30 @@ class AdministrativeActionFailureDetails {
 /// </li>
 /// </ul>
 enum AdministrativeActionType {
-  fileSystemUpdate,
-  storageOptimization,
-  fileSystemAliasAssociation,
-  fileSystemAliasDisassociation,
-  volumeUpdate,
-  snapshotUpdate,
-  releaseNfsV3Locks,
-  volumeRestore,
-  throughputOptimization,
-  iopsOptimization,
-  storageTypeOptimization,
-  misconfiguredStateRecovery,
-  volumeUpdateWithSnapshot,
-  volumeInitializeWithSnapshot,
-}
+  fileSystemUpdate('FILE_SYSTEM_UPDATE'),
+  storageOptimization('STORAGE_OPTIMIZATION'),
+  fileSystemAliasAssociation('FILE_SYSTEM_ALIAS_ASSOCIATION'),
+  fileSystemAliasDisassociation('FILE_SYSTEM_ALIAS_DISASSOCIATION'),
+  volumeUpdate('VOLUME_UPDATE'),
+  snapshotUpdate('SNAPSHOT_UPDATE'),
+  releaseNfsV3Locks('RELEASE_NFS_V3_LOCKS'),
+  volumeRestore('VOLUME_RESTORE'),
+  throughputOptimization('THROUGHPUT_OPTIMIZATION'),
+  iopsOptimization('IOPS_OPTIMIZATION'),
+  storageTypeOptimization('STORAGE_TYPE_OPTIMIZATION'),
+  misconfiguredStateRecovery('MISCONFIGURED_STATE_RECOVERY'),
+  volumeUpdateWithSnapshot('VOLUME_UPDATE_WITH_SNAPSHOT'),
+  volumeInitializeWithSnapshot('VOLUME_INITIALIZE_WITH_SNAPSHOT'),
+  ;
 
-extension AdministrativeActionTypeValueExtension on AdministrativeActionType {
-  String toValue() {
-    switch (this) {
-      case AdministrativeActionType.fileSystemUpdate:
-        return 'FILE_SYSTEM_UPDATE';
-      case AdministrativeActionType.storageOptimization:
-        return 'STORAGE_OPTIMIZATION';
-      case AdministrativeActionType.fileSystemAliasAssociation:
-        return 'FILE_SYSTEM_ALIAS_ASSOCIATION';
-      case AdministrativeActionType.fileSystemAliasDisassociation:
-        return 'FILE_SYSTEM_ALIAS_DISASSOCIATION';
-      case AdministrativeActionType.volumeUpdate:
-        return 'VOLUME_UPDATE';
-      case AdministrativeActionType.snapshotUpdate:
-        return 'SNAPSHOT_UPDATE';
-      case AdministrativeActionType.releaseNfsV3Locks:
-        return 'RELEASE_NFS_V3_LOCKS';
-      case AdministrativeActionType.volumeRestore:
-        return 'VOLUME_RESTORE';
-      case AdministrativeActionType.throughputOptimization:
-        return 'THROUGHPUT_OPTIMIZATION';
-      case AdministrativeActionType.iopsOptimization:
-        return 'IOPS_OPTIMIZATION';
-      case AdministrativeActionType.storageTypeOptimization:
-        return 'STORAGE_TYPE_OPTIMIZATION';
-      case AdministrativeActionType.misconfiguredStateRecovery:
-        return 'MISCONFIGURED_STATE_RECOVERY';
-      case AdministrativeActionType.volumeUpdateWithSnapshot:
-        return 'VOLUME_UPDATE_WITH_SNAPSHOT';
-      case AdministrativeActionType.volumeInitializeWithSnapshot:
-        return 'VOLUME_INITIALIZE_WITH_SNAPSHOT';
-    }
-  }
-}
+  final String value;
 
-extension AdministrativeActionTypeFromString on String {
-  AdministrativeActionType toAdministrativeActionType() {
-    switch (this) {
-      case 'FILE_SYSTEM_UPDATE':
-        return AdministrativeActionType.fileSystemUpdate;
-      case 'STORAGE_OPTIMIZATION':
-        return AdministrativeActionType.storageOptimization;
-      case 'FILE_SYSTEM_ALIAS_ASSOCIATION':
-        return AdministrativeActionType.fileSystemAliasAssociation;
-      case 'FILE_SYSTEM_ALIAS_DISASSOCIATION':
-        return AdministrativeActionType.fileSystemAliasDisassociation;
-      case 'VOLUME_UPDATE':
-        return AdministrativeActionType.volumeUpdate;
-      case 'SNAPSHOT_UPDATE':
-        return AdministrativeActionType.snapshotUpdate;
-      case 'RELEASE_NFS_V3_LOCKS':
-        return AdministrativeActionType.releaseNfsV3Locks;
-      case 'VOLUME_RESTORE':
-        return AdministrativeActionType.volumeRestore;
-      case 'THROUGHPUT_OPTIMIZATION':
-        return AdministrativeActionType.throughputOptimization;
-      case 'IOPS_OPTIMIZATION':
-        return AdministrativeActionType.iopsOptimization;
-      case 'STORAGE_TYPE_OPTIMIZATION':
-        return AdministrativeActionType.storageTypeOptimization;
-      case 'MISCONFIGURED_STATE_RECOVERY':
-        return AdministrativeActionType.misconfiguredStateRecovery;
-      case 'VOLUME_UPDATE_WITH_SNAPSHOT':
-        return AdministrativeActionType.volumeUpdateWithSnapshot;
-      case 'VOLUME_INITIALIZE_WITH_SNAPSHOT':
-        return AdministrativeActionType.volumeInitializeWithSnapshot;
-    }
-    throw Exception('$this is not known in enum AdministrativeActionType');
-  }
+  const AdministrativeActionType(this.value);
+
+  static AdministrativeActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdministrativeActionType'));
 }
 
 /// Used to specify configuration options for a volume’s storage aggregate or
@@ -4004,53 +3941,28 @@ class Alias {
 
   factory Alias.fromJson(Map<String, dynamic> json) {
     return Alias(
-      lifecycle: (json['Lifecycle'] as String?)?.toAliasLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)?.let(AliasLifecycle.fromString),
       name: json['Name'] as String?,
     );
   }
 }
 
 enum AliasLifecycle {
-  available,
-  creating,
-  deleting,
-  createFailed,
-  deleteFailed,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension AliasLifecycleValueExtension on AliasLifecycle {
-  String toValue() {
-    switch (this) {
-      case AliasLifecycle.available:
-        return 'AVAILABLE';
-      case AliasLifecycle.creating:
-        return 'CREATING';
-      case AliasLifecycle.deleting:
-        return 'DELETING';
-      case AliasLifecycle.createFailed:
-        return 'CREATE_FAILED';
-      case AliasLifecycle.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AliasLifecycleFromString on String {
-  AliasLifecycle toAliasLifecycle() {
-    switch (this) {
-      case 'AVAILABLE':
-        return AliasLifecycle.available;
-      case 'CREATING':
-        return AliasLifecycle.creating;
-      case 'DELETING':
-        return AliasLifecycle.deleting;
-      case 'CREATE_FAILED':
-        return AliasLifecycle.createFailed;
-      case 'DELETE_FAILED':
-        return AliasLifecycle.deleteFailed;
-    }
-    throw Exception('$this is not known in enum AliasLifecycle');
-  }
+  const AliasLifecycle(this.value);
+
+  static AliasLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AliasLifecycle'));
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is
@@ -4116,7 +4028,7 @@ class AutoExportPolicy {
     return AutoExportPolicy(
       events: (json['Events'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEventType())
+          .map((e) => EventType.fromString((e as String)))
           .toList(),
     );
   }
@@ -4124,7 +4036,7 @@ class AutoExportPolicy {
   Map<String, dynamic> toJson() {
     final events = this.events;
     return {
-      if (events != null) 'Events': events.map((e) => e.toValue()).toList(),
+      if (events != null) 'Events': events.map((e) => e.value).toList(),
     };
   }
 }
@@ -4166,7 +4078,7 @@ class AutoImportPolicy {
     return AutoImportPolicy(
       events: (json['Events'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEventType())
+          .map((e) => EventType.fromString((e as String)))
           .toList(),
     );
   }
@@ -4174,47 +4086,26 @@ class AutoImportPolicy {
   Map<String, dynamic> toJson() {
     final events = this.events;
     return {
-      if (events != null) 'Events': events.map((e) => e.toValue()).toList(),
+      if (events != null) 'Events': events.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AutoImportPolicyType {
-  none,
-  $new,
-  newChanged,
-  newChangedDeleted,
-}
+  none('NONE'),
+  $new('NEW'),
+  newChanged('NEW_CHANGED'),
+  newChangedDeleted('NEW_CHANGED_DELETED'),
+  ;
 
-extension AutoImportPolicyTypeValueExtension on AutoImportPolicyType {
-  String toValue() {
-    switch (this) {
-      case AutoImportPolicyType.none:
-        return 'NONE';
-      case AutoImportPolicyType.$new:
-        return 'NEW';
-      case AutoImportPolicyType.newChanged:
-        return 'NEW_CHANGED';
-      case AutoImportPolicyType.newChangedDeleted:
-        return 'NEW_CHANGED_DELETED';
-    }
-  }
-}
+  final String value;
 
-extension AutoImportPolicyTypeFromString on String {
-  AutoImportPolicyType toAutoImportPolicyType() {
-    switch (this) {
-      case 'NONE':
-        return AutoImportPolicyType.none;
-      case 'NEW':
-        return AutoImportPolicyType.$new;
-      case 'NEW_CHANGED':
-        return AutoImportPolicyType.newChanged;
-      case 'NEW_CHANGED_DELETED':
-        return AutoImportPolicyType.newChangedDeleted;
-    }
-    throw Exception('$this is not known in enum AutoImportPolicyType');
-  }
+  const AutoImportPolicyType(this.value);
+
+  static AutoImportPolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutoImportPolicyType'));
 }
 
 /// Sets the autocommit period of files in an FSx for ONTAP SnapLock volume,
@@ -4258,7 +4149,7 @@ class AutocommitPeriod {
 
   factory AutocommitPeriod.fromJson(Map<String, dynamic> json) {
     return AutocommitPeriod(
-      type: (json['Type'] as String).toAutocommitPeriodType(),
+      type: AutocommitPeriodType.fromString((json['Type'] as String)),
       value: json['Value'] as int?,
     );
   }
@@ -4267,58 +4158,29 @@ class AutocommitPeriod {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum AutocommitPeriodType {
-  minutes,
-  hours,
-  days,
-  months,
-  years,
-  none,
-}
+  minutes('MINUTES'),
+  hours('HOURS'),
+  days('DAYS'),
+  months('MONTHS'),
+  years('YEARS'),
+  none('NONE'),
+  ;
 
-extension AutocommitPeriodTypeValueExtension on AutocommitPeriodType {
-  String toValue() {
-    switch (this) {
-      case AutocommitPeriodType.minutes:
-        return 'MINUTES';
-      case AutocommitPeriodType.hours:
-        return 'HOURS';
-      case AutocommitPeriodType.days:
-        return 'DAYS';
-      case AutocommitPeriodType.months:
-        return 'MONTHS';
-      case AutocommitPeriodType.years:
-        return 'YEARS';
-      case AutocommitPeriodType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AutocommitPeriodTypeFromString on String {
-  AutocommitPeriodType toAutocommitPeriodType() {
-    switch (this) {
-      case 'MINUTES':
-        return AutocommitPeriodType.minutes;
-      case 'HOURS':
-        return AutocommitPeriodType.hours;
-      case 'DAYS':
-        return AutocommitPeriodType.days;
-      case 'MONTHS':
-        return AutocommitPeriodType.months;
-      case 'YEARS':
-        return AutocommitPeriodType.years;
-      case 'NONE':
-        return AutocommitPeriodType.none;
-    }
-    throw Exception('$this is not known in enum AutocommitPeriodType');
-  }
+  const AutocommitPeriodType(this.value);
+
+  static AutocommitPeriodType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutocommitPeriodType'));
 }
 
 /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre
@@ -4422,8 +4284,8 @@ class Backup {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       fileSystem:
           FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
-      lifecycle: (json['Lifecycle'] as String).toBackupLifecycle(),
-      type: (json['Type'] as String).toBackupType(),
+      lifecycle: BackupLifecycle.fromString((json['Lifecycle'] as String)),
+      type: BackupType.fromString((json['Type'] as String)),
       directoryInformation: json['DirectoryInformation'] != null
           ? ActiveDirectoryBackupAttributes.fromJson(
               json['DirectoryInformation'] as Map<String, dynamic>)
@@ -4436,7 +4298,8 @@ class Backup {
       ownerId: json['OwnerId'] as String?,
       progressPercent: json['ProgressPercent'] as int?,
       resourceARN: json['ResourceARN'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
       sourceBackupId: json['SourceBackupId'] as String?,
       sourceBackupRegion: json['SourceBackupRegion'] as String?,
       tags: (json['Tags'] as List?)
@@ -4497,90 +4360,39 @@ class BackupFailureDetails {
 /// </li>
 /// </ul>
 enum BackupLifecycle {
-  available,
-  creating,
-  transferring,
-  deleted,
-  failed,
-  pending,
-  copying,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  transferring('TRANSFERRING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  pending('PENDING'),
+  copying('COPYING'),
+  ;
 
-extension BackupLifecycleValueExtension on BackupLifecycle {
-  String toValue() {
-    switch (this) {
-      case BackupLifecycle.available:
-        return 'AVAILABLE';
-      case BackupLifecycle.creating:
-        return 'CREATING';
-      case BackupLifecycle.transferring:
-        return 'TRANSFERRING';
-      case BackupLifecycle.deleted:
-        return 'DELETED';
-      case BackupLifecycle.failed:
-        return 'FAILED';
-      case BackupLifecycle.pending:
-        return 'PENDING';
-      case BackupLifecycle.copying:
-        return 'COPYING';
-    }
-  }
-}
+  final String value;
 
-extension BackupLifecycleFromString on String {
-  BackupLifecycle toBackupLifecycle() {
-    switch (this) {
-      case 'AVAILABLE':
-        return BackupLifecycle.available;
-      case 'CREATING':
-        return BackupLifecycle.creating;
-      case 'TRANSFERRING':
-        return BackupLifecycle.transferring;
-      case 'DELETED':
-        return BackupLifecycle.deleted;
-      case 'FAILED':
-        return BackupLifecycle.failed;
-      case 'PENDING':
-        return BackupLifecycle.pending;
-      case 'COPYING':
-        return BackupLifecycle.copying;
-    }
-    throw Exception('$this is not known in enum BackupLifecycle');
-  }
+  const BackupLifecycle(this.value);
+
+  static BackupLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupLifecycle'));
 }
 
 /// The type of the backup.
 enum BackupType {
-  automatic,
-  userInitiated,
-  awsBackup,
-}
+  automatic('AUTOMATIC'),
+  userInitiated('USER_INITIATED'),
+  awsBackup('AWS_BACKUP'),
+  ;
 
-extension BackupTypeValueExtension on BackupType {
-  String toValue() {
-    switch (this) {
-      case BackupType.automatic:
-        return 'AUTOMATIC';
-      case BackupType.userInitiated:
-        return 'USER_INITIATED';
-      case BackupType.awsBackup:
-        return 'AWS_BACKUP';
-    }
-  }
-}
+  final String value;
 
-extension BackupTypeFromString on String {
-  BackupType toBackupType() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return BackupType.automatic;
-      case 'USER_INITIATED':
-        return BackupType.userInitiated;
-      case 'AWS_BACKUP':
-        return BackupType.awsBackup;
-    }
-    throw Exception('$this is not known in enum BackupType');
-  }
+  const BackupType(this.value);
+
+  static BackupType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BackupType'));
 }
 
 class CancelDataRepositoryTaskResponse {
@@ -4622,8 +4434,8 @@ class CancelDataRepositoryTaskResponse {
 
   factory CancelDataRepositoryTaskResponse.fromJson(Map<String, dynamic> json) {
     return CancelDataRepositoryTaskResponse(
-      lifecycle:
-          (json['Lifecycle'] as String?)?.toDataRepositoryTaskLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(DataRepositoryTaskLifecycle.fromString),
       taskId: json['TaskId'] as String?,
     );
   }
@@ -4680,9 +4492,9 @@ class CompletionReport {
   factory CompletionReport.fromJson(Map<String, dynamic> json) {
     return CompletionReport(
       enabled: json['Enabled'] as bool,
-      format: (json['Format'] as String?)?.toReportFormat(),
+      format: (json['Format'] as String?)?.let(ReportFormat.fromString),
       path: json['Path'] as String?,
-      scope: (json['Scope'] as String?)?.toReportScope(),
+      scope: (json['Scope'] as String?)?.let(ReportScope.fromString),
     );
   }
 
@@ -4693,9 +4505,9 @@ class CompletionReport {
     final scope = this.scope;
     return {
       'Enabled': enabled,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (path != null) 'Path': path,
-      if (scope != null) 'Scope': scope.toValue(),
+      if (scope != null) 'Scope': scope.value,
     };
   }
 }
@@ -4741,7 +4553,8 @@ class CopySnapshotAndUpdateVolumeResponse {
           ?.whereNotNull()
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lifecycle: (json['Lifecycle'] as String?)?.toVolumeLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(VolumeLifecycle.fromString),
       volumeId: json['VolumeId'] as String?,
     );
   }
@@ -4858,7 +4671,7 @@ class CreateFileCacheLustreConfiguration {
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
-      'DeploymentType': deploymentType.toValue(),
+      'DeploymentType': deploymentType.value,
       'MetadataConfiguration': metadataConfiguration,
       'PerUnitStorageThroughput': perUnitStorageThroughput,
       if (weeklyMaintenanceStartTime != null)
@@ -5179,17 +4992,16 @@ class CreateFileSystemLustreConfiguration {
     final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
-      if (autoImportPolicy != null)
-        'AutoImportPolicy': autoImportPolicy.toValue(),
+      if (autoImportPolicy != null) 'AutoImportPolicy': autoImportPolicy.value,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
       if (dataCompressionType != null)
-        'DataCompressionType': dataCompressionType.toValue(),
-      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
-      if (driveCacheType != null) 'DriveCacheType': driveCacheType.toValue(),
+        'DataCompressionType': dataCompressionType.value,
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
+      if (driveCacheType != null) 'DriveCacheType': driveCacheType.value,
       if (exportPath != null) 'ExportPath': exportPath,
       if (importPath != null) 'ImportPath': importPath,
       if (importedFileChunkSize != null)
@@ -5385,7 +5197,7 @@ class CreateFileSystemOntapConfiguration {
     final throughputCapacityPerHAPair = this.throughputCapacityPerHAPair;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
-      'DeploymentType': deploymentType.toValue(),
+      'DeploymentType': deploymentType.value,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (dailyAutomaticBackupStartTime != null)
@@ -5535,7 +5347,7 @@ class CreateFileSystemOpenZFSConfiguration {
     final routeTableIds = this.routeTableIds;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
-      'DeploymentType': deploymentType.toValue(),
+      'DeploymentType': deploymentType.value,
       'ThroughputCapacity': throughputCapacity,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
@@ -5736,7 +5548,7 @@ class CreateFileSystemWindowsConfiguration {
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
-      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
       if (diskIopsConfiguration != null)
         'DiskIopsConfiguration': diskIopsConfiguration,
       if (preferredSubnetId != null) 'PreferredSubnetId': preferredSubnetId,
@@ -5913,8 +5725,8 @@ class CreateOntapVolumeConfiguration {
         'AggregateConfiguration': aggregateConfiguration,
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (junctionPath != null) 'JunctionPath': junctionPath,
-      if (ontapVolumeType != null) 'OntapVolumeType': ontapVolumeType.toValue(),
-      if (securityStyle != null) 'SecurityStyle': securityStyle.toValue(),
+      if (ontapVolumeType != null) 'OntapVolumeType': ontapVolumeType.value,
+      if (securityStyle != null) 'SecurityStyle': securityStyle.value,
       if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
       if (sizeInMegabytes != null) 'SizeInMegabytes': sizeInMegabytes,
       if (snaplockConfiguration != null)
@@ -5923,7 +5735,7 @@ class CreateOntapVolumeConfiguration {
       if (storageEfficiencyEnabled != null)
         'StorageEfficiencyEnabled': storageEfficiencyEnabled,
       if (tieringPolicy != null) 'TieringPolicy': tieringPolicy,
-      if (volumeStyle != null) 'VolumeStyle': volumeStyle.toValue(),
+      if (volumeStyle != null) 'VolumeStyle': volumeStyle.value,
     };
   }
 }
@@ -5966,7 +5778,7 @@ class CreateOpenZFSOriginSnapshotConfiguration {
     final copyStrategy = this.copyStrategy;
     final snapshotARN = this.snapshotARN;
     return {
-      'CopyStrategy': copyStrategy.toValue(),
+      'CopyStrategy': copyStrategy.value,
       'SnapshotARN': snapshotARN,
     };
   }
@@ -6093,7 +5905,7 @@ class CreateOpenZFSVolumeConfiguration {
       if (copyTagsToSnapshots != null)
         'CopyTagsToSnapshots': copyTagsToSnapshots,
       if (dataCompressionType != null)
-        'DataCompressionType': dataCompressionType.toValue(),
+        'DataCompressionType': dataCompressionType.value,
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (originSnapshot != null) 'OriginSnapshot': originSnapshot,
       if (readOnly != null) 'ReadOnly': readOnly,
@@ -6192,11 +6004,10 @@ class CreateSnaplockConfiguration {
     final retentionPeriod = this.retentionPeriod;
     final volumeAppendModeEnabled = this.volumeAppendModeEnabled;
     return {
-      'SnaplockType': snaplockType.toValue(),
+      'SnaplockType': snaplockType.value,
       if (auditLogVolume != null) 'AuditLogVolume': auditLogVolume,
       if (autocommitPeriod != null) 'AutocommitPeriod': autocommitPeriod,
-      if (privilegedDelete != null)
-        'PrivilegedDelete': privilegedDelete.toValue(),
+      if (privilegedDelete != null) 'PrivilegedDelete': privilegedDelete.value,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
       if (volumeAppendModeEnabled != null)
         'VolumeAppendModeEnabled': volumeAppendModeEnabled,
@@ -6306,31 +6117,18 @@ class CreateVolumeResponse {
 }
 
 enum DataCompressionType {
-  none,
-  lz4,
-}
+  none('NONE'),
+  lz4('LZ4'),
+  ;
 
-extension DataCompressionTypeValueExtension on DataCompressionType {
-  String toValue() {
-    switch (this) {
-      case DataCompressionType.none:
-        return 'NONE';
-      case DataCompressionType.lz4:
-        return 'LZ4';
-    }
-  }
-}
+  final String value;
 
-extension DataCompressionTypeFromString on String {
-  DataCompressionType toDataCompressionType() {
-    switch (this) {
-      case 'NONE':
-        return DataCompressionType.none;
-      case 'LZ4':
-        return DataCompressionType.lz4;
-    }
-    throw Exception('$this is not known in enum DataCompressionType');
-  }
+  const DataCompressionType(this.value);
+
+  static DataCompressionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataCompressionType'));
 }
 
 /// The configuration of a data repository association that links an Amazon FSx
@@ -6549,7 +6347,8 @@ class DataRepositoryAssociation {
       fileSystemId: json['FileSystemId'] as String?,
       fileSystemPath: json['FileSystemPath'] as String?,
       importedFileChunkSize: json['ImportedFileChunkSize'] as int?,
-      lifecycle: (json['Lifecycle'] as String?)?.toDataRepositoryLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(DataRepositoryLifecycle.fromString),
       nfs: json['NFS'] != null
           ? NFSDataRepositoryConfiguration.fromJson(
               json['NFS'] as Map<String, dynamic>)
@@ -6669,8 +6468,8 @@ class DataRepositoryConfiguration {
 
   factory DataRepositoryConfiguration.fromJson(Map<String, dynamic> json) {
     return DataRepositoryConfiguration(
-      autoImportPolicy:
-          (json['AutoImportPolicy'] as String?)?.toAutoImportPolicyType(),
+      autoImportPolicy: (json['AutoImportPolicy'] as String?)
+          ?.let(AutoImportPolicyType.fromString),
       exportPath: json['ExportPath'] as String?,
       failureDetails: json['FailureDetails'] != null
           ? DataRepositoryFailureDetails.fromJson(
@@ -6678,7 +6477,8 @@ class DataRepositoryConfiguration {
           : null,
       importPath: json['ImportPath'] as String?,
       importedFileChunkSize: json['ImportedFileChunkSize'] as int?,
-      lifecycle: (json['Lifecycle'] as String?)?.toDataRepositoryLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(DataRepositoryLifecycle.fromString),
     );
   }
 }
@@ -6701,51 +6501,22 @@ class DataRepositoryFailureDetails {
 }
 
 enum DataRepositoryLifecycle {
-  creating,
-  available,
-  misconfigured,
-  updating,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  misconfigured('MISCONFIGURED'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension DataRepositoryLifecycleValueExtension on DataRepositoryLifecycle {
-  String toValue() {
-    switch (this) {
-      case DataRepositoryLifecycle.creating:
-        return 'CREATING';
-      case DataRepositoryLifecycle.available:
-        return 'AVAILABLE';
-      case DataRepositoryLifecycle.misconfigured:
-        return 'MISCONFIGURED';
-      case DataRepositoryLifecycle.updating:
-        return 'UPDATING';
-      case DataRepositoryLifecycle.deleting:
-        return 'DELETING';
-      case DataRepositoryLifecycle.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DataRepositoryLifecycleFromString on String {
-  DataRepositoryLifecycle toDataRepositoryLifecycle() {
-    switch (this) {
-      case 'CREATING':
-        return DataRepositoryLifecycle.creating;
-      case 'AVAILABLE':
-        return DataRepositoryLifecycle.available;
-      case 'MISCONFIGURED':
-        return DataRepositoryLifecycle.misconfigured;
-      case 'UPDATING':
-        return DataRepositoryLifecycle.updating;
-      case 'DELETING':
-        return DataRepositoryLifecycle.deleting;
-      case 'FAILED':
-        return DataRepositoryLifecycle.failed;
-    }
-    throw Exception('$this is not known in enum DataRepositoryLifecycle');
-  }
+  const DataRepositoryLifecycle(this.value);
+
+  static DataRepositoryLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataRepositoryLifecycle'));
 }
 
 /// A description of the data repository task.
@@ -6895,9 +6666,10 @@ class DataRepositoryTask {
     return DataRepositoryTask(
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      lifecycle: (json['Lifecycle'] as String).toDataRepositoryTaskLifecycle(),
+      lifecycle:
+          DataRepositoryTaskLifecycle.fromString((json['Lifecycle'] as String)),
       taskId: json['TaskId'] as String,
-      type: (json['Type'] as String).toDataRepositoryTaskType(),
+      type: DataRepositoryTaskType.fromString((json['Type'] as String)),
       capacityToRelease: json['CapacityToRelease'] as int?,
       endTime: timeStampFromJson(json['EndTime']),
       failureDetails: json['FailureDetails'] != null
@@ -6982,98 +6754,46 @@ class DataRepositoryTaskFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum DataRepositoryTaskFilterName {
-  fileSystemId,
-  taskLifecycle,
-  dataRepositoryAssociationId,
-  fileCacheId,
-}
+  fileSystemId('file-system-id'),
+  taskLifecycle('task-lifecycle'),
+  dataRepositoryAssociationId('data-repository-association-id'),
+  fileCacheId('file-cache-id'),
+  ;
 
-extension DataRepositoryTaskFilterNameValueExtension
-    on DataRepositoryTaskFilterName {
-  String toValue() {
-    switch (this) {
-      case DataRepositoryTaskFilterName.fileSystemId:
-        return 'file-system-id';
-      case DataRepositoryTaskFilterName.taskLifecycle:
-        return 'task-lifecycle';
-      case DataRepositoryTaskFilterName.dataRepositoryAssociationId:
-        return 'data-repository-association-id';
-      case DataRepositoryTaskFilterName.fileCacheId:
-        return 'file-cache-id';
-    }
-  }
-}
+  final String value;
 
-extension DataRepositoryTaskFilterNameFromString on String {
-  DataRepositoryTaskFilterName toDataRepositoryTaskFilterName() {
-    switch (this) {
-      case 'file-system-id':
-        return DataRepositoryTaskFilterName.fileSystemId;
-      case 'task-lifecycle':
-        return DataRepositoryTaskFilterName.taskLifecycle;
-      case 'data-repository-association-id':
-        return DataRepositoryTaskFilterName.dataRepositoryAssociationId;
-      case 'file-cache-id':
-        return DataRepositoryTaskFilterName.fileCacheId;
-    }
-    throw Exception('$this is not known in enum DataRepositoryTaskFilterName');
-  }
+  const DataRepositoryTaskFilterName(this.value);
+
+  static DataRepositoryTaskFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataRepositoryTaskFilterName'));
 }
 
 enum DataRepositoryTaskLifecycle {
-  pending,
-  executing,
-  failed,
-  succeeded,
-  canceled,
-  canceling,
-}
+  pending('PENDING'),
+  executing('EXECUTING'),
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  canceled('CANCELED'),
+  canceling('CANCELING'),
+  ;
 
-extension DataRepositoryTaskLifecycleValueExtension
-    on DataRepositoryTaskLifecycle {
-  String toValue() {
-    switch (this) {
-      case DataRepositoryTaskLifecycle.pending:
-        return 'PENDING';
-      case DataRepositoryTaskLifecycle.executing:
-        return 'EXECUTING';
-      case DataRepositoryTaskLifecycle.failed:
-        return 'FAILED';
-      case DataRepositoryTaskLifecycle.succeeded:
-        return 'SUCCEEDED';
-      case DataRepositoryTaskLifecycle.canceled:
-        return 'CANCELED';
-      case DataRepositoryTaskLifecycle.canceling:
-        return 'CANCELING';
-    }
-  }
-}
+  final String value;
 
-extension DataRepositoryTaskLifecycleFromString on String {
-  DataRepositoryTaskLifecycle toDataRepositoryTaskLifecycle() {
-    switch (this) {
-      case 'PENDING':
-        return DataRepositoryTaskLifecycle.pending;
-      case 'EXECUTING':
-        return DataRepositoryTaskLifecycle.executing;
-      case 'FAILED':
-        return DataRepositoryTaskLifecycle.failed;
-      case 'SUCCEEDED':
-        return DataRepositoryTaskLifecycle.succeeded;
-      case 'CANCELED':
-        return DataRepositoryTaskLifecycle.canceled;
-      case 'CANCELING':
-        return DataRepositoryTaskLifecycle.canceling;
-    }
-    throw Exception('$this is not known in enum DataRepositoryTaskLifecycle');
-  }
+  const DataRepositoryTaskLifecycle(this.value);
+
+  static DataRepositoryTaskLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataRepositoryTaskLifecycle'));
 }
 
 /// Provides the task status showing a running total of the total number of
@@ -7121,41 +6841,20 @@ class DataRepositoryTaskStatus {
 }
 
 enum DataRepositoryTaskType {
-  exportToRepository,
-  importMetadataFromRepository,
-  releaseDataFromFilesystem,
-  autoReleaseData,
-}
+  exportToRepository('EXPORT_TO_REPOSITORY'),
+  importMetadataFromRepository('IMPORT_METADATA_FROM_REPOSITORY'),
+  releaseDataFromFilesystem('RELEASE_DATA_FROM_FILESYSTEM'),
+  autoReleaseData('AUTO_RELEASE_DATA'),
+  ;
 
-extension DataRepositoryTaskTypeValueExtension on DataRepositoryTaskType {
-  String toValue() {
-    switch (this) {
-      case DataRepositoryTaskType.exportToRepository:
-        return 'EXPORT_TO_REPOSITORY';
-      case DataRepositoryTaskType.importMetadataFromRepository:
-        return 'IMPORT_METADATA_FROM_REPOSITORY';
-      case DataRepositoryTaskType.releaseDataFromFilesystem:
-        return 'RELEASE_DATA_FROM_FILESYSTEM';
-      case DataRepositoryTaskType.autoReleaseData:
-        return 'AUTO_RELEASE_DATA';
-    }
-  }
-}
+  final String value;
 
-extension DataRepositoryTaskTypeFromString on String {
-  DataRepositoryTaskType toDataRepositoryTaskType() {
-    switch (this) {
-      case 'EXPORT_TO_REPOSITORY':
-        return DataRepositoryTaskType.exportToRepository;
-      case 'IMPORT_METADATA_FROM_REPOSITORY':
-        return DataRepositoryTaskType.importMetadataFromRepository;
-      case 'RELEASE_DATA_FROM_FILESYSTEM':
-        return DataRepositoryTaskType.releaseDataFromFilesystem;
-      case 'AUTO_RELEASE_DATA':
-        return DataRepositoryTaskType.autoReleaseData;
-    }
-    throw Exception('$this is not known in enum DataRepositoryTaskType');
-  }
+  const DataRepositoryTaskType(this.value);
+
+  static DataRepositoryTaskType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataRepositoryTaskType'));
 }
 
 /// The response object for the <code>DeleteBackup</code> operation.
@@ -7175,7 +6874,8 @@ class DeleteBackupResponse {
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBackupResponse(
       backupId: json['BackupId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toBackupLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(BackupLifecycle.fromString),
     );
   }
 }
@@ -7203,7 +6903,8 @@ class DeleteDataRepositoryAssociationResponse {
     return DeleteDataRepositoryAssociationResponse(
       associationId: json['AssociationId'] as String?,
       deleteDataInFileSystem: json['DeleteDataInFileSystem'] as bool?,
-      lifecycle: (json['Lifecycle'] as String?)?.toDataRepositoryLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(DataRepositoryLifecycle.fromString),
     );
   }
 }
@@ -7225,7 +6926,8 @@ class DeleteFileCacheResponse {
   factory DeleteFileCacheResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFileCacheResponse(
       fileCacheId: json['FileCacheId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toFileCacheLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(FileCacheLifecycle.fromString),
     );
   }
 }
@@ -7322,34 +7024,24 @@ class DeleteFileSystemOpenZFSConfiguration {
     final skipFinalBackup = this.skipFinalBackup;
     return {
       if (finalBackupTags != null) 'FinalBackupTags': finalBackupTags,
-      if (options != null) 'Options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'Options': options.map((e) => e.value).toList(),
       if (skipFinalBackup != null) 'SkipFinalBackup': skipFinalBackup,
     };
   }
 }
 
 enum DeleteFileSystemOpenZFSOption {
-  deleteChildVolumesAndSnapshots,
-}
+  deleteChildVolumesAndSnapshots('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS'),
+  ;
 
-extension DeleteFileSystemOpenZFSOptionValueExtension
-    on DeleteFileSystemOpenZFSOption {
-  String toValue() {
-    switch (this) {
-      case DeleteFileSystemOpenZFSOption.deleteChildVolumesAndSnapshots:
-        return 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS';
-    }
-  }
-}
+  final String value;
 
-extension DeleteFileSystemOpenZFSOptionFromString on String {
-  DeleteFileSystemOpenZFSOption toDeleteFileSystemOpenZFSOption() {
-    switch (this) {
-      case 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS':
-        return DeleteFileSystemOpenZFSOption.deleteChildVolumesAndSnapshots;
-    }
-    throw Exception('$this is not known in enum DeleteFileSystemOpenZFSOption');
-  }
+  const DeleteFileSystemOpenZFSOption(this.value);
+
+  static DeleteFileSystemOpenZFSOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeleteFileSystemOpenZFSOption'));
 }
 
 /// The response object for the Amazon FSx for OpenZFS file system that's being
@@ -7401,7 +7093,8 @@ class DeleteFileSystemResponse {
   factory DeleteFileSystemResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFileSystemResponse(
       fileSystemId: json['FileSystemId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toFileSystemLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(FileSystemLifecycle.fromString),
       lustreResponse: json['LustreResponse'] != null
           ? DeleteFileSystemLustreResponse.fromJson(
               json['LustreResponse'] as Map<String, dynamic>)
@@ -7471,26 +7164,17 @@ class DeleteFileSystemWindowsResponse {
 }
 
 enum DeleteOpenZFSVolumeOption {
-  deleteChildVolumesAndSnapshots,
-}
+  deleteChildVolumesAndSnapshots('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS'),
+  ;
 
-extension DeleteOpenZFSVolumeOptionValueExtension on DeleteOpenZFSVolumeOption {
-  String toValue() {
-    switch (this) {
-      case DeleteOpenZFSVolumeOption.deleteChildVolumesAndSnapshots:
-        return 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS';
-    }
-  }
-}
+  final String value;
 
-extension DeleteOpenZFSVolumeOptionFromString on String {
-  DeleteOpenZFSVolumeOption toDeleteOpenZFSVolumeOption() {
-    switch (this) {
-      case 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS':
-        return DeleteOpenZFSVolumeOption.deleteChildVolumesAndSnapshots;
-    }
-    throw Exception('$this is not known in enum DeleteOpenZFSVolumeOption');
-  }
+  const DeleteOpenZFSVolumeOption(this.value);
+
+  static DeleteOpenZFSVolumeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeleteOpenZFSVolumeOption'));
 }
 
 class DeleteSnapshotResponse {
@@ -7508,7 +7192,8 @@ class DeleteSnapshotResponse {
 
   factory DeleteSnapshotResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSnapshotResponse(
-      lifecycle: (json['Lifecycle'] as String?)?.toSnapshotLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(SnapshotLifecycle.fromString),
       snapshotId: json['SnapshotId'] as String?,
     );
   }
@@ -7529,8 +7214,8 @@ class DeleteStorageVirtualMachineResponse {
   factory DeleteStorageVirtualMachineResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteStorageVirtualMachineResponse(
-      lifecycle:
-          (json['Lifecycle'] as String?)?.toStorageVirtualMachineLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(StorageVirtualMachineLifecycle.fromString),
       storageVirtualMachineId: json['StorageVirtualMachineId'] as String?,
     );
   }
@@ -7612,7 +7297,7 @@ class DeleteVolumeOpenZFSConfiguration {
   Map<String, dynamic> toJson() {
     final options = this.options;
     return {
-      if (options != null) 'Options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'Options': options.map((e) => e.value).toList(),
     };
   }
 }
@@ -7638,7 +7323,8 @@ class DeleteVolumeResponse {
 
   factory DeleteVolumeResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVolumeResponse(
-      lifecycle: (json['Lifecycle'] as String?)?.toVolumeLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(VolumeLifecycle.fromString),
       ontapResponse: json['OntapResponse'] != null
           ? DeleteVolumeOntapResponse.fromJson(
               json['OntapResponse'] as Map<String, dynamic>)
@@ -7938,7 +7624,8 @@ class DiskIopsConfiguration {
   factory DiskIopsConfiguration.fromJson(Map<String, dynamic> json) {
     return DiskIopsConfiguration(
       iops: json['Iops'] as int?,
-      mode: (json['Mode'] as String?)?.toDiskIopsConfigurationMode(),
+      mode:
+          (json['Mode'] as String?)?.let(DiskIopsConfigurationMode.fromString),
     );
   }
 
@@ -7947,65 +7634,39 @@ class DiskIopsConfiguration {
     final mode = this.mode;
     return {
       if (iops != null) 'Iops': iops,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
     };
   }
 }
 
 enum DiskIopsConfigurationMode {
-  automatic,
-  userProvisioned,
-}
+  automatic('AUTOMATIC'),
+  userProvisioned('USER_PROVISIONED'),
+  ;
 
-extension DiskIopsConfigurationModeValueExtension on DiskIopsConfigurationMode {
-  String toValue() {
-    switch (this) {
-      case DiskIopsConfigurationMode.automatic:
-        return 'AUTOMATIC';
-      case DiskIopsConfigurationMode.userProvisioned:
-        return 'USER_PROVISIONED';
-    }
-  }
-}
+  final String value;
 
-extension DiskIopsConfigurationModeFromString on String {
-  DiskIopsConfigurationMode toDiskIopsConfigurationMode() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return DiskIopsConfigurationMode.automatic;
-      case 'USER_PROVISIONED':
-        return DiskIopsConfigurationMode.userProvisioned;
-    }
-    throw Exception('$this is not known in enum DiskIopsConfigurationMode');
-  }
+  const DiskIopsConfigurationMode(this.value);
+
+  static DiskIopsConfigurationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DiskIopsConfigurationMode'));
 }
 
 enum DriveCacheType {
-  none,
-  read,
-}
+  none('NONE'),
+  read('READ'),
+  ;
 
-extension DriveCacheTypeValueExtension on DriveCacheType {
-  String toValue() {
-    switch (this) {
-      case DriveCacheType.none:
-        return 'NONE';
-      case DriveCacheType.read:
-        return 'READ';
-    }
-  }
-}
+  final String value;
 
-extension DriveCacheTypeFromString on String {
-  DriveCacheType toDriveCacheType() {
-    switch (this) {
-      case 'NONE':
-        return DriveCacheType.none;
-      case 'READ':
-        return DriveCacheType.read;
-    }
-    throw Exception('$this is not known in enum DriveCacheType');
-  }
+  const DriveCacheType(this.value);
+
+  static DriveCacheType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DriveCacheType'));
 }
 
 /// Defines the minimum amount of time since last access for a file to be
@@ -8038,7 +7699,7 @@ class DurationSinceLastAccess {
 
   factory DurationSinceLastAccess.fromJson(Map<String, dynamic> json) {
     return DurationSinceLastAccess(
-      unit: (json['Unit'] as String?)?.toUnit(),
+      unit: (json['Unit'] as String?)?.let(Unit.fromString),
       value: json['Value'] as int?,
     );
   }
@@ -8047,43 +7708,25 @@ class DurationSinceLastAccess {
     final unit = this.unit;
     final value = this.value;
     return {
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum EventType {
-  $new,
-  changed,
-  deleted,
-}
+  $new('NEW'),
+  changed('CHANGED'),
+  deleted('DELETED'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.$new:
-        return 'NEW';
-      case EventType.changed:
-        return 'CHANGED';
-      case EventType.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'NEW':
-        return EventType.$new;
-      case 'CHANGED':
-        return EventType.changed;
-      case 'DELETED':
-        return EventType.deleted;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// A description of a specific Amazon File Cache resource, which is a response
@@ -8186,10 +7829,12 @@ class FileCache {
               json['FailureDetails'] as Map<String, dynamic>)
           : null,
       fileCacheId: json['FileCacheId'] as String?,
-      fileCacheType: (json['FileCacheType'] as String?)?.toFileCacheType(),
+      fileCacheType:
+          (json['FileCacheType'] as String?)?.let(FileCacheType.fromString),
       fileCacheTypeVersion: json['FileCacheTypeVersion'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toFileCacheLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(FileCacheLifecycle.fromString),
       lustreConfiguration: json['LustreConfiguration'] != null
           ? FileCacheLustreConfiguration.fromJson(
               json['LustreConfiguration'] as Map<String, dynamic>)
@@ -8318,10 +7963,12 @@ class FileCacheCreating {
               json['FailureDetails'] as Map<String, dynamic>)
           : null,
       fileCacheId: json['FileCacheId'] as String?,
-      fileCacheType: (json['FileCacheType'] as String?)?.toFileCacheType(),
+      fileCacheType:
+          (json['FileCacheType'] as String?)?.let(FileCacheType.fromString),
       fileCacheTypeVersion: json['FileCacheTypeVersion'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toFileCacheLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(FileCacheLifecycle.fromString),
       lustreConfiguration: json['LustreConfiguration'] != null
           ? FileCacheLustreConfiguration.fromJson(
               json['LustreConfiguration'] as Map<String, dynamic>)
@@ -8456,46 +8103,21 @@ class FileCacheFailureDetails {
 }
 
 enum FileCacheLifecycle {
-  available,
-  creating,
-  deleting,
-  updating,
-  failed,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  failed('FAILED'),
+  ;
 
-extension FileCacheLifecycleValueExtension on FileCacheLifecycle {
-  String toValue() {
-    switch (this) {
-      case FileCacheLifecycle.available:
-        return 'AVAILABLE';
-      case FileCacheLifecycle.creating:
-        return 'CREATING';
-      case FileCacheLifecycle.deleting:
-        return 'DELETING';
-      case FileCacheLifecycle.updating:
-        return 'UPDATING';
-      case FileCacheLifecycle.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FileCacheLifecycleFromString on String {
-  FileCacheLifecycle toFileCacheLifecycle() {
-    switch (this) {
-      case 'AVAILABLE':
-        return FileCacheLifecycle.available;
-      case 'CREATING':
-        return FileCacheLifecycle.creating;
-      case 'DELETING':
-        return FileCacheLifecycle.deleting;
-      case 'UPDATING':
-        return FileCacheLifecycle.updating;
-      case 'FAILED':
-        return FileCacheLifecycle.failed;
-    }
-    throw Exception('$this is not known in enum FileCacheLifecycle');
-  }
+  const FileCacheLifecycle(this.value);
+
+  static FileCacheLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FileCacheLifecycle'));
 }
 
 /// The configuration for the Amazon File Cache resource.
@@ -8535,7 +8157,7 @@ class FileCacheLustreConfiguration {
   factory FileCacheLustreConfiguration.fromJson(Map<String, dynamic> json) {
     return FileCacheLustreConfiguration(
       deploymentType: (json['DeploymentType'] as String?)
-          ?.toFileCacheLustreDeploymentType(),
+          ?.let(FileCacheLustreDeploymentType.fromString),
       logConfiguration: json['LogConfiguration'] != null
           ? LustreLogConfiguration.fromJson(
               json['LogConfiguration'] as Map<String, dynamic>)
@@ -8552,27 +8174,17 @@ class FileCacheLustreConfiguration {
 }
 
 enum FileCacheLustreDeploymentType {
-  cache_1,
-}
+  cache_1('CACHE_1'),
+  ;
 
-extension FileCacheLustreDeploymentTypeValueExtension
-    on FileCacheLustreDeploymentType {
-  String toValue() {
-    switch (this) {
-      case FileCacheLustreDeploymentType.cache_1:
-        return 'CACHE_1';
-    }
-  }
-}
+  final String value;
 
-extension FileCacheLustreDeploymentTypeFromString on String {
-  FileCacheLustreDeploymentType toFileCacheLustreDeploymentType() {
-    switch (this) {
-      case 'CACHE_1':
-        return FileCacheLustreDeploymentType.cache_1;
-    }
-    throw Exception('$this is not known in enum FileCacheLustreDeploymentType');
-  }
+  const FileCacheLustreDeploymentType(this.value);
+
+  static FileCacheLustreDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FileCacheLustreDeploymentType'));
 }
 
 /// The configuration for a Lustre MDT (Metadata Target) storage volume. The
@@ -8625,33 +8237,24 @@ class FileCacheNFSConfiguration {
     final version = this.version;
     final dnsIps = this.dnsIps;
     return {
-      'Version': version.toValue(),
+      'Version': version.value,
       if (dnsIps != null) 'DnsIps': dnsIps,
     };
   }
 }
 
 enum FileCacheType {
-  lustre,
-}
+  lustre('LUSTRE'),
+  ;
 
-extension FileCacheTypeValueExtension on FileCacheType {
-  String toValue() {
-    switch (this) {
-      case FileCacheType.lustre:
-        return 'LUSTRE';
-    }
-  }
-}
+  final String value;
 
-extension FileCacheTypeFromString on String {
-  FileCacheType toFileCacheType() {
-    switch (this) {
-      case 'LUSTRE':
-        return FileCacheType.lustre;
-    }
-    throw Exception('$this is not known in enum FileCacheType');
-  }
+  const FileCacheType(this.value);
+
+  static FileCacheType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileCacheType'));
 }
 
 /// A description of a specific Amazon FSx file system.
@@ -8839,10 +8442,12 @@ class FileSystem {
               json['FailureDetails'] as Map<String, dynamic>)
           : null,
       fileSystemId: json['FileSystemId'] as String?,
-      fileSystemType: (json['FileSystemType'] as String?)?.toFileSystemType(),
+      fileSystemType:
+          (json['FileSystemType'] as String?)?.let(FileSystemType.fromString),
       fileSystemTypeVersion: json['FileSystemTypeVersion'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toFileSystemLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(FileSystemLifecycle.fromString),
       lustreConfiguration: json['LustreConfiguration'] != null
           ? LustreFileSystemConfiguration.fromJson(
               json['LustreConfiguration'] as Map<String, dynamic>)
@@ -8862,7 +8467,8 @@ class FileSystem {
       ownerId: json['OwnerId'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       storageCapacity: json['StorageCapacity'] as int?,
-      storageType: (json['StorageType'] as String?)?.toStorageType(),
+      storageType:
+          (json['StorageType'] as String?)?.let(StorageType.fromString),
       subnetIds: (json['SubnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -8955,126 +8561,57 @@ class FileSystemFailureDetails {
 
 /// The lifecycle status of the file system.
 enum FileSystemLifecycle {
-  available,
-  creating,
-  failed,
-  deleting,
-  misconfigured,
-  updating,
-  misconfiguredUnavailable,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  misconfigured('MISCONFIGURED'),
+  updating('UPDATING'),
+  misconfiguredUnavailable('MISCONFIGURED_UNAVAILABLE'),
+  ;
 
-extension FileSystemLifecycleValueExtension on FileSystemLifecycle {
-  String toValue() {
-    switch (this) {
-      case FileSystemLifecycle.available:
-        return 'AVAILABLE';
-      case FileSystemLifecycle.creating:
-        return 'CREATING';
-      case FileSystemLifecycle.failed:
-        return 'FAILED';
-      case FileSystemLifecycle.deleting:
-        return 'DELETING';
-      case FileSystemLifecycle.misconfigured:
-        return 'MISCONFIGURED';
-      case FileSystemLifecycle.updating:
-        return 'UPDATING';
-      case FileSystemLifecycle.misconfiguredUnavailable:
-        return 'MISCONFIGURED_UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension FileSystemLifecycleFromString on String {
-  FileSystemLifecycle toFileSystemLifecycle() {
-    switch (this) {
-      case 'AVAILABLE':
-        return FileSystemLifecycle.available;
-      case 'CREATING':
-        return FileSystemLifecycle.creating;
-      case 'FAILED':
-        return FileSystemLifecycle.failed;
-      case 'DELETING':
-        return FileSystemLifecycle.deleting;
-      case 'MISCONFIGURED':
-        return FileSystemLifecycle.misconfigured;
-      case 'UPDATING':
-        return FileSystemLifecycle.updating;
-      case 'MISCONFIGURED_UNAVAILABLE':
-        return FileSystemLifecycle.misconfiguredUnavailable;
-    }
-    throw Exception('$this is not known in enum FileSystemLifecycle');
-  }
+  const FileSystemLifecycle(this.value);
+
+  static FileSystemLifecycle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FileSystemLifecycle'));
 }
 
 /// An enumeration specifying the currently ongoing maintenance operation.
 enum FileSystemMaintenanceOperation {
-  patching,
-  backingUp,
-}
+  patching('PATCHING'),
+  backingUp('BACKING_UP'),
+  ;
 
-extension FileSystemMaintenanceOperationValueExtension
-    on FileSystemMaintenanceOperation {
-  String toValue() {
-    switch (this) {
-      case FileSystemMaintenanceOperation.patching:
-        return 'PATCHING';
-      case FileSystemMaintenanceOperation.backingUp:
-        return 'BACKING_UP';
-    }
-  }
-}
+  final String value;
 
-extension FileSystemMaintenanceOperationFromString on String {
-  FileSystemMaintenanceOperation toFileSystemMaintenanceOperation() {
-    switch (this) {
-      case 'PATCHING':
-        return FileSystemMaintenanceOperation.patching;
-      case 'BACKING_UP':
-        return FileSystemMaintenanceOperation.backingUp;
-    }
-    throw Exception(
-        '$this is not known in enum FileSystemMaintenanceOperation');
-  }
+  const FileSystemMaintenanceOperation(this.value);
+
+  static FileSystemMaintenanceOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FileSystemMaintenanceOperation'));
 }
 
 /// The type of file system.
 enum FileSystemType {
-  windows,
-  lustre,
-  ontap,
-  openzfs,
-}
+  windows('WINDOWS'),
+  lustre('LUSTRE'),
+  ontap('ONTAP'),
+  openzfs('OPENZFS'),
+  ;
 
-extension FileSystemTypeValueExtension on FileSystemType {
-  String toValue() {
-    switch (this) {
-      case FileSystemType.windows:
-        return 'WINDOWS';
-      case FileSystemType.lustre:
-        return 'LUSTRE';
-      case FileSystemType.ontap:
-        return 'ONTAP';
-      case FileSystemType.openzfs:
-        return 'OPENZFS';
-    }
-  }
-}
+  final String value;
 
-extension FileSystemTypeFromString on String {
-  FileSystemType toFileSystemType() {
-    switch (this) {
-      case 'WINDOWS':
-        return FileSystemType.windows;
-      case 'LUSTRE':
-        return FileSystemType.lustre;
-      case 'ONTAP':
-        return FileSystemType.ontap;
-      case 'OPENZFS':
-        return FileSystemType.openzfs;
-    }
-    throw Exception('$this is not known in enum FileSystemType');
-  }
+  const FileSystemType(this.value);
+
+  static FileSystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileSystemType'));
 }
 
 /// A filter used to restrict the results of describe calls. You can use
@@ -9097,7 +8634,7 @@ class Filter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
@@ -9105,117 +8642,53 @@ class Filter {
 
 /// The name for a filter.
 enum FilterName {
-  fileSystemId,
-  backupType,
-  fileSystemType,
-  volumeId,
-  dataRepositoryType,
-  fileCacheId,
-  fileCacheType,
-}
+  fileSystemId('file-system-id'),
+  backupType('backup-type'),
+  fileSystemType('file-system-type'),
+  volumeId('volume-id'),
+  dataRepositoryType('data-repository-type'),
+  fileCacheId('file-cache-id'),
+  fileCacheType('file-cache-type'),
+  ;
 
-extension FilterNameValueExtension on FilterName {
-  String toValue() {
-    switch (this) {
-      case FilterName.fileSystemId:
-        return 'file-system-id';
-      case FilterName.backupType:
-        return 'backup-type';
-      case FilterName.fileSystemType:
-        return 'file-system-type';
-      case FilterName.volumeId:
-        return 'volume-id';
-      case FilterName.dataRepositoryType:
-        return 'data-repository-type';
-      case FilterName.fileCacheId:
-        return 'file-cache-id';
-      case FilterName.fileCacheType:
-        return 'file-cache-type';
-    }
-  }
-}
+  final String value;
 
-extension FilterNameFromString on String {
-  FilterName toFilterName() {
-    switch (this) {
-      case 'file-system-id':
-        return FilterName.fileSystemId;
-      case 'backup-type':
-        return FilterName.backupType;
-      case 'file-system-type':
-        return FilterName.fileSystemType;
-      case 'volume-id':
-        return FilterName.volumeId;
-      case 'data-repository-type':
-        return FilterName.dataRepositoryType;
-      case 'file-cache-id':
-        return FilterName.fileCacheId;
-      case 'file-cache-type':
-        return FilterName.fileCacheType;
-    }
-    throw Exception('$this is not known in enum FilterName');
-  }
+  const FilterName(this.value);
+
+  static FilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FilterName'));
 }
 
 enum FlexCacheEndpointType {
-  none,
-  origin,
-  cache,
-}
+  none('NONE'),
+  origin('ORIGIN'),
+  cache('CACHE'),
+  ;
 
-extension FlexCacheEndpointTypeValueExtension on FlexCacheEndpointType {
-  String toValue() {
-    switch (this) {
-      case FlexCacheEndpointType.none:
-        return 'NONE';
-      case FlexCacheEndpointType.origin:
-        return 'ORIGIN';
-      case FlexCacheEndpointType.cache:
-        return 'CACHE';
-    }
-  }
-}
+  final String value;
 
-extension FlexCacheEndpointTypeFromString on String {
-  FlexCacheEndpointType toFlexCacheEndpointType() {
-    switch (this) {
-      case 'NONE':
-        return FlexCacheEndpointType.none;
-      case 'ORIGIN':
-        return FlexCacheEndpointType.origin;
-      case 'CACHE':
-        return FlexCacheEndpointType.cache;
-    }
-    throw Exception('$this is not known in enum FlexCacheEndpointType');
-  }
+  const FlexCacheEndpointType(this.value);
+
+  static FlexCacheEndpointType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlexCacheEndpointType'));
 }
 
 enum InputOntapVolumeType {
-  rw,
-  dp,
-}
+  rw('RW'),
+  dp('DP'),
+  ;
 
-extension InputOntapVolumeTypeValueExtension on InputOntapVolumeType {
-  String toValue() {
-    switch (this) {
-      case InputOntapVolumeType.rw:
-        return 'RW';
-      case InputOntapVolumeType.dp:
-        return 'DP';
-    }
-  }
-}
+  final String value;
 
-extension InputOntapVolumeTypeFromString on String {
-  InputOntapVolumeType toInputOntapVolumeType() {
-    switch (this) {
-      case 'RW':
-        return InputOntapVolumeType.rw;
-      case 'DP':
-        return InputOntapVolumeType.dp;
-    }
-    throw Exception('$this is not known in enum InputOntapVolumeType');
-  }
+  const InputOntapVolumeType(this.value);
+
+  static InputOntapVolumeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputOntapVolumeType'));
 }
 
 /// Describes why a resource lifecycle state changed.
@@ -9260,79 +8733,37 @@ class ListTagsForResourceResponse {
 }
 
 enum LustreAccessAuditLogLevel {
-  disabled,
-  warnOnly,
-  errorOnly,
-  warnError,
-}
+  disabled('DISABLED'),
+  warnOnly('WARN_ONLY'),
+  errorOnly('ERROR_ONLY'),
+  warnError('WARN_ERROR'),
+  ;
 
-extension LustreAccessAuditLogLevelValueExtension on LustreAccessAuditLogLevel {
-  String toValue() {
-    switch (this) {
-      case LustreAccessAuditLogLevel.disabled:
-        return 'DISABLED';
-      case LustreAccessAuditLogLevel.warnOnly:
-        return 'WARN_ONLY';
-      case LustreAccessAuditLogLevel.errorOnly:
-        return 'ERROR_ONLY';
-      case LustreAccessAuditLogLevel.warnError:
-        return 'WARN_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension LustreAccessAuditLogLevelFromString on String {
-  LustreAccessAuditLogLevel toLustreAccessAuditLogLevel() {
-    switch (this) {
-      case 'DISABLED':
-        return LustreAccessAuditLogLevel.disabled;
-      case 'WARN_ONLY':
-        return LustreAccessAuditLogLevel.warnOnly;
-      case 'ERROR_ONLY':
-        return LustreAccessAuditLogLevel.errorOnly;
-      case 'WARN_ERROR':
-        return LustreAccessAuditLogLevel.warnError;
-    }
-    throw Exception('$this is not known in enum LustreAccessAuditLogLevel');
-  }
+  const LustreAccessAuditLogLevel(this.value);
+
+  static LustreAccessAuditLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LustreAccessAuditLogLevel'));
 }
 
 enum LustreDeploymentType {
-  scratch_1,
-  scratch_2,
-  persistent_1,
-  persistent_2,
-}
+  scratch_1('SCRATCH_1'),
+  scratch_2('SCRATCH_2'),
+  persistent_1('PERSISTENT_1'),
+  persistent_2('PERSISTENT_2'),
+  ;
 
-extension LustreDeploymentTypeValueExtension on LustreDeploymentType {
-  String toValue() {
-    switch (this) {
-      case LustreDeploymentType.scratch_1:
-        return 'SCRATCH_1';
-      case LustreDeploymentType.scratch_2:
-        return 'SCRATCH_2';
-      case LustreDeploymentType.persistent_1:
-        return 'PERSISTENT_1';
-      case LustreDeploymentType.persistent_2:
-        return 'PERSISTENT_2';
-    }
-  }
-}
+  final String value;
 
-extension LustreDeploymentTypeFromString on String {
-  LustreDeploymentType toLustreDeploymentType() {
-    switch (this) {
-      case 'SCRATCH_1':
-        return LustreDeploymentType.scratch_1;
-      case 'SCRATCH_2':
-        return LustreDeploymentType.scratch_2;
-      case 'PERSISTENT_1':
-        return LustreDeploymentType.persistent_1;
-      case 'PERSISTENT_2':
-        return LustreDeploymentType.persistent_2;
-    }
-    throw Exception('$this is not known in enum LustreDeploymentType');
-  }
+  const LustreDeploymentType(this.value);
+
+  static LustreDeploymentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LustreDeploymentType'));
 }
 
 /// The configuration for the Amazon FSx for Lustre file system.
@@ -9463,15 +8894,16 @@ class LustreFileSystemConfiguration {
       copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
       dailyAutomaticBackupStartTime:
           json['DailyAutomaticBackupStartTime'] as String?,
-      dataCompressionType:
-          (json['DataCompressionType'] as String?)?.toDataCompressionType(),
+      dataCompressionType: (json['DataCompressionType'] as String?)
+          ?.let(DataCompressionType.fromString),
       dataRepositoryConfiguration: json['DataRepositoryConfiguration'] != null
           ? DataRepositoryConfiguration.fromJson(
               json['DataRepositoryConfiguration'] as Map<String, dynamic>)
           : null,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.toLustreDeploymentType(),
-      driveCacheType: (json['DriveCacheType'] as String?)?.toDriveCacheType(),
+      deploymentType: (json['DeploymentType'] as String?)
+          ?.let(LustreDeploymentType.fromString),
+      driveCacheType:
+          (json['DriveCacheType'] as String?)?.let(DriveCacheType.fromString),
       logConfiguration: json['LogConfiguration'] != null
           ? LustreLogConfiguration.fromJson(
               json['LogConfiguration'] as Map<String, dynamic>)
@@ -9525,7 +8957,7 @@ class LustreLogConfiguration {
 
   factory LustreLogConfiguration.fromJson(Map<String, dynamic> json) {
     return LustreLogConfiguration(
-      level: (json['Level'] as String).toLustreAccessAuditLogLevel(),
+      level: LustreAccessAuditLogLevel.fromString((json['Level'] as String)),
       destination: json['Destination'] as String?,
     );
   }
@@ -9598,7 +9030,7 @@ class LustreLogCreateConfiguration {
     final level = this.level;
     final destination = this.destination;
     return {
-      'Level': level.toValue(),
+      'Level': level.value,
       if (destination != null) 'Destination': destination,
     };
   }
@@ -9702,7 +9134,7 @@ class NFSDataRepositoryConfiguration {
 
   factory NFSDataRepositoryConfiguration.fromJson(Map<String, dynamic> json) {
     return NFSDataRepositoryConfiguration(
-      version: (json['Version'] as String).toNfsVersion(),
+      version: NfsVersion.fromString((json['Version'] as String)),
       autoExportPolicy: json['AutoExportPolicy'] != null
           ? AutoExportPolicy.fromJson(
               json['AutoExportPolicy'] as Map<String, dynamic>)
@@ -9716,59 +9148,32 @@ class NFSDataRepositoryConfiguration {
 }
 
 enum NfsVersion {
-  nfs3,
-}
+  nfs3('NFS3'),
+  ;
 
-extension NfsVersionValueExtension on NfsVersion {
-  String toValue() {
-    switch (this) {
-      case NfsVersion.nfs3:
-        return 'NFS3';
-    }
-  }
-}
+  final String value;
 
-extension NfsVersionFromString on String {
-  NfsVersion toNfsVersion() {
-    switch (this) {
-      case 'NFS3':
-        return NfsVersion.nfs3;
-    }
-    throw Exception('$this is not known in enum NfsVersion');
-  }
+  const NfsVersion(this.value);
+
+  static NfsVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum NfsVersion'));
 }
 
 enum OntapDeploymentType {
-  multiAz_1,
-  singleAz_1,
-  singleAz_2,
-}
+  multiAz_1('MULTI_AZ_1'),
+  singleAz_1('SINGLE_AZ_1'),
+  singleAz_2('SINGLE_AZ_2'),
+  ;
 
-extension OntapDeploymentTypeValueExtension on OntapDeploymentType {
-  String toValue() {
-    switch (this) {
-      case OntapDeploymentType.multiAz_1:
-        return 'MULTI_AZ_1';
-      case OntapDeploymentType.singleAz_1:
-        return 'SINGLE_AZ_1';
-      case OntapDeploymentType.singleAz_2:
-        return 'SINGLE_AZ_2';
-    }
-  }
-}
+  final String value;
 
-extension OntapDeploymentTypeFromString on String {
-  OntapDeploymentType toOntapDeploymentType() {
-    switch (this) {
-      case 'MULTI_AZ_1':
-        return OntapDeploymentType.multiAz_1;
-      case 'SINGLE_AZ_1':
-        return OntapDeploymentType.singleAz_1;
-      case 'SINGLE_AZ_2':
-        return OntapDeploymentType.singleAz_2;
-    }
-    throw Exception('$this is not known in enum OntapDeploymentType');
-  }
+  const OntapDeploymentType(this.value);
+
+  static OntapDeploymentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OntapDeploymentType'));
 }
 
 /// Configuration for the FSx for NetApp ONTAP file system.
@@ -9913,8 +9318,8 @@ class OntapFileSystemConfiguration {
           json['AutomaticBackupRetentionDays'] as int?,
       dailyAutomaticBackupStartTime:
           json['DailyAutomaticBackupStartTime'] as String?,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.toOntapDeploymentType(),
+      deploymentType: (json['DeploymentType'] as String?)
+          ?.let(OntapDeploymentType.fromString),
       diskIopsConfiguration: json['DiskIopsConfiguration'] != null
           ? DiskIopsConfiguration.fromJson(
               json['DiskIopsConfiguration'] as Map<String, dynamic>)
@@ -10095,12 +9500,13 @@ class OntapVolumeConfiguration {
               json['AggregateConfiguration'] as Map<String, dynamic>)
           : null,
       copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
-      flexCacheEndpointType:
-          (json['FlexCacheEndpointType'] as String?)?.toFlexCacheEndpointType(),
+      flexCacheEndpointType: (json['FlexCacheEndpointType'] as String?)
+          ?.let(FlexCacheEndpointType.fromString),
       junctionPath: json['JunctionPath'] as String?,
       ontapVolumeType:
-          (json['OntapVolumeType'] as String?)?.toOntapVolumeType(),
-      securityStyle: (json['SecurityStyle'] as String?)?.toSecurityStyle(),
+          (json['OntapVolumeType'] as String?)?.let(OntapVolumeType.fromString),
+      securityStyle:
+          (json['SecurityStyle'] as String?)?.let(SecurityStyle.fromString),
       sizeInBytes: json['SizeInBytes'] as int?,
       sizeInMegabytes: json['SizeInMegabytes'] as int?,
       snaplockConfiguration: json['SnaplockConfiguration'] != null
@@ -10116,42 +9522,26 @@ class OntapVolumeConfiguration {
               json['TieringPolicy'] as Map<String, dynamic>)
           : null,
       uuid: json['UUID'] as String?,
-      volumeStyle: (json['VolumeStyle'] as String?)?.toVolumeStyle(),
+      volumeStyle:
+          (json['VolumeStyle'] as String?)?.let(VolumeStyle.fromString),
     );
   }
 }
 
 enum OntapVolumeType {
-  rw,
-  dp,
-  ls,
-}
+  rw('RW'),
+  dp('DP'),
+  ls('LS'),
+  ;
 
-extension OntapVolumeTypeValueExtension on OntapVolumeType {
-  String toValue() {
-    switch (this) {
-      case OntapVolumeType.rw:
-        return 'RW';
-      case OntapVolumeType.dp:
-        return 'DP';
-      case OntapVolumeType.ls:
-        return 'LS';
-    }
-  }
-}
+  final String value;
 
-extension OntapVolumeTypeFromString on String {
-  OntapVolumeType toOntapVolumeType() {
-    switch (this) {
-      case 'RW':
-        return OntapVolumeType.rw;
-      case 'DP':
-        return OntapVolumeType.dp;
-      case 'LS':
-        return OntapVolumeType.ls;
-    }
-    throw Exception('$this is not known in enum OntapVolumeType');
-  }
+  const OntapVolumeType(this.value);
+
+  static OntapVolumeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OntapVolumeType'));
 }
 
 /// Specifies who can mount an OpenZFS file system and the options available
@@ -10209,36 +9599,19 @@ class OpenZFSClientConfiguration {
 }
 
 enum OpenZFSCopyStrategy {
-  clone,
-  fullCopy,
-  incrementalCopy,
-}
+  clone('CLONE'),
+  fullCopy('FULL_COPY'),
+  incrementalCopy('INCREMENTAL_COPY'),
+  ;
 
-extension OpenZFSCopyStrategyValueExtension on OpenZFSCopyStrategy {
-  String toValue() {
-    switch (this) {
-      case OpenZFSCopyStrategy.clone:
-        return 'CLONE';
-      case OpenZFSCopyStrategy.fullCopy:
-        return 'FULL_COPY';
-      case OpenZFSCopyStrategy.incrementalCopy:
-        return 'INCREMENTAL_COPY';
-    }
-  }
-}
+  final String value;
 
-extension OpenZFSCopyStrategyFromString on String {
-  OpenZFSCopyStrategy toOpenZFSCopyStrategy() {
-    switch (this) {
-      case 'CLONE':
-        return OpenZFSCopyStrategy.clone;
-      case 'FULL_COPY':
-        return OpenZFSCopyStrategy.fullCopy;
-      case 'INCREMENTAL_COPY':
-        return OpenZFSCopyStrategy.incrementalCopy;
-    }
-    throw Exception('$this is not known in enum OpenZFSCopyStrategy');
-  }
+  const OpenZFSCopyStrategy(this.value);
+
+  static OpenZFSCopyStrategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpenZFSCopyStrategy'));
 }
 
 /// The configuration of an Amazon FSx for OpenZFS root volume.
@@ -10315,7 +9688,7 @@ class OpenZFSCreateRootVolumeConfiguration {
       if (copyTagsToSnapshots != null)
         'CopyTagsToSnapshots': copyTagsToSnapshots,
       if (dataCompressionType != null)
-        'DataCompressionType': dataCompressionType.toValue(),
+        'DataCompressionType': dataCompressionType.value,
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (readOnly != null) 'ReadOnly': readOnly,
       if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
@@ -10325,70 +9698,35 @@ class OpenZFSCreateRootVolumeConfiguration {
 }
 
 enum OpenZFSDataCompressionType {
-  none,
-  zstd,
-  lz4,
-}
+  none('NONE'),
+  zstd('ZSTD'),
+  lz4('LZ4'),
+  ;
 
-extension OpenZFSDataCompressionTypeValueExtension
-    on OpenZFSDataCompressionType {
-  String toValue() {
-    switch (this) {
-      case OpenZFSDataCompressionType.none:
-        return 'NONE';
-      case OpenZFSDataCompressionType.zstd:
-        return 'ZSTD';
-      case OpenZFSDataCompressionType.lz4:
-        return 'LZ4';
-    }
-  }
-}
+  final String value;
 
-extension OpenZFSDataCompressionTypeFromString on String {
-  OpenZFSDataCompressionType toOpenZFSDataCompressionType() {
-    switch (this) {
-      case 'NONE':
-        return OpenZFSDataCompressionType.none;
-      case 'ZSTD':
-        return OpenZFSDataCompressionType.zstd;
-      case 'LZ4':
-        return OpenZFSDataCompressionType.lz4;
-    }
-    throw Exception('$this is not known in enum OpenZFSDataCompressionType');
-  }
+  const OpenZFSDataCompressionType(this.value);
+
+  static OpenZFSDataCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OpenZFSDataCompressionType'));
 }
 
 enum OpenZFSDeploymentType {
-  singleAz_1,
-  singleAz_2,
-  multiAz_1,
-}
+  singleAz_1('SINGLE_AZ_1'),
+  singleAz_2('SINGLE_AZ_2'),
+  multiAz_1('MULTI_AZ_1'),
+  ;
 
-extension OpenZFSDeploymentTypeValueExtension on OpenZFSDeploymentType {
-  String toValue() {
-    switch (this) {
-      case OpenZFSDeploymentType.singleAz_1:
-        return 'SINGLE_AZ_1';
-      case OpenZFSDeploymentType.singleAz_2:
-        return 'SINGLE_AZ_2';
-      case OpenZFSDeploymentType.multiAz_1:
-        return 'MULTI_AZ_1';
-    }
-  }
-}
+  final String value;
 
-extension OpenZFSDeploymentTypeFromString on String {
-  OpenZFSDeploymentType toOpenZFSDeploymentType() {
-    switch (this) {
-      case 'SINGLE_AZ_1':
-        return OpenZFSDeploymentType.singleAz_1;
-      case 'SINGLE_AZ_2':
-        return OpenZFSDeploymentType.singleAz_2;
-      case 'MULTI_AZ_1':
-        return OpenZFSDeploymentType.multiAz_1;
-    }
-    throw Exception('$this is not known in enum OpenZFSDeploymentType');
-  }
+  const OpenZFSDeploymentType(this.value);
+
+  static OpenZFSDeploymentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpenZFSDeploymentType'));
 }
 
 /// The configuration for the Amazon FSx for OpenZFS file system.
@@ -10472,8 +9810,8 @@ class OpenZFSFileSystemConfiguration {
       copyTagsToVolumes: json['CopyTagsToVolumes'] as bool?,
       dailyAutomaticBackupStartTime:
           json['DailyAutomaticBackupStartTime'] as String?,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.toOpenZFSDeploymentType(),
+      deploymentType: (json['DeploymentType'] as String?)
+          ?.let(OpenZFSDeploymentType.fromString),
       diskIopsConfiguration: json['DiskIopsConfiguration'] != null
           ? DiskIopsConfiguration.fromJson(
               json['DiskIopsConfiguration'] as Map<String, dynamic>)
@@ -10554,38 +9892,26 @@ class OpenZFSOriginSnapshotConfiguration {
   factory OpenZFSOriginSnapshotConfiguration.fromJson(
       Map<String, dynamic> json) {
     return OpenZFSOriginSnapshotConfiguration(
-      copyStrategy: (json['CopyStrategy'] as String?)?.toOpenZFSCopyStrategy(),
+      copyStrategy: (json['CopyStrategy'] as String?)
+          ?.let(OpenZFSCopyStrategy.fromString),
       snapshotARN: json['SnapshotARN'] as String?,
     );
   }
 }
 
 enum OpenZFSQuotaType {
-  user,
-  group,
-}
+  user('USER'),
+  group('GROUP'),
+  ;
 
-extension OpenZFSQuotaTypeValueExtension on OpenZFSQuotaType {
-  String toValue() {
-    switch (this) {
-      case OpenZFSQuotaType.user:
-        return 'USER';
-      case OpenZFSQuotaType.group:
-        return 'GROUP';
-    }
-  }
-}
+  final String value;
 
-extension OpenZFSQuotaTypeFromString on String {
-  OpenZFSQuotaType toOpenZFSQuotaType() {
-    switch (this) {
-      case 'USER':
-        return OpenZFSQuotaType.user;
-      case 'GROUP':
-        return OpenZFSQuotaType.group;
-    }
-    throw Exception('$this is not known in enum OpenZFSQuotaType');
-  }
+  const OpenZFSQuotaType(this.value);
+
+  static OpenZFSQuotaType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpenZFSQuotaType'));
 }
 
 /// Used to configure quotas that define how much storage a user or group can
@@ -10612,7 +9938,7 @@ class OpenZFSUserOrGroupQuota {
     return OpenZFSUserOrGroupQuota(
       id: json['Id'] as int,
       storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int,
-      type: (json['Type'] as String).toOpenZFSQuotaType(),
+      type: OpenZFSQuotaType.fromString((json['Type'] as String)),
     );
   }
 
@@ -10623,7 +9949,7 @@ class OpenZFSUserOrGroupQuota {
     return {
       'Id': id,
       'StorageCapacityQuotaGiB': storageCapacityQuotaGiB,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -10767,10 +10093,11 @@ class OpenZFSVolumeConfiguration {
 
   factory OpenZFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return OpenZFSVolumeConfiguration(
-      copyStrategy: (json['CopyStrategy'] as String?)?.toOpenZFSCopyStrategy(),
+      copyStrategy: (json['CopyStrategy'] as String?)
+          ?.let(OpenZFSCopyStrategy.fromString),
       copyTagsToSnapshots: json['CopyTagsToSnapshots'] as bool?,
       dataCompressionType: (json['DataCompressionType'] as String?)
-          ?.toOpenZFSDataCompressionType(),
+          ?.let(OpenZFSDataCompressionType.fromString),
       deleteClonedVolumes: json['DeleteClonedVolumes'] as bool?,
       deleteIntermediateData: json['DeleteIntermediateData'] as bool?,
       deleteIntermediateSnaphots: json['DeleteIntermediateSnaphots'] as bool?,
@@ -10802,36 +10129,19 @@ class OpenZFSVolumeConfiguration {
 }
 
 enum PrivilegedDelete {
-  disabled,
-  enabled,
-  permanentlyDisabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  permanentlyDisabled('PERMANENTLY_DISABLED'),
+  ;
 
-extension PrivilegedDeleteValueExtension on PrivilegedDelete {
-  String toValue() {
-    switch (this) {
-      case PrivilegedDelete.disabled:
-        return 'DISABLED';
-      case PrivilegedDelete.enabled:
-        return 'ENABLED';
-      case PrivilegedDelete.permanentlyDisabled:
-        return 'PERMANENTLY_DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension PrivilegedDeleteFromString on String {
-  PrivilegedDelete toPrivilegedDelete() {
-    switch (this) {
-      case 'DISABLED':
-        return PrivilegedDelete.disabled;
-      case 'ENABLED':
-        return PrivilegedDelete.enabled;
-      case 'PERMANENTLY_DISABLED':
-        return PrivilegedDelete.permanentlyDisabled;
-    }
-    throw Exception('$this is not known in enum PrivilegedDelete');
-  }
+  const PrivilegedDelete(this.value);
+
+  static PrivilegedDelete fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrivilegedDelete'));
 }
 
 /// The configuration that specifies a minimum amount of time since last access
@@ -10898,106 +10208,60 @@ class ReleaseFileSystemNfsV3LocksResponse {
 }
 
 enum ReportFormat {
-  reportCsv_20191124,
-}
+  reportCsv_20191124('REPORT_CSV_20191124'),
+  ;
 
-extension ReportFormatValueExtension on ReportFormat {
-  String toValue() {
-    switch (this) {
-      case ReportFormat.reportCsv_20191124:
-        return 'REPORT_CSV_20191124';
-    }
-  }
-}
+  final String value;
 
-extension ReportFormatFromString on String {
-  ReportFormat toReportFormat() {
-    switch (this) {
-      case 'REPORT_CSV_20191124':
-        return ReportFormat.reportCsv_20191124;
-    }
-    throw Exception('$this is not known in enum ReportFormat');
-  }
+  const ReportFormat(this.value);
+
+  static ReportFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportFormat'));
 }
 
 enum ReportScope {
-  failedFilesOnly,
-}
+  failedFilesOnly('FAILED_FILES_ONLY'),
+  ;
 
-extension ReportScopeValueExtension on ReportScope {
-  String toValue() {
-    switch (this) {
-      case ReportScope.failedFilesOnly:
-        return 'FAILED_FILES_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension ReportScopeFromString on String {
-  ReportScope toReportScope() {
-    switch (this) {
-      case 'FAILED_FILES_ONLY':
-        return ReportScope.failedFilesOnly;
-    }
-    throw Exception('$this is not known in enum ReportScope');
-  }
+  const ReportScope(this.value);
+
+  static ReportScope fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReportScope'));
 }
 
 enum ResourceType {
-  fileSystem,
-  volume,
-}
+  fileSystem('FILE_SYSTEM'),
+  volume('VOLUME'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.fileSystem:
-        return 'FILE_SYSTEM';
-      case ResourceType.volume:
-        return 'VOLUME';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'FILE_SYSTEM':
-        return ResourceType.fileSystem;
-      case 'VOLUME':
-        return ResourceType.volume;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 enum RestoreOpenZFSVolumeOption {
-  deleteIntermediateSnapshots,
-  deleteClonedVolumes,
-}
+  deleteIntermediateSnapshots('DELETE_INTERMEDIATE_SNAPSHOTS'),
+  deleteClonedVolumes('DELETE_CLONED_VOLUMES'),
+  ;
 
-extension RestoreOpenZFSVolumeOptionValueExtension
-    on RestoreOpenZFSVolumeOption {
-  String toValue() {
-    switch (this) {
-      case RestoreOpenZFSVolumeOption.deleteIntermediateSnapshots:
-        return 'DELETE_INTERMEDIATE_SNAPSHOTS';
-      case RestoreOpenZFSVolumeOption.deleteClonedVolumes:
-        return 'DELETE_CLONED_VOLUMES';
-    }
-  }
-}
+  final String value;
 
-extension RestoreOpenZFSVolumeOptionFromString on String {
-  RestoreOpenZFSVolumeOption toRestoreOpenZFSVolumeOption() {
-    switch (this) {
-      case 'DELETE_INTERMEDIATE_SNAPSHOTS':
-        return RestoreOpenZFSVolumeOption.deleteIntermediateSnapshots;
-      case 'DELETE_CLONED_VOLUMES':
-        return RestoreOpenZFSVolumeOption.deleteClonedVolumes;
-    }
-    throw Exception('$this is not known in enum RestoreOpenZFSVolumeOption');
-  }
+  const RestoreOpenZFSVolumeOption(this.value);
+
+  static RestoreOpenZFSVolumeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RestoreOpenZFSVolumeOption'));
 }
 
 class RestoreVolumeFromSnapshotResponse {
@@ -11025,7 +10289,8 @@ class RestoreVolumeFromSnapshotResponse {
           ?.whereNotNull()
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lifecycle: (json['Lifecycle'] as String?)?.toVolumeLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(VolumeLifecycle.fromString),
       volumeId: json['VolumeId'] as String?,
     );
   }
@@ -11080,7 +10345,7 @@ class RetentionPeriod {
 
   factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
     return RetentionPeriod(
-      type: (json['Type'] as String).toRetentionPeriodType(),
+      type: RetentionPeriodType.fromString((json['Type'] as String)),
       value: json['Value'] as int?,
     );
   }
@@ -11089,68 +10354,31 @@ class RetentionPeriod {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum RetentionPeriodType {
-  seconds,
-  minutes,
-  hours,
-  days,
-  months,
-  years,
-  infinite,
-  unspecified,
-}
+  seconds('SECONDS'),
+  minutes('MINUTES'),
+  hours('HOURS'),
+  days('DAYS'),
+  months('MONTHS'),
+  years('YEARS'),
+  infinite('INFINITE'),
+  unspecified('UNSPECIFIED'),
+  ;
 
-extension RetentionPeriodTypeValueExtension on RetentionPeriodType {
-  String toValue() {
-    switch (this) {
-      case RetentionPeriodType.seconds:
-        return 'SECONDS';
-      case RetentionPeriodType.minutes:
-        return 'MINUTES';
-      case RetentionPeriodType.hours:
-        return 'HOURS';
-      case RetentionPeriodType.days:
-        return 'DAYS';
-      case RetentionPeriodType.months:
-        return 'MONTHS';
-      case RetentionPeriodType.years:
-        return 'YEARS';
-      case RetentionPeriodType.infinite:
-        return 'INFINITE';
-      case RetentionPeriodType.unspecified:
-        return 'UNSPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension RetentionPeriodTypeFromString on String {
-  RetentionPeriodType toRetentionPeriodType() {
-    switch (this) {
-      case 'SECONDS':
-        return RetentionPeriodType.seconds;
-      case 'MINUTES':
-        return RetentionPeriodType.minutes;
-      case 'HOURS':
-        return RetentionPeriodType.hours;
-      case 'DAYS':
-        return RetentionPeriodType.days;
-      case 'MONTHS':
-        return RetentionPeriodType.months;
-      case 'YEARS':
-        return RetentionPeriodType.years;
-      case 'INFINITE':
-        return RetentionPeriodType.infinite;
-      case 'UNSPECIFIED':
-        return RetentionPeriodType.unspecified;
-    }
-    throw Exception('$this is not known in enum RetentionPeriodType');
-  }
+  const RetentionPeriodType(this.value);
+
+  static RetentionPeriodType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RetentionPeriodType'));
 }
 
 /// The configuration for an Amazon S3 data repository linked to an Amazon FSx
@@ -11204,36 +10432,19 @@ class S3DataRepositoryConfiguration {
 }
 
 enum SecurityStyle {
-  unix,
-  ntfs,
-  mixed,
-}
+  unix('UNIX'),
+  ntfs('NTFS'),
+  mixed('MIXED'),
+  ;
 
-extension SecurityStyleValueExtension on SecurityStyle {
-  String toValue() {
-    switch (this) {
-      case SecurityStyle.unix:
-        return 'UNIX';
-      case SecurityStyle.ntfs:
-        return 'NTFS';
-      case SecurityStyle.mixed:
-        return 'MIXED';
-    }
-  }
-}
+  final String value;
 
-extension SecurityStyleFromString on String {
-  SecurityStyle toSecurityStyle() {
-    switch (this) {
-      case 'UNIX':
-        return SecurityStyle.unix;
-      case 'NTFS':
-        return SecurityStyle.ntfs;
-      case 'MIXED':
-        return SecurityStyle.mixed;
-    }
-    throw Exception('$this is not known in enum SecurityStyle');
-  }
+  const SecurityStyle(this.value);
+
+  static SecurityStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SecurityStyle'));
 }
 
 /// The configuration of the self-managed Microsoft Active Directory (AD)
@@ -11515,13 +10726,14 @@ class SnaplockConfiguration {
           ? AutocommitPeriod.fromJson(
               json['AutocommitPeriod'] as Map<String, dynamic>)
           : null,
-      privilegedDelete:
-          (json['PrivilegedDelete'] as String?)?.toPrivilegedDelete(),
+      privilegedDelete: (json['PrivilegedDelete'] as String?)
+          ?.let(PrivilegedDelete.fromString),
       retentionPeriod: json['RetentionPeriod'] != null
           ? SnaplockRetentionPeriod.fromJson(
               json['RetentionPeriod'] as Map<String, dynamic>)
           : null,
-      snaplockType: (json['SnaplockType'] as String?)?.toSnaplockType(),
+      snaplockType:
+          (json['SnaplockType'] as String?)?.let(SnaplockType.fromString),
       volumeAppendModeEnabled: json['VolumeAppendModeEnabled'] as bool?,
     );
   }
@@ -11578,31 +10790,18 @@ class SnaplockRetentionPeriod {
 }
 
 enum SnaplockType {
-  compliance,
-  enterprise,
-}
+  compliance('COMPLIANCE'),
+  enterprise('ENTERPRISE'),
+  ;
 
-extension SnaplockTypeValueExtension on SnaplockType {
-  String toValue() {
-    switch (this) {
-      case SnaplockType.compliance:
-        return 'COMPLIANCE';
-      case SnaplockType.enterprise:
-        return 'ENTERPRISE';
-    }
-  }
-}
+  final String value;
 
-extension SnaplockTypeFromString on String {
-  SnaplockType toSnaplockType() {
-    switch (this) {
-      case 'COMPLIANCE':
-        return SnaplockType.compliance;
-      case 'ENTERPRISE':
-        return SnaplockType.enterprise;
-    }
-    throw Exception('$this is not known in enum SnaplockType');
-  }
+  const SnaplockType(this.value);
+
+  static SnaplockType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnaplockType'));
 }
 
 /// A snapshot of an Amazon FSx for OpenZFS volume.
@@ -11662,7 +10861,8 @@ class Snapshot {
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
-      lifecycle: (json['Lifecycle'] as String?)?.toSnapshotLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(SnapshotLifecycle.fromString),
       lifecycleTransitionReason: json['LifecycleTransitionReason'] != null
           ? LifecycleTransitionReason.fromJson(
               json['LifecycleTransitionReason'] as Map<String, dynamic>)
@@ -11700,76 +10900,42 @@ class SnapshotFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum SnapshotFilterName {
-  fileSystemId,
-  volumeId,
-}
+  fileSystemId('file-system-id'),
+  volumeId('volume-id'),
+  ;
 
-extension SnapshotFilterNameValueExtension on SnapshotFilterName {
-  String toValue() {
-    switch (this) {
-      case SnapshotFilterName.fileSystemId:
-        return 'file-system-id';
-      case SnapshotFilterName.volumeId:
-        return 'volume-id';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotFilterNameFromString on String {
-  SnapshotFilterName toSnapshotFilterName() {
-    switch (this) {
-      case 'file-system-id':
-        return SnapshotFilterName.fileSystemId;
-      case 'volume-id':
-        return SnapshotFilterName.volumeId;
-    }
-    throw Exception('$this is not known in enum SnapshotFilterName');
-  }
+  const SnapshotFilterName(this.value);
+
+  static SnapshotFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SnapshotFilterName'));
 }
 
 enum SnapshotLifecycle {
-  pending,
-  creating,
-  deleting,
-  available,
-}
+  pending('PENDING'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  available('AVAILABLE'),
+  ;
 
-extension SnapshotLifecycleValueExtension on SnapshotLifecycle {
-  String toValue() {
-    switch (this) {
-      case SnapshotLifecycle.pending:
-        return 'PENDING';
-      case SnapshotLifecycle.creating:
-        return 'CREATING';
-      case SnapshotLifecycle.deleting:
-        return 'DELETING';
-      case SnapshotLifecycle.available:
-        return 'AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotLifecycleFromString on String {
-  SnapshotLifecycle toSnapshotLifecycle() {
-    switch (this) {
-      case 'PENDING':
-        return SnapshotLifecycle.pending;
-      case 'CREATING':
-        return SnapshotLifecycle.creating;
-      case 'DELETING':
-        return SnapshotLifecycle.deleting;
-      case 'AVAILABLE':
-        return SnapshotLifecycle.available;
-    }
-    throw Exception('$this is not known in enum SnapshotLifecycle');
-  }
+  const SnapshotLifecycle(this.value);
+
+  static SnapshotLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotLifecycle'));
 }
 
 class StartMisconfiguredStateRecoveryResponse {
@@ -11790,75 +10956,35 @@ class StartMisconfiguredStateRecoveryResponse {
 }
 
 enum Status {
-  failed,
-  inProgress,
-  pending,
-  completed,
-  updatedOptimizing,
-}
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  pending('PENDING'),
+  completed('COMPLETED'),
+  updatedOptimizing('UPDATED_OPTIMIZING'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.failed:
-        return 'FAILED';
-      case Status.inProgress:
-        return 'IN_PROGRESS';
-      case Status.pending:
-        return 'PENDING';
-      case Status.completed:
-        return 'COMPLETED';
-      case Status.updatedOptimizing:
-        return 'UPDATED_OPTIMIZING';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'FAILED':
-        return Status.failed;
-      case 'IN_PROGRESS':
-        return Status.inProgress;
-      case 'PENDING':
-        return Status.pending;
-      case 'COMPLETED':
-        return Status.completed;
-      case 'UPDATED_OPTIMIZING':
-        return Status.updatedOptimizing;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// Specifies the file system's storage type.
 enum StorageType {
-  ssd,
-  hdd,
-}
+  ssd('SSD'),
+  hdd('HDD'),
+  ;
 
-extension StorageTypeValueExtension on StorageType {
-  String toValue() {
-    switch (this) {
-      case StorageType.ssd:
-        return 'SSD';
-      case StorageType.hdd:
-        return 'HDD';
-    }
-  }
-}
+  final String value;
 
-extension StorageTypeFromString on String {
-  StorageType toStorageType() {
-    switch (this) {
-      case 'SSD':
-        return StorageType.ssd;
-      case 'HDD':
-        return StorageType.hdd;
-    }
-    throw Exception('$this is not known in enum StorageType');
-  }
+  const StorageType(this.value);
+
+  static StorageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageType'));
 }
 
 /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM)
@@ -11947,8 +11073,8 @@ class StorageVirtualMachine {
           ? SvmEndpoints.fromJson(json['Endpoints'] as Map<String, dynamic>)
           : null,
       fileSystemId: json['FileSystemId'] as String?,
-      lifecycle:
-          (json['Lifecycle'] as String?)?.toStorageVirtualMachineLifecycle(),
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(StorageVirtualMachineLifecycle.fromString),
       lifecycleTransitionReason: json['LifecycleTransitionReason'] != null
           ? LifecycleTransitionReason.fromJson(
               json['LifecycleTransitionReason'] as Map<String, dynamic>)
@@ -11956,9 +11082,10 @@ class StorageVirtualMachine {
       name: json['Name'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       rootVolumeSecurityStyle: (json['RootVolumeSecurityStyle'] as String?)
-          ?.toStorageVirtualMachineRootVolumeSecurityStyle(),
+          ?.let(StorageVirtualMachineRootVolumeSecurityStyle.fromString),
       storageVirtualMachineId: json['StorageVirtualMachineId'] as String?,
-      subtype: (json['Subtype'] as String?)?.toStorageVirtualMachineSubtype(),
+      subtype: (json['Subtype'] as String?)
+          ?.let(StorageVirtualMachineSubtype.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -11988,160 +11115,77 @@ class StorageVirtualMachineFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum StorageVirtualMachineFilterName {
-  fileSystemId,
-}
+  fileSystemId('file-system-id'),
+  ;
 
-extension StorageVirtualMachineFilterNameValueExtension
-    on StorageVirtualMachineFilterName {
-  String toValue() {
-    switch (this) {
-      case StorageVirtualMachineFilterName.fileSystemId:
-        return 'file-system-id';
-    }
-  }
-}
+  final String value;
 
-extension StorageVirtualMachineFilterNameFromString on String {
-  StorageVirtualMachineFilterName toStorageVirtualMachineFilterName() {
-    switch (this) {
-      case 'file-system-id':
-        return StorageVirtualMachineFilterName.fileSystemId;
-    }
-    throw Exception(
-        '$this is not known in enum StorageVirtualMachineFilterName');
-  }
+  const StorageVirtualMachineFilterName(this.value);
+
+  static StorageVirtualMachineFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageVirtualMachineFilterName'));
 }
 
 enum StorageVirtualMachineLifecycle {
-  created,
-  creating,
-  deleting,
-  failed,
-  misconfigured,
-  pending,
-}
+  created('CREATED'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  misconfigured('MISCONFIGURED'),
+  pending('PENDING'),
+  ;
 
-extension StorageVirtualMachineLifecycleValueExtension
-    on StorageVirtualMachineLifecycle {
-  String toValue() {
-    switch (this) {
-      case StorageVirtualMachineLifecycle.created:
-        return 'CREATED';
-      case StorageVirtualMachineLifecycle.creating:
-        return 'CREATING';
-      case StorageVirtualMachineLifecycle.deleting:
-        return 'DELETING';
-      case StorageVirtualMachineLifecycle.failed:
-        return 'FAILED';
-      case StorageVirtualMachineLifecycle.misconfigured:
-        return 'MISCONFIGURED';
-      case StorageVirtualMachineLifecycle.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension StorageVirtualMachineLifecycleFromString on String {
-  StorageVirtualMachineLifecycle toStorageVirtualMachineLifecycle() {
-    switch (this) {
-      case 'CREATED':
-        return StorageVirtualMachineLifecycle.created;
-      case 'CREATING':
-        return StorageVirtualMachineLifecycle.creating;
-      case 'DELETING':
-        return StorageVirtualMachineLifecycle.deleting;
-      case 'FAILED':
-        return StorageVirtualMachineLifecycle.failed;
-      case 'MISCONFIGURED':
-        return StorageVirtualMachineLifecycle.misconfigured;
-      case 'PENDING':
-        return StorageVirtualMachineLifecycle.pending;
-    }
-    throw Exception(
-        '$this is not known in enum StorageVirtualMachineLifecycle');
-  }
+  const StorageVirtualMachineLifecycle(this.value);
+
+  static StorageVirtualMachineLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageVirtualMachineLifecycle'));
 }
 
 enum StorageVirtualMachineRootVolumeSecurityStyle {
-  unix,
-  ntfs,
-  mixed,
-}
+  unix('UNIX'),
+  ntfs('NTFS'),
+  mixed('MIXED'),
+  ;
 
-extension StorageVirtualMachineRootVolumeSecurityStyleValueExtension
-    on StorageVirtualMachineRootVolumeSecurityStyle {
-  String toValue() {
-    switch (this) {
-      case StorageVirtualMachineRootVolumeSecurityStyle.unix:
-        return 'UNIX';
-      case StorageVirtualMachineRootVolumeSecurityStyle.ntfs:
-        return 'NTFS';
-      case StorageVirtualMachineRootVolumeSecurityStyle.mixed:
-        return 'MIXED';
-    }
-  }
-}
+  final String value;
 
-extension StorageVirtualMachineRootVolumeSecurityStyleFromString on String {
-  StorageVirtualMachineRootVolumeSecurityStyle
-      toStorageVirtualMachineRootVolumeSecurityStyle() {
-    switch (this) {
-      case 'UNIX':
-        return StorageVirtualMachineRootVolumeSecurityStyle.unix;
-      case 'NTFS':
-        return StorageVirtualMachineRootVolumeSecurityStyle.ntfs;
-      case 'MIXED':
-        return StorageVirtualMachineRootVolumeSecurityStyle.mixed;
-    }
-    throw Exception(
-        '$this is not known in enum StorageVirtualMachineRootVolumeSecurityStyle');
-  }
+  const StorageVirtualMachineRootVolumeSecurityStyle(this.value);
+
+  static StorageVirtualMachineRootVolumeSecurityStyle fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageVirtualMachineRootVolumeSecurityStyle'));
 }
 
 enum StorageVirtualMachineSubtype {
-  $default,
-  dpDestination,
-  syncDestination,
-  syncSource,
-}
+  $default('DEFAULT'),
+  dpDestination('DP_DESTINATION'),
+  syncDestination('SYNC_DESTINATION'),
+  syncSource('SYNC_SOURCE'),
+  ;
 
-extension StorageVirtualMachineSubtypeValueExtension
-    on StorageVirtualMachineSubtype {
-  String toValue() {
-    switch (this) {
-      case StorageVirtualMachineSubtype.$default:
-        return 'DEFAULT';
-      case StorageVirtualMachineSubtype.dpDestination:
-        return 'DP_DESTINATION';
-      case StorageVirtualMachineSubtype.syncDestination:
-        return 'SYNC_DESTINATION';
-      case StorageVirtualMachineSubtype.syncSource:
-        return 'SYNC_SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension StorageVirtualMachineSubtypeFromString on String {
-  StorageVirtualMachineSubtype toStorageVirtualMachineSubtype() {
-    switch (this) {
-      case 'DEFAULT':
-        return StorageVirtualMachineSubtype.$default;
-      case 'DP_DESTINATION':
-        return StorageVirtualMachineSubtype.dpDestination;
-      case 'SYNC_DESTINATION':
-        return StorageVirtualMachineSubtype.syncDestination;
-      case 'SYNC_SOURCE':
-        return StorageVirtualMachineSubtype.syncSource;
-    }
-    throw Exception('$this is not known in enum StorageVirtualMachineSubtype');
-  }
+  const StorageVirtualMachineSubtype(this.value);
+
+  static StorageVirtualMachineSubtype fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageVirtualMachineSubtype'));
 }
 
 /// Describes the Microsoft Active Directory (AD) directory configuration to
@@ -12354,7 +11398,7 @@ class TieringPolicy {
   factory TieringPolicy.fromJson(Map<String, dynamic> json) {
     return TieringPolicy(
       coolingPeriod: json['CoolingPeriod'] as int?,
-      name: (json['Name'] as String?)?.toTieringPolicyName(),
+      name: (json['Name'] as String?)?.let(TieringPolicyName.fromString),
     );
   }
 
@@ -12363,70 +11407,39 @@ class TieringPolicy {
     final name = this.name;
     return {
       if (coolingPeriod != null) 'CoolingPeriod': coolingPeriod,
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
     };
   }
 }
 
 enum TieringPolicyName {
-  snapshotOnly,
-  auto,
-  all,
-  none,
-}
+  snapshotOnly('SNAPSHOT_ONLY'),
+  auto('AUTO'),
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension TieringPolicyNameValueExtension on TieringPolicyName {
-  String toValue() {
-    switch (this) {
-      case TieringPolicyName.snapshotOnly:
-        return 'SNAPSHOT_ONLY';
-      case TieringPolicyName.auto:
-        return 'AUTO';
-      case TieringPolicyName.all:
-        return 'ALL';
-      case TieringPolicyName.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TieringPolicyNameFromString on String {
-  TieringPolicyName toTieringPolicyName() {
-    switch (this) {
-      case 'SNAPSHOT_ONLY':
-        return TieringPolicyName.snapshotOnly;
-      case 'AUTO':
-        return TieringPolicyName.auto;
-      case 'ALL':
-        return TieringPolicyName.all;
-      case 'NONE':
-        return TieringPolicyName.none;
-    }
-    throw Exception('$this is not known in enum TieringPolicyName');
-  }
+  const TieringPolicyName(this.value);
+
+  static TieringPolicyName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TieringPolicyName'));
 }
 
 enum Unit {
-  days,
-}
+  days('DAYS'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.days:
-        return 'DAYS';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'DAYS':
-        return Unit.days;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 /// The response object for <code>UntagResource</code> action.
@@ -12612,14 +11625,13 @@ class UpdateFileSystemLustreConfiguration {
     final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
-      if (autoImportPolicy != null)
-        'AutoImportPolicy': autoImportPolicy.toValue(),
+      if (autoImportPolicy != null) 'AutoImportPolicy': autoImportPolicy.value,
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
       if (dataCompressionType != null)
-        'DataCompressionType': dataCompressionType.toValue(),
+        'DataCompressionType': dataCompressionType.value,
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
@@ -13054,7 +12066,7 @@ class UpdateOntapVolumeConfiguration {
     return {
       if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
       if (junctionPath != null) 'JunctionPath': junctionPath,
-      if (securityStyle != null) 'SecurityStyle': securityStyle.toValue(),
+      if (securityStyle != null) 'SecurityStyle': securityStyle.value,
       if (sizeInBytes != null) 'SizeInBytes': sizeInBytes,
       if (sizeInMegabytes != null) 'SizeInMegabytes': sizeInMegabytes,
       if (snaplockConfiguration != null)
@@ -13144,7 +12156,7 @@ class UpdateOpenZFSVolumeConfiguration {
     final userAndGroupQuotas = this.userAndGroupQuotas;
     return {
       if (dataCompressionType != null)
-        'DataCompressionType': dataCompressionType.toValue(),
+        'DataCompressionType': dataCompressionType.value,
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (readOnly != null) 'ReadOnly': readOnly,
       if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
@@ -13158,36 +12170,19 @@ class UpdateOpenZFSVolumeConfiguration {
 }
 
 enum UpdateOpenZFSVolumeOption {
-  deleteIntermediateSnapshots,
-  deleteClonedVolumes,
-  deleteIntermediateData,
-}
+  deleteIntermediateSnapshots('DELETE_INTERMEDIATE_SNAPSHOTS'),
+  deleteClonedVolumes('DELETE_CLONED_VOLUMES'),
+  deleteIntermediateData('DELETE_INTERMEDIATE_DATA'),
+  ;
 
-extension UpdateOpenZFSVolumeOptionValueExtension on UpdateOpenZFSVolumeOption {
-  String toValue() {
-    switch (this) {
-      case UpdateOpenZFSVolumeOption.deleteIntermediateSnapshots:
-        return 'DELETE_INTERMEDIATE_SNAPSHOTS';
-      case UpdateOpenZFSVolumeOption.deleteClonedVolumes:
-        return 'DELETE_CLONED_VOLUMES';
-      case UpdateOpenZFSVolumeOption.deleteIntermediateData:
-        return 'DELETE_INTERMEDIATE_DATA';
-    }
-  }
-}
+  final String value;
 
-extension UpdateOpenZFSVolumeOptionFromString on String {
-  UpdateOpenZFSVolumeOption toUpdateOpenZFSVolumeOption() {
-    switch (this) {
-      case 'DELETE_INTERMEDIATE_SNAPSHOTS':
-        return UpdateOpenZFSVolumeOption.deleteIntermediateSnapshots;
-      case 'DELETE_CLONED_VOLUMES':
-        return UpdateOpenZFSVolumeOption.deleteClonedVolumes;
-      case 'DELETE_INTERMEDIATE_DATA':
-        return UpdateOpenZFSVolumeOption.deleteIntermediateData;
-    }
-    throw Exception('$this is not known in enum UpdateOpenZFSVolumeOption');
-  }
+  const UpdateOpenZFSVolumeOption(this.value);
+
+  static UpdateOpenZFSVolumeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateOpenZFSVolumeOption'));
 }
 
 class UpdateSharedVpcConfigurationResponse {
@@ -13266,8 +12261,7 @@ class UpdateSnaplockConfiguration {
     return {
       if (auditLogVolume != null) 'AuditLogVolume': auditLogVolume,
       if (autocommitPeriod != null) 'AutocommitPeriod': autocommitPeriod,
-      if (privilegedDelete != null)
-        'PrivilegedDelete': privilegedDelete.toValue(),
+      if (privilegedDelete != null) 'PrivilegedDelete': privilegedDelete.value,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
       if (volumeAppendModeEnabled != null)
         'VolumeAppendModeEnabled': volumeAppendModeEnabled,
@@ -13435,7 +12429,8 @@ class Volume {
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
       fileSystemId: json['FileSystemId'] as String?,
-      lifecycle: (json['Lifecycle'] as String?)?.toVolumeLifecycle(),
+      lifecycle:
+          (json['Lifecycle'] as String?)?.let(VolumeLifecycle.fromString),
       lifecycleTransitionReason: json['LifecycleTransitionReason'] != null
           ? LifecycleTransitionReason.fromJson(
               json['LifecycleTransitionReason'] as Map<String, dynamic>)
@@ -13455,7 +12450,7 @@ class Volume {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeId: json['VolumeId'] as String?,
-      volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
+      volumeType: (json['VolumeType'] as String?)?.let(VolumeType.fromString),
     );
   }
 }
@@ -13480,186 +12475,90 @@ class VolumeFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum VolumeFilterName {
-  fileSystemId,
-  storageVirtualMachineId,
-}
+  fileSystemId('file-system-id'),
+  storageVirtualMachineId('storage-virtual-machine-id'),
+  ;
 
-extension VolumeFilterNameValueExtension on VolumeFilterName {
-  String toValue() {
-    switch (this) {
-      case VolumeFilterName.fileSystemId:
-        return 'file-system-id';
-      case VolumeFilterName.storageVirtualMachineId:
-        return 'storage-virtual-machine-id';
-    }
-  }
-}
+  final String value;
 
-extension VolumeFilterNameFromString on String {
-  VolumeFilterName toVolumeFilterName() {
-    switch (this) {
-      case 'file-system-id':
-        return VolumeFilterName.fileSystemId;
-      case 'storage-virtual-machine-id':
-        return VolumeFilterName.storageVirtualMachineId;
-    }
-    throw Exception('$this is not known in enum VolumeFilterName');
-  }
+  const VolumeFilterName(this.value);
+
+  static VolumeFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VolumeFilterName'));
 }
 
 enum VolumeLifecycle {
-  creating,
-  created,
-  deleting,
-  failed,
-  misconfigured,
-  pending,
-  available,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  misconfigured('MISCONFIGURED'),
+  pending('PENDING'),
+  available('AVAILABLE'),
+  ;
 
-extension VolumeLifecycleValueExtension on VolumeLifecycle {
-  String toValue() {
-    switch (this) {
-      case VolumeLifecycle.creating:
-        return 'CREATING';
-      case VolumeLifecycle.created:
-        return 'CREATED';
-      case VolumeLifecycle.deleting:
-        return 'DELETING';
-      case VolumeLifecycle.failed:
-        return 'FAILED';
-      case VolumeLifecycle.misconfigured:
-        return 'MISCONFIGURED';
-      case VolumeLifecycle.pending:
-        return 'PENDING';
-      case VolumeLifecycle.available:
-        return 'AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension VolumeLifecycleFromString on String {
-  VolumeLifecycle toVolumeLifecycle() {
-    switch (this) {
-      case 'CREATING':
-        return VolumeLifecycle.creating;
-      case 'CREATED':
-        return VolumeLifecycle.created;
-      case 'DELETING':
-        return VolumeLifecycle.deleting;
-      case 'FAILED':
-        return VolumeLifecycle.failed;
-      case 'MISCONFIGURED':
-        return VolumeLifecycle.misconfigured;
-      case 'PENDING':
-        return VolumeLifecycle.pending;
-      case 'AVAILABLE':
-        return VolumeLifecycle.available;
-    }
-    throw Exception('$this is not known in enum VolumeLifecycle');
-  }
+  const VolumeLifecycle(this.value);
+
+  static VolumeLifecycle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VolumeLifecycle'));
 }
 
 enum VolumeStyle {
-  flexvol,
-  flexgroup,
-}
+  flexvol('FLEXVOL'),
+  flexgroup('FLEXGROUP'),
+  ;
 
-extension VolumeStyleValueExtension on VolumeStyle {
-  String toValue() {
-    switch (this) {
-      case VolumeStyle.flexvol:
-        return 'FLEXVOL';
-      case VolumeStyle.flexgroup:
-        return 'FLEXGROUP';
-    }
-  }
-}
+  final String value;
 
-extension VolumeStyleFromString on String {
-  VolumeStyle toVolumeStyle() {
-    switch (this) {
-      case 'FLEXVOL':
-        return VolumeStyle.flexvol;
-      case 'FLEXGROUP':
-        return VolumeStyle.flexgroup;
-    }
-    throw Exception('$this is not known in enum VolumeStyle');
-  }
+  const VolumeStyle(this.value);
+
+  static VolumeStyle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VolumeStyle'));
 }
 
 enum VolumeType {
-  ontap,
-  openzfs,
-}
+  ontap('ONTAP'),
+  openzfs('OPENZFS'),
+  ;
 
-extension VolumeTypeValueExtension on VolumeType {
-  String toValue() {
-    switch (this) {
-      case VolumeType.ontap:
-        return 'ONTAP';
-      case VolumeType.openzfs:
-        return 'OPENZFS';
-    }
-  }
-}
+  final String value;
 
-extension VolumeTypeFromString on String {
-  VolumeType toVolumeType() {
-    switch (this) {
-      case 'ONTAP':
-        return VolumeType.ontap;
-      case 'OPENZFS':
-        return VolumeType.openzfs;
-    }
-    throw Exception('$this is not known in enum VolumeType');
-  }
+  const VolumeType(this.value);
+
+  static VolumeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VolumeType'));
 }
 
 enum WindowsAccessAuditLogLevel {
-  disabled,
-  successOnly,
-  failureOnly,
-  successAndFailure,
-}
+  disabled('DISABLED'),
+  successOnly('SUCCESS_ONLY'),
+  failureOnly('FAILURE_ONLY'),
+  successAndFailure('SUCCESS_AND_FAILURE'),
+  ;
 
-extension WindowsAccessAuditLogLevelValueExtension
-    on WindowsAccessAuditLogLevel {
-  String toValue() {
-    switch (this) {
-      case WindowsAccessAuditLogLevel.disabled:
-        return 'DISABLED';
-      case WindowsAccessAuditLogLevel.successOnly:
-        return 'SUCCESS_ONLY';
-      case WindowsAccessAuditLogLevel.failureOnly:
-        return 'FAILURE_ONLY';
-      case WindowsAccessAuditLogLevel.successAndFailure:
-        return 'SUCCESS_AND_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension WindowsAccessAuditLogLevelFromString on String {
-  WindowsAccessAuditLogLevel toWindowsAccessAuditLogLevel() {
-    switch (this) {
-      case 'DISABLED':
-        return WindowsAccessAuditLogLevel.disabled;
-      case 'SUCCESS_ONLY':
-        return WindowsAccessAuditLogLevel.successOnly;
-      case 'FAILURE_ONLY':
-        return WindowsAccessAuditLogLevel.failureOnly;
-      case 'SUCCESS_AND_FAILURE':
-        return WindowsAccessAuditLogLevel.successAndFailure;
-    }
-    throw Exception('$this is not known in enum WindowsAccessAuditLogLevel');
-  }
+  const WindowsAccessAuditLogLevel(this.value);
+
+  static WindowsAccessAuditLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WindowsAccessAuditLogLevel'));
 }
 
 /// The configuration that Amazon FSx for Windows File Server uses to audit and
@@ -13733,11 +12632,10 @@ class WindowsAuditLogConfiguration {
 
   factory WindowsAuditLogConfiguration.fromJson(Map<String, dynamic> json) {
     return WindowsAuditLogConfiguration(
-      fileAccessAuditLogLevel: (json['FileAccessAuditLogLevel'] as String)
-          .toWindowsAccessAuditLogLevel(),
-      fileShareAccessAuditLogLevel:
-          (json['FileShareAccessAuditLogLevel'] as String)
-              .toWindowsAccessAuditLogLevel(),
+      fileAccessAuditLogLevel: WindowsAccessAuditLogLevel.fromString(
+          (json['FileAccessAuditLogLevel'] as String)),
+      fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel.fromString(
+          (json['FileShareAccessAuditLogLevel'] as String)),
       auditLogDestination: json['AuditLogDestination'] as String?,
     );
   }
@@ -13836,8 +12734,8 @@ class WindowsAuditLogCreateConfiguration {
     final fileShareAccessAuditLogLevel = this.fileShareAccessAuditLogLevel;
     final auditLogDestination = this.auditLogDestination;
     return {
-      'FileAccessAuditLogLevel': fileAccessAuditLogLevel.toValue(),
-      'FileShareAccessAuditLogLevel': fileShareAccessAuditLogLevel.toValue(),
+      'FileAccessAuditLogLevel': fileAccessAuditLogLevel.value,
+      'FileShareAccessAuditLogLevel': fileShareAccessAuditLogLevel.value,
       if (auditLogDestination != null)
         'AuditLogDestination': auditLogDestination,
     };
@@ -13845,36 +12743,19 @@ class WindowsAuditLogCreateConfiguration {
 }
 
 enum WindowsDeploymentType {
-  multiAz_1,
-  singleAz_1,
-  singleAz_2,
-}
+  multiAz_1('MULTI_AZ_1'),
+  singleAz_1('SINGLE_AZ_1'),
+  singleAz_2('SINGLE_AZ_2'),
+  ;
 
-extension WindowsDeploymentTypeValueExtension on WindowsDeploymentType {
-  String toValue() {
-    switch (this) {
-      case WindowsDeploymentType.multiAz_1:
-        return 'MULTI_AZ_1';
-      case WindowsDeploymentType.singleAz_1:
-        return 'SINGLE_AZ_1';
-      case WindowsDeploymentType.singleAz_2:
-        return 'SINGLE_AZ_2';
-    }
-  }
-}
+  final String value;
 
-extension WindowsDeploymentTypeFromString on String {
-  WindowsDeploymentType toWindowsDeploymentType() {
-    switch (this) {
-      case 'MULTI_AZ_1':
-        return WindowsDeploymentType.multiAz_1;
-      case 'SINGLE_AZ_1':
-        return WindowsDeploymentType.singleAz_1;
-      case 'SINGLE_AZ_2':
-        return WindowsDeploymentType.singleAz_2;
-    }
-    throw Exception('$this is not known in enum WindowsDeploymentType');
-  }
+  const WindowsDeploymentType(this.value);
+
+  static WindowsDeploymentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WindowsDeploymentType'));
 }
 
 /// The configuration for this Microsoft Windows file system.
@@ -14022,17 +12903,17 @@ class WindowsFileSystemConfiguration {
       copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
       dailyAutomaticBackupStartTime:
           json['DailyAutomaticBackupStartTime'] as String?,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.toWindowsDeploymentType(),
+      deploymentType: (json['DeploymentType'] as String?)
+          ?.let(WindowsDeploymentType.fromString),
       diskIopsConfiguration: json['DiskIopsConfiguration'] != null
           ? DiskIopsConfiguration.fromJson(
               json['DiskIopsConfiguration'] as Map<String, dynamic>)
           : null,
-      maintenanceOperationsInProgress:
-          (json['MaintenanceOperationsInProgress'] as List?)
-              ?.whereNotNull()
-              .map((e) => (e as String).toFileSystemMaintenanceOperation())
-              .toList(),
+      maintenanceOperationsInProgress: (json['MaintenanceOperationsInProgress']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => FileSystemMaintenanceOperation.fromString((e as String)))
+          .toList(),
       preferredFileServerIp: json['PreferredFileServerIp'] as String?,
       preferredSubnetId: json['PreferredSubnetId'] as String?,
       remoteAdministrationEndpoint:

@@ -318,7 +318,7 @@ class StartSelector {
     final continuationToken = this.continuationToken;
     final startTimestamp = this.startTimestamp;
     return {
-      'StartSelectorType': startSelectorType.toValue(),
+      'StartSelectorType': startSelectorType.value,
       if (afterFragmentNumber != null)
         'AfterFragmentNumber': afterFragmentNumber,
       if (continuationToken != null) 'ContinuationToken': continuationToken,
@@ -329,51 +329,22 @@ class StartSelector {
 }
 
 enum StartSelectorType {
-  fragmentNumber,
-  serverTimestamp,
-  producerTimestamp,
-  now,
-  earliest,
-  continuationToken,
-}
+  fragmentNumber('FRAGMENT_NUMBER'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  now('NOW'),
+  earliest('EARLIEST'),
+  continuationToken('CONTINUATION_TOKEN'),
+  ;
 
-extension StartSelectorTypeValueExtension on StartSelectorType {
-  String toValue() {
-    switch (this) {
-      case StartSelectorType.fragmentNumber:
-        return 'FRAGMENT_NUMBER';
-      case StartSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-      case StartSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case StartSelectorType.now:
-        return 'NOW';
-      case StartSelectorType.earliest:
-        return 'EARLIEST';
-      case StartSelectorType.continuationToken:
-        return 'CONTINUATION_TOKEN';
-    }
-  }
-}
+  final String value;
 
-extension StartSelectorTypeFromString on String {
-  StartSelectorType toStartSelectorType() {
-    switch (this) {
-      case 'FRAGMENT_NUMBER':
-        return StartSelectorType.fragmentNumber;
-      case 'SERVER_TIMESTAMP':
-        return StartSelectorType.serverTimestamp;
-      case 'PRODUCER_TIMESTAMP':
-        return StartSelectorType.producerTimestamp;
-      case 'NOW':
-        return StartSelectorType.now;
-      case 'EARLIEST':
-        return StartSelectorType.earliest;
-      case 'CONTINUATION_TOKEN':
-        return StartSelectorType.continuationToken;
-    }
-    throw Exception('$this is not known in enum StartSelectorType');
-  }
+  const StartSelectorType(this.value);
+
+  static StartSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StartSelectorType'));
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {

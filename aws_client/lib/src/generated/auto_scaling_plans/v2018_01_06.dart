@@ -338,12 +338,12 @@ class AutoScalingPlans {
       headers: headers,
       payload: {
         'EndTime': unixTimestampToJson(endTime),
-        'ForecastDataType': forecastDataType.toValue(),
+        'ForecastDataType': forecastDataType.value,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension.toValue(),
+        'ScalableDimension': scalableDimension.value,
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace.toValue(),
+        'ServiceNamespace': serviceNamespace.value,
         'StartTime': unixTimestampToJson(startTime),
       },
     );
@@ -534,7 +534,7 @@ class CustomizedLoadMetricSpecification {
     return CustomizedLoadMetricSpecification(
       metricName: json['MetricName'] as String,
       namespace: json['Namespace'] as String,
-      statistic: (json['Statistic'] as String).toMetricStatistic(),
+      statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
           ?.whereNotNull()
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -552,7 +552,7 @@ class CustomizedLoadMetricSpecification {
     return {
       'MetricName': metricName,
       'Namespace': namespace,
-      'Statistic': statistic.toValue(),
+      'Statistic': statistic.value,
       if (dimensions != null) 'Dimensions': dimensions,
       if (unit != null) 'Unit': unit,
     };
@@ -616,7 +616,7 @@ class CustomizedScalingMetricSpecification {
     return CustomizedScalingMetricSpecification(
       metricName: json['MetricName'] as String,
       namespace: json['Namespace'] as String,
-      statistic: (json['Statistic'] as String).toMetricStatistic(),
+      statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
           ?.whereNotNull()
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -634,7 +634,7 @@ class CustomizedScalingMetricSpecification {
     return {
       'MetricName': metricName,
       'Namespace': namespace,
-      'Statistic': statistic.toValue(),
+      'Statistic': statistic.value,
       if (dimensions != null) 'Dimensions': dimensions,
       if (unit != null) 'Unit': unit,
     };
@@ -752,41 +752,20 @@ class DescribeScalingPlansResponse {
 }
 
 enum ForecastDataType {
-  capacityForecast,
-  loadForecast,
-  scheduledActionMinCapacity,
-  scheduledActionMaxCapacity,
-}
+  capacityForecast('CapacityForecast'),
+  loadForecast('LoadForecast'),
+  scheduledActionMinCapacity('ScheduledActionMinCapacity'),
+  scheduledActionMaxCapacity('ScheduledActionMaxCapacity'),
+  ;
 
-extension ForecastDataTypeValueExtension on ForecastDataType {
-  String toValue() {
-    switch (this) {
-      case ForecastDataType.capacityForecast:
-        return 'CapacityForecast';
-      case ForecastDataType.loadForecast:
-        return 'LoadForecast';
-      case ForecastDataType.scheduledActionMinCapacity:
-        return 'ScheduledActionMinCapacity';
-      case ForecastDataType.scheduledActionMaxCapacity:
-        return 'ScheduledActionMaxCapacity';
-    }
-  }
-}
+  final String value;
 
-extension ForecastDataTypeFromString on String {
-  ForecastDataType toForecastDataType() {
-    switch (this) {
-      case 'CapacityForecast':
-        return ForecastDataType.capacityForecast;
-      case 'LoadForecast':
-        return ForecastDataType.loadForecast;
-      case 'ScheduledActionMinCapacity':
-        return ForecastDataType.scheduledActionMinCapacity;
-      case 'ScheduledActionMaxCapacity':
-        return ForecastDataType.scheduledActionMaxCapacity;
-    }
-    throw Exception('$this is not known in enum ForecastDataType');
-  }
+  const ForecastDataType(this.value);
+
+  static ForecastDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ForecastDataType'));
 }
 
 class GetScalingPlanResourceForecastDataResponse {
@@ -816,41 +795,20 @@ class GetScalingPlanResourceForecastDataResponse {
 }
 
 enum LoadMetricType {
-  aSGTotalCPUUtilization,
-  aSGTotalNetworkIn,
-  aSGTotalNetworkOut,
-  aLBTargetGroupRequestCount,
-}
+  aSGTotalCPUUtilization('ASGTotalCPUUtilization'),
+  aSGTotalNetworkIn('ASGTotalNetworkIn'),
+  aSGTotalNetworkOut('ASGTotalNetworkOut'),
+  aLBTargetGroupRequestCount('ALBTargetGroupRequestCount'),
+  ;
 
-extension LoadMetricTypeValueExtension on LoadMetricType {
-  String toValue() {
-    switch (this) {
-      case LoadMetricType.aSGTotalCPUUtilization:
-        return 'ASGTotalCPUUtilization';
-      case LoadMetricType.aSGTotalNetworkIn:
-        return 'ASGTotalNetworkIn';
-      case LoadMetricType.aSGTotalNetworkOut:
-        return 'ASGTotalNetworkOut';
-      case LoadMetricType.aLBTargetGroupRequestCount:
-        return 'ALBTargetGroupRequestCount';
-    }
-  }
-}
+  final String value;
 
-extension LoadMetricTypeFromString on String {
-  LoadMetricType toLoadMetricType() {
-    switch (this) {
-      case 'ASGTotalCPUUtilization':
-        return LoadMetricType.aSGTotalCPUUtilization;
-      case 'ASGTotalNetworkIn':
-        return LoadMetricType.aSGTotalNetworkIn;
-      case 'ASGTotalNetworkOut':
-        return LoadMetricType.aSGTotalNetworkOut;
-      case 'ALBTargetGroupRequestCount':
-        return LoadMetricType.aLBTargetGroupRequestCount;
-    }
-    throw Exception('$this is not known in enum LoadMetricType');
-  }
+  const LoadMetricType(this.value);
+
+  static LoadMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LoadMetricType'));
 }
 
 /// Represents a dimension for a customized metric.
@@ -884,69 +842,34 @@ class MetricDimension {
 }
 
 enum MetricStatistic {
-  average,
-  minimum,
-  maximum,
-  sampleCount,
-  sum,
-}
+  average('Average'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  sampleCount('SampleCount'),
+  sum('Sum'),
+  ;
 
-extension MetricStatisticValueExtension on MetricStatistic {
-  String toValue() {
-    switch (this) {
-      case MetricStatistic.average:
-        return 'Average';
-      case MetricStatistic.minimum:
-        return 'Minimum';
-      case MetricStatistic.maximum:
-        return 'Maximum';
-      case MetricStatistic.sampleCount:
-        return 'SampleCount';
-      case MetricStatistic.sum:
-        return 'Sum';
-    }
-  }
-}
+  final String value;
 
-extension MetricStatisticFromString on String {
-  MetricStatistic toMetricStatistic() {
-    switch (this) {
-      case 'Average':
-        return MetricStatistic.average;
-      case 'Minimum':
-        return MetricStatistic.minimum;
-      case 'Maximum':
-        return MetricStatistic.maximum;
-      case 'SampleCount':
-        return MetricStatistic.sampleCount;
-      case 'Sum':
-        return MetricStatistic.sum;
-    }
-    throw Exception('$this is not known in enum MetricStatistic');
-  }
+  const MetricStatistic(this.value);
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricStatistic'));
 }
 
 enum PolicyType {
-  targetTrackingScaling,
-}
+  targetTrackingScaling('TargetTrackingScaling'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.targetTrackingScaling:
-        return 'TargetTrackingScaling';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'TargetTrackingScaling':
-        return PolicyType.targetTrackingScaling;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 /// Represents a predefined metric that can be used for predictive scaling.
@@ -1000,8 +923,8 @@ class PredefinedLoadMetricSpecification {
   factory PredefinedLoadMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredefinedLoadMetricSpecification(
-      predefinedLoadMetricType:
-          (json['PredefinedLoadMetricType'] as String).toLoadMetricType(),
+      predefinedLoadMetricType: LoadMetricType.fromString(
+          (json['PredefinedLoadMetricType'] as String)),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -1010,7 +933,7 @@ class PredefinedLoadMetricSpecification {
     final predefinedLoadMetricType = this.predefinedLoadMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedLoadMetricType': predefinedLoadMetricType.toValue(),
+      'PredefinedLoadMetricType': predefinedLoadMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
@@ -1063,8 +986,8 @@ class PredefinedScalingMetricSpecification {
   factory PredefinedScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredefinedScalingMetricSpecification(
-      predefinedScalingMetricType:
-          (json['PredefinedScalingMetricType'] as String).toScalingMetricType(),
+      predefinedScalingMetricType: ScalingMetricType.fromString(
+          (json['PredefinedScalingMetricType'] as String)),
       resourceLabel: json['ResourceLabel'] as String?,
     );
   }
@@ -1073,138 +996,63 @@ class PredefinedScalingMetricSpecification {
     final predefinedScalingMetricType = this.predefinedScalingMetricType;
     final resourceLabel = this.resourceLabel;
     return {
-      'PredefinedScalingMetricType': predefinedScalingMetricType.toValue(),
+      'PredefinedScalingMetricType': predefinedScalingMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
 }
 
 enum PredictiveScalingMaxCapacityBehavior {
-  setForecastCapacityToMaxCapacity,
-  setMaxCapacityToForecastCapacity,
-  setMaxCapacityAboveForecastCapacity,
-}
+  setForecastCapacityToMaxCapacity('SetForecastCapacityToMaxCapacity'),
+  setMaxCapacityToForecastCapacity('SetMaxCapacityToForecastCapacity'),
+  setMaxCapacityAboveForecastCapacity('SetMaxCapacityAboveForecastCapacity'),
+  ;
 
-extension PredictiveScalingMaxCapacityBehaviorValueExtension
-    on PredictiveScalingMaxCapacityBehavior {
-  String toValue() {
-    switch (this) {
-      case PredictiveScalingMaxCapacityBehavior
-            .setForecastCapacityToMaxCapacity:
-        return 'SetForecastCapacityToMaxCapacity';
-      case PredictiveScalingMaxCapacityBehavior
-            .setMaxCapacityToForecastCapacity:
-        return 'SetMaxCapacityToForecastCapacity';
-      case PredictiveScalingMaxCapacityBehavior
-            .setMaxCapacityAboveForecastCapacity:
-        return 'SetMaxCapacityAboveForecastCapacity';
-    }
-  }
-}
+  final String value;
 
-extension PredictiveScalingMaxCapacityBehaviorFromString on String {
-  PredictiveScalingMaxCapacityBehavior
-      toPredictiveScalingMaxCapacityBehavior() {
-    switch (this) {
-      case 'SetForecastCapacityToMaxCapacity':
-        return PredictiveScalingMaxCapacityBehavior
-            .setForecastCapacityToMaxCapacity;
-      case 'SetMaxCapacityToForecastCapacity':
-        return PredictiveScalingMaxCapacityBehavior
-            .setMaxCapacityToForecastCapacity;
-      case 'SetMaxCapacityAboveForecastCapacity':
-        return PredictiveScalingMaxCapacityBehavior
-            .setMaxCapacityAboveForecastCapacity;
-    }
-    throw Exception(
-        '$this is not known in enum PredictiveScalingMaxCapacityBehavior');
-  }
+  const PredictiveScalingMaxCapacityBehavior(this.value);
+
+  static PredictiveScalingMaxCapacityBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PredictiveScalingMaxCapacityBehavior'));
 }
 
 enum PredictiveScalingMode {
-  forecastAndScale,
-  forecastOnly,
-}
+  forecastAndScale('ForecastAndScale'),
+  forecastOnly('ForecastOnly'),
+  ;
 
-extension PredictiveScalingModeValueExtension on PredictiveScalingMode {
-  String toValue() {
-    switch (this) {
-      case PredictiveScalingMode.forecastAndScale:
-        return 'ForecastAndScale';
-      case PredictiveScalingMode.forecastOnly:
-        return 'ForecastOnly';
-    }
-  }
-}
+  final String value;
 
-extension PredictiveScalingModeFromString on String {
-  PredictiveScalingMode toPredictiveScalingMode() {
-    switch (this) {
-      case 'ForecastAndScale':
-        return PredictiveScalingMode.forecastAndScale;
-      case 'ForecastOnly':
-        return PredictiveScalingMode.forecastOnly;
-    }
-    throw Exception('$this is not known in enum PredictiveScalingMode');
-  }
+  const PredictiveScalingMode(this.value);
+
+  static PredictiveScalingMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PredictiveScalingMode'));
 }
 
 enum ScalableDimension {
-  autoscalingAutoScalingGroupDesiredCapacity,
-  ecsServiceDesiredCount,
-  ec2SpotFleetRequestTargetCapacity,
-  rdsClusterReadReplicaCount,
-  dynamodbTableReadCapacityUnits,
-  dynamodbTableWriteCapacityUnits,
-  dynamodbIndexReadCapacityUnits,
-  dynamodbIndexWriteCapacityUnits,
-}
+  autoscalingAutoScalingGroupDesiredCapacity(
+      'autoscaling:autoScalingGroup:DesiredCapacity'),
+  ecsServiceDesiredCount('ecs:service:DesiredCount'),
+  ec2SpotFleetRequestTargetCapacity('ec2:spot-fleet-request:TargetCapacity'),
+  rdsClusterReadReplicaCount('rds:cluster:ReadReplicaCount'),
+  dynamodbTableReadCapacityUnits('dynamodb:table:ReadCapacityUnits'),
+  dynamodbTableWriteCapacityUnits('dynamodb:table:WriteCapacityUnits'),
+  dynamodbIndexReadCapacityUnits('dynamodb:index:ReadCapacityUnits'),
+  dynamodbIndexWriteCapacityUnits('dynamodb:index:WriteCapacityUnits'),
+  ;
 
-extension ScalableDimensionValueExtension on ScalableDimension {
-  String toValue() {
-    switch (this) {
-      case ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
-        return 'autoscaling:autoScalingGroup:DesiredCapacity';
-      case ScalableDimension.ecsServiceDesiredCount:
-        return 'ecs:service:DesiredCount';
-      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-        return 'ec2:spot-fleet-request:TargetCapacity';
-      case ScalableDimension.rdsClusterReadReplicaCount:
-        return 'rds:cluster:ReadReplicaCount';
-      case ScalableDimension.dynamodbTableReadCapacityUnits:
-        return 'dynamodb:table:ReadCapacityUnits';
-      case ScalableDimension.dynamodbTableWriteCapacityUnits:
-        return 'dynamodb:table:WriteCapacityUnits';
-      case ScalableDimension.dynamodbIndexReadCapacityUnits:
-        return 'dynamodb:index:ReadCapacityUnits';
-      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
-        return 'dynamodb:index:WriteCapacityUnits';
-    }
-  }
-}
+  final String value;
 
-extension ScalableDimensionFromString on String {
-  ScalableDimension toScalableDimension() {
-    switch (this) {
-      case 'autoscaling:autoScalingGroup:DesiredCapacity':
-        return ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity;
-      case 'ecs:service:DesiredCount':
-        return ScalableDimension.ecsServiceDesiredCount;
-      case 'ec2:spot-fleet-request:TargetCapacity':
-        return ScalableDimension.ec2SpotFleetRequestTargetCapacity;
-      case 'rds:cluster:ReadReplicaCount':
-        return ScalableDimension.rdsClusterReadReplicaCount;
-      case 'dynamodb:table:ReadCapacityUnits':
-        return ScalableDimension.dynamodbTableReadCapacityUnits;
-      case 'dynamodb:table:WriteCapacityUnits':
-        return ScalableDimension.dynamodbTableWriteCapacityUnits;
-      case 'dynamodb:index:ReadCapacityUnits':
-        return ScalableDimension.dynamodbIndexReadCapacityUnits;
-      case 'dynamodb:index:WriteCapacityUnits':
-        return ScalableDimension.dynamodbIndexWriteCapacityUnits;
-    }
-    throw Exception('$this is not known in enum ScalableDimension');
-  }
+  const ScalableDimension(this.value);
+
+  static ScalableDimension fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalableDimension'));
 }
 
 /// Describes a scaling instruction for a scalable resource in a scaling plan.
@@ -1439,9 +1287,9 @@ class ScalingInstruction {
       minCapacity: json['MinCapacity'] as int,
       resourceId: json['ResourceId'] as String,
       scalableDimension:
-          (json['ScalableDimension'] as String).toScalableDimension(),
+          ScalableDimension.fromString((json['ScalableDimension'] as String)),
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       targetTrackingConfigurations: (json['TargetTrackingConfigurations']
               as List)
           .whereNotNull()
@@ -1463,14 +1311,14 @@ class ScalingInstruction {
               : null,
       predictiveScalingMaxCapacityBehavior:
           (json['PredictiveScalingMaxCapacityBehavior'] as String?)
-              ?.toPredictiveScalingMaxCapacityBehavior(),
+              ?.let(PredictiveScalingMaxCapacityBehavior.fromString),
       predictiveScalingMaxCapacityBuffer:
           json['PredictiveScalingMaxCapacityBuffer'] as int?,
-      predictiveScalingMode:
-          (json['PredictiveScalingMode'] as String?)?.toPredictiveScalingMode(),
+      predictiveScalingMode: (json['PredictiveScalingMode'] as String?)
+          ?.let(PredictiveScalingMode.fromString),
       scalingPolicyUpdateBehavior:
           (json['ScalingPolicyUpdateBehavior'] as String?)
-              ?.toScalingPolicyUpdateBehavior(),
+              ?.let(ScalingPolicyUpdateBehavior.fromString),
       scheduledActionBufferTime: json['ScheduledActionBufferTime'] as int?,
     );
   }
@@ -1498,8 +1346,8 @@ class ScalingInstruction {
       'MaxCapacity': maxCapacity,
       'MinCapacity': minCapacity,
       'ResourceId': resourceId,
-      'ScalableDimension': scalableDimension.toValue(),
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ScalableDimension': scalableDimension.value,
+      'ServiceNamespace': serviceNamespace.value,
       'TargetTrackingConfigurations': targetTrackingConfigurations,
       if (customizedLoadMetricSpecification != null)
         'CustomizedLoadMetricSpecification': customizedLoadMetricSpecification,
@@ -1509,14 +1357,14 @@ class ScalingInstruction {
         'PredefinedLoadMetricSpecification': predefinedLoadMetricSpecification,
       if (predictiveScalingMaxCapacityBehavior != null)
         'PredictiveScalingMaxCapacityBehavior':
-            predictiveScalingMaxCapacityBehavior.toValue(),
+            predictiveScalingMaxCapacityBehavior.value,
       if (predictiveScalingMaxCapacityBuffer != null)
         'PredictiveScalingMaxCapacityBuffer':
             predictiveScalingMaxCapacityBuffer,
       if (predictiveScalingMode != null)
-        'PredictiveScalingMode': predictiveScalingMode.toValue(),
+        'PredictiveScalingMode': predictiveScalingMode.value,
       if (scalingPolicyUpdateBehavior != null)
-        'ScalingPolicyUpdateBehavior': scalingPolicyUpdateBehavior.toValue(),
+        'ScalingPolicyUpdateBehavior': scalingPolicyUpdateBehavior.value,
       if (scheduledActionBufferTime != null)
         'ScheduledActionBufferTime': scheduledActionBufferTime,
     };
@@ -1524,86 +1372,30 @@ class ScalingInstruction {
 }
 
 enum ScalingMetricType {
-  aSGAverageCPUUtilization,
-  aSGAverageNetworkIn,
-  aSGAverageNetworkOut,
-  dynamoDBReadCapacityUtilization,
-  dynamoDBWriteCapacityUtilization,
-  eCSServiceAverageCPUUtilization,
-  eCSServiceAverageMemoryUtilization,
-  aLBRequestCountPerTarget,
-  rDSReaderAverageCPUUtilization,
-  rDSReaderAverageDatabaseConnections,
-  eC2SpotFleetRequestAverageCPUUtilization,
-  eC2SpotFleetRequestAverageNetworkIn,
-  eC2SpotFleetRequestAverageNetworkOut,
-}
+  aSGAverageCPUUtilization('ASGAverageCPUUtilization'),
+  aSGAverageNetworkIn('ASGAverageNetworkIn'),
+  aSGAverageNetworkOut('ASGAverageNetworkOut'),
+  dynamoDBReadCapacityUtilization('DynamoDBReadCapacityUtilization'),
+  dynamoDBWriteCapacityUtilization('DynamoDBWriteCapacityUtilization'),
+  eCSServiceAverageCPUUtilization('ECSServiceAverageCPUUtilization'),
+  eCSServiceAverageMemoryUtilization('ECSServiceAverageMemoryUtilization'),
+  aLBRequestCountPerTarget('ALBRequestCountPerTarget'),
+  rDSReaderAverageCPUUtilization('RDSReaderAverageCPUUtilization'),
+  rDSReaderAverageDatabaseConnections('RDSReaderAverageDatabaseConnections'),
+  eC2SpotFleetRequestAverageCPUUtilization(
+      'EC2SpotFleetRequestAverageCPUUtilization'),
+  eC2SpotFleetRequestAverageNetworkIn('EC2SpotFleetRequestAverageNetworkIn'),
+  eC2SpotFleetRequestAverageNetworkOut('EC2SpotFleetRequestAverageNetworkOut'),
+  ;
 
-extension ScalingMetricTypeValueExtension on ScalingMetricType {
-  String toValue() {
-    switch (this) {
-      case ScalingMetricType.aSGAverageCPUUtilization:
-        return 'ASGAverageCPUUtilization';
-      case ScalingMetricType.aSGAverageNetworkIn:
-        return 'ASGAverageNetworkIn';
-      case ScalingMetricType.aSGAverageNetworkOut:
-        return 'ASGAverageNetworkOut';
-      case ScalingMetricType.dynamoDBReadCapacityUtilization:
-        return 'DynamoDBReadCapacityUtilization';
-      case ScalingMetricType.dynamoDBWriteCapacityUtilization:
-        return 'DynamoDBWriteCapacityUtilization';
-      case ScalingMetricType.eCSServiceAverageCPUUtilization:
-        return 'ECSServiceAverageCPUUtilization';
-      case ScalingMetricType.eCSServiceAverageMemoryUtilization:
-        return 'ECSServiceAverageMemoryUtilization';
-      case ScalingMetricType.aLBRequestCountPerTarget:
-        return 'ALBRequestCountPerTarget';
-      case ScalingMetricType.rDSReaderAverageCPUUtilization:
-        return 'RDSReaderAverageCPUUtilization';
-      case ScalingMetricType.rDSReaderAverageDatabaseConnections:
-        return 'RDSReaderAverageDatabaseConnections';
-      case ScalingMetricType.eC2SpotFleetRequestAverageCPUUtilization:
-        return 'EC2SpotFleetRequestAverageCPUUtilization';
-      case ScalingMetricType.eC2SpotFleetRequestAverageNetworkIn:
-        return 'EC2SpotFleetRequestAverageNetworkIn';
-      case ScalingMetricType.eC2SpotFleetRequestAverageNetworkOut:
-        return 'EC2SpotFleetRequestAverageNetworkOut';
-    }
-  }
-}
+  final String value;
 
-extension ScalingMetricTypeFromString on String {
-  ScalingMetricType toScalingMetricType() {
-    switch (this) {
-      case 'ASGAverageCPUUtilization':
-        return ScalingMetricType.aSGAverageCPUUtilization;
-      case 'ASGAverageNetworkIn':
-        return ScalingMetricType.aSGAverageNetworkIn;
-      case 'ASGAverageNetworkOut':
-        return ScalingMetricType.aSGAverageNetworkOut;
-      case 'DynamoDBReadCapacityUtilization':
-        return ScalingMetricType.dynamoDBReadCapacityUtilization;
-      case 'DynamoDBWriteCapacityUtilization':
-        return ScalingMetricType.dynamoDBWriteCapacityUtilization;
-      case 'ECSServiceAverageCPUUtilization':
-        return ScalingMetricType.eCSServiceAverageCPUUtilization;
-      case 'ECSServiceAverageMemoryUtilization':
-        return ScalingMetricType.eCSServiceAverageMemoryUtilization;
-      case 'ALBRequestCountPerTarget':
-        return ScalingMetricType.aLBRequestCountPerTarget;
-      case 'RDSReaderAverageCPUUtilization':
-        return ScalingMetricType.rDSReaderAverageCPUUtilization;
-      case 'RDSReaderAverageDatabaseConnections':
-        return ScalingMetricType.rDSReaderAverageDatabaseConnections;
-      case 'EC2SpotFleetRequestAverageCPUUtilization':
-        return ScalingMetricType.eC2SpotFleetRequestAverageCPUUtilization;
-      case 'EC2SpotFleetRequestAverageNetworkIn':
-        return ScalingMetricType.eC2SpotFleetRequestAverageNetworkIn;
-      case 'EC2SpotFleetRequestAverageNetworkOut':
-        return ScalingMetricType.eC2SpotFleetRequestAverageNetworkOut;
-    }
-    throw Exception('$this is not known in enum ScalingMetricType');
-  }
+  const ScalingMetricType(this.value);
+
+  static ScalingMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalingMetricType'));
 }
 
 /// Represents a scaling plan.
@@ -1682,7 +1474,8 @@ class ScalingPlan {
           .toList(),
       scalingPlanName: json['ScalingPlanName'] as String,
       scalingPlanVersion: json['ScalingPlanVersion'] as int,
-      statusCode: (json['StatusCode'] as String).toScalingPlanStatusCode(),
+      statusCode:
+          ScalingPlanStatusCode.fromString((json['StatusCode'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
       statusMessage: json['StatusMessage'] as String?,
       statusStartTime: timeStampFromJson(json['StatusStartTime']),
@@ -1703,7 +1496,7 @@ class ScalingPlan {
       'ScalingInstructions': scalingInstructions,
       'ScalingPlanName': scalingPlanName,
       'ScalingPlanVersion': scalingPlanVersion,
-      'StatusCode': statusCode.toValue(),
+      'StatusCode': statusCode.value,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (statusMessage != null) 'StatusMessage': statusMessage,
@@ -1839,13 +1632,13 @@ class ScalingPlanResource {
     return ScalingPlanResource(
       resourceId: json['ResourceId'] as String,
       scalableDimension:
-          (json['ScalableDimension'] as String).toScalableDimension(),
+          ScalableDimension.fromString((json['ScalableDimension'] as String)),
       scalingPlanName: json['ScalingPlanName'] as String,
       scalingPlanVersion: json['ScalingPlanVersion'] as int,
       scalingStatusCode:
-          (json['ScalingStatusCode'] as String).toScalingStatusCode(),
+          ScalingStatusCode.fromString((json['ScalingStatusCode'] as String)),
       serviceNamespace:
-          (json['ServiceNamespace'] as String).toServiceNamespace(),
+          ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       scalingPolicies: (json['ScalingPolicies'] as List?)
           ?.whereNotNull()
           .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
@@ -1865,11 +1658,11 @@ class ScalingPlanResource {
     final scalingStatusMessage = this.scalingStatusMessage;
     return {
       'ResourceId': resourceId,
-      'ScalableDimension': scalableDimension.toValue(),
+      'ScalableDimension': scalableDimension.value,
       'ScalingPlanName': scalingPlanName,
       'ScalingPlanVersion': scalingPlanVersion,
-      'ScalingStatusCode': scalingStatusCode.toValue(),
-      'ServiceNamespace': serviceNamespace.toValue(),
+      'ScalingStatusCode': scalingStatusCode.value,
+      'ServiceNamespace': serviceNamespace.value,
       if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
       if (scalingStatusMessage != null)
         'ScalingStatusMessage': scalingStatusMessage,
@@ -1878,61 +1671,24 @@ class ScalingPlanResource {
 }
 
 enum ScalingPlanStatusCode {
-  active,
-  activeWithProblems,
-  creationInProgress,
-  creationFailed,
-  deletionInProgress,
-  deletionFailed,
-  updateInProgress,
-  updateFailed,
-}
+  active('Active'),
+  activeWithProblems('ActiveWithProblems'),
+  creationInProgress('CreationInProgress'),
+  creationFailed('CreationFailed'),
+  deletionInProgress('DeletionInProgress'),
+  deletionFailed('DeletionFailed'),
+  updateInProgress('UpdateInProgress'),
+  updateFailed('UpdateFailed'),
+  ;
 
-extension ScalingPlanStatusCodeValueExtension on ScalingPlanStatusCode {
-  String toValue() {
-    switch (this) {
-      case ScalingPlanStatusCode.active:
-        return 'Active';
-      case ScalingPlanStatusCode.activeWithProblems:
-        return 'ActiveWithProblems';
-      case ScalingPlanStatusCode.creationInProgress:
-        return 'CreationInProgress';
-      case ScalingPlanStatusCode.creationFailed:
-        return 'CreationFailed';
-      case ScalingPlanStatusCode.deletionInProgress:
-        return 'DeletionInProgress';
-      case ScalingPlanStatusCode.deletionFailed:
-        return 'DeletionFailed';
-      case ScalingPlanStatusCode.updateInProgress:
-        return 'UpdateInProgress';
-      case ScalingPlanStatusCode.updateFailed:
-        return 'UpdateFailed';
-    }
-  }
-}
+  final String value;
 
-extension ScalingPlanStatusCodeFromString on String {
-  ScalingPlanStatusCode toScalingPlanStatusCode() {
-    switch (this) {
-      case 'Active':
-        return ScalingPlanStatusCode.active;
-      case 'ActiveWithProblems':
-        return ScalingPlanStatusCode.activeWithProblems;
-      case 'CreationInProgress':
-        return ScalingPlanStatusCode.creationInProgress;
-      case 'CreationFailed':
-        return ScalingPlanStatusCode.creationFailed;
-      case 'DeletionInProgress':
-        return ScalingPlanStatusCode.deletionInProgress;
-      case 'DeletionFailed':
-        return ScalingPlanStatusCode.deletionFailed;
-      case 'UpdateInProgress':
-        return ScalingPlanStatusCode.updateInProgress;
-      case 'UpdateFailed':
-        return ScalingPlanStatusCode.updateFailed;
-    }
-    throw Exception('$this is not known in enum ScalingPlanStatusCode');
-  }
+  const ScalingPlanStatusCode(this.value);
+
+  static ScalingPlanStatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScalingPlanStatusCode'));
 }
 
 /// Represents a scaling policy.
@@ -1956,7 +1712,7 @@ class ScalingPolicy {
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
       policyName: json['PolicyName'] as String,
-      policyType: (json['PolicyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['PolicyType'] as String)),
       targetTrackingConfiguration: json['TargetTrackingConfiguration'] != null
           ? TargetTrackingConfiguration.fromJson(
               json['TargetTrackingConfiguration'] as Map<String, dynamic>)
@@ -1970,7 +1726,7 @@ class ScalingPolicy {
     final targetTrackingConfiguration = this.targetTrackingConfiguration;
     return {
       'PolicyName': policyName,
-      'PolicyType': policyType.toValue(),
+      'PolicyType': policyType.value,
       if (targetTrackingConfiguration != null)
         'TargetTrackingConfiguration': targetTrackingConfiguration,
     };
@@ -1978,108 +1734,52 @@ class ScalingPolicy {
 }
 
 enum ScalingPolicyUpdateBehavior {
-  keepExternalPolicies,
-  replaceExternalPolicies,
-}
+  keepExternalPolicies('KeepExternalPolicies'),
+  replaceExternalPolicies('ReplaceExternalPolicies'),
+  ;
 
-extension ScalingPolicyUpdateBehaviorValueExtension
-    on ScalingPolicyUpdateBehavior {
-  String toValue() {
-    switch (this) {
-      case ScalingPolicyUpdateBehavior.keepExternalPolicies:
-        return 'KeepExternalPolicies';
-      case ScalingPolicyUpdateBehavior.replaceExternalPolicies:
-        return 'ReplaceExternalPolicies';
-    }
-  }
-}
+  final String value;
 
-extension ScalingPolicyUpdateBehaviorFromString on String {
-  ScalingPolicyUpdateBehavior toScalingPolicyUpdateBehavior() {
-    switch (this) {
-      case 'KeepExternalPolicies':
-        return ScalingPolicyUpdateBehavior.keepExternalPolicies;
-      case 'ReplaceExternalPolicies':
-        return ScalingPolicyUpdateBehavior.replaceExternalPolicies;
-    }
-    throw Exception('$this is not known in enum ScalingPolicyUpdateBehavior');
-  }
+  const ScalingPolicyUpdateBehavior(this.value);
+
+  static ScalingPolicyUpdateBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScalingPolicyUpdateBehavior'));
 }
 
 enum ScalingStatusCode {
-  inactive,
-  partiallyActive,
-  active,
-}
+  inactive('Inactive'),
+  partiallyActive('PartiallyActive'),
+  active('Active'),
+  ;
 
-extension ScalingStatusCodeValueExtension on ScalingStatusCode {
-  String toValue() {
-    switch (this) {
-      case ScalingStatusCode.inactive:
-        return 'Inactive';
-      case ScalingStatusCode.partiallyActive:
-        return 'PartiallyActive';
-      case ScalingStatusCode.active:
-        return 'Active';
-    }
-  }
-}
+  final String value;
 
-extension ScalingStatusCodeFromString on String {
-  ScalingStatusCode toScalingStatusCode() {
-    switch (this) {
-      case 'Inactive':
-        return ScalingStatusCode.inactive;
-      case 'PartiallyActive':
-        return ScalingStatusCode.partiallyActive;
-      case 'Active':
-        return ScalingStatusCode.active;
-    }
-    throw Exception('$this is not known in enum ScalingStatusCode');
-  }
+  const ScalingStatusCode(this.value);
+
+  static ScalingStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalingStatusCode'));
 }
 
 enum ServiceNamespace {
-  autoscaling,
-  ecs,
-  ec2,
-  rds,
-  dynamodb,
-}
+  autoscaling('autoscaling'),
+  ecs('ecs'),
+  ec2('ec2'),
+  rds('rds'),
+  dynamodb('dynamodb'),
+  ;
 
-extension ServiceNamespaceValueExtension on ServiceNamespace {
-  String toValue() {
-    switch (this) {
-      case ServiceNamespace.autoscaling:
-        return 'autoscaling';
-      case ServiceNamespace.ecs:
-        return 'ecs';
-      case ServiceNamespace.ec2:
-        return 'ec2';
-      case ServiceNamespace.rds:
-        return 'rds';
-      case ServiceNamespace.dynamodb:
-        return 'dynamodb';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNamespaceFromString on String {
-  ServiceNamespace toServiceNamespace() {
-    switch (this) {
-      case 'autoscaling':
-        return ServiceNamespace.autoscaling;
-      case 'ecs':
-        return ServiceNamespace.ecs;
-      case 'ec2':
-        return ServiceNamespace.ec2;
-      case 'rds':
-        return ServiceNamespace.rds;
-      case 'dynamodb':
-        return ServiceNamespace.dynamodb;
-    }
-    throw Exception('$this is not known in enum ServiceNamespace');
-  }
+  const ServiceNamespace(this.value);
+
+  static ServiceNamespace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServiceNamespace'));
 }
 
 /// Represents a tag.

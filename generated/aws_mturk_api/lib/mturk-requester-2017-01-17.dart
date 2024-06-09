@@ -796,7 +796,7 @@ class MTurk {
       payload: {
         'Description': description,
         'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus.toValue(),
+        'QualificationTypeStatus': qualificationTypeStatus.value,
         if (answerKey != null) 'AnswerKey': answerKey,
         if (autoGranted != null) 'AutoGranted': autoGranted,
         if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
@@ -1275,8 +1275,7 @@ class MTurk {
       payload: {
         'HITId': hITId,
         if (assignmentStatuses != null)
-          'AssignmentStatuses':
-              assignmentStatuses.map((e) => e.toValue()).toList(),
+          'AssignmentStatuses': assignmentStatuses.map((e) => e.value).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1590,7 +1589,7 @@ class MTurk {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (policyLevels != null)
-          'PolicyLevels': policyLevels.map((e) => e.toValue()).toList(),
+          'PolicyLevels': policyLevels.map((e) => e.value).toList(),
         if (retrieveActions != null) 'RetrieveActions': retrieveActions,
         if (retrieveResults != null) 'RetrieveResults': retrieveResults,
       },
@@ -1645,7 +1644,7 @@ class MTurk {
         if (hITTypeId != null) 'HITTypeId': hITTypeId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1735,7 +1734,7 @@ class MTurk {
         'QualificationTypeId': qualificationTypeId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1967,7 +1966,7 @@ class MTurk {
       headers: headers,
       payload: {
         'Notification': notification,
-        'TestEventType': testEventType.toValue(),
+        'TestEventType': testEventType.value,
       },
     );
   }
@@ -2248,7 +2247,7 @@ class MTurk {
         if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
         if (description != null) 'Description': description,
         if (qualificationTypeStatus != null)
-          'QualificationTypeStatus': qualificationTypeStatus.toValue(),
+          'QualificationTypeStatus': qualificationTypeStatus.value,
         if (retryDelayInSeconds != null)
           'RetryDelayInSeconds': retryDelayInSeconds,
         if (test != null) 'Test': test,
@@ -2357,8 +2356,8 @@ class Assignment {
       answer: json['Answer'] as String?,
       approvalTime: timeStampFromJson(json['ApprovalTime']),
       assignmentId: json['AssignmentId'] as String?,
-      assignmentStatus:
-          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
       autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
       deadline: timeStampFromJson(json['Deadline']),
       hITId: json['HITId'] as String?,
@@ -2371,36 +2370,19 @@ class Assignment {
 }
 
 enum AssignmentStatus {
-  submitted,
-  approved,
-  rejected,
-}
+  submitted('Submitted'),
+  approved('Approved'),
+  rejected('Rejected'),
+  ;
 
-extension AssignmentStatusValueExtension on AssignmentStatus {
-  String toValue() {
-    switch (this) {
-      case AssignmentStatus.submitted:
-        return 'Submitted';
-      case AssignmentStatus.approved:
-        return 'Approved';
-      case AssignmentStatus.rejected:
-        return 'Rejected';
-    }
-  }
-}
+  final String value;
 
-extension AssignmentStatusFromString on String {
-  AssignmentStatus toAssignmentStatus() {
-    switch (this) {
-      case 'Submitted':
-        return AssignmentStatus.submitted;
-      case 'Approved':
-        return AssignmentStatus.approved;
-      case 'Rejected':
-        return AssignmentStatus.rejected;
-    }
-    throw Exception('$this is not known in enum AssignmentStatus');
-  }
+  const AssignmentStatus(this.value);
+
+  static AssignmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssignmentStatus'));
 }
 
 class AssociateQualificationWithWorkerResponse {
@@ -2447,71 +2429,25 @@ class BonusPayment {
 }
 
 enum Comparator {
-  lessThan,
-  lessThanOrEqualTo,
-  greaterThan,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  exists,
-  doesNotExist,
-  $in,
-  notIn,
-}
+  lessThan('LessThan'),
+  lessThanOrEqualTo('LessThanOrEqualTo'),
+  greaterThan('GreaterThan'),
+  greaterThanOrEqualTo('GreaterThanOrEqualTo'),
+  equalTo('EqualTo'),
+  notEqualTo('NotEqualTo'),
+  exists('Exists'),
+  doesNotExist('DoesNotExist'),
+  $in('In'),
+  notIn('NotIn'),
+  ;
 
-extension ComparatorValueExtension on Comparator {
-  String toValue() {
-    switch (this) {
-      case Comparator.lessThan:
-        return 'LessThan';
-      case Comparator.lessThanOrEqualTo:
-        return 'LessThanOrEqualTo';
-      case Comparator.greaterThan:
-        return 'GreaterThan';
-      case Comparator.greaterThanOrEqualTo:
-        return 'GreaterThanOrEqualTo';
-      case Comparator.equalTo:
-        return 'EqualTo';
-      case Comparator.notEqualTo:
-        return 'NotEqualTo';
-      case Comparator.exists:
-        return 'Exists';
-      case Comparator.doesNotExist:
-        return 'DoesNotExist';
-      case Comparator.$in:
-        return 'In';
-      case Comparator.notIn:
-        return 'NotIn';
-    }
-  }
-}
+  final String value;
 
-extension ComparatorFromString on String {
-  Comparator toComparator() {
-    switch (this) {
-      case 'LessThan':
-        return Comparator.lessThan;
-      case 'LessThanOrEqualTo':
-        return Comparator.lessThanOrEqualTo;
-      case 'GreaterThan':
-        return Comparator.greaterThan;
-      case 'GreaterThanOrEqualTo':
-        return Comparator.greaterThanOrEqualTo;
-      case 'EqualTo':
-        return Comparator.equalTo;
-      case 'NotEqualTo':
-        return Comparator.notEqualTo;
-      case 'Exists':
-        return Comparator.exists;
-      case 'DoesNotExist':
-        return Comparator.doesNotExist;
-      case 'In':
-        return Comparator.$in;
-      case 'NotIn':
-        return Comparator.notIn;
-    }
-    throw Exception('$this is not known in enum Comparator');
-  }
+  const Comparator(this.value);
+
+  static Comparator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Comparator'));
 }
 
 class CreateAdditionalAssignmentsForHITResponse {
@@ -2637,81 +2573,27 @@ class DisassociateQualificationFromWorkerResponse {
 }
 
 enum EventType {
-  assignmentAccepted,
-  assignmentAbandoned,
-  assignmentReturned,
-  assignmentSubmitted,
-  assignmentRejected,
-  assignmentApproved,
-  hITCreated,
-  hITExpired,
-  hITReviewable,
-  hITExtended,
-  hITDisposed,
-  ping,
-}
+  assignmentAccepted('AssignmentAccepted'),
+  assignmentAbandoned('AssignmentAbandoned'),
+  assignmentReturned('AssignmentReturned'),
+  assignmentSubmitted('AssignmentSubmitted'),
+  assignmentRejected('AssignmentRejected'),
+  assignmentApproved('AssignmentApproved'),
+  hITCreated('HITCreated'),
+  hITExpired('HITExpired'),
+  hITReviewable('HITReviewable'),
+  hITExtended('HITExtended'),
+  hITDisposed('HITDisposed'),
+  ping('Ping'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.assignmentAccepted:
-        return 'AssignmentAccepted';
-      case EventType.assignmentAbandoned:
-        return 'AssignmentAbandoned';
-      case EventType.assignmentReturned:
-        return 'AssignmentReturned';
-      case EventType.assignmentSubmitted:
-        return 'AssignmentSubmitted';
-      case EventType.assignmentRejected:
-        return 'AssignmentRejected';
-      case EventType.assignmentApproved:
-        return 'AssignmentApproved';
-      case EventType.hITCreated:
-        return 'HITCreated';
-      case EventType.hITExpired:
-        return 'HITExpired';
-      case EventType.hITReviewable:
-        return 'HITReviewable';
-      case EventType.hITExtended:
-        return 'HITExtended';
-      case EventType.hITDisposed:
-        return 'HITDisposed';
-      case EventType.ping:
-        return 'Ping';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'AssignmentAccepted':
-        return EventType.assignmentAccepted;
-      case 'AssignmentAbandoned':
-        return EventType.assignmentAbandoned;
-      case 'AssignmentReturned':
-        return EventType.assignmentReturned;
-      case 'AssignmentSubmitted':
-        return EventType.assignmentSubmitted;
-      case 'AssignmentRejected':
-        return EventType.assignmentRejected;
-      case 'AssignmentApproved':
-        return EventType.assignmentApproved;
-      case 'HITCreated':
-        return EventType.hITCreated;
-      case 'HITExpired':
-        return EventType.hITExpired;
-      case 'HITReviewable':
-        return EventType.hITReviewable;
-      case 'HITExtended':
-        return EventType.hITExtended;
-      case 'HITDisposed':
-        return EventType.hITDisposed;
-      case 'Ping':
-        return EventType.ping;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 class GetAccountBalanceResponse {
@@ -2945,8 +2827,8 @@ class HIT {
       hITId: json['HITId'] as String?,
       hITLayoutId: json['HITLayoutId'] as String?,
       hITReviewStatus:
-          (json['HITReviewStatus'] as String?)?.toHITReviewStatus(),
-      hITStatus: (json['HITStatus'] as String?)?.toHITStatus(),
+          (json['HITReviewStatus'] as String?)?.let(HITReviewStatus.fromString),
+      hITStatus: (json['HITStatus'] as String?)?.let(HITStatus.fromString),
       hITTypeId: json['HITTypeId'] as String?,
       keywords: json['Keywords'] as String?,
       maxAssignments: json['MaxAssignments'] as int?,
@@ -2969,36 +2851,19 @@ class HIT {
 }
 
 enum HITAccessActions {
-  accept,
-  previewAndAccept,
-  discoverPreviewAndAccept,
-}
+  accept('Accept'),
+  previewAndAccept('PreviewAndAccept'),
+  discoverPreviewAndAccept('DiscoverPreviewAndAccept'),
+  ;
 
-extension HITAccessActionsValueExtension on HITAccessActions {
-  String toValue() {
-    switch (this) {
-      case HITAccessActions.accept:
-        return 'Accept';
-      case HITAccessActions.previewAndAccept:
-        return 'PreviewAndAccept';
-      case HITAccessActions.discoverPreviewAndAccept:
-        return 'DiscoverPreviewAndAccept';
-    }
-  }
-}
+  final String value;
 
-extension HITAccessActionsFromString on String {
-  HITAccessActions toHITAccessActions() {
-    switch (this) {
-      case 'Accept':
-        return HITAccessActions.accept;
-      case 'PreviewAndAccept':
-        return HITAccessActions.previewAndAccept;
-      case 'DiscoverPreviewAndAccept':
-        return HITAccessActions.discoverPreviewAndAccept;
-    }
-    throw Exception('$this is not known in enum HITAccessActions');
-  }
+  const HITAccessActions(this.value);
+
+  static HITAccessActions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HITAccessActions'));
 }
 
 /// The HITLayoutParameter data structure defines parameter values used with a
@@ -3027,84 +2892,37 @@ class HITLayoutParameter {
 }
 
 enum HITReviewStatus {
-  notReviewed,
-  markedForReview,
-  reviewedAppropriate,
-  reviewedInappropriate,
-}
+  notReviewed('NotReviewed'),
+  markedForReview('MarkedForReview'),
+  reviewedAppropriate('ReviewedAppropriate'),
+  reviewedInappropriate('ReviewedInappropriate'),
+  ;
 
-extension HITReviewStatusValueExtension on HITReviewStatus {
-  String toValue() {
-    switch (this) {
-      case HITReviewStatus.notReviewed:
-        return 'NotReviewed';
-      case HITReviewStatus.markedForReview:
-        return 'MarkedForReview';
-      case HITReviewStatus.reviewedAppropriate:
-        return 'ReviewedAppropriate';
-      case HITReviewStatus.reviewedInappropriate:
-        return 'ReviewedInappropriate';
-    }
-  }
-}
+  final String value;
 
-extension HITReviewStatusFromString on String {
-  HITReviewStatus toHITReviewStatus() {
-    switch (this) {
-      case 'NotReviewed':
-        return HITReviewStatus.notReviewed;
-      case 'MarkedForReview':
-        return HITReviewStatus.markedForReview;
-      case 'ReviewedAppropriate':
-        return HITReviewStatus.reviewedAppropriate;
-      case 'ReviewedInappropriate':
-        return HITReviewStatus.reviewedInappropriate;
-    }
-    throw Exception('$this is not known in enum HITReviewStatus');
-  }
+  const HITReviewStatus(this.value);
+
+  static HITReviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HITReviewStatus'));
 }
 
 enum HITStatus {
-  assignable,
-  unassignable,
-  reviewable,
-  reviewing,
-  disposed,
-}
+  assignable('Assignable'),
+  unassignable('Unassignable'),
+  reviewable('Reviewable'),
+  reviewing('Reviewing'),
+  disposed('Disposed'),
+  ;
 
-extension HITStatusValueExtension on HITStatus {
-  String toValue() {
-    switch (this) {
-      case HITStatus.assignable:
-        return 'Assignable';
-      case HITStatus.unassignable:
-        return 'Unassignable';
-      case HITStatus.reviewable:
-        return 'Reviewable';
-      case HITStatus.reviewing:
-        return 'Reviewing';
-      case HITStatus.disposed:
-        return 'Disposed';
-    }
-  }
-}
+  final String value;
 
-extension HITStatusFromString on String {
-  HITStatus toHITStatus() {
-    switch (this) {
-      case 'Assignable':
-        return HITStatus.assignable;
-      case 'Unassignable':
-        return HITStatus.unassignable;
-      case 'Reviewable':
-        return HITStatus.reviewable;
-      case 'Reviewing':
-        return HITStatus.reviewing;
-      case 'Disposed':
-        return HITStatus.disposed;
-    }
-    throw Exception('$this is not known in enum HITStatus');
-  }
+  const HITStatus(this.value);
+
+  static HITStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HITStatus'));
 }
 
 class ListAssignmentsForHITResponse {
@@ -3493,72 +3311,42 @@ class NotificationSpecification {
     final version = this.version;
     return {
       'Destination': destination,
-      'EventTypes': eventTypes.map((e) => e.toValue()).toList(),
-      'Transport': transport.toValue(),
+      'EventTypes': eventTypes.map((e) => e.value).toList(),
+      'Transport': transport.value,
       'Version': version,
     };
   }
 }
 
 enum NotificationTransport {
-  email,
-  sqs,
-  sns,
-}
+  email('Email'),
+  sqs('SQS'),
+  sns('SNS'),
+  ;
 
-extension NotificationTransportValueExtension on NotificationTransport {
-  String toValue() {
-    switch (this) {
-      case NotificationTransport.email:
-        return 'Email';
-      case NotificationTransport.sqs:
-        return 'SQS';
-      case NotificationTransport.sns:
-        return 'SNS';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTransportFromString on String {
-  NotificationTransport toNotificationTransport() {
-    switch (this) {
-      case 'Email':
-        return NotificationTransport.email;
-      case 'SQS':
-        return NotificationTransport.sqs;
-      case 'SNS':
-        return NotificationTransport.sns;
-    }
-    throw Exception('$this is not known in enum NotificationTransport');
-  }
+  const NotificationTransport(this.value);
+
+  static NotificationTransport fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NotificationTransport'));
 }
 
 enum NotifyWorkersFailureCode {
-  softFailure,
-  hardFailure,
-}
+  softFailure('SoftFailure'),
+  hardFailure('HardFailure'),
+  ;
 
-extension NotifyWorkersFailureCodeValueExtension on NotifyWorkersFailureCode {
-  String toValue() {
-    switch (this) {
-      case NotifyWorkersFailureCode.softFailure:
-        return 'SoftFailure';
-      case NotifyWorkersFailureCode.hardFailure:
-        return 'HardFailure';
-    }
-  }
-}
+  final String value;
 
-extension NotifyWorkersFailureCodeFromString on String {
-  NotifyWorkersFailureCode toNotifyWorkersFailureCode() {
-    switch (this) {
-      case 'SoftFailure':
-        return NotifyWorkersFailureCode.softFailure;
-      case 'HardFailure':
-        return NotifyWorkersFailureCode.hardFailure;
-    }
-    throw Exception('$this is not known in enum NotifyWorkersFailureCode');
-  }
+  const NotifyWorkersFailureCode(this.value);
+
+  static NotifyWorkersFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotifyWorkersFailureCode'));
 }
 
 /// When MTurk encounters an issue with notifying the Workers you specified, it
@@ -3582,7 +3370,7 @@ class NotifyWorkersFailureStatus {
   factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) {
     return NotifyWorkersFailureStatus(
       notifyWorkersFailureCode: (json['NotifyWorkersFailureCode'] as String?)
-          ?.toNotifyWorkersFailureCode(),
+          ?.let(NotifyWorkersFailureCode.fromString),
       notifyWorkersFailureMessage:
           json['NotifyWorkersFailureMessage'] as String?,
       workerId: json['WorkerId'] as String?,
@@ -3732,7 +3520,7 @@ class Qualification {
           ? Locale.fromJson(json['LocaleValue'] as Map<String, dynamic>)
           : null,
       qualificationTypeId: json['QualificationTypeId'] as String?,
-      status: (json['Status'] as String?)?.toQualificationStatus(),
+      status: (json['Status'] as String?)?.let(QualificationStatus.fromString),
       workerId: json['WorkerId'] as String?,
     );
   }
@@ -3871,9 +3659,10 @@ class QualificationRequirement {
 
   factory QualificationRequirement.fromJson(Map<String, dynamic> json) {
     return QualificationRequirement(
-      comparator: (json['Comparator'] as String).toComparator(),
+      comparator: Comparator.fromString((json['Comparator'] as String)),
       qualificationTypeId: json['QualificationTypeId'] as String,
-      actionsGuarded: (json['ActionsGuarded'] as String?)?.toHITAccessActions(),
+      actionsGuarded:
+          (json['ActionsGuarded'] as String?)?.let(HITAccessActions.fromString),
       integerValues: (json['IntegerValues'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
@@ -3894,9 +3683,9 @@ class QualificationRequirement {
     final localeValues = this.localeValues;
     final requiredToPreview = this.requiredToPreview;
     return {
-      'Comparator': comparator.toValue(),
+      'Comparator': comparator.value,
       'QualificationTypeId': qualificationTypeId,
-      if (actionsGuarded != null) 'ActionsGuarded': actionsGuarded.toValue(),
+      if (actionsGuarded != null) 'ActionsGuarded': actionsGuarded.value,
       if (integerValues != null) 'IntegerValues': integerValues,
       if (localeValues != null) 'LocaleValues': localeValues,
       if (requiredToPreview != null) 'RequiredToPreview': requiredToPreview,
@@ -3905,31 +3694,18 @@ class QualificationRequirement {
 }
 
 enum QualificationStatus {
-  granted,
-  revoked,
-}
+  granted('Granted'),
+  revoked('Revoked'),
+  ;
 
-extension QualificationStatusValueExtension on QualificationStatus {
-  String toValue() {
-    switch (this) {
-      case QualificationStatus.granted:
-        return 'Granted';
-      case QualificationStatus.revoked:
-        return 'Revoked';
-    }
-  }
-}
+  final String value;
 
-extension QualificationStatusFromString on String {
-  QualificationStatus toQualificationStatus() {
-    switch (this) {
-      case 'Granted':
-        return QualificationStatus.granted;
-      case 'Revoked':
-        return QualificationStatus.revoked;
-    }
-    throw Exception('$this is not known in enum QualificationStatus');
-  }
+  const QualificationStatus(this.value);
+
+  static QualificationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum QualificationStatus'));
 }
 
 /// The QualificationType data structure represents a Qualification type, a
@@ -4029,7 +3805,7 @@ class QualificationType {
       name: json['Name'] as String?,
       qualificationTypeId: json['QualificationTypeId'] as String?,
       qualificationTypeStatus: (json['QualificationTypeStatus'] as String?)
-          ?.toQualificationTypeStatus(),
+          ?.let(QualificationTypeStatus.fromString),
       retryDelayInSeconds: json['RetryDelayInSeconds'] as int?,
       test: json['Test'] as String?,
       testDurationInSeconds: json['TestDurationInSeconds'] as int?,
@@ -4038,31 +3814,18 @@ class QualificationType {
 }
 
 enum QualificationTypeStatus {
-  active,
-  inactive,
-}
+  active('Active'),
+  inactive('Inactive'),
+  ;
 
-extension QualificationTypeStatusValueExtension on QualificationTypeStatus {
-  String toValue() {
-    switch (this) {
-      case QualificationTypeStatus.active:
-        return 'Active';
-      case QualificationTypeStatus.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension QualificationTypeStatusFromString on String {
-  QualificationTypeStatus toQualificationTypeStatus() {
-    switch (this) {
-      case 'Active':
-        return QualificationTypeStatus.active;
-      case 'Inactive':
-        return QualificationTypeStatus.inactive;
-    }
-    throw Exception('$this is not known in enum QualificationTypeStatus');
-  }
+  const QualificationTypeStatus(this.value);
+
+  static QualificationTypeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QualificationTypeStatus'));
 }
 
 class RejectAssignmentResponse {
@@ -4130,7 +3893,7 @@ class ReviewActionDetail {
       completeTime: timeStampFromJson(json['CompleteTime']),
       errorCode: json['ErrorCode'] as String?,
       result: json['Result'] as String?,
-      status: (json['Status'] as String?)?.toReviewActionStatus(),
+      status: (json['Status'] as String?)?.let(ReviewActionStatus.fromString),
       targetId: json['TargetId'] as String?,
       targetType: json['TargetType'] as String?,
     );
@@ -4138,41 +3901,20 @@ class ReviewActionDetail {
 }
 
 enum ReviewActionStatus {
-  intended,
-  succeeded,
-  failed,
-  cancelled,
-}
+  intended('Intended'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  cancelled('Cancelled'),
+  ;
 
-extension ReviewActionStatusValueExtension on ReviewActionStatus {
-  String toValue() {
-    switch (this) {
-      case ReviewActionStatus.intended:
-        return 'Intended';
-      case ReviewActionStatus.succeeded:
-        return 'Succeeded';
-      case ReviewActionStatus.failed:
-        return 'Failed';
-      case ReviewActionStatus.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension ReviewActionStatusFromString on String {
-  ReviewActionStatus toReviewActionStatus() {
-    switch (this) {
-      case 'Intended':
-        return ReviewActionStatus.intended;
-      case 'Succeeded':
-        return ReviewActionStatus.succeeded;
-      case 'Failed':
-        return ReviewActionStatus.failed;
-      case 'Cancelled':
-        return ReviewActionStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum ReviewActionStatus');
-  }
+  const ReviewActionStatus(this.value);
+
+  static ReviewActionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReviewActionStatus'));
 }
 
 /// HIT Review Policy data structures represent HIT review policies, which you
@@ -4211,31 +3953,18 @@ class ReviewPolicy {
 }
 
 enum ReviewPolicyLevel {
-  assignment,
-  hit,
-}
+  assignment('Assignment'),
+  hit('HIT'),
+  ;
 
-extension ReviewPolicyLevelValueExtension on ReviewPolicyLevel {
-  String toValue() {
-    switch (this) {
-      case ReviewPolicyLevel.assignment:
-        return 'Assignment';
-      case ReviewPolicyLevel.hit:
-        return 'HIT';
-    }
-  }
-}
+  final String value;
 
-extension ReviewPolicyLevelFromString on String {
-  ReviewPolicyLevel toReviewPolicyLevel() {
-    switch (this) {
-      case 'Assignment':
-        return ReviewPolicyLevel.assignment;
-      case 'HIT':
-        return ReviewPolicyLevel.hit;
-    }
-    throw Exception('$this is not known in enum ReviewPolicyLevel');
-  }
+  const ReviewPolicyLevel(this.value);
+
+  static ReviewPolicyLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReviewPolicyLevel'));
 }
 
 /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
@@ -4318,31 +4047,18 @@ class ReviewResultDetail {
 }
 
 enum ReviewableHITStatus {
-  reviewable,
-  reviewing,
-}
+  reviewable('Reviewable'),
+  reviewing('Reviewing'),
+  ;
 
-extension ReviewableHITStatusValueExtension on ReviewableHITStatus {
-  String toValue() {
-    switch (this) {
-      case ReviewableHITStatus.reviewable:
-        return 'Reviewable';
-      case ReviewableHITStatus.reviewing:
-        return 'Reviewing';
-    }
-  }
-}
+  final String value;
 
-extension ReviewableHITStatusFromString on String {
-  ReviewableHITStatus toReviewableHITStatus() {
-    switch (this) {
-      case 'Reviewable':
-        return ReviewableHITStatus.reviewable;
-      case 'Reviewing':
-        return ReviewableHITStatus.reviewing;
-    }
-    throw Exception('$this is not known in enum ReviewableHITStatus');
-  }
+  const ReviewableHITStatus(this.value);
+
+  static ReviewableHITStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReviewableHITStatus'));
 }
 
 class SendBonusResponse {

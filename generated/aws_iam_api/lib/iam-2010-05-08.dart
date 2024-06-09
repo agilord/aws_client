@@ -3232,7 +3232,7 @@ class IAM {
   }) async {
     final $request = <String, String>{
       'Arn': arn,
-      if (granularity != null) 'Granularity': granularity.toValue(),
+      if (granularity != null) 'Granularity': granularity.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -3338,7 +3338,7 @@ class IAM {
           'Filter': ''
         else
           for (var i1 = 0; i1 < filter.length; i1++)
-            'Filter.member.${i1 + 1}': filter[i1].toValue(),
+            'Filter.member.${i1 + 1}': filter[i1].value,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
     };
@@ -3901,7 +3901,7 @@ class IAM {
       'JobId': jobId,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
-      if (sortKey != null) 'SortKey': sortKey.toValue(),
+      if (sortKey != null) 'SortKey': sortKey.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4207,7 +4207,7 @@ class IAM {
     required String userName,
   }) async {
     final $request = <String, String>{
-      'Encoding': encoding.toValue(),
+      'Encoding': encoding.value,
       'SSHPublicKeyId': sSHPublicKeyId,
       'UserName': userName,
     };
@@ -5088,12 +5088,12 @@ class IAM {
     );
     final $request = <String, String>{
       'PolicyArn': policyArn,
-      if (entityFilter != null) 'EntityFilter': entityFilter.toValue(),
+      if (entityFilter != null) 'EntityFilter': entityFilter.value,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
       if (pathPrefix != null) 'PathPrefix': pathPrefix,
       if (policyUsageFilter != null)
-        'PolicyUsageFilter': policyUsageFilter.toValue(),
+        'PolicyUsageFilter': policyUsageFilter.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -5843,8 +5843,8 @@ class IAM {
       if (onlyAttached != null) 'OnlyAttached': onlyAttached.toString(),
       if (pathPrefix != null) 'PathPrefix': pathPrefix,
       if (policyUsageFilter != null)
-        'PolicyUsageFilter': policyUsageFilter.toValue(),
-      if (scope != null) 'Scope': scope.toValue(),
+        'PolicyUsageFilter': policyUsageFilter.value,
+      if (scope != null) 'Scope': scope.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -7011,8 +7011,7 @@ class IAM {
       1000,
     );
     final $request = <String, String>{
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
     };
@@ -7763,7 +7762,7 @@ class IAM {
     required GlobalEndpointTokenVersion globalEndpointTokenVersion,
   }) async {
     final $request = <String, String>{
-      'GlobalEndpointTokenVersion': globalEndpointTokenVersion.toValue(),
+      'GlobalEndpointTokenVersion': globalEndpointTokenVersion.value,
     };
     await _protocol.send(
       $request,
@@ -9561,7 +9560,7 @@ class IAM {
   }) async {
     final $request = <String, String>{
       'AccessKeyId': accessKeyId,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (userName != null) 'UserName': userName,
     };
     await _protocol.send(
@@ -10196,7 +10195,7 @@ class IAM {
   }) async {
     final $request = <String, String>{
       'SSHPublicKeyId': sSHPublicKeyId,
-      'Status': status.toValue(),
+      'Status': status.value,
       'UserName': userName,
     };
     await _protocol.send(
@@ -10324,7 +10323,7 @@ class IAM {
   }) async {
     final $request = <String, String>{
       'ServiceSpecificCredentialId': serviceSpecificCredentialId,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (userName != null) 'UserName': userName,
     };
     await _protocol.send(
@@ -10379,7 +10378,7 @@ class IAM {
   }) async {
     final $request = <String, String>{
       'CertificateId': certificateId,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (userName != null) 'UserName': userName,
     };
     await _protocol.send(
@@ -10809,33 +10808,18 @@ class IAM {
 }
 
 enum AccessAdvisorUsageGranularityType {
-  serviceLevel,
-  actionLevel,
-}
+  serviceLevel('SERVICE_LEVEL'),
+  actionLevel('ACTION_LEVEL'),
+  ;
 
-extension AccessAdvisorUsageGranularityTypeValueExtension
-    on AccessAdvisorUsageGranularityType {
-  String toValue() {
-    switch (this) {
-      case AccessAdvisorUsageGranularityType.serviceLevel:
-        return 'SERVICE_LEVEL';
-      case AccessAdvisorUsageGranularityType.actionLevel:
-        return 'ACTION_LEVEL';
-    }
-  }
-}
+  final String value;
 
-extension AccessAdvisorUsageGranularityTypeFromString on String {
-  AccessAdvisorUsageGranularityType toAccessAdvisorUsageGranularityType() {
-    switch (this) {
-      case 'SERVICE_LEVEL':
-        return AccessAdvisorUsageGranularityType.serviceLevel;
-      case 'ACTION_LEVEL':
-        return AccessAdvisorUsageGranularityType.actionLevel;
-    }
-    throw Exception(
-        '$this is not known in enum AccessAdvisorUsageGranularityType');
-  }
+  const AccessAdvisorUsageGranularityType(this.value);
+
+  static AccessAdvisorUsageGranularityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AccessAdvisorUsageGranularityType'));
 }
 
 /// An object that contains details about when a principal in the reported
@@ -10957,7 +10941,8 @@ class AccessKey {
     return AccessKey(
       accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
       secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
     );
@@ -11069,7 +11054,8 @@ class AccessKeyMetadata {
     return AccessKeyMetadata(
       accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
   }
@@ -11103,7 +11089,7 @@ class AttachedPermissionsBoundary {
           _s.extractXmlStringValue(elem, 'PermissionsBoundaryArn'),
       permissionsBoundaryType: _s
           .extractXmlStringValue(elem, 'PermissionsBoundaryType')
-          ?.toPermissionsBoundaryAttachmentType(),
+          ?.let(PermissionsBoundaryAttachmentType.fromString),
     );
   }
 }
@@ -11170,7 +11156,7 @@ class ContextEntry {
     final contextKeyValues = this.contextKeyValues;
     return {
       if (contextKeyName != null) 'ContextKeyName': contextKeyName,
-      if (contextKeyType != null) 'ContextKeyType': contextKeyType.toValue(),
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
       if (contextKeyValues != null) 'ContextKeyValues': contextKeyValues,
     };
   }
@@ -11181,7 +11167,7 @@ class ContextEntry {
     final contextKeyValues = this.contextKeyValues;
     return {
       if (contextKeyName != null) 'ContextKeyName': contextKeyName,
-      if (contextKeyType != null) 'ContextKeyType': contextKeyType.toValue(),
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
       if (contextKeyValues != null)
         if (contextKeyValues.isEmpty)
           'ContextKeyValues': ''
@@ -11193,81 +11179,28 @@ class ContextEntry {
 }
 
 enum ContextKeyTypeEnum {
-  string,
-  stringList,
-  numeric,
-  numericList,
-  boolean,
-  booleanList,
-  ip,
-  ipList,
-  binary,
-  binaryList,
-  date,
-  dateList,
-}
+  string('string'),
+  stringList('stringList'),
+  numeric('numeric'),
+  numericList('numericList'),
+  boolean('boolean'),
+  booleanList('booleanList'),
+  ip('ip'),
+  ipList('ipList'),
+  binary('binary'),
+  binaryList('binaryList'),
+  date('date'),
+  dateList('dateList'),
+  ;
 
-extension ContextKeyTypeEnumValueExtension on ContextKeyTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ContextKeyTypeEnum.string:
-        return 'string';
-      case ContextKeyTypeEnum.stringList:
-        return 'stringList';
-      case ContextKeyTypeEnum.numeric:
-        return 'numeric';
-      case ContextKeyTypeEnum.numericList:
-        return 'numericList';
-      case ContextKeyTypeEnum.boolean:
-        return 'boolean';
-      case ContextKeyTypeEnum.booleanList:
-        return 'booleanList';
-      case ContextKeyTypeEnum.ip:
-        return 'ip';
-      case ContextKeyTypeEnum.ipList:
-        return 'ipList';
-      case ContextKeyTypeEnum.binary:
-        return 'binary';
-      case ContextKeyTypeEnum.binaryList:
-        return 'binaryList';
-      case ContextKeyTypeEnum.date:
-        return 'date';
-      case ContextKeyTypeEnum.dateList:
-        return 'dateList';
-    }
-  }
-}
+  final String value;
 
-extension ContextKeyTypeEnumFromString on String {
-  ContextKeyTypeEnum toContextKeyTypeEnum() {
-    switch (this) {
-      case 'string':
-        return ContextKeyTypeEnum.string;
-      case 'stringList':
-        return ContextKeyTypeEnum.stringList;
-      case 'numeric':
-        return ContextKeyTypeEnum.numeric;
-      case 'numericList':
-        return ContextKeyTypeEnum.numericList;
-      case 'boolean':
-        return ContextKeyTypeEnum.boolean;
-      case 'booleanList':
-        return ContextKeyTypeEnum.booleanList;
-      case 'ip':
-        return ContextKeyTypeEnum.ip;
-      case 'ipList':
-        return ContextKeyTypeEnum.ipList;
-      case 'binary':
-        return ContextKeyTypeEnum.binary;
-      case 'binaryList':
-        return ContextKeyTypeEnum.binaryList;
-      case 'date':
-        return ContextKeyTypeEnum.date;
-      case 'dateList':
-        return ContextKeyTypeEnum.dateList;
-    }
-    throw Exception('$this is not known in enum ContextKeyTypeEnum');
-  }
+  const ContextKeyTypeEnum(this.value);
+
+  static ContextKeyTypeEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ContextKeyTypeEnum'));
 }
 
 /// Contains the response to a successful <a>CreateAccessKey</a> request.
@@ -11545,41 +11478,20 @@ class DeletionTaskFailureReasonType {
 }
 
 enum DeletionTaskStatusType {
-  succeeded,
-  inProgress,
-  failed,
-  notStarted,
-}
+  succeeded('SUCCEEDED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  notStarted('NOT_STARTED'),
+  ;
 
-extension DeletionTaskStatusTypeValueExtension on DeletionTaskStatusType {
-  String toValue() {
-    switch (this) {
-      case DeletionTaskStatusType.succeeded:
-        return 'SUCCEEDED';
-      case DeletionTaskStatusType.inProgress:
-        return 'IN_PROGRESS';
-      case DeletionTaskStatusType.failed:
-        return 'FAILED';
-      case DeletionTaskStatusType.notStarted:
-        return 'NOT_STARTED';
-    }
-  }
-}
+  final String value;
 
-extension DeletionTaskStatusTypeFromString on String {
-  DeletionTaskStatusType toDeletionTaskStatusType() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return DeletionTaskStatusType.succeeded;
-      case 'IN_PROGRESS':
-        return DeletionTaskStatusType.inProgress;
-      case 'FAILED':
-        return DeletionTaskStatusType.failed;
-      case 'NOT_STARTED':
-        return DeletionTaskStatusType.notStarted;
-    }
-    throw Exception('$this is not known in enum DeletionTaskStatusType');
-  }
+  const DeletionTaskStatusType(this.value);
+
+  static DeletionTaskStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeletionTaskStatusType'));
 }
 
 /// An object that contains details about when the IAM entities (users or roles)
@@ -11649,53 +11561,29 @@ class EntityInfo {
       arn: _s.extractXmlStringValue(elem, 'Arn')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      type: _s.extractXmlStringValue(elem, 'Type')!.toPolicyOwnerEntityType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(PolicyOwnerEntityType.fromString),
       path: _s.extractXmlStringValue(elem, 'Path'),
     );
   }
 }
 
 enum EntityType {
-  user,
-  role,
-  group,
-  localManagedPolicy,
-  awsManagedPolicy,
-}
+  user('User'),
+  role('Role'),
+  group('Group'),
+  localManagedPolicy('LocalManagedPolicy'),
+  awsManagedPolicy('AWSManagedPolicy'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.user:
-        return 'User';
-      case EntityType.role:
-        return 'Role';
-      case EntityType.group:
-        return 'Group';
-      case EntityType.localManagedPolicy:
-        return 'LocalManagedPolicy';
-      case EntityType.awsManagedPolicy:
-        return 'AWSManagedPolicy';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'User':
-        return EntityType.user;
-      case 'Role':
-        return EntityType.role;
-      case 'Group':
-        return EntityType.group;
-      case 'LocalManagedPolicy':
-        return EntityType.localManagedPolicy;
-      case 'AWSManagedPolicy':
-        return EntityType.awsManagedPolicy;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 /// Contains information about the reason that the operation failed.
@@ -11805,14 +11693,14 @@ class EvaluationResult {
       evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
       evalDecision: _s
           .extractXmlStringValue(elem, 'EvalDecision')!
-          .toPolicyEvaluationDecisionType(),
+          .let(PolicyEvaluationDecisionType.fromString),
       evalDecisionDetails: Map.fromEntries(
         elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
                   (c) => MapEntry(
                     _s.extractXmlStringValue(c, 'key')!,
                     _s
                         .extractXmlStringValue(c, 'value')!
-                        .toPolicyEvaluationDecisionType(),
+                        .let(PolicyEvaluationDecisionType.fromString),
                   ),
                 ) ??
             {},
@@ -11856,7 +11744,9 @@ class GenerateCredentialReportResponse {
   factory GenerateCredentialReportResponse.fromXml(_s.XmlElement elem) {
     return GenerateCredentialReportResponse(
       description: _s.extractXmlStringValue(elem, 'Description'),
-      state: _s.extractXmlStringValue(elem, 'State')?.toReportStateType(),
+      state: _s
+          .extractXmlStringValue(elem, 'State')
+          ?.let(ReportStateType.fromString),
     );
   }
 }
@@ -12010,7 +11900,9 @@ class GetAccountSummaryResponse {
       summaryMap: Map.fromEntries(
         elem.getElement('SummaryMap')?.findElements('entry').map(
                   (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!.toSummaryKeyType(),
+                    _s
+                        .extractXmlStringValue(c, 'key')!
+                        .let(SummaryKeyType.fromString),
                     _s.extractXmlIntValue(c, 'value')!,
                   ),
                 ) ??
@@ -12060,8 +11952,9 @@ class GetCredentialReportResponse {
     return GetCredentialReportResponse(
       content: _s.extractXmlUint8ListValue(elem, 'Content'),
       generatedTime: _s.extractXmlDateTimeValue(elem, 'GeneratedTime'),
-      reportFormat:
-          _s.extractXmlStringValue(elem, 'ReportFormat')?.toReportFormatType(),
+      reportFormat: _s
+          .extractXmlStringValue(elem, 'ReportFormat')
+          ?.let(ReportFormatType.fromString),
     );
   }
 }
@@ -12319,7 +12212,9 @@ class GetOrganizationsAccessReportResponse {
   factory GetOrganizationsAccessReportResponse.fromXml(_s.XmlElement elem) {
     return GetOrganizationsAccessReportResponse(
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
+      jobStatus: _s
+          .extractXmlStringValue(elem, 'JobStatus')!
+          .let(JobStatusType.fromString),
       accessDetails: _s.extractXmlChild(elem, 'AccessDetails')?.let((elem) =>
           elem.findElements('member').map(AccessDetail.fromXml).toList()),
       errorDetails:
@@ -12534,7 +12429,9 @@ class GetServiceLastAccessedDetailsResponse {
     return GetServiceLastAccessedDetailsResponse(
       jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
+      jobStatus: _s
+          .extractXmlStringValue(elem, 'JobStatus')!
+          .let(JobStatusType.fromString),
       servicesLastAccessed: _s
           .extractXmlChild(elem, 'ServicesLastAccessed')!
           .findElements('member')
@@ -12544,7 +12441,7 @@ class GetServiceLastAccessedDetailsResponse {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       jobType: _s
           .extractXmlStringValue(elem, 'JobType')
-          ?.toAccessAdvisorUsageGranularityType(),
+          ?.let(AccessAdvisorUsageGranularityType.fromString),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -12606,7 +12503,9 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
           .toList(),
       jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
+      jobStatus: _s
+          .extractXmlStringValue(elem, 'JobStatus')!
+          .let(JobStatusType.fromString),
       error: _s.extractXmlChild(elem, 'Error')?.let(ErrorDetails.fromXml),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
@@ -12628,8 +12527,9 @@ class GetServiceLinkedRoleDeletionStatusResponse {
   factory GetServiceLinkedRoleDeletionStatusResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLinkedRoleDeletionStatusResponse(
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.toDeletionTaskStatusType(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(DeletionTaskStatusType.fromString),
       reason: _s
           .extractXmlChild(elem, 'Reason')
           ?.let(DeletionTaskFailureReasonType.fromXml),
@@ -14444,28 +14344,17 @@ class PasswordPolicy {
 }
 
 enum PermissionsBoundaryAttachmentType {
-  permissionsBoundaryPolicy,
-}
+  permissionsBoundaryPolicy('PermissionsBoundaryPolicy'),
+  ;
 
-extension PermissionsBoundaryAttachmentTypeValueExtension
-    on PermissionsBoundaryAttachmentType {
-  String toValue() {
-    switch (this) {
-      case PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy:
-        return 'PermissionsBoundaryPolicy';
-    }
-  }
-}
+  final String value;
 
-extension PermissionsBoundaryAttachmentTypeFromString on String {
-  PermissionsBoundaryAttachmentType toPermissionsBoundaryAttachmentType() {
-    switch (this) {
-      case 'PermissionsBoundaryPolicy':
-        return PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy;
-    }
-    throw Exception(
-        '$this is not known in enum PermissionsBoundaryAttachmentType');
-  }
+  const PermissionsBoundaryAttachmentType(this.value);
+
+  static PermissionsBoundaryAttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PermissionsBoundaryAttachmentType'));
 }
 
 /// Contains information about the effect that a permissions boundary has on a
@@ -14623,37 +14512,19 @@ class PolicyDetail {
 }
 
 enum PolicyEvaluationDecisionType {
-  allowed,
-  explicitDeny,
-  implicitDeny,
-}
+  allowed('allowed'),
+  explicitDeny('explicitDeny'),
+  implicitDeny('implicitDeny'),
+  ;
 
-extension PolicyEvaluationDecisionTypeValueExtension
-    on PolicyEvaluationDecisionType {
-  String toValue() {
-    switch (this) {
-      case PolicyEvaluationDecisionType.allowed:
-        return 'allowed';
-      case PolicyEvaluationDecisionType.explicitDeny:
-        return 'explicitDeny';
-      case PolicyEvaluationDecisionType.implicitDeny:
-        return 'implicitDeny';
-    }
-  }
-}
+  final String value;
 
-extension PolicyEvaluationDecisionTypeFromString on String {
-  PolicyEvaluationDecisionType toPolicyEvaluationDecisionType() {
-    switch (this) {
-      case 'allowed':
-        return PolicyEvaluationDecisionType.allowed;
-      case 'explicitDeny':
-        return PolicyEvaluationDecisionType.explicitDeny;
-      case 'implicitDeny':
-        return PolicyEvaluationDecisionType.implicitDeny;
-    }
-    throw Exception('$this is not known in enum PolicyEvaluationDecisionType');
-  }
+  const PolicyEvaluationDecisionType(this.value);
+
+  static PolicyEvaluationDecisionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PolicyEvaluationDecisionType'));
 }
 
 /// Contains details about the permissions policies that are attached to the
@@ -14699,11 +14570,13 @@ class PolicyGrantingServiceAccess {
   factory PolicyGrantingServiceAccess.fromXml(_s.XmlElement elem) {
     return PolicyGrantingServiceAccess(
       policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
-      policyType: _s.extractXmlStringValue(elem, 'PolicyType')!.toPolicyType(),
+      policyType: _s
+          .extractXmlStringValue(elem, 'PolicyType')!
+          .let(PolicyType.fromString),
       entityName: _s.extractXmlStringValue(elem, 'EntityName'),
       entityType: _s
           .extractXmlStringValue(elem, 'EntityType')
-          ?.toPolicyOwnerEntityType(),
+          ?.let(PolicyOwnerEntityType.fromString),
       policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
     );
   }
@@ -14770,56 +14643,23 @@ class PolicyRole {
 }
 
 enum PolicySourceType {
-  user,
-  group,
-  role,
-  awsManaged,
-  userManaged,
-  resource,
-  none,
-}
+  user('user'),
+  group('group'),
+  role('role'),
+  awsManaged('aws-managed'),
+  userManaged('user-managed'),
+  resource('resource'),
+  none('none'),
+  ;
 
-extension PolicySourceTypeValueExtension on PolicySourceType {
-  String toValue() {
-    switch (this) {
-      case PolicySourceType.user:
-        return 'user';
-      case PolicySourceType.group:
-        return 'group';
-      case PolicySourceType.role:
-        return 'role';
-      case PolicySourceType.awsManaged:
-        return 'aws-managed';
-      case PolicySourceType.userManaged:
-        return 'user-managed';
-      case PolicySourceType.resource:
-        return 'resource';
-      case PolicySourceType.none:
-        return 'none';
-    }
-  }
-}
+  final String value;
 
-extension PolicySourceTypeFromString on String {
-  PolicySourceType toPolicySourceType() {
-    switch (this) {
-      case 'user':
-        return PolicySourceType.user;
-      case 'group':
-        return PolicySourceType.group;
-      case 'role':
-        return PolicySourceType.role;
-      case 'aws-managed':
-        return PolicySourceType.awsManaged;
-      case 'user-managed':
-        return PolicySourceType.userManaged;
-      case 'resource':
-        return PolicySourceType.resource;
-      case 'none':
-        return PolicySourceType.none;
-    }
-    throw Exception('$this is not known in enum PolicySourceType');
-  }
+  const PolicySourceType(this.value);
+
+  static PolicySourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicySourceType'));
 }
 
 /// The policy usage type that indicates whether the policy is used as a
@@ -14829,31 +14669,18 @@ extension PolicySourceTypeFromString on String {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
 /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
 enum PolicyUsageType {
-  permissionsPolicy,
-  permissionsBoundary,
-}
+  permissionsPolicy('PermissionsPolicy'),
+  permissionsBoundary('PermissionsBoundary'),
+  ;
 
-extension PolicyUsageTypeValueExtension on PolicyUsageType {
-  String toValue() {
-    switch (this) {
-      case PolicyUsageType.permissionsPolicy:
-        return 'PermissionsPolicy';
-      case PolicyUsageType.permissionsBoundary:
-        return 'PermissionsBoundary';
-    }
-  }
-}
+  final String value;
 
-extension PolicyUsageTypeFromString on String {
-  PolicyUsageType toPolicyUsageType() {
-    switch (this) {
-      case 'PermissionsPolicy':
-        return PolicyUsageType.permissionsPolicy;
-      case 'PermissionsBoundary':
-        return PolicyUsageType.permissionsBoundary;
-    }
-    throw Exception('$this is not known in enum PolicyUsageType');
-  }
+  const PolicyUsageType(this.value);
+
+  static PolicyUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicyUsageType'));
 }
 
 /// Contains information about a user that a managed policy is attached to.
@@ -14967,59 +14794,33 @@ class Position {
 }
 
 enum ReportFormatType {
-  textCsv,
-}
+  textCsv('text/csv'),
+  ;
 
-extension ReportFormatTypeValueExtension on ReportFormatType {
-  String toValue() {
-    switch (this) {
-      case ReportFormatType.textCsv:
-        return 'text/csv';
-    }
-  }
-}
+  final String value;
 
-extension ReportFormatTypeFromString on String {
-  ReportFormatType toReportFormatType() {
-    switch (this) {
-      case 'text/csv':
-        return ReportFormatType.textCsv;
-    }
-    throw Exception('$this is not known in enum ReportFormatType');
-  }
+  const ReportFormatType(this.value);
+
+  static ReportFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportFormatType'));
 }
 
 enum ReportStateType {
-  started,
-  inprogress,
-  complete,
-}
+  started('STARTED'),
+  inprogress('INPROGRESS'),
+  complete('COMPLETE'),
+  ;
 
-extension ReportStateTypeValueExtension on ReportStateType {
-  String toValue() {
-    switch (this) {
-      case ReportStateType.started:
-        return 'STARTED';
-      case ReportStateType.inprogress:
-        return 'INPROGRESS';
-      case ReportStateType.complete:
-        return 'COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension ReportStateTypeFromString on String {
-  ReportStateType toReportStateType() {
-    switch (this) {
-      case 'STARTED':
-        return ReportStateType.started;
-      case 'INPROGRESS':
-        return ReportStateType.inprogress;
-      case 'COMPLETE':
-        return ReportStateType.complete;
-    }
-    throw Exception('$this is not known in enum ReportStateType');
-  }
+  const ReportStateType(this.value);
+
+  static ReportStateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportStateType'));
 }
 
 class ResetServiceSpecificCredentialResponse {
@@ -15096,7 +14897,7 @@ class ResourceSpecificResult {
     return ResourceSpecificResult(
       evalResourceDecision: _s
           .extractXmlStringValue(elem, 'EvalResourceDecision')!
-          .toPolicyEvaluationDecisionType(),
+          .let(PolicyEvaluationDecisionType.fromString),
       evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
       evalDecisionDetails: Map.fromEntries(
         elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
@@ -15104,7 +14905,7 @@ class ResourceSpecificResult {
                     _s.extractXmlStringValue(c, 'key')!,
                     _s
                         .extractXmlStringValue(c, 'value')!
-                        .toPolicyEvaluationDecisionType(),
+                        .let(PolicyEvaluationDecisionType.fromString),
                   ),
                 ) ??
             {},
@@ -15453,7 +15254,8 @@ class SSHPublicKey {
       fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
       sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
       sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
@@ -15490,7 +15292,8 @@ class SSHPublicKeyMetadata {
   factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
     return SSHPublicKeyMetadata(
       sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
@@ -15739,7 +15542,8 @@ class ServiceSpecificCredential {
       serviceSpecificCredentialId:
           _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
       serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
@@ -15783,7 +15587,8 @@ class ServiceSpecificCredentialMetadata {
       serviceSpecificCredentialId:
           _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
       serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
@@ -15822,7 +15627,8 @@ class SigningCertificate {
     return SigningCertificate(
       certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
       certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
@@ -15899,7 +15705,7 @@ class Statement {
       sourcePolicyId: _s.extractXmlStringValue(elem, 'SourcePolicyId'),
       sourcePolicyType: _s
           .extractXmlStringValue(elem, 'SourcePolicyType')
-          ?.toPolicySourceType(),
+          ?.let(PolicySourceType.fromString),
       startPosition:
           _s.extractXmlChild(elem, 'StartPosition')?.let(Position.fromXml),
     );
@@ -16352,434 +16158,180 @@ class VirtualMFADevice {
 }
 
 enum AssignmentStatusType {
-  assigned,
-  unassigned,
-  any,
-}
+  assigned('Assigned'),
+  unassigned('Unassigned'),
+  any('Any'),
+  ;
 
-extension AssignmentStatusTypeValueExtension on AssignmentStatusType {
-  String toValue() {
-    switch (this) {
-      case AssignmentStatusType.assigned:
-        return 'Assigned';
-      case AssignmentStatusType.unassigned:
-        return 'Unassigned';
-      case AssignmentStatusType.any:
-        return 'Any';
-    }
-  }
-}
+  final String value;
 
-extension AssignmentStatusTypeFromString on String {
-  AssignmentStatusType toAssignmentStatusType() {
-    switch (this) {
-      case 'Assigned':
-        return AssignmentStatusType.assigned;
-      case 'Unassigned':
-        return AssignmentStatusType.unassigned;
-      case 'Any':
-        return AssignmentStatusType.any;
-    }
-    throw Exception('$this is not known in enum AssignmentStatusType');
-  }
+  const AssignmentStatusType(this.value);
+
+  static AssignmentStatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssignmentStatusType'));
 }
 
 enum EncodingType {
-  ssh,
-  pem,
-}
+  ssh('SSH'),
+  pem('PEM'),
+  ;
 
-extension EncodingTypeValueExtension on EncodingType {
-  String toValue() {
-    switch (this) {
-      case EncodingType.ssh:
-        return 'SSH';
-      case EncodingType.pem:
-        return 'PEM';
-    }
-  }
-}
+  final String value;
 
-extension EncodingTypeFromString on String {
-  EncodingType toEncodingType() {
-    switch (this) {
-      case 'SSH':
-        return EncodingType.ssh;
-      case 'PEM':
-        return EncodingType.pem;
-    }
-    throw Exception('$this is not known in enum EncodingType');
-  }
+  const EncodingType(this.value);
+
+  static EncodingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncodingType'));
 }
 
 enum GlobalEndpointTokenVersion {
-  v1Token,
-  v2Token,
-}
+  v1Token('v1Token'),
+  v2Token('v2Token'),
+  ;
 
-extension GlobalEndpointTokenVersionValueExtension
-    on GlobalEndpointTokenVersion {
-  String toValue() {
-    switch (this) {
-      case GlobalEndpointTokenVersion.v1Token:
-        return 'v1Token';
-      case GlobalEndpointTokenVersion.v2Token:
-        return 'v2Token';
-    }
-  }
-}
+  final String value;
 
-extension GlobalEndpointTokenVersionFromString on String {
-  GlobalEndpointTokenVersion toGlobalEndpointTokenVersion() {
-    switch (this) {
-      case 'v1Token':
-        return GlobalEndpointTokenVersion.v1Token;
-      case 'v2Token':
-        return GlobalEndpointTokenVersion.v2Token;
-    }
-    throw Exception('$this is not known in enum GlobalEndpointTokenVersion');
-  }
+  const GlobalEndpointTokenVersion(this.value);
+
+  static GlobalEndpointTokenVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GlobalEndpointTokenVersion'));
 }
 
 enum JobStatusType {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension JobStatusTypeValueExtension on JobStatusType {
-  String toValue() {
-    switch (this) {
-      case JobStatusType.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatusType.completed:
-        return 'COMPLETED';
-      case JobStatusType.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusTypeFromString on String {
-  JobStatusType toJobStatusType() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return JobStatusType.inProgress;
-      case 'COMPLETED':
-        return JobStatusType.completed;
-      case 'FAILED':
-        return JobStatusType.failed;
-    }
-    throw Exception('$this is not known in enum JobStatusType');
-  }
+  const JobStatusType(this.value);
+
+  static JobStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobStatusType'));
 }
 
 enum PolicyOwnerEntityType {
-  user,
-  role,
-  group,
-}
+  user('USER'),
+  role('ROLE'),
+  group('GROUP'),
+  ;
 
-extension PolicyOwnerEntityTypeValueExtension on PolicyOwnerEntityType {
-  String toValue() {
-    switch (this) {
-      case PolicyOwnerEntityType.user:
-        return 'USER';
-      case PolicyOwnerEntityType.role:
-        return 'ROLE';
-      case PolicyOwnerEntityType.group:
-        return 'GROUP';
-    }
-  }
-}
+  final String value;
 
-extension PolicyOwnerEntityTypeFromString on String {
-  PolicyOwnerEntityType toPolicyOwnerEntityType() {
-    switch (this) {
-      case 'USER':
-        return PolicyOwnerEntityType.user;
-      case 'ROLE':
-        return PolicyOwnerEntityType.role;
-      case 'GROUP':
-        return PolicyOwnerEntityType.group;
-    }
-    throw Exception('$this is not known in enum PolicyOwnerEntityType');
-  }
+  const PolicyOwnerEntityType(this.value);
+
+  static PolicyOwnerEntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PolicyOwnerEntityType'));
 }
 
 enum PolicyScopeType {
-  all,
-  aws,
-  local,
-}
+  all('All'),
+  aws('AWS'),
+  local('Local'),
+  ;
 
-extension PolicyScopeTypeValueExtension on PolicyScopeType {
-  String toValue() {
-    switch (this) {
-      case PolicyScopeType.all:
-        return 'All';
-      case PolicyScopeType.aws:
-        return 'AWS';
-      case PolicyScopeType.local:
-        return 'Local';
-    }
-  }
-}
+  final String value;
 
-extension PolicyScopeTypeFromString on String {
-  PolicyScopeType toPolicyScopeType() {
-    switch (this) {
-      case 'All':
-        return PolicyScopeType.all;
-      case 'AWS':
-        return PolicyScopeType.aws;
-      case 'Local':
-        return PolicyScopeType.local;
-    }
-    throw Exception('$this is not known in enum PolicyScopeType');
-  }
+  const PolicyScopeType(this.value);
+
+  static PolicyScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicyScopeType'));
 }
 
 enum PolicyType {
-  inline,
-  managed,
-}
+  inline('INLINE'),
+  managed('MANAGED'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.inline:
-        return 'INLINE';
-      case PolicyType.managed:
-        return 'MANAGED';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'INLINE':
-        return PolicyType.inline;
-      case 'MANAGED':
-        return PolicyType.managed;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 enum SortKeyType {
-  serviceNamespaceAscending,
-  serviceNamespaceDescending,
-  lastAuthenticatedTimeAscending,
-  lastAuthenticatedTimeDescending,
-}
+  serviceNamespaceAscending('SERVICE_NAMESPACE_ASCENDING'),
+  serviceNamespaceDescending('SERVICE_NAMESPACE_DESCENDING'),
+  lastAuthenticatedTimeAscending('LAST_AUTHENTICATED_TIME_ASCENDING'),
+  lastAuthenticatedTimeDescending('LAST_AUTHENTICATED_TIME_DESCENDING'),
+  ;
 
-extension SortKeyTypeValueExtension on SortKeyType {
-  String toValue() {
-    switch (this) {
-      case SortKeyType.serviceNamespaceAscending:
-        return 'SERVICE_NAMESPACE_ASCENDING';
-      case SortKeyType.serviceNamespaceDescending:
-        return 'SERVICE_NAMESPACE_DESCENDING';
-      case SortKeyType.lastAuthenticatedTimeAscending:
-        return 'LAST_AUTHENTICATED_TIME_ASCENDING';
-      case SortKeyType.lastAuthenticatedTimeDescending:
-        return 'LAST_AUTHENTICATED_TIME_DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortKeyTypeFromString on String {
-  SortKeyType toSortKeyType() {
-    switch (this) {
-      case 'SERVICE_NAMESPACE_ASCENDING':
-        return SortKeyType.serviceNamespaceAscending;
-      case 'SERVICE_NAMESPACE_DESCENDING':
-        return SortKeyType.serviceNamespaceDescending;
-      case 'LAST_AUTHENTICATED_TIME_ASCENDING':
-        return SortKeyType.lastAuthenticatedTimeAscending;
-      case 'LAST_AUTHENTICATED_TIME_DESCENDING':
-        return SortKeyType.lastAuthenticatedTimeDescending;
-    }
-    throw Exception('$this is not known in enum SortKeyType');
-  }
+  const SortKeyType(this.value);
+
+  static SortKeyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortKeyType'));
 }
 
 enum StatusType {
-  active,
-  inactive,
-}
+  active('Active'),
+  inactive('Inactive'),
+  ;
 
-extension StatusTypeValueExtension on StatusType {
-  String toValue() {
-    switch (this) {
-      case StatusType.active:
-        return 'Active';
-      case StatusType.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension StatusTypeFromString on String {
-  StatusType toStatusType() {
-    switch (this) {
-      case 'Active':
-        return StatusType.active;
-      case 'Inactive':
-        return StatusType.inactive;
-    }
-    throw Exception('$this is not known in enum StatusType');
-  }
+  const StatusType(this.value);
+
+  static StatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusType'));
 }
 
 enum SummaryKeyType {
-  users,
-  usersQuota,
-  groups,
-  groupsQuota,
-  serverCertificates,
-  serverCertificatesQuota,
-  userPolicySizeQuota,
-  groupPolicySizeQuota,
-  groupsPerUserQuota,
-  signingCertificatesPerUserQuota,
-  accessKeysPerUserQuota,
-  mFADevices,
-  mFADevicesInUse,
-  accountMFAEnabled,
-  accountAccessKeysPresent,
-  accountSigningCertificatesPresent,
-  attachedPoliciesPerGroupQuota,
-  attachedPoliciesPerRoleQuota,
-  attachedPoliciesPerUserQuota,
-  policies,
-  policiesQuota,
-  policySizeQuota,
-  policyVersionsInUse,
-  policyVersionsInUseQuota,
-  versionsPerPolicyQuota,
-  globalEndpointTokenVersion,
-}
+  users('Users'),
+  usersQuota('UsersQuota'),
+  groups('Groups'),
+  groupsQuota('GroupsQuota'),
+  serverCertificates('ServerCertificates'),
+  serverCertificatesQuota('ServerCertificatesQuota'),
+  userPolicySizeQuota('UserPolicySizeQuota'),
+  groupPolicySizeQuota('GroupPolicySizeQuota'),
+  groupsPerUserQuota('GroupsPerUserQuota'),
+  signingCertificatesPerUserQuota('SigningCertificatesPerUserQuota'),
+  accessKeysPerUserQuota('AccessKeysPerUserQuota'),
+  mFADevices('MFADevices'),
+  mFADevicesInUse('MFADevicesInUse'),
+  accountMFAEnabled('AccountMFAEnabled'),
+  accountAccessKeysPresent('AccountAccessKeysPresent'),
+  accountSigningCertificatesPresent('AccountSigningCertificatesPresent'),
+  attachedPoliciesPerGroupQuota('AttachedPoliciesPerGroupQuota'),
+  attachedPoliciesPerRoleQuota('AttachedPoliciesPerRoleQuota'),
+  attachedPoliciesPerUserQuota('AttachedPoliciesPerUserQuota'),
+  policies('Policies'),
+  policiesQuota('PoliciesQuota'),
+  policySizeQuota('PolicySizeQuota'),
+  policyVersionsInUse('PolicyVersionsInUse'),
+  policyVersionsInUseQuota('PolicyVersionsInUseQuota'),
+  versionsPerPolicyQuota('VersionsPerPolicyQuota'),
+  globalEndpointTokenVersion('GlobalEndpointTokenVersion'),
+  ;
 
-extension SummaryKeyTypeValueExtension on SummaryKeyType {
-  String toValue() {
-    switch (this) {
-      case SummaryKeyType.users:
-        return 'Users';
-      case SummaryKeyType.usersQuota:
-        return 'UsersQuota';
-      case SummaryKeyType.groups:
-        return 'Groups';
-      case SummaryKeyType.groupsQuota:
-        return 'GroupsQuota';
-      case SummaryKeyType.serverCertificates:
-        return 'ServerCertificates';
-      case SummaryKeyType.serverCertificatesQuota:
-        return 'ServerCertificatesQuota';
-      case SummaryKeyType.userPolicySizeQuota:
-        return 'UserPolicySizeQuota';
-      case SummaryKeyType.groupPolicySizeQuota:
-        return 'GroupPolicySizeQuota';
-      case SummaryKeyType.groupsPerUserQuota:
-        return 'GroupsPerUserQuota';
-      case SummaryKeyType.signingCertificatesPerUserQuota:
-        return 'SigningCertificatesPerUserQuota';
-      case SummaryKeyType.accessKeysPerUserQuota:
-        return 'AccessKeysPerUserQuota';
-      case SummaryKeyType.mFADevices:
-        return 'MFADevices';
-      case SummaryKeyType.mFADevicesInUse:
-        return 'MFADevicesInUse';
-      case SummaryKeyType.accountMFAEnabled:
-        return 'AccountMFAEnabled';
-      case SummaryKeyType.accountAccessKeysPresent:
-        return 'AccountAccessKeysPresent';
-      case SummaryKeyType.accountSigningCertificatesPresent:
-        return 'AccountSigningCertificatesPresent';
-      case SummaryKeyType.attachedPoliciesPerGroupQuota:
-        return 'AttachedPoliciesPerGroupQuota';
-      case SummaryKeyType.attachedPoliciesPerRoleQuota:
-        return 'AttachedPoliciesPerRoleQuota';
-      case SummaryKeyType.attachedPoliciesPerUserQuota:
-        return 'AttachedPoliciesPerUserQuota';
-      case SummaryKeyType.policies:
-        return 'Policies';
-      case SummaryKeyType.policiesQuota:
-        return 'PoliciesQuota';
-      case SummaryKeyType.policySizeQuota:
-        return 'PolicySizeQuota';
-      case SummaryKeyType.policyVersionsInUse:
-        return 'PolicyVersionsInUse';
-      case SummaryKeyType.policyVersionsInUseQuota:
-        return 'PolicyVersionsInUseQuota';
-      case SummaryKeyType.versionsPerPolicyQuota:
-        return 'VersionsPerPolicyQuota';
-      case SummaryKeyType.globalEndpointTokenVersion:
-        return 'GlobalEndpointTokenVersion';
-    }
-  }
-}
+  final String value;
 
-extension SummaryKeyTypeFromString on String {
-  SummaryKeyType toSummaryKeyType() {
-    switch (this) {
-      case 'Users':
-        return SummaryKeyType.users;
-      case 'UsersQuota':
-        return SummaryKeyType.usersQuota;
-      case 'Groups':
-        return SummaryKeyType.groups;
-      case 'GroupsQuota':
-        return SummaryKeyType.groupsQuota;
-      case 'ServerCertificates':
-        return SummaryKeyType.serverCertificates;
-      case 'ServerCertificatesQuota':
-        return SummaryKeyType.serverCertificatesQuota;
-      case 'UserPolicySizeQuota':
-        return SummaryKeyType.userPolicySizeQuota;
-      case 'GroupPolicySizeQuota':
-        return SummaryKeyType.groupPolicySizeQuota;
-      case 'GroupsPerUserQuota':
-        return SummaryKeyType.groupsPerUserQuota;
-      case 'SigningCertificatesPerUserQuota':
-        return SummaryKeyType.signingCertificatesPerUserQuota;
-      case 'AccessKeysPerUserQuota':
-        return SummaryKeyType.accessKeysPerUserQuota;
-      case 'MFADevices':
-        return SummaryKeyType.mFADevices;
-      case 'MFADevicesInUse':
-        return SummaryKeyType.mFADevicesInUse;
-      case 'AccountMFAEnabled':
-        return SummaryKeyType.accountMFAEnabled;
-      case 'AccountAccessKeysPresent':
-        return SummaryKeyType.accountAccessKeysPresent;
-      case 'AccountSigningCertificatesPresent':
-        return SummaryKeyType.accountSigningCertificatesPresent;
-      case 'AttachedPoliciesPerGroupQuota':
-        return SummaryKeyType.attachedPoliciesPerGroupQuota;
-      case 'AttachedPoliciesPerRoleQuota':
-        return SummaryKeyType.attachedPoliciesPerRoleQuota;
-      case 'AttachedPoliciesPerUserQuota':
-        return SummaryKeyType.attachedPoliciesPerUserQuota;
-      case 'Policies':
-        return SummaryKeyType.policies;
-      case 'PoliciesQuota':
-        return SummaryKeyType.policiesQuota;
-      case 'PolicySizeQuota':
-        return SummaryKeyType.policySizeQuota;
-      case 'PolicyVersionsInUse':
-        return SummaryKeyType.policyVersionsInUse;
-      case 'PolicyVersionsInUseQuota':
-        return SummaryKeyType.policyVersionsInUseQuota;
-      case 'VersionsPerPolicyQuota':
-        return SummaryKeyType.versionsPerPolicyQuota;
-      case 'GlobalEndpointTokenVersion':
-        return SummaryKeyType.globalEndpointTokenVersion;
-    }
-    throw Exception('$this is not known in enum SummaryKeyType');
-  }
+  const SummaryKeyType(this.value);
+
+  static SummaryKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SummaryKeyType'));
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

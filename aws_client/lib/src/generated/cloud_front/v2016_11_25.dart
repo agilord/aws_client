@@ -1286,7 +1286,7 @@ class AllowedMethods {
       items: _s
           .extractXmlStringListValues(
               _s.extractXmlChild(elem, 'Items')!, 'Method')
-          .map((s) => s.toMethod())
+          .map(Method.fromString)
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       cachedMethods:
@@ -1299,7 +1299,7 @@ class AllowedMethods {
     final quantity = this.quantity;
     final cachedMethods = this.cachedMethods;
     return {
-      'Items': items.map((e) => e.toValue()).toList(),
+      'Items': items.map((e) => e.value).toList(),
       'Quantity': quantity,
       if (cachedMethods != null) 'CachedMethods': cachedMethods,
     };
@@ -1312,7 +1312,7 @@ class AllowedMethods {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(_s.XmlName('Items'), [],
-          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
+          items.map((e) => _s.encodeXmlStringValue('Method', e.value))),
       if (cachedMethods != null) cachedMethods.toXml('CachedMethods'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -1568,7 +1568,7 @@ class CacheBehavior {
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .toViewerProtocolPolicy(),
+          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -1601,7 +1601,7 @@ class CacheBehavior {
       'PathPattern': pathPattern,
       'TargetOriginId': targetOriginId,
       'TrustedSigners': trustedSigners,
-      'ViewerProtocolPolicy': viewerProtocolPolicy.toValue(),
+      'ViewerProtocolPolicy': viewerProtocolPolicy.value,
       if (allowedMethods != null) 'AllowedMethods': allowedMethods,
       if (compress != null) 'Compress': compress,
       if (defaultTTL != null) 'DefaultTTL': defaultTTL,
@@ -1631,7 +1631,7 @@ class CacheBehavior {
       forwardedValues.toXml('ForwardedValues'),
       trustedSigners.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy.toValue()),
+          'ViewerProtocolPolicy', viewerProtocolPolicy.value),
       _s.encodeXmlIntValue('MinTTL', minTTL),
       if (allowedMethods != null) allowedMethods.toXml('AllowedMethods'),
       if (smoothStreaming != null)
@@ -1743,7 +1743,7 @@ class CachedMethods {
       items: _s
           .extractXmlStringListValues(
               _s.extractXmlChild(elem, 'Items')!, 'Method')
-          .map((s) => s.toMethod())
+          .map(Method.fromString)
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
     );
@@ -1753,7 +1753,7 @@ class CachedMethods {
     final items = this.items;
     final quantity = this.quantity;
     return {
-      'Items': items.map((e) => e.toValue()).toList(),
+      'Items': items.map((e) => e.value).toList(),
       'Quantity': quantity,
     };
   }
@@ -1764,7 +1764,7 @@ class CachedMethods {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(_s.XmlName('Items'), [],
-          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
+          items.map((e) => _s.encodeXmlStringValue('Method', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1778,36 +1778,19 @@ class CachedMethods {
 }
 
 enum CertificateSource {
-  cloudfront,
-  iam,
-  acm,
-}
+  cloudfront('cloudfront'),
+  iam('iam'),
+  acm('acm'),
+  ;
 
-extension CertificateSourceValueExtension on CertificateSource {
-  String toValue() {
-    switch (this) {
-      case CertificateSource.cloudfront:
-        return 'cloudfront';
-      case CertificateSource.iam:
-        return 'iam';
-      case CertificateSource.acm:
-        return 'acm';
-    }
-  }
-}
+  final String value;
 
-extension CertificateSourceFromString on String {
-  CertificateSource toCertificateSource() {
-    switch (this) {
-      case 'cloudfront':
-        return CertificateSource.cloudfront;
-      case 'iam':
-        return CertificateSource.iam;
-      case 'acm':
-        return CertificateSource.acm;
-    }
-    throw Exception('$this is not known in enum CertificateSource');
-  }
+  const CertificateSource(this.value);
+
+  static CertificateSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateSource'));
 }
 
 /// CloudFront origin access identity.
@@ -2182,7 +2165,9 @@ class CookiePreference {
   });
   factory CookiePreference.fromXml(_s.XmlElement elem) {
     return CookiePreference(
-      forward: _s.extractXmlStringValue(elem, 'Forward')!.toItemSelection(),
+      forward: _s
+          .extractXmlStringValue(elem, 'Forward')!
+          .let(ItemSelection.fromString) /* Nullability(true, false) */,
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
           ?.let(CookieNames.fromXml),
@@ -2193,7 +2178,7 @@ class CookiePreference {
     final forward = this.forward;
     final whitelistedNames = this.whitelistedNames;
     return {
-      'Forward': forward.toValue(),
+      'Forward': forward.value,
       if (whitelistedNames != null) 'WhitelistedNames': whitelistedNames,
     };
   }
@@ -2202,7 +2187,7 @@ class CookiePreference {
     final forward = this.forward;
     final whitelistedNames = this.whitelistedNames;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Forward', forward.toValue()),
+      _s.encodeXmlStringValue('Forward', forward.value),
       if (whitelistedNames != null) whitelistedNames.toXml('WhitelistedNames'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -2681,7 +2666,7 @@ class CustomOriginConfig {
       hTTPSPort: _s.extractXmlIntValue(elem, 'HTTPSPort')!,
       originProtocolPolicy: _s
           .extractXmlStringValue(elem, 'OriginProtocolPolicy')!
-          .toOriginProtocolPolicy(),
+          .let(OriginProtocolPolicy.fromString) /* Nullability(true, false) */,
       originSslProtocols: _s
           .extractXmlChild(elem, 'OriginSslProtocols')
           ?.let(OriginSslProtocols.fromXml),
@@ -2696,7 +2681,7 @@ class CustomOriginConfig {
     return {
       'HTTPPort': hTTPPort,
       'HTTPSPort': hTTPSPort,
-      'OriginProtocolPolicy': originProtocolPolicy.toValue(),
+      'OriginProtocolPolicy': originProtocolPolicy.value,
       if (originSslProtocols != null) 'OriginSslProtocols': originSslProtocols,
     };
   }
@@ -2710,7 +2695,7 @@ class CustomOriginConfig {
       _s.encodeXmlIntValue('HTTPPort', hTTPPort),
       _s.encodeXmlIntValue('HTTPSPort', hTTPSPort),
       _s.encodeXmlStringValue(
-          'OriginProtocolPolicy', originProtocolPolicy.toValue()),
+          'OriginProtocolPolicy', originProtocolPolicy.value),
       if (originSslProtocols != null)
         originSslProtocols.toXml('OriginSslProtocols'),
     ];
@@ -2869,7 +2854,7 @@ class DefaultCacheBehavior {
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .toViewerProtocolPolicy(),
+          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -2900,7 +2885,7 @@ class DefaultCacheBehavior {
       'MinTTL': minTTL,
       'TargetOriginId': targetOriginId,
       'TrustedSigners': trustedSigners,
-      'ViewerProtocolPolicy': viewerProtocolPolicy.toValue(),
+      'ViewerProtocolPolicy': viewerProtocolPolicy.value,
       if (allowedMethods != null) 'AllowedMethods': allowedMethods,
       if (compress != null) 'Compress': compress,
       if (defaultTTL != null) 'DefaultTTL': defaultTTL,
@@ -2928,7 +2913,7 @@ class DefaultCacheBehavior {
       forwardedValues.toXml('ForwardedValues'),
       trustedSigners.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy.toValue()),
+          'ViewerProtocolPolicy', viewerProtocolPolicy.value),
       _s.encodeXmlIntValue('MinTTL', minTTL),
       if (allowedMethods != null) allowedMethods.toXml('AllowedMethods'),
       if (smoothStreaming != null)
@@ -3301,11 +3286,14 @@ class DistributionConfig {
           .extractXmlChild(elem, 'CustomErrorResponses')
           ?.let(CustomErrorResponses.fromXml),
       defaultRootObject: _s.extractXmlStringValue(elem, 'DefaultRootObject'),
-      httpVersion:
-          _s.extractXmlStringValue(elem, 'HttpVersion')?.toHttpVersion(),
+      httpVersion: _s
+          .extractXmlStringValue(elem, 'HttpVersion')
+          ?.let(HttpVersion.fromString) /* Nullability(true, true) */,
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
       logging: _s.extractXmlChild(elem, 'Logging')?.let(LoggingConfig.fromXml),
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
+      priceClass: _s
+          .extractXmlStringValue(elem, 'PriceClass')
+          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
       restrictions:
           _s.extractXmlChild(elem, 'Restrictions')?.let(Restrictions.fromXml),
       viewerCertificate: _s
@@ -3343,10 +3331,10 @@ class DistributionConfig {
       if (customErrorResponses != null)
         'CustomErrorResponses': customErrorResponses,
       if (defaultRootObject != null) 'DefaultRootObject': defaultRootObject,
-      if (httpVersion != null) 'HttpVersion': httpVersion.toValue(),
+      if (httpVersion != null) 'HttpVersion': httpVersion.value,
       if (isIPV6Enabled != null) 'IsIPV6Enabled': isIPV6Enabled,
       if (logging != null) 'Logging': logging,
-      if (priceClass != null) 'PriceClass': priceClass.toValue(),
+      if (priceClass != null) 'PriceClass': priceClass.value,
       if (restrictions != null) 'Restrictions': restrictions,
       if (viewerCertificate != null) 'ViewerCertificate': viewerCertificate,
       if (webACLId != null) 'WebACLId': webACLId,
@@ -3383,14 +3371,14 @@ class DistributionConfig {
       _s.encodeXmlStringValue('Comment', comment),
       if (logging != null) logging.toXml('Logging'),
       if (priceClass != null)
-        _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
+        _s.encodeXmlStringValue('PriceClass', priceClass.value),
       _s.encodeXmlBoolValue('Enabled', enabled),
       if (viewerCertificate != null)
         viewerCertificate.toXml('ViewerCertificate'),
       if (restrictions != null) restrictions.toXml('Restrictions'),
       if (webACLId != null) _s.encodeXmlStringValue('WebACLId', webACLId),
       if (httpVersion != null)
-        _s.encodeXmlStringValue('HttpVersion', httpVersion.toValue()),
+        _s.encodeXmlStringValue('HttpVersion', httpVersion.value),
       if (isIPV6Enabled != null)
         _s.encodeXmlBoolValue('IsIPV6Enabled', isIPV6Enabled),
     ];
@@ -3632,13 +3620,16 @@ class DistributionSummary {
           _s.extractXmlChild(elem, 'DefaultCacheBehavior')!),
       domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
-      httpVersion:
-          _s.extractXmlStringValue(elem, 'HttpVersion')!.toHttpVersion(),
+      httpVersion: _s
+          .extractXmlStringValue(elem, 'HttpVersion')!
+          .let(HttpVersion.fromString) /* Nullability(true, false) */,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled')!,
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')!.toPriceClass(),
+      priceClass: _s
+          .extractXmlStringValue(elem, 'PriceClass')!
+          .let(PriceClass.fromString) /* Nullability(true, false) */,
       restrictions:
           Restrictions.fromXml(_s.extractXmlChild(elem, 'Restrictions')!),
       status: _s.extractXmlStringValue(elem, 'Status')!,
@@ -3676,12 +3667,12 @@ class DistributionSummary {
       'DefaultCacheBehavior': defaultCacheBehavior,
       'DomainName': domainName,
       'Enabled': enabled,
-      'HttpVersion': httpVersion.toValue(),
+      'HttpVersion': httpVersion.value,
       'Id': id,
       'IsIPV6Enabled': isIPV6Enabled,
       'LastModifiedTime': iso8601ToJson(lastModifiedTime),
       'Origins': origins,
-      'PriceClass': priceClass.toValue(),
+      'PriceClass': priceClass.value,
       'Restrictions': restrictions,
       'Status': status,
       'ViewerCertificate': viewerCertificate,
@@ -3691,41 +3682,19 @@ class DistributionSummary {
 }
 
 enum EventType {
-  viewerRequest,
-  viewerResponse,
-  originRequest,
-  originResponse,
-}
+  viewerRequest('viewer-request'),
+  viewerResponse('viewer-response'),
+  originRequest('origin-request'),
+  originResponse('origin-response'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.viewerRequest:
-        return 'viewer-request';
-      case EventType.viewerResponse:
-        return 'viewer-response';
-      case EventType.originRequest:
-        return 'origin-request';
-      case EventType.originResponse:
-        return 'origin-response';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'viewer-request':
-        return EventType.viewerRequest;
-      case 'viewer-response':
-        return EventType.viewerResponse;
-      case 'origin-request':
-        return EventType.originRequest;
-      case 'origin-response':
-        return EventType.originResponse;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// A complex type that specifies how CloudFront handles query strings and
@@ -3885,7 +3854,7 @@ class GeoRestriction {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       restrictionType: _s
           .extractXmlStringValue(elem, 'RestrictionType')!
-          .toGeoRestrictionType(),
+          .let(GeoRestrictionType.fromString) /* Nullability(true, false) */,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Location')),
@@ -3898,7 +3867,7 @@ class GeoRestriction {
     final items = this.items;
     return {
       'Quantity': quantity,
-      'RestrictionType': restrictionType.toValue(),
+      'RestrictionType': restrictionType.value,
       if (items != null) 'Items': items,
     };
   }
@@ -3908,7 +3877,7 @@ class GeoRestriction {
     final restrictionType = this.restrictionType;
     final items = this.items;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('RestrictionType', restrictionType.toValue()),
+      _s.encodeXmlStringValue('RestrictionType', restrictionType.value),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
@@ -3926,36 +3895,19 @@ class GeoRestriction {
 }
 
 enum GeoRestrictionType {
-  blacklist,
-  whitelist,
-  none,
-}
+  blacklist('blacklist'),
+  whitelist('whitelist'),
+  none('none'),
+  ;
 
-extension GeoRestrictionTypeValueExtension on GeoRestrictionType {
-  String toValue() {
-    switch (this) {
-      case GeoRestrictionType.blacklist:
-        return 'blacklist';
-      case GeoRestrictionType.whitelist:
-        return 'whitelist';
-      case GeoRestrictionType.none:
-        return 'none';
-    }
-  }
-}
+  final String value;
 
-extension GeoRestrictionTypeFromString on String {
-  GeoRestrictionType toGeoRestrictionType() {
-    switch (this) {
-      case 'blacklist':
-        return GeoRestrictionType.blacklist;
-      case 'whitelist':
-        return GeoRestrictionType.whitelist;
-      case 'none':
-        return GeoRestrictionType.none;
-    }
-    throw Exception('$this is not known in enum GeoRestrictionType');
-  }
+  const GeoRestrictionType(this.value);
+
+  static GeoRestrictionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GeoRestrictionType'));
 }
 
 /// The returned result of the corresponding request.
@@ -4216,31 +4168,17 @@ class Headers {
 }
 
 enum HttpVersion {
-  http1_1,
-  http2,
-}
+  http1_1('http1.1'),
+  http2('http2'),
+  ;
 
-extension HttpVersionValueExtension on HttpVersion {
-  String toValue() {
-    switch (this) {
-      case HttpVersion.http1_1:
-        return 'http1.1';
-      case HttpVersion.http2:
-        return 'http2';
-    }
-  }
-}
+  final String value;
 
-extension HttpVersionFromString on String {
-  HttpVersion toHttpVersion() {
-    switch (this) {
-      case 'http1.1':
-        return HttpVersion.http1_1;
-      case 'http2':
-        return HttpVersion.http2;
-    }
-    throw Exception('$this is not known in enum HttpVersion');
-  }
+  const HttpVersion(this.value);
+
+  static HttpVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HttpVersion'));
 }
 
 /// Origin and <code>CallerReference</code> cannot be updated.
@@ -4946,36 +4884,19 @@ class InvalidationSummary {
 }
 
 enum ItemSelection {
-  none,
-  whitelist,
-  all,
-}
+  none('none'),
+  whitelist('whitelist'),
+  all('all'),
+  ;
 
-extension ItemSelectionValueExtension on ItemSelection {
-  String toValue() {
-    switch (this) {
-      case ItemSelection.none:
-        return 'none';
-      case ItemSelection.whitelist:
-        return 'whitelist';
-      case ItemSelection.all:
-        return 'all';
-    }
-  }
-}
+  final String value;
 
-extension ItemSelectionFromString on String {
-  ItemSelection toItemSelection() {
-    switch (this) {
-      case 'none':
-        return ItemSelection.none;
-      case 'whitelist':
-        return ItemSelection.whitelist;
-      case 'all':
-        return ItemSelection.all;
-    }
-    throw Exception('$this is not known in enum ItemSelection');
-  }
+  const ItemSelection(this.value);
+
+  static ItemSelection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ItemSelection'));
 }
 
 /// A complex type that lists the active CloudFront key pairs, if any, that are
@@ -5047,7 +4968,9 @@ class LambdaFunctionAssociation {
   });
   factory LambdaFunctionAssociation.fromXml(_s.XmlElement elem) {
     return LambdaFunctionAssociation(
-      eventType: _s.extractXmlStringValue(elem, 'EventType')?.toEventType(),
+      eventType: _s
+          .extractXmlStringValue(elem, 'EventType')
+          ?.let(EventType.fromString) /* Nullability(true, true) */,
       lambdaFunctionARN: _s.extractXmlStringValue(elem, 'LambdaFunctionARN'),
     );
   }
@@ -5056,7 +4979,7 @@ class LambdaFunctionAssociation {
     final eventType = this.eventType;
     final lambdaFunctionARN = this.lambdaFunctionARN;
     return {
-      if (eventType != null) 'EventType': eventType.toValue(),
+      if (eventType != null) 'EventType': eventType.value,
       if (lambdaFunctionARN != null) 'LambdaFunctionARN': lambdaFunctionARN,
     };
   }
@@ -5068,7 +4991,7 @@ class LambdaFunctionAssociation {
       if (lambdaFunctionARN != null)
         _s.encodeXmlStringValue('LambdaFunctionARN', lambdaFunctionARN),
       if (eventType != null)
-        _s.encodeXmlStringValue('EventType', eventType.toValue()),
+        _s.encodeXmlStringValue('EventType', eventType.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5337,84 +5260,37 @@ class LoggingConfig {
 }
 
 enum Method {
-  get,
-  head,
-  post,
-  put,
-  patch,
-  options,
-  delete,
-}
+  get('GET'),
+  head('HEAD'),
+  post('POST'),
+  put('PUT'),
+  patch('PATCH'),
+  options('OPTIONS'),
+  delete('DELETE'),
+  ;
 
-extension MethodValueExtension on Method {
-  String toValue() {
-    switch (this) {
-      case Method.get:
-        return 'GET';
-      case Method.head:
-        return 'HEAD';
-      case Method.post:
-        return 'POST';
-      case Method.put:
-        return 'PUT';
-      case Method.patch:
-        return 'PATCH';
-      case Method.options:
-        return 'OPTIONS';
-      case Method.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension MethodFromString on String {
-  Method toMethod() {
-    switch (this) {
-      case 'GET':
-        return Method.get;
-      case 'HEAD':
-        return Method.head;
-      case 'POST':
-        return Method.post;
-      case 'PUT':
-        return Method.put;
-      case 'PATCH':
-        return Method.patch;
-      case 'OPTIONS':
-        return Method.options;
-      case 'DELETE':
-        return Method.delete;
-    }
-    throw Exception('$this is not known in enum Method');
-  }
+  const Method(this.value);
+
+  static Method fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Method'));
 }
 
 enum MinimumProtocolVersion {
-  sSLv3,
-  tLSv1,
-}
+  sSLv3('SSLv3'),
+  tLSv1('TLSv1'),
+  ;
 
-extension MinimumProtocolVersionValueExtension on MinimumProtocolVersion {
-  String toValue() {
-    switch (this) {
-      case MinimumProtocolVersion.sSLv3:
-        return 'SSLv3';
-      case MinimumProtocolVersion.tLSv1:
-        return 'TLSv1';
-    }
-  }
-}
+  final String value;
 
-extension MinimumProtocolVersionFromString on String {
-  MinimumProtocolVersion toMinimumProtocolVersion() {
-    switch (this) {
-      case 'SSLv3':
-        return MinimumProtocolVersion.sSLv3;
-      case 'TLSv1':
-        return MinimumProtocolVersion.tLSv1;
-    }
-    throw Exception('$this is not known in enum MinimumProtocolVersion');
-  }
+  const MinimumProtocolVersion(this.value);
+
+  static MinimumProtocolVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MinimumProtocolVersion'));
 }
 
 /// This operation requires a body. Ensure that the body is present and the
@@ -5790,36 +5666,19 @@ class OriginCustomHeader {
 }
 
 enum OriginProtocolPolicy {
-  httpOnly,
-  matchViewer,
-  httpsOnly,
-}
+  httpOnly('http-only'),
+  matchViewer('match-viewer'),
+  httpsOnly('https-only'),
+  ;
 
-extension OriginProtocolPolicyValueExtension on OriginProtocolPolicy {
-  String toValue() {
-    switch (this) {
-      case OriginProtocolPolicy.httpOnly:
-        return 'http-only';
-      case OriginProtocolPolicy.matchViewer:
-        return 'match-viewer';
-      case OriginProtocolPolicy.httpsOnly:
-        return 'https-only';
-    }
-  }
-}
+  final String value;
 
-extension OriginProtocolPolicyFromString on String {
-  OriginProtocolPolicy toOriginProtocolPolicy() {
-    switch (this) {
-      case 'http-only':
-        return OriginProtocolPolicy.httpOnly;
-      case 'match-viewer':
-        return OriginProtocolPolicy.matchViewer;
-      case 'https-only':
-        return OriginProtocolPolicy.httpsOnly;
-    }
-    throw Exception('$this is not known in enum OriginProtocolPolicy');
-  }
+  const OriginProtocolPolicy(this.value);
+
+  static OriginProtocolPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OriginProtocolPolicy'));
 }
 
 /// A complex type that contains information about the SSL/TLS protocols that
@@ -5841,7 +5700,7 @@ class OriginSslProtocols {
       items: _s
           .extractXmlStringListValues(
               _s.extractXmlChild(elem, 'Items')!, 'SslProtocol')
-          .map((s) => s.toSslProtocol())
+          .map(SslProtocol.fromString)
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
     );
@@ -5851,7 +5710,7 @@ class OriginSslProtocols {
     final items = this.items;
     final quantity = this.quantity;
     return {
-      'Items': items.map((e) => e.toValue()).toList(),
+      'Items': items.map((e) => e.value).toList(),
       'Quantity': quantity,
     };
   }
@@ -5861,11 +5720,8 @@ class OriginSslProtocols {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(
-          _s.XmlName('Items'),
-          [],
-          items
-              .map((e) => _s.encodeXmlStringValue('SslProtocol', e.toValue()))),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('SslProtocol', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6006,36 +5862,18 @@ class PreconditionFailed implements _s.AwsException {
 }
 
 enum PriceClass {
-  priceClass_100,
-  priceClass_200,
-  priceClassAll,
-}
+  priceClass_100('PriceClass_100'),
+  priceClass_200('PriceClass_200'),
+  priceClassAll('PriceClass_All'),
+  ;
 
-extension PriceClassValueExtension on PriceClass {
-  String toValue() {
-    switch (this) {
-      case PriceClass.priceClass_100:
-        return 'PriceClass_100';
-      case PriceClass.priceClass_200:
-        return 'PriceClass_200';
-      case PriceClass.priceClassAll:
-        return 'PriceClass_All';
-    }
-  }
-}
+  final String value;
 
-extension PriceClassFromString on String {
-  PriceClass toPriceClass() {
-    switch (this) {
-      case 'PriceClass_100':
-        return PriceClass.priceClass_100;
-      case 'PriceClass_200':
-        return PriceClass.priceClass_200;
-      case 'PriceClass_All':
-        return PriceClass.priceClassAll;
-    }
-    throw Exception('$this is not known in enum PriceClass');
-  }
+  const PriceClass(this.value);
+
+  static PriceClass fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PriceClass'));
 }
 
 class QueryStringCacheKeys {
@@ -6261,31 +6099,18 @@ class S3OriginConfig {
 }
 
 enum SSLSupportMethod {
-  sniOnly,
-  vip,
-}
+  sniOnly('sni-only'),
+  vip('vip'),
+  ;
 
-extension SSLSupportMethodValueExtension on SSLSupportMethod {
-  String toValue() {
-    switch (this) {
-      case SSLSupportMethod.sniOnly:
-        return 'sni-only';
-      case SSLSupportMethod.vip:
-        return 'vip';
-    }
-  }
-}
+  final String value;
 
-extension SSLSupportMethodFromString on String {
-  SSLSupportMethod toSSLSupportMethod() {
-    switch (this) {
-      case 'sni-only':
-        return SSLSupportMethod.sniOnly;
-      case 'vip':
-        return SSLSupportMethod.vip;
-    }
-    throw Exception('$this is not known in enum SSLSupportMethod');
-  }
+  const SSLSupportMethod(this.value);
+
+  static SSLSupportMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SSLSupportMethod'));
 }
 
 /// A complex type that lists the AWS accounts that were included in the
@@ -6332,41 +6157,19 @@ class Signer {
 }
 
 enum SslProtocol {
-  sSLv3,
-  tLSv1,
-  tLSv1_1,
-  tLSv1_2,
-}
+  sSLv3('SSLv3'),
+  tLSv1('TLSv1'),
+  tLSv1_1('TLSv1.1'),
+  tLSv1_2('TLSv1.2'),
+  ;
 
-extension SslProtocolValueExtension on SslProtocol {
-  String toValue() {
-    switch (this) {
-      case SslProtocol.sSLv3:
-        return 'SSLv3';
-      case SslProtocol.tLSv1:
-        return 'TLSv1';
-      case SslProtocol.tLSv1_1:
-        return 'TLSv1.1';
-      case SslProtocol.tLSv1_2:
-        return 'TLSv1.2';
-    }
-  }
-}
+  final String value;
 
-extension SslProtocolFromString on String {
-  SslProtocol toSslProtocol() {
-    switch (this) {
-      case 'SSLv3':
-        return SslProtocol.sSLv3;
-      case 'TLSv1':
-        return SslProtocol.tLSv1;
-      case 'TLSv1.1':
-        return SslProtocol.tLSv1_1;
-      case 'TLSv1.2':
-        return SslProtocol.tLSv1_2;
-    }
-    throw Exception('$this is not known in enum SslProtocol');
-  }
+  const SslProtocol(this.value);
+
+  static SslProtocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SslProtocol'));
 }
 
 /// A streaming distribution.
@@ -6544,7 +6347,9 @@ class StreamingDistributionConfig {
       logging: _s
           .extractXmlChild(elem, 'Logging')
           ?.let(StreamingLoggingConfig.fromXml),
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
+      priceClass: _s
+          .extractXmlStringValue(elem, 'PriceClass')
+          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -6565,7 +6370,7 @@ class StreamingDistributionConfig {
       'TrustedSigners': trustedSigners,
       if (aliases != null) 'Aliases': aliases,
       if (logging != null) 'Logging': logging,
-      if (priceClass != null) 'PriceClass': priceClass.toValue(),
+      if (priceClass != null) 'PriceClass': priceClass.value,
     };
   }
 
@@ -6586,7 +6391,7 @@ class StreamingDistributionConfig {
       if (logging != null) logging.toXml('Logging'),
       trustedSigners.toXml('TrustedSigners'),
       if (priceClass != null)
-        _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
+        _s.encodeXmlStringValue('PriceClass', priceClass.value),
       _s.encodeXmlBoolValue('Enabled', enabled),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -6804,7 +6609,9 @@ class StreamingDistributionSummary {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')!.toPriceClass(),
+      priceClass: _s
+          .extractXmlStringValue(elem, 'PriceClass')!
+          .let(PriceClass.fromString) /* Nullability(true, false) */,
       s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
       status: _s.extractXmlStringValue(elem, 'Status')!,
       trustedSigners:
@@ -6832,7 +6639,7 @@ class StreamingDistributionSummary {
       'Enabled': enabled,
       'Id': id,
       'LastModifiedTime': iso8601ToJson(lastModifiedTime),
-      'PriceClass': priceClass.toValue(),
+      'PriceClass': priceClass.value,
       'S3Origin': s3Origin,
       'Status': status,
       'TrustedSigners': trustedSigners,
@@ -7795,16 +7602,17 @@ class ViewerCertificate {
       certificate: _s.extractXmlStringValue(elem, 'Certificate'),
       certificateSource: _s
           .extractXmlStringValue(elem, 'CertificateSource')
-          ?.toCertificateSource(),
+          ?.let(CertificateSource.fromString) /* Nullability(true, true) */,
       cloudFrontDefaultCertificate:
           _s.extractXmlBoolValue(elem, 'CloudFrontDefaultCertificate'),
       iAMCertificateId: _s.extractXmlStringValue(elem, 'IAMCertificateId'),
       minimumProtocolVersion: _s
           .extractXmlStringValue(elem, 'MinimumProtocolVersion')
-          ?.toMinimumProtocolVersion(),
+          ?.let(
+              MinimumProtocolVersion.fromString) /* Nullability(true, true) */,
       sSLSupportMethod: _s
           .extractXmlStringValue(elem, 'SSLSupportMethod')
-          ?.toSSLSupportMethod(),
+          ?.let(SSLSupportMethod.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -7820,14 +7628,13 @@ class ViewerCertificate {
       if (aCMCertificateArn != null) 'ACMCertificateArn': aCMCertificateArn,
       if (certificate != null) 'Certificate': certificate,
       if (certificateSource != null)
-        'CertificateSource': certificateSource.toValue(),
+        'CertificateSource': certificateSource.value,
       if (cloudFrontDefaultCertificate != null)
         'CloudFrontDefaultCertificate': cloudFrontDefaultCertificate,
       if (iAMCertificateId != null) 'IAMCertificateId': iAMCertificateId,
       if (minimumProtocolVersion != null)
-        'MinimumProtocolVersion': minimumProtocolVersion.toValue(),
-      if (sSLSupportMethod != null)
-        'SSLSupportMethod': sSLSupportMethod.toValue(),
+        'MinimumProtocolVersion': minimumProtocolVersion.value,
+      if (sSLSupportMethod != null) 'SSLSupportMethod': sSLSupportMethod.value,
     };
   }
 
@@ -7848,15 +7655,14 @@ class ViewerCertificate {
       if (aCMCertificateArn != null)
         _s.encodeXmlStringValue('ACMCertificateArn', aCMCertificateArn),
       if (sSLSupportMethod != null)
-        _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod.toValue()),
+        _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod.value),
       if (minimumProtocolVersion != null)
         _s.encodeXmlStringValue(
-            'MinimumProtocolVersion', minimumProtocolVersion.toValue()),
+            'MinimumProtocolVersion', minimumProtocolVersion.value),
       if (certificate != null)
         _s.encodeXmlStringValue('Certificate', certificate),
       if (certificateSource != null)
-        _s.encodeXmlStringValue(
-            'CertificateSource', certificateSource.toValue()),
+        _s.encodeXmlStringValue('CertificateSource', certificateSource.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7870,36 +7676,19 @@ class ViewerCertificate {
 }
 
 enum ViewerProtocolPolicy {
-  allowAll,
-  httpsOnly,
-  redirectToHttps,
-}
+  allowAll('allow-all'),
+  httpsOnly('https-only'),
+  redirectToHttps('redirect-to-https'),
+  ;
 
-extension ViewerProtocolPolicyValueExtension on ViewerProtocolPolicy {
-  String toValue() {
-    switch (this) {
-      case ViewerProtocolPolicy.allowAll:
-        return 'allow-all';
-      case ViewerProtocolPolicy.httpsOnly:
-        return 'https-only';
-      case ViewerProtocolPolicy.redirectToHttps:
-        return 'redirect-to-https';
-    }
-  }
-}
+  final String value;
 
-extension ViewerProtocolPolicyFromString on String {
-  ViewerProtocolPolicy toViewerProtocolPolicy() {
-    switch (this) {
-      case 'allow-all':
-        return ViewerProtocolPolicy.allowAll;
-      case 'https-only':
-        return ViewerProtocolPolicy.httpsOnly;
-      case 'redirect-to-https':
-        return ViewerProtocolPolicy.redirectToHttps;
-    }
-    throw Exception('$this is not known in enum ViewerProtocolPolicy');
-  }
+  const ViewerProtocolPolicy(this.value);
+
+  static ViewerProtocolPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ViewerProtocolPolicy'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

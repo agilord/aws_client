@@ -306,7 +306,7 @@ class LexModelsV2 {
       'roleArn': roleArn,
       if (botMembers != null) 'botMembers': botMembers,
       if (botTags != null) 'botTags': botTags,
-      if (botType != null) 'botType': botType.toValue(),
+      if (botType != null) 'botType': botType.value,
       if (description != null) 'description': description,
       if (testBotAliasTags != null) 'testBotAliasTags': testBotAliasTags,
     };
@@ -605,7 +605,7 @@ class LexModelsV2 {
     String? filePassword,
   }) async {
     final $payload = <String, dynamic>{
-      'fileFormat': fileFormat.toValue(),
+      'fileFormat': fileFormat.value,
       'resourceSpecification': resourceSpecification,
       if (filePassword != null) 'filePassword': filePassword,
     };
@@ -934,7 +934,7 @@ class LexModelsV2 {
     };
     final $payload = <String, dynamic>{
       'action': action,
-      'effect': effect.toValue(),
+      'effect': effect.value,
       'principal': principal,
       'statementId': statementId,
       if (condition != null) 'condition': condition,
@@ -4656,7 +4656,7 @@ class LexModelsV2 {
       'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextIndex != null) 'nextIndex': nextIndex,
-      if (searchOrder != null) 'searchOrder': searchOrder.toValue(),
+      if (searchOrder != null) 'searchOrder': searchOrder.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4808,7 +4808,7 @@ class LexModelsV2 {
   }) async {
     final $payload = <String, dynamic>{
       'importId': importId,
-      'mergeStrategy': mergeStrategy.toValue(),
+      'mergeStrategy': mergeStrategy.value,
       'resourceSpecification': resourceSpecification,
       if (filePassword != null) 'filePassword': filePassword,
     };
@@ -4851,10 +4851,10 @@ class LexModelsV2 {
     TestExecutionModality? testExecutionModality,
   }) async {
     final $payload = <String, dynamic>{
-      'apiMode': apiMode.toValue(),
+      'apiMode': apiMode.value,
       'target': target,
       if (testExecutionModality != null)
-        'testExecutionModality': testExecutionModality.toValue(),
+        'testExecutionModality': testExecutionModality.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5090,7 +5090,7 @@ class LexModelsV2 {
       'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       'roleArn': roleArn,
       if (botMembers != null) 'botMembers': botMembers,
-      if (botType != null) 'botType': botType.toValue(),
+      if (botType != null) 'botType': botType.value,
       if (description != null) 'description': description,
     };
     final response = await _protocol.send(
@@ -5752,7 +5752,7 @@ class AdvancedRecognitionSetting {
   factory AdvancedRecognitionSetting.fromJson(Map<String, dynamic> json) {
     return AdvancedRecognitionSetting(
       audioRecognitionStrategy: (json['audioRecognitionStrategy'] as String?)
-          ?.toAudioRecognitionStrategy(),
+          ?.let(AudioRecognitionStrategy.fromString),
     );
   }
 
@@ -5760,7 +5760,7 @@ class AdvancedRecognitionSetting {
     final audioRecognitionStrategy = this.audioRecognitionStrategy;
     return {
       if (audioRecognitionStrategy != null)
-        'audioRecognitionStrategy': audioRecognitionStrategy.toValue(),
+        'audioRecognitionStrategy': audioRecognitionStrategy.value,
     };
   }
 }
@@ -5867,96 +5867,55 @@ class AggregatedUtterancesFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AggregatedUtterancesFilterName {
-  utterance,
-}
+  utterance('Utterance'),
+  ;
 
-extension AggregatedUtterancesFilterNameValueExtension
-    on AggregatedUtterancesFilterName {
-  String toValue() {
-    switch (this) {
-      case AggregatedUtterancesFilterName.utterance:
-        return 'Utterance';
-    }
-  }
-}
+  final String value;
 
-extension AggregatedUtterancesFilterNameFromString on String {
-  AggregatedUtterancesFilterName toAggregatedUtterancesFilterName() {
-    switch (this) {
-      case 'Utterance':
-        return AggregatedUtterancesFilterName.utterance;
-    }
-    throw Exception(
-        '$this is not known in enum AggregatedUtterancesFilterName');
-  }
+  const AggregatedUtterancesFilterName(this.value);
+
+  static AggregatedUtterancesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregatedUtterancesFilterName'));
 }
 
 enum AggregatedUtterancesFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension AggregatedUtterancesFilterOperatorValueExtension
-    on AggregatedUtterancesFilterOperator {
-  String toValue() {
-    switch (this) {
-      case AggregatedUtterancesFilterOperator.co:
-        return 'CO';
-      case AggregatedUtterancesFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension AggregatedUtterancesFilterOperatorFromString on String {
-  AggregatedUtterancesFilterOperator toAggregatedUtterancesFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return AggregatedUtterancesFilterOperator.co;
-      case 'EQ':
-        return AggregatedUtterancesFilterOperator.eq;
-    }
-    throw Exception(
-        '$this is not known in enum AggregatedUtterancesFilterOperator');
-  }
+  const AggregatedUtterancesFilterOperator(this.value);
+
+  static AggregatedUtterancesFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregatedUtterancesFilterOperator'));
 }
 
 enum AggregatedUtterancesSortAttribute {
-  hitCount,
-  missedCount,
-}
+  hitCount('HitCount'),
+  missedCount('MissedCount'),
+  ;
 
-extension AggregatedUtterancesSortAttributeValueExtension
-    on AggregatedUtterancesSortAttribute {
-  String toValue() {
-    switch (this) {
-      case AggregatedUtterancesSortAttribute.hitCount:
-        return 'HitCount';
-      case AggregatedUtterancesSortAttribute.missedCount:
-        return 'MissedCount';
-    }
-  }
-}
+  final String value;
 
-extension AggregatedUtterancesSortAttributeFromString on String {
-  AggregatedUtterancesSortAttribute toAggregatedUtterancesSortAttribute() {
-    switch (this) {
-      case 'HitCount':
-        return AggregatedUtterancesSortAttribute.hitCount;
-      case 'MissedCount':
-        return AggregatedUtterancesSortAttribute.missedCount;
-    }
-    throw Exception(
-        '$this is not known in enum AggregatedUtterancesSortAttribute');
-  }
+  const AggregatedUtterancesSortAttribute(this.value);
+
+  static AggregatedUtterancesSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregatedUtterancesSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of utterances.
@@ -5977,8 +5936,8 @@ class AggregatedUtterancesSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -6096,31 +6055,18 @@ class AllowedInputTypes {
 }
 
 enum AnalyticsBinByName {
-  conversationStartTime,
-  utteranceTimestamp,
-}
+  conversationStartTime('ConversationStartTime'),
+  utteranceTimestamp('UtteranceTimestamp'),
+  ;
 
-extension AnalyticsBinByNameValueExtension on AnalyticsBinByName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsBinByName.conversationStartTime:
-        return 'ConversationStartTime';
-      case AnalyticsBinByName.utteranceTimestamp:
-        return 'UtteranceTimestamp';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsBinByNameFromString on String {
-  AnalyticsBinByName toAnalyticsBinByName() {
-    switch (this) {
-      case 'ConversationStartTime':
-        return AnalyticsBinByName.conversationStartTime;
-      case 'UtteranceTimestamp':
-        return AnalyticsBinByName.utteranceTimestamp;
-    }
-    throw Exception('$this is not known in enum AnalyticsBinByName');
-  }
+  const AnalyticsBinByName(this.value);
+
+  static AnalyticsBinByName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnalyticsBinByName'));
 }
 
 /// Contains the time metric, interval, and method by which to bin the analytics
@@ -6148,9 +6094,9 @@ class AnalyticsBinBySpecification {
     final name = this.name;
     final order = this.order;
     return {
-      'interval': interval.toValue(),
-      'name': name.toValue(),
-      if (order != null) 'order': order.toValue(),
+      'interval': interval.value,
+      'name': name.value,
+      if (order != null) 'order': order.value,
     };
   }
 }
@@ -6171,7 +6117,7 @@ class AnalyticsBinKey {
 
   factory AnalyticsBinKey.fromJson(Map<String, dynamic> json) {
     return AnalyticsBinKey(
-      name: (json['name'] as String?)?.toAnalyticsBinByName(),
+      name: (json['name'] as String?)?.let(AnalyticsBinByName.fromString),
       value: json['value'] as int?,
     );
   }
@@ -6180,119 +6126,60 @@ class AnalyticsBinKey {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum AnalyticsCommonFilterName {
-  botAliasId,
-  botVersion,
-  localeId,
-  modality,
-  channel,
-}
+  botAliasId('BotAliasId'),
+  botVersion('BotVersion'),
+  localeId('LocaleId'),
+  modality('Modality'),
+  channel('Channel'),
+  ;
 
-extension AnalyticsCommonFilterNameValueExtension on AnalyticsCommonFilterName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsCommonFilterName.botAliasId:
-        return 'BotAliasId';
-      case AnalyticsCommonFilterName.botVersion:
-        return 'BotVersion';
-      case AnalyticsCommonFilterName.localeId:
-        return 'LocaleId';
-      case AnalyticsCommonFilterName.modality:
-        return 'Modality';
-      case AnalyticsCommonFilterName.channel:
-        return 'Channel';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsCommonFilterNameFromString on String {
-  AnalyticsCommonFilterName toAnalyticsCommonFilterName() {
-    switch (this) {
-      case 'BotAliasId':
-        return AnalyticsCommonFilterName.botAliasId;
-      case 'BotVersion':
-        return AnalyticsCommonFilterName.botVersion;
-      case 'LocaleId':
-        return AnalyticsCommonFilterName.localeId;
-      case 'Modality':
-        return AnalyticsCommonFilterName.modality;
-      case 'Channel':
-        return AnalyticsCommonFilterName.channel;
-    }
-    throw Exception('$this is not known in enum AnalyticsCommonFilterName');
-  }
+  const AnalyticsCommonFilterName(this.value);
+
+  static AnalyticsCommonFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsCommonFilterName'));
 }
 
 enum AnalyticsFilterOperator {
-  eq,
-  gt,
-  lt,
-}
+  eq('EQ'),
+  gt('GT'),
+  lt('LT'),
+  ;
 
-extension AnalyticsFilterOperatorValueExtension on AnalyticsFilterOperator {
-  String toValue() {
-    switch (this) {
-      case AnalyticsFilterOperator.eq:
-        return 'EQ';
-      case AnalyticsFilterOperator.gt:
-        return 'GT';
-      case AnalyticsFilterOperator.lt:
-        return 'LT';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsFilterOperatorFromString on String {
-  AnalyticsFilterOperator toAnalyticsFilterOperator() {
-    switch (this) {
-      case 'EQ':
-        return AnalyticsFilterOperator.eq;
-      case 'GT':
-        return AnalyticsFilterOperator.gt;
-      case 'LT':
-        return AnalyticsFilterOperator.lt;
-    }
-    throw Exception('$this is not known in enum AnalyticsFilterOperator');
-  }
+  const AnalyticsFilterOperator(this.value);
+
+  static AnalyticsFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsFilterOperator'));
 }
 
 enum AnalyticsIntentField {
-  intentName,
-  intentEndState,
-  intentLevel,
-}
+  intentName('IntentName'),
+  intentEndState('IntentEndState'),
+  intentLevel('IntentLevel'),
+  ;
 
-extension AnalyticsIntentFieldValueExtension on AnalyticsIntentField {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentField.intentName:
-        return 'IntentName';
-      case AnalyticsIntentField.intentEndState:
-        return 'IntentEndState';
-      case AnalyticsIntentField.intentLevel:
-        return 'IntentLevel';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentFieldFromString on String {
-  AnalyticsIntentField toAnalyticsIntentField() {
-    switch (this) {
-      case 'IntentName':
-        return AnalyticsIntentField.intentName;
-      case 'IntentEndState':
-        return AnalyticsIntentField.intentEndState;
-      case 'IntentLevel':
-        return AnalyticsIntentField.intentLevel;
-    }
-    throw Exception('$this is not known in enum AnalyticsIntentField');
-  }
+  const AnalyticsIntentField(this.value);
+
+  static AnalyticsIntentField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnalyticsIntentField'));
 }
 
 /// Contains fields describing a condition by which to filter the intents. The
@@ -6447,74 +6334,33 @@ class AnalyticsIntentFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AnalyticsIntentFilterName {
-  botAliasId,
-  botVersion,
-  localeId,
-  modality,
-  channel,
-  sessionId,
-  originatingRequestId,
-  intentName,
-  intentEndState,
-}
+  botAliasId('BotAliasId'),
+  botVersion('BotVersion'),
+  localeId('LocaleId'),
+  modality('Modality'),
+  channel('Channel'),
+  sessionId('SessionId'),
+  originatingRequestId('OriginatingRequestId'),
+  intentName('IntentName'),
+  intentEndState('IntentEndState'),
+  ;
 
-extension AnalyticsIntentFilterNameValueExtension on AnalyticsIntentFilterName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentFilterName.botAliasId:
-        return 'BotAliasId';
-      case AnalyticsIntentFilterName.botVersion:
-        return 'BotVersion';
-      case AnalyticsIntentFilterName.localeId:
-        return 'LocaleId';
-      case AnalyticsIntentFilterName.modality:
-        return 'Modality';
-      case AnalyticsIntentFilterName.channel:
-        return 'Channel';
-      case AnalyticsIntentFilterName.sessionId:
-        return 'SessionId';
-      case AnalyticsIntentFilterName.originatingRequestId:
-        return 'OriginatingRequestId';
-      case AnalyticsIntentFilterName.intentName:
-        return 'IntentName';
-      case AnalyticsIntentFilterName.intentEndState:
-        return 'IntentEndState';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentFilterNameFromString on String {
-  AnalyticsIntentFilterName toAnalyticsIntentFilterName() {
-    switch (this) {
-      case 'BotAliasId':
-        return AnalyticsIntentFilterName.botAliasId;
-      case 'BotVersion':
-        return AnalyticsIntentFilterName.botVersion;
-      case 'LocaleId':
-        return AnalyticsIntentFilterName.localeId;
-      case 'Modality':
-        return AnalyticsIntentFilterName.modality;
-      case 'Channel':
-        return AnalyticsIntentFilterName.channel;
-      case 'SessionId':
-        return AnalyticsIntentFilterName.sessionId;
-      case 'OriginatingRequestId':
-        return AnalyticsIntentFilterName.originatingRequestId;
-      case 'IntentName':
-        return AnalyticsIntentFilterName.intentName;
-      case 'IntentEndState':
-        return AnalyticsIntentFilterName.intentEndState;
-    }
-    throw Exception('$this is not known in enum AnalyticsIntentFilterName');
-  }
+  const AnalyticsIntentFilterName(this.value);
+
+  static AnalyticsIntentFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsIntentFilterName'));
 }
 
 /// Contains the category by which the intent analytics were grouped and a
@@ -6533,7 +6379,7 @@ class AnalyticsIntentGroupByKey {
 
   factory AnalyticsIntentGroupByKey.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentGroupByKey(
-      name: (json['name'] as String?)?.toAnalyticsIntentField(),
+      name: (json['name'] as String?)?.let(AnalyticsIntentField.fromString),
       value: json['value'] as String?,
     );
   }
@@ -6542,7 +6388,7 @@ class AnalyticsIntentGroupByKey {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
@@ -6561,7 +6407,7 @@ class AnalyticsIntentGroupBySpecification {
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      'name': name.toValue(),
+      'name': name.value,
     };
   }
 }
@@ -6623,54 +6469,29 @@ class AnalyticsIntentMetric {
     final statistic = this.statistic;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'statistic': statistic.toValue(),
-      if (order != null) 'order': order.toValue(),
+      'name': name.value,
+      'statistic': statistic.value,
+      if (order != null) 'order': order.value,
     };
   }
 }
 
 enum AnalyticsIntentMetricName {
-  count,
-  success,
-  failure,
-  switched,
-  dropped,
-}
+  count('Count'),
+  success('Success'),
+  failure('Failure'),
+  switched('Switched'),
+  dropped('Dropped'),
+  ;
 
-extension AnalyticsIntentMetricNameValueExtension on AnalyticsIntentMetricName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentMetricName.count:
-        return 'Count';
-      case AnalyticsIntentMetricName.success:
-        return 'Success';
-      case AnalyticsIntentMetricName.failure:
-        return 'Failure';
-      case AnalyticsIntentMetricName.switched:
-        return 'Switched';
-      case AnalyticsIntentMetricName.dropped:
-        return 'Dropped';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentMetricNameFromString on String {
-  AnalyticsIntentMetricName toAnalyticsIntentMetricName() {
-    switch (this) {
-      case 'Count':
-        return AnalyticsIntentMetricName.count;
-      case 'Success':
-        return AnalyticsIntentMetricName.success;
-      case 'Failure':
-        return AnalyticsIntentMetricName.failure;
-      case 'Switched':
-        return AnalyticsIntentMetricName.switched;
-      case 'Dropped':
-        return AnalyticsIntentMetricName.dropped;
-    }
-    throw Exception('$this is not known in enum AnalyticsIntentMetricName');
-  }
+  const AnalyticsIntentMetricName(this.value);
+
+  static AnalyticsIntentMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsIntentMetricName'));
 }
 
 /// An object containing the results for the intent metric you requested.
@@ -6728,8 +6549,10 @@ class AnalyticsIntentMetricResult {
 
   factory AnalyticsIntentMetricResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentMetricResult(
-      name: (json['name'] as String?)?.toAnalyticsIntentMetricName(),
-      statistic: (json['statistic'] as String?)?.toAnalyticsMetricStatistic(),
+      name:
+          (json['name'] as String?)?.let(AnalyticsIntentMetricName.fromString),
+      statistic: (json['statistic'] as String?)
+          ?.let(AnalyticsMetricStatistic.fromString),
       value: json['value'] as double?,
     );
   }
@@ -6739,8 +6562,8 @@ class AnalyticsIntentMetricResult {
     final statistic = this.statistic;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (statistic != null) 'statistic': statistic.toValue(),
+      if (name != null) 'name': name.value,
+      if (statistic != null) 'statistic': statistic.value,
       if (value != null) 'value': value,
     };
   }
@@ -6778,7 +6601,8 @@ class AnalyticsIntentNodeSummary {
       intentLevel: json['intentLevel'] as int?,
       intentName: json['intentName'] as String?,
       intentPath: json['intentPath'] as String?,
-      nodeType: (json['nodeType'] as String?)?.toAnalyticsNodeType(),
+      nodeType:
+          (json['nodeType'] as String?)?.let(AnalyticsNodeType.fromString),
     );
   }
 
@@ -6793,7 +6617,7 @@ class AnalyticsIntentNodeSummary {
       if (intentLevel != null) 'intentLevel': intentLevel,
       if (intentName != null) 'intentName': intentName,
       if (intentPath != null) 'intentPath': intentPath,
-      if (nodeType != null) 'nodeType': nodeType.toValue(),
+      if (nodeType != null) 'nodeType': nodeType.value,
     };
   }
 }
@@ -6852,31 +6676,18 @@ class AnalyticsIntentResult {
 }
 
 enum AnalyticsIntentStageField {
-  intentStageName,
-  switchedToIntent,
-}
+  intentStageName('IntentStageName'),
+  switchedToIntent('SwitchedToIntent'),
+  ;
 
-extension AnalyticsIntentStageFieldValueExtension on AnalyticsIntentStageField {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentStageField.intentStageName:
-        return 'IntentStageName';
-      case AnalyticsIntentStageField.switchedToIntent:
-        return 'SwitchedToIntent';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentStageFieldFromString on String {
-  AnalyticsIntentStageField toAnalyticsIntentStageField() {
-    switch (this) {
-      case 'IntentStageName':
-        return AnalyticsIntentStageField.intentStageName;
-      case 'SwitchedToIntent':
-        return AnalyticsIntentStageField.switchedToIntent;
-    }
-    throw Exception('$this is not known in enum AnalyticsIntentStageField');
-  }
+  const AnalyticsIntentStageField(this.value);
+
+  static AnalyticsIntentStageField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsIntentStageField'));
 }
 
 /// Contains fields describing a condition by which to filter the intent stages.
@@ -7031,76 +6842,33 @@ class AnalyticsIntentStageFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AnalyticsIntentStageFilterName {
-  botAliasId,
-  botVersion,
-  localeId,
-  modality,
-  channel,
-  sessionId,
-  originatingRequestId,
-  intentName,
-  intentStageName,
-}
+  botAliasId('BotAliasId'),
+  botVersion('BotVersion'),
+  localeId('LocaleId'),
+  modality('Modality'),
+  channel('Channel'),
+  sessionId('SessionId'),
+  originatingRequestId('OriginatingRequestId'),
+  intentName('IntentName'),
+  intentStageName('IntentStageName'),
+  ;
 
-extension AnalyticsIntentStageFilterNameValueExtension
-    on AnalyticsIntentStageFilterName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentStageFilterName.botAliasId:
-        return 'BotAliasId';
-      case AnalyticsIntentStageFilterName.botVersion:
-        return 'BotVersion';
-      case AnalyticsIntentStageFilterName.localeId:
-        return 'LocaleId';
-      case AnalyticsIntentStageFilterName.modality:
-        return 'Modality';
-      case AnalyticsIntentStageFilterName.channel:
-        return 'Channel';
-      case AnalyticsIntentStageFilterName.sessionId:
-        return 'SessionId';
-      case AnalyticsIntentStageFilterName.originatingRequestId:
-        return 'OriginatingRequestId';
-      case AnalyticsIntentStageFilterName.intentName:
-        return 'IntentName';
-      case AnalyticsIntentStageFilterName.intentStageName:
-        return 'IntentStageName';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentStageFilterNameFromString on String {
-  AnalyticsIntentStageFilterName toAnalyticsIntentStageFilterName() {
-    switch (this) {
-      case 'BotAliasId':
-        return AnalyticsIntentStageFilterName.botAliasId;
-      case 'BotVersion':
-        return AnalyticsIntentStageFilterName.botVersion;
-      case 'LocaleId':
-        return AnalyticsIntentStageFilterName.localeId;
-      case 'Modality':
-        return AnalyticsIntentStageFilterName.modality;
-      case 'Channel':
-        return AnalyticsIntentStageFilterName.channel;
-      case 'SessionId':
-        return AnalyticsIntentStageFilterName.sessionId;
-      case 'OriginatingRequestId':
-        return AnalyticsIntentStageFilterName.originatingRequestId;
-      case 'IntentName':
-        return AnalyticsIntentStageFilterName.intentName;
-      case 'IntentStageName':
-        return AnalyticsIntentStageFilterName.intentStageName;
-    }
-    throw Exception(
-        '$this is not known in enum AnalyticsIntentStageFilterName');
-  }
+  const AnalyticsIntentStageFilterName(this.value);
+
+  static AnalyticsIntentStageFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsIntentStageFilterName'));
 }
 
 /// Contains the category by which the intent stage analytics and the values for
@@ -7119,7 +6887,8 @@ class AnalyticsIntentStageGroupByKey {
 
   factory AnalyticsIntentStageGroupByKey.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentStageGroupByKey(
-      name: (json['name'] as String?)?.toAnalyticsIntentStageField(),
+      name:
+          (json['name'] as String?)?.let(AnalyticsIntentStageField.fromString),
       value: json['value'] as String?,
     );
   }
@@ -7128,7 +6897,7 @@ class AnalyticsIntentStageGroupByKey {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
@@ -7147,7 +6916,7 @@ class AnalyticsIntentStageGroupBySpecification {
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      'name': name.toValue(),
+      'name': name.value,
     };
   }
 }
@@ -7214,56 +6983,29 @@ class AnalyticsIntentStageMetric {
     final statistic = this.statistic;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'statistic': statistic.toValue(),
-      if (order != null) 'order': order.toValue(),
+      'name': name.value,
+      'statistic': statistic.value,
+      if (order != null) 'order': order.value,
     };
   }
 }
 
 enum AnalyticsIntentStageMetricName {
-  count,
-  success,
-  failed,
-  dropped,
-  retry,
-}
+  count('Count'),
+  success('Success'),
+  failed('Failed'),
+  dropped('Dropped'),
+  retry('Retry'),
+  ;
 
-extension AnalyticsIntentStageMetricNameValueExtension
-    on AnalyticsIntentStageMetricName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsIntentStageMetricName.count:
-        return 'Count';
-      case AnalyticsIntentStageMetricName.success:
-        return 'Success';
-      case AnalyticsIntentStageMetricName.failed:
-        return 'Failed';
-      case AnalyticsIntentStageMetricName.dropped:
-        return 'Dropped';
-      case AnalyticsIntentStageMetricName.retry:
-        return 'Retry';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntentStageMetricNameFromString on String {
-  AnalyticsIntentStageMetricName toAnalyticsIntentStageMetricName() {
-    switch (this) {
-      case 'Count':
-        return AnalyticsIntentStageMetricName.count;
-      case 'Success':
-        return AnalyticsIntentStageMetricName.success;
-      case 'Failed':
-        return AnalyticsIntentStageMetricName.failed;
-      case 'Dropped':
-        return AnalyticsIntentStageMetricName.dropped;
-      case 'Retry':
-        return AnalyticsIntentStageMetricName.retry;
-    }
-    throw Exception(
-        '$this is not known in enum AnalyticsIntentStageMetricName');
-  }
+  const AnalyticsIntentStageMetricName(this.value);
+
+  static AnalyticsIntentStageMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsIntentStageMetricName'));
 }
 
 /// An object containing the results for an intent stage metric you requested.
@@ -7320,8 +7062,10 @@ class AnalyticsIntentStageMetricResult {
 
   factory AnalyticsIntentStageMetricResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentStageMetricResult(
-      name: (json['name'] as String?)?.toAnalyticsIntentStageMetricName(),
-      statistic: (json['statistic'] as String?)?.toAnalyticsMetricStatistic(),
+      name: (json['name'] as String?)
+          ?.let(AnalyticsIntentStageMetricName.fromString),
+      statistic: (json['statistic'] as String?)
+          ?.let(AnalyticsMetricStatistic.fromString),
       value: json['value'] as double?,
     );
   }
@@ -7331,8 +7075,8 @@ class AnalyticsIntentStageMetricResult {
     final statistic = this.statistic;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (statistic != null) 'statistic': statistic.toValue(),
+      if (name != null) 'name': name.value,
+      if (statistic != null) 'statistic': statistic.value,
       if (value != null) 'value': value,
     };
   }
@@ -7392,130 +7136,66 @@ class AnalyticsIntentStageResult {
 }
 
 enum AnalyticsInterval {
-  oneHour,
-  oneDay,
-}
+  oneHour('OneHour'),
+  oneDay('OneDay'),
+  ;
 
-extension AnalyticsIntervalValueExtension on AnalyticsInterval {
-  String toValue() {
-    switch (this) {
-      case AnalyticsInterval.oneHour:
-        return 'OneHour';
-      case AnalyticsInterval.oneDay:
-        return 'OneDay';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsIntervalFromString on String {
-  AnalyticsInterval toAnalyticsInterval() {
-    switch (this) {
-      case 'OneHour':
-        return AnalyticsInterval.oneHour;
-      case 'OneDay':
-        return AnalyticsInterval.oneDay;
-    }
-    throw Exception('$this is not known in enum AnalyticsInterval');
-  }
+  const AnalyticsInterval(this.value);
+
+  static AnalyticsInterval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalyticsInterval'));
 }
 
 enum AnalyticsMetricStatistic {
-  sum,
-  avg,
-  max,
-}
+  sum('Sum'),
+  avg('Avg'),
+  max('Max'),
+  ;
 
-extension AnalyticsMetricStatisticValueExtension on AnalyticsMetricStatistic {
-  String toValue() {
-    switch (this) {
-      case AnalyticsMetricStatistic.sum:
-        return 'Sum';
-      case AnalyticsMetricStatistic.avg:
-        return 'Avg';
-      case AnalyticsMetricStatistic.max:
-        return 'Max';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsMetricStatisticFromString on String {
-  AnalyticsMetricStatistic toAnalyticsMetricStatistic() {
-    switch (this) {
-      case 'Sum':
-        return AnalyticsMetricStatistic.sum;
-      case 'Avg':
-        return AnalyticsMetricStatistic.avg;
-      case 'Max':
-        return AnalyticsMetricStatistic.max;
-    }
-    throw Exception('$this is not known in enum AnalyticsMetricStatistic');
-  }
+  const AnalyticsMetricStatistic(this.value);
+
+  static AnalyticsMetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsMetricStatistic'));
 }
 
 enum AnalyticsModality {
-  speech,
-  text,
-  dtmf,
-  multiMode,
-}
+  speech('Speech'),
+  text('Text'),
+  dtmf('DTMF'),
+  multiMode('MultiMode'),
+  ;
 
-extension AnalyticsModalityValueExtension on AnalyticsModality {
-  String toValue() {
-    switch (this) {
-      case AnalyticsModality.speech:
-        return 'Speech';
-      case AnalyticsModality.text:
-        return 'Text';
-      case AnalyticsModality.dtmf:
-        return 'DTMF';
-      case AnalyticsModality.multiMode:
-        return 'MultiMode';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsModalityFromString on String {
-  AnalyticsModality toAnalyticsModality() {
-    switch (this) {
-      case 'Speech':
-        return AnalyticsModality.speech;
-      case 'Text':
-        return AnalyticsModality.text;
-      case 'DTMF':
-        return AnalyticsModality.dtmf;
-      case 'MultiMode':
-        return AnalyticsModality.multiMode;
-    }
-    throw Exception('$this is not known in enum AnalyticsModality');
-  }
+  const AnalyticsModality(this.value);
+
+  static AnalyticsModality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalyticsModality'));
 }
 
 enum AnalyticsNodeType {
-  inner,
-  exit,
-}
+  inner('Inner'),
+  exit('Exit'),
+  ;
 
-extension AnalyticsNodeTypeValueExtension on AnalyticsNodeType {
-  String toValue() {
-    switch (this) {
-      case AnalyticsNodeType.inner:
-        return 'Inner';
-      case AnalyticsNodeType.exit:
-        return 'Exit';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsNodeTypeFromString on String {
-  AnalyticsNodeType toAnalyticsNodeType() {
-    switch (this) {
-      case 'Inner':
-        return AnalyticsNodeType.inner;
-      case 'Exit':
-        return AnalyticsNodeType.exit;
-    }
-    throw Exception('$this is not known in enum AnalyticsNodeType');
-  }
+  const AnalyticsNodeType(this.value);
+
+  static AnalyticsNodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalyticsNodeType'));
 }
 
 /// Contains fields describing a condition by which to filter the paths. The
@@ -7632,39 +7312,26 @@ class AnalyticsPathFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AnalyticsSessionField {
-  conversationEndState,
-  localeId,
-}
+  conversationEndState('ConversationEndState'),
+  localeId('LocaleId'),
+  ;
 
-extension AnalyticsSessionFieldValueExtension on AnalyticsSessionField {
-  String toValue() {
-    switch (this) {
-      case AnalyticsSessionField.conversationEndState:
-        return 'ConversationEndState';
-      case AnalyticsSessionField.localeId:
-        return 'LocaleId';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsSessionFieldFromString on String {
-  AnalyticsSessionField toAnalyticsSessionField() {
-    switch (this) {
-      case 'ConversationEndState':
-        return AnalyticsSessionField.conversationEndState;
-      case 'LocaleId':
-        return AnalyticsSessionField.localeId;
-    }
-    throw Exception('$this is not known in enum AnalyticsSessionField');
-  }
+  const AnalyticsSessionField(this.value);
+
+  static AnalyticsSessionField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnalyticsSessionField'));
 }
 
 /// Contains fields describing a condition by which to filter the sessions. The
@@ -7827,80 +7494,34 @@ class AnalyticsSessionFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AnalyticsSessionFilterName {
-  botAliasId,
-  botVersion,
-  localeId,
-  modality,
-  channel,
-  duration,
-  conversationEndState,
-  sessionId,
-  originatingRequestId,
-  intentPath,
-}
+  botAliasId('BotAliasId'),
+  botVersion('BotVersion'),
+  localeId('LocaleId'),
+  modality('Modality'),
+  channel('Channel'),
+  duration('Duration'),
+  conversationEndState('ConversationEndState'),
+  sessionId('SessionId'),
+  originatingRequestId('OriginatingRequestId'),
+  intentPath('IntentPath'),
+  ;
 
-extension AnalyticsSessionFilterNameValueExtension
-    on AnalyticsSessionFilterName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsSessionFilterName.botAliasId:
-        return 'BotAliasId';
-      case AnalyticsSessionFilterName.botVersion:
-        return 'BotVersion';
-      case AnalyticsSessionFilterName.localeId:
-        return 'LocaleId';
-      case AnalyticsSessionFilterName.modality:
-        return 'Modality';
-      case AnalyticsSessionFilterName.channel:
-        return 'Channel';
-      case AnalyticsSessionFilterName.duration:
-        return 'Duration';
-      case AnalyticsSessionFilterName.conversationEndState:
-        return 'ConversationEndState';
-      case AnalyticsSessionFilterName.sessionId:
-        return 'SessionId';
-      case AnalyticsSessionFilterName.originatingRequestId:
-        return 'OriginatingRequestId';
-      case AnalyticsSessionFilterName.intentPath:
-        return 'IntentPath';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsSessionFilterNameFromString on String {
-  AnalyticsSessionFilterName toAnalyticsSessionFilterName() {
-    switch (this) {
-      case 'BotAliasId':
-        return AnalyticsSessionFilterName.botAliasId;
-      case 'BotVersion':
-        return AnalyticsSessionFilterName.botVersion;
-      case 'LocaleId':
-        return AnalyticsSessionFilterName.localeId;
-      case 'Modality':
-        return AnalyticsSessionFilterName.modality;
-      case 'Channel':
-        return AnalyticsSessionFilterName.channel;
-      case 'Duration':
-        return AnalyticsSessionFilterName.duration;
-      case 'ConversationEndState':
-        return AnalyticsSessionFilterName.conversationEndState;
-      case 'SessionId':
-        return AnalyticsSessionFilterName.sessionId;
-      case 'OriginatingRequestId':
-        return AnalyticsSessionFilterName.originatingRequestId;
-      case 'IntentPath':
-        return AnalyticsSessionFilterName.intentPath;
-    }
-    throw Exception('$this is not known in enum AnalyticsSessionFilterName');
-  }
+  const AnalyticsSessionFilterName(this.value);
+
+  static AnalyticsSessionFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsSessionFilterName'));
 }
 
 /// Contains the category by which the session analytics were grouped and a
@@ -7919,7 +7540,7 @@ class AnalyticsSessionGroupByKey {
 
   factory AnalyticsSessionGroupByKey.fromJson(Map<String, dynamic> json) {
     return AnalyticsSessionGroupByKey(
-      name: (json['name'] as String?)?.toAnalyticsSessionField(),
+      name: (json['name'] as String?)?.let(AnalyticsSessionField.fromString),
       value: json['value'] as String?,
     );
   }
@@ -7928,7 +7549,7 @@ class AnalyticsSessionGroupByKey {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
@@ -7946,7 +7567,7 @@ class AnalyticsSessionGroupBySpecification {
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      'name': name.toValue(),
+      'name': name.value,
     };
   }
 }
@@ -8014,65 +7635,31 @@ class AnalyticsSessionMetric {
     final statistic = this.statistic;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'statistic': statistic.toValue(),
-      if (order != null) 'order': order.toValue(),
+      'name': name.value,
+      'statistic': statistic.value,
+      if (order != null) 'order': order.value,
     };
   }
 }
 
 enum AnalyticsSessionMetricName {
-  count,
-  success,
-  failure,
-  dropped,
-  duration,
-  turnsPerConversation,
-  concurrency,
-}
+  count('Count'),
+  success('Success'),
+  failure('Failure'),
+  dropped('Dropped'),
+  duration('Duration'),
+  turnsPerConversation('TurnsPerConversation'),
+  concurrency('Concurrency'),
+  ;
 
-extension AnalyticsSessionMetricNameValueExtension
-    on AnalyticsSessionMetricName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsSessionMetricName.count:
-        return 'Count';
-      case AnalyticsSessionMetricName.success:
-        return 'Success';
-      case AnalyticsSessionMetricName.failure:
-        return 'Failure';
-      case AnalyticsSessionMetricName.dropped:
-        return 'Dropped';
-      case AnalyticsSessionMetricName.duration:
-        return 'Duration';
-      case AnalyticsSessionMetricName.turnsPerConversation:
-        return 'TurnsPerConversation';
-      case AnalyticsSessionMetricName.concurrency:
-        return 'Concurrency';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsSessionMetricNameFromString on String {
-  AnalyticsSessionMetricName toAnalyticsSessionMetricName() {
-    switch (this) {
-      case 'Count':
-        return AnalyticsSessionMetricName.count;
-      case 'Success':
-        return AnalyticsSessionMetricName.success;
-      case 'Failure':
-        return AnalyticsSessionMetricName.failure;
-      case 'Dropped':
-        return AnalyticsSessionMetricName.dropped;
-      case 'Duration':
-        return AnalyticsSessionMetricName.duration;
-      case 'TurnsPerConversation':
-        return AnalyticsSessionMetricName.turnsPerConversation;
-      case 'Concurrency':
-        return AnalyticsSessionMetricName.concurrency;
-    }
-    throw Exception('$this is not known in enum AnalyticsSessionMetricName');
-  }
+  const AnalyticsSessionMetricName(this.value);
+
+  static AnalyticsSessionMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsSessionMetricName'));
 }
 
 /// An object containing the results for a session metric you requested.
@@ -8134,8 +7721,10 @@ class AnalyticsSessionMetricResult {
 
   factory AnalyticsSessionMetricResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsSessionMetricResult(
-      name: (json['name'] as String?)?.toAnalyticsSessionMetricName(),
-      statistic: (json['statistic'] as String?)?.toAnalyticsMetricStatistic(),
+      name:
+          (json['name'] as String?)?.let(AnalyticsSessionMetricName.fromString),
+      statistic: (json['statistic'] as String?)
+          ?.let(AnalyticsMetricStatistic.fromString),
       value: json['value'] as double?,
     );
   }
@@ -8145,8 +7734,8 @@ class AnalyticsSessionMetricResult {
     final statistic = this.statistic;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (statistic != null) 'statistic': statistic.toValue(),
+      if (name != null) 'name': name.value,
+      if (statistic != null) 'statistic': statistic.value,
       if (value != null) 'value': value,
     };
   }
@@ -8206,65 +7795,34 @@ class AnalyticsSessionResult {
 }
 
 enum AnalyticsSessionSortByName {
-  conversationStartTime,
-  numberOfTurns,
-  duration,
-}
+  conversationStartTime('ConversationStartTime'),
+  numberOfTurns('NumberOfTurns'),
+  duration('Duration'),
+  ;
 
-extension AnalyticsSessionSortByNameValueExtension
-    on AnalyticsSessionSortByName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsSessionSortByName.conversationStartTime:
-        return 'ConversationStartTime';
-      case AnalyticsSessionSortByName.numberOfTurns:
-        return 'NumberOfTurns';
-      case AnalyticsSessionSortByName.duration:
-        return 'Duration';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsSessionSortByNameFromString on String {
-  AnalyticsSessionSortByName toAnalyticsSessionSortByName() {
-    switch (this) {
-      case 'ConversationStartTime':
-        return AnalyticsSessionSortByName.conversationStartTime;
-      case 'NumberOfTurns':
-        return AnalyticsSessionSortByName.numberOfTurns;
-      case 'Duration':
-        return AnalyticsSessionSortByName.duration;
-    }
-    throw Exception('$this is not known in enum AnalyticsSessionSortByName');
-  }
+  const AnalyticsSessionSortByName(this.value);
+
+  static AnalyticsSessionSortByName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsSessionSortByName'));
 }
 
 enum AnalyticsSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension AnalyticsSortOrderValueExtension on AnalyticsSortOrder {
-  String toValue() {
-    switch (this) {
-      case AnalyticsSortOrder.ascending:
-        return 'Ascending';
-      case AnalyticsSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsSortOrderFromString on String {
-  AnalyticsSortOrder toAnalyticsSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return AnalyticsSortOrder.ascending;
-      case 'Descending':
-        return AnalyticsSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum AnalyticsSortOrder');
-  }
+  const AnalyticsSortOrder(this.value);
+
+  static AnalyticsSortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnalyticsSortOrder'));
 }
 
 /// An object that specifies the last used intent at the time of the utterance
@@ -8281,34 +7839,23 @@ class AnalyticsUtteranceAttribute {
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      'name': name.toValue(),
+      'name': name.value,
     };
   }
 }
 
 enum AnalyticsUtteranceAttributeName {
-  lastUsedIntent,
-}
+  lastUsedIntent('LastUsedIntent'),
+  ;
 
-extension AnalyticsUtteranceAttributeNameValueExtension
-    on AnalyticsUtteranceAttributeName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsUtteranceAttributeName.lastUsedIntent:
-        return 'LastUsedIntent';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsUtteranceAttributeNameFromString on String {
-  AnalyticsUtteranceAttributeName toAnalyticsUtteranceAttributeName() {
-    switch (this) {
-      case 'LastUsedIntent':
-        return AnalyticsUtteranceAttributeName.lastUsedIntent;
-    }
-    throw Exception(
-        '$this is not known in enum AnalyticsUtteranceAttributeName');
-  }
+  const AnalyticsUtteranceAttributeName(this.value);
+
+  static AnalyticsUtteranceAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsUtteranceAttributeName'));
 }
 
 /// An object containing the intent that the bot mapped the utterance to.
@@ -8336,31 +7883,18 @@ class AnalyticsUtteranceAttributeResult {
 }
 
 enum AnalyticsUtteranceField {
-  utteranceText,
-  utteranceState,
-}
+  utteranceText('UtteranceText'),
+  utteranceState('UtteranceState'),
+  ;
 
-extension AnalyticsUtteranceFieldValueExtension on AnalyticsUtteranceField {
-  String toValue() {
-    switch (this) {
-      case AnalyticsUtteranceField.utteranceText:
-        return 'UtteranceText';
-      case AnalyticsUtteranceField.utteranceState:
-        return 'UtteranceState';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsUtteranceFieldFromString on String {
-  AnalyticsUtteranceField toAnalyticsUtteranceField() {
-    switch (this) {
-      case 'UtteranceText':
-        return AnalyticsUtteranceField.utteranceText;
-      case 'UtteranceState':
-        return AnalyticsUtteranceField.utteranceState;
-    }
-    throw Exception('$this is not known in enum AnalyticsUtteranceField');
-  }
+  const AnalyticsUtteranceField(this.value);
+
+  static AnalyticsUtteranceField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsUtteranceField'));
 }
 
 /// Contains fields describing a condition by which to filter the utterances.
@@ -8515,75 +8049,33 @@ class AnalyticsUtteranceFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum AnalyticsUtteranceFilterName {
-  botAliasId,
-  botVersion,
-  localeId,
-  modality,
-  channel,
-  sessionId,
-  originatingRequestId,
-  utteranceState,
-  utteranceText,
-}
+  botAliasId('BotAliasId'),
+  botVersion('BotVersion'),
+  localeId('LocaleId'),
+  modality('Modality'),
+  channel('Channel'),
+  sessionId('SessionId'),
+  originatingRequestId('OriginatingRequestId'),
+  utteranceState('UtteranceState'),
+  utteranceText('UtteranceText'),
+  ;
 
-extension AnalyticsUtteranceFilterNameValueExtension
-    on AnalyticsUtteranceFilterName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsUtteranceFilterName.botAliasId:
-        return 'BotAliasId';
-      case AnalyticsUtteranceFilterName.botVersion:
-        return 'BotVersion';
-      case AnalyticsUtteranceFilterName.localeId:
-        return 'LocaleId';
-      case AnalyticsUtteranceFilterName.modality:
-        return 'Modality';
-      case AnalyticsUtteranceFilterName.channel:
-        return 'Channel';
-      case AnalyticsUtteranceFilterName.sessionId:
-        return 'SessionId';
-      case AnalyticsUtteranceFilterName.originatingRequestId:
-        return 'OriginatingRequestId';
-      case AnalyticsUtteranceFilterName.utteranceState:
-        return 'UtteranceState';
-      case AnalyticsUtteranceFilterName.utteranceText:
-        return 'UtteranceText';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsUtteranceFilterNameFromString on String {
-  AnalyticsUtteranceFilterName toAnalyticsUtteranceFilterName() {
-    switch (this) {
-      case 'BotAliasId':
-        return AnalyticsUtteranceFilterName.botAliasId;
-      case 'BotVersion':
-        return AnalyticsUtteranceFilterName.botVersion;
-      case 'LocaleId':
-        return AnalyticsUtteranceFilterName.localeId;
-      case 'Modality':
-        return AnalyticsUtteranceFilterName.modality;
-      case 'Channel':
-        return AnalyticsUtteranceFilterName.channel;
-      case 'SessionId':
-        return AnalyticsUtteranceFilterName.sessionId;
-      case 'OriginatingRequestId':
-        return AnalyticsUtteranceFilterName.originatingRequestId;
-      case 'UtteranceState':
-        return AnalyticsUtteranceFilterName.utteranceState;
-      case 'UtteranceText':
-        return AnalyticsUtteranceFilterName.utteranceText;
-    }
-    throw Exception('$this is not known in enum AnalyticsUtteranceFilterName');
-  }
+  const AnalyticsUtteranceFilterName(this.value);
+
+  static AnalyticsUtteranceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsUtteranceFilterName'));
 }
 
 /// Contains the category by which the utterance analytics were grouped and the
@@ -8602,7 +8094,7 @@ class AnalyticsUtteranceGroupByKey {
 
   factory AnalyticsUtteranceGroupByKey.fromJson(Map<String, dynamic> json) {
     return AnalyticsUtteranceGroupByKey(
-      name: (json['name'] as String?)?.toAnalyticsUtteranceField(),
+      name: (json['name'] as String?)?.let(AnalyticsUtteranceField.fromString),
       value: json['value'] as String?,
     );
   }
@@ -8611,7 +8103,7 @@ class AnalyticsUtteranceGroupByKey {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
@@ -8629,7 +8121,7 @@ class AnalyticsUtteranceGroupBySpecification {
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      'name': name.toValue(),
+      'name': name.value,
     };
   }
 }
@@ -8690,50 +8182,28 @@ class AnalyticsUtteranceMetric {
     final statistic = this.statistic;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'statistic': statistic.toValue(),
-      if (order != null) 'order': order.toValue(),
+      'name': name.value,
+      'statistic': statistic.value,
+      if (order != null) 'order': order.value,
     };
   }
 }
 
 enum AnalyticsUtteranceMetricName {
-  count,
-  missed,
-  detected,
-  utteranceTimestamp,
-}
+  count('Count'),
+  missed('Missed'),
+  detected('Detected'),
+  utteranceTimestamp('UtteranceTimestamp'),
+  ;
 
-extension AnalyticsUtteranceMetricNameValueExtension
-    on AnalyticsUtteranceMetricName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsUtteranceMetricName.count:
-        return 'Count';
-      case AnalyticsUtteranceMetricName.missed:
-        return 'Missed';
-      case AnalyticsUtteranceMetricName.detected:
-        return 'Detected';
-      case AnalyticsUtteranceMetricName.utteranceTimestamp:
-        return 'UtteranceTimestamp';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsUtteranceMetricNameFromString on String {
-  AnalyticsUtteranceMetricName toAnalyticsUtteranceMetricName() {
-    switch (this) {
-      case 'Count':
-        return AnalyticsUtteranceMetricName.count;
-      case 'Missed':
-        return AnalyticsUtteranceMetricName.missed;
-      case 'Detected':
-        return AnalyticsUtteranceMetricName.detected;
-      case 'UtteranceTimestamp':
-        return AnalyticsUtteranceMetricName.utteranceTimestamp;
-    }
-    throw Exception('$this is not known in enum AnalyticsUtteranceMetricName');
-  }
+  const AnalyticsUtteranceMetricName(this.value);
+
+  static AnalyticsUtteranceMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsUtteranceMetricName'));
 }
 
 /// An object containing the results for the utterance metric you requested.
@@ -8787,8 +8257,10 @@ class AnalyticsUtteranceMetricResult {
 
   factory AnalyticsUtteranceMetricResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsUtteranceMetricResult(
-      name: (json['name'] as String?)?.toAnalyticsUtteranceMetricName(),
-      statistic: (json['statistic'] as String?)?.toAnalyticsMetricStatistic(),
+      name: (json['name'] as String?)
+          ?.let(AnalyticsUtteranceMetricName.fromString),
+      statistic: (json['statistic'] as String?)
+          ?.let(AnalyticsMetricStatistic.fromString),
       value: json['value'] as double?,
     );
   }
@@ -8798,8 +8270,8 @@ class AnalyticsUtteranceMetricResult {
     final statistic = this.statistic;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (statistic != null) 'statistic': statistic.toValue(),
+      if (name != null) 'name': name.value,
+      if (statistic != null) 'statistic': statistic.value,
       if (value != null) 'value': value,
     };
   }
@@ -8871,27 +8343,17 @@ class AnalyticsUtteranceResult {
 }
 
 enum AnalyticsUtteranceSortByName {
-  utteranceTimestamp,
-}
+  utteranceTimestamp('UtteranceTimestamp'),
+  ;
 
-extension AnalyticsUtteranceSortByNameValueExtension
-    on AnalyticsUtteranceSortByName {
-  String toValue() {
-    switch (this) {
-      case AnalyticsUtteranceSortByName.utteranceTimestamp:
-        return 'UtteranceTimestamp';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsUtteranceSortByNameFromString on String {
-  AnalyticsUtteranceSortByName toAnalyticsUtteranceSortByName() {
-    switch (this) {
-      case 'UtteranceTimestamp':
-        return AnalyticsUtteranceSortByName.utteranceTimestamp;
-    }
-    throw Exception('$this is not known in enum AnalyticsUtteranceSortByName');
-  }
+  const AnalyticsUtteranceSortByName(this.value);
+
+  static AnalyticsUtteranceSortByName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalyticsUtteranceSortByName'));
 }
 
 /// The object containing information that associates the recommended
@@ -8939,40 +8401,25 @@ class AssociatedTranscriptFilter {
     final name = this.name;
     final values = this.values;
     return {
-      'name': name.toValue(),
+      'name': name.value,
       'values': values,
     };
   }
 }
 
 enum AssociatedTranscriptFilterName {
-  intentId,
-  slotTypeId,
-}
+  intentId('IntentId'),
+  slotTypeId('SlotTypeId'),
+  ;
 
-extension AssociatedTranscriptFilterNameValueExtension
-    on AssociatedTranscriptFilterName {
-  String toValue() {
-    switch (this) {
-      case AssociatedTranscriptFilterName.intentId:
-        return 'IntentId';
-      case AssociatedTranscriptFilterName.slotTypeId:
-        return 'SlotTypeId';
-    }
-  }
-}
+  final String value;
 
-extension AssociatedTranscriptFilterNameFromString on String {
-  AssociatedTranscriptFilterName toAssociatedTranscriptFilterName() {
-    switch (this) {
-      case 'IntentId':
-        return AssociatedTranscriptFilterName.intentId;
-      case 'SlotTypeId':
-        return AssociatedTranscriptFilterName.slotTypeId;
-    }
-    throw Exception(
-        '$this is not known in enum AssociatedTranscriptFilterName');
-  }
+  const AssociatedTranscriptFilterName(this.value);
+
+  static AssociatedTranscriptFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociatedTranscriptFilterName'));
 }
 
 /// Specifies the audio and DTMF input specification.
@@ -9088,26 +8535,17 @@ class AudioLogSetting {
 }
 
 enum AudioRecognitionStrategy {
-  useSlotValuesAsCustomVocabulary,
-}
+  useSlotValuesAsCustomVocabulary('UseSlotValuesAsCustomVocabulary'),
+  ;
 
-extension AudioRecognitionStrategyValueExtension on AudioRecognitionStrategy {
-  String toValue() {
-    switch (this) {
-      case AudioRecognitionStrategy.useSlotValuesAsCustomVocabulary:
-        return 'UseSlotValuesAsCustomVocabulary';
-    }
-  }
-}
+  final String value;
 
-extension AudioRecognitionStrategyFromString on String {
-  AudioRecognitionStrategy toAudioRecognitionStrategy() {
-    switch (this) {
-      case 'UseSlotValuesAsCustomVocabulary':
-        return AudioRecognitionStrategy.useSlotValuesAsCustomVocabulary;
-    }
-    throw Exception('$this is not known in enum AudioRecognitionStrategy');
-  }
+  const AudioRecognitionStrategy(this.value);
+
+  static AudioRecognitionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioRecognitionStrategy'));
 }
 
 /// Specifies the audio input specifications.
@@ -9492,7 +8930,7 @@ class BotAliasReplicaSummary {
     return BotAliasReplicaSummary(
       botAliasId: json['botAliasId'] as String?,
       botAliasReplicationStatus: (json['botAliasReplicationStatus'] as String?)
-          ?.toBotAliasReplicationStatus(),
+          ?.let(BotAliasReplicationStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
@@ -9513,7 +8951,7 @@ class BotAliasReplicaSummary {
     return {
       if (botAliasId != null) 'botAliasId': botAliasId,
       if (botAliasReplicationStatus != null)
-        'botAliasReplicationStatus': botAliasReplicationStatus.toValue(),
+        'botAliasReplicationStatus': botAliasReplicationStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -9527,84 +8965,38 @@ class BotAliasReplicaSummary {
 /// The status of the operation to replicate the bot alias. Values: Creating,
 /// Updating, Available, Deleting, Failed.
 enum BotAliasReplicationStatus {
-  creating,
-  updating,
-  available,
-  deleting,
-  failed,
-}
+  creating('Creating'),
+  updating('Updating'),
+  available('Available'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension BotAliasReplicationStatusValueExtension on BotAliasReplicationStatus {
-  String toValue() {
-    switch (this) {
-      case BotAliasReplicationStatus.creating:
-        return 'Creating';
-      case BotAliasReplicationStatus.updating:
-        return 'Updating';
-      case BotAliasReplicationStatus.available:
-        return 'Available';
-      case BotAliasReplicationStatus.deleting:
-        return 'Deleting';
-      case BotAliasReplicationStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BotAliasReplicationStatusFromString on String {
-  BotAliasReplicationStatus toBotAliasReplicationStatus() {
-    switch (this) {
-      case 'Creating':
-        return BotAliasReplicationStatus.creating;
-      case 'Updating':
-        return BotAliasReplicationStatus.updating;
-      case 'Available':
-        return BotAliasReplicationStatus.available;
-      case 'Deleting':
-        return BotAliasReplicationStatus.deleting;
-      case 'Failed':
-        return BotAliasReplicationStatus.failed;
-    }
-    throw Exception('$this is not known in enum BotAliasReplicationStatus');
-  }
+  const BotAliasReplicationStatus(this.value);
+
+  static BotAliasReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotAliasReplicationStatus'));
 }
 
 enum BotAliasStatus {
-  creating,
-  available,
-  deleting,
-  failed,
-}
+  creating('Creating'),
+  available('Available'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension BotAliasStatusValueExtension on BotAliasStatus {
-  String toValue() {
-    switch (this) {
-      case BotAliasStatus.creating:
-        return 'Creating';
-      case BotAliasStatus.available:
-        return 'Available';
-      case BotAliasStatus.deleting:
-        return 'Deleting';
-      case BotAliasStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BotAliasStatusFromString on String {
-  BotAliasStatus toBotAliasStatus() {
-    switch (this) {
-      case 'Creating':
-        return BotAliasStatus.creating;
-      case 'Available':
-        return BotAliasStatus.available;
-      case 'Deleting':
-        return BotAliasStatus.deleting;
-      case 'Failed':
-        return BotAliasStatus.failed;
-    }
-    throw Exception('$this is not known in enum BotAliasStatus');
-  }
+  const BotAliasStatus(this.value);
+
+  static BotAliasStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotAliasStatus'));
 }
 
 /// Summary information about bot aliases returned from the <a
@@ -9650,7 +9042,8 @@ class BotAliasSummary {
     return BotAliasSummary(
       botAliasId: json['botAliasId'] as String?,
       botAliasName: json['botAliasName'] as String?,
-      botAliasStatus: (json['botAliasStatus'] as String?)?.toBotAliasStatus(),
+      botAliasStatus:
+          (json['botAliasStatus'] as String?)?.let(BotAliasStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
@@ -9669,7 +9062,7 @@ class BotAliasSummary {
     return {
       if (botAliasId != null) 'botAliasId': botAliasId,
       if (botAliasName != null) 'botAliasName': botAliasName,
-      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.toValue(),
+      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -9773,72 +9166,42 @@ class BotFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum BotFilterName {
-  botName,
-  botType,
-}
+  botName('BotName'),
+  botType('BotType'),
+  ;
 
-extension BotFilterNameValueExtension on BotFilterName {
-  String toValue() {
-    switch (this) {
-      case BotFilterName.botName:
-        return 'BotName';
-      case BotFilterName.botType:
-        return 'BotType';
-    }
-  }
-}
+  final String value;
 
-extension BotFilterNameFromString on String {
-  BotFilterName toBotFilterName() {
-    switch (this) {
-      case 'BotName':
-        return BotFilterName.botName;
-      case 'BotType':
-        return BotFilterName.botType;
-    }
-    throw Exception('$this is not known in enum BotFilterName');
-  }
+  const BotFilterName(this.value);
+
+  static BotFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotFilterName'));
 }
 
 enum BotFilterOperator {
-  co,
-  eq,
-  ne,
-}
+  co('CO'),
+  eq('EQ'),
+  ne('NE'),
+  ;
 
-extension BotFilterOperatorValueExtension on BotFilterOperator {
-  String toValue() {
-    switch (this) {
-      case BotFilterOperator.co:
-        return 'CO';
-      case BotFilterOperator.eq:
-        return 'EQ';
-      case BotFilterOperator.ne:
-        return 'NE';
-    }
-  }
-}
+  final String value;
 
-extension BotFilterOperatorFromString on String {
-  BotFilterOperator toBotFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return BotFilterOperator.co;
-      case 'EQ':
-        return BotFilterOperator.eq;
-      case 'NE':
-        return BotFilterOperator.ne;
-    }
-    throw Exception('$this is not known in enum BotFilterOperator');
-  }
+  const BotFilterOperator(this.value);
+
+  static BotFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotFilterOperator'));
 }
 
 /// Provides the bot parameters required for importing a bot.
@@ -9978,62 +9341,40 @@ class BotLocaleFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum BotLocaleFilterName {
-  botLocaleName,
-}
+  botLocaleName('BotLocaleName'),
+  ;
 
-extension BotLocaleFilterNameValueExtension on BotLocaleFilterName {
-  String toValue() {
-    switch (this) {
-      case BotLocaleFilterName.botLocaleName:
-        return 'BotLocaleName';
-    }
-  }
-}
+  final String value;
 
-extension BotLocaleFilterNameFromString on String {
-  BotLocaleFilterName toBotLocaleFilterName() {
-    switch (this) {
-      case 'BotLocaleName':
-        return BotLocaleFilterName.botLocaleName;
-    }
-    throw Exception('$this is not known in enum BotLocaleFilterName');
-  }
+  const BotLocaleFilterName(this.value);
+
+  static BotLocaleFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BotLocaleFilterName'));
 }
 
 enum BotLocaleFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension BotLocaleFilterOperatorValueExtension on BotLocaleFilterOperator {
-  String toValue() {
-    switch (this) {
-      case BotLocaleFilterOperator.co:
-        return 'CO';
-      case BotLocaleFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension BotLocaleFilterOperatorFromString on String {
-  BotLocaleFilterOperator toBotLocaleFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return BotLocaleFilterOperator.co;
-      case 'EQ':
-        return BotLocaleFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum BotLocaleFilterOperator');
-  }
+  const BotLocaleFilterOperator(this.value);
+
+  static BotLocaleFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotLocaleFilterOperator'));
 }
 
 /// Provides information about an event that occurred affecting the bot locale.
@@ -10153,26 +9494,17 @@ class BotLocaleImportSpecification {
 }
 
 enum BotLocaleSortAttribute {
-  botLocaleName,
-}
+  botLocaleName('BotLocaleName'),
+  ;
 
-extension BotLocaleSortAttributeValueExtension on BotLocaleSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BotLocaleSortAttribute.botLocaleName:
-        return 'BotLocaleName';
-    }
-  }
-}
+  final String value;
 
-extension BotLocaleSortAttributeFromString on String {
-  BotLocaleSortAttribute toBotLocaleSortAttribute() {
-    switch (this) {
-      case 'BotLocaleName':
-        return BotLocaleSortAttribute.botLocaleName;
-    }
-    throw Exception('$this is not known in enum BotLocaleSortAttribute');
-  }
+  const BotLocaleSortAttribute(this.value);
+
+  static BotLocaleSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotLocaleSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of bot locales.
@@ -10192,73 +9524,32 @@ class BotLocaleSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum BotLocaleStatus {
-  creating,
-  building,
-  built,
-  readyExpressTesting,
-  failed,
-  deleting,
-  notBuilt,
-  importing,
-  processing,
-}
+  creating('Creating'),
+  building('Building'),
+  built('Built'),
+  readyExpressTesting('ReadyExpressTesting'),
+  failed('Failed'),
+  deleting('Deleting'),
+  notBuilt('NotBuilt'),
+  importing('Importing'),
+  processing('Processing'),
+  ;
 
-extension BotLocaleStatusValueExtension on BotLocaleStatus {
-  String toValue() {
-    switch (this) {
-      case BotLocaleStatus.creating:
-        return 'Creating';
-      case BotLocaleStatus.building:
-        return 'Building';
-      case BotLocaleStatus.built:
-        return 'Built';
-      case BotLocaleStatus.readyExpressTesting:
-        return 'ReadyExpressTesting';
-      case BotLocaleStatus.failed:
-        return 'Failed';
-      case BotLocaleStatus.deleting:
-        return 'Deleting';
-      case BotLocaleStatus.notBuilt:
-        return 'NotBuilt';
-      case BotLocaleStatus.importing:
-        return 'Importing';
-      case BotLocaleStatus.processing:
-        return 'Processing';
-    }
-  }
-}
+  final String value;
 
-extension BotLocaleStatusFromString on String {
-  BotLocaleStatus toBotLocaleStatus() {
-    switch (this) {
-      case 'Creating':
-        return BotLocaleStatus.creating;
-      case 'Building':
-        return BotLocaleStatus.building;
-      case 'Built':
-        return BotLocaleStatus.built;
-      case 'ReadyExpressTesting':
-        return BotLocaleStatus.readyExpressTesting;
-      case 'Failed':
-        return BotLocaleStatus.failed;
-      case 'Deleting':
-        return BotLocaleStatus.deleting;
-      case 'NotBuilt':
-        return BotLocaleStatus.notBuilt;
-      case 'Importing':
-        return BotLocaleStatus.importing;
-      case 'Processing':
-        return BotLocaleStatus.processing;
-    }
-    throw Exception('$this is not known in enum BotLocaleStatus');
-  }
+  const BotLocaleStatus(this.value);
+
+  static BotLocaleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotLocaleStatus'));
 }
 
 /// Summary information about bot locales returned by the <a
@@ -10296,7 +9587,7 @@ class BotLocaleSummary {
   factory BotLocaleSummary.fromJson(Map<String, dynamic> json) {
     return BotLocaleSummary(
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       description: json['description'] as String?,
       lastBuildSubmittedDateTime:
           timeStampFromJson(json['lastBuildSubmittedDateTime']),
@@ -10314,7 +9605,7 @@ class BotLocaleSummary {
     final localeId = this.localeId;
     final localeName = this.localeName;
     return {
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (description != null) 'description': description,
       if (lastBuildSubmittedDateTime != null)
         'lastBuildSubmittedDateTime':
@@ -10460,66 +9751,25 @@ class BotRecommendationResults {
 }
 
 enum BotRecommendationStatus {
-  processing,
-  deleting,
-  deleted,
-  downloading,
-  updating,
-  available,
-  failed,
-  stopping,
-  stopped,
-}
+  processing('Processing'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  downloading('Downloading'),
+  updating('Updating'),
+  available('Available'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension BotRecommendationStatusValueExtension on BotRecommendationStatus {
-  String toValue() {
-    switch (this) {
-      case BotRecommendationStatus.processing:
-        return 'Processing';
-      case BotRecommendationStatus.deleting:
-        return 'Deleting';
-      case BotRecommendationStatus.deleted:
-        return 'Deleted';
-      case BotRecommendationStatus.downloading:
-        return 'Downloading';
-      case BotRecommendationStatus.updating:
-        return 'Updating';
-      case BotRecommendationStatus.available:
-        return 'Available';
-      case BotRecommendationStatus.failed:
-        return 'Failed';
-      case BotRecommendationStatus.stopping:
-        return 'Stopping';
-      case BotRecommendationStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension BotRecommendationStatusFromString on String {
-  BotRecommendationStatus toBotRecommendationStatus() {
-    switch (this) {
-      case 'Processing':
-        return BotRecommendationStatus.processing;
-      case 'Deleting':
-        return BotRecommendationStatus.deleting;
-      case 'Deleted':
-        return BotRecommendationStatus.deleted;
-      case 'Downloading':
-        return BotRecommendationStatus.downloading;
-      case 'Updating':
-        return BotRecommendationStatus.updating;
-      case 'Available':
-        return BotRecommendationStatus.available;
-      case 'Failed':
-        return BotRecommendationStatus.failed;
-      case 'Stopping':
-        return BotRecommendationStatus.stopping;
-      case 'Stopped':
-        return BotRecommendationStatus.stopped;
-    }
-    throw Exception('$this is not known in enum BotRecommendationStatus');
-  }
+  const BotRecommendationStatus(this.value);
+
+  static BotRecommendationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotRecommendationStatus'));
 }
 
 /// A summary of the bot recommendation.
@@ -10550,8 +9800,8 @@ class BotRecommendationSummary {
   factory BotRecommendationSummary.fromJson(Map<String, dynamic> json) {
     return BotRecommendationSummary(
       botRecommendationId: json['botRecommendationId'] as String,
-      botRecommendationStatus: (json['botRecommendationStatus'] as String)
-          .toBotRecommendationStatus(),
+      botRecommendationStatus: BotRecommendationStatus.fromString(
+          (json['botRecommendationStatus'] as String)),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
     );
@@ -10564,7 +9814,7 @@ class BotRecommendationSummary {
     final lastUpdatedDateTime = this.lastUpdatedDateTime;
     return {
       'botRecommendationId': botRecommendationId,
-      'botRecommendationStatus': botRecommendationStatus.toValue(),
+      'botRecommendationStatus': botRecommendationStatus.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (lastUpdatedDateTime != null)
@@ -10576,41 +9826,20 @@ class BotRecommendationSummary {
 /// The status of the operation to replicate the bot. Values: Enabling, Enabled,
 /// Deleting, Failed.
 enum BotReplicaStatus {
-  enabling,
-  enabled,
-  deleting,
-  failed,
-}
+  enabling('Enabling'),
+  enabled('Enabled'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension BotReplicaStatusValueExtension on BotReplicaStatus {
-  String toValue() {
-    switch (this) {
-      case BotReplicaStatus.enabling:
-        return 'Enabling';
-      case BotReplicaStatus.enabled:
-        return 'Enabled';
-      case BotReplicaStatus.deleting:
-        return 'Deleting';
-      case BotReplicaStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BotReplicaStatusFromString on String {
-  BotReplicaStatus toBotReplicaStatus() {
-    switch (this) {
-      case 'Enabling':
-        return BotReplicaStatus.enabling;
-      case 'Enabled':
-        return BotReplicaStatus.enabled;
-      case 'Deleting':
-        return BotReplicaStatus.deleting;
-      case 'Failed':
-        return BotReplicaStatus.failed;
-    }
-    throw Exception('$this is not known in enum BotReplicaStatus');
-  }
+  const BotReplicaStatus(this.value);
+
+  static BotReplicaStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotReplicaStatus'));
 }
 
 /// Contains summary information about all the replication statuses applicable
@@ -10637,8 +9866,8 @@ class BotReplicaSummary {
 
   factory BotReplicaSummary.fromJson(Map<String, dynamic> json) {
     return BotReplicaSummary(
-      botReplicaStatus:
-          (json['botReplicaStatus'] as String?)?.toBotReplicaStatus(),
+      botReplicaStatus: (json['botReplicaStatus'] as String?)
+          ?.let(BotReplicaStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
@@ -10654,8 +9883,7 @@ class BotReplicaSummary {
     final failureReasons = this.failureReasons;
     final replicaRegion = this.replicaRegion;
     return {
-      if (botReplicaStatus != null)
-        'botReplicaStatus': botReplicaStatus.toValue(),
+      if (botReplicaStatus != null) 'botReplicaStatus': botReplicaStatus.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReasons != null) 'failureReasons': failureReasons,
@@ -10665,26 +9893,17 @@ class BotReplicaSummary {
 }
 
 enum BotSortAttribute {
-  botName,
-}
+  botName('BotName'),
+  ;
 
-extension BotSortAttributeValueExtension on BotSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BotSortAttribute.botName:
-        return 'BotName';
-    }
-  }
-}
+  final String value;
 
-extension BotSortAttributeFromString on String {
-  BotSortAttribute toBotSortAttribute() {
-    switch (this) {
-      case 'BotName':
-        return BotSortAttribute.botName;
-    }
-    throw Exception('$this is not known in enum BotSortAttribute');
-  }
+  const BotSortAttribute(this.value);
+
+  static BotSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BotSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of bots.
@@ -10704,68 +9923,30 @@ class BotSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum BotStatus {
-  creating,
-  available,
-  inactive,
-  deleting,
-  failed,
-  versioning,
-  importing,
-  updating,
-}
+  creating('Creating'),
+  available('Available'),
+  inactive('Inactive'),
+  deleting('Deleting'),
+  failed('Failed'),
+  versioning('Versioning'),
+  importing('Importing'),
+  updating('Updating'),
+  ;
 
-extension BotStatusValueExtension on BotStatus {
-  String toValue() {
-    switch (this) {
-      case BotStatus.creating:
-        return 'Creating';
-      case BotStatus.available:
-        return 'Available';
-      case BotStatus.inactive:
-        return 'Inactive';
-      case BotStatus.deleting:
-        return 'Deleting';
-      case BotStatus.failed:
-        return 'Failed';
-      case BotStatus.versioning:
-        return 'Versioning';
-      case BotStatus.importing:
-        return 'Importing';
-      case BotStatus.updating:
-        return 'Updating';
-    }
-  }
-}
+  final String value;
 
-extension BotStatusFromString on String {
-  BotStatus toBotStatus() {
-    switch (this) {
-      case 'Creating':
-        return BotStatus.creating;
-      case 'Available':
-        return BotStatus.available;
-      case 'Inactive':
-        return BotStatus.inactive;
-      case 'Deleting':
-        return BotStatus.deleting;
-      case 'Failed':
-        return BotStatus.failed;
-      case 'Versioning':
-        return BotStatus.versioning;
-      case 'Importing':
-        return BotStatus.importing;
-      case 'Updating':
-        return BotStatus.updating;
-    }
-    throw Exception('$this is not known in enum BotStatus');
-  }
+  const BotStatus(this.value);
+
+  static BotStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BotStatus'));
 }
 
 /// Summary information about a bot returned by the <a
@@ -10811,8 +9992,8 @@ class BotSummary {
     return BotSummary(
       botId: json['botId'] as String?,
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
-      botType: (json['botType'] as String?)?.toBotType(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
+      botType: (json['botType'] as String?)?.let(BotType.fromString),
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       latestBotVersion: json['latestBotVersion'] as String?,
@@ -10830,8 +10011,8 @@ class BotSummary {
     return {
       if (botId != null) 'botId': botId,
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
-      if (botType != null) 'botType': botType.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
+      if (botType != null) 'botType': botType.value,
       if (description != null) 'description': description,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
@@ -10841,31 +10022,17 @@ class BotSummary {
 }
 
 enum BotType {
-  bot,
-  botNetwork,
-}
+  bot('Bot'),
+  botNetwork('BotNetwork'),
+  ;
 
-extension BotTypeValueExtension on BotType {
-  String toValue() {
-    switch (this) {
-      case BotType.bot:
-        return 'Bot';
-      case BotType.botNetwork:
-        return 'BotNetwork';
-    }
-  }
-}
+  final String value;
 
-extension BotTypeFromString on String {
-  BotType toBotType() {
-    switch (this) {
-      case 'Bot':
-        return BotType.bot;
-      case 'BotNetwork':
-        return BotType.botNetwork;
-    }
-    throw Exception('$this is not known in enum BotType');
-  }
+  const BotType(this.value);
+
+  static BotType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum BotType'));
 }
 
 /// The version of a bot used for a bot locale.
@@ -10892,28 +10059,17 @@ class BotVersionLocaleDetails {
 }
 
 enum BotVersionReplicaSortAttribute {
-  botVersion,
-}
+  botVersion('BotVersion'),
+  ;
 
-extension BotVersionReplicaSortAttributeValueExtension
-    on BotVersionReplicaSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BotVersionReplicaSortAttribute.botVersion:
-        return 'BotVersion';
-    }
-  }
-}
+  final String value;
 
-extension BotVersionReplicaSortAttributeFromString on String {
-  BotVersionReplicaSortAttribute toBotVersionReplicaSortAttribute() {
-    switch (this) {
-      case 'BotVersion':
-        return BotVersionReplicaSortAttribute.botVersion;
-    }
-    throw Exception(
-        '$this is not known in enum BotVersionReplicaSortAttribute');
-  }
+  const BotVersionReplicaSortAttribute(this.value);
+
+  static BotVersionReplicaSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotVersionReplicaSortAttribute'));
 }
 
 /// The sort category for the version replicated bots.
@@ -10933,8 +10089,8 @@ class BotVersionReplicaSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -10968,7 +10124,7 @@ class BotVersionReplicaSummary {
       botVersion: json['botVersion'] as String?,
       botVersionReplicationStatus:
           (json['botVersionReplicationStatus'] as String?)
-              ?.toBotVersionReplicationStatus(),
+              ?.let(BotVersionReplicationStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
@@ -10985,7 +10141,7 @@ class BotVersionReplicaSummary {
     return {
       if (botVersion != null) 'botVersion': botVersion,
       if (botVersionReplicationStatus != null)
-        'botVersionReplicationStatus': botVersionReplicationStatus.toValue(),
+        'botVersionReplicationStatus': botVersionReplicationStatus.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReasons != null) 'failureReasons': failureReasons,
@@ -10996,65 +10152,34 @@ class BotVersionReplicaSummary {
 /// The status of the operation to replicate the bot version. Values: Creating,
 /// Available, Deleting, Failed.
 enum BotVersionReplicationStatus {
-  creating,
-  available,
-  deleting,
-  failed,
-}
+  creating('Creating'),
+  available('Available'),
+  deleting('Deleting'),
+  failed('Failed'),
+  ;
 
-extension BotVersionReplicationStatusValueExtension
-    on BotVersionReplicationStatus {
-  String toValue() {
-    switch (this) {
-      case BotVersionReplicationStatus.creating:
-        return 'Creating';
-      case BotVersionReplicationStatus.available:
-        return 'Available';
-      case BotVersionReplicationStatus.deleting:
-        return 'Deleting';
-      case BotVersionReplicationStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BotVersionReplicationStatusFromString on String {
-  BotVersionReplicationStatus toBotVersionReplicationStatus() {
-    switch (this) {
-      case 'Creating':
-        return BotVersionReplicationStatus.creating;
-      case 'Available':
-        return BotVersionReplicationStatus.available;
-      case 'Deleting':
-        return BotVersionReplicationStatus.deleting;
-      case 'Failed':
-        return BotVersionReplicationStatus.failed;
-    }
-    throw Exception('$this is not known in enum BotVersionReplicationStatus');
-  }
+  const BotVersionReplicationStatus(this.value);
+
+  static BotVersionReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotVersionReplicationStatus'));
 }
 
 enum BotVersionSortAttribute {
-  botVersion,
-}
+  botVersion('BotVersion'),
+  ;
 
-extension BotVersionSortAttributeValueExtension on BotVersionSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BotVersionSortAttribute.botVersion:
-        return 'BotVersion';
-    }
-  }
-}
+  final String value;
 
-extension BotVersionSortAttributeFromString on String {
-  BotVersionSortAttribute toBotVersionSortAttribute() {
-    switch (this) {
-      case 'BotVersion':
-        return BotVersionSortAttribute.botVersion;
-    }
-    throw Exception('$this is not known in enum BotVersionSortAttribute');
-  }
+  const BotVersionSortAttribute(this.value);
+
+  static BotVersionSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BotVersionSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of bot versions.
@@ -11074,8 +10199,8 @@ class BotVersionSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -11112,7 +10237,7 @@ class BotVersionSummary {
   factory BotVersionSummary.fromJson(Map<String, dynamic> json) {
     return BotVersionSummary(
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
@@ -11127,7 +10252,7 @@ class BotVersionSummary {
     final description = this.description;
     return {
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -11169,7 +10294,7 @@ class BuildBotLocaleResponse {
     return BuildBotLocaleResponse(
       botId: json['botId'] as String?,
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       botVersion: json['botVersion'] as String?,
       lastBuildSubmittedDateTime:
           timeStampFromJson(json['lastBuildSubmittedDateTime']),
@@ -11185,7 +10310,7 @@ class BuildBotLocaleResponse {
     final localeId = this.localeId;
     return {
       if (botId != null) 'botId': botId,
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (lastBuildSubmittedDateTime != null)
         'lastBuildSubmittedDateTime':
@@ -11236,27 +10361,17 @@ class BuildtimeSettings {
 }
 
 enum BuiltInIntentSortAttribute {
-  intentSignature,
-}
+  intentSignature('IntentSignature'),
+  ;
 
-extension BuiltInIntentSortAttributeValueExtension
-    on BuiltInIntentSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BuiltInIntentSortAttribute.intentSignature:
-        return 'IntentSignature';
-    }
-  }
-}
+  final String value;
 
-extension BuiltInIntentSortAttributeFromString on String {
-  BuiltInIntentSortAttribute toBuiltInIntentSortAttribute() {
-    switch (this) {
-      case 'IntentSignature':
-        return BuiltInIntentSortAttribute.intentSignature;
-    }
-    throw Exception('$this is not known in enum BuiltInIntentSortAttribute');
-  }
+  const BuiltInIntentSortAttribute(this.value);
+
+  static BuiltInIntentSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BuiltInIntentSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of built-in intents.
@@ -11276,8 +10391,8 @@ class BuiltInIntentSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -11316,27 +10431,17 @@ class BuiltInIntentSummary {
 }
 
 enum BuiltInSlotTypeSortAttribute {
-  slotTypeSignature,
-}
+  slotTypeSignature('SlotTypeSignature'),
+  ;
 
-extension BuiltInSlotTypeSortAttributeValueExtension
-    on BuiltInSlotTypeSortAttribute {
-  String toValue() {
-    switch (this) {
-      case BuiltInSlotTypeSortAttribute.slotTypeSignature:
-        return 'SlotTypeSignature';
-    }
-  }
-}
+  final String value;
 
-extension BuiltInSlotTypeSortAttributeFromString on String {
-  BuiltInSlotTypeSortAttribute toBuiltInSlotTypeSortAttribute() {
-    switch (this) {
-      case 'SlotTypeSignature':
-        return BuiltInSlotTypeSortAttribute.slotTypeSignature;
-    }
-    throw Exception('$this is not known in enum BuiltInSlotTypeSortAttribute');
-  }
+  const BuiltInSlotTypeSortAttribute(this.value);
+
+  static BuiltInSlotTypeSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BuiltInSlotTypeSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of built-in slot types.
@@ -11356,8 +10461,8 @@ class BuiltInSlotTypeSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -11632,36 +10737,19 @@ class ConditionalSpecification {
 }
 
 enum ConversationEndState {
-  success,
-  failure,
-  dropped,
-}
+  success('Success'),
+  failure('Failure'),
+  dropped('Dropped'),
+  ;
 
-extension ConversationEndStateValueExtension on ConversationEndState {
-  String toValue() {
-    switch (this) {
-      case ConversationEndState.success:
-        return 'Success';
-      case ConversationEndState.failure:
-        return 'Failure';
-      case ConversationEndState.dropped:
-        return 'Dropped';
-    }
-  }
-}
+  final String value;
 
-extension ConversationEndStateFromString on String {
-  ConversationEndState toConversationEndState() {
-    switch (this) {
-      case 'Success':
-        return ConversationEndState.success;
-      case 'Failure':
-        return ConversationEndState.failure;
-      case 'Dropped':
-        return ConversationEndState.dropped;
-    }
-    throw Exception('$this is not known in enum ConversationEndState');
-  }
+  const ConversationEndState(this.value);
+
+  static ConversationEndState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConversationEndState'));
 }
 
 /// The item listing the evaluation of intent level success or failure.
@@ -11682,7 +10770,8 @@ class ConversationLevelIntentClassificationResultItem {
       Map<String, dynamic> json) {
     return ConversationLevelIntentClassificationResultItem(
       intentName: json['intentName'] as String,
-      matchResult: (json['matchResult'] as String).toTestResultMatchStatus(),
+      matchResult:
+          TestResultMatchStatus.fromString((json['matchResult'] as String)),
     );
   }
 
@@ -11691,7 +10780,7 @@ class ConversationLevelIntentClassificationResultItem {
     final matchResult = this.matchResult;
     return {
       'intentName': intentName,
-      'matchResult': matchResult.toValue(),
+      'matchResult': matchResult.value,
     };
   }
 }
@@ -11712,9 +10801,9 @@ class ConversationLevelResultDetail {
   factory ConversationLevelResultDetail.fromJson(Map<String, dynamic> json) {
     return ConversationLevelResultDetail(
       endToEndResult:
-          (json['endToEndResult'] as String).toTestResultMatchStatus(),
+          TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
       speechTranscriptionResult: (json['speechTranscriptionResult'] as String?)
-          ?.toTestResultMatchStatus(),
+          ?.let(TestResultMatchStatus.fromString),
     );
   }
 
@@ -11722,9 +10811,9 @@ class ConversationLevelResultDetail {
     final endToEndResult = this.endToEndResult;
     final speechTranscriptionResult = this.speechTranscriptionResult;
     return {
-      'endToEndResult': endToEndResult.toValue(),
+      'endToEndResult': endToEndResult.value,
       if (speechTranscriptionResult != null)
-        'speechTranscriptionResult': speechTranscriptionResult.toValue(),
+        'speechTranscriptionResult': speechTranscriptionResult.value,
     };
   }
 }
@@ -11751,7 +10840,8 @@ class ConversationLevelSlotResolutionResultItem {
       Map<String, dynamic> json) {
     return ConversationLevelSlotResolutionResultItem(
       intentName: json['intentName'] as String,
-      matchResult: (json['matchResult'] as String).toTestResultMatchStatus(),
+      matchResult:
+          TestResultMatchStatus.fromString((json['matchResult'] as String)),
       slotName: json['slotName'] as String,
     );
   }
@@ -11762,7 +10852,7 @@ class ConversationLevelSlotResolutionResultItem {
     final slotName = this.slotName;
     return {
       'intentName': intentName,
-      'matchResult': matchResult.toValue(),
+      'matchResult': matchResult.value,
       'slotName': slotName,
     };
   }
@@ -11799,7 +10889,7 @@ class ConversationLevelTestResultItem {
     return ConversationLevelTestResultItem(
       conversationId: json['conversationId'] as String,
       endToEndResult:
-          (json['endToEndResult'] as String).toTestResultMatchStatus(),
+          TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
       intentClassificationResults: (json['intentClassificationResults'] as List)
           .whereNotNull()
           .map((e) => ConversationLevelIntentClassificationResultItem.fromJson(
@@ -11811,7 +10901,7 @@ class ConversationLevelTestResultItem {
               e as Map<String, dynamic>))
           .toList(),
       speechTranscriptionResult: (json['speechTranscriptionResult'] as String?)
-          ?.toTestResultMatchStatus(),
+          ?.let(TestResultMatchStatus.fromString),
     );
   }
 
@@ -11823,11 +10913,11 @@ class ConversationLevelTestResultItem {
     final speechTranscriptionResult = this.speechTranscriptionResult;
     return {
       'conversationId': conversationId,
-      'endToEndResult': endToEndResult.toValue(),
+      'endToEndResult': endToEndResult.value,
       'intentClassificationResults': intentClassificationResults,
       'slotResolutionResults': slotResolutionResults,
       if (speechTranscriptionResult != null)
-        'speechTranscriptionResult': speechTranscriptionResult.toValue(),
+        'speechTranscriptionResult': speechTranscriptionResult.value,
     };
   }
 }
@@ -11872,7 +10962,7 @@ class ConversationLevelTestResultsFilterBy {
   Map<String, dynamic> toJson() {
     final endToEndResult = this.endToEndResult;
     return {
-      if (endToEndResult != null) 'endToEndResult': endToEndResult.toValue(),
+      if (endToEndResult != null) 'endToEndResult': endToEndResult.value,
     };
   }
 }
@@ -11980,8 +11070,8 @@ class ConversationLogsDataSourceFilterBy {
       Map<String, dynamic> json) {
     return ConversationLogsDataSourceFilterBy(
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      inputMode:
-          (json['inputMode'] as String).toConversationLogsInputModeFilter(),
+      inputMode: ConversationLogsInputModeFilter.fromString(
+          (json['inputMode'] as String)),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
     );
   }
@@ -11992,40 +11082,25 @@ class ConversationLogsDataSourceFilterBy {
     final startTime = this.startTime;
     return {
       'endTime': unixTimestampToJson(endTime),
-      'inputMode': inputMode.toValue(),
+      'inputMode': inputMode.value,
       'startTime': unixTimestampToJson(startTime),
     };
   }
 }
 
 enum ConversationLogsInputModeFilter {
-  speech,
-  text,
-}
+  speech('Speech'),
+  text('Text'),
+  ;
 
-extension ConversationLogsInputModeFilterValueExtension
-    on ConversationLogsInputModeFilter {
-  String toValue() {
-    switch (this) {
-      case ConversationLogsInputModeFilter.speech:
-        return 'Speech';
-      case ConversationLogsInputModeFilter.text:
-        return 'Text';
-    }
-  }
-}
+  final String value;
 
-extension ConversationLogsInputModeFilterFromString on String {
-  ConversationLogsInputModeFilter toConversationLogsInputModeFilter() {
-    switch (this) {
-      case 'Speech':
-        return ConversationLogsInputModeFilter.speech;
-      case 'Text':
-        return ConversationLogsInputModeFilter.text;
-    }
-    throw Exception(
-        '$this is not known in enum ConversationLogsInputModeFilter');
-  }
+  const ConversationLogsInputModeFilter(this.value);
+
+  static ConversationLogsInputModeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConversationLogsInputModeFilter'));
 }
 
 class CreateBotAliasResponse {
@@ -12087,7 +11162,8 @@ class CreateBotAliasResponse {
           ?.map((k, e) => MapEntry(
               k, BotAliasLocaleSettings.fromJson(e as Map<String, dynamic>))),
       botAliasName: json['botAliasName'] as String?,
-      botAliasStatus: (json['botAliasStatus'] as String?)?.toBotAliasStatus(),
+      botAliasStatus:
+          (json['botAliasStatus'] as String?)?.let(BotAliasStatus.fromString),
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       conversationLogSettings: json['conversationLogSettings'] != null
@@ -12122,7 +11198,7 @@ class CreateBotAliasResponse {
       if (botAliasLocaleSettings != null)
         'botAliasLocaleSettings': botAliasLocaleSettings,
       if (botAliasName != null) 'botAliasName': botAliasName,
-      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.toValue(),
+      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.value,
       if (botId != null) 'botId': botId,
       if (botVersion != null) 'botVersion': botVersion,
       if (conversationLogSettings != null)
@@ -12198,7 +11274,7 @@ class CreateBotLocaleResponse {
     return CreateBotLocaleResponse(
       botId: json['botId'] as String?,
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
@@ -12230,7 +11306,7 @@ class CreateBotLocaleResponse {
     final voiceSettings = this.voiceSettings;
     return {
       if (botId != null) 'botId': botId,
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -12273,8 +11349,8 @@ class CreateBotReplicaResponse {
   factory CreateBotReplicaResponse.fromJson(Map<String, dynamic> json) {
     return CreateBotReplicaResponse(
       botId: json['botId'] as String?,
-      botReplicaStatus:
-          (json['botReplicaStatus'] as String?)?.toBotReplicaStatus(),
+      botReplicaStatus: (json['botReplicaStatus'] as String?)
+          ?.let(BotReplicaStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       replicaRegion: json['replicaRegion'] as String?,
       sourceRegion: json['sourceRegion'] as String?,
@@ -12289,8 +11365,7 @@ class CreateBotReplicaResponse {
     final sourceRegion = this.sourceRegion;
     return {
       if (botId != null) 'botId': botId,
-      if (botReplicaStatus != null)
-        'botReplicaStatus': botReplicaStatus.toValue(),
+      if (botReplicaStatus != null) 'botReplicaStatus': botReplicaStatus.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (replicaRegion != null) 'replicaRegion': replicaRegion,
@@ -12363,10 +11438,10 @@ class CreateBotResponse {
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
       botTags: (json['botTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      botType: (json['botType'] as String?)?.toBotType(),
+      botType: (json['botType'] as String?)?.let(BotType.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       dataPrivacy: json['dataPrivacy'] != null
           ? DataPrivacy.fromJson(json['dataPrivacy'] as Map<String, dynamic>)
@@ -12396,9 +11471,9 @@ class CreateBotResponse {
       if (botId != null) 'botId': botId,
       if (botMembers != null) 'botMembers': botMembers,
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
       if (botTags != null) 'botTags': botTags,
-      if (botType != null) 'botType': botType.toValue(),
+      if (botType != null) 'botType': botType.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (dataPrivacy != null) 'dataPrivacy': dataPrivacy,
@@ -12445,7 +11520,7 @@ class CreateBotVersionResponse {
   factory CreateBotVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateBotVersionResponse(
       botId: json['botId'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
       botVersion: json['botVersion'] as String?,
       botVersionLocaleSpecification: (json['botVersionLocaleSpecification']
               as Map<String, dynamic>?)
@@ -12465,7 +11540,7 @@ class CreateBotVersionResponse {
     final description = this.description;
     return {
       if (botId != null) 'botId': botId,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (botVersionLocaleSpecification != null)
         'botVersionLocaleSpecification': botVersionLocaleSpecification,
@@ -12509,8 +11584,10 @@ class CreateExportResponse {
     return CreateExportResponse(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       exportId: json['exportId'] as String?,
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
-      fileFormat: (json['fileFormat'] as String?)?.toImportExportFileFormat(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
+      fileFormat: (json['fileFormat'] as String?)
+          ?.let(ImportExportFileFormat.fromString),
       resourceSpecification: json['resourceSpecification'] != null
           ? ExportResourceSpecification.fromJson(
               json['resourceSpecification'] as Map<String, dynamic>)
@@ -12528,8 +11605,8 @@ class CreateExportResponse {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (exportId != null) 'exportId': exportId,
-      if (exportStatus != null) 'exportStatus': exportStatus.toValue(),
-      if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+      if (exportStatus != null) 'exportStatus': exportStatus.value,
+      if (fileFormat != null) 'fileFormat': fileFormat.value,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
     };
@@ -13275,46 +12352,21 @@ class CustomVocabularyItem {
 }
 
 enum CustomVocabularyStatus {
-  ready,
-  deleting,
-  exporting,
-  importing,
-  creating,
-}
+  ready('Ready'),
+  deleting('Deleting'),
+  exporting('Exporting'),
+  importing('Importing'),
+  creating('Creating'),
+  ;
 
-extension CustomVocabularyStatusValueExtension on CustomVocabularyStatus {
-  String toValue() {
-    switch (this) {
-      case CustomVocabularyStatus.ready:
-        return 'Ready';
-      case CustomVocabularyStatus.deleting:
-        return 'Deleting';
-      case CustomVocabularyStatus.exporting:
-        return 'Exporting';
-      case CustomVocabularyStatus.importing:
-        return 'Importing';
-      case CustomVocabularyStatus.creating:
-        return 'Creating';
-    }
-  }
-}
+  final String value;
 
-extension CustomVocabularyStatusFromString on String {
-  CustomVocabularyStatus toCustomVocabularyStatus() {
-    switch (this) {
-      case 'Ready':
-        return CustomVocabularyStatus.ready;
-      case 'Deleting':
-        return CustomVocabularyStatus.deleting;
-      case 'Exporting':
-        return CustomVocabularyStatus.exporting;
-      case 'Importing':
-        return CustomVocabularyStatus.importing;
-      case 'Creating':
-        return CustomVocabularyStatus.creating;
-    }
-    throw Exception('$this is not known in enum CustomVocabularyStatus');
-  }
+  const CustomVocabularyStatus(this.value);
+
+  static CustomVocabularyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomVocabularyStatus'));
 }
 
 /// Specifies the DTMF input specifications.
@@ -13567,7 +12619,8 @@ class DeleteBotAliasResponse {
   factory DeleteBotAliasResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBotAliasResponse(
       botAliasId: json['botAliasId'] as String?,
-      botAliasStatus: (json['botAliasStatus'] as String?)?.toBotAliasStatus(),
+      botAliasStatus:
+          (json['botAliasStatus'] as String?)?.let(BotAliasStatus.fromString),
       botId: json['botId'] as String?,
     );
   }
@@ -13578,7 +12631,7 @@ class DeleteBotAliasResponse {
     final botId = this.botId;
     return {
       if (botAliasId != null) 'botAliasId': botAliasId,
-      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.toValue(),
+      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.value,
       if (botId != null) 'botId': botId,
     };
   }
@@ -13610,7 +12663,7 @@ class DeleteBotLocaleResponse {
     return DeleteBotLocaleResponse(
       botId: json['botId'] as String?,
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       botVersion: json['botVersion'] as String?,
       localeId: json['localeId'] as String?,
     );
@@ -13623,7 +12676,7 @@ class DeleteBotLocaleResponse {
     final localeId = this.localeId;
     return {
       if (botId != null) 'botId': botId,
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (localeId != null) 'localeId': localeId,
     };
@@ -13649,8 +12702,8 @@ class DeleteBotReplicaResponse {
   factory DeleteBotReplicaResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBotReplicaResponse(
       botId: json['botId'] as String?,
-      botReplicaStatus:
-          (json['botReplicaStatus'] as String?)?.toBotReplicaStatus(),
+      botReplicaStatus: (json['botReplicaStatus'] as String?)
+          ?.let(BotReplicaStatus.fromString),
       replicaRegion: json['replicaRegion'] as String?,
     );
   }
@@ -13661,8 +12714,7 @@ class DeleteBotReplicaResponse {
     final replicaRegion = this.replicaRegion;
     return {
       if (botId != null) 'botId': botId,
-      if (botReplicaStatus != null)
-        'botReplicaStatus': botReplicaStatus.toValue(),
+      if (botReplicaStatus != null) 'botReplicaStatus': botReplicaStatus.value,
       if (replicaRegion != null) 'replicaRegion': replicaRegion,
     };
   }
@@ -13684,7 +12736,7 @@ class DeleteBotResponse {
   factory DeleteBotResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBotResponse(
       botId: json['botId'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
     );
   }
 
@@ -13693,7 +12745,7 @@ class DeleteBotResponse {
     final botStatus = this.botStatus;
     return {
       if (botId != null) 'botId': botId,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
     };
   }
 }
@@ -13717,7 +12769,7 @@ class DeleteBotVersionResponse {
   factory DeleteBotVersionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBotVersionResponse(
       botId: json['botId'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
       botVersion: json['botVersion'] as String?,
     );
   }
@@ -13728,7 +12780,7 @@ class DeleteBotVersionResponse {
     final botVersion = this.botVersion;
     return {
       if (botId != null) 'botId': botId,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
     };
   }
@@ -13760,7 +12812,7 @@ class DeleteCustomVocabularyResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       customVocabularyStatus: (json['customVocabularyStatus'] as String?)
-          ?.toCustomVocabularyStatus(),
+          ?.let(CustomVocabularyStatus.fromString),
       localeId: json['localeId'] as String?,
     );
   }
@@ -13774,7 +12826,7 @@ class DeleteCustomVocabularyResponse {
       if (botId != null) 'botId': botId,
       if (botVersion != null) 'botVersion': botVersion,
       if (customVocabularyStatus != null)
-        'customVocabularyStatus': customVocabularyStatus.toValue(),
+        'customVocabularyStatus': customVocabularyStatus.value,
       if (localeId != null) 'localeId': localeId,
     };
   }
@@ -13800,7 +12852,8 @@ class DeleteExportResponse {
   factory DeleteExportResponse.fromJson(Map<String, dynamic> json) {
     return DeleteExportResponse(
       exportId: json['exportId'] as String?,
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
     );
   }
 
@@ -13809,7 +12862,7 @@ class DeleteExportResponse {
     final exportStatus = this.exportStatus;
     return {
       if (exportId != null) 'exportId': exportId,
-      if (exportStatus != null) 'exportStatus': exportStatus.toValue(),
+      if (exportStatus != null) 'exportStatus': exportStatus.value,
     };
   }
 }
@@ -13834,7 +12887,8 @@ class DeleteImportResponse {
   factory DeleteImportResponse.fromJson(Map<String, dynamic> json) {
     return DeleteImportResponse(
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
     );
   }
 
@@ -13843,7 +12897,7 @@ class DeleteImportResponse {
     final importStatus = this.importStatus;
     return {
       if (importId != null) 'importId': importId,
-      if (importStatus != null) 'importStatus': importStatus.toValue(),
+      if (importStatus != null) 'importStatus': importStatus.value,
     };
   }
 }
@@ -13996,7 +13050,8 @@ class DescribeBotAliasResponse {
           ?.map((k, e) => MapEntry(
               k, BotAliasLocaleSettings.fromJson(e as Map<String, dynamic>))),
       botAliasName: json['botAliasName'] as String?,
-      botAliasStatus: (json['botAliasStatus'] as String?)?.toBotAliasStatus(),
+      botAliasStatus:
+          (json['botAliasStatus'] as String?)?.let(BotAliasStatus.fromString),
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       conversationLogSettings: json['conversationLogSettings'] != null
@@ -14038,7 +13093,7 @@ class DescribeBotAliasResponse {
       if (botAliasLocaleSettings != null)
         'botAliasLocaleSettings': botAliasLocaleSettings,
       if (botAliasName != null) 'botAliasName': botAliasName,
-      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.toValue(),
+      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.value,
       if (botId != null) 'botId': botId,
       if (botVersion != null) 'botVersion': botVersion,
       if (conversationLogSettings != null)
@@ -14143,7 +13198,7 @@ class DescribeBotLocaleResponse {
           .map((e) => BotLocaleHistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
@@ -14197,7 +13252,7 @@ class DescribeBotLocaleResponse {
       if (botId != null) 'botId': botId,
       if (botLocaleHistoryEvents != null)
         'botLocaleHistoryEvents': botLocaleHistoryEvents,
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -14287,7 +13342,7 @@ class DescribeBotRecommendationResponse {
               json['botRecommendationResults'] as Map<String, dynamic>)
           : null,
       botRecommendationStatus: (json['botRecommendationStatus'] as String?)
-          ?.toBotRecommendationStatus(),
+          ?.let(BotRecommendationStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       encryptionSetting: json['encryptionSetting'] != null
@@ -14326,7 +13381,7 @@ class DescribeBotRecommendationResponse {
       if (botRecommendationResults != null)
         'botRecommendationResults': botRecommendationResults,
       if (botRecommendationStatus != null)
-        'botRecommendationStatus': botRecommendationStatus.toValue(),
+        'botRecommendationStatus': botRecommendationStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -14372,8 +13427,8 @@ class DescribeBotReplicaResponse {
   factory DescribeBotReplicaResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBotReplicaResponse(
       botId: json['botId'] as String?,
-      botReplicaStatus:
-          (json['botReplicaStatus'] as String?)?.toBotReplicaStatus(),
+      botReplicaStatus: (json['botReplicaStatus'] as String?)
+          ?.let(BotReplicaStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
@@ -14393,8 +13448,7 @@ class DescribeBotReplicaResponse {
     final sourceRegion = this.sourceRegion;
     return {
       if (botId != null) 'botId': botId,
-      if (botReplicaStatus != null)
-        'botReplicaStatus': botReplicaStatus.toValue(),
+      if (botReplicaStatus != null) 'botReplicaStatus': botReplicaStatus.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReasons != null) 'failureReasons': failureReasons,
@@ -14466,8 +13520,8 @@ class DescribeBotResourceGenerationResponse {
       generatedBotLocaleUrl: json['generatedBotLocaleUrl'] as String?,
       generationId: json['generationId'] as String?,
       generationInputPrompt: json['generationInputPrompt'] as String?,
-      generationStatus:
-          (json['generationStatus'] as String?)?.toGenerationStatus(),
+      generationStatus: (json['generationStatus'] as String?)
+          ?.let(GenerationStatus.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       localeId: json['localeId'] as String?,
       modelArn: json['modelArn'] as String?,
@@ -14497,8 +13551,7 @@ class DescribeBotResourceGenerationResponse {
       if (generationId != null) 'generationId': generationId,
       if (generationInputPrompt != null)
         'generationInputPrompt': generationInputPrompt,
-      if (generationStatus != null)
-        'generationStatus': generationStatus.toValue(),
+      if (generationStatus != null) 'generationStatus': generationStatus.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (localeId != null) 'localeId': localeId,
@@ -14572,8 +13625,8 @@ class DescribeBotResponse {
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
-      botType: (json['botType'] as String?)?.toBotType(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
+      botType: (json['botType'] as String?)?.let(BotType.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       dataPrivacy: json['dataPrivacy'] != null
           ? DataPrivacy.fromJson(json['dataPrivacy'] as Map<String, dynamic>)
@@ -14606,8 +13659,8 @@ class DescribeBotResponse {
       if (botId != null) 'botId': botId,
       if (botMembers != null) 'botMembers': botMembers,
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
-      if (botType != null) 'botType': botType.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
+      if (botType != null) 'botType': botType.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (dataPrivacy != null) 'dataPrivacy': dataPrivacy,
@@ -14690,8 +13743,8 @@ class DescribeBotVersionResponse {
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
-      botType: (json['botType'] as String?)?.toBotType(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
+      botType: (json['botType'] as String?)?.let(BotType.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       dataPrivacy: json['dataPrivacy'] != null
@@ -14729,8 +13782,8 @@ class DescribeBotVersionResponse {
       if (botId != null) 'botId': botId,
       if (botMembers != null) 'botMembers': botMembers,
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
-      if (botType != null) 'botType': botType.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
+      if (botType != null) 'botType': botType.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -14781,7 +13834,7 @@ class DescribeCustomVocabularyMetadataResponse {
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       customVocabularyStatus: (json['customVocabularyStatus'] as String?)
-          ?.toCustomVocabularyStatus(),
+          ?.let(CustomVocabularyStatus.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       localeId: json['localeId'] as String?,
     );
@@ -14800,7 +13853,7 @@ class DescribeCustomVocabularyMetadataResponse {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (customVocabularyStatus != null)
-        'customVocabularyStatus': customVocabularyStatus.toValue(),
+        'customVocabularyStatus': customVocabularyStatus.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (localeId != null) 'localeId': localeId,
@@ -14853,12 +13906,14 @@ class DescribeExportResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       downloadUrl: json['downloadUrl'] as String?,
       exportId: json['exportId'] as String?,
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      fileFormat: (json['fileFormat'] as String?)?.toImportExportFileFormat(),
+      fileFormat: (json['fileFormat'] as String?)
+          ?.let(ImportExportFileFormat.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       resourceSpecification: json['resourceSpecification'] != null
           ? ExportResourceSpecification.fromJson(
@@ -14881,9 +13936,9 @@ class DescribeExportResponse {
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (downloadUrl != null) 'downloadUrl': downloadUrl,
       if (exportId != null) 'exportId': exportId,
-      if (exportStatus != null) 'exportStatus': exportStatus.toValue(),
+      if (exportStatus != null) 'exportStatus': exportStatus.value,
       if (failureReasons != null) 'failureReasons': failureReasons,
-      if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+      if (fileFormat != null) 'fileFormat': fileFormat.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (resourceSpecification != null)
@@ -14946,11 +14001,13 @@ class DescribeImportResponse {
           .map((e) => e as String)
           .toList(),
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
       importedResourceId: json['importedResourceId'] as String?,
       importedResourceName: json['importedResourceName'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      mergeStrategy: (json['mergeStrategy'] as String?)?.toMergeStrategy(),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
       resourceSpecification: json['resourceSpecification'] != null
           ? ImportResourceSpecification.fromJson(
               json['resourceSpecification'] as Map<String, dynamic>)
@@ -14973,13 +14030,13 @@ class DescribeImportResponse {
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (importId != null) 'importId': importId,
-      if (importStatus != null) 'importStatus': importStatus.toValue(),
+      if (importStatus != null) 'importStatus': importStatus.value,
       if (importedResourceId != null) 'importedResourceId': importedResourceId,
       if (importedResourceName != null)
         'importedResourceName': importedResourceName,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.toValue(),
+      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.value,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
     };
@@ -15544,7 +14601,8 @@ class DescribeTestExecutionResponse {
 
   factory DescribeTestExecutionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTestExecutionResponse(
-      apiMode: (json['apiMode'] as String?)?.toTestExecutionApiMode(),
+      apiMode:
+          (json['apiMode'] as String?)?.let(TestExecutionApiMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
@@ -15555,10 +14613,10 @@ class DescribeTestExecutionResponse {
           ? TestExecutionTarget.fromJson(json['target'] as Map<String, dynamic>)
           : null,
       testExecutionId: json['testExecutionId'] as String?,
-      testExecutionModality:
-          (json['testExecutionModality'] as String?)?.toTestExecutionModality(),
-      testExecutionStatus:
-          (json['testExecutionStatus'] as String?)?.toTestExecutionStatus(),
+      testExecutionModality: (json['testExecutionModality'] as String?)
+          ?.let(TestExecutionModality.fromString),
+      testExecutionStatus: (json['testExecutionStatus'] as String?)
+          ?.let(TestExecutionStatus.fromString),
       testSetId: json['testSetId'] as String?,
       testSetName: json['testSetName'] as String?,
     );
@@ -15576,7 +14634,7 @@ class DescribeTestExecutionResponse {
     final testSetId = this.testSetId;
     final testSetName = this.testSetName;
     return {
-      if (apiMode != null) 'apiMode': apiMode.toValue(),
+      if (apiMode != null) 'apiMode': apiMode.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReasons != null) 'failureReasons': failureReasons,
@@ -15585,9 +14643,9 @@ class DescribeTestExecutionResponse {
       if (target != null) 'target': target,
       if (testExecutionId != null) 'testExecutionId': testExecutionId,
       if (testExecutionModality != null)
-        'testExecutionModality': testExecutionModality.toValue(),
+        'testExecutionModality': testExecutionModality.value,
       if (testExecutionStatus != null)
-        'testExecutionStatus': testExecutionStatus.toValue(),
+        'testExecutionStatus': testExecutionStatus.value,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
     };
@@ -15652,7 +14710,7 @@ class DescribeTestSetDiscrepancyReportResponse {
       testSetDiscrepancyReportId: json['testSetDiscrepancyReportId'] as String?,
       testSetDiscrepancyReportStatus:
           (json['testSetDiscrepancyReportStatus'] as String?)
-              ?.toTestSetDiscrepancyReportStatus(),
+              ?.let(TestSetDiscrepancyReportStatus.fromString),
       testSetDiscrepancyTopErrors: json['testSetDiscrepancyTopErrors'] != null
           ? TestSetDiscrepancyErrors.fromJson(
               json['testSetDiscrepancyTopErrors'] as Map<String, dynamic>)
@@ -15683,8 +14741,7 @@ class DescribeTestSetDiscrepancyReportResponse {
       if (testSetDiscrepancyReportId != null)
         'testSetDiscrepancyReportId': testSetDiscrepancyReportId,
       if (testSetDiscrepancyReportStatus != null)
-        'testSetDiscrepancyReportStatus':
-            testSetDiscrepancyReportStatus.toValue(),
+        'testSetDiscrepancyReportStatus': testSetDiscrepancyReportStatus.value,
       if (testSetDiscrepancyTopErrors != null)
         'testSetDiscrepancyTopErrors': testSetDiscrepancyTopErrors,
       if (testSetId != null) 'testSetId': testSetId,
@@ -15761,7 +14818,7 @@ class DescribeTestSetGenerationResponse {
           : null,
       testSetGenerationId: json['testSetGenerationId'] as String?,
       testSetGenerationStatus: (json['testSetGenerationStatus'] as String?)
-          ?.toTestSetGenerationStatus(),
+          ?.let(TestSetGenerationStatus.fromString),
       testSetId: json['testSetId'] as String?,
       testSetName: json['testSetName'] as String?,
     );
@@ -15793,7 +14850,7 @@ class DescribeTestSetGenerationResponse {
       if (testSetGenerationId != null)
         'testSetGenerationId': testSetGenerationId,
       if (testSetGenerationStatus != null)
-        'testSetGenerationStatus': testSetGenerationStatus.toValue(),
+        'testSetGenerationStatus': testSetGenerationStatus.value,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
     };
@@ -15850,10 +14907,10 @@ class DescribeTestSetResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      modality: (json['modality'] as String?)?.toTestSetModality(),
+      modality: (json['modality'] as String?)?.let(TestSetModality.fromString),
       numTurns: json['numTurns'] as int?,
       roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.toTestSetStatus(),
+      status: (json['status'] as String?)?.let(TestSetStatus.fromString),
       storageLocation: json['storageLocation'] != null
           ? TestSetStorageLocation.fromJson(
               json['storageLocation'] as Map<String, dynamic>)
@@ -15880,10 +14937,10 @@ class DescribeTestSetResponse {
       if (description != null) 'description': description,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (modality != null) 'modality': modality.toValue(),
+      if (modality != null) 'modality': modality.value,
       if (numTurns != null) 'numTurns': numTurns,
       if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (storageLocation != null) 'storageLocation': storageLocation,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
@@ -15948,7 +15005,7 @@ class DialogAction {
 
   factory DialogAction.fromJson(Map<String, dynamic> json) {
     return DialogAction(
-      type: (json['type'] as String).toDialogActionType(),
+      type: DialogActionType.fromString((json['type'] as String)),
       slotToElicit: json['slotToElicit'] as String?,
       suppressNextMessage: json['suppressNextMessage'] as bool?,
     );
@@ -15959,7 +15016,7 @@ class DialogAction {
     final slotToElicit = this.slotToElicit;
     final suppressNextMessage = this.suppressNextMessage;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (slotToElicit != null) 'slotToElicit': slotToElicit,
       if (suppressNextMessage != null)
         'suppressNextMessage': suppressNextMessage,
@@ -15968,66 +15025,25 @@ class DialogAction {
 }
 
 enum DialogActionType {
-  elicitIntent,
-  startIntent,
-  elicitSlot,
-  evaluateConditional,
-  invokeDialogCodeHook,
-  confirmIntent,
-  fulfillIntent,
-  closeIntent,
-  endConversation,
-}
+  elicitIntent('ElicitIntent'),
+  startIntent('StartIntent'),
+  elicitSlot('ElicitSlot'),
+  evaluateConditional('EvaluateConditional'),
+  invokeDialogCodeHook('InvokeDialogCodeHook'),
+  confirmIntent('ConfirmIntent'),
+  fulfillIntent('FulfillIntent'),
+  closeIntent('CloseIntent'),
+  endConversation('EndConversation'),
+  ;
 
-extension DialogActionTypeValueExtension on DialogActionType {
-  String toValue() {
-    switch (this) {
-      case DialogActionType.elicitIntent:
-        return 'ElicitIntent';
-      case DialogActionType.startIntent:
-        return 'StartIntent';
-      case DialogActionType.elicitSlot:
-        return 'ElicitSlot';
-      case DialogActionType.evaluateConditional:
-        return 'EvaluateConditional';
-      case DialogActionType.invokeDialogCodeHook:
-        return 'InvokeDialogCodeHook';
-      case DialogActionType.confirmIntent:
-        return 'ConfirmIntent';
-      case DialogActionType.fulfillIntent:
-        return 'FulfillIntent';
-      case DialogActionType.closeIntent:
-        return 'CloseIntent';
-      case DialogActionType.endConversation:
-        return 'EndConversation';
-    }
-  }
-}
+  final String value;
 
-extension DialogActionTypeFromString on String {
-  DialogActionType toDialogActionType() {
-    switch (this) {
-      case 'ElicitIntent':
-        return DialogActionType.elicitIntent;
-      case 'StartIntent':
-        return DialogActionType.startIntent;
-      case 'ElicitSlot':
-        return DialogActionType.elicitSlot;
-      case 'EvaluateConditional':
-        return DialogActionType.evaluateConditional;
-      case 'InvokeDialogCodeHook':
-        return DialogActionType.invokeDialogCodeHook;
-      case 'ConfirmIntent':
-        return DialogActionType.confirmIntent;
-      case 'FulfillIntent':
-        return DialogActionType.fulfillIntent;
-      case 'CloseIntent':
-        return DialogActionType.closeIntent;
-      case 'EndConversation':
-        return DialogActionType.endConversation;
-    }
-    throw Exception('$this is not known in enum DialogActionType');
-  }
+  const DialogActionType(this.value);
+
+  static DialogActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DialogActionType'));
 }
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex at a
@@ -16145,31 +15161,17 @@ class DialogState {
 }
 
 enum Effect {
-  allow,
-  deny,
-}
+  allow('Allow'),
+  deny('Deny'),
+  ;
 
-extension EffectValueExtension on Effect {
-  String toValue() {
-    switch (this) {
-      case Effect.allow:
-        return 'Allow';
-      case Effect.deny:
-        return 'Deny';
-    }
-  }
-}
+  final String value;
 
-extension EffectFromString on String {
-  Effect toEffect() {
-    switch (this) {
-      case 'Allow':
-        return Effect.allow;
-      case 'Deny':
-        return Effect.deny;
-    }
-    throw Exception('$this is not known in enum Effect');
-  }
+  const Effect(this.value);
+
+  static Effect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Effect'));
 }
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex
@@ -16249,41 +15251,19 @@ class EncryptionSetting {
 }
 
 enum ErrorCode {
-  duplicateInput,
-  resourceDoesNotExist,
-  resourceAlreadyExists,
-  internalServerFailure,
-}
+  duplicateInput('DUPLICATE_INPUT'),
+  resourceDoesNotExist('RESOURCE_DOES_NOT_EXIST'),
+  resourceAlreadyExists('RESOURCE_ALREADY_EXISTS'),
+  internalServerFailure('INTERNAL_SERVER_FAILURE'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.duplicateInput:
-        return 'DUPLICATE_INPUT';
-      case ErrorCode.resourceDoesNotExist:
-        return 'RESOURCE_DOES_NOT_EXIST';
-      case ErrorCode.resourceAlreadyExists:
-        return 'RESOURCE_ALREADY_EXISTS';
-      case ErrorCode.internalServerFailure:
-        return 'INTERNAL_SERVER_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'DUPLICATE_INPUT':
-        return ErrorCode.duplicateInput;
-      case 'RESOURCE_DOES_NOT_EXIST':
-        return ErrorCode.resourceDoesNotExist;
-      case 'RESOURCE_ALREADY_EXISTS':
-        return ErrorCode.resourceAlreadyExists;
-      case 'INTERNAL_SERVER_FAILURE':
-        return ErrorCode.internalServerFailure;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// Contains the names of the fields used for an exact response to the user.
@@ -16376,62 +15356,40 @@ class ExportFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum ExportFilterName {
-  exportResourceType,
-}
+  exportResourceType('ExportResourceType'),
+  ;
 
-extension ExportFilterNameValueExtension on ExportFilterName {
-  String toValue() {
-    switch (this) {
-      case ExportFilterName.exportResourceType:
-        return 'ExportResourceType';
-    }
-  }
-}
+  final String value;
 
-extension ExportFilterNameFromString on String {
-  ExportFilterName toExportFilterName() {
-    switch (this) {
-      case 'ExportResourceType':
-        return ExportFilterName.exportResourceType;
-    }
-    throw Exception('$this is not known in enum ExportFilterName');
-  }
+  const ExportFilterName(this.value);
+
+  static ExportFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportFilterName'));
 }
 
 enum ExportFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension ExportFilterOperatorValueExtension on ExportFilterOperator {
-  String toValue() {
-    switch (this) {
-      case ExportFilterOperator.co:
-        return 'CO';
-      case ExportFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension ExportFilterOperatorFromString on String {
-  ExportFilterOperator toExportFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return ExportFilterOperator.co;
-      case 'EQ':
-        return ExportFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum ExportFilterOperator');
-  }
+  const ExportFilterOperator(this.value);
+
+  static ExportFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExportFilterOperator'));
 }
 
 /// Provides information about the bot or bot locale that you want to export.
@@ -16502,26 +15460,17 @@ class ExportResourceSpecification {
 }
 
 enum ExportSortAttribute {
-  lastUpdatedDateTime,
-}
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension ExportSortAttributeValueExtension on ExportSortAttribute {
-  String toValue() {
-    switch (this) {
-      case ExportSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension ExportSortAttributeFromString on String {
-  ExportSortAttribute toExportSortAttribute() {
-    switch (this) {
-      case 'LastUpdatedDateTime':
-        return ExportSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum ExportSortAttribute');
-  }
+  const ExportSortAttribute(this.value);
+
+  static ExportSortAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExportSortAttribute'));
 }
 
 /// Provides information about sorting a list of exports.
@@ -16541,48 +15490,27 @@ class ExportSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum ExportStatus {
-  inProgress,
-  completed,
-  failed,
-  deleting,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension ExportStatusValueExtension on ExportStatus {
-  String toValue() {
-    switch (this) {
-      case ExportStatus.inProgress:
-        return 'InProgress';
-      case ExportStatus.completed:
-        return 'Completed';
-      case ExportStatus.failed:
-        return 'Failed';
-      case ExportStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension ExportStatusFromString on String {
-  ExportStatus toExportStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ExportStatus.inProgress;
-      case 'Completed':
-        return ExportStatus.completed;
-      case 'Failed':
-        return ExportStatus.failed;
-      case 'Deleting':
-        return ExportStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ExportStatus');
-  }
+  const ExportStatus(this.value);
+
+  static ExportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportStatus'));
 }
 
 /// Provides summary information about an export in an export list.
@@ -16619,8 +15547,10 @@ class ExportSummary {
     return ExportSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       exportId: json['exportId'] as String?,
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
-      fileFormat: (json['fileFormat'] as String?)?.toImportExportFileFormat(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
+      fileFormat: (json['fileFormat'] as String?)
+          ?.let(ImportExportFileFormat.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       resourceSpecification: json['resourceSpecification'] != null
           ? ExportResourceSpecification.fromJson(
@@ -16640,8 +15570,8 @@ class ExportSummary {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (exportId != null) 'exportId': exportId,
-      if (exportStatus != null) 'exportStatus': exportStatus.toValue(),
-      if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+      if (exportStatus != null) 'exportStatus': exportStatus.value,
+      if (fileFormat != null) 'fileFormat': fileFormat.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (resourceSpecification != null)
@@ -16700,7 +15630,7 @@ class FailedCustomVocabularyItem {
 
   factory FailedCustomVocabularyItem.fromJson(Map<String, dynamic> json) {
     return FailedCustomVocabularyItem(
-      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['errorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
       itemId: json['itemId'] as String?,
     );
@@ -16711,7 +15641,7 @@ class FailedCustomVocabularyItem {
     final errorMessage = this.errorMessage;
     final itemId = this.itemId;
     return {
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (itemId != null) 'itemId': itemId,
     };
@@ -17018,71 +15948,41 @@ class GenerationSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum GenerationSortByAttribute {
-  creationStartTime,
-  lastUpdatedTime,
-}
+  creationStartTime('creationStartTime'),
+  lastUpdatedTime('lastUpdatedTime'),
+  ;
 
-extension GenerationSortByAttributeValueExtension on GenerationSortByAttribute {
-  String toValue() {
-    switch (this) {
-      case GenerationSortByAttribute.creationStartTime:
-        return 'creationStartTime';
-      case GenerationSortByAttribute.lastUpdatedTime:
-        return 'lastUpdatedTime';
-    }
-  }
-}
+  final String value;
 
-extension GenerationSortByAttributeFromString on String {
-  GenerationSortByAttribute toGenerationSortByAttribute() {
-    switch (this) {
-      case 'creationStartTime':
-        return GenerationSortByAttribute.creationStartTime;
-      case 'lastUpdatedTime':
-        return GenerationSortByAttribute.lastUpdatedTime;
-    }
-    throw Exception('$this is not known in enum GenerationSortByAttribute');
-  }
+  const GenerationSortByAttribute(this.value);
+
+  static GenerationSortByAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GenerationSortByAttribute'));
 }
 
 enum GenerationStatus {
-  failed,
-  complete,
-  inProgress,
-}
+  failed('Failed'),
+  complete('Complete'),
+  inProgress('InProgress'),
+  ;
 
-extension GenerationStatusValueExtension on GenerationStatus {
-  String toValue() {
-    switch (this) {
-      case GenerationStatus.failed:
-        return 'Failed';
-      case GenerationStatus.complete:
-        return 'Complete';
-      case GenerationStatus.inProgress:
-        return 'InProgress';
-    }
-  }
-}
+  final String value;
 
-extension GenerationStatusFromString on String {
-  GenerationStatus toGenerationStatus() {
-    switch (this) {
-      case 'Failed':
-        return GenerationStatus.failed;
-      case 'Complete':
-        return GenerationStatus.complete;
-      case 'InProgress':
-        return GenerationStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum GenerationStatus');
-  }
+  const GenerationStatus(this.value);
+
+  static GenerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GenerationStatus'));
 }
 
 /// Contains information about a generation request made for the bot locale.
@@ -17110,8 +16010,8 @@ class GenerationSummary {
     return GenerationSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       generationId: json['generationId'] as String?,
-      generationStatus:
-          (json['generationStatus'] as String?)?.toGenerationStatus(),
+      generationStatus: (json['generationStatus'] as String?)
+          ?.let(GenerationStatus.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
     );
   }
@@ -17125,8 +16025,7 @@ class GenerationSummary {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (generationId != null) 'generationId': generationId,
-      if (generationStatus != null)
-        'generationStatus': generationStatus.toValue(),
+      if (generationStatus != null) 'generationStatus': generationStatus.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
     };
@@ -17320,36 +16219,19 @@ class ImageResponseCard {
 }
 
 enum ImportExportFileFormat {
-  lexJson,
-  tsv,
-  csv,
-}
+  lexJson('LexJson'),
+  tsv('TSV'),
+  csv('CSV'),
+  ;
 
-extension ImportExportFileFormatValueExtension on ImportExportFileFormat {
-  String toValue() {
-    switch (this) {
-      case ImportExportFileFormat.lexJson:
-        return 'LexJson';
-      case ImportExportFileFormat.tsv:
-        return 'TSV';
-      case ImportExportFileFormat.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension ImportExportFileFormatFromString on String {
-  ImportExportFileFormat toImportExportFileFormat() {
-    switch (this) {
-      case 'LexJson':
-        return ImportExportFileFormat.lexJson;
-      case 'TSV':
-        return ImportExportFileFormat.tsv;
-      case 'CSV':
-        return ImportExportFileFormat.csv;
-    }
-    throw Exception('$this is not known in enum ImportExportFileFormat');
-  }
+  const ImportExportFileFormat(this.value);
+
+  static ImportExportFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ImportExportFileFormat'));
 }
 
 /// Filters the response from the <a
@@ -17380,62 +16262,40 @@ class ImportFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum ImportFilterName {
-  importResourceType,
-}
+  importResourceType('ImportResourceType'),
+  ;
 
-extension ImportFilterNameValueExtension on ImportFilterName {
-  String toValue() {
-    switch (this) {
-      case ImportFilterName.importResourceType:
-        return 'ImportResourceType';
-    }
-  }
-}
+  final String value;
 
-extension ImportFilterNameFromString on String {
-  ImportFilterName toImportFilterName() {
-    switch (this) {
-      case 'ImportResourceType':
-        return ImportFilterName.importResourceType;
-    }
-    throw Exception('$this is not known in enum ImportFilterName');
-  }
+  const ImportFilterName(this.value);
+
+  static ImportFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImportFilterName'));
 }
 
 enum ImportFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension ImportFilterOperatorValueExtension on ImportFilterOperator {
-  String toValue() {
-    switch (this) {
-      case ImportFilterOperator.co:
-        return 'CO';
-      case ImportFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension ImportFilterOperatorFromString on String {
-  ImportFilterOperator toImportFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return ImportFilterOperator.co;
-      case 'EQ':
-        return ImportFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum ImportFilterOperator');
-  }
+  const ImportFilterOperator(this.value);
+
+  static ImportFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImportFilterOperator'));
 }
 
 /// Provides information about the bot or bot locale that you want to import.
@@ -17508,64 +16368,34 @@ class ImportResourceSpecification {
 }
 
 enum ImportResourceType {
-  bot,
-  botLocale,
-  customVocabulary,
-  testSet,
-}
+  bot('Bot'),
+  botLocale('BotLocale'),
+  customVocabulary('CustomVocabulary'),
+  testSet('TestSet'),
+  ;
 
-extension ImportResourceTypeValueExtension on ImportResourceType {
-  String toValue() {
-    switch (this) {
-      case ImportResourceType.bot:
-        return 'Bot';
-      case ImportResourceType.botLocale:
-        return 'BotLocale';
-      case ImportResourceType.customVocabulary:
-        return 'CustomVocabulary';
-      case ImportResourceType.testSet:
-        return 'TestSet';
-    }
-  }
-}
+  final String value;
 
-extension ImportResourceTypeFromString on String {
-  ImportResourceType toImportResourceType() {
-    switch (this) {
-      case 'Bot':
-        return ImportResourceType.bot;
-      case 'BotLocale':
-        return ImportResourceType.botLocale;
-      case 'CustomVocabulary':
-        return ImportResourceType.customVocabulary;
-      case 'TestSet':
-        return ImportResourceType.testSet;
-    }
-    throw Exception('$this is not known in enum ImportResourceType');
-  }
+  const ImportResourceType(this.value);
+
+  static ImportResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImportResourceType'));
 }
 
 enum ImportSortAttribute {
-  lastUpdatedDateTime,
-}
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension ImportSortAttributeValueExtension on ImportSortAttribute {
-  String toValue() {
-    switch (this) {
-      case ImportSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension ImportSortAttributeFromString on String {
-  ImportSortAttribute toImportSortAttribute() {
-    switch (this) {
-      case 'LastUpdatedDateTime':
-        return ImportSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum ImportSortAttribute');
-  }
+  const ImportSortAttribute(this.value);
+
+  static ImportSortAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImportSortAttribute'));
 }
 
 /// Provides information for sorting a list of imports.
@@ -17585,48 +16415,27 @@ class ImportSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum ImportStatus {
-  inProgress,
-  completed,
-  failed,
-  deleting,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension ImportStatusValueExtension on ImportStatus {
-  String toValue() {
-    switch (this) {
-      case ImportStatus.inProgress:
-        return 'InProgress';
-      case ImportStatus.completed:
-        return 'Completed';
-      case ImportStatus.failed:
-        return 'Failed';
-      case ImportStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension ImportStatusFromString on String {
-  ImportStatus toImportStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ImportStatus.inProgress;
-      case 'Completed':
-        return ImportStatus.completed;
-      case 'Failed':
-        return ImportStatus.failed;
-      case 'Deleting':
-        return ImportStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ImportStatus');
-  }
+  const ImportStatus(this.value);
+
+  static ImportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImportStatus'));
 }
 
 /// Provides summary information about an import in an import list.
@@ -17672,13 +16481,15 @@ class ImportSummary {
     return ImportSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
       importedResourceId: json['importedResourceId'] as String?,
       importedResourceName: json['importedResourceName'] as String?,
-      importedResourceType:
-          (json['importedResourceType'] as String?)?.toImportResourceType(),
+      importedResourceType: (json['importedResourceType'] as String?)
+          ?.let(ImportResourceType.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      mergeStrategy: (json['mergeStrategy'] as String?)?.toMergeStrategy(),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
     );
   }
 
@@ -17695,15 +16506,15 @@ class ImportSummary {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (importId != null) 'importId': importId,
-      if (importStatus != null) 'importStatus': importStatus.toValue(),
+      if (importStatus != null) 'importStatus': importStatus.value,
       if (importedResourceId != null) 'importedResourceId': importedResourceId,
       if (importedResourceName != null)
         'importedResourceName': importedResourceName,
       if (importedResourceType != null)
-        'importedResourceType': importedResourceType.toValue(),
+        'importedResourceType': importedResourceType.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.toValue(),
+      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.value,
     };
   }
 }
@@ -17888,12 +16699,14 @@ class IntentClassificationTestResultItemCounts {
       Map<String, dynamic> json) {
     return IntentClassificationTestResultItemCounts(
       intentMatchResultCounts:
-          (json['intentMatchResultCounts'] as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+          (json['intentMatchResultCounts'] as Map<String, dynamic>).map(
+              (k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
       totalResultCount: json['totalResultCount'] as int,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+              ?.map((k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
     );
   }
 
@@ -17904,11 +16717,11 @@ class IntentClassificationTestResultItemCounts {
         this.speechTranscriptionResultCounts;
     return {
       'intentMatchResultCounts':
-          intentMatchResultCounts.map((k, e) => MapEntry(k.toValue(), e)),
+          intentMatchResultCounts.map((k, e) => MapEntry(k.value, e)),
       'totalResultCount': totalResultCount,
       if (speechTranscriptionResultCounts != null)
-        'speechTranscriptionResultCounts': speechTranscriptionResultCounts
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'speechTranscriptionResultCounts':
+            speechTranscriptionResultCounts.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -18184,62 +16997,40 @@ class IntentFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum IntentFilterName {
-  intentName,
-}
+  intentName('IntentName'),
+  ;
 
-extension IntentFilterNameValueExtension on IntentFilterName {
-  String toValue() {
-    switch (this) {
-      case IntentFilterName.intentName:
-        return 'IntentName';
-    }
-  }
-}
+  final String value;
 
-extension IntentFilterNameFromString on String {
-  IntentFilterName toIntentFilterName() {
-    switch (this) {
-      case 'IntentName':
-        return IntentFilterName.intentName;
-    }
-    throw Exception('$this is not known in enum IntentFilterName');
-  }
+  const IntentFilterName(this.value);
+
+  static IntentFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IntentFilterName'));
 }
 
 enum IntentFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension IntentFilterOperatorValueExtension on IntentFilterOperator {
-  String toValue() {
-    switch (this) {
-      case IntentFilterOperator.co:
-        return 'CO';
-      case IntentFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension IntentFilterOperatorFromString on String {
-  IntentFilterOperator toIntentFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return IntentFilterOperator.co;
-      case 'EQ':
-        return IntentFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum IntentFilterOperator');
-  }
+  const IntentFilterOperator(this.value);
+
+  static IntentFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IntentFilterOperator'));
 }
 
 /// Information about intent-level slot resolution in a test result.
@@ -18346,31 +17137,18 @@ class IntentOverride {
 }
 
 enum IntentSortAttribute {
-  intentName,
-  lastUpdatedDateTime,
-}
+  intentName('IntentName'),
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension IntentSortAttributeValueExtension on IntentSortAttribute {
-  String toValue() {
-    switch (this) {
-      case IntentSortAttribute.intentName:
-        return 'IntentName';
-      case IntentSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension IntentSortAttributeFromString on String {
-  IntentSortAttribute toIntentSortAttribute() {
-    switch (this) {
-      case 'IntentName':
-        return IntentSortAttribute.intentName;
-      case 'LastUpdatedDateTime':
-        return IntentSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum IntentSortAttribute');
-  }
+  const IntentSortAttribute(this.value);
+
+  static IntentSortAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IntentSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of intents.
@@ -18390,58 +17168,28 @@ class IntentSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum IntentState {
-  failed,
-  fulfilled,
-  inProgress,
-  readyForFulfillment,
-  waiting,
-  fulfillmentInProgress,
-}
+  failed('Failed'),
+  fulfilled('Fulfilled'),
+  inProgress('InProgress'),
+  readyForFulfillment('ReadyForFulfillment'),
+  waiting('Waiting'),
+  fulfillmentInProgress('FulfillmentInProgress'),
+  ;
 
-extension IntentStateValueExtension on IntentState {
-  String toValue() {
-    switch (this) {
-      case IntentState.failed:
-        return 'Failed';
-      case IntentState.fulfilled:
-        return 'Fulfilled';
-      case IntentState.inProgress:
-        return 'InProgress';
-      case IntentState.readyForFulfillment:
-        return 'ReadyForFulfillment';
-      case IntentState.waiting:
-        return 'Waiting';
-      case IntentState.fulfillmentInProgress:
-        return 'FulfillmentInProgress';
-    }
-  }
-}
+  final String value;
 
-extension IntentStateFromString on String {
-  IntentState toIntentState() {
-    switch (this) {
-      case 'Failed':
-        return IntentState.failed;
-      case 'Fulfilled':
-        return IntentState.fulfilled;
-      case 'InProgress':
-        return IntentState.inProgress;
-      case 'ReadyForFulfillment':
-        return IntentState.readyForFulfillment;
-      case 'Waiting':
-        return IntentState.waiting;
-      case 'FulfillmentInProgress':
-        return IntentState.fulfillmentInProgress;
-    }
-    throw Exception('$this is not known in enum IntentState');
-  }
+  const IntentState(this.value);
+
+  static IntentState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IntentState'));
 }
 
 /// The object that contains the statistical summary of recommended intents
@@ -20293,36 +19041,19 @@ class ListUtteranceMetricsResponse {
 }
 
 enum MergeStrategy {
-  overwrite,
-  failOnConflict,
-  append,
-}
+  overwrite('Overwrite'),
+  failOnConflict('FailOnConflict'),
+  append('Append'),
+  ;
 
-extension MergeStrategyValueExtension on MergeStrategy {
-  String toValue() {
-    switch (this) {
-      case MergeStrategy.overwrite:
-        return 'Overwrite';
-      case MergeStrategy.failOnConflict:
-        return 'FailOnConflict';
-      case MergeStrategy.append:
-        return 'Append';
-    }
-  }
-}
+  final String value;
 
-extension MergeStrategyFromString on String {
-  MergeStrategy toMergeStrategy() {
-    switch (this) {
-      case 'Overwrite':
-        return MergeStrategy.overwrite;
-      case 'FailOnConflict':
-        return MergeStrategy.failOnConflict;
-      case 'Append':
-        return MergeStrategy.append;
-    }
-    throw Exception('$this is not known in enum MergeStrategy');
-  }
+  const MergeStrategy(this.value);
+
+  static MergeStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MergeStrategy'));
 }
 
 /// The object that provides message text and its type.
@@ -20417,31 +19148,18 @@ class MessageGroup {
 }
 
 enum MessageSelectionStrategy {
-  random,
-  ordered,
-}
+  random('Random'),
+  ordered('Ordered'),
+  ;
 
-extension MessageSelectionStrategyValueExtension on MessageSelectionStrategy {
-  String toValue() {
-    switch (this) {
-      case MessageSelectionStrategy.random:
-        return 'Random';
-      case MessageSelectionStrategy.ordered:
-        return 'Ordered';
-    }
-  }
-}
+  final String value;
 
-extension MessageSelectionStrategyFromString on String {
-  MessageSelectionStrategy toMessageSelectionStrategy() {
-    switch (this) {
-      case 'Random':
-        return MessageSelectionStrategy.random;
-      case 'Ordered':
-        return MessageSelectionStrategy.ordered;
-    }
-    throw Exception('$this is not known in enum MessageSelectionStrategy');
-  }
+  const MessageSelectionStrategy(this.value);
+
+  static MessageSelectionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MessageSelectionStrategy'));
 }
 
 /// Indicates whether a slot can return multiple values.
@@ -20521,45 +19239,32 @@ class ObfuscationSetting {
 
   factory ObfuscationSetting.fromJson(Map<String, dynamic> json) {
     return ObfuscationSetting(
-      obfuscationSettingType:
-          (json['obfuscationSettingType'] as String).toObfuscationSettingType(),
+      obfuscationSettingType: ObfuscationSettingType.fromString(
+          (json['obfuscationSettingType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final obfuscationSettingType = this.obfuscationSettingType;
     return {
-      'obfuscationSettingType': obfuscationSettingType.toValue(),
+      'obfuscationSettingType': obfuscationSettingType.value,
     };
   }
 }
 
 enum ObfuscationSettingType {
-  none,
-  defaultObfuscation,
-}
+  none('None'),
+  defaultObfuscation('DefaultObfuscation'),
+  ;
 
-extension ObfuscationSettingTypeValueExtension on ObfuscationSettingType {
-  String toValue() {
-    switch (this) {
-      case ObfuscationSettingType.none:
-        return 'None';
-      case ObfuscationSettingType.defaultObfuscation:
-        return 'DefaultObfuscation';
-    }
-  }
-}
+  final String value;
 
-extension ObfuscationSettingTypeFromString on String {
-  ObfuscationSettingType toObfuscationSettingType() {
-    switch (this) {
-      case 'None':
-        return ObfuscationSettingType.none;
-      case 'DefaultObfuscation':
-        return ObfuscationSettingType.defaultObfuscation;
-    }
-    throw Exception('$this is not known in enum ObfuscationSettingType');
-  }
+  const ObfuscationSettingType(this.value);
+
+  static ObfuscationSettingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ObfuscationSettingType'));
 }
 
 /// Contains details about the configuration of the Amazon OpenSearch Service
@@ -20688,13 +19393,14 @@ class OverallTestResultItem {
   factory OverallTestResultItem.fromJson(Map<String, dynamic> json) {
     return OverallTestResultItem(
       endToEndResultCounts:
-          (json['endToEndResultCounts'] as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+          (json['endToEndResultCounts'] as Map<String, dynamic>).map((k, e) =>
+              MapEntry(TestResultMatchStatus.fromString(k), e as int)),
       multiTurnConversation: json['multiTurnConversation'] as bool,
       totalResultCount: json['totalResultCount'] as int,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+              ?.map((k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
     );
   }
 
@@ -20706,12 +19412,12 @@ class OverallTestResultItem {
         this.speechTranscriptionResultCounts;
     return {
       'endToEndResultCounts':
-          endToEndResultCounts.map((k, e) => MapEntry(k.toValue(), e)),
+          endToEndResultCounts.map((k, e) => MapEntry(k.value, e)),
       'multiTurnConversation': multiTurnConversation,
       'totalResultCount': totalResultCount,
       if (speechTranscriptionResultCounts != null)
-        'speechTranscriptionResultCounts': speechTranscriptionResultCounts
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'speechTranscriptionResultCounts':
+            speechTranscriptionResultCounts.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -21073,51 +19779,22 @@ class Principal {
 
 /// The attempt name of attempts of a prompt.
 enum PromptAttempt {
-  initial,
-  retry1,
-  retry2,
-  retry3,
-  retry4,
-  retry5,
-}
+  initial('Initial'),
+  retry1('Retry1'),
+  retry2('Retry2'),
+  retry3('Retry3'),
+  retry4('Retry4'),
+  retry5('Retry5'),
+  ;
 
-extension PromptAttemptValueExtension on PromptAttempt {
-  String toValue() {
-    switch (this) {
-      case PromptAttempt.initial:
-        return 'Initial';
-      case PromptAttempt.retry1:
-        return 'Retry1';
-      case PromptAttempt.retry2:
-        return 'Retry2';
-      case PromptAttempt.retry3:
-        return 'Retry3';
-      case PromptAttempt.retry4:
-        return 'Retry4';
-      case PromptAttempt.retry5:
-        return 'Retry5';
-    }
-  }
-}
+  final String value;
 
-extension PromptAttemptFromString on String {
-  PromptAttempt toPromptAttempt() {
-    switch (this) {
-      case 'Initial':
-        return PromptAttempt.initial;
-      case 'Retry1':
-        return PromptAttempt.retry1;
-      case 'Retry2':
-        return PromptAttempt.retry2;
-      case 'Retry3':
-        return PromptAttempt.retry3;
-      case 'Retry4':
-        return PromptAttempt.retry4;
-      case 'Retry5':
-        return PromptAttempt.retry5;
-    }
-    throw Exception('$this is not known in enum PromptAttempt');
-  }
+  const PromptAttempt(this.value);
+
+  static PromptAttempt fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PromptAttempt'));
 }
 
 /// Specifies the settings on a prompt attempt.
@@ -21213,10 +19890,10 @@ class PromptSpecification {
           .toList(),
       allowInterrupt: json['allowInterrupt'] as bool?,
       messageSelectionStrategy: (json['messageSelectionStrategy'] as String?)
-          ?.toMessageSelectionStrategy(),
+          ?.let(MessageSelectionStrategy.fromString),
       promptAttemptsSpecification: (json['promptAttemptsSpecification']
               as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toPromptAttempt(),
+          ?.map((k, e) => MapEntry(PromptAttempt.fromString(k),
               PromptAttemptSpecification.fromJson(e as Map<String, dynamic>))),
     );
   }
@@ -21232,10 +19909,10 @@ class PromptSpecification {
       'messageGroups': messageGroups,
       if (allowInterrupt != null) 'allowInterrupt': allowInterrupt,
       if (messageSelectionStrategy != null)
-        'messageSelectionStrategy': messageSelectionStrategy.toValue(),
+        'messageSelectionStrategy': messageSelectionStrategy.value,
       if (promptAttemptsSpecification != null)
         'promptAttemptsSpecification':
-            promptAttemptsSpecification.map((k, e) => MapEntry(k.toValue(), e)),
+            promptAttemptsSpecification.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -21425,7 +20102,8 @@ class RelativeAggregationDuration {
 
   factory RelativeAggregationDuration.fromJson(Map<String, dynamic> json) {
     return RelativeAggregationDuration(
-      timeDimension: (json['timeDimension'] as String).toTimeDimension(),
+      timeDimension:
+          TimeDimension.fromString((json['timeDimension'] as String)),
       timeValue: json['timeValue'] as int,
     );
   }
@@ -21434,7 +20112,7 @@ class RelativeAggregationDuration {
     final timeDimension = this.timeDimension;
     final timeValue = this.timeValue;
     return {
-      'timeDimension': timeDimension.toValue(),
+      'timeDimension': timeDimension.value,
       'timeValue': timeValue,
     };
   }
@@ -21694,7 +20372,7 @@ class S3BucketTranscriptSource {
     return S3BucketTranscriptSource(
       s3BucketName: json['s3BucketName'] as String,
       transcriptFormat:
-          (json['transcriptFormat'] as String).toTranscriptFormat(),
+          TranscriptFormat.fromString((json['transcriptFormat'] as String)),
       kmsKeyArn: json['kmsKeyArn'] as String?,
       pathFormat: json['pathFormat'] != null
           ? PathFormat.fromJson(json['pathFormat'] as Map<String, dynamic>)
@@ -21714,7 +20392,7 @@ class S3BucketTranscriptSource {
     final transcriptFilter = this.transcriptFilter;
     return {
       's3BucketName': s3BucketName,
-      'transcriptFormat': transcriptFormat.toValue(),
+      'transcriptFormat': transcriptFormat.value,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (pathFormat != null) 'pathFormat': pathFormat,
       if (transcriptFilter != null) 'transcriptFilter': transcriptFilter,
@@ -21907,31 +20585,17 @@ class SearchAssociatedTranscriptsResponse {
 }
 
 enum SearchOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension SearchOrderValueExtension on SearchOrder {
-  String toValue() {
-    switch (this) {
-      case SearchOrder.ascending:
-        return 'Ascending';
-      case SearchOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension SearchOrderFromString on String {
-  SearchOrder toSearchOrder() {
-    switch (this) {
-      case 'Ascending':
-        return SearchOrder.ascending;
-      case 'Descending':
-        return SearchOrder.descending;
-    }
-    throw Exception('$this is not known in enum SearchOrder');
-  }
+  const SearchOrder(this.value);
+
+  static SearchOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SearchOrder'));
 }
 
 /// Determines whether Amazon Lex will use Amazon Comprehend to detect the
@@ -21992,8 +20656,8 @@ class SessionDataSortBy {
     final name = this.name;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'order': order.toValue(),
+      'name': name.value,
+      'order': order.value,
     };
   }
 }
@@ -22085,8 +20749,8 @@ class SessionSpecification {
       botVersion: json['botVersion'] as String?,
       channel: json['channel'] as String?,
       conversationDurationSeconds: json['conversationDurationSeconds'] as int?,
-      conversationEndState:
-          (json['conversationEndState'] as String?)?.toConversationEndState(),
+      conversationEndState: (json['conversationEndState'] as String?)
+          ?.let(ConversationEndState.fromString),
       conversationEndTime: timeStampFromJson(json['conversationEndTime']),
       conversationStartTime: timeStampFromJson(json['conversationStartTime']),
       invokedIntentSamples: (json['invokedIntentSamples'] as List?)
@@ -22094,7 +20758,7 @@ class SessionSpecification {
           .map((e) => InvokedIntentSample.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
-      mode: (json['mode'] as String?)?.toAnalyticsModality(),
+      mode: (json['mode'] as String?)?.let(AnalyticsModality.fromString),
       numberOfTurns: json['numberOfTurns'] as int?,
       originatingRequestId: json['originatingRequestId'] as String?,
       sessionId: json['sessionId'] as String?,
@@ -22122,7 +20786,7 @@ class SessionSpecification {
       if (conversationDurationSeconds != null)
         'conversationDurationSeconds': conversationDurationSeconds,
       if (conversationEndState != null)
-        'conversationEndState': conversationEndState.toValue(),
+        'conversationEndState': conversationEndState.value,
       if (conversationEndTime != null)
         'conversationEndTime': unixTimestampToJson(conversationEndTime),
       if (conversationStartTime != null)
@@ -22130,7 +20794,7 @@ class SessionSpecification {
       if (invokedIntentSamples != null)
         'invokedIntentSamples': invokedIntentSamples,
       if (localeId != null) 'localeId': localeId,
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
       if (numberOfTurns != null) 'numberOfTurns': numberOfTurns,
       if (originatingRequestId != null)
         'originatingRequestId': originatingRequestId,
@@ -22237,31 +20901,18 @@ class SlotCaptureSetting {
 }
 
 enum SlotConstraint {
-  required,
-  optional,
-}
+  required('Required'),
+  optional('Optional'),
+  ;
 
-extension SlotConstraintValueExtension on SlotConstraint {
-  String toValue() {
-    switch (this) {
-      case SlotConstraint.required:
-        return 'Required';
-      case SlotConstraint.optional:
-        return 'Optional';
-    }
-  }
-}
+  final String value;
 
-extension SlotConstraintFromString on String {
-  SlotConstraint toSlotConstraint() {
-    switch (this) {
-      case 'Required':
-        return SlotConstraint.required;
-      case 'Optional':
-        return SlotConstraint.optional;
-    }
-    throw Exception('$this is not known in enum SlotConstraint');
-  }
+  const SlotConstraint(this.value);
+
+  static SlotConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SlotConstraint'));
 }
 
 /// Specifies the default value to use when a user doesn't provide a value for a
@@ -22341,62 +20992,40 @@ class SlotFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum SlotFilterName {
-  slotName,
-}
+  slotName('SlotName'),
+  ;
 
-extension SlotFilterNameValueExtension on SlotFilterName {
-  String toValue() {
-    switch (this) {
-      case SlotFilterName.slotName:
-        return 'SlotName';
-    }
-  }
-}
+  final String value;
 
-extension SlotFilterNameFromString on String {
-  SlotFilterName toSlotFilterName() {
-    switch (this) {
-      case 'SlotName':
-        return SlotFilterName.slotName;
-    }
-    throw Exception('$this is not known in enum SlotFilterName');
-  }
+  const SlotFilterName(this.value);
+
+  static SlotFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SlotFilterName'));
 }
 
 enum SlotFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension SlotFilterOperatorValueExtension on SlotFilterOperator {
-  String toValue() {
-    switch (this) {
-      case SlotFilterOperator.co:
-        return 'CO';
-      case SlotFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension SlotFilterOperatorFromString on String {
-  SlotFilterOperator toSlotFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return SlotFilterOperator.co;
-      case 'EQ':
-        return SlotFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum SlotFilterOperator');
-  }
+  const SlotFilterOperator(this.value);
+
+  static SlotFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SlotFilterOperator'));
 }
 
 /// Sets the priority that Amazon Lex should use when eliciting slot values from
@@ -22482,45 +21111,32 @@ class SlotResolutionSetting {
 
   factory SlotResolutionSetting.fromJson(Map<String, dynamic> json) {
     return SlotResolutionSetting(
-      slotResolutionStrategy:
-          (json['slotResolutionStrategy'] as String).toSlotResolutionStrategy(),
+      slotResolutionStrategy: SlotResolutionStrategy.fromString(
+          (json['slotResolutionStrategy'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final slotResolutionStrategy = this.slotResolutionStrategy;
     return {
-      'slotResolutionStrategy': slotResolutionStrategy.toValue(),
+      'slotResolutionStrategy': slotResolutionStrategy.value,
     };
   }
 }
 
 enum SlotResolutionStrategy {
-  enhancedFallback,
-  $default,
-}
+  enhancedFallback('EnhancedFallback'),
+  $default('Default'),
+  ;
 
-extension SlotResolutionStrategyValueExtension on SlotResolutionStrategy {
-  String toValue() {
-    switch (this) {
-      case SlotResolutionStrategy.enhancedFallback:
-        return 'EnhancedFallback';
-      case SlotResolutionStrategy.$default:
-        return 'Default';
-    }
-  }
-}
+  final String value;
 
-extension SlotResolutionStrategyFromString on String {
-  SlotResolutionStrategy toSlotResolutionStrategy() {
-    switch (this) {
-      case 'EnhancedFallback':
-        return SlotResolutionStrategy.enhancedFallback;
-      case 'Default':
-        return SlotResolutionStrategy.$default;
-    }
-    throw Exception('$this is not known in enum SlotResolutionStrategy');
-  }
+  const SlotResolutionStrategy(this.value);
+
+  static SlotResolutionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SlotResolutionStrategy'));
 }
 
 /// Information about the success and failure rate of slot resolution in the
@@ -22579,12 +21195,13 @@ class SlotResolutionTestResultItemCounts {
       Map<String, dynamic> json) {
     return SlotResolutionTestResultItemCounts(
       slotMatchResultCounts:
-          (json['slotMatchResultCounts'] as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+          (json['slotMatchResultCounts'] as Map<String, dynamic>).map((k, e) =>
+              MapEntry(TestResultMatchStatus.fromString(k), e as int)),
       totalResultCount: json['totalResultCount'] as int,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toTestResultMatchStatus(), e as int)),
+              ?.map((k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
     );
   }
 
@@ -22595,69 +21212,42 @@ class SlotResolutionTestResultItemCounts {
         this.speechTranscriptionResultCounts;
     return {
       'slotMatchResultCounts':
-          slotMatchResultCounts.map((k, e) => MapEntry(k.toValue(), e)),
+          slotMatchResultCounts.map((k, e) => MapEntry(k.value, e)),
       'totalResultCount': totalResultCount,
       if (speechTranscriptionResultCounts != null)
-        'speechTranscriptionResultCounts': speechTranscriptionResultCounts
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'speechTranscriptionResultCounts':
+            speechTranscriptionResultCounts.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum SlotShape {
-  scalar,
-  list,
-}
+  scalar('Scalar'),
+  list('List'),
+  ;
 
-extension SlotShapeValueExtension on SlotShape {
-  String toValue() {
-    switch (this) {
-      case SlotShape.scalar:
-        return 'Scalar';
-      case SlotShape.list:
-        return 'List';
-    }
-  }
-}
+  final String value;
 
-extension SlotShapeFromString on String {
-  SlotShape toSlotShape() {
-    switch (this) {
-      case 'Scalar':
-        return SlotShape.scalar;
-      case 'List':
-        return SlotShape.list;
-    }
-    throw Exception('$this is not known in enum SlotShape');
-  }
+  const SlotShape(this.value);
+
+  static SlotShape fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SlotShape'));
 }
 
 enum SlotSortAttribute {
-  slotName,
-  lastUpdatedDateTime,
-}
+  slotName('SlotName'),
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension SlotSortAttributeValueExtension on SlotSortAttribute {
-  String toValue() {
-    switch (this) {
-      case SlotSortAttribute.slotName:
-        return 'SlotName';
-      case SlotSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension SlotSortAttributeFromString on String {
-  SlotSortAttribute toSlotSortAttribute() {
-    switch (this) {
-      case 'SlotName':
-        return SlotSortAttribute.slotName;
-      case 'LastUpdatedDateTime':
-        return SlotSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum SlotSortAttribute');
-  }
+  const SlotSortAttribute(this.value);
+
+  static SlotSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SlotSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of bots.
@@ -22677,8 +21267,8 @@ class SlotSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -22723,7 +21313,8 @@ class SlotSummary {
     return SlotSummary(
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      slotConstraint: (json['slotConstraint'] as String?)?.toSlotConstraint(),
+      slotConstraint:
+          (json['slotConstraint'] as String?)?.let(SlotConstraint.fromString),
       slotId: json['slotId'] as String?,
       slotName: json['slotName'] as String?,
       slotTypeId: json['slotTypeId'] as String?,
@@ -22749,7 +21340,7 @@ class SlotSummary {
       if (description != null) 'description': description,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (slotConstraint != null) 'slotConstraint': slotConstraint.toValue(),
+      if (slotConstraint != null) 'slotConstraint': slotConstraint.value,
       if (slotId != null) 'slotId': slotId,
       if (slotName != null) 'slotName': slotName,
       if (slotTypeId != null) 'slotTypeId': slotTypeId,
@@ -22761,41 +21352,20 @@ class SlotSummary {
 }
 
 enum SlotTypeCategory {
-  custom,
-  extended,
-  externalGrammar,
-  composite,
-}
+  custom('Custom'),
+  extended('Extended'),
+  externalGrammar('ExternalGrammar'),
+  composite('Composite'),
+  ;
 
-extension SlotTypeCategoryValueExtension on SlotTypeCategory {
-  String toValue() {
-    switch (this) {
-      case SlotTypeCategory.custom:
-        return 'Custom';
-      case SlotTypeCategory.extended:
-        return 'Extended';
-      case SlotTypeCategory.externalGrammar:
-        return 'ExternalGrammar';
-      case SlotTypeCategory.composite:
-        return 'Composite';
-    }
-  }
-}
+  final String value;
 
-extension SlotTypeCategoryFromString on String {
-  SlotTypeCategory toSlotTypeCategory() {
-    switch (this) {
-      case 'Custom':
-        return SlotTypeCategory.custom;
-      case 'Extended':
-        return SlotTypeCategory.extended;
-      case 'ExternalGrammar':
-        return SlotTypeCategory.externalGrammar;
-      case 'Composite':
-        return SlotTypeCategory.composite;
-    }
-    throw Exception('$this is not known in enum SlotTypeCategory');
-  }
+  const SlotTypeCategory(this.value);
+
+  static SlotTypeCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SlotTypeCategory'));
 }
 
 /// Filters the response from the <code>ListSlotTypes</code> operation.
@@ -22824,95 +21394,56 @@ class SlotTypeFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'name': name.toValue(),
-      'operator': operator.toValue(),
+      'name': name.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum SlotTypeFilterName {
-  slotTypeName,
-  externalSourceType,
-}
+  slotTypeName('SlotTypeName'),
+  externalSourceType('ExternalSourceType'),
+  ;
 
-extension SlotTypeFilterNameValueExtension on SlotTypeFilterName {
-  String toValue() {
-    switch (this) {
-      case SlotTypeFilterName.slotTypeName:
-        return 'SlotTypeName';
-      case SlotTypeFilterName.externalSourceType:
-        return 'ExternalSourceType';
-    }
-  }
-}
+  final String value;
 
-extension SlotTypeFilterNameFromString on String {
-  SlotTypeFilterName toSlotTypeFilterName() {
-    switch (this) {
-      case 'SlotTypeName':
-        return SlotTypeFilterName.slotTypeName;
-      case 'ExternalSourceType':
-        return SlotTypeFilterName.externalSourceType;
-    }
-    throw Exception('$this is not known in enum SlotTypeFilterName');
-  }
+  const SlotTypeFilterName(this.value);
+
+  static SlotTypeFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SlotTypeFilterName'));
 }
 
 enum SlotTypeFilterOperator {
-  co,
-  eq,
-}
+  co('CO'),
+  eq('EQ'),
+  ;
 
-extension SlotTypeFilterOperatorValueExtension on SlotTypeFilterOperator {
-  String toValue() {
-    switch (this) {
-      case SlotTypeFilterOperator.co:
-        return 'CO';
-      case SlotTypeFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension SlotTypeFilterOperatorFromString on String {
-  SlotTypeFilterOperator toSlotTypeFilterOperator() {
-    switch (this) {
-      case 'CO':
-        return SlotTypeFilterOperator.co;
-      case 'EQ':
-        return SlotTypeFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum SlotTypeFilterOperator');
-  }
+  const SlotTypeFilterOperator(this.value);
+
+  static SlotTypeFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SlotTypeFilterOperator'));
 }
 
 enum SlotTypeSortAttribute {
-  slotTypeName,
-  lastUpdatedDateTime,
-}
+  slotTypeName('SlotTypeName'),
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension SlotTypeSortAttributeValueExtension on SlotTypeSortAttribute {
-  String toValue() {
-    switch (this) {
-      case SlotTypeSortAttribute.slotTypeName:
-        return 'SlotTypeName';
-      case SlotTypeSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension SlotTypeSortAttributeFromString on String {
-  SlotTypeSortAttribute toSlotTypeSortAttribute() {
-    switch (this) {
-      case 'SlotTypeName':
-        return SlotTypeSortAttribute.slotTypeName;
-      case 'LastUpdatedDateTime':
-        return SlotTypeSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum SlotTypeSortAttribute');
-  }
+  const SlotTypeSortAttribute(this.value);
+
+  static SlotTypeSortAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SlotTypeSortAttribute'));
 }
 
 /// Specifies attributes for sorting a list of slot types.
@@ -22932,8 +21463,8 @@ class SlotTypeSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
@@ -23020,8 +21551,8 @@ class SlotTypeSummary {
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       parentSlotTypeSignature: json['parentSlotTypeSignature'] as String?,
-      slotTypeCategory:
-          (json['slotTypeCategory'] as String?)?.toSlotTypeCategory(),
+      slotTypeCategory: (json['slotTypeCategory'] as String?)
+          ?.let(SlotTypeCategory.fromString),
       slotTypeId: json['slotTypeId'] as String?,
       slotTypeName: json['slotTypeName'] as String?,
     );
@@ -23040,8 +21571,7 @@ class SlotTypeSummary {
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (parentSlotTypeSignature != null)
         'parentSlotTypeSignature': parentSlotTypeSignature,
-      if (slotTypeCategory != null)
-        'slotTypeCategory': slotTypeCategory.toValue(),
+      if (slotTypeCategory != null) 'slotTypeCategory': slotTypeCategory.value,
       if (slotTypeId != null) 'slotTypeId': slotTypeId,
       if (slotTypeName != null) 'slotTypeName': slotTypeName,
     };
@@ -23150,7 +21680,8 @@ class SlotValueElicitationSetting {
 
   factory SlotValueElicitationSetting.fromJson(Map<String, dynamic> json) {
     return SlotValueElicitationSetting(
-      slotConstraint: (json['slotConstraint'] as String).toSlotConstraint(),
+      slotConstraint:
+          SlotConstraint.fromString((json['slotConstraint'] as String)),
       defaultValueSpecification: json['defaultValueSpecification'] != null
           ? SlotDefaultValueSpecification.fromJson(
               json['defaultValueSpecification'] as Map<String, dynamic>)
@@ -23187,7 +21718,7 @@ class SlotValueElicitationSetting {
     final slotResolutionSetting = this.slotResolutionSetting;
     final waitAndContinueSpecification = this.waitAndContinueSpecification;
     return {
-      'slotConstraint': slotConstraint.toValue(),
+      'slotConstraint': slotConstraint.value,
       if (defaultValueSpecification != null)
         'defaultValueSpecification': defaultValueSpecification,
       if (promptSpecification != null)
@@ -23227,7 +21758,7 @@ class SlotValueOverride {
 
   factory SlotValueOverride.fromJson(Map<String, dynamic> json) {
     return SlotValueOverride(
-      shape: (json['shape'] as String?)?.toSlotShape(),
+      shape: (json['shape'] as String?)?.let(SlotShape.fromString),
       value: json['value'] != null
           ? SlotValue.fromJson(json['value'] as Map<String, dynamic>)
           : null,
@@ -23243,7 +21774,7 @@ class SlotValueOverride {
     final value = this.value;
     final values = this.values;
     return {
-      if (shape != null) 'shape': shape.toValue(),
+      if (shape != null) 'shape': shape.value,
       if (value != null) 'value': value,
       if (values != null) 'values': values,
     };
@@ -23302,37 +21833,19 @@ class SlotValueRegexFilter {
 }
 
 enum SlotValueResolutionStrategy {
-  originalValue,
-  topResolution,
-  concatenation,
-}
+  originalValue('OriginalValue'),
+  topResolution('TopResolution'),
+  concatenation('Concatenation'),
+  ;
 
-extension SlotValueResolutionStrategyValueExtension
-    on SlotValueResolutionStrategy {
-  String toValue() {
-    switch (this) {
-      case SlotValueResolutionStrategy.originalValue:
-        return 'OriginalValue';
-      case SlotValueResolutionStrategy.topResolution:
-        return 'TopResolution';
-      case SlotValueResolutionStrategy.concatenation:
-        return 'Concatenation';
-    }
-  }
-}
+  final String value;
 
-extension SlotValueResolutionStrategyFromString on String {
-  SlotValueResolutionStrategy toSlotValueResolutionStrategy() {
-    switch (this) {
-      case 'OriginalValue':
-        return SlotValueResolutionStrategy.originalValue;
-      case 'TopResolution':
-        return SlotValueResolutionStrategy.topResolution;
-      case 'Concatenation':
-        return SlotValueResolutionStrategy.concatenation;
-    }
-    throw Exception('$this is not known in enum SlotValueResolutionStrategy');
-  }
+  const SlotValueResolutionStrategy(this.value);
+
+  static SlotValueResolutionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SlotValueResolutionStrategy'));
 }
 
 /// Contains settings used by Amazon Lex to select a slot value.
@@ -23371,8 +21884,8 @@ class SlotValueSelectionSetting {
 
   factory SlotValueSelectionSetting.fromJson(Map<String, dynamic> json) {
     return SlotValueSelectionSetting(
-      resolutionStrategy: (json['resolutionStrategy'] as String)
-          .toSlotValueResolutionStrategy(),
+      resolutionStrategy: SlotValueResolutionStrategy.fromString(
+          (json['resolutionStrategy'] as String)),
       advancedRecognitionSetting: json['advancedRecognitionSetting'] != null
           ? AdvancedRecognitionSetting.fromJson(
               json['advancedRecognitionSetting'] as Map<String, dynamic>)
@@ -23389,7 +21902,7 @@ class SlotValueSelectionSetting {
     final advancedRecognitionSetting = this.advancedRecognitionSetting;
     final regexFilter = this.regexFilter;
     return {
-      'resolutionStrategy': resolutionStrategy.toValue(),
+      'resolutionStrategy': resolutionStrategy.value,
       if (advancedRecognitionSetting != null)
         'advancedRecognitionSetting': advancedRecognitionSetting,
       if (regexFilter != null) 'regexFilter': regexFilter,
@@ -23398,31 +21911,17 @@ class SlotValueSelectionSetting {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'Ascending';
-      case SortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return SortOrder.ascending;
-      case 'Descending':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Subslot specifications.
@@ -23508,7 +22007,7 @@ class StartBotRecommendationResponse {
       botId: json['botId'] as String?,
       botRecommendationId: json['botRecommendationId'] as String?,
       botRecommendationStatus: (json['botRecommendationStatus'] as String?)
-          ?.toBotRecommendationStatus(),
+          ?.let(BotRecommendationStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       encryptionSetting: json['encryptionSetting'] != null
@@ -23537,7 +22036,7 @@ class StartBotRecommendationResponse {
       if (botRecommendationId != null)
         'botRecommendationId': botRecommendationId,
       if (botRecommendationStatus != null)
-        'botRecommendationStatus': botRecommendationStatus.toValue(),
+        'botRecommendationStatus': botRecommendationStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -23589,8 +22088,8 @@ class StartBotResourceGenerationResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       generationId: json['generationId'] as String?,
       generationInputPrompt: json['generationInputPrompt'] as String?,
-      generationStatus:
-          (json['generationStatus'] as String?)?.toGenerationStatus(),
+      generationStatus: (json['generationStatus'] as String?)
+          ?.let(GenerationStatus.fromString),
       localeId: json['localeId'] as String?,
     );
   }
@@ -23611,8 +22110,7 @@ class StartBotResourceGenerationResponse {
       if (generationId != null) 'generationId': generationId,
       if (generationInputPrompt != null)
         'generationInputPrompt': generationInputPrompt,
-      if (generationStatus != null)
-        'generationStatus': generationStatus.toValue(),
+      if (generationStatus != null) 'generationStatus': generationStatus.value,
       if (localeId != null) 'localeId': localeId,
     };
   }
@@ -23650,8 +22148,10 @@ class StartImportResponse {
     return StartImportResponse(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
-      mergeStrategy: (json['mergeStrategy'] as String?)?.toMergeStrategy(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
       resourceSpecification: json['resourceSpecification'] != null
           ? ImportResourceSpecification.fromJson(
               json['resourceSpecification'] as Map<String, dynamic>)
@@ -23669,8 +22169,8 @@ class StartImportResponse {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (importId != null) 'importId': importId,
-      if (importStatus != null) 'importStatus': importStatus.toValue(),
-      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.toValue(),
+      if (importStatus != null) 'importStatus': importStatus.value,
+      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.value,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
     };
@@ -23710,14 +22210,15 @@ class StartTestExecutionResponse {
 
   factory StartTestExecutionResponse.fromJson(Map<String, dynamic> json) {
     return StartTestExecutionResponse(
-      apiMode: (json['apiMode'] as String?)?.toTestExecutionApiMode(),
+      apiMode:
+          (json['apiMode'] as String?)?.let(TestExecutionApiMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       target: json['target'] != null
           ? TestExecutionTarget.fromJson(json['target'] as Map<String, dynamic>)
           : null,
       testExecutionId: json['testExecutionId'] as String?,
-      testExecutionModality:
-          (json['testExecutionModality'] as String?)?.toTestExecutionModality(),
+      testExecutionModality: (json['testExecutionModality'] as String?)
+          ?.let(TestExecutionModality.fromString),
       testSetId: json['testSetId'] as String?,
     );
   }
@@ -23730,13 +22231,13 @@ class StartTestExecutionResponse {
     final testExecutionModality = this.testExecutionModality;
     final testSetId = this.testSetId;
     return {
-      if (apiMode != null) 'apiMode': apiMode.toValue(),
+      if (apiMode != null) 'apiMode': apiMode.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (target != null) 'target': target,
       if (testExecutionId != null) 'testExecutionId': testExecutionId,
       if (testExecutionModality != null)
-        'testExecutionModality': testExecutionModality.toValue(),
+        'testExecutionModality': testExecutionModality.value,
       if (testSetId != null) 'testSetId': testSetId,
     };
   }
@@ -23798,7 +22299,7 @@ class StartTestSetGenerationResponse {
           : null,
       testSetGenerationId: json['testSetGenerationId'] as String?,
       testSetGenerationStatus: (json['testSetGenerationStatus'] as String?)
-          ?.toTestSetGenerationStatus(),
+          ?.let(TestSetGenerationStatus.fromString),
       testSetName: json['testSetName'] as String?,
       testSetTags: (json['testSetTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -23826,7 +22327,7 @@ class StartTestSetGenerationResponse {
       if (testSetGenerationId != null)
         'testSetGenerationId': testSetGenerationId,
       if (testSetGenerationStatus != null)
-        'testSetGenerationStatus': testSetGenerationStatus.toValue(),
+        'testSetGenerationStatus': testSetGenerationStatus.value,
       if (testSetName != null) 'testSetName': testSetName,
       if (testSetTags != null) 'testSetTags': testSetTags,
     };
@@ -23920,7 +22421,7 @@ class StopBotRecommendationResponse {
       botId: json['botId'] as String?,
       botRecommendationId: json['botRecommendationId'] as String?,
       botRecommendationStatus: (json['botRecommendationStatus'] as String?)
-          ?.toBotRecommendationStatus(),
+          ?.let(BotRecommendationStatus.fromString),
       botVersion: json['botVersion'] as String?,
       localeId: json['localeId'] as String?,
     );
@@ -23937,7 +22438,7 @@ class StopBotRecommendationResponse {
       if (botRecommendationId != null)
         'botRecommendationId': botRecommendationId,
       if (botRecommendationStatus != null)
-        'botRecommendationStatus': botRecommendationStatus.toValue(),
+        'botRecommendationStatus': botRecommendationStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (localeId != null) 'localeId': localeId,
     };
@@ -24087,59 +22588,33 @@ class TagResourceResponse {
 }
 
 enum TestExecutionApiMode {
-  streaming,
-  nonStreaming,
-}
+  streaming('Streaming'),
+  nonStreaming('NonStreaming'),
+  ;
 
-extension TestExecutionApiModeValueExtension on TestExecutionApiMode {
-  String toValue() {
-    switch (this) {
-      case TestExecutionApiMode.streaming:
-        return 'Streaming';
-      case TestExecutionApiMode.nonStreaming:
-        return 'NonStreaming';
-    }
-  }
-}
+  final String value;
 
-extension TestExecutionApiModeFromString on String {
-  TestExecutionApiMode toTestExecutionApiMode() {
-    switch (this) {
-      case 'Streaming':
-        return TestExecutionApiMode.streaming;
-      case 'NonStreaming':
-        return TestExecutionApiMode.nonStreaming;
-    }
-    throw Exception('$this is not known in enum TestExecutionApiMode');
-  }
+  const TestExecutionApiMode(this.value);
+
+  static TestExecutionApiMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestExecutionApiMode'));
 }
 
 enum TestExecutionModality {
-  text,
-  audio,
-}
+  text('Text'),
+  audio('Audio'),
+  ;
 
-extension TestExecutionModalityValueExtension on TestExecutionModality {
-  String toValue() {
-    switch (this) {
-      case TestExecutionModality.text:
-        return 'Text';
-      case TestExecutionModality.audio:
-        return 'Audio';
-    }
-  }
-}
+  final String value;
 
-extension TestExecutionModalityFromString on String {
-  TestExecutionModality toTestExecutionModality() {
-    switch (this) {
-      case 'Text':
-        return TestExecutionModality.text;
-      case 'Audio':
-        return TestExecutionModality.audio;
-    }
-    throw Exception('$this is not known in enum TestExecutionModality');
-  }
+  const TestExecutionModality(this.value);
+
+  static TestExecutionModality fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestExecutionModality'));
 }
 
 /// Contains information about the method by which to filter the results of the
@@ -24166,7 +22641,7 @@ class TestExecutionResultFilterBy {
     final conversationLevelTestResultsFilterBy =
         this.conversationLevelTestResultsFilterBy;
     return {
-      'resultTypeFilter': resultTypeFilter.toValue(),
+      'resultTypeFilter': resultTypeFilter.value,
       if (conversationLevelTestResultsFilterBy != null)
         'conversationLevelTestResultsFilterBy':
             conversationLevelTestResultsFilterBy,
@@ -24263,32 +22738,18 @@ class TestExecutionResultItems {
 }
 
 enum TestExecutionSortAttribute {
-  testSetName,
-  creationDateTime,
-}
+  testSetName('TestSetName'),
+  creationDateTime('CreationDateTime'),
+  ;
 
-extension TestExecutionSortAttributeValueExtension
-    on TestExecutionSortAttribute {
-  String toValue() {
-    switch (this) {
-      case TestExecutionSortAttribute.testSetName:
-        return 'TestSetName';
-      case TestExecutionSortAttribute.creationDateTime:
-        return 'CreationDateTime';
-    }
-  }
-}
+  final String value;
 
-extension TestExecutionSortAttributeFromString on String {
-  TestExecutionSortAttribute toTestExecutionSortAttribute() {
-    switch (this) {
-      case 'TestSetName':
-        return TestExecutionSortAttribute.testSetName;
-      case 'CreationDateTime':
-        return TestExecutionSortAttribute.creationDateTime;
-    }
-    throw Exception('$this is not known in enum TestExecutionSortAttribute');
-  }
+  const TestExecutionSortAttribute(this.value);
+
+  static TestExecutionSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestExecutionSortAttribute'));
 }
 
 /// Contains information about the method by which to sort the instances of test
@@ -24310,63 +22771,30 @@ class TestExecutionSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum TestExecutionStatus {
-  pending,
-  waiting,
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  pending('Pending'),
+  waiting('Waiting'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension TestExecutionStatusValueExtension on TestExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case TestExecutionStatus.pending:
-        return 'Pending';
-      case TestExecutionStatus.waiting:
-        return 'Waiting';
-      case TestExecutionStatus.inProgress:
-        return 'InProgress';
-      case TestExecutionStatus.completed:
-        return 'Completed';
-      case TestExecutionStatus.failed:
-        return 'Failed';
-      case TestExecutionStatus.stopping:
-        return 'Stopping';
-      case TestExecutionStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension TestExecutionStatusFromString on String {
-  TestExecutionStatus toTestExecutionStatus() {
-    switch (this) {
-      case 'Pending':
-        return TestExecutionStatus.pending;
-      case 'Waiting':
-        return TestExecutionStatus.waiting;
-      case 'InProgress':
-        return TestExecutionStatus.inProgress;
-      case 'Completed':
-        return TestExecutionStatus.completed;
-      case 'Failed':
-        return TestExecutionStatus.failed;
-      case 'Stopping':
-        return TestExecutionStatus.stopping;
-      case 'Stopped':
-        return TestExecutionStatus.stopped;
-    }
-    throw Exception('$this is not known in enum TestExecutionStatus');
-  }
+  const TestExecutionStatus(this.value);
+
+  static TestExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestExecutionStatus'));
 }
 
 /// Summarizes metadata about the test execution.
@@ -24413,17 +22841,18 @@ class TestExecutionSummary {
 
   factory TestExecutionSummary.fromJson(Map<String, dynamic> json) {
     return TestExecutionSummary(
-      apiMode: (json['apiMode'] as String?)?.toTestExecutionApiMode(),
+      apiMode:
+          (json['apiMode'] as String?)?.let(TestExecutionApiMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       target: json['target'] != null
           ? TestExecutionTarget.fromJson(json['target'] as Map<String, dynamic>)
           : null,
       testExecutionId: json['testExecutionId'] as String?,
-      testExecutionModality:
-          (json['testExecutionModality'] as String?)?.toTestExecutionModality(),
-      testExecutionStatus:
-          (json['testExecutionStatus'] as String?)?.toTestExecutionStatus(),
+      testExecutionModality: (json['testExecutionModality'] as String?)
+          ?.let(TestExecutionModality.fromString),
+      testExecutionStatus: (json['testExecutionStatus'] as String?)
+          ?.let(TestExecutionStatus.fromString),
       testSetId: json['testSetId'] as String?,
       testSetName: json['testSetName'] as String?,
     );
@@ -24440,7 +22869,7 @@ class TestExecutionSummary {
     final testSetId = this.testSetId;
     final testSetName = this.testSetName;
     return {
-      if (apiMode != null) 'apiMode': apiMode.toValue(),
+      if (apiMode != null) 'apiMode': apiMode.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (lastUpdatedDateTime != null)
@@ -24448,9 +22877,9 @@ class TestExecutionSummary {
       if (target != null) 'target': target,
       if (testExecutionId != null) 'testExecutionId': testExecutionId,
       if (testExecutionModality != null)
-        'testExecutionModality': testExecutionModality.toValue(),
+        'testExecutionModality': testExecutionModality.value,
       if (testExecutionStatus != null)
-        'testExecutionStatus': testExecutionStatus.toValue(),
+        'testExecutionStatus': testExecutionStatus.value,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
     };
@@ -24484,79 +22913,37 @@ class TestExecutionTarget {
 }
 
 enum TestResultMatchStatus {
-  matched,
-  mismatched,
-  executionError,
-}
+  matched('Matched'),
+  mismatched('Mismatched'),
+  executionError('ExecutionError'),
+  ;
 
-extension TestResultMatchStatusValueExtension on TestResultMatchStatus {
-  String toValue() {
-    switch (this) {
-      case TestResultMatchStatus.matched:
-        return 'Matched';
-      case TestResultMatchStatus.mismatched:
-        return 'Mismatched';
-      case TestResultMatchStatus.executionError:
-        return 'ExecutionError';
-    }
-  }
-}
+  final String value;
 
-extension TestResultMatchStatusFromString on String {
-  TestResultMatchStatus toTestResultMatchStatus() {
-    switch (this) {
-      case 'Matched':
-        return TestResultMatchStatus.matched;
-      case 'Mismatched':
-        return TestResultMatchStatus.mismatched;
-      case 'ExecutionError':
-        return TestResultMatchStatus.executionError;
-    }
-    throw Exception('$this is not known in enum TestResultMatchStatus');
-  }
+  const TestResultMatchStatus(this.value);
+
+  static TestResultMatchStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestResultMatchStatus'));
 }
 
 enum TestResultTypeFilter {
-  overallTestResults,
-  conversationLevelTestResults,
-  intentClassificationTestResults,
-  slotResolutionTestResults,
-  utteranceLevelResults,
-}
+  overallTestResults('OverallTestResults'),
+  conversationLevelTestResults('ConversationLevelTestResults'),
+  intentClassificationTestResults('IntentClassificationTestResults'),
+  slotResolutionTestResults('SlotResolutionTestResults'),
+  utteranceLevelResults('UtteranceLevelResults'),
+  ;
 
-extension TestResultTypeFilterValueExtension on TestResultTypeFilter {
-  String toValue() {
-    switch (this) {
-      case TestResultTypeFilter.overallTestResults:
-        return 'OverallTestResults';
-      case TestResultTypeFilter.conversationLevelTestResults:
-        return 'ConversationLevelTestResults';
-      case TestResultTypeFilter.intentClassificationTestResults:
-        return 'IntentClassificationTestResults';
-      case TestResultTypeFilter.slotResolutionTestResults:
-        return 'SlotResolutionTestResults';
-      case TestResultTypeFilter.utteranceLevelResults:
-        return 'UtteranceLevelResults';
-    }
-  }
-}
+  final String value;
 
-extension TestResultTypeFilterFromString on String {
-  TestResultTypeFilter toTestResultTypeFilter() {
-    switch (this) {
-      case 'OverallTestResults':
-        return TestResultTypeFilter.overallTestResults;
-      case 'ConversationLevelTestResults':
-        return TestResultTypeFilter.conversationLevelTestResults;
-      case 'IntentClassificationTestResults':
-        return TestResultTypeFilter.intentClassificationTestResults;
-      case 'SlotResolutionTestResults':
-        return TestResultTypeFilter.slotResolutionTestResults;
-      case 'UtteranceLevelResults':
-        return TestResultTypeFilter.utteranceLevelResults;
-    }
-    throw Exception('$this is not known in enum TestResultTypeFilter');
-  }
+  const TestResultTypeFilter(this.value);
+
+  static TestResultTypeFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestResultTypeFilter'));
 }
 
 /// Contains details about the errors in the test set discrepancy report
@@ -24668,38 +23055,19 @@ class TestSetDiscrepancyReportResourceTarget {
 }
 
 enum TestSetDiscrepancyReportStatus {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension TestSetDiscrepancyReportStatusValueExtension
-    on TestSetDiscrepancyReportStatus {
-  String toValue() {
-    switch (this) {
-      case TestSetDiscrepancyReportStatus.inProgress:
-        return 'InProgress';
-      case TestSetDiscrepancyReportStatus.completed:
-        return 'Completed';
-      case TestSetDiscrepancyReportStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension TestSetDiscrepancyReportStatusFromString on String {
-  TestSetDiscrepancyReportStatus toTestSetDiscrepancyReportStatus() {
-    switch (this) {
-      case 'InProgress':
-        return TestSetDiscrepancyReportStatus.inProgress;
-      case 'Completed':
-        return TestSetDiscrepancyReportStatus.completed;
-      case 'Failed':
-        return TestSetDiscrepancyReportStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum TestSetDiscrepancyReportStatus');
-  }
+  const TestSetDiscrepancyReportStatus(this.value);
+
+  static TestSetDiscrepancyReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestSetDiscrepancyReportStatus'));
 }
 
 /// Contains information about the test set that is exported.
@@ -24755,41 +23123,20 @@ class TestSetGenerationDataSource {
 }
 
 enum TestSetGenerationStatus {
-  generating,
-  ready,
-  failed,
-  pending,
-}
+  generating('Generating'),
+  ready('Ready'),
+  failed('Failed'),
+  pending('Pending'),
+  ;
 
-extension TestSetGenerationStatusValueExtension on TestSetGenerationStatus {
-  String toValue() {
-    switch (this) {
-      case TestSetGenerationStatus.generating:
-        return 'Generating';
-      case TestSetGenerationStatus.ready:
-        return 'Ready';
-      case TestSetGenerationStatus.failed:
-        return 'Failed';
-      case TestSetGenerationStatus.pending:
-        return 'Pending';
-    }
-  }
-}
+  final String value;
 
-extension TestSetGenerationStatusFromString on String {
-  TestSetGenerationStatus toTestSetGenerationStatus() {
-    switch (this) {
-      case 'Generating':
-        return TestSetGenerationStatus.generating;
-      case 'Ready':
-        return TestSetGenerationStatus.ready;
-      case 'Failed':
-        return TestSetGenerationStatus.failed;
-      case 'Pending':
-        return TestSetGenerationStatus.pending;
-    }
-    throw Exception('$this is not known in enum TestSetGenerationStatus');
-  }
+  const TestSetGenerationStatus(this.value);
+
+  static TestSetGenerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestSetGenerationStatus'));
 }
 
 /// Contains information about the Amazon S3 location from which the test set is
@@ -24868,7 +23215,7 @@ class TestSetImportResourceSpecification {
     return TestSetImportResourceSpecification(
       importInputLocation: TestSetImportInputLocation.fromJson(
           json['importInputLocation'] as Map<String, dynamic>),
-      modality: (json['modality'] as String).toTestSetModality(),
+      modality: TestSetModality.fromString((json['modality'] as String)),
       roleArn: json['roleArn'] as String,
       storageLocation: TestSetStorageLocation.fromJson(
           json['storageLocation'] as Map<String, dynamic>),
@@ -24889,7 +23236,7 @@ class TestSetImportResourceSpecification {
     final testSetTags = this.testSetTags;
     return {
       'importInputLocation': importInputLocation,
-      'modality': modality.toValue(),
+      'modality': modality.value,
       'roleArn': roleArn,
       'storageLocation': storageLocation,
       'testSetName': testSetName,
@@ -24932,31 +23279,18 @@ class TestSetIntentDiscrepancyItem {
 }
 
 enum TestSetModality {
-  text,
-  audio,
-}
+  text('Text'),
+  audio('Audio'),
+  ;
 
-extension TestSetModalityValueExtension on TestSetModality {
-  String toValue() {
-    switch (this) {
-      case TestSetModality.text:
-        return 'Text';
-      case TestSetModality.audio:
-        return 'Audio';
-    }
-  }
-}
+  final String value;
 
-extension TestSetModalityFromString on String {
-  TestSetModality toTestSetModality() {
-    switch (this) {
-      case 'Text':
-        return TestSetModality.text;
-      case 'Audio':
-        return TestSetModality.audio;
-    }
-    throw Exception('$this is not known in enum TestSetModality');
-  }
+  const TestSetModality(this.value);
+
+  static TestSetModality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TestSetModality'));
 }
 
 /// Contains information about discrepancy in a slot information between the
@@ -24999,31 +23333,18 @@ class TestSetSlotDiscrepancyItem {
 }
 
 enum TestSetSortAttribute {
-  testSetName,
-  lastUpdatedDateTime,
-}
+  testSetName('TestSetName'),
+  lastUpdatedDateTime('LastUpdatedDateTime'),
+  ;
 
-extension TestSetSortAttributeValueExtension on TestSetSortAttribute {
-  String toValue() {
-    switch (this) {
-      case TestSetSortAttribute.testSetName:
-        return 'TestSetName';
-      case TestSetSortAttribute.lastUpdatedDateTime:
-        return 'LastUpdatedDateTime';
-    }
-  }
-}
+  final String value;
 
-extension TestSetSortAttributeFromString on String {
-  TestSetSortAttribute toTestSetSortAttribute() {
-    switch (this) {
-      case 'TestSetName':
-        return TestSetSortAttribute.testSetName;
-      case 'LastUpdatedDateTime':
-        return TestSetSortAttribute.lastUpdatedDateTime;
-    }
-    throw Exception('$this is not known in enum TestSetSortAttribute');
-  }
+  const TestSetSortAttribute(this.value);
+
+  static TestSetSortAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestSetSortAttribute'));
 }
 
 /// Contains information about the methods by which to sort the test set.
@@ -25044,53 +23365,28 @@ class TestSetSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum TestSetStatus {
-  importing,
-  pendingAnnotation,
-  deleting,
-  validationError,
-  ready,
-}
+  importing('Importing'),
+  pendingAnnotation('PendingAnnotation'),
+  deleting('Deleting'),
+  validationError('ValidationError'),
+  ready('Ready'),
+  ;
 
-extension TestSetStatusValueExtension on TestSetStatus {
-  String toValue() {
-    switch (this) {
-      case TestSetStatus.importing:
-        return 'Importing';
-      case TestSetStatus.pendingAnnotation:
-        return 'PendingAnnotation';
-      case TestSetStatus.deleting:
-        return 'Deleting';
-      case TestSetStatus.validationError:
-        return 'ValidationError';
-      case TestSetStatus.ready:
-        return 'Ready';
-    }
-  }
-}
+  final String value;
 
-extension TestSetStatusFromString on String {
-  TestSetStatus toTestSetStatus() {
-    switch (this) {
-      case 'Importing':
-        return TestSetStatus.importing;
-      case 'PendingAnnotation':
-        return TestSetStatus.pendingAnnotation;
-      case 'Deleting':
-        return TestSetStatus.deleting;
-      case 'ValidationError':
-        return TestSetStatus.validationError;
-      case 'Ready':
-        return TestSetStatus.ready;
-    }
-    throw Exception('$this is not known in enum TestSetStatus');
-  }
+  const TestSetStatus(this.value);
+
+  static TestSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TestSetStatus'));
 }
 
 /// Contains information about the location in which the test set is stored.
@@ -25182,10 +23478,10 @@ class TestSetSummary {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      modality: (json['modality'] as String?)?.toTestSetModality(),
+      modality: (json['modality'] as String?)?.let(TestSetModality.fromString),
       numTurns: json['numTurns'] as int?,
       roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.toTestSetStatus(),
+      status: (json['status'] as String?)?.let(TestSetStatus.fromString),
       storageLocation: json['storageLocation'] != null
           ? TestSetStorageLocation.fromJson(
               json['storageLocation'] as Map<String, dynamic>)
@@ -25212,10 +23508,10 @@ class TestSetSummary {
       if (description != null) 'description': description,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (modality != null) 'modality': modality.toValue(),
+      if (modality != null) 'modality': modality.value,
       if (numTurns != null) 'numTurns': numTurns,
       if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (storageLocation != null) 'storageLocation': storageLocation,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
@@ -25392,36 +23688,19 @@ class TextLogSetting {
 }
 
 enum TimeDimension {
-  hours,
-  days,
-  weeks,
-}
+  hours('Hours'),
+  days('Days'),
+  weeks('Weeks'),
+  ;
 
-extension TimeDimensionValueExtension on TimeDimension {
-  String toValue() {
-    switch (this) {
-      case TimeDimension.hours:
-        return 'Hours';
-      case TimeDimension.days:
-        return 'Days';
-      case TimeDimension.weeks:
-        return 'Weeks';
-    }
-  }
-}
+  final String value;
 
-extension TimeDimensionFromString on String {
-  TimeDimension toTimeDimension() {
-    switch (this) {
-      case 'Hours':
-        return TimeDimension.hours;
-      case 'Days':
-        return TimeDimension.days;
-      case 'Weeks':
-        return TimeDimension.weeks;
-    }
-    throw Exception('$this is not known in enum TimeDimension');
-  }
+  const TimeDimension(this.value);
+
+  static TimeDimension fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimeDimension'));
 }
 
 /// The object representing the filter that Amazon Lex will use to select the
@@ -25454,26 +23733,17 @@ class TranscriptFilter {
 }
 
 enum TranscriptFormat {
-  lex,
-}
+  lex('Lex'),
+  ;
 
-extension TranscriptFormatValueExtension on TranscriptFormat {
-  String toValue() {
-    switch (this) {
-      case TranscriptFormat.lex:
-        return 'Lex';
-    }
-  }
-}
+  final String value;
 
-extension TranscriptFormatFromString on String {
-  TranscriptFormat toTranscriptFormat() {
-    switch (this) {
-      case 'Lex':
-        return TranscriptFormat.lex;
-    }
-    throw Exception('$this is not known in enum TranscriptFormat');
-  }
+  const TranscriptFormat(this.value);
+
+  static TranscriptFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TranscriptFormat'));
 }
 
 /// Indicates the setting of the location where the transcript is stored.
@@ -25608,7 +23878,8 @@ class UpdateBotAliasResponse {
           ?.map((k, e) => MapEntry(
               k, BotAliasLocaleSettings.fromJson(e as Map<String, dynamic>))),
       botAliasName: json['botAliasName'] as String?,
-      botAliasStatus: (json['botAliasStatus'] as String?)?.toBotAliasStatus(),
+      botAliasStatus:
+          (json['botAliasStatus'] as String?)?.let(BotAliasStatus.fromString),
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       conversationLogSettings: json['conversationLogSettings'] != null
@@ -25642,7 +23913,7 @@ class UpdateBotAliasResponse {
       if (botAliasLocaleSettings != null)
         'botAliasLocaleSettings': botAliasLocaleSettings,
       if (botAliasName != null) 'botAliasName': botAliasName,
-      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.toValue(),
+      if (botAliasStatus != null) 'botAliasStatus': botAliasStatus.value,
       if (botId != null) 'botId': botId,
       if (botVersion != null) 'botVersion': botVersion,
       if (conversationLogSettings != null)
@@ -25726,7 +23997,7 @@ class UpdateBotLocaleResponse {
     return UpdateBotLocaleResponse(
       botId: json['botId'] as String?,
       botLocaleStatus:
-          (json['botLocaleStatus'] as String?)?.toBotLocaleStatus(),
+          (json['botLocaleStatus'] as String?)?.let(BotLocaleStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
@@ -25770,7 +24041,7 @@ class UpdateBotLocaleResponse {
     final voiceSettings = this.voiceSettings;
     return {
       if (botId != null) 'botId': botId,
-      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.toValue(),
+      if (botLocaleStatus != null) 'botLocaleStatus': botLocaleStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -25848,7 +24119,7 @@ class UpdateBotRecommendationResponse {
       botId: json['botId'] as String?,
       botRecommendationId: json['botRecommendationId'] as String?,
       botRecommendationStatus: (json['botRecommendationStatus'] as String?)
-          ?.toBotRecommendationStatus(),
+          ?.let(BotRecommendationStatus.fromString),
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       encryptionSetting: json['encryptionSetting'] != null
@@ -25879,7 +24150,7 @@ class UpdateBotRecommendationResponse {
       if (botRecommendationId != null)
         'botRecommendationId': botRecommendationId,
       if (botRecommendationStatus != null)
-        'botRecommendationStatus': botRecommendationStatus.toValue(),
+        'botRecommendationStatus': botRecommendationStatus.value,
       if (botVersion != null) 'botVersion': botVersion,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
@@ -25953,8 +24224,8 @@ class UpdateBotResponse {
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
-      botStatus: (json['botStatus'] as String?)?.toBotStatus(),
-      botType: (json['botType'] as String?)?.toBotType(),
+      botStatus: (json['botStatus'] as String?)?.let(BotStatus.fromString),
+      botType: (json['botType'] as String?)?.let(BotType.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       dataPrivacy: json['dataPrivacy'] != null
           ? DataPrivacy.fromJson(json['dataPrivacy'] as Map<String, dynamic>)
@@ -25982,8 +24253,8 @@ class UpdateBotResponse {
       if (botId != null) 'botId': botId,
       if (botMembers != null) 'botMembers': botMembers,
       if (botName != null) 'botName': botName,
-      if (botStatus != null) 'botStatus': botStatus.toValue(),
-      if (botType != null) 'botType': botType.toValue(),
+      if (botStatus != null) 'botStatus': botStatus.value,
+      if (botType != null) 'botType': botType.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (dataPrivacy != null) 'dataPrivacy': dataPrivacy,
@@ -26033,8 +24304,10 @@ class UpdateExportResponse {
     return UpdateExportResponse(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       exportId: json['exportId'] as String?,
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
-      fileFormat: (json['fileFormat'] as String?)?.toImportExportFileFormat(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
+      fileFormat: (json['fileFormat'] as String?)
+          ?.let(ImportExportFileFormat.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       resourceSpecification: json['resourceSpecification'] != null
           ? ExportResourceSpecification.fromJson(
@@ -26054,8 +24327,8 @@ class UpdateExportResponse {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (exportId != null) 'exportId': exportId,
-      if (exportStatus != null) 'exportStatus': exportStatus.toValue(),
-      if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+      if (exportStatus != null) 'exportStatus': exportStatus.value,
+      if (fileFormat != null) 'fileFormat': fileFormat.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (resourceSpecification != null)
@@ -26612,10 +24885,10 @@ class UpdateTestSetResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      modality: (json['modality'] as String?)?.toTestSetModality(),
+      modality: (json['modality'] as String?)?.let(TestSetModality.fromString),
       numTurns: json['numTurns'] as int?,
       roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.toTestSetStatus(),
+      status: (json['status'] as String?)?.let(TestSetStatus.fromString),
       storageLocation: json['storageLocation'] != null
           ? TestSetStorageLocation.fromJson(
               json['storageLocation'] as Map<String, dynamic>)
@@ -26642,10 +24915,10 @@ class UpdateTestSetResponse {
       if (description != null) 'description': description,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (modality != null) 'modality': modality.toValue(),
+      if (modality != null) 'modality': modality.value,
       if (numTurns != null) 'numTurns': numTurns,
       if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (storageLocation != null) 'storageLocation': storageLocation,
       if (testSetId != null) 'testSetId': testSetId,
       if (testSetName != null) 'testSetName': testSetName,
@@ -26824,18 +25097,18 @@ class UserTurnResult {
           ? ConversationLevelResultDetail.fromJson(
               json['conversationLevelResult'] as Map<String, dynamic>)
           : null,
-      endToEndResult:
-          (json['endToEndResult'] as String?)?.toTestResultMatchStatus(),
+      endToEndResult: (json['endToEndResult'] as String?)
+          ?.let(TestResultMatchStatus.fromString),
       errorDetails: json['errorDetails'] != null
           ? ExecutionErrorDetails.fromJson(
               json['errorDetails'] as Map<String, dynamic>)
           : null,
-      intentMatchResult:
-          (json['intentMatchResult'] as String?)?.toTestResultMatchStatus(),
-      slotMatchResult:
-          (json['slotMatchResult'] as String?)?.toTestResultMatchStatus(),
+      intentMatchResult: (json['intentMatchResult'] as String?)
+          ?.let(TestResultMatchStatus.fromString),
+      slotMatchResult: (json['slotMatchResult'] as String?)
+          ?.let(TestResultMatchStatus.fromString),
       speechTranscriptionResult: (json['speechTranscriptionResult'] as String?)
-          ?.toTestResultMatchStatus(),
+          ?.let(TestResultMatchStatus.fromString),
     );
   }
 
@@ -26855,13 +25128,13 @@ class UserTurnResult {
       if (actualOutput != null) 'actualOutput': actualOutput,
       if (conversationLevelResult != null)
         'conversationLevelResult': conversationLevelResult,
-      if (endToEndResult != null) 'endToEndResult': endToEndResult.toValue(),
+      if (endToEndResult != null) 'endToEndResult': endToEndResult.value,
       if (errorDetails != null) 'errorDetails': errorDetails,
       if (intentMatchResult != null)
-        'intentMatchResult': intentMatchResult.toValue(),
-      if (slotMatchResult != null) 'slotMatchResult': slotMatchResult.toValue(),
+        'intentMatchResult': intentMatchResult.value,
+      if (slotMatchResult != null) 'slotMatchResult': slotMatchResult.value,
       if (speechTranscriptionResult != null)
-        'speechTranscriptionResult': speechTranscriptionResult.toValue(),
+        'speechTranscriptionResult': speechTranscriptionResult.value,
     };
   }
 }
@@ -27026,7 +25299,8 @@ class UtteranceBotResponse {
   factory UtteranceBotResponse.fromJson(Map<String, dynamic> json) {
     return UtteranceBotResponse(
       content: json['content'] as String?,
-      contentType: (json['contentType'] as String?)?.toUtteranceContentType(),
+      contentType: (json['contentType'] as String?)
+          ?.let(UtteranceContentType.fromString),
       imageResponseCard: json['imageResponseCard'] != null
           ? ImageResponseCard.fromJson(
               json['imageResponseCard'] as Map<String, dynamic>)
@@ -27040,48 +25314,27 @@ class UtteranceBotResponse {
     final imageResponseCard = this.imageResponseCard;
     return {
       if (content != null) 'content': content,
-      if (contentType != null) 'contentType': contentType.toValue(),
+      if (contentType != null) 'contentType': contentType.value,
       if (imageResponseCard != null) 'imageResponseCard': imageResponseCard,
     };
   }
 }
 
 enum UtteranceContentType {
-  plainText,
-  customPayload,
-  ssml,
-  imageResponseCard,
-}
+  plainText('PlainText'),
+  customPayload('CustomPayload'),
+  ssml('SSML'),
+  imageResponseCard('ImageResponseCard'),
+  ;
 
-extension UtteranceContentTypeValueExtension on UtteranceContentType {
-  String toValue() {
-    switch (this) {
-      case UtteranceContentType.plainText:
-        return 'PlainText';
-      case UtteranceContentType.customPayload:
-        return 'CustomPayload';
-      case UtteranceContentType.ssml:
-        return 'SSML';
-      case UtteranceContentType.imageResponseCard:
-        return 'ImageResponseCard';
-    }
-  }
-}
+  final String value;
 
-extension UtteranceContentTypeFromString on String {
-  UtteranceContentType toUtteranceContentType() {
-    switch (this) {
-      case 'PlainText':
-        return UtteranceContentType.plainText;
-      case 'CustomPayload':
-        return UtteranceContentType.customPayload;
-      case 'SSML':
-        return UtteranceContentType.ssml;
-      case 'ImageResponseCard':
-        return UtteranceContentType.imageResponseCard;
-    }
-    throw Exception('$this is not known in enum UtteranceContentType');
-  }
+  const UtteranceContentType(this.value);
+
+  static UtteranceContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UtteranceContentType'));
 }
 
 /// An object specifying the measure and method by which to sort the utterance
@@ -27111,8 +25364,8 @@ class UtteranceDataSortBy {
     final name = this.name;
     final order = this.order;
     return {
-      'name': name.toValue(),
-      'order': order.toValue(),
+      'name': name.value,
+      'order': order.value,
     };
   }
 }
@@ -27405,9 +25658,10 @@ class UtteranceSpecification {
       conversationStartTime: timeStampFromJson(json['conversationStartTime']),
       dialogActionType: json['dialogActionType'] as String?,
       inputType: json['inputType'] as String?,
-      intentState: (json['intentState'] as String?)?.toIntentState(),
+      intentState:
+          (json['intentState'] as String?)?.let(IntentState.fromString),
       localeId: json['localeId'] as String?,
-      mode: (json['mode'] as String?)?.toAnalyticsModality(),
+      mode: (json['mode'] as String?)?.let(AnalyticsModality.fromString),
       outputType: json['outputType'] as String?,
       sessionId: json['sessionId'] as String?,
       slotsFilledInSession: json['slotsFilledInSession'] as String?,
@@ -27459,9 +25713,9 @@ class UtteranceSpecification {
         'conversationStartTime': unixTimestampToJson(conversationStartTime),
       if (dialogActionType != null) 'dialogActionType': dialogActionType,
       if (inputType != null) 'inputType': inputType,
-      if (intentState != null) 'intentState': intentState.toValue(),
+      if (intentState != null) 'intentState': intentState.value,
       if (localeId != null) 'localeId': localeId,
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
       if (outputType != null) 'outputType': outputType,
       if (sessionId != null) 'sessionId': sessionId,
       if (slotsFilledInSession != null)
@@ -27477,31 +25731,17 @@ class UtteranceSpecification {
 }
 
 enum VoiceEngine {
-  standard,
-  neural,
-}
+  standard('standard'),
+  neural('neural'),
+  ;
 
-extension VoiceEngineValueExtension on VoiceEngine {
-  String toValue() {
-    switch (this) {
-      case VoiceEngine.standard:
-        return 'standard';
-      case VoiceEngine.neural:
-        return 'neural';
-    }
-  }
-}
+  final String value;
 
-extension VoiceEngineFromString on String {
-  VoiceEngine toVoiceEngine() {
-    switch (this) {
-      case 'standard':
-        return VoiceEngine.standard;
-      case 'neural':
-        return VoiceEngine.neural;
-    }
-    throw Exception('$this is not known in enum VoiceEngine');
-  }
+  const VoiceEngine(this.value);
+
+  static VoiceEngine fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VoiceEngine'));
 }
 
 /// Defines settings for using an Amazon Polly voice to communicate with a user.
@@ -27526,7 +25766,7 @@ class VoiceSettings {
   factory VoiceSettings.fromJson(Map<String, dynamic> json) {
     return VoiceSettings(
       voiceId: json['voiceId'] as String,
-      engine: (json['engine'] as String?)?.toVoiceEngine(),
+      engine: (json['engine'] as String?)?.let(VoiceEngine.fromString),
     );
   }
 
@@ -27535,7 +25775,7 @@ class VoiceSettings {
     final engine = this.engine;
     return {
       'voiceId': voiceId,
-      if (engine != null) 'engine': engine.toValue(),
+      if (engine != null) 'engine': engine.value,
     };
   }
 }

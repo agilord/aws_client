@@ -742,7 +742,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -812,7 +812,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -882,7 +882,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -952,7 +952,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1014,7 +1014,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1232,19 +1232,19 @@ class Attribute {
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toEntityType(),
+      category: (json['Category'] as String?)?.let(EntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType:
-          (json['RelationshipType'] as String?)?.toRelationshipType(),
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(RelationshipType.fromString),
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.whereNotNull()
           .map((e) => Trait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toEntitySubType(),
+      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
     );
   }
 
@@ -1261,81 +1261,39 @@ class Attribute {
     final type = this.type;
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null)
-        'RelationshipType': relationshipType.toValue(),
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum AttributeName {
-  sign,
-  symptom,
-  diagnosis,
-  negation,
-  pertainsToFamily,
-  hypothetical,
-  lowConfidence,
-  pastHistory,
-  future,
-}
+  sign('SIGN'),
+  symptom('SYMPTOM'),
+  diagnosis('DIAGNOSIS'),
+  negation('NEGATION'),
+  pertainsToFamily('PERTAINS_TO_FAMILY'),
+  hypothetical('HYPOTHETICAL'),
+  lowConfidence('LOW_CONFIDENCE'),
+  pastHistory('PAST_HISTORY'),
+  future('FUTURE'),
+  ;
 
-extension AttributeNameValueExtension on AttributeName {
-  String toValue() {
-    switch (this) {
-      case AttributeName.sign:
-        return 'SIGN';
-      case AttributeName.symptom:
-        return 'SYMPTOM';
-      case AttributeName.diagnosis:
-        return 'DIAGNOSIS';
-      case AttributeName.negation:
-        return 'NEGATION';
-      case AttributeName.pertainsToFamily:
-        return 'PERTAINS_TO_FAMILY';
-      case AttributeName.hypothetical:
-        return 'HYPOTHETICAL';
-      case AttributeName.lowConfidence:
-        return 'LOW_CONFIDENCE';
-      case AttributeName.pastHistory:
-        return 'PAST_HISTORY';
-      case AttributeName.future:
-        return 'FUTURE';
-    }
-  }
-}
+  final String value;
 
-extension AttributeNameFromString on String {
-  AttributeName toAttributeName() {
-    switch (this) {
-      case 'SIGN':
-        return AttributeName.sign;
-      case 'SYMPTOM':
-        return AttributeName.symptom;
-      case 'DIAGNOSIS':
-        return AttributeName.diagnosis;
-      case 'NEGATION':
-        return AttributeName.negation;
-      case 'PERTAINS_TO_FAMILY':
-        return AttributeName.pertainsToFamily;
-      case 'HYPOTHETICAL':
-        return AttributeName.hypothetical;
-      case 'LOW_CONFIDENCE':
-        return AttributeName.lowConfidence;
-      case 'PAST_HISTORY':
-        return AttributeName.pastHistory;
-      case 'FUTURE':
-        return AttributeName.future;
-    }
-    throw Exception('$this is not known in enum AttributeName');
-  }
+  const AttributeName(this.value);
+
+  static AttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttributeName'));
 }
 
 /// The number of characters in the input text to be analyzed.
@@ -1396,7 +1354,7 @@ class ComprehendMedicalAsyncJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -1490,9 +1448,10 @@ class ComprehendMedicalAsyncJobProperties {
           : null,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       kMSKey: json['KMSKey'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       manifestFilePath: json['ManifestFilePath'] as String?,
       message: json['Message'] as String?,
       modelVersion: json['ModelVersion'] as String?,
@@ -1527,9 +1486,9 @@ class ComprehendMedicalAsyncJobProperties {
       if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (kMSKey != null) 'KMSKey': kMSKey,
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (manifestFilePath != null) 'ManifestFilePath': manifestFilePath,
       if (message != null) 'Message': message,
       if (modelVersion != null) 'ModelVersion': modelVersion,
@@ -1910,7 +1869,7 @@ class Entity {
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toEntityType(),
+      category: (json['Category'] as String?)?.let(EntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       score: json['Score'] as double?,
@@ -1919,7 +1878,7 @@ class Entity {
           ?.whereNotNull()
           .map((e) => Trait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toEntitySubType(),
+      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
     );
   }
 
@@ -1936,311 +1895,92 @@ class Entity {
     return {
       if (attributes != null) 'Attributes': attributes,
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum EntitySubType {
-  name,
-  dxName,
-  dosage,
-  routeOrMode,
-  form,
-  frequency,
-  duration,
-  genericName,
-  brandName,
-  strength,
-  rate,
-  acuity,
-  testName,
-  testValue,
-  testUnits,
-  testUnit,
-  procedureName,
-  treatmentName,
-  date,
-  age,
-  contactPoint,
-  phoneOrFax,
-  email,
-  identifier,
-  id,
-  url,
-  address,
-  profession,
-  systemOrganSite,
-  direction,
-  quality,
-  quantity,
-  timeExpression,
-  timeToMedicationName,
-  timeToDxName,
-  timeToTestName,
-  timeToProcedureName,
-  timeToTreatmentName,
-  amount,
-  gender,
-  raceEthnicity,
-  allergies,
-  tobaccoUse,
-  alcoholConsumption,
-  recDrugUse,
-}
+  name('NAME'),
+  dxName('DX_NAME'),
+  dosage('DOSAGE'),
+  routeOrMode('ROUTE_OR_MODE'),
+  form('FORM'),
+  frequency('FREQUENCY'),
+  duration('DURATION'),
+  genericName('GENERIC_NAME'),
+  brandName('BRAND_NAME'),
+  strength('STRENGTH'),
+  rate('RATE'),
+  acuity('ACUITY'),
+  testName('TEST_NAME'),
+  testValue('TEST_VALUE'),
+  testUnits('TEST_UNITS'),
+  testUnit('TEST_UNIT'),
+  procedureName('PROCEDURE_NAME'),
+  treatmentName('TREATMENT_NAME'),
+  date('DATE'),
+  age('AGE'),
+  contactPoint('CONTACT_POINT'),
+  phoneOrFax('PHONE_OR_FAX'),
+  email('EMAIL'),
+  identifier('IDENTIFIER'),
+  id('ID'),
+  url('URL'),
+  address('ADDRESS'),
+  profession('PROFESSION'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  direction('DIRECTION'),
+  quality('QUALITY'),
+  quantity('QUANTITY'),
+  timeExpression('TIME_EXPRESSION'),
+  timeToMedicationName('TIME_TO_MEDICATION_NAME'),
+  timeToDxName('TIME_TO_DX_NAME'),
+  timeToTestName('TIME_TO_TEST_NAME'),
+  timeToProcedureName('TIME_TO_PROCEDURE_NAME'),
+  timeToTreatmentName('TIME_TO_TREATMENT_NAME'),
+  amount('AMOUNT'),
+  gender('GENDER'),
+  raceEthnicity('RACE_ETHNICITY'),
+  allergies('ALLERGIES'),
+  tobaccoUse('TOBACCO_USE'),
+  alcoholConsumption('ALCOHOL_CONSUMPTION'),
+  recDrugUse('REC_DRUG_USE'),
+  ;
 
-extension EntitySubTypeValueExtension on EntitySubType {
-  String toValue() {
-    switch (this) {
-      case EntitySubType.name:
-        return 'NAME';
-      case EntitySubType.dxName:
-        return 'DX_NAME';
-      case EntitySubType.dosage:
-        return 'DOSAGE';
-      case EntitySubType.routeOrMode:
-        return 'ROUTE_OR_MODE';
-      case EntitySubType.form:
-        return 'FORM';
-      case EntitySubType.frequency:
-        return 'FREQUENCY';
-      case EntitySubType.duration:
-        return 'DURATION';
-      case EntitySubType.genericName:
-        return 'GENERIC_NAME';
-      case EntitySubType.brandName:
-        return 'BRAND_NAME';
-      case EntitySubType.strength:
-        return 'STRENGTH';
-      case EntitySubType.rate:
-        return 'RATE';
-      case EntitySubType.acuity:
-        return 'ACUITY';
-      case EntitySubType.testName:
-        return 'TEST_NAME';
-      case EntitySubType.testValue:
-        return 'TEST_VALUE';
-      case EntitySubType.testUnits:
-        return 'TEST_UNITS';
-      case EntitySubType.testUnit:
-        return 'TEST_UNIT';
-      case EntitySubType.procedureName:
-        return 'PROCEDURE_NAME';
-      case EntitySubType.treatmentName:
-        return 'TREATMENT_NAME';
-      case EntitySubType.date:
-        return 'DATE';
-      case EntitySubType.age:
-        return 'AGE';
-      case EntitySubType.contactPoint:
-        return 'CONTACT_POINT';
-      case EntitySubType.phoneOrFax:
-        return 'PHONE_OR_FAX';
-      case EntitySubType.email:
-        return 'EMAIL';
-      case EntitySubType.identifier:
-        return 'IDENTIFIER';
-      case EntitySubType.id:
-        return 'ID';
-      case EntitySubType.url:
-        return 'URL';
-      case EntitySubType.address:
-        return 'ADDRESS';
-      case EntitySubType.profession:
-        return 'PROFESSION';
-      case EntitySubType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case EntitySubType.direction:
-        return 'DIRECTION';
-      case EntitySubType.quality:
-        return 'QUALITY';
-      case EntitySubType.quantity:
-        return 'QUANTITY';
-      case EntitySubType.timeExpression:
-        return 'TIME_EXPRESSION';
-      case EntitySubType.timeToMedicationName:
-        return 'TIME_TO_MEDICATION_NAME';
-      case EntitySubType.timeToDxName:
-        return 'TIME_TO_DX_NAME';
-      case EntitySubType.timeToTestName:
-        return 'TIME_TO_TEST_NAME';
-      case EntitySubType.timeToProcedureName:
-        return 'TIME_TO_PROCEDURE_NAME';
-      case EntitySubType.timeToTreatmentName:
-        return 'TIME_TO_TREATMENT_NAME';
-      case EntitySubType.amount:
-        return 'AMOUNT';
-      case EntitySubType.gender:
-        return 'GENDER';
-      case EntitySubType.raceEthnicity:
-        return 'RACE_ETHNICITY';
-      case EntitySubType.allergies:
-        return 'ALLERGIES';
-      case EntitySubType.tobaccoUse:
-        return 'TOBACCO_USE';
-      case EntitySubType.alcoholConsumption:
-        return 'ALCOHOL_CONSUMPTION';
-      case EntitySubType.recDrugUse:
-        return 'REC_DRUG_USE';
-    }
-  }
-}
+  final String value;
 
-extension EntitySubTypeFromString on String {
-  EntitySubType toEntitySubType() {
-    switch (this) {
-      case 'NAME':
-        return EntitySubType.name;
-      case 'DX_NAME':
-        return EntitySubType.dxName;
-      case 'DOSAGE':
-        return EntitySubType.dosage;
-      case 'ROUTE_OR_MODE':
-        return EntitySubType.routeOrMode;
-      case 'FORM':
-        return EntitySubType.form;
-      case 'FREQUENCY':
-        return EntitySubType.frequency;
-      case 'DURATION':
-        return EntitySubType.duration;
-      case 'GENERIC_NAME':
-        return EntitySubType.genericName;
-      case 'BRAND_NAME':
-        return EntitySubType.brandName;
-      case 'STRENGTH':
-        return EntitySubType.strength;
-      case 'RATE':
-        return EntitySubType.rate;
-      case 'ACUITY':
-        return EntitySubType.acuity;
-      case 'TEST_NAME':
-        return EntitySubType.testName;
-      case 'TEST_VALUE':
-        return EntitySubType.testValue;
-      case 'TEST_UNITS':
-        return EntitySubType.testUnits;
-      case 'TEST_UNIT':
-        return EntitySubType.testUnit;
-      case 'PROCEDURE_NAME':
-        return EntitySubType.procedureName;
-      case 'TREATMENT_NAME':
-        return EntitySubType.treatmentName;
-      case 'DATE':
-        return EntitySubType.date;
-      case 'AGE':
-        return EntitySubType.age;
-      case 'CONTACT_POINT':
-        return EntitySubType.contactPoint;
-      case 'PHONE_OR_FAX':
-        return EntitySubType.phoneOrFax;
-      case 'EMAIL':
-        return EntitySubType.email;
-      case 'IDENTIFIER':
-        return EntitySubType.identifier;
-      case 'ID':
-        return EntitySubType.id;
-      case 'URL':
-        return EntitySubType.url;
-      case 'ADDRESS':
-        return EntitySubType.address;
-      case 'PROFESSION':
-        return EntitySubType.profession;
-      case 'SYSTEM_ORGAN_SITE':
-        return EntitySubType.systemOrganSite;
-      case 'DIRECTION':
-        return EntitySubType.direction;
-      case 'QUALITY':
-        return EntitySubType.quality;
-      case 'QUANTITY':
-        return EntitySubType.quantity;
-      case 'TIME_EXPRESSION':
-        return EntitySubType.timeExpression;
-      case 'TIME_TO_MEDICATION_NAME':
-        return EntitySubType.timeToMedicationName;
-      case 'TIME_TO_DX_NAME':
-        return EntitySubType.timeToDxName;
-      case 'TIME_TO_TEST_NAME':
-        return EntitySubType.timeToTestName;
-      case 'TIME_TO_PROCEDURE_NAME':
-        return EntitySubType.timeToProcedureName;
-      case 'TIME_TO_TREATMENT_NAME':
-        return EntitySubType.timeToTreatmentName;
-      case 'AMOUNT':
-        return EntitySubType.amount;
-      case 'GENDER':
-        return EntitySubType.gender;
-      case 'RACE_ETHNICITY':
-        return EntitySubType.raceEthnicity;
-      case 'ALLERGIES':
-        return EntitySubType.allergies;
-      case 'TOBACCO_USE':
-        return EntitySubType.tobaccoUse;
-      case 'ALCOHOL_CONSUMPTION':
-        return EntitySubType.alcoholConsumption;
-      case 'REC_DRUG_USE':
-        return EntitySubType.recDrugUse;
-    }
-    throw Exception('$this is not known in enum EntitySubType');
-  }
+  const EntitySubType(this.value);
+
+  static EntitySubType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntitySubType'));
 }
 
 enum EntityType {
-  medication,
-  medicalCondition,
-  protectedHealthInformation,
-  testTreatmentProcedure,
-  anatomy,
-  timeExpression,
-  behavioralEnvironmentalSocial,
-}
+  medication('MEDICATION'),
+  medicalCondition('MEDICAL_CONDITION'),
+  protectedHealthInformation('PROTECTED_HEALTH_INFORMATION'),
+  testTreatmentProcedure('TEST_TREATMENT_PROCEDURE'),
+  anatomy('ANATOMY'),
+  timeExpression('TIME_EXPRESSION'),
+  behavioralEnvironmentalSocial('BEHAVIORAL_ENVIRONMENTAL_SOCIAL'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.medication:
-        return 'MEDICATION';
-      case EntityType.medicalCondition:
-        return 'MEDICAL_CONDITION';
-      case EntityType.protectedHealthInformation:
-        return 'PROTECTED_HEALTH_INFORMATION';
-      case EntityType.testTreatmentProcedure:
-        return 'TEST_TREATMENT_PROCEDURE';
-      case EntityType.anatomy:
-        return 'ANATOMY';
-      case EntityType.timeExpression:
-        return 'TIME_EXPRESSION';
-      case EntityType.behavioralEnvironmentalSocial:
-        return 'BEHAVIORAL_ENVIRONMENTAL_SOCIAL';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'MEDICATION':
-        return EntityType.medication;
-      case 'MEDICAL_CONDITION':
-        return EntityType.medicalCondition;
-      case 'PROTECTED_HEALTH_INFORMATION':
-        return EntityType.protectedHealthInformation;
-      case 'TEST_TREATMENT_PROCEDURE':
-        return EntityType.testTreatmentProcedure;
-      case 'ANATOMY':
-        return EntityType.anatomy;
-      case 'TIME_EXPRESSION':
-        return EntityType.timeExpression;
-      case 'BEHAVIORAL_ENVIRONMENTAL_SOCIAL':
-        return EntityType.behavioralEnvironmentalSocial;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 /// The detected attributes that relate to an entity. This includes an extracted
@@ -2307,19 +2047,20 @@ class ICD10CMAttribute {
   factory ICD10CMAttribute.fromJson(Map<String, dynamic> json) {
     return ICD10CMAttribute(
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toICD10CMEntityType(),
+      category:
+          (json['Category'] as String?)?.let(ICD10CMEntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType:
-          (json['RelationshipType'] as String?)?.toICD10CMRelationshipType(),
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(ICD10CMRelationshipType.fromString),
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.whereNotNull()
           .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toICD10CMAttributeType(),
+      type: (json['Type'] as String?)?.let(ICD10CMAttributeType.fromString),
     );
   }
 
@@ -2336,71 +2077,37 @@ class ICD10CMAttribute {
     final type = this.type;
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null)
-        'RelationshipType': relationshipType.toValue(),
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ICD10CMAttributeType {
-  acuity,
-  direction,
-  systemOrganSite,
-  quality,
-  quantity,
-  timeToDxName,
-  timeExpression,
-}
+  acuity('ACUITY'),
+  direction('DIRECTION'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  quality('QUALITY'),
+  quantity('QUANTITY'),
+  timeToDxName('TIME_TO_DX_NAME'),
+  timeExpression('TIME_EXPRESSION'),
+  ;
 
-extension ICD10CMAttributeTypeValueExtension on ICD10CMAttributeType {
-  String toValue() {
-    switch (this) {
-      case ICD10CMAttributeType.acuity:
-        return 'ACUITY';
-      case ICD10CMAttributeType.direction:
-        return 'DIRECTION';
-      case ICD10CMAttributeType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case ICD10CMAttributeType.quality:
-        return 'QUALITY';
-      case ICD10CMAttributeType.quantity:
-        return 'QUANTITY';
-      case ICD10CMAttributeType.timeToDxName:
-        return 'TIME_TO_DX_NAME';
-      case ICD10CMAttributeType.timeExpression:
-        return 'TIME_EXPRESSION';
-    }
-  }
-}
+  final String value;
 
-extension ICD10CMAttributeTypeFromString on String {
-  ICD10CMAttributeType toICD10CMAttributeType() {
-    switch (this) {
-      case 'ACUITY':
-        return ICD10CMAttributeType.acuity;
-      case 'DIRECTION':
-        return ICD10CMAttributeType.direction;
-      case 'SYSTEM_ORGAN_SITE':
-        return ICD10CMAttributeType.systemOrganSite;
-      case 'QUALITY':
-        return ICD10CMAttributeType.quality;
-      case 'QUANTITY':
-        return ICD10CMAttributeType.quantity;
-      case 'TIME_TO_DX_NAME':
-        return ICD10CMAttributeType.timeToDxName;
-      case 'TIME_EXPRESSION':
-        return ICD10CMAttributeType.timeExpression;
-    }
-    throw Exception('$this is not known in enum ICD10CMAttributeType');
-  }
+  const ICD10CMAttributeType(this.value);
+
+  static ICD10CMAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ICD10CMAttributeType'));
 }
 
 /// The ICD-10-CM concepts that the entity could refer to, along with a score
@@ -2511,7 +2218,8 @@ class ICD10CMEntity {
           .map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toICD10CMEntityCategory(),
+      category:
+          (json['Category'] as String?)?.let(ICD10CMEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       iCD10CMConcepts: (json['ICD10CMConcepts'] as List?)
           ?.whereNotNull()
@@ -2524,7 +2232,7 @@ class ICD10CMEntity {
           ?.whereNotNull()
           .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toICD10CMEntityType(),
+      type: (json['Type'] as String?)?.let(ICD10CMEntityType.fromString),
     );
   }
 
@@ -2542,100 +2250,61 @@ class ICD10CMEntity {
     return {
       if (attributes != null) 'Attributes': attributes,
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (iCD10CMConcepts != null) 'ICD10CMConcepts': iCD10CMConcepts,
       if (id != null) 'Id': id,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ICD10CMEntityCategory {
-  medicalCondition,
-}
+  medicalCondition('MEDICAL_CONDITION'),
+  ;
 
-extension ICD10CMEntityCategoryValueExtension on ICD10CMEntityCategory {
-  String toValue() {
-    switch (this) {
-      case ICD10CMEntityCategory.medicalCondition:
-        return 'MEDICAL_CONDITION';
-    }
-  }
-}
+  final String value;
 
-extension ICD10CMEntityCategoryFromString on String {
-  ICD10CMEntityCategory toICD10CMEntityCategory() {
-    switch (this) {
-      case 'MEDICAL_CONDITION':
-        return ICD10CMEntityCategory.medicalCondition;
-    }
-    throw Exception('$this is not known in enum ICD10CMEntityCategory');
-  }
+  const ICD10CMEntityCategory(this.value);
+
+  static ICD10CMEntityCategory fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ICD10CMEntityCategory'));
 }
 
 enum ICD10CMEntityType {
-  dxName,
-  timeExpression,
-}
+  dxName('DX_NAME'),
+  timeExpression('TIME_EXPRESSION'),
+  ;
 
-extension ICD10CMEntityTypeValueExtension on ICD10CMEntityType {
-  String toValue() {
-    switch (this) {
-      case ICD10CMEntityType.dxName:
-        return 'DX_NAME';
-      case ICD10CMEntityType.timeExpression:
-        return 'TIME_EXPRESSION';
-    }
-  }
-}
+  final String value;
 
-extension ICD10CMEntityTypeFromString on String {
-  ICD10CMEntityType toICD10CMEntityType() {
-    switch (this) {
-      case 'DX_NAME':
-        return ICD10CMEntityType.dxName;
-      case 'TIME_EXPRESSION':
-        return ICD10CMEntityType.timeExpression;
-    }
-    throw Exception('$this is not known in enum ICD10CMEntityType');
-  }
+  const ICD10CMEntityType(this.value);
+
+  static ICD10CMEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ICD10CMEntityType'));
 }
 
 enum ICD10CMRelationshipType {
-  overlap,
-  systemOrganSite,
-  quality,
-}
+  overlap('OVERLAP'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  quality('QUALITY'),
+  ;
 
-extension ICD10CMRelationshipTypeValueExtension on ICD10CMRelationshipType {
-  String toValue() {
-    switch (this) {
-      case ICD10CMRelationshipType.overlap:
-        return 'OVERLAP';
-      case ICD10CMRelationshipType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case ICD10CMRelationshipType.quality:
-        return 'QUALITY';
-    }
-  }
-}
+  final String value;
 
-extension ICD10CMRelationshipTypeFromString on String {
-  ICD10CMRelationshipType toICD10CMRelationshipType() {
-    switch (this) {
-      case 'OVERLAP':
-        return ICD10CMRelationshipType.overlap;
-      case 'SYSTEM_ORGAN_SITE':
-        return ICD10CMRelationshipType.systemOrganSite;
-      case 'QUALITY':
-        return ICD10CMRelationshipType.quality;
-    }
-    throw Exception('$this is not known in enum ICD10CMRelationshipType');
-  }
+  const ICD10CMRelationshipType(this.value);
+
+  static ICD10CMRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ICD10CMRelationshipType'));
 }
 
 /// Contextual information for the entity. The traits recognized by InferICD10CM
@@ -2656,7 +2325,7 @@ class ICD10CMTrait {
 
   factory ICD10CMTrait.fromJson(Map<String, dynamic> json) {
     return ICD10CMTrait(
-      name: (json['Name'] as String?)?.toICD10CMTraitName(),
+      name: (json['Name'] as String?)?.let(ICD10CMTraitName.fromString),
       score: json['Score'] as double?,
     );
   }
@@ -2665,63 +2334,30 @@ class ICD10CMTrait {
     final name = this.name;
     final score = this.score;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (score != null) 'Score': score,
     };
   }
 }
 
 enum ICD10CMTraitName {
-  negation,
-  diagnosis,
-  sign,
-  symptom,
-  pertainsToFamily,
-  hypothetical,
-  lowConfidence,
-}
+  negation('NEGATION'),
+  diagnosis('DIAGNOSIS'),
+  sign('SIGN'),
+  symptom('SYMPTOM'),
+  pertainsToFamily('PERTAINS_TO_FAMILY'),
+  hypothetical('HYPOTHETICAL'),
+  lowConfidence('LOW_CONFIDENCE'),
+  ;
 
-extension ICD10CMTraitNameValueExtension on ICD10CMTraitName {
-  String toValue() {
-    switch (this) {
-      case ICD10CMTraitName.negation:
-        return 'NEGATION';
-      case ICD10CMTraitName.diagnosis:
-        return 'DIAGNOSIS';
-      case ICD10CMTraitName.sign:
-        return 'SIGN';
-      case ICD10CMTraitName.symptom:
-        return 'SYMPTOM';
-      case ICD10CMTraitName.pertainsToFamily:
-        return 'PERTAINS_TO_FAMILY';
-      case ICD10CMTraitName.hypothetical:
-        return 'HYPOTHETICAL';
-      case ICD10CMTraitName.lowConfidence:
-        return 'LOW_CONFIDENCE';
-    }
-  }
-}
+  final String value;
 
-extension ICD10CMTraitNameFromString on String {
-  ICD10CMTraitName toICD10CMTraitName() {
-    switch (this) {
-      case 'NEGATION':
-        return ICD10CMTraitName.negation;
-      case 'DIAGNOSIS':
-        return ICD10CMTraitName.diagnosis;
-      case 'SIGN':
-        return ICD10CMTraitName.sign;
-      case 'SYMPTOM':
-        return ICD10CMTraitName.symptom;
-      case 'PERTAINS_TO_FAMILY':
-        return ICD10CMTraitName.pertainsToFamily;
-      case 'HYPOTHETICAL':
-        return ICD10CMTraitName.hypothetical;
-      case 'LOW_CONFIDENCE':
-        return ICD10CMTraitName.lowConfidence;
-    }
-    throw Exception('$this is not known in enum ICD10CMTraitName');
-  }
+  const ICD10CMTraitName(this.value);
+
+  static ICD10CMTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ICD10CMTraitName'));
 }
 
 class InferICD10CMResponse {
@@ -2913,79 +2549,36 @@ class InputDataConfig {
 }
 
 enum JobStatus {
-  submitted,
-  inProgress,
-  completed,
-  partialSuccess,
-  failed,
-  stopRequested,
-  stopped,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  partialSuccess('PARTIAL_SUCCESS'),
+  failed('FAILED'),
+  stopRequested('STOP_REQUESTED'),
+  stopped('STOPPED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.partialSuccess:
-        return 'PARTIAL_SUCCESS';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.stopRequested:
-        return 'STOP_REQUESTED';
-      case JobStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'PARTIAL_SUCCESS':
-        return JobStatus.partialSuccess;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'STOP_REQUESTED':
-        return JobStatus.stopRequested;
-      case 'STOPPED':
-        return JobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 enum LanguageCode {
-  en,
-}
+  en('en'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.en:
-        return 'en';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'en':
-        return LanguageCode.en;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 class ListEntitiesDetectionV2JobsResponse {
@@ -3217,131 +2810,38 @@ class OutputDataConfig {
 }
 
 enum RelationshipType {
-  every,
-  withDosage,
-  administeredVia,
-  $for,
-  negative,
-  overlap,
-  dosage,
-  routeOrMode,
-  form,
-  frequency,
-  duration,
-  strength,
-  rate,
-  acuity,
-  testValue,
-  testUnits,
-  testUnit,
-  direction,
-  systemOrganSite,
-  amount,
-  usage,
-  quality,
-}
+  every('EVERY'),
+  withDosage('WITH_DOSAGE'),
+  administeredVia('ADMINISTERED_VIA'),
+  $for('FOR'),
+  negative('NEGATIVE'),
+  overlap('OVERLAP'),
+  dosage('DOSAGE'),
+  routeOrMode('ROUTE_OR_MODE'),
+  form('FORM'),
+  frequency('FREQUENCY'),
+  duration('DURATION'),
+  strength('STRENGTH'),
+  rate('RATE'),
+  acuity('ACUITY'),
+  testValue('TEST_VALUE'),
+  testUnits('TEST_UNITS'),
+  testUnit('TEST_UNIT'),
+  direction('DIRECTION'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  amount('AMOUNT'),
+  usage('USAGE'),
+  quality('QUALITY'),
+  ;
 
-extension RelationshipTypeValueExtension on RelationshipType {
-  String toValue() {
-    switch (this) {
-      case RelationshipType.every:
-        return 'EVERY';
-      case RelationshipType.withDosage:
-        return 'WITH_DOSAGE';
-      case RelationshipType.administeredVia:
-        return 'ADMINISTERED_VIA';
-      case RelationshipType.$for:
-        return 'FOR';
-      case RelationshipType.negative:
-        return 'NEGATIVE';
-      case RelationshipType.overlap:
-        return 'OVERLAP';
-      case RelationshipType.dosage:
-        return 'DOSAGE';
-      case RelationshipType.routeOrMode:
-        return 'ROUTE_OR_MODE';
-      case RelationshipType.form:
-        return 'FORM';
-      case RelationshipType.frequency:
-        return 'FREQUENCY';
-      case RelationshipType.duration:
-        return 'DURATION';
-      case RelationshipType.strength:
-        return 'STRENGTH';
-      case RelationshipType.rate:
-        return 'RATE';
-      case RelationshipType.acuity:
-        return 'ACUITY';
-      case RelationshipType.testValue:
-        return 'TEST_VALUE';
-      case RelationshipType.testUnits:
-        return 'TEST_UNITS';
-      case RelationshipType.testUnit:
-        return 'TEST_UNIT';
-      case RelationshipType.direction:
-        return 'DIRECTION';
-      case RelationshipType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case RelationshipType.amount:
-        return 'AMOUNT';
-      case RelationshipType.usage:
-        return 'USAGE';
-      case RelationshipType.quality:
-        return 'QUALITY';
-    }
-  }
-}
+  final String value;
 
-extension RelationshipTypeFromString on String {
-  RelationshipType toRelationshipType() {
-    switch (this) {
-      case 'EVERY':
-        return RelationshipType.every;
-      case 'WITH_DOSAGE':
-        return RelationshipType.withDosage;
-      case 'ADMINISTERED_VIA':
-        return RelationshipType.administeredVia;
-      case 'FOR':
-        return RelationshipType.$for;
-      case 'NEGATIVE':
-        return RelationshipType.negative;
-      case 'OVERLAP':
-        return RelationshipType.overlap;
-      case 'DOSAGE':
-        return RelationshipType.dosage;
-      case 'ROUTE_OR_MODE':
-        return RelationshipType.routeOrMode;
-      case 'FORM':
-        return RelationshipType.form;
-      case 'FREQUENCY':
-        return RelationshipType.frequency;
-      case 'DURATION':
-        return RelationshipType.duration;
-      case 'STRENGTH':
-        return RelationshipType.strength;
-      case 'RATE':
-        return RelationshipType.rate;
-      case 'ACUITY':
-        return RelationshipType.acuity;
-      case 'TEST_VALUE':
-        return RelationshipType.testValue;
-      case 'TEST_UNITS':
-        return RelationshipType.testUnits;
-      case 'TEST_UNIT':
-        return RelationshipType.testUnit;
-      case 'DIRECTION':
-        return RelationshipType.direction;
-      case 'SYSTEM_ORGAN_SITE':
-        return RelationshipType.systemOrganSite;
-      case 'AMOUNT':
-        return RelationshipType.amount;
-      case 'USAGE':
-        return RelationshipType.usage;
-      case 'QUALITY':
-        return RelationshipType.quality;
-    }
-    throw Exception('$this is not known in enum RelationshipType');
-  }
+  const RelationshipType(this.value);
+
+  static RelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelationshipType'));
 }
 
 /// The extracted attributes that relate to this entity. The attributes
@@ -3405,7 +2905,7 @@ class RxNormAttribute {
           ?.whereNotNull()
           .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toRxNormAttributeType(),
+      type: (json['Type'] as String?)?.let(RxNormAttributeType.fromString),
     );
   }
 
@@ -3426,62 +2926,29 @@ class RxNormAttribute {
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum RxNormAttributeType {
-  dosage,
-  duration,
-  form,
-  frequency,
-  rate,
-  routeOrMode,
-  strength,
-}
+  dosage('DOSAGE'),
+  duration('DURATION'),
+  form('FORM'),
+  frequency('FREQUENCY'),
+  rate('RATE'),
+  routeOrMode('ROUTE_OR_MODE'),
+  strength('STRENGTH'),
+  ;
 
-extension RxNormAttributeTypeValueExtension on RxNormAttributeType {
-  String toValue() {
-    switch (this) {
-      case RxNormAttributeType.dosage:
-        return 'DOSAGE';
-      case RxNormAttributeType.duration:
-        return 'DURATION';
-      case RxNormAttributeType.form:
-        return 'FORM';
-      case RxNormAttributeType.frequency:
-        return 'FREQUENCY';
-      case RxNormAttributeType.rate:
-        return 'RATE';
-      case RxNormAttributeType.routeOrMode:
-        return 'ROUTE_OR_MODE';
-      case RxNormAttributeType.strength:
-        return 'STRENGTH';
-    }
-  }
-}
+  final String value;
 
-extension RxNormAttributeTypeFromString on String {
-  RxNormAttributeType toRxNormAttributeType() {
-    switch (this) {
-      case 'DOSAGE':
-        return RxNormAttributeType.dosage;
-      case 'DURATION':
-        return RxNormAttributeType.duration;
-      case 'FORM':
-        return RxNormAttributeType.form;
-      case 'FREQUENCY':
-        return RxNormAttributeType.frequency;
-      case 'RATE':
-        return RxNormAttributeType.rate;
-      case 'ROUTE_OR_MODE':
-        return RxNormAttributeType.routeOrMode;
-      case 'STRENGTH':
-        return RxNormAttributeType.strength;
-    }
-    throw Exception('$this is not known in enum RxNormAttributeType');
-  }
+  const RxNormAttributeType(this.value);
+
+  static RxNormAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RxNormAttributeType'));
 }
 
 /// The RxNorm concept that the entity could refer to, along with a score
@@ -3589,7 +3056,8 @@ class RxNormEntity {
           .map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toRxNormEntityCategory(),
+      category:
+          (json['Category'] as String?)?.let(RxNormEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       rxNormConcepts: (json['RxNormConcepts'] as List?)
@@ -3602,7 +3070,7 @@ class RxNormEntity {
           ?.whereNotNull()
           .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toRxNormEntityType(),
+      type: (json['Type'] as String?)?.let(RxNormEntityType.fromString),
     );
   }
 
@@ -3620,67 +3088,45 @@ class RxNormEntity {
     return {
       if (attributes != null) 'Attributes': attributes,
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (rxNormConcepts != null) 'RxNormConcepts': rxNormConcepts,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum RxNormEntityCategory {
-  medication,
-}
+  medication('MEDICATION'),
+  ;
 
-extension RxNormEntityCategoryValueExtension on RxNormEntityCategory {
-  String toValue() {
-    switch (this) {
-      case RxNormEntityCategory.medication:
-        return 'MEDICATION';
-    }
-  }
-}
+  final String value;
 
-extension RxNormEntityCategoryFromString on String {
-  RxNormEntityCategory toRxNormEntityCategory() {
-    switch (this) {
-      case 'MEDICATION':
-        return RxNormEntityCategory.medication;
-    }
-    throw Exception('$this is not known in enum RxNormEntityCategory');
-  }
+  const RxNormEntityCategory(this.value);
+
+  static RxNormEntityCategory fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RxNormEntityCategory'));
 }
 
 enum RxNormEntityType {
-  brandName,
-  genericName,
-}
+  brandName('BRAND_NAME'),
+  genericName('GENERIC_NAME'),
+  ;
 
-extension RxNormEntityTypeValueExtension on RxNormEntityType {
-  String toValue() {
-    switch (this) {
-      case RxNormEntityType.brandName:
-        return 'BRAND_NAME';
-      case RxNormEntityType.genericName:
-        return 'GENERIC_NAME';
-    }
-  }
-}
+  final String value;
 
-extension RxNormEntityTypeFromString on String {
-  RxNormEntityType toRxNormEntityType() {
-    switch (this) {
-      case 'BRAND_NAME':
-        return RxNormEntityType.brandName;
-      case 'GENERIC_NAME':
-        return RxNormEntityType.genericName;
-    }
-    throw Exception('$this is not known in enum RxNormEntityType');
-  }
+  const RxNormEntityType(this.value);
+
+  static RxNormEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RxNormEntityType'));
 }
 
 /// The contextual information for the entity. InferRxNorm recognizes the trait
@@ -3701,7 +3147,7 @@ class RxNormTrait {
 
   factory RxNormTrait.fromJson(Map<String, dynamic> json) {
     return RxNormTrait(
-      name: (json['Name'] as String?)?.toRxNormTraitName(),
+      name: (json['Name'] as String?)?.let(RxNormTraitName.fromString),
       score: json['Score'] as double?,
     );
   }
@@ -3710,38 +3156,25 @@ class RxNormTrait {
     final name = this.name;
     final score = this.score;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (score != null) 'Score': score,
     };
   }
 }
 
 enum RxNormTraitName {
-  negation,
-  pastHistory,
-}
+  negation('NEGATION'),
+  pastHistory('PAST_HISTORY'),
+  ;
 
-extension RxNormTraitNameValueExtension on RxNormTraitName {
-  String toValue() {
-    switch (this) {
-      case RxNormTraitName.negation:
-        return 'NEGATION';
-      case RxNormTraitName.pastHistory:
-        return 'PAST_HISTORY';
-    }
-  }
-}
+  final String value;
 
-extension RxNormTraitNameFromString on String {
-  RxNormTraitName toRxNormTraitName() {
-    switch (this) {
-      case 'NEGATION':
-        return RxNormTraitName.negation;
-      case 'PAST_HISTORY':
-        return RxNormTraitName.pastHistory;
-    }
-    throw Exception('$this is not known in enum RxNormTraitName');
-  }
+  const RxNormTraitName(this.value);
+
+  static RxNormTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RxNormTraitName'));
 }
 
 /// The extracted attributes that relate to an entity. An extracted segment of
@@ -3810,12 +3243,13 @@ class SNOMEDCTAttribute {
   factory SNOMEDCTAttribute.fromJson(Map<String, dynamic> json) {
     return SNOMEDCTAttribute(
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toSNOMEDCTEntityCategory(),
+      category:
+          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType:
-          (json['RelationshipType'] as String?)?.toSNOMEDCTRelationshipType(),
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(SNOMEDCTRelationshipType.fromString),
       sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
           ?.whereNotNull()
           .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
@@ -3826,7 +3260,7 @@ class SNOMEDCTAttribute {
           ?.whereNotNull()
           .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toSNOMEDCTAttributeType(),
+      type: (json['Type'] as String?)?.let(SNOMEDCTAttributeType.fromString),
     );
   }
 
@@ -3844,67 +3278,37 @@ class SNOMEDCTAttribute {
     final type = this.type;
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null)
-        'RelationshipType': relationshipType.toValue(),
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
       if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum SNOMEDCTAttributeType {
-  acuity,
-  quality,
-  direction,
-  systemOrganSite,
-  testValue,
-  testUnit,
-}
+  acuity('ACUITY'),
+  quality('QUALITY'),
+  direction('DIRECTION'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  testValue('TEST_VALUE'),
+  testUnit('TEST_UNIT'),
+  ;
 
-extension SNOMEDCTAttributeTypeValueExtension on SNOMEDCTAttributeType {
-  String toValue() {
-    switch (this) {
-      case SNOMEDCTAttributeType.acuity:
-        return 'ACUITY';
-      case SNOMEDCTAttributeType.quality:
-        return 'QUALITY';
-      case SNOMEDCTAttributeType.direction:
-        return 'DIRECTION';
-      case SNOMEDCTAttributeType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case SNOMEDCTAttributeType.testValue:
-        return 'TEST_VALUE';
-      case SNOMEDCTAttributeType.testUnit:
-        return 'TEST_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension SNOMEDCTAttributeTypeFromString on String {
-  SNOMEDCTAttributeType toSNOMEDCTAttributeType() {
-    switch (this) {
-      case 'ACUITY':
-        return SNOMEDCTAttributeType.acuity;
-      case 'QUALITY':
-        return SNOMEDCTAttributeType.quality;
-      case 'DIRECTION':
-        return SNOMEDCTAttributeType.direction;
-      case 'SYSTEM_ORGAN_SITE':
-        return SNOMEDCTAttributeType.systemOrganSite;
-      case 'TEST_VALUE':
-        return SNOMEDCTAttributeType.testValue;
-      case 'TEST_UNIT':
-        return SNOMEDCTAttributeType.testUnit;
-    }
-    throw Exception('$this is not known in enum SNOMEDCTAttributeType');
-  }
+  const SNOMEDCTAttributeType(this.value);
+
+  static SNOMEDCTAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SNOMEDCTAttributeType'));
 }
 
 /// The SNOMED-CT concepts that the entity could refer to, along with a score
@@ -4052,7 +3456,8 @@ class SNOMEDCTEntity {
           .map((e) => SNOMEDCTAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.toSNOMEDCTEntityCategory(),
+      category:
+          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
@@ -4065,7 +3470,7 @@ class SNOMEDCTEntity {
           ?.whereNotNull()
           .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toSNOMEDCTEntityType(),
+      type: (json['Type'] as String?)?.let(SNOMEDCTEntityType.fromString),
     );
   }
 
@@ -4083,140 +3488,69 @@ class SNOMEDCTEntity {
     return {
       if (attributes != null) 'Attributes': attributes,
       if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
       if (score != null) 'Score': score,
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum SNOMEDCTEntityCategory {
-  medicalCondition,
-  anatomy,
-  testTreatmentProcedure,
-}
+  medicalCondition('MEDICAL_CONDITION'),
+  anatomy('ANATOMY'),
+  testTreatmentProcedure('TEST_TREATMENT_PROCEDURE'),
+  ;
 
-extension SNOMEDCTEntityCategoryValueExtension on SNOMEDCTEntityCategory {
-  String toValue() {
-    switch (this) {
-      case SNOMEDCTEntityCategory.medicalCondition:
-        return 'MEDICAL_CONDITION';
-      case SNOMEDCTEntityCategory.anatomy:
-        return 'ANATOMY';
-      case SNOMEDCTEntityCategory.testTreatmentProcedure:
-        return 'TEST_TREATMENT_PROCEDURE';
-    }
-  }
-}
+  final String value;
 
-extension SNOMEDCTEntityCategoryFromString on String {
-  SNOMEDCTEntityCategory toSNOMEDCTEntityCategory() {
-    switch (this) {
-      case 'MEDICAL_CONDITION':
-        return SNOMEDCTEntityCategory.medicalCondition;
-      case 'ANATOMY':
-        return SNOMEDCTEntityCategory.anatomy;
-      case 'TEST_TREATMENT_PROCEDURE':
-        return SNOMEDCTEntityCategory.testTreatmentProcedure;
-    }
-    throw Exception('$this is not known in enum SNOMEDCTEntityCategory');
-  }
+  const SNOMEDCTEntityCategory(this.value);
+
+  static SNOMEDCTEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SNOMEDCTEntityCategory'));
 }
 
 enum SNOMEDCTEntityType {
-  dxName,
-  testName,
-  procedureName,
-  treatmentName,
-}
+  dxName('DX_NAME'),
+  testName('TEST_NAME'),
+  procedureName('PROCEDURE_NAME'),
+  treatmentName('TREATMENT_NAME'),
+  ;
 
-extension SNOMEDCTEntityTypeValueExtension on SNOMEDCTEntityType {
-  String toValue() {
-    switch (this) {
-      case SNOMEDCTEntityType.dxName:
-        return 'DX_NAME';
-      case SNOMEDCTEntityType.testName:
-        return 'TEST_NAME';
-      case SNOMEDCTEntityType.procedureName:
-        return 'PROCEDURE_NAME';
-      case SNOMEDCTEntityType.treatmentName:
-        return 'TREATMENT_NAME';
-    }
-  }
-}
+  final String value;
 
-extension SNOMEDCTEntityTypeFromString on String {
-  SNOMEDCTEntityType toSNOMEDCTEntityType() {
-    switch (this) {
-      case 'DX_NAME':
-        return SNOMEDCTEntityType.dxName;
-      case 'TEST_NAME':
-        return SNOMEDCTEntityType.testName;
-      case 'PROCEDURE_NAME':
-        return SNOMEDCTEntityType.procedureName;
-      case 'TREATMENT_NAME':
-        return SNOMEDCTEntityType.treatmentName;
-    }
-    throw Exception('$this is not known in enum SNOMEDCTEntityType');
-  }
+  const SNOMEDCTEntityType(this.value);
+
+  static SNOMEDCTEntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SNOMEDCTEntityType'));
 }
 
 enum SNOMEDCTRelationshipType {
-  acuity,
-  quality,
-  testValue,
-  testUnits,
-  direction,
-  systemOrganSite,
-  testUnit,
-}
+  acuity('ACUITY'),
+  quality('QUALITY'),
+  testValue('TEST_VALUE'),
+  testUnits('TEST_UNITS'),
+  direction('DIRECTION'),
+  systemOrganSite('SYSTEM_ORGAN_SITE'),
+  testUnit('TEST_UNIT'),
+  ;
 
-extension SNOMEDCTRelationshipTypeValueExtension on SNOMEDCTRelationshipType {
-  String toValue() {
-    switch (this) {
-      case SNOMEDCTRelationshipType.acuity:
-        return 'ACUITY';
-      case SNOMEDCTRelationshipType.quality:
-        return 'QUALITY';
-      case SNOMEDCTRelationshipType.testValue:
-        return 'TEST_VALUE';
-      case SNOMEDCTRelationshipType.testUnits:
-        return 'TEST_UNITS';
-      case SNOMEDCTRelationshipType.direction:
-        return 'DIRECTION';
-      case SNOMEDCTRelationshipType.systemOrganSite:
-        return 'SYSTEM_ORGAN_SITE';
-      case SNOMEDCTRelationshipType.testUnit:
-        return 'TEST_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension SNOMEDCTRelationshipTypeFromString on String {
-  SNOMEDCTRelationshipType toSNOMEDCTRelationshipType() {
-    switch (this) {
-      case 'ACUITY':
-        return SNOMEDCTRelationshipType.acuity;
-      case 'QUALITY':
-        return SNOMEDCTRelationshipType.quality;
-      case 'TEST_VALUE':
-        return SNOMEDCTRelationshipType.testValue;
-      case 'TEST_UNITS':
-        return SNOMEDCTRelationshipType.testUnits;
-      case 'DIRECTION':
-        return SNOMEDCTRelationshipType.direction;
-      case 'SYSTEM_ORGAN_SITE':
-        return SNOMEDCTRelationshipType.systemOrganSite;
-      case 'TEST_UNIT':
-        return SNOMEDCTRelationshipType.testUnit;
-    }
-    throw Exception('$this is not known in enum SNOMEDCTRelationshipType');
-  }
+  const SNOMEDCTRelationshipType(this.value);
+
+  static SNOMEDCTRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SNOMEDCTRelationshipType'));
 }
 
 /// Contextual information for an entity.
@@ -4235,7 +3569,7 @@ class SNOMEDCTTrait {
 
   factory SNOMEDCTTrait.fromJson(Map<String, dynamic> json) {
     return SNOMEDCTTrait(
-      name: (json['Name'] as String?)?.toSNOMEDCTTraitName(),
+      name: (json['Name'] as String?)?.let(SNOMEDCTTraitName.fromString),
       score: json['Score'] as double?,
     );
   }
@@ -4244,73 +3578,32 @@ class SNOMEDCTTrait {
     final name = this.name;
     final score = this.score;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (score != null) 'Score': score,
     };
   }
 }
 
 enum SNOMEDCTTraitName {
-  negation,
-  diagnosis,
-  sign,
-  symptom,
-  pertainsToFamily,
-  hypothetical,
-  lowConfidence,
-  pastHistory,
-  future,
-}
+  negation('NEGATION'),
+  diagnosis('DIAGNOSIS'),
+  sign('SIGN'),
+  symptom('SYMPTOM'),
+  pertainsToFamily('PERTAINS_TO_FAMILY'),
+  hypothetical('HYPOTHETICAL'),
+  lowConfidence('LOW_CONFIDENCE'),
+  pastHistory('PAST_HISTORY'),
+  future('FUTURE'),
+  ;
 
-extension SNOMEDCTTraitNameValueExtension on SNOMEDCTTraitName {
-  String toValue() {
-    switch (this) {
-      case SNOMEDCTTraitName.negation:
-        return 'NEGATION';
-      case SNOMEDCTTraitName.diagnosis:
-        return 'DIAGNOSIS';
-      case SNOMEDCTTraitName.sign:
-        return 'SIGN';
-      case SNOMEDCTTraitName.symptom:
-        return 'SYMPTOM';
-      case SNOMEDCTTraitName.pertainsToFamily:
-        return 'PERTAINS_TO_FAMILY';
-      case SNOMEDCTTraitName.hypothetical:
-        return 'HYPOTHETICAL';
-      case SNOMEDCTTraitName.lowConfidence:
-        return 'LOW_CONFIDENCE';
-      case SNOMEDCTTraitName.pastHistory:
-        return 'PAST_HISTORY';
-      case SNOMEDCTTraitName.future:
-        return 'FUTURE';
-    }
-  }
-}
+  final String value;
 
-extension SNOMEDCTTraitNameFromString on String {
-  SNOMEDCTTraitName toSNOMEDCTTraitName() {
-    switch (this) {
-      case 'NEGATION':
-        return SNOMEDCTTraitName.negation;
-      case 'DIAGNOSIS':
-        return SNOMEDCTTraitName.diagnosis;
-      case 'SIGN':
-        return SNOMEDCTTraitName.sign;
-      case 'SYMPTOM':
-        return SNOMEDCTTraitName.symptom;
-      case 'PERTAINS_TO_FAMILY':
-        return SNOMEDCTTraitName.pertainsToFamily;
-      case 'HYPOTHETICAL':
-        return SNOMEDCTTraitName.hypothetical;
-      case 'LOW_CONFIDENCE':
-        return SNOMEDCTTraitName.lowConfidence;
-      case 'PAST_HISTORY':
-        return SNOMEDCTTraitName.pastHistory;
-      case 'FUTURE':
-        return SNOMEDCTTraitName.future;
-    }
-    throw Exception('$this is not known in enum SNOMEDCTTraitName');
-  }
+  const SNOMEDCTTraitName(this.value);
+
+  static SNOMEDCTTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SNOMEDCTTraitName'));
 }
 
 class StartEntitiesDetectionV2JobResponse {
@@ -4559,7 +3852,7 @@ class Trait {
 
   factory Trait.fromJson(Map<String, dynamic> json) {
     return Trait(
-      name: (json['Name'] as String?)?.toAttributeName(),
+      name: (json['Name'] as String?)?.let(AttributeName.fromString),
       score: json['Score'] as double?,
     );
   }
@@ -4568,7 +3861,7 @@ class Trait {
     final name = this.name;
     final score = this.score;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (score != null) 'Score': score,
     };
   }
@@ -4595,7 +3888,7 @@ class UnmappedAttribute {
       attribute: json['Attribute'] != null
           ? Attribute.fromJson(json['Attribute'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toEntityType(),
+      type: (json['Type'] as String?)?.let(EntityType.fromString),
     );
   }
 
@@ -4604,7 +3897,7 @@ class UnmappedAttribute {
     final type = this.type;
     return {
       if (attribute != null) 'Attribute': attribute,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }

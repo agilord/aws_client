@@ -590,7 +590,7 @@ class AuditManager {
     required ShareRequestType requestType,
   }) async {
     final $query = <String, List<String>>{
-      'requestType': [requestType.toValue()],
+      'requestType': [requestType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1378,7 +1378,7 @@ class AuditManager {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/settings/${Uri.encodeComponent(attribute.toValue())}',
+      requestUri: '/settings/${Uri.encodeComponent(attribute.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSettingsResponse.fromJson(response);
@@ -1471,7 +1471,7 @@ class AuditManager {
       1000,
     );
     final $query = <String, List<String>>{
-      'requestType': [requestType.toValue()],
+      'requestType': [requestType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1513,7 +1513,7 @@ class AuditManager {
       1000,
     );
     final $query = <String, List<String>>{
-      'frameworkType': [frameworkType.toValue()],
+      'frameworkType': [frameworkType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1592,7 +1592,7 @@ class AuditManager {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1775,7 +1775,7 @@ class AuditManager {
       1000,
     );
     final $query = <String, List<String>>{
-      'controlType': [controlType.toValue()],
+      'controlType': [controlType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1817,7 +1817,7 @@ class AuditManager {
       1000,
     );
     final $query = <String, List<String>>{
-      'source': [source.toValue()],
+      'source': [source.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2164,7 +2164,7 @@ class AuditManager {
   }) async {
     final $payload = <String, dynamic>{
       if (commentBody != null) 'commentBody': commentBody,
-      if (controlStatus != null) 'controlStatus': controlStatus.toValue(),
+      if (controlStatus != null) 'controlStatus': controlStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2203,7 +2203,7 @@ class AuditManager {
   }) async {
     final $payload = <String, dynamic>{
       'comment': comment,
-      'status': status.toValue(),
+      'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2283,8 +2283,8 @@ class AuditManager {
     required ShareRequestType requestType,
   }) async {
     final $payload = <String, dynamic>{
-      'action': action.toValue(),
-      'requestType': requestType.toValue(),
+      'action': action.value,
+      'requestType': requestType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2314,7 +2314,7 @@ class AuditManager {
     required AssessmentStatus status,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2557,94 +2557,39 @@ class AWSService {
 }
 
 enum AccountStatus {
-  active,
-  inactive,
-  pendingActivation,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  pendingActivation('PENDING_ACTIVATION'),
+  ;
 
-extension AccountStatusValueExtension on AccountStatus {
-  String toValue() {
-    switch (this) {
-      case AccountStatus.active:
-        return 'ACTIVE';
-      case AccountStatus.inactive:
-        return 'INACTIVE';
-      case AccountStatus.pendingActivation:
-        return 'PENDING_ACTIVATION';
-    }
-  }
-}
+  final String value;
 
-extension AccountStatusFromString on String {
-  AccountStatus toAccountStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AccountStatus.active;
-      case 'INACTIVE':
-        return AccountStatus.inactive;
-      case 'PENDING_ACTIVATION':
-        return AccountStatus.pendingActivation;
-    }
-    throw Exception('$this is not known in enum AccountStatus');
-  }
+  const AccountStatus(this.value);
+
+  static AccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountStatus'));
 }
 
 enum ActionEnum {
-  create,
-  updateMetadata,
-  active,
-  inactive,
-  delete,
-  underReview,
-  reviewed,
-  importEvidence,
-}
+  create('CREATE'),
+  updateMetadata('UPDATE_METADATA'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  delete('DELETE'),
+  underReview('UNDER_REVIEW'),
+  reviewed('REVIEWED'),
+  importEvidence('IMPORT_EVIDENCE'),
+  ;
 
-extension ActionEnumValueExtension on ActionEnum {
-  String toValue() {
-    switch (this) {
-      case ActionEnum.create:
-        return 'CREATE';
-      case ActionEnum.updateMetadata:
-        return 'UPDATE_METADATA';
-      case ActionEnum.active:
-        return 'ACTIVE';
-      case ActionEnum.inactive:
-        return 'INACTIVE';
-      case ActionEnum.delete:
-        return 'DELETE';
-      case ActionEnum.underReview:
-        return 'UNDER_REVIEW';
-      case ActionEnum.reviewed:
-        return 'REVIEWED';
-      case ActionEnum.importEvidence:
-        return 'IMPORT_EVIDENCE';
-    }
-  }
-}
+  final String value;
 
-extension ActionEnumFromString on String {
-  ActionEnum toActionEnum() {
-    switch (this) {
-      case 'CREATE':
-        return ActionEnum.create;
-      case 'UPDATE_METADATA':
-        return ActionEnum.updateMetadata;
-      case 'ACTIVE':
-        return ActionEnum.active;
-      case 'INACTIVE':
-        return ActionEnum.inactive;
-      case 'DELETE':
-        return ActionEnum.delete;
-      case 'UNDER_REVIEW':
-        return ActionEnum.underReview;
-      case 'REVIEWED':
-        return ActionEnum.reviewed;
-      case 'IMPORT_EVIDENCE':
-        return ActionEnum.importEvidence;
-    }
-    throw Exception('$this is not known in enum ActionEnum');
-  }
+  const ActionEnum(this.value);
+
+  static ActionEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionEnum'));
 }
 
 /// An entity that defines the scope of audit evidence collected by Audit
@@ -2767,8 +2712,8 @@ class AssessmentControl {
           .toList(),
       id: json['id'] as String?,
       name: json['name'] as String?,
-      response: (json['response'] as String?)?.toControlResponse(),
-      status: (json['status'] as String?)?.toControlStatus(),
+      response: (json['response'] as String?)?.let(ControlResponse.fromString),
+      status: (json['status'] as String?)?.let(ControlStatus.fromString),
     );
   }
 
@@ -2791,8 +2736,8 @@ class AssessmentControl {
       if (evidenceSources != null) 'evidenceSources': evidenceSources,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (response != null) 'response': response.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (response != null) 'response': response.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2854,7 +2799,7 @@ class AssessmentControlSet {
           ?.whereNotNull()
           .map((e) => Role.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toControlSetStatus(),
+      status: (json['status'] as String?)?.let(ControlSetStatus.fromString),
       systemEvidenceCount: json['systemEvidenceCount'] as int?,
     );
   }
@@ -2876,7 +2821,7 @@ class AssessmentControlSet {
       if (manualEvidenceCount != null)
         'manualEvidenceCount': manualEvidenceCount,
       if (roles != null) 'roles': roles,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (systemEvidenceCount != null)
         'systemEvidenceCount': systemEvidenceCount,
     };
@@ -3165,7 +3110,7 @@ class AssessmentFrameworkMetadata {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       logo: json['logo'] as String?,
       name: json['name'] as String?,
-      type: (json['type'] as String?)?.toFrameworkType(),
+      type: (json['type'] as String?)?.let(FrameworkType.fromString),
     );
   }
 
@@ -3193,7 +3138,7 @@ class AssessmentFrameworkMetadata {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (logo != null) 'logo': logo,
       if (name != null) 'name': name,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3281,7 +3226,7 @@ class AssessmentFrameworkShareRequest {
       lastUpdated: timeStampFromJson(json['lastUpdated']),
       sourceAccount: json['sourceAccount'] as String?,
       standardControlsCount: json['standardControlsCount'] as int?,
-      status: (json['status'] as String?)?.toShareRequestStatus(),
+      status: (json['status'] as String?)?.let(ShareRequestStatus.fromString),
     );
   }
 
@@ -3321,7 +3266,7 @@ class AssessmentFrameworkShareRequest {
       if (sourceAccount != null) 'sourceAccount': sourceAccount,
       if (standardControlsCount != null)
         'standardControlsCount': standardControlsCount,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3400,7 +3345,7 @@ class AssessmentMetadata {
       scope: json['scope'] != null
           ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toAssessmentStatus(),
+      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
     );
   }
 
@@ -3429,7 +3374,7 @@ class AssessmentMetadata {
       if (name != null) 'name': name,
       if (roles != null) 'roles': roles,
       if (scope != null) 'scope': scope,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3487,7 +3432,7 @@ class AssessmentMetadataItem {
           ?.whereNotNull()
           .map((e) => Role.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toAssessmentStatus(),
+      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
     );
   }
 
@@ -3509,7 +3454,7 @@ class AssessmentMetadataItem {
       if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
       if (name != null) 'name': name,
       if (roles != null) 'roles': roles,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3569,7 +3514,8 @@ class AssessmentReport {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toAssessmentReportStatus(),
+      status:
+          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
     );
   }
 
@@ -3593,34 +3539,23 @@ class AssessmentReport {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum AssessmentReportDestinationType {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension AssessmentReportDestinationTypeValueExtension
-    on AssessmentReportDestinationType {
-  String toValue() {
-    switch (this) {
-      case AssessmentReportDestinationType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentReportDestinationTypeFromString on String {
-  AssessmentReportDestinationType toAssessmentReportDestinationType() {
-    switch (this) {
-      case 'S3':
-        return AssessmentReportDestinationType.s3;
-    }
-    throw Exception(
-        '$this is not known in enum AssessmentReportDestinationType');
-  }
+  const AssessmentReportDestinationType(this.value);
+
+  static AssessmentReportDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssessmentReportDestinationType'));
 }
 
 /// An error entity for assessment report evidence errors. This is used to
@@ -3708,7 +3643,8 @@ class AssessmentReportMetadata {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toAssessmentReportStatus(),
+      status:
+          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
     );
   }
 
@@ -3730,42 +3666,25 @@ class AssessmentReportMetadata {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum AssessmentReportStatus {
-  complete,
-  inProgress,
-  failed,
-}
+  complete('COMPLETE'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  ;
 
-extension AssessmentReportStatusValueExtension on AssessmentReportStatus {
-  String toValue() {
-    switch (this) {
-      case AssessmentReportStatus.complete:
-        return 'COMPLETE';
-      case AssessmentReportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AssessmentReportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentReportStatusFromString on String {
-  AssessmentReportStatus toAssessmentReportStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return AssessmentReportStatus.complete;
-      case 'IN_PROGRESS':
-        return AssessmentReportStatus.inProgress;
-      case 'FAILED':
-        return AssessmentReportStatus.failed;
-    }
-    throw Exception('$this is not known in enum AssessmentReportStatus');
-  }
+  const AssessmentReportStatus(this.value);
+
+  static AssessmentReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssessmentReportStatus'));
 }
 
 /// The location where Audit Manager saves assessment reports for the given
@@ -3786,7 +3705,7 @@ class AssessmentReportsDestination {
     return AssessmentReportsDestination(
       destination: json['destination'] as String?,
       destinationType: (json['destinationType'] as String?)
-          ?.toAssessmentReportDestinationType(),
+          ?.let(AssessmentReportDestinationType.fromString),
     );
   }
 
@@ -3795,37 +3714,24 @@ class AssessmentReportsDestination {
     final destinationType = this.destinationType;
     return {
       if (destination != null) 'destination': destination,
-      if (destinationType != null) 'destinationType': destinationType.toValue(),
+      if (destinationType != null) 'destinationType': destinationType.value,
     };
   }
 }
 
 enum AssessmentStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension AssessmentStatusValueExtension on AssessmentStatus {
-  String toValue() {
-    switch (this) {
-      case AssessmentStatus.active:
-        return 'ACTIVE';
-      case AssessmentStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentStatusFromString on String {
-  AssessmentStatus toAssessmentStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AssessmentStatus.active;
-      case 'INACTIVE':
-        return AssessmentStatus.inactive;
-    }
-    throw Exception('$this is not known in enum AssessmentStatus');
-  }
+  const AssessmentStatus(this.value);
+
+  static AssessmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssessmentStatus'));
 }
 
 class AssociateAssessmentReportEvidenceFolderResponse {
@@ -4171,11 +4077,12 @@ class ChangeLog {
 
   factory ChangeLog.fromJson(Map<String, dynamic> json) {
     return ChangeLog(
-      action: (json['action'] as String?)?.toActionEnum(),
+      action: (json['action'] as String?)?.let(ActionEnum.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       objectName: json['objectName'] as String?,
-      objectType: (json['objectType'] as String?)?.toObjectTypeEnum(),
+      objectType:
+          (json['objectType'] as String?)?.let(ObjectTypeEnum.fromString),
     );
   }
 
@@ -4186,11 +4093,11 @@ class ChangeLog {
     final objectName = this.objectName;
     final objectType = this.objectType;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (objectName != null) 'objectName': objectName,
-      if (objectType != null) 'objectType': objectType.toValue(),
+      if (objectType != null) 'objectType': objectType.value,
     };
   }
 }
@@ -4282,7 +4189,7 @@ class Control {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       testingInformation: json['testingInformation'] as String?,
-      type: (json['type'] as String?)?.toControlType(),
+      type: (json['type'] as String?)?.let(ControlType.fromString),
     );
   }
 
@@ -4320,7 +4227,7 @@ class Control {
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
       if (testingInformation != null) 'testingInformation': testingInformation,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4586,16 +4493,16 @@ class ControlMappingSource {
     return ControlMappingSource(
       sourceDescription: json['sourceDescription'] as String?,
       sourceFrequency:
-          (json['sourceFrequency'] as String?)?.toSourceFrequency(),
+          (json['sourceFrequency'] as String?)?.let(SourceFrequency.fromString),
       sourceId: json['sourceId'] as String?,
       sourceKeyword: json['sourceKeyword'] != null
           ? SourceKeyword.fromJson(
               json['sourceKeyword'] as Map<String, dynamic>)
           : null,
       sourceName: json['sourceName'] as String?,
-      sourceSetUpOption:
-          (json['sourceSetUpOption'] as String?)?.toSourceSetUpOption(),
-      sourceType: (json['sourceType'] as String?)?.toSourceType(),
+      sourceSetUpOption: (json['sourceSetUpOption'] as String?)
+          ?.let(SourceSetUpOption.fromString),
+      sourceType: (json['sourceType'] as String?)?.let(SourceType.fromString),
       troubleshootingText: json['troubleshootingText'] as String?,
     );
   }
@@ -4611,13 +4518,13 @@ class ControlMappingSource {
     final troubleshootingText = this.troubleshootingText;
     return {
       if (sourceDescription != null) 'sourceDescription': sourceDescription,
-      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.toValue(),
+      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
       if (sourceId != null) 'sourceId': sourceId,
       if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
       if (sourceName != null) 'sourceName': sourceName,
       if (sourceSetUpOption != null)
-        'sourceSetUpOption': sourceSetUpOption.toValue(),
-      if (sourceType != null) 'sourceType': sourceType.toValue(),
+        'sourceSetUpOption': sourceSetUpOption.value,
+      if (sourceType != null) 'sourceType': sourceType.value,
       if (troubleshootingText != null)
         'troubleshootingText': troubleshootingText,
     };
@@ -4685,41 +4592,20 @@ class ControlMetadata {
 }
 
 enum ControlResponse {
-  manual,
-  automate,
-  defer,
-  ignore,
-}
+  manual('MANUAL'),
+  automate('AUTOMATE'),
+  defer('DEFER'),
+  ignore('IGNORE'),
+  ;
 
-extension ControlResponseValueExtension on ControlResponse {
-  String toValue() {
-    switch (this) {
-      case ControlResponse.manual:
-        return 'MANUAL';
-      case ControlResponse.automate:
-        return 'AUTOMATE';
-      case ControlResponse.defer:
-        return 'DEFER';
-      case ControlResponse.ignore:
-        return 'IGNORE';
-    }
-  }
-}
+  final String value;
 
-extension ControlResponseFromString on String {
-  ControlResponse toControlResponse() {
-    switch (this) {
-      case 'MANUAL':
-        return ControlResponse.manual;
-      case 'AUTOMATE':
-        return ControlResponse.automate;
-      case 'DEFER':
-        return ControlResponse.defer;
-      case 'IGNORE':
-        return ControlResponse.ignore;
-    }
-    throw Exception('$this is not known in enum ControlResponse');
-  }
+  const ControlResponse(this.value);
+
+  static ControlResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ControlResponse'));
 }
 
 /// A set of controls in Audit Manager.
@@ -4764,97 +4650,49 @@ class ControlSet {
 }
 
 enum ControlSetStatus {
-  active,
-  underReview,
-  reviewed,
-}
+  active('ACTIVE'),
+  underReview('UNDER_REVIEW'),
+  reviewed('REVIEWED'),
+  ;
 
-extension ControlSetStatusValueExtension on ControlSetStatus {
-  String toValue() {
-    switch (this) {
-      case ControlSetStatus.active:
-        return 'ACTIVE';
-      case ControlSetStatus.underReview:
-        return 'UNDER_REVIEW';
-      case ControlSetStatus.reviewed:
-        return 'REVIEWED';
-    }
-  }
-}
+  final String value;
 
-extension ControlSetStatusFromString on String {
-  ControlSetStatus toControlSetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ControlSetStatus.active;
-      case 'UNDER_REVIEW':
-        return ControlSetStatus.underReview;
-      case 'REVIEWED':
-        return ControlSetStatus.reviewed;
-    }
-    throw Exception('$this is not known in enum ControlSetStatus');
-  }
+  const ControlSetStatus(this.value);
+
+  static ControlSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ControlSetStatus'));
 }
 
 enum ControlStatus {
-  underReview,
-  reviewed,
-  inactive,
-}
+  underReview('UNDER_REVIEW'),
+  reviewed('REVIEWED'),
+  inactive('INACTIVE'),
+  ;
 
-extension ControlStatusValueExtension on ControlStatus {
-  String toValue() {
-    switch (this) {
-      case ControlStatus.underReview:
-        return 'UNDER_REVIEW';
-      case ControlStatus.reviewed:
-        return 'REVIEWED';
-      case ControlStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ControlStatusFromString on String {
-  ControlStatus toControlStatus() {
-    switch (this) {
-      case 'UNDER_REVIEW':
-        return ControlStatus.underReview;
-      case 'REVIEWED':
-        return ControlStatus.reviewed;
-      case 'INACTIVE':
-        return ControlStatus.inactive;
-    }
-    throw Exception('$this is not known in enum ControlStatus');
-  }
+  const ControlStatus(this.value);
+
+  static ControlStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ControlStatus'));
 }
 
 enum ControlType {
-  standard,
-  custom,
-}
+  standard('Standard'),
+  custom('Custom'),
+  ;
 
-extension ControlTypeValueExtension on ControlType {
-  String toValue() {
-    switch (this) {
-      case ControlType.standard:
-        return 'Standard';
-      case ControlType.custom:
-        return 'Custom';
-    }
-  }
-}
+  final String value;
 
-extension ControlTypeFromString on String {
-  ControlType toControlType() {
-    switch (this) {
-      case 'Standard':
-        return ControlType.standard;
-      case 'Custom':
-        return ControlType.custom;
-    }
-    throw Exception('$this is not known in enum ControlType');
-  }
+  const ControlType(this.value);
+
+  static ControlType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ControlType'));
 }
 
 /// The control entity attributes that uniquely identify an existing control to
@@ -5020,12 +4858,12 @@ class CreateControlMappingSource {
     final troubleshootingText = this.troubleshootingText;
     return {
       if (sourceDescription != null) 'sourceDescription': sourceDescription,
-      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.toValue(),
+      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
       if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
       if (sourceName != null) 'sourceName': sourceName,
       if (sourceSetUpOption != null)
-        'sourceSetUpOption': sourceSetUpOption.toValue(),
-      if (sourceType != null) 'sourceType': sourceType.toValue(),
+        'sourceSetUpOption': sourceSetUpOption.value,
+      if (sourceType != null) 'sourceType': sourceType.value,
       if (troubleshootingText != null)
         'troubleshootingText': troubleshootingText,
     };
@@ -5093,7 +4931,7 @@ class CreateDelegationRequest {
       comment: json['comment'] as String?,
       controlSetId: json['controlSetId'] as String?,
       roleArn: json['roleArn'] as String?,
-      roleType: (json['roleType'] as String?)?.toRoleType(),
+      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
     );
   }
 
@@ -5106,7 +4944,7 @@ class CreateDelegationRequest {
       if (comment != null) 'comment': comment,
       if (controlSetId != null) 'controlSetId': controlSetId,
       if (roleArn != null) 'roleArn': roleArn,
-      if (roleType != null) 'roleType': roleType.toValue(),
+      if (roleType != null) 'roleType': roleType.value,
     };
   }
 }
@@ -5128,8 +4966,8 @@ class DefaultExportDestination {
   factory DefaultExportDestination.fromJson(Map<String, dynamic> json) {
     return DefaultExportDestination(
       destination: json['destination'] as String?,
-      destinationType:
-          (json['destinationType'] as String?)?.toExportDestinationType(),
+      destinationType: (json['destinationType'] as String?)
+          ?.let(ExportDestinationType.fromString),
     );
   }
 
@@ -5138,7 +4976,7 @@ class DefaultExportDestination {
     final destinationType = this.destinationType;
     return {
       if (destination != null) 'destination': destination,
-      if (destinationType != null) 'destinationType': destinationType.toValue(),
+      if (destinationType != null) 'destinationType': destinationType.value,
     };
   }
 }
@@ -5213,8 +5051,8 @@ class Delegation {
       id: json['id'] as String?,
       lastUpdated: timeStampFromJson(json['lastUpdated']),
       roleArn: json['roleArn'] as String?,
-      roleType: (json['roleType'] as String?)?.toRoleType(),
-      status: (json['status'] as String?)?.toDelegationStatus(),
+      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
+      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
     );
   }
 
@@ -5241,8 +5079,8 @@ class Delegation {
       if (id != null) 'id': id,
       if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
       if (roleArn != null) 'roleArn': roleArn,
-      if (roleType != null) 'roleType': roleType.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (roleType != null) 'roleType': roleType.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -5288,7 +5126,7 @@ class DelegationMetadata {
       creationTime: timeStampFromJson(json['creationTime']),
       id: json['id'] as String?,
       roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.toDelegationStatus(),
+      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
     );
   }
 
@@ -5308,42 +5146,25 @@ class DelegationMetadata {
         'creationTime': unixTimestampToJson(creationTime),
       if (id != null) 'id': id,
       if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum DelegationStatus {
-  inProgress,
-  underReview,
-  complete,
-}
+  inProgress('IN_PROGRESS'),
+  underReview('UNDER_REVIEW'),
+  complete('COMPLETE'),
+  ;
 
-extension DelegationStatusValueExtension on DelegationStatus {
-  String toValue() {
-    switch (this) {
-      case DelegationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DelegationStatus.underReview:
-        return 'UNDER_REVIEW';
-      case DelegationStatus.complete:
-        return 'COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension DelegationStatusFromString on String {
-  DelegationStatus toDelegationStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return DelegationStatus.inProgress;
-      case 'UNDER_REVIEW':
-        return DelegationStatus.underReview;
-      case 'COMPLETE':
-        return DelegationStatus.complete;
-    }
-    throw Exception('$this is not known in enum DelegationStatus');
-  }
+  const DelegationStatus(this.value);
+
+  static DelegationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DelegationStatus'));
 }
 
 class DeleteAssessmentFrameworkResponse {
@@ -5408,31 +5229,18 @@ class DeleteControlResponse {
 }
 
 enum DeleteResources {
-  all,
-  $default,
-}
+  all('ALL'),
+  $default('DEFAULT'),
+  ;
 
-extension DeleteResourcesValueExtension on DeleteResources {
-  String toValue() {
-    switch (this) {
-      case DeleteResources.all:
-        return 'ALL';
-      case DeleteResources.$default:
-        return 'DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension DeleteResourcesFromString on String {
-  DeleteResources toDeleteResources() {
-    switch (this) {
-      case 'ALL':
-        return DeleteResources.all;
-      case 'DEFAULT':
-        return DeleteResources.$default;
-    }
-    throw Exception('$this is not known in enum DeleteResources');
-  }
+  const DeleteResources(this.value);
+
+  static DeleteResources fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeleteResources'));
 }
 
 class DeregisterAccountResponse {
@@ -5445,14 +5253,14 @@ class DeregisterAccountResponse {
 
   factory DeregisterAccountResponse.fromJson(Map<String, dynamic> json) {
     return DeregisterAccountResponse(
-      status: (json['status'] as String?)?.toAccountStatus(),
+      status: (json['status'] as String?)?.let(AccountStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -5517,14 +5325,14 @@ class DeregistrationPolicy {
   factory DeregistrationPolicy.fromJson(Map<String, dynamic> json) {
     return DeregistrationPolicy(
       deleteResources:
-          (json['deleteResources'] as String?)?.toDeleteResources(),
+          (json['deleteResources'] as String?)?.let(DeleteResources.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final deleteResources = this.deleteResources;
     return {
-      if (deleteResources != null) 'deleteResources': deleteResources.toValue(),
+      if (deleteResources != null) 'deleteResources': deleteResources.value,
     };
   }
 }
@@ -5696,37 +5504,19 @@ class Evidence {
 }
 
 enum EvidenceFinderBackfillStatus {
-  notStarted,
-  inProgress,
-  completed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  ;
 
-extension EvidenceFinderBackfillStatusValueExtension
-    on EvidenceFinderBackfillStatus {
-  String toValue() {
-    switch (this) {
-      case EvidenceFinderBackfillStatus.notStarted:
-        return 'NOT_STARTED';
-      case EvidenceFinderBackfillStatus.inProgress:
-        return 'IN_PROGRESS';
-      case EvidenceFinderBackfillStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension EvidenceFinderBackfillStatusFromString on String {
-  EvidenceFinderBackfillStatus toEvidenceFinderBackfillStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return EvidenceFinderBackfillStatus.notStarted;
-      case 'IN_PROGRESS':
-        return EvidenceFinderBackfillStatus.inProgress;
-      case 'COMPLETED':
-        return EvidenceFinderBackfillStatus.completed;
-    }
-    throw Exception('$this is not known in enum EvidenceFinderBackfillStatus');
-  }
+  const EvidenceFinderBackfillStatus(this.value);
+
+  static EvidenceFinderBackfillStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EvidenceFinderBackfillStatus'));
 }
 
 /// The settings object that specifies whether evidence finder is enabled. This
@@ -5801,10 +5591,10 @@ class EvidenceFinderEnablement {
 
   factory EvidenceFinderEnablement.fromJson(Map<String, dynamic> json) {
     return EvidenceFinderEnablement(
-      backfillStatus:
-          (json['backfillStatus'] as String?)?.toEvidenceFinderBackfillStatus(),
+      backfillStatus: (json['backfillStatus'] as String?)
+          ?.let(EvidenceFinderBackfillStatus.fromString),
       enablementStatus: (json['enablementStatus'] as String?)
-          ?.toEvidenceFinderEnablementStatus(),
+          ?.let(EvidenceFinderEnablementStatus.fromString),
       error: json['error'] as String?,
       eventDataStoreArn: json['eventDataStoreArn'] as String?,
     );
@@ -5816,9 +5606,8 @@ class EvidenceFinderEnablement {
     final error = this.error;
     final eventDataStoreArn = this.eventDataStoreArn;
     return {
-      if (backfillStatus != null) 'backfillStatus': backfillStatus.toValue(),
-      if (enablementStatus != null)
-        'enablementStatus': enablementStatus.toValue(),
+      if (backfillStatus != null) 'backfillStatus': backfillStatus.value,
+      if (enablementStatus != null) 'enablementStatus': enablementStatus.value,
       if (error != null) 'error': error,
       if (eventDataStoreArn != null) 'eventDataStoreArn': eventDataStoreArn,
     };
@@ -5826,43 +5615,20 @@ class EvidenceFinderEnablement {
 }
 
 enum EvidenceFinderEnablementStatus {
-  enabled,
-  disabled,
-  enableInProgress,
-  disableInProgress,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  enableInProgress('ENABLE_IN_PROGRESS'),
+  disableInProgress('DISABLE_IN_PROGRESS'),
+  ;
 
-extension EvidenceFinderEnablementStatusValueExtension
-    on EvidenceFinderEnablementStatus {
-  String toValue() {
-    switch (this) {
-      case EvidenceFinderEnablementStatus.enabled:
-        return 'ENABLED';
-      case EvidenceFinderEnablementStatus.disabled:
-        return 'DISABLED';
-      case EvidenceFinderEnablementStatus.enableInProgress:
-        return 'ENABLE_IN_PROGRESS';
-      case EvidenceFinderEnablementStatus.disableInProgress:
-        return 'DISABLE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension EvidenceFinderEnablementStatusFromString on String {
-  EvidenceFinderEnablementStatus toEvidenceFinderEnablementStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return EvidenceFinderEnablementStatus.enabled;
-      case 'DISABLED':
-        return EvidenceFinderEnablementStatus.disabled;
-      case 'ENABLE_IN_PROGRESS':
-        return EvidenceFinderEnablementStatus.enableInProgress;
-      case 'DISABLE_IN_PROGRESS':
-        return EvidenceFinderEnablementStatus.disableInProgress;
-    }
-    throw Exception(
-        '$this is not known in enum EvidenceFinderEnablementStatus');
-  }
+  const EvidenceFinderEnablementStatus(this.value);
+
+  static EvidenceFinderEnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EvidenceFinderEnablementStatus'));
 }
 
 /// A breakdown of the latest compliance check status for the evidence in your
@@ -5922,26 +5688,17 @@ class EvidenceInsights {
 }
 
 enum ExportDestinationType {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension ExportDestinationTypeValueExtension on ExportDestinationType {
-  String toValue() {
-    switch (this) {
-      case ExportDestinationType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension ExportDestinationTypeFromString on String {
-  ExportDestinationType toExportDestinationType() {
-    switch (this) {
-      case 'S3':
-        return ExportDestinationType.s3;
-    }
-    throw Exception('$this is not known in enum ExportDestinationType');
-  }
+  const ExportDestinationType(this.value);
+
+  static ExportDestinationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExportDestinationType'));
 }
 
 /// The file that's used to structure and automate Audit Manager assessments for
@@ -6026,7 +5783,7 @@ class Framework {
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toFrameworkType(),
+      type: (json['type'] as String?)?.let(FrameworkType.fromString),
     );
   }
 
@@ -6060,7 +5817,7 @@ class Framework {
       if (logo != null) 'logo': logo,
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -6111,31 +5868,18 @@ class FrameworkMetadata {
 }
 
 enum FrameworkType {
-  standard,
-  custom,
-}
+  standard('Standard'),
+  custom('Custom'),
+  ;
 
-extension FrameworkTypeValueExtension on FrameworkType {
-  String toValue() {
-    switch (this) {
-      case FrameworkType.standard:
-        return 'Standard';
-      case FrameworkType.custom:
-        return 'Custom';
-    }
-  }
-}
+  final String value;
 
-extension FrameworkTypeFromString on String {
-  FrameworkType toFrameworkType() {
-    switch (this) {
-      case 'Standard':
-        return FrameworkType.standard;
-      case 'Custom':
-        return FrameworkType.custom;
-    }
-    throw Exception('$this is not known in enum FrameworkType');
-  }
+  const FrameworkType(this.value);
+
+  static FrameworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FrameworkType'));
 }
 
 class GetAccountStatusResponse {
@@ -6148,14 +5892,14 @@ class GetAccountStatusResponse {
 
   factory GetAccountStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetAccountStatusResponse(
-      status: (json['status'] as String?)?.toAccountStatus(),
+      status: (json['status'] as String?)?.let(AccountStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6866,36 +6610,19 @@ class InsightsByAssessment {
 }
 
 enum KeywordInputType {
-  selectFromList,
-  uploadFile,
-  inputText,
-}
+  selectFromList('SELECT_FROM_LIST'),
+  uploadFile('UPLOAD_FILE'),
+  inputText('INPUT_TEXT'),
+  ;
 
-extension KeywordInputTypeValueExtension on KeywordInputType {
-  String toValue() {
-    switch (this) {
-      case KeywordInputType.selectFromList:
-        return 'SELECT_FROM_LIST';
-      case KeywordInputType.uploadFile:
-        return 'UPLOAD_FILE';
-      case KeywordInputType.inputText:
-        return 'INPUT_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension KeywordInputTypeFromString on String {
-  KeywordInputType toKeywordInputType() {
-    switch (this) {
-      case 'SELECT_FROM_LIST':
-        return KeywordInputType.selectFromList;
-      case 'UPLOAD_FILE':
-        return KeywordInputType.uploadFile;
-      case 'INPUT_TEXT':
-        return KeywordInputType.inputText;
-    }
-    throw Exception('$this is not known in enum KeywordInputType');
-  }
+  const KeywordInputType(this.value);
+
+  static KeywordInputType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeywordInputType'));
 }
 
 class ListAssessmentControlInsightsByControlDomainResponse {
@@ -7423,46 +7150,21 @@ class Notification {
 }
 
 enum ObjectTypeEnum {
-  assessment,
-  controlSet,
-  control,
-  delegation,
-  assessmentReport,
-}
+  assessment('ASSESSMENT'),
+  controlSet('CONTROL_SET'),
+  control('CONTROL'),
+  delegation('DELEGATION'),
+  assessmentReport('ASSESSMENT_REPORT'),
+  ;
 
-extension ObjectTypeEnumValueExtension on ObjectTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ObjectTypeEnum.assessment:
-        return 'ASSESSMENT';
-      case ObjectTypeEnum.controlSet:
-        return 'CONTROL_SET';
-      case ObjectTypeEnum.control:
-        return 'CONTROL';
-      case ObjectTypeEnum.delegation:
-        return 'DELEGATION';
-      case ObjectTypeEnum.assessmentReport:
-        return 'ASSESSMENT_REPORT';
-    }
-  }
-}
+  final String value;
 
-extension ObjectTypeEnumFromString on String {
-  ObjectTypeEnum toObjectTypeEnum() {
-    switch (this) {
-      case 'ASSESSMENT':
-        return ObjectTypeEnum.assessment;
-      case 'CONTROL_SET':
-        return ObjectTypeEnum.controlSet;
-      case 'CONTROL':
-        return ObjectTypeEnum.control;
-      case 'DELEGATION':
-        return ObjectTypeEnum.delegation;
-      case 'ASSESSMENT_REPORT':
-        return ObjectTypeEnum.assessmentReport;
-    }
-    throw Exception('$this is not known in enum ObjectTypeEnum');
-  }
+  const ObjectTypeEnum(this.value);
+
+  static ObjectTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ObjectTypeEnum'));
 }
 
 class RegisterAccountResponse {
@@ -7475,14 +7177,14 @@ class RegisterAccountResponse {
 
   factory RegisterAccountResponse.fromJson(Map<String, dynamic> json) {
     return RegisterAccountResponse(
-      status: (json['status'] as String?)?.toAccountStatus(),
+      status: (json['status'] as String?)?.let(AccountStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7602,7 +7304,7 @@ class Role {
   factory Role.fromJson(Map<String, dynamic> json) {
     return Role(
       roleArn: json['roleArn'] as String,
-      roleType: (json['roleType'] as String).toRoleType(),
+      roleType: RoleType.fromString((json['roleType'] as String)),
     );
   }
 
@@ -7611,37 +7313,23 @@ class Role {
     final roleType = this.roleType;
     return {
       'roleArn': roleArn,
-      'roleType': roleType.toValue(),
+      'roleType': roleType.value,
     };
   }
 }
 
 enum RoleType {
-  processOwner,
-  resourceOwner,
-}
+  processOwner('PROCESS_OWNER'),
+  resourceOwner('RESOURCE_OWNER'),
+  ;
 
-extension RoleTypeValueExtension on RoleType {
-  String toValue() {
-    switch (this) {
-      case RoleType.processOwner:
-        return 'PROCESS_OWNER';
-      case RoleType.resourceOwner:
-        return 'RESOURCE_OWNER';
-    }
-  }
-}
+  final String value;
 
-extension RoleTypeFromString on String {
-  RoleType toRoleType() {
-    switch (this) {
-      case 'PROCESS_OWNER':
-        return RoleType.processOwner;
-      case 'RESOURCE_OWNER':
-        return RoleType.resourceOwner;
-    }
-    throw Exception('$this is not known in enum RoleType');
-  }
+  const RoleType(this.value);
+
+  static RoleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RoleType'));
 }
 
 /// The wrapper that contains the Amazon Web Services accounts and services that
@@ -7729,61 +7417,24 @@ class ServiceMetadata {
 }
 
 enum SettingAttribute {
-  all,
-  isAwsOrgEnabled,
-  snsTopic,
-  defaultAssessmentReportsDestination,
-  defaultProcessOwners,
-  evidenceFinderEnablement,
-  deregistrationPolicy,
-  defaultExportDestination,
-}
+  all('ALL'),
+  isAwsOrgEnabled('IS_AWS_ORG_ENABLED'),
+  snsTopic('SNS_TOPIC'),
+  defaultAssessmentReportsDestination('DEFAULT_ASSESSMENT_REPORTS_DESTINATION'),
+  defaultProcessOwners('DEFAULT_PROCESS_OWNERS'),
+  evidenceFinderEnablement('EVIDENCE_FINDER_ENABLEMENT'),
+  deregistrationPolicy('DEREGISTRATION_POLICY'),
+  defaultExportDestination('DEFAULT_EXPORT_DESTINATION'),
+  ;
 
-extension SettingAttributeValueExtension on SettingAttribute {
-  String toValue() {
-    switch (this) {
-      case SettingAttribute.all:
-        return 'ALL';
-      case SettingAttribute.isAwsOrgEnabled:
-        return 'IS_AWS_ORG_ENABLED';
-      case SettingAttribute.snsTopic:
-        return 'SNS_TOPIC';
-      case SettingAttribute.defaultAssessmentReportsDestination:
-        return 'DEFAULT_ASSESSMENT_REPORTS_DESTINATION';
-      case SettingAttribute.defaultProcessOwners:
-        return 'DEFAULT_PROCESS_OWNERS';
-      case SettingAttribute.evidenceFinderEnablement:
-        return 'EVIDENCE_FINDER_ENABLEMENT';
-      case SettingAttribute.deregistrationPolicy:
-        return 'DEREGISTRATION_POLICY';
-      case SettingAttribute.defaultExportDestination:
-        return 'DEFAULT_EXPORT_DESTINATION';
-    }
-  }
-}
+  final String value;
 
-extension SettingAttributeFromString on String {
-  SettingAttribute toSettingAttribute() {
-    switch (this) {
-      case 'ALL':
-        return SettingAttribute.all;
-      case 'IS_AWS_ORG_ENABLED':
-        return SettingAttribute.isAwsOrgEnabled;
-      case 'SNS_TOPIC':
-        return SettingAttribute.snsTopic;
-      case 'DEFAULT_ASSESSMENT_REPORTS_DESTINATION':
-        return SettingAttribute.defaultAssessmentReportsDestination;
-      case 'DEFAULT_PROCESS_OWNERS':
-        return SettingAttribute.defaultProcessOwners;
-      case 'EVIDENCE_FINDER_ENABLEMENT':
-        return SettingAttribute.evidenceFinderEnablement;
-      case 'DEREGISTRATION_POLICY':
-        return SettingAttribute.deregistrationPolicy;
-      case 'DEFAULT_EXPORT_DESTINATION':
-        return SettingAttribute.defaultExportDestination;
-    }
-    throw Exception('$this is not known in enum SettingAttribute');
-  }
+  const SettingAttribute(this.value);
+
+  static SettingAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SettingAttribute'));
 }
 
 /// The settings object that holds all supported Audit Manager settings.
@@ -7885,155 +7536,71 @@ class Settings {
 }
 
 enum ShareRequestAction {
-  accept,
-  decline,
-  revoke,
-}
+  accept('ACCEPT'),
+  decline('DECLINE'),
+  revoke('REVOKE'),
+  ;
 
-extension ShareRequestActionValueExtension on ShareRequestAction {
-  String toValue() {
-    switch (this) {
-      case ShareRequestAction.accept:
-        return 'ACCEPT';
-      case ShareRequestAction.decline:
-        return 'DECLINE';
-      case ShareRequestAction.revoke:
-        return 'REVOKE';
-    }
-  }
-}
+  final String value;
 
-extension ShareRequestActionFromString on String {
-  ShareRequestAction toShareRequestAction() {
-    switch (this) {
-      case 'ACCEPT':
-        return ShareRequestAction.accept;
-      case 'DECLINE':
-        return ShareRequestAction.decline;
-      case 'REVOKE':
-        return ShareRequestAction.revoke;
-    }
-    throw Exception('$this is not known in enum ShareRequestAction');
-  }
+  const ShareRequestAction(this.value);
+
+  static ShareRequestAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ShareRequestAction'));
 }
 
 enum ShareRequestStatus {
-  active,
-  replicating,
-  shared,
-  expiring,
-  failed,
-  expired,
-  declined,
-  revoked,
-}
+  active('ACTIVE'),
+  replicating('REPLICATING'),
+  shared('SHARED'),
+  expiring('EXPIRING'),
+  failed('FAILED'),
+  expired('EXPIRED'),
+  declined('DECLINED'),
+  revoked('REVOKED'),
+  ;
 
-extension ShareRequestStatusValueExtension on ShareRequestStatus {
-  String toValue() {
-    switch (this) {
-      case ShareRequestStatus.active:
-        return 'ACTIVE';
-      case ShareRequestStatus.replicating:
-        return 'REPLICATING';
-      case ShareRequestStatus.shared:
-        return 'SHARED';
-      case ShareRequestStatus.expiring:
-        return 'EXPIRING';
-      case ShareRequestStatus.failed:
-        return 'FAILED';
-      case ShareRequestStatus.expired:
-        return 'EXPIRED';
-      case ShareRequestStatus.declined:
-        return 'DECLINED';
-      case ShareRequestStatus.revoked:
-        return 'REVOKED';
-    }
-  }
-}
+  final String value;
 
-extension ShareRequestStatusFromString on String {
-  ShareRequestStatus toShareRequestStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ShareRequestStatus.active;
-      case 'REPLICATING':
-        return ShareRequestStatus.replicating;
-      case 'SHARED':
-        return ShareRequestStatus.shared;
-      case 'EXPIRING':
-        return ShareRequestStatus.expiring;
-      case 'FAILED':
-        return ShareRequestStatus.failed;
-      case 'EXPIRED':
-        return ShareRequestStatus.expired;
-      case 'DECLINED':
-        return ShareRequestStatus.declined;
-      case 'REVOKED':
-        return ShareRequestStatus.revoked;
-    }
-    throw Exception('$this is not known in enum ShareRequestStatus');
-  }
+  const ShareRequestStatus(this.value);
+
+  static ShareRequestStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ShareRequestStatus'));
 }
 
 enum ShareRequestType {
-  sent,
-  received,
-}
+  sent('SENT'),
+  received('RECEIVED'),
+  ;
 
-extension ShareRequestTypeValueExtension on ShareRequestType {
-  String toValue() {
-    switch (this) {
-      case ShareRequestType.sent:
-        return 'SENT';
-      case ShareRequestType.received:
-        return 'RECEIVED';
-    }
-  }
-}
+  final String value;
 
-extension ShareRequestTypeFromString on String {
-  ShareRequestType toShareRequestType() {
-    switch (this) {
-      case 'SENT':
-        return ShareRequestType.sent;
-      case 'RECEIVED':
-        return ShareRequestType.received;
-    }
-    throw Exception('$this is not known in enum ShareRequestType');
-  }
+  const ShareRequestType(this.value);
+
+  static ShareRequestType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShareRequestType'));
 }
 
 enum SourceFrequency {
-  daily,
-  weekly,
-  monthly,
-}
+  daily('DAILY'),
+  weekly('WEEKLY'),
+  monthly('MONTHLY'),
+  ;
 
-extension SourceFrequencyValueExtension on SourceFrequency {
-  String toValue() {
-    switch (this) {
-      case SourceFrequency.daily:
-        return 'DAILY';
-      case SourceFrequency.weekly:
-        return 'WEEKLY';
-      case SourceFrequency.monthly:
-        return 'MONTHLY';
-    }
-  }
-}
+  final String value;
 
-extension SourceFrequencyFromString on String {
-  SourceFrequency toSourceFrequency() {
-    switch (this) {
-      case 'DAILY':
-        return SourceFrequency.daily;
-      case 'WEEKLY':
-        return SourceFrequency.weekly;
-      case 'MONTHLY':
-        return SourceFrequency.monthly;
-    }
-    throw Exception('$this is not known in enum SourceFrequency');
-  }
+  const SourceFrequency(this.value);
+
+  static SourceFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SourceFrequency'));
 }
 
 /// A keyword that relates to the control data source.
@@ -8234,8 +7801,8 @@ class SourceKeyword {
 
   factory SourceKeyword.fromJson(Map<String, dynamic> json) {
     return SourceKeyword(
-      keywordInputType:
-          (json['keywordInputType'] as String?)?.toKeywordInputType(),
+      keywordInputType: (json['keywordInputType'] as String?)
+          ?.let(KeywordInputType.fromString),
       keywordValue: json['keywordValue'] as String?,
     );
   }
@@ -8244,82 +7811,42 @@ class SourceKeyword {
     final keywordInputType = this.keywordInputType;
     final keywordValue = this.keywordValue;
     return {
-      if (keywordInputType != null)
-        'keywordInputType': keywordInputType.toValue(),
+      if (keywordInputType != null) 'keywordInputType': keywordInputType.value,
       if (keywordValue != null) 'keywordValue': keywordValue,
     };
   }
 }
 
 enum SourceSetUpOption {
-  systemControlsMapping,
-  proceduralControlsMapping,
-}
+  systemControlsMapping('System_Controls_Mapping'),
+  proceduralControlsMapping('Procedural_Controls_Mapping'),
+  ;
 
-extension SourceSetUpOptionValueExtension on SourceSetUpOption {
-  String toValue() {
-    switch (this) {
-      case SourceSetUpOption.systemControlsMapping:
-        return 'System_Controls_Mapping';
-      case SourceSetUpOption.proceduralControlsMapping:
-        return 'Procedural_Controls_Mapping';
-    }
-  }
-}
+  final String value;
 
-extension SourceSetUpOptionFromString on String {
-  SourceSetUpOption toSourceSetUpOption() {
-    switch (this) {
-      case 'System_Controls_Mapping':
-        return SourceSetUpOption.systemControlsMapping;
-      case 'Procedural_Controls_Mapping':
-        return SourceSetUpOption.proceduralControlsMapping;
-    }
-    throw Exception('$this is not known in enum SourceSetUpOption');
-  }
+  const SourceSetUpOption(this.value);
+
+  static SourceSetUpOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SourceSetUpOption'));
 }
 
 enum SourceType {
-  awsCloudtrail,
-  awsConfig,
-  awsSecurityHub,
-  awsApiCall,
-  manual,
-}
+  awsCloudtrail('AWS_Cloudtrail'),
+  awsConfig('AWS_Config'),
+  awsSecurityHub('AWS_Security_Hub'),
+  awsApiCall('AWS_API_Call'),
+  manual('MANUAL'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.awsCloudtrail:
-        return 'AWS_Cloudtrail';
-      case SourceType.awsConfig:
-        return 'AWS_Config';
-      case SourceType.awsSecurityHub:
-        return 'AWS_Security_Hub';
-      case SourceType.awsApiCall:
-        return 'AWS_API_Call';
-      case SourceType.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'AWS_Cloudtrail':
-        return SourceType.awsCloudtrail;
-      case 'AWS_Config':
-        return SourceType.awsConfig;
-      case 'AWS_Security_Hub':
-        return SourceType.awsSecurityHub;
-      case 'AWS_API_Call':
-        return SourceType.awsApiCall;
-      case 'MANUAL':
-        return SourceType.manual;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 class StartAssessmentFrameworkShareResponse {

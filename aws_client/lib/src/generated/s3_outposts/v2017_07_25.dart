@@ -109,7 +109,7 @@ class S3Outposts {
       'OutpostId': outpostId,
       'SecurityGroupId': securityGroupId,
       'SubnetId': subnetId,
-      if (accessType != null) 'AccessType': accessType.toValue(),
+      if (accessType != null) 'AccessType': accessType.value,
       if (customerOwnedIpv4Pool != null)
         'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
     };
@@ -404,7 +404,8 @@ class Endpoint {
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
-      accessType: (json['AccessType'] as String?)?.toEndpointAccessType(),
+      accessType:
+          (json['AccessType'] as String?)?.let(EndpointAccessType.fromString),
       cidrBlock: json['CidrBlock'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       customerOwnedIpv4Pool: json['CustomerOwnedIpv4Pool'] as String?,
@@ -418,7 +419,7 @@ class Endpoint {
           .toList(),
       outpostsId: json['OutpostsId'] as String?,
       securityGroupId: json['SecurityGroupId'] as String?,
-      status: (json['Status'] as String?)?.toEndpointStatus(),
+      status: (json['Status'] as String?)?.let(EndpointStatus.fromString),
       subnetId: json['SubnetId'] as String?,
       vpcId: json['VpcId'] as String?,
     );
@@ -438,7 +439,7 @@ class Endpoint {
     final subnetId = this.subnetId;
     final vpcId = this.vpcId;
     return {
-      if (accessType != null) 'AccessType': accessType.toValue(),
+      if (accessType != null) 'AccessType': accessType.value,
       if (cidrBlock != null) 'CidrBlock': cidrBlock,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -449,7 +450,7 @@ class Endpoint {
       if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
       if (outpostsId != null) 'OutpostsId': outpostsId,
       if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (subnetId != null) 'SubnetId': subnetId,
       if (vpcId != null) 'VpcId': vpcId,
     };
@@ -457,74 +458,36 @@ class Endpoint {
 }
 
 enum EndpointAccessType {
-  private,
-  customerOwnedIp,
-}
+  private('Private'),
+  customerOwnedIp('CustomerOwnedIp'),
+  ;
 
-extension EndpointAccessTypeValueExtension on EndpointAccessType {
-  String toValue() {
-    switch (this) {
-      case EndpointAccessType.private:
-        return 'Private';
-      case EndpointAccessType.customerOwnedIp:
-        return 'CustomerOwnedIp';
-    }
-  }
-}
+  final String value;
 
-extension EndpointAccessTypeFromString on String {
-  EndpointAccessType toEndpointAccessType() {
-    switch (this) {
-      case 'Private':
-        return EndpointAccessType.private;
-      case 'CustomerOwnedIp':
-        return EndpointAccessType.customerOwnedIp;
-    }
-    throw Exception('$this is not known in enum EndpointAccessType');
-  }
+  const EndpointAccessType(this.value);
+
+  static EndpointAccessType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EndpointAccessType'));
 }
 
 enum EndpointStatus {
-  pending,
-  available,
-  deleting,
-  createFailed,
-  deleteFailed,
-}
+  pending('Pending'),
+  available('Available'),
+  deleting('Deleting'),
+  createFailed('Create_Failed'),
+  deleteFailed('Delete_Failed'),
+  ;
 
-extension EndpointStatusValueExtension on EndpointStatus {
-  String toValue() {
-    switch (this) {
-      case EndpointStatus.pending:
-        return 'Pending';
-      case EndpointStatus.available:
-        return 'Available';
-      case EndpointStatus.deleting:
-        return 'Deleting';
-      case EndpointStatus.createFailed:
-        return 'Create_Failed';
-      case EndpointStatus.deleteFailed:
-        return 'Delete_Failed';
-    }
-  }
-}
+  final String value;
 
-extension EndpointStatusFromString on String {
-  EndpointStatus toEndpointStatus() {
-    switch (this) {
-      case 'Pending':
-        return EndpointStatus.pending;
-      case 'Available':
-        return EndpointStatus.available;
-      case 'Deleting':
-        return EndpointStatus.deleting;
-      case 'Create_Failed':
-        return EndpointStatus.createFailed;
-      case 'Delete_Failed':
-        return EndpointStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum EndpointStatus');
-  }
+  const EndpointStatus(this.value);
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointStatus'));
 }
 
 /// The failure reason, if any, for a create or delete endpoint operation.

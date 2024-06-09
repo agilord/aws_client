@@ -169,7 +169,7 @@ class CodeGuruProfiler {
       if (startTime != null)
         'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (targetResolution != null)
-        'targetResolution': [targetResolution.toValue()],
+        'targetResolution': [targetResolution.value],
     };
     final $payload = <String, dynamic>{
       if (frameMetrics != null) 'frameMetrics': frameMetrics,
@@ -253,7 +253,7 @@ class CodeGuruProfiler {
     final $payload = <String, dynamic>{
       if (fleetInstanceId != null) 'fleetInstanceId': fleetInstanceId,
       if (metadata != null)
-        'metadata': metadata.map((k, e) => MapEntry(k.toValue(), e)),
+        'metadata': metadata.map((k, e) => MapEntry(k.value, e)),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -311,7 +311,7 @@ class CodeGuruProfiler {
       'profilingGroupName': profilingGroupName,
       if (agentOrchestrationConfig != null)
         'agentOrchestrationConfig': agentOrchestrationConfig,
-      if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
+      if (computePlatform != null) 'computePlatform': computePlatform.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.sendRaw(
@@ -863,11 +863,11 @@ class CodeGuruProfiler {
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
-      'period': [period.toValue()],
+      'period': [period.value],
       'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (orderBy != null) 'orderBy': [orderBy.toValue()],
+      if (orderBy != null) 'orderBy': [orderBy.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1085,7 +1085,7 @@ class CodeGuruProfiler {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}/policy/${Uri.encodeComponent(actionGroup.toValue())}',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}/policy/${Uri.encodeComponent(actionGroup.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return PutPermissionResponse.fromJson(response);
@@ -1161,7 +1161,7 @@ class CodeGuruProfiler {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}/policy/${Uri.encodeComponent(actionGroup.toValue())}',
+          '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}/policy/${Uri.encodeComponent(actionGroup.value)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1198,7 +1198,7 @@ class CodeGuruProfiler {
     String? comment,
   }) async {
     final $payload = <String, dynamic>{
-      'type': type.toValue(),
+      'type': type.value,
       if (comment != null) 'comment': comment,
     };
     final response = await _protocol.send(
@@ -1299,26 +1299,16 @@ class CodeGuruProfiler {
 }
 
 enum ActionGroup {
-  agentPermissions,
-}
+  agentPermissions('agentPermissions'),
+  ;
 
-extension ActionGroupValueExtension on ActionGroup {
-  String toValue() {
-    switch (this) {
-      case ActionGroup.agentPermissions:
-        return 'agentPermissions';
-    }
-  }
-}
+  final String value;
 
-extension ActionGroupFromString on String {
-  ActionGroup toActionGroup() {
-    switch (this) {
-      case 'agentPermissions':
-        return ActionGroup.agentPermissions;
-    }
-    throw Exception('$this is not known in enum ActionGroup');
-  }
+  const ActionGroup(this.value);
+
+  static ActionGroup fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionGroup'));
 }
 
 /// The structure representing the AddNotificationChannelsResponse.
@@ -1398,8 +1388,8 @@ class AgentConfiguration {
     return AgentConfiguration(
       periodInSeconds: json['periodInSeconds'] as int,
       shouldProfile: json['shouldProfile'] as bool,
-      agentParameters: (json['agentParameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toAgentParameterField(), e as String)),
+      agentParameters: (json['agentParameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(AgentParameterField.fromString(k), e as String)),
     );
   }
 }
@@ -1433,46 +1423,22 @@ class AgentOrchestrationConfig {
 }
 
 enum AgentParameterField {
-  samplingIntervalInMilliseconds,
-  reportingIntervalInMilliseconds,
-  minimumTimeForReportingInMilliseconds,
-  memoryUsageLimitPercent,
-  maxStackDepth,
-}
+  samplingIntervalInMilliseconds('SamplingIntervalInMilliseconds'),
+  reportingIntervalInMilliseconds('ReportingIntervalInMilliseconds'),
+  minimumTimeForReportingInMilliseconds(
+      'MinimumTimeForReportingInMilliseconds'),
+  memoryUsageLimitPercent('MemoryUsageLimitPercent'),
+  maxStackDepth('MaxStackDepth'),
+  ;
 
-extension AgentParameterFieldValueExtension on AgentParameterField {
-  String toValue() {
-    switch (this) {
-      case AgentParameterField.samplingIntervalInMilliseconds:
-        return 'SamplingIntervalInMilliseconds';
-      case AgentParameterField.reportingIntervalInMilliseconds:
-        return 'ReportingIntervalInMilliseconds';
-      case AgentParameterField.minimumTimeForReportingInMilliseconds:
-        return 'MinimumTimeForReportingInMilliseconds';
-      case AgentParameterField.memoryUsageLimitPercent:
-        return 'MemoryUsageLimitPercent';
-      case AgentParameterField.maxStackDepth:
-        return 'MaxStackDepth';
-    }
-  }
-}
+  final String value;
 
-extension AgentParameterFieldFromString on String {
-  AgentParameterField toAgentParameterField() {
-    switch (this) {
-      case 'SamplingIntervalInMilliseconds':
-        return AgentParameterField.samplingIntervalInMilliseconds;
-      case 'ReportingIntervalInMilliseconds':
-        return AgentParameterField.reportingIntervalInMilliseconds;
-      case 'MinimumTimeForReportingInMilliseconds':
-        return AgentParameterField.minimumTimeForReportingInMilliseconds;
-      case 'MemoryUsageLimitPercent':
-        return AgentParameterField.memoryUsageLimitPercent;
-      case 'MaxStackDepth':
-        return AgentParameterField.maxStackDepth;
-    }
-    throw Exception('$this is not known in enum AgentParameterField');
-  }
+  const AgentParameterField(this.value);
+
+  static AgentParameterField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AgentParameterField'));
 }
 
 /// Specifies the aggregation period and aggregation start time for an
@@ -1516,43 +1482,26 @@ class AggregatedProfileTime {
 
   factory AggregatedProfileTime.fromJson(Map<String, dynamic> json) {
     return AggregatedProfileTime(
-      period: (json['period'] as String?)?.toAggregationPeriod(),
+      period: (json['period'] as String?)?.let(AggregationPeriod.fromString),
       start: timeStampFromJson(json['start']),
     );
   }
 }
 
 enum AggregationPeriod {
-  pt5m,
-  pt1h,
-  p1d,
-}
+  pt5m('PT5M'),
+  pt1h('PT1H'),
+  p1d('P1D'),
+  ;
 
-extension AggregationPeriodValueExtension on AggregationPeriod {
-  String toValue() {
-    switch (this) {
-      case AggregationPeriod.pt5m:
-        return 'PT5M';
-      case AggregationPeriod.pt1h:
-        return 'PT1H';
-      case AggregationPeriod.p1d:
-        return 'P1D';
-    }
-  }
-}
+  final String value;
 
-extension AggregationPeriodFromString on String {
-  AggregationPeriod toAggregationPeriod() {
-    switch (this) {
-      case 'PT5M':
-        return AggregationPeriod.pt5m;
-      case 'PT1H':
-        return AggregationPeriod.pt1h;
-      case 'P1D':
-        return AggregationPeriod.p1d;
-    }
-    throw Exception('$this is not known in enum AggregationPeriod');
-  }
+  const AggregationPeriod(this.value);
+
+  static AggregationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AggregationPeriod'));
 }
 
 /// Details about an anomaly in a specific metric of application profile. The
@@ -1694,7 +1643,7 @@ class BatchGetFrameMetricDataResponse {
           .whereNotNull()
           .map((e) => FrameMetricDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resolution: (json['resolution'] as String).toAggregationPeriod(),
+      resolution: AggregationPeriod.fromString((json['resolution'] as String)),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
       unprocessedEndTimes: (json['unprocessedEndTimes'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(
@@ -1736,7 +1685,7 @@ class Channel {
     return Channel(
       eventPublishers: (json['eventPublishers'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toEventPublisher())
+          .map((e) => EventPublisher.fromString((e as String)))
           .toList(),
       uri: json['uri'] as String,
       id: json['id'] as String?,
@@ -1748,7 +1697,7 @@ class Channel {
     final uri = this.uri;
     final id = this.id;
     return {
-      'eventPublishers': eventPublishers.map((e) => e.toValue()).toList(),
+      'eventPublishers': eventPublishers.map((e) => e.value).toList(),
       'uri': uri,
       if (id != null) 'id': id,
     };
@@ -1756,31 +1705,18 @@ class Channel {
 }
 
 enum ComputePlatform {
-  $default,
-  awsLambda,
-}
+  $default('Default'),
+  awsLambda('AWSLambda'),
+  ;
 
-extension ComputePlatformValueExtension on ComputePlatform {
-  String toValue() {
-    switch (this) {
-      case ComputePlatform.$default:
-        return 'Default';
-      case ComputePlatform.awsLambda:
-        return 'AWSLambda';
-    }
-  }
-}
+  final String value;
 
-extension ComputePlatformFromString on String {
-  ComputePlatform toComputePlatform() {
-    switch (this) {
-      case 'Default':
-        return ComputePlatform.$default;
-      case 'AWSLambda':
-        return ComputePlatform.awsLambda;
-    }
-    throw Exception('$this is not known in enum ComputePlatform');
-  }
+  const ComputePlatform(this.value);
+
+  static ComputePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComputePlatform'));
 }
 
 /// The structure representing the configureAgentResponse.
@@ -1832,54 +1768,32 @@ class DescribeProfilingGroupResponse {
 }
 
 enum EventPublisher {
-  anomalyDetection,
-}
+  anomalyDetection('AnomalyDetection'),
+  ;
 
-extension EventPublisherValueExtension on EventPublisher {
-  String toValue() {
-    switch (this) {
-      case EventPublisher.anomalyDetection:
-        return 'AnomalyDetection';
-    }
-  }
-}
+  final String value;
 
-extension EventPublisherFromString on String {
-  EventPublisher toEventPublisher() {
-    switch (this) {
-      case 'AnomalyDetection':
-        return EventPublisher.anomalyDetection;
-    }
-    throw Exception('$this is not known in enum EventPublisher');
-  }
+  const EventPublisher(this.value);
+
+  static EventPublisher fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventPublisher'));
 }
 
 enum FeedbackType {
-  positive,
-  negative,
-}
+  positive('Positive'),
+  negative('Negative'),
+  ;
 
-extension FeedbackTypeValueExtension on FeedbackType {
-  String toValue() {
-    switch (this) {
-      case FeedbackType.positive:
-        return 'Positive';
-      case FeedbackType.negative:
-        return 'Negative';
-    }
-  }
-}
+  final String value;
 
-extension FeedbackTypeFromString on String {
-  FeedbackType toFeedbackType() {
-    switch (this) {
-      case 'Positive':
-        return FeedbackType.positive;
-      case 'Negative':
-        return FeedbackType.negative;
-    }
-    throw Exception('$this is not known in enum FeedbackType');
-  }
+  const FeedbackType(this.value);
+
+  static FeedbackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeedbackType'));
 }
 
 /// Information about potential recommendations that might be created from the
@@ -1955,7 +1869,7 @@ class FrameMetric {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String).toMetricType(),
+      type: MetricType.fromString((json['type'] as String)),
     );
   }
 
@@ -1966,7 +1880,7 @@ class FrameMetric {
     return {
       'frameName': frameName,
       'threadStates': threadStates,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -2285,66 +2199,27 @@ class Match {
 }
 
 enum MetadataField {
-  computePlatform,
-  agentId,
-  awsRequestId,
-  executionEnvironment,
-  lambdaFunctionArn,
-  lambdaMemoryLimitInMB,
-  lambdaRemainingTimeInMilliseconds,
-  lambdaTimeGapBetweenInvokesInMilliseconds,
-  lambdaPreviousExecutionTimeInMilliseconds,
-}
+  computePlatform('ComputePlatform'),
+  agentId('AgentId'),
+  awsRequestId('AwsRequestId'),
+  executionEnvironment('ExecutionEnvironment'),
+  lambdaFunctionArn('LambdaFunctionArn'),
+  lambdaMemoryLimitInMB('LambdaMemoryLimitInMB'),
+  lambdaRemainingTimeInMilliseconds('LambdaRemainingTimeInMilliseconds'),
+  lambdaTimeGapBetweenInvokesInMilliseconds(
+      'LambdaTimeGapBetweenInvokesInMilliseconds'),
+  lambdaPreviousExecutionTimeInMilliseconds(
+      'LambdaPreviousExecutionTimeInMilliseconds'),
+  ;
 
-extension MetadataFieldValueExtension on MetadataField {
-  String toValue() {
-    switch (this) {
-      case MetadataField.computePlatform:
-        return 'ComputePlatform';
-      case MetadataField.agentId:
-        return 'AgentId';
-      case MetadataField.awsRequestId:
-        return 'AwsRequestId';
-      case MetadataField.executionEnvironment:
-        return 'ExecutionEnvironment';
-      case MetadataField.lambdaFunctionArn:
-        return 'LambdaFunctionArn';
-      case MetadataField.lambdaMemoryLimitInMB:
-        return 'LambdaMemoryLimitInMB';
-      case MetadataField.lambdaRemainingTimeInMilliseconds:
-        return 'LambdaRemainingTimeInMilliseconds';
-      case MetadataField.lambdaTimeGapBetweenInvokesInMilliseconds:
-        return 'LambdaTimeGapBetweenInvokesInMilliseconds';
-      case MetadataField.lambdaPreviousExecutionTimeInMilliseconds:
-        return 'LambdaPreviousExecutionTimeInMilliseconds';
-    }
-  }
-}
+  final String value;
 
-extension MetadataFieldFromString on String {
-  MetadataField toMetadataField() {
-    switch (this) {
-      case 'ComputePlatform':
-        return MetadataField.computePlatform;
-      case 'AgentId':
-        return MetadataField.agentId;
-      case 'AwsRequestId':
-        return MetadataField.awsRequestId;
-      case 'ExecutionEnvironment':
-        return MetadataField.executionEnvironment;
-      case 'LambdaFunctionArn':
-        return MetadataField.lambdaFunctionArn;
-      case 'LambdaMemoryLimitInMB':
-        return MetadataField.lambdaMemoryLimitInMB;
-      case 'LambdaRemainingTimeInMilliseconds':
-        return MetadataField.lambdaRemainingTimeInMilliseconds;
-      case 'LambdaTimeGapBetweenInvokesInMilliseconds':
-        return MetadataField.lambdaTimeGapBetweenInvokesInMilliseconds;
-      case 'LambdaPreviousExecutionTimeInMilliseconds':
-        return MetadataField.lambdaPreviousExecutionTimeInMilliseconds;
-    }
-    throw Exception('$this is not known in enum MetadataField');
-  }
+  const MetadataField(this.value);
+
+  static MetadataField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetadataField'));
 }
 
 /// Details about the metric that the analysis used when it detected the
@@ -2378,32 +2253,22 @@ class Metric {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String).toMetricType(),
+      type: MetricType.fromString((json['type'] as String)),
     );
   }
 }
 
 enum MetricType {
-  aggregatedRelativeTotalTime,
-}
+  aggregatedRelativeTotalTime('AggregatedRelativeTotalTime'),
+  ;
 
-extension MetricTypeValueExtension on MetricType {
-  String toValue() {
-    switch (this) {
-      case MetricType.aggregatedRelativeTotalTime:
-        return 'AggregatedRelativeTotalTime';
-    }
-  }
-}
+  final String value;
 
-extension MetricTypeFromString on String {
-  MetricType toMetricType() {
-    switch (this) {
-      case 'AggregatedRelativeTotalTime':
-        return MetricType.aggregatedRelativeTotalTime;
-    }
-    throw Exception('$this is not known in enum MetricType');
-  }
+  const MetricType(this.value);
+
+  static MetricType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricType'));
 }
 
 /// The configuration for notifications stored for each profiling group. This
@@ -2429,31 +2294,17 @@ class NotificationConfiguration {
 }
 
 enum OrderBy {
-  timestampDescending,
-  timestampAscending,
-}
+  timestampDescending('TimestampDescending'),
+  timestampAscending('TimestampAscending'),
+  ;
 
-extension OrderByValueExtension on OrderBy {
-  String toValue() {
-    switch (this) {
-      case OrderBy.timestampDescending:
-        return 'TimestampDescending';
-      case OrderBy.timestampAscending:
-        return 'TimestampAscending';
-    }
-  }
-}
+  final String value;
 
-extension OrderByFromString on String {
-  OrderBy toOrderBy() {
-    switch (this) {
-      case 'TimestampDescending':
-        return OrderBy.timestampDescending;
-      case 'TimestampAscending':
-        return OrderBy.timestampAscending;
-    }
-    throw Exception('$this is not known in enum OrderBy');
-  }
+  const OrderBy(this.value);
+
+  static OrderBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OrderBy'));
 }
 
 /// A set of rules used to make a recommendation during an analysis.
@@ -2603,7 +2454,7 @@ class ProfilingGroupDescription {
           : null,
       arn: json['arn'] as String?,
       computePlatform:
-          (json['computePlatform'] as String?)?.toComputePlatform(),
+          (json['computePlatform'] as String?)?.let(ComputePlatform.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       name: json['name'] as String?,
       profilingStatus: json['profilingStatus'] != null
@@ -2847,7 +2698,7 @@ class UserFeedback {
 
   factory UserFeedback.fromJson(Map<String, dynamic> json) {
     return UserFeedback(
-      type: (json['type'] as String).toFeedbackType(),
+      type: FeedbackType.fromString((json['type'] as String)),
     );
   }
 }

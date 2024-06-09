@@ -399,7 +399,7 @@ class Directory {
         'ConnectSettings': connectSettings,
         'Name': name,
         'Password': password,
-        'Size': size.toValue(),
+        'Size': size.value,
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -659,7 +659,7 @@ class Directory {
       payload: {
         'Name': name,
         'Password': password,
-        'Size': size.toValue(),
+        'Size': size.value,
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -783,7 +783,7 @@ class Directory {
         'Password': password,
         'VpcSettings': vpcSettings,
         if (description != null) 'Description': description,
-        if (edition != null) 'Edition': edition.toValue(),
+        if (edition != null) 'Edition': edition.value,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
       },
@@ -896,12 +896,12 @@ class Directory {
       payload: {
         'DirectoryId': directoryId,
         'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection.toValue(),
+        'TrustDirection': trustDirection.value,
         'TrustPassword': trustPassword,
         if (conditionalForwarderIpAddrs != null)
           'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.toValue(),
-        if (trustType != null) 'TrustType': trustType.toValue(),
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.value,
+        if (trustType != null) 'TrustType': trustType.value,
       },
     );
 
@@ -1247,7 +1247,7 @@ class Directory {
         'DirectoryId': directoryId,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -1516,7 +1516,7 @@ class Directory {
         'DirectoryId': directoryId,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -1605,7 +1605,7 @@ class Directory {
       payload: {
         'DirectoryId': directoryId,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1837,7 +1837,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'UpdateType': updateType.toValue(),
+        'UpdateType': updateType.value,
         if (nextToken != null) 'NextToken': nextToken,
         if (regionName != null) 'RegionName': regionName,
       },
@@ -1878,7 +1878,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type.value,
       },
     );
   }
@@ -1915,7 +1915,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type.value,
       },
     );
   }
@@ -2033,7 +2033,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type.value,
       },
     );
   }
@@ -2072,7 +2072,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type.toValue(),
+        'Type': type.value,
       },
     );
   }
@@ -2512,7 +2512,7 @@ class Directory {
         'DirectoryId': directoryId,
         if (clientCertAuthSettings != null)
           'ClientCertAuthSettings': clientCertAuthSettings,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -2865,7 +2865,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'ShareMethod': shareMethod.toValue(),
+        'ShareMethod': shareMethod.value,
         'ShareTarget': shareTarget,
         if (shareNotes != null) 'ShareNotes': shareNotes,
       },
@@ -3054,7 +3054,7 @@ class Directory {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'UpdateType': updateType.toValue(),
+        'UpdateType': updateType.value,
         if (createSnapshotBeforeUpdate != null)
           'CreateSnapshotBeforeUpdate': createSnapshotBeforeUpdate,
         if (oSUpdateSettings != null) 'OSUpdateSettings': oSUpdateSettings,
@@ -3216,7 +3216,7 @@ class Directory {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.toValue(),
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.value,
       },
     );
 
@@ -3412,9 +3412,9 @@ class Certificate {
       commonName: json['CommonName'] as String?,
       expiryDateTime: timeStampFromJson(json['ExpiryDateTime']),
       registeredDateTime: timeStampFromJson(json['RegisteredDateTime']),
-      state: (json['State'] as String?)?.toCertificateState(),
+      state: (json['State'] as String?)?.let(CertificateState.fromString),
       stateReason: json['StateReason'] as String?,
-      type: (json['Type'] as String?)?.toCertificateType(),
+      type: (json['Type'] as String?)?.let(CertificateType.fromString),
     );
   }
 
@@ -3436,9 +3436,9 @@ class Certificate {
         'ExpiryDateTime': unixTimestampToJson(expiryDateTime),
       if (registeredDateTime != null)
         'RegisteredDateTime': unixTimestampToJson(registeredDateTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -3475,8 +3475,8 @@ class CertificateInfo {
       certificateId: json['CertificateId'] as String?,
       commonName: json['CommonName'] as String?,
       expiryDateTime: timeStampFromJson(json['ExpiryDateTime']),
-      state: (json['State'] as String?)?.toCertificateState(),
-      type: (json['Type'] as String?)?.toCertificateType(),
+      state: (json['State'] as String?)?.let(CertificateState.fromString),
+      type: (json['Type'] as String?)?.let(CertificateType.fromString),
     );
   }
 
@@ -3491,86 +3491,44 @@ class CertificateInfo {
       if (commonName != null) 'CommonName': commonName,
       if (expiryDateTime != null)
         'ExpiryDateTime': unixTimestampToJson(expiryDateTime),
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum CertificateState {
-  registering,
-  registered,
-  registerFailed,
-  deregistering,
-  deregistered,
-  deregisterFailed,
-}
+  registering('Registering'),
+  registered('Registered'),
+  registerFailed('RegisterFailed'),
+  deregistering('Deregistering'),
+  deregistered('Deregistered'),
+  deregisterFailed('DeregisterFailed'),
+  ;
 
-extension CertificateStateValueExtension on CertificateState {
-  String toValue() {
-    switch (this) {
-      case CertificateState.registering:
-        return 'Registering';
-      case CertificateState.registered:
-        return 'Registered';
-      case CertificateState.registerFailed:
-        return 'RegisterFailed';
-      case CertificateState.deregistering:
-        return 'Deregistering';
-      case CertificateState.deregistered:
-        return 'Deregistered';
-      case CertificateState.deregisterFailed:
-        return 'DeregisterFailed';
-    }
-  }
-}
+  final String value;
 
-extension CertificateStateFromString on String {
-  CertificateState toCertificateState() {
-    switch (this) {
-      case 'Registering':
-        return CertificateState.registering;
-      case 'Registered':
-        return CertificateState.registered;
-      case 'RegisterFailed':
-        return CertificateState.registerFailed;
-      case 'Deregistering':
-        return CertificateState.deregistering;
-      case 'Deregistered':
-        return CertificateState.deregistered;
-      case 'DeregisterFailed':
-        return CertificateState.deregisterFailed;
-    }
-    throw Exception('$this is not known in enum CertificateState');
-  }
+  const CertificateState(this.value);
+
+  static CertificateState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateState'));
 }
 
 enum CertificateType {
-  clientCertAuth,
-  clientLDAPS,
-}
+  clientCertAuth('ClientCertAuth'),
+  clientLDAPS('ClientLDAPS'),
+  ;
 
-extension CertificateTypeValueExtension on CertificateType {
-  String toValue() {
-    switch (this) {
-      case CertificateType.clientCertAuth:
-        return 'ClientCertAuth';
-      case CertificateType.clientLDAPS:
-        return 'ClientLDAPS';
-    }
-  }
-}
+  final String value;
 
-extension CertificateTypeFromString on String {
-  CertificateType toCertificateType() {
-    switch (this) {
-      case 'ClientCertAuth':
-        return CertificateType.clientCertAuth;
-      case 'ClientLDAPS':
-        return CertificateType.clientLDAPS;
-    }
-    throw Exception('$this is not known in enum CertificateType');
-  }
+  const CertificateType(this.value);
+
+  static CertificateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateType'));
 }
 
 /// Contains information about a client authentication method for a directory.
@@ -3597,8 +3555,9 @@ class ClientAuthenticationSettingInfo {
   factory ClientAuthenticationSettingInfo.fromJson(Map<String, dynamic> json) {
     return ClientAuthenticationSettingInfo(
       lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
-      status: (json['Status'] as String?)?.toClientAuthenticationStatus(),
-      type: (json['Type'] as String?)?.toClientAuthenticationType(),
+      status: (json['Status'] as String?)
+          ?.let(ClientAuthenticationStatus.fromString),
+      type: (json['Type'] as String?)?.let(ClientAuthenticationType.fromString),
     );
   }
 
@@ -3609,67 +3568,40 @@ class ClientAuthenticationSettingInfo {
     return {
       if (lastUpdatedDateTime != null)
         'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ClientAuthenticationStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension ClientAuthenticationStatusValueExtension
-    on ClientAuthenticationStatus {
-  String toValue() {
-    switch (this) {
-      case ClientAuthenticationStatus.enabled:
-        return 'Enabled';
-      case ClientAuthenticationStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension ClientAuthenticationStatusFromString on String {
-  ClientAuthenticationStatus toClientAuthenticationStatus() {
-    switch (this) {
-      case 'Enabled':
-        return ClientAuthenticationStatus.enabled;
-      case 'Disabled':
-        return ClientAuthenticationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ClientAuthenticationStatus');
-  }
+  const ClientAuthenticationStatus(this.value);
+
+  static ClientAuthenticationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClientAuthenticationStatus'));
 }
 
 enum ClientAuthenticationType {
-  smartCard,
-  smartCardOrPassword,
-}
+  smartCard('SmartCard'),
+  smartCardOrPassword('SmartCardOrPassword'),
+  ;
 
-extension ClientAuthenticationTypeValueExtension on ClientAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case ClientAuthenticationType.smartCard:
-        return 'SmartCard';
-      case ClientAuthenticationType.smartCardOrPassword:
-        return 'SmartCardOrPassword';
-    }
-  }
-}
+  final String value;
 
-extension ClientAuthenticationTypeFromString on String {
-  ClientAuthenticationType toClientAuthenticationType() {
-    switch (this) {
-      case 'SmartCard':
-        return ClientAuthenticationType.smartCard;
-      case 'SmartCardOrPassword':
-        return ClientAuthenticationType.smartCardOrPassword;
-    }
-    throw Exception('$this is not known in enum ClientAuthenticationType');
-  }
+  const ClientAuthenticationType(this.value);
+
+  static ClientAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClientAuthenticationType'));
 }
 
 /// Contains information about the client certificate authentication settings
@@ -3771,8 +3703,8 @@ class ConditionalForwarder {
           .map((e) => e as String)
           .toList(),
       remoteDomainName: json['RemoteDomainName'] as String?,
-      replicationScope:
-          (json['ReplicationScope'] as String?)?.toReplicationScope(),
+      replicationScope: (json['ReplicationScope'] as String?)
+          ?.let(ReplicationScope.fromString),
     );
   }
 
@@ -3783,8 +3715,7 @@ class ConditionalForwarder {
     return {
       if (dnsIpAddrs != null) 'DnsIpAddrs': dnsIpAddrs,
       if (remoteDomainName != null) 'RemoteDomainName': remoteDomainName,
-      if (replicationScope != null)
-        'ReplicationScope': replicationScope.toValue(),
+      if (replicationScope != null) 'ReplicationScope': replicationScope.value,
     };
   }
 }
@@ -4564,47 +4495,21 @@ class DescribeUpdateDirectoryResult {
 }
 
 enum DirectoryConfigurationStatus {
-  requested,
-  updating,
-  updated,
-  failed,
-  $default,
-}
+  requested('Requested'),
+  updating('Updating'),
+  updated('Updated'),
+  failed('Failed'),
+  $default('Default'),
+  ;
 
-extension DirectoryConfigurationStatusValueExtension
-    on DirectoryConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case DirectoryConfigurationStatus.requested:
-        return 'Requested';
-      case DirectoryConfigurationStatus.updating:
-        return 'Updating';
-      case DirectoryConfigurationStatus.updated:
-        return 'Updated';
-      case DirectoryConfigurationStatus.failed:
-        return 'Failed';
-      case DirectoryConfigurationStatus.$default:
-        return 'Default';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryConfigurationStatusFromString on String {
-  DirectoryConfigurationStatus toDirectoryConfigurationStatus() {
-    switch (this) {
-      case 'Requested':
-        return DirectoryConfigurationStatus.requested;
-      case 'Updating':
-        return DirectoryConfigurationStatus.updating;
-      case 'Updated':
-        return DirectoryConfigurationStatus.updated;
-      case 'Failed':
-        return DirectoryConfigurationStatus.failed;
-      case 'Default':
-        return DirectoryConfigurationStatus.$default;
-    }
-    throw Exception('$this is not known in enum DirectoryConfigurationStatus');
-  }
+  const DirectoryConfigurationStatus(this.value);
+
+  static DirectoryConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectoryConfigurationStatus'));
 }
 
 /// Contains information for the <a>ConnectDirectory</a> operation when an AD
@@ -4872,10 +4777,10 @@ class DirectoryDescription {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      edition: (json['Edition'] as String?)?.toDirectoryEdition(),
+      edition: (json['Edition'] as String?)?.let(DirectoryEdition.fromString),
       launchTime: timeStampFromJson(json['LaunchTime']),
       name: json['Name'] as String?,
-      osVersion: (json['OsVersion'] as String?)?.toOSVersion(),
+      osVersion: (json['OsVersion'] as String?)?.let(OSVersion.fromString),
       ownerDirectoryDescription: json['OwnerDirectoryDescription'] != null
           ? OwnerDirectoryDescription.fromJson(
               json['OwnerDirectoryDescription'] as Map<String, dynamic>)
@@ -4884,21 +4789,24 @@ class DirectoryDescription {
           ? RadiusSettings.fromJson(
               json['RadiusSettings'] as Map<String, dynamic>)
           : null,
-      radiusStatus: (json['RadiusStatus'] as String?)?.toRadiusStatus(),
+      radiusStatus:
+          (json['RadiusStatus'] as String?)?.let(RadiusStatus.fromString),
       regionsInfo: json['RegionsInfo'] != null
           ? RegionsInfo.fromJson(json['RegionsInfo'] as Map<String, dynamic>)
           : null,
-      shareMethod: (json['ShareMethod'] as String?)?.toShareMethod(),
+      shareMethod:
+          (json['ShareMethod'] as String?)?.let(ShareMethod.fromString),
       shareNotes: json['ShareNotes'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
       shortName: json['ShortName'] as String?,
-      size: (json['Size'] as String?)?.toDirectorySize(),
+      size: (json['Size'] as String?)?.let(DirectorySize.fromString),
       ssoEnabled: json['SsoEnabled'] as bool?,
-      stage: (json['Stage'] as String?)?.toDirectoryStage(),
+      stage: (json['Stage'] as String?)?.let(DirectoryStage.fromString),
       stageLastUpdatedDateTime:
           timeStampFromJson(json['StageLastUpdatedDateTime']),
       stageReason: json['StageReason'] as String?,
-      type: (json['Type'] as String?)?.toDirectoryType(),
+      type: (json['Type'] as String?)?.let(DirectoryType.fromString),
       vpcSettings: json['VpcSettings'] != null
           ? DirectoryVpcSettingsDescription.fromJson(
               json['VpcSettings'] as Map<String, dynamic>)
@@ -4943,58 +4851,45 @@ class DirectoryDescription {
         'DesiredNumberOfDomainControllers': desiredNumberOfDomainControllers,
       if (directoryId != null) 'DirectoryId': directoryId,
       if (dnsIpAddrs != null) 'DnsIpAddrs': dnsIpAddrs,
-      if (edition != null) 'Edition': edition.toValue(),
+      if (edition != null) 'Edition': edition.value,
       if (launchTime != null) 'LaunchTime': unixTimestampToJson(launchTime),
       if (name != null) 'Name': name,
-      if (osVersion != null) 'OsVersion': osVersion.toValue(),
+      if (osVersion != null) 'OsVersion': osVersion.value,
       if (ownerDirectoryDescription != null)
         'OwnerDirectoryDescription': ownerDirectoryDescription,
       if (radiusSettings != null) 'RadiusSettings': radiusSettings,
-      if (radiusStatus != null) 'RadiusStatus': radiusStatus.toValue(),
+      if (radiusStatus != null) 'RadiusStatus': radiusStatus.value,
       if (regionsInfo != null) 'RegionsInfo': regionsInfo,
-      if (shareMethod != null) 'ShareMethod': shareMethod.toValue(),
+      if (shareMethod != null) 'ShareMethod': shareMethod.value,
       if (shareNotes != null) 'ShareNotes': shareNotes,
-      if (shareStatus != null) 'ShareStatus': shareStatus.toValue(),
+      if (shareStatus != null) 'ShareStatus': shareStatus.value,
       if (shortName != null) 'ShortName': shortName,
-      if (size != null) 'Size': size.toValue(),
+      if (size != null) 'Size': size.value,
       if (ssoEnabled != null) 'SsoEnabled': ssoEnabled,
-      if (stage != null) 'Stage': stage.toValue(),
+      if (stage != null) 'Stage': stage.value,
       if (stageLastUpdatedDateTime != null)
         'StageLastUpdatedDateTime':
             unixTimestampToJson(stageLastUpdatedDateTime),
       if (stageReason != null) 'StageReason': stageReason,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (vpcSettings != null) 'VpcSettings': vpcSettings,
     };
   }
 }
 
 enum DirectoryEdition {
-  enterprise,
-  standard,
-}
+  enterprise('Enterprise'),
+  standard('Standard'),
+  ;
 
-extension DirectoryEditionValueExtension on DirectoryEdition {
-  String toValue() {
-    switch (this) {
-      case DirectoryEdition.enterprise:
-        return 'Enterprise';
-      case DirectoryEdition.standard:
-        return 'Standard';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryEditionFromString on String {
-  DirectoryEdition toDirectoryEdition() {
-    switch (this) {
-      case 'Enterprise':
-        return DirectoryEdition.enterprise;
-      case 'Standard':
-        return DirectoryEdition.standard;
-    }
-    throw Exception('$this is not known in enum DirectoryEdition');
-  }
+  const DirectoryEdition(this.value);
+
+  static DirectoryEdition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DirectoryEdition'));
 }
 
 /// Contains directory limit information for a Region.
@@ -5099,142 +4994,59 @@ class DirectoryLimits {
 }
 
 enum DirectorySize {
-  small,
-  large,
-}
+  small('Small'),
+  large('Large'),
+  ;
 
-extension DirectorySizeValueExtension on DirectorySize {
-  String toValue() {
-    switch (this) {
-      case DirectorySize.small:
-        return 'Small';
-      case DirectorySize.large:
-        return 'Large';
-    }
-  }
-}
+  final String value;
 
-extension DirectorySizeFromString on String {
-  DirectorySize toDirectorySize() {
-    switch (this) {
-      case 'Small':
-        return DirectorySize.small;
-      case 'Large':
-        return DirectorySize.large;
-    }
-    throw Exception('$this is not known in enum DirectorySize');
-  }
+  const DirectorySize(this.value);
+
+  static DirectorySize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DirectorySize'));
 }
 
 enum DirectoryStage {
-  requested,
-  creating,
-  created,
-  active,
-  inoperable,
-  impaired,
-  restoring,
-  restoreFailed,
-  deleting,
-  deleted,
-  failed,
-}
+  requested('Requested'),
+  creating('Creating'),
+  created('Created'),
+  active('Active'),
+  inoperable('Inoperable'),
+  impaired('Impaired'),
+  restoring('Restoring'),
+  restoreFailed('RestoreFailed'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  failed('Failed'),
+  ;
 
-extension DirectoryStageValueExtension on DirectoryStage {
-  String toValue() {
-    switch (this) {
-      case DirectoryStage.requested:
-        return 'Requested';
-      case DirectoryStage.creating:
-        return 'Creating';
-      case DirectoryStage.created:
-        return 'Created';
-      case DirectoryStage.active:
-        return 'Active';
-      case DirectoryStage.inoperable:
-        return 'Inoperable';
-      case DirectoryStage.impaired:
-        return 'Impaired';
-      case DirectoryStage.restoring:
-        return 'Restoring';
-      case DirectoryStage.restoreFailed:
-        return 'RestoreFailed';
-      case DirectoryStage.deleting:
-        return 'Deleting';
-      case DirectoryStage.deleted:
-        return 'Deleted';
-      case DirectoryStage.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryStageFromString on String {
-  DirectoryStage toDirectoryStage() {
-    switch (this) {
-      case 'Requested':
-        return DirectoryStage.requested;
-      case 'Creating':
-        return DirectoryStage.creating;
-      case 'Created':
-        return DirectoryStage.created;
-      case 'Active':
-        return DirectoryStage.active;
-      case 'Inoperable':
-        return DirectoryStage.inoperable;
-      case 'Impaired':
-        return DirectoryStage.impaired;
-      case 'Restoring':
-        return DirectoryStage.restoring;
-      case 'RestoreFailed':
-        return DirectoryStage.restoreFailed;
-      case 'Deleting':
-        return DirectoryStage.deleting;
-      case 'Deleted':
-        return DirectoryStage.deleted;
-      case 'Failed':
-        return DirectoryStage.failed;
-    }
-    throw Exception('$this is not known in enum DirectoryStage');
-  }
+  const DirectoryStage(this.value);
+
+  static DirectoryStage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DirectoryStage'));
 }
 
 enum DirectoryType {
-  simpleAD,
-  aDConnector,
-  microsoftAD,
-  sharedMicrosoftAD,
-}
+  simpleAD('SimpleAD'),
+  aDConnector('ADConnector'),
+  microsoftAD('MicrosoftAD'),
+  sharedMicrosoftAD('SharedMicrosoftAD'),
+  ;
 
-extension DirectoryTypeValueExtension on DirectoryType {
-  String toValue() {
-    switch (this) {
-      case DirectoryType.simpleAD:
-        return 'SimpleAD';
-      case DirectoryType.aDConnector:
-        return 'ADConnector';
-      case DirectoryType.microsoftAD:
-        return 'MicrosoftAD';
-      case DirectoryType.sharedMicrosoftAD:
-        return 'SharedMicrosoftAD';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryTypeFromString on String {
-  DirectoryType toDirectoryType() {
-    switch (this) {
-      case 'SimpleAD':
-        return DirectoryType.simpleAD;
-      case 'ADConnector':
-        return DirectoryType.aDConnector;
-      case 'MicrosoftAD':
-        return DirectoryType.microsoftAD;
-      case 'SharedMicrosoftAD':
-        return DirectoryType.sharedMicrosoftAD;
-    }
-    throw Exception('$this is not known in enum DirectoryType');
-  }
+  const DirectoryType(this.value);
+
+  static DirectoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DirectoryType'));
 }
 
 /// Contains VPC information for the <a>CreateDirectory</a> or
@@ -5425,7 +5237,8 @@ class DomainController {
       dnsIpAddr: json['DnsIpAddr'] as String?,
       domainControllerId: json['DomainControllerId'] as String?,
       launchTime: timeStampFromJson(json['LaunchTime']),
-      status: (json['Status'] as String?)?.toDomainControllerStatus(),
+      status:
+          (json['Status'] as String?)?.let(DomainControllerStatus.fromString),
       statusLastUpdatedDateTime:
           timeStampFromJson(json['StatusLastUpdatedDateTime']),
       statusReason: json['StatusReason'] as String?,
@@ -5451,7 +5264,7 @@ class DomainController {
       if (dnsIpAddr != null) 'DnsIpAddr': dnsIpAddr,
       if (domainControllerId != null) 'DomainControllerId': domainControllerId,
       if (launchTime != null) 'LaunchTime': unixTimestampToJson(launchTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusLastUpdatedDateTime != null)
         'StatusLastUpdatedDateTime':
             unixTimestampToJson(statusLastUpdatedDateTime),
@@ -5463,56 +5276,23 @@ class DomainController {
 }
 
 enum DomainControllerStatus {
-  creating,
-  active,
-  impaired,
-  restoring,
-  deleting,
-  deleted,
-  failed,
-}
+  creating('Creating'),
+  active('Active'),
+  impaired('Impaired'),
+  restoring('Restoring'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  failed('Failed'),
+  ;
 
-extension DomainControllerStatusValueExtension on DomainControllerStatus {
-  String toValue() {
-    switch (this) {
-      case DomainControllerStatus.creating:
-        return 'Creating';
-      case DomainControllerStatus.active:
-        return 'Active';
-      case DomainControllerStatus.impaired:
-        return 'Impaired';
-      case DomainControllerStatus.restoring:
-        return 'Restoring';
-      case DomainControllerStatus.deleting:
-        return 'Deleting';
-      case DomainControllerStatus.deleted:
-        return 'Deleted';
-      case DomainControllerStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DomainControllerStatusFromString on String {
-  DomainControllerStatus toDomainControllerStatus() {
-    switch (this) {
-      case 'Creating':
-        return DomainControllerStatus.creating;
-      case 'Active':
-        return DomainControllerStatus.active;
-      case 'Impaired':
-        return DomainControllerStatus.impaired;
-      case 'Restoring':
-        return DomainControllerStatus.restoring;
-      case 'Deleting':
-        return DomainControllerStatus.deleting;
-      case 'Deleted':
-        return DomainControllerStatus.deleted;
-      case 'Failed':
-        return DomainControllerStatus.failed;
-    }
-    throw Exception('$this is not known in enum DomainControllerStatus');
-  }
+  const DomainControllerStatus(this.value);
+
+  static DomainControllerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DomainControllerStatus'));
 }
 
 class EnableClientAuthenticationResult {
@@ -5598,7 +5378,7 @@ class EventTopic {
     return EventTopic(
       createdDateTime: timeStampFromJson(json['CreatedDateTime']),
       directoryId: json['DirectoryId'] as String?,
-      status: (json['Status'] as String?)?.toTopicStatus(),
+      status: (json['Status'] as String?)?.let(TopicStatus.fromString),
       topicArn: json['TopicArn'] as String?,
       topicName: json['TopicName'] as String?,
     );
@@ -5614,7 +5394,7 @@ class EventTopic {
       if (createdDateTime != null)
         'CreatedDateTime': unixTimestampToJson(createdDateTime),
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (topicArn != null) 'TopicArn': topicArn,
       if (topicName != null) 'TopicName': topicName,
     };
@@ -5737,8 +5517,8 @@ class IpRouteInfo {
       cidrIp: json['CidrIp'] as String?,
       description: json['Description'] as String?,
       directoryId: json['DirectoryId'] as String?,
-      ipRouteStatusMsg:
-          (json['IpRouteStatusMsg'] as String?)?.toIpRouteStatusMsg(),
+      ipRouteStatusMsg: (json['IpRouteStatusMsg'] as String?)
+          ?.let(IpRouteStatusMsg.fromString),
       ipRouteStatusReason: json['IpRouteStatusReason'] as String?,
     );
   }
@@ -5756,8 +5536,7 @@ class IpRouteInfo {
       if (cidrIp != null) 'CidrIp': cidrIp,
       if (description != null) 'Description': description,
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (ipRouteStatusMsg != null)
-        'IpRouteStatusMsg': ipRouteStatusMsg.toValue(),
+      if (ipRouteStatusMsg != null) 'IpRouteStatusMsg': ipRouteStatusMsg.value,
       if (ipRouteStatusReason != null)
         'IpRouteStatusReason': ipRouteStatusReason,
     };
@@ -5765,51 +5544,22 @@ class IpRouteInfo {
 }
 
 enum IpRouteStatusMsg {
-  adding,
-  added,
-  removing,
-  removed,
-  addFailed,
-  removeFailed,
-}
+  adding('Adding'),
+  added('Added'),
+  removing('Removing'),
+  removed('Removed'),
+  addFailed('AddFailed'),
+  removeFailed('RemoveFailed'),
+  ;
 
-extension IpRouteStatusMsgValueExtension on IpRouteStatusMsg {
-  String toValue() {
-    switch (this) {
-      case IpRouteStatusMsg.adding:
-        return 'Adding';
-      case IpRouteStatusMsg.added:
-        return 'Added';
-      case IpRouteStatusMsg.removing:
-        return 'Removing';
-      case IpRouteStatusMsg.removed:
-        return 'Removed';
-      case IpRouteStatusMsg.addFailed:
-        return 'AddFailed';
-      case IpRouteStatusMsg.removeFailed:
-        return 'RemoveFailed';
-    }
-  }
-}
+  final String value;
 
-extension IpRouteStatusMsgFromString on String {
-  IpRouteStatusMsg toIpRouteStatusMsg() {
-    switch (this) {
-      case 'Adding':
-        return IpRouteStatusMsg.adding;
-      case 'Added':
-        return IpRouteStatusMsg.added;
-      case 'Removing':
-        return IpRouteStatusMsg.removing;
-      case 'Removed':
-        return IpRouteStatusMsg.removed;
-      case 'AddFailed':
-        return IpRouteStatusMsg.addFailed;
-      case 'RemoveFailed':
-        return IpRouteStatusMsg.removeFailed;
-    }
-    throw Exception('$this is not known in enum IpRouteStatusMsg');
-  }
+  const IpRouteStatusMsg(this.value);
+
+  static IpRouteStatusMsg fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IpRouteStatusMsg'));
 }
 
 /// Contains general information about the LDAPS settings.
@@ -5831,7 +5581,8 @@ class LDAPSSettingInfo {
 
   factory LDAPSSettingInfo.fromJson(Map<String, dynamic> json) {
     return LDAPSSettingInfo(
-      lDAPSStatus: (json['LDAPSStatus'] as String?)?.toLDAPSStatus(),
+      lDAPSStatus:
+          (json['LDAPSStatus'] as String?)?.let(LDAPSStatus.fromString),
       lDAPSStatusReason: json['LDAPSStatusReason'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
     );
@@ -5842,7 +5593,7 @@ class LDAPSSettingInfo {
     final lDAPSStatusReason = this.lDAPSStatusReason;
     final lastUpdatedDateTime = this.lastUpdatedDateTime;
     return {
-      if (lDAPSStatus != null) 'LDAPSStatus': lDAPSStatus.toValue(),
+      if (lDAPSStatus != null) 'LDAPSStatus': lDAPSStatus.value,
       if (lDAPSStatusReason != null) 'LDAPSStatusReason': lDAPSStatusReason,
       if (lastUpdatedDateTime != null)
         'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
@@ -5851,64 +5602,32 @@ class LDAPSSettingInfo {
 }
 
 enum LDAPSStatus {
-  enabling,
-  enabled,
-  enableFailed,
-  disabled,
-}
+  enabling('Enabling'),
+  enabled('Enabled'),
+  enableFailed('EnableFailed'),
+  disabled('Disabled'),
+  ;
 
-extension LDAPSStatusValueExtension on LDAPSStatus {
-  String toValue() {
-    switch (this) {
-      case LDAPSStatus.enabling:
-        return 'Enabling';
-      case LDAPSStatus.enabled:
-        return 'Enabled';
-      case LDAPSStatus.enableFailed:
-        return 'EnableFailed';
-      case LDAPSStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension LDAPSStatusFromString on String {
-  LDAPSStatus toLDAPSStatus() {
-    switch (this) {
-      case 'Enabling':
-        return LDAPSStatus.enabling;
-      case 'Enabled':
-        return LDAPSStatus.enabled;
-      case 'EnableFailed':
-        return LDAPSStatus.enableFailed;
-      case 'Disabled':
-        return LDAPSStatus.disabled;
-    }
-    throw Exception('$this is not known in enum LDAPSStatus');
-  }
+  const LDAPSStatus(this.value);
+
+  static LDAPSStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LDAPSStatus'));
 }
 
 enum LDAPSType {
-  client,
-}
+  client('Client'),
+  ;
 
-extension LDAPSTypeValueExtension on LDAPSType {
-  String toValue() {
-    switch (this) {
-      case LDAPSType.client:
-        return 'Client';
-    }
-  }
-}
+  final String value;
 
-extension LDAPSTypeFromString on String {
-  LDAPSType toLDAPSType() {
-    switch (this) {
-      case 'Client':
-        return LDAPSType.client;
-    }
-    throw Exception('$this is not known in enum LDAPSType');
-  }
+  const LDAPSType(this.value);
+
+  static LDAPSType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LDAPSType'));
 }
 
 class ListCertificatesResult {
@@ -6132,44 +5851,30 @@ class OSUpdateSettings {
 
   factory OSUpdateSettings.fromJson(Map<String, dynamic> json) {
     return OSUpdateSettings(
-      oSVersion: (json['OSVersion'] as String?)?.toOSVersion(),
+      oSVersion: (json['OSVersion'] as String?)?.let(OSVersion.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final oSVersion = this.oSVersion;
     return {
-      if (oSVersion != null) 'OSVersion': oSVersion.toValue(),
+      if (oSVersion != null) 'OSVersion': oSVersion.value,
     };
   }
 }
 
 enum OSVersion {
-  server_2012,
-  server_2019,
-}
+  server_2012('SERVER_2012'),
+  server_2019('SERVER_2019'),
+  ;
 
-extension OSVersionValueExtension on OSVersion {
-  String toValue() {
-    switch (this) {
-      case OSVersion.server_2012:
-        return 'SERVER_2012';
-      case OSVersion.server_2019:
-        return 'SERVER_2019';
-    }
-  }
-}
+  final String value;
 
-extension OSVersionFromString on String {
-  OSVersion toOSVersion() {
-    switch (this) {
-      case 'SERVER_2012':
-        return OSVersion.server_2012;
-      case 'SERVER_2019':
-        return OSVersion.server_2019;
-    }
-    throw Exception('$this is not known in enum OSVersion');
-  }
+  const OSVersion(this.value);
+
+  static OSVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OSVersion'));
 }
 
 /// Describes the directory owner account details that have been shared to the
@@ -6216,7 +5921,8 @@ class OwnerDirectoryDescription {
           ? RadiusSettings.fromJson(
               json['RadiusSettings'] as Map<String, dynamic>)
           : null,
-      radiusStatus: (json['RadiusStatus'] as String?)?.toRadiusStatus(),
+      radiusStatus:
+          (json['RadiusStatus'] as String?)?.let(RadiusStatus.fromString),
       vpcSettings: json['VpcSettings'] != null
           ? DirectoryVpcSettingsDescription.fromJson(
               json['VpcSettings'] as Map<String, dynamic>)
@@ -6236,49 +5942,27 @@ class OwnerDirectoryDescription {
       if (directoryId != null) 'DirectoryId': directoryId,
       if (dnsIpAddrs != null) 'DnsIpAddrs': dnsIpAddrs,
       if (radiusSettings != null) 'RadiusSettings': radiusSettings,
-      if (radiusStatus != null) 'RadiusStatus': radiusStatus.toValue(),
+      if (radiusStatus != null) 'RadiusStatus': radiusStatus.value,
       if (vpcSettings != null) 'VpcSettings': vpcSettings,
     };
   }
 }
 
 enum RadiusAuthenticationProtocol {
-  pap,
-  chap,
-  msCHAPv1,
-  msCHAPv2,
-}
+  pap('PAP'),
+  chap('CHAP'),
+  msCHAPv1('MS-CHAPv1'),
+  msCHAPv2('MS-CHAPv2'),
+  ;
 
-extension RadiusAuthenticationProtocolValueExtension
-    on RadiusAuthenticationProtocol {
-  String toValue() {
-    switch (this) {
-      case RadiusAuthenticationProtocol.pap:
-        return 'PAP';
-      case RadiusAuthenticationProtocol.chap:
-        return 'CHAP';
-      case RadiusAuthenticationProtocol.msCHAPv1:
-        return 'MS-CHAPv1';
-      case RadiusAuthenticationProtocol.msCHAPv2:
-        return 'MS-CHAPv2';
-    }
-  }
-}
+  final String value;
 
-extension RadiusAuthenticationProtocolFromString on String {
-  RadiusAuthenticationProtocol toRadiusAuthenticationProtocol() {
-    switch (this) {
-      case 'PAP':
-        return RadiusAuthenticationProtocol.pap;
-      case 'CHAP':
-        return RadiusAuthenticationProtocol.chap;
-      case 'MS-CHAPv1':
-        return RadiusAuthenticationProtocol.msCHAPv1;
-      case 'MS-CHAPv2':
-        return RadiusAuthenticationProtocol.msCHAPv2;
-    }
-    throw Exception('$this is not known in enum RadiusAuthenticationProtocol');
-  }
+  const RadiusAuthenticationProtocol(this.value);
+
+  static RadiusAuthenticationProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RadiusAuthenticationProtocol'));
 }
 
 /// Contains information about a Remote Authentication Dial In User Service
@@ -6327,7 +6011,7 @@ class RadiusSettings {
   factory RadiusSettings.fromJson(Map<String, dynamic> json) {
     return RadiusSettings(
       authenticationProtocol: (json['AuthenticationProtocol'] as String?)
-          ?.toRadiusAuthenticationProtocol(),
+          ?.let(RadiusAuthenticationProtocol.fromString),
       displayLabel: json['DisplayLabel'] as String?,
       radiusPort: json['RadiusPort'] as int?,
       radiusRetries: json['RadiusRetries'] as int?,
@@ -6352,7 +6036,7 @@ class RadiusSettings {
     final useSameUsername = this.useSameUsername;
     return {
       if (authenticationProtocol != null)
-        'AuthenticationProtocol': authenticationProtocol.toValue(),
+        'AuthenticationProtocol': authenticationProtocol.value,
       if (displayLabel != null) 'DisplayLabel': displayLabel,
       if (radiusPort != null) 'RadiusPort': radiusPort,
       if (radiusRetries != null) 'RadiusRetries': radiusRetries,
@@ -6365,36 +6049,19 @@ class RadiusSettings {
 }
 
 enum RadiusStatus {
-  creating,
-  completed,
-  failed,
-}
+  creating('Creating'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension RadiusStatusValueExtension on RadiusStatus {
-  String toValue() {
-    switch (this) {
-      case RadiusStatus.creating:
-        return 'Creating';
-      case RadiusStatus.completed:
-        return 'Completed';
-      case RadiusStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension RadiusStatusFromString on String {
-  RadiusStatus toRadiusStatus() {
-    switch (this) {
-      case 'Creating':
-        return RadiusStatus.creating;
-      case 'Completed':
-        return RadiusStatus.completed;
-      case 'Failed':
-        return RadiusStatus.failed;
-    }
-    throw Exception('$this is not known in enum RadiusStatus');
-  }
+  const RadiusStatus(this.value);
+
+  static RadiusStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RadiusStatus'));
 }
 
 /// The replicated Region information for a directory.
@@ -6445,8 +6112,8 @@ class RegionDescription {
       lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
       launchTime: timeStampFromJson(json['LaunchTime']),
       regionName: json['RegionName'] as String?,
-      regionType: (json['RegionType'] as String?)?.toRegionType(),
-      status: (json['Status'] as String?)?.toDirectoryStage(),
+      regionType: (json['RegionType'] as String?)?.let(RegionType.fromString),
+      status: (json['Status'] as String?)?.let(DirectoryStage.fromString),
       statusLastUpdatedDateTime:
           timeStampFromJson(json['StatusLastUpdatedDateTime']),
       vpcSettings: json['VpcSettings'] != null
@@ -6475,8 +6142,8 @@ class RegionDescription {
         'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (launchTime != null) 'LaunchTime': unixTimestampToJson(launchTime),
       if (regionName != null) 'RegionName': regionName,
-      if (regionType != null) 'RegionType': regionType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (regionType != null) 'RegionType': regionType.value,
+      if (status != null) 'Status': status.value,
       if (statusLastUpdatedDateTime != null)
         'StatusLastUpdatedDateTime':
             unixTimestampToJson(statusLastUpdatedDateTime),
@@ -6486,31 +6153,17 @@ class RegionDescription {
 }
 
 enum RegionType {
-  primary,
-  additional,
-}
+  primary('Primary'),
+  additional('Additional'),
+  ;
 
-extension RegionTypeValueExtension on RegionType {
-  String toValue() {
-    switch (this) {
-      case RegionType.primary:
-        return 'Primary';
-      case RegionType.additional:
-        return 'Additional';
-    }
-  }
-}
+  final String value;
 
-extension RegionTypeFromString on String {
-  RegionType toRegionType() {
-    switch (this) {
-      case 'Primary':
-        return RegionType.primary;
-      case 'Additional':
-        return RegionType.additional;
-    }
-    throw Exception('$this is not known in enum RegionType');
-  }
+  const RegionType(this.value);
+
+  static RegionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RegionType'));
 }
 
 /// Provides information about the Regions that are configured for multi-Region
@@ -6642,26 +6295,17 @@ class RemoveTagsFromResourceResult {
 }
 
 enum ReplicationScope {
-  domain,
-}
+  domain('Domain'),
+  ;
 
-extension ReplicationScopeValueExtension on ReplicationScope {
-  String toValue() {
-    switch (this) {
-      case ReplicationScope.domain:
-        return 'Domain';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationScopeFromString on String {
-  ReplicationScope toReplicationScope() {
-    switch (this) {
-      case 'Domain':
-        return ReplicationScope.domain;
-    }
-    throw Exception('$this is not known in enum ReplicationScope');
-  }
+  const ReplicationScope(this.value);
+
+  static ReplicationScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReplicationScope'));
 }
 
 class ResetUserPasswordResult {
@@ -6729,8 +6373,8 @@ class SchemaExtensionInfo {
       directoryId: json['DirectoryId'] as String?,
       endDateTime: timeStampFromJson(json['EndDateTime']),
       schemaExtensionId: json['SchemaExtensionId'] as String?,
-      schemaExtensionStatus:
-          (json['SchemaExtensionStatus'] as String?)?.toSchemaExtensionStatus(),
+      schemaExtensionStatus: (json['SchemaExtensionStatus'] as String?)
+          ?.let(SchemaExtensionStatus.fromString),
       schemaExtensionStatusReason:
           json['SchemaExtensionStatusReason'] as String?,
       startDateTime: timeStampFromJson(json['StartDateTime']),
@@ -6751,7 +6395,7 @@ class SchemaExtensionInfo {
       if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
       if (schemaExtensionId != null) 'SchemaExtensionId': schemaExtensionId,
       if (schemaExtensionStatus != null)
-        'SchemaExtensionStatus': schemaExtensionStatus.toValue(),
+        'SchemaExtensionStatus': schemaExtensionStatus.value,
       if (schemaExtensionStatusReason != null)
         'SchemaExtensionStatusReason': schemaExtensionStatusReason,
       if (startDateTime != null)
@@ -6761,94 +6405,40 @@ class SchemaExtensionInfo {
 }
 
 enum SchemaExtensionStatus {
-  initializing,
-  creatingSnapshot,
-  updatingSchema,
-  replicating,
-  cancelInProgress,
-  rollbackInProgress,
-  cancelled,
-  failed,
-  completed,
-}
+  initializing('Initializing'),
+  creatingSnapshot('CreatingSnapshot'),
+  updatingSchema('UpdatingSchema'),
+  replicating('Replicating'),
+  cancelInProgress('CancelInProgress'),
+  rollbackInProgress('RollbackInProgress'),
+  cancelled('Cancelled'),
+  failed('Failed'),
+  completed('Completed'),
+  ;
 
-extension SchemaExtensionStatusValueExtension on SchemaExtensionStatus {
-  String toValue() {
-    switch (this) {
-      case SchemaExtensionStatus.initializing:
-        return 'Initializing';
-      case SchemaExtensionStatus.creatingSnapshot:
-        return 'CreatingSnapshot';
-      case SchemaExtensionStatus.updatingSchema:
-        return 'UpdatingSchema';
-      case SchemaExtensionStatus.replicating:
-        return 'Replicating';
-      case SchemaExtensionStatus.cancelInProgress:
-        return 'CancelInProgress';
-      case SchemaExtensionStatus.rollbackInProgress:
-        return 'RollbackInProgress';
-      case SchemaExtensionStatus.cancelled:
-        return 'Cancelled';
-      case SchemaExtensionStatus.failed:
-        return 'Failed';
-      case SchemaExtensionStatus.completed:
-        return 'Completed';
-    }
-  }
-}
+  final String value;
 
-extension SchemaExtensionStatusFromString on String {
-  SchemaExtensionStatus toSchemaExtensionStatus() {
-    switch (this) {
-      case 'Initializing':
-        return SchemaExtensionStatus.initializing;
-      case 'CreatingSnapshot':
-        return SchemaExtensionStatus.creatingSnapshot;
-      case 'UpdatingSchema':
-        return SchemaExtensionStatus.updatingSchema;
-      case 'Replicating':
-        return SchemaExtensionStatus.replicating;
-      case 'CancelInProgress':
-        return SchemaExtensionStatus.cancelInProgress;
-      case 'RollbackInProgress':
-        return SchemaExtensionStatus.rollbackInProgress;
-      case 'Cancelled':
-        return SchemaExtensionStatus.cancelled;
-      case 'Failed':
-        return SchemaExtensionStatus.failed;
-      case 'Completed':
-        return SchemaExtensionStatus.completed;
-    }
-    throw Exception('$this is not known in enum SchemaExtensionStatus');
-  }
+  const SchemaExtensionStatus(this.value);
+
+  static SchemaExtensionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SchemaExtensionStatus'));
 }
 
 enum SelectiveAuth {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension SelectiveAuthValueExtension on SelectiveAuth {
-  String toValue() {
-    switch (this) {
-      case SelectiveAuth.enabled:
-        return 'Enabled';
-      case SelectiveAuth.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension SelectiveAuthFromString on String {
-  SelectiveAuth toSelectiveAuth() {
-    switch (this) {
-      case 'Enabled':
-        return SelectiveAuth.enabled;
-      case 'Disabled':
-        return SelectiveAuth.disabled;
-    }
-    throw Exception('$this is not known in enum SelectiveAuth');
-  }
+  const SelectiveAuth(this.value);
+
+  static SelectiveAuth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SelectiveAuth'));
 }
 
 /// Contains information about the configurable settings for a directory.
@@ -6950,10 +6540,10 @@ class SettingEntry {
       name: json['Name'] as String?,
       requestDetailedStatus:
           (json['RequestDetailedStatus'] as Map<String, dynamic>?)?.map(
-              (k, e) =>
-                  MapEntry(k, (e as String).toDirectoryConfigurationStatus())),
-      requestStatus:
-          (json['RequestStatus'] as String?)?.toDirectoryConfigurationStatus(),
+              (k, e) => MapEntry(
+                  k, DirectoryConfigurationStatus.fromString((e as String)))),
+      requestStatus: (json['RequestStatus'] as String?)
+          ?.let(DirectoryConfigurationStatus.fromString),
       requestStatusMessage: json['RequestStatusMessage'] as String?,
       requestedValue: json['RequestedValue'] as String?,
       type: json['Type'] as String?,
@@ -6983,8 +6573,8 @@ class SettingEntry {
       if (name != null) 'Name': name,
       if (requestDetailedStatus != null)
         'RequestDetailedStatus':
-            requestDetailedStatus.map((k, e) => MapEntry(k, e.toValue())),
-      if (requestStatus != null) 'RequestStatus': requestStatus.toValue(),
+            requestDetailedStatus.map((k, e) => MapEntry(k, e.value)),
+      if (requestStatus != null) 'RequestStatus': requestStatus.value,
       if (requestStatusMessage != null)
         'RequestStatusMessage': requestStatusMessage,
       if (requestedValue != null) 'RequestedValue': requestedValue,
@@ -7017,94 +6607,38 @@ class ShareDirectoryResult {
 }
 
 enum ShareMethod {
-  organizations,
-  handshake,
-}
+  organizations('ORGANIZATIONS'),
+  handshake('HANDSHAKE'),
+  ;
 
-extension ShareMethodValueExtension on ShareMethod {
-  String toValue() {
-    switch (this) {
-      case ShareMethod.organizations:
-        return 'ORGANIZATIONS';
-      case ShareMethod.handshake:
-        return 'HANDSHAKE';
-    }
-  }
-}
+  final String value;
 
-extension ShareMethodFromString on String {
-  ShareMethod toShareMethod() {
-    switch (this) {
-      case 'ORGANIZATIONS':
-        return ShareMethod.organizations;
-      case 'HANDSHAKE':
-        return ShareMethod.handshake;
-    }
-    throw Exception('$this is not known in enum ShareMethod');
-  }
+  const ShareMethod(this.value);
+
+  static ShareMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareMethod'));
 }
 
 enum ShareStatus {
-  shared,
-  pendingAcceptance,
-  rejected,
-  rejecting,
-  rejectFailed,
-  sharing,
-  shareFailed,
-  deleted,
-  deleting,
-}
+  shared('Shared'),
+  pendingAcceptance('PendingAcceptance'),
+  rejected('Rejected'),
+  rejecting('Rejecting'),
+  rejectFailed('RejectFailed'),
+  sharing('Sharing'),
+  shareFailed('ShareFailed'),
+  deleted('Deleted'),
+  deleting('Deleting'),
+  ;
 
-extension ShareStatusValueExtension on ShareStatus {
-  String toValue() {
-    switch (this) {
-      case ShareStatus.shared:
-        return 'Shared';
-      case ShareStatus.pendingAcceptance:
-        return 'PendingAcceptance';
-      case ShareStatus.rejected:
-        return 'Rejected';
-      case ShareStatus.rejecting:
-        return 'Rejecting';
-      case ShareStatus.rejectFailed:
-        return 'RejectFailed';
-      case ShareStatus.sharing:
-        return 'Sharing';
-      case ShareStatus.shareFailed:
-        return 'ShareFailed';
-      case ShareStatus.deleted:
-        return 'Deleted';
-      case ShareStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusFromString on String {
-  ShareStatus toShareStatus() {
-    switch (this) {
-      case 'Shared':
-        return ShareStatus.shared;
-      case 'PendingAcceptance':
-        return ShareStatus.pendingAcceptance;
-      case 'Rejected':
-        return ShareStatus.rejected;
-      case 'Rejecting':
-        return ShareStatus.rejecting;
-      case 'RejectFailed':
-        return ShareStatus.rejectFailed;
-      case 'Sharing':
-        return ShareStatus.sharing;
-      case 'ShareFailed':
-        return ShareStatus.shareFailed;
-      case 'Deleted':
-        return ShareStatus.deleted;
-      case 'Deleting':
-        return ShareStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ShareStatus');
-  }
+  const ShareStatus(this.value);
+
+  static ShareStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
 }
 
 /// Identifier that contains details about the directory consumer account.
@@ -7125,7 +6659,7 @@ class ShareTarget {
     final type = this.type;
     return {
       'Id': id,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -7187,9 +6721,11 @@ class SharedDirectory {
       lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
       ownerAccountId: json['OwnerAccountId'] as String?,
       ownerDirectoryId: json['OwnerDirectoryId'] as String?,
-      shareMethod: (json['ShareMethod'] as String?)?.toShareMethod(),
+      shareMethod:
+          (json['ShareMethod'] as String?)?.let(ShareMethod.fromString),
       shareNotes: json['ShareNotes'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
       sharedAccountId: json['SharedAccountId'] as String?,
       sharedDirectoryId: json['SharedDirectoryId'] as String?,
     );
@@ -7212,9 +6748,9 @@ class SharedDirectory {
         'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (ownerDirectoryId != null) 'OwnerDirectoryId': ownerDirectoryId,
-      if (shareMethod != null) 'ShareMethod': shareMethod.toValue(),
+      if (shareMethod != null) 'ShareMethod': shareMethod.value,
       if (shareNotes != null) 'ShareNotes': shareNotes,
-      if (shareStatus != null) 'ShareStatus': shareStatus.toValue(),
+      if (shareStatus != null) 'ShareStatus': shareStatus.value,
       if (sharedAccountId != null) 'SharedAccountId': sharedAccountId,
       if (sharedDirectoryId != null) 'SharedDirectoryId': sharedDirectoryId,
     };
@@ -7256,8 +6792,8 @@ class Snapshot {
       name: json['Name'] as String?,
       snapshotId: json['SnapshotId'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toSnapshotStatus(),
-      type: (json['Type'] as String?)?.toSnapshotType(),
+      status: (json['Status'] as String?)?.let(SnapshotStatus.fromString),
+      type: (json['Type'] as String?)?.let(SnapshotType.fromString),
     );
   }
 
@@ -7273,8 +6809,8 @@ class Snapshot {
       if (name != null) 'Name': name,
       if (snapshotId != null) 'SnapshotId': snapshotId,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -7320,64 +6856,34 @@ class SnapshotLimits {
 }
 
 enum SnapshotStatus {
-  creating,
-  completed,
-  failed,
-}
+  creating('Creating'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension SnapshotStatusValueExtension on SnapshotStatus {
-  String toValue() {
-    switch (this) {
-      case SnapshotStatus.creating:
-        return 'Creating';
-      case SnapshotStatus.completed:
-        return 'Completed';
-      case SnapshotStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotStatusFromString on String {
-  SnapshotStatus toSnapshotStatus() {
-    switch (this) {
-      case 'Creating':
-        return SnapshotStatus.creating;
-      case 'Completed':
-        return SnapshotStatus.completed;
-      case 'Failed':
-        return SnapshotStatus.failed;
-    }
-    throw Exception('$this is not known in enum SnapshotStatus');
-  }
+  const SnapshotStatus(this.value);
+
+  static SnapshotStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotStatus'));
 }
 
 enum SnapshotType {
-  auto,
-  manual,
-}
+  auto('Auto'),
+  manual('Manual'),
+  ;
 
-extension SnapshotTypeValueExtension on SnapshotType {
-  String toValue() {
-    switch (this) {
-      case SnapshotType.auto:
-        return 'Auto';
-      case SnapshotType.manual:
-        return 'Manual';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotTypeFromString on String {
-  SnapshotType toSnapshotType() {
-    switch (this) {
-      case 'Auto':
-        return SnapshotType.auto;
-      case 'Manual':
-        return SnapshotType.manual;
-    }
-    throw Exception('$this is not known in enum SnapshotType');
-  }
+  const SnapshotType(this.value);
+
+  static SnapshotType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotType'));
 }
 
 class StartSchemaExtensionResult {
@@ -7439,64 +6945,32 @@ class Tag {
 }
 
 enum TargetType {
-  account,
-}
+  account('ACCOUNT'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.account:
-        return 'ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return TargetType.account;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 enum TopicStatus {
-  registered,
-  topicNotFound,
-  failed,
-  deleted,
-}
+  registered('Registered'),
+  topicNotFound('Topic not found'),
+  failed('Failed'),
+  deleted('Deleted'),
+  ;
 
-extension TopicStatusValueExtension on TopicStatus {
-  String toValue() {
-    switch (this) {
-      case TopicStatus.registered:
-        return 'Registered';
-      case TopicStatus.topicNotFound:
-        return 'Topic not found';
-      case TopicStatus.failed:
-        return 'Failed';
-      case TopicStatus.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension TopicStatusFromString on String {
-  TopicStatus toTopicStatus() {
-    switch (this) {
-      case 'Registered':
-        return TopicStatus.registered;
-      case 'Topic not found':
-        return TopicStatus.topicNotFound;
-      case 'Failed':
-        return TopicStatus.failed;
-      case 'Deleted':
-        return TopicStatus.deleted;
-    }
-    throw Exception('$this is not known in enum TopicStatus');
-  }
+  const TopicStatus(this.value);
+
+  static TopicStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TopicStatus'));
 }
 
 /// Describes a trust relationship between an Managed Microsoft AD directory and
@@ -7557,14 +7031,16 @@ class Trust {
       directoryId: json['DirectoryId'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
       remoteDomainName: json['RemoteDomainName'] as String?,
-      selectiveAuth: (json['SelectiveAuth'] as String?)?.toSelectiveAuth(),
+      selectiveAuth:
+          (json['SelectiveAuth'] as String?)?.let(SelectiveAuth.fromString),
       stateLastUpdatedDateTime:
           timeStampFromJson(json['StateLastUpdatedDateTime']),
-      trustDirection: (json['TrustDirection'] as String?)?.toTrustDirection(),
+      trustDirection:
+          (json['TrustDirection'] as String?)?.let(TrustDirection.fromString),
       trustId: json['TrustId'] as String?,
-      trustState: (json['TrustState'] as String?)?.toTrustState(),
+      trustState: (json['TrustState'] as String?)?.let(TrustState.fromString),
       trustStateReason: json['TrustStateReason'] as String?,
-      trustType: (json['TrustType'] as String?)?.toTrustType(),
+      trustType: (json['TrustType'] as String?)?.let(TrustType.fromString),
     );
   }
 
@@ -7587,151 +7063,70 @@ class Trust {
       if (lastUpdatedDateTime != null)
         'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (remoteDomainName != null) 'RemoteDomainName': remoteDomainName,
-      if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.toValue(),
+      if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.value,
       if (stateLastUpdatedDateTime != null)
         'StateLastUpdatedDateTime':
             unixTimestampToJson(stateLastUpdatedDateTime),
-      if (trustDirection != null) 'TrustDirection': trustDirection.toValue(),
+      if (trustDirection != null) 'TrustDirection': trustDirection.value,
       if (trustId != null) 'TrustId': trustId,
-      if (trustState != null) 'TrustState': trustState.toValue(),
+      if (trustState != null) 'TrustState': trustState.value,
       if (trustStateReason != null) 'TrustStateReason': trustStateReason,
-      if (trustType != null) 'TrustType': trustType.toValue(),
+      if (trustType != null) 'TrustType': trustType.value,
     };
   }
 }
 
 enum TrustDirection {
-  oneWayOutgoing,
-  oneWayIncoming,
-  twoWay,
-}
+  oneWayOutgoing('One-Way: Outgoing'),
+  oneWayIncoming('One-Way: Incoming'),
+  twoWay('Two-Way'),
+  ;
 
-extension TrustDirectionValueExtension on TrustDirection {
-  String toValue() {
-    switch (this) {
-      case TrustDirection.oneWayOutgoing:
-        return 'One-Way: Outgoing';
-      case TrustDirection.oneWayIncoming:
-        return 'One-Way: Incoming';
-      case TrustDirection.twoWay:
-        return 'Two-Way';
-    }
-  }
-}
+  final String value;
 
-extension TrustDirectionFromString on String {
-  TrustDirection toTrustDirection() {
-    switch (this) {
-      case 'One-Way: Outgoing':
-        return TrustDirection.oneWayOutgoing;
-      case 'One-Way: Incoming':
-        return TrustDirection.oneWayIncoming;
-      case 'Two-Way':
-        return TrustDirection.twoWay;
-    }
-    throw Exception('$this is not known in enum TrustDirection');
-  }
+  const TrustDirection(this.value);
+
+  static TrustDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrustDirection'));
 }
 
 enum TrustState {
-  creating,
-  created,
-  verifying,
-  verifyFailed,
-  verified,
-  updating,
-  updateFailed,
-  updated,
-  deleting,
-  deleted,
-  failed,
-}
+  creating('Creating'),
+  created('Created'),
+  verifying('Verifying'),
+  verifyFailed('VerifyFailed'),
+  verified('Verified'),
+  updating('Updating'),
+  updateFailed('UpdateFailed'),
+  updated('Updated'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  failed('Failed'),
+  ;
 
-extension TrustStateValueExtension on TrustState {
-  String toValue() {
-    switch (this) {
-      case TrustState.creating:
-        return 'Creating';
-      case TrustState.created:
-        return 'Created';
-      case TrustState.verifying:
-        return 'Verifying';
-      case TrustState.verifyFailed:
-        return 'VerifyFailed';
-      case TrustState.verified:
-        return 'Verified';
-      case TrustState.updating:
-        return 'Updating';
-      case TrustState.updateFailed:
-        return 'UpdateFailed';
-      case TrustState.updated:
-        return 'Updated';
-      case TrustState.deleting:
-        return 'Deleting';
-      case TrustState.deleted:
-        return 'Deleted';
-      case TrustState.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension TrustStateFromString on String {
-  TrustState toTrustState() {
-    switch (this) {
-      case 'Creating':
-        return TrustState.creating;
-      case 'Created':
-        return TrustState.created;
-      case 'Verifying':
-        return TrustState.verifying;
-      case 'VerifyFailed':
-        return TrustState.verifyFailed;
-      case 'Verified':
-        return TrustState.verified;
-      case 'Updating':
-        return TrustState.updating;
-      case 'UpdateFailed':
-        return TrustState.updateFailed;
-      case 'Updated':
-        return TrustState.updated;
-      case 'Deleting':
-        return TrustState.deleting;
-      case 'Deleted':
-        return TrustState.deleted;
-      case 'Failed':
-        return TrustState.failed;
-    }
-    throw Exception('$this is not known in enum TrustState');
-  }
+  const TrustState(this.value);
+
+  static TrustState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TrustState'));
 }
 
 enum TrustType {
-  forest,
-  external,
-}
+  forest('Forest'),
+  external('External'),
+  ;
 
-extension TrustTypeValueExtension on TrustType {
-  String toValue() {
-    switch (this) {
-      case TrustType.forest:
-        return 'Forest';
-      case TrustType.external:
-        return 'External';
-    }
-  }
-}
+  final String value;
 
-extension TrustTypeFromString on String {
-  TrustType toTrustType() {
-    switch (this) {
-      case 'Forest':
-        return TrustType.forest;
-      case 'External':
-        return TrustType.external;
-    }
-    throw Exception('$this is not known in enum TrustType');
-  }
+  const TrustType(this.value);
+
+  static TrustType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TrustType'));
 }
 
 class UnshareDirectoryResult {
@@ -7776,7 +7171,7 @@ class UnshareTarget {
     final type = this.type;
     return {
       'Id': id,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -7857,7 +7252,7 @@ class UpdateInfoEntry {
           : null,
       region: json['Region'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toUpdateStatus(),
+      status: (json['Status'] as String?)?.let(UpdateStatus.fromString),
       statusReason: json['StatusReason'] as String?,
     );
   }
@@ -7879,7 +7274,7 @@ class UpdateInfoEntry {
       if (previousValue != null) 'PreviousValue': previousValue,
       if (region != null) 'Region': region,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -7934,36 +7329,19 @@ class UpdateSettingsResult {
 }
 
 enum UpdateStatus {
-  updated,
-  updating,
-  updateFailed,
-}
+  updated('Updated'),
+  updating('Updating'),
+  updateFailed('UpdateFailed'),
+  ;
 
-extension UpdateStatusValueExtension on UpdateStatus {
-  String toValue() {
-    switch (this) {
-      case UpdateStatus.updated:
-        return 'Updated';
-      case UpdateStatus.updating:
-        return 'Updating';
-      case UpdateStatus.updateFailed:
-        return 'UpdateFailed';
-    }
-  }
-}
+  final String value;
 
-extension UpdateStatusFromString on String {
-  UpdateStatus toUpdateStatus() {
-    switch (this) {
-      case 'Updated':
-        return UpdateStatus.updated;
-      case 'Updating':
-        return UpdateStatus.updating;
-      case 'UpdateFailed':
-        return UpdateStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum UpdateStatus');
-  }
+  const UpdateStatus(this.value);
+
+  static UpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateStatus'));
 }
 
 class UpdateTrustResult {
@@ -7995,26 +7373,16 @@ class UpdateTrustResult {
 }
 
 enum UpdateType {
-  os,
-}
+  os('OS'),
+  ;
 
-extension UpdateTypeValueExtension on UpdateType {
-  String toValue() {
-    switch (this) {
-      case UpdateType.os:
-        return 'OS';
-    }
-  }
-}
+  final String value;
 
-extension UpdateTypeFromString on String {
-  UpdateType toUpdateType() {
-    switch (this) {
-      case 'OS':
-        return UpdateType.os;
-    }
-    throw Exception('$this is not known in enum UpdateType');
-  }
+  const UpdateType(this.value);
+
+  static UpdateType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UpdateType'));
 }
 
 /// The value for a given type of <code>UpdateSettings</code>.

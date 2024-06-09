@@ -183,7 +183,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptanceType': acceptanceType.toValue(),
+        'AcceptanceType': acceptanceType.value,
         'PlayerIds': playerIds,
         'TicketId': ticketId,
       },
@@ -506,8 +506,7 @@ class GameLift {
       headers: headers,
       payload: {
         if (name != null) 'Name': name,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem.toValue(),
+        if (operatingSystem != null) 'OperatingSystem': operatingSystem.value,
         if (serverSdkVersion != null) 'ServerSdkVersion': serverSdkVersion,
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (tags != null) 'Tags': tags,
@@ -675,11 +674,11 @@ class GameLift {
       payload: {
         'ContainerDefinitions': containerDefinitions,
         'Name': name,
-        'OperatingSystem': operatingSystem.toValue(),
+        'OperatingSystem': operatingSystem.value,
         'TotalCpuLimit': totalCpuLimit,
         'TotalMemoryLimit': totalMemoryLimit,
         if (schedulingStrategy != null)
-          'SchedulingStrategy': schedulingStrategy.toValue(),
+          'SchedulingStrategy': schedulingStrategy.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1102,25 +1101,24 @@ class GameLift {
         if (buildId != null) 'BuildId': buildId,
         if (certificateConfiguration != null)
           'CertificateConfiguration': certificateConfiguration,
-        if (computeType != null) 'ComputeType': computeType.toValue(),
+        if (computeType != null) 'ComputeType': computeType.value,
         if (containerGroupsConfiguration != null)
           'ContainerGroupsConfiguration': containerGroupsConfiguration,
         if (description != null) 'Description': description,
         if (eC2InboundPermissions != null)
           'EC2InboundPermissions': eC2InboundPermissions,
-        if (eC2InstanceType != null)
-          'EC2InstanceType': eC2InstanceType.toValue(),
-        if (fleetType != null) 'FleetType': fleetType.toValue(),
+        if (eC2InstanceType != null) 'EC2InstanceType': eC2InstanceType.value,
+        if (fleetType != null) 'FleetType': fleetType.value,
         if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
         if (instanceRoleCredentialsProvider != null)
           'InstanceRoleCredentialsProvider':
-              instanceRoleCredentialsProvider.toValue(),
+              instanceRoleCredentialsProvider.value,
         if (locations != null) 'Locations': locations,
         if (logPaths != null) 'LogPaths': logPaths,
         if (metricGroups != null) 'MetricGroups': metricGroups,
         if (newGameSessionProtectionPolicy != null)
           'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy.toValue(),
+              newGameSessionProtectionPolicy.value,
         if (peerVpcAwsAccountId != null)
           'PeerVpcAwsAccountId': peerVpcAwsAccountId,
         if (peerVpcId != null) 'PeerVpcId': peerVpcId,
@@ -1440,9 +1438,9 @@ class GameLift {
         'RoleArn': roleArn,
         if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
         if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy.toValue(),
+          'BalancingStrategy': balancingStrategy.value,
         if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy.toValue(),
+          'GameServerProtectionPolicy': gameServerProtectionPolicy.value,
         if (tags != null) 'Tags': tags,
         if (vpcSubnets != null) 'VpcSubnets': vpcSubnets,
       },
@@ -2062,10 +2060,10 @@ class GameLift {
           'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         if (additionalPlayerCount != null)
           'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
+        if (backfillMode != null) 'BackfillMode': backfillMode.value,
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
-        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.toValue(),
+        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.value,
         if (gameProperties != null) 'GameProperties': gameProperties,
         if (gameSessionData != null) 'GameSessionData': gameSessionData,
         if (gameSessionQueueArns != null)
@@ -2910,7 +2908,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        if (deleteOption != null) 'DeleteOption': deleteOption.toValue(),
+        if (deleteOption != null) 'DeleteOption': deleteOption.value,
       },
     );
 
@@ -3651,8 +3649,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (eC2InstanceType != null)
-          'EC2InstanceType': eC2InstanceType.toValue(),
+        if (eC2InstanceType != null) 'EC2InstanceType': eC2InstanceType.value,
         if (location != null) 'Location': location,
       },
     );
@@ -5385,7 +5382,7 @@ class GameLift {
         if (limit != null) 'Limit': limit,
         if (location != null) 'Location': location,
         if (nextToken != null) 'NextToken': nextToken,
-        if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
+        if (statusFilter != null) 'StatusFilter': statusFilter.value,
       },
     );
 
@@ -5887,7 +5884,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (nextToken != null) 'NextToken': nextToken,
         if (routingStrategyType != null)
-          'RoutingStrategyType': routingStrategyType.toValue(),
+          'RoutingStrategyType': routingStrategyType.value,
       },
     );
 
@@ -5970,7 +5967,7 @@ class GameLift {
       payload: {
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -6140,7 +6137,7 @@ class GameLift {
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (schedulingStrategy != null)
-          'SchedulingStrategy': schedulingStrategy.toValue(),
+          'SchedulingStrategy': schedulingStrategy.value,
       },
     );
 
@@ -6354,7 +6351,7 @@ class GameLift {
         'GameServerGroupName': gameServerGroupName,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -6400,8 +6397,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (filters != null)
-          'Filters': filters.map((e) => e.toValue()).toList(),
+        if (filters != null) 'Filters': filters.map((e) => e.value).toList(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -6749,15 +6745,15 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'MetricName': metricName.toValue(),
+        'MetricName': metricName.value,
         'Name': name,
         if (comparisonOperator != null)
-          'ComparisonOperator': comparisonOperator.toValue(),
+          'ComparisonOperator': comparisonOperator.value,
         if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
-        if (policyType != null) 'PolicyType': policyType.toValue(),
+        if (policyType != null) 'PolicyType': policyType.value,
         if (scalingAdjustment != null) 'ScalingAdjustment': scalingAdjustment,
         if (scalingAdjustmentType != null)
-          'ScalingAdjustmentType': scalingAdjustmentType.toValue(),
+          'ScalingAdjustmentType': scalingAdjustmentType.value,
         if (targetConfiguration != null)
           'TargetConfiguration': targetConfiguration,
         if (threshold != null) 'Threshold': threshold,
@@ -7099,7 +7095,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'ResumeActions': resumeActions.map((e) => e.toValue()).toList(),
+        'ResumeActions': resumeActions.map((e) => e.value).toList(),
       },
     );
 
@@ -7422,7 +7418,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions.map((e) => e.toValue()).toList(),
+        'Actions': actions.map((e) => e.value).toList(),
         'FleetId': fleetId,
         if (location != null) 'Location': location,
       },
@@ -7840,7 +7836,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions.map((e) => e.toValue()).toList(),
+        'Actions': actions.map((e) => e.value).toList(),
         'FleetId': fleetId,
         if (location != null) 'Location': location,
       },
@@ -7986,7 +7982,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'SuspendActions': suspendActions.map((e) => e.toValue()).toList(),
+        'SuspendActions': suspendActions.map((e) => e.value).toList(),
       },
     );
 
@@ -8328,7 +8324,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (newGameSessionProtectionPolicy != null)
           'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy.toValue(),
+              newGameSessionProtectionPolicy.value,
         if (resourceCreationLimitPolicy != null)
           'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
       },
@@ -8624,9 +8620,9 @@ class GameLift {
         'GameServerGroupName': gameServerGroupName,
         'GameServerId': gameServerId,
         if (gameServerData != null) 'GameServerData': gameServerData,
-        if (healthCheck != null) 'HealthCheck': healthCheck.toValue(),
+        if (healthCheck != null) 'HealthCheck': healthCheck.value,
         if (utilizationStatus != null)
-          'UtilizationStatus': utilizationStatus.toValue(),
+          'UtilizationStatus': utilizationStatus.value,
       },
     );
 
@@ -8742,9 +8738,9 @@ class GameLift {
       payload: {
         'GameServerGroupName': gameServerGroupName,
         if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy.toValue(),
+          'BalancingStrategy': balancingStrategy.value,
         if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy.toValue(),
+          'GameServerProtectionPolicy': gameServerProtectionPolicy.value,
         if (instanceDefinitions != null)
           'InstanceDefinitions': instanceDefinitions,
         if (roleArn != null) 'RoleArn': roleArn,
@@ -8840,9 +8836,9 @@ class GameLift {
           'MaximumPlayerSessionCount': maximumPlayerSessionCount,
         if (name != null) 'Name': name,
         if (playerSessionCreationPolicy != null)
-          'PlayerSessionCreationPolicy': playerSessionCreationPolicy.toValue(),
+          'PlayerSessionCreationPolicy': playerSessionCreationPolicy.value,
         if (protectionPolicy != null)
-          'ProtectionPolicy': protectionPolicy.toValue(),
+          'ProtectionPolicy': protectionPolicy.value,
       },
     );
 
@@ -9128,10 +9124,10 @@ class GameLift {
           'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         if (additionalPlayerCount != null)
           'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
+        if (backfillMode != null) 'BackfillMode': backfillMode.value,
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
-        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.toValue(),
+        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.value,
         if (gameProperties != null) 'GameProperties': gameProperties,
         if (gameSessionData != null) 'GameSessionData': gameSessionData,
         if (gameSessionQueueArns != null)
@@ -9356,31 +9352,18 @@ class AcceptMatchOutput {
 }
 
 enum AcceptanceType {
-  accept,
-  reject,
-}
+  accept('ACCEPT'),
+  reject('REJECT'),
+  ;
 
-extension AcceptanceTypeValueExtension on AcceptanceType {
-  String toValue() {
-    switch (this) {
-      case AcceptanceType.accept:
-        return 'ACCEPT';
-      case AcceptanceType.reject:
-        return 'REJECT';
-    }
-  }
-}
+  final String value;
 
-extension AcceptanceTypeFromString on String {
-  AcceptanceType toAcceptanceType() {
-    switch (this) {
-      case 'ACCEPT':
-        return AcceptanceType.accept;
-      case 'REJECT':
-        return AcceptanceType.reject;
-    }
-    throw Exception('$this is not known in enum AcceptanceType');
-  }
+  const AcceptanceType(this.value);
+
+  static AcceptanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceptanceType'));
 }
 
 /// Properties that describe an alias resource.
@@ -9578,64 +9561,34 @@ class AwsCredentials {
 }
 
 enum BackfillMode {
-  automatic,
-  manual,
-}
+  automatic('AUTOMATIC'),
+  manual('MANUAL'),
+  ;
 
-extension BackfillModeValueExtension on BackfillMode {
-  String toValue() {
-    switch (this) {
-      case BackfillMode.automatic:
-        return 'AUTOMATIC';
-      case BackfillMode.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension BackfillModeFromString on String {
-  BackfillMode toBackfillMode() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return BackfillMode.automatic;
-      case 'MANUAL':
-        return BackfillMode.manual;
-    }
-    throw Exception('$this is not known in enum BackfillMode');
-  }
+  const BackfillMode(this.value);
+
+  static BackfillMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackfillMode'));
 }
 
 enum BalancingStrategy {
-  spotOnly,
-  spotPreferred,
-  onDemandOnly,
-}
+  spotOnly('SPOT_ONLY'),
+  spotPreferred('SPOT_PREFERRED'),
+  onDemandOnly('ON_DEMAND_ONLY'),
+  ;
 
-extension BalancingStrategyValueExtension on BalancingStrategy {
-  String toValue() {
-    switch (this) {
-      case BalancingStrategy.spotOnly:
-        return 'SPOT_ONLY';
-      case BalancingStrategy.spotPreferred:
-        return 'SPOT_PREFERRED';
-      case BalancingStrategy.onDemandOnly:
-        return 'ON_DEMAND_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension BalancingStrategyFromString on String {
-  BalancingStrategy toBalancingStrategy() {
-    switch (this) {
-      case 'SPOT_ONLY':
-        return BalancingStrategy.spotOnly;
-      case 'SPOT_PREFERRED':
-        return BalancingStrategy.spotPreferred;
-      case 'ON_DEMAND_ONLY':
-        return BalancingStrategy.onDemandOnly;
-    }
-    throw Exception('$this is not known in enum BalancingStrategy');
-  }
+  const BalancingStrategy(this.value);
+
+  static BalancingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BalancingStrategy'));
 }
 
 /// Properties describing a custom game build.
@@ -9724,46 +9677,28 @@ class Build {
       creationTime: timeStampFromJson(json['CreationTime']),
       name: json['Name'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
       serverSdkVersion: json['ServerSdkVersion'] as String?,
       sizeOnDisk: json['SizeOnDisk'] as int?,
-      status: (json['Status'] as String?)?.toBuildStatus(),
+      status: (json['Status'] as String?)?.let(BuildStatus.fromString),
       version: json['Version'] as String?,
     );
   }
 }
 
 enum BuildStatus {
-  initialized,
-  ready,
-  failed,
-}
+  initialized('INITIALIZED'),
+  ready('READY'),
+  failed('FAILED'),
+  ;
 
-extension BuildStatusValueExtension on BuildStatus {
-  String toValue() {
-    switch (this) {
-      case BuildStatus.initialized:
-        return 'INITIALIZED';
-      case BuildStatus.ready:
-        return 'READY';
-      case BuildStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension BuildStatusFromString on String {
-  BuildStatus toBuildStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return BuildStatus.initialized;
-      case 'READY':
-        return BuildStatus.ready;
-      case 'FAILED':
-        return BuildStatus.failed;
-    }
-    throw Exception('$this is not known in enum BuildStatus');
-  }
+  const BuildStatus(this.value);
+
+  static BuildStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BuildStatus'));
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -9797,44 +9732,32 @@ class CertificateConfiguration {
 
   factory CertificateConfiguration.fromJson(Map<String, dynamic> json) {
     return CertificateConfiguration(
-      certificateType: (json['CertificateType'] as String).toCertificateType(),
+      certificateType:
+          CertificateType.fromString((json['CertificateType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final certificateType = this.certificateType;
     return {
-      'CertificateType': certificateType.toValue(),
+      'CertificateType': certificateType.value,
     };
   }
 }
 
 enum CertificateType {
-  disabled,
-  generated,
-}
+  disabled('DISABLED'),
+  generated('GENERATED'),
+  ;
 
-extension CertificateTypeValueExtension on CertificateType {
-  String toValue() {
-    switch (this) {
-      case CertificateType.disabled:
-        return 'DISABLED';
-      case CertificateType.generated:
-        return 'GENERATED';
-    }
-  }
-}
+  final String value;
 
-extension CertificateTypeFromString on String {
-  CertificateType toCertificateType() {
-    switch (this) {
-      case 'DISABLED':
-        return CertificateType.disabled;
-      case 'GENERATED':
-        return CertificateType.generated;
-    }
-    throw Exception('$this is not known in enum CertificateType');
-  }
+  const CertificateType(this.value);
+
+  static CertificateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateType'));
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -9855,7 +9778,7 @@ class ClaimFilterOption {
     final instanceStatuses = this.instanceStatuses;
     return {
       if (instanceStatuses != null)
-        'InstanceStatuses': instanceStatuses.map((e) => e.toValue()).toList(),
+        'InstanceStatuses': instanceStatuses.map((e) => e.value).toList(),
     };
   }
 }
@@ -9878,41 +9801,20 @@ class ClaimGameServerOutput {
 }
 
 enum ComparisonOperatorType {
-  greaterThanOrEqualToThreshold,
-  greaterThanThreshold,
-  lessThanThreshold,
-  lessThanOrEqualToThreshold,
-}
+  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
+  greaterThanThreshold('GreaterThanThreshold'),
+  lessThanThreshold('LessThanThreshold'),
+  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
+  ;
 
-extension ComparisonOperatorTypeValueExtension on ComparisonOperatorType {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperatorType.greaterThanOrEqualToThreshold:
-        return 'GreaterThanOrEqualToThreshold';
-      case ComparisonOperatorType.greaterThanThreshold:
-        return 'GreaterThanThreshold';
-      case ComparisonOperatorType.lessThanThreshold:
-        return 'LessThanThreshold';
-      case ComparisonOperatorType.lessThanOrEqualToThreshold:
-        return 'LessThanOrEqualToThreshold';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorTypeFromString on String {
-  ComparisonOperatorType toComparisonOperatorType() {
-    switch (this) {
-      case 'GreaterThanOrEqualToThreshold':
-        return ComparisonOperatorType.greaterThanOrEqualToThreshold;
-      case 'GreaterThanThreshold':
-        return ComparisonOperatorType.greaterThanThreshold;
-      case 'LessThanThreshold':
-        return ComparisonOperatorType.lessThanThreshold;
-      case 'LessThanOrEqualToThreshold':
-        return ComparisonOperatorType.lessThanOrEqualToThreshold;
-    }
-    throw Exception('$this is not known in enum ComparisonOperatorType');
-  }
+  const ComparisonOperatorType(this.value);
+
+  static ComparisonOperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ComparisonOperatorType'));
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -10016,7 +9918,8 @@ class Compute {
     return Compute(
       computeArn: json['ComputeArn'] as String?,
       computeName: json['ComputeName'] as String?,
-      computeStatus: (json['ComputeStatus'] as String?)?.toComputeStatus(),
+      computeStatus:
+          (json['ComputeStatus'] as String?)?.let(ComputeStatus.fromString),
       containerAttributes: json['ContainerAttributes'] != null
           ? ContainerAttributes.fromJson(
               json['ContainerAttributes'] as Map<String, dynamic>)
@@ -10031,76 +9934,41 @@ class Compute {
       ipAddress: json['IpAddress'] as String?,
       location: json['Location'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
-      type: (json['Type'] as String?)?.toEC2InstanceType(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
+      type: (json['Type'] as String?)?.let(EC2InstanceType.fromString),
     );
   }
 }
 
 enum ComputeStatus {
-  pending,
-  active,
-  terminating,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  terminating('TERMINATING'),
+  ;
 
-extension ComputeStatusValueExtension on ComputeStatus {
-  String toValue() {
-    switch (this) {
-      case ComputeStatus.pending:
-        return 'PENDING';
-      case ComputeStatus.active:
-        return 'ACTIVE';
-      case ComputeStatus.terminating:
-        return 'TERMINATING';
-    }
-  }
-}
+  final String value;
 
-extension ComputeStatusFromString on String {
-  ComputeStatus toComputeStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ComputeStatus.pending;
-      case 'ACTIVE':
-        return ComputeStatus.active;
-      case 'TERMINATING':
-        return ComputeStatus.terminating;
-    }
-    throw Exception('$this is not known in enum ComputeStatus');
-  }
+  const ComputeStatus(this.value);
+
+  static ComputeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComputeStatus'));
 }
 
 enum ComputeType {
-  ec2,
-  anywhere,
-  container,
-}
+  ec2('EC2'),
+  anywhere('ANYWHERE'),
+  container('CONTAINER'),
+  ;
 
-extension ComputeTypeValueExtension on ComputeType {
-  String toValue() {
-    switch (this) {
-      case ComputeType.ec2:
-        return 'EC2';
-      case ComputeType.anywhere:
-        return 'ANYWHERE';
-      case ComputeType.container:
-        return 'CONTAINER';
-    }
-  }
-}
+  final String value;
 
-extension ComputeTypeFromString on String {
-  ComputeType toComputeType() {
-    switch (this) {
-      case 'EC2':
-        return ComputeType.ec2;
-      case 'ANYWHERE':
-        return ComputeType.anywhere;
-      case 'CONTAINER':
-        return ComputeType.container;
-    }
-    throw Exception('$this is not known in enum ComputeType');
-  }
+  const ComputeType(this.value);
+
+  static ComputeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ComputeType'));
 }
 
 /// <b>This operation has been expanded to use with the Amazon GameLift
@@ -10557,7 +10425,8 @@ class ContainerDependency {
 
   factory ContainerDependency.fromJson(Map<String, dynamic> json) {
     return ContainerDependency(
-      condition: (json['Condition'] as String).toContainerDependencyCondition(),
+      condition: ContainerDependencyCondition.fromString(
+          (json['Condition'] as String)),
       containerName: json['ContainerName'] as String,
     );
   }
@@ -10566,49 +10435,27 @@ class ContainerDependency {
     final condition = this.condition;
     final containerName = this.containerName;
     return {
-      'Condition': condition.toValue(),
+      'Condition': condition.value,
       'ContainerName': containerName,
     };
   }
 }
 
 enum ContainerDependencyCondition {
-  start,
-  complete,
-  success,
-  healthy,
-}
+  start('START'),
+  complete('COMPLETE'),
+  success('SUCCESS'),
+  healthy('HEALTHY'),
+  ;
 
-extension ContainerDependencyConditionValueExtension
-    on ContainerDependencyCondition {
-  String toValue() {
-    switch (this) {
-      case ContainerDependencyCondition.start:
-        return 'START';
-      case ContainerDependencyCondition.complete:
-        return 'COMPLETE';
-      case ContainerDependencyCondition.success:
-        return 'SUCCESS';
-      case ContainerDependencyCondition.healthy:
-        return 'HEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension ContainerDependencyConditionFromString on String {
-  ContainerDependencyCondition toContainerDependencyCondition() {
-    switch (this) {
-      case 'START':
-        return ContainerDependencyCondition.start;
-      case 'COMPLETE':
-        return ContainerDependencyCondition.complete;
-      case 'SUCCESS':
-        return ContainerDependencyCondition.success;
-      case 'HEALTHY':
-        return ContainerDependencyCondition.healthy;
-    }
-    throw Exception('$this is not known in enum ContainerDependencyCondition');
-  }
+  const ContainerDependencyCondition(this.value);
+
+  static ContainerDependencyCondition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerDependencyCondition'));
 }
 
 /// <b>This data type is used with the Amazon GameLift containers feature, which
@@ -10802,11 +10649,12 @@ class ContainerGroupDefinition {
           json['ContainerGroupDefinitionArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       name: json['Name'] as String?,
-      operatingSystem:
-          (json['OperatingSystem'] as String?)?.toContainerOperatingSystem(),
+      operatingSystem: (json['OperatingSystem'] as String?)
+          ?.let(ContainerOperatingSystem.fromString),
       schedulingStrategy: (json['SchedulingStrategy'] as String?)
-          ?.toContainerSchedulingStrategy(),
-      status: (json['Status'] as String?)?.toContainerGroupDefinitionStatus(),
+          ?.let(ContainerSchedulingStrategy.fromString),
+      status: (json['Status'] as String?)
+          ?.let(ContainerGroupDefinitionStatus.fromString),
       statusReason: json['StatusReason'] as String?,
       totalCpuLimit: json['TotalCpuLimit'] as int?,
       totalMemoryLimit: json['TotalMemoryLimit'] as int?,
@@ -10840,44 +10688,25 @@ class ContainerGroupDefinitionProperty {
       containerGroupDefinitionName:
           json['ContainerGroupDefinitionName'] as String?,
       schedulingStrategy: (json['SchedulingStrategy'] as String?)
-          ?.toContainerSchedulingStrategy(),
+          ?.let(ContainerSchedulingStrategy.fromString),
     );
   }
 }
 
 enum ContainerGroupDefinitionStatus {
-  ready,
-  copying,
-  failed,
-}
+  ready('READY'),
+  copying('COPYING'),
+  failed('FAILED'),
+  ;
 
-extension ContainerGroupDefinitionStatusValueExtension
-    on ContainerGroupDefinitionStatus {
-  String toValue() {
-    switch (this) {
-      case ContainerGroupDefinitionStatus.ready:
-        return 'READY';
-      case ContainerGroupDefinitionStatus.copying:
-        return 'COPYING';
-      case ContainerGroupDefinitionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ContainerGroupDefinitionStatusFromString on String {
-  ContainerGroupDefinitionStatus toContainerGroupDefinitionStatus() {
-    switch (this) {
-      case 'READY':
-        return ContainerGroupDefinitionStatus.ready;
-      case 'COPYING':
-        return ContainerGroupDefinitionStatus.copying;
-      case 'FAILED':
-        return ContainerGroupDefinitionStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ContainerGroupDefinitionStatus');
-  }
+  const ContainerGroupDefinitionStatus(this.value);
+
+  static ContainerGroupDefinitionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerGroupDefinitionStatus'));
 }
 
 /// <b>This data type is used with the Amazon GameLift containers feature, which
@@ -11168,26 +10997,17 @@ class ContainerMemoryLimits {
 }
 
 enum ContainerOperatingSystem {
-  amazonLinux_2023,
-}
+  amazonLinux_2023('AMAZON_LINUX_2023'),
+  ;
 
-extension ContainerOperatingSystemValueExtension on ContainerOperatingSystem {
-  String toValue() {
-    switch (this) {
-      case ContainerOperatingSystem.amazonLinux_2023:
-        return 'AMAZON_LINUX_2023';
-    }
-  }
-}
+  final String value;
 
-extension ContainerOperatingSystemFromString on String {
-  ContainerOperatingSystem toContainerOperatingSystem() {
-    switch (this) {
-      case 'AMAZON_LINUX_2023':
-        return ContainerOperatingSystem.amazonLinux_2023;
-    }
-    throw Exception('$this is not known in enum ContainerOperatingSystem');
-  }
+  const ContainerOperatingSystem(this.value);
+
+  static ContainerOperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerOperatingSystem'));
 }
 
 /// Defines ranges of ports that server processes can connect to.
@@ -11250,7 +11070,7 @@ class ContainerPortMapping {
     return ContainerPortMapping(
       connectionPort: json['ConnectionPort'] as int?,
       containerPort: json['ContainerPort'] as int?,
-      protocol: (json['Protocol'] as String?)?.toIpProtocol(),
+      protocol: (json['Protocol'] as String?)?.let(IpProtocol.fromString),
     );
   }
 }
@@ -11282,7 +11102,7 @@ class ContainerPortRange {
   factory ContainerPortRange.fromJson(Map<String, dynamic> json) {
     return ContainerPortRange(
       fromPort: json['FromPort'] as int,
-      protocol: (json['Protocol'] as String).toIpProtocol(),
+      protocol: IpProtocol.fromString((json['Protocol'] as String)),
       toPort: json['ToPort'] as int,
     );
   }
@@ -11293,39 +11113,25 @@ class ContainerPortRange {
     final toPort = this.toPort;
     return {
       'FromPort': fromPort,
-      'Protocol': protocol.toValue(),
+      'Protocol': protocol.value,
       'ToPort': toPort,
     };
   }
 }
 
 enum ContainerSchedulingStrategy {
-  replica,
-  daemon,
-}
+  replica('REPLICA'),
+  daemon('DAEMON'),
+  ;
 
-extension ContainerSchedulingStrategyValueExtension
-    on ContainerSchedulingStrategy {
-  String toValue() {
-    switch (this) {
-      case ContainerSchedulingStrategy.replica:
-        return 'REPLICA';
-      case ContainerSchedulingStrategy.daemon:
-        return 'DAEMON';
-    }
-  }
-}
+  final String value;
 
-extension ContainerSchedulingStrategyFromString on String {
-  ContainerSchedulingStrategy toContainerSchedulingStrategy() {
-    switch (this) {
-      case 'REPLICA':
-        return ContainerSchedulingStrategy.replica;
-      case 'DAEMON':
-        return ContainerSchedulingStrategy.daemon;
-    }
-    throw Exception('$this is not known in enum ContainerSchedulingStrategy');
-  }
+  const ContainerSchedulingStrategy(this.value);
+
+  static ContainerSchedulingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerSchedulingStrategy'));
 }
 
 class CreateAliasOutput {
@@ -12067,7 +11873,8 @@ class DescribeFleetPortSettingsOutput {
           .map((e) => IpPermission.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: json['Location'] as String?,
-      updateStatus: (json['UpdateStatus'] as String?)?.toLocationUpdateStatus(),
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(LocationUpdateStatus.fromString),
     );
   }
 }
@@ -12593,7 +12400,7 @@ class EC2InstanceLimit {
     return EC2InstanceLimit(
       currentInstances: json['CurrentInstances'] as int?,
       eC2InstanceType:
-          (json['EC2InstanceType'] as String?)?.toEC2InstanceType(),
+          (json['EC2InstanceType'] as String?)?.let(EC2InstanceType.fromString),
       instanceLimit: json['InstanceLimit'] as int?,
       location: json['Location'] as String?,
     );
@@ -12601,896 +12408,191 @@ class EC2InstanceLimit {
 }
 
 enum EC2InstanceType {
-  t2Micro,
-  t2Small,
-  t2Medium,
-  t2Large,
-  c3Large,
-  c3Xlarge,
-  c3_2xlarge,
-  c3_4xlarge,
-  c3_8xlarge,
-  c4Large,
-  c4Xlarge,
-  c4_2xlarge,
-  c4_4xlarge,
-  c4_8xlarge,
-  c5Large,
-  c5Xlarge,
-  c5_2xlarge,
-  c5_4xlarge,
-  c5_9xlarge,
-  c5_12xlarge,
-  c5_18xlarge,
-  c5_24xlarge,
-  c5aLarge,
-  c5aXlarge,
-  c5a_2xlarge,
-  c5a_4xlarge,
-  c5a_8xlarge,
-  c5a_12xlarge,
-  c5a_16xlarge,
-  c5a_24xlarge,
-  r3Large,
-  r3Xlarge,
-  r3_2xlarge,
-  r3_4xlarge,
-  r3_8xlarge,
-  r4Large,
-  r4Xlarge,
-  r4_2xlarge,
-  r4_4xlarge,
-  r4_8xlarge,
-  r4_16xlarge,
-  r5Large,
-  r5Xlarge,
-  r5_2xlarge,
-  r5_4xlarge,
-  r5_8xlarge,
-  r5_12xlarge,
-  r5_16xlarge,
-  r5_24xlarge,
-  r5aLarge,
-  r5aXlarge,
-  r5a_2xlarge,
-  r5a_4xlarge,
-  r5a_8xlarge,
-  r5a_12xlarge,
-  r5a_16xlarge,
-  r5a_24xlarge,
-  m3Medium,
-  m3Large,
-  m3Xlarge,
-  m3_2xlarge,
-  m4Large,
-  m4Xlarge,
-  m4_2xlarge,
-  m4_4xlarge,
-  m4_10xlarge,
-  m5Large,
-  m5Xlarge,
-  m5_2xlarge,
-  m5_4xlarge,
-  m5_8xlarge,
-  m5_12xlarge,
-  m5_16xlarge,
-  m5_24xlarge,
-  m5aLarge,
-  m5aXlarge,
-  m5a_2xlarge,
-  m5a_4xlarge,
-  m5a_8xlarge,
-  m5a_12xlarge,
-  m5a_16xlarge,
-  m5a_24xlarge,
-  c5dLarge,
-  c5dXlarge,
-  c5d_2xlarge,
-  c5d_4xlarge,
-  c5d_9xlarge,
-  c5d_12xlarge,
-  c5d_18xlarge,
-  c5d_24xlarge,
-  c6aLarge,
-  c6aXlarge,
-  c6a_2xlarge,
-  c6a_4xlarge,
-  c6a_8xlarge,
-  c6a_12xlarge,
-  c6a_16xlarge,
-  c6a_24xlarge,
-  c6iLarge,
-  c6iXlarge,
-  c6i_2xlarge,
-  c6i_4xlarge,
-  c6i_8xlarge,
-  c6i_12xlarge,
-  c6i_16xlarge,
-  c6i_24xlarge,
-  r5dLarge,
-  r5dXlarge,
-  r5d_2xlarge,
-  r5d_4xlarge,
-  r5d_8xlarge,
-  r5d_12xlarge,
-  r5d_16xlarge,
-  r5d_24xlarge,
-  m6gMedium,
-  m6gLarge,
-  m6gXlarge,
-  m6g_2xlarge,
-  m6g_4xlarge,
-  m6g_8xlarge,
-  m6g_12xlarge,
-  m6g_16xlarge,
-  c6gMedium,
-  c6gLarge,
-  c6gXlarge,
-  c6g_2xlarge,
-  c6g_4xlarge,
-  c6g_8xlarge,
-  c6g_12xlarge,
-  c6g_16xlarge,
-  r6gMedium,
-  r6gLarge,
-  r6gXlarge,
-  r6g_2xlarge,
-  r6g_4xlarge,
-  r6g_8xlarge,
-  r6g_12xlarge,
-  r6g_16xlarge,
-  c6gnMedium,
-  c6gnLarge,
-  c6gnXlarge,
-  c6gn_2xlarge,
-  c6gn_4xlarge,
-  c6gn_8xlarge,
-  c6gn_12xlarge,
-  c6gn_16xlarge,
-  c7gMedium,
-  c7gLarge,
-  c7gXlarge,
-  c7g_2xlarge,
-  c7g_4xlarge,
-  c7g_8xlarge,
-  c7g_12xlarge,
-  c7g_16xlarge,
-  r7gMedium,
-  r7gLarge,
-  r7gXlarge,
-  r7g_2xlarge,
-  r7g_4xlarge,
-  r7g_8xlarge,
-  r7g_12xlarge,
-  r7g_16xlarge,
-  m7gMedium,
-  m7gLarge,
-  m7gXlarge,
-  m7g_2xlarge,
-  m7g_4xlarge,
-  m7g_8xlarge,
-  m7g_12xlarge,
-  m7g_16xlarge,
-  g5gXlarge,
-  g5g_2xlarge,
-  g5g_4xlarge,
-  g5g_8xlarge,
-  g5g_16xlarge,
-}
+  t2Micro('t2.micro'),
+  t2Small('t2.small'),
+  t2Medium('t2.medium'),
+  t2Large('t2.large'),
+  c3Large('c3.large'),
+  c3Xlarge('c3.xlarge'),
+  c3_2xlarge('c3.2xlarge'),
+  c3_4xlarge('c3.4xlarge'),
+  c3_8xlarge('c3.8xlarge'),
+  c4Large('c4.large'),
+  c4Xlarge('c4.xlarge'),
+  c4_2xlarge('c4.2xlarge'),
+  c4_4xlarge('c4.4xlarge'),
+  c4_8xlarge('c4.8xlarge'),
+  c5Large('c5.large'),
+  c5Xlarge('c5.xlarge'),
+  c5_2xlarge('c5.2xlarge'),
+  c5_4xlarge('c5.4xlarge'),
+  c5_9xlarge('c5.9xlarge'),
+  c5_12xlarge('c5.12xlarge'),
+  c5_18xlarge('c5.18xlarge'),
+  c5_24xlarge('c5.24xlarge'),
+  c5aLarge('c5a.large'),
+  c5aXlarge('c5a.xlarge'),
+  c5a_2xlarge('c5a.2xlarge'),
+  c5a_4xlarge('c5a.4xlarge'),
+  c5a_8xlarge('c5a.8xlarge'),
+  c5a_12xlarge('c5a.12xlarge'),
+  c5a_16xlarge('c5a.16xlarge'),
+  c5a_24xlarge('c5a.24xlarge'),
+  r3Large('r3.large'),
+  r3Xlarge('r3.xlarge'),
+  r3_2xlarge('r3.2xlarge'),
+  r3_4xlarge('r3.4xlarge'),
+  r3_8xlarge('r3.8xlarge'),
+  r4Large('r4.large'),
+  r4Xlarge('r4.xlarge'),
+  r4_2xlarge('r4.2xlarge'),
+  r4_4xlarge('r4.4xlarge'),
+  r4_8xlarge('r4.8xlarge'),
+  r4_16xlarge('r4.16xlarge'),
+  r5Large('r5.large'),
+  r5Xlarge('r5.xlarge'),
+  r5_2xlarge('r5.2xlarge'),
+  r5_4xlarge('r5.4xlarge'),
+  r5_8xlarge('r5.8xlarge'),
+  r5_12xlarge('r5.12xlarge'),
+  r5_16xlarge('r5.16xlarge'),
+  r5_24xlarge('r5.24xlarge'),
+  r5aLarge('r5a.large'),
+  r5aXlarge('r5a.xlarge'),
+  r5a_2xlarge('r5a.2xlarge'),
+  r5a_4xlarge('r5a.4xlarge'),
+  r5a_8xlarge('r5a.8xlarge'),
+  r5a_12xlarge('r5a.12xlarge'),
+  r5a_16xlarge('r5a.16xlarge'),
+  r5a_24xlarge('r5a.24xlarge'),
+  m3Medium('m3.medium'),
+  m3Large('m3.large'),
+  m3Xlarge('m3.xlarge'),
+  m3_2xlarge('m3.2xlarge'),
+  m4Large('m4.large'),
+  m4Xlarge('m4.xlarge'),
+  m4_2xlarge('m4.2xlarge'),
+  m4_4xlarge('m4.4xlarge'),
+  m4_10xlarge('m4.10xlarge'),
+  m5Large('m5.large'),
+  m5Xlarge('m5.xlarge'),
+  m5_2xlarge('m5.2xlarge'),
+  m5_4xlarge('m5.4xlarge'),
+  m5_8xlarge('m5.8xlarge'),
+  m5_12xlarge('m5.12xlarge'),
+  m5_16xlarge('m5.16xlarge'),
+  m5_24xlarge('m5.24xlarge'),
+  m5aLarge('m5a.large'),
+  m5aXlarge('m5a.xlarge'),
+  m5a_2xlarge('m5a.2xlarge'),
+  m5a_4xlarge('m5a.4xlarge'),
+  m5a_8xlarge('m5a.8xlarge'),
+  m5a_12xlarge('m5a.12xlarge'),
+  m5a_16xlarge('m5a.16xlarge'),
+  m5a_24xlarge('m5a.24xlarge'),
+  c5dLarge('c5d.large'),
+  c5dXlarge('c5d.xlarge'),
+  c5d_2xlarge('c5d.2xlarge'),
+  c5d_4xlarge('c5d.4xlarge'),
+  c5d_9xlarge('c5d.9xlarge'),
+  c5d_12xlarge('c5d.12xlarge'),
+  c5d_18xlarge('c5d.18xlarge'),
+  c5d_24xlarge('c5d.24xlarge'),
+  c6aLarge('c6a.large'),
+  c6aXlarge('c6a.xlarge'),
+  c6a_2xlarge('c6a.2xlarge'),
+  c6a_4xlarge('c6a.4xlarge'),
+  c6a_8xlarge('c6a.8xlarge'),
+  c6a_12xlarge('c6a.12xlarge'),
+  c6a_16xlarge('c6a.16xlarge'),
+  c6a_24xlarge('c6a.24xlarge'),
+  c6iLarge('c6i.large'),
+  c6iXlarge('c6i.xlarge'),
+  c6i_2xlarge('c6i.2xlarge'),
+  c6i_4xlarge('c6i.4xlarge'),
+  c6i_8xlarge('c6i.8xlarge'),
+  c6i_12xlarge('c6i.12xlarge'),
+  c6i_16xlarge('c6i.16xlarge'),
+  c6i_24xlarge('c6i.24xlarge'),
+  r5dLarge('r5d.large'),
+  r5dXlarge('r5d.xlarge'),
+  r5d_2xlarge('r5d.2xlarge'),
+  r5d_4xlarge('r5d.4xlarge'),
+  r5d_8xlarge('r5d.8xlarge'),
+  r5d_12xlarge('r5d.12xlarge'),
+  r5d_16xlarge('r5d.16xlarge'),
+  r5d_24xlarge('r5d.24xlarge'),
+  m6gMedium('m6g.medium'),
+  m6gLarge('m6g.large'),
+  m6gXlarge('m6g.xlarge'),
+  m6g_2xlarge('m6g.2xlarge'),
+  m6g_4xlarge('m6g.4xlarge'),
+  m6g_8xlarge('m6g.8xlarge'),
+  m6g_12xlarge('m6g.12xlarge'),
+  m6g_16xlarge('m6g.16xlarge'),
+  c6gMedium('c6g.medium'),
+  c6gLarge('c6g.large'),
+  c6gXlarge('c6g.xlarge'),
+  c6g_2xlarge('c6g.2xlarge'),
+  c6g_4xlarge('c6g.4xlarge'),
+  c6g_8xlarge('c6g.8xlarge'),
+  c6g_12xlarge('c6g.12xlarge'),
+  c6g_16xlarge('c6g.16xlarge'),
+  r6gMedium('r6g.medium'),
+  r6gLarge('r6g.large'),
+  r6gXlarge('r6g.xlarge'),
+  r6g_2xlarge('r6g.2xlarge'),
+  r6g_4xlarge('r6g.4xlarge'),
+  r6g_8xlarge('r6g.8xlarge'),
+  r6g_12xlarge('r6g.12xlarge'),
+  r6g_16xlarge('r6g.16xlarge'),
+  c6gnMedium('c6gn.medium'),
+  c6gnLarge('c6gn.large'),
+  c6gnXlarge('c6gn.xlarge'),
+  c6gn_2xlarge('c6gn.2xlarge'),
+  c6gn_4xlarge('c6gn.4xlarge'),
+  c6gn_8xlarge('c6gn.8xlarge'),
+  c6gn_12xlarge('c6gn.12xlarge'),
+  c6gn_16xlarge('c6gn.16xlarge'),
+  c7gMedium('c7g.medium'),
+  c7gLarge('c7g.large'),
+  c7gXlarge('c7g.xlarge'),
+  c7g_2xlarge('c7g.2xlarge'),
+  c7g_4xlarge('c7g.4xlarge'),
+  c7g_8xlarge('c7g.8xlarge'),
+  c7g_12xlarge('c7g.12xlarge'),
+  c7g_16xlarge('c7g.16xlarge'),
+  r7gMedium('r7g.medium'),
+  r7gLarge('r7g.large'),
+  r7gXlarge('r7g.xlarge'),
+  r7g_2xlarge('r7g.2xlarge'),
+  r7g_4xlarge('r7g.4xlarge'),
+  r7g_8xlarge('r7g.8xlarge'),
+  r7g_12xlarge('r7g.12xlarge'),
+  r7g_16xlarge('r7g.16xlarge'),
+  m7gMedium('m7g.medium'),
+  m7gLarge('m7g.large'),
+  m7gXlarge('m7g.xlarge'),
+  m7g_2xlarge('m7g.2xlarge'),
+  m7g_4xlarge('m7g.4xlarge'),
+  m7g_8xlarge('m7g.8xlarge'),
+  m7g_12xlarge('m7g.12xlarge'),
+  m7g_16xlarge('m7g.16xlarge'),
+  g5gXlarge('g5g.xlarge'),
+  g5g_2xlarge('g5g.2xlarge'),
+  g5g_4xlarge('g5g.4xlarge'),
+  g5g_8xlarge('g5g.8xlarge'),
+  g5g_16xlarge('g5g.16xlarge'),
+  ;
 
-extension EC2InstanceTypeValueExtension on EC2InstanceType {
-  String toValue() {
-    switch (this) {
-      case EC2InstanceType.t2Micro:
-        return 't2.micro';
-      case EC2InstanceType.t2Small:
-        return 't2.small';
-      case EC2InstanceType.t2Medium:
-        return 't2.medium';
-      case EC2InstanceType.t2Large:
-        return 't2.large';
-      case EC2InstanceType.c3Large:
-        return 'c3.large';
-      case EC2InstanceType.c3Xlarge:
-        return 'c3.xlarge';
-      case EC2InstanceType.c3_2xlarge:
-        return 'c3.2xlarge';
-      case EC2InstanceType.c3_4xlarge:
-        return 'c3.4xlarge';
-      case EC2InstanceType.c3_8xlarge:
-        return 'c3.8xlarge';
-      case EC2InstanceType.c4Large:
-        return 'c4.large';
-      case EC2InstanceType.c4Xlarge:
-        return 'c4.xlarge';
-      case EC2InstanceType.c4_2xlarge:
-        return 'c4.2xlarge';
-      case EC2InstanceType.c4_4xlarge:
-        return 'c4.4xlarge';
-      case EC2InstanceType.c4_8xlarge:
-        return 'c4.8xlarge';
-      case EC2InstanceType.c5Large:
-        return 'c5.large';
-      case EC2InstanceType.c5Xlarge:
-        return 'c5.xlarge';
-      case EC2InstanceType.c5_2xlarge:
-        return 'c5.2xlarge';
-      case EC2InstanceType.c5_4xlarge:
-        return 'c5.4xlarge';
-      case EC2InstanceType.c5_9xlarge:
-        return 'c5.9xlarge';
-      case EC2InstanceType.c5_12xlarge:
-        return 'c5.12xlarge';
-      case EC2InstanceType.c5_18xlarge:
-        return 'c5.18xlarge';
-      case EC2InstanceType.c5_24xlarge:
-        return 'c5.24xlarge';
-      case EC2InstanceType.c5aLarge:
-        return 'c5a.large';
-      case EC2InstanceType.c5aXlarge:
-        return 'c5a.xlarge';
-      case EC2InstanceType.c5a_2xlarge:
-        return 'c5a.2xlarge';
-      case EC2InstanceType.c5a_4xlarge:
-        return 'c5a.4xlarge';
-      case EC2InstanceType.c5a_8xlarge:
-        return 'c5a.8xlarge';
-      case EC2InstanceType.c5a_12xlarge:
-        return 'c5a.12xlarge';
-      case EC2InstanceType.c5a_16xlarge:
-        return 'c5a.16xlarge';
-      case EC2InstanceType.c5a_24xlarge:
-        return 'c5a.24xlarge';
-      case EC2InstanceType.r3Large:
-        return 'r3.large';
-      case EC2InstanceType.r3Xlarge:
-        return 'r3.xlarge';
-      case EC2InstanceType.r3_2xlarge:
-        return 'r3.2xlarge';
-      case EC2InstanceType.r3_4xlarge:
-        return 'r3.4xlarge';
-      case EC2InstanceType.r3_8xlarge:
-        return 'r3.8xlarge';
-      case EC2InstanceType.r4Large:
-        return 'r4.large';
-      case EC2InstanceType.r4Xlarge:
-        return 'r4.xlarge';
-      case EC2InstanceType.r4_2xlarge:
-        return 'r4.2xlarge';
-      case EC2InstanceType.r4_4xlarge:
-        return 'r4.4xlarge';
-      case EC2InstanceType.r4_8xlarge:
-        return 'r4.8xlarge';
-      case EC2InstanceType.r4_16xlarge:
-        return 'r4.16xlarge';
-      case EC2InstanceType.r5Large:
-        return 'r5.large';
-      case EC2InstanceType.r5Xlarge:
-        return 'r5.xlarge';
-      case EC2InstanceType.r5_2xlarge:
-        return 'r5.2xlarge';
-      case EC2InstanceType.r5_4xlarge:
-        return 'r5.4xlarge';
-      case EC2InstanceType.r5_8xlarge:
-        return 'r5.8xlarge';
-      case EC2InstanceType.r5_12xlarge:
-        return 'r5.12xlarge';
-      case EC2InstanceType.r5_16xlarge:
-        return 'r5.16xlarge';
-      case EC2InstanceType.r5_24xlarge:
-        return 'r5.24xlarge';
-      case EC2InstanceType.r5aLarge:
-        return 'r5a.large';
-      case EC2InstanceType.r5aXlarge:
-        return 'r5a.xlarge';
-      case EC2InstanceType.r5a_2xlarge:
-        return 'r5a.2xlarge';
-      case EC2InstanceType.r5a_4xlarge:
-        return 'r5a.4xlarge';
-      case EC2InstanceType.r5a_8xlarge:
-        return 'r5a.8xlarge';
-      case EC2InstanceType.r5a_12xlarge:
-        return 'r5a.12xlarge';
-      case EC2InstanceType.r5a_16xlarge:
-        return 'r5a.16xlarge';
-      case EC2InstanceType.r5a_24xlarge:
-        return 'r5a.24xlarge';
-      case EC2InstanceType.m3Medium:
-        return 'm3.medium';
-      case EC2InstanceType.m3Large:
-        return 'm3.large';
-      case EC2InstanceType.m3Xlarge:
-        return 'm3.xlarge';
-      case EC2InstanceType.m3_2xlarge:
-        return 'm3.2xlarge';
-      case EC2InstanceType.m4Large:
-        return 'm4.large';
-      case EC2InstanceType.m4Xlarge:
-        return 'm4.xlarge';
-      case EC2InstanceType.m4_2xlarge:
-        return 'm4.2xlarge';
-      case EC2InstanceType.m4_4xlarge:
-        return 'm4.4xlarge';
-      case EC2InstanceType.m4_10xlarge:
-        return 'm4.10xlarge';
-      case EC2InstanceType.m5Large:
-        return 'm5.large';
-      case EC2InstanceType.m5Xlarge:
-        return 'm5.xlarge';
-      case EC2InstanceType.m5_2xlarge:
-        return 'm5.2xlarge';
-      case EC2InstanceType.m5_4xlarge:
-        return 'm5.4xlarge';
-      case EC2InstanceType.m5_8xlarge:
-        return 'm5.8xlarge';
-      case EC2InstanceType.m5_12xlarge:
-        return 'm5.12xlarge';
-      case EC2InstanceType.m5_16xlarge:
-        return 'm5.16xlarge';
-      case EC2InstanceType.m5_24xlarge:
-        return 'm5.24xlarge';
-      case EC2InstanceType.m5aLarge:
-        return 'm5a.large';
-      case EC2InstanceType.m5aXlarge:
-        return 'm5a.xlarge';
-      case EC2InstanceType.m5a_2xlarge:
-        return 'm5a.2xlarge';
-      case EC2InstanceType.m5a_4xlarge:
-        return 'm5a.4xlarge';
-      case EC2InstanceType.m5a_8xlarge:
-        return 'm5a.8xlarge';
-      case EC2InstanceType.m5a_12xlarge:
-        return 'm5a.12xlarge';
-      case EC2InstanceType.m5a_16xlarge:
-        return 'm5a.16xlarge';
-      case EC2InstanceType.m5a_24xlarge:
-        return 'm5a.24xlarge';
-      case EC2InstanceType.c5dLarge:
-        return 'c5d.large';
-      case EC2InstanceType.c5dXlarge:
-        return 'c5d.xlarge';
-      case EC2InstanceType.c5d_2xlarge:
-        return 'c5d.2xlarge';
-      case EC2InstanceType.c5d_4xlarge:
-        return 'c5d.4xlarge';
-      case EC2InstanceType.c5d_9xlarge:
-        return 'c5d.9xlarge';
-      case EC2InstanceType.c5d_12xlarge:
-        return 'c5d.12xlarge';
-      case EC2InstanceType.c5d_18xlarge:
-        return 'c5d.18xlarge';
-      case EC2InstanceType.c5d_24xlarge:
-        return 'c5d.24xlarge';
-      case EC2InstanceType.c6aLarge:
-        return 'c6a.large';
-      case EC2InstanceType.c6aXlarge:
-        return 'c6a.xlarge';
-      case EC2InstanceType.c6a_2xlarge:
-        return 'c6a.2xlarge';
-      case EC2InstanceType.c6a_4xlarge:
-        return 'c6a.4xlarge';
-      case EC2InstanceType.c6a_8xlarge:
-        return 'c6a.8xlarge';
-      case EC2InstanceType.c6a_12xlarge:
-        return 'c6a.12xlarge';
-      case EC2InstanceType.c6a_16xlarge:
-        return 'c6a.16xlarge';
-      case EC2InstanceType.c6a_24xlarge:
-        return 'c6a.24xlarge';
-      case EC2InstanceType.c6iLarge:
-        return 'c6i.large';
-      case EC2InstanceType.c6iXlarge:
-        return 'c6i.xlarge';
-      case EC2InstanceType.c6i_2xlarge:
-        return 'c6i.2xlarge';
-      case EC2InstanceType.c6i_4xlarge:
-        return 'c6i.4xlarge';
-      case EC2InstanceType.c6i_8xlarge:
-        return 'c6i.8xlarge';
-      case EC2InstanceType.c6i_12xlarge:
-        return 'c6i.12xlarge';
-      case EC2InstanceType.c6i_16xlarge:
-        return 'c6i.16xlarge';
-      case EC2InstanceType.c6i_24xlarge:
-        return 'c6i.24xlarge';
-      case EC2InstanceType.r5dLarge:
-        return 'r5d.large';
-      case EC2InstanceType.r5dXlarge:
-        return 'r5d.xlarge';
-      case EC2InstanceType.r5d_2xlarge:
-        return 'r5d.2xlarge';
-      case EC2InstanceType.r5d_4xlarge:
-        return 'r5d.4xlarge';
-      case EC2InstanceType.r5d_8xlarge:
-        return 'r5d.8xlarge';
-      case EC2InstanceType.r5d_12xlarge:
-        return 'r5d.12xlarge';
-      case EC2InstanceType.r5d_16xlarge:
-        return 'r5d.16xlarge';
-      case EC2InstanceType.r5d_24xlarge:
-        return 'r5d.24xlarge';
-      case EC2InstanceType.m6gMedium:
-        return 'm6g.medium';
-      case EC2InstanceType.m6gLarge:
-        return 'm6g.large';
-      case EC2InstanceType.m6gXlarge:
-        return 'm6g.xlarge';
-      case EC2InstanceType.m6g_2xlarge:
-        return 'm6g.2xlarge';
-      case EC2InstanceType.m6g_4xlarge:
-        return 'm6g.4xlarge';
-      case EC2InstanceType.m6g_8xlarge:
-        return 'm6g.8xlarge';
-      case EC2InstanceType.m6g_12xlarge:
-        return 'm6g.12xlarge';
-      case EC2InstanceType.m6g_16xlarge:
-        return 'm6g.16xlarge';
-      case EC2InstanceType.c6gMedium:
-        return 'c6g.medium';
-      case EC2InstanceType.c6gLarge:
-        return 'c6g.large';
-      case EC2InstanceType.c6gXlarge:
-        return 'c6g.xlarge';
-      case EC2InstanceType.c6g_2xlarge:
-        return 'c6g.2xlarge';
-      case EC2InstanceType.c6g_4xlarge:
-        return 'c6g.4xlarge';
-      case EC2InstanceType.c6g_8xlarge:
-        return 'c6g.8xlarge';
-      case EC2InstanceType.c6g_12xlarge:
-        return 'c6g.12xlarge';
-      case EC2InstanceType.c6g_16xlarge:
-        return 'c6g.16xlarge';
-      case EC2InstanceType.r6gMedium:
-        return 'r6g.medium';
-      case EC2InstanceType.r6gLarge:
-        return 'r6g.large';
-      case EC2InstanceType.r6gXlarge:
-        return 'r6g.xlarge';
-      case EC2InstanceType.r6g_2xlarge:
-        return 'r6g.2xlarge';
-      case EC2InstanceType.r6g_4xlarge:
-        return 'r6g.4xlarge';
-      case EC2InstanceType.r6g_8xlarge:
-        return 'r6g.8xlarge';
-      case EC2InstanceType.r6g_12xlarge:
-        return 'r6g.12xlarge';
-      case EC2InstanceType.r6g_16xlarge:
-        return 'r6g.16xlarge';
-      case EC2InstanceType.c6gnMedium:
-        return 'c6gn.medium';
-      case EC2InstanceType.c6gnLarge:
-        return 'c6gn.large';
-      case EC2InstanceType.c6gnXlarge:
-        return 'c6gn.xlarge';
-      case EC2InstanceType.c6gn_2xlarge:
-        return 'c6gn.2xlarge';
-      case EC2InstanceType.c6gn_4xlarge:
-        return 'c6gn.4xlarge';
-      case EC2InstanceType.c6gn_8xlarge:
-        return 'c6gn.8xlarge';
-      case EC2InstanceType.c6gn_12xlarge:
-        return 'c6gn.12xlarge';
-      case EC2InstanceType.c6gn_16xlarge:
-        return 'c6gn.16xlarge';
-      case EC2InstanceType.c7gMedium:
-        return 'c7g.medium';
-      case EC2InstanceType.c7gLarge:
-        return 'c7g.large';
-      case EC2InstanceType.c7gXlarge:
-        return 'c7g.xlarge';
-      case EC2InstanceType.c7g_2xlarge:
-        return 'c7g.2xlarge';
-      case EC2InstanceType.c7g_4xlarge:
-        return 'c7g.4xlarge';
-      case EC2InstanceType.c7g_8xlarge:
-        return 'c7g.8xlarge';
-      case EC2InstanceType.c7g_12xlarge:
-        return 'c7g.12xlarge';
-      case EC2InstanceType.c7g_16xlarge:
-        return 'c7g.16xlarge';
-      case EC2InstanceType.r7gMedium:
-        return 'r7g.medium';
-      case EC2InstanceType.r7gLarge:
-        return 'r7g.large';
-      case EC2InstanceType.r7gXlarge:
-        return 'r7g.xlarge';
-      case EC2InstanceType.r7g_2xlarge:
-        return 'r7g.2xlarge';
-      case EC2InstanceType.r7g_4xlarge:
-        return 'r7g.4xlarge';
-      case EC2InstanceType.r7g_8xlarge:
-        return 'r7g.8xlarge';
-      case EC2InstanceType.r7g_12xlarge:
-        return 'r7g.12xlarge';
-      case EC2InstanceType.r7g_16xlarge:
-        return 'r7g.16xlarge';
-      case EC2InstanceType.m7gMedium:
-        return 'm7g.medium';
-      case EC2InstanceType.m7gLarge:
-        return 'm7g.large';
-      case EC2InstanceType.m7gXlarge:
-        return 'm7g.xlarge';
-      case EC2InstanceType.m7g_2xlarge:
-        return 'm7g.2xlarge';
-      case EC2InstanceType.m7g_4xlarge:
-        return 'm7g.4xlarge';
-      case EC2InstanceType.m7g_8xlarge:
-        return 'm7g.8xlarge';
-      case EC2InstanceType.m7g_12xlarge:
-        return 'm7g.12xlarge';
-      case EC2InstanceType.m7g_16xlarge:
-        return 'm7g.16xlarge';
-      case EC2InstanceType.g5gXlarge:
-        return 'g5g.xlarge';
-      case EC2InstanceType.g5g_2xlarge:
-        return 'g5g.2xlarge';
-      case EC2InstanceType.g5g_4xlarge:
-        return 'g5g.4xlarge';
-      case EC2InstanceType.g5g_8xlarge:
-        return 'g5g.8xlarge';
-      case EC2InstanceType.g5g_16xlarge:
-        return 'g5g.16xlarge';
-    }
-  }
-}
+  final String value;
 
-extension EC2InstanceTypeFromString on String {
-  EC2InstanceType toEC2InstanceType() {
-    switch (this) {
-      case 't2.micro':
-        return EC2InstanceType.t2Micro;
-      case 't2.small':
-        return EC2InstanceType.t2Small;
-      case 't2.medium':
-        return EC2InstanceType.t2Medium;
-      case 't2.large':
-        return EC2InstanceType.t2Large;
-      case 'c3.large':
-        return EC2InstanceType.c3Large;
-      case 'c3.xlarge':
-        return EC2InstanceType.c3Xlarge;
-      case 'c3.2xlarge':
-        return EC2InstanceType.c3_2xlarge;
-      case 'c3.4xlarge':
-        return EC2InstanceType.c3_4xlarge;
-      case 'c3.8xlarge':
-        return EC2InstanceType.c3_8xlarge;
-      case 'c4.large':
-        return EC2InstanceType.c4Large;
-      case 'c4.xlarge':
-        return EC2InstanceType.c4Xlarge;
-      case 'c4.2xlarge':
-        return EC2InstanceType.c4_2xlarge;
-      case 'c4.4xlarge':
-        return EC2InstanceType.c4_4xlarge;
-      case 'c4.8xlarge':
-        return EC2InstanceType.c4_8xlarge;
-      case 'c5.large':
-        return EC2InstanceType.c5Large;
-      case 'c5.xlarge':
-        return EC2InstanceType.c5Xlarge;
-      case 'c5.2xlarge':
-        return EC2InstanceType.c5_2xlarge;
-      case 'c5.4xlarge':
-        return EC2InstanceType.c5_4xlarge;
-      case 'c5.9xlarge':
-        return EC2InstanceType.c5_9xlarge;
-      case 'c5.12xlarge':
-        return EC2InstanceType.c5_12xlarge;
-      case 'c5.18xlarge':
-        return EC2InstanceType.c5_18xlarge;
-      case 'c5.24xlarge':
-        return EC2InstanceType.c5_24xlarge;
-      case 'c5a.large':
-        return EC2InstanceType.c5aLarge;
-      case 'c5a.xlarge':
-        return EC2InstanceType.c5aXlarge;
-      case 'c5a.2xlarge':
-        return EC2InstanceType.c5a_2xlarge;
-      case 'c5a.4xlarge':
-        return EC2InstanceType.c5a_4xlarge;
-      case 'c5a.8xlarge':
-        return EC2InstanceType.c5a_8xlarge;
-      case 'c5a.12xlarge':
-        return EC2InstanceType.c5a_12xlarge;
-      case 'c5a.16xlarge':
-        return EC2InstanceType.c5a_16xlarge;
-      case 'c5a.24xlarge':
-        return EC2InstanceType.c5a_24xlarge;
-      case 'r3.large':
-        return EC2InstanceType.r3Large;
-      case 'r3.xlarge':
-        return EC2InstanceType.r3Xlarge;
-      case 'r3.2xlarge':
-        return EC2InstanceType.r3_2xlarge;
-      case 'r3.4xlarge':
-        return EC2InstanceType.r3_4xlarge;
-      case 'r3.8xlarge':
-        return EC2InstanceType.r3_8xlarge;
-      case 'r4.large':
-        return EC2InstanceType.r4Large;
-      case 'r4.xlarge':
-        return EC2InstanceType.r4Xlarge;
-      case 'r4.2xlarge':
-        return EC2InstanceType.r4_2xlarge;
-      case 'r4.4xlarge':
-        return EC2InstanceType.r4_4xlarge;
-      case 'r4.8xlarge':
-        return EC2InstanceType.r4_8xlarge;
-      case 'r4.16xlarge':
-        return EC2InstanceType.r4_16xlarge;
-      case 'r5.large':
-        return EC2InstanceType.r5Large;
-      case 'r5.xlarge':
-        return EC2InstanceType.r5Xlarge;
-      case 'r5.2xlarge':
-        return EC2InstanceType.r5_2xlarge;
-      case 'r5.4xlarge':
-        return EC2InstanceType.r5_4xlarge;
-      case 'r5.8xlarge':
-        return EC2InstanceType.r5_8xlarge;
-      case 'r5.12xlarge':
-        return EC2InstanceType.r5_12xlarge;
-      case 'r5.16xlarge':
-        return EC2InstanceType.r5_16xlarge;
-      case 'r5.24xlarge':
-        return EC2InstanceType.r5_24xlarge;
-      case 'r5a.large':
-        return EC2InstanceType.r5aLarge;
-      case 'r5a.xlarge':
-        return EC2InstanceType.r5aXlarge;
-      case 'r5a.2xlarge':
-        return EC2InstanceType.r5a_2xlarge;
-      case 'r5a.4xlarge':
-        return EC2InstanceType.r5a_4xlarge;
-      case 'r5a.8xlarge':
-        return EC2InstanceType.r5a_8xlarge;
-      case 'r5a.12xlarge':
-        return EC2InstanceType.r5a_12xlarge;
-      case 'r5a.16xlarge':
-        return EC2InstanceType.r5a_16xlarge;
-      case 'r5a.24xlarge':
-        return EC2InstanceType.r5a_24xlarge;
-      case 'm3.medium':
-        return EC2InstanceType.m3Medium;
-      case 'm3.large':
-        return EC2InstanceType.m3Large;
-      case 'm3.xlarge':
-        return EC2InstanceType.m3Xlarge;
-      case 'm3.2xlarge':
-        return EC2InstanceType.m3_2xlarge;
-      case 'm4.large':
-        return EC2InstanceType.m4Large;
-      case 'm4.xlarge':
-        return EC2InstanceType.m4Xlarge;
-      case 'm4.2xlarge':
-        return EC2InstanceType.m4_2xlarge;
-      case 'm4.4xlarge':
-        return EC2InstanceType.m4_4xlarge;
-      case 'm4.10xlarge':
-        return EC2InstanceType.m4_10xlarge;
-      case 'm5.large':
-        return EC2InstanceType.m5Large;
-      case 'm5.xlarge':
-        return EC2InstanceType.m5Xlarge;
-      case 'm5.2xlarge':
-        return EC2InstanceType.m5_2xlarge;
-      case 'm5.4xlarge':
-        return EC2InstanceType.m5_4xlarge;
-      case 'm5.8xlarge':
-        return EC2InstanceType.m5_8xlarge;
-      case 'm5.12xlarge':
-        return EC2InstanceType.m5_12xlarge;
-      case 'm5.16xlarge':
-        return EC2InstanceType.m5_16xlarge;
-      case 'm5.24xlarge':
-        return EC2InstanceType.m5_24xlarge;
-      case 'm5a.large':
-        return EC2InstanceType.m5aLarge;
-      case 'm5a.xlarge':
-        return EC2InstanceType.m5aXlarge;
-      case 'm5a.2xlarge':
-        return EC2InstanceType.m5a_2xlarge;
-      case 'm5a.4xlarge':
-        return EC2InstanceType.m5a_4xlarge;
-      case 'm5a.8xlarge':
-        return EC2InstanceType.m5a_8xlarge;
-      case 'm5a.12xlarge':
-        return EC2InstanceType.m5a_12xlarge;
-      case 'm5a.16xlarge':
-        return EC2InstanceType.m5a_16xlarge;
-      case 'm5a.24xlarge':
-        return EC2InstanceType.m5a_24xlarge;
-      case 'c5d.large':
-        return EC2InstanceType.c5dLarge;
-      case 'c5d.xlarge':
-        return EC2InstanceType.c5dXlarge;
-      case 'c5d.2xlarge':
-        return EC2InstanceType.c5d_2xlarge;
-      case 'c5d.4xlarge':
-        return EC2InstanceType.c5d_4xlarge;
-      case 'c5d.9xlarge':
-        return EC2InstanceType.c5d_9xlarge;
-      case 'c5d.12xlarge':
-        return EC2InstanceType.c5d_12xlarge;
-      case 'c5d.18xlarge':
-        return EC2InstanceType.c5d_18xlarge;
-      case 'c5d.24xlarge':
-        return EC2InstanceType.c5d_24xlarge;
-      case 'c6a.large':
-        return EC2InstanceType.c6aLarge;
-      case 'c6a.xlarge':
-        return EC2InstanceType.c6aXlarge;
-      case 'c6a.2xlarge':
-        return EC2InstanceType.c6a_2xlarge;
-      case 'c6a.4xlarge':
-        return EC2InstanceType.c6a_4xlarge;
-      case 'c6a.8xlarge':
-        return EC2InstanceType.c6a_8xlarge;
-      case 'c6a.12xlarge':
-        return EC2InstanceType.c6a_12xlarge;
-      case 'c6a.16xlarge':
-        return EC2InstanceType.c6a_16xlarge;
-      case 'c6a.24xlarge':
-        return EC2InstanceType.c6a_24xlarge;
-      case 'c6i.large':
-        return EC2InstanceType.c6iLarge;
-      case 'c6i.xlarge':
-        return EC2InstanceType.c6iXlarge;
-      case 'c6i.2xlarge':
-        return EC2InstanceType.c6i_2xlarge;
-      case 'c6i.4xlarge':
-        return EC2InstanceType.c6i_4xlarge;
-      case 'c6i.8xlarge':
-        return EC2InstanceType.c6i_8xlarge;
-      case 'c6i.12xlarge':
-        return EC2InstanceType.c6i_12xlarge;
-      case 'c6i.16xlarge':
-        return EC2InstanceType.c6i_16xlarge;
-      case 'c6i.24xlarge':
-        return EC2InstanceType.c6i_24xlarge;
-      case 'r5d.large':
-        return EC2InstanceType.r5dLarge;
-      case 'r5d.xlarge':
-        return EC2InstanceType.r5dXlarge;
-      case 'r5d.2xlarge':
-        return EC2InstanceType.r5d_2xlarge;
-      case 'r5d.4xlarge':
-        return EC2InstanceType.r5d_4xlarge;
-      case 'r5d.8xlarge':
-        return EC2InstanceType.r5d_8xlarge;
-      case 'r5d.12xlarge':
-        return EC2InstanceType.r5d_12xlarge;
-      case 'r5d.16xlarge':
-        return EC2InstanceType.r5d_16xlarge;
-      case 'r5d.24xlarge':
-        return EC2InstanceType.r5d_24xlarge;
-      case 'm6g.medium':
-        return EC2InstanceType.m6gMedium;
-      case 'm6g.large':
-        return EC2InstanceType.m6gLarge;
-      case 'm6g.xlarge':
-        return EC2InstanceType.m6gXlarge;
-      case 'm6g.2xlarge':
-        return EC2InstanceType.m6g_2xlarge;
-      case 'm6g.4xlarge':
-        return EC2InstanceType.m6g_4xlarge;
-      case 'm6g.8xlarge':
-        return EC2InstanceType.m6g_8xlarge;
-      case 'm6g.12xlarge':
-        return EC2InstanceType.m6g_12xlarge;
-      case 'm6g.16xlarge':
-        return EC2InstanceType.m6g_16xlarge;
-      case 'c6g.medium':
-        return EC2InstanceType.c6gMedium;
-      case 'c6g.large':
-        return EC2InstanceType.c6gLarge;
-      case 'c6g.xlarge':
-        return EC2InstanceType.c6gXlarge;
-      case 'c6g.2xlarge':
-        return EC2InstanceType.c6g_2xlarge;
-      case 'c6g.4xlarge':
-        return EC2InstanceType.c6g_4xlarge;
-      case 'c6g.8xlarge':
-        return EC2InstanceType.c6g_8xlarge;
-      case 'c6g.12xlarge':
-        return EC2InstanceType.c6g_12xlarge;
-      case 'c6g.16xlarge':
-        return EC2InstanceType.c6g_16xlarge;
-      case 'r6g.medium':
-        return EC2InstanceType.r6gMedium;
-      case 'r6g.large':
-        return EC2InstanceType.r6gLarge;
-      case 'r6g.xlarge':
-        return EC2InstanceType.r6gXlarge;
-      case 'r6g.2xlarge':
-        return EC2InstanceType.r6g_2xlarge;
-      case 'r6g.4xlarge':
-        return EC2InstanceType.r6g_4xlarge;
-      case 'r6g.8xlarge':
-        return EC2InstanceType.r6g_8xlarge;
-      case 'r6g.12xlarge':
-        return EC2InstanceType.r6g_12xlarge;
-      case 'r6g.16xlarge':
-        return EC2InstanceType.r6g_16xlarge;
-      case 'c6gn.medium':
-        return EC2InstanceType.c6gnMedium;
-      case 'c6gn.large':
-        return EC2InstanceType.c6gnLarge;
-      case 'c6gn.xlarge':
-        return EC2InstanceType.c6gnXlarge;
-      case 'c6gn.2xlarge':
-        return EC2InstanceType.c6gn_2xlarge;
-      case 'c6gn.4xlarge':
-        return EC2InstanceType.c6gn_4xlarge;
-      case 'c6gn.8xlarge':
-        return EC2InstanceType.c6gn_8xlarge;
-      case 'c6gn.12xlarge':
-        return EC2InstanceType.c6gn_12xlarge;
-      case 'c6gn.16xlarge':
-        return EC2InstanceType.c6gn_16xlarge;
-      case 'c7g.medium':
-        return EC2InstanceType.c7gMedium;
-      case 'c7g.large':
-        return EC2InstanceType.c7gLarge;
-      case 'c7g.xlarge':
-        return EC2InstanceType.c7gXlarge;
-      case 'c7g.2xlarge':
-        return EC2InstanceType.c7g_2xlarge;
-      case 'c7g.4xlarge':
-        return EC2InstanceType.c7g_4xlarge;
-      case 'c7g.8xlarge':
-        return EC2InstanceType.c7g_8xlarge;
-      case 'c7g.12xlarge':
-        return EC2InstanceType.c7g_12xlarge;
-      case 'c7g.16xlarge':
-        return EC2InstanceType.c7g_16xlarge;
-      case 'r7g.medium':
-        return EC2InstanceType.r7gMedium;
-      case 'r7g.large':
-        return EC2InstanceType.r7gLarge;
-      case 'r7g.xlarge':
-        return EC2InstanceType.r7gXlarge;
-      case 'r7g.2xlarge':
-        return EC2InstanceType.r7g_2xlarge;
-      case 'r7g.4xlarge':
-        return EC2InstanceType.r7g_4xlarge;
-      case 'r7g.8xlarge':
-        return EC2InstanceType.r7g_8xlarge;
-      case 'r7g.12xlarge':
-        return EC2InstanceType.r7g_12xlarge;
-      case 'r7g.16xlarge':
-        return EC2InstanceType.r7g_16xlarge;
-      case 'm7g.medium':
-        return EC2InstanceType.m7gMedium;
-      case 'm7g.large':
-        return EC2InstanceType.m7gLarge;
-      case 'm7g.xlarge':
-        return EC2InstanceType.m7gXlarge;
-      case 'm7g.2xlarge':
-        return EC2InstanceType.m7g_2xlarge;
-      case 'm7g.4xlarge':
-        return EC2InstanceType.m7g_4xlarge;
-      case 'm7g.8xlarge':
-        return EC2InstanceType.m7g_8xlarge;
-      case 'm7g.12xlarge':
-        return EC2InstanceType.m7g_12xlarge;
-      case 'm7g.16xlarge':
-        return EC2InstanceType.m7g_16xlarge;
-      case 'g5g.xlarge':
-        return EC2InstanceType.g5gXlarge;
-      case 'g5g.2xlarge':
-        return EC2InstanceType.g5g_2xlarge;
-      case 'g5g.4xlarge':
-        return EC2InstanceType.g5g_4xlarge;
-      case 'g5g.8xlarge':
-        return EC2InstanceType.g5g_8xlarge;
-      case 'g5g.16xlarge':
-        return EC2InstanceType.g5g_16xlarge;
-    }
-    throw Exception('$this is not known in enum EC2InstanceType');
-  }
+  const EC2InstanceType(this.value);
+
+  static EC2InstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EC2InstanceType'));
 }
 
 /// Log entry describing an event that involves Amazon GameLift resources (such
@@ -13748,7 +12850,7 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       count: json['Count'] as int?,
-      eventCode: (json['EventCode'] as String?)?.toEventCode(),
+      eventCode: (json['EventCode'] as String?)?.let(EventCode.fromString),
       eventId: json['EventId'] as String?,
       eventTime: timeStampFromJson(json['EventTime']),
       message: json['Message'] as String?,
@@ -13759,191 +12861,53 @@ class Event {
 }
 
 enum EventCode {
-  genericEvent,
-  fleetCreated,
-  fleetDeleted,
-  fleetScalingEvent,
-  fleetStateDownloading,
-  fleetStateValidating,
-  fleetStateBuilding,
-  fleetStateActivating,
-  fleetStateActive,
-  fleetStateError,
-  fleetInitializationFailed,
-  fleetBinaryDownloadFailed,
-  fleetValidationLaunchPathNotFound,
-  fleetValidationExecutableRuntimeFailure,
-  fleetValidationTimedOut,
-  fleetActivationFailed,
-  fleetActivationFailedNoInstances,
-  fleetNewGameSessionProtectionPolicyUpdated,
-  serverProcessInvalidPath,
-  serverProcessSdkInitializationTimeout,
-  serverProcessProcessReadyTimeout,
-  serverProcessCrashed,
-  serverProcessTerminatedUnhealthy,
-  serverProcessForceTerminated,
-  serverProcessProcessExitTimeout,
-  gameSessionActivationTimeout,
-  fleetCreationExtractingBuild,
-  fleetCreationRunningInstaller,
-  fleetCreationValidatingRuntimeConfig,
-  fleetVpcPeeringSucceeded,
-  fleetVpcPeeringFailed,
-  fleetVpcPeeringDeleted,
-  instanceInterrupted,
-  instanceRecycled,
-}
+  genericEvent('GENERIC_EVENT'),
+  fleetCreated('FLEET_CREATED'),
+  fleetDeleted('FLEET_DELETED'),
+  fleetScalingEvent('FLEET_SCALING_EVENT'),
+  fleetStateDownloading('FLEET_STATE_DOWNLOADING'),
+  fleetStateValidating('FLEET_STATE_VALIDATING'),
+  fleetStateBuilding('FLEET_STATE_BUILDING'),
+  fleetStateActivating('FLEET_STATE_ACTIVATING'),
+  fleetStateActive('FLEET_STATE_ACTIVE'),
+  fleetStateError('FLEET_STATE_ERROR'),
+  fleetInitializationFailed('FLEET_INITIALIZATION_FAILED'),
+  fleetBinaryDownloadFailed('FLEET_BINARY_DOWNLOAD_FAILED'),
+  fleetValidationLaunchPathNotFound('FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND'),
+  fleetValidationExecutableRuntimeFailure(
+      'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE'),
+  fleetValidationTimedOut('FLEET_VALIDATION_TIMED_OUT'),
+  fleetActivationFailed('FLEET_ACTIVATION_FAILED'),
+  fleetActivationFailedNoInstances('FLEET_ACTIVATION_FAILED_NO_INSTANCES'),
+  fleetNewGameSessionProtectionPolicyUpdated(
+      'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED'),
+  serverProcessInvalidPath('SERVER_PROCESS_INVALID_PATH'),
+  serverProcessSdkInitializationTimeout(
+      'SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT'),
+  serverProcessProcessReadyTimeout('SERVER_PROCESS_PROCESS_READY_TIMEOUT'),
+  serverProcessCrashed('SERVER_PROCESS_CRASHED'),
+  serverProcessTerminatedUnhealthy('SERVER_PROCESS_TERMINATED_UNHEALTHY'),
+  serverProcessForceTerminated('SERVER_PROCESS_FORCE_TERMINATED'),
+  serverProcessProcessExitTimeout('SERVER_PROCESS_PROCESS_EXIT_TIMEOUT'),
+  gameSessionActivationTimeout('GAME_SESSION_ACTIVATION_TIMEOUT'),
+  fleetCreationExtractingBuild('FLEET_CREATION_EXTRACTING_BUILD'),
+  fleetCreationRunningInstaller('FLEET_CREATION_RUNNING_INSTALLER'),
+  fleetCreationValidatingRuntimeConfig(
+      'FLEET_CREATION_VALIDATING_RUNTIME_CONFIG'),
+  fleetVpcPeeringSucceeded('FLEET_VPC_PEERING_SUCCEEDED'),
+  fleetVpcPeeringFailed('FLEET_VPC_PEERING_FAILED'),
+  fleetVpcPeeringDeleted('FLEET_VPC_PEERING_DELETED'),
+  instanceInterrupted('INSTANCE_INTERRUPTED'),
+  instanceRecycled('INSTANCE_RECYCLED'),
+  ;
 
-extension EventCodeValueExtension on EventCode {
-  String toValue() {
-    switch (this) {
-      case EventCode.genericEvent:
-        return 'GENERIC_EVENT';
-      case EventCode.fleetCreated:
-        return 'FLEET_CREATED';
-      case EventCode.fleetDeleted:
-        return 'FLEET_DELETED';
-      case EventCode.fleetScalingEvent:
-        return 'FLEET_SCALING_EVENT';
-      case EventCode.fleetStateDownloading:
-        return 'FLEET_STATE_DOWNLOADING';
-      case EventCode.fleetStateValidating:
-        return 'FLEET_STATE_VALIDATING';
-      case EventCode.fleetStateBuilding:
-        return 'FLEET_STATE_BUILDING';
-      case EventCode.fleetStateActivating:
-        return 'FLEET_STATE_ACTIVATING';
-      case EventCode.fleetStateActive:
-        return 'FLEET_STATE_ACTIVE';
-      case EventCode.fleetStateError:
-        return 'FLEET_STATE_ERROR';
-      case EventCode.fleetInitializationFailed:
-        return 'FLEET_INITIALIZATION_FAILED';
-      case EventCode.fleetBinaryDownloadFailed:
-        return 'FLEET_BINARY_DOWNLOAD_FAILED';
-      case EventCode.fleetValidationLaunchPathNotFound:
-        return 'FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND';
-      case EventCode.fleetValidationExecutableRuntimeFailure:
-        return 'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE';
-      case EventCode.fleetValidationTimedOut:
-        return 'FLEET_VALIDATION_TIMED_OUT';
-      case EventCode.fleetActivationFailed:
-        return 'FLEET_ACTIVATION_FAILED';
-      case EventCode.fleetActivationFailedNoInstances:
-        return 'FLEET_ACTIVATION_FAILED_NO_INSTANCES';
-      case EventCode.fleetNewGameSessionProtectionPolicyUpdated:
-        return 'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED';
-      case EventCode.serverProcessInvalidPath:
-        return 'SERVER_PROCESS_INVALID_PATH';
-      case EventCode.serverProcessSdkInitializationTimeout:
-        return 'SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT';
-      case EventCode.serverProcessProcessReadyTimeout:
-        return 'SERVER_PROCESS_PROCESS_READY_TIMEOUT';
-      case EventCode.serverProcessCrashed:
-        return 'SERVER_PROCESS_CRASHED';
-      case EventCode.serverProcessTerminatedUnhealthy:
-        return 'SERVER_PROCESS_TERMINATED_UNHEALTHY';
-      case EventCode.serverProcessForceTerminated:
-        return 'SERVER_PROCESS_FORCE_TERMINATED';
-      case EventCode.serverProcessProcessExitTimeout:
-        return 'SERVER_PROCESS_PROCESS_EXIT_TIMEOUT';
-      case EventCode.gameSessionActivationTimeout:
-        return 'GAME_SESSION_ACTIVATION_TIMEOUT';
-      case EventCode.fleetCreationExtractingBuild:
-        return 'FLEET_CREATION_EXTRACTING_BUILD';
-      case EventCode.fleetCreationRunningInstaller:
-        return 'FLEET_CREATION_RUNNING_INSTALLER';
-      case EventCode.fleetCreationValidatingRuntimeConfig:
-        return 'FLEET_CREATION_VALIDATING_RUNTIME_CONFIG';
-      case EventCode.fleetVpcPeeringSucceeded:
-        return 'FLEET_VPC_PEERING_SUCCEEDED';
-      case EventCode.fleetVpcPeeringFailed:
-        return 'FLEET_VPC_PEERING_FAILED';
-      case EventCode.fleetVpcPeeringDeleted:
-        return 'FLEET_VPC_PEERING_DELETED';
-      case EventCode.instanceInterrupted:
-        return 'INSTANCE_INTERRUPTED';
-      case EventCode.instanceRecycled:
-        return 'INSTANCE_RECYCLED';
-    }
-  }
-}
+  final String value;
 
-extension EventCodeFromString on String {
-  EventCode toEventCode() {
-    switch (this) {
-      case 'GENERIC_EVENT':
-        return EventCode.genericEvent;
-      case 'FLEET_CREATED':
-        return EventCode.fleetCreated;
-      case 'FLEET_DELETED':
-        return EventCode.fleetDeleted;
-      case 'FLEET_SCALING_EVENT':
-        return EventCode.fleetScalingEvent;
-      case 'FLEET_STATE_DOWNLOADING':
-        return EventCode.fleetStateDownloading;
-      case 'FLEET_STATE_VALIDATING':
-        return EventCode.fleetStateValidating;
-      case 'FLEET_STATE_BUILDING':
-        return EventCode.fleetStateBuilding;
-      case 'FLEET_STATE_ACTIVATING':
-        return EventCode.fleetStateActivating;
-      case 'FLEET_STATE_ACTIVE':
-        return EventCode.fleetStateActive;
-      case 'FLEET_STATE_ERROR':
-        return EventCode.fleetStateError;
-      case 'FLEET_INITIALIZATION_FAILED':
-        return EventCode.fleetInitializationFailed;
-      case 'FLEET_BINARY_DOWNLOAD_FAILED':
-        return EventCode.fleetBinaryDownloadFailed;
-      case 'FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND':
-        return EventCode.fleetValidationLaunchPathNotFound;
-      case 'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE':
-        return EventCode.fleetValidationExecutableRuntimeFailure;
-      case 'FLEET_VALIDATION_TIMED_OUT':
-        return EventCode.fleetValidationTimedOut;
-      case 'FLEET_ACTIVATION_FAILED':
-        return EventCode.fleetActivationFailed;
-      case 'FLEET_ACTIVATION_FAILED_NO_INSTANCES':
-        return EventCode.fleetActivationFailedNoInstances;
-      case 'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED':
-        return EventCode.fleetNewGameSessionProtectionPolicyUpdated;
-      case 'SERVER_PROCESS_INVALID_PATH':
-        return EventCode.serverProcessInvalidPath;
-      case 'SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT':
-        return EventCode.serverProcessSdkInitializationTimeout;
-      case 'SERVER_PROCESS_PROCESS_READY_TIMEOUT':
-        return EventCode.serverProcessProcessReadyTimeout;
-      case 'SERVER_PROCESS_CRASHED':
-        return EventCode.serverProcessCrashed;
-      case 'SERVER_PROCESS_TERMINATED_UNHEALTHY':
-        return EventCode.serverProcessTerminatedUnhealthy;
-      case 'SERVER_PROCESS_FORCE_TERMINATED':
-        return EventCode.serverProcessForceTerminated;
-      case 'SERVER_PROCESS_PROCESS_EXIT_TIMEOUT':
-        return EventCode.serverProcessProcessExitTimeout;
-      case 'GAME_SESSION_ACTIVATION_TIMEOUT':
-        return EventCode.gameSessionActivationTimeout;
-      case 'FLEET_CREATION_EXTRACTING_BUILD':
-        return EventCode.fleetCreationExtractingBuild;
-      case 'FLEET_CREATION_RUNNING_INSTALLER':
-        return EventCode.fleetCreationRunningInstaller;
-      case 'FLEET_CREATION_VALIDATING_RUNTIME_CONFIG':
-        return EventCode.fleetCreationValidatingRuntimeConfig;
-      case 'FLEET_VPC_PEERING_SUCCEEDED':
-        return EventCode.fleetVpcPeeringSucceeded;
-      case 'FLEET_VPC_PEERING_FAILED':
-        return EventCode.fleetVpcPeeringFailed;
-      case 'FLEET_VPC_PEERING_DELETED':
-        return EventCode.fleetVpcPeeringDeleted;
-      case 'INSTANCE_INTERRUPTED':
-        return EventCode.instanceInterrupted;
-      case 'INSTANCE_RECYCLED':
-        return EventCode.instanceRecycled;
-    }
-    throw Exception('$this is not known in enum EventCode');
-  }
+  const EventCode(this.value);
+
+  static EventCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventCode'));
 }
 
 /// A list of fleet locations where a game session queue can place new game
@@ -13978,54 +12942,31 @@ class FilterConfiguration {
 }
 
 enum FilterInstanceStatus {
-  active,
-  draining,
-}
+  active('ACTIVE'),
+  draining('DRAINING'),
+  ;
 
-extension FilterInstanceStatusValueExtension on FilterInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case FilterInstanceStatus.active:
-        return 'ACTIVE';
-      case FilterInstanceStatus.draining:
-        return 'DRAINING';
-    }
-  }
-}
+  final String value;
 
-extension FilterInstanceStatusFromString on String {
-  FilterInstanceStatus toFilterInstanceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return FilterInstanceStatus.active;
-      case 'DRAINING':
-        return FilterInstanceStatus.draining;
-    }
-    throw Exception('$this is not known in enum FilterInstanceStatus');
-  }
+  const FilterInstanceStatus(this.value);
+
+  static FilterInstanceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FilterInstanceStatus'));
 }
 
 enum FleetAction {
-  autoScaling,
-}
+  autoScaling('AUTO_SCALING'),
+  ;
 
-extension FleetActionValueExtension on FleetAction {
-  String toValue() {
-    switch (this) {
-      case FleetAction.autoScaling:
-        return 'AUTO_SCALING';
-    }
-  }
-}
+  final String value;
 
-extension FleetActionFromString on String {
-  FleetAction toFleetAction() {
-    switch (this) {
-      case 'AUTO_SCALING':
-        return FleetAction.autoScaling;
-    }
-    throw Exception('$this is not known in enum FleetAction');
-  }
+  const FleetAction(this.value);
+
+  static FleetAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FleetAction'));
 }
 
 /// <b>This operation has been expanded to use with the Amazon GameLift
@@ -14291,7 +13232,8 @@ class FleetAttributes {
           ? CertificateConfiguration.fromJson(
               json['CertificateConfiguration'] as Map<String, dynamic>)
           : null,
-      computeType: (json['ComputeType'] as String?)?.toComputeType(),
+      computeType:
+          (json['ComputeType'] as String?)?.let(ComputeType.fromString),
       containerGroupsAttributes: json['ContainerGroupsAttributes'] != null
           ? ContainerGroupsAttributes.fromJson(
               json['ContainerGroupsAttributes'] as Map<String, dynamic>)
@@ -14300,12 +13242,13 @@ class FleetAttributes {
       description: json['Description'] as String?,
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
-      fleetType: (json['FleetType'] as String?)?.toFleetType(),
+      fleetType: (json['FleetType'] as String?)?.let(FleetType.fromString),
       instanceRoleArn: json['InstanceRoleArn'] as String?,
       instanceRoleCredentialsProvider:
           (json['InstanceRoleCredentialsProvider'] as String?)
-              ?.toInstanceRoleCredentialsProvider(),
-      instanceType: (json['InstanceType'] as String?)?.toEC2InstanceType(),
+              ?.let(InstanceRoleCredentialsProvider.fromString),
+      instanceType:
+          (json['InstanceType'] as String?)?.let(EC2InstanceType.fromString),
       logPaths: (json['LogPaths'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -14317,9 +13260,9 @@ class FleetAttributes {
       name: json['Name'] as String?,
       newGameSessionProtectionPolicy:
           (json['NewGameSessionProtectionPolicy'] as String?)
-              ?.toProtectionPolicy(),
+              ?.let(ProtectionPolicy.fromString),
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
       resourceCreationLimitPolicy: json['ResourceCreationLimitPolicy'] != null
           ? ResourceCreationLimitPolicy.fromJson(
               json['ResourceCreationLimitPolicy'] as Map<String, dynamic>)
@@ -14328,10 +13271,10 @@ class FleetAttributes {
       scriptId: json['ScriptId'] as String?,
       serverLaunchParameters: json['ServerLaunchParameters'] as String?,
       serverLaunchPath: json['ServerLaunchPath'] as String?,
-      status: (json['Status'] as String?)?.toFleetStatus(),
+      status: (json['Status'] as String?)?.let(FleetStatus.fromString),
       stoppedActions: (json['StoppedActions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toFleetAction())
+          .map((e) => FleetAction.fromString((e as String)))
           .toList(),
       terminationTime: timeStampFromJson(json['TerminationTime']),
     );
@@ -14398,7 +13341,8 @@ class FleetCapacity {
           ? EC2InstanceCounts.fromJson(
               json['InstanceCounts'] as Map<String, dynamic>)
           : null,
-      instanceType: (json['InstanceType'] as String?)?.toEC2InstanceType(),
+      instanceType:
+          (json['InstanceType'] as String?)?.let(EC2InstanceType.fromString),
       location: json['Location'] as String?,
       replicaContainerGroupCounts: json['ReplicaContainerGroupCounts'] != null
           ? ReplicaContainerGroupCounts.fromJson(
@@ -14409,99 +13353,39 @@ class FleetCapacity {
 }
 
 enum FleetStatus {
-  $new,
-  downloading,
-  validating,
-  building,
-  activating,
-  active,
-  deleting,
-  error,
-  terminated,
-  notFound,
-}
+  $new('NEW'),
+  downloading('DOWNLOADING'),
+  validating('VALIDATING'),
+  building('BUILDING'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  error('ERROR'),
+  terminated('TERMINATED'),
+  notFound('NOT_FOUND'),
+  ;
 
-extension FleetStatusValueExtension on FleetStatus {
-  String toValue() {
-    switch (this) {
-      case FleetStatus.$new:
-        return 'NEW';
-      case FleetStatus.downloading:
-        return 'DOWNLOADING';
-      case FleetStatus.validating:
-        return 'VALIDATING';
-      case FleetStatus.building:
-        return 'BUILDING';
-      case FleetStatus.activating:
-        return 'ACTIVATING';
-      case FleetStatus.active:
-        return 'ACTIVE';
-      case FleetStatus.deleting:
-        return 'DELETING';
-      case FleetStatus.error:
-        return 'ERROR';
-      case FleetStatus.terminated:
-        return 'TERMINATED';
-      case FleetStatus.notFound:
-        return 'NOT_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension FleetStatusFromString on String {
-  FleetStatus toFleetStatus() {
-    switch (this) {
-      case 'NEW':
-        return FleetStatus.$new;
-      case 'DOWNLOADING':
-        return FleetStatus.downloading;
-      case 'VALIDATING':
-        return FleetStatus.validating;
-      case 'BUILDING':
-        return FleetStatus.building;
-      case 'ACTIVATING':
-        return FleetStatus.activating;
-      case 'ACTIVE':
-        return FleetStatus.active;
-      case 'DELETING':
-        return FleetStatus.deleting;
-      case 'ERROR':
-        return FleetStatus.error;
-      case 'TERMINATED':
-        return FleetStatus.terminated;
-      case 'NOT_FOUND':
-        return FleetStatus.notFound;
-    }
-    throw Exception('$this is not known in enum FleetStatus');
-  }
+  const FleetStatus(this.value);
+
+  static FleetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FleetStatus'));
 }
 
 enum FleetType {
-  onDemand,
-  spot,
-}
+  onDemand('ON_DEMAND'),
+  spot('SPOT'),
+  ;
 
-extension FleetTypeValueExtension on FleetType {
-  String toValue() {
-    switch (this) {
-      case FleetType.onDemand:
-        return 'ON_DEMAND';
-      case FleetType.spot:
-        return 'SPOT';
-    }
-  }
-}
+  final String value;
 
-extension FleetTypeFromString on String {
-  FleetType toFleetType() {
-    switch (this) {
-      case 'ON_DEMAND':
-        return FleetType.onDemand;
-      case 'SPOT':
-        return FleetType.spot;
-    }
-    throw Exception('$this is not known in enum FleetType');
-  }
+  const FleetType(this.value);
+
+  static FleetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FleetType'));
 }
 
 /// Current resource utilization statistics in a specified fleet or location.
@@ -14562,31 +13446,18 @@ class FleetUtilization {
 }
 
 enum FlexMatchMode {
-  standalone,
-  withQueue,
-}
+  standalone('STANDALONE'),
+  withQueue('WITH_QUEUE'),
+  ;
 
-extension FlexMatchModeValueExtension on FlexMatchMode {
-  String toValue() {
-    switch (this) {
-      case FlexMatchMode.standalone:
-        return 'STANDALONE';
-      case FlexMatchMode.withQueue:
-        return 'WITH_QUEUE';
-    }
-  }
-}
+  final String value;
 
-extension FlexMatchModeFromString on String {
-  FlexMatchMode toFlexMatchMode() {
-    switch (this) {
-      case 'STANDALONE':
-        return FlexMatchMode.standalone;
-      case 'WITH_QUEUE':
-        return FlexMatchMode.withQueue;
-    }
-    throw Exception('$this is not known in enum FlexMatchMode');
-  }
+  const FlexMatchMode(this.value);
+
+  static FlexMatchMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FlexMatchMode'));
 }
 
 /// This key-value pair can store custom data about a game session. For example,
@@ -14727,7 +13598,8 @@ class GameServer {
 
   factory GameServer.fromJson(Map<String, dynamic> json) {
     return GameServer(
-      claimStatus: (json['ClaimStatus'] as String?)?.toGameServerClaimStatus(),
+      claimStatus: (json['ClaimStatus'] as String?)
+          ?.let(GameServerClaimStatus.fromString),
       connectionInfo: json['ConnectionInfo'] as String?,
       gameServerData: json['GameServerData'] as String?,
       gameServerGroupArn: json['GameServerGroupArn'] as String?,
@@ -14738,32 +13610,23 @@ class GameServer {
       lastHealthCheckTime: timeStampFromJson(json['LastHealthCheckTime']),
       registrationTime: timeStampFromJson(json['RegistrationTime']),
       utilizationStatus: (json['UtilizationStatus'] as String?)
-          ?.toGameServerUtilizationStatus(),
+          ?.let(GameServerUtilizationStatus.fromString),
     );
   }
 }
 
 enum GameServerClaimStatus {
-  claimed,
-}
+  claimed('CLAIMED'),
+  ;
 
-extension GameServerClaimStatusValueExtension on GameServerClaimStatus {
-  String toValue() {
-    switch (this) {
-      case GameServerClaimStatus.claimed:
-        return 'CLAIMED';
-    }
-  }
-}
+  final String value;
 
-extension GameServerClaimStatusFromString on String {
-  GameServerClaimStatus toGameServerClaimStatus() {
-    switch (this) {
-      case 'CLAIMED':
-        return GameServerClaimStatus.claimed;
-    }
-    throw Exception('$this is not known in enum GameServerClaimStatus');
-  }
+  const GameServerClaimStatus(this.value);
+
+  static GameServerClaimStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GameServerClaimStatus'));
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -14911,51 +13774,43 @@ class GameServerGroup {
   factory GameServerGroup.fromJson(Map<String, dynamic> json) {
     return GameServerGroup(
       autoScalingGroupArn: json['AutoScalingGroupArn'] as String?,
-      balancingStrategy:
-          (json['BalancingStrategy'] as String?)?.toBalancingStrategy(),
+      balancingStrategy: (json['BalancingStrategy'] as String?)
+          ?.let(BalancingStrategy.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       gameServerGroupArn: json['GameServerGroupArn'] as String?,
       gameServerGroupName: json['GameServerGroupName'] as String?,
       gameServerProtectionPolicy:
           (json['GameServerProtectionPolicy'] as String?)
-              ?.toGameServerProtectionPolicy(),
+              ?.let(GameServerProtectionPolicy.fromString),
       instanceDefinitions: (json['InstanceDefinitions'] as List?)
           ?.whereNotNull()
           .map((e) => InstanceDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       roleArn: json['RoleArn'] as String?,
-      status: (json['Status'] as String?)?.toGameServerGroupStatus(),
+      status:
+          (json['Status'] as String?)?.let(GameServerGroupStatus.fromString),
       statusReason: json['StatusReason'] as String?,
       suspendedActions: (json['SuspendedActions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toGameServerGroupAction())
+          .map((e) => GameServerGroupAction.fromString((e as String)))
           .toList(),
     );
   }
 }
 
 enum GameServerGroupAction {
-  replaceInstanceTypes,
-}
+  replaceInstanceTypes('REPLACE_INSTANCE_TYPES'),
+  ;
 
-extension GameServerGroupActionValueExtension on GameServerGroupAction {
-  String toValue() {
-    switch (this) {
-      case GameServerGroupAction.replaceInstanceTypes:
-        return 'REPLACE_INSTANCE_TYPES';
-    }
-  }
-}
+  final String value;
 
-extension GameServerGroupActionFromString on String {
-  GameServerGroupAction toGameServerGroupAction() {
-    switch (this) {
-      case 'REPLACE_INSTANCE_TYPES':
-        return GameServerGroupAction.replaceInstanceTypes;
-    }
-    throw Exception('$this is not known in enum GameServerGroupAction');
-  }
+  const GameServerGroupAction(this.value);
+
+  static GameServerGroupAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GameServerGroupAction'));
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -14999,572 +13854,154 @@ class GameServerGroupAutoScalingPolicy {
 }
 
 enum GameServerGroupDeleteOption {
-  safeDelete,
-  forceDelete,
-  retain,
-}
+  safeDelete('SAFE_DELETE'),
+  forceDelete('FORCE_DELETE'),
+  retain('RETAIN'),
+  ;
 
-extension GameServerGroupDeleteOptionValueExtension
-    on GameServerGroupDeleteOption {
-  String toValue() {
-    switch (this) {
-      case GameServerGroupDeleteOption.safeDelete:
-        return 'SAFE_DELETE';
-      case GameServerGroupDeleteOption.forceDelete:
-        return 'FORCE_DELETE';
-      case GameServerGroupDeleteOption.retain:
-        return 'RETAIN';
-    }
-  }
-}
+  final String value;
 
-extension GameServerGroupDeleteOptionFromString on String {
-  GameServerGroupDeleteOption toGameServerGroupDeleteOption() {
-    switch (this) {
-      case 'SAFE_DELETE':
-        return GameServerGroupDeleteOption.safeDelete;
-      case 'FORCE_DELETE':
-        return GameServerGroupDeleteOption.forceDelete;
-      case 'RETAIN':
-        return GameServerGroupDeleteOption.retain;
-    }
-    throw Exception('$this is not known in enum GameServerGroupDeleteOption');
-  }
+  const GameServerGroupDeleteOption(this.value);
+
+  static GameServerGroupDeleteOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameServerGroupDeleteOption'));
 }
 
 enum GameServerGroupInstanceType {
-  c4Large,
-  c4Xlarge,
-  c4_2xlarge,
-  c4_4xlarge,
-  c4_8xlarge,
-  c5Large,
-  c5Xlarge,
-  c5_2xlarge,
-  c5_4xlarge,
-  c5_9xlarge,
-  c5_12xlarge,
-  c5_18xlarge,
-  c5_24xlarge,
-  c5aLarge,
-  c5aXlarge,
-  c5a_2xlarge,
-  c5a_4xlarge,
-  c5a_8xlarge,
-  c5a_12xlarge,
-  c5a_16xlarge,
-  c5a_24xlarge,
-  c6gMedium,
-  c6gLarge,
-  c6gXlarge,
-  c6g_2xlarge,
-  c6g_4xlarge,
-  c6g_8xlarge,
-  c6g_12xlarge,
-  c6g_16xlarge,
-  r4Large,
-  r4Xlarge,
-  r4_2xlarge,
-  r4_4xlarge,
-  r4_8xlarge,
-  r4_16xlarge,
-  r5Large,
-  r5Xlarge,
-  r5_2xlarge,
-  r5_4xlarge,
-  r5_8xlarge,
-  r5_12xlarge,
-  r5_16xlarge,
-  r5_24xlarge,
-  r5aLarge,
-  r5aXlarge,
-  r5a_2xlarge,
-  r5a_4xlarge,
-  r5a_8xlarge,
-  r5a_12xlarge,
-  r5a_16xlarge,
-  r5a_24xlarge,
-  r6gMedium,
-  r6gLarge,
-  r6gXlarge,
-  r6g_2xlarge,
-  r6g_4xlarge,
-  r6g_8xlarge,
-  r6g_12xlarge,
-  r6g_16xlarge,
-  m4Large,
-  m4Xlarge,
-  m4_2xlarge,
-  m4_4xlarge,
-  m4_10xlarge,
-  m5Large,
-  m5Xlarge,
-  m5_2xlarge,
-  m5_4xlarge,
-  m5_8xlarge,
-  m5_12xlarge,
-  m5_16xlarge,
-  m5_24xlarge,
-  m5aLarge,
-  m5aXlarge,
-  m5a_2xlarge,
-  m5a_4xlarge,
-  m5a_8xlarge,
-  m5a_12xlarge,
-  m5a_16xlarge,
-  m5a_24xlarge,
-  m6gMedium,
-  m6gLarge,
-  m6gXlarge,
-  m6g_2xlarge,
-  m6g_4xlarge,
-  m6g_8xlarge,
-  m6g_12xlarge,
-  m6g_16xlarge,
-}
+  c4Large('c4.large'),
+  c4Xlarge('c4.xlarge'),
+  c4_2xlarge('c4.2xlarge'),
+  c4_4xlarge('c4.4xlarge'),
+  c4_8xlarge('c4.8xlarge'),
+  c5Large('c5.large'),
+  c5Xlarge('c5.xlarge'),
+  c5_2xlarge('c5.2xlarge'),
+  c5_4xlarge('c5.4xlarge'),
+  c5_9xlarge('c5.9xlarge'),
+  c5_12xlarge('c5.12xlarge'),
+  c5_18xlarge('c5.18xlarge'),
+  c5_24xlarge('c5.24xlarge'),
+  c5aLarge('c5a.large'),
+  c5aXlarge('c5a.xlarge'),
+  c5a_2xlarge('c5a.2xlarge'),
+  c5a_4xlarge('c5a.4xlarge'),
+  c5a_8xlarge('c5a.8xlarge'),
+  c5a_12xlarge('c5a.12xlarge'),
+  c5a_16xlarge('c5a.16xlarge'),
+  c5a_24xlarge('c5a.24xlarge'),
+  c6gMedium('c6g.medium'),
+  c6gLarge('c6g.large'),
+  c6gXlarge('c6g.xlarge'),
+  c6g_2xlarge('c6g.2xlarge'),
+  c6g_4xlarge('c6g.4xlarge'),
+  c6g_8xlarge('c6g.8xlarge'),
+  c6g_12xlarge('c6g.12xlarge'),
+  c6g_16xlarge('c6g.16xlarge'),
+  r4Large('r4.large'),
+  r4Xlarge('r4.xlarge'),
+  r4_2xlarge('r4.2xlarge'),
+  r4_4xlarge('r4.4xlarge'),
+  r4_8xlarge('r4.8xlarge'),
+  r4_16xlarge('r4.16xlarge'),
+  r5Large('r5.large'),
+  r5Xlarge('r5.xlarge'),
+  r5_2xlarge('r5.2xlarge'),
+  r5_4xlarge('r5.4xlarge'),
+  r5_8xlarge('r5.8xlarge'),
+  r5_12xlarge('r5.12xlarge'),
+  r5_16xlarge('r5.16xlarge'),
+  r5_24xlarge('r5.24xlarge'),
+  r5aLarge('r5a.large'),
+  r5aXlarge('r5a.xlarge'),
+  r5a_2xlarge('r5a.2xlarge'),
+  r5a_4xlarge('r5a.4xlarge'),
+  r5a_8xlarge('r5a.8xlarge'),
+  r5a_12xlarge('r5a.12xlarge'),
+  r5a_16xlarge('r5a.16xlarge'),
+  r5a_24xlarge('r5a.24xlarge'),
+  r6gMedium('r6g.medium'),
+  r6gLarge('r6g.large'),
+  r6gXlarge('r6g.xlarge'),
+  r6g_2xlarge('r6g.2xlarge'),
+  r6g_4xlarge('r6g.4xlarge'),
+  r6g_8xlarge('r6g.8xlarge'),
+  r6g_12xlarge('r6g.12xlarge'),
+  r6g_16xlarge('r6g.16xlarge'),
+  m4Large('m4.large'),
+  m4Xlarge('m4.xlarge'),
+  m4_2xlarge('m4.2xlarge'),
+  m4_4xlarge('m4.4xlarge'),
+  m4_10xlarge('m4.10xlarge'),
+  m5Large('m5.large'),
+  m5Xlarge('m5.xlarge'),
+  m5_2xlarge('m5.2xlarge'),
+  m5_4xlarge('m5.4xlarge'),
+  m5_8xlarge('m5.8xlarge'),
+  m5_12xlarge('m5.12xlarge'),
+  m5_16xlarge('m5.16xlarge'),
+  m5_24xlarge('m5.24xlarge'),
+  m5aLarge('m5a.large'),
+  m5aXlarge('m5a.xlarge'),
+  m5a_2xlarge('m5a.2xlarge'),
+  m5a_4xlarge('m5a.4xlarge'),
+  m5a_8xlarge('m5a.8xlarge'),
+  m5a_12xlarge('m5a.12xlarge'),
+  m5a_16xlarge('m5a.16xlarge'),
+  m5a_24xlarge('m5a.24xlarge'),
+  m6gMedium('m6g.medium'),
+  m6gLarge('m6g.large'),
+  m6gXlarge('m6g.xlarge'),
+  m6g_2xlarge('m6g.2xlarge'),
+  m6g_4xlarge('m6g.4xlarge'),
+  m6g_8xlarge('m6g.8xlarge'),
+  m6g_12xlarge('m6g.12xlarge'),
+  m6g_16xlarge('m6g.16xlarge'),
+  ;
 
-extension GameServerGroupInstanceTypeValueExtension
-    on GameServerGroupInstanceType {
-  String toValue() {
-    switch (this) {
-      case GameServerGroupInstanceType.c4Large:
-        return 'c4.large';
-      case GameServerGroupInstanceType.c4Xlarge:
-        return 'c4.xlarge';
-      case GameServerGroupInstanceType.c4_2xlarge:
-        return 'c4.2xlarge';
-      case GameServerGroupInstanceType.c4_4xlarge:
-        return 'c4.4xlarge';
-      case GameServerGroupInstanceType.c4_8xlarge:
-        return 'c4.8xlarge';
-      case GameServerGroupInstanceType.c5Large:
-        return 'c5.large';
-      case GameServerGroupInstanceType.c5Xlarge:
-        return 'c5.xlarge';
-      case GameServerGroupInstanceType.c5_2xlarge:
-        return 'c5.2xlarge';
-      case GameServerGroupInstanceType.c5_4xlarge:
-        return 'c5.4xlarge';
-      case GameServerGroupInstanceType.c5_9xlarge:
-        return 'c5.9xlarge';
-      case GameServerGroupInstanceType.c5_12xlarge:
-        return 'c5.12xlarge';
-      case GameServerGroupInstanceType.c5_18xlarge:
-        return 'c5.18xlarge';
-      case GameServerGroupInstanceType.c5_24xlarge:
-        return 'c5.24xlarge';
-      case GameServerGroupInstanceType.c5aLarge:
-        return 'c5a.large';
-      case GameServerGroupInstanceType.c5aXlarge:
-        return 'c5a.xlarge';
-      case GameServerGroupInstanceType.c5a_2xlarge:
-        return 'c5a.2xlarge';
-      case GameServerGroupInstanceType.c5a_4xlarge:
-        return 'c5a.4xlarge';
-      case GameServerGroupInstanceType.c5a_8xlarge:
-        return 'c5a.8xlarge';
-      case GameServerGroupInstanceType.c5a_12xlarge:
-        return 'c5a.12xlarge';
-      case GameServerGroupInstanceType.c5a_16xlarge:
-        return 'c5a.16xlarge';
-      case GameServerGroupInstanceType.c5a_24xlarge:
-        return 'c5a.24xlarge';
-      case GameServerGroupInstanceType.c6gMedium:
-        return 'c6g.medium';
-      case GameServerGroupInstanceType.c6gLarge:
-        return 'c6g.large';
-      case GameServerGroupInstanceType.c6gXlarge:
-        return 'c6g.xlarge';
-      case GameServerGroupInstanceType.c6g_2xlarge:
-        return 'c6g.2xlarge';
-      case GameServerGroupInstanceType.c6g_4xlarge:
-        return 'c6g.4xlarge';
-      case GameServerGroupInstanceType.c6g_8xlarge:
-        return 'c6g.8xlarge';
-      case GameServerGroupInstanceType.c6g_12xlarge:
-        return 'c6g.12xlarge';
-      case GameServerGroupInstanceType.c6g_16xlarge:
-        return 'c6g.16xlarge';
-      case GameServerGroupInstanceType.r4Large:
-        return 'r4.large';
-      case GameServerGroupInstanceType.r4Xlarge:
-        return 'r4.xlarge';
-      case GameServerGroupInstanceType.r4_2xlarge:
-        return 'r4.2xlarge';
-      case GameServerGroupInstanceType.r4_4xlarge:
-        return 'r4.4xlarge';
-      case GameServerGroupInstanceType.r4_8xlarge:
-        return 'r4.8xlarge';
-      case GameServerGroupInstanceType.r4_16xlarge:
-        return 'r4.16xlarge';
-      case GameServerGroupInstanceType.r5Large:
-        return 'r5.large';
-      case GameServerGroupInstanceType.r5Xlarge:
-        return 'r5.xlarge';
-      case GameServerGroupInstanceType.r5_2xlarge:
-        return 'r5.2xlarge';
-      case GameServerGroupInstanceType.r5_4xlarge:
-        return 'r5.4xlarge';
-      case GameServerGroupInstanceType.r5_8xlarge:
-        return 'r5.8xlarge';
-      case GameServerGroupInstanceType.r5_12xlarge:
-        return 'r5.12xlarge';
-      case GameServerGroupInstanceType.r5_16xlarge:
-        return 'r5.16xlarge';
-      case GameServerGroupInstanceType.r5_24xlarge:
-        return 'r5.24xlarge';
-      case GameServerGroupInstanceType.r5aLarge:
-        return 'r5a.large';
-      case GameServerGroupInstanceType.r5aXlarge:
-        return 'r5a.xlarge';
-      case GameServerGroupInstanceType.r5a_2xlarge:
-        return 'r5a.2xlarge';
-      case GameServerGroupInstanceType.r5a_4xlarge:
-        return 'r5a.4xlarge';
-      case GameServerGroupInstanceType.r5a_8xlarge:
-        return 'r5a.8xlarge';
-      case GameServerGroupInstanceType.r5a_12xlarge:
-        return 'r5a.12xlarge';
-      case GameServerGroupInstanceType.r5a_16xlarge:
-        return 'r5a.16xlarge';
-      case GameServerGroupInstanceType.r5a_24xlarge:
-        return 'r5a.24xlarge';
-      case GameServerGroupInstanceType.r6gMedium:
-        return 'r6g.medium';
-      case GameServerGroupInstanceType.r6gLarge:
-        return 'r6g.large';
-      case GameServerGroupInstanceType.r6gXlarge:
-        return 'r6g.xlarge';
-      case GameServerGroupInstanceType.r6g_2xlarge:
-        return 'r6g.2xlarge';
-      case GameServerGroupInstanceType.r6g_4xlarge:
-        return 'r6g.4xlarge';
-      case GameServerGroupInstanceType.r6g_8xlarge:
-        return 'r6g.8xlarge';
-      case GameServerGroupInstanceType.r6g_12xlarge:
-        return 'r6g.12xlarge';
-      case GameServerGroupInstanceType.r6g_16xlarge:
-        return 'r6g.16xlarge';
-      case GameServerGroupInstanceType.m4Large:
-        return 'm4.large';
-      case GameServerGroupInstanceType.m4Xlarge:
-        return 'm4.xlarge';
-      case GameServerGroupInstanceType.m4_2xlarge:
-        return 'm4.2xlarge';
-      case GameServerGroupInstanceType.m4_4xlarge:
-        return 'm4.4xlarge';
-      case GameServerGroupInstanceType.m4_10xlarge:
-        return 'm4.10xlarge';
-      case GameServerGroupInstanceType.m5Large:
-        return 'm5.large';
-      case GameServerGroupInstanceType.m5Xlarge:
-        return 'm5.xlarge';
-      case GameServerGroupInstanceType.m5_2xlarge:
-        return 'm5.2xlarge';
-      case GameServerGroupInstanceType.m5_4xlarge:
-        return 'm5.4xlarge';
-      case GameServerGroupInstanceType.m5_8xlarge:
-        return 'm5.8xlarge';
-      case GameServerGroupInstanceType.m5_12xlarge:
-        return 'm5.12xlarge';
-      case GameServerGroupInstanceType.m5_16xlarge:
-        return 'm5.16xlarge';
-      case GameServerGroupInstanceType.m5_24xlarge:
-        return 'm5.24xlarge';
-      case GameServerGroupInstanceType.m5aLarge:
-        return 'm5a.large';
-      case GameServerGroupInstanceType.m5aXlarge:
-        return 'm5a.xlarge';
-      case GameServerGroupInstanceType.m5a_2xlarge:
-        return 'm5a.2xlarge';
-      case GameServerGroupInstanceType.m5a_4xlarge:
-        return 'm5a.4xlarge';
-      case GameServerGroupInstanceType.m5a_8xlarge:
-        return 'm5a.8xlarge';
-      case GameServerGroupInstanceType.m5a_12xlarge:
-        return 'm5a.12xlarge';
-      case GameServerGroupInstanceType.m5a_16xlarge:
-        return 'm5a.16xlarge';
-      case GameServerGroupInstanceType.m5a_24xlarge:
-        return 'm5a.24xlarge';
-      case GameServerGroupInstanceType.m6gMedium:
-        return 'm6g.medium';
-      case GameServerGroupInstanceType.m6gLarge:
-        return 'm6g.large';
-      case GameServerGroupInstanceType.m6gXlarge:
-        return 'm6g.xlarge';
-      case GameServerGroupInstanceType.m6g_2xlarge:
-        return 'm6g.2xlarge';
-      case GameServerGroupInstanceType.m6g_4xlarge:
-        return 'm6g.4xlarge';
-      case GameServerGroupInstanceType.m6g_8xlarge:
-        return 'm6g.8xlarge';
-      case GameServerGroupInstanceType.m6g_12xlarge:
-        return 'm6g.12xlarge';
-      case GameServerGroupInstanceType.m6g_16xlarge:
-        return 'm6g.16xlarge';
-    }
-  }
-}
+  final String value;
 
-extension GameServerGroupInstanceTypeFromString on String {
-  GameServerGroupInstanceType toGameServerGroupInstanceType() {
-    switch (this) {
-      case 'c4.large':
-        return GameServerGroupInstanceType.c4Large;
-      case 'c4.xlarge':
-        return GameServerGroupInstanceType.c4Xlarge;
-      case 'c4.2xlarge':
-        return GameServerGroupInstanceType.c4_2xlarge;
-      case 'c4.4xlarge':
-        return GameServerGroupInstanceType.c4_4xlarge;
-      case 'c4.8xlarge':
-        return GameServerGroupInstanceType.c4_8xlarge;
-      case 'c5.large':
-        return GameServerGroupInstanceType.c5Large;
-      case 'c5.xlarge':
-        return GameServerGroupInstanceType.c5Xlarge;
-      case 'c5.2xlarge':
-        return GameServerGroupInstanceType.c5_2xlarge;
-      case 'c5.4xlarge':
-        return GameServerGroupInstanceType.c5_4xlarge;
-      case 'c5.9xlarge':
-        return GameServerGroupInstanceType.c5_9xlarge;
-      case 'c5.12xlarge':
-        return GameServerGroupInstanceType.c5_12xlarge;
-      case 'c5.18xlarge':
-        return GameServerGroupInstanceType.c5_18xlarge;
-      case 'c5.24xlarge':
-        return GameServerGroupInstanceType.c5_24xlarge;
-      case 'c5a.large':
-        return GameServerGroupInstanceType.c5aLarge;
-      case 'c5a.xlarge':
-        return GameServerGroupInstanceType.c5aXlarge;
-      case 'c5a.2xlarge':
-        return GameServerGroupInstanceType.c5a_2xlarge;
-      case 'c5a.4xlarge':
-        return GameServerGroupInstanceType.c5a_4xlarge;
-      case 'c5a.8xlarge':
-        return GameServerGroupInstanceType.c5a_8xlarge;
-      case 'c5a.12xlarge':
-        return GameServerGroupInstanceType.c5a_12xlarge;
-      case 'c5a.16xlarge':
-        return GameServerGroupInstanceType.c5a_16xlarge;
-      case 'c5a.24xlarge':
-        return GameServerGroupInstanceType.c5a_24xlarge;
-      case 'c6g.medium':
-        return GameServerGroupInstanceType.c6gMedium;
-      case 'c6g.large':
-        return GameServerGroupInstanceType.c6gLarge;
-      case 'c6g.xlarge':
-        return GameServerGroupInstanceType.c6gXlarge;
-      case 'c6g.2xlarge':
-        return GameServerGroupInstanceType.c6g_2xlarge;
-      case 'c6g.4xlarge':
-        return GameServerGroupInstanceType.c6g_4xlarge;
-      case 'c6g.8xlarge':
-        return GameServerGroupInstanceType.c6g_8xlarge;
-      case 'c6g.12xlarge':
-        return GameServerGroupInstanceType.c6g_12xlarge;
-      case 'c6g.16xlarge':
-        return GameServerGroupInstanceType.c6g_16xlarge;
-      case 'r4.large':
-        return GameServerGroupInstanceType.r4Large;
-      case 'r4.xlarge':
-        return GameServerGroupInstanceType.r4Xlarge;
-      case 'r4.2xlarge':
-        return GameServerGroupInstanceType.r4_2xlarge;
-      case 'r4.4xlarge':
-        return GameServerGroupInstanceType.r4_4xlarge;
-      case 'r4.8xlarge':
-        return GameServerGroupInstanceType.r4_8xlarge;
-      case 'r4.16xlarge':
-        return GameServerGroupInstanceType.r4_16xlarge;
-      case 'r5.large':
-        return GameServerGroupInstanceType.r5Large;
-      case 'r5.xlarge':
-        return GameServerGroupInstanceType.r5Xlarge;
-      case 'r5.2xlarge':
-        return GameServerGroupInstanceType.r5_2xlarge;
-      case 'r5.4xlarge':
-        return GameServerGroupInstanceType.r5_4xlarge;
-      case 'r5.8xlarge':
-        return GameServerGroupInstanceType.r5_8xlarge;
-      case 'r5.12xlarge':
-        return GameServerGroupInstanceType.r5_12xlarge;
-      case 'r5.16xlarge':
-        return GameServerGroupInstanceType.r5_16xlarge;
-      case 'r5.24xlarge':
-        return GameServerGroupInstanceType.r5_24xlarge;
-      case 'r5a.large':
-        return GameServerGroupInstanceType.r5aLarge;
-      case 'r5a.xlarge':
-        return GameServerGroupInstanceType.r5aXlarge;
-      case 'r5a.2xlarge':
-        return GameServerGroupInstanceType.r5a_2xlarge;
-      case 'r5a.4xlarge':
-        return GameServerGroupInstanceType.r5a_4xlarge;
-      case 'r5a.8xlarge':
-        return GameServerGroupInstanceType.r5a_8xlarge;
-      case 'r5a.12xlarge':
-        return GameServerGroupInstanceType.r5a_12xlarge;
-      case 'r5a.16xlarge':
-        return GameServerGroupInstanceType.r5a_16xlarge;
-      case 'r5a.24xlarge':
-        return GameServerGroupInstanceType.r5a_24xlarge;
-      case 'r6g.medium':
-        return GameServerGroupInstanceType.r6gMedium;
-      case 'r6g.large':
-        return GameServerGroupInstanceType.r6gLarge;
-      case 'r6g.xlarge':
-        return GameServerGroupInstanceType.r6gXlarge;
-      case 'r6g.2xlarge':
-        return GameServerGroupInstanceType.r6g_2xlarge;
-      case 'r6g.4xlarge':
-        return GameServerGroupInstanceType.r6g_4xlarge;
-      case 'r6g.8xlarge':
-        return GameServerGroupInstanceType.r6g_8xlarge;
-      case 'r6g.12xlarge':
-        return GameServerGroupInstanceType.r6g_12xlarge;
-      case 'r6g.16xlarge':
-        return GameServerGroupInstanceType.r6g_16xlarge;
-      case 'm4.large':
-        return GameServerGroupInstanceType.m4Large;
-      case 'm4.xlarge':
-        return GameServerGroupInstanceType.m4Xlarge;
-      case 'm4.2xlarge':
-        return GameServerGroupInstanceType.m4_2xlarge;
-      case 'm4.4xlarge':
-        return GameServerGroupInstanceType.m4_4xlarge;
-      case 'm4.10xlarge':
-        return GameServerGroupInstanceType.m4_10xlarge;
-      case 'm5.large':
-        return GameServerGroupInstanceType.m5Large;
-      case 'm5.xlarge':
-        return GameServerGroupInstanceType.m5Xlarge;
-      case 'm5.2xlarge':
-        return GameServerGroupInstanceType.m5_2xlarge;
-      case 'm5.4xlarge':
-        return GameServerGroupInstanceType.m5_4xlarge;
-      case 'm5.8xlarge':
-        return GameServerGroupInstanceType.m5_8xlarge;
-      case 'm5.12xlarge':
-        return GameServerGroupInstanceType.m5_12xlarge;
-      case 'm5.16xlarge':
-        return GameServerGroupInstanceType.m5_16xlarge;
-      case 'm5.24xlarge':
-        return GameServerGroupInstanceType.m5_24xlarge;
-      case 'm5a.large':
-        return GameServerGroupInstanceType.m5aLarge;
-      case 'm5a.xlarge':
-        return GameServerGroupInstanceType.m5aXlarge;
-      case 'm5a.2xlarge':
-        return GameServerGroupInstanceType.m5a_2xlarge;
-      case 'm5a.4xlarge':
-        return GameServerGroupInstanceType.m5a_4xlarge;
-      case 'm5a.8xlarge':
-        return GameServerGroupInstanceType.m5a_8xlarge;
-      case 'm5a.12xlarge':
-        return GameServerGroupInstanceType.m5a_12xlarge;
-      case 'm5a.16xlarge':
-        return GameServerGroupInstanceType.m5a_16xlarge;
-      case 'm5a.24xlarge':
-        return GameServerGroupInstanceType.m5a_24xlarge;
-      case 'm6g.medium':
-        return GameServerGroupInstanceType.m6gMedium;
-      case 'm6g.large':
-        return GameServerGroupInstanceType.m6gLarge;
-      case 'm6g.xlarge':
-        return GameServerGroupInstanceType.m6gXlarge;
-      case 'm6g.2xlarge':
-        return GameServerGroupInstanceType.m6g_2xlarge;
-      case 'm6g.4xlarge':
-        return GameServerGroupInstanceType.m6g_4xlarge;
-      case 'm6g.8xlarge':
-        return GameServerGroupInstanceType.m6g_8xlarge;
-      case 'm6g.12xlarge':
-        return GameServerGroupInstanceType.m6g_12xlarge;
-      case 'm6g.16xlarge':
-        return GameServerGroupInstanceType.m6g_16xlarge;
-    }
-    throw Exception('$this is not known in enum GameServerGroupInstanceType');
-  }
+  const GameServerGroupInstanceType(this.value);
+
+  static GameServerGroupInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameServerGroupInstanceType'));
 }
 
 enum GameServerGroupStatus {
-  $new,
-  activating,
-  active,
-  deleteScheduled,
-  deleting,
-  deleted,
-  error,
-}
+  $new('NEW'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deleteScheduled('DELETE_SCHEDULED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  error('ERROR'),
+  ;
 
-extension GameServerGroupStatusValueExtension on GameServerGroupStatus {
-  String toValue() {
-    switch (this) {
-      case GameServerGroupStatus.$new:
-        return 'NEW';
-      case GameServerGroupStatus.activating:
-        return 'ACTIVATING';
-      case GameServerGroupStatus.active:
-        return 'ACTIVE';
-      case GameServerGroupStatus.deleteScheduled:
-        return 'DELETE_SCHEDULED';
-      case GameServerGroupStatus.deleting:
-        return 'DELETING';
-      case GameServerGroupStatus.deleted:
-        return 'DELETED';
-      case GameServerGroupStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension GameServerGroupStatusFromString on String {
-  GameServerGroupStatus toGameServerGroupStatus() {
-    switch (this) {
-      case 'NEW':
-        return GameServerGroupStatus.$new;
-      case 'ACTIVATING':
-        return GameServerGroupStatus.activating;
-      case 'ACTIVE':
-        return GameServerGroupStatus.active;
-      case 'DELETE_SCHEDULED':
-        return GameServerGroupStatus.deleteScheduled;
-      case 'DELETING':
-        return GameServerGroupStatus.deleting;
-      case 'DELETED':
-        return GameServerGroupStatus.deleted;
-      case 'ERROR':
-        return GameServerGroupStatus.error;
-    }
-    throw Exception('$this is not known in enum GameServerGroupStatus');
-  }
+  const GameServerGroupStatus(this.value);
+
+  static GameServerGroupStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GameServerGroupStatus'));
 }
 
 enum GameServerHealthCheck {
-  healthy,
-}
+  healthy('HEALTHY'),
+  ;
 
-extension GameServerHealthCheckValueExtension on GameServerHealthCheck {
-  String toValue() {
-    switch (this) {
-      case GameServerHealthCheck.healthy:
-        return 'HEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension GameServerHealthCheckFromString on String {
-  GameServerHealthCheck toGameServerHealthCheck() {
-    switch (this) {
-      case 'HEALTHY':
-        return GameServerHealthCheck.healthy;
-    }
-    throw Exception('$this is not known in enum GameServerHealthCheck');
-  }
+  const GameServerHealthCheck(this.value);
+
+  static GameServerHealthCheck fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GameServerHealthCheck'));
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -15607,101 +14044,56 @@ class GameServerInstance {
       gameServerGroupArn: json['GameServerGroupArn'] as String?,
       gameServerGroupName: json['GameServerGroupName'] as String?,
       instanceId: json['InstanceId'] as String?,
-      instanceStatus:
-          (json['InstanceStatus'] as String?)?.toGameServerInstanceStatus(),
+      instanceStatus: (json['InstanceStatus'] as String?)
+          ?.let(GameServerInstanceStatus.fromString),
     );
   }
 }
 
 enum GameServerInstanceStatus {
-  active,
-  draining,
-  spotTerminating,
-}
+  active('ACTIVE'),
+  draining('DRAINING'),
+  spotTerminating('SPOT_TERMINATING'),
+  ;
 
-extension GameServerInstanceStatusValueExtension on GameServerInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case GameServerInstanceStatus.active:
-        return 'ACTIVE';
-      case GameServerInstanceStatus.draining:
-        return 'DRAINING';
-      case GameServerInstanceStatus.spotTerminating:
-        return 'SPOT_TERMINATING';
-    }
-  }
-}
+  final String value;
 
-extension GameServerInstanceStatusFromString on String {
-  GameServerInstanceStatus toGameServerInstanceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return GameServerInstanceStatus.active;
-      case 'DRAINING':
-        return GameServerInstanceStatus.draining;
-      case 'SPOT_TERMINATING':
-        return GameServerInstanceStatus.spotTerminating;
-    }
-    throw Exception('$this is not known in enum GameServerInstanceStatus');
-  }
+  const GameServerInstanceStatus(this.value);
+
+  static GameServerInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameServerInstanceStatus'));
 }
 
 enum GameServerProtectionPolicy {
-  noProtection,
-  fullProtection,
-}
+  noProtection('NO_PROTECTION'),
+  fullProtection('FULL_PROTECTION'),
+  ;
 
-extension GameServerProtectionPolicyValueExtension
-    on GameServerProtectionPolicy {
-  String toValue() {
-    switch (this) {
-      case GameServerProtectionPolicy.noProtection:
-        return 'NO_PROTECTION';
-      case GameServerProtectionPolicy.fullProtection:
-        return 'FULL_PROTECTION';
-    }
-  }
-}
+  final String value;
 
-extension GameServerProtectionPolicyFromString on String {
-  GameServerProtectionPolicy toGameServerProtectionPolicy() {
-    switch (this) {
-      case 'NO_PROTECTION':
-        return GameServerProtectionPolicy.noProtection;
-      case 'FULL_PROTECTION':
-        return GameServerProtectionPolicy.fullProtection;
-    }
-    throw Exception('$this is not known in enum GameServerProtectionPolicy');
-  }
+  const GameServerProtectionPolicy(this.value);
+
+  static GameServerProtectionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameServerProtectionPolicy'));
 }
 
 enum GameServerUtilizationStatus {
-  available,
-  utilized,
-}
+  available('AVAILABLE'),
+  utilized('UTILIZED'),
+  ;
 
-extension GameServerUtilizationStatusValueExtension
-    on GameServerUtilizationStatus {
-  String toValue() {
-    switch (this) {
-      case GameServerUtilizationStatus.available:
-        return 'AVAILABLE';
-      case GameServerUtilizationStatus.utilized:
-        return 'UTILIZED';
-    }
-  }
-}
+  final String value;
 
-extension GameServerUtilizationStatusFromString on String {
-  GameServerUtilizationStatus toGameServerUtilizationStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return GameServerUtilizationStatus.available;
-      case 'UTILIZED':
-        return GameServerUtilizationStatus.utilized;
-    }
-    throw Exception('$this is not known in enum GameServerUtilizationStatus');
-  }
+  const GameServerUtilizationStatus(this.value);
+
+  static GameServerUtilizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameServerUtilizationStatus'));
 }
 
 /// Properties describing a game session.
@@ -15866,11 +14258,11 @@ class GameSession {
       name: json['Name'] as String?,
       playerSessionCreationPolicy:
           (json['PlayerSessionCreationPolicy'] as String?)
-              ?.toPlayerSessionCreationPolicy(),
+              ?.let(PlayerSessionCreationPolicy.fromString),
       port: json['Port'] as int?,
-      status: (json['Status'] as String?)?.toGameSessionStatus(),
-      statusReason:
-          (json['StatusReason'] as String?)?.toGameSessionStatusReason(),
+      status: (json['Status'] as String?)?.let(GameSessionStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(GameSessionStatusReason.fromString),
       terminationTime: timeStampFromJson(json['TerminationTime']),
     );
   }
@@ -15967,8 +14359,8 @@ class GameSessionDetail {
       gameSession: json['GameSession'] != null
           ? GameSession.fromJson(json['GameSession'] as Map<String, dynamic>)
           : null,
-      protectionPolicy:
-          (json['ProtectionPolicy'] as String?)?.toProtectionPolicy(),
+      protectionPolicy: (json['ProtectionPolicy'] as String?)
+          ?.let(ProtectionPolicy.fromString),
     );
   }
 }
@@ -16160,52 +14552,28 @@ class GameSessionPlacement {
           .toList(),
       port: json['Port'] as int?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toGameSessionPlacementState(),
+      status: (json['Status'] as String?)
+          ?.let(GameSessionPlacementState.fromString),
     );
   }
 }
 
 enum GameSessionPlacementState {
-  pending,
-  fulfilled,
-  cancelled,
-  timedOut,
-  failed,
-}
+  pending('PENDING'),
+  fulfilled('FULFILLED'),
+  cancelled('CANCELLED'),
+  timedOut('TIMED_OUT'),
+  failed('FAILED'),
+  ;
 
-extension GameSessionPlacementStateValueExtension on GameSessionPlacementState {
-  String toValue() {
-    switch (this) {
-      case GameSessionPlacementState.pending:
-        return 'PENDING';
-      case GameSessionPlacementState.fulfilled:
-        return 'FULFILLED';
-      case GameSessionPlacementState.cancelled:
-        return 'CANCELLED';
-      case GameSessionPlacementState.timedOut:
-        return 'TIMED_OUT';
-      case GameSessionPlacementState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension GameSessionPlacementStateFromString on String {
-  GameSessionPlacementState toGameSessionPlacementState() {
-    switch (this) {
-      case 'PENDING':
-        return GameSessionPlacementState.pending;
-      case 'FULFILLED':
-        return GameSessionPlacementState.fulfilled;
-      case 'CANCELLED':
-        return GameSessionPlacementState.cancelled;
-      case 'TIMED_OUT':
-        return GameSessionPlacementState.timedOut;
-      case 'FAILED':
-        return GameSessionPlacementState.failed;
-    }
-    throw Exception('$this is not known in enum GameSessionPlacementState');
-  }
+  const GameSessionPlacementState(this.value);
+
+  static GameSessionPlacementState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameSessionPlacementState'));
 }
 
 /// Configuration for a game session placement mechanism that processes requests
@@ -16335,69 +14703,35 @@ class GameSessionQueueDestination {
 }
 
 enum GameSessionStatus {
-  active,
-  activating,
-  terminated,
-  terminating,
-  error,
-}
+  active('ACTIVE'),
+  activating('ACTIVATING'),
+  terminated('TERMINATED'),
+  terminating('TERMINATING'),
+  error('ERROR'),
+  ;
 
-extension GameSessionStatusValueExtension on GameSessionStatus {
-  String toValue() {
-    switch (this) {
-      case GameSessionStatus.active:
-        return 'ACTIVE';
-      case GameSessionStatus.activating:
-        return 'ACTIVATING';
-      case GameSessionStatus.terminated:
-        return 'TERMINATED';
-      case GameSessionStatus.terminating:
-        return 'TERMINATING';
-      case GameSessionStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension GameSessionStatusFromString on String {
-  GameSessionStatus toGameSessionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return GameSessionStatus.active;
-      case 'ACTIVATING':
-        return GameSessionStatus.activating;
-      case 'TERMINATED':
-        return GameSessionStatus.terminated;
-      case 'TERMINATING':
-        return GameSessionStatus.terminating;
-      case 'ERROR':
-        return GameSessionStatus.error;
-    }
-    throw Exception('$this is not known in enum GameSessionStatus');
-  }
+  const GameSessionStatus(this.value);
+
+  static GameSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GameSessionStatus'));
 }
 
 enum GameSessionStatusReason {
-  interrupted,
-}
+  interrupted('INTERRUPTED'),
+  ;
 
-extension GameSessionStatusReasonValueExtension on GameSessionStatusReason {
-  String toValue() {
-    switch (this) {
-      case GameSessionStatusReason.interrupted:
-        return 'INTERRUPTED';
-    }
-  }
-}
+  final String value;
 
-extension GameSessionStatusReasonFromString on String {
-  GameSessionStatusReason toGameSessionStatusReason() {
-    switch (this) {
-      case 'INTERRUPTED':
-        return GameSessionStatusReason.interrupted;
-    }
-    throw Exception('$this is not known in enum GameSessionStatusReason');
-  }
+  const GameSessionStatusReason(this.value);
+
+  static GameSessionStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GameSessionStatusReason'));
 }
 
 class GetComputeAccessOutput {
@@ -16636,9 +14970,9 @@ class Instance {
       ipAddress: json['IpAddress'] as String?,
       location: json['Location'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
-      status: (json['Status'] as String?)?.toInstanceStatus(),
-      type: (json['Type'] as String?)?.toEC2InstanceType(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
+      status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
+      type: (json['Type'] as String?)?.let(EC2InstanceType.fromString),
     );
   }
 }
@@ -16680,7 +15014,7 @@ class InstanceAccess {
       instanceId: json['InstanceId'] as String?,
       ipAddress: json['IpAddress'] as String?,
       operatingSystem:
-          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+          (json['OperatingSystem'] as String?)?.let(OperatingSystem.fromString),
     );
   }
 }
@@ -16740,8 +15074,8 @@ class InstanceDefinition {
 
   factory InstanceDefinition.fromJson(Map<String, dynamic> json) {
     return InstanceDefinition(
-      instanceType:
-          (json['InstanceType'] as String).toGameServerGroupInstanceType(),
+      instanceType: GameServerGroupInstanceType.fromString(
+          (json['InstanceType'] as String)),
       weightedCapacity: json['WeightedCapacity'] as String?,
     );
   }
@@ -16750,68 +15084,40 @@ class InstanceDefinition {
     final instanceType = this.instanceType;
     final weightedCapacity = this.weightedCapacity;
     return {
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }
 }
 
 enum InstanceRoleCredentialsProvider {
-  sharedCredentialFile,
-}
+  sharedCredentialFile('SHARED_CREDENTIAL_FILE'),
+  ;
 
-extension InstanceRoleCredentialsProviderValueExtension
-    on InstanceRoleCredentialsProvider {
-  String toValue() {
-    switch (this) {
-      case InstanceRoleCredentialsProvider.sharedCredentialFile:
-        return 'SHARED_CREDENTIAL_FILE';
-    }
-  }
-}
+  final String value;
 
-extension InstanceRoleCredentialsProviderFromString on String {
-  InstanceRoleCredentialsProvider toInstanceRoleCredentialsProvider() {
-    switch (this) {
-      case 'SHARED_CREDENTIAL_FILE':
-        return InstanceRoleCredentialsProvider.sharedCredentialFile;
-    }
-    throw Exception(
-        '$this is not known in enum InstanceRoleCredentialsProvider');
-  }
+  const InstanceRoleCredentialsProvider(this.value);
+
+  static InstanceRoleCredentialsProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceRoleCredentialsProvider'));
 }
 
 enum InstanceStatus {
-  pending,
-  active,
-  terminating,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  terminating('TERMINATING'),
+  ;
 
-extension InstanceStatusValueExtension on InstanceStatus {
-  String toValue() {
-    switch (this) {
-      case InstanceStatus.pending:
-        return 'PENDING';
-      case InstanceStatus.active:
-        return 'ACTIVE';
-      case InstanceStatus.terminating:
-        return 'TERMINATING';
-    }
-  }
-}
+  final String value;
 
-extension InstanceStatusFromString on String {
-  InstanceStatus toInstanceStatus() {
-    switch (this) {
-      case 'PENDING':
-        return InstanceStatus.pending;
-      case 'ACTIVE':
-        return InstanceStatus.active;
-      case 'TERMINATING':
-        return InstanceStatus.terminating;
-    }
-    throw Exception('$this is not known in enum InstanceStatus');
-  }
+  const InstanceStatus(this.value);
+
+  static InstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceStatus'));
 }
 
 /// A range of IP addresses and port settings that allow inbound traffic to
@@ -16862,7 +15168,7 @@ class IpPermission {
     return IpPermission(
       fromPort: json['FromPort'] as int,
       ipRange: json['IpRange'] as String,
-      protocol: (json['Protocol'] as String).toIpProtocol(),
+      protocol: IpProtocol.fromString((json['Protocol'] as String)),
       toPort: json['ToPort'] as int,
     );
   }
@@ -16875,38 +15181,24 @@ class IpPermission {
     return {
       'FromPort': fromPort,
       'IpRange': ipRange,
-      'Protocol': protocol.toValue(),
+      'Protocol': protocol.value,
       'ToPort': toPort,
     };
   }
 }
 
 enum IpProtocol {
-  tcp,
-  udp,
-}
+  tcp('TCP'),
+  udp('UDP'),
+  ;
 
-extension IpProtocolValueExtension on IpProtocol {
-  String toValue() {
-    switch (this) {
-      case IpProtocol.tcp:
-        return 'TCP';
-      case IpProtocol.udp:
-        return 'UDP';
-    }
-  }
-}
+  final String value;
 
-extension IpProtocolFromString on String {
-  IpProtocol toIpProtocol() {
-    switch (this) {
-      case 'TCP':
-        return IpProtocol.tcp;
-      case 'UDP':
-        return IpProtocol.udp;
-    }
-    throw Exception('$this is not known in enum IpProtocol');
-  }
+  const IpProtocol(this.value);
+
+  static IpProtocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IpProtocol'));
 }
 
 /// <b>This data type is used with the Amazon GameLift FleetIQ and game server
@@ -17219,9 +15511,10 @@ class LocationAttributes {
           : null,
       stoppedActions: (json['StoppedActions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toFleetAction())
+          .map((e) => FleetAction.fromString((e as String)))
           .toList(),
-      updateStatus: (json['UpdateStatus'] as String?)?.toLocationUpdateStatus(),
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(LocationUpdateStatus.fromString),
     );
   }
 }
@@ -17248,31 +15541,18 @@ class LocationConfiguration {
 }
 
 enum LocationFilter {
-  aws,
-  custom,
-}
+  aws('AWS'),
+  custom('CUSTOM'),
+  ;
 
-extension LocationFilterValueExtension on LocationFilter {
-  String toValue() {
-    switch (this) {
-      case LocationFilter.aws:
-        return 'AWS';
-      case LocationFilter.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension LocationFilterFromString on String {
-  LocationFilter toLocationFilter() {
-    switch (this) {
-      case 'AWS':
-        return LocationFilter.aws;
-      case 'CUSTOM':
-        return LocationFilter.custom;
-    }
-    throw Exception('$this is not known in enum LocationFilter');
-  }
+  const LocationFilter(this.value);
+
+  static LocationFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LocationFilter'));
 }
 
 /// Properties of a custom location for use in an Amazon GameLift Anywhere
@@ -17352,32 +15632,23 @@ class LocationState {
   factory LocationState.fromJson(Map<String, dynamic> json) {
     return LocationState(
       location: json['Location'] as String?,
-      status: (json['Status'] as String?)?.toFleetStatus(),
+      status: (json['Status'] as String?)?.let(FleetStatus.fromString),
     );
   }
 }
 
 enum LocationUpdateStatus {
-  pendingUpdate,
-}
+  pendingUpdate('PENDING_UPDATE'),
+  ;
 
-extension LocationUpdateStatusValueExtension on LocationUpdateStatus {
-  String toValue() {
-    switch (this) {
-      case LocationUpdateStatus.pendingUpdate:
-        return 'PENDING_UPDATE';
-    }
-  }
-}
+  final String value;
 
-extension LocationUpdateStatusFromString on String {
-  LocationUpdateStatus toLocationUpdateStatus() {
-    switch (this) {
-      case 'PENDING_UPDATE':
-        return LocationUpdateStatus.pendingUpdate;
-    }
-    throw Exception('$this is not known in enum LocationUpdateStatus');
-  }
+  const LocationUpdateStatus(this.value);
+
+  static LocationUpdateStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LocationUpdateStatus'));
 }
 
 /// Represents a new player session that is created as a result of a successful
@@ -17555,12 +15826,14 @@ class MatchmakingConfiguration {
       acceptanceRequired: json['AcceptanceRequired'] as bool?,
       acceptanceTimeoutSeconds: json['AcceptanceTimeoutSeconds'] as int?,
       additionalPlayerCount: json['AdditionalPlayerCount'] as int?,
-      backfillMode: (json['BackfillMode'] as String?)?.toBackfillMode(),
+      backfillMode:
+          (json['BackfillMode'] as String?)?.let(BackfillMode.fromString),
       configurationArn: json['ConfigurationArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       customEventData: json['CustomEventData'] as String?,
       description: json['Description'] as String?,
-      flexMatchMode: (json['FlexMatchMode'] as String?)?.toFlexMatchMode(),
+      flexMatchMode:
+          (json['FlexMatchMode'] as String?)?.let(FlexMatchMode.fromString),
       gameProperties: (json['GameProperties'] as List?)
           ?.whereNotNull()
           .map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
@@ -17580,63 +15853,24 @@ class MatchmakingConfiguration {
 }
 
 enum MatchmakingConfigurationStatus {
-  cancelled,
-  completed,
-  failed,
-  placing,
-  queued,
-  requiresAcceptance,
-  searching,
-  timedOut,
-}
+  cancelled('CANCELLED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  placing('PLACING'),
+  queued('QUEUED'),
+  requiresAcceptance('REQUIRES_ACCEPTANCE'),
+  searching('SEARCHING'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension MatchmakingConfigurationStatusValueExtension
-    on MatchmakingConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case MatchmakingConfigurationStatus.cancelled:
-        return 'CANCELLED';
-      case MatchmakingConfigurationStatus.completed:
-        return 'COMPLETED';
-      case MatchmakingConfigurationStatus.failed:
-        return 'FAILED';
-      case MatchmakingConfigurationStatus.placing:
-        return 'PLACING';
-      case MatchmakingConfigurationStatus.queued:
-        return 'QUEUED';
-      case MatchmakingConfigurationStatus.requiresAcceptance:
-        return 'REQUIRES_ACCEPTANCE';
-      case MatchmakingConfigurationStatus.searching:
-        return 'SEARCHING';
-      case MatchmakingConfigurationStatus.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension MatchmakingConfigurationStatusFromString on String {
-  MatchmakingConfigurationStatus toMatchmakingConfigurationStatus() {
-    switch (this) {
-      case 'CANCELLED':
-        return MatchmakingConfigurationStatus.cancelled;
-      case 'COMPLETED':
-        return MatchmakingConfigurationStatus.completed;
-      case 'FAILED':
-        return MatchmakingConfigurationStatus.failed;
-      case 'PLACING':
-        return MatchmakingConfigurationStatus.placing;
-      case 'QUEUED':
-        return MatchmakingConfigurationStatus.queued;
-      case 'REQUIRES_ACCEPTANCE':
-        return MatchmakingConfigurationStatus.requiresAcceptance;
-      case 'SEARCHING':
-        return MatchmakingConfigurationStatus.searching;
-      case 'TIMED_OUT':
-        return MatchmakingConfigurationStatus.timedOut;
-    }
-    throw Exception(
-        '$this is not known in enum MatchmakingConfigurationStatus');
-  }
+  const MatchmakingConfigurationStatus(this.value);
+
+  static MatchmakingConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MatchmakingConfigurationStatus'));
 }
 
 /// Set of rule statements, used with FlexMatch, that determine how to build
@@ -17845,7 +16079,8 @@ class MatchmakingTicket {
           .map((e) => Player.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toMatchmakingConfigurationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(MatchmakingConfigurationStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       statusReason: json['StatusReason'] as String?,
       ticketId: json['TicketId'] as String?,
@@ -17854,124 +16089,45 @@ class MatchmakingTicket {
 }
 
 enum MetricName {
-  activatingGameSessions,
-  activeGameSessions,
-  activeInstances,
-  availableGameSessions,
-  availablePlayerSessions,
-  currentPlayerSessions,
-  idleInstances,
-  percentAvailableGameSessions,
-  percentIdleInstances,
-  queueDepth,
-  waitTime,
-  concurrentActivatableGameSessions,
-}
+  activatingGameSessions('ActivatingGameSessions'),
+  activeGameSessions('ActiveGameSessions'),
+  activeInstances('ActiveInstances'),
+  availableGameSessions('AvailableGameSessions'),
+  availablePlayerSessions('AvailablePlayerSessions'),
+  currentPlayerSessions('CurrentPlayerSessions'),
+  idleInstances('IdleInstances'),
+  percentAvailableGameSessions('PercentAvailableGameSessions'),
+  percentIdleInstances('PercentIdleInstances'),
+  queueDepth('QueueDepth'),
+  waitTime('WaitTime'),
+  concurrentActivatableGameSessions('ConcurrentActivatableGameSessions'),
+  ;
 
-extension MetricNameValueExtension on MetricName {
-  String toValue() {
-    switch (this) {
-      case MetricName.activatingGameSessions:
-        return 'ActivatingGameSessions';
-      case MetricName.activeGameSessions:
-        return 'ActiveGameSessions';
-      case MetricName.activeInstances:
-        return 'ActiveInstances';
-      case MetricName.availableGameSessions:
-        return 'AvailableGameSessions';
-      case MetricName.availablePlayerSessions:
-        return 'AvailablePlayerSessions';
-      case MetricName.currentPlayerSessions:
-        return 'CurrentPlayerSessions';
-      case MetricName.idleInstances:
-        return 'IdleInstances';
-      case MetricName.percentAvailableGameSessions:
-        return 'PercentAvailableGameSessions';
-      case MetricName.percentIdleInstances:
-        return 'PercentIdleInstances';
-      case MetricName.queueDepth:
-        return 'QueueDepth';
-      case MetricName.waitTime:
-        return 'WaitTime';
-      case MetricName.concurrentActivatableGameSessions:
-        return 'ConcurrentActivatableGameSessions';
-    }
-  }
-}
+  final String value;
 
-extension MetricNameFromString on String {
-  MetricName toMetricName() {
-    switch (this) {
-      case 'ActivatingGameSessions':
-        return MetricName.activatingGameSessions;
-      case 'ActiveGameSessions':
-        return MetricName.activeGameSessions;
-      case 'ActiveInstances':
-        return MetricName.activeInstances;
-      case 'AvailableGameSessions':
-        return MetricName.availableGameSessions;
-      case 'AvailablePlayerSessions':
-        return MetricName.availablePlayerSessions;
-      case 'CurrentPlayerSessions':
-        return MetricName.currentPlayerSessions;
-      case 'IdleInstances':
-        return MetricName.idleInstances;
-      case 'PercentAvailableGameSessions':
-        return MetricName.percentAvailableGameSessions;
-      case 'PercentIdleInstances':
-        return MetricName.percentIdleInstances;
-      case 'QueueDepth':
-        return MetricName.queueDepth;
-      case 'WaitTime':
-        return MetricName.waitTime;
-      case 'ConcurrentActivatableGameSessions':
-        return MetricName.concurrentActivatableGameSessions;
-    }
-    throw Exception('$this is not known in enum MetricName');
-  }
+  const MetricName(this.value);
+
+  static MetricName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricName'));
 }
 
 enum OperatingSystem {
-  windows_2012,
-  amazonLinux,
-  amazonLinux_2,
-  windows_2016,
-  amazonLinux_2023,
-}
+  windows_2012('WINDOWS_2012'),
+  amazonLinux('AMAZON_LINUX'),
+  amazonLinux_2('AMAZON_LINUX_2'),
+  windows_2016('WINDOWS_2016'),
+  amazonLinux_2023('AMAZON_LINUX_2023'),
+  ;
 
-extension OperatingSystemValueExtension on OperatingSystem {
-  String toValue() {
-    switch (this) {
-      case OperatingSystem.windows_2012:
-        return 'WINDOWS_2012';
-      case OperatingSystem.amazonLinux:
-        return 'AMAZON_LINUX';
-      case OperatingSystem.amazonLinux_2:
-        return 'AMAZON_LINUX_2';
-      case OperatingSystem.windows_2016:
-        return 'WINDOWS_2016';
-      case OperatingSystem.amazonLinux_2023:
-        return 'AMAZON_LINUX_2023';
-    }
-  }
-}
+  final String value;
 
-extension OperatingSystemFromString on String {
-  OperatingSystem toOperatingSystem() {
-    switch (this) {
-      case 'WINDOWS_2012':
-        return OperatingSystem.windows_2012;
-      case 'AMAZON_LINUX':
-        return OperatingSystem.amazonLinux;
-      case 'AMAZON_LINUX_2':
-        return OperatingSystem.amazonLinux_2;
-      case 'WINDOWS_2016':
-        return OperatingSystem.windows_2016;
-      case 'AMAZON_LINUX_2023':
-        return OperatingSystem.amazonLinux_2023;
-    }
-    throw Exception('$this is not known in enum OperatingSystem');
-  }
+  const OperatingSystem(this.value);
+
+  static OperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperatingSystem'));
 }
 
 /// Information about a player session. This object contains only the player ID
@@ -18277,105 +16433,56 @@ class PlayerSession {
       playerId: json['PlayerId'] as String?,
       playerSessionId: json['PlayerSessionId'] as String?,
       port: json['Port'] as int?,
-      status: (json['Status'] as String?)?.toPlayerSessionStatus(),
+      status: (json['Status'] as String?)?.let(PlayerSessionStatus.fromString),
       terminationTime: timeStampFromJson(json['TerminationTime']),
     );
   }
 }
 
 enum PlayerSessionCreationPolicy {
-  acceptAll,
-  denyAll,
-}
+  acceptAll('ACCEPT_ALL'),
+  denyAll('DENY_ALL'),
+  ;
 
-extension PlayerSessionCreationPolicyValueExtension
-    on PlayerSessionCreationPolicy {
-  String toValue() {
-    switch (this) {
-      case PlayerSessionCreationPolicy.acceptAll:
-        return 'ACCEPT_ALL';
-      case PlayerSessionCreationPolicy.denyAll:
-        return 'DENY_ALL';
-    }
-  }
-}
+  final String value;
 
-extension PlayerSessionCreationPolicyFromString on String {
-  PlayerSessionCreationPolicy toPlayerSessionCreationPolicy() {
-    switch (this) {
-      case 'ACCEPT_ALL':
-        return PlayerSessionCreationPolicy.acceptAll;
-      case 'DENY_ALL':
-        return PlayerSessionCreationPolicy.denyAll;
-    }
-    throw Exception('$this is not known in enum PlayerSessionCreationPolicy');
-  }
+  const PlayerSessionCreationPolicy(this.value);
+
+  static PlayerSessionCreationPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PlayerSessionCreationPolicy'));
 }
 
 enum PlayerSessionStatus {
-  reserved,
-  active,
-  completed,
-  timedout,
-}
+  reserved('RESERVED'),
+  active('ACTIVE'),
+  completed('COMPLETED'),
+  timedout('TIMEDOUT'),
+  ;
 
-extension PlayerSessionStatusValueExtension on PlayerSessionStatus {
-  String toValue() {
-    switch (this) {
-      case PlayerSessionStatus.reserved:
-        return 'RESERVED';
-      case PlayerSessionStatus.active:
-        return 'ACTIVE';
-      case PlayerSessionStatus.completed:
-        return 'COMPLETED';
-      case PlayerSessionStatus.timedout:
-        return 'TIMEDOUT';
-    }
-  }
-}
+  final String value;
 
-extension PlayerSessionStatusFromString on String {
-  PlayerSessionStatus toPlayerSessionStatus() {
-    switch (this) {
-      case 'RESERVED':
-        return PlayerSessionStatus.reserved;
-      case 'ACTIVE':
-        return PlayerSessionStatus.active;
-      case 'COMPLETED':
-        return PlayerSessionStatus.completed;
-      case 'TIMEDOUT':
-        return PlayerSessionStatus.timedout;
-    }
-    throw Exception('$this is not known in enum PlayerSessionStatus');
-  }
+  const PlayerSessionStatus(this.value);
+
+  static PlayerSessionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PlayerSessionStatus'));
 }
 
 enum PolicyType {
-  ruleBased,
-  targetBased,
-}
+  ruleBased('RuleBased'),
+  targetBased('TargetBased'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.ruleBased:
-        return 'RuleBased';
-      case PolicyType.targetBased:
-        return 'TargetBased';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'RuleBased':
-        return PolicyType.ruleBased;
-      case 'TargetBased':
-        return PolicyType.targetBased;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 /// Custom prioritization settings for use by a game session queue when placing
@@ -18446,7 +16553,7 @@ class PriorityConfiguration {
           .toList(),
       priorityOrder: (json['PriorityOrder'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPriorityType())
+          .map((e) => PriorityType.fromString((e as String)))
           .toList(),
     );
   }
@@ -18457,75 +16564,41 @@ class PriorityConfiguration {
     return {
       if (locationOrder != null) 'LocationOrder': locationOrder,
       if (priorityOrder != null)
-        'PriorityOrder': priorityOrder.map((e) => e.toValue()).toList(),
+        'PriorityOrder': priorityOrder.map((e) => e.value).toList(),
     };
   }
 }
 
 enum PriorityType {
-  latency,
-  cost,
-  destination,
-  location,
-}
+  latency('LATENCY'),
+  cost('COST'),
+  destination('DESTINATION'),
+  location('LOCATION'),
+  ;
 
-extension PriorityTypeValueExtension on PriorityType {
-  String toValue() {
-    switch (this) {
-      case PriorityType.latency:
-        return 'LATENCY';
-      case PriorityType.cost:
-        return 'COST';
-      case PriorityType.destination:
-        return 'DESTINATION';
-      case PriorityType.location:
-        return 'LOCATION';
-    }
-  }
-}
+  final String value;
 
-extension PriorityTypeFromString on String {
-  PriorityType toPriorityType() {
-    switch (this) {
-      case 'LATENCY':
-        return PriorityType.latency;
-      case 'COST':
-        return PriorityType.cost;
-      case 'DESTINATION':
-        return PriorityType.destination;
-      case 'LOCATION':
-        return PriorityType.location;
-    }
-    throw Exception('$this is not known in enum PriorityType');
-  }
+  const PriorityType(this.value);
+
+  static PriorityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PriorityType'));
 }
 
 enum ProtectionPolicy {
-  noProtection,
-  fullProtection,
-}
+  noProtection('NoProtection'),
+  fullProtection('FullProtection'),
+  ;
 
-extension ProtectionPolicyValueExtension on ProtectionPolicy {
-  String toValue() {
-    switch (this) {
-      case ProtectionPolicy.noProtection:
-        return 'NoProtection';
-      case ProtectionPolicy.fullProtection:
-        return 'FullProtection';
-    }
-  }
-}
+  final String value;
 
-extension ProtectionPolicyFromString on String {
-  ProtectionPolicy toProtectionPolicy() {
-    switch (this) {
-      case 'NoProtection':
-        return ProtectionPolicy.noProtection;
-      case 'FullProtection':
-        return ProtectionPolicy.fullProtection;
-    }
-    throw Exception('$this is not known in enum ProtectionPolicy');
-  }
+  const ProtectionPolicy(this.value);
+
+  static ProtectionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProtectionPolicy'));
 }
 
 class PutScalingPolicyOutput {
@@ -18777,7 +16850,7 @@ class RoutingStrategy {
     return RoutingStrategy(
       fleetId: json['FleetId'] as String?,
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toRoutingStrategyType(),
+      type: (json['Type'] as String?)?.let(RoutingStrategyType.fromString),
     );
   }
 
@@ -18788,37 +16861,24 @@ class RoutingStrategy {
     return {
       if (fleetId != null) 'FleetId': fleetId,
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum RoutingStrategyType {
-  simple,
-  terminal,
-}
+  simple('SIMPLE'),
+  terminal('TERMINAL'),
+  ;
 
-extension RoutingStrategyTypeValueExtension on RoutingStrategyType {
-  String toValue() {
-    switch (this) {
-      case RoutingStrategyType.simple:
-        return 'SIMPLE';
-      case RoutingStrategyType.terminal:
-        return 'TERMINAL';
-    }
-  }
-}
+  final String value;
 
-extension RoutingStrategyTypeFromString on String {
-  RoutingStrategyType toRoutingStrategyType() {
-    switch (this) {
-      case 'SIMPLE':
-        return RoutingStrategyType.simple;
-      case 'TERMINAL':
-        return RoutingStrategyType.terminal;
-    }
-    throw Exception('$this is not known in enum RoutingStrategyType');
-  }
+  const RoutingStrategyType(this.value);
+
+  static RoutingStrategyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RoutingStrategyType'));
 }
 
 /// <b>This data type has been expanded to use with the Amazon GameLift
@@ -18949,36 +17009,19 @@ class S3Location {
 }
 
 enum ScalingAdjustmentType {
-  changeInCapacity,
-  exactCapacity,
-  percentChangeInCapacity,
-}
+  changeInCapacity('ChangeInCapacity'),
+  exactCapacity('ExactCapacity'),
+  percentChangeInCapacity('PercentChangeInCapacity'),
+  ;
 
-extension ScalingAdjustmentTypeValueExtension on ScalingAdjustmentType {
-  String toValue() {
-    switch (this) {
-      case ScalingAdjustmentType.changeInCapacity:
-        return 'ChangeInCapacity';
-      case ScalingAdjustmentType.exactCapacity:
-        return 'ExactCapacity';
-      case ScalingAdjustmentType.percentChangeInCapacity:
-        return 'PercentChangeInCapacity';
-    }
-  }
-}
+  final String value;
 
-extension ScalingAdjustmentTypeFromString on String {
-  ScalingAdjustmentType toScalingAdjustmentType() {
-    switch (this) {
-      case 'ChangeInCapacity':
-        return ScalingAdjustmentType.changeInCapacity;
-      case 'ExactCapacity':
-        return ScalingAdjustmentType.exactCapacity;
-      case 'PercentChangeInCapacity':
-        return ScalingAdjustmentType.percentChangeInCapacity;
-    }
-    throw Exception('$this is not known in enum ScalingAdjustmentType');
-  }
+  const ScalingAdjustmentType(this.value);
+
+  static ScalingAdjustmentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScalingAdjustmentType'));
 }
 
 /// Rule that controls how a fleet is scaled. Scaling policies are uniquely
@@ -19159,80 +17202,48 @@ class ScalingPolicy {
 
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
-      comparisonOperator:
-          (json['ComparisonOperator'] as String?)?.toComparisonOperatorType(),
+      comparisonOperator: (json['ComparisonOperator'] as String?)
+          ?.let(ComparisonOperatorType.fromString),
       evaluationPeriods: json['EvaluationPeriods'] as int?,
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       location: json['Location'] as String?,
-      metricName: (json['MetricName'] as String?)?.toMetricName(),
+      metricName: (json['MetricName'] as String?)?.let(MetricName.fromString),
       name: json['Name'] as String?,
-      policyType: (json['PolicyType'] as String?)?.toPolicyType(),
+      policyType: (json['PolicyType'] as String?)?.let(PolicyType.fromString),
       scalingAdjustment: json['ScalingAdjustment'] as int?,
-      scalingAdjustmentType:
-          (json['ScalingAdjustmentType'] as String?)?.toScalingAdjustmentType(),
-      status: (json['Status'] as String?)?.toScalingStatusType(),
+      scalingAdjustmentType: (json['ScalingAdjustmentType'] as String?)
+          ?.let(ScalingAdjustmentType.fromString),
+      status: (json['Status'] as String?)?.let(ScalingStatusType.fromString),
       targetConfiguration: json['TargetConfiguration'] != null
           ? TargetConfiguration.fromJson(
               json['TargetConfiguration'] as Map<String, dynamic>)
           : null,
       threshold: json['Threshold'] as double?,
-      updateStatus: (json['UpdateStatus'] as String?)?.toLocationUpdateStatus(),
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(LocationUpdateStatus.fromString),
     );
   }
 }
 
 enum ScalingStatusType {
-  active,
-  updateRequested,
-  updating,
-  deleteRequested,
-  deleting,
-  deleted,
-  error,
-}
+  active('ACTIVE'),
+  updateRequested('UPDATE_REQUESTED'),
+  updating('UPDATING'),
+  deleteRequested('DELETE_REQUESTED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  error('ERROR'),
+  ;
 
-extension ScalingStatusTypeValueExtension on ScalingStatusType {
-  String toValue() {
-    switch (this) {
-      case ScalingStatusType.active:
-        return 'ACTIVE';
-      case ScalingStatusType.updateRequested:
-        return 'UPDATE_REQUESTED';
-      case ScalingStatusType.updating:
-        return 'UPDATING';
-      case ScalingStatusType.deleteRequested:
-        return 'DELETE_REQUESTED';
-      case ScalingStatusType.deleting:
-        return 'DELETING';
-      case ScalingStatusType.deleted:
-        return 'DELETED';
-      case ScalingStatusType.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ScalingStatusTypeFromString on String {
-  ScalingStatusType toScalingStatusType() {
-    switch (this) {
-      case 'ACTIVE':
-        return ScalingStatusType.active;
-      case 'UPDATE_REQUESTED':
-        return ScalingStatusType.updateRequested;
-      case 'UPDATING':
-        return ScalingStatusType.updating;
-      case 'DELETE_REQUESTED':
-        return ScalingStatusType.deleteRequested;
-      case 'DELETING':
-        return ScalingStatusType.deleting;
-      case 'DELETED':
-        return ScalingStatusType.deleted;
-      case 'ERROR':
-        return ScalingStatusType.error;
-    }
-    throw Exception('$this is not known in enum ScalingStatusType');
-  }
+  const ScalingStatusType(this.value);
+
+  static ScalingStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalingStatusType'));
 }
 
 /// Properties describing a Realtime script.
@@ -19392,31 +17403,17 @@ class ServerProcess {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartFleetActionsOutput {

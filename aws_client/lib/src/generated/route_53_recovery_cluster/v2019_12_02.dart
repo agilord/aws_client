@@ -355,7 +355,7 @@ class Route53RecoveryCluster {
       headers: headers,
       payload: {
         'RoutingControlArn': routingControlArn,
-        'RoutingControlState': routingControlState.toValue(),
+        'RoutingControlState': routingControlState.value,
         if (safetyRulesToOverride != null)
           'SafetyRulesToOverride': safetyRulesToOverride,
       },
@@ -471,8 +471,8 @@ class GetRoutingControlStateResponse {
   factory GetRoutingControlStateResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutingControlStateResponse(
       routingControlArn: json['RoutingControlArn'] as String,
-      routingControlState:
-          (json['RoutingControlState'] as String).toRoutingControlState(),
+      routingControlState: RoutingControlState.fromString(
+          (json['RoutingControlState'] as String)),
       routingControlName: json['RoutingControlName'] as String?,
     );
   }
@@ -483,7 +483,7 @@ class GetRoutingControlStateResponse {
     final routingControlName = this.routingControlName;
     return {
       'RoutingControlArn': routingControlArn,
-      'RoutingControlState': routingControlState.toValue(),
+      'RoutingControlState': routingControlState.value,
       if (routingControlName != null) 'RoutingControlName': routingControlName,
     };
   }
@@ -564,8 +564,8 @@ class RoutingControl {
       owner: json['Owner'] as String?,
       routingControlArn: json['RoutingControlArn'] as String?,
       routingControlName: json['RoutingControlName'] as String?,
-      routingControlState:
-          (json['RoutingControlState'] as String?)?.toRoutingControlState(),
+      routingControlState: (json['RoutingControlState'] as String?)
+          ?.let(RoutingControlState.fromString),
     );
   }
 
@@ -583,37 +583,24 @@ class RoutingControl {
       if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
       if (routingControlName != null) 'RoutingControlName': routingControlName,
       if (routingControlState != null)
-        'RoutingControlState': routingControlState.toValue(),
+        'RoutingControlState': routingControlState.value,
     };
   }
 }
 
 enum RoutingControlState {
-  on,
-  off,
-}
+  on('On'),
+  off('Off'),
+  ;
 
-extension RoutingControlStateValueExtension on RoutingControlState {
-  String toValue() {
-    switch (this) {
-      case RoutingControlState.on:
-        return 'On';
-      case RoutingControlState.off:
-        return 'Off';
-    }
-  }
-}
+  final String value;
 
-extension RoutingControlStateFromString on String {
-  RoutingControlState toRoutingControlState() {
-    switch (this) {
-      case 'On':
-        return RoutingControlState.on;
-      case 'Off':
-        return RoutingControlState.off;
-    }
-    throw Exception('$this is not known in enum RoutingControlState');
-  }
+  const RoutingControlState(this.value);
+
+  static RoutingControlState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RoutingControlState'));
 }
 
 /// A routing control state entry.
@@ -634,7 +621,7 @@ class UpdateRoutingControlStateEntry {
     final routingControlState = this.routingControlState;
     return {
       'RoutingControlArn': routingControlArn,
-      'RoutingControlState': routingControlState.toValue(),
+      'RoutingControlState': routingControlState.value,
     };
   }
 }

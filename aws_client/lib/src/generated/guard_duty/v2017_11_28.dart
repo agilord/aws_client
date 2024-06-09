@@ -245,7 +245,7 @@ class GuardDuty {
       if (dataSources != null) 'dataSources': dataSources,
       if (features != null) 'features': features,
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -630,7 +630,7 @@ class GuardDuty {
     final $payload = <String, dynamic>{
       'findingCriteria': findingCriteria,
       'name': name,
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (rank != null) 'rank': rank,
@@ -690,7 +690,7 @@ class GuardDuty {
   }) async {
     final $payload = <String, dynamic>{
       'activate': activate,
-      'format': format.toValue(),
+      'format': format.value,
       'location': location,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -792,7 +792,7 @@ class GuardDuty {
   }) async {
     final $payload = <String, dynamic>{
       'destinationProperties': destinationProperties,
-      'destinationType': destinationType.toValue(),
+      'destinationType': destinationType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
@@ -875,7 +875,7 @@ class GuardDuty {
   }) async {
     final $payload = <String, dynamic>{
       'activate': activate,
-      'format': format.toValue(),
+      'format': format.value,
       'location': location,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -1457,7 +1457,7 @@ class GuardDuty {
     CoverageFilterCriteria? filterCriteria,
   }) async {
     final $payload = <String, dynamic>{
-      'statisticsType': statisticsType.map((e) => e.toValue()).toList(),
+      'statisticsType': statisticsType.map((e) => e.value).toList(),
       if (filterCriteria != null) 'filterCriteria': filterCriteria,
     };
     final response = await _protocol.send(
@@ -1578,7 +1578,7 @@ class GuardDuty {
   }) async {
     final $payload = <String, dynamic>{
       'findingStatisticTypes':
-          findingStatisticTypes.map((e) => e.toValue()).toList(),
+          findingStatisticTypes.map((e) => e.value).toList(),
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
     };
     final response = await _protocol.send(
@@ -1861,7 +1861,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'usageCriteria': usageCriteria,
-      'usageStatisticsType': usageStatisticType.toValue(),
+      'usageStatisticsType': usageStatisticType.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (unit != null) 'unit': unit,
@@ -2828,7 +2828,7 @@ class GuardDuty {
       if (enable != null) 'enable': enable,
       if (features != null) 'features': features,
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2882,7 +2882,7 @@ class GuardDuty {
       100,
     );
     final $payload = <String, dynamic>{
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (description != null) 'description': description,
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
       if (rank != null) 'rank': rank,
@@ -2921,7 +2921,7 @@ class GuardDuty {
     String? comments,
   }) async {
     final $payload = <String, dynamic>{
-      'feedback': feedback.toValue(),
+      'feedback': feedback.value,
       'findingIds': findingIds,
       if (comments != null) 'comments': comments,
     };
@@ -3004,7 +3004,7 @@ class GuardDuty {
   }) async {
     final $payload = <String, dynamic>{
       if (ebsSnapshotPreservation != null)
-        'ebsSnapshotPreservation': ebsSnapshotPreservation.toValue(),
+        'ebsSnapshotPreservation': ebsSnapshotPreservation.value,
       if (scanResourceCriteria != null)
         'scanResourceCriteria': scanResourceCriteria,
     };
@@ -3153,8 +3153,7 @@ class GuardDuty {
     final $payload = <String, dynamic>{
       if (autoEnable != null) 'autoEnable': autoEnable,
       if (autoEnableOrganizationMembers != null)
-        'autoEnableOrganizationMembers':
-            autoEnableOrganizationMembers.toValue(),
+        'autoEnableOrganizationMembers': autoEnableOrganizationMembers.value,
       if (dataSources != null) 'dataSources': dataSources,
       if (features != null) 'features': features,
     };
@@ -3617,7 +3616,8 @@ class AdminAccount {
   factory AdminAccount.fromJson(Map<String, dynamic> json) {
     return AdminAccount(
       adminAccountId: json['adminAccountId'] as String?,
-      adminStatus: (json['adminStatus'] as String?)?.toAdminStatus(),
+      adminStatus:
+          (json['adminStatus'] as String?)?.let(AdminStatus.fromString),
     );
   }
 
@@ -3626,37 +3626,23 @@ class AdminAccount {
     final adminStatus = this.adminStatus;
     return {
       if (adminAccountId != null) 'adminAccountId': adminAccountId,
-      if (adminStatus != null) 'adminStatus': adminStatus.toValue(),
+      if (adminStatus != null) 'adminStatus': adminStatus.value,
     };
   }
 }
 
 enum AdminStatus {
-  enabled,
-  disableInProgress,
-}
+  enabled('ENABLED'),
+  disableInProgress('DISABLE_IN_PROGRESS'),
+  ;
 
-extension AdminStatusValueExtension on AdminStatus {
-  String toValue() {
-    switch (this) {
-      case AdminStatus.enabled:
-        return 'ENABLED';
-      case AdminStatus.disableInProgress:
-        return 'DISABLE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension AdminStatusFromString on String {
-  AdminStatus toAdminStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return AdminStatus.enabled;
-      case 'DISABLE_IN_PROGRESS':
-        return AdminStatus.disableInProgress;
-    }
-    throw Exception('$this is not known in enum AdminStatus');
-  }
+  const AdminStatus(this.value);
+
+  static AdminStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AdminStatus'));
 }
 
 /// Contains information about the administrator account and invitation.
@@ -3791,8 +3777,10 @@ class AnomalyObject {
       observations: json['observations'] != null
           ? Observations.fromJson(json['observations'] as Map<String, dynamic>)
           : null,
-      profileSubtype: (json['profileSubtype'] as String?)?.toProfileSubtype(),
-      profileType: (json['profileType'] as String?)?.toProfileType(),
+      profileSubtype:
+          (json['profileSubtype'] as String?)?.let(ProfileSubtype.fromString),
+      profileType:
+          (json['profileType'] as String?)?.let(ProfileType.fromString),
     );
   }
 
@@ -3802,8 +3790,8 @@ class AnomalyObject {
     final profileType = this.profileType;
     return {
       if (observations != null) 'observations': observations,
-      if (profileSubtype != null) 'profileSubtype': profileSubtype.toValue(),
-      if (profileType != null) 'profileType': profileType.toValue(),
+      if (profileSubtype != null) 'profileSubtype': profileSubtype.value,
+      if (profileType != null) 'profileType': profileType.value,
     };
   }
 }
@@ -3850,36 +3838,19 @@ class ArchiveFindingsResponse {
 }
 
 enum AutoEnableMembers {
-  $new,
-  all,
-  none,
-}
+  $new('NEW'),
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension AutoEnableMembersValueExtension on AutoEnableMembers {
-  String toValue() {
-    switch (this) {
-      case AutoEnableMembers.$new:
-        return 'NEW';
-      case AutoEnableMembers.all:
-        return 'ALL';
-      case AutoEnableMembers.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AutoEnableMembersFromString on String {
-  AutoEnableMembers toAutoEnableMembers() {
-    switch (this) {
-      case 'NEW':
-        return AutoEnableMembers.$new;
-      case 'ALL':
-        return AutoEnableMembers.all;
-      case 'NONE':
-        return AutoEnableMembers.none;
-    }
-    throw Exception('$this is not known in enum AutoEnableMembers');
-  }
+  const AutoEnableMembers(this.value);
+
+  static AutoEnableMembers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoEnableMembers'));
 }
 
 /// Contains information about the API action.
@@ -4141,14 +4112,14 @@ class CloudTrailConfigurationResult {
 
   factory CloudTrailConfigurationResult.fromJson(Map<String, dynamic> json) {
     return CloudTrailConfigurationResult(
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -4466,7 +4437,8 @@ class CoverageEc2InstanceDetails {
       clusterArn: json['clusterArn'] as String?,
       instanceId: json['instanceId'] as String?,
       instanceType: json['instanceType'] as String?,
-      managementType: (json['managementType'] as String?)?.toManagementType(),
+      managementType:
+          (json['managementType'] as String?)?.let(ManagementType.fromString),
     );
   }
 
@@ -4481,7 +4453,7 @@ class CoverageEc2InstanceDetails {
       if (clusterArn != null) 'clusterArn': clusterArn,
       if (instanceId != null) 'instanceId': instanceId,
       if (instanceType != null) 'instanceType': instanceType,
-      if (managementType != null) 'managementType': managementType.toValue(),
+      if (managementType != null) 'managementType': managementType.value,
     };
   }
 }
@@ -4572,7 +4544,8 @@ class CoverageEksClusterDetails {
       clusterName: json['clusterName'] as String?,
       compatibleNodes: json['compatibleNodes'] as int?,
       coveredNodes: json['coveredNodes'] as int?,
-      managementType: (json['managementType'] as String?)?.toManagementType(),
+      managementType:
+          (json['managementType'] as String?)?.let(ManagementType.fromString),
     );
   }
 
@@ -4587,7 +4560,7 @@ class CoverageEksClusterDetails {
       if (clusterName != null) 'clusterName': clusterName,
       if (compatibleNodes != null) 'compatibleNodes': compatibleNodes,
       if (coveredNodes != null) 'coveredNodes': coveredNodes,
-      if (managementType != null) 'managementType': managementType.toValue(),
+      if (managementType != null) 'managementType': managementType.value,
     };
   }
 }
@@ -4659,84 +4632,34 @@ class CoverageFilterCriterion {
     final criterionKey = this.criterionKey;
     final filterCondition = this.filterCondition;
     return {
-      if (criterionKey != null) 'criterionKey': criterionKey.toValue(),
+      if (criterionKey != null) 'criterionKey': criterionKey.value,
       if (filterCondition != null) 'filterCondition': filterCondition,
     };
   }
 }
 
 enum CoverageFilterCriterionKey {
-  accountId,
-  clusterName,
-  resourceType,
-  coverageStatus,
-  addonVersion,
-  managementType,
-  eksClusterName,
-  ecsClusterName,
-  agentVersion,
-  instanceId,
-  clusterArn,
-}
+  accountId('ACCOUNT_ID'),
+  clusterName('CLUSTER_NAME'),
+  resourceType('RESOURCE_TYPE'),
+  coverageStatus('COVERAGE_STATUS'),
+  addonVersion('ADDON_VERSION'),
+  managementType('MANAGEMENT_TYPE'),
+  eksClusterName('EKS_CLUSTER_NAME'),
+  ecsClusterName('ECS_CLUSTER_NAME'),
+  agentVersion('AGENT_VERSION'),
+  instanceId('INSTANCE_ID'),
+  clusterArn('CLUSTER_ARN'),
+  ;
 
-extension CoverageFilterCriterionKeyValueExtension
-    on CoverageFilterCriterionKey {
-  String toValue() {
-    switch (this) {
-      case CoverageFilterCriterionKey.accountId:
-        return 'ACCOUNT_ID';
-      case CoverageFilterCriterionKey.clusterName:
-        return 'CLUSTER_NAME';
-      case CoverageFilterCriterionKey.resourceType:
-        return 'RESOURCE_TYPE';
-      case CoverageFilterCriterionKey.coverageStatus:
-        return 'COVERAGE_STATUS';
-      case CoverageFilterCriterionKey.addonVersion:
-        return 'ADDON_VERSION';
-      case CoverageFilterCriterionKey.managementType:
-        return 'MANAGEMENT_TYPE';
-      case CoverageFilterCriterionKey.eksClusterName:
-        return 'EKS_CLUSTER_NAME';
-      case CoverageFilterCriterionKey.ecsClusterName:
-        return 'ECS_CLUSTER_NAME';
-      case CoverageFilterCriterionKey.agentVersion:
-        return 'AGENT_VERSION';
-      case CoverageFilterCriterionKey.instanceId:
-        return 'INSTANCE_ID';
-      case CoverageFilterCriterionKey.clusterArn:
-        return 'CLUSTER_ARN';
-    }
-  }
-}
+  final String value;
 
-extension CoverageFilterCriterionKeyFromString on String {
-  CoverageFilterCriterionKey toCoverageFilterCriterionKey() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return CoverageFilterCriterionKey.accountId;
-      case 'CLUSTER_NAME':
-        return CoverageFilterCriterionKey.clusterName;
-      case 'RESOURCE_TYPE':
-        return CoverageFilterCriterionKey.resourceType;
-      case 'COVERAGE_STATUS':
-        return CoverageFilterCriterionKey.coverageStatus;
-      case 'ADDON_VERSION':
-        return CoverageFilterCriterionKey.addonVersion;
-      case 'MANAGEMENT_TYPE':
-        return CoverageFilterCriterionKey.managementType;
-      case 'EKS_CLUSTER_NAME':
-        return CoverageFilterCriterionKey.eksClusterName;
-      case 'ECS_CLUSTER_NAME':
-        return CoverageFilterCriterionKey.ecsClusterName;
-      case 'AGENT_VERSION':
-        return CoverageFilterCriterionKey.agentVersion;
-      case 'INSTANCE_ID':
-        return CoverageFilterCriterionKey.instanceId;
-      case 'CLUSTER_ARN':
-        return CoverageFilterCriterionKey.clusterArn;
-    }
-    throw Exception('$this is not known in enum CoverageFilterCriterionKey');
-  }
+  const CoverageFilterCriterionKey(this.value);
+
+  static CoverageFilterCriterionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CoverageFilterCriterionKey'));
 }
 
 /// Information about the resource of the GuardDuty account.
@@ -4778,7 +4701,8 @@ class CoverageResource {
   factory CoverageResource.fromJson(Map<String, dynamic> json) {
     return CoverageResource(
       accountId: json['accountId'] as String?,
-      coverageStatus: (json['coverageStatus'] as String?)?.toCoverageStatus(),
+      coverageStatus:
+          (json['coverageStatus'] as String?)?.let(CoverageStatus.fromString),
       detectorId: json['detectorId'] as String?,
       issue: json['issue'] as String?,
       resourceDetails: json['resourceDetails'] != null
@@ -4800,7 +4724,7 @@ class CoverageResource {
     final updatedAt = this.updatedAt;
     return {
       if (accountId != null) 'accountId': accountId,
-      if (coverageStatus != null) 'coverageStatus': coverageStatus.toValue(),
+      if (coverageStatus != null) 'coverageStatus': coverageStatus.value,
       if (detectorId != null) 'detectorId': detectorId,
       if (issue != null) 'issue': issue,
       if (resourceDetails != null) 'resourceDetails': resourceDetails,
@@ -4846,7 +4770,8 @@ class CoverageResourceDetails {
           ? CoverageEksClusterDetails.fromJson(
               json['eksClusterDetails'] as Map<String, dynamic>)
           : null,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -4859,7 +4784,7 @@ class CoverageResourceDetails {
       if (ec2InstanceDetails != null) 'ec2InstanceDetails': ec2InstanceDetails,
       if (ecsClusterDetails != null) 'ecsClusterDetails': ecsClusterDetails,
       if (eksClusterDetails != null) 'eksClusterDetails': eksClusterDetails,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -4886,73 +4811,32 @@ class CoverageSortCriteria {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
     return {
-      if (attributeName != null) 'attributeName': attributeName.toValue(),
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (attributeName != null) 'attributeName': attributeName.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
 
 enum CoverageSortKey {
-  accountId,
-  clusterName,
-  coverageStatus,
-  issue,
-  addonVersion,
-  updatedAt,
-  eksClusterName,
-  ecsClusterName,
-  instanceId,
-}
+  accountId('ACCOUNT_ID'),
+  clusterName('CLUSTER_NAME'),
+  coverageStatus('COVERAGE_STATUS'),
+  issue('ISSUE'),
+  addonVersion('ADDON_VERSION'),
+  updatedAt('UPDATED_AT'),
+  eksClusterName('EKS_CLUSTER_NAME'),
+  ecsClusterName('ECS_CLUSTER_NAME'),
+  instanceId('INSTANCE_ID'),
+  ;
 
-extension CoverageSortKeyValueExtension on CoverageSortKey {
-  String toValue() {
-    switch (this) {
-      case CoverageSortKey.accountId:
-        return 'ACCOUNT_ID';
-      case CoverageSortKey.clusterName:
-        return 'CLUSTER_NAME';
-      case CoverageSortKey.coverageStatus:
-        return 'COVERAGE_STATUS';
-      case CoverageSortKey.issue:
-        return 'ISSUE';
-      case CoverageSortKey.addonVersion:
-        return 'ADDON_VERSION';
-      case CoverageSortKey.updatedAt:
-        return 'UPDATED_AT';
-      case CoverageSortKey.eksClusterName:
-        return 'EKS_CLUSTER_NAME';
-      case CoverageSortKey.ecsClusterName:
-        return 'ECS_CLUSTER_NAME';
-      case CoverageSortKey.instanceId:
-        return 'INSTANCE_ID';
-    }
-  }
-}
+  final String value;
 
-extension CoverageSortKeyFromString on String {
-  CoverageSortKey toCoverageSortKey() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return CoverageSortKey.accountId;
-      case 'CLUSTER_NAME':
-        return CoverageSortKey.clusterName;
-      case 'COVERAGE_STATUS':
-        return CoverageSortKey.coverageStatus;
-      case 'ISSUE':
-        return CoverageSortKey.issue;
-      case 'ADDON_VERSION':
-        return CoverageSortKey.addonVersion;
-      case 'UPDATED_AT':
-        return CoverageSortKey.updatedAt;
-      case 'EKS_CLUSTER_NAME':
-        return CoverageSortKey.eksClusterName;
-      case 'ECS_CLUSTER_NAME':
-        return CoverageSortKey.ecsClusterName;
-      case 'INSTANCE_ID':
-        return CoverageSortKey.instanceId;
-    }
-    throw Exception('$this is not known in enum CoverageSortKey');
-  }
+  const CoverageSortKey(this.value);
+
+  static CoverageSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CoverageSortKey'));
 }
 
 /// Information about the coverage statistics for a resource.
@@ -4973,10 +4857,10 @@ class CoverageStatistics {
     return CoverageStatistics(
       countByCoverageStatus:
           (json['countByCoverageStatus'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toCoverageStatus(), e as int)),
+              ?.map((k, e) => MapEntry(CoverageStatus.fromString(k), e as int)),
       countByResourceType:
           (json['countByResourceType'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toResourceType(), e as int)),
+              ?.map((k, e) => MapEntry(ResourceType.fromString(k), e as int)),
     );
   }
 
@@ -4986,68 +4870,42 @@ class CoverageStatistics {
     return {
       if (countByCoverageStatus != null)
         'countByCoverageStatus':
-            countByCoverageStatus.map((k, e) => MapEntry(k.toValue(), e)),
+            countByCoverageStatus.map((k, e) => MapEntry(k.value, e)),
       if (countByResourceType != null)
         'countByResourceType':
-            countByResourceType.map((k, e) => MapEntry(k.toValue(), e)),
+            countByResourceType.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum CoverageStatisticsType {
-  countByResourceType,
-  countByCoverageStatus,
-}
+  countByResourceType('COUNT_BY_RESOURCE_TYPE'),
+  countByCoverageStatus('COUNT_BY_COVERAGE_STATUS'),
+  ;
 
-extension CoverageStatisticsTypeValueExtension on CoverageStatisticsType {
-  String toValue() {
-    switch (this) {
-      case CoverageStatisticsType.countByResourceType:
-        return 'COUNT_BY_RESOURCE_TYPE';
-      case CoverageStatisticsType.countByCoverageStatus:
-        return 'COUNT_BY_COVERAGE_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension CoverageStatisticsTypeFromString on String {
-  CoverageStatisticsType toCoverageStatisticsType() {
-    switch (this) {
-      case 'COUNT_BY_RESOURCE_TYPE':
-        return CoverageStatisticsType.countByResourceType;
-      case 'COUNT_BY_COVERAGE_STATUS':
-        return CoverageStatisticsType.countByCoverageStatus;
-    }
-    throw Exception('$this is not known in enum CoverageStatisticsType');
-  }
+  const CoverageStatisticsType(this.value);
+
+  static CoverageStatisticsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CoverageStatisticsType'));
 }
 
 enum CoverageStatus {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension CoverageStatusValueExtension on CoverageStatus {
-  String toValue() {
-    switch (this) {
-      case CoverageStatus.healthy:
-        return 'HEALTHY';
-      case CoverageStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension CoverageStatusFromString on String {
-  CoverageStatus toCoverageStatus() {
-    switch (this) {
-      case 'HEALTHY':
-        return CoverageStatus.healthy;
-      case 'UNHEALTHY':
-        return CoverageStatus.unhealthy;
-    }
-    throw Exception('$this is not known in enum CoverageStatus');
-  }
+  const CoverageStatus(this.value);
+
+  static CoverageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CoverageStatus'));
 }
 
 class CreateDetectorResponse {
@@ -5213,56 +5071,23 @@ class CreateThreatIntelSetResponse {
 }
 
 enum CriterionKey {
-  ec2InstanceArn,
-  scanId,
-  accountId,
-  guarddutyFindingId,
-  scanStartTime,
-  scanStatus,
-  scanType,
-}
+  ec2InstanceArn('EC2_INSTANCE_ARN'),
+  scanId('SCAN_ID'),
+  accountId('ACCOUNT_ID'),
+  guarddutyFindingId('GUARDDUTY_FINDING_ID'),
+  scanStartTime('SCAN_START_TIME'),
+  scanStatus('SCAN_STATUS'),
+  scanType('SCAN_TYPE'),
+  ;
 
-extension CriterionKeyValueExtension on CriterionKey {
-  String toValue() {
-    switch (this) {
-      case CriterionKey.ec2InstanceArn:
-        return 'EC2_INSTANCE_ARN';
-      case CriterionKey.scanId:
-        return 'SCAN_ID';
-      case CriterionKey.accountId:
-        return 'ACCOUNT_ID';
-      case CriterionKey.guarddutyFindingId:
-        return 'GUARDDUTY_FINDING_ID';
-      case CriterionKey.scanStartTime:
-        return 'SCAN_START_TIME';
-      case CriterionKey.scanStatus:
-        return 'SCAN_STATUS';
-      case CriterionKey.scanType:
-        return 'SCAN_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension CriterionKeyFromString on String {
-  CriterionKey toCriterionKey() {
-    switch (this) {
-      case 'EC2_INSTANCE_ARN':
-        return CriterionKey.ec2InstanceArn;
-      case 'SCAN_ID':
-        return CriterionKey.scanId;
-      case 'ACCOUNT_ID':
-        return CriterionKey.accountId;
-      case 'GUARDDUTY_FINDING_ID':
-        return CriterionKey.guarddutyFindingId;
-      case 'SCAN_START_TIME':
-        return CriterionKey.scanStartTime;
-      case 'SCAN_STATUS':
-        return CriterionKey.scanStatus;
-      case 'SCAN_TYPE':
-        return CriterionKey.scanType;
-    }
-    throw Exception('$this is not known in enum CriterionKey');
-  }
+  const CriterionKey(this.value);
+
+  static CriterionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CriterionKey'));
 }
 
 /// Contains information on the status of DNS logs as a data source.
@@ -5276,64 +5101,34 @@ class DNSLogsConfigurationResult {
 
   factory DNSLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return DNSLogsConfigurationResult(
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
 
 enum DataSource {
-  flowLogs,
-  cloudTrail,
-  dnsLogs,
-  s3Logs,
-  kubernetesAuditLogs,
-  ec2MalwareScan,
-}
+  flowLogs('FLOW_LOGS'),
+  cloudTrail('CLOUD_TRAIL'),
+  dnsLogs('DNS_LOGS'),
+  s3Logs('S3_LOGS'),
+  kubernetesAuditLogs('KUBERNETES_AUDIT_LOGS'),
+  ec2MalwareScan('EC2_MALWARE_SCAN'),
+  ;
 
-extension DataSourceValueExtension on DataSource {
-  String toValue() {
-    switch (this) {
-      case DataSource.flowLogs:
-        return 'FLOW_LOGS';
-      case DataSource.cloudTrail:
-        return 'CLOUD_TRAIL';
-      case DataSource.dnsLogs:
-        return 'DNS_LOGS';
-      case DataSource.s3Logs:
-        return 'S3_LOGS';
-      case DataSource.kubernetesAuditLogs:
-        return 'KUBERNETES_AUDIT_LOGS';
-      case DataSource.ec2MalwareScan:
-        return 'EC2_MALWARE_SCAN';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceFromString on String {
-  DataSource toDataSource() {
-    switch (this) {
-      case 'FLOW_LOGS':
-        return DataSource.flowLogs;
-      case 'CLOUD_TRAIL':
-        return DataSource.cloudTrail;
-      case 'DNS_LOGS':
-        return DataSource.dnsLogs;
-      case 'S3_LOGS':
-        return DataSource.s3Logs;
-      case 'KUBERNETES_AUDIT_LOGS':
-        return DataSource.kubernetesAuditLogs;
-      case 'EC2_MALWARE_SCAN':
-        return DataSource.ec2MalwareScan;
-    }
-    throw Exception('$this is not known in enum DataSource');
-  }
+  const DataSource(this.value);
+
+  static DataSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataSource'));
 }
 
 /// Contains information about which data sources are enabled.
@@ -5465,31 +5260,18 @@ class DataSourceFreeTrial {
 }
 
 enum DataSourceStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DataSourceStatusValueExtension on DataSourceStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceStatus.enabled:
-        return 'ENABLED';
-      case DataSourceStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceStatusFromString on String {
-  DataSourceStatus toDataSourceStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return DataSourceStatus.enabled;
-      case 'DISABLED':
-        return DataSourceStatus.disabled;
-    }
-    throw Exception('$this is not known in enum DataSourceStatus');
-  }
+  const DataSourceStatus(this.value);
+
+  static DataSourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceStatus'));
 }
 
 /// Contains information about which data sources are enabled for the GuardDuty
@@ -5843,7 +5625,7 @@ class DescribeOrganizationConfigurationResponse {
       autoEnable: json['autoEnable'] as bool?,
       autoEnableOrganizationMembers:
           (json['autoEnableOrganizationMembers'] as String?)
-              ?.toAutoEnableMembers(),
+              ?.let(AutoEnableMembers.fromString),
       dataSources: json['dataSources'] != null
           ? OrganizationDataSourceConfigurationsResult.fromJson(
               json['dataSources'] as Map<String, dynamic>)
@@ -5868,8 +5650,7 @@ class DescribeOrganizationConfigurationResponse {
       'memberAccountLimitReached': memberAccountLimitReached,
       if (autoEnable != null) 'autoEnable': autoEnable,
       if (autoEnableOrganizationMembers != null)
-        'autoEnableOrganizationMembers':
-            autoEnableOrganizationMembers.toValue(),
+        'autoEnableOrganizationMembers': autoEnableOrganizationMembers.value,
       if (dataSources != null) 'dataSources': dataSources,
       if (features != null) 'features': features,
       if (nextToken != null) 'nextToken': nextToken,
@@ -5911,10 +5692,11 @@ class DescribePublishingDestinationResponse {
       destinationId: json['destinationId'] as String,
       destinationProperties: DestinationProperties.fromJson(
           json['destinationProperties'] as Map<String, dynamic>),
-      destinationType: (json['destinationType'] as String).toDestinationType(),
+      destinationType:
+          DestinationType.fromString((json['destinationType'] as String)),
       publishingFailureStartTimestamp:
           json['publishingFailureStartTimestamp'] as int,
-      status: (json['status'] as String).toPublishingStatus(),
+      status: PublishingStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -5928,9 +5710,9 @@ class DescribePublishingDestinationResponse {
     return {
       'destinationId': destinationId,
       'destinationProperties': destinationProperties,
-      'destinationType': destinationType.toValue(),
+      'destinationType': destinationType.value,
       'publishingFailureStartTimestamp': publishingFailureStartTimestamp,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -5957,8 +5739,9 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       destinationId: json['destinationId'] as String,
-      destinationType: (json['destinationType'] as String).toDestinationType(),
-      status: (json['status'] as String).toPublishingStatus(),
+      destinationType:
+          DestinationType.fromString((json['destinationType'] as String)),
+      status: PublishingStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -5968,8 +5751,8 @@ class Destination {
     final status = this.status;
     return {
       'destinationId': destinationId,
-      'destinationType': destinationType.toValue(),
-      'status': status.toValue(),
+      'destinationType': destinationType.value,
+      'status': status.value,
     };
   }
 }
@@ -6010,26 +5793,17 @@ class DestinationProperties {
 }
 
 enum DestinationType {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension DestinationTypeValueExtension on DestinationType {
-  String toValue() {
-    switch (this) {
-      case DestinationType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension DestinationTypeFromString on String {
-  DestinationType toDestinationType() {
-    switch (this) {
-      case 'S3':
-        return DestinationType.s3;
-    }
-    throw Exception('$this is not known in enum DestinationType');
-  }
+  const DestinationType(this.value);
+
+  static DestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DestinationType'));
 }
 
 /// Contains information about the detected behavior.
@@ -6076,8 +5850,8 @@ class DetectorAdditionalConfiguration {
     final name = this.name;
     final status = this.status;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6103,8 +5877,9 @@ class DetectorAdditionalConfigurationResult {
   factory DetectorAdditionalConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return DetectorAdditionalConfigurationResult(
-      name: (json['name'] as String?)?.toFeatureAdditionalConfiguration(),
-      status: (json['status'] as String?)?.toFeatureStatus(),
+      name: (json['name'] as String?)
+          ?.let(FeatureAdditionalConfiguration.fromString),
+      status: (json['status'] as String?)?.let(FeatureStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -6114,64 +5889,31 @@ class DetectorAdditionalConfigurationResult {
     final status = this.status;
     final updatedAt = this.updatedAt;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
 
 enum DetectorFeature {
-  s3DataEvents,
-  eksAuditLogs,
-  ebsMalwareProtection,
-  rdsLoginEvents,
-  eksRuntimeMonitoring,
-  lambdaNetworkLogs,
-  runtimeMonitoring,
-}
+  s3DataEvents('S3_DATA_EVENTS'),
+  eksAuditLogs('EKS_AUDIT_LOGS'),
+  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
+  rdsLoginEvents('RDS_LOGIN_EVENTS'),
+  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
+  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
+  runtimeMonitoring('RUNTIME_MONITORING'),
+  ;
 
-extension DetectorFeatureValueExtension on DetectorFeature {
-  String toValue() {
-    switch (this) {
-      case DetectorFeature.s3DataEvents:
-        return 'S3_DATA_EVENTS';
-      case DetectorFeature.eksAuditLogs:
-        return 'EKS_AUDIT_LOGS';
-      case DetectorFeature.ebsMalwareProtection:
-        return 'EBS_MALWARE_PROTECTION';
-      case DetectorFeature.rdsLoginEvents:
-        return 'RDS_LOGIN_EVENTS';
-      case DetectorFeature.eksRuntimeMonitoring:
-        return 'EKS_RUNTIME_MONITORING';
-      case DetectorFeature.lambdaNetworkLogs:
-        return 'LAMBDA_NETWORK_LOGS';
-      case DetectorFeature.runtimeMonitoring:
-        return 'RUNTIME_MONITORING';
-    }
-  }
-}
+  final String value;
 
-extension DetectorFeatureFromString on String {
-  DetectorFeature toDetectorFeature() {
-    switch (this) {
-      case 'S3_DATA_EVENTS':
-        return DetectorFeature.s3DataEvents;
-      case 'EKS_AUDIT_LOGS':
-        return DetectorFeature.eksAuditLogs;
-      case 'EBS_MALWARE_PROTECTION':
-        return DetectorFeature.ebsMalwareProtection;
-      case 'RDS_LOGIN_EVENTS':
-        return DetectorFeature.rdsLoginEvents;
-      case 'EKS_RUNTIME_MONITORING':
-        return DetectorFeature.eksRuntimeMonitoring;
-      case 'LAMBDA_NETWORK_LOGS':
-        return DetectorFeature.lambdaNetworkLogs;
-      case 'RUNTIME_MONITORING':
-        return DetectorFeature.runtimeMonitoring;
-    }
-    throw Exception('$this is not known in enum DetectorFeature');
-  }
+  const DetectorFeature(this.value);
+
+  static DetectorFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DetectorFeature'));
 }
 
 /// Contains information about a GuardDuty feature.
@@ -6206,8 +5948,8 @@ class DetectorFeatureConfiguration {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6249,8 +5991,8 @@ class DetectorFeatureConfigurationResult {
           .map((e) => DetectorAdditionalConfigurationResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      name: (json['name'] as String?)?.toDetectorFeatureResult(),
-      status: (json['status'] as String?)?.toFeatureStatus(),
+      name: (json['name'] as String?)?.let(DetectorFeatureResult.fromString),
+      status: (json['status'] as String?)?.let(FeatureStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -6263,107 +6005,49 @@ class DetectorFeatureConfigurationResult {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
 
 enum DetectorFeatureResult {
-  flowLogs,
-  cloudTrail,
-  dnsLogs,
-  s3DataEvents,
-  eksAuditLogs,
-  ebsMalwareProtection,
-  rdsLoginEvents,
-  eksRuntimeMonitoring,
-  lambdaNetworkLogs,
-  runtimeMonitoring,
-}
+  flowLogs('FLOW_LOGS'),
+  cloudTrail('CLOUD_TRAIL'),
+  dnsLogs('DNS_LOGS'),
+  s3DataEvents('S3_DATA_EVENTS'),
+  eksAuditLogs('EKS_AUDIT_LOGS'),
+  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
+  rdsLoginEvents('RDS_LOGIN_EVENTS'),
+  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
+  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
+  runtimeMonitoring('RUNTIME_MONITORING'),
+  ;
 
-extension DetectorFeatureResultValueExtension on DetectorFeatureResult {
-  String toValue() {
-    switch (this) {
-      case DetectorFeatureResult.flowLogs:
-        return 'FLOW_LOGS';
-      case DetectorFeatureResult.cloudTrail:
-        return 'CLOUD_TRAIL';
-      case DetectorFeatureResult.dnsLogs:
-        return 'DNS_LOGS';
-      case DetectorFeatureResult.s3DataEvents:
-        return 'S3_DATA_EVENTS';
-      case DetectorFeatureResult.eksAuditLogs:
-        return 'EKS_AUDIT_LOGS';
-      case DetectorFeatureResult.ebsMalwareProtection:
-        return 'EBS_MALWARE_PROTECTION';
-      case DetectorFeatureResult.rdsLoginEvents:
-        return 'RDS_LOGIN_EVENTS';
-      case DetectorFeatureResult.eksRuntimeMonitoring:
-        return 'EKS_RUNTIME_MONITORING';
-      case DetectorFeatureResult.lambdaNetworkLogs:
-        return 'LAMBDA_NETWORK_LOGS';
-      case DetectorFeatureResult.runtimeMonitoring:
-        return 'RUNTIME_MONITORING';
-    }
-  }
-}
+  final String value;
 
-extension DetectorFeatureResultFromString on String {
-  DetectorFeatureResult toDetectorFeatureResult() {
-    switch (this) {
-      case 'FLOW_LOGS':
-        return DetectorFeatureResult.flowLogs;
-      case 'CLOUD_TRAIL':
-        return DetectorFeatureResult.cloudTrail;
-      case 'DNS_LOGS':
-        return DetectorFeatureResult.dnsLogs;
-      case 'S3_DATA_EVENTS':
-        return DetectorFeatureResult.s3DataEvents;
-      case 'EKS_AUDIT_LOGS':
-        return DetectorFeatureResult.eksAuditLogs;
-      case 'EBS_MALWARE_PROTECTION':
-        return DetectorFeatureResult.ebsMalwareProtection;
-      case 'RDS_LOGIN_EVENTS':
-        return DetectorFeatureResult.rdsLoginEvents;
-      case 'EKS_RUNTIME_MONITORING':
-        return DetectorFeatureResult.eksRuntimeMonitoring;
-      case 'LAMBDA_NETWORK_LOGS':
-        return DetectorFeatureResult.lambdaNetworkLogs;
-      case 'RUNTIME_MONITORING':
-        return DetectorFeatureResult.runtimeMonitoring;
-    }
-    throw Exception('$this is not known in enum DetectorFeatureResult');
-  }
+  const DetectorFeatureResult(this.value);
+
+  static DetectorFeatureResult fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DetectorFeatureResult'));
 }
 
 enum DetectorStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DetectorStatusValueExtension on DetectorStatus {
-  String toValue() {
-    switch (this) {
-      case DetectorStatus.enabled:
-        return 'ENABLED';
-      case DetectorStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DetectorStatusFromString on String {
-  DetectorStatus toDetectorStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return DetectorStatus.enabled;
-      case 'DISABLED':
-        return DetectorStatus.disabled;
-    }
-    throw Exception('$this is not known in enum DetectorStatus');
-  }
+  const DetectorStatus(this.value);
+
+  static DetectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DetectorStatus'));
 }
 
 class DisableOrganizationAdminAccountResponse {
@@ -6505,31 +6189,18 @@ class DomainDetails {
 }
 
 enum EbsSnapshotPreservation {
-  noRetention,
-  retentionWithFinding,
-}
+  noRetention('NO_RETENTION'),
+  retentionWithFinding('RETENTION_WITH_FINDING'),
+  ;
 
-extension EbsSnapshotPreservationValueExtension on EbsSnapshotPreservation {
-  String toValue() {
-    switch (this) {
-      case EbsSnapshotPreservation.noRetention:
-        return 'NO_RETENTION';
-      case EbsSnapshotPreservation.retentionWithFinding:
-        return 'RETENTION_WITH_FINDING';
-    }
-  }
-}
+  final String value;
 
-extension EbsSnapshotPreservationFromString on String {
-  EbsSnapshotPreservation toEbsSnapshotPreservation() {
-    switch (this) {
-      case 'NO_RETENTION':
-        return EbsSnapshotPreservation.noRetention;
-      case 'RETENTION_WITH_FINDING':
-        return EbsSnapshotPreservation.retentionWithFinding;
-    }
-    throw Exception('$this is not known in enum EbsSnapshotPreservation');
-  }
+  const EbsSnapshotPreservation(this.value);
+
+  static EbsSnapshotPreservation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EbsSnapshotPreservation'));
 }
 
 /// Contains list of scanned and skipped EBS volumes with details.
@@ -6612,7 +6283,7 @@ class EbsVolumeScanDetails {
           : null,
       scanId: json['scanId'] as String?,
       scanStartedAt: timeStampFromJson(json['scanStartedAt']),
-      scanType: (json['scanType'] as String?)?.toScanType(),
+      scanType: (json['scanType'] as String?)?.let(ScanType.fromString),
       sources: (json['sources'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6636,7 +6307,7 @@ class EbsVolumeScanDetails {
       if (scanId != null) 'scanId': scanId,
       if (scanStartedAt != null)
         'scanStartedAt': unixTimestampToJson(scanStartedAt),
-      if (scanType != null) 'scanType': scanType.toValue(),
+      if (scanType != null) 'scanType': scanType.value,
       if (sources != null) 'sources': sources,
       if (triggerFindingId != null) 'triggerFindingId': triggerFindingId,
     };
@@ -6660,7 +6331,7 @@ class EbsVolumesResult {
   factory EbsVolumesResult.fromJson(Map<String, dynamic> json) {
     return EbsVolumesResult(
       reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.toDataSourceStatus(),
+      status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
     );
   }
 
@@ -6669,7 +6340,7 @@ class EbsVolumesResult {
     final status = this.status;
     return {
       if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6988,7 +6659,8 @@ class FargateDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      managementType: (json['managementType'] as String?)?.toManagementType(),
+      managementType:
+          (json['managementType'] as String?)?.let(ManagementType.fromString),
     );
   }
 
@@ -6997,128 +6669,69 @@ class FargateDetails {
     final managementType = this.managementType;
     return {
       if (issues != null) 'issues': issues,
-      if (managementType != null) 'managementType': managementType.toValue(),
+      if (managementType != null) 'managementType': managementType.value,
     };
   }
 }
 
 enum FeatureAdditionalConfiguration {
-  eksAddonManagement,
-  ecsFargateAgentManagement,
-  ec2AgentManagement,
-}
+  eksAddonManagement('EKS_ADDON_MANAGEMENT'),
+  ecsFargateAgentManagement('ECS_FARGATE_AGENT_MANAGEMENT'),
+  ec2AgentManagement('EC2_AGENT_MANAGEMENT'),
+  ;
 
-extension FeatureAdditionalConfigurationValueExtension
-    on FeatureAdditionalConfiguration {
-  String toValue() {
-    switch (this) {
-      case FeatureAdditionalConfiguration.eksAddonManagement:
-        return 'EKS_ADDON_MANAGEMENT';
-      case FeatureAdditionalConfiguration.ecsFargateAgentManagement:
-        return 'ECS_FARGATE_AGENT_MANAGEMENT';
-      case FeatureAdditionalConfiguration.ec2AgentManagement:
-        return 'EC2_AGENT_MANAGEMENT';
-    }
-  }
-}
+  final String value;
 
-extension FeatureAdditionalConfigurationFromString on String {
-  FeatureAdditionalConfiguration toFeatureAdditionalConfiguration() {
-    switch (this) {
-      case 'EKS_ADDON_MANAGEMENT':
-        return FeatureAdditionalConfiguration.eksAddonManagement;
-      case 'ECS_FARGATE_AGENT_MANAGEMENT':
-        return FeatureAdditionalConfiguration.ecsFargateAgentManagement;
-      case 'EC2_AGENT_MANAGEMENT':
-        return FeatureAdditionalConfiguration.ec2AgentManagement;
-    }
-    throw Exception(
-        '$this is not known in enum FeatureAdditionalConfiguration');
-  }
+  const FeatureAdditionalConfiguration(this.value);
+
+  static FeatureAdditionalConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FeatureAdditionalConfiguration'));
 }
 
 enum FeatureStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension FeatureStatusValueExtension on FeatureStatus {
-  String toValue() {
-    switch (this) {
-      case FeatureStatus.enabled:
-        return 'ENABLED';
-      case FeatureStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension FeatureStatusFromString on String {
-  FeatureStatus toFeatureStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return FeatureStatus.enabled;
-      case 'DISABLED':
-        return FeatureStatus.disabled;
-    }
-    throw Exception('$this is not known in enum FeatureStatus');
-  }
+  const FeatureStatus(this.value);
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeatureStatus'));
 }
 
 enum Feedback {
-  useful,
-  notUseful,
-}
+  useful('USEFUL'),
+  notUseful('NOT_USEFUL'),
+  ;
 
-extension FeedbackValueExtension on Feedback {
-  String toValue() {
-    switch (this) {
-      case Feedback.useful:
-        return 'USEFUL';
-      case Feedback.notUseful:
-        return 'NOT_USEFUL';
-    }
-  }
-}
+  final String value;
 
-extension FeedbackFromString on String {
-  Feedback toFeedback() {
-    switch (this) {
-      case 'USEFUL':
-        return Feedback.useful;
-      case 'NOT_USEFUL':
-        return Feedback.notUseful;
-    }
-    throw Exception('$this is not known in enum Feedback');
-  }
+  const Feedback(this.value);
+
+  static Feedback fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Feedback'));
 }
 
 enum FilterAction {
-  noop,
-  archive,
-}
+  noop('NOOP'),
+  archive('ARCHIVE'),
+  ;
 
-extension FilterActionValueExtension on FilterAction {
-  String toValue() {
-    switch (this) {
-      case FilterAction.noop:
-        return 'NOOP';
-      case FilterAction.archive:
-        return 'ARCHIVE';
-    }
-  }
-}
+  final String value;
 
-extension FilterActionFromString on String {
-  FilterAction toFilterAction() {
-    switch (this) {
-      case 'NOOP':
-        return FilterAction.noop;
-      case 'ARCHIVE':
-        return FilterAction.archive;
-    }
-    throw Exception('$this is not known in enum FilterAction');
-  }
+  const FilterAction(this.value);
+
+  static FilterAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterAction'));
 }
 
 /// Contains information about the condition.
@@ -7198,7 +6811,7 @@ class FilterCriterion {
     final criterionKey = this.criterionKey;
     final filterCondition = this.filterCondition;
     return {
-      if (criterionKey != null) 'criterionKey': criterionKey.toValue(),
+      if (criterionKey != null) 'criterionKey': criterionKey.value,
       if (filterCondition != null) 'filterCondition': filterCondition,
     };
   }
@@ -7350,60 +6963,33 @@ class FindingCriteria {
 }
 
 enum FindingPublishingFrequency {
-  fifteenMinutes,
-  oneHour,
-  sixHours,
-}
+  fifteenMinutes('FIFTEEN_MINUTES'),
+  oneHour('ONE_HOUR'),
+  sixHours('SIX_HOURS'),
+  ;
 
-extension FindingPublishingFrequencyValueExtension
-    on FindingPublishingFrequency {
-  String toValue() {
-    switch (this) {
-      case FindingPublishingFrequency.fifteenMinutes:
-        return 'FIFTEEN_MINUTES';
-      case FindingPublishingFrequency.oneHour:
-        return 'ONE_HOUR';
-      case FindingPublishingFrequency.sixHours:
-        return 'SIX_HOURS';
-    }
-  }
-}
+  final String value;
 
-extension FindingPublishingFrequencyFromString on String {
-  FindingPublishingFrequency toFindingPublishingFrequency() {
-    switch (this) {
-      case 'FIFTEEN_MINUTES':
-        return FindingPublishingFrequency.fifteenMinutes;
-      case 'ONE_HOUR':
-        return FindingPublishingFrequency.oneHour;
-      case 'SIX_HOURS':
-        return FindingPublishingFrequency.sixHours;
-    }
-    throw Exception('$this is not known in enum FindingPublishingFrequency');
-  }
+  const FindingPublishingFrequency(this.value);
+
+  static FindingPublishingFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FindingPublishingFrequency'));
 }
 
 enum FindingStatisticType {
-  countBySeverity,
-}
+  countBySeverity('COUNT_BY_SEVERITY'),
+  ;
 
-extension FindingStatisticTypeValueExtension on FindingStatisticType {
-  String toValue() {
-    switch (this) {
-      case FindingStatisticType.countBySeverity:
-        return 'COUNT_BY_SEVERITY';
-    }
-  }
-}
+  final String value;
 
-extension FindingStatisticTypeFromString on String {
-  FindingStatisticType toFindingStatisticType() {
-    switch (this) {
-      case 'COUNT_BY_SEVERITY':
-        return FindingStatisticType.countBySeverity;
-    }
-    throw Exception('$this is not known in enum FindingStatisticType');
-  }
+  const FindingStatisticType(this.value);
+
+  static FindingStatisticType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FindingStatisticType'));
 }
 
 /// Contains information about finding statistics.
@@ -7441,14 +7027,14 @@ class FlowLogsConfigurationResult {
 
   factory FlowLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return FlowLogsConfigurationResult(
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -7470,7 +7056,7 @@ class FreeTrialFeatureConfigurationResult {
       Map<String, dynamic> json) {
     return FreeTrialFeatureConfigurationResult(
       freeTrialDaysRemaining: json['freeTrialDaysRemaining'] as int?,
-      name: (json['name'] as String?)?.toFreeTrialFeatureResult(),
+      name: (json['name'] as String?)?.let(FreeTrialFeatureResult.fromString),
     );
   }
 
@@ -7480,82 +7066,33 @@ class FreeTrialFeatureConfigurationResult {
     return {
       if (freeTrialDaysRemaining != null)
         'freeTrialDaysRemaining': freeTrialDaysRemaining,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
     };
   }
 }
 
 enum FreeTrialFeatureResult {
-  flowLogs,
-  cloudTrail,
-  dnsLogs,
-  s3DataEvents,
-  eksAuditLogs,
-  ebsMalwareProtection,
-  rdsLoginEvents,
-  eksRuntimeMonitoring,
-  lambdaNetworkLogs,
-  fargateRuntimeMonitoring,
-  ec2RuntimeMonitoring,
-}
+  flowLogs('FLOW_LOGS'),
+  cloudTrail('CLOUD_TRAIL'),
+  dnsLogs('DNS_LOGS'),
+  s3DataEvents('S3_DATA_EVENTS'),
+  eksAuditLogs('EKS_AUDIT_LOGS'),
+  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
+  rdsLoginEvents('RDS_LOGIN_EVENTS'),
+  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
+  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
+  fargateRuntimeMonitoring('FARGATE_RUNTIME_MONITORING'),
+  ec2RuntimeMonitoring('EC2_RUNTIME_MONITORING'),
+  ;
 
-extension FreeTrialFeatureResultValueExtension on FreeTrialFeatureResult {
-  String toValue() {
-    switch (this) {
-      case FreeTrialFeatureResult.flowLogs:
-        return 'FLOW_LOGS';
-      case FreeTrialFeatureResult.cloudTrail:
-        return 'CLOUD_TRAIL';
-      case FreeTrialFeatureResult.dnsLogs:
-        return 'DNS_LOGS';
-      case FreeTrialFeatureResult.s3DataEvents:
-        return 'S3_DATA_EVENTS';
-      case FreeTrialFeatureResult.eksAuditLogs:
-        return 'EKS_AUDIT_LOGS';
-      case FreeTrialFeatureResult.ebsMalwareProtection:
-        return 'EBS_MALWARE_PROTECTION';
-      case FreeTrialFeatureResult.rdsLoginEvents:
-        return 'RDS_LOGIN_EVENTS';
-      case FreeTrialFeatureResult.eksRuntimeMonitoring:
-        return 'EKS_RUNTIME_MONITORING';
-      case FreeTrialFeatureResult.lambdaNetworkLogs:
-        return 'LAMBDA_NETWORK_LOGS';
-      case FreeTrialFeatureResult.fargateRuntimeMonitoring:
-        return 'FARGATE_RUNTIME_MONITORING';
-      case FreeTrialFeatureResult.ec2RuntimeMonitoring:
-        return 'EC2_RUNTIME_MONITORING';
-    }
-  }
-}
+  final String value;
 
-extension FreeTrialFeatureResultFromString on String {
-  FreeTrialFeatureResult toFreeTrialFeatureResult() {
-    switch (this) {
-      case 'FLOW_LOGS':
-        return FreeTrialFeatureResult.flowLogs;
-      case 'CLOUD_TRAIL':
-        return FreeTrialFeatureResult.cloudTrail;
-      case 'DNS_LOGS':
-        return FreeTrialFeatureResult.dnsLogs;
-      case 'S3_DATA_EVENTS':
-        return FreeTrialFeatureResult.s3DataEvents;
-      case 'EKS_AUDIT_LOGS':
-        return FreeTrialFeatureResult.eksAuditLogs;
-      case 'EBS_MALWARE_PROTECTION':
-        return FreeTrialFeatureResult.ebsMalwareProtection;
-      case 'RDS_LOGIN_EVENTS':
-        return FreeTrialFeatureResult.rdsLoginEvents;
-      case 'EKS_RUNTIME_MONITORING':
-        return FreeTrialFeatureResult.eksRuntimeMonitoring;
-      case 'LAMBDA_NETWORK_LOGS':
-        return FreeTrialFeatureResult.lambdaNetworkLogs;
-      case 'FARGATE_RUNTIME_MONITORING':
-        return FreeTrialFeatureResult.fargateRuntimeMonitoring;
-      case 'EC2_RUNTIME_MONITORING':
-        return FreeTrialFeatureResult.ec2RuntimeMonitoring;
-    }
-    throw Exception('$this is not known in enum FreeTrialFeatureResult');
-  }
+  const FreeTrialFeatureResult(this.value);
+
+  static FreeTrialFeatureResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FreeTrialFeatureResult'));
 }
 
 /// Contains information about the location of the remote IP address.
@@ -7676,7 +7213,7 @@ class GetDetectorResponse {
   factory GetDetectorResponse.fromJson(Map<String, dynamic> json) {
     return GetDetectorResponse(
       serviceRole: json['serviceRole'] as String,
-      status: (json['status'] as String).toDetectorStatus(),
+      status: DetectorStatus.fromString((json['status'] as String)),
       createdAt: json['createdAt'] as String?,
       dataSources: json['dataSources'] != null
           ? DataSourceConfigurationsResult.fromJson(
@@ -7689,7 +7226,7 @@ class GetDetectorResponse {
           .toList(),
       findingPublishingFrequency:
           (json['findingPublishingFrequency'] as String?)
-              ?.toFindingPublishingFrequency(),
+              ?.let(FindingPublishingFrequency.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: json['updatedAt'] as String?,
@@ -7707,12 +7244,12 @@ class GetDetectorResponse {
     final updatedAt = this.updatedAt;
     return {
       'serviceRole': serviceRole,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': createdAt,
       if (dataSources != null) 'dataSources': dataSources,
       if (features != null) 'features': features,
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': updatedAt,
     };
@@ -7751,7 +7288,7 @@ class GetFilterResponse {
 
   factory GetFilterResponse.fromJson(Map<String, dynamic> json) {
     return GetFilterResponse(
-      action: (json['action'] as String).toFilterAction(),
+      action: FilterAction.fromString((json['action'] as String)),
       findingCriteria: FindingCriteria.fromJson(
           json['findingCriteria'] as Map<String, dynamic>),
       name: json['name'] as String,
@@ -7770,7 +7307,7 @@ class GetFilterResponse {
     final rank = this.rank;
     final tags = this.tags;
     return {
-      'action': action.toValue(),
+      'action': action.value,
       'findingCriteria': findingCriteria,
       'name': name,
       if (description != null) 'description': description,
@@ -7854,10 +7391,10 @@ class GetIPSetResponse {
 
   factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
     return GetIPSetResponse(
-      format: (json['format'] as String).toIpSetFormat(),
+      format: IpSetFormat.fromString((json['format'] as String)),
       location: json['location'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toIpSetStatus(),
+      status: IpSetStatus.fromString((json['status'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -7870,10 +7407,10 @@ class GetIPSetResponse {
     final status = this.status;
     final tags = this.tags;
     return {
-      'format': format.toValue(),
+      'format': format.value,
       'location': location,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -7916,7 +7453,7 @@ class GetMalwareScanSettingsResponse {
   factory GetMalwareScanSettingsResponse.fromJson(Map<String, dynamic> json) {
     return GetMalwareScanSettingsResponse(
       ebsSnapshotPreservation: (json['ebsSnapshotPreservation'] as String?)
-          ?.toEbsSnapshotPreservation(),
+          ?.let(EbsSnapshotPreservation.fromString),
       scanResourceCriteria: json['scanResourceCriteria'] != null
           ? ScanResourceCriteria.fromJson(
               json['scanResourceCriteria'] as Map<String, dynamic>)
@@ -7929,7 +7466,7 @@ class GetMalwareScanSettingsResponse {
     final scanResourceCriteria = this.scanResourceCriteria;
     return {
       if (ebsSnapshotPreservation != null)
-        'ebsSnapshotPreservation': ebsSnapshotPreservation.toValue(),
+        'ebsSnapshotPreservation': ebsSnapshotPreservation.value,
       if (scanResourceCriteria != null)
         'scanResourceCriteria': scanResourceCriteria,
     };
@@ -8128,10 +7665,10 @@ class GetThreatIntelSetResponse {
 
   factory GetThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
     return GetThreatIntelSetResponse(
-      format: (json['format'] as String).toThreatIntelSetFormat(),
+      format: ThreatIntelSetFormat.fromString((json['format'] as String)),
       location: json['location'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toThreatIntelSetStatus(),
+      status: ThreatIntelSetStatus.fromString((json['status'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -8144,10 +7681,10 @@ class GetThreatIntelSetResponse {
     final status = this.status;
     final tags = this.tags;
     return {
-      'format': format.toValue(),
+      'format': format.value,
       'location': location,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -8505,104 +8042,40 @@ class InviteMembersResponse {
 }
 
 enum IpSetFormat {
-  txt,
-  stix,
-  otxCsv,
-  alienVault,
-  proofPoint,
-  fireEye,
-}
+  txt('TXT'),
+  stix('STIX'),
+  otxCsv('OTX_CSV'),
+  alienVault('ALIEN_VAULT'),
+  proofPoint('PROOF_POINT'),
+  fireEye('FIRE_EYE'),
+  ;
 
-extension IpSetFormatValueExtension on IpSetFormat {
-  String toValue() {
-    switch (this) {
-      case IpSetFormat.txt:
-        return 'TXT';
-      case IpSetFormat.stix:
-        return 'STIX';
-      case IpSetFormat.otxCsv:
-        return 'OTX_CSV';
-      case IpSetFormat.alienVault:
-        return 'ALIEN_VAULT';
-      case IpSetFormat.proofPoint:
-        return 'PROOF_POINT';
-      case IpSetFormat.fireEye:
-        return 'FIRE_EYE';
-    }
-  }
-}
+  final String value;
 
-extension IpSetFormatFromString on String {
-  IpSetFormat toIpSetFormat() {
-    switch (this) {
-      case 'TXT':
-        return IpSetFormat.txt;
-      case 'STIX':
-        return IpSetFormat.stix;
-      case 'OTX_CSV':
-        return IpSetFormat.otxCsv;
-      case 'ALIEN_VAULT':
-        return IpSetFormat.alienVault;
-      case 'PROOF_POINT':
-        return IpSetFormat.proofPoint;
-      case 'FIRE_EYE':
-        return IpSetFormat.fireEye;
-    }
-    throw Exception('$this is not known in enum IpSetFormat');
-  }
+  const IpSetFormat(this.value);
+
+  static IpSetFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IpSetFormat'));
 }
 
 enum IpSetStatus {
-  inactive,
-  activating,
-  active,
-  deactivating,
-  error,
-  deletePending,
-  deleted,
-}
+  inactive('INACTIVE'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deactivating('DEACTIVATING'),
+  error('ERROR'),
+  deletePending('DELETE_PENDING'),
+  deleted('DELETED'),
+  ;
 
-extension IpSetStatusValueExtension on IpSetStatus {
-  String toValue() {
-    switch (this) {
-      case IpSetStatus.inactive:
-        return 'INACTIVE';
-      case IpSetStatus.activating:
-        return 'ACTIVATING';
-      case IpSetStatus.active:
-        return 'ACTIVE';
-      case IpSetStatus.deactivating:
-        return 'DEACTIVATING';
-      case IpSetStatus.error:
-        return 'ERROR';
-      case IpSetStatus.deletePending:
-        return 'DELETE_PENDING';
-      case IpSetStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension IpSetStatusFromString on String {
-  IpSetStatus toIpSetStatus() {
-    switch (this) {
-      case 'INACTIVE':
-        return IpSetStatus.inactive;
-      case 'ACTIVATING':
-        return IpSetStatus.activating;
-      case 'ACTIVE':
-        return IpSetStatus.active;
-      case 'DEACTIVATING':
-        return IpSetStatus.deactivating;
-      case 'ERROR':
-        return IpSetStatus.error;
-      case 'DELETE_PENDING':
-        return IpSetStatus.deletePending;
-      case 'DELETED':
-        return IpSetStatus.deleted;
-    }
-    throw Exception('$this is not known in enum IpSetStatus');
-  }
+  const IpSetStatus(this.value);
+
+  static IpSetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IpSetStatus'));
 }
 
 /// Information about the Kubernetes API call action described in this finding.
@@ -8733,14 +8206,14 @@ class KubernetesAuditLogsConfigurationResult {
   factory KubernetesAuditLogsConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return KubernetesAuditLogsConfigurationResult(
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -9872,36 +9345,19 @@ class MalwareProtectionDataSourceFreeTrial {
 }
 
 enum ManagementType {
-  autoManaged,
-  manual,
-  disabled,
-}
+  autoManaged('AUTO_MANAGED'),
+  manual('MANUAL'),
+  disabled('DISABLED'),
+  ;
 
-extension ManagementTypeValueExtension on ManagementType {
-  String toValue() {
-    switch (this) {
-      case ManagementType.autoManaged:
-        return 'AUTO_MANAGED';
-      case ManagementType.manual:
-        return 'MANUAL';
-      case ManagementType.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ManagementTypeFromString on String {
-  ManagementType toManagementType() {
-    switch (this) {
-      case 'AUTO_MANAGED':
-        return ManagementType.autoManaged;
-      case 'MANUAL':
-        return ManagementType.manual;
-      case 'DISABLED':
-        return ManagementType.disabled;
-    }
-    throw Exception('$this is not known in enum ManagementType');
-  }
+  const ManagementType(this.value);
+
+  static ManagementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ManagementType'));
 }
 
 /// Contains information about the administrator account and invitation.
@@ -10038,8 +9494,8 @@ class MemberAdditionalConfiguration {
     final name = this.name;
     final status = this.status;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -10067,8 +9523,9 @@ class MemberAdditionalConfigurationResult {
   factory MemberAdditionalConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return MemberAdditionalConfigurationResult(
-      name: (json['name'] as String?)?.toOrgFeatureAdditionalConfiguration(),
-      status: (json['status'] as String?)?.toFeatureStatus(),
+      name: (json['name'] as String?)
+          ?.let(OrgFeatureAdditionalConfiguration.fromString),
+      status: (json['status'] as String?)?.let(FeatureStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -10078,8 +9535,8 @@ class MemberAdditionalConfigurationResult {
     final status = this.status;
     final updatedAt = this.updatedAt;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -10154,8 +9611,8 @@ class MemberFeaturesConfiguration {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -10190,8 +9647,8 @@ class MemberFeaturesConfigurationResult {
           .map((e) => MemberAdditionalConfigurationResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      name: (json['name'] as String?)?.toOrgFeature(),
-      status: (json['status'] as String?)?.toFeatureStatus(),
+      name: (json['name'] as String?)?.let(OrgFeature.fromString),
+      status: (json['status'] as String?)?.let(FeatureStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -10204,8 +9661,8 @@ class MemberFeaturesConfigurationResult {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (name != null) 'name': name.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (name != null) 'name': name.value,
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -10414,152 +9871,68 @@ class Observations {
 }
 
 enum OrderBy {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension OrderByValueExtension on OrderBy {
-  String toValue() {
-    switch (this) {
-      case OrderBy.asc:
-        return 'ASC';
-      case OrderBy.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension OrderByFromString on String {
-  OrderBy toOrderBy() {
-    switch (this) {
-      case 'ASC':
-        return OrderBy.asc;
-      case 'DESC':
-        return OrderBy.desc;
-    }
-    throw Exception('$this is not known in enum OrderBy');
-  }
+  const OrderBy(this.value);
+
+  static OrderBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OrderBy'));
 }
 
 enum OrgFeature {
-  s3DataEvents,
-  eksAuditLogs,
-  ebsMalwareProtection,
-  rdsLoginEvents,
-  eksRuntimeMonitoring,
-  lambdaNetworkLogs,
-  runtimeMonitoring,
-}
+  s3DataEvents('S3_DATA_EVENTS'),
+  eksAuditLogs('EKS_AUDIT_LOGS'),
+  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
+  rdsLoginEvents('RDS_LOGIN_EVENTS'),
+  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
+  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
+  runtimeMonitoring('RUNTIME_MONITORING'),
+  ;
 
-extension OrgFeatureValueExtension on OrgFeature {
-  String toValue() {
-    switch (this) {
-      case OrgFeature.s3DataEvents:
-        return 'S3_DATA_EVENTS';
-      case OrgFeature.eksAuditLogs:
-        return 'EKS_AUDIT_LOGS';
-      case OrgFeature.ebsMalwareProtection:
-        return 'EBS_MALWARE_PROTECTION';
-      case OrgFeature.rdsLoginEvents:
-        return 'RDS_LOGIN_EVENTS';
-      case OrgFeature.eksRuntimeMonitoring:
-        return 'EKS_RUNTIME_MONITORING';
-      case OrgFeature.lambdaNetworkLogs:
-        return 'LAMBDA_NETWORK_LOGS';
-      case OrgFeature.runtimeMonitoring:
-        return 'RUNTIME_MONITORING';
-    }
-  }
-}
+  final String value;
 
-extension OrgFeatureFromString on String {
-  OrgFeature toOrgFeature() {
-    switch (this) {
-      case 'S3_DATA_EVENTS':
-        return OrgFeature.s3DataEvents;
-      case 'EKS_AUDIT_LOGS':
-        return OrgFeature.eksAuditLogs;
-      case 'EBS_MALWARE_PROTECTION':
-        return OrgFeature.ebsMalwareProtection;
-      case 'RDS_LOGIN_EVENTS':
-        return OrgFeature.rdsLoginEvents;
-      case 'EKS_RUNTIME_MONITORING':
-        return OrgFeature.eksRuntimeMonitoring;
-      case 'LAMBDA_NETWORK_LOGS':
-        return OrgFeature.lambdaNetworkLogs;
-      case 'RUNTIME_MONITORING':
-        return OrgFeature.runtimeMonitoring;
-    }
-    throw Exception('$this is not known in enum OrgFeature');
-  }
+  const OrgFeature(this.value);
+
+  static OrgFeature fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrgFeature'));
 }
 
 enum OrgFeatureAdditionalConfiguration {
-  eksAddonManagement,
-  ecsFargateAgentManagement,
-  ec2AgentManagement,
-}
+  eksAddonManagement('EKS_ADDON_MANAGEMENT'),
+  ecsFargateAgentManagement('ECS_FARGATE_AGENT_MANAGEMENT'),
+  ec2AgentManagement('EC2_AGENT_MANAGEMENT'),
+  ;
 
-extension OrgFeatureAdditionalConfigurationValueExtension
-    on OrgFeatureAdditionalConfiguration {
-  String toValue() {
-    switch (this) {
-      case OrgFeatureAdditionalConfiguration.eksAddonManagement:
-        return 'EKS_ADDON_MANAGEMENT';
-      case OrgFeatureAdditionalConfiguration.ecsFargateAgentManagement:
-        return 'ECS_FARGATE_AGENT_MANAGEMENT';
-      case OrgFeatureAdditionalConfiguration.ec2AgentManagement:
-        return 'EC2_AGENT_MANAGEMENT';
-    }
-  }
-}
+  final String value;
 
-extension OrgFeatureAdditionalConfigurationFromString on String {
-  OrgFeatureAdditionalConfiguration toOrgFeatureAdditionalConfiguration() {
-    switch (this) {
-      case 'EKS_ADDON_MANAGEMENT':
-        return OrgFeatureAdditionalConfiguration.eksAddonManagement;
-      case 'ECS_FARGATE_AGENT_MANAGEMENT':
-        return OrgFeatureAdditionalConfiguration.ecsFargateAgentManagement;
-      case 'EC2_AGENT_MANAGEMENT':
-        return OrgFeatureAdditionalConfiguration.ec2AgentManagement;
-    }
-    throw Exception(
-        '$this is not known in enum OrgFeatureAdditionalConfiguration');
-  }
+  const OrgFeatureAdditionalConfiguration(this.value);
+
+  static OrgFeatureAdditionalConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrgFeatureAdditionalConfiguration'));
 }
 
 enum OrgFeatureStatus {
-  $new,
-  none,
-  all,
-}
+  $new('NEW'),
+  none('NONE'),
+  all('ALL'),
+  ;
 
-extension OrgFeatureStatusValueExtension on OrgFeatureStatus {
-  String toValue() {
-    switch (this) {
-      case OrgFeatureStatus.$new:
-        return 'NEW';
-      case OrgFeatureStatus.none:
-        return 'NONE';
-      case OrgFeatureStatus.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension OrgFeatureStatusFromString on String {
-  OrgFeatureStatus toOrgFeatureStatus() {
-    switch (this) {
-      case 'NEW':
-        return OrgFeatureStatus.$new;
-      case 'NONE':
-        return OrgFeatureStatus.none;
-      case 'ALL':
-        return OrgFeatureStatus.all;
-    }
-    throw Exception('$this is not known in enum OrgFeatureStatus');
-  }
+  const OrgFeatureStatus(this.value);
+
+  static OrgFeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrgFeatureStatus'));
 }
 
 /// Contains information about the ISP organization of the remote IP address.
@@ -10649,8 +10022,8 @@ class OrganizationAdditionalConfiguration {
     final autoEnable = this.autoEnable;
     final name = this.name;
     return {
-      if (autoEnable != null) 'autoEnable': autoEnable.toValue(),
-      if (name != null) 'name': name.toValue(),
+      if (autoEnable != null) 'autoEnable': autoEnable.value,
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -10696,8 +10069,10 @@ class OrganizationAdditionalConfigurationResult {
   factory OrganizationAdditionalConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return OrganizationAdditionalConfigurationResult(
-      autoEnable: (json['autoEnable'] as String?)?.toOrgFeatureStatus(),
-      name: (json['name'] as String?)?.toOrgFeatureAdditionalConfiguration(),
+      autoEnable:
+          (json['autoEnable'] as String?)?.let(OrgFeatureStatus.fromString),
+      name: (json['name'] as String?)
+          ?.let(OrgFeatureAdditionalConfiguration.fromString),
     );
   }
 
@@ -10705,8 +10080,8 @@ class OrganizationAdditionalConfigurationResult {
     final autoEnable = this.autoEnable;
     final name = this.name;
     return {
-      if (autoEnable != null) 'autoEnable': autoEnable.toValue(),
-      if (name != null) 'name': name.toValue(),
+      if (autoEnable != null) 'autoEnable': autoEnable.value,
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -10918,8 +10293,8 @@ class OrganizationFeatureConfiguration {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (autoEnable != null) 'autoEnable': autoEnable.toValue(),
-      if (name != null) 'name': name.toValue(),
+      if (autoEnable != null) 'autoEnable': autoEnable.value,
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -10971,8 +10346,9 @@ class OrganizationFeatureConfigurationResult {
           .map((e) => OrganizationAdditionalConfigurationResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      autoEnable: (json['autoEnable'] as String?)?.toOrgFeatureStatus(),
-      name: (json['name'] as String?)?.toOrgFeature(),
+      autoEnable:
+          (json['autoEnable'] as String?)?.let(OrgFeatureStatus.fromString),
+      name: (json['name'] as String?)?.let(OrgFeature.fromString),
     );
   }
 
@@ -10983,8 +10359,8 @@ class OrganizationFeatureConfigurationResult {
     return {
       if (additionalConfiguration != null)
         'additionalConfiguration': additionalConfiguration,
-      if (autoEnable != null) 'autoEnable': autoEnable.toValue(),
-      if (name != null) 'name': name.toValue(),
+      if (autoEnable != null) 'autoEnable': autoEnable.value,
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -11017,7 +10393,7 @@ class OrganizationFeatureStatistics {
                   e as Map<String, dynamic>))
           .toList(),
       enabledAccountsCount: json['enabledAccountsCount'] as int?,
-      name: (json['name'] as String?)?.toOrgFeature(),
+      name: (json['name'] as String?)?.let(OrgFeature.fromString),
     );
   }
 
@@ -11030,7 +10406,7 @@ class OrganizationFeatureStatistics {
         'additionalConfiguration': additionalConfiguration,
       if (enabledAccountsCount != null)
         'enabledAccountsCount': enabledAccountsCount,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -11053,7 +10429,8 @@ class OrganizationFeatureStatisticsAdditionalConfiguration {
       Map<String, dynamic> json) {
     return OrganizationFeatureStatisticsAdditionalConfiguration(
       enabledAccountsCount: json['enabledAccountsCount'] as int?,
-      name: (json['name'] as String?)?.toOrgFeatureAdditionalConfiguration(),
+      name: (json['name'] as String?)
+          ?.let(OrgFeatureAdditionalConfiguration.fromString),
     );
   }
 
@@ -11063,7 +10440,7 @@ class OrganizationFeatureStatisticsAdditionalConfiguration {
     return {
       if (enabledAccountsCount != null)
         'enabledAccountsCount': enabledAccountsCount,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
     };
   }
 }
@@ -11678,64 +11055,33 @@ class ProductCode {
 }
 
 enum ProfileSubtype {
-  frequent,
-  infrequent,
-  unseen,
-  rare,
-}
+  frequent('FREQUENT'),
+  infrequent('INFREQUENT'),
+  unseen('UNSEEN'),
+  rare('RARE'),
+  ;
 
-extension ProfileSubtypeValueExtension on ProfileSubtype {
-  String toValue() {
-    switch (this) {
-      case ProfileSubtype.frequent:
-        return 'FREQUENT';
-      case ProfileSubtype.infrequent:
-        return 'INFREQUENT';
-      case ProfileSubtype.unseen:
-        return 'UNSEEN';
-      case ProfileSubtype.rare:
-        return 'RARE';
-    }
-  }
-}
+  final String value;
 
-extension ProfileSubtypeFromString on String {
-  ProfileSubtype toProfileSubtype() {
-    switch (this) {
-      case 'FREQUENT':
-        return ProfileSubtype.frequent;
-      case 'INFREQUENT':
-        return ProfileSubtype.infrequent;
-      case 'UNSEEN':
-        return ProfileSubtype.unseen;
-      case 'RARE':
-        return ProfileSubtype.rare;
-    }
-    throw Exception('$this is not known in enum ProfileSubtype');
-  }
+  const ProfileSubtype(this.value);
+
+  static ProfileSubtype fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProfileSubtype'));
 }
 
 enum ProfileType {
-  frequency,
-}
+  frequency('FREQUENCY'),
+  ;
 
-extension ProfileTypeValueExtension on ProfileType {
-  String toValue() {
-    switch (this) {
-      case ProfileType.frequency:
-        return 'FREQUENCY';
-    }
-  }
-}
+  final String value;
 
-extension ProfileTypeFromString on String {
-  ProfileType toProfileType() {
-    switch (this) {
-      case 'FREQUENCY':
-        return ProfileType.frequency;
-    }
-    throw Exception('$this is not known in enum ProfileType');
-  }
+  const ProfileType(this.value);
+
+  static ProfileType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ProfileType'));
 }
 
 /// Describes the public access policies that apply to the S3 bucket.
@@ -11775,41 +11121,21 @@ class PublicAccess {
 }
 
 enum PublishingStatus {
-  pendingVerification,
-  publishing,
-  unableToPublishFixDestinationProperty,
-  stopped,
-}
+  pendingVerification('PENDING_VERIFICATION'),
+  publishing('PUBLISHING'),
+  unableToPublishFixDestinationProperty(
+      'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY'),
+  stopped('STOPPED'),
+  ;
 
-extension PublishingStatusValueExtension on PublishingStatus {
-  String toValue() {
-    switch (this) {
-      case PublishingStatus.pendingVerification:
-        return 'PENDING_VERIFICATION';
-      case PublishingStatus.publishing:
-        return 'PUBLISHING';
-      case PublishingStatus.unableToPublishFixDestinationProperty:
-        return 'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY';
-      case PublishingStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension PublishingStatusFromString on String {
-  PublishingStatus toPublishingStatus() {
-    switch (this) {
-      case 'PENDING_VERIFICATION':
-        return PublishingStatus.pendingVerification;
-      case 'PUBLISHING':
-        return PublishingStatus.publishing;
-      case 'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY':
-        return PublishingStatus.unableToPublishFixDestinationProperty;
-      case 'STOPPED':
-        return PublishingStatus.stopped;
-    }
-    throw Exception('$this is not known in enum PublishingStatus');
-  }
+  const PublishingStatus(this.value);
+
+  static PublishingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PublishingStatus'));
 }
 
 /// Contains information about the resource type <code>RDSDBInstance</code>
@@ -12258,36 +11584,19 @@ class ResourceDetails {
 }
 
 enum ResourceType {
-  eks,
-  ecs,
-  ec2,
-}
+  eks('EKS'),
+  ecs('ECS'),
+  ec2('EC2'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.eks:
-        return 'EKS';
-      case ResourceType.ecs:
-        return 'ECS';
-      case ResourceType.ec2:
-        return 'EC2';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'EKS':
-        return ResourceType.eks;
-      case 'ECS':
-        return ResourceType.ecs;
-      case 'EC2':
-        return ResourceType.ec2;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// Additional information about the suspicious activity.
@@ -12652,14 +11961,14 @@ class S3LogsConfigurationResult {
 
   factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return S3LogsConfigurationResult(
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -12753,8 +12062,8 @@ class Scan {
               json['scanResultDetails'] as Map<String, dynamic>)
           : null,
       scanStartTime: timeStampFromJson(json['scanStartTime']),
-      scanStatus: (json['scanStatus'] as String?)?.toScanStatus(),
-      scanType: (json['scanType'] as String?)?.toScanType(),
+      scanStatus: (json['scanStatus'] as String?)?.let(ScanStatus.fromString),
+      scanType: (json['scanType'] as String?)?.let(ScanType.fromString),
       totalBytes: json['totalBytes'] as int?,
       triggerDetails: json['triggerDetails'] != null
           ? TriggerDetails.fromJson(
@@ -12792,8 +12101,8 @@ class Scan {
       if (scanResultDetails != null) 'scanResultDetails': scanResultDetails,
       if (scanStartTime != null)
         'scanStartTime': unixTimestampToJson(scanStartTime),
-      if (scanStatus != null) 'scanStatus': scanStatus.toValue(),
-      if (scanType != null) 'scanType': scanType.toValue(),
+      if (scanStatus != null) 'scanStatus': scanStatus.value,
+      if (scanType != null) 'scanType': scanType.value,
       if (totalBytes != null) 'totalBytes': totalBytes,
       if (triggerDetails != null) 'triggerDetails': triggerDetails,
     };
@@ -12862,26 +12171,17 @@ class ScanConditionPair {
 /// An enum value representing possible resource properties to match with given
 /// scan condition.
 enum ScanCriterionKey {
-  ec2InstanceTag,
-}
+  ec2InstanceTag('EC2_INSTANCE_TAG'),
+  ;
 
-extension ScanCriterionKeyValueExtension on ScanCriterionKey {
-  String toValue() {
-    switch (this) {
-      case ScanCriterionKey.ec2InstanceTag:
-        return 'EC2_INSTANCE_TAG';
-    }
-  }
-}
+  final String value;
 
-extension ScanCriterionKeyFromString on String {
-  ScanCriterionKey toScanCriterionKey() {
-    switch (this) {
-      case 'EC2_INSTANCE_TAG':
-        return ScanCriterionKey.ec2InstanceTag;
-    }
-    throw Exception('$this is not known in enum ScanCriterionKey');
-  }
+  const ScanCriterionKey(this.value);
+
+  static ScanCriterionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScanCriterionKey'));
 }
 
 /// Contains a complete view providing malware scan result details.
@@ -13053,10 +12353,10 @@ class ScanResourceCriteria {
   factory ScanResourceCriteria.fromJson(Map<String, dynamic> json) {
     return ScanResourceCriteria(
       exclude: (json['exclude'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toScanCriterionKey(),
+          MapEntry(ScanCriterionKey.fromString(k),
               ScanCondition.fromJson(e as Map<String, dynamic>))),
       include: (json['include'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toScanCriterionKey(),
+          MapEntry(ScanCriterionKey.fromString(k),
               ScanCondition.fromJson(e as Map<String, dynamic>))),
     );
   }
@@ -13066,39 +12366,25 @@ class ScanResourceCriteria {
     final include = this.include;
     return {
       if (exclude != null)
-        'exclude': exclude.map((k, e) => MapEntry(k.toValue(), e)),
+        'exclude': exclude.map((k, e) => MapEntry(k.value, e)),
       if (include != null)
-        'include': include.map((k, e) => MapEntry(k.toValue(), e)),
+        'include': include.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum ScanResult {
-  clean,
-  infected,
-}
+  clean('CLEAN'),
+  infected('INFECTED'),
+  ;
 
-extension ScanResultValueExtension on ScanResult {
-  String toValue() {
-    switch (this) {
-      case ScanResult.clean:
-        return 'CLEAN';
-      case ScanResult.infected:
-        return 'INFECTED';
-    }
-  }
-}
+  final String value;
 
-extension ScanResultFromString on String {
-  ScanResult toScanResult() {
-    switch (this) {
-      case 'CLEAN':
-        return ScanResult.clean;
-      case 'INFECTED':
-        return ScanResult.infected;
-    }
-    throw Exception('$this is not known in enum ScanResult');
-  }
+  const ScanResult(this.value);
+
+  static ScanResult fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanResult'));
 }
 
 /// Represents the result of the scan.
@@ -13112,54 +12398,32 @@ class ScanResultDetails {
 
   factory ScanResultDetails.fromJson(Map<String, dynamic> json) {
     return ScanResultDetails(
-      scanResult: (json['scanResult'] as String?)?.toScanResult(),
+      scanResult: (json['scanResult'] as String?)?.let(ScanResult.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final scanResult = this.scanResult;
     return {
-      if (scanResult != null) 'scanResult': scanResult.toValue(),
+      if (scanResult != null) 'scanResult': scanResult.value,
     };
   }
 }
 
 enum ScanStatus {
-  running,
-  completed,
-  failed,
-  skipped,
-}
+  running('RUNNING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  skipped('SKIPPED'),
+  ;
 
-extension ScanStatusValueExtension on ScanStatus {
-  String toValue() {
-    switch (this) {
-      case ScanStatus.running:
-        return 'RUNNING';
-      case ScanStatus.completed:
-        return 'COMPLETED';
-      case ScanStatus.failed:
-        return 'FAILED';
-      case ScanStatus.skipped:
-        return 'SKIPPED';
-    }
-  }
-}
+  final String value;
 
-extension ScanStatusFromString on String {
-  ScanStatus toScanStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return ScanStatus.running;
-      case 'COMPLETED':
-        return ScanStatus.completed;
-      case 'FAILED':
-        return ScanStatus.failed;
-      case 'SKIPPED':
-        return ScanStatus.skipped;
-    }
-    throw Exception('$this is not known in enum ScanStatus');
-  }
+  const ScanStatus(this.value);
+
+  static ScanStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanStatus'));
 }
 
 /// Contains files infected with the given threat providing details of malware
@@ -13211,31 +12475,17 @@ class ScanThreatName {
 }
 
 enum ScanType {
-  guarddutyInitiated,
-  onDemand,
-}
+  guarddutyInitiated('GUARDDUTY_INITIATED'),
+  onDemand('ON_DEMAND'),
+  ;
 
-extension ScanTypeValueExtension on ScanType {
-  String toValue() {
-    switch (this) {
-      case ScanType.guarddutyInitiated:
-        return 'GUARDDUTY_INITIATED';
-      case ScanType.onDemand:
-        return 'ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension ScanTypeFromString on String {
-  ScanType toScanType() {
-    switch (this) {
-      case 'GUARDDUTY_INITIATED':
-        return ScanType.guarddutyInitiated;
-      case 'ON_DEMAND':
-        return ScanType.onDemand;
-    }
-    throw Exception('$this is not known in enum ScanType');
-  }
+  const ScanType(this.value);
+
+  static ScanType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanType'));
 }
 
 /// Total number of scanned files.
@@ -13528,7 +12778,7 @@ class SortCriteria {
     final orderBy = this.orderBy;
     return {
       if (attributeName != null) 'attributeName': attributeName,
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -13703,104 +12953,42 @@ class ThreatDetectedByName {
 }
 
 enum ThreatIntelSetFormat {
-  txt,
-  stix,
-  otxCsv,
-  alienVault,
-  proofPoint,
-  fireEye,
-}
+  txt('TXT'),
+  stix('STIX'),
+  otxCsv('OTX_CSV'),
+  alienVault('ALIEN_VAULT'),
+  proofPoint('PROOF_POINT'),
+  fireEye('FIRE_EYE'),
+  ;
 
-extension ThreatIntelSetFormatValueExtension on ThreatIntelSetFormat {
-  String toValue() {
-    switch (this) {
-      case ThreatIntelSetFormat.txt:
-        return 'TXT';
-      case ThreatIntelSetFormat.stix:
-        return 'STIX';
-      case ThreatIntelSetFormat.otxCsv:
-        return 'OTX_CSV';
-      case ThreatIntelSetFormat.alienVault:
-        return 'ALIEN_VAULT';
-      case ThreatIntelSetFormat.proofPoint:
-        return 'PROOF_POINT';
-      case ThreatIntelSetFormat.fireEye:
-        return 'FIRE_EYE';
-    }
-  }
-}
+  final String value;
 
-extension ThreatIntelSetFormatFromString on String {
-  ThreatIntelSetFormat toThreatIntelSetFormat() {
-    switch (this) {
-      case 'TXT':
-        return ThreatIntelSetFormat.txt;
-      case 'STIX':
-        return ThreatIntelSetFormat.stix;
-      case 'OTX_CSV':
-        return ThreatIntelSetFormat.otxCsv;
-      case 'ALIEN_VAULT':
-        return ThreatIntelSetFormat.alienVault;
-      case 'PROOF_POINT':
-        return ThreatIntelSetFormat.proofPoint;
-      case 'FIRE_EYE':
-        return ThreatIntelSetFormat.fireEye;
-    }
-    throw Exception('$this is not known in enum ThreatIntelSetFormat');
-  }
+  const ThreatIntelSetFormat(this.value);
+
+  static ThreatIntelSetFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ThreatIntelSetFormat'));
 }
 
 enum ThreatIntelSetStatus {
-  inactive,
-  activating,
-  active,
-  deactivating,
-  error,
-  deletePending,
-  deleted,
-}
+  inactive('INACTIVE'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deactivating('DEACTIVATING'),
+  error('ERROR'),
+  deletePending('DELETE_PENDING'),
+  deleted('DELETED'),
+  ;
 
-extension ThreatIntelSetStatusValueExtension on ThreatIntelSetStatus {
-  String toValue() {
-    switch (this) {
-      case ThreatIntelSetStatus.inactive:
-        return 'INACTIVE';
-      case ThreatIntelSetStatus.activating:
-        return 'ACTIVATING';
-      case ThreatIntelSetStatus.active:
-        return 'ACTIVE';
-      case ThreatIntelSetStatus.deactivating:
-        return 'DEACTIVATING';
-      case ThreatIntelSetStatus.error:
-        return 'ERROR';
-      case ThreatIntelSetStatus.deletePending:
-        return 'DELETE_PENDING';
-      case ThreatIntelSetStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ThreatIntelSetStatusFromString on String {
-  ThreatIntelSetStatus toThreatIntelSetStatus() {
-    switch (this) {
-      case 'INACTIVE':
-        return ThreatIntelSetStatus.inactive;
-      case 'ACTIVATING':
-        return ThreatIntelSetStatus.activating;
-      case 'ACTIVE':
-        return ThreatIntelSetStatus.active;
-      case 'DEACTIVATING':
-        return ThreatIntelSetStatus.deactivating;
-      case 'ERROR':
-        return ThreatIntelSetStatus.error;
-      case 'DELETE_PENDING':
-        return ThreatIntelSetStatus.deletePending;
-      case 'DELETED':
-        return ThreatIntelSetStatus.deleted;
-    }
-    throw Exception('$this is not known in enum ThreatIntelSetStatus');
-  }
+  const ThreatIntelSetStatus(this.value);
+
+  static ThreatIntelSetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ThreatIntelSetStatus'));
 }
 
 /// An instance of a threat intelligence detail that constitutes evidence for
@@ -14203,9 +13391,8 @@ class UsageCriteria {
     return {
       if (accountIds != null) 'accountIds': accountIds,
       if (dataSources != null)
-        'dataSources': dataSources.map((e) => e.toValue()).toList(),
-      if (features != null)
-        'features': features.map((e) => e.toValue()).toList(),
+        'dataSources': dataSources.map((e) => e.value).toList(),
+      if (features != null) 'features': features.map((e) => e.value).toList(),
       if (resources != null) 'resources': resources,
     };
   }
@@ -14226,7 +13413,7 @@ class UsageDataSourceResult {
 
   factory UsageDataSourceResult.fromJson(Map<String, dynamic> json) {
     return UsageDataSourceResult(
-      dataSource: (json['dataSource'] as String?)?.toDataSource(),
+      dataSource: (json['dataSource'] as String?)?.let(DataSource.fromString),
       total: json['total'] != null
           ? Total.fromJson(json['total'] as Map<String, dynamic>)
           : null,
@@ -14237,93 +13424,36 @@ class UsageDataSourceResult {
     final dataSource = this.dataSource;
     final total = this.total;
     return {
-      if (dataSource != null) 'dataSource': dataSource.toValue(),
+      if (dataSource != null) 'dataSource': dataSource.value,
       if (total != null) 'total': total,
     };
   }
 }
 
 enum UsageFeature {
-  flowLogs,
-  cloudTrail,
-  dnsLogs,
-  s3DataEvents,
-  eksAuditLogs,
-  ebsMalwareProtection,
-  rdsLoginEvents,
-  lambdaNetworkLogs,
-  eksRuntimeMonitoring,
-  fargateRuntimeMonitoring,
-  ec2RuntimeMonitoring,
-  rdsDbiProtectionProvisioned,
-  rdsDbiProtectionServerless,
-}
+  flowLogs('FLOW_LOGS'),
+  cloudTrail('CLOUD_TRAIL'),
+  dnsLogs('DNS_LOGS'),
+  s3DataEvents('S3_DATA_EVENTS'),
+  eksAuditLogs('EKS_AUDIT_LOGS'),
+  ebsMalwareProtection('EBS_MALWARE_PROTECTION'),
+  rdsLoginEvents('RDS_LOGIN_EVENTS'),
+  lambdaNetworkLogs('LAMBDA_NETWORK_LOGS'),
+  eksRuntimeMonitoring('EKS_RUNTIME_MONITORING'),
+  fargateRuntimeMonitoring('FARGATE_RUNTIME_MONITORING'),
+  ec2RuntimeMonitoring('EC2_RUNTIME_MONITORING'),
+  rdsDbiProtectionProvisioned('RDS_DBI_PROTECTION_PROVISIONED'),
+  rdsDbiProtectionServerless('RDS_DBI_PROTECTION_SERVERLESS'),
+  ;
 
-extension UsageFeatureValueExtension on UsageFeature {
-  String toValue() {
-    switch (this) {
-      case UsageFeature.flowLogs:
-        return 'FLOW_LOGS';
-      case UsageFeature.cloudTrail:
-        return 'CLOUD_TRAIL';
-      case UsageFeature.dnsLogs:
-        return 'DNS_LOGS';
-      case UsageFeature.s3DataEvents:
-        return 'S3_DATA_EVENTS';
-      case UsageFeature.eksAuditLogs:
-        return 'EKS_AUDIT_LOGS';
-      case UsageFeature.ebsMalwareProtection:
-        return 'EBS_MALWARE_PROTECTION';
-      case UsageFeature.rdsLoginEvents:
-        return 'RDS_LOGIN_EVENTS';
-      case UsageFeature.lambdaNetworkLogs:
-        return 'LAMBDA_NETWORK_LOGS';
-      case UsageFeature.eksRuntimeMonitoring:
-        return 'EKS_RUNTIME_MONITORING';
-      case UsageFeature.fargateRuntimeMonitoring:
-        return 'FARGATE_RUNTIME_MONITORING';
-      case UsageFeature.ec2RuntimeMonitoring:
-        return 'EC2_RUNTIME_MONITORING';
-      case UsageFeature.rdsDbiProtectionProvisioned:
-        return 'RDS_DBI_PROTECTION_PROVISIONED';
-      case UsageFeature.rdsDbiProtectionServerless:
-        return 'RDS_DBI_PROTECTION_SERVERLESS';
-    }
-  }
-}
+  final String value;
 
-extension UsageFeatureFromString on String {
-  UsageFeature toUsageFeature() {
-    switch (this) {
-      case 'FLOW_LOGS':
-        return UsageFeature.flowLogs;
-      case 'CLOUD_TRAIL':
-        return UsageFeature.cloudTrail;
-      case 'DNS_LOGS':
-        return UsageFeature.dnsLogs;
-      case 'S3_DATA_EVENTS':
-        return UsageFeature.s3DataEvents;
-      case 'EKS_AUDIT_LOGS':
-        return UsageFeature.eksAuditLogs;
-      case 'EBS_MALWARE_PROTECTION':
-        return UsageFeature.ebsMalwareProtection;
-      case 'RDS_LOGIN_EVENTS':
-        return UsageFeature.rdsLoginEvents;
-      case 'LAMBDA_NETWORK_LOGS':
-        return UsageFeature.lambdaNetworkLogs;
-      case 'EKS_RUNTIME_MONITORING':
-        return UsageFeature.eksRuntimeMonitoring;
-      case 'FARGATE_RUNTIME_MONITORING':
-        return UsageFeature.fargateRuntimeMonitoring;
-      case 'EC2_RUNTIME_MONITORING':
-        return UsageFeature.ec2RuntimeMonitoring;
-      case 'RDS_DBI_PROTECTION_PROVISIONED':
-        return UsageFeature.rdsDbiProtectionProvisioned;
-      case 'RDS_DBI_PROTECTION_SERVERLESS':
-        return UsageFeature.rdsDbiProtectionServerless;
-    }
-    throw Exception('$this is not known in enum UsageFeature');
-  }
+  const UsageFeature(this.value);
+
+  static UsageFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UsageFeature'));
 }
 
 /// Contains information about the result of the total usage based on the
@@ -14340,7 +13470,7 @@ class UsageFeatureResult {
 
   factory UsageFeatureResult.fromJson(Map<String, dynamic> json) {
     return UsageFeatureResult(
-      feature: (json['feature'] as String?)?.toUsageFeature(),
+      feature: (json['feature'] as String?)?.let(UsageFeature.fromString),
       total: json['total'] != null
           ? Total.fromJson(json['total'] as Map<String, dynamic>)
           : null,
@@ -14351,7 +13481,7 @@ class UsageFeatureResult {
     final feature = this.feature;
     final total = this.total;
     return {
-      if (feature != null) 'feature': feature.toValue(),
+      if (feature != null) 'feature': feature.value,
       if (total != null) 'total': total,
     };
   }
@@ -14391,51 +13521,22 @@ class UsageResourceResult {
 }
 
 enum UsageStatisticType {
-  sumByAccount,
-  sumByDataSource,
-  sumByResource,
-  topResources,
-  sumByFeatures,
-  topAccountsByFeature,
-}
+  sumByAccount('SUM_BY_ACCOUNT'),
+  sumByDataSource('SUM_BY_DATA_SOURCE'),
+  sumByResource('SUM_BY_RESOURCE'),
+  topResources('TOP_RESOURCES'),
+  sumByFeatures('SUM_BY_FEATURES'),
+  topAccountsByFeature('TOP_ACCOUNTS_BY_FEATURE'),
+  ;
 
-extension UsageStatisticTypeValueExtension on UsageStatisticType {
-  String toValue() {
-    switch (this) {
-      case UsageStatisticType.sumByAccount:
-        return 'SUM_BY_ACCOUNT';
-      case UsageStatisticType.sumByDataSource:
-        return 'SUM_BY_DATA_SOURCE';
-      case UsageStatisticType.sumByResource:
-        return 'SUM_BY_RESOURCE';
-      case UsageStatisticType.topResources:
-        return 'TOP_RESOURCES';
-      case UsageStatisticType.sumByFeatures:
-        return 'SUM_BY_FEATURES';
-      case UsageStatisticType.topAccountsByFeature:
-        return 'TOP_ACCOUNTS_BY_FEATURE';
-    }
-  }
-}
+  final String value;
 
-extension UsageStatisticTypeFromString on String {
-  UsageStatisticType toUsageStatisticType() {
-    switch (this) {
-      case 'SUM_BY_ACCOUNT':
-        return UsageStatisticType.sumByAccount;
-      case 'SUM_BY_DATA_SOURCE':
-        return UsageStatisticType.sumByDataSource;
-      case 'SUM_BY_RESOURCE':
-        return UsageStatisticType.sumByResource;
-      case 'TOP_RESOURCES':
-        return UsageStatisticType.topResources;
-      case 'SUM_BY_FEATURES':
-        return UsageStatisticType.sumByFeatures;
-      case 'TOP_ACCOUNTS_BY_FEATURE':
-        return UsageStatisticType.topAccountsByFeature;
-    }
-    throw Exception('$this is not known in enum UsageStatisticType');
-  }
+  const UsageStatisticType(this.value);
+
+  static UsageStatisticType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UsageStatisticType'));
 }
 
 /// Contains the result of GuardDuty usage. If a UsageStatisticType is provided
@@ -14575,7 +13676,7 @@ class UsageTopAccountsResult {
           ?.whereNotNull()
           .map((e) => UsageTopAccountResult.fromJson(e as Map<String, dynamic>))
           .toList(),
-      feature: (json['feature'] as String?)?.toUsageFeature(),
+      feature: (json['feature'] as String?)?.let(UsageFeature.fromString),
     );
   }
 
@@ -14584,7 +13685,7 @@ class UsageTopAccountsResult {
     final feature = this.feature;
     return {
       if (accounts != null) 'accounts': accounts,
-      if (feature != null) 'feature': feature.toValue(),
+      if (feature != null) 'feature': feature.value,
     };
   }
 }

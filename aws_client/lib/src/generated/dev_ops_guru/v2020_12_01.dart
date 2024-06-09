@@ -427,7 +427,7 @@ class DevOpsGuru {
     );
     final $payload = <String, dynamic>{
       'OrganizationResourceCollectionType':
-          organizationResourceCollectionType.toValue(),
+          organizationResourceCollectionType.value,
       if (accountIds != null) 'AccountIds': accountIds,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -485,7 +485,7 @@ class DevOpsGuru {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/health/resource-collection/${Uri.encodeComponent(resourceCollectionType.toValue())}',
+          '/accounts/health/resource-collection/${Uri.encodeComponent(resourceCollectionType.value)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -579,7 +579,7 @@ class DevOpsGuru {
       payload: null,
       method: 'GET',
       requestUri:
-          '/resource-collections/${Uri.encodeComponent(resourceCollectionType.toValue())}',
+          '/resource-collections/${Uri.encodeComponent(resourceCollectionType.value)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -943,7 +943,7 @@ class DevOpsGuru {
     final $payload = <String, dynamic>{
       'InsightId': insightId,
       if (accountId != null) 'AccountId': accountId,
-      if (locale != null) 'Locale': locale.toValue(),
+      if (locale != null) 'Locale': locale.value,
       if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -1054,7 +1054,7 @@ class DevOpsGuru {
     );
     final $payload = <String, dynamic>{
       'StartTimeRange': startTimeRange,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -1120,7 +1120,7 @@ class DevOpsGuru {
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'StartTimeRange': startTimeRange,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -1216,7 +1216,7 @@ class DevOpsGuru {
     required UpdateResourceCollectionFilter resourceCollection,
   }) async {
     final $payload = <String, dynamic>{
-      'Action': action.toValue(),
+      'Action': action.value,
       'ResourceCollection': resourceCollection,
     };
     final response = await _protocol.send(
@@ -1368,14 +1368,15 @@ class AmazonCodeGuruProfilerIntegration {
   factory AmazonCodeGuruProfilerIntegration.fromJson(
       Map<String, dynamic> json) {
     return AmazonCodeGuruProfilerIntegration(
-      status: (json['Status'] as String?)?.toEventSourceOptInStatus(),
+      status:
+          (json['Status'] as String?)?.let(EventSourceOptInStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -1509,36 +1510,19 @@ class AnomalyResource {
 }
 
 enum AnomalySeverity {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension AnomalySeverityValueExtension on AnomalySeverity {
-  String toValue() {
-    switch (this) {
-      case AnomalySeverity.low:
-        return 'LOW';
-      case AnomalySeverity.medium:
-        return 'MEDIUM';
-      case AnomalySeverity.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension AnomalySeverityFromString on String {
-  AnomalySeverity toAnomalySeverity() {
-    switch (this) {
-      case 'LOW':
-        return AnomalySeverity.low;
-      case 'MEDIUM':
-        return AnomalySeverity.medium;
-      case 'HIGH':
-        return AnomalySeverity.high;
-    }
-    throw Exception('$this is not known in enum AnomalySeverity');
-  }
+  const AnomalySeverity(this.value);
+
+  static AnomalySeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnomalySeverity'));
 }
 
 /// Details about the source of the anomalous operational data that triggered
@@ -1624,31 +1608,18 @@ class AnomalySourceMetadata {
 }
 
 enum AnomalyStatus {
-  ongoing,
-  closed,
-}
+  ongoing('ONGOING'),
+  closed('CLOSED'),
+  ;
 
-extension AnomalyStatusValueExtension on AnomalyStatus {
-  String toValue() {
-    switch (this) {
-      case AnomalyStatus.ongoing:
-        return 'ONGOING';
-      case AnomalyStatus.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyStatusFromString on String {
-  AnomalyStatus toAnomalyStatus() {
-    switch (this) {
-      case 'ONGOING':
-        return AnomalyStatus.ongoing;
-      case 'CLOSED':
-        return AnomalyStatus.closed;
-    }
-    throw Exception('$this is not known in enum AnomalyStatus');
-  }
+  const AnomalyStatus(this.value);
+
+  static AnomalyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnomalyStatus'));
 }
 
 /// A time range that specifies when the observed unusual behavior in an anomaly
@@ -1685,31 +1656,17 @@ class AnomalyTimeRange {
 }
 
 enum AnomalyType {
-  causal,
-  contextual,
-}
+  causal('CAUSAL'),
+  contextual('CONTEXTUAL'),
+  ;
 
-extension AnomalyTypeValueExtension on AnomalyType {
-  String toValue() {
-    switch (this) {
-      case AnomalyType.causal:
-        return 'CAUSAL';
-      case AnomalyType.contextual:
-        return 'CONTEXTUAL';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyTypeFromString on String {
-  AnomalyType toAnomalyType() {
-    switch (this) {
-      case 'CAUSAL':
-        return AnomalyType.causal;
-      case 'CONTEXTUAL':
-        return AnomalyType.contextual;
-    }
-    throw Exception('$this is not known in enum AnomalyType');
-  }
+  const AnomalyType(this.value);
+
+  static AnomalyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AnomalyType'));
 }
 
 /// Information about Amazon Web Services CloudFormation stacks. You can use up
@@ -1851,38 +1808,19 @@ class CloudFormationHealth {
 }
 
 enum CloudWatchMetricDataStatusCode {
-  complete,
-  internalError,
-  partialData,
-}
+  complete('Complete'),
+  internalError('InternalError'),
+  partialData('PartialData'),
+  ;
 
-extension CloudWatchMetricDataStatusCodeValueExtension
-    on CloudWatchMetricDataStatusCode {
-  String toValue() {
-    switch (this) {
-      case CloudWatchMetricDataStatusCode.complete:
-        return 'Complete';
-      case CloudWatchMetricDataStatusCode.internalError:
-        return 'InternalError';
-      case CloudWatchMetricDataStatusCode.partialData:
-        return 'PartialData';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchMetricDataStatusCodeFromString on String {
-  CloudWatchMetricDataStatusCode toCloudWatchMetricDataStatusCode() {
-    switch (this) {
-      case 'Complete':
-        return CloudWatchMetricDataStatusCode.complete;
-      case 'InternalError':
-        return CloudWatchMetricDataStatusCode.internalError;
-      case 'PartialData':
-        return CloudWatchMetricDataStatusCode.partialData;
-    }
-    throw Exception(
-        '$this is not known in enum CloudWatchMetricDataStatusCode');
-  }
+  const CloudWatchMetricDataStatusCode(this.value);
+
+  static CloudWatchMetricDataStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CloudWatchMetricDataStatusCode'));
 }
 
 /// Contains information about the analyzed metrics that displayed anomalous
@@ -1902,8 +1840,8 @@ class CloudWatchMetricsDataSummary {
 
   factory CloudWatchMetricsDataSummary.fromJson(Map<String, dynamic> json) {
     return CloudWatchMetricsDataSummary(
-      statusCode:
-          (json['StatusCode'] as String?)?.toCloudWatchMetricDataStatusCode(),
+      statusCode: (json['StatusCode'] as String?)
+          ?.let(CloudWatchMetricDataStatusCode.fromString),
       timestampMetricValuePairList:
           (json['TimestampMetricValuePairList'] as List?)
               ?.whereNotNull()
@@ -1917,7 +1855,7 @@ class CloudWatchMetricsDataSummary {
     final statusCode = this.statusCode;
     final timestampMetricValuePairList = this.timestampMetricValuePairList;
     return {
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
       if (timestampMetricValuePairList != null)
         'TimestampMetricValuePairList': timestampMetricValuePairList,
     };
@@ -1978,7 +1916,7 @@ class CloudWatchMetricsDetail {
       metricName: json['MetricName'] as String?,
       namespace: json['Namespace'] as String?,
       period: json['Period'] as int?,
-      stat: (json['Stat'] as String?)?.toCloudWatchMetricsStat(),
+      stat: (json['Stat'] as String?)?.let(CloudWatchMetricsStat.fromString),
       unit: json['Unit'] as String?,
     );
   }
@@ -1997,7 +1935,7 @@ class CloudWatchMetricsDetail {
       if (metricName != null) 'MetricName': metricName,
       if (namespace != null) 'Namespace': namespace,
       if (period != null) 'Period': period,
-      if (stat != null) 'Stat': stat.toValue(),
+      if (stat != null) 'Stat': stat.value,
       if (unit != null) 'Unit': unit,
     };
   }
@@ -2040,61 +1978,24 @@ class CloudWatchMetricsDimension {
 }
 
 enum CloudWatchMetricsStat {
-  sum,
-  average,
-  sampleCount,
-  minimum,
-  maximum,
-  p99,
-  p90,
-  p50,
-}
+  sum('Sum'),
+  average('Average'),
+  sampleCount('SampleCount'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  p99('p99'),
+  p90('p90'),
+  p50('p50'),
+  ;
 
-extension CloudWatchMetricsStatValueExtension on CloudWatchMetricsStat {
-  String toValue() {
-    switch (this) {
-      case CloudWatchMetricsStat.sum:
-        return 'Sum';
-      case CloudWatchMetricsStat.average:
-        return 'Average';
-      case CloudWatchMetricsStat.sampleCount:
-        return 'SampleCount';
-      case CloudWatchMetricsStat.minimum:
-        return 'Minimum';
-      case CloudWatchMetricsStat.maximum:
-        return 'Maximum';
-      case CloudWatchMetricsStat.p99:
-        return 'p99';
-      case CloudWatchMetricsStat.p90:
-        return 'p90';
-      case CloudWatchMetricsStat.p50:
-        return 'p50';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchMetricsStatFromString on String {
-  CloudWatchMetricsStat toCloudWatchMetricsStat() {
-    switch (this) {
-      case 'Sum':
-        return CloudWatchMetricsStat.sum;
-      case 'Average':
-        return CloudWatchMetricsStat.average;
-      case 'SampleCount':
-        return CloudWatchMetricsStat.sampleCount;
-      case 'Minimum':
-        return CloudWatchMetricsStat.minimum;
-      case 'Maximum':
-        return CloudWatchMetricsStat.maximum;
-      case 'p99':
-        return CloudWatchMetricsStat.p99;
-      case 'p90':
-        return CloudWatchMetricsStat.p90;
-      case 'p50':
-        return CloudWatchMetricsStat.p50;
-    }
-    throw Exception('$this is not known in enum CloudWatchMetricsStat');
-  }
+  const CloudWatchMetricsStat(this.value);
+
+  static CloudWatchMetricsStat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CloudWatchMetricsStat'));
 }
 
 /// Information about a filter used to specify which Amazon Web Services
@@ -2183,61 +2084,33 @@ class CostEstimationResourceCollectionFilter {
 }
 
 enum CostEstimationServiceResourceState {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension CostEstimationServiceResourceStateValueExtension
-    on CostEstimationServiceResourceState {
-  String toValue() {
-    switch (this) {
-      case CostEstimationServiceResourceState.active:
-        return 'ACTIVE';
-      case CostEstimationServiceResourceState.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension CostEstimationServiceResourceStateFromString on String {
-  CostEstimationServiceResourceState toCostEstimationServiceResourceState() {
-    switch (this) {
-      case 'ACTIVE':
-        return CostEstimationServiceResourceState.active;
-      case 'INACTIVE':
-        return CostEstimationServiceResourceState.inactive;
-    }
-    throw Exception(
-        '$this is not known in enum CostEstimationServiceResourceState');
-  }
+  const CostEstimationServiceResourceState(this.value);
+
+  static CostEstimationServiceResourceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CostEstimationServiceResourceState'));
 }
 
 enum CostEstimationStatus {
-  ongoing,
-  completed,
-}
+  ongoing('ONGOING'),
+  completed('COMPLETED'),
+  ;
 
-extension CostEstimationStatusValueExtension on CostEstimationStatus {
-  String toValue() {
-    switch (this) {
-      case CostEstimationStatus.ongoing:
-        return 'ONGOING';
-      case CostEstimationStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension CostEstimationStatusFromString on String {
-  CostEstimationStatus toCostEstimationStatus() {
-    switch (this) {
-      case 'ONGOING':
-        return CostEstimationStatus.ongoing;
-      case 'COMPLETED':
-        return CostEstimationStatus.completed;
-    }
-    throw Exception('$this is not known in enum CostEstimationStatus');
-  }
+  const CostEstimationStatus(this.value);
+
+  static CostEstimationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CostEstimationStatus'));
 }
 
 /// The time range of a cost estimation.
@@ -2877,8 +2750,9 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      dataSource: (json['DataSource'] as String?)?.toEventDataSource(),
-      eventClass: (json['EventClass'] as String?)?.toEventClass(),
+      dataSource:
+          (json['DataSource'] as String?)?.let(EventDataSource.fromString),
+      eventClass: (json['EventClass'] as String?)?.let(EventClass.fromString),
       eventSource: json['EventSource'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
@@ -2904,8 +2778,8 @@ class Event {
     final resources = this.resources;
     final time = this.time;
     return {
-      if (dataSource != null) 'DataSource': dataSource.toValue(),
-      if (eventClass != null) 'EventClass': eventClass.toValue(),
+      if (dataSource != null) 'DataSource': dataSource.value,
+      if (eventClass != null) 'EventClass': eventClass.value,
       if (eventSource != null) 'EventSource': eventSource,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
@@ -2917,74 +2791,35 @@ class Event {
 }
 
 enum EventClass {
-  infrastructure,
-  deployment,
-  securityChange,
-  configChange,
-  schemaChange,
-}
+  infrastructure('INFRASTRUCTURE'),
+  deployment('DEPLOYMENT'),
+  securityChange('SECURITY_CHANGE'),
+  configChange('CONFIG_CHANGE'),
+  schemaChange('SCHEMA_CHANGE'),
+  ;
 
-extension EventClassValueExtension on EventClass {
-  String toValue() {
-    switch (this) {
-      case EventClass.infrastructure:
-        return 'INFRASTRUCTURE';
-      case EventClass.deployment:
-        return 'DEPLOYMENT';
-      case EventClass.securityChange:
-        return 'SECURITY_CHANGE';
-      case EventClass.configChange:
-        return 'CONFIG_CHANGE';
-      case EventClass.schemaChange:
-        return 'SCHEMA_CHANGE';
-    }
-  }
-}
+  final String value;
 
-extension EventClassFromString on String {
-  EventClass toEventClass() {
-    switch (this) {
-      case 'INFRASTRUCTURE':
-        return EventClass.infrastructure;
-      case 'DEPLOYMENT':
-        return EventClass.deployment;
-      case 'SECURITY_CHANGE':
-        return EventClass.securityChange;
-      case 'CONFIG_CHANGE':
-        return EventClass.configChange;
-      case 'SCHEMA_CHANGE':
-        return EventClass.schemaChange;
-    }
-    throw Exception('$this is not known in enum EventClass');
-  }
+  const EventClass(this.value);
+
+  static EventClass fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventClass'));
 }
 
 enum EventDataSource {
-  awsCloudTrail,
-  awsCodeDeploy,
-}
+  awsCloudTrail('AWS_CLOUD_TRAIL'),
+  awsCodeDeploy('AWS_CODE_DEPLOY'),
+  ;
 
-extension EventDataSourceValueExtension on EventDataSource {
-  String toValue() {
-    switch (this) {
-      case EventDataSource.awsCloudTrail:
-        return 'AWS_CLOUD_TRAIL';
-      case EventDataSource.awsCodeDeploy:
-        return 'AWS_CODE_DEPLOY';
-    }
-  }
-}
+  final String value;
 
-extension EventDataSourceFromString on String {
-  EventDataSource toEventDataSource() {
-    switch (this) {
-      case 'AWS_CLOUD_TRAIL':
-        return EventDataSource.awsCloudTrail;
-      case 'AWS_CODE_DEPLOY':
-        return EventDataSource.awsCodeDeploy;
-    }
-    throw Exception('$this is not known in enum EventDataSource');
-  }
+  const EventDataSource(this.value);
+
+  static EventDataSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventDataSource'));
 }
 
 /// The Amazon Web Services resource that emitted an event. Amazon Web Services
@@ -3027,31 +2862,18 @@ class EventResource {
 }
 
 enum EventSourceOptInStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EventSourceOptInStatusValueExtension on EventSourceOptInStatus {
-  String toValue() {
-    switch (this) {
-      case EventSourceOptInStatus.enabled:
-        return 'ENABLED';
-      case EventSourceOptInStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EventSourceOptInStatusFromString on String {
-  EventSourceOptInStatus toEventSourceOptInStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return EventSourceOptInStatus.enabled;
-      case 'DISABLED':
-        return EventSourceOptInStatus.disabled;
-    }
-    throw Exception('$this is not known in enum EventSourceOptInStatus');
-  }
+  const EventSourceOptInStatus(this.value);
+
+  static EventSourceOptInStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EventSourceOptInStatus'));
 }
 
 /// Information about the integration of DevOps Guru as consumer with another
@@ -3156,7 +2978,7 @@ class GetCostEstimationResponse {
           ? CostEstimationResourceCollectionFilter.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toCostEstimationStatus(),
+      status: (json['Status'] as String?)?.let(CostEstimationStatus.fromString),
       timeRange: json['TimeRange'] != null
           ? CostEstimationTimeRange.fromJson(
               json['TimeRange'] as Map<String, dynamic>)
@@ -3176,7 +2998,7 @@ class GetCostEstimationResponse {
       if (costs != null) 'Costs': costs,
       if (nextToken != null) 'NextToken': nextToken,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (timeRange != null) 'TimeRange': timeRange,
       if (totalCost != null) 'TotalCost': totalCost,
     };
@@ -3237,7 +3059,8 @@ class InsightFeedback {
 
   factory InsightFeedback.fromJson(Map<String, dynamic> json) {
     return InsightFeedback(
-      feedback: (json['Feedback'] as String?)?.toInsightFeedbackOption(),
+      feedback:
+          (json['Feedback'] as String?)?.let(InsightFeedbackOption.fromString),
       id: json['Id'] as String?,
     );
   }
@@ -3246,53 +3069,28 @@ class InsightFeedback {
     final feedback = this.feedback;
     final id = this.id;
     return {
-      if (feedback != null) 'Feedback': feedback.toValue(),
+      if (feedback != null) 'Feedback': feedback.value,
       if (id != null) 'Id': id,
     };
   }
 }
 
 enum InsightFeedbackOption {
-  validCollection,
-  recommendationUseful,
-  alertTooSensitive,
-  dataNoisyAnomaly,
-  dataIncorrect,
-}
+  validCollection('VALID_COLLECTION'),
+  recommendationUseful('RECOMMENDATION_USEFUL'),
+  alertTooSensitive('ALERT_TOO_SENSITIVE'),
+  dataNoisyAnomaly('DATA_NOISY_ANOMALY'),
+  dataIncorrect('DATA_INCORRECT'),
+  ;
 
-extension InsightFeedbackOptionValueExtension on InsightFeedbackOption {
-  String toValue() {
-    switch (this) {
-      case InsightFeedbackOption.validCollection:
-        return 'VALID_COLLECTION';
-      case InsightFeedbackOption.recommendationUseful:
-        return 'RECOMMENDATION_USEFUL';
-      case InsightFeedbackOption.alertTooSensitive:
-        return 'ALERT_TOO_SENSITIVE';
-      case InsightFeedbackOption.dataNoisyAnomaly:
-        return 'DATA_NOISY_ANOMALY';
-      case InsightFeedbackOption.dataIncorrect:
-        return 'DATA_INCORRECT';
-    }
-  }
-}
+  final String value;
 
-extension InsightFeedbackOptionFromString on String {
-  InsightFeedbackOption toInsightFeedbackOption() {
-    switch (this) {
-      case 'VALID_COLLECTION':
-        return InsightFeedbackOption.validCollection;
-      case 'RECOMMENDATION_USEFUL':
-        return InsightFeedbackOption.recommendationUseful;
-      case 'ALERT_TOO_SENSITIVE':
-        return InsightFeedbackOption.alertTooSensitive;
-      case 'DATA_NOISY_ANOMALY':
-        return InsightFeedbackOption.dataNoisyAnomaly;
-      case 'DATA_INCORRECT':
-        return InsightFeedbackOption.dataIncorrect;
-    }
-    throw Exception('$this is not known in enum InsightFeedbackOption');
-  }
+  const InsightFeedbackOption(this.value);
+
+  static InsightFeedbackOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InsightFeedbackOption'));
 }
 
 /// Information about the number of open reactive and proactive insights that
@@ -3339,64 +3137,34 @@ class InsightHealth {
 }
 
 enum InsightSeverity {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension InsightSeverityValueExtension on InsightSeverity {
-  String toValue() {
-    switch (this) {
-      case InsightSeverity.low:
-        return 'LOW';
-      case InsightSeverity.medium:
-        return 'MEDIUM';
-      case InsightSeverity.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension InsightSeverityFromString on String {
-  InsightSeverity toInsightSeverity() {
-    switch (this) {
-      case 'LOW':
-        return InsightSeverity.low;
-      case 'MEDIUM':
-        return InsightSeverity.medium;
-      case 'HIGH':
-        return InsightSeverity.high;
-    }
-    throw Exception('$this is not known in enum InsightSeverity');
-  }
+  const InsightSeverity(this.value);
+
+  static InsightSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InsightSeverity'));
 }
 
 enum InsightStatus {
-  ongoing,
-  closed,
-}
+  ongoing('ONGOING'),
+  closed('CLOSED'),
+  ;
 
-extension InsightStatusValueExtension on InsightStatus {
-  String toValue() {
-    switch (this) {
-      case InsightStatus.ongoing:
-        return 'ONGOING';
-      case InsightStatus.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension InsightStatusFromString on String {
-  InsightStatus toInsightStatus() {
-    switch (this) {
-      case 'ONGOING':
-        return InsightStatus.ongoing;
-      case 'CLOSED':
-        return InsightStatus.closed;
-    }
-    throw Exception('$this is not known in enum InsightStatus');
-  }
+  const InsightStatus(this.value);
+
+  static InsightStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InsightStatus'));
 }
 
 /// A time ranged that specifies when the observed behavior in an insight
@@ -3431,31 +3199,17 @@ class InsightTimeRange {
 }
 
 enum InsightType {
-  reactive,
-  proactive,
-}
+  reactive('REACTIVE'),
+  proactive('PROACTIVE'),
+  ;
 
-extension InsightTypeValueExtension on InsightType {
-  String toValue() {
-    switch (this) {
-      case InsightType.reactive:
-        return 'REACTIVE';
-      case InsightType.proactive:
-        return 'PROACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension InsightTypeFromString on String {
-  InsightType toInsightType() {
-    switch (this) {
-      case 'REACTIVE':
-        return InsightType.reactive;
-      case 'PROACTIVE':
-        return InsightType.proactive;
-    }
-    throw Exception('$this is not known in enum InsightType');
-  }
+  const InsightType(this.value);
+
+  static InsightType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InsightType'));
 }
 
 /// Information about the KMS encryption used with DevOps Guru.
@@ -3500,8 +3254,9 @@ class KMSServerSideEncryptionIntegration {
       Map<String, dynamic> json) {
     return KMSServerSideEncryptionIntegration(
       kMSKeyId: json['KMSKeyId'] as String?,
-      optInStatus: (json['OptInStatus'] as String?)?.toOptInStatus(),
-      type: (json['Type'] as String?)?.toServerSideEncryptionType(),
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
+      type: (json['Type'] as String?)?.let(ServerSideEncryptionType.fromString),
     );
   }
 
@@ -3511,8 +3266,8 @@ class KMSServerSideEncryptionIntegration {
     final type = this.type;
     return {
       if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -3562,8 +3317,8 @@ class KMSServerSideEncryptionIntegrationConfig {
     final type = this.type;
     return {
       if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -3710,8 +3465,8 @@ class ListEventsFilters {
     final insightId = this.insightId;
     final resourceCollection = this.resourceCollection;
     return {
-      if (dataSource != null) 'DataSource': dataSource.toValue(),
-      if (eventClass != null) 'EventClass': eventClass.toValue(),
+      if (dataSource != null) 'DataSource': dataSource.value,
+      if (eventClass != null) 'EventClass': eventClass.value,
       if (eventSource != null) 'EventSource': eventSource,
       if (eventTimeRange != null) 'EventTimeRange': eventTimeRange,
       if (insightId != null) 'InsightId': insightId,
@@ -3773,7 +3528,7 @@ class ListInsightsAnyStatusFilter {
     final type = this.type;
     return {
       'StartTimeRange': startTimeRange,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -3798,7 +3553,7 @@ class ListInsightsClosedStatusFilter {
     final type = this.type;
     return {
       'EndTimeRange': endTimeRange,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -3816,7 +3571,7 @@ class ListInsightsOngoingStatusFilter {
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
@@ -3917,9 +3672,8 @@ class ListMonitoredResourcesFilters {
     final resourcePermission = this.resourcePermission;
     final resourceTypeFilters = this.resourceTypeFilters;
     return {
-      'ResourcePermission': resourcePermission.toValue(),
-      'ResourceTypeFilters':
-          resourceTypeFilters.map((e) => e.toValue()).toList(),
+      'ResourcePermission': resourcePermission.value,
+      'ResourceTypeFilters': resourceTypeFilters.map((e) => e.value).toList(),
     };
   }
 }
@@ -4075,76 +3829,26 @@ class ListRecommendationsResponse {
 }
 
 enum Locale {
-  deDe,
-  enUs,
-  enGb,
-  esEs,
-  frFr,
-  itIt,
-  jaJp,
-  koKr,
-  ptBr,
-  zhCn,
-  zhTw,
-}
+  deDe('DE_DE'),
+  enUs('EN_US'),
+  enGb('EN_GB'),
+  esEs('ES_ES'),
+  frFr('FR_FR'),
+  itIt('IT_IT'),
+  jaJp('JA_JP'),
+  koKr('KO_KR'),
+  ptBr('PT_BR'),
+  zhCn('ZH_CN'),
+  zhTw('ZH_TW'),
+  ;
 
-extension LocaleValueExtension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.deDe:
-        return 'DE_DE';
-      case Locale.enUs:
-        return 'EN_US';
-      case Locale.enGb:
-        return 'EN_GB';
-      case Locale.esEs:
-        return 'ES_ES';
-      case Locale.frFr:
-        return 'FR_FR';
-      case Locale.itIt:
-        return 'IT_IT';
-      case Locale.jaJp:
-        return 'JA_JP';
-      case Locale.koKr:
-        return 'KO_KR';
-      case Locale.ptBr:
-        return 'PT_BR';
-      case Locale.zhCn:
-        return 'ZH_CN';
-      case Locale.zhTw:
-        return 'ZH_TW';
-    }
-  }
-}
+  final String value;
 
-extension LocaleFromString on String {
-  Locale toLocale() {
-    switch (this) {
-      case 'DE_DE':
-        return Locale.deDe;
-      case 'EN_US':
-        return Locale.enUs;
-      case 'EN_GB':
-        return Locale.enGb;
-      case 'ES_ES':
-        return Locale.esEs;
-      case 'FR_FR':
-        return Locale.frFr;
-      case 'IT_IT':
-        return Locale.itIt;
-      case 'JA_JP':
-        return Locale.jaJp;
-      case 'KO_KR':
-        return Locale.koKr;
-      case 'PT_BR':
-        return Locale.ptBr;
-      case 'ZH_CN':
-        return Locale.zhCn;
-      case 'ZH_TW':
-        return Locale.zhTw;
-    }
-    throw Exception('$this is not known in enum Locale');
-  }
+  const Locale(this.value);
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Locale'));
 }
 
 /// Information about an anomalous log event found within a log group.
@@ -4188,7 +3892,8 @@ class LogAnomalyClass {
     return LogAnomalyClass(
       explanation: json['Explanation'] as String?,
       logAnomalyToken: json['LogAnomalyToken'] as String?,
-      logAnomalyType: (json['LogAnomalyType'] as String?)?.toLogAnomalyType(),
+      logAnomalyType:
+          (json['LogAnomalyType'] as String?)?.let(LogAnomalyType.fromString),
       logEventId: json['LogEventId'] as String?,
       logEventTimestamp: timeStampFromJson(json['LogEventTimestamp']),
       logStreamName: json['LogStreamName'] as String?,
@@ -4207,7 +3912,7 @@ class LogAnomalyClass {
     return {
       if (explanation != null) 'Explanation': explanation,
       if (logAnomalyToken != null) 'LogAnomalyToken': logAnomalyToken,
-      if (logAnomalyType != null) 'LogAnomalyType': logAnomalyType.toValue(),
+      if (logAnomalyType != null) 'LogAnomalyType': logAnomalyType.value,
       if (logEventId != null) 'LogEventId': logEventId,
       if (logEventTimestamp != null)
         'LogEventTimestamp': unixTimestampToJson(logEventTimestamp),
@@ -4245,61 +3950,24 @@ class LogAnomalyShowcase {
 }
 
 enum LogAnomalyType {
-  keyword,
-  keywordToken,
-  format,
-  httpCode,
-  blockFormat,
-  numericalPoint,
-  numericalNan,
-  newFieldName,
-}
+  keyword('KEYWORD'),
+  keywordToken('KEYWORD_TOKEN'),
+  format('FORMAT'),
+  httpCode('HTTP_CODE'),
+  blockFormat('BLOCK_FORMAT'),
+  numericalPoint('NUMERICAL_POINT'),
+  numericalNan('NUMERICAL_NAN'),
+  newFieldName('NEW_FIELD_NAME'),
+  ;
 
-extension LogAnomalyTypeValueExtension on LogAnomalyType {
-  String toValue() {
-    switch (this) {
-      case LogAnomalyType.keyword:
-        return 'KEYWORD';
-      case LogAnomalyType.keywordToken:
-        return 'KEYWORD_TOKEN';
-      case LogAnomalyType.format:
-        return 'FORMAT';
-      case LogAnomalyType.httpCode:
-        return 'HTTP_CODE';
-      case LogAnomalyType.blockFormat:
-        return 'BLOCK_FORMAT';
-      case LogAnomalyType.numericalPoint:
-        return 'NUMERICAL_POINT';
-      case LogAnomalyType.numericalNan:
-        return 'NUMERICAL_NAN';
-      case LogAnomalyType.newFieldName:
-        return 'NEW_FIELD_NAME';
-    }
-  }
-}
+  final String value;
 
-extension LogAnomalyTypeFromString on String {
-  LogAnomalyType toLogAnomalyType() {
-    switch (this) {
-      case 'KEYWORD':
-        return LogAnomalyType.keyword;
-      case 'KEYWORD_TOKEN':
-        return LogAnomalyType.keywordToken;
-      case 'FORMAT':
-        return LogAnomalyType.format;
-      case 'HTTP_CODE':
-        return LogAnomalyType.httpCode;
-      case 'BLOCK_FORMAT':
-        return LogAnomalyType.blockFormat;
-      case 'NUMERICAL_POINT':
-        return LogAnomalyType.numericalPoint;
-      case 'NUMERICAL_NAN':
-        return LogAnomalyType.numericalNan;
-      case 'NEW_FIELD_NAME':
-        return LogAnomalyType.newFieldName;
-    }
-    throw Exception('$this is not known in enum LogAnomalyType');
-  }
+  const LogAnomalyType(this.value);
+
+  static LogAnomalyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogAnomalyType'));
 }
 
 /// Information about the integration of DevOps Guru with CloudWatch log groups
@@ -4315,14 +3983,15 @@ class LogsAnomalyDetectionIntegration {
 
   factory LogsAnomalyDetectionIntegration.fromJson(Map<String, dynamic> json) {
     return LogsAnomalyDetectionIntegration(
-      optInStatus: (json['OptInStatus'] as String?)?.toOptInStatus(),
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final optInStatus = this.optInStatus;
     return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
     };
   }
 }
@@ -4341,7 +4010,7 @@ class LogsAnomalyDetectionIntegrationConfig {
   Map<String, dynamic> toJson() {
     final optInStatus = this.optInStatus;
     return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
     };
   }
 }
@@ -4379,8 +4048,8 @@ class MonitoredResourceIdentifier {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      resourcePermission:
-          (json['ResourcePermission'] as String?)?.toResourcePermission(),
+      resourcePermission: (json['ResourcePermission'] as String?)
+          ?.let(ResourcePermission.fromString),
       type: json['Type'] as String?,
     );
   }
@@ -4397,7 +4066,7 @@ class MonitoredResourceIdentifier {
         'MonitoredResourceName': monitoredResourceName,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (resourcePermission != null)
-        'ResourcePermission': resourcePermission.toValue(),
+        'ResourcePermission': resourcePermission.value,
       if (type != null) 'Type': type,
     };
   }
@@ -4533,11 +4202,11 @@ class NotificationFilterConfig {
     return NotificationFilterConfig(
       messageTypes: (json['MessageTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toNotificationMessageType())
+          .map((e) => NotificationMessageType.fromString((e as String)))
           .toList(),
       severities: (json['Severities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInsightSeverity())
+          .map((e) => InsightSeverity.fromString((e as String)))
           .toList(),
     );
   }
@@ -4547,54 +4216,29 @@ class NotificationFilterConfig {
     final severities = this.severities;
     return {
       if (messageTypes != null)
-        'MessageTypes': messageTypes.map((e) => e.toValue()).toList(),
+        'MessageTypes': messageTypes.map((e) => e.value).toList(),
       if (severities != null)
-        'Severities': severities.map((e) => e.toValue()).toList(),
+        'Severities': severities.map((e) => e.value).toList(),
     };
   }
 }
 
 enum NotificationMessageType {
-  newInsight,
-  closedInsight,
-  newAssociation,
-  severityUpgraded,
-  newRecommendation,
-}
+  newInsight('NEW_INSIGHT'),
+  closedInsight('CLOSED_INSIGHT'),
+  newAssociation('NEW_ASSOCIATION'),
+  severityUpgraded('SEVERITY_UPGRADED'),
+  newRecommendation('NEW_RECOMMENDATION'),
+  ;
 
-extension NotificationMessageTypeValueExtension on NotificationMessageType {
-  String toValue() {
-    switch (this) {
-      case NotificationMessageType.newInsight:
-        return 'NEW_INSIGHT';
-      case NotificationMessageType.closedInsight:
-        return 'CLOSED_INSIGHT';
-      case NotificationMessageType.newAssociation:
-        return 'NEW_ASSOCIATION';
-      case NotificationMessageType.severityUpgraded:
-        return 'SEVERITY_UPGRADED';
-      case NotificationMessageType.newRecommendation:
-        return 'NEW_RECOMMENDATION';
-    }
-  }
-}
+  final String value;
 
-extension NotificationMessageTypeFromString on String {
-  NotificationMessageType toNotificationMessageType() {
-    switch (this) {
-      case 'NEW_INSIGHT':
-        return NotificationMessageType.newInsight;
-      case 'CLOSED_INSIGHT':
-        return NotificationMessageType.closedInsight;
-      case 'NEW_ASSOCIATION':
-        return NotificationMessageType.newAssociation;
-      case 'SEVERITY_UPGRADED':
-        return NotificationMessageType.severityUpgraded;
-      case 'NEW_RECOMMENDATION':
-        return NotificationMessageType.newRecommendation;
-    }
-    throw Exception('$this is not known in enum NotificationMessageType');
-  }
+  const NotificationMessageType(this.value);
+
+  static NotificationMessageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotificationMessageType'));
 }
 
 /// Information about whether DevOps Guru is configured to create an OpsItem in
@@ -4610,14 +4254,15 @@ class OpsCenterIntegration {
 
   factory OpsCenterIntegration.fromJson(Map<String, dynamic> json) {
     return OpsCenterIntegration(
-      optInStatus: (json['OptInStatus'] as String?)?.toOptInStatus(),
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final optInStatus = this.optInStatus;
     return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
     };
   }
 }
@@ -4637,7 +4282,7 @@ class OpsCenterIntegrationConfig {
   Map<String, dynamic> toJson() {
     final optInStatus = this.optInStatus;
     return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
     };
   }
 }
@@ -4645,71 +4290,34 @@ class OpsCenterIntegrationConfig {
 /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
 /// Manager OpsItem for each created insight.
 enum OptInStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension OptInStatusValueExtension on OptInStatus {
-  String toValue() {
-    switch (this) {
-      case OptInStatus.enabled:
-        return 'ENABLED';
-      case OptInStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension OptInStatusFromString on String {
-  OptInStatus toOptInStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return OptInStatus.enabled;
-      case 'DISABLED':
-        return OptInStatus.disabled;
-    }
-    throw Exception('$this is not known in enum OptInStatus');
-  }
+  const OptInStatus(this.value);
+
+  static OptInStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OptInStatus'));
 }
 
 enum OrganizationResourceCollectionType {
-  awsCloudFormation,
-  awsService,
-  awsAccount,
-  awsTags,
-}
+  awsCloudFormation('AWS_CLOUD_FORMATION'),
+  awsService('AWS_SERVICE'),
+  awsAccount('AWS_ACCOUNT'),
+  awsTags('AWS_TAGS'),
+  ;
 
-extension OrganizationResourceCollectionTypeValueExtension
-    on OrganizationResourceCollectionType {
-  String toValue() {
-    switch (this) {
-      case OrganizationResourceCollectionType.awsCloudFormation:
-        return 'AWS_CLOUD_FORMATION';
-      case OrganizationResourceCollectionType.awsService:
-        return 'AWS_SERVICE';
-      case OrganizationResourceCollectionType.awsAccount:
-        return 'AWS_ACCOUNT';
-      case OrganizationResourceCollectionType.awsTags:
-        return 'AWS_TAGS';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationResourceCollectionTypeFromString on String {
-  OrganizationResourceCollectionType toOrganizationResourceCollectionType() {
-    switch (this) {
-      case 'AWS_CLOUD_FORMATION':
-        return OrganizationResourceCollectionType.awsCloudFormation;
-      case 'AWS_SERVICE':
-        return OrganizationResourceCollectionType.awsService;
-      case 'AWS_ACCOUNT':
-        return OrganizationResourceCollectionType.awsAccount;
-      case 'AWS_TAGS':
-        return OrganizationResourceCollectionType.awsTags;
-    }
-    throw Exception(
-        '$this is not known in enum OrganizationResourceCollectionType');
-  }
+  const OrganizationResourceCollectionType(this.value);
+
+  static OrganizationResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationResourceCollectionType'));
 }
 
 /// A logical grouping of Performance Insights metrics for a related subject
@@ -5388,7 +4996,7 @@ class ProactiveAnomaly {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toAnomalySeverity(),
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
       sourceDetails: json['SourceDetails'] != null
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
@@ -5397,7 +5005,7 @@ class ProactiveAnomaly {
           ? AnomalySourceMetadata.fromJson(
               json['SourceMetadata'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAnomalyStatus(),
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
       updateTime: timeStampFromJson(json['UpdateTime']),
     );
   }
@@ -5430,10 +5038,10 @@ class ProactiveAnomaly {
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
       if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
   }
@@ -5530,7 +5138,7 @@ class ProactiveAnomalySummary {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toAnomalySeverity(),
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
       sourceDetails: json['SourceDetails'] != null
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
@@ -5539,7 +5147,7 @@ class ProactiveAnomalySummary {
           ? AnomalySourceMetadata.fromJson(
               json['SourceMetadata'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAnomalyStatus(),
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
       updateTime: timeStampFromJson(json['UpdateTime']),
     );
   }
@@ -5572,10 +5180,10 @@ class ProactiveAnomalySummary {
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
       if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
   }
@@ -5638,9 +5246,9 @@ class ProactiveInsight {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
       ssmOpsItemId: json['SsmOpsItemId'] as String?,
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -5662,9 +5270,9 @@ class ProactiveInsight {
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (ssmOpsItemId != null) 'SsmOpsItemId': ssmOpsItemId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5732,8 +5340,8 @@ class ProactiveInsightSummary {
           ? ServiceCollection.fromJson(
               json['ServiceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -5757,8 +5365,8 @@ class ProactiveInsightSummary {
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5827,8 +5435,8 @@ class ProactiveOrganizationInsightSummary {
           ? ServiceCollection.fromJson(
               json['ServiceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -5854,8 +5462,8 @@ class ProactiveOrganizationInsightSummary {
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5967,13 +5575,13 @@ class ReactiveAnomaly {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toAnomalySeverity(),
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
       sourceDetails: json['SourceDetails'] != null
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAnomalyStatus(),
-      type: (json['Type'] as String?)?.toAnomalyType(),
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
+      type: (json['Type'] as String?)?.let(AnomalyType.fromString),
     );
   }
 
@@ -6003,10 +5611,10 @@ class ReactiveAnomaly {
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -6106,13 +5714,13 @@ class ReactiveAnomalySummary {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toAnomalySeverity(),
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
       sourceDetails: json['SourceDetails'] != null
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAnomalyStatus(),
-      type: (json['Type'] as String?)?.toAnomalyType(),
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
+      type: (json['Type'] as String?)?.let(AnomalyType.fromString),
     );
   }
 
@@ -6142,10 +5750,10 @@ class ReactiveAnomalySummary {
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -6201,9 +5809,9 @@ class ReactiveInsight {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
       ssmOpsItemId: json['SsmOpsItemId'] as String?,
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -6222,9 +5830,9 @@ class ReactiveInsight {
       if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
       if (name != null) 'Name': name,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (ssmOpsItemId != null) 'SsmOpsItemId': ssmOpsItemId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6286,8 +5894,8 @@ class ReactiveInsightSummary {
           ? ServiceCollection.fromJson(
               json['ServiceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -6308,8 +5916,8 @@ class ReactiveInsightSummary {
       if (name != null) 'Name': name,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6372,8 +5980,8 @@ class ReactiveOrganizationInsightSummary {
           ? ServiceCollection.fromJson(
               json['ServiceCollection'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toInsightSeverity(),
-      status: (json['Status'] as String?)?.toInsightStatus(),
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
@@ -6396,8 +6004,8 @@ class ReactiveOrganizationInsightSummary {
         'OrganizationalUnitId': organizationalUnitId,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6878,217 +6486,74 @@ class ResourceCollectionFilter {
 }
 
 enum ResourceCollectionType {
-  awsCloudFormation,
-  awsService,
-  awsTags,
-}
+  awsCloudFormation('AWS_CLOUD_FORMATION'),
+  awsService('AWS_SERVICE'),
+  awsTags('AWS_TAGS'),
+  ;
 
-extension ResourceCollectionTypeValueExtension on ResourceCollectionType {
-  String toValue() {
-    switch (this) {
-      case ResourceCollectionType.awsCloudFormation:
-        return 'AWS_CLOUD_FORMATION';
-      case ResourceCollectionType.awsService:
-        return 'AWS_SERVICE';
-      case ResourceCollectionType.awsTags:
-        return 'AWS_TAGS';
-    }
-  }
-}
+  final String value;
 
-extension ResourceCollectionTypeFromString on String {
-  ResourceCollectionType toResourceCollectionType() {
-    switch (this) {
-      case 'AWS_CLOUD_FORMATION':
-        return ResourceCollectionType.awsCloudFormation;
-      case 'AWS_SERVICE':
-        return ResourceCollectionType.awsService;
-      case 'AWS_TAGS':
-        return ResourceCollectionType.awsTags;
-    }
-    throw Exception('$this is not known in enum ResourceCollectionType');
-  }
+  const ResourceCollectionType(this.value);
+
+  static ResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceCollectionType'));
 }
 
 enum ResourcePermission {
-  fullPermission,
-  missingPermission,
-}
+  fullPermission('FULL_PERMISSION'),
+  missingPermission('MISSING_PERMISSION'),
+  ;
 
-extension ResourcePermissionValueExtension on ResourcePermission {
-  String toValue() {
-    switch (this) {
-      case ResourcePermission.fullPermission:
-        return 'FULL_PERMISSION';
-      case ResourcePermission.missingPermission:
-        return 'MISSING_PERMISSION';
-    }
-  }
-}
+  final String value;
 
-extension ResourcePermissionFromString on String {
-  ResourcePermission toResourcePermission() {
-    switch (this) {
-      case 'FULL_PERMISSION':
-        return ResourcePermission.fullPermission;
-      case 'MISSING_PERMISSION':
-        return ResourcePermission.missingPermission;
-    }
-    throw Exception('$this is not known in enum ResourcePermission');
-  }
+  const ResourcePermission(this.value);
+
+  static ResourcePermission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourcePermission'));
 }
 
 enum ResourceTypeFilter {
-  logGroups,
-  cloudfrontDistribution,
-  dynamodbTable,
-  ec2NatGateway,
-  ecsCluster,
-  ecsService,
-  eksCluster,
-  elasticBeanstalkEnvironment,
-  elasticLoadBalancerLoadBalancer,
-  elasticLoadBalancingV2LoadBalancer,
-  elasticLoadBalancingV2TargetGroup,
-  elasticacheCacheCluster,
-  elasticsearchDomain,
-  kinesisStream,
-  lambdaFunction,
-  openSearchServiceDomain,
-  rdsDbInstance,
-  rdsDbCluster,
-  redshiftCluster,
-  route53HostedZone,
-  route53HealthCheck,
-  s3Bucket,
-  sagemakerEndpoint,
-  snsTopic,
-  sqsQueue,
-  stepFunctionsActivity,
-  stepFunctionsStateMachine,
-}
+  logGroups('LOG_GROUPS'),
+  cloudfrontDistribution('CLOUDFRONT_DISTRIBUTION'),
+  dynamodbTable('DYNAMODB_TABLE'),
+  ec2NatGateway('EC2_NAT_GATEWAY'),
+  ecsCluster('ECS_CLUSTER'),
+  ecsService('ECS_SERVICE'),
+  eksCluster('EKS_CLUSTER'),
+  elasticBeanstalkEnvironment('ELASTIC_BEANSTALK_ENVIRONMENT'),
+  elasticLoadBalancerLoadBalancer('ELASTIC_LOAD_BALANCER_LOAD_BALANCER'),
+  elasticLoadBalancingV2LoadBalancer('ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER'),
+  elasticLoadBalancingV2TargetGroup('ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP'),
+  elasticacheCacheCluster('ELASTICACHE_CACHE_CLUSTER'),
+  elasticsearchDomain('ELASTICSEARCH_DOMAIN'),
+  kinesisStream('KINESIS_STREAM'),
+  lambdaFunction('LAMBDA_FUNCTION'),
+  openSearchServiceDomain('OPEN_SEARCH_SERVICE_DOMAIN'),
+  rdsDbInstance('RDS_DB_INSTANCE'),
+  rdsDbCluster('RDS_DB_CLUSTER'),
+  redshiftCluster('REDSHIFT_CLUSTER'),
+  route53HostedZone('ROUTE53_HOSTED_ZONE'),
+  route53HealthCheck('ROUTE53_HEALTH_CHECK'),
+  s3Bucket('S3_BUCKET'),
+  sagemakerEndpoint('SAGEMAKER_ENDPOINT'),
+  snsTopic('SNS_TOPIC'),
+  sqsQueue('SQS_QUEUE'),
+  stepFunctionsActivity('STEP_FUNCTIONS_ACTIVITY'),
+  stepFunctionsStateMachine('STEP_FUNCTIONS_STATE_MACHINE'),
+  ;
 
-extension ResourceTypeFilterValueExtension on ResourceTypeFilter {
-  String toValue() {
-    switch (this) {
-      case ResourceTypeFilter.logGroups:
-        return 'LOG_GROUPS';
-      case ResourceTypeFilter.cloudfrontDistribution:
-        return 'CLOUDFRONT_DISTRIBUTION';
-      case ResourceTypeFilter.dynamodbTable:
-        return 'DYNAMODB_TABLE';
-      case ResourceTypeFilter.ec2NatGateway:
-        return 'EC2_NAT_GATEWAY';
-      case ResourceTypeFilter.ecsCluster:
-        return 'ECS_CLUSTER';
-      case ResourceTypeFilter.ecsService:
-        return 'ECS_SERVICE';
-      case ResourceTypeFilter.eksCluster:
-        return 'EKS_CLUSTER';
-      case ResourceTypeFilter.elasticBeanstalkEnvironment:
-        return 'ELASTIC_BEANSTALK_ENVIRONMENT';
-      case ResourceTypeFilter.elasticLoadBalancerLoadBalancer:
-        return 'ELASTIC_LOAD_BALANCER_LOAD_BALANCER';
-      case ResourceTypeFilter.elasticLoadBalancingV2LoadBalancer:
-        return 'ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER';
-      case ResourceTypeFilter.elasticLoadBalancingV2TargetGroup:
-        return 'ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP';
-      case ResourceTypeFilter.elasticacheCacheCluster:
-        return 'ELASTICACHE_CACHE_CLUSTER';
-      case ResourceTypeFilter.elasticsearchDomain:
-        return 'ELASTICSEARCH_DOMAIN';
-      case ResourceTypeFilter.kinesisStream:
-        return 'KINESIS_STREAM';
-      case ResourceTypeFilter.lambdaFunction:
-        return 'LAMBDA_FUNCTION';
-      case ResourceTypeFilter.openSearchServiceDomain:
-        return 'OPEN_SEARCH_SERVICE_DOMAIN';
-      case ResourceTypeFilter.rdsDbInstance:
-        return 'RDS_DB_INSTANCE';
-      case ResourceTypeFilter.rdsDbCluster:
-        return 'RDS_DB_CLUSTER';
-      case ResourceTypeFilter.redshiftCluster:
-        return 'REDSHIFT_CLUSTER';
-      case ResourceTypeFilter.route53HostedZone:
-        return 'ROUTE53_HOSTED_ZONE';
-      case ResourceTypeFilter.route53HealthCheck:
-        return 'ROUTE53_HEALTH_CHECK';
-      case ResourceTypeFilter.s3Bucket:
-        return 'S3_BUCKET';
-      case ResourceTypeFilter.sagemakerEndpoint:
-        return 'SAGEMAKER_ENDPOINT';
-      case ResourceTypeFilter.snsTopic:
-        return 'SNS_TOPIC';
-      case ResourceTypeFilter.sqsQueue:
-        return 'SQS_QUEUE';
-      case ResourceTypeFilter.stepFunctionsActivity:
-        return 'STEP_FUNCTIONS_ACTIVITY';
-      case ResourceTypeFilter.stepFunctionsStateMachine:
-        return 'STEP_FUNCTIONS_STATE_MACHINE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFilterFromString on String {
-  ResourceTypeFilter toResourceTypeFilter() {
-    switch (this) {
-      case 'LOG_GROUPS':
-        return ResourceTypeFilter.logGroups;
-      case 'CLOUDFRONT_DISTRIBUTION':
-        return ResourceTypeFilter.cloudfrontDistribution;
-      case 'DYNAMODB_TABLE':
-        return ResourceTypeFilter.dynamodbTable;
-      case 'EC2_NAT_GATEWAY':
-        return ResourceTypeFilter.ec2NatGateway;
-      case 'ECS_CLUSTER':
-        return ResourceTypeFilter.ecsCluster;
-      case 'ECS_SERVICE':
-        return ResourceTypeFilter.ecsService;
-      case 'EKS_CLUSTER':
-        return ResourceTypeFilter.eksCluster;
-      case 'ELASTIC_BEANSTALK_ENVIRONMENT':
-        return ResourceTypeFilter.elasticBeanstalkEnvironment;
-      case 'ELASTIC_LOAD_BALANCER_LOAD_BALANCER':
-        return ResourceTypeFilter.elasticLoadBalancerLoadBalancer;
-      case 'ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER':
-        return ResourceTypeFilter.elasticLoadBalancingV2LoadBalancer;
-      case 'ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP':
-        return ResourceTypeFilter.elasticLoadBalancingV2TargetGroup;
-      case 'ELASTICACHE_CACHE_CLUSTER':
-        return ResourceTypeFilter.elasticacheCacheCluster;
-      case 'ELASTICSEARCH_DOMAIN':
-        return ResourceTypeFilter.elasticsearchDomain;
-      case 'KINESIS_STREAM':
-        return ResourceTypeFilter.kinesisStream;
-      case 'LAMBDA_FUNCTION':
-        return ResourceTypeFilter.lambdaFunction;
-      case 'OPEN_SEARCH_SERVICE_DOMAIN':
-        return ResourceTypeFilter.openSearchServiceDomain;
-      case 'RDS_DB_INSTANCE':
-        return ResourceTypeFilter.rdsDbInstance;
-      case 'RDS_DB_CLUSTER':
-        return ResourceTypeFilter.rdsDbCluster;
-      case 'REDSHIFT_CLUSTER':
-        return ResourceTypeFilter.redshiftCluster;
-      case 'ROUTE53_HOSTED_ZONE':
-        return ResourceTypeFilter.route53HostedZone;
-      case 'ROUTE53_HEALTH_CHECK':
-        return ResourceTypeFilter.route53HealthCheck;
-      case 'S3_BUCKET':
-        return ResourceTypeFilter.s3Bucket;
-      case 'SAGEMAKER_ENDPOINT':
-        return ResourceTypeFilter.sagemakerEndpoint;
-      case 'SNS_TOPIC':
-        return ResourceTypeFilter.snsTopic;
-      case 'SQS_QUEUE':
-        return ResourceTypeFilter.sqsQueue;
-      case 'STEP_FUNCTIONS_ACTIVITY':
-        return ResourceTypeFilter.stepFunctionsActivity;
-      case 'STEP_FUNCTIONS_STATE_MACHINE':
-        return ResourceTypeFilter.stepFunctionsStateMachine;
-    }
-    throw Exception('$this is not known in enum ResourceTypeFilter');
-  }
+  const ResourceTypeFilter(this.value);
+
+  static ResourceTypeFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceTypeFilter'));
 }
 
 /// Specifies values used to filter responses when searching for insights. You
@@ -7125,9 +6590,8 @@ class SearchInsightsFilters {
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
       if (severities != null)
-        'Severities': severities.map((e) => e.toValue()).toList(),
-      if (statuses != null)
-        'Statuses': statuses.map((e) => e.toValue()).toList(),
+        'Severities': severities.map((e) => e.value).toList(),
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
     };
   }
 }
@@ -7205,9 +6669,8 @@ class SearchOrganizationInsightsFilters {
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (serviceCollection != null) 'ServiceCollection': serviceCollection,
       if (severities != null)
-        'Severities': severities.map((e) => e.toValue()).toList(),
-      if (statuses != null)
-        'Statuses': statuses.map((e) => e.toValue()).toList(),
+        'Severities': severities.map((e) => e.value).toList(),
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
     };
   }
 }
@@ -7261,31 +6724,18 @@ class SearchOrganizationInsightsResponse {
 }
 
 enum ServerSideEncryptionType {
-  customerManagedKey,
-  awsOwnedKmsKey,
-}
+  customerManagedKey('CUSTOMER_MANAGED_KEY'),
+  awsOwnedKmsKey('AWS_OWNED_KMS_KEY'),
+  ;
 
-extension ServerSideEncryptionTypeValueExtension on ServerSideEncryptionType {
-  String toValue() {
-    switch (this) {
-      case ServerSideEncryptionType.customerManagedKey:
-        return 'CUSTOMER_MANAGED_KEY';
-      case ServerSideEncryptionType.awsOwnedKmsKey:
-        return 'AWS_OWNED_KMS_KEY';
-    }
-  }
-}
+  final String value;
 
-extension ServerSideEncryptionTypeFromString on String {
-  ServerSideEncryptionType toServerSideEncryptionType() {
-    switch (this) {
-      case 'CUSTOMER_MANAGED_KEY':
-        return ServerSideEncryptionType.customerManagedKey;
-      case 'AWS_OWNED_KMS_KEY':
-        return ServerSideEncryptionType.awsOwnedKmsKey;
-    }
-    throw Exception('$this is not known in enum ServerSideEncryptionType');
-  }
+  const ServerSideEncryptionType(this.value);
+
+  static ServerSideEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServerSideEncryptionType'));
 }
 
 /// A collection of the names of Amazon Web Services services.
@@ -7302,7 +6752,7 @@ class ServiceCollection {
     return ServiceCollection(
       serviceNames: (json['ServiceNames'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toServiceName())
+          .map((e) => ServiceName.fromString((e as String)))
           .toList(),
     );
   }
@@ -7311,7 +6761,7 @@ class ServiceCollection {
     final serviceNames = this.serviceNames;
     return {
       if (serviceNames != null)
-        'ServiceNames': serviceNames.map((e) => e.toValue()).toList(),
+        'ServiceNames': serviceNames.map((e) => e.value).toList(),
     };
   }
 }
@@ -7343,7 +6793,8 @@ class ServiceHealth {
           ? ServiceInsightHealth.fromJson(
               json['Insight'] as Map<String, dynamic>)
           : null,
-      serviceName: (json['ServiceName'] as String?)?.toServiceName(),
+      serviceName:
+          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
     );
   }
 
@@ -7355,7 +6806,7 @@ class ServiceHealth {
       if (analyzedResourceCount != null)
         'AnalyzedResourceCount': analyzedResourceCount,
       if (insight != null) 'Insight': insight,
-      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (serviceName != null) 'ServiceName': serviceName.value,
     };
   }
 }
@@ -7446,146 +6897,40 @@ class ServiceIntegrationConfig {
 }
 
 enum ServiceName {
-  apiGateway,
-  applicationElb,
-  autoScalingGroup,
-  cloudFront,
-  dynamoDb,
-  ec2,
-  ecs,
-  eks,
-  elasticBeanstalk,
-  elastiCache,
-  elb,
-  es,
-  kinesis,
-  lambda,
-  natGateway,
-  networkElb,
-  rds,
-  redshift,
-  route_53,
-  s3,
-  sageMaker,
-  sns,
-  sqs,
-  stepFunctions,
-  swf,
-}
+  apiGateway('API_GATEWAY'),
+  applicationElb('APPLICATION_ELB'),
+  autoScalingGroup('AUTO_SCALING_GROUP'),
+  cloudFront('CLOUD_FRONT'),
+  dynamoDb('DYNAMO_DB'),
+  ec2('EC2'),
+  ecs('ECS'),
+  eks('EKS'),
+  elasticBeanstalk('ELASTIC_BEANSTALK'),
+  elastiCache('ELASTI_CACHE'),
+  elb('ELB'),
+  es('ES'),
+  kinesis('KINESIS'),
+  lambda('LAMBDA'),
+  natGateway('NAT_GATEWAY'),
+  networkElb('NETWORK_ELB'),
+  rds('RDS'),
+  redshift('REDSHIFT'),
+  route_53('ROUTE_53'),
+  s3('S3'),
+  sageMaker('SAGE_MAKER'),
+  sns('SNS'),
+  sqs('SQS'),
+  stepFunctions('STEP_FUNCTIONS'),
+  swf('SWF'),
+  ;
 
-extension ServiceNameValueExtension on ServiceName {
-  String toValue() {
-    switch (this) {
-      case ServiceName.apiGateway:
-        return 'API_GATEWAY';
-      case ServiceName.applicationElb:
-        return 'APPLICATION_ELB';
-      case ServiceName.autoScalingGroup:
-        return 'AUTO_SCALING_GROUP';
-      case ServiceName.cloudFront:
-        return 'CLOUD_FRONT';
-      case ServiceName.dynamoDb:
-        return 'DYNAMO_DB';
-      case ServiceName.ec2:
-        return 'EC2';
-      case ServiceName.ecs:
-        return 'ECS';
-      case ServiceName.eks:
-        return 'EKS';
-      case ServiceName.elasticBeanstalk:
-        return 'ELASTIC_BEANSTALK';
-      case ServiceName.elastiCache:
-        return 'ELASTI_CACHE';
-      case ServiceName.elb:
-        return 'ELB';
-      case ServiceName.es:
-        return 'ES';
-      case ServiceName.kinesis:
-        return 'KINESIS';
-      case ServiceName.lambda:
-        return 'LAMBDA';
-      case ServiceName.natGateway:
-        return 'NAT_GATEWAY';
-      case ServiceName.networkElb:
-        return 'NETWORK_ELB';
-      case ServiceName.rds:
-        return 'RDS';
-      case ServiceName.redshift:
-        return 'REDSHIFT';
-      case ServiceName.route_53:
-        return 'ROUTE_53';
-      case ServiceName.s3:
-        return 'S3';
-      case ServiceName.sageMaker:
-        return 'SAGE_MAKER';
-      case ServiceName.sns:
-        return 'SNS';
-      case ServiceName.sqs:
-        return 'SQS';
-      case ServiceName.stepFunctions:
-        return 'STEP_FUNCTIONS';
-      case ServiceName.swf:
-        return 'SWF';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNameFromString on String {
-  ServiceName toServiceName() {
-    switch (this) {
-      case 'API_GATEWAY':
-        return ServiceName.apiGateway;
-      case 'APPLICATION_ELB':
-        return ServiceName.applicationElb;
-      case 'AUTO_SCALING_GROUP':
-        return ServiceName.autoScalingGroup;
-      case 'CLOUD_FRONT':
-        return ServiceName.cloudFront;
-      case 'DYNAMO_DB':
-        return ServiceName.dynamoDb;
-      case 'EC2':
-        return ServiceName.ec2;
-      case 'ECS':
-        return ServiceName.ecs;
-      case 'EKS':
-        return ServiceName.eks;
-      case 'ELASTIC_BEANSTALK':
-        return ServiceName.elasticBeanstalk;
-      case 'ELASTI_CACHE':
-        return ServiceName.elastiCache;
-      case 'ELB':
-        return ServiceName.elb;
-      case 'ES':
-        return ServiceName.es;
-      case 'KINESIS':
-        return ServiceName.kinesis;
-      case 'LAMBDA':
-        return ServiceName.lambda;
-      case 'NAT_GATEWAY':
-        return ServiceName.natGateway;
-      case 'NETWORK_ELB':
-        return ServiceName.networkElb;
-      case 'RDS':
-        return ServiceName.rds;
-      case 'REDSHIFT':
-        return ServiceName.redshift;
-      case 'ROUTE_53':
-        return ServiceName.route_53;
-      case 'S3':
-        return ServiceName.s3;
-      case 'SAGE_MAKER':
-        return ServiceName.sageMaker;
-      case 'SNS':
-        return ServiceName.sns;
-      case 'SQS':
-        return ServiceName.sqs;
-      case 'STEP_FUNCTIONS':
-        return ServiceName.stepFunctions;
-      case 'SWF':
-        return ServiceName.swf;
-    }
-    throw Exception('$this is not known in enum ServiceName');
-  }
+  const ServiceName(this.value);
+
+  static ServiceName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceName'));
 }
 
 /// An object that contains information about the estimated monthly cost to
@@ -7633,7 +6978,8 @@ class ServiceResourceCost {
     return ServiceResourceCost(
       cost: json['Cost'] as double?,
       count: json['Count'] as int?,
-      state: (json['State'] as String?)?.toCostEstimationServiceResourceState(),
+      state: (json['State'] as String?)
+          ?.let(CostEstimationServiceResourceState.fromString),
       type: json['Type'] as String?,
       unitCost: json['UnitCost'] as double?,
     );
@@ -7648,7 +6994,7 @@ class ServiceResourceCost {
     return {
       if (cost != null) 'Cost': cost,
       if (count != null) 'Count': count,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (type != null) 'Type': type,
       if (unitCost != null) 'UnitCost': unitCost,
     };
@@ -8085,33 +7431,18 @@ class UpdateEventSourcesConfigResponse {
 }
 
 enum UpdateResourceCollectionAction {
-  add,
-  remove,
-}
+  add('ADD'),
+  remove('REMOVE'),
+  ;
 
-extension UpdateResourceCollectionActionValueExtension
-    on UpdateResourceCollectionAction {
-  String toValue() {
-    switch (this) {
-      case UpdateResourceCollectionAction.add:
-        return 'ADD';
-      case UpdateResourceCollectionAction.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension UpdateResourceCollectionActionFromString on String {
-  UpdateResourceCollectionAction toUpdateResourceCollectionAction() {
-    switch (this) {
-      case 'ADD':
-        return UpdateResourceCollectionAction.add;
-      case 'REMOVE':
-        return UpdateResourceCollectionAction.remove;
-    }
-    throw Exception(
-        '$this is not known in enum UpdateResourceCollectionAction');
-  }
+  const UpdateResourceCollectionAction(this.value);
+
+  static UpdateResourceCollectionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateResourceCollectionAction'));
 }
 
 /// Contains information used to update a collection of Amazon Web Services

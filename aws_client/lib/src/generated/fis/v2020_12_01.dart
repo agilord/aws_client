@@ -846,31 +846,18 @@ class Fis {
 }
 
 enum AccountTargeting {
-  singleAccount,
-  multiAccount,
-}
+  singleAccount('single-account'),
+  multiAccount('multi-account'),
+  ;
 
-extension AccountTargetingValueExtension on AccountTargeting {
-  String toValue() {
-    switch (this) {
-      case AccountTargeting.singleAccount:
-        return 'single-account';
-      case AccountTargeting.multiAccount:
-        return 'multi-account';
-    }
-  }
-}
+  final String value;
 
-extension AccountTargetingFromString on String {
-  AccountTargeting toAccountTargeting() {
-    switch (this) {
-      case 'single-account':
-        return AccountTargeting.singleAccount;
-      case 'multi-account':
-        return AccountTargeting.multiAccount;
-    }
-    throw Exception('$this is not known in enum AccountTargeting');
-  }
+  const AccountTargeting(this.value);
+
+  static AccountTargeting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountTargeting'));
 }
 
 /// Describes an action. For more information, see <a
@@ -1043,31 +1030,17 @@ class ActionTarget {
 }
 
 enum ActionsMode {
-  skipAll,
-  runAll,
-}
+  skipAll('skip-all'),
+  runAll('run-all'),
+  ;
 
-extension ActionsModeValueExtension on ActionsMode {
-  String toValue() {
-    switch (this) {
-      case ActionsMode.skipAll:
-        return 'skip-all';
-      case ActionsMode.runAll:
-        return 'run-all';
-    }
-  }
-}
+  final String value;
 
-extension ActionsModeFromString on String {
-  ActionsMode toActionsMode() {
-    switch (this) {
-      case 'skip-all':
-        return ActionsMode.skipAll;
-      case 'run-all':
-        return ActionsMode.runAll;
-    }
-    throw Exception('$this is not known in enum ActionsMode');
-  }
+  const ActionsMode(this.value);
+
+  static ActionsMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionsMode'));
 }
 
 /// Specifies an action for an experiment template.
@@ -1135,10 +1108,9 @@ class CreateExperimentTemplateExperimentOptionsInput {
     final accountTargeting = this.accountTargeting;
     final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
     return {
-      if (accountTargeting != null)
-        'accountTargeting': accountTargeting.toValue(),
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
       if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.toValue(),
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
     };
   }
 }
@@ -1377,31 +1349,18 @@ class DeleteTargetAccountConfigurationResponse {
 }
 
 enum EmptyTargetResolutionMode {
-  fail,
-  skip,
-}
+  fail('fail'),
+  skip('skip'),
+  ;
 
-extension EmptyTargetResolutionModeValueExtension on EmptyTargetResolutionMode {
-  String toValue() {
-    switch (this) {
-      case EmptyTargetResolutionMode.fail:
-        return 'fail';
-      case EmptyTargetResolutionMode.skip:
-        return 'skip';
-    }
-  }
-}
+  final String value;
 
-extension EmptyTargetResolutionModeFromString on String {
-  EmptyTargetResolutionMode toEmptyTargetResolutionMode() {
-    switch (this) {
-      case 'fail':
-        return EmptyTargetResolutionMode.fail;
-      case 'skip':
-        return EmptyTargetResolutionMode.skip;
-    }
-    throw Exception('$this is not known in enum EmptyTargetResolutionMode');
-  }
+  const EmptyTargetResolutionMode(this.value);
+
+  static EmptyTargetResolutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmptyTargetResolutionMode'));
 }
 
 /// Describes an experiment.
@@ -1642,7 +1601,8 @@ class ExperimentActionState {
   factory ExperimentActionState.fromJson(Map<String, dynamic> json) {
     return ExperimentActionState(
       reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.toExperimentActionStatus(),
+      status:
+          (json['status'] as String?)?.let(ExperimentActionStatus.fromString),
     );
   }
 
@@ -1651,72 +1611,31 @@ class ExperimentActionState {
     final status = this.status;
     return {
       if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ExperimentActionStatus {
-  pending,
-  initiating,
-  running,
-  completed,
-  cancelled,
-  stopping,
-  stopped,
-  failed,
-  skipped,
-}
+  pending('pending'),
+  initiating('initiating'),
+  running('running'),
+  completed('completed'),
+  cancelled('cancelled'),
+  stopping('stopping'),
+  stopped('stopped'),
+  failed('failed'),
+  skipped('skipped'),
+  ;
 
-extension ExperimentActionStatusValueExtension on ExperimentActionStatus {
-  String toValue() {
-    switch (this) {
-      case ExperimentActionStatus.pending:
-        return 'pending';
-      case ExperimentActionStatus.initiating:
-        return 'initiating';
-      case ExperimentActionStatus.running:
-        return 'running';
-      case ExperimentActionStatus.completed:
-        return 'completed';
-      case ExperimentActionStatus.cancelled:
-        return 'cancelled';
-      case ExperimentActionStatus.stopping:
-        return 'stopping';
-      case ExperimentActionStatus.stopped:
-        return 'stopped';
-      case ExperimentActionStatus.failed:
-        return 'failed';
-      case ExperimentActionStatus.skipped:
-        return 'skipped';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentActionStatusFromString on String {
-  ExperimentActionStatus toExperimentActionStatus() {
-    switch (this) {
-      case 'pending':
-        return ExperimentActionStatus.pending;
-      case 'initiating':
-        return ExperimentActionStatus.initiating;
-      case 'running':
-        return ExperimentActionStatus.running;
-      case 'completed':
-        return ExperimentActionStatus.completed;
-      case 'cancelled':
-        return ExperimentActionStatus.cancelled;
-      case 'stopping':
-        return ExperimentActionStatus.stopping;
-      case 'stopped':
-        return ExperimentActionStatus.stopped;
-      case 'failed':
-        return ExperimentActionStatus.failed;
-      case 'skipped':
-        return ExperimentActionStatus.skipped;
-    }
-    throw Exception('$this is not known in enum ExperimentActionStatus');
-  }
+  const ExperimentActionStatus(this.value);
+
+  static ExperimentActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExperimentActionStatus'));
 }
 
 /// Describes the configuration for experiment logging to Amazon CloudWatch
@@ -1809,11 +1728,12 @@ class ExperimentOptions {
 
   factory ExperimentOptions.fromJson(Map<String, dynamic> json) {
     return ExperimentOptions(
-      accountTargeting:
-          (json['accountTargeting'] as String?)?.toAccountTargeting(),
-      actionsMode: (json['actionsMode'] as String?)?.toActionsMode(),
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
+      actionsMode:
+          (json['actionsMode'] as String?)?.let(ActionsMode.fromString),
       emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
-          ?.toEmptyTargetResolutionMode(),
+          ?.let(EmptyTargetResolutionMode.fromString),
     );
   }
 
@@ -1822,11 +1742,10 @@ class ExperimentOptions {
     final actionsMode = this.actionsMode;
     final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
     return {
-      if (accountTargeting != null)
-        'accountTargeting': accountTargeting.toValue(),
-      if (actionsMode != null) 'actionsMode': actionsMode.toValue(),
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (actionsMode != null) 'actionsMode': actionsMode.value,
       if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.toValue(),
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
     };
   }
 }
@@ -1877,7 +1796,7 @@ class ExperimentState {
   factory ExperimentState.fromJson(Map<String, dynamic> json) {
     return ExperimentState(
       reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.toExperimentStatus(),
+      status: (json['status'] as String?)?.let(ExperimentStatus.fromString),
     );
   }
 
@@ -1886,62 +1805,29 @@ class ExperimentState {
     final status = this.status;
     return {
       if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ExperimentStatus {
-  pending,
-  initiating,
-  running,
-  completed,
-  stopping,
-  stopped,
-  failed,
-}
+  pending('pending'),
+  initiating('initiating'),
+  running('running'),
+  completed('completed'),
+  stopping('stopping'),
+  stopped('stopped'),
+  failed('failed'),
+  ;
 
-extension ExperimentStatusValueExtension on ExperimentStatus {
-  String toValue() {
-    switch (this) {
-      case ExperimentStatus.pending:
-        return 'pending';
-      case ExperimentStatus.initiating:
-        return 'initiating';
-      case ExperimentStatus.running:
-        return 'running';
-      case ExperimentStatus.completed:
-        return 'completed';
-      case ExperimentStatus.stopping:
-        return 'stopping';
-      case ExperimentStatus.stopped:
-        return 'stopped';
-      case ExperimentStatus.failed:
-        return 'failed';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentStatusFromString on String {
-  ExperimentStatus toExperimentStatus() {
-    switch (this) {
-      case 'pending':
-        return ExperimentStatus.pending;
-      case 'initiating':
-        return ExperimentStatus.initiating;
-      case 'running':
-        return ExperimentStatus.running;
-      case 'completed':
-        return ExperimentStatus.completed;
-      case 'stopping':
-        return ExperimentStatus.stopping;
-      case 'stopped':
-        return ExperimentStatus.stopped;
-      case 'failed':
-        return ExperimentStatus.failed;
-    }
-    throw Exception('$this is not known in enum ExperimentStatus');
-  }
+  const ExperimentStatus(this.value);
+
+  static ExperimentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExperimentStatus'));
 }
 
 /// Describes the stop condition for an experiment.
@@ -2468,10 +2354,10 @@ class ExperimentTemplateExperimentOptions {
   factory ExperimentTemplateExperimentOptions.fromJson(
       Map<String, dynamic> json) {
     return ExperimentTemplateExperimentOptions(
-      accountTargeting:
-          (json['accountTargeting'] as String?)?.toAccountTargeting(),
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
       emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
-          ?.toEmptyTargetResolutionMode(),
+          ?.let(EmptyTargetResolutionMode.fromString),
     );
   }
 
@@ -2479,10 +2365,9 @@ class ExperimentTemplateExperimentOptions {
     final accountTargeting = this.accountTargeting;
     final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
     return {
-      if (accountTargeting != null)
-        'accountTargeting': accountTargeting.toValue(),
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
       if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.toValue(),
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
     };
   }
 }
@@ -3276,7 +3161,7 @@ class StartExperimentExperimentOptionsInput {
   Map<String, dynamic> toJson() {
     final actionsMode = this.actionsMode;
     return {
-      if (actionsMode != null) 'actionsMode': actionsMode.toValue(),
+      if (actionsMode != null) 'actionsMode': actionsMode.value,
     };
   }
 }
@@ -3584,7 +3469,7 @@ class UpdateExperimentTemplateExperimentOptionsInput {
     final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
     return {
       if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.toValue(),
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
     };
   }
 }

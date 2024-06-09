@@ -887,7 +887,7 @@ class WorkSpaces {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Platforms': platforms.map((e) => e.toValue()).toList(),
+        'Platforms': platforms.map((e) => e.value).toList(),
         'ResourceId': resourceId,
       },
     );
@@ -1280,7 +1280,7 @@ class WorkSpaces {
       payload: {
         'ApplicationId': applicationId,
         'AssociatedResourceTypes':
-            associatedResourceTypes.map((e) => e.toValue()).toList(),
+            associatedResourceTypes.map((e) => e.value).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1346,13 +1346,13 @@ class WorkSpaces {
       payload: {
         if (applicationIds != null) 'ApplicationIds': applicationIds,
         if (computeTypeNames != null)
-          'ComputeTypeNames': computeTypeNames.map((e) => e.toValue()).toList(),
-        if (licenseType != null) 'LicenseType': licenseType.toValue(),
+          'ComputeTypeNames': computeTypeNames.map((e) => e.value).toList(),
+        if (licenseType != null) 'LicenseType': licenseType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (operatingSystemNames != null)
           'OperatingSystemNames':
-              operatingSystemNames.map((e) => e.toValue()).toList(),
+              operatingSystemNames.map((e) => e.value).toList(),
         if (owner != null) 'Owner': owner,
       },
     );
@@ -1389,7 +1389,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'AssociatedResourceTypes':
-            associatedResourceTypes.map((e) => e.toValue()).toList(),
+            associatedResourceTypes.map((e) => e.value).toList(),
         'BundleId': bundleId,
       },
     );
@@ -1645,7 +1645,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'AssociatedResourceTypes':
-            associatedResourceTypes.map((e) => e.toValue()).toList(),
+            associatedResourceTypes.map((e) => e.value).toList(),
         'ImageId': imageId,
       },
     );
@@ -1756,7 +1756,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'AssociatedResourceTypes':
-            associatedResourceTypes.map((e) => e.toValue()).toList(),
+            associatedResourceTypes.map((e) => e.value).toList(),
         'WorkspaceId': workspaceId,
       },
     );
@@ -1946,7 +1946,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         if (imageIds != null) 'ImageIds': imageIds,
-        if (imageType != null) 'ImageType': imageType.toValue(),
+        if (imageType != null) 'ImageType': imageType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2412,9 +2412,9 @@ class WorkSpaces {
         'Ec2ImageId': ec2ImageId,
         'ImageDescription': imageDescription,
         'ImageName': imageName,
-        'IngestionProcess': ingestionProcess.toValue(),
+        'IngestionProcess': ingestionProcess.value,
         if (applications != null)
-          'Applications': applications.map((e) => e.toValue()).toList(),
+          'Applications': applications.map((e) => e.value).toList(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -2460,7 +2460,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         if (linkStatusFilter != null)
-          'LinkStatusFilter': linkStatusFilter.map((e) => e.toValue()).toList(),
+          'LinkStatusFilter': linkStatusFilter.map((e) => e.value).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2617,7 +2617,7 @@ class WorkSpaces {
           'DedicatedTenancyManagementCidrRange':
               dedicatedTenancyManagementCidrRange,
         if (dedicatedTenancySupport != null)
-          'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+          'DedicatedTenancySupport': dedicatedTenancySupport.value,
       },
     );
   }
@@ -2658,8 +2658,7 @@ class WorkSpaces {
         if (certificateBasedAuthProperties != null)
           'CertificateBasedAuthProperties': certificateBasedAuthProperties,
         if (propertiesToDelete != null)
-          'PropertiesToDelete':
-              propertiesToDelete.map((e) => e.toValue()).toList(),
+          'PropertiesToDelete': propertiesToDelete.map((e) => e.value).toList(),
       },
     );
   }
@@ -2745,8 +2744,7 @@ class WorkSpaces {
       payload: {
         'ResourceId': resourceId,
         if (propertiesToDelete != null)
-          'PropertiesToDelete':
-              propertiesToDelete.map((e) => e.toValue()).toList(),
+          'PropertiesToDelete': propertiesToDelete.map((e) => e.value).toList(),
         if (samlProperties != null) 'SamlProperties': samlProperties,
       },
     );
@@ -2898,8 +2896,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        if (dataReplication != null)
-          'DataReplication': dataReplication.toValue(),
+        if (dataReplication != null) 'DataReplication': dataReplication.value,
         if (workspaceProperties != null)
           'WorkspaceProperties': workspaceProperties,
       },
@@ -2940,7 +2937,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        'WorkspaceState': workspaceState.toValue(),
+        'WorkspaceState': workspaceState.value,
       },
     );
   }
@@ -3096,7 +3093,7 @@ class WorkSpaces {
         if (enableSelfService != null) 'EnableSelfService': enableSelfService,
         if (subnetIds != null) 'SubnetIds': subnetIds,
         if (tags != null) 'Tags': tags,
-        if (tenancy != null) 'Tenancy': tenancy.toValue(),
+        if (tenancy != null) 'Tenancy': tenancy.value,
       },
     );
   }
@@ -3609,31 +3606,18 @@ class AcceptAccountLinkInvitationResult {
 }
 
 enum AccessPropertyValue {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension AccessPropertyValueValueExtension on AccessPropertyValue {
-  String toValue() {
-    switch (this) {
-      case AccessPropertyValue.allow:
-        return 'ALLOW';
-      case AccessPropertyValue.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension AccessPropertyValueFromString on String {
-  AccessPropertyValue toAccessPropertyValue() {
-    switch (this) {
-      case 'ALLOW':
-        return AccessPropertyValue.allow;
-      case 'DENY':
-        return AccessPropertyValue.deny;
-    }
-    throw Exception('$this is not known in enum AccessPropertyValue');
-  }
+  const AccessPropertyValue(this.value);
+
+  static AccessPropertyValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccessPropertyValue'));
 }
 
 /// Information about about the account link.
@@ -3660,8 +3644,8 @@ class AccountLink {
   factory AccountLink.fromJson(Map<String, dynamic> json) {
     return AccountLink(
       accountLinkId: json['AccountLinkId'] as String?,
-      accountLinkStatus:
-          (json['AccountLinkStatus'] as String?)?.toAccountLinkStatusEnum(),
+      accountLinkStatus: (json['AccountLinkStatus'] as String?)
+          ?.let(AccountLinkStatusEnum.fromString),
       sourceAccountId: json['SourceAccountId'] as String?,
       targetAccountId: json['TargetAccountId'] as String?,
     );
@@ -3675,7 +3659,7 @@ class AccountLink {
     return {
       if (accountLinkId != null) 'AccountLinkId': accountLinkId,
       if (accountLinkStatus != null)
-        'AccountLinkStatus': accountLinkStatus.toValue(),
+        'AccountLinkStatus': accountLinkStatus.value,
       if (sourceAccountId != null) 'SourceAccountId': sourceAccountId,
       if (targetAccountId != null) 'TargetAccountId': targetAccountId,
     };
@@ -3683,46 +3667,21 @@ class AccountLink {
 }
 
 enum AccountLinkStatusEnum {
-  linked,
-  linkingFailed,
-  linkNotFound,
-  pendingAcceptanceByTargetAccount,
-  rejected,
-}
+  linked('LINKED'),
+  linkingFailed('LINKING_FAILED'),
+  linkNotFound('LINK_NOT_FOUND'),
+  pendingAcceptanceByTargetAccount('PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT'),
+  rejected('REJECTED'),
+  ;
 
-extension AccountLinkStatusEnumValueExtension on AccountLinkStatusEnum {
-  String toValue() {
-    switch (this) {
-      case AccountLinkStatusEnum.linked:
-        return 'LINKED';
-      case AccountLinkStatusEnum.linkingFailed:
-        return 'LINKING_FAILED';
-      case AccountLinkStatusEnum.linkNotFound:
-        return 'LINK_NOT_FOUND';
-      case AccountLinkStatusEnum.pendingAcceptanceByTargetAccount:
-        return 'PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT';
-      case AccountLinkStatusEnum.rejected:
-        return 'REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension AccountLinkStatusEnumFromString on String {
-  AccountLinkStatusEnum toAccountLinkStatusEnum() {
-    switch (this) {
-      case 'LINKED':
-        return AccountLinkStatusEnum.linked;
-      case 'LINKING_FAILED':
-        return AccountLinkStatusEnum.linkingFailed;
-      case 'LINK_NOT_FOUND':
-        return AccountLinkStatusEnum.linkNotFound;
-      case 'PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT':
-        return AccountLinkStatusEnum.pendingAcceptanceByTargetAccount;
-      case 'REJECTED':
-        return AccountLinkStatusEnum.rejected;
-    }
-    throw Exception('$this is not known in enum AccountLinkStatusEnum');
-  }
+  const AccountLinkStatusEnum(this.value);
+
+  static AccountLinkStatusEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccountLinkStatusEnum'));
 }
 
 /// Describes a modification to the configuration of Bring Your Own License
@@ -3763,11 +3722,11 @@ class AccountModification {
       dedicatedTenancyManagementCidrRange:
           json['DedicatedTenancyManagementCidrRange'] as String?,
       dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
-          ?.toDedicatedTenancySupportResultEnum(),
+          ?.let(DedicatedTenancySupportResultEnum.fromString),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       modificationState: (json['ModificationState'] as String?)
-          ?.toDedicatedTenancyModificationStateEnum(),
+          ?.let(DedicatedTenancyModificationStateEnum.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
@@ -3785,77 +3744,44 @@ class AccountModification {
         'DedicatedTenancyManagementCidrRange':
             dedicatedTenancyManagementCidrRange,
       if (dedicatedTenancySupport != null)
-        'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+        'DedicatedTenancySupport': dedicatedTenancySupport.value,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (modificationState != null)
-        'ModificationState': modificationState.toValue(),
+        'ModificationState': modificationState.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
 
 enum Application {
-  microsoftOffice_2016,
-  microsoftOffice_2019,
-}
+  microsoftOffice_2016('Microsoft_Office_2016'),
+  microsoftOffice_2019('Microsoft_Office_2019'),
+  ;
 
-extension ApplicationValueExtension on Application {
-  String toValue() {
-    switch (this) {
-      case Application.microsoftOffice_2016:
-        return 'Microsoft_Office_2016';
-      case Application.microsoftOffice_2019:
-        return 'Microsoft_Office_2019';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationFromString on String {
-  Application toApplication() {
-    switch (this) {
-      case 'Microsoft_Office_2016':
-        return Application.microsoftOffice_2016;
-      case 'Microsoft_Office_2019':
-        return Application.microsoftOffice_2019;
-    }
-    throw Exception('$this is not known in enum Application');
-  }
+  const Application(this.value);
+
+  static Application fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Application'));
 }
 
 enum ApplicationAssociatedResourceType {
-  workspace,
-  bundle,
-  image,
-}
+  workspace('WORKSPACE'),
+  bundle('BUNDLE'),
+  image('IMAGE'),
+  ;
 
-extension ApplicationAssociatedResourceTypeValueExtension
-    on ApplicationAssociatedResourceType {
-  String toValue() {
-    switch (this) {
-      case ApplicationAssociatedResourceType.workspace:
-        return 'WORKSPACE';
-      case ApplicationAssociatedResourceType.bundle:
-        return 'BUNDLE';
-      case ApplicationAssociatedResourceType.image:
-        return 'IMAGE';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationAssociatedResourceTypeFromString on String {
-  ApplicationAssociatedResourceType toApplicationAssociatedResourceType() {
-    switch (this) {
-      case 'WORKSPACE':
-        return ApplicationAssociatedResourceType.workspace;
-      case 'BUNDLE':
-        return ApplicationAssociatedResourceType.bundle;
-      case 'IMAGE':
-        return ApplicationAssociatedResourceType.image;
-    }
-    throw Exception(
-        '$this is not known in enum ApplicationAssociatedResourceType');
-  }
+  const ApplicationAssociatedResourceType(this.value);
+
+  static ApplicationAssociatedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationAssociatedResourceType'));
 }
 
 /// Describes the association between an application and an application
@@ -3897,10 +3823,10 @@ class ApplicationResourceAssociation {
       applicationId: json['ApplicationId'] as String?,
       associatedResourceId: json['AssociatedResourceId'] as String?,
       associatedResourceType: (json['AssociatedResourceType'] as String?)
-          ?.toApplicationAssociatedResourceType(),
+          ?.let(ApplicationAssociatedResourceType.fromString),
       created: timeStampFromJson(json['Created']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      state: (json['State'] as String?)?.toAssociationState(),
+      state: (json['State'] as String?)?.let(AssociationState.fromString),
       stateReason: json['StateReason'] != null
           ? AssociationStateReason.fromJson(
               json['StateReason'] as Map<String, dynamic>)
@@ -3921,11 +3847,11 @@ class ApplicationResourceAssociation {
       if (associatedResourceId != null)
         'AssociatedResourceId': associatedResourceId,
       if (associatedResourceType != null)
-        'AssociatedResourceType': associatedResourceType.toValue(),
+        'AssociatedResourceType': associatedResourceType.value,
       if (created != null) 'Created': unixTimestampToJson(created),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
     };
   }
@@ -3996,109 +3922,44 @@ class AssociateWorkspaceApplicationResult {
 }
 
 enum AssociationErrorCode {
-  validationErrorInsufficientDiskSpace,
-  validationErrorInsufficientMemory,
-  validationErrorUnsupportedOperatingSystem,
-  deploymentErrorInternalServerError,
-  deploymentErrorWorkspaceUnreachable,
-}
+  validationErrorInsufficientDiskSpace('ValidationError.InsufficientDiskSpace'),
+  validationErrorInsufficientMemory('ValidationError.InsufficientMemory'),
+  validationErrorUnsupportedOperatingSystem(
+      'ValidationError.UnsupportedOperatingSystem'),
+  deploymentErrorInternalServerError('DeploymentError.InternalServerError'),
+  deploymentErrorWorkspaceUnreachable('DeploymentError.WorkspaceUnreachable'),
+  ;
 
-extension AssociationErrorCodeValueExtension on AssociationErrorCode {
-  String toValue() {
-    switch (this) {
-      case AssociationErrorCode.validationErrorInsufficientDiskSpace:
-        return 'ValidationError.InsufficientDiskSpace';
-      case AssociationErrorCode.validationErrorInsufficientMemory:
-        return 'ValidationError.InsufficientMemory';
-      case AssociationErrorCode.validationErrorUnsupportedOperatingSystem:
-        return 'ValidationError.UnsupportedOperatingSystem';
-      case AssociationErrorCode.deploymentErrorInternalServerError:
-        return 'DeploymentError.InternalServerError';
-      case AssociationErrorCode.deploymentErrorWorkspaceUnreachable:
-        return 'DeploymentError.WorkspaceUnreachable';
-    }
-  }
-}
+  final String value;
 
-extension AssociationErrorCodeFromString on String {
-  AssociationErrorCode toAssociationErrorCode() {
-    switch (this) {
-      case 'ValidationError.InsufficientDiskSpace':
-        return AssociationErrorCode.validationErrorInsufficientDiskSpace;
-      case 'ValidationError.InsufficientMemory':
-        return AssociationErrorCode.validationErrorInsufficientMemory;
-      case 'ValidationError.UnsupportedOperatingSystem':
-        return AssociationErrorCode.validationErrorUnsupportedOperatingSystem;
-      case 'DeploymentError.InternalServerError':
-        return AssociationErrorCode.deploymentErrorInternalServerError;
-      case 'DeploymentError.WorkspaceUnreachable':
-        return AssociationErrorCode.deploymentErrorWorkspaceUnreachable;
-    }
-    throw Exception('$this is not known in enum AssociationErrorCode');
-  }
+  const AssociationErrorCode(this.value);
+
+  static AssociationErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssociationErrorCode'));
 }
 
 enum AssociationState {
-  pendingInstall,
-  pendingInstallDeployment,
-  pendingUninstall,
-  pendingUninstallDeployment,
-  installing,
-  uninstalling,
-  error,
-  completed,
-  removed,
-}
+  pendingInstall('PENDING_INSTALL'),
+  pendingInstallDeployment('PENDING_INSTALL_DEPLOYMENT'),
+  pendingUninstall('PENDING_UNINSTALL'),
+  pendingUninstallDeployment('PENDING_UNINSTALL_DEPLOYMENT'),
+  installing('INSTALLING'),
+  uninstalling('UNINSTALLING'),
+  error('ERROR'),
+  completed('COMPLETED'),
+  removed('REMOVED'),
+  ;
 
-extension AssociationStateValueExtension on AssociationState {
-  String toValue() {
-    switch (this) {
-      case AssociationState.pendingInstall:
-        return 'PENDING_INSTALL';
-      case AssociationState.pendingInstallDeployment:
-        return 'PENDING_INSTALL_DEPLOYMENT';
-      case AssociationState.pendingUninstall:
-        return 'PENDING_UNINSTALL';
-      case AssociationState.pendingUninstallDeployment:
-        return 'PENDING_UNINSTALL_DEPLOYMENT';
-      case AssociationState.installing:
-        return 'INSTALLING';
-      case AssociationState.uninstalling:
-        return 'UNINSTALLING';
-      case AssociationState.error:
-        return 'ERROR';
-      case AssociationState.completed:
-        return 'COMPLETED';
-      case AssociationState.removed:
-        return 'REMOVED';
-    }
-  }
-}
+  final String value;
 
-extension AssociationStateFromString on String {
-  AssociationState toAssociationState() {
-    switch (this) {
-      case 'PENDING_INSTALL':
-        return AssociationState.pendingInstall;
-      case 'PENDING_INSTALL_DEPLOYMENT':
-        return AssociationState.pendingInstallDeployment;
-      case 'PENDING_UNINSTALL':
-        return AssociationState.pendingUninstall;
-      case 'PENDING_UNINSTALL_DEPLOYMENT':
-        return AssociationState.pendingUninstallDeployment;
-      case 'INSTALLING':
-        return AssociationState.installing;
-      case 'UNINSTALLING':
-        return AssociationState.uninstalling;
-      case 'ERROR':
-        return AssociationState.error;
-      case 'COMPLETED':
-        return AssociationState.completed;
-      case 'REMOVED':
-        return AssociationState.removed;
-    }
-    throw Exception('$this is not known in enum AssociationState');
-  }
+  const AssociationState(this.value);
+
+  static AssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssociationState'));
 }
 
 /// Indicates the reason that the association deployment failed, including the
@@ -4117,7 +3978,8 @@ class AssociationStateReason {
 
   factory AssociationStateReason.fromJson(Map<String, dynamic> json) {
     return AssociationStateReason(
-      errorCode: (json['ErrorCode'] as String?)?.toAssociationErrorCode(),
+      errorCode:
+          (json['ErrorCode'] as String?)?.let(AssociationErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
@@ -4126,53 +3988,28 @@ class AssociationStateReason {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
 }
 
 enum AssociationStatus {
-  notAssociated,
-  associatedWithOwnerAccount,
-  associatedWithSharedAccount,
-  pendingAssociation,
-  pendingDisassociation,
-}
+  notAssociated('NOT_ASSOCIATED'),
+  associatedWithOwnerAccount('ASSOCIATED_WITH_OWNER_ACCOUNT'),
+  associatedWithSharedAccount('ASSOCIATED_WITH_SHARED_ACCOUNT'),
+  pendingAssociation('PENDING_ASSOCIATION'),
+  pendingDisassociation('PENDING_DISASSOCIATION'),
+  ;
 
-extension AssociationStatusValueExtension on AssociationStatus {
-  String toValue() {
-    switch (this) {
-      case AssociationStatus.notAssociated:
-        return 'NOT_ASSOCIATED';
-      case AssociationStatus.associatedWithOwnerAccount:
-        return 'ASSOCIATED_WITH_OWNER_ACCOUNT';
-      case AssociationStatus.associatedWithSharedAccount:
-        return 'ASSOCIATED_WITH_SHARED_ACCOUNT';
-      case AssociationStatus.pendingAssociation:
-        return 'PENDING_ASSOCIATION';
-      case AssociationStatus.pendingDisassociation:
-        return 'PENDING_DISASSOCIATION';
-    }
-  }
-}
+  final String value;
 
-extension AssociationStatusFromString on String {
-  AssociationStatus toAssociationStatus() {
-    switch (this) {
-      case 'NOT_ASSOCIATED':
-        return AssociationStatus.notAssociated;
-      case 'ASSOCIATED_WITH_OWNER_ACCOUNT':
-        return AssociationStatus.associatedWithOwnerAccount;
-      case 'ASSOCIATED_WITH_SHARED_ACCOUNT':
-        return AssociationStatus.associatedWithSharedAccount;
-      case 'PENDING_ASSOCIATION':
-        return AssociationStatus.pendingAssociation;
-      case 'PENDING_DISASSOCIATION':
-        return AssociationStatus.pendingDisassociation;
-    }
-    throw Exception('$this is not known in enum AssociationStatus');
-  }
+  const AssociationStatus(this.value);
+
+  static AssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssociationStatus'));
 }
 
 class AuthorizeIpRulesResult {
@@ -4188,27 +4025,17 @@ class AuthorizeIpRulesResult {
 }
 
 enum BundleAssociatedResourceType {
-  application,
-}
+  application('APPLICATION'),
+  ;
 
-extension BundleAssociatedResourceTypeValueExtension
-    on BundleAssociatedResourceType {
-  String toValue() {
-    switch (this) {
-      case BundleAssociatedResourceType.application:
-        return 'APPLICATION';
-    }
-  }
-}
+  final String value;
 
-extension BundleAssociatedResourceTypeFromString on String {
-  BundleAssociatedResourceType toBundleAssociatedResourceType() {
-    switch (this) {
-      case 'APPLICATION':
-        return BundleAssociatedResourceType.application;
-    }
-    throw Exception('$this is not known in enum BundleAssociatedResourceType');
-  }
+  const BundleAssociatedResourceType(this.value);
+
+  static BundleAssociatedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BundleAssociatedResourceType'));
 }
 
 /// Describes the association between an application and a bundle resource.
@@ -4248,11 +4075,11 @@ class BundleResourceAssociation {
     return BundleResourceAssociation(
       associatedResourceId: json['AssociatedResourceId'] as String?,
       associatedResourceType: (json['AssociatedResourceType'] as String?)
-          ?.toBundleAssociatedResourceType(),
+          ?.let(BundleAssociatedResourceType.fromString),
       bundleId: json['BundleId'] as String?,
       created: timeStampFromJson(json['Created']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      state: (json['State'] as String?)?.toAssociationState(),
+      state: (json['State'] as String?)?.let(AssociationState.fromString),
       stateReason: json['StateReason'] != null
           ? AssociationStateReason.fromJson(
               json['StateReason'] as Map<String, dynamic>)
@@ -4272,43 +4099,29 @@ class BundleResourceAssociation {
       if (associatedResourceId != null)
         'AssociatedResourceId': associatedResourceId,
       if (associatedResourceType != null)
-        'AssociatedResourceType': associatedResourceType.toValue(),
+        'AssociatedResourceType': associatedResourceType.value,
       if (bundleId != null) 'BundleId': bundleId,
       if (created != null) 'Created': unixTimestampToJson(created),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
     };
   }
 }
 
 enum BundleType {
-  regular,
-  standby,
-}
+  regular('REGULAR'),
+  standby('STANDBY'),
+  ;
 
-extension BundleTypeValueExtension on BundleType {
-  String toValue() {
-    switch (this) {
-      case BundleType.regular:
-        return 'REGULAR';
-      case BundleType.standby:
-        return 'STANDBY';
-    }
-  }
-}
+  final String value;
 
-extension BundleTypeFromString on String {
-  BundleType toBundleType() {
-    switch (this) {
-      case 'REGULAR':
-        return BundleType.regular;
-      case 'STANDBY':
-        return BundleType.standby;
-    }
-    throw Exception('$this is not known in enum BundleType');
-  }
+  const BundleType(this.value);
+
+  static BundleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BundleType'));
 }
 
 /// Describes the properties of the certificate-based authentication you want to
@@ -4329,7 +4142,8 @@ class CertificateBasedAuthProperties {
   factory CertificateBasedAuthProperties.fromJson(Map<String, dynamic> json) {
     return CertificateBasedAuthProperties(
       certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
-      status: (json['Status'] as String?)?.toCertificateBasedAuthStatusEnum(),
+      status: (json['Status'] as String?)
+          ?.let(CertificateBasedAuthStatusEnum.fromString),
     );
   }
 
@@ -4339,87 +4153,43 @@ class CertificateBasedAuthProperties {
     return {
       if (certificateAuthorityArn != null)
         'CertificateAuthorityArn': certificateAuthorityArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum CertificateBasedAuthStatusEnum {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension CertificateBasedAuthStatusEnumValueExtension
-    on CertificateBasedAuthStatusEnum {
-  String toValue() {
-    switch (this) {
-      case CertificateBasedAuthStatusEnum.disabled:
-        return 'DISABLED';
-      case CertificateBasedAuthStatusEnum.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension CertificateBasedAuthStatusEnumFromString on String {
-  CertificateBasedAuthStatusEnum toCertificateBasedAuthStatusEnum() {
-    switch (this) {
-      case 'DISABLED':
-        return CertificateBasedAuthStatusEnum.disabled;
-      case 'ENABLED':
-        return CertificateBasedAuthStatusEnum.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum CertificateBasedAuthStatusEnum');
-  }
+  const CertificateBasedAuthStatusEnum(this.value);
+
+  static CertificateBasedAuthStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CertificateBasedAuthStatusEnum'));
 }
 
 enum ClientDeviceType {
-  deviceTypeWindows,
-  deviceTypeOsx,
-  deviceTypeAndroid,
-  deviceTypeIos,
-  deviceTypeLinux,
-  deviceTypeWeb,
-}
+  deviceTypeWindows('DeviceTypeWindows'),
+  deviceTypeOsx('DeviceTypeOsx'),
+  deviceTypeAndroid('DeviceTypeAndroid'),
+  deviceTypeIos('DeviceTypeIos'),
+  deviceTypeLinux('DeviceTypeLinux'),
+  deviceTypeWeb('DeviceTypeWeb'),
+  ;
 
-extension ClientDeviceTypeValueExtension on ClientDeviceType {
-  String toValue() {
-    switch (this) {
-      case ClientDeviceType.deviceTypeWindows:
-        return 'DeviceTypeWindows';
-      case ClientDeviceType.deviceTypeOsx:
-        return 'DeviceTypeOsx';
-      case ClientDeviceType.deviceTypeAndroid:
-        return 'DeviceTypeAndroid';
-      case ClientDeviceType.deviceTypeIos:
-        return 'DeviceTypeIos';
-      case ClientDeviceType.deviceTypeLinux:
-        return 'DeviceTypeLinux';
-      case ClientDeviceType.deviceTypeWeb:
-        return 'DeviceTypeWeb';
-    }
-  }
-}
+  final String value;
 
-extension ClientDeviceTypeFromString on String {
-  ClientDeviceType toClientDeviceType() {
-    switch (this) {
-      case 'DeviceTypeWindows':
-        return ClientDeviceType.deviceTypeWindows;
-      case 'DeviceTypeOsx':
-        return ClientDeviceType.deviceTypeOsx;
-      case 'DeviceTypeAndroid':
-        return ClientDeviceType.deviceTypeAndroid;
-      case 'DeviceTypeIos':
-        return ClientDeviceType.deviceTypeIos;
-      case 'DeviceTypeLinux':
-        return ClientDeviceType.deviceTypeLinux;
-      case 'DeviceTypeWeb':
-        return ClientDeviceType.deviceTypeWeb;
-    }
-    throw Exception('$this is not known in enum ClientDeviceType');
-  }
+  const ClientDeviceType(this.value);
+
+  static ClientDeviceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClientDeviceType'));
 }
 
 /// Describes an Amazon WorkSpaces client.
@@ -4443,9 +4213,9 @@ class ClientProperties {
   factory ClientProperties.fromJson(Map<String, dynamic> json) {
     return ClientProperties(
       logUploadEnabled:
-          (json['LogUploadEnabled'] as String?)?.toLogUploadEnum(),
+          (json['LogUploadEnabled'] as String?)?.let(LogUploadEnum.fromString),
       reconnectEnabled:
-          (json['ReconnectEnabled'] as String?)?.toReconnectEnum(),
+          (json['ReconnectEnabled'] as String?)?.let(ReconnectEnum.fromString),
     );
   }
 
@@ -4453,10 +4223,8 @@ class ClientProperties {
     final logUploadEnabled = this.logUploadEnabled;
     final reconnectEnabled = this.reconnectEnabled;
     return {
-      if (logUploadEnabled != null)
-        'LogUploadEnabled': logUploadEnabled.toValue(),
-      if (reconnectEnabled != null)
-        'ReconnectEnabled': reconnectEnabled.toValue(),
+      if (logUploadEnabled != null) 'LogUploadEnabled': logUploadEnabled.value,
+      if (reconnectEnabled != null) 'ReconnectEnabled': reconnectEnabled.value,
     };
   }
 }
@@ -4495,66 +4263,24 @@ class ClientPropertiesResult {
 }
 
 enum Compute {
-  value,
-  standard,
-  performance,
-  power,
-  graphics,
-  powerpro,
-  graphicspro,
-  graphicsG4dn,
-  graphicsproG4dn,
-}
+  $value('VALUE'),
+  standard('STANDARD'),
+  performance('PERFORMANCE'),
+  power('POWER'),
+  graphics('GRAPHICS'),
+  powerpro('POWERPRO'),
+  graphicspro('GRAPHICSPRO'),
+  graphicsG4dn('GRAPHICS_G4DN'),
+  graphicsproG4dn('GRAPHICSPRO_G4DN'),
+  ;
 
-extension ComputeValueExtension on Compute {
-  String toValue() {
-    switch (this) {
-      case Compute.value:
-        return 'VALUE';
-      case Compute.standard:
-        return 'STANDARD';
-      case Compute.performance:
-        return 'PERFORMANCE';
-      case Compute.power:
-        return 'POWER';
-      case Compute.graphics:
-        return 'GRAPHICS';
-      case Compute.powerpro:
-        return 'POWERPRO';
-      case Compute.graphicspro:
-        return 'GRAPHICSPRO';
-      case Compute.graphicsG4dn:
-        return 'GRAPHICS_G4DN';
-      case Compute.graphicsproG4dn:
-        return 'GRAPHICSPRO_G4DN';
-    }
-  }
-}
+  final String value;
 
-extension ComputeFromString on String {
-  Compute toCompute() {
-    switch (this) {
-      case 'VALUE':
-        return Compute.value;
-      case 'STANDARD':
-        return Compute.standard;
-      case 'PERFORMANCE':
-        return Compute.performance;
-      case 'POWER':
-        return Compute.power;
-      case 'GRAPHICS':
-        return Compute.graphics;
-      case 'POWERPRO':
-        return Compute.powerpro;
-      case 'GRAPHICSPRO':
-        return Compute.graphicspro;
-      case 'GRAPHICS_G4DN':
-        return Compute.graphicsG4dn;
-      case 'GRAPHICSPRO_G4DN':
-        return Compute.graphicsproG4dn;
-    }
-    throw Exception('$this is not known in enum Compute');
-  }
+  const Compute(this.value);
+
+  static Compute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Compute'));
 }
 
 /// Describes the compute type of the bundle.
@@ -4568,14 +4294,14 @@ class ComputeType {
 
   factory ComputeType.fromJson(Map<String, dynamic> json) {
     return ComputeType(
-      name: (json['Name'] as String?)?.toCompute(),
+      name: (json['Name'] as String?)?.let(Compute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
     };
   }
 }
@@ -4665,7 +4391,7 @@ class ConnectionAlias {
           .toList(),
       connectionString: json['ConnectionString'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.toConnectionAliasState(),
+      state: (json['State'] as String?)?.let(ConnectionAliasState.fromString),
     );
   }
 
@@ -4680,7 +4406,7 @@ class ConnectionAlias {
       if (associations != null) 'Associations': associations,
       if (connectionString != null) 'ConnectionString': connectionString,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -4715,8 +4441,8 @@ class ConnectionAliasAssociation {
   factory ConnectionAliasAssociation.fromJson(Map<String, dynamic> json) {
     return ConnectionAliasAssociation(
       associatedAccountId: json['AssociatedAccountId'] as String?,
-      associationStatus:
-          (json['AssociationStatus'] as String?)?.toAssociationStatus(),
+      associationStatus: (json['AssociationStatus'] as String?)
+          ?.let(AssociationStatus.fromString),
       connectionIdentifier: json['ConnectionIdentifier'] as String?,
       resourceId: json['ResourceId'] as String?,
     );
@@ -4731,7 +4457,7 @@ class ConnectionAliasAssociation {
       if (associatedAccountId != null)
         'AssociatedAccountId': associatedAccountId,
       if (associationStatus != null)
-        'AssociationStatus': associationStatus.toValue(),
+        'AssociationStatus': associationStatus.value,
       if (connectionIdentifier != null)
         'ConnectionIdentifier': connectionIdentifier,
       if (resourceId != null) 'ResourceId': resourceId,
@@ -4775,69 +4501,35 @@ class ConnectionAliasPermission {
 }
 
 enum ConnectionAliasState {
-  creating,
-  created,
-  deleting,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  deleting('DELETING'),
+  ;
 
-extension ConnectionAliasStateValueExtension on ConnectionAliasState {
-  String toValue() {
-    switch (this) {
-      case ConnectionAliasState.creating:
-        return 'CREATING';
-      case ConnectionAliasState.created:
-        return 'CREATED';
-      case ConnectionAliasState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionAliasStateFromString on String {
-  ConnectionAliasState toConnectionAliasState() {
-    switch (this) {
-      case 'CREATING':
-        return ConnectionAliasState.creating;
-      case 'CREATED':
-        return ConnectionAliasState.created;
-      case 'DELETING':
-        return ConnectionAliasState.deleting;
-    }
-    throw Exception('$this is not known in enum ConnectionAliasState');
-  }
+  const ConnectionAliasState(this.value);
+
+  static ConnectionAliasState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConnectionAliasState'));
 }
 
 enum ConnectionState {
-  connected,
-  disconnected,
-  unknown,
-}
+  connected('CONNECTED'),
+  disconnected('DISCONNECTED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension ConnectionStateValueExtension on ConnectionState {
-  String toValue() {
-    switch (this) {
-      case ConnectionState.connected:
-        return 'CONNECTED';
-      case ConnectionState.disconnected:
-        return 'DISCONNECTED';
-      case ConnectionState.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStateFromString on String {
-  ConnectionState toConnectionState() {
-    switch (this) {
-      case 'CONNECTED':
-        return ConnectionState.connected;
-      case 'DISCONNECTED':
-        return ConnectionState.disconnected;
-      case 'UNKNOWN':
-        return ConnectionState.unknown;
-    }
-    throw Exception('$this is not known in enum ConnectionState');
-  }
+  const ConnectionState(this.value);
+
+  static ConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionState'));
 }
 
 class CopyWorkspaceImageResult {
@@ -5103,8 +4795,8 @@ class CreateWorkspaceImageResult {
           : null,
       ownerAccountId: json['OwnerAccountId'] as String?,
       requiredTenancy: (json['RequiredTenancy'] as String?)
-          ?.toWorkspaceImageRequiredTenancy(),
-      state: (json['State'] as String?)?.toWorkspaceImageState(),
+          ?.let(WorkspaceImageRequiredTenancy.fromString),
+      state: (json['State'] as String?)?.let(WorkspaceImageState.fromString),
     );
   }
 
@@ -5124,8 +4816,8 @@ class CreateWorkspaceImageResult {
       if (name != null) 'Name': name,
       if (operatingSystem != null) 'OperatingSystem': operatingSystem,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.value,
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -5172,31 +4864,18 @@ class CreateWorkspacesResult {
 }
 
 enum DataReplication {
-  noReplication,
-  primaryAsSource,
-}
+  noReplication('NO_REPLICATION'),
+  primaryAsSource('PRIMARY_AS_SOURCE'),
+  ;
 
-extension DataReplicationValueExtension on DataReplication {
-  String toValue() {
-    switch (this) {
-      case DataReplication.noReplication:
-        return 'NO_REPLICATION';
-      case DataReplication.primaryAsSource:
-        return 'PRIMARY_AS_SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension DataReplicationFromString on String {
-  DataReplication toDataReplication() {
-    switch (this) {
-      case 'NO_REPLICATION':
-        return DataReplication.noReplication;
-      case 'PRIMARY_AS_SOURCE':
-        return DataReplication.primaryAsSource;
-    }
-    throw Exception('$this is not known in enum DataReplication');
-  }
+  const DataReplication(this.value);
+
+  static DataReplication fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataReplication'));
 }
 
 /// Describes the data replication settings.
@@ -5217,7 +4896,7 @@ class DataReplicationSettings {
   factory DataReplicationSettings.fromJson(Map<String, dynamic> json) {
     return DataReplicationSettings(
       dataReplication:
-          (json['DataReplication'] as String?)?.toDataReplication(),
+          (json['DataReplication'] as String?)?.let(DataReplication.fromString),
       recoverySnapshotTime: timeStampFromJson(json['RecoverySnapshotTime']),
     );
   }
@@ -5226,7 +4905,7 @@ class DataReplicationSettings {
     final dataReplication = this.dataReplication;
     final recoverySnapshotTime = this.recoverySnapshotTime;
     return {
-      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
+      if (dataReplication != null) 'DataReplication': dataReplication.value,
       if (recoverySnapshotTime != null)
         'RecoverySnapshotTime': unixTimestampToJson(recoverySnapshotTime),
     };
@@ -5234,122 +4913,63 @@ class DataReplicationSettings {
 }
 
 enum DedicatedTenancyAccountType {
-  sourceAccount,
-  targetAccount,
-}
+  sourceAccount('SOURCE_ACCOUNT'),
+  targetAccount('TARGET_ACCOUNT'),
+  ;
 
-extension DedicatedTenancyAccountTypeValueExtension
-    on DedicatedTenancyAccountType {
-  String toValue() {
-    switch (this) {
-      case DedicatedTenancyAccountType.sourceAccount:
-        return 'SOURCE_ACCOUNT';
-      case DedicatedTenancyAccountType.targetAccount:
-        return 'TARGET_ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension DedicatedTenancyAccountTypeFromString on String {
-  DedicatedTenancyAccountType toDedicatedTenancyAccountType() {
-    switch (this) {
-      case 'SOURCE_ACCOUNT':
-        return DedicatedTenancyAccountType.sourceAccount;
-      case 'TARGET_ACCOUNT':
-        return DedicatedTenancyAccountType.targetAccount;
-    }
-    throw Exception('$this is not known in enum DedicatedTenancyAccountType');
-  }
+  const DedicatedTenancyAccountType(this.value);
+
+  static DedicatedTenancyAccountType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DedicatedTenancyAccountType'));
 }
 
 enum DedicatedTenancyModificationStateEnum {
-  pending,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension DedicatedTenancyModificationStateEnumValueExtension
-    on DedicatedTenancyModificationStateEnum {
-  String toValue() {
-    switch (this) {
-      case DedicatedTenancyModificationStateEnum.pending:
-        return 'PENDING';
-      case DedicatedTenancyModificationStateEnum.completed:
-        return 'COMPLETED';
-      case DedicatedTenancyModificationStateEnum.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DedicatedTenancyModificationStateEnumFromString on String {
-  DedicatedTenancyModificationStateEnum
-      toDedicatedTenancyModificationStateEnum() {
-    switch (this) {
-      case 'PENDING':
-        return DedicatedTenancyModificationStateEnum.pending;
-      case 'COMPLETED':
-        return DedicatedTenancyModificationStateEnum.completed;
-      case 'FAILED':
-        return DedicatedTenancyModificationStateEnum.failed;
-    }
-    throw Exception(
-        '$this is not known in enum DedicatedTenancyModificationStateEnum');
-  }
+  const DedicatedTenancyModificationStateEnum(this.value);
+
+  static DedicatedTenancyModificationStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DedicatedTenancyModificationStateEnum'));
 }
 
 enum DedicatedTenancySupportEnum {
-  enabled,
-}
+  enabled('ENABLED'),
+  ;
 
-extension DedicatedTenancySupportEnumValueExtension
-    on DedicatedTenancySupportEnum {
-  String toValue() {
-    switch (this) {
-      case DedicatedTenancySupportEnum.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension DedicatedTenancySupportEnumFromString on String {
-  DedicatedTenancySupportEnum toDedicatedTenancySupportEnum() {
-    switch (this) {
-      case 'ENABLED':
-        return DedicatedTenancySupportEnum.enabled;
-    }
-    throw Exception('$this is not known in enum DedicatedTenancySupportEnum');
-  }
+  const DedicatedTenancySupportEnum(this.value);
+
+  static DedicatedTenancySupportEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DedicatedTenancySupportEnum'));
 }
 
 enum DedicatedTenancySupportResultEnum {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DedicatedTenancySupportResultEnumValueExtension
-    on DedicatedTenancySupportResultEnum {
-  String toValue() {
-    switch (this) {
-      case DedicatedTenancySupportResultEnum.enabled:
-        return 'ENABLED';
-      case DedicatedTenancySupportResultEnum.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DedicatedTenancySupportResultEnumFromString on String {
-  DedicatedTenancySupportResultEnum toDedicatedTenancySupportResultEnum() {
-    switch (this) {
-      case 'ENABLED':
-        return DedicatedTenancySupportResultEnum.enabled;
-      case 'DISABLED':
-        return DedicatedTenancySupportResultEnum.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum DedicatedTenancySupportResultEnum');
-  }
+  const DedicatedTenancySupportResultEnum(this.value);
+
+  static DedicatedTenancySupportResultEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DedicatedTenancySupportResultEnum'));
 }
 
 /// Returns default client branding attributes that were imported. These
@@ -5600,59 +5220,34 @@ class DefaultWorkspaceCreationProperties {
 }
 
 enum DeletableCertificateBasedAuthProperty {
-  certificateBasedAuthPropertiesCertificateAuthorityArn,
-}
+  certificateBasedAuthPropertiesCertificateAuthorityArn(
+      'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN'),
+  ;
 
-extension DeletableCertificateBasedAuthPropertyValueExtension
-    on DeletableCertificateBasedAuthProperty {
-  String toValue() {
-    switch (this) {
-      case DeletableCertificateBasedAuthProperty
-            .certificateBasedAuthPropertiesCertificateAuthorityArn:
-        return 'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN';
-    }
-  }
-}
+  final String value;
 
-extension DeletableCertificateBasedAuthPropertyFromString on String {
-  DeletableCertificateBasedAuthProperty
-      toDeletableCertificateBasedAuthProperty() {
-    switch (this) {
-      case 'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN':
-        return DeletableCertificateBasedAuthProperty
-            .certificateBasedAuthPropertiesCertificateAuthorityArn;
-    }
-    throw Exception(
-        '$this is not known in enum DeletableCertificateBasedAuthProperty');
-  }
+  const DeletableCertificateBasedAuthProperty(this.value);
+
+  static DeletableCertificateBasedAuthProperty fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeletableCertificateBasedAuthProperty'));
 }
 
 enum DeletableSamlProperty {
-  samlPropertiesUserAccessUrl,
-  samlPropertiesRelayStateParameterName,
-}
+  samlPropertiesUserAccessUrl('SAML_PROPERTIES_USER_ACCESS_URL'),
+  samlPropertiesRelayStateParameterName(
+      'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME'),
+  ;
 
-extension DeletableSamlPropertyValueExtension on DeletableSamlProperty {
-  String toValue() {
-    switch (this) {
-      case DeletableSamlProperty.samlPropertiesUserAccessUrl:
-        return 'SAML_PROPERTIES_USER_ACCESS_URL';
-      case DeletableSamlProperty.samlPropertiesRelayStateParameterName:
-        return 'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME';
-    }
-  }
-}
+  final String value;
 
-extension DeletableSamlPropertyFromString on String {
-  DeletableSamlProperty toDeletableSamlProperty() {
-    switch (this) {
-      case 'SAML_PROPERTIES_USER_ACCESS_URL':
-        return DeletableSamlProperty.samlPropertiesUserAccessUrl;
-      case 'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME':
-        return DeletableSamlProperty.samlPropertiesRelayStateParameterName;
-    }
-    throw Exception('$this is not known in enum DeletableSamlProperty');
-  }
+  const DeletableSamlProperty(this.value);
+
+  static DeletableSamlProperty fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeletableSamlProperty'));
 }
 
 class DeleteAccountLinkInvitationResult {
@@ -5863,11 +5458,11 @@ class DescribeAccountResult {
     return DescribeAccountResult(
       dedicatedTenancyAccountType:
           (json['DedicatedTenancyAccountType'] as String?)
-              ?.toDedicatedTenancyAccountType(),
+              ?.let(DedicatedTenancyAccountType.fromString),
       dedicatedTenancyManagementCidrRange:
           json['DedicatedTenancyManagementCidrRange'] as String?,
       dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
-          ?.toDedicatedTenancySupportResultEnum(),
+          ?.let(DedicatedTenancySupportResultEnum.fromString),
     );
   }
 
@@ -5878,12 +5473,12 @@ class DescribeAccountResult {
     final dedicatedTenancySupport = this.dedicatedTenancySupport;
     return {
       if (dedicatedTenancyAccountType != null)
-        'DedicatedTenancyAccountType': dedicatedTenancyAccountType.toValue(),
+        'DedicatedTenancyAccountType': dedicatedTenancyAccountType.value,
       if (dedicatedTenancyManagementCidrRange != null)
         'DedicatedTenancyManagementCidrRange':
             dedicatedTenancyManagementCidrRange,
       if (dedicatedTenancySupport != null)
-        'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+        'DedicatedTenancySupport': dedicatedTenancySupport.value,
     };
   }
 }
@@ -6623,8 +6218,8 @@ class ErrorDetails {
 
   factory ErrorDetails.fromJson(Map<String, dynamic> json) {
     return ErrorDetails(
-      errorCode:
-          (json['ErrorCode'] as String?)?.toWorkspaceImageErrorDetailCode(),
+      errorCode: (json['ErrorCode'] as String?)
+          ?.let(WorkspaceImageErrorDetailCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
@@ -6633,7 +6228,7 @@ class ErrorDetails {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
@@ -6790,27 +6385,17 @@ class GetAccountLinkResult {
 }
 
 enum ImageAssociatedResourceType {
-  application,
-}
+  application('APPLICATION'),
+  ;
 
-extension ImageAssociatedResourceTypeValueExtension
-    on ImageAssociatedResourceType {
-  String toValue() {
-    switch (this) {
-      case ImageAssociatedResourceType.application:
-        return 'APPLICATION';
-    }
-  }
-}
+  final String value;
 
-extension ImageAssociatedResourceTypeFromString on String {
-  ImageAssociatedResourceType toImageAssociatedResourceType() {
-    switch (this) {
-      case 'APPLICATION':
-        return ImageAssociatedResourceType.application;
-    }
-    throw Exception('$this is not known in enum ImageAssociatedResourceType');
-  }
+  const ImageAssociatedResourceType(this.value);
+
+  static ImageAssociatedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ImageAssociatedResourceType'));
 }
 
 /// Describes the Amazon Web Services accounts that have been granted permission
@@ -6877,11 +6462,11 @@ class ImageResourceAssociation {
     return ImageResourceAssociation(
       associatedResourceId: json['AssociatedResourceId'] as String?,
       associatedResourceType: (json['AssociatedResourceType'] as String?)
-          ?.toImageAssociatedResourceType(),
+          ?.let(ImageAssociatedResourceType.fromString),
       created: timeStampFromJson(json['Created']),
       imageId: json['ImageId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      state: (json['State'] as String?)?.toAssociationState(),
+      state: (json['State'] as String?)?.let(AssociationState.fromString),
       stateReason: json['StateReason'] != null
           ? AssociationStateReason.fromJson(
               json['StateReason'] as Map<String, dynamic>)
@@ -6901,43 +6486,29 @@ class ImageResourceAssociation {
       if (associatedResourceId != null)
         'AssociatedResourceId': associatedResourceId,
       if (associatedResourceType != null)
-        'AssociatedResourceType': associatedResourceType.toValue(),
+        'AssociatedResourceType': associatedResourceType.value,
       if (created != null) 'Created': unixTimestampToJson(created),
       if (imageId != null) 'ImageId': imageId,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
     };
   }
 }
 
 enum ImageType {
-  owned,
-  shared,
-}
+  owned('OWNED'),
+  shared('SHARED'),
+  ;
 
-extension ImageTypeValueExtension on ImageType {
-  String toValue() {
-    switch (this) {
-      case ImageType.owned:
-        return 'OWNED';
-      case ImageType.shared:
-        return 'SHARED';
-    }
-  }
-}
+  final String value;
 
-extension ImageTypeFromString on String {
-  ImageType toImageType() {
-    switch (this) {
-      case 'OWNED':
-        return ImageType.owned;
-      case 'SHARED':
-        return ImageType.shared;
-    }
-    throw Exception('$this is not known in enum ImageType');
-  }
+  const ImageType(this.value);
+
+  static ImageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImageType'));
 }
 
 class ImportClientBrandingResult {
@@ -7355,31 +6926,18 @@ class ListAvailableManagementCidrRangesResult {
 }
 
 enum LogUploadEnum {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension LogUploadEnumValueExtension on LogUploadEnum {
-  String toValue() {
-    switch (this) {
-      case LogUploadEnum.enabled:
-        return 'ENABLED';
-      case LogUploadEnum.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LogUploadEnumFromString on String {
-  LogUploadEnum toLogUploadEnum() {
-    switch (this) {
-      case 'ENABLED':
-        return LogUploadEnum.enabled;
-      case 'DISABLED':
-        return LogUploadEnum.disabled;
-    }
-    throw Exception('$this is not known in enum LogUploadEnum');
-  }
+  const LogUploadEnum(this.value);
+
+  static LogUploadEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogUploadEnum'));
 }
 
 class MigrateWorkspaceResult {
@@ -7414,36 +6972,19 @@ class MigrateWorkspaceResult {
 }
 
 enum ModificationResourceEnum {
-  rootVolume,
-  userVolume,
-  computeType,
-}
+  rootVolume('ROOT_VOLUME'),
+  userVolume('USER_VOLUME'),
+  computeType('COMPUTE_TYPE'),
+  ;
 
-extension ModificationResourceEnumValueExtension on ModificationResourceEnum {
-  String toValue() {
-    switch (this) {
-      case ModificationResourceEnum.rootVolume:
-        return 'ROOT_VOLUME';
-      case ModificationResourceEnum.userVolume:
-        return 'USER_VOLUME';
-      case ModificationResourceEnum.computeType:
-        return 'COMPUTE_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension ModificationResourceEnumFromString on String {
-  ModificationResourceEnum toModificationResourceEnum() {
-    switch (this) {
-      case 'ROOT_VOLUME':
-        return ModificationResourceEnum.rootVolume;
-      case 'USER_VOLUME':
-        return ModificationResourceEnum.userVolume;
-      case 'COMPUTE_TYPE':
-        return ModificationResourceEnum.computeType;
-    }
-    throw Exception('$this is not known in enum ModificationResourceEnum');
-  }
+  const ModificationResourceEnum(this.value);
+
+  static ModificationResourceEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModificationResourceEnum'));
 }
 
 /// Describes a WorkSpace modification.
@@ -7461,8 +7002,9 @@ class ModificationState {
 
   factory ModificationState.fromJson(Map<String, dynamic> json) {
     return ModificationState(
-      resource: (json['Resource'] as String?)?.toModificationResourceEnum(),
-      state: (json['State'] as String?)?.toModificationStateEnum(),
+      resource: (json['Resource'] as String?)
+          ?.let(ModificationResourceEnum.fromString),
+      state: (json['State'] as String?)?.let(ModificationStateEnum.fromString),
     );
   }
 
@@ -7470,38 +7012,25 @@ class ModificationState {
     final resource = this.resource;
     final state = this.state;
     return {
-      if (resource != null) 'Resource': resource.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (resource != null) 'Resource': resource.value,
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum ModificationStateEnum {
-  updateInitiated,
-  updateInProgress,
-}
+  updateInitiated('UPDATE_INITIATED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  ;
 
-extension ModificationStateEnumValueExtension on ModificationStateEnum {
-  String toValue() {
-    switch (this) {
-      case ModificationStateEnum.updateInitiated:
-        return 'UPDATE_INITIATED';
-      case ModificationStateEnum.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension ModificationStateEnumFromString on String {
-  ModificationStateEnum toModificationStateEnum() {
-    switch (this) {
-      case 'UPDATE_INITIATED':
-        return ModificationStateEnum.updateInitiated;
-      case 'UPDATE_IN_PROGRESS':
-        return ModificationStateEnum.updateInProgress;
-    }
-    throw Exception('$this is not known in enum ModificationStateEnum');
-  }
+  const ModificationStateEnum(this.value);
+
+  static ModificationStateEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModificationStateEnum'));
 }
 
 class ModifyAccountResult {
@@ -7626,117 +7155,55 @@ class OperatingSystem {
 
   factory OperatingSystem.fromJson(Map<String, dynamic> json) {
     return OperatingSystem(
-      type: (json['Type'] as String?)?.toOperatingSystemType(),
+      type: (json['Type'] as String?)?.let(OperatingSystemType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum OperatingSystemName {
-  amazonLinux_2,
-  ubuntu_18_04,
-  ubuntu_20_04,
-  ubuntu_22_04,
-  unknown,
-  windows_10,
-  windows_11,
-  windows_7,
-  windowsServer_2016,
-  windowsServer_2019,
-  windowsServer_2022,
-}
+  amazonLinux_2('AMAZON_LINUX_2'),
+  ubuntu_18_04('UBUNTU_18_04'),
+  ubuntu_20_04('UBUNTU_20_04'),
+  ubuntu_22_04('UBUNTU_22_04'),
+  unknown('UNKNOWN'),
+  windows_10('WINDOWS_10'),
+  windows_11('WINDOWS_11'),
+  windows_7('WINDOWS_7'),
+  windowsServer_2016('WINDOWS_SERVER_2016'),
+  windowsServer_2019('WINDOWS_SERVER_2019'),
+  windowsServer_2022('WINDOWS_SERVER_2022'),
+  ;
 
-extension OperatingSystemNameValueExtension on OperatingSystemName {
-  String toValue() {
-    switch (this) {
-      case OperatingSystemName.amazonLinux_2:
-        return 'AMAZON_LINUX_2';
-      case OperatingSystemName.ubuntu_18_04:
-        return 'UBUNTU_18_04';
-      case OperatingSystemName.ubuntu_20_04:
-        return 'UBUNTU_20_04';
-      case OperatingSystemName.ubuntu_22_04:
-        return 'UBUNTU_22_04';
-      case OperatingSystemName.unknown:
-        return 'UNKNOWN';
-      case OperatingSystemName.windows_10:
-        return 'WINDOWS_10';
-      case OperatingSystemName.windows_11:
-        return 'WINDOWS_11';
-      case OperatingSystemName.windows_7:
-        return 'WINDOWS_7';
-      case OperatingSystemName.windowsServer_2016:
-        return 'WINDOWS_SERVER_2016';
-      case OperatingSystemName.windowsServer_2019:
-        return 'WINDOWS_SERVER_2019';
-      case OperatingSystemName.windowsServer_2022:
-        return 'WINDOWS_SERVER_2022';
-    }
-  }
-}
+  final String value;
 
-extension OperatingSystemNameFromString on String {
-  OperatingSystemName toOperatingSystemName() {
-    switch (this) {
-      case 'AMAZON_LINUX_2':
-        return OperatingSystemName.amazonLinux_2;
-      case 'UBUNTU_18_04':
-        return OperatingSystemName.ubuntu_18_04;
-      case 'UBUNTU_20_04':
-        return OperatingSystemName.ubuntu_20_04;
-      case 'UBUNTU_22_04':
-        return OperatingSystemName.ubuntu_22_04;
-      case 'UNKNOWN':
-        return OperatingSystemName.unknown;
-      case 'WINDOWS_10':
-        return OperatingSystemName.windows_10;
-      case 'WINDOWS_11':
-        return OperatingSystemName.windows_11;
-      case 'WINDOWS_7':
-        return OperatingSystemName.windows_7;
-      case 'WINDOWS_SERVER_2016':
-        return OperatingSystemName.windowsServer_2016;
-      case 'WINDOWS_SERVER_2019':
-        return OperatingSystemName.windowsServer_2019;
-      case 'WINDOWS_SERVER_2022':
-        return OperatingSystemName.windowsServer_2022;
-    }
-    throw Exception('$this is not known in enum OperatingSystemName');
-  }
+  const OperatingSystemName(this.value);
+
+  static OperatingSystemName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OperatingSystemName'));
 }
 
 enum OperatingSystemType {
-  windows,
-  linux,
-}
+  windows('WINDOWS'),
+  linux('LINUX'),
+  ;
 
-extension OperatingSystemTypeValueExtension on OperatingSystemType {
-  String toValue() {
-    switch (this) {
-      case OperatingSystemType.windows:
-        return 'WINDOWS';
-      case OperatingSystemType.linux:
-        return 'LINUX';
-    }
-  }
-}
+  final String value;
 
-extension OperatingSystemTypeFromString on String {
-  OperatingSystemType toOperatingSystemType() {
-    switch (this) {
-      case 'WINDOWS':
-        return OperatingSystemType.windows;
-      case 'LINUX':
-        return OperatingSystemType.linux;
-    }
-    throw Exception('$this is not known in enum OperatingSystemType');
-  }
+  const OperatingSystemType(this.value);
+
+  static OperatingSystemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OperatingSystemType'));
 }
 
 /// Information about the standby WorkSpace.
@@ -7771,7 +7238,7 @@ class PendingCreateStandbyWorkspacesRequest {
       Map<String, dynamic> json) {
     return PendingCreateStandbyWorkspacesRequest(
       directoryId: json['DirectoryId'] as String?,
-      state: (json['State'] as String?)?.toWorkspaceState(),
+      state: (json['State'] as String?)?.let(WorkspaceState.fromString),
       userName: json['UserName'] as String?,
       workspaceId: json['WorkspaceId'] as String?,
     );
@@ -7784,7 +7251,7 @@ class PendingCreateStandbyWorkspacesRequest {
     final workspaceId = this.workspaceId;
     return {
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (userName != null) 'UserName': userName,
       if (workspaceId != null) 'WorkspaceId': workspaceId,
     };
@@ -7792,31 +7259,17 @@ class PendingCreateStandbyWorkspacesRequest {
 }
 
 enum Protocol {
-  pcoip,
-  wsp,
-}
+  pcoip('PCOIP'),
+  wsp('WSP'),
+  ;
 
-extension ProtocolValueExtension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.pcoip:
-        return 'PCOIP';
-      case Protocol.wsp:
-        return 'WSP';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolFromString on String {
-  Protocol toProtocol() {
-    switch (this) {
-      case 'PCOIP':
-        return Protocol.pcoip;
-      case 'WSP':
-        return Protocol.wsp;
-    }
-    throw Exception('$this is not known in enum Protocol');
-  }
+  const Protocol(this.value);
+
+  static Protocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Protocol'));
 }
 
 /// Describes the information used to reboot a WorkSpace.
@@ -7906,31 +7359,18 @@ class RebuildWorkspacesResult {
 }
 
 enum ReconnectEnum {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ReconnectEnumValueExtension on ReconnectEnum {
-  String toValue() {
-    switch (this) {
-      case ReconnectEnum.enabled:
-        return 'ENABLED';
-      case ReconnectEnum.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ReconnectEnumFromString on String {
-  ReconnectEnum toReconnectEnum() {
-    switch (this) {
-      case 'ENABLED':
-        return ReconnectEnum.enabled;
-      case 'DISABLED':
-        return ReconnectEnum.disabled;
-    }
-    throw Exception('$this is not known in enum ReconnectEnum');
-  }
+  const ReconnectEnum(this.value);
+
+  static ReconnectEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReconnectEnum'));
 }
 
 class RegisterWorkspaceDirectoryResult {
@@ -7995,8 +7435,9 @@ class RelatedWorkspaceProperties {
   factory RelatedWorkspaceProperties.fromJson(Map<String, dynamic> json) {
     return RelatedWorkspaceProperties(
       region: json['Region'] as String?,
-      state: (json['State'] as String?)?.toWorkspaceState(),
-      type: (json['Type'] as String?)?.toStandbyWorkspaceRelationshipType(),
+      state: (json['State'] as String?)?.let(WorkspaceState.fromString),
+      type: (json['Type'] as String?)
+          ?.let(StandbyWorkspaceRelationshipType.fromString),
       workspaceId: json['WorkspaceId'] as String?,
     );
   }
@@ -8008,8 +7449,8 @@ class RelatedWorkspaceProperties {
     final workspaceId = this.workspaceId;
     return {
       if (region != null) 'Region': region,
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
       if (workspaceId != null) 'WorkspaceId': workspaceId,
     };
   }
@@ -8063,36 +7504,18 @@ class RootStorage {
 }
 
 enum RunningMode {
-  autoStop,
-  alwaysOn,
-  manual,
-}
+  autoStop('AUTO_STOP'),
+  alwaysOn('ALWAYS_ON'),
+  manual('MANUAL'),
+  ;
 
-extension RunningModeValueExtension on RunningMode {
-  String toValue() {
-    switch (this) {
-      case RunningMode.autoStop:
-        return 'AUTO_STOP';
-      case RunningMode.alwaysOn:
-        return 'ALWAYS_ON';
-      case RunningMode.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension RunningModeFromString on String {
-  RunningMode toRunningMode() {
-    switch (this) {
-      case 'AUTO_STOP':
-        return RunningMode.autoStop;
-      case 'ALWAYS_ON':
-        return RunningMode.alwaysOn;
-      case 'MANUAL':
-        return RunningMode.manual;
-    }
-    throw Exception('$this is not known in enum RunningMode');
-  }
+  const RunningMode(this.value);
+
+  static RunningMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RunningMode'));
 }
 
 /// Describes the enablement status, user access URL, and relay state parameter
@@ -8148,7 +7571,7 @@ class SamlProperties {
   factory SamlProperties.fromJson(Map<String, dynamic> json) {
     return SamlProperties(
       relayStateParameterName: json['RelayStateParameterName'] as String?,
-      status: (json['Status'] as String?)?.toSamlStatusEnum(),
+      status: (json['Status'] as String?)?.let(SamlStatusEnum.fromString),
       userAccessUrl: json['UserAccessUrl'] as String?,
     );
   }
@@ -8160,43 +7583,26 @@ class SamlProperties {
     return {
       if (relayStateParameterName != null)
         'RelayStateParameterName': relayStateParameterName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (userAccessUrl != null) 'UserAccessUrl': userAccessUrl,
     };
   }
 }
 
 enum SamlStatusEnum {
-  disabled,
-  enabled,
-  enabledWithDirectoryLoginFallback,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  enabledWithDirectoryLoginFallback('ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK'),
+  ;
 
-extension SamlStatusEnumValueExtension on SamlStatusEnum {
-  String toValue() {
-    switch (this) {
-      case SamlStatusEnum.disabled:
-        return 'DISABLED';
-      case SamlStatusEnum.enabled:
-        return 'ENABLED';
-      case SamlStatusEnum.enabledWithDirectoryLoginFallback:
-        return 'ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK';
-    }
-  }
-}
+  final String value;
 
-extension SamlStatusEnumFromString on String {
-  SamlStatusEnum toSamlStatusEnum() {
-    switch (this) {
-      case 'DISABLED':
-        return SamlStatusEnum.disabled;
-      case 'ENABLED':
-        return SamlStatusEnum.enabled;
-      case 'ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK':
-        return SamlStatusEnum.enabledWithDirectoryLoginFallback;
-    }
-    throw Exception('$this is not known in enum SamlStatusEnum');
-  }
+  const SamlStatusEnum(this.value);
+
+  static SamlStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SamlStatusEnum'));
 }
 
 /// Describes the self-service permissions for a directory. For more
@@ -8233,15 +7639,15 @@ class SelfservicePermissions {
   factory SelfservicePermissions.fromJson(Map<String, dynamic> json) {
     return SelfservicePermissions(
       changeComputeType:
-          (json['ChangeComputeType'] as String?)?.toReconnectEnum(),
-      increaseVolumeSize:
-          (json['IncreaseVolumeSize'] as String?)?.toReconnectEnum(),
+          (json['ChangeComputeType'] as String?)?.let(ReconnectEnum.fromString),
+      increaseVolumeSize: (json['IncreaseVolumeSize'] as String?)
+          ?.let(ReconnectEnum.fromString),
       rebuildWorkspace:
-          (json['RebuildWorkspace'] as String?)?.toReconnectEnum(),
+          (json['RebuildWorkspace'] as String?)?.let(ReconnectEnum.fromString),
       restartWorkspace:
-          (json['RestartWorkspace'] as String?)?.toReconnectEnum(),
+          (json['RestartWorkspace'] as String?)?.let(ReconnectEnum.fromString),
       switchRunningMode:
-          (json['SwitchRunningMode'] as String?)?.toReconnectEnum(),
+          (json['SwitchRunningMode'] as String?)?.let(ReconnectEnum.fromString),
     );
   }
 
@@ -8253,15 +7659,13 @@ class SelfservicePermissions {
     final switchRunningMode = this.switchRunningMode;
     return {
       if (changeComputeType != null)
-        'ChangeComputeType': changeComputeType.toValue(),
+        'ChangeComputeType': changeComputeType.value,
       if (increaseVolumeSize != null)
-        'IncreaseVolumeSize': increaseVolumeSize.toValue(),
-      if (rebuildWorkspace != null)
-        'RebuildWorkspace': rebuildWorkspace.toValue(),
-      if (restartWorkspace != null)
-        'RestartWorkspace': restartWorkspace.toValue(),
+        'IncreaseVolumeSize': increaseVolumeSize.value,
+      if (rebuildWorkspace != null) 'RebuildWorkspace': rebuildWorkspace.value,
+      if (restartWorkspace != null) 'RestartWorkspace': restartWorkspace.value,
       if (switchRunningMode != null)
-        'SwitchRunningMode': switchRunningMode.toValue(),
+        'SwitchRunningMode': switchRunningMode.value,
     };
   }
 }
@@ -8321,7 +7725,7 @@ class StandbyWorkspace {
       directoryId: json['DirectoryId'] as String,
       primaryWorkspaceId: json['PrimaryWorkspaceId'] as String,
       dataReplication:
-          (json['DataReplication'] as String?)?.toDataReplication(),
+          (json['DataReplication'] as String?)?.let(DataReplication.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -8339,7 +7743,7 @@ class StandbyWorkspace {
     return {
       'DirectoryId': directoryId,
       'PrimaryWorkspaceId': primaryWorkspaceId,
-      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
+      if (dataReplication != null) 'DataReplication': dataReplication.value,
       if (tags != null) 'Tags': tags,
       if (volumeEncryptionKey != null)
         'VolumeEncryptionKey': volumeEncryptionKey,
@@ -8348,33 +7752,18 @@ class StandbyWorkspace {
 }
 
 enum StandbyWorkspaceRelationshipType {
-  primary,
-  standby,
-}
+  primary('PRIMARY'),
+  standby('STANDBY'),
+  ;
 
-extension StandbyWorkspaceRelationshipTypeValueExtension
-    on StandbyWorkspaceRelationshipType {
-  String toValue() {
-    switch (this) {
-      case StandbyWorkspaceRelationshipType.primary:
-        return 'PRIMARY';
-      case StandbyWorkspaceRelationshipType.standby:
-        return 'STANDBY';
-    }
-  }
-}
+  final String value;
 
-extension StandbyWorkspaceRelationshipTypeFromString on String {
-  StandbyWorkspaceRelationshipType toStandbyWorkspaceRelationshipType() {
-    switch (this) {
-      case 'PRIMARY':
-        return StandbyWorkspaceRelationshipType.primary;
-      case 'STANDBY':
-        return StandbyWorkspaceRelationshipType.standby;
-    }
-    throw Exception(
-        '$this is not known in enum StandbyWorkspaceRelationshipType');
-  }
+  const StandbyWorkspaceRelationshipType(this.value);
+
+  static StandbyWorkspaceRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StandbyWorkspaceRelationshipType'));
 }
 
 /// Describes the properties of the related standby WorkSpaces.
@@ -8399,7 +7788,7 @@ class StandbyWorkspacesProperties {
   factory StandbyWorkspacesProperties.fromJson(Map<String, dynamic> json) {
     return StandbyWorkspacesProperties(
       dataReplication:
-          (json['DataReplication'] as String?)?.toDataReplication(),
+          (json['DataReplication'] as String?)?.let(DataReplication.fromString),
       recoverySnapshotTime: timeStampFromJson(json['RecoverySnapshotTime']),
       standbyWorkspaceId: json['StandbyWorkspaceId'] as String?,
     );
@@ -8410,7 +7799,7 @@ class StandbyWorkspacesProperties {
     final recoverySnapshotTime = this.recoverySnapshotTime;
     final standbyWorkspaceId = this.standbyWorkspaceId;
     return {
-      if (dataReplication != null) 'DataReplication': dataReplication.toValue(),
+      if (dataReplication != null) 'DataReplication': dataReplication.value,
       if (recoverySnapshotTime != null)
         'RecoverySnapshotTime': unixTimestampToJson(recoverySnapshotTime),
       if (standbyWorkspaceId != null) 'StandbyWorkspaceId': standbyWorkspaceId,
@@ -8535,59 +7924,32 @@ class Tag {
 }
 
 enum TargetWorkspaceState {
-  available,
-  adminMaintenance,
-}
+  available('AVAILABLE'),
+  adminMaintenance('ADMIN_MAINTENANCE'),
+  ;
 
-extension TargetWorkspaceStateValueExtension on TargetWorkspaceState {
-  String toValue() {
-    switch (this) {
-      case TargetWorkspaceState.available:
-        return 'AVAILABLE';
-      case TargetWorkspaceState.adminMaintenance:
-        return 'ADMIN_MAINTENANCE';
-    }
-  }
-}
+  final String value;
 
-extension TargetWorkspaceStateFromString on String {
-  TargetWorkspaceState toTargetWorkspaceState() {
-    switch (this) {
-      case 'AVAILABLE':
-        return TargetWorkspaceState.available;
-      case 'ADMIN_MAINTENANCE':
-        return TargetWorkspaceState.adminMaintenance;
-    }
-    throw Exception('$this is not known in enum TargetWorkspaceState');
-  }
+  const TargetWorkspaceState(this.value);
+
+  static TargetWorkspaceState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetWorkspaceState'));
 }
 
 enum Tenancy {
-  dedicated,
-  shared,
-}
+  dedicated('DEDICATED'),
+  shared('SHARED'),
+  ;
 
-extension TenancyValueExtension on Tenancy {
-  String toValue() {
-    switch (this) {
-      case Tenancy.dedicated:
-        return 'DEDICATED';
-      case Tenancy.shared:
-        return 'SHARED';
-    }
-  }
-}
+  final String value;
 
-extension TenancyFromString on String {
-  Tenancy toTenancy() {
-    switch (this) {
-      case 'DEDICATED':
-        return Tenancy.dedicated;
-      case 'SHARED':
-        return Tenancy.shared;
-    }
-    throw Exception('$this is not known in enum Tenancy');
-  }
+  const Tenancy(this.value);
+
+  static Tenancy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Tenancy'));
 }
 
 /// Describes the information used to terminate a WorkSpace.
@@ -8801,19 +8163,20 @@ class WorkSpaceApplication {
       applicationId: json['ApplicationId'] as String?,
       created: timeStampFromJson(json['Created']),
       description: json['Description'] as String?,
-      licenseType:
-          (json['LicenseType'] as String?)?.toWorkSpaceApplicationLicenseType(),
+      licenseType: (json['LicenseType'] as String?)
+          ?.let(WorkSpaceApplicationLicenseType.fromString),
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
-      state: (json['State'] as String?)?.toWorkSpaceApplicationState(),
+      state:
+          (json['State'] as String?)?.let(WorkSpaceApplicationState.fromString),
       supportedComputeTypeNames: (json['SupportedComputeTypeNames'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toCompute())
+          .map((e) => Compute.fromString((e as String)))
           .toList(),
       supportedOperatingSystemNames:
           (json['SupportedOperatingSystemNames'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toOperatingSystemName())
+              .map((e) => OperatingSystemName.fromString((e as String)))
               .toList(),
     );
   }
@@ -8832,16 +8195,16 @@ class WorkSpaceApplication {
       if (applicationId != null) 'ApplicationId': applicationId,
       if (created != null) 'Created': unixTimestampToJson(created),
       if (description != null) 'Description': description,
-      if (licenseType != null) 'LicenseType': licenseType.toValue(),
+      if (licenseType != null) 'LicenseType': licenseType.value,
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (supportedComputeTypeNames != null)
         'SupportedComputeTypeNames':
-            supportedComputeTypeNames.map((e) => e.toValue()).toList(),
+            supportedComputeTypeNames.map((e) => e.value).toList(),
       if (supportedOperatingSystemNames != null)
         'SupportedOperatingSystemNames':
-            supportedOperatingSystemNames.map((e) => e.toValue()).toList(),
+            supportedOperatingSystemNames.map((e) => e.value).toList(),
     };
   }
 }
@@ -8874,96 +8237,49 @@ class WorkSpaceApplicationDeployment {
 }
 
 enum WorkSpaceApplicationLicenseType {
-  licensed,
-  unlicensed,
-}
+  licensed('LICENSED'),
+  unlicensed('UNLICENSED'),
+  ;
 
-extension WorkSpaceApplicationLicenseTypeValueExtension
-    on WorkSpaceApplicationLicenseType {
-  String toValue() {
-    switch (this) {
-      case WorkSpaceApplicationLicenseType.licensed:
-        return 'LICENSED';
-      case WorkSpaceApplicationLicenseType.unlicensed:
-        return 'UNLICENSED';
-    }
-  }
-}
+  final String value;
 
-extension WorkSpaceApplicationLicenseTypeFromString on String {
-  WorkSpaceApplicationLicenseType toWorkSpaceApplicationLicenseType() {
-    switch (this) {
-      case 'LICENSED':
-        return WorkSpaceApplicationLicenseType.licensed;
-      case 'UNLICENSED':
-        return WorkSpaceApplicationLicenseType.unlicensed;
-    }
-    throw Exception(
-        '$this is not known in enum WorkSpaceApplicationLicenseType');
-  }
+  const WorkSpaceApplicationLicenseType(this.value);
+
+  static WorkSpaceApplicationLicenseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkSpaceApplicationLicenseType'));
 }
 
 enum WorkSpaceApplicationState {
-  pending,
-  error,
-  available,
-  uninstallOnly,
-}
+  pending('PENDING'),
+  error('ERROR'),
+  available('AVAILABLE'),
+  uninstallOnly('UNINSTALL_ONLY'),
+  ;
 
-extension WorkSpaceApplicationStateValueExtension on WorkSpaceApplicationState {
-  String toValue() {
-    switch (this) {
-      case WorkSpaceApplicationState.pending:
-        return 'PENDING';
-      case WorkSpaceApplicationState.error:
-        return 'ERROR';
-      case WorkSpaceApplicationState.available:
-        return 'AVAILABLE';
-      case WorkSpaceApplicationState.uninstallOnly:
-        return 'UNINSTALL_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension WorkSpaceApplicationStateFromString on String {
-  WorkSpaceApplicationState toWorkSpaceApplicationState() {
-    switch (this) {
-      case 'PENDING':
-        return WorkSpaceApplicationState.pending;
-      case 'ERROR':
-        return WorkSpaceApplicationState.error;
-      case 'AVAILABLE':
-        return WorkSpaceApplicationState.available;
-      case 'UNINSTALL_ONLY':
-        return WorkSpaceApplicationState.uninstallOnly;
-    }
-    throw Exception('$this is not known in enum WorkSpaceApplicationState');
-  }
+  const WorkSpaceApplicationState(this.value);
+
+  static WorkSpaceApplicationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkSpaceApplicationState'));
 }
 
 enum WorkSpaceAssociatedResourceType {
-  application,
-}
+  application('APPLICATION'),
+  ;
 
-extension WorkSpaceAssociatedResourceTypeValueExtension
-    on WorkSpaceAssociatedResourceType {
-  String toValue() {
-    switch (this) {
-      case WorkSpaceAssociatedResourceType.application:
-        return 'APPLICATION';
-    }
-  }
-}
+  final String value;
 
-extension WorkSpaceAssociatedResourceTypeFromString on String {
-  WorkSpaceAssociatedResourceType toWorkSpaceAssociatedResourceType() {
-    switch (this) {
-      case 'APPLICATION':
-        return WorkSpaceAssociatedResourceType.application;
-    }
-    throw Exception(
-        '$this is not known in enum WorkSpaceAssociatedResourceType');
-  }
+  const WorkSpaceAssociatedResourceType(this.value);
+
+  static WorkSpaceAssociatedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkSpaceAssociatedResourceType'));
 }
 
 /// Describes a WorkSpace.
@@ -9150,7 +8466,7 @@ class Workspace {
           .map((e) =>
               StandbyWorkspacesProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
-      state: (json['State'] as String?)?.toWorkspaceState(),
+      state: (json['State'] as String?)?.let(WorkspaceState.fromString),
       subnetId: json['SubnetId'] as String?,
       userName: json['UserName'] as String?,
       userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
@@ -9199,7 +8515,7 @@ class Workspace {
         'RootVolumeEncryptionEnabled': rootVolumeEncryptionEnabled,
       if (standbyWorkspacesProperties != null)
         'StandbyWorkspacesProperties': standbyWorkspacesProperties,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (subnetId != null) 'SubnetId': subnetId,
       if (userName != null) 'UserName': userName,
       if (userVolumeEncryptionEnabled != null)
@@ -9258,22 +8574,22 @@ class WorkspaceAccessProperties {
 
   factory WorkspaceAccessProperties.fromJson(Map<String, dynamic> json) {
     return WorkspaceAccessProperties(
-      deviceTypeAndroid:
-          (json['DeviceTypeAndroid'] as String?)?.toAccessPropertyValue(),
-      deviceTypeChromeOs:
-          (json['DeviceTypeChromeOs'] as String?)?.toAccessPropertyValue(),
-      deviceTypeIos:
-          (json['DeviceTypeIos'] as String?)?.toAccessPropertyValue(),
-      deviceTypeLinux:
-          (json['DeviceTypeLinux'] as String?)?.toAccessPropertyValue(),
-      deviceTypeOsx:
-          (json['DeviceTypeOsx'] as String?)?.toAccessPropertyValue(),
-      deviceTypeWeb:
-          (json['DeviceTypeWeb'] as String?)?.toAccessPropertyValue(),
-      deviceTypeWindows:
-          (json['DeviceTypeWindows'] as String?)?.toAccessPropertyValue(),
-      deviceTypeZeroClient:
-          (json['DeviceTypeZeroClient'] as String?)?.toAccessPropertyValue(),
+      deviceTypeAndroid: (json['DeviceTypeAndroid'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeChromeOs: (json['DeviceTypeChromeOs'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeIos: (json['DeviceTypeIos'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeLinux: (json['DeviceTypeLinux'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeOsx: (json['DeviceTypeOsx'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeWeb: (json['DeviceTypeWeb'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeWindows: (json['DeviceTypeWindows'] as String?)
+          ?.let(AccessPropertyValue.fromString),
+      deviceTypeZeroClient: (json['DeviceTypeZeroClient'] as String?)
+          ?.let(AccessPropertyValue.fromString),
     );
   }
 
@@ -9288,17 +8604,17 @@ class WorkspaceAccessProperties {
     final deviceTypeZeroClient = this.deviceTypeZeroClient;
     return {
       if (deviceTypeAndroid != null)
-        'DeviceTypeAndroid': deviceTypeAndroid.toValue(),
+        'DeviceTypeAndroid': deviceTypeAndroid.value,
       if (deviceTypeChromeOs != null)
-        'DeviceTypeChromeOs': deviceTypeChromeOs.toValue(),
-      if (deviceTypeIos != null) 'DeviceTypeIos': deviceTypeIos.toValue(),
-      if (deviceTypeLinux != null) 'DeviceTypeLinux': deviceTypeLinux.toValue(),
-      if (deviceTypeOsx != null) 'DeviceTypeOsx': deviceTypeOsx.toValue(),
-      if (deviceTypeWeb != null) 'DeviceTypeWeb': deviceTypeWeb.toValue(),
+        'DeviceTypeChromeOs': deviceTypeChromeOs.value,
+      if (deviceTypeIos != null) 'DeviceTypeIos': deviceTypeIos.value,
+      if (deviceTypeLinux != null) 'DeviceTypeLinux': deviceTypeLinux.value,
+      if (deviceTypeOsx != null) 'DeviceTypeOsx': deviceTypeOsx.value,
+      if (deviceTypeWeb != null) 'DeviceTypeWeb': deviceTypeWeb.value,
       if (deviceTypeWindows != null)
-        'DeviceTypeWindows': deviceTypeWindows.toValue(),
+        'DeviceTypeWindows': deviceTypeWindows.value,
       if (deviceTypeZeroClient != null)
-        'DeviceTypeZeroClient': deviceTypeZeroClient.toValue(),
+        'DeviceTypeZeroClient': deviceTypeZeroClient.value,
     };
   }
 }
@@ -9362,7 +8678,7 @@ class WorkspaceBundle {
   factory WorkspaceBundle.fromJson(Map<String, dynamic> json) {
     return WorkspaceBundle(
       bundleId: json['BundleId'] as String?,
-      bundleType: (json['BundleType'] as String?)?.toBundleType(),
+      bundleType: (json['BundleType'] as String?)?.let(BundleType.fromString),
       computeType: json['ComputeType'] != null
           ? ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>)
           : null,
@@ -9375,7 +8691,7 @@ class WorkspaceBundle {
       rootStorage: json['RootStorage'] != null
           ? RootStorage.fromJson(json['RootStorage'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toWorkspaceBundleState(),
+      state: (json['State'] as String?)?.let(WorkspaceBundleState.fromString),
       userStorage: json['UserStorage'] != null
           ? UserStorage.fromJson(json['UserStorage'] as Map<String, dynamic>)
           : null,
@@ -9397,7 +8713,7 @@ class WorkspaceBundle {
     final userStorage = this.userStorage;
     return {
       if (bundleId != null) 'BundleId': bundleId,
-      if (bundleType != null) 'BundleType': bundleType.toValue(),
+      if (bundleType != null) 'BundleType': bundleType.value,
       if (computeType != null) 'ComputeType': computeType,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -9408,43 +8724,26 @@ class WorkspaceBundle {
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
       if (rootStorage != null) 'RootStorage': rootStorage,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (userStorage != null) 'UserStorage': userStorage,
     };
   }
 }
 
 enum WorkspaceBundleState {
-  available,
-  pending,
-  error,
-}
+  available('AVAILABLE'),
+  pending('PENDING'),
+  error('ERROR'),
+  ;
 
-extension WorkspaceBundleStateValueExtension on WorkspaceBundleState {
-  String toValue() {
-    switch (this) {
-      case WorkspaceBundleState.available:
-        return 'AVAILABLE';
-      case WorkspaceBundleState.pending:
-        return 'PENDING';
-      case WorkspaceBundleState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceBundleStateFromString on String {
-  WorkspaceBundleState toWorkspaceBundleState() {
-    switch (this) {
-      case 'AVAILABLE':
-        return WorkspaceBundleState.available;
-      case 'PENDING':
-        return WorkspaceBundleState.pending;
-      case 'ERROR':
-        return WorkspaceBundleState.error;
-    }
-    throw Exception('$this is not known in enum WorkspaceBundleState');
-  }
+  const WorkspaceBundleState(this.value);
+
+  static WorkspaceBundleState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WorkspaceBundleState'));
 }
 
 /// Describes the connection status of a WorkSpace.
@@ -9472,7 +8771,7 @@ class WorkspaceConnectionStatus {
   factory WorkspaceConnectionStatus.fromJson(Map<String, dynamic> json) {
     return WorkspaceConnectionStatus(
       connectionState:
-          (json['ConnectionState'] as String?)?.toConnectionState(),
+          (json['ConnectionState'] as String?)?.let(ConnectionState.fromString),
       connectionStateCheckTimestamp:
           timeStampFromJson(json['ConnectionStateCheckTimestamp']),
       lastKnownUserConnectionTimestamp:
@@ -9488,7 +8787,7 @@ class WorkspaceConnectionStatus {
         this.lastKnownUserConnectionTimestamp;
     final workspaceId = this.workspaceId;
     return {
-      if (connectionState != null) 'ConnectionState': connectionState.toValue(),
+      if (connectionState != null) 'ConnectionState': connectionState.value,
       if (connectionStateCheckTimestamp != null)
         'ConnectionStateCheckTimestamp':
             unixTimestampToJson(connectionStateCheckTimestamp),
@@ -9699,8 +8998,8 @@ class WorkspaceDirectory {
       customerUserName: json['CustomerUserName'] as String?,
       directoryId: json['DirectoryId'] as String?,
       directoryName: json['DirectoryName'] as String?,
-      directoryType:
-          (json['DirectoryType'] as String?)?.toWorkspaceDirectoryType(),
+      directoryType: (json['DirectoryType'] as String?)
+          ?.let(WorkspaceDirectoryType.fromString),
       dnsIpAddresses: (json['DnsIpAddresses'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -9715,12 +9014,13 @@ class WorkspaceDirectory {
           ? SelfservicePermissions.fromJson(
               json['SelfservicePermissions'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toWorkspaceDirectoryState(),
+      state:
+          (json['State'] as String?)?.let(WorkspaceDirectoryState.fromString),
       subnetIds: (json['SubnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      tenancy: (json['Tenancy'] as String?)?.toTenancy(),
+      tenancy: (json['Tenancy'] as String?)?.let(Tenancy.fromString),
       workspaceAccessProperties: json['WorkspaceAccessProperties'] != null
           ? WorkspaceAccessProperties.fromJson(
               json['WorkspaceAccessProperties'] as Map<String, dynamic>)
@@ -9763,16 +9063,16 @@ class WorkspaceDirectory {
       if (customerUserName != null) 'CustomerUserName': customerUserName,
       if (directoryId != null) 'DirectoryId': directoryId,
       if (directoryName != null) 'DirectoryName': directoryName,
-      if (directoryType != null) 'DirectoryType': directoryType.toValue(),
+      if (directoryType != null) 'DirectoryType': directoryType.value,
       if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
       if (iamRoleId != null) 'IamRoleId': iamRoleId,
       if (registrationCode != null) 'RegistrationCode': registrationCode,
       if (samlProperties != null) 'SamlProperties': samlProperties,
       if (selfservicePermissions != null)
         'SelfservicePermissions': selfservicePermissions,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (subnetIds != null) 'SubnetIds': subnetIds,
-      if (tenancy != null) 'Tenancy': tenancy.toValue(),
+      if (tenancy != null) 'Tenancy': tenancy.value,
       if (workspaceAccessProperties != null)
         'WorkspaceAccessProperties': workspaceAccessProperties,
       if (workspaceCreationProperties != null)
@@ -9785,74 +9085,36 @@ class WorkspaceDirectory {
 }
 
 enum WorkspaceDirectoryState {
-  registering,
-  registered,
-  deregistering,
-  deregistered,
-  error,
-}
+  registering('REGISTERING'),
+  registered('REGISTERED'),
+  deregistering('DEREGISTERING'),
+  deregistered('DEREGISTERED'),
+  error('ERROR'),
+  ;
 
-extension WorkspaceDirectoryStateValueExtension on WorkspaceDirectoryState {
-  String toValue() {
-    switch (this) {
-      case WorkspaceDirectoryState.registering:
-        return 'REGISTERING';
-      case WorkspaceDirectoryState.registered:
-        return 'REGISTERED';
-      case WorkspaceDirectoryState.deregistering:
-        return 'DEREGISTERING';
-      case WorkspaceDirectoryState.deregistered:
-        return 'DEREGISTERED';
-      case WorkspaceDirectoryState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceDirectoryStateFromString on String {
-  WorkspaceDirectoryState toWorkspaceDirectoryState() {
-    switch (this) {
-      case 'REGISTERING':
-        return WorkspaceDirectoryState.registering;
-      case 'REGISTERED':
-        return WorkspaceDirectoryState.registered;
-      case 'DEREGISTERING':
-        return WorkspaceDirectoryState.deregistering;
-      case 'DEREGISTERED':
-        return WorkspaceDirectoryState.deregistered;
-      case 'ERROR':
-        return WorkspaceDirectoryState.error;
-    }
-    throw Exception('$this is not known in enum WorkspaceDirectoryState');
-  }
+  const WorkspaceDirectoryState(this.value);
+
+  static WorkspaceDirectoryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspaceDirectoryState'));
 }
 
 enum WorkspaceDirectoryType {
-  simpleAd,
-  adConnector,
-}
+  simpleAd('SIMPLE_AD'),
+  adConnector('AD_CONNECTOR'),
+  ;
 
-extension WorkspaceDirectoryTypeValueExtension on WorkspaceDirectoryType {
-  String toValue() {
-    switch (this) {
-      case WorkspaceDirectoryType.simpleAd:
-        return 'SIMPLE_AD';
-      case WorkspaceDirectoryType.adConnector:
-        return 'AD_CONNECTOR';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceDirectoryTypeFromString on String {
-  WorkspaceDirectoryType toWorkspaceDirectoryType() {
-    switch (this) {
-      case 'SIMPLE_AD':
-        return WorkspaceDirectoryType.simpleAd;
-      case 'AD_CONNECTOR':
-        return WorkspaceDirectoryType.adConnector;
-    }
-    throw Exception('$this is not known in enum WorkspaceDirectoryType');
-  }
+  const WorkspaceDirectoryType(this.value);
+
+  static WorkspaceDirectoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspaceDirectoryType'));
 }
 
 /// Describes a WorkSpace image.
@@ -9933,8 +9195,8 @@ class WorkspaceImage {
           : null,
       ownerAccountId: json['OwnerAccountId'] as String?,
       requiredTenancy: (json['RequiredTenancy'] as String?)
-          ?.toWorkspaceImageRequiredTenancy(),
-      state: (json['State'] as String?)?.toWorkspaceImageState(),
+          ?.let(WorkspaceImageRequiredTenancy.fromString),
+      state: (json['State'] as String?)?.let(WorkspaceImageState.fromString),
       updates: json['Updates'] != null
           ? UpdateResult.fromJson(json['Updates'] as Map<String, dynamic>)
           : null,
@@ -9964,277 +9226,101 @@ class WorkspaceImage {
       if (name != null) 'Name': name,
       if (operatingSystem != null) 'OperatingSystem': operatingSystem,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.value,
+      if (state != null) 'State': state.value,
       if (updates != null) 'Updates': updates,
     };
   }
 }
 
 enum WorkspaceImageErrorDetailCode {
-  outdatedPowershellVersion,
-  officeInstalled,
-  pCoIPAgentInstalled,
-  windowsUpdatesEnabled,
-  autoMountDisabled,
-  workspacesBYOLAccountNotFound,
-  workspacesBYOLAccountDisabled,
-  dHCPDisabled,
-  diskFreeSpace,
-  additionalDrivesAttached,
-  oSNotSupported,
-  domainJoined,
-  azureDomainJoined,
-  firewallEnabled,
-  vMWareToolsInstalled,
-  diskSizeExceeded,
-  incompatiblePartitioning,
-  pendingReboot,
-  autoLogonEnabled,
-  realTimeUniversalDisabled,
-  multipleBootPartition,
-  requires64BitOS,
-  zeroRearmCount,
-  inPlaceUpgrade,
-  antiVirusInstalled,
-  uEFINotSupported,
-}
+  outdatedPowershellVersion('OutdatedPowershellVersion'),
+  officeInstalled('OfficeInstalled'),
+  pCoIPAgentInstalled('PCoIPAgentInstalled'),
+  windowsUpdatesEnabled('WindowsUpdatesEnabled'),
+  autoMountDisabled('AutoMountDisabled'),
+  workspacesBYOLAccountNotFound('WorkspacesBYOLAccountNotFound'),
+  workspacesBYOLAccountDisabled('WorkspacesBYOLAccountDisabled'),
+  dHCPDisabled('DHCPDisabled'),
+  diskFreeSpace('DiskFreeSpace'),
+  additionalDrivesAttached('AdditionalDrivesAttached'),
+  oSNotSupported('OSNotSupported'),
+  domainJoined('DomainJoined'),
+  azureDomainJoined('AzureDomainJoined'),
+  firewallEnabled('FirewallEnabled'),
+  vMWareToolsInstalled('VMWareToolsInstalled'),
+  diskSizeExceeded('DiskSizeExceeded'),
+  incompatiblePartitioning('IncompatiblePartitioning'),
+  pendingReboot('PendingReboot'),
+  autoLogonEnabled('AutoLogonEnabled'),
+  realTimeUniversalDisabled('RealTimeUniversalDisabled'),
+  multipleBootPartition('MultipleBootPartition'),
+  requires64BitOS('Requires64BitOS'),
+  zeroRearmCount('ZeroRearmCount'),
+  inPlaceUpgrade('InPlaceUpgrade'),
+  antiVirusInstalled('AntiVirusInstalled'),
+  uEFINotSupported('UEFINotSupported'),
+  ;
 
-extension WorkspaceImageErrorDetailCodeValueExtension
-    on WorkspaceImageErrorDetailCode {
-  String toValue() {
-    switch (this) {
-      case WorkspaceImageErrorDetailCode.outdatedPowershellVersion:
-        return 'OutdatedPowershellVersion';
-      case WorkspaceImageErrorDetailCode.officeInstalled:
-        return 'OfficeInstalled';
-      case WorkspaceImageErrorDetailCode.pCoIPAgentInstalled:
-        return 'PCoIPAgentInstalled';
-      case WorkspaceImageErrorDetailCode.windowsUpdatesEnabled:
-        return 'WindowsUpdatesEnabled';
-      case WorkspaceImageErrorDetailCode.autoMountDisabled:
-        return 'AutoMountDisabled';
-      case WorkspaceImageErrorDetailCode.workspacesBYOLAccountNotFound:
-        return 'WorkspacesBYOLAccountNotFound';
-      case WorkspaceImageErrorDetailCode.workspacesBYOLAccountDisabled:
-        return 'WorkspacesBYOLAccountDisabled';
-      case WorkspaceImageErrorDetailCode.dHCPDisabled:
-        return 'DHCPDisabled';
-      case WorkspaceImageErrorDetailCode.diskFreeSpace:
-        return 'DiskFreeSpace';
-      case WorkspaceImageErrorDetailCode.additionalDrivesAttached:
-        return 'AdditionalDrivesAttached';
-      case WorkspaceImageErrorDetailCode.oSNotSupported:
-        return 'OSNotSupported';
-      case WorkspaceImageErrorDetailCode.domainJoined:
-        return 'DomainJoined';
-      case WorkspaceImageErrorDetailCode.azureDomainJoined:
-        return 'AzureDomainJoined';
-      case WorkspaceImageErrorDetailCode.firewallEnabled:
-        return 'FirewallEnabled';
-      case WorkspaceImageErrorDetailCode.vMWareToolsInstalled:
-        return 'VMWareToolsInstalled';
-      case WorkspaceImageErrorDetailCode.diskSizeExceeded:
-        return 'DiskSizeExceeded';
-      case WorkspaceImageErrorDetailCode.incompatiblePartitioning:
-        return 'IncompatiblePartitioning';
-      case WorkspaceImageErrorDetailCode.pendingReboot:
-        return 'PendingReboot';
-      case WorkspaceImageErrorDetailCode.autoLogonEnabled:
-        return 'AutoLogonEnabled';
-      case WorkspaceImageErrorDetailCode.realTimeUniversalDisabled:
-        return 'RealTimeUniversalDisabled';
-      case WorkspaceImageErrorDetailCode.multipleBootPartition:
-        return 'MultipleBootPartition';
-      case WorkspaceImageErrorDetailCode.requires64BitOS:
-        return 'Requires64BitOS';
-      case WorkspaceImageErrorDetailCode.zeroRearmCount:
-        return 'ZeroRearmCount';
-      case WorkspaceImageErrorDetailCode.inPlaceUpgrade:
-        return 'InPlaceUpgrade';
-      case WorkspaceImageErrorDetailCode.antiVirusInstalled:
-        return 'AntiVirusInstalled';
-      case WorkspaceImageErrorDetailCode.uEFINotSupported:
-        return 'UEFINotSupported';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceImageErrorDetailCodeFromString on String {
-  WorkspaceImageErrorDetailCode toWorkspaceImageErrorDetailCode() {
-    switch (this) {
-      case 'OutdatedPowershellVersion':
-        return WorkspaceImageErrorDetailCode.outdatedPowershellVersion;
-      case 'OfficeInstalled':
-        return WorkspaceImageErrorDetailCode.officeInstalled;
-      case 'PCoIPAgentInstalled':
-        return WorkspaceImageErrorDetailCode.pCoIPAgentInstalled;
-      case 'WindowsUpdatesEnabled':
-        return WorkspaceImageErrorDetailCode.windowsUpdatesEnabled;
-      case 'AutoMountDisabled':
-        return WorkspaceImageErrorDetailCode.autoMountDisabled;
-      case 'WorkspacesBYOLAccountNotFound':
-        return WorkspaceImageErrorDetailCode.workspacesBYOLAccountNotFound;
-      case 'WorkspacesBYOLAccountDisabled':
-        return WorkspaceImageErrorDetailCode.workspacesBYOLAccountDisabled;
-      case 'DHCPDisabled':
-        return WorkspaceImageErrorDetailCode.dHCPDisabled;
-      case 'DiskFreeSpace':
-        return WorkspaceImageErrorDetailCode.diskFreeSpace;
-      case 'AdditionalDrivesAttached':
-        return WorkspaceImageErrorDetailCode.additionalDrivesAttached;
-      case 'OSNotSupported':
-        return WorkspaceImageErrorDetailCode.oSNotSupported;
-      case 'DomainJoined':
-        return WorkspaceImageErrorDetailCode.domainJoined;
-      case 'AzureDomainJoined':
-        return WorkspaceImageErrorDetailCode.azureDomainJoined;
-      case 'FirewallEnabled':
-        return WorkspaceImageErrorDetailCode.firewallEnabled;
-      case 'VMWareToolsInstalled':
-        return WorkspaceImageErrorDetailCode.vMWareToolsInstalled;
-      case 'DiskSizeExceeded':
-        return WorkspaceImageErrorDetailCode.diskSizeExceeded;
-      case 'IncompatiblePartitioning':
-        return WorkspaceImageErrorDetailCode.incompatiblePartitioning;
-      case 'PendingReboot':
-        return WorkspaceImageErrorDetailCode.pendingReboot;
-      case 'AutoLogonEnabled':
-        return WorkspaceImageErrorDetailCode.autoLogonEnabled;
-      case 'RealTimeUniversalDisabled':
-        return WorkspaceImageErrorDetailCode.realTimeUniversalDisabled;
-      case 'MultipleBootPartition':
-        return WorkspaceImageErrorDetailCode.multipleBootPartition;
-      case 'Requires64BitOS':
-        return WorkspaceImageErrorDetailCode.requires64BitOS;
-      case 'ZeroRearmCount':
-        return WorkspaceImageErrorDetailCode.zeroRearmCount;
-      case 'InPlaceUpgrade':
-        return WorkspaceImageErrorDetailCode.inPlaceUpgrade;
-      case 'AntiVirusInstalled':
-        return WorkspaceImageErrorDetailCode.antiVirusInstalled;
-      case 'UEFINotSupported':
-        return WorkspaceImageErrorDetailCode.uEFINotSupported;
-    }
-    throw Exception('$this is not known in enum WorkspaceImageErrorDetailCode');
-  }
+  const WorkspaceImageErrorDetailCode(this.value);
+
+  static WorkspaceImageErrorDetailCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspaceImageErrorDetailCode'));
 }
 
 enum WorkspaceImageIngestionProcess {
-  byolRegular,
-  byolGraphics,
-  byolGraphicspro,
-  byolGraphicsG4dn,
-  byolRegularWsp,
-  byolRegularByop,
-  byolGraphicsG4dnByop,
-}
+  byolRegular('BYOL_REGULAR'),
+  byolGraphics('BYOL_GRAPHICS'),
+  byolGraphicspro('BYOL_GRAPHICSPRO'),
+  byolGraphicsG4dn('BYOL_GRAPHICS_G4DN'),
+  byolRegularWsp('BYOL_REGULAR_WSP'),
+  byolRegularByop('BYOL_REGULAR_BYOP'),
+  byolGraphicsG4dnByop('BYOL_GRAPHICS_G4DN_BYOP'),
+  ;
 
-extension WorkspaceImageIngestionProcessValueExtension
-    on WorkspaceImageIngestionProcess {
-  String toValue() {
-    switch (this) {
-      case WorkspaceImageIngestionProcess.byolRegular:
-        return 'BYOL_REGULAR';
-      case WorkspaceImageIngestionProcess.byolGraphics:
-        return 'BYOL_GRAPHICS';
-      case WorkspaceImageIngestionProcess.byolGraphicspro:
-        return 'BYOL_GRAPHICSPRO';
-      case WorkspaceImageIngestionProcess.byolGraphicsG4dn:
-        return 'BYOL_GRAPHICS_G4DN';
-      case WorkspaceImageIngestionProcess.byolRegularWsp:
-        return 'BYOL_REGULAR_WSP';
-      case WorkspaceImageIngestionProcess.byolRegularByop:
-        return 'BYOL_REGULAR_BYOP';
-      case WorkspaceImageIngestionProcess.byolGraphicsG4dnByop:
-        return 'BYOL_GRAPHICS_G4DN_BYOP';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceImageIngestionProcessFromString on String {
-  WorkspaceImageIngestionProcess toWorkspaceImageIngestionProcess() {
-    switch (this) {
-      case 'BYOL_REGULAR':
-        return WorkspaceImageIngestionProcess.byolRegular;
-      case 'BYOL_GRAPHICS':
-        return WorkspaceImageIngestionProcess.byolGraphics;
-      case 'BYOL_GRAPHICSPRO':
-        return WorkspaceImageIngestionProcess.byolGraphicspro;
-      case 'BYOL_GRAPHICS_G4DN':
-        return WorkspaceImageIngestionProcess.byolGraphicsG4dn;
-      case 'BYOL_REGULAR_WSP':
-        return WorkspaceImageIngestionProcess.byolRegularWsp;
-      case 'BYOL_REGULAR_BYOP':
-        return WorkspaceImageIngestionProcess.byolRegularByop;
-      case 'BYOL_GRAPHICS_G4DN_BYOP':
-        return WorkspaceImageIngestionProcess.byolGraphicsG4dnByop;
-    }
-    throw Exception(
-        '$this is not known in enum WorkspaceImageIngestionProcess');
-  }
+  const WorkspaceImageIngestionProcess(this.value);
+
+  static WorkspaceImageIngestionProcess fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspaceImageIngestionProcess'));
 }
 
 enum WorkspaceImageRequiredTenancy {
-  $default,
-  dedicated,
-}
+  $default('DEFAULT'),
+  dedicated('DEDICATED'),
+  ;
 
-extension WorkspaceImageRequiredTenancyValueExtension
-    on WorkspaceImageRequiredTenancy {
-  String toValue() {
-    switch (this) {
-      case WorkspaceImageRequiredTenancy.$default:
-        return 'DEFAULT';
-      case WorkspaceImageRequiredTenancy.dedicated:
-        return 'DEDICATED';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceImageRequiredTenancyFromString on String {
-  WorkspaceImageRequiredTenancy toWorkspaceImageRequiredTenancy() {
-    switch (this) {
-      case 'DEFAULT':
-        return WorkspaceImageRequiredTenancy.$default;
-      case 'DEDICATED':
-        return WorkspaceImageRequiredTenancy.dedicated;
-    }
-    throw Exception('$this is not known in enum WorkspaceImageRequiredTenancy');
-  }
+  const WorkspaceImageRequiredTenancy(this.value);
+
+  static WorkspaceImageRequiredTenancy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspaceImageRequiredTenancy'));
 }
 
 enum WorkspaceImageState {
-  available,
-  pending,
-  error,
-}
+  available('AVAILABLE'),
+  pending('PENDING'),
+  error('ERROR'),
+  ;
 
-extension WorkspaceImageStateValueExtension on WorkspaceImageState {
-  String toValue() {
-    switch (this) {
-      case WorkspaceImageState.available:
-        return 'AVAILABLE';
-      case WorkspaceImageState.pending:
-        return 'PENDING';
-      case WorkspaceImageState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceImageStateFromString on String {
-  WorkspaceImageState toWorkspaceImageState() {
-    switch (this) {
-      case 'AVAILABLE':
-        return WorkspaceImageState.available;
-      case 'PENDING':
-        return WorkspaceImageState.pending;
-      case 'ERROR':
-        return WorkspaceImageState.error;
-    }
-    throw Exception('$this is not known in enum WorkspaceImageState');
-  }
+  const WorkspaceImageState(this.value);
+
+  static WorkspaceImageState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WorkspaceImageState'));
 }
 
 /// Describes a WorkSpace.
@@ -10305,15 +9391,17 @@ class WorkspaceProperties {
 
   factory WorkspaceProperties.fromJson(Map<String, dynamic> json) {
     return WorkspaceProperties(
-      computeTypeName: (json['ComputeTypeName'] as String?)?.toCompute(),
-      operatingSystemName:
-          (json['OperatingSystemName'] as String?)?.toOperatingSystemName(),
+      computeTypeName:
+          (json['ComputeTypeName'] as String?)?.let(Compute.fromString),
+      operatingSystemName: (json['OperatingSystemName'] as String?)
+          ?.let(OperatingSystemName.fromString),
       protocols: (json['Protocols'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toProtocol())
+          .map((e) => Protocol.fromString((e as String)))
           .toList(),
       rootVolumeSizeGib: json['RootVolumeSizeGib'] as int?,
-      runningMode: (json['RunningMode'] as String?)?.toRunningMode(),
+      runningMode:
+          (json['RunningMode'] as String?)?.let(RunningMode.fromString),
       runningModeAutoStopTimeoutInMinutes:
           json['RunningModeAutoStopTimeoutInMinutes'] as int?,
       userVolumeSizeGib: json['UserVolumeSizeGib'] as int?,
@@ -10330,13 +9418,13 @@ class WorkspaceProperties {
         this.runningModeAutoStopTimeoutInMinutes;
     final userVolumeSizeGib = this.userVolumeSizeGib;
     return {
-      if (computeTypeName != null) 'ComputeTypeName': computeTypeName.toValue(),
+      if (computeTypeName != null) 'ComputeTypeName': computeTypeName.value,
       if (operatingSystemName != null)
-        'OperatingSystemName': operatingSystemName.toValue(),
+        'OperatingSystemName': operatingSystemName.value,
       if (protocols != null)
-        'Protocols': protocols.map((e) => e.toValue()).toList(),
+        'Protocols': protocols.map((e) => e.value).toList(),
       if (rootVolumeSizeGib != null) 'RootVolumeSizeGib': rootVolumeSizeGib,
-      if (runningMode != null) 'RunningMode': runningMode.toValue(),
+      if (runningMode != null) 'RunningMode': runningMode.value,
       if (runningModeAutoStopTimeoutInMinutes != null)
         'RunningModeAutoStopTimeoutInMinutes':
             runningModeAutoStopTimeoutInMinutes,
@@ -10478,10 +9566,10 @@ class WorkspaceResourceAssociation {
     return WorkspaceResourceAssociation(
       associatedResourceId: json['AssociatedResourceId'] as String?,
       associatedResourceType: (json['AssociatedResourceType'] as String?)
-          ?.toWorkSpaceAssociatedResourceType(),
+          ?.let(WorkSpaceAssociatedResourceType.fromString),
       created: timeStampFromJson(json['Created']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      state: (json['State'] as String?)?.toAssociationState(),
+      state: (json['State'] as String?)?.let(AssociationState.fromString),
       stateReason: json['StateReason'] != null
           ? AssociationStateReason.fromJson(
               json['StateReason'] as Map<String, dynamic>)
@@ -10502,11 +9590,11 @@ class WorkspaceResourceAssociation {
       if (associatedResourceId != null)
         'AssociatedResourceId': associatedResourceId,
       if (associatedResourceType != null)
-        'AssociatedResourceType': associatedResourceType.toValue(),
+        'AssociatedResourceType': associatedResourceType.value,
       if (created != null) 'Created': unixTimestampToJson(created),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
       if (workspaceId != null) 'WorkspaceId': workspaceId,
     };
@@ -10514,106 +9602,33 @@ class WorkspaceResourceAssociation {
 }
 
 enum WorkspaceState {
-  pending,
-  available,
-  impaired,
-  unhealthy,
-  rebooting,
-  starting,
-  rebuilding,
-  restoring,
-  maintenance,
-  adminMaintenance,
-  terminating,
-  terminated,
-  suspended,
-  updating,
-  stopping,
-  stopped,
-  error,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  impaired('IMPAIRED'),
+  unhealthy('UNHEALTHY'),
+  rebooting('REBOOTING'),
+  starting('STARTING'),
+  rebuilding('REBUILDING'),
+  restoring('RESTORING'),
+  maintenance('MAINTENANCE'),
+  adminMaintenance('ADMIN_MAINTENANCE'),
+  terminating('TERMINATING'),
+  terminated('TERMINATED'),
+  suspended('SUSPENDED'),
+  updating('UPDATING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  error('ERROR'),
+  ;
 
-extension WorkspaceStateValueExtension on WorkspaceState {
-  String toValue() {
-    switch (this) {
-      case WorkspaceState.pending:
-        return 'PENDING';
-      case WorkspaceState.available:
-        return 'AVAILABLE';
-      case WorkspaceState.impaired:
-        return 'IMPAIRED';
-      case WorkspaceState.unhealthy:
-        return 'UNHEALTHY';
-      case WorkspaceState.rebooting:
-        return 'REBOOTING';
-      case WorkspaceState.starting:
-        return 'STARTING';
-      case WorkspaceState.rebuilding:
-        return 'REBUILDING';
-      case WorkspaceState.restoring:
-        return 'RESTORING';
-      case WorkspaceState.maintenance:
-        return 'MAINTENANCE';
-      case WorkspaceState.adminMaintenance:
-        return 'ADMIN_MAINTENANCE';
-      case WorkspaceState.terminating:
-        return 'TERMINATING';
-      case WorkspaceState.terminated:
-        return 'TERMINATED';
-      case WorkspaceState.suspended:
-        return 'SUSPENDED';
-      case WorkspaceState.updating:
-        return 'UPDATING';
-      case WorkspaceState.stopping:
-        return 'STOPPING';
-      case WorkspaceState.stopped:
-        return 'STOPPED';
-      case WorkspaceState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceStateFromString on String {
-  WorkspaceState toWorkspaceState() {
-    switch (this) {
-      case 'PENDING':
-        return WorkspaceState.pending;
-      case 'AVAILABLE':
-        return WorkspaceState.available;
-      case 'IMPAIRED':
-        return WorkspaceState.impaired;
-      case 'UNHEALTHY':
-        return WorkspaceState.unhealthy;
-      case 'REBOOTING':
-        return WorkspaceState.rebooting;
-      case 'STARTING':
-        return WorkspaceState.starting;
-      case 'REBUILDING':
-        return WorkspaceState.rebuilding;
-      case 'RESTORING':
-        return WorkspaceState.restoring;
-      case 'MAINTENANCE':
-        return WorkspaceState.maintenance;
-      case 'ADMIN_MAINTENANCE':
-        return WorkspaceState.adminMaintenance;
-      case 'TERMINATING':
-        return WorkspaceState.terminating;
-      case 'TERMINATED':
-        return WorkspaceState.terminated;
-      case 'SUSPENDED':
-        return WorkspaceState.suspended;
-      case 'UPDATING':
-        return WorkspaceState.updating;
-      case 'STOPPING':
-        return WorkspaceState.stopping;
-      case 'STOPPED':
-        return WorkspaceState.stopped;
-      case 'ERROR':
-        return WorkspaceState.error;
-    }
-    throw Exception('$this is not known in enum WorkspaceState');
-  }
+  const WorkspaceState(this.value);
+
+  static WorkspaceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkspaceState'));
 }
 
 /// Describes an IP access control group.

@@ -424,7 +424,7 @@ class EventDestination {
           : null,
       matchingEventTypes: (json['MatchingEventTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEventType())
+          .map((e) => EventType.fromString((e as String)))
           .toList(),
       name: json['Name'] as String?,
       snsDestination: json['SnsDestination'] != null
@@ -468,8 +468,7 @@ class EventDestinationDefinition {
       if (kinesisFirehoseDestination != null)
         'KinesisFirehoseDestination': kinesisFirehoseDestination,
       if (matchingEventTypes != null)
-        'MatchingEventTypes':
-            matchingEventTypes.map((e) => e.toValue()).toList(),
+        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
       if (snsDestination != null) 'SnsDestination': snsDestination,
     };
   }
@@ -477,56 +476,22 @@ class EventDestinationDefinition {
 
 /// The types of events that are sent to the event destination.
 enum EventType {
-  initiatedCall,
-  ringing,
-  answered,
-  completedCall,
-  busy,
-  failed,
-  noAnswer,
-}
+  initiatedCall('INITIATED_CALL'),
+  ringing('RINGING'),
+  answered('ANSWERED'),
+  completedCall('COMPLETED_CALL'),
+  busy('BUSY'),
+  failed('FAILED'),
+  noAnswer('NO_ANSWER'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.initiatedCall:
-        return 'INITIATED_CALL';
-      case EventType.ringing:
-        return 'RINGING';
-      case EventType.answered:
-        return 'ANSWERED';
-      case EventType.completedCall:
-        return 'COMPLETED_CALL';
-      case EventType.busy:
-        return 'BUSY';
-      case EventType.failed:
-        return 'FAILED';
-      case EventType.noAnswer:
-        return 'NO_ANSWER';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'INITIATED_CALL':
-        return EventType.initiatedCall;
-      case 'RINGING':
-        return EventType.ringing;
-      case 'ANSWERED':
-        return EventType.answered;
-      case 'COMPLETED_CALL':
-        return EventType.completedCall;
-      case 'BUSY':
-        return EventType.busy;
-      case 'FAILED':
-        return EventType.failed;
-      case 'NO_ANSWER':
-        return EventType.noAnswer;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// An object that contains information about an event destination.

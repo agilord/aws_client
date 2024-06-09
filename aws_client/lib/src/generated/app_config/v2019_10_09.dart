@@ -503,8 +503,8 @@ class AppConfig {
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthType != null) 'GrowthType': growthType.toValue(),
-      if (replicateTo != null) 'ReplicateTo': replicateTo.toValue(),
+      if (growthType != null) 'GrowthType': growthType.value,
+      if (replicateTo != null) 'ReplicateTo': replicateTo.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -644,7 +644,7 @@ class AppConfig {
         'Latest-Version-Number': latestVersionNumber.toString(),
     };
     final $payload = <String, dynamic>{
-      'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+      'Actions': actions.map((k, e) => MapEntry(k.value, e)),
       'Name': name,
       if (description != null) 'Description': description,
       if (parameters != null) 'Parameters': parameters,
@@ -2030,7 +2030,7 @@ class AppConfig {
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType.toValue(),
+      if (growthType != null) 'GrowthType': growthType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2117,7 +2117,7 @@ class AppConfig {
   }) async {
     final $payload = <String, dynamic>{
       if (actions != null)
-        'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+        'Actions': actions.map((k, e) => MapEntry(k.value, e)),
       if (description != null) 'Description': description,
       if (parameters != null) 'Parameters': parameters,
       if (versionNumber != null) 'VersionNumber': versionNumber,
@@ -2348,56 +2348,23 @@ class ActionInvocation {
 }
 
 enum ActionPoint {
-  preCreateHostedConfigurationVersion,
-  preStartDeployment,
-  onDeploymentStart,
-  onDeploymentStep,
-  onDeploymentBaking,
-  onDeploymentComplete,
-  onDeploymentRolledBack,
-}
+  preCreateHostedConfigurationVersion(
+      'PRE_CREATE_HOSTED_CONFIGURATION_VERSION'),
+  preStartDeployment('PRE_START_DEPLOYMENT'),
+  onDeploymentStart('ON_DEPLOYMENT_START'),
+  onDeploymentStep('ON_DEPLOYMENT_STEP'),
+  onDeploymentBaking('ON_DEPLOYMENT_BAKING'),
+  onDeploymentComplete('ON_DEPLOYMENT_COMPLETE'),
+  onDeploymentRolledBack('ON_DEPLOYMENT_ROLLED_BACK'),
+  ;
 
-extension ActionPointValueExtension on ActionPoint {
-  String toValue() {
-    switch (this) {
-      case ActionPoint.preCreateHostedConfigurationVersion:
-        return 'PRE_CREATE_HOSTED_CONFIGURATION_VERSION';
-      case ActionPoint.preStartDeployment:
-        return 'PRE_START_DEPLOYMENT';
-      case ActionPoint.onDeploymentStart:
-        return 'ON_DEPLOYMENT_START';
-      case ActionPoint.onDeploymentStep:
-        return 'ON_DEPLOYMENT_STEP';
-      case ActionPoint.onDeploymentBaking:
-        return 'ON_DEPLOYMENT_BAKING';
-      case ActionPoint.onDeploymentComplete:
-        return 'ON_DEPLOYMENT_COMPLETE';
-      case ActionPoint.onDeploymentRolledBack:
-        return 'ON_DEPLOYMENT_ROLLED_BACK';
-    }
-  }
-}
+  final String value;
 
-extension ActionPointFromString on String {
-  ActionPoint toActionPoint() {
-    switch (this) {
-      case 'PRE_CREATE_HOSTED_CONFIGURATION_VERSION':
-        return ActionPoint.preCreateHostedConfigurationVersion;
-      case 'PRE_START_DEPLOYMENT':
-        return ActionPoint.preStartDeployment;
-      case 'ON_DEPLOYMENT_START':
-        return ActionPoint.onDeploymentStart;
-      case 'ON_DEPLOYMENT_STEP':
-        return ActionPoint.onDeploymentStep;
-      case 'ON_DEPLOYMENT_BAKING':
-        return ActionPoint.onDeploymentBaking;
-      case 'ON_DEPLOYMENT_COMPLETE':
-        return ActionPoint.onDeploymentComplete;
-      case 'ON_DEPLOYMENT_ROLLED_BACK':
-        return ActionPoint.onDeploymentRolledBack;
-    }
-    throw Exception('$this is not known in enum ActionPoint');
-  }
+  const ActionPoint(this.value);
+
+  static ActionPoint fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionPoint'));
 }
 
 class Application {
@@ -2700,7 +2667,7 @@ class ConfigurationProfileSummary {
       type: json['Type'] as String?,
       validatorTypes: (json['ValidatorTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toValidatorType())
+          .map((e) => ValidatorType.fromString((e as String)))
           .toList(),
     );
   }
@@ -2719,7 +2686,7 @@ class ConfigurationProfileSummary {
       if (name != null) 'Name': name,
       if (type != null) 'Type': type,
       if (validatorTypes != null)
-        'ValidatorTypes': validatorTypes.map((e) => e.toValue()).toList(),
+        'ValidatorTypes': validatorTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -2884,12 +2851,12 @@ class Deployment {
           .toList(),
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
       growthFactor: json['GrowthFactor'] as double?,
-      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
       kmsKeyArn: json['KmsKeyArn'] as String?,
       kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
       percentageComplete: json['PercentageComplete'] as double?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      state: (json['State'] as String?)?.toDeploymentState(),
+      state: (json['State'] as String?)?.let(DeploymentState.fromString),
       versionLabel: json['VersionLabel'] as String?,
     );
   }
@@ -2939,12 +2906,12 @@ class Deployment {
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType.toValue(),
+      if (growthType != null) 'GrowthType': growthType.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
       if (percentageComplete != null) 'PercentageComplete': percentageComplete,
       if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (versionLabel != null) 'VersionLabel': versionLabel,
     };
   }
@@ -3000,9 +2967,11 @@ class DeploymentEvent {
           .map((e) => ActionInvocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
-      eventType: (json['EventType'] as String?)?.toDeploymentEventType(),
+      eventType:
+          (json['EventType'] as String?)?.let(DeploymentEventType.fromString),
       occurredAt: timeStampFromJson(json['OccurredAt']),
-      triggeredBy: (json['TriggeredBy'] as String?)?.toTriggeredBy(),
+      triggeredBy:
+          (json['TriggeredBy'] as String?)?.let(TriggeredBy.fromString),
     );
   }
 
@@ -3015,107 +2984,49 @@ class DeploymentEvent {
     return {
       if (actionInvocations != null) 'ActionInvocations': actionInvocations,
       if (description != null) 'Description': description,
-      if (eventType != null) 'EventType': eventType.toValue(),
+      if (eventType != null) 'EventType': eventType.value,
       if (occurredAt != null) 'OccurredAt': iso8601ToJson(occurredAt),
-      if (triggeredBy != null) 'TriggeredBy': triggeredBy.toValue(),
+      if (triggeredBy != null) 'TriggeredBy': triggeredBy.value,
     };
   }
 }
 
 enum DeploymentEventType {
-  percentageUpdated,
-  rollbackStarted,
-  rollbackCompleted,
-  bakeTimeStarted,
-  deploymentStarted,
-  deploymentCompleted,
-}
+  percentageUpdated('PERCENTAGE_UPDATED'),
+  rollbackStarted('ROLLBACK_STARTED'),
+  rollbackCompleted('ROLLBACK_COMPLETED'),
+  bakeTimeStarted('BAKE_TIME_STARTED'),
+  deploymentStarted('DEPLOYMENT_STARTED'),
+  deploymentCompleted('DEPLOYMENT_COMPLETED'),
+  ;
 
-extension DeploymentEventTypeValueExtension on DeploymentEventType {
-  String toValue() {
-    switch (this) {
-      case DeploymentEventType.percentageUpdated:
-        return 'PERCENTAGE_UPDATED';
-      case DeploymentEventType.rollbackStarted:
-        return 'ROLLBACK_STARTED';
-      case DeploymentEventType.rollbackCompleted:
-        return 'ROLLBACK_COMPLETED';
-      case DeploymentEventType.bakeTimeStarted:
-        return 'BAKE_TIME_STARTED';
-      case DeploymentEventType.deploymentStarted:
-        return 'DEPLOYMENT_STARTED';
-      case DeploymentEventType.deploymentCompleted:
-        return 'DEPLOYMENT_COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentEventTypeFromString on String {
-  DeploymentEventType toDeploymentEventType() {
-    switch (this) {
-      case 'PERCENTAGE_UPDATED':
-        return DeploymentEventType.percentageUpdated;
-      case 'ROLLBACK_STARTED':
-        return DeploymentEventType.rollbackStarted;
-      case 'ROLLBACK_COMPLETED':
-        return DeploymentEventType.rollbackCompleted;
-      case 'BAKE_TIME_STARTED':
-        return DeploymentEventType.bakeTimeStarted;
-      case 'DEPLOYMENT_STARTED':
-        return DeploymentEventType.deploymentStarted;
-      case 'DEPLOYMENT_COMPLETED':
-        return DeploymentEventType.deploymentCompleted;
-    }
-    throw Exception('$this is not known in enum DeploymentEventType');
-  }
+  const DeploymentEventType(this.value);
+
+  static DeploymentEventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeploymentEventType'));
 }
 
 enum DeploymentState {
-  baking,
-  validating,
-  deploying,
-  complete,
-  rollingBack,
-  rolledBack,
-}
+  baking('BAKING'),
+  validating('VALIDATING'),
+  deploying('DEPLOYING'),
+  complete('COMPLETE'),
+  rollingBack('ROLLING_BACK'),
+  rolledBack('ROLLED_BACK'),
+  ;
 
-extension DeploymentStateValueExtension on DeploymentState {
-  String toValue() {
-    switch (this) {
-      case DeploymentState.baking:
-        return 'BAKING';
-      case DeploymentState.validating:
-        return 'VALIDATING';
-      case DeploymentState.deploying:
-        return 'DEPLOYING';
-      case DeploymentState.complete:
-        return 'COMPLETE';
-      case DeploymentState.rollingBack:
-        return 'ROLLING_BACK';
-      case DeploymentState.rolledBack:
-        return 'ROLLED_BACK';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStateFromString on String {
-  DeploymentState toDeploymentState() {
-    switch (this) {
-      case 'BAKING':
-        return DeploymentState.baking;
-      case 'VALIDATING':
-        return DeploymentState.validating;
-      case 'DEPLOYING':
-        return DeploymentState.deploying;
-      case 'COMPLETE':
-        return DeploymentState.complete;
-      case 'ROLLING_BACK':
-        return DeploymentState.rollingBack;
-      case 'ROLLED_BACK':
-        return DeploymentState.rolledBack;
-    }
-    throw Exception('$this is not known in enum DeploymentState');
-  }
+  const DeploymentState(this.value);
+
+  static DeploymentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentState'));
 }
 
 class DeploymentStrategies {
@@ -3195,10 +3106,11 @@ class DeploymentStrategy {
       description: json['Description'] as String?,
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
       growthFactor: json['GrowthFactor'] as double?,
-      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      replicateTo: (json['ReplicateTo'] as String?)?.toReplicateTo(),
+      replicateTo:
+          (json['ReplicateTo'] as String?)?.let(ReplicateTo.fromString),
     );
   }
 
@@ -3218,10 +3130,10 @@ class DeploymentStrategy {
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType.toValue(),
+      if (growthType != null) 'GrowthType': growthType.value,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (replicateTo != null) 'ReplicateTo': replicateTo.toValue(),
+      if (replicateTo != null) 'ReplicateTo': replicateTo.value,
     };
   }
 }
@@ -3290,10 +3202,10 @@ class DeploymentSummary {
       deploymentNumber: json['DeploymentNumber'] as int?,
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
       growthFactor: json['GrowthFactor'] as double?,
-      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
       percentageComplete: json['PercentageComplete'] as double?,
       startedAt: timeStampFromJson(json['StartedAt']),
-      state: (json['State'] as String?)?.toDeploymentState(),
+      state: (json['State'] as String?)?.let(DeploymentState.fromString),
       versionLabel: json['VersionLabel'] as String?,
     );
   }
@@ -3322,10 +3234,10 @@ class DeploymentSummary {
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType.toValue(),
+      if (growthType != null) 'GrowthType': growthType.value,
       if (percentageComplete != null) 'PercentageComplete': percentageComplete,
       if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (versionLabel != null) 'VersionLabel': versionLabel,
     };
   }
@@ -3404,7 +3316,7 @@ class Environment {
           .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toEnvironmentState(),
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
     );
   }
 
@@ -3421,47 +3333,26 @@ class Environment {
       if (id != null) 'Id': id,
       if (monitors != null) 'Monitors': monitors,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum EnvironmentState {
-  readyForDeployment,
-  deploying,
-  rollingBack,
-  rolledBack,
-}
+  readyForDeployment('READY_FOR_DEPLOYMENT'),
+  deploying('DEPLOYING'),
+  rollingBack('ROLLING_BACK'),
+  rolledBack('ROLLED_BACK'),
+  ;
 
-extension EnvironmentStateValueExtension on EnvironmentState {
-  String toValue() {
-    switch (this) {
-      case EnvironmentState.readyForDeployment:
-        return 'READY_FOR_DEPLOYMENT';
-      case EnvironmentState.deploying:
-        return 'DEPLOYING';
-      case EnvironmentState.rollingBack:
-        return 'ROLLING_BACK';
-      case EnvironmentState.rolledBack:
-        return 'ROLLED_BACK';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStateFromString on String {
-  EnvironmentState toEnvironmentState() {
-    switch (this) {
-      case 'READY_FOR_DEPLOYMENT':
-        return EnvironmentState.readyForDeployment;
-      case 'DEPLOYING':
-        return EnvironmentState.deploying;
-      case 'ROLLING_BACK':
-        return EnvironmentState.rollingBack;
-      case 'ROLLED_BACK':
-        return EnvironmentState.rolledBack;
-    }
-    throw Exception('$this is not known in enum EnvironmentState');
-  }
+  const EnvironmentState(this.value);
+
+  static EnvironmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentState'));
 }
 
 class Environments {
@@ -3536,7 +3427,7 @@ class Extension {
     return Extension(
       actions: (json['Actions'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
-              k.toActionPoint(),
+              ActionPoint.fromString(k),
               (e as List)
                   .whereNotNull()
                   .map((e) => Action.fromJson(e as Map<String, dynamic>))
@@ -3561,7 +3452,7 @@ class Extension {
     final versionNumber = this.versionNumber;
     return {
       if (actions != null)
-        'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+        'Actions': actions.map((k, e) => MapEntry(k.value, e)),
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
@@ -3798,31 +3689,17 @@ class Extensions {
 }
 
 enum GrowthType {
-  linear,
-  exponential,
-}
+  linear('LINEAR'),
+  exponential('EXPONENTIAL'),
+  ;
 
-extension GrowthTypeValueExtension on GrowthType {
-  String toValue() {
-    switch (this) {
-      case GrowthType.linear:
-        return 'LINEAR';
-      case GrowthType.exponential:
-        return 'EXPONENTIAL';
-    }
-  }
-}
+  final String value;
 
-extension GrowthTypeFromString on String {
-  GrowthType toGrowthType() {
-    switch (this) {
-      case 'LINEAR':
-        return GrowthType.linear;
-      case 'EXPONENTIAL':
-        return GrowthType.exponential;
-    }
-    throw Exception('$this is not known in enum GrowthType');
-  }
+  const GrowthType(this.value);
+
+  static GrowthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GrowthType'));
 }
 
 class HostedConfigurationVersion {
@@ -4061,31 +3938,17 @@ class Parameter {
 }
 
 enum ReplicateTo {
-  none,
-  ssmDocument,
-}
+  none('NONE'),
+  ssmDocument('SSM_DOCUMENT'),
+  ;
 
-extension ReplicateToValueExtension on ReplicateTo {
-  String toValue() {
-    switch (this) {
-      case ReplicateTo.none:
-        return 'NONE';
-      case ReplicateTo.ssmDocument:
-        return 'SSM_DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension ReplicateToFromString on String {
-  ReplicateTo toReplicateTo() {
-    switch (this) {
-      case 'NONE':
-        return ReplicateTo.none;
-      case 'SSM_DOCUMENT':
-        return ReplicateTo.ssmDocument;
-    }
-    throw Exception('$this is not known in enum ReplicateTo');
-  }
+  const ReplicateTo(this.value);
+
+  static ReplicateTo fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReplicateTo'));
 }
 
 class ResourceTags {
@@ -4114,41 +3977,19 @@ class ResourceTags {
 }
 
 enum TriggeredBy {
-  user,
-  appconfig,
-  cloudwatchAlarm,
-  internalError,
-}
+  user('USER'),
+  appconfig('APPCONFIG'),
+  cloudwatchAlarm('CLOUDWATCH_ALARM'),
+  internalError('INTERNAL_ERROR'),
+  ;
 
-extension TriggeredByValueExtension on TriggeredBy {
-  String toValue() {
-    switch (this) {
-      case TriggeredBy.user:
-        return 'USER';
-      case TriggeredBy.appconfig:
-        return 'APPCONFIG';
-      case TriggeredBy.cloudwatchAlarm:
-        return 'CLOUDWATCH_ALARM';
-      case TriggeredBy.internalError:
-        return 'INTERNAL_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension TriggeredByFromString on String {
-  TriggeredBy toTriggeredBy() {
-    switch (this) {
-      case 'USER':
-        return TriggeredBy.user;
-      case 'APPCONFIG':
-        return TriggeredBy.appconfig;
-      case 'CLOUDWATCH_ALARM':
-        return TriggeredBy.cloudwatchAlarm;
-      case 'INTERNAL_ERROR':
-        return TriggeredBy.internalError;
-    }
-    throw Exception('$this is not known in enum TriggeredBy');
-  }
+  const TriggeredBy(this.value);
+
+  static TriggeredBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TriggeredBy'));
 }
 
 /// A validator provides a syntactic or semantic check to ensure the
@@ -4174,7 +4015,7 @@ class Validator {
   factory Validator.fromJson(Map<String, dynamic> json) {
     return Validator(
       content: json['Content'] as String,
-      type: (json['Type'] as String).toValidatorType(),
+      type: ValidatorType.fromString((json['Type'] as String)),
     );
   }
 
@@ -4183,37 +4024,24 @@ class Validator {
     final type = this.type;
     return {
       'Content': content,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum ValidatorType {
-  jsonSchema,
-  lambda,
-}
+  jsonSchema('JSON_SCHEMA'),
+  lambda('LAMBDA'),
+  ;
 
-extension ValidatorTypeValueExtension on ValidatorType {
-  String toValue() {
-    switch (this) {
-      case ValidatorType.jsonSchema:
-        return 'JSON_SCHEMA';
-      case ValidatorType.lambda:
-        return 'LAMBDA';
-    }
-  }
-}
+  final String value;
 
-extension ValidatorTypeFromString on String {
-  ValidatorType toValidatorType() {
-    switch (this) {
-      case 'JSON_SCHEMA':
-        return ValidatorType.jsonSchema;
-      case 'LAMBDA':
-        return ValidatorType.lambda;
-    }
-    throw Exception('$this is not known in enum ValidatorType');
-  }
+  const ValidatorType(this.value);
+
+  static ValidatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ValidatorType'));
 }
 
 class BadRequestException extends _s.GenericAwsException {

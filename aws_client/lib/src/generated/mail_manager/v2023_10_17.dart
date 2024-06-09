@@ -247,7 +247,7 @@ class MailManager {
         'IngressPointName': ingressPointName,
         'RuleSetId': ruleSetId,
         'TrafficPolicyId': trafficPolicyId,
-        'Type': type.toValue(),
+        'Type': type.value,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (ingressPointConfiguration != null)
           'IngressPointConfiguration': ingressPointConfiguration,
@@ -422,7 +422,7 @@ class MailManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DefaultAction': defaultAction.toValue(),
+        'DefaultAction': defaultAction.value,
         'PolicyStatements': policyStatements,
         'TrafficPolicyName': trafficPolicyName,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -1709,7 +1709,7 @@ class MailManager {
           'IngressPointConfiguration': ingressPointConfiguration,
         if (ingressPointName != null) 'IngressPointName': ingressPointName,
         if (ruleSetId != null) 'RuleSetId': ruleSetId,
-        if (statusToUpdate != null) 'StatusToUpdate': statusToUpdate.toValue(),
+        if (statusToUpdate != null) 'StatusToUpdate': statusToUpdate.value,
         if (trafficPolicyId != null) 'TrafficPolicyId': trafficPolicyId,
       },
     );
@@ -1855,7 +1855,7 @@ class MailManager {
       headers: headers,
       payload: {
         'TrafficPolicyId': trafficPolicyId,
-        if (defaultAction != null) 'DefaultAction': defaultAction.toValue(),
+        if (defaultAction != null) 'DefaultAction': defaultAction.value,
         if (maxMessageSizeBytes != null)
           'MaxMessageSizeBytes': maxMessageSizeBytes,
         if (policyStatements != null) 'PolicyStatements': policyStatements,
@@ -1866,59 +1866,33 @@ class MailManager {
 }
 
 enum AcceptAction {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension AcceptActionValueExtension on AcceptAction {
-  String toValue() {
-    switch (this) {
-      case AcceptAction.allow:
-        return 'ALLOW';
-      case AcceptAction.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension AcceptActionFromString on String {
-  AcceptAction toAcceptAction() {
-    switch (this) {
-      case 'ALLOW':
-        return AcceptAction.allow;
-      case 'DENY':
-        return AcceptAction.deny;
-    }
-    throw Exception('$this is not known in enum AcceptAction');
-  }
+  const AcceptAction(this.value);
+
+  static AcceptAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceptAction'));
 }
 
 enum ActionFailurePolicy {
-  $continue,
-  drop,
-}
+  $continue('CONTINUE'),
+  drop('DROP'),
+  ;
 
-extension ActionFailurePolicyValueExtension on ActionFailurePolicy {
-  String toValue() {
-    switch (this) {
-      case ActionFailurePolicy.$continue:
-        return 'CONTINUE';
-      case ActionFailurePolicy.drop:
-        return 'DROP';
-    }
-  }
-}
+  final String value;
 
-extension ActionFailurePolicyFromString on String {
-  ActionFailurePolicy toActionFailurePolicy() {
-    switch (this) {
-      case 'CONTINUE':
-        return ActionFailurePolicy.$continue;
-      case 'DROP':
-        return ActionFailurePolicy.drop;
-    }
-    throw Exception('$this is not known in enum ActionFailurePolicy');
-  }
+  const ActionFailurePolicy(this.value);
+
+  static ActionFailurePolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActionFailurePolicy'));
 }
 
 /// The action to add a header to a message. When executed, this action will add
@@ -2123,7 +2097,8 @@ class Archive {
     return Archive(
       archiveId: json['ArchiveId'] as String,
       archiveName: json['ArchiveName'] as String?,
-      archiveState: (json['ArchiveState'] as String?)?.toArchiveState(),
+      archiveState:
+          (json['ArchiveState'] as String?)?.let(ArchiveState.fromString),
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
     );
   }
@@ -2136,7 +2111,7 @@ class Archive {
     return {
       'ArchiveId': archiveId,
       if (archiveName != null) 'ArchiveName': archiveName,
-      if (archiveState != null) 'ArchiveState': archiveState.toValue(),
+      if (archiveState != null) 'ArchiveState': archiveState.value,
       if (lastUpdatedTimestamp != null)
         'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
     };
@@ -2162,8 +2137,8 @@ class ArchiveAction {
   factory ArchiveAction.fromJson(Map<String, dynamic> json) {
     return ArchiveAction(
       targetArchive: json['TargetArchive'] as String,
-      actionFailurePolicy:
-          (json['ActionFailurePolicy'] as String?)?.toActionFailurePolicy(),
+      actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
+          ?.let(ActionFailurePolicy.fromString),
     );
   }
 
@@ -2173,33 +2148,23 @@ class ArchiveAction {
     return {
       'TargetArchive': targetArchive,
       if (actionFailurePolicy != null)
-        'ActionFailurePolicy': actionFailurePolicy.toValue(),
+        'ActionFailurePolicy': actionFailurePolicy.value,
     };
   }
 }
 
 enum ArchiveBooleanEmailAttribute {
-  hasAttachments,
-}
+  hasAttachments('HAS_ATTACHMENTS'),
+  ;
 
-extension ArchiveBooleanEmailAttributeValueExtension
-    on ArchiveBooleanEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case ArchiveBooleanEmailAttribute.hasAttachments:
-        return 'HAS_ATTACHMENTS';
-    }
-  }
-}
+  final String value;
 
-extension ArchiveBooleanEmailAttributeFromString on String {
-  ArchiveBooleanEmailAttribute toArchiveBooleanEmailAttribute() {
-    switch (this) {
-      case 'HAS_ATTACHMENTS':
-        return ArchiveBooleanEmailAttribute.hasAttachments;
-    }
-    throw Exception('$this is not known in enum ArchiveBooleanEmailAttribute');
-  }
+  const ArchiveBooleanEmailAttribute(this.value);
+
+  static ArchiveBooleanEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ArchiveBooleanEmailAttribute'));
 }
 
 /// A boolean expression to evaluate email attribute values.
@@ -2219,7 +2184,7 @@ class ArchiveBooleanExpression {
     return ArchiveBooleanExpression(
       evaluate: ArchiveBooleanToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toArchiveBooleanOperator(),
+      operator: ArchiveBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
 
@@ -2228,37 +2193,24 @@ class ArchiveBooleanExpression {
     final operator = this.operator;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
     };
   }
 }
 
 enum ArchiveBooleanOperator {
-  isTrue,
-  isFalse,
-}
+  isTrue('IS_TRUE'),
+  isFalse('IS_FALSE'),
+  ;
 
-extension ArchiveBooleanOperatorValueExtension on ArchiveBooleanOperator {
-  String toValue() {
-    switch (this) {
-      case ArchiveBooleanOperator.isTrue:
-        return 'IS_TRUE';
-      case ArchiveBooleanOperator.isFalse:
-        return 'IS_FALSE';
-    }
-  }
-}
+  final String value;
 
-extension ArchiveBooleanOperatorFromString on String {
-  ArchiveBooleanOperator toArchiveBooleanOperator() {
-    switch (this) {
-      case 'IS_TRUE':
-        return ArchiveBooleanOperator.isTrue;
-      case 'IS_FALSE':
-        return ArchiveBooleanOperator.isFalse;
-    }
-    throw Exception('$this is not known in enum ArchiveBooleanOperator');
-  }
+  const ArchiveBooleanOperator(this.value);
+
+  static ArchiveBooleanOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ArchiveBooleanOperator'));
 }
 
 /// The attribute to evaluate in a boolean expression.
@@ -2272,15 +2224,15 @@ class ArchiveBooleanToEvaluate {
 
   factory ArchiveBooleanToEvaluate.fromJson(Map<String, dynamic> json) {
     return ArchiveBooleanToEvaluate(
-      attribute:
-          (json['Attribute'] as String?)?.toArchiveBooleanEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(ArchiveBooleanEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -2373,83 +2325,48 @@ class ArchiveRetention {
   factory ArchiveRetention.fromJson(Map<String, dynamic> json) {
     return ArchiveRetention(
       retentionPeriod:
-          (json['RetentionPeriod'] as String?)?.toRetentionPeriod(),
+          (json['RetentionPeriod'] as String?)?.let(RetentionPeriod.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final retentionPeriod = this.retentionPeriod;
     return {
-      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod.toValue(),
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod.value,
     };
   }
 }
 
 enum ArchiveState {
-  active,
-  pendingDeletion,
-}
+  active('ACTIVE'),
+  pendingDeletion('PENDING_DELETION'),
+  ;
 
-extension ArchiveStateValueExtension on ArchiveState {
-  String toValue() {
-    switch (this) {
-      case ArchiveState.active:
-        return 'ACTIVE';
-      case ArchiveState.pendingDeletion:
-        return 'PENDING_DELETION';
-    }
-  }
-}
+  final String value;
 
-extension ArchiveStateFromString on String {
-  ArchiveState toArchiveState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ArchiveState.active;
-      case 'PENDING_DELETION':
-        return ArchiveState.pendingDeletion;
-    }
-    throw Exception('$this is not known in enum ArchiveState');
-  }
+  const ArchiveState(this.value);
+
+  static ArchiveState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArchiveState'));
 }
 
 enum ArchiveStringEmailAttribute {
-  to,
-  from,
-  cc,
-  subject,
-}
+  to('TO'),
+  from('FROM'),
+  cc('CC'),
+  subject('SUBJECT'),
+  ;
 
-extension ArchiveStringEmailAttributeValueExtension
-    on ArchiveStringEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case ArchiveStringEmailAttribute.to:
-        return 'TO';
-      case ArchiveStringEmailAttribute.from:
-        return 'FROM';
-      case ArchiveStringEmailAttribute.cc:
-        return 'CC';
-      case ArchiveStringEmailAttribute.subject:
-        return 'SUBJECT';
-    }
-  }
-}
+  final String value;
 
-extension ArchiveStringEmailAttributeFromString on String {
-  ArchiveStringEmailAttribute toArchiveStringEmailAttribute() {
-    switch (this) {
-      case 'TO':
-        return ArchiveStringEmailAttribute.to;
-      case 'FROM':
-        return ArchiveStringEmailAttribute.from;
-      case 'CC':
-        return ArchiveStringEmailAttribute.cc;
-      case 'SUBJECT':
-        return ArchiveStringEmailAttribute.subject;
-    }
-    throw Exception('$this is not known in enum ArchiveStringEmailAttribute');
-  }
+  const ArchiveStringEmailAttribute(this.value);
+
+  static ArchiveStringEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ArchiveStringEmailAttribute'));
 }
 
 /// A string expression to evaluate an email attribute value against one or more
@@ -2474,7 +2391,7 @@ class ArchiveStringExpression {
     return ArchiveStringExpression(
       evaluate: ArchiveStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toArchiveStringOperator(),
+      operator: ArchiveStringOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -2488,33 +2405,24 @@ class ArchiveStringExpression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum ArchiveStringOperator {
-  contains,
-}
+  contains('CONTAINS'),
+  ;
 
-extension ArchiveStringOperatorValueExtension on ArchiveStringOperator {
-  String toValue() {
-    switch (this) {
-      case ArchiveStringOperator.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension ArchiveStringOperatorFromString on String {
-  ArchiveStringOperator toArchiveStringOperator() {
-    switch (this) {
-      case 'CONTAINS':
-        return ArchiveStringOperator.contains;
-    }
-    throw Exception('$this is not known in enum ArchiveStringOperator');
-  }
+  const ArchiveStringOperator(this.value);
+
+  static ArchiveStringOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ArchiveStringOperator'));
 }
 
 /// Specifies the email attribute to evaluate in a string expression.
@@ -2528,15 +2436,15 @@ class ArchiveStringToEvaluate {
 
   factory ArchiveStringToEvaluate.fromJson(Map<String, dynamic> json) {
     return ArchiveStringToEvaluate(
-      attribute:
-          (json['Attribute'] as String?)?.toArchiveStringEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(ArchiveStringEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -2809,8 +2717,8 @@ class DeliverToMailboxAction {
     return DeliverToMailboxAction(
       mailboxArn: json['MailboxArn'] as String,
       roleArn: json['RoleArn'] as String,
-      actionFailurePolicy:
-          (json['ActionFailurePolicy'] as String?)?.toActionFailurePolicy(),
+      actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
+          ?.let(ActionFailurePolicy.fromString),
     );
   }
 
@@ -2822,7 +2730,7 @@ class DeliverToMailboxAction {
       'MailboxArn': mailboxArn,
       'RoleArn': roleArn,
       if (actionFailurePolicy != null)
-        'ActionFailurePolicy': actionFailurePolicy.toValue(),
+        'ActionFailurePolicy': actionFailurePolicy.value,
     };
   }
 }
@@ -2869,51 +2777,21 @@ class ExportDestinationConfiguration {
 }
 
 enum ExportState {
-  queued,
-  preprocessing,
-  processing,
-  completed,
-  failed,
-  cancelled,
-}
+  queued('QUEUED'),
+  preprocessing('PREPROCESSING'),
+  processing('PROCESSING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension ExportStateValueExtension on ExportState {
-  String toValue() {
-    switch (this) {
-      case ExportState.queued:
-        return 'QUEUED';
-      case ExportState.preprocessing:
-        return 'PREPROCESSING';
-      case ExportState.processing:
-        return 'PROCESSING';
-      case ExportState.completed:
-        return 'COMPLETED';
-      case ExportState.failed:
-        return 'FAILED';
-      case ExportState.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension ExportStateFromString on String {
-  ExportState toExportState() {
-    switch (this) {
-      case 'QUEUED':
-        return ExportState.queued;
-      case 'PREPROCESSING':
-        return ExportState.preprocessing;
-      case 'PROCESSING':
-        return ExportState.processing;
-      case 'COMPLETED':
-        return ExportState.completed;
-      case 'FAILED':
-        return ExportState.failed;
-      case 'CANCELLED':
-        return ExportState.cancelled;
-    }
-    throw Exception('$this is not known in enum ExportState');
-  }
+  const ExportState(this.value);
+
+  static ExportState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ExportState'));
 }
 
 /// The current status of an archive export job.
@@ -2941,7 +2819,7 @@ class ExportStatus {
     return ExportStatus(
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       errorMessage: json['ErrorMessage'] as String?,
-      state: (json['State'] as String?)?.toExportState(),
+      state: (json['State'] as String?)?.let(ExportState.fromString),
       submissionTimestamp: timeStampFromJson(json['SubmissionTimestamp']),
     );
   }
@@ -2955,7 +2833,7 @@ class ExportStatus {
       if (completionTimestamp != null)
         'CompletionTimestamp': unixTimestampToJson(completionTimestamp),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (submissionTimestamp != null)
         'SubmissionTimestamp': unixTimestampToJson(submissionTimestamp),
     };
@@ -3256,7 +3134,7 @@ class GetArchiveResponse {
       archiveArn: json['ArchiveArn'] as String,
       archiveId: json['ArchiveId'] as String,
       archiveName: json['ArchiveName'] as String,
-      archiveState: (json['ArchiveState'] as String).toArchiveState(),
+      archiveState: ArchiveState.fromString((json['ArchiveState'] as String)),
       retention:
           ArchiveRetention.fromJson(json['Retention'] as Map<String, dynamic>),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -3278,7 +3156,7 @@ class GetArchiveResponse {
       'ArchiveArn': archiveArn,
       'ArchiveId': archiveId,
       'ArchiveName': archiveName,
-      'ArchiveState': archiveState.toValue(),
+      'ArchiveState': archiveState.value,
       'Retention': retention,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
@@ -3442,9 +3320,9 @@ class GetIngressPointResponse {
               : null,
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       ruleSetId: json['RuleSetId'] as String?,
-      status: (json['Status'] as String?)?.toIngressPointStatus(),
+      status: (json['Status'] as String?)?.let(IngressPointStatus.fromString),
       trafficPolicyId: json['TrafficPolicyId'] as String?,
-      type: (json['Type'] as String?)?.toIngressPointType(),
+      type: (json['Type'] as String?)?.let(IngressPointType.fromString),
     );
   }
 
@@ -3472,9 +3350,9 @@ class GetIngressPointResponse {
       if (lastUpdatedTimestamp != null)
         'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (ruleSetId != null) 'RuleSetId': ruleSetId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (trafficPolicyId != null) 'TrafficPolicyId': trafficPolicyId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -3659,7 +3537,8 @@ class GetTrafficPolicyResponse {
       trafficPolicyId: json['TrafficPolicyId'] as String,
       trafficPolicyName: json['TrafficPolicyName'] as String,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      defaultAction: (json['DefaultAction'] as String?)?.toAcceptAction(),
+      defaultAction:
+          (json['DefaultAction'] as String?)?.let(AcceptAction.fromString),
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       maxMessageSizeBytes: json['MaxMessageSizeBytes'] as int?,
       policyStatements: (json['PolicyStatements'] as List?)
@@ -3684,7 +3563,7 @@ class GetTrafficPolicyResponse {
       'TrafficPolicyName': trafficPolicyName,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (defaultAction != null) 'DefaultAction': defaultAction.toValue(),
+      if (defaultAction != null) 'DefaultAction': defaultAction.value,
       if (lastUpdatedTimestamp != null)
         'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (maxMessageSizeBytes != null)
@@ -3744,7 +3623,7 @@ class IngressBooleanExpression {
     return IngressBooleanExpression(
       evaluate: IngressBooleanToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toIngressBooleanOperator(),
+      operator: IngressBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
 
@@ -3753,37 +3632,24 @@ class IngressBooleanExpression {
     final operator = this.operator;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
     };
   }
 }
 
 enum IngressBooleanOperator {
-  isTrue,
-  isFalse,
-}
+  isTrue('IS_TRUE'),
+  isFalse('IS_FALSE'),
+  ;
 
-extension IngressBooleanOperatorValueExtension on IngressBooleanOperator {
-  String toValue() {
-    switch (this) {
-      case IngressBooleanOperator.isTrue:
-        return 'IS_TRUE';
-      case IngressBooleanOperator.isFalse:
-        return 'IS_FALSE';
-    }
-  }
-}
+  final String value;
 
-extension IngressBooleanOperatorFromString on String {
-  IngressBooleanOperator toIngressBooleanOperator() {
-    switch (this) {
-      case 'IS_TRUE':
-        return IngressBooleanOperator.isTrue;
-      case 'IS_FALSE':
-        return IngressBooleanOperator.isFalse;
-    }
-    throw Exception('$this is not known in enum IngressBooleanOperator');
-  }
+  const IngressBooleanOperator(this.value);
+
+  static IngressBooleanOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngressBooleanOperator'));
 }
 
 /// The union type representing the allowed types of operands for a boolean
@@ -3814,31 +3680,18 @@ class IngressBooleanToEvaluate {
 }
 
 enum IngressIpOperator {
-  cidrMatches,
-  notCidrMatches,
-}
+  cidrMatches('CIDR_MATCHES'),
+  notCidrMatches('NOT_CIDR_MATCHES'),
+  ;
 
-extension IngressIpOperatorValueExtension on IngressIpOperator {
-  String toValue() {
-    switch (this) {
-      case IngressIpOperator.cidrMatches:
-        return 'CIDR_MATCHES';
-      case IngressIpOperator.notCidrMatches:
-        return 'NOT_CIDR_MATCHES';
-    }
-  }
-}
+  final String value;
 
-extension IngressIpOperatorFromString on String {
-  IngressIpOperator toIngressIpOperator() {
-    switch (this) {
-      case 'CIDR_MATCHES':
-        return IngressIpOperator.cidrMatches;
-      case 'NOT_CIDR_MATCHES':
-        return IngressIpOperator.notCidrMatches;
-    }
-    throw Exception('$this is not known in enum IngressIpOperator');
-  }
+  const IngressIpOperator(this.value);
+
+  static IngressIpOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngressIpOperator'));
 }
 
 /// The structure for an IP based condition matching on the incoming mail.
@@ -3852,39 +3705,31 @@ class IngressIpToEvaluate {
 
   factory IngressIpToEvaluate.fromJson(Map<String, dynamic> json) {
     return IngressIpToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toIngressIpv4Attribute(),
+      attribute:
+          (json['Attribute'] as String?)?.let(IngressIpv4Attribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
 
 enum IngressIpv4Attribute {
-  senderIp,
-}
+  senderIp('SENDER_IP'),
+  ;
 
-extension IngressIpv4AttributeValueExtension on IngressIpv4Attribute {
-  String toValue() {
-    switch (this) {
-      case IngressIpv4Attribute.senderIp:
-        return 'SENDER_IP';
-    }
-  }
-}
+  final String value;
 
-extension IngressIpv4AttributeFromString on String {
-  IngressIpv4Attribute toIngressIpv4Attribute() {
-    switch (this) {
-      case 'SENDER_IP':
-        return IngressIpv4Attribute.senderIp;
-    }
-    throw Exception('$this is not known in enum IngressIpv4Attribute');
-  }
+  const IngressIpv4Attribute(this.value);
+
+  static IngressIpv4Attribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngressIpv4Attribute'));
 }
 
 /// The union type representing the allowed types for the left hand side of an
@@ -3909,7 +3754,7 @@ class IngressIpv4Expression {
     return IngressIpv4Expression(
       evaluate: IngressIpToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toIngressIpOperator(),
+      operator: IngressIpOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -3923,7 +3768,7 @@ class IngressIpv4Expression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Values': values,
     };
   }
@@ -3959,8 +3804,8 @@ class IngressPoint {
     return IngressPoint(
       ingressPointId: json['IngressPointId'] as String,
       ingressPointName: json['IngressPointName'] as String,
-      status: (json['Status'] as String).toIngressPointStatus(),
-      type: (json['Type'] as String).toIngressPointType(),
+      status: IngressPointStatus.fromString((json['Status'] as String)),
+      type: IngressPointType.fromString((json['Type'] as String)),
       aRecord: json['ARecord'] as String?,
     );
   }
@@ -3974,8 +3819,8 @@ class IngressPoint {
     return {
       'IngressPointId': ingressPointId,
       'IngressPointName': ingressPointName,
-      'Status': status.toValue(),
-      'Type': type.toValue(),
+      'Status': status.value,
+      'Type': type.value,
       if (aRecord != null) 'ARecord': aRecord,
     };
   }
@@ -4089,132 +3934,66 @@ class IngressPointPasswordConfiguration {
 }
 
 enum IngressPointStatus {
-  provisioning,
-  deprovisioning,
-  updating,
-  active,
-  closed,
-  failed,
-}
+  provisioning('PROVISIONING'),
+  deprovisioning('DEPROVISIONING'),
+  updating('UPDATING'),
+  active('ACTIVE'),
+  closed('CLOSED'),
+  failed('FAILED'),
+  ;
 
-extension IngressPointStatusValueExtension on IngressPointStatus {
-  String toValue() {
-    switch (this) {
-      case IngressPointStatus.provisioning:
-        return 'PROVISIONING';
-      case IngressPointStatus.deprovisioning:
-        return 'DEPROVISIONING';
-      case IngressPointStatus.updating:
-        return 'UPDATING';
-      case IngressPointStatus.active:
-        return 'ACTIVE';
-      case IngressPointStatus.closed:
-        return 'CLOSED';
-      case IngressPointStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension IngressPointStatusFromString on String {
-  IngressPointStatus toIngressPointStatus() {
-    switch (this) {
-      case 'PROVISIONING':
-        return IngressPointStatus.provisioning;
-      case 'DEPROVISIONING':
-        return IngressPointStatus.deprovisioning;
-      case 'UPDATING':
-        return IngressPointStatus.updating;
-      case 'ACTIVE':
-        return IngressPointStatus.active;
-      case 'CLOSED':
-        return IngressPointStatus.closed;
-      case 'FAILED':
-        return IngressPointStatus.failed;
-    }
-    throw Exception('$this is not known in enum IngressPointStatus');
-  }
+  const IngressPointStatus(this.value);
+
+  static IngressPointStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngressPointStatus'));
 }
 
 enum IngressPointStatusToUpdate {
-  active,
-  closed,
-}
+  active('ACTIVE'),
+  closed('CLOSED'),
+  ;
 
-extension IngressPointStatusToUpdateValueExtension
-    on IngressPointStatusToUpdate {
-  String toValue() {
-    switch (this) {
-      case IngressPointStatusToUpdate.active:
-        return 'ACTIVE';
-      case IngressPointStatusToUpdate.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension IngressPointStatusToUpdateFromString on String {
-  IngressPointStatusToUpdate toIngressPointStatusToUpdate() {
-    switch (this) {
-      case 'ACTIVE':
-        return IngressPointStatusToUpdate.active;
-      case 'CLOSED':
-        return IngressPointStatusToUpdate.closed;
-    }
-    throw Exception('$this is not known in enum IngressPointStatusToUpdate');
-  }
+  const IngressPointStatusToUpdate(this.value);
+
+  static IngressPointStatusToUpdate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngressPointStatusToUpdate'));
 }
 
 enum IngressPointType {
-  open,
-  auth,
-}
+  open('OPEN'),
+  auth('AUTH'),
+  ;
 
-extension IngressPointTypeValueExtension on IngressPointType {
-  String toValue() {
-    switch (this) {
-      case IngressPointType.open:
-        return 'OPEN';
-      case IngressPointType.auth:
-        return 'AUTH';
-    }
-  }
-}
+  final String value;
 
-extension IngressPointTypeFromString on String {
-  IngressPointType toIngressPointType() {
-    switch (this) {
-      case 'OPEN':
-        return IngressPointType.open;
-      case 'AUTH':
-        return IngressPointType.auth;
-    }
-    throw Exception('$this is not known in enum IngressPointType');
-  }
+  const IngressPointType(this.value);
+
+  static IngressPointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngressPointType'));
 }
 
 enum IngressStringEmailAttribute {
-  recipient,
-}
+  recipient('RECIPIENT'),
+  ;
 
-extension IngressStringEmailAttributeValueExtension
-    on IngressStringEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case IngressStringEmailAttribute.recipient:
-        return 'RECIPIENT';
-    }
-  }
-}
+  final String value;
 
-extension IngressStringEmailAttributeFromString on String {
-  IngressStringEmailAttribute toIngressStringEmailAttribute() {
-    switch (this) {
-      case 'RECIPIENT':
-        return IngressStringEmailAttribute.recipient;
-    }
-    throw Exception('$this is not known in enum IngressStringEmailAttribute');
-  }
+  const IngressStringEmailAttribute(this.value);
+
+  static IngressStringEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngressStringEmailAttribute'));
 }
 
 /// The structure for a string based condition matching on the incoming mail.
@@ -4238,7 +4017,7 @@ class IngressStringExpression {
     return IngressStringExpression(
       evaluate: IngressStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toIngressStringOperator(),
+      operator: IngressStringOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -4252,53 +4031,28 @@ class IngressStringExpression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum IngressStringOperator {
-  equals,
-  notEquals,
-  startsWith,
-  endsWith,
-  contains,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  contains('CONTAINS'),
+  ;
 
-extension IngressStringOperatorValueExtension on IngressStringOperator {
-  String toValue() {
-    switch (this) {
-      case IngressStringOperator.equals:
-        return 'EQUALS';
-      case IngressStringOperator.notEquals:
-        return 'NOT_EQUALS';
-      case IngressStringOperator.startsWith:
-        return 'STARTS_WITH';
-      case IngressStringOperator.endsWith:
-        return 'ENDS_WITH';
-      case IngressStringOperator.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension IngressStringOperatorFromString on String {
-  IngressStringOperator toIngressStringOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return IngressStringOperator.equals;
-      case 'NOT_EQUALS':
-        return IngressStringOperator.notEquals;
-      case 'STARTS_WITH':
-        return IngressStringOperator.startsWith;
-      case 'ENDS_WITH':
-        return IngressStringOperator.endsWith;
-      case 'CONTAINS':
-        return IngressStringOperator.contains;
-    }
-    throw Exception('$this is not known in enum IngressStringOperator');
-  }
+  const IngressStringOperator(this.value);
+
+  static IngressStringOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngressStringOperator'));
 }
 
 /// The union type representing the allowed types for the left hand side of a
@@ -4314,69 +4068,46 @@ class IngressStringToEvaluate {
 
   factory IngressStringToEvaluate.fromJson(Map<String, dynamic> json) {
     return IngressStringToEvaluate(
-      attribute:
-          (json['Attribute'] as String?)?.toIngressStringEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(IngressStringEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
 
 enum IngressTlsAttribute {
-  tlsProtocol,
-}
+  tlsProtocol('TLS_PROTOCOL'),
+  ;
 
-extension IngressTlsAttributeValueExtension on IngressTlsAttribute {
-  String toValue() {
-    switch (this) {
-      case IngressTlsAttribute.tlsProtocol:
-        return 'TLS_PROTOCOL';
-    }
-  }
-}
+  final String value;
 
-extension IngressTlsAttributeFromString on String {
-  IngressTlsAttribute toIngressTlsAttribute() {
-    switch (this) {
-      case 'TLS_PROTOCOL':
-        return IngressTlsAttribute.tlsProtocol;
-    }
-    throw Exception('$this is not known in enum IngressTlsAttribute');
-  }
+  const IngressTlsAttribute(this.value);
+
+  static IngressTlsAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngressTlsAttribute'));
 }
 
 enum IngressTlsProtocolAttribute {
-  tls1_2,
-  tls1_3,
-}
+  tls1_2('TLS1_2'),
+  tls1_3('TLS1_3'),
+  ;
 
-extension IngressTlsProtocolAttributeValueExtension
-    on IngressTlsProtocolAttribute {
-  String toValue() {
-    switch (this) {
-      case IngressTlsProtocolAttribute.tls1_2:
-        return 'TLS1_2';
-      case IngressTlsProtocolAttribute.tls1_3:
-        return 'TLS1_3';
-    }
-  }
-}
+  final String value;
 
-extension IngressTlsProtocolAttributeFromString on String {
-  IngressTlsProtocolAttribute toIngressTlsProtocolAttribute() {
-    switch (this) {
-      case 'TLS1_2':
-        return IngressTlsProtocolAttribute.tls1_2;
-      case 'TLS1_3':
-        return IngressTlsProtocolAttribute.tls1_3;
-    }
-    throw Exception('$this is not known in enum IngressTlsProtocolAttribute');
-  }
+  const IngressTlsProtocolAttribute(this.value);
+
+  static IngressTlsProtocolAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngressTlsProtocolAttribute'));
 }
 
 /// The structure for a TLS related condition matching on the incoming mail.
@@ -4400,8 +4131,9 @@ class IngressTlsProtocolExpression {
     return IngressTlsProtocolExpression(
       evaluate: IngressTlsProtocolToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toIngressTlsProtocolOperator(),
-      value: (json['Value'] as String).toIngressTlsProtocolAttribute(),
+      operator:
+          IngressTlsProtocolOperator.fromString((json['Operator'] as String)),
+      value: IngressTlsProtocolAttribute.fromString((json['Value'] as String)),
     );
   }
 
@@ -4411,39 +4143,25 @@ class IngressTlsProtocolExpression {
     final value = this.value;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
-      'Value': value.toValue(),
+      'Operator': operator.value,
+      'Value': value.value,
     };
   }
 }
 
 enum IngressTlsProtocolOperator {
-  minimumTlsVersion,
-  $is,
-}
+  minimumTlsVersion('MINIMUM_TLS_VERSION'),
+  $is('IS'),
+  ;
 
-extension IngressTlsProtocolOperatorValueExtension
-    on IngressTlsProtocolOperator {
-  String toValue() {
-    switch (this) {
-      case IngressTlsProtocolOperator.minimumTlsVersion:
-        return 'MINIMUM_TLS_VERSION';
-      case IngressTlsProtocolOperator.$is:
-        return 'IS';
-    }
-  }
-}
+  final String value;
 
-extension IngressTlsProtocolOperatorFromString on String {
-  IngressTlsProtocolOperator toIngressTlsProtocolOperator() {
-    switch (this) {
-      case 'MINIMUM_TLS_VERSION':
-        return IngressTlsProtocolOperator.minimumTlsVersion;
-      case 'IS':
-        return IngressTlsProtocolOperator.$is;
-    }
-    throw Exception('$this is not known in enum IngressTlsProtocolOperator');
-  }
+  const IngressTlsProtocolOperator(this.value);
+
+  static IngressTlsProtocolOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngressTlsProtocolOperator'));
 }
 
 /// The union type representing the allowed types for the left hand side of a
@@ -4459,14 +4177,15 @@ class IngressTlsProtocolToEvaluate {
 
   factory IngressTlsProtocolToEvaluate.fromJson(Map<String, dynamic> json) {
     return IngressTlsProtocolToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toIngressTlsAttribute(),
+      attribute:
+          (json['Attribute'] as String?)?.let(IngressTlsAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -4801,31 +4520,17 @@ class ListTrafficPoliciesResponse {
 }
 
 enum MailFrom {
-  replace,
-  preserve,
-}
+  replace('REPLACE'),
+  preserve('PRESERVE'),
+  ;
 
-extension MailFromValueExtension on MailFrom {
-  String toValue() {
-    switch (this) {
-      case MailFrom.replace:
-        return 'REPLACE';
-      case MailFrom.preserve:
-        return 'PRESERVE';
-    }
-  }
-}
+  final String value;
 
-extension MailFromFromString on String {
-  MailFrom toMailFrom() {
-    switch (this) {
-      case 'REPLACE':
-        return MailFrom.replace;
-      case 'PRESERVE':
-        return MailFrom.preserve;
-    }
-    throw Exception('$this is not known in enum MailFrom');
-  }
+  const MailFrom(this.value);
+
+  static MailFrom fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MailFrom'));
 }
 
 /// The textual body content of an email message.
@@ -4961,7 +4666,7 @@ class PolicyStatement {
 
   factory PolicyStatement.fromJson(Map<String, dynamic> json) {
     return PolicyStatement(
-      action: (json['Action'] as String).toAcceptAction(),
+      action: AcceptAction.fromString((json['Action'] as String)),
       conditions: (json['Conditions'] as List)
           .whereNotNull()
           .map((e) => PolicyCondition.fromJson(e as Map<String, dynamic>))
@@ -4973,7 +4678,7 @@ class PolicyStatement {
     final action = this.action;
     final conditions = this.conditions;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'Conditions': conditions,
     };
   }
@@ -5041,9 +4746,9 @@ class RelayAction {
   factory RelayAction.fromJson(Map<String, dynamic> json) {
     return RelayAction(
       relay: json['Relay'] as String,
-      actionFailurePolicy:
-          (json['ActionFailurePolicy'] as String?)?.toActionFailurePolicy(),
-      mailFrom: (json['MailFrom'] as String?)?.toMailFrom(),
+      actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
+          ?.let(ActionFailurePolicy.fromString),
+      mailFrom: (json['MailFrom'] as String?)?.let(MailFrom.fromString),
     );
   }
 
@@ -5054,8 +4759,8 @@ class RelayAction {
     return {
       'Relay': relay,
       if (actionFailurePolicy != null)
-        'ActionFailurePolicy': actionFailurePolicy.toValue(),
-      if (mailFrom != null) 'MailFrom': mailFrom.toValue(),
+        'ActionFailurePolicy': actionFailurePolicy.value,
+      if (mailFrom != null) 'MailFrom': mailFrom.value,
     };
   }
 }
@@ -5129,101 +4834,32 @@ class ReplaceRecipientAction {
 }
 
 enum RetentionPeriod {
-  threeMonths,
-  sixMonths,
-  nineMonths,
-  oneYear,
-  eighteenMonths,
-  twoYears,
-  thirtyMonths,
-  threeYears,
-  fourYears,
-  fiveYears,
-  sixYears,
-  sevenYears,
-  eightYears,
-  nineYears,
-  tenYears,
-  permanent,
-}
+  threeMonths('THREE_MONTHS'),
+  sixMonths('SIX_MONTHS'),
+  nineMonths('NINE_MONTHS'),
+  oneYear('ONE_YEAR'),
+  eighteenMonths('EIGHTEEN_MONTHS'),
+  twoYears('TWO_YEARS'),
+  thirtyMonths('THIRTY_MONTHS'),
+  threeYears('THREE_YEARS'),
+  fourYears('FOUR_YEARS'),
+  fiveYears('FIVE_YEARS'),
+  sixYears('SIX_YEARS'),
+  sevenYears('SEVEN_YEARS'),
+  eightYears('EIGHT_YEARS'),
+  nineYears('NINE_YEARS'),
+  tenYears('TEN_YEARS'),
+  permanent('PERMANENT'),
+  ;
 
-extension RetentionPeriodValueExtension on RetentionPeriod {
-  String toValue() {
-    switch (this) {
-      case RetentionPeriod.threeMonths:
-        return 'THREE_MONTHS';
-      case RetentionPeriod.sixMonths:
-        return 'SIX_MONTHS';
-      case RetentionPeriod.nineMonths:
-        return 'NINE_MONTHS';
-      case RetentionPeriod.oneYear:
-        return 'ONE_YEAR';
-      case RetentionPeriod.eighteenMonths:
-        return 'EIGHTEEN_MONTHS';
-      case RetentionPeriod.twoYears:
-        return 'TWO_YEARS';
-      case RetentionPeriod.thirtyMonths:
-        return 'THIRTY_MONTHS';
-      case RetentionPeriod.threeYears:
-        return 'THREE_YEARS';
-      case RetentionPeriod.fourYears:
-        return 'FOUR_YEARS';
-      case RetentionPeriod.fiveYears:
-        return 'FIVE_YEARS';
-      case RetentionPeriod.sixYears:
-        return 'SIX_YEARS';
-      case RetentionPeriod.sevenYears:
-        return 'SEVEN_YEARS';
-      case RetentionPeriod.eightYears:
-        return 'EIGHT_YEARS';
-      case RetentionPeriod.nineYears:
-        return 'NINE_YEARS';
-      case RetentionPeriod.tenYears:
-        return 'TEN_YEARS';
-      case RetentionPeriod.permanent:
-        return 'PERMANENT';
-    }
-  }
-}
+  final String value;
 
-extension RetentionPeriodFromString on String {
-  RetentionPeriod toRetentionPeriod() {
-    switch (this) {
-      case 'THREE_MONTHS':
-        return RetentionPeriod.threeMonths;
-      case 'SIX_MONTHS':
-        return RetentionPeriod.sixMonths;
-      case 'NINE_MONTHS':
-        return RetentionPeriod.nineMonths;
-      case 'ONE_YEAR':
-        return RetentionPeriod.oneYear;
-      case 'EIGHTEEN_MONTHS':
-        return RetentionPeriod.eighteenMonths;
-      case 'TWO_YEARS':
-        return RetentionPeriod.twoYears;
-      case 'THIRTY_MONTHS':
-        return RetentionPeriod.thirtyMonths;
-      case 'THREE_YEARS':
-        return RetentionPeriod.threeYears;
-      case 'FOUR_YEARS':
-        return RetentionPeriod.fourYears;
-      case 'FIVE_YEARS':
-        return RetentionPeriod.fiveYears;
-      case 'SIX_YEARS':
-        return RetentionPeriod.sixYears;
-      case 'SEVEN_YEARS':
-        return RetentionPeriod.sevenYears;
-      case 'EIGHT_YEARS':
-        return RetentionPeriod.eightYears;
-      case 'NINE_YEARS':
-        return RetentionPeriod.nineYears;
-      case 'TEN_YEARS':
-        return RetentionPeriod.tenYears;
-      case 'PERMANENT':
-        return RetentionPeriod.permanent;
-    }
-    throw Exception('$this is not known in enum RetentionPeriod');
-  }
+  const RetentionPeriod(this.value);
+
+  static RetentionPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RetentionPeriod'));
 }
 
 /// A result row containing metadata for an archived email message.
@@ -5501,36 +5137,19 @@ class RuleAction {
 }
 
 enum RuleBooleanEmailAttribute {
-  readReceiptRequested,
-  tls,
-  tlsWrapped,
-}
+  readReceiptRequested('READ_RECEIPT_REQUESTED'),
+  tls('TLS'),
+  tlsWrapped('TLS_WRAPPED'),
+  ;
 
-extension RuleBooleanEmailAttributeValueExtension on RuleBooleanEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case RuleBooleanEmailAttribute.readReceiptRequested:
-        return 'READ_RECEIPT_REQUESTED';
-      case RuleBooleanEmailAttribute.tls:
-        return 'TLS';
-      case RuleBooleanEmailAttribute.tlsWrapped:
-        return 'TLS_WRAPPED';
-    }
-  }
-}
+  final String value;
 
-extension RuleBooleanEmailAttributeFromString on String {
-  RuleBooleanEmailAttribute toRuleBooleanEmailAttribute() {
-    switch (this) {
-      case 'READ_RECEIPT_REQUESTED':
-        return RuleBooleanEmailAttribute.readReceiptRequested;
-      case 'TLS':
-        return RuleBooleanEmailAttribute.tls;
-      case 'TLS_WRAPPED':
-        return RuleBooleanEmailAttribute.tlsWrapped;
-    }
-    throw Exception('$this is not known in enum RuleBooleanEmailAttribute');
-  }
+  const RuleBooleanEmailAttribute(this.value);
+
+  static RuleBooleanEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleBooleanEmailAttribute'));
 }
 
 /// A boolean expression to be used in a rule condition.
@@ -5550,7 +5169,7 @@ class RuleBooleanExpression {
     return RuleBooleanExpression(
       evaluate: RuleBooleanToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toRuleBooleanOperator(),
+      operator: RuleBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
 
@@ -5559,37 +5178,24 @@ class RuleBooleanExpression {
     final operator = this.operator;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
     };
   }
 }
 
 enum RuleBooleanOperator {
-  isTrue,
-  isFalse,
-}
+  isTrue('IS_TRUE'),
+  isFalse('IS_FALSE'),
+  ;
 
-extension RuleBooleanOperatorValueExtension on RuleBooleanOperator {
-  String toValue() {
-    switch (this) {
-      case RuleBooleanOperator.isTrue:
-        return 'IS_TRUE';
-      case RuleBooleanOperator.isFalse:
-        return 'IS_FALSE';
-    }
-  }
-}
+  final String value;
 
-extension RuleBooleanOperatorFromString on String {
-  RuleBooleanOperator toRuleBooleanOperator() {
-    switch (this) {
-      case 'IS_TRUE':
-        return RuleBooleanOperator.isTrue;
-      case 'IS_FALSE':
-        return RuleBooleanOperator.isFalse;
-    }
-    throw Exception('$this is not known in enum RuleBooleanOperator');
-  }
+  const RuleBooleanOperator(this.value);
+
+  static RuleBooleanOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleBooleanOperator'));
 }
 
 /// The union type representing the allowed types of operands for a boolean
@@ -5604,14 +5210,15 @@ class RuleBooleanToEvaluate {
 
   factory RuleBooleanToEvaluate.fromJson(Map<String, dynamic> json) {
     return RuleBooleanToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toRuleBooleanEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(RuleBooleanEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -5714,10 +5321,10 @@ class RuleDmarcExpression {
 
   factory RuleDmarcExpression.fromJson(Map<String, dynamic> json) {
     return RuleDmarcExpression(
-      operator: (json['Operator'] as String).toRuleDmarcOperator(),
+      operator: RuleDmarcOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRuleDmarcPolicy())
+          .map((e) => RuleDmarcPolicy.fromString((e as String)))
           .toList(),
     );
   }
@@ -5726,94 +5333,55 @@ class RuleDmarcExpression {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Operator': operator.toValue(),
-      'Values': values.map((e) => e.toValue()).toList(),
+      'Operator': operator.value,
+      'Values': values.map((e) => e.value).toList(),
     };
   }
 }
 
 enum RuleDmarcOperator {
-  equals,
-  notEquals,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  ;
 
-extension RuleDmarcOperatorValueExtension on RuleDmarcOperator {
-  String toValue() {
-    switch (this) {
-      case RuleDmarcOperator.equals:
-        return 'EQUALS';
-      case RuleDmarcOperator.notEquals:
-        return 'NOT_EQUALS';
-    }
-  }
-}
+  final String value;
 
-extension RuleDmarcOperatorFromString on String {
-  RuleDmarcOperator toRuleDmarcOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return RuleDmarcOperator.equals;
-      case 'NOT_EQUALS':
-        return RuleDmarcOperator.notEquals;
-    }
-    throw Exception('$this is not known in enum RuleDmarcOperator');
-  }
+  const RuleDmarcOperator(this.value);
+
+  static RuleDmarcOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleDmarcOperator'));
 }
 
 enum RuleDmarcPolicy {
-  none,
-  quarantine,
-  reject,
-}
+  none('NONE'),
+  quarantine('QUARANTINE'),
+  reject('REJECT'),
+  ;
 
-extension RuleDmarcPolicyValueExtension on RuleDmarcPolicy {
-  String toValue() {
-    switch (this) {
-      case RuleDmarcPolicy.none:
-        return 'NONE';
-      case RuleDmarcPolicy.quarantine:
-        return 'QUARANTINE';
-      case RuleDmarcPolicy.reject:
-        return 'REJECT';
-    }
-  }
-}
+  final String value;
 
-extension RuleDmarcPolicyFromString on String {
-  RuleDmarcPolicy toRuleDmarcPolicy() {
-    switch (this) {
-      case 'NONE':
-        return RuleDmarcPolicy.none;
-      case 'QUARANTINE':
-        return RuleDmarcPolicy.quarantine;
-      case 'REJECT':
-        return RuleDmarcPolicy.reject;
-    }
-    throw Exception('$this is not known in enum RuleDmarcPolicy');
-  }
+  const RuleDmarcPolicy(this.value);
+
+  static RuleDmarcPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleDmarcPolicy'));
 }
 
 enum RuleIpEmailAttribute {
-  sourceIp,
-}
+  sourceIp('SOURCE_IP'),
+  ;
 
-extension RuleIpEmailAttributeValueExtension on RuleIpEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case RuleIpEmailAttribute.sourceIp:
-        return 'SOURCE_IP';
-    }
-  }
-}
+  final String value;
 
-extension RuleIpEmailAttributeFromString on String {
-  RuleIpEmailAttribute toRuleIpEmailAttribute() {
-    switch (this) {
-      case 'SOURCE_IP':
-        return RuleIpEmailAttribute.sourceIp;
-    }
-    throw Exception('$this is not known in enum RuleIpEmailAttribute');
-  }
+  const RuleIpEmailAttribute(this.value);
+
+  static RuleIpEmailAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleIpEmailAttribute'));
 }
 
 /// An IP address expression matching certain IP addresses within a given range
@@ -5843,7 +5411,7 @@ class RuleIpExpression {
     return RuleIpExpression(
       evaluate:
           RuleIpToEvaluate.fromJson(json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toRuleIpOperator(),
+      operator: RuleIpOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -5857,38 +5425,25 @@ class RuleIpExpression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum RuleIpOperator {
-  cidrMatches,
-  notCidrMatches,
-}
+  cidrMatches('CIDR_MATCHES'),
+  notCidrMatches('NOT_CIDR_MATCHES'),
+  ;
 
-extension RuleIpOperatorValueExtension on RuleIpOperator {
-  String toValue() {
-    switch (this) {
-      case RuleIpOperator.cidrMatches:
-        return 'CIDR_MATCHES';
-      case RuleIpOperator.notCidrMatches:
-        return 'NOT_CIDR_MATCHES';
-    }
-  }
-}
+  final String value;
 
-extension RuleIpOperatorFromString on String {
-  RuleIpOperator toRuleIpOperator() {
-    switch (this) {
-      case 'CIDR_MATCHES':
-        return RuleIpOperator.cidrMatches;
-      case 'NOT_CIDR_MATCHES':
-        return RuleIpOperator.notCidrMatches;
-    }
-    throw Exception('$this is not known in enum RuleIpOperator');
-  }
+  const RuleIpOperator(this.value);
+
+  static RuleIpOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleIpOperator'));
 }
 
 /// The IP address to evaluate for this condition.
@@ -5902,39 +5457,31 @@ class RuleIpToEvaluate {
 
   factory RuleIpToEvaluate.fromJson(Map<String, dynamic> json) {
     return RuleIpToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toRuleIpEmailAttribute(),
+      attribute:
+          (json['Attribute'] as String?)?.let(RuleIpEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
 
 enum RuleNumberEmailAttribute {
-  messageSize,
-}
+  messageSize('MESSAGE_SIZE'),
+  ;
 
-extension RuleNumberEmailAttributeValueExtension on RuleNumberEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case RuleNumberEmailAttribute.messageSize:
-        return 'MESSAGE_SIZE';
-    }
-  }
-}
+  final String value;
 
-extension RuleNumberEmailAttributeFromString on String {
-  RuleNumberEmailAttribute toRuleNumberEmailAttribute() {
-    switch (this) {
-      case 'MESSAGE_SIZE':
-        return RuleNumberEmailAttribute.messageSize;
-    }
-    throw Exception('$this is not known in enum RuleNumberEmailAttribute');
-  }
+  const RuleNumberEmailAttribute(this.value);
+
+  static RuleNumberEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleNumberEmailAttribute'));
 }
 
 /// A number expression to match numeric conditions with integers from the
@@ -5959,7 +5506,7 @@ class RuleNumberExpression {
     return RuleNumberExpression(
       evaluate: RuleNumberToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toRuleNumberOperator(),
+      operator: RuleNumberOperator.fromString((json['Operator'] as String)),
       value: json['Value'] as double,
     );
   }
@@ -5970,58 +5517,29 @@ class RuleNumberExpression {
     final value = this.value;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Value': value,
     };
   }
 }
 
 enum RuleNumberOperator {
-  equals,
-  notEquals,
-  lessThan,
-  greaterThan,
-  lessThanOrEqual,
-  greaterThanOrEqual,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
+  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
+  ;
 
-extension RuleNumberOperatorValueExtension on RuleNumberOperator {
-  String toValue() {
-    switch (this) {
-      case RuleNumberOperator.equals:
-        return 'EQUALS';
-      case RuleNumberOperator.notEquals:
-        return 'NOT_EQUALS';
-      case RuleNumberOperator.lessThan:
-        return 'LESS_THAN';
-      case RuleNumberOperator.greaterThan:
-        return 'GREATER_THAN';
-      case RuleNumberOperator.lessThanOrEqual:
-        return 'LESS_THAN_OR_EQUAL';
-      case RuleNumberOperator.greaterThanOrEqual:
-        return 'GREATER_THAN_OR_EQUAL';
-    }
-  }
-}
+  final String value;
 
-extension RuleNumberOperatorFromString on String {
-  RuleNumberOperator toRuleNumberOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return RuleNumberOperator.equals;
-      case 'NOT_EQUALS':
-        return RuleNumberOperator.notEquals;
-      case 'LESS_THAN':
-        return RuleNumberOperator.lessThan;
-      case 'GREATER_THAN':
-        return RuleNumberOperator.greaterThan;
-      case 'LESS_THAN_OR_EQUAL':
-        return RuleNumberOperator.lessThanOrEqual;
-      case 'GREATER_THAN_OR_EQUAL':
-        return RuleNumberOperator.greaterThanOrEqual;
-    }
-    throw Exception('$this is not known in enum RuleNumberOperator');
-  }
+  const RuleNumberOperator(this.value);
+
+  static RuleNumberOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleNumberOperator'));
 }
 
 /// The number to evaluate in a numeric condition expression.
@@ -6035,14 +5553,15 @@ class RuleNumberToEvaluate {
 
   factory RuleNumberToEvaluate.fromJson(Map<String, dynamic> json) {
     return RuleNumberToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toRuleNumberEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(RuleNumberEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -6087,61 +5606,24 @@ class RuleSet {
 }
 
 enum RuleStringEmailAttribute {
-  mailFrom,
-  helo,
-  recipient,
-  sender,
-  from,
-  subject,
-  to,
-  cc,
-}
+  mailFrom('MAIL_FROM'),
+  helo('HELO'),
+  recipient('RECIPIENT'),
+  sender('SENDER'),
+  from('FROM'),
+  subject('SUBJECT'),
+  to('TO'),
+  cc('CC'),
+  ;
 
-extension RuleStringEmailAttributeValueExtension on RuleStringEmailAttribute {
-  String toValue() {
-    switch (this) {
-      case RuleStringEmailAttribute.mailFrom:
-        return 'MAIL_FROM';
-      case RuleStringEmailAttribute.helo:
-        return 'HELO';
-      case RuleStringEmailAttribute.recipient:
-        return 'RECIPIENT';
-      case RuleStringEmailAttribute.sender:
-        return 'SENDER';
-      case RuleStringEmailAttribute.from:
-        return 'FROM';
-      case RuleStringEmailAttribute.subject:
-        return 'SUBJECT';
-      case RuleStringEmailAttribute.to:
-        return 'TO';
-      case RuleStringEmailAttribute.cc:
-        return 'CC';
-    }
-  }
-}
+  final String value;
 
-extension RuleStringEmailAttributeFromString on String {
-  RuleStringEmailAttribute toRuleStringEmailAttribute() {
-    switch (this) {
-      case 'MAIL_FROM':
-        return RuleStringEmailAttribute.mailFrom;
-      case 'HELO':
-        return RuleStringEmailAttribute.helo;
-      case 'RECIPIENT':
-        return RuleStringEmailAttribute.recipient;
-      case 'SENDER':
-        return RuleStringEmailAttribute.sender;
-      case 'FROM':
-        return RuleStringEmailAttribute.from;
-      case 'SUBJECT':
-        return RuleStringEmailAttribute.subject;
-      case 'TO':
-        return RuleStringEmailAttribute.to;
-      case 'CC':
-        return RuleStringEmailAttribute.cc;
-    }
-    throw Exception('$this is not known in enum RuleStringEmailAttribute');
-  }
+  const RuleStringEmailAttribute(this.value);
+
+  static RuleStringEmailAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleStringEmailAttribute'));
 }
 
 /// A string expression is evaluated against strings or substrings of the email.
@@ -6170,7 +5652,7 @@ class RuleStringExpression {
     return RuleStringExpression(
       evaluate: RuleStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toRuleStringOperator(),
+      operator: RuleStringOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -6184,53 +5666,28 @@ class RuleStringExpression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum RuleStringOperator {
-  equals,
-  notEquals,
-  startsWith,
-  endsWith,
-  contains,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  contains('CONTAINS'),
+  ;
 
-extension RuleStringOperatorValueExtension on RuleStringOperator {
-  String toValue() {
-    switch (this) {
-      case RuleStringOperator.equals:
-        return 'EQUALS';
-      case RuleStringOperator.notEquals:
-        return 'NOT_EQUALS';
-      case RuleStringOperator.startsWith:
-        return 'STARTS_WITH';
-      case RuleStringOperator.endsWith:
-        return 'ENDS_WITH';
-      case RuleStringOperator.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension RuleStringOperatorFromString on String {
-  RuleStringOperator toRuleStringOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return RuleStringOperator.equals;
-      case 'NOT_EQUALS':
-        return RuleStringOperator.notEquals;
-      case 'STARTS_WITH':
-        return RuleStringOperator.startsWith;
-      case 'ENDS_WITH':
-        return RuleStringOperator.endsWith;
-      case 'CONTAINS':
-        return RuleStringOperator.contains;
-    }
-    throw Exception('$this is not known in enum RuleStringOperator');
-  }
+  const RuleStringOperator(this.value);
+
+  static RuleStringOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleStringOperator'));
 }
 
 /// The string to evaluate in a string condition expression.
@@ -6244,82 +5701,48 @@ class RuleStringToEvaluate {
 
   factory RuleStringToEvaluate.fromJson(Map<String, dynamic> json) {
     return RuleStringToEvaluate(
-      attribute: (json['Attribute'] as String?)?.toRuleStringEmailAttribute(),
+      attribute: (json['Attribute'] as String?)
+          ?.let(RuleStringEmailAttribute.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
 
 enum RuleVerdict {
-  pass,
-  fail,
-  gray,
-  processingFailed,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  gray('GRAY'),
+  processingFailed('PROCESSING_FAILED'),
+  ;
 
-extension RuleVerdictValueExtension on RuleVerdict {
-  String toValue() {
-    switch (this) {
-      case RuleVerdict.pass:
-        return 'PASS';
-      case RuleVerdict.fail:
-        return 'FAIL';
-      case RuleVerdict.gray:
-        return 'GRAY';
-      case RuleVerdict.processingFailed:
-        return 'PROCESSING_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RuleVerdictFromString on String {
-  RuleVerdict toRuleVerdict() {
-    switch (this) {
-      case 'PASS':
-        return RuleVerdict.pass;
-      case 'FAIL':
-        return RuleVerdict.fail;
-      case 'GRAY':
-        return RuleVerdict.gray;
-      case 'PROCESSING_FAILED':
-        return RuleVerdict.processingFailed;
-    }
-    throw Exception('$this is not known in enum RuleVerdict');
-  }
+  const RuleVerdict(this.value);
+
+  static RuleVerdict fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleVerdict'));
 }
 
 enum RuleVerdictAttribute {
-  spf,
-  dkim,
-}
+  spf('SPF'),
+  dkim('DKIM'),
+  ;
 
-extension RuleVerdictAttributeValueExtension on RuleVerdictAttribute {
-  String toValue() {
-    switch (this) {
-      case RuleVerdictAttribute.spf:
-        return 'SPF';
-      case RuleVerdictAttribute.dkim:
-        return 'DKIM';
-    }
-  }
-}
+  final String value;
 
-extension RuleVerdictAttributeFromString on String {
-  RuleVerdictAttribute toRuleVerdictAttribute() {
-    switch (this) {
-      case 'SPF':
-        return RuleVerdictAttribute.spf;
-      case 'DKIM':
-        return RuleVerdictAttribute.dkim;
-    }
-    throw Exception('$this is not known in enum RuleVerdictAttribute');
-  }
+  const RuleVerdictAttribute(this.value);
+
+  static RuleVerdictAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleVerdictAttribute'));
 }
 
 /// A verdict expression is evaluated against verdicts of the email.
@@ -6347,10 +5770,10 @@ class RuleVerdictExpression {
     return RuleVerdictExpression(
       evaluate: RuleVerdictToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
-      operator: (json['Operator'] as String).toRuleVerdictOperator(),
+      operator: RuleVerdictOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRuleVerdict())
+          .map((e) => RuleVerdict.fromString((e as String)))
           .toList(),
     );
   }
@@ -6361,38 +5784,25 @@ class RuleVerdictExpression {
     final values = this.values;
     return {
       'Evaluate': evaluate,
-      'Operator': operator.toValue(),
-      'Values': values.map((e) => e.toValue()).toList(),
+      'Operator': operator.value,
+      'Values': values.map((e) => e.value).toList(),
     };
   }
 }
 
 enum RuleVerdictOperator {
-  equals,
-  notEquals,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  ;
 
-extension RuleVerdictOperatorValueExtension on RuleVerdictOperator {
-  String toValue() {
-    switch (this) {
-      case RuleVerdictOperator.equals:
-        return 'EQUALS';
-      case RuleVerdictOperator.notEquals:
-        return 'NOT_EQUALS';
-    }
-  }
-}
+  final String value;
 
-extension RuleVerdictOperatorFromString on String {
-  RuleVerdictOperator toRuleVerdictOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return RuleVerdictOperator.equals;
-      case 'NOT_EQUALS':
-        return RuleVerdictOperator.notEquals;
-    }
-    throw Exception('$this is not known in enum RuleVerdictOperator');
-  }
+  const RuleVerdictOperator(this.value);
+
+  static RuleVerdictOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleVerdictOperator'));
 }
 
 /// The verdict to evaluate in a verdict condition expression.
@@ -6414,7 +5824,8 @@ class RuleVerdictToEvaluate {
       analysis: json['Analysis'] != null
           ? Analysis.fromJson(json['Analysis'] as Map<String, dynamic>)
           : null,
-      attribute: (json['Attribute'] as String?)?.toRuleVerdictAttribute(),
+      attribute:
+          (json['Attribute'] as String?)?.let(RuleVerdictAttribute.fromString),
     );
   }
 
@@ -6423,7 +5834,7 @@ class RuleVerdictToEvaluate {
     final attribute = this.attribute;
     return {
       if (analysis != null) 'Analysis': analysis,
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
     };
   }
 }
@@ -6461,8 +5872,8 @@ class S3Action {
     return S3Action(
       roleArn: json['RoleArn'] as String,
       s3Bucket: json['S3Bucket'] as String,
-      actionFailurePolicy:
-          (json['ActionFailurePolicy'] as String?)?.toActionFailurePolicy(),
+      actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
+          ?.let(ActionFailurePolicy.fromString),
       s3Prefix: json['S3Prefix'] as String?,
       s3SseKmsKeyId: json['S3SseKmsKeyId'] as String?,
     );
@@ -6478,7 +5889,7 @@ class S3Action {
       'RoleArn': roleArn,
       'S3Bucket': s3Bucket,
       if (actionFailurePolicy != null)
-        'ActionFailurePolicy': actionFailurePolicy.toValue(),
+        'ActionFailurePolicy': actionFailurePolicy.value,
       if (s3Prefix != null) 'S3Prefix': s3Prefix,
       if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
     };
@@ -6509,46 +5920,20 @@ class S3ExportDestinationConfiguration {
 }
 
 enum SearchState {
-  queued,
-  running,
-  completed,
-  failed,
-  cancelled,
-}
+  queued('QUEUED'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension SearchStateValueExtension on SearchState {
-  String toValue() {
-    switch (this) {
-      case SearchState.queued:
-        return 'QUEUED';
-      case SearchState.running:
-        return 'RUNNING';
-      case SearchState.completed:
-        return 'COMPLETED';
-      case SearchState.failed:
-        return 'FAILED';
-      case SearchState.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension SearchStateFromString on String {
-  SearchState toSearchState() {
-    switch (this) {
-      case 'QUEUED':
-        return SearchState.queued;
-      case 'RUNNING':
-        return SearchState.running;
-      case 'COMPLETED':
-        return SearchState.completed;
-      case 'FAILED':
-        return SearchState.failed;
-      case 'CANCELLED':
-        return SearchState.cancelled;
-    }
-    throw Exception('$this is not known in enum SearchState');
-  }
+  const SearchState(this.value);
+
+  static SearchState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SearchState'));
 }
 
 /// The current status of an archive search job.
@@ -6576,7 +5961,7 @@ class SearchStatus {
     return SearchStatus(
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       errorMessage: json['ErrorMessage'] as String?,
-      state: (json['State'] as String?)?.toSearchState(),
+      state: (json['State'] as String?)?.let(SearchState.fromString),
       submissionTimestamp: timeStampFromJson(json['SubmissionTimestamp']),
     );
   }
@@ -6590,7 +5975,7 @@ class SearchStatus {
       if (completionTimestamp != null)
         'CompletionTimestamp': unixTimestampToJson(completionTimestamp),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (submissionTimestamp != null)
         'SubmissionTimestamp': unixTimestampToJson(submissionTimestamp),
     };
@@ -6648,8 +6033,8 @@ class SendAction {
   factory SendAction.fromJson(Map<String, dynamic> json) {
     return SendAction(
       roleArn: json['RoleArn'] as String,
-      actionFailurePolicy:
-          (json['ActionFailurePolicy'] as String?)?.toActionFailurePolicy(),
+      actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
+          ?.let(ActionFailurePolicy.fromString),
     );
   }
 
@@ -6659,7 +6044,7 @@ class SendAction {
     return {
       'RoleArn': roleArn,
       if (actionFailurePolicy != null)
-        'ActionFailurePolicy': actionFailurePolicy.toValue(),
+        'ActionFailurePolicy': actionFailurePolicy.value,
     };
   }
 }
@@ -6807,7 +6192,7 @@ class TrafficPolicy {
 
   factory TrafficPolicy.fromJson(Map<String, dynamic> json) {
     return TrafficPolicy(
-      defaultAction: (json['DefaultAction'] as String).toAcceptAction(),
+      defaultAction: AcceptAction.fromString((json['DefaultAction'] as String)),
       trafficPolicyId: json['TrafficPolicyId'] as String,
       trafficPolicyName: json['TrafficPolicyName'] as String,
     );
@@ -6818,7 +6203,7 @@ class TrafficPolicy {
     final trafficPolicyId = this.trafficPolicyId;
     final trafficPolicyName = this.trafficPolicyName;
     return {
-      'DefaultAction': defaultAction.toValue(),
+      'DefaultAction': defaultAction.value,
       'TrafficPolicyId': trafficPolicyId,
       'TrafficPolicyName': trafficPolicyName,
     };

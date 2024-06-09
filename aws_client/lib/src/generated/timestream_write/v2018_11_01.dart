@@ -553,7 +553,7 @@ class TimestreamWrite {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (taskStatus != null) 'TaskStatus': taskStatus.toValue(),
+        if (taskStatus != null) 'TaskStatus': taskStatus.value,
       },
     );
 
@@ -1041,26 +1041,17 @@ class TimestreamWrite {
 }
 
 enum BatchLoadDataFormat {
-  csv,
-}
+  csv('CSV'),
+  ;
 
-extension BatchLoadDataFormatValueExtension on BatchLoadDataFormat {
-  String toValue() {
-    switch (this) {
-      case BatchLoadDataFormat.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension BatchLoadDataFormatFromString on String {
-  BatchLoadDataFormat toBatchLoadDataFormat() {
-    switch (this) {
-      case 'CSV':
-        return BatchLoadDataFormat.csv;
-    }
-    throw Exception('$this is not known in enum BatchLoadDataFormat');
-  }
+  const BatchLoadDataFormat(this.value);
+
+  static BatchLoadDataFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BatchLoadDataFormat'));
 }
 
 /// Details about the progress of a batch load task.
@@ -1123,51 +1114,22 @@ class BatchLoadProgressReport {
 }
 
 enum BatchLoadStatus {
-  created,
-  inProgress,
-  failed,
-  succeeded,
-  progressStopped,
-  pendingResume,
-}
+  created('CREATED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  progressStopped('PROGRESS_STOPPED'),
+  pendingResume('PENDING_RESUME'),
+  ;
 
-extension BatchLoadStatusValueExtension on BatchLoadStatus {
-  String toValue() {
-    switch (this) {
-      case BatchLoadStatus.created:
-        return 'CREATED';
-      case BatchLoadStatus.inProgress:
-        return 'IN_PROGRESS';
-      case BatchLoadStatus.failed:
-        return 'FAILED';
-      case BatchLoadStatus.succeeded:
-        return 'SUCCEEDED';
-      case BatchLoadStatus.progressStopped:
-        return 'PROGRESS_STOPPED';
-      case BatchLoadStatus.pendingResume:
-        return 'PENDING_RESUME';
-    }
-  }
-}
+  final String value;
 
-extension BatchLoadStatusFromString on String {
-  BatchLoadStatus toBatchLoadStatus() {
-    switch (this) {
-      case 'CREATED':
-        return BatchLoadStatus.created;
-      case 'IN_PROGRESS':
-        return BatchLoadStatus.inProgress;
-      case 'FAILED':
-        return BatchLoadStatus.failed;
-      case 'SUCCEEDED':
-        return BatchLoadStatus.succeeded;
-      case 'PROGRESS_STOPPED':
-        return BatchLoadStatus.progressStopped;
-      case 'PENDING_RESUME':
-        return BatchLoadStatus.pendingResume;
-    }
-    throw Exception('$this is not known in enum BatchLoadStatus');
-  }
+  const BatchLoadStatus(this.value);
+
+  static BatchLoadStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BatchLoadStatus'));
 }
 
 /// Details about a batch load task.
@@ -1211,7 +1173,8 @@ class BatchLoadTask {
       resumableUntil: timeStampFromJson(json['ResumableUntil']),
       tableName: json['TableName'] as String?,
       taskId: json['TaskId'] as String?,
-      taskStatus: (json['TaskStatus'] as String?)?.toBatchLoadStatus(),
+      taskStatus:
+          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
     );
   }
 
@@ -1233,7 +1196,7 @@ class BatchLoadTask {
         'ResumableUntil': unixTimestampToJson(resumableUntil),
       if (tableName != null) 'TableName': tableName,
       if (taskId != null) 'TaskId': taskId,
-      if (taskStatus != null) 'TaskStatus': taskStatus.toValue(),
+      if (taskStatus != null) 'TaskStatus': taskStatus.value,
     };
   }
 }
@@ -1323,7 +1286,8 @@ class BatchLoadTaskDescription {
       targetDatabaseName: json['TargetDatabaseName'] as String?,
       targetTableName: json['TargetTableName'] as String?,
       taskId: json['TaskId'] as String?,
-      taskStatus: (json['TaskStatus'] as String?)?.toBatchLoadStatus(),
+      taskStatus:
+          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
     );
   }
 
@@ -1360,7 +1324,7 @@ class BatchLoadTaskDescription {
       if (targetDatabaseName != null) 'TargetDatabaseName': targetDatabaseName,
       if (targetTableName != null) 'TargetTableName': targetTableName,
       if (taskId != null) 'TaskId': taskId,
-      if (taskStatus != null) 'TaskStatus': taskStatus.toValue(),
+      if (taskStatus != null) 'TaskStatus': taskStatus.value,
     };
   }
 }
@@ -1535,7 +1499,7 @@ class DataModel {
               json['MultiMeasureMappings'] as Map<String, dynamic>)
           : null,
       timeColumn: json['TimeColumn'] as String?,
-      timeUnit: (json['TimeUnit'] as String?)?.toTimeUnit(),
+      timeUnit: (json['TimeUnit'] as String?)?.let(TimeUnit.fromString),
     );
   }
 
@@ -1554,7 +1518,7 @@ class DataModel {
       if (multiMeasureMappings != null)
         'MultiMeasureMappings': multiMeasureMappings,
       if (timeColumn != null) 'TimeColumn': timeColumn,
-      if (timeUnit != null) 'TimeUnit': timeUnit.toValue(),
+      if (timeUnit != null) 'TimeUnit': timeUnit.value,
     };
   }
 }
@@ -1642,7 +1606,8 @@ class DataSourceConfiguration {
 
   factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceConfiguration(
-      dataFormat: (json['DataFormat'] as String).toBatchLoadDataFormat(),
+      dataFormat:
+          BatchLoadDataFormat.fromString((json['DataFormat'] as String)),
       dataSourceS3Configuration: DataSourceS3Configuration.fromJson(
           json['DataSourceS3Configuration'] as Map<String, dynamic>),
       csvConfiguration: json['CsvConfiguration'] != null
@@ -1657,7 +1622,7 @@ class DataSourceConfiguration {
     final dataSourceS3Configuration = this.dataSourceS3Configuration;
     final csvConfiguration = this.csvConfiguration;
     return {
-      'DataFormat': dataFormat.toValue(),
+      'DataFormat': dataFormat.value,
       'DataSourceS3Configuration': dataSourceS3Configuration,
       if (csvConfiguration != null) 'CsvConfiguration': csvConfiguration,
     };
@@ -1887,7 +1852,7 @@ class Dimension {
       'Name': name,
       'Value': value,
       if (dimensionValueType != null)
-        'DimensionValueType': dimensionValueType.toValue(),
+        'DimensionValueType': dimensionValueType.value,
     };
   }
 }
@@ -1923,26 +1888,17 @@ class DimensionMapping {
 }
 
 enum DimensionValueType {
-  varchar,
-}
+  varchar('VARCHAR'),
+  ;
 
-extension DimensionValueTypeValueExtension on DimensionValueType {
-  String toValue() {
-    switch (this) {
-      case DimensionValueType.varchar:
-        return 'VARCHAR';
-    }
-  }
-}
+  final String value;
 
-extension DimensionValueTypeFromString on String {
-  DimensionValueType toDimensionValueType() {
-    switch (this) {
-      case 'VARCHAR':
-        return DimensionValueType.varchar;
-    }
-    throw Exception('$this is not known in enum DimensionValueType');
-  }
+  const DimensionValueType(this.value);
+
+  static DimensionValueType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DimensionValueType'));
 }
 
 /// Represents an available endpoint against which to make API calls against, as
@@ -2202,58 +2158,29 @@ class MeasureValue {
     final value = this.value;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum MeasureValueType {
-  double,
-  bigint,
-  varchar,
-  boolean,
-  timestamp,
-  multi,
-}
+  double('DOUBLE'),
+  bigint('BIGINT'),
+  varchar('VARCHAR'),
+  boolean('BOOLEAN'),
+  timestamp('TIMESTAMP'),
+  multi('MULTI'),
+  ;
 
-extension MeasureValueTypeValueExtension on MeasureValueType {
-  String toValue() {
-    switch (this) {
-      case MeasureValueType.double:
-        return 'DOUBLE';
-      case MeasureValueType.bigint:
-        return 'BIGINT';
-      case MeasureValueType.varchar:
-        return 'VARCHAR';
-      case MeasureValueType.boolean:
-        return 'BOOLEAN';
-      case MeasureValueType.timestamp:
-        return 'TIMESTAMP';
-      case MeasureValueType.multi:
-        return 'MULTI';
-    }
-  }
-}
+  final String value;
 
-extension MeasureValueTypeFromString on String {
-  MeasureValueType toMeasureValueType() {
-    switch (this) {
-      case 'DOUBLE':
-        return MeasureValueType.double;
-      case 'BIGINT':
-        return MeasureValueType.bigint;
-      case 'VARCHAR':
-        return MeasureValueType.varchar;
-      case 'BOOLEAN':
-        return MeasureValueType.boolean;
-      case 'TIMESTAMP':
-        return MeasureValueType.timestamp;
-      case 'MULTI':
-        return MeasureValueType.multi;
-    }
-    throw Exception('$this is not known in enum MeasureValueType');
-  }
+  const MeasureValueType(this.value);
+
+  static MeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MeasureValueType'));
 }
 
 /// <p/>
@@ -2284,7 +2211,7 @@ class MixedMeasureMapping {
   factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
     return MixedMeasureMapping(
       measureValueType:
-          (json['MeasureValueType'] as String).toMeasureValueType(),
+          MeasureValueType.fromString((json['MeasureValueType'] as String)),
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
@@ -2304,7 +2231,7 @@ class MixedMeasureMapping {
     final sourceColumn = this.sourceColumn;
     final targetMeasureName = this.targetMeasureName;
     return {
-      'MeasureValueType': measureValueType.toValue(),
+      'MeasureValueType': measureValueType.value,
       if (measureName != null) 'MeasureName': measureName,
       if (multiMeasureAttributeMappings != null)
         'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
@@ -2334,8 +2261,8 @@ class MultiMeasureAttributeMapping {
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
       sourceColumn: json['SourceColumn'] as String,
-      measureValueType:
-          (json['MeasureValueType'] as String?)?.toScalarMeasureValueType(),
+      measureValueType: (json['MeasureValueType'] as String?)
+          ?.let(ScalarMeasureValueType.fromString),
       targetMultiMeasureAttributeName:
           json['TargetMultiMeasureAttributeName'] as String?,
     );
@@ -2348,8 +2275,7 @@ class MultiMeasureAttributeMapping {
         this.targetMultiMeasureAttributeName;
     return {
       'SourceColumn': sourceColumn,
-      if (measureValueType != null)
-        'MeasureValueType': measureValueType.toValue(),
+      if (measureValueType != null) 'MeasureValueType': measureValueType.value,
       if (targetMultiMeasureAttributeName != null)
         'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
     };
@@ -2417,9 +2343,9 @@ class PartitionKey {
 
   factory PartitionKey.fromJson(Map<String, dynamic> json) {
     return PartitionKey(
-      type: (json['Type'] as String).toPartitionKeyType(),
+      type: PartitionKeyType.fromString((json['Type'] as String)),
       enforcementInRecord: (json['EnforcementInRecord'] as String?)
-          ?.toPartitionKeyEnforcementLevel(),
+          ?.let(PartitionKeyEnforcementLevel.fromString),
       name: json['Name'] as String?,
     );
   }
@@ -2429,69 +2355,42 @@ class PartitionKey {
     final enforcementInRecord = this.enforcementInRecord;
     final name = this.name;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (enforcementInRecord != null)
-        'EnforcementInRecord': enforcementInRecord.toValue(),
+        'EnforcementInRecord': enforcementInRecord.value,
       if (name != null) 'Name': name,
     };
   }
 }
 
 enum PartitionKeyEnforcementLevel {
-  required,
-  optional,
-}
+  required('REQUIRED'),
+  optional('OPTIONAL'),
+  ;
 
-extension PartitionKeyEnforcementLevelValueExtension
-    on PartitionKeyEnforcementLevel {
-  String toValue() {
-    switch (this) {
-      case PartitionKeyEnforcementLevel.required:
-        return 'REQUIRED';
-      case PartitionKeyEnforcementLevel.optional:
-        return 'OPTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension PartitionKeyEnforcementLevelFromString on String {
-  PartitionKeyEnforcementLevel toPartitionKeyEnforcementLevel() {
-    switch (this) {
-      case 'REQUIRED':
-        return PartitionKeyEnforcementLevel.required;
-      case 'OPTIONAL':
-        return PartitionKeyEnforcementLevel.optional;
-    }
-    throw Exception('$this is not known in enum PartitionKeyEnforcementLevel');
-  }
+  const PartitionKeyEnforcementLevel(this.value);
+
+  static PartitionKeyEnforcementLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PartitionKeyEnforcementLevel'));
 }
 
 enum PartitionKeyType {
-  dimension,
-  measure,
-}
+  dimension('DIMENSION'),
+  measure('MEASURE'),
+  ;
 
-extension PartitionKeyTypeValueExtension on PartitionKeyType {
-  String toValue() {
-    switch (this) {
-      case PartitionKeyType.dimension:
-        return 'DIMENSION';
-      case PartitionKeyType.measure:
-        return 'MEASURE';
-    }
-  }
-}
+  final String value;
 
-extension PartitionKeyTypeFromString on String {
-  PartitionKeyType toPartitionKeyType() {
-    switch (this) {
-      case 'DIMENSION':
-        return PartitionKeyType.dimension;
-      case 'MEASURE':
-        return PartitionKeyType.measure;
-    }
-    throw Exception('$this is not known in enum PartitionKeyType');
-  }
+  const PartitionKeyType(this.value);
+
+  static PartitionKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PartitionKeyType'));
 }
 
 /// Represents a time-series data point being written into Timestream. Each
@@ -2580,11 +2479,10 @@ class Record {
       if (dimensions != null) 'Dimensions': dimensions,
       if (measureName != null) 'MeasureName': measureName,
       if (measureValue != null) 'MeasureValue': measureValue,
-      if (measureValueType != null)
-        'MeasureValueType': measureValueType.toValue(),
+      if (measureValueType != null) 'MeasureValueType': measureValueType.value,
       if (measureValues != null) 'MeasureValues': measureValues,
       if (time != null) 'Time': time,
-      if (timeUnit != null) 'TimeUnit': timeUnit.toValue(),
+      if (timeUnit != null) 'TimeUnit': timeUnit.value,
       if (version != null) 'Version': version,
     };
   }
@@ -2680,8 +2578,8 @@ class ReportS3Configuration {
   factory ReportS3Configuration.fromJson(Map<String, dynamic> json) {
     return ReportS3Configuration(
       bucketName: json['BucketName'] as String,
-      encryptionOption:
-          (json['EncryptionOption'] as String?)?.toS3EncryptionOption(),
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
     );
@@ -2694,8 +2592,7 @@ class ReportS3Configuration {
     final objectKeyPrefix = this.objectKeyPrefix;
     return {
       'BucketName': bucketName,
-      if (encryptionOption != null)
-        'EncryptionOption': encryptionOption.toValue(),
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
     };
@@ -2776,8 +2673,8 @@ class S3Configuration {
   factory S3Configuration.fromJson(Map<String, dynamic> json) {
     return S3Configuration(
       bucketName: json['BucketName'] as String?,
-      encryptionOption:
-          (json['EncryptionOption'] as String?)?.toS3EncryptionOption(),
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
     );
@@ -2790,8 +2687,7 @@ class S3Configuration {
     final objectKeyPrefix = this.objectKeyPrefix;
     return {
       if (bucketName != null) 'BucketName': bucketName,
-      if (encryptionOption != null)
-        'EncryptionOption': encryptionOption.toValue(),
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
     };
@@ -2799,74 +2695,36 @@ class S3Configuration {
 }
 
 enum S3EncryptionOption {
-  sseS3,
-  sseKms,
-}
+  sseS3('SSE_S3'),
+  sseKms('SSE_KMS'),
+  ;
 
-extension S3EncryptionOptionValueExtension on S3EncryptionOption {
-  String toValue() {
-    switch (this) {
-      case S3EncryptionOption.sseS3:
-        return 'SSE_S3';
-      case S3EncryptionOption.sseKms:
-        return 'SSE_KMS';
-    }
-  }
-}
+  final String value;
 
-extension S3EncryptionOptionFromString on String {
-  S3EncryptionOption toS3EncryptionOption() {
-    switch (this) {
-      case 'SSE_S3':
-        return S3EncryptionOption.sseS3;
-      case 'SSE_KMS':
-        return S3EncryptionOption.sseKms;
-    }
-    throw Exception('$this is not known in enum S3EncryptionOption');
-  }
+  const S3EncryptionOption(this.value);
+
+  static S3EncryptionOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum S3EncryptionOption'));
 }
 
 enum ScalarMeasureValueType {
-  double,
-  bigint,
-  boolean,
-  varchar,
-  timestamp,
-}
+  double('DOUBLE'),
+  bigint('BIGINT'),
+  boolean('BOOLEAN'),
+  varchar('VARCHAR'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension ScalarMeasureValueTypeValueExtension on ScalarMeasureValueType {
-  String toValue() {
-    switch (this) {
-      case ScalarMeasureValueType.double:
-        return 'DOUBLE';
-      case ScalarMeasureValueType.bigint:
-        return 'BIGINT';
-      case ScalarMeasureValueType.boolean:
-        return 'BOOLEAN';
-      case ScalarMeasureValueType.varchar:
-        return 'VARCHAR';
-      case ScalarMeasureValueType.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ScalarMeasureValueTypeFromString on String {
-  ScalarMeasureValueType toScalarMeasureValueType() {
-    switch (this) {
-      case 'DOUBLE':
-        return ScalarMeasureValueType.double;
-      case 'BIGINT':
-        return ScalarMeasureValueType.bigint;
-      case 'BOOLEAN':
-        return ScalarMeasureValueType.boolean;
-      case 'VARCHAR':
-        return ScalarMeasureValueType.varchar;
-      case 'TIMESTAMP':
-        return ScalarMeasureValueType.timestamp;
-    }
-    throw Exception('$this is not known in enum ScalarMeasureValueType');
-  }
+  const ScalarMeasureValueType(this.value);
+
+  static ScalarMeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScalarMeasureValueType'));
 }
 
 /// A Schema specifies the expected data model of the table.
@@ -2970,7 +2828,8 @@ class Table {
           ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
           : null,
       tableName: json['TableName'] as String?,
-      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+      tableStatus:
+          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
     );
   }
 
@@ -2997,42 +2856,24 @@ class Table {
         'RetentionProperties': retentionProperties,
       if (schema != null) 'Schema': schema,
       if (tableName != null) 'TableName': tableName,
-      if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
+      if (tableStatus != null) 'TableStatus': tableStatus.value,
     };
   }
 }
 
 enum TableStatus {
-  active,
-  deleting,
-  restoring,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  restoring('RESTORING'),
+  ;
 
-extension TableStatusValueExtension on TableStatus {
-  String toValue() {
-    switch (this) {
-      case TableStatus.active:
-        return 'ACTIVE';
-      case TableStatus.deleting:
-        return 'DELETING';
-      case TableStatus.restoring:
-        return 'RESTORING';
-    }
-  }
-}
+  final String value;
 
-extension TableStatusFromString on String {
-  TableStatus toTableStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TableStatus.active;
-      case 'DELETING':
-        return TableStatus.deleting;
-      case 'RESTORING':
-        return TableStatus.restoring;
-    }
-    throw Exception('$this is not known in enum TableStatus');
-  }
+  const TableStatus(this.value);
+
+  static TableStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TableStatus'));
 }
 
 /// A tag is a label that you assign to a Timestream database and/or table. Each
@@ -3081,41 +2922,19 @@ class TagResourceResponse {
 }
 
 enum TimeUnit {
-  milliseconds,
-  seconds,
-  microseconds,
-  nanoseconds,
-}
+  milliseconds('MILLISECONDS'),
+  seconds('SECONDS'),
+  microseconds('MICROSECONDS'),
+  nanoseconds('NANOSECONDS'),
+  ;
 
-extension TimeUnitValueExtension on TimeUnit {
-  String toValue() {
-    switch (this) {
-      case TimeUnit.milliseconds:
-        return 'MILLISECONDS';
-      case TimeUnit.seconds:
-        return 'SECONDS';
-      case TimeUnit.microseconds:
-        return 'MICROSECONDS';
-      case TimeUnit.nanoseconds:
-        return 'NANOSECONDS';
-    }
-  }
-}
+  final String value;
 
-extension TimeUnitFromString on String {
-  TimeUnit toTimeUnit() {
-    switch (this) {
-      case 'MILLISECONDS':
-        return TimeUnit.milliseconds;
-      case 'SECONDS':
-        return TimeUnit.seconds;
-      case 'MICROSECONDS':
-        return TimeUnit.microseconds;
-      case 'NANOSECONDS':
-        return TimeUnit.nanoseconds;
-    }
-    throw Exception('$this is not known in enum TimeUnit');
-  }
+  const TimeUnit(this.value);
+
+  static TimeUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TimeUnit'));
 }
 
 class UntagResourceResponse {

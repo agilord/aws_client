@@ -1603,7 +1603,7 @@ class Backup {
     return Backup(
       backupArn: json['BackupArn'] as String?,
       backupId: json['BackupId'] as String?,
-      backupType: (json['BackupType'] as String?)?.toBackupType(),
+      backupType: (json['BackupType'] as String?)?.let(BackupType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       engine: json['Engine'] as String?,
@@ -1623,7 +1623,7 @@ class Backup {
           .toList(),
       serverName: json['ServerName'] as String?,
       serviceRoleArn: json['ServiceRoleArn'] as String?,
-      status: (json['Status'] as String?)?.toBackupStatus(),
+      status: (json['Status'] as String?)?.let(BackupStatus.fromString),
       statusDescription: json['StatusDescription'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
           ?.whereNotNull()
@@ -1662,7 +1662,7 @@ class Backup {
     return {
       if (backupArn != null) 'BackupArn': backupArn,
       if (backupId != null) 'BackupId': backupId,
-      if (backupType != null) 'BackupType': backupType.toValue(),
+      if (backupType != null) 'BackupType': backupType.value,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
       if (engine != null) 'Engine': engine,
@@ -1681,7 +1681,7 @@ class Backup {
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
       if (serverName != null) 'ServerName': serverName,
       if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDescription != null) 'StatusDescription': statusDescription,
       if (subnetIds != null) 'SubnetIds': subnetIds,
       if (toolsVersion != null) 'ToolsVersion': toolsVersion,
@@ -1691,69 +1691,34 @@ class Backup {
 }
 
 enum BackupStatus {
-  inProgress,
-  ok,
-  failed,
-  deleting,
-}
+  inProgress('IN_PROGRESS'),
+  ok('OK'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  ;
 
-extension BackupStatusValueExtension on BackupStatus {
-  String toValue() {
-    switch (this) {
-      case BackupStatus.inProgress:
-        return 'IN_PROGRESS';
-      case BackupStatus.ok:
-        return 'OK';
-      case BackupStatus.failed:
-        return 'FAILED';
-      case BackupStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension BackupStatusFromString on String {
-  BackupStatus toBackupStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return BackupStatus.inProgress;
-      case 'OK':
-        return BackupStatus.ok;
-      case 'FAILED':
-        return BackupStatus.failed;
-      case 'DELETING':
-        return BackupStatus.deleting;
-    }
-    throw Exception('$this is not known in enum BackupStatus');
-  }
+  const BackupStatus(this.value);
+
+  static BackupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupStatus'));
 }
 
 enum BackupType {
-  automated,
-  manual,
-}
+  automated('AUTOMATED'),
+  manual('MANUAL'),
+  ;
 
-extension BackupTypeValueExtension on BackupType {
-  String toValue() {
-    switch (this) {
-      case BackupType.automated:
-        return 'AUTOMATED';
-      case BackupType.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension BackupTypeFromString on String {
-  BackupType toBackupType() {
-    switch (this) {
-      case 'AUTOMATED':
-        return BackupType.automated;
-      case 'MANUAL':
-        return BackupType.manual;
-    }
-    throw Exception('$this is not known in enum BackupType');
-  }
+  const BackupType(this.value);
+
+  static BackupType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BackupType'));
 }
 
 class CreateBackupResponse {
@@ -1960,8 +1925,8 @@ class DescribeNodeAssociationStatusResponse {
           ?.whereNotNull()
           .map((e) => EngineAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nodeAssociationStatus:
-          (json['NodeAssociationStatus'] as String?)?.toNodeAssociationStatus(),
+      nodeAssociationStatus: (json['NodeAssociationStatus'] as String?)
+          ?.let(NodeAssociationStatus.fromString),
     );
   }
 
@@ -1971,7 +1936,7 @@ class DescribeNodeAssociationStatusResponse {
     return {
       if (engineAttributes != null) 'EngineAttributes': engineAttributes,
       if (nodeAssociationStatus != null)
-        'NodeAssociationStatus': nodeAssociationStatus.toValue(),
+        'NodeAssociationStatus': nodeAssociationStatus.value,
     };
   }
 }
@@ -2156,31 +2121,18 @@ class ListTagsForResourceResponse {
 }
 
 enum MaintenanceStatus {
-  success,
-  failed,
-}
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension MaintenanceStatusValueExtension on MaintenanceStatus {
-  String toValue() {
-    switch (this) {
-      case MaintenanceStatus.success:
-        return 'SUCCESS';
-      case MaintenanceStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceStatusFromString on String {
-  MaintenanceStatus toMaintenanceStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return MaintenanceStatus.success;
-      case 'FAILED':
-        return MaintenanceStatus.failed;
-    }
-    throw Exception('$this is not known in enum MaintenanceStatus');
-  }
+  const MaintenanceStatus(this.value);
+
+  static MaintenanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MaintenanceStatus'));
 }
 
 /// The status of the association or disassociation request.
@@ -2199,36 +2151,19 @@ extension MaintenanceStatusFromString on String {
 /// </li>
 /// </ul>
 enum NodeAssociationStatus {
-  success,
-  failed,
-  inProgress,
-}
+  success('SUCCESS'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  ;
 
-extension NodeAssociationStatusValueExtension on NodeAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case NodeAssociationStatus.success:
-        return 'SUCCESS';
-      case NodeAssociationStatus.failed:
-        return 'FAILED';
-      case NodeAssociationStatus.inProgress:
-        return 'IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension NodeAssociationStatusFromString on String {
-  NodeAssociationStatus toNodeAssociationStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return NodeAssociationStatus.success;
-      case 'FAILED':
-        return NodeAssociationStatus.failed;
-      case 'IN_PROGRESS':
-        return NodeAssociationStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum NodeAssociationStatus');
-  }
+  const NodeAssociationStatus(this.value);
+
+  static NodeAssociationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NodeAssociationStatus'));
 }
 
 class RestoreServerResponse {
@@ -2427,8 +2362,8 @@ class Server {
       instanceProfileArn: json['InstanceProfileArn'] as String?,
       instanceType: json['InstanceType'] as String?,
       keyPair: json['KeyPair'] as String?,
-      maintenanceStatus:
-          (json['MaintenanceStatus'] as String?)?.toMaintenanceStatus(),
+      maintenanceStatus: (json['MaintenanceStatus'] as String?)
+          ?.let(MaintenanceStatus.fromString),
       preferredBackupWindow: json['PreferredBackupWindow'] as String?,
       preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
       securityGroupIds: (json['SecurityGroupIds'] as List?)
@@ -2438,7 +2373,7 @@ class Server {
       serverArn: json['ServerArn'] as String?,
       serverName: json['ServerName'] as String?,
       serviceRoleArn: json['ServiceRoleArn'] as String?,
-      status: (json['Status'] as String?)?.toServerStatus(),
+      status: (json['Status'] as String?)?.let(ServerStatus.fromString),
       statusReason: json['StatusReason'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
           ?.whereNotNull()
@@ -2492,7 +2427,7 @@ class Server {
       if (instanceType != null) 'InstanceType': instanceType,
       if (keyPair != null) 'KeyPair': keyPair,
       if (maintenanceStatus != null)
-        'MaintenanceStatus': maintenanceStatus.toValue(),
+        'MaintenanceStatus': maintenanceStatus.value,
       if (preferredBackupWindow != null)
         'PreferredBackupWindow': preferredBackupWindow,
       if (preferredMaintenanceWindow != null)
@@ -2501,7 +2436,7 @@ class Server {
       if (serverArn != null) 'ServerArn': serverArn,
       if (serverName != null) 'ServerName': serverName,
       if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
       if (subnetIds != null) 'SubnetIds': subnetIds,
     };
@@ -2554,86 +2489,29 @@ class ServerEvent {
 }
 
 enum ServerStatus {
-  backingUp,
-  connectionLost,
-  creating,
-  deleting,
-  modifying,
-  failed,
-  healthy,
-  running,
-  restoring,
-  setup,
-  underMaintenance,
-  unhealthy,
-  terminated,
-}
+  backingUp('BACKING_UP'),
+  connectionLost('CONNECTION_LOST'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  modifying('MODIFYING'),
+  failed('FAILED'),
+  healthy('HEALTHY'),
+  running('RUNNING'),
+  restoring('RESTORING'),
+  setup('SETUP'),
+  underMaintenance('UNDER_MAINTENANCE'),
+  unhealthy('UNHEALTHY'),
+  terminated('TERMINATED'),
+  ;
 
-extension ServerStatusValueExtension on ServerStatus {
-  String toValue() {
-    switch (this) {
-      case ServerStatus.backingUp:
-        return 'BACKING_UP';
-      case ServerStatus.connectionLost:
-        return 'CONNECTION_LOST';
-      case ServerStatus.creating:
-        return 'CREATING';
-      case ServerStatus.deleting:
-        return 'DELETING';
-      case ServerStatus.modifying:
-        return 'MODIFYING';
-      case ServerStatus.failed:
-        return 'FAILED';
-      case ServerStatus.healthy:
-        return 'HEALTHY';
-      case ServerStatus.running:
-        return 'RUNNING';
-      case ServerStatus.restoring:
-        return 'RESTORING';
-      case ServerStatus.setup:
-        return 'SETUP';
-      case ServerStatus.underMaintenance:
-        return 'UNDER_MAINTENANCE';
-      case ServerStatus.unhealthy:
-        return 'UNHEALTHY';
-      case ServerStatus.terminated:
-        return 'TERMINATED';
-    }
-  }
-}
+  final String value;
 
-extension ServerStatusFromString on String {
-  ServerStatus toServerStatus() {
-    switch (this) {
-      case 'BACKING_UP':
-        return ServerStatus.backingUp;
-      case 'CONNECTION_LOST':
-        return ServerStatus.connectionLost;
-      case 'CREATING':
-        return ServerStatus.creating;
-      case 'DELETING':
-        return ServerStatus.deleting;
-      case 'MODIFYING':
-        return ServerStatus.modifying;
-      case 'FAILED':
-        return ServerStatus.failed;
-      case 'HEALTHY':
-        return ServerStatus.healthy;
-      case 'RUNNING':
-        return ServerStatus.running;
-      case 'RESTORING':
-        return ServerStatus.restoring;
-      case 'SETUP':
-        return ServerStatus.setup;
-      case 'UNDER_MAINTENANCE':
-        return ServerStatus.underMaintenance;
-      case 'UNHEALTHY':
-        return ServerStatus.unhealthy;
-      case 'TERMINATED':
-        return ServerStatus.terminated;
-    }
-    throw Exception('$this is not known in enum ServerStatus');
-  }
+  const ServerStatus(this.value);
+
+  static ServerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServerStatus'));
 }
 
 class StartMaintenanceResponse {

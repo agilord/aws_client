@@ -138,7 +138,7 @@ class IoTDeviceAdvisor {
   }) async {
     final $query = <String, List<String>>{
       if (authenticationMethod != null)
-        'authenticationMethod': [authenticationMethod.toValue()],
+        'authenticationMethod': [authenticationMethod.value],
       if (certificateArn != null) 'certificateArn': [certificateArn],
       if (deviceRoleArn != null) 'deviceRoleArn': [deviceRoleArn],
       if (thingArn != null) 'thingArn': [thingArn],
@@ -527,31 +527,18 @@ class IoTDeviceAdvisor {
 }
 
 enum AuthenticationMethod {
-  x509ClientCertificate,
-  signatureVersion4,
-}
+  x509ClientCertificate('X509ClientCertificate'),
+  signatureVersion4('SignatureVersion4'),
+  ;
 
-extension AuthenticationMethodValueExtension on AuthenticationMethod {
-  String toValue() {
-    switch (this) {
-      case AuthenticationMethod.x509ClientCertificate:
-        return 'X509ClientCertificate';
-      case AuthenticationMethod.signatureVersion4:
-        return 'SignatureVersion4';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationMethodFromString on String {
-  AuthenticationMethod toAuthenticationMethod() {
-    switch (this) {
-      case 'X509ClientCertificate':
-        return AuthenticationMethod.x509ClientCertificate;
-      case 'SignatureVersion4':
-        return AuthenticationMethod.signatureVersion4;
-    }
-    throw Exception('$this is not known in enum AuthenticationMethod');
-  }
+  const AuthenticationMethod(this.value);
+
+  static AuthenticationMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationMethod'));
 }
 
 class CreateSuiteDefinitionResponse {
@@ -825,7 +812,7 @@ class GetSuiteRunResponse {
       endTime: timeStampFromJson(json['endTime']),
       errorReason: json['errorReason'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toSuiteRunStatus(),
+      status: (json['status'] as String?)?.let(SuiteRunStatus.fromString),
       suiteDefinitionId: json['suiteDefinitionId'] as String?,
       suiteDefinitionVersion: json['suiteDefinitionVersion'] as String?,
       suiteRunArn: json['suiteRunArn'] as String?,
@@ -858,7 +845,7 @@ class GetSuiteRunResponse {
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (errorReason != null) 'errorReason': errorReason,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
       if (suiteDefinitionVersion != null)
         'suiteDefinitionVersion': suiteDefinitionVersion,
@@ -1005,41 +992,19 @@ class ListTagsForResourceResponse {
 }
 
 enum Protocol {
-  mqttV3_1_1,
-  mqttV5,
-  mqttV3_1_1OverWebSocket,
-  mqttV5OverWebSocket,
-}
+  mqttV3_1_1('MqttV3_1_1'),
+  mqttV5('MqttV5'),
+  mqttV3_1_1OverWebSocket('MqttV3_1_1_OverWebSocket'),
+  mqttV5OverWebSocket('MqttV5_OverWebSocket'),
+  ;
 
-extension ProtocolValueExtension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.mqttV3_1_1:
-        return 'MqttV3_1_1';
-      case Protocol.mqttV5:
-        return 'MqttV5';
-      case Protocol.mqttV3_1_1OverWebSocket:
-        return 'MqttV3_1_1_OverWebSocket';
-      case Protocol.mqttV5OverWebSocket:
-        return 'MqttV5_OverWebSocket';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolFromString on String {
-  Protocol toProtocol() {
-    switch (this) {
-      case 'MqttV3_1_1':
-        return Protocol.mqttV3_1_1;
-      case 'MqttV5':
-        return Protocol.mqttV5;
-      case 'MqttV3_1_1_OverWebSocket':
-        return Protocol.mqttV3_1_1OverWebSocket;
-      case 'MqttV5_OverWebSocket':
-        return Protocol.mqttV5OverWebSocket;
-    }
-    throw Exception('$this is not known in enum Protocol');
-  }
+  const Protocol(this.value);
+
+  static Protocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Protocol'));
 }
 
 class StartSuiteRunResponse {
@@ -1086,66 +1051,24 @@ class StartSuiteRunResponse {
 }
 
 enum Status {
-  pass,
-  fail,
-  canceled,
-  pending,
-  running,
-  stopping,
-  stopped,
-  passWithWarnings,
-  error,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  canceled('CANCELED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  passWithWarnings('PASS_WITH_WARNINGS'),
+  error('ERROR'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.pass:
-        return 'PASS';
-      case Status.fail:
-        return 'FAIL';
-      case Status.canceled:
-        return 'CANCELED';
-      case Status.pending:
-        return 'PENDING';
-      case Status.running:
-        return 'RUNNING';
-      case Status.stopping:
-        return 'STOPPING';
-      case Status.stopped:
-        return 'STOPPED';
-      case Status.passWithWarnings:
-        return 'PASS_WITH_WARNINGS';
-      case Status.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'PASS':
-        return Status.pass;
-      case 'FAIL':
-        return Status.fail;
-      case 'CANCELED':
-        return Status.canceled;
-      case 'PENDING':
-        return Status.pending;
-      case 'RUNNING':
-        return Status.running;
-      case 'STOPPING':
-        return Status.stopping;
-      case 'STOPPED':
-        return Status.stopped;
-      case 'PASS_WITH_WARNINGS':
-        return Status.passWithWarnings;
-      case 'ERROR':
-        return Status.error;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 class StopSuiteRunResponse {
@@ -1214,7 +1137,7 @@ class SuiteDefinitionConfiguration {
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
       isLongDurationTest: json['isLongDurationTest'] as bool?,
-      protocol: (json['protocol'] as String?)?.toProtocol(),
+      protocol: (json['protocol'] as String?)?.let(Protocol.fromString),
     );
   }
 
@@ -1234,7 +1157,7 @@ class SuiteDefinitionConfiguration {
       if (intendedForQualification != null)
         'intendedForQualification': intendedForQualification,
       if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
     };
   }
 }
@@ -1281,7 +1204,7 @@ class SuiteDefinitionInformation {
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
       isLongDurationTest: json['isLongDurationTest'] as bool?,
-      protocol: (json['protocol'] as String?)?.toProtocol(),
+      protocol: (json['protocol'] as String?)?.let(Protocol.fromString),
       suiteDefinitionId: json['suiteDefinitionId'] as String?,
       suiteDefinitionName: json['suiteDefinitionName'] as String?,
     );
@@ -1301,7 +1224,7 @@ class SuiteDefinitionInformation {
       if (intendedForQualification != null)
         'intendedForQualification': intendedForQualification,
       if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
       if (suiteDefinitionName != null)
         'suiteDefinitionName': suiteDefinitionName,
@@ -1407,7 +1330,7 @@ class SuiteRunInformation {
       failed: json['failed'] as int?,
       passed: json['passed'] as int?,
       startedAt: timeStampFromJson(json['startedAt']),
-      status: (json['status'] as String?)?.toSuiteRunStatus(),
+      status: (json['status'] as String?)?.let(SuiteRunStatus.fromString),
       suiteDefinitionId: json['suiteDefinitionId'] as String?,
       suiteDefinitionName: json['suiteDefinitionName'] as String?,
       suiteDefinitionVersion: json['suiteDefinitionVersion'] as String?,
@@ -1432,7 +1355,7 @@ class SuiteRunInformation {
       if (failed != null) 'failed': failed,
       if (passed != null) 'passed': passed,
       if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
       if (suiteDefinitionName != null)
         'suiteDefinitionName': suiteDefinitionName,
@@ -1444,66 +1367,25 @@ class SuiteRunInformation {
 }
 
 enum SuiteRunStatus {
-  pass,
-  fail,
-  canceled,
-  pending,
-  running,
-  stopping,
-  stopped,
-  passWithWarnings,
-  error,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  canceled('CANCELED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  passWithWarnings('PASS_WITH_WARNINGS'),
+  error('ERROR'),
+  ;
 
-extension SuiteRunStatusValueExtension on SuiteRunStatus {
-  String toValue() {
-    switch (this) {
-      case SuiteRunStatus.pass:
-        return 'PASS';
-      case SuiteRunStatus.fail:
-        return 'FAIL';
-      case SuiteRunStatus.canceled:
-        return 'CANCELED';
-      case SuiteRunStatus.pending:
-        return 'PENDING';
-      case SuiteRunStatus.running:
-        return 'RUNNING';
-      case SuiteRunStatus.stopping:
-        return 'STOPPING';
-      case SuiteRunStatus.stopped:
-        return 'STOPPED';
-      case SuiteRunStatus.passWithWarnings:
-        return 'PASS_WITH_WARNINGS';
-      case SuiteRunStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension SuiteRunStatusFromString on String {
-  SuiteRunStatus toSuiteRunStatus() {
-    switch (this) {
-      case 'PASS':
-        return SuiteRunStatus.pass;
-      case 'FAIL':
-        return SuiteRunStatus.fail;
-      case 'CANCELED':
-        return SuiteRunStatus.canceled;
-      case 'PENDING':
-        return SuiteRunStatus.pending;
-      case 'RUNNING':
-        return SuiteRunStatus.running;
-      case 'STOPPING':
-        return SuiteRunStatus.stopping;
-      case 'STOPPED':
-        return SuiteRunStatus.stopped;
-      case 'PASS_WITH_WARNINGS':
-        return SuiteRunStatus.passWithWarnings;
-      case 'ERROR':
-        return SuiteRunStatus.error;
-    }
-    throw Exception('$this is not known in enum SuiteRunStatus');
-  }
+  const SuiteRunStatus(this.value);
+
+  static SuiteRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SuiteRunStatus'));
 }
 
 class TagResourceResponse {
@@ -1599,7 +1481,7 @@ class TestCaseRun {
       failure: json['failure'] as String?,
       logUrl: json['logUrl'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       testCaseDefinitionId: json['testCaseDefinitionId'] as String?,
       testCaseDefinitionName: json['testCaseDefinitionName'] as String?,
       testCaseRunId: json['testCaseRunId'] as String?,
@@ -1627,7 +1509,7 @@ class TestCaseRun {
       if (failure != null) 'failure': failure,
       if (logUrl != null) 'logUrl': logUrl,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (testCaseDefinitionId != null)
         'testCaseDefinitionId': testCaseDefinitionId,
       if (testCaseDefinitionName != null)
@@ -1706,11 +1588,12 @@ class TestCaseScenario {
   factory TestCaseScenario.fromJson(Map<String, dynamic> json) {
     return TestCaseScenario(
       failure: json['failure'] as String?,
-      status: (json['status'] as String?)?.toTestCaseScenarioStatus(),
+      status:
+          (json['status'] as String?)?.let(TestCaseScenarioStatus.fromString),
       systemMessage: json['systemMessage'] as String?,
       testCaseScenarioId: json['testCaseScenarioId'] as String?,
-      testCaseScenarioType:
-          (json['testCaseScenarioType'] as String?)?.toTestCaseScenarioType(),
+      testCaseScenarioType: (json['testCaseScenarioType'] as String?)
+          ?.let(TestCaseScenarioType.fromString),
     );
   }
 
@@ -1722,104 +1605,50 @@ class TestCaseScenario {
     final testCaseScenarioType = this.testCaseScenarioType;
     return {
       if (failure != null) 'failure': failure,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (systemMessage != null) 'systemMessage': systemMessage,
       if (testCaseScenarioId != null) 'testCaseScenarioId': testCaseScenarioId,
       if (testCaseScenarioType != null)
-        'testCaseScenarioType': testCaseScenarioType.toValue(),
+        'testCaseScenarioType': testCaseScenarioType.value,
     };
   }
 }
 
 enum TestCaseScenarioStatus {
-  pass,
-  fail,
-  canceled,
-  pending,
-  running,
-  stopping,
-  stopped,
-  passWithWarnings,
-  error,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  canceled('CANCELED'),
+  pending('PENDING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  passWithWarnings('PASS_WITH_WARNINGS'),
+  error('ERROR'),
+  ;
 
-extension TestCaseScenarioStatusValueExtension on TestCaseScenarioStatus {
-  String toValue() {
-    switch (this) {
-      case TestCaseScenarioStatus.pass:
-        return 'PASS';
-      case TestCaseScenarioStatus.fail:
-        return 'FAIL';
-      case TestCaseScenarioStatus.canceled:
-        return 'CANCELED';
-      case TestCaseScenarioStatus.pending:
-        return 'PENDING';
-      case TestCaseScenarioStatus.running:
-        return 'RUNNING';
-      case TestCaseScenarioStatus.stopping:
-        return 'STOPPING';
-      case TestCaseScenarioStatus.stopped:
-        return 'STOPPED';
-      case TestCaseScenarioStatus.passWithWarnings:
-        return 'PASS_WITH_WARNINGS';
-      case TestCaseScenarioStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension TestCaseScenarioStatusFromString on String {
-  TestCaseScenarioStatus toTestCaseScenarioStatus() {
-    switch (this) {
-      case 'PASS':
-        return TestCaseScenarioStatus.pass;
-      case 'FAIL':
-        return TestCaseScenarioStatus.fail;
-      case 'CANCELED':
-        return TestCaseScenarioStatus.canceled;
-      case 'PENDING':
-        return TestCaseScenarioStatus.pending;
-      case 'RUNNING':
-        return TestCaseScenarioStatus.running;
-      case 'STOPPING':
-        return TestCaseScenarioStatus.stopping;
-      case 'STOPPED':
-        return TestCaseScenarioStatus.stopped;
-      case 'PASS_WITH_WARNINGS':
-        return TestCaseScenarioStatus.passWithWarnings;
-      case 'ERROR':
-        return TestCaseScenarioStatus.error;
-    }
-    throw Exception('$this is not known in enum TestCaseScenarioStatus');
-  }
+  const TestCaseScenarioStatus(this.value);
+
+  static TestCaseScenarioStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestCaseScenarioStatus'));
 }
 
 enum TestCaseScenarioType {
-  advanced,
-  basic,
-}
+  advanced('Advanced'),
+  basic('Basic'),
+  ;
 
-extension TestCaseScenarioTypeValueExtension on TestCaseScenarioType {
-  String toValue() {
-    switch (this) {
-      case TestCaseScenarioType.advanced:
-        return 'Advanced';
-      case TestCaseScenarioType.basic:
-        return 'Basic';
-    }
-  }
-}
+  final String value;
 
-extension TestCaseScenarioTypeFromString on String {
-  TestCaseScenarioType toTestCaseScenarioType() {
-    switch (this) {
-      case 'Advanced':
-        return TestCaseScenarioType.advanced;
-      case 'Basic':
-        return TestCaseScenarioType.basic;
-    }
-    throw Exception('$this is not known in enum TestCaseScenarioType');
-  }
+  const TestCaseScenarioType(this.value);
+
+  static TestCaseScenarioType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestCaseScenarioType'));
 }
 
 /// Show each group result.

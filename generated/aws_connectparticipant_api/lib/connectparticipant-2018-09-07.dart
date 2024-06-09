@@ -184,7 +184,7 @@ class ConnectParticipant {
     };
     final $payload = <String, dynamic>{
       if (connectParticipant != null) 'ConnectParticipant': connectParticipant,
-      if (type != null) 'Type': type.map((e) => e.toValue()).toList(),
+      if (type != null) 'Type': type.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -393,8 +393,8 @@ class ConnectParticipant {
       if (contactId != null) 'ContactId': contactId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (scanDirection != null) 'ScanDirection': scanDirection.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (scanDirection != null) 'ScanDirection': scanDirection.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
       if (startPosition != null) 'StartPosition': startPosition,
     };
     final response = await _protocol.send(
@@ -635,36 +635,19 @@ class ConnectParticipant {
 }
 
 enum ArtifactStatus {
-  approved,
-  rejected,
-  inProgress,
-}
+  approved('APPROVED'),
+  rejected('REJECTED'),
+  inProgress('IN_PROGRESS'),
+  ;
 
-extension ArtifactStatusValueExtension on ArtifactStatus {
-  String toValue() {
-    switch (this) {
-      case ArtifactStatus.approved:
-        return 'APPROVED';
-      case ArtifactStatus.rejected:
-        return 'REJECTED';
-      case ArtifactStatus.inProgress:
-        return 'IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension ArtifactStatusFromString on String {
-  ArtifactStatus toArtifactStatus() {
-    switch (this) {
-      case 'APPROVED':
-        return ArtifactStatus.approved;
-      case 'REJECTED':
-        return ArtifactStatus.rejected;
-      case 'IN_PROGRESS':
-        return ArtifactStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum ArtifactStatus');
-  }
+  const ArtifactStatus(this.value);
+
+  static ArtifactStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArtifactStatus'));
 }
 
 /// The case-insensitive input to indicate standard MIME type that describes the
@@ -697,87 +680,34 @@ class AttachmentItem {
       attachmentId: json['AttachmentId'] as String?,
       attachmentName: json['AttachmentName'] as String?,
       contentType: json['ContentType'] as String?,
-      status: (json['Status'] as String?)?.toArtifactStatus(),
+      status: (json['Status'] as String?)?.let(ArtifactStatus.fromString),
     );
   }
 }
 
 enum ChatItemType {
-  typing,
-  participantJoined,
-  participantLeft,
-  chatEnded,
-  transferSucceeded,
-  transferFailed,
-  message,
-  event,
-  attachment,
-  connectionAck,
-  messageDelivered,
-  messageRead,
-}
+  typing('TYPING'),
+  participantJoined('PARTICIPANT_JOINED'),
+  participantLeft('PARTICIPANT_LEFT'),
+  chatEnded('CHAT_ENDED'),
+  transferSucceeded('TRANSFER_SUCCEEDED'),
+  transferFailed('TRANSFER_FAILED'),
+  message('MESSAGE'),
+  event('EVENT'),
+  attachment('ATTACHMENT'),
+  connectionAck('CONNECTION_ACK'),
+  messageDelivered('MESSAGE_DELIVERED'),
+  messageRead('MESSAGE_READ'),
+  ;
 
-extension ChatItemTypeValueExtension on ChatItemType {
-  String toValue() {
-    switch (this) {
-      case ChatItemType.typing:
-        return 'TYPING';
-      case ChatItemType.participantJoined:
-        return 'PARTICIPANT_JOINED';
-      case ChatItemType.participantLeft:
-        return 'PARTICIPANT_LEFT';
-      case ChatItemType.chatEnded:
-        return 'CHAT_ENDED';
-      case ChatItemType.transferSucceeded:
-        return 'TRANSFER_SUCCEEDED';
-      case ChatItemType.transferFailed:
-        return 'TRANSFER_FAILED';
-      case ChatItemType.message:
-        return 'MESSAGE';
-      case ChatItemType.event:
-        return 'EVENT';
-      case ChatItemType.attachment:
-        return 'ATTACHMENT';
-      case ChatItemType.connectionAck:
-        return 'CONNECTION_ACK';
-      case ChatItemType.messageDelivered:
-        return 'MESSAGE_DELIVERED';
-      case ChatItemType.messageRead:
-        return 'MESSAGE_READ';
-    }
-  }
-}
+  final String value;
 
-extension ChatItemTypeFromString on String {
-  ChatItemType toChatItemType() {
-    switch (this) {
-      case 'TYPING':
-        return ChatItemType.typing;
-      case 'PARTICIPANT_JOINED':
-        return ChatItemType.participantJoined;
-      case 'PARTICIPANT_LEFT':
-        return ChatItemType.participantLeft;
-      case 'CHAT_ENDED':
-        return ChatItemType.chatEnded;
-      case 'TRANSFER_SUCCEEDED':
-        return ChatItemType.transferSucceeded;
-      case 'TRANSFER_FAILED':
-        return ChatItemType.transferFailed;
-      case 'MESSAGE':
-        return ChatItemType.message;
-      case 'EVENT':
-        return ChatItemType.event;
-      case 'ATTACHMENT':
-        return ChatItemType.attachment;
-      case 'CONNECTION_ACK':
-        return ChatItemType.connectionAck;
-      case 'MESSAGE_DELIVERED':
-        return ChatItemType.messageDelivered;
-      case 'MESSAGE_READ':
-        return ChatItemType.messageRead;
-    }
-    throw Exception('$this is not known in enum ChatItemType');
-  }
+  const ChatItemType(this.value);
+
+  static ChatItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChatItemType'));
 }
 
 class CompleteAttachmentUploadResponse {
@@ -813,31 +743,18 @@ class ConnectionCredentials {
 }
 
 enum ConnectionType {
-  websocket,
-  connectionCredentials,
-}
+  websocket('WEBSOCKET'),
+  connectionCredentials('CONNECTION_CREDENTIALS'),
+  ;
 
-extension ConnectionTypeValueExtension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.websocket:
-        return 'WEBSOCKET';
-      case ConnectionType.connectionCredentials:
-        return 'CONNECTION_CREDENTIALS';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionTypeFromString on String {
-  ConnectionType toConnectionType() {
-    switch (this) {
-      case 'WEBSOCKET':
-        return ConnectionType.websocket;
-      case 'CONNECTION_CREDENTIALS':
-        return ConnectionType.connectionCredentials;
-    }
-    throw Exception('$this is not known in enum ConnectionType');
-  }
+  const ConnectionType(this.value);
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionType'));
 }
 
 class CreateParticipantConnectionResponse {
@@ -1025,9 +942,9 @@ class Item {
           : null,
       participantId: json['ParticipantId'] as String?,
       participantRole:
-          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
       relatedContactId: json['RelatedContactId'] as String?,
-      type: (json['Type'] as String?)?.toChatItemType(),
+      type: (json['Type'] as String?)?.let(ChatItemType.fromString),
     );
   }
 }
@@ -1057,46 +974,21 @@ class MessageMetadata {
 }
 
 enum ParticipantRole {
-  agent,
-  customer,
-  system,
-  customBot,
-  supervisor,
-}
+  agent('AGENT'),
+  customer('CUSTOMER'),
+  system('SYSTEM'),
+  customBot('CUSTOM_BOT'),
+  supervisor('SUPERVISOR'),
+  ;
 
-extension ParticipantRoleValueExtension on ParticipantRole {
-  String toValue() {
-    switch (this) {
-      case ParticipantRole.agent:
-        return 'AGENT';
-      case ParticipantRole.customer:
-        return 'CUSTOMER';
-      case ParticipantRole.system:
-        return 'SYSTEM';
-      case ParticipantRole.customBot:
-        return 'CUSTOM_BOT';
-      case ParticipantRole.supervisor:
-        return 'SUPERVISOR';
-    }
-  }
-}
+  final String value;
 
-extension ParticipantRoleFromString on String {
-  ParticipantRole toParticipantRole() {
-    switch (this) {
-      case 'AGENT':
-        return ParticipantRole.agent;
-      case 'CUSTOMER':
-        return ParticipantRole.customer;
-      case 'SYSTEM':
-        return ParticipantRole.system;
-      case 'CUSTOM_BOT':
-        return ParticipantRole.customBot;
-      case 'SUPERVISOR':
-        return ParticipantRole.supervisor;
-    }
-    throw Exception('$this is not known in enum ParticipantRole');
-  }
+  const ParticipantRole(this.value);
+
+  static ParticipantRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParticipantRole'));
 }
 
 /// The receipt for the message delivered to the recipient.
@@ -1126,31 +1018,18 @@ class Receipt {
 }
 
 enum ScanDirection {
-  forward,
-  backward,
-}
+  forward('FORWARD'),
+  backward('BACKWARD'),
+  ;
 
-extension ScanDirectionValueExtension on ScanDirection {
-  String toValue() {
-    switch (this) {
-      case ScanDirection.forward:
-        return 'FORWARD';
-      case ScanDirection.backward:
-        return 'BACKWARD';
-    }
-  }
-}
+  final String value;
 
-extension ScanDirectionFromString on String {
-  ScanDirection toScanDirection() {
-    switch (this) {
-      case 'FORWARD':
-        return ScanDirection.forward;
-      case 'BACKWARD':
-        return ScanDirection.backward;
-    }
-    throw Exception('$this is not known in enum ScanDirection');
-  }
+  const ScanDirection(this.value);
+
+  static ScanDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScanDirection'));
 }
 
 class SendEventResponse {
@@ -1200,31 +1079,17 @@ class SendMessageResponse {
 }
 
 enum SortKey {
-  descending,
-  ascending,
-}
+  descending('DESCENDING'),
+  ascending('ASCENDING'),
+  ;
 
-extension SortKeyValueExtension on SortKey {
-  String toValue() {
-    switch (this) {
-      case SortKey.descending:
-        return 'DESCENDING';
-      case SortKey.ascending:
-        return 'ASCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortKeyFromString on String {
-  SortKey toSortKey() {
-    switch (this) {
-      case 'DESCENDING':
-        return SortKey.descending;
-      case 'ASCENDING':
-        return SortKey.ascending;
-    }
-    throw Exception('$this is not known in enum SortKey');
-  }
+  const SortKey(this.value);
+
+  static SortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SortKey'));
 }
 
 class StartAttachmentUploadResponse {

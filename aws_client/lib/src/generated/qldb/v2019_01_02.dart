@@ -209,7 +209,7 @@ class Qldb {
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
-      'PermissionsMode': permissionsMode.toValue(),
+      'PermissionsMode': permissionsMode.value,
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
       if (kmsKey != null) 'KmsKey': kmsKey,
       if (tags != null) 'Tags': tags,
@@ -434,7 +434,7 @@ class Qldb {
       'InclusiveStartTime': unixTimestampToJson(inclusiveStartTime),
       'RoleArn': roleArn,
       'S3ExportConfiguration': s3ExportConfiguration,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1080,7 +1080,7 @@ class Qldb {
     required PermissionsMode permissionsMode,
   }) async {
     final $payload = <String, dynamic>{
-      'PermissionsMode': permissionsMode.toValue(),
+      'PermissionsMode': permissionsMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1166,8 +1166,8 @@ class CreateLedgerResponse {
       kmsKeyArn: json['KmsKeyArn'] as String?,
       name: json['Name'] as String?,
       permissionsMode:
-          (json['PermissionsMode'] as String?)?.toPermissionsMode(),
-      state: (json['State'] as String?)?.toLedgerState(),
+          (json['PermissionsMode'] as String?)?.let(PermissionsMode.fromString),
+      state: (json['State'] as String?)?.let(LedgerState.fromString),
     );
   }
 
@@ -1186,8 +1186,8 @@ class CreateLedgerResponse {
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (name != null) 'Name': name,
-      if (permissionsMode != null) 'PermissionsMode': permissionsMode.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (permissionsMode != null) 'PermissionsMode': permissionsMode.value,
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -1298,8 +1298,8 @@ class DescribeLedgerResponse {
           : null,
       name: json['Name'] as String?,
       permissionsMode:
-          (json['PermissionsMode'] as String?)?.toPermissionsMode(),
-      state: (json['State'] as String?)?.toLedgerState(),
+          (json['PermissionsMode'] as String?)?.let(PermissionsMode.fromString),
+      state: (json['State'] as String?)?.let(LedgerState.fromString),
     );
   }
 
@@ -1319,71 +1319,40 @@ class DescribeLedgerResponse {
       if (encryptionDescription != null)
         'EncryptionDescription': encryptionDescription,
       if (name != null) 'Name': name,
-      if (permissionsMode != null) 'PermissionsMode': permissionsMode.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (permissionsMode != null) 'PermissionsMode': permissionsMode.value,
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum EncryptionStatus {
-  enabled,
-  updating,
-  kmsKeyInaccessible,
-}
+  enabled('ENABLED'),
+  updating('UPDATING'),
+  kmsKeyInaccessible('KMS_KEY_INACCESSIBLE'),
+  ;
 
-extension EncryptionStatusValueExtension on EncryptionStatus {
-  String toValue() {
-    switch (this) {
-      case EncryptionStatus.enabled:
-        return 'ENABLED';
-      case EncryptionStatus.updating:
-        return 'UPDATING';
-      case EncryptionStatus.kmsKeyInaccessible:
-        return 'KMS_KEY_INACCESSIBLE';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionStatusFromString on String {
-  EncryptionStatus toEncryptionStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return EncryptionStatus.enabled;
-      case 'UPDATING':
-        return EncryptionStatus.updating;
-      case 'KMS_KEY_INACCESSIBLE':
-        return EncryptionStatus.kmsKeyInaccessible;
-    }
-    throw Exception('$this is not known in enum EncryptionStatus');
-  }
+  const EncryptionStatus(this.value);
+
+  static EncryptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionStatus'));
 }
 
 enum ErrorCause {
-  kinesisStreamNotFound,
-  iamPermissionRevoked,
-}
+  kinesisStreamNotFound('KINESIS_STREAM_NOT_FOUND'),
+  iamPermissionRevoked('IAM_PERMISSION_REVOKED'),
+  ;
 
-extension ErrorCauseValueExtension on ErrorCause {
-  String toValue() {
-    switch (this) {
-      case ErrorCause.kinesisStreamNotFound:
-        return 'KINESIS_STREAM_NOT_FOUND';
-      case ErrorCause.iamPermissionRevoked:
-        return 'IAM_PERMISSION_REVOKED';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCauseFromString on String {
-  ErrorCause toErrorCause() {
-    switch (this) {
-      case 'KINESIS_STREAM_NOT_FOUND':
-        return ErrorCause.kinesisStreamNotFound;
-      case 'IAM_PERMISSION_REVOKED':
-        return ErrorCause.iamPermissionRevoked;
-    }
-    throw Exception('$this is not known in enum ErrorCause');
-  }
+  const ErrorCause(this.value);
+
+  static ErrorCause fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCause'));
 }
 
 class ExportJournalToS3Response {
@@ -1413,36 +1382,19 @@ class ExportJournalToS3Response {
 }
 
 enum ExportStatus {
-  inProgress,
-  completed,
-  cancelled,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension ExportStatusValueExtension on ExportStatus {
-  String toValue() {
-    switch (this) {
-      case ExportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ExportStatus.completed:
-        return 'COMPLETED';
-      case ExportStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension ExportStatusFromString on String {
-  ExportStatus toExportStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ExportStatus.inProgress;
-      case 'COMPLETED':
-        return ExportStatus.completed;
-      case 'CANCELLED':
-        return ExportStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum ExportStatus');
-  }
+  const ExportStatus(this.value);
+
+  static ExportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportStatus'));
 }
 
 class GetBlockResponse {
@@ -1611,12 +1563,12 @@ class JournalKinesisStreamDescription {
           json['KinesisConfiguration'] as Map<String, dynamic>),
       ledgerName: json['LedgerName'] as String,
       roleArn: json['RoleArn'] as String,
-      status: (json['Status'] as String).toStreamStatus(),
+      status: StreamStatus.fromString((json['Status'] as String)),
       streamId: json['StreamId'] as String,
       streamName: json['StreamName'] as String,
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      errorCause: (json['ErrorCause'] as String?)?.toErrorCause(),
+      errorCause: (json['ErrorCause'] as String?)?.let(ErrorCause.fromString),
       exclusiveEndTime: timeStampFromJson(json['ExclusiveEndTime']),
       inclusiveStartTime: timeStampFromJson(json['InclusiveStartTime']),
     );
@@ -1638,13 +1590,13 @@ class JournalKinesisStreamDescription {
       'KinesisConfiguration': kinesisConfiguration,
       'LedgerName': ledgerName,
       'RoleArn': roleArn,
-      'Status': status.toValue(),
+      'Status': status.value,
       'StreamId': streamId,
       'StreamName': streamName,
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (errorCause != null) 'ErrorCause': errorCause.toValue(),
+      if (errorCause != null) 'ErrorCause': errorCause.value,
       if (exclusiveEndTime != null)
         'ExclusiveEndTime': unixTimestampToJson(exclusiveEndTime),
       if (inclusiveStartTime != null)
@@ -1722,8 +1674,9 @@ class JournalS3ExportDescription {
       roleArn: json['RoleArn'] as String,
       s3ExportConfiguration: S3ExportConfiguration.fromJson(
           json['S3ExportConfiguration'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toExportStatus(),
-      outputFormat: (json['OutputFormat'] as String?)?.toOutputFormat(),
+      status: ExportStatus.fromString((json['Status'] as String)),
+      outputFormat:
+          (json['OutputFormat'] as String?)?.let(OutputFormat.fromString),
     );
   }
 
@@ -1745,8 +1698,8 @@ class JournalS3ExportDescription {
       'LedgerName': ledgerName,
       'RoleArn': roleArn,
       'S3ExportConfiguration': s3ExportConfiguration,
-      'Status': status.toValue(),
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      'Status': status.value,
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
     };
   }
 }
@@ -1855,7 +1808,7 @@ class LedgerEncryptionDescription {
   factory LedgerEncryptionDescription.fromJson(Map<String, dynamic> json) {
     return LedgerEncryptionDescription(
       encryptionStatus:
-          (json['EncryptionStatus'] as String).toEncryptionStatus(),
+          EncryptionStatus.fromString((json['EncryptionStatus'] as String)),
       kmsKeyArn: json['KmsKeyArn'] as String,
       inaccessibleKmsKeyDateTime:
           timeStampFromJson(json['InaccessibleKmsKeyDateTime']),
@@ -1867,7 +1820,7 @@ class LedgerEncryptionDescription {
     final kmsKeyArn = this.kmsKeyArn;
     final inaccessibleKmsKeyDateTime = this.inaccessibleKmsKeyDateTime;
     return {
-      'EncryptionStatus': encryptionStatus.toValue(),
+      'EncryptionStatus': encryptionStatus.value,
       'KmsKeyArn': kmsKeyArn,
       if (inaccessibleKmsKeyDateTime != null)
         'InaccessibleKmsKeyDateTime':
@@ -1877,41 +1830,19 @@ class LedgerEncryptionDescription {
 }
 
 enum LedgerState {
-  creating,
-  active,
-  deleting,
-  deleted,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension LedgerStateValueExtension on LedgerState {
-  String toValue() {
-    switch (this) {
-      case LedgerState.creating:
-        return 'CREATING';
-      case LedgerState.active:
-        return 'ACTIVE';
-      case LedgerState.deleting:
-        return 'DELETING';
-      case LedgerState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension LedgerStateFromString on String {
-  LedgerState toLedgerState() {
-    switch (this) {
-      case 'CREATING':
-        return LedgerState.creating;
-      case 'ACTIVE':
-        return LedgerState.active;
-      case 'DELETING':
-        return LedgerState.deleting;
-      case 'DELETED':
-        return LedgerState.deleted;
-    }
-    throw Exception('$this is not known in enum LedgerState');
-  }
+  const LedgerState(this.value);
+
+  static LedgerState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LedgerState'));
 }
 
 /// Information about a ledger, including its name, state, and when it was
@@ -1938,7 +1869,7 @@ class LedgerSummary {
     return LedgerSummary(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toLedgerState(),
+      state: (json['State'] as String?)?.let(LedgerState.fromString),
     );
   }
 
@@ -1950,7 +1881,7 @@ class LedgerSummary {
       if (creationDateTime != null)
         'CreationDateTime': unixTimestampToJson(creationDateTime),
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2162,64 +2093,34 @@ class ListTagsForResourceResponse {
 }
 
 enum OutputFormat {
-  ionBinary,
-  ionText,
-  json,
-}
+  ionBinary('ION_BINARY'),
+  ionText('ION_TEXT'),
+  json('JSON'),
+  ;
 
-extension OutputFormatValueExtension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.ionBinary:
-        return 'ION_BINARY';
-      case OutputFormat.ionText:
-        return 'ION_TEXT';
-      case OutputFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension OutputFormatFromString on String {
-  OutputFormat toOutputFormat() {
-    switch (this) {
-      case 'ION_BINARY':
-        return OutputFormat.ionBinary;
-      case 'ION_TEXT':
-        return OutputFormat.ionText;
-      case 'JSON':
-        return OutputFormat.json;
-    }
-    throw Exception('$this is not known in enum OutputFormat');
-  }
+  const OutputFormat(this.value);
+
+  static OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputFormat'));
 }
 
 enum PermissionsMode {
-  allowAll,
-  standard,
-}
+  allowAll('ALLOW_ALL'),
+  standard('STANDARD'),
+  ;
 
-extension PermissionsModeValueExtension on PermissionsMode {
-  String toValue() {
-    switch (this) {
-      case PermissionsMode.allowAll:
-        return 'ALLOW_ALL';
-      case PermissionsMode.standard:
-        return 'STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension PermissionsModeFromString on String {
-  PermissionsMode toPermissionsMode() {
-    switch (this) {
-      case 'ALLOW_ALL':
-        return PermissionsMode.allowAll;
-      case 'STANDARD':
-        return PermissionsMode.standard;
-    }
-    throw Exception('$this is not known in enum PermissionsMode');
-  }
+  const PermissionsMode(this.value);
+
+  static PermissionsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PermissionsMode'));
 }
 
 /// The encryption settings that are used by a journal export job to write data
@@ -2250,8 +2151,8 @@ class S3EncryptionConfiguration {
 
   factory S3EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return S3EncryptionConfiguration(
-      objectEncryptionType:
-          (json['ObjectEncryptionType'] as String).toS3ObjectEncryptionType(),
+      objectEncryptionType: S3ObjectEncryptionType.fromString(
+          (json['ObjectEncryptionType'] as String)),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -2260,7 +2161,7 @@ class S3EncryptionConfiguration {
     final objectEncryptionType = this.objectEncryptionType;
     final kmsKeyArn = this.kmsKeyArn;
     return {
-      'ObjectEncryptionType': objectEncryptionType.toValue(),
+      'ObjectEncryptionType': objectEncryptionType.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
@@ -2333,36 +2234,19 @@ class S3ExportConfiguration {
 }
 
 enum S3ObjectEncryptionType {
-  sseKms,
-  sseS3,
-  noEncryption,
-}
+  sseKms('SSE_KMS'),
+  sseS3('SSE_S3'),
+  noEncryption('NO_ENCRYPTION'),
+  ;
 
-extension S3ObjectEncryptionTypeValueExtension on S3ObjectEncryptionType {
-  String toValue() {
-    switch (this) {
-      case S3ObjectEncryptionType.sseKms:
-        return 'SSE_KMS';
-      case S3ObjectEncryptionType.sseS3:
-        return 'SSE_S3';
-      case S3ObjectEncryptionType.noEncryption:
-        return 'NO_ENCRYPTION';
-    }
-  }
-}
+  final String value;
 
-extension S3ObjectEncryptionTypeFromString on String {
-  S3ObjectEncryptionType toS3ObjectEncryptionType() {
-    switch (this) {
-      case 'SSE_KMS':
-        return S3ObjectEncryptionType.sseKms;
-      case 'SSE_S3':
-        return S3ObjectEncryptionType.sseS3;
-      case 'NO_ENCRYPTION':
-        return S3ObjectEncryptionType.noEncryption;
-    }
-    throw Exception('$this is not known in enum S3ObjectEncryptionType');
-  }
+  const S3ObjectEncryptionType(this.value);
+
+  static S3ObjectEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum S3ObjectEncryptionType'));
 }
 
 class StreamJournalToKinesisResponse {
@@ -2389,46 +2273,21 @@ class StreamJournalToKinesisResponse {
 }
 
 enum StreamStatus {
-  active,
-  completed,
-  canceled,
-  failed,
-  impaired,
-}
+  active('ACTIVE'),
+  completed('COMPLETED'),
+  canceled('CANCELED'),
+  failed('FAILED'),
+  impaired('IMPAIRED'),
+  ;
 
-extension StreamStatusValueExtension on StreamStatus {
-  String toValue() {
-    switch (this) {
-      case StreamStatus.active:
-        return 'ACTIVE';
-      case StreamStatus.completed:
-        return 'COMPLETED';
-      case StreamStatus.canceled:
-        return 'CANCELED';
-      case StreamStatus.failed:
-        return 'FAILED';
-      case StreamStatus.impaired:
-        return 'IMPAIRED';
-    }
-  }
-}
+  final String value;
 
-extension StreamStatusFromString on String {
-  StreamStatus toStreamStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return StreamStatus.active;
-      case 'COMPLETED':
-        return StreamStatus.completed;
-      case 'CANCELED':
-        return StreamStatus.canceled;
-      case 'FAILED':
-        return StreamStatus.failed;
-      case 'IMPAIRED':
-        return StreamStatus.impaired;
-    }
-    throw Exception('$this is not known in enum StreamStatus');
-  }
+  const StreamStatus(this.value);
+
+  static StreamStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StreamStatus'));
 }
 
 class TagResourceResponse {
@@ -2477,7 +2336,7 @@ class UpdateLedgerPermissionsModeResponse {
       arn: json['Arn'] as String?,
       name: json['Name'] as String?,
       permissionsMode:
-          (json['PermissionsMode'] as String?)?.toPermissionsMode(),
+          (json['PermissionsMode'] as String?)?.let(PermissionsMode.fromString),
     );
   }
 
@@ -2488,7 +2347,7 @@ class UpdateLedgerPermissionsModeResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (name != null) 'Name': name,
-      if (permissionsMode != null) 'PermissionsMode': permissionsMode.toValue(),
+      if (permissionsMode != null) 'PermissionsMode': permissionsMode.value,
     };
   }
 }
@@ -2542,7 +2401,7 @@ class UpdateLedgerResponse {
               json['EncryptionDescription'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toLedgerState(),
+      state: (json['State'] as String?)?.let(LedgerState.fromString),
     );
   }
 
@@ -2561,7 +2420,7 @@ class UpdateLedgerResponse {
       if (encryptionDescription != null)
         'EncryptionDescription': encryptionDescription,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }

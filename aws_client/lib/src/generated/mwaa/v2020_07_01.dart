@@ -359,7 +359,7 @@ class Mwaa {
         'AirflowConfigurationOptions': airflowConfigurationOptions,
       if (airflowVersion != null) 'AirflowVersion': airflowVersion,
       if (endpointManagement != null)
-        'EndpointManagement': endpointManagement.toValue(),
+        'EndpointManagement': endpointManagement.value,
       if (environmentClass != null) 'EnvironmentClass': environmentClass,
       if (kmsKey != null) 'KmsKey': kmsKey,
       if (loggingConfiguration != null)
@@ -381,7 +381,7 @@ class Mwaa {
         'StartupScriptS3Path': startupScriptS3Path,
       if (tags != null) 'Tags': tags,
       if (webserverAccessMode != null)
-        'WebserverAccessMode': webserverAccessMode.toValue(),
+        'WebserverAccessMode': webserverAccessMode.value,
       if (weeklyMaintenanceWindowStart != null)
         'WeeklyMaintenanceWindowStart': weeklyMaintenanceWindowStart,
     };
@@ -885,7 +885,7 @@ class Mwaa {
       if (startupScriptS3Path != null)
         'StartupScriptS3Path': startupScriptS3Path,
       if (webserverAccessMode != null)
-        'WebserverAccessMode': webserverAccessMode.toValue(),
+        'WebserverAccessMode': webserverAccessMode.value,
       if (weeklyMaintenanceWindowStart != null)
         'WeeklyMaintenanceWindowStart': weeklyMaintenanceWindowStart,
     };
@@ -1036,31 +1036,18 @@ class Dimension {
 }
 
 enum EndpointManagement {
-  customer,
-  service,
-}
+  customer('CUSTOMER'),
+  service('SERVICE'),
+  ;
 
-extension EndpointManagementValueExtension on EndpointManagement {
-  String toValue() {
-    switch (this) {
-      case EndpointManagement.customer:
-        return 'CUSTOMER';
-      case EndpointManagement.service:
-        return 'SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension EndpointManagementFromString on String {
-  EndpointManagement toEndpointManagement() {
-    switch (this) {
-      case 'CUSTOMER':
-        return EndpointManagement.customer;
-      case 'SERVICE':
-        return EndpointManagement.service;
-    }
-    throw Exception('$this is not known in enum EndpointManagement');
-  }
+  const EndpointManagement(this.value);
+
+  static EndpointManagement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EndpointManagement'));
 }
 
 /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
@@ -1409,8 +1396,8 @@ class Environment {
       createdAt: timeStampFromJson(json['CreatedAt']),
       dagS3Path: json['DagS3Path'] as String?,
       databaseVpcEndpointService: json['DatabaseVpcEndpointService'] as String?,
-      endpointManagement:
-          (json['EndpointManagement'] as String?)?.toEndpointManagement(),
+      endpointManagement: (json['EndpointManagement'] as String?)
+          ?.let(EndpointManagement.fromString),
       environmentClass: json['EnvironmentClass'] as String?,
       executionRoleArn: json['ExecutionRoleArn'] as String?,
       kmsKey: json['KmsKey'] as String?,
@@ -1441,11 +1428,11 @@ class Environment {
       startupScriptS3ObjectVersion:
           json['StartupScriptS3ObjectVersion'] as String?,
       startupScriptS3Path: json['StartupScriptS3Path'] as String?,
-      status: (json['Status'] as String?)?.toEnvironmentStatus(),
+      status: (json['Status'] as String?)?.let(EnvironmentStatus.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      webserverAccessMode:
-          (json['WebserverAccessMode'] as String?)?.toWebserverAccessMode(),
+      webserverAccessMode: (json['WebserverAccessMode'] as String?)
+          ?.let(WebserverAccessMode.fromString),
       webserverUrl: json['WebserverUrl'] as String?,
       webserverVpcEndpointService:
           json['WebserverVpcEndpointService'] as String?,
@@ -1501,7 +1488,7 @@ class Environment {
       if (databaseVpcEndpointService != null)
         'DatabaseVpcEndpointService': databaseVpcEndpointService,
       if (endpointManagement != null)
-        'EndpointManagement': endpointManagement.toValue(),
+        'EndpointManagement': endpointManagement.value,
       if (environmentClass != null) 'EnvironmentClass': environmentClass,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (kmsKey != null) 'KmsKey': kmsKey,
@@ -1528,10 +1515,10 @@ class Environment {
         'StartupScriptS3ObjectVersion': startupScriptS3ObjectVersion,
       if (startupScriptS3Path != null)
         'StartupScriptS3Path': startupScriptS3Path,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
       if (webserverAccessMode != null)
-        'WebserverAccessMode': webserverAccessMode.toValue(),
+        'WebserverAccessMode': webserverAccessMode.value,
       if (webserverUrl != null) 'WebserverUrl': webserverUrl,
       if (webserverVpcEndpointService != null)
         'WebserverVpcEndpointService': webserverVpcEndpointService,
@@ -1542,81 +1529,28 @@ class Environment {
 }
 
 enum EnvironmentStatus {
-  creating,
-  createFailed,
-  available,
-  updating,
-  deleting,
-  deleted,
-  unavailable,
-  updateFailed,
-  rollingBack,
-  creatingSnapshot,
-  pending,
-  maintenance,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  available('AVAILABLE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  unavailable('UNAVAILABLE'),
+  updateFailed('UPDATE_FAILED'),
+  rollingBack('ROLLING_BACK'),
+  creatingSnapshot('CREATING_SNAPSHOT'),
+  pending('PENDING'),
+  maintenance('MAINTENANCE'),
+  ;
 
-extension EnvironmentStatusValueExtension on EnvironmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentStatus.creating:
-        return 'CREATING';
-      case EnvironmentStatus.createFailed:
-        return 'CREATE_FAILED';
-      case EnvironmentStatus.available:
-        return 'AVAILABLE';
-      case EnvironmentStatus.updating:
-        return 'UPDATING';
-      case EnvironmentStatus.deleting:
-        return 'DELETING';
-      case EnvironmentStatus.deleted:
-        return 'DELETED';
-      case EnvironmentStatus.unavailable:
-        return 'UNAVAILABLE';
-      case EnvironmentStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case EnvironmentStatus.rollingBack:
-        return 'ROLLING_BACK';
-      case EnvironmentStatus.creatingSnapshot:
-        return 'CREATING_SNAPSHOT';
-      case EnvironmentStatus.pending:
-        return 'PENDING';
-      case EnvironmentStatus.maintenance:
-        return 'MAINTENANCE';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStatusFromString on String {
-  EnvironmentStatus toEnvironmentStatus() {
-    switch (this) {
-      case 'CREATING':
-        return EnvironmentStatus.creating;
-      case 'CREATE_FAILED':
-        return EnvironmentStatus.createFailed;
-      case 'AVAILABLE':
-        return EnvironmentStatus.available;
-      case 'UPDATING':
-        return EnvironmentStatus.updating;
-      case 'DELETING':
-        return EnvironmentStatus.deleting;
-      case 'DELETED':
-        return EnvironmentStatus.deleted;
-      case 'UNAVAILABLE':
-        return EnvironmentStatus.unavailable;
-      case 'UPDATE_FAILED':
-        return EnvironmentStatus.updateFailed;
-      case 'ROLLING_BACK':
-        return EnvironmentStatus.rollingBack;
-      case 'CREATING_SNAPSHOT':
-        return EnvironmentStatus.creatingSnapshot;
-      case 'PENDING':
-        return EnvironmentStatus.pending;
-      case 'MAINTENANCE':
-        return EnvironmentStatus.maintenance;
-    }
-    throw Exception('$this is not known in enum EnvironmentStatus');
-  }
+  const EnvironmentStatus(this.value);
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentStatus'));
 }
 
 class GetEnvironmentOutput {
@@ -1673,7 +1607,7 @@ class LastUpdate {
           ? UpdateError.fromJson(json['Error'] as Map<String, dynamic>)
           : null,
       source: json['Source'] as String?,
-      status: (json['Status'] as String?)?.toUpdateStatus(),
+      status: (json['Status'] as String?)?.let(UpdateStatus.fromString),
     );
   }
 
@@ -1686,7 +1620,7 @@ class LastUpdate {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (error != null) 'Error': error,
       if (source != null) 'Source': source,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -1859,46 +1793,21 @@ class LoggingConfigurationInput {
 }
 
 enum LoggingLevel {
-  critical,
-  error,
-  warning,
-  info,
-  debug,
-}
+  critical('CRITICAL'),
+  error('ERROR'),
+  warning('WARNING'),
+  info('INFO'),
+  debug('DEBUG'),
+  ;
 
-extension LoggingLevelValueExtension on LoggingLevel {
-  String toValue() {
-    switch (this) {
-      case LoggingLevel.critical:
-        return 'CRITICAL';
-      case LoggingLevel.error:
-        return 'ERROR';
-      case LoggingLevel.warning:
-        return 'WARNING';
-      case LoggingLevel.info:
-        return 'INFO';
-      case LoggingLevel.debug:
-        return 'DEBUG';
-    }
-  }
-}
+  final String value;
 
-extension LoggingLevelFromString on String {
-  LoggingLevel toLoggingLevel() {
-    switch (this) {
-      case 'CRITICAL':
-        return LoggingLevel.critical;
-      case 'ERROR':
-        return LoggingLevel.error;
-      case 'WARNING':
-        return LoggingLevel.warning;
-      case 'INFO':
-        return LoggingLevel.info;
-      case 'DEBUG':
-        return LoggingLevel.debug;
-    }
-    throw Exception('$this is not known in enum LoggingLevel');
-  }
+  const LoggingLevel(this.value);
+
+  static LoggingLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LoggingLevel'));
 }
 
 /// <b>Internal only</b>. Collects Apache Airflow metrics. To learn more about
@@ -1947,7 +1856,7 @@ class MetricDatum {
       'Timestamp': unixTimestampToJson(timestamp),
       if (dimensions != null) 'Dimensions': dimensions,
       if (statisticValues != null) 'StatisticValues': statisticValues,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value,
     };
   }
@@ -1980,7 +1889,7 @@ class ModuleLoggingConfiguration {
     return ModuleLoggingConfiguration(
       cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
       enabled: json['Enabled'] as bool?,
-      logLevel: (json['LogLevel'] as String?)?.toLoggingLevel(),
+      logLevel: (json['LogLevel'] as String?)?.let(LoggingLevel.fromString),
     );
   }
 
@@ -1992,7 +1901,7 @@ class ModuleLoggingConfiguration {
       if (cloudWatchLogGroupArn != null)
         'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
       if (enabled != null) 'Enabled': enabled,
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.value,
     };
   }
 }
@@ -2019,7 +1928,7 @@ class ModuleLoggingConfigurationInput {
     final logLevel = this.logLevel;
     return {
       'Enabled': enabled,
-      'LogLevel': logLevel.toValue(),
+      'LogLevel': logLevel.value,
     };
   }
 }
@@ -2136,156 +2045,42 @@ class TagResourceOutput {
 }
 
 enum Unit {
-  seconds,
-  microseconds,
-  milliseconds,
-  bytes,
-  kilobytes,
-  megabytes,
-  gigabytes,
-  terabytes,
-  bits,
-  kilobits,
-  megabits,
-  gigabits,
-  terabits,
-  percent,
-  count,
-  bytesSecond,
-  kilobytesSecond,
-  megabytesSecond,
-  gigabytesSecond,
-  terabytesSecond,
-  bitsSecond,
-  kilobitsSecond,
-  megabitsSecond,
-  gigabitsSecond,
-  terabitsSecond,
-  countSecond,
-  none,
-}
+  seconds('Seconds'),
+  microseconds('Microseconds'),
+  milliseconds('Milliseconds'),
+  bytes('Bytes'),
+  kilobytes('Kilobytes'),
+  megabytes('Megabytes'),
+  gigabytes('Gigabytes'),
+  terabytes('Terabytes'),
+  bits('Bits'),
+  kilobits('Kilobits'),
+  megabits('Megabits'),
+  gigabits('Gigabits'),
+  terabits('Terabits'),
+  percent('Percent'),
+  count('Count'),
+  bytesSecond('Bytes/Second'),
+  kilobytesSecond('Kilobytes/Second'),
+  megabytesSecond('Megabytes/Second'),
+  gigabytesSecond('Gigabytes/Second'),
+  terabytesSecond('Terabytes/Second'),
+  bitsSecond('Bits/Second'),
+  kilobitsSecond('Kilobits/Second'),
+  megabitsSecond('Megabits/Second'),
+  gigabitsSecond('Gigabits/Second'),
+  terabitsSecond('Terabits/Second'),
+  countSecond('Count/Second'),
+  none('None'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.seconds:
-        return 'Seconds';
-      case Unit.microseconds:
-        return 'Microseconds';
-      case Unit.milliseconds:
-        return 'Milliseconds';
-      case Unit.bytes:
-        return 'Bytes';
-      case Unit.kilobytes:
-        return 'Kilobytes';
-      case Unit.megabytes:
-        return 'Megabytes';
-      case Unit.gigabytes:
-        return 'Gigabytes';
-      case Unit.terabytes:
-        return 'Terabytes';
-      case Unit.bits:
-        return 'Bits';
-      case Unit.kilobits:
-        return 'Kilobits';
-      case Unit.megabits:
-        return 'Megabits';
-      case Unit.gigabits:
-        return 'Gigabits';
-      case Unit.terabits:
-        return 'Terabits';
-      case Unit.percent:
-        return 'Percent';
-      case Unit.count:
-        return 'Count';
-      case Unit.bytesSecond:
-        return 'Bytes/Second';
-      case Unit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case Unit.megabytesSecond:
-        return 'Megabytes/Second';
-      case Unit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case Unit.terabytesSecond:
-        return 'Terabytes/Second';
-      case Unit.bitsSecond:
-        return 'Bits/Second';
-      case Unit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case Unit.megabitsSecond:
-        return 'Megabits/Second';
-      case Unit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case Unit.terabitsSecond:
-        return 'Terabits/Second';
-      case Unit.countSecond:
-        return 'Count/Second';
-      case Unit.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'Seconds':
-        return Unit.seconds;
-      case 'Microseconds':
-        return Unit.microseconds;
-      case 'Milliseconds':
-        return Unit.milliseconds;
-      case 'Bytes':
-        return Unit.bytes;
-      case 'Kilobytes':
-        return Unit.kilobytes;
-      case 'Megabytes':
-        return Unit.megabytes;
-      case 'Gigabytes':
-        return Unit.gigabytes;
-      case 'Terabytes':
-        return Unit.terabytes;
-      case 'Bits':
-        return Unit.bits;
-      case 'Kilobits':
-        return Unit.kilobits;
-      case 'Megabits':
-        return Unit.megabits;
-      case 'Gigabits':
-        return Unit.gigabits;
-      case 'Terabits':
-        return Unit.terabits;
-      case 'Percent':
-        return Unit.percent;
-      case 'Count':
-        return Unit.count;
-      case 'Bytes/Second':
-        return Unit.bytesSecond;
-      case 'Kilobytes/Second':
-        return Unit.kilobytesSecond;
-      case 'Megabytes/Second':
-        return Unit.megabytesSecond;
-      case 'Gigabytes/Second':
-        return Unit.gigabytesSecond;
-      case 'Terabytes/Second':
-        return Unit.terabytesSecond;
-      case 'Bits/Second':
-        return Unit.bitsSecond;
-      case 'Kilobits/Second':
-        return Unit.kilobitsSecond;
-      case 'Megabits/Second':
-        return Unit.megabitsSecond;
-      case 'Gigabits/Second':
-        return Unit.gigabitsSecond;
-      case 'Terabits/Second':
-        return Unit.terabitsSecond;
-      case 'Count/Second':
-        return Unit.countSecond;
-      case 'None':
-        return Unit.none;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 class UntagResourceOutput {
@@ -2378,64 +2173,34 @@ class UpdateNetworkConfigurationInput {
 }
 
 enum UpdateStatus {
-  success,
-  pending,
-  failed,
-}
+  success('SUCCESS'),
+  pending('PENDING'),
+  failed('FAILED'),
+  ;
 
-extension UpdateStatusValueExtension on UpdateStatus {
-  String toValue() {
-    switch (this) {
-      case UpdateStatus.success:
-        return 'SUCCESS';
-      case UpdateStatus.pending:
-        return 'PENDING';
-      case UpdateStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UpdateStatusFromString on String {
-  UpdateStatus toUpdateStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return UpdateStatus.success;
-      case 'PENDING':
-        return UpdateStatus.pending;
-      case 'FAILED':
-        return UpdateStatus.failed;
-    }
-    throw Exception('$this is not known in enum UpdateStatus');
-  }
+  const UpdateStatus(this.value);
+
+  static UpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateStatus'));
 }
 
 enum WebserverAccessMode {
-  privateOnly,
-  publicOnly,
-}
+  privateOnly('PRIVATE_ONLY'),
+  publicOnly('PUBLIC_ONLY'),
+  ;
 
-extension WebserverAccessModeValueExtension on WebserverAccessMode {
-  String toValue() {
-    switch (this) {
-      case WebserverAccessMode.privateOnly:
-        return 'PRIVATE_ONLY';
-      case WebserverAccessMode.publicOnly:
-        return 'PUBLIC_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension WebserverAccessModeFromString on String {
-  WebserverAccessMode toWebserverAccessMode() {
-    switch (this) {
-      case 'PRIVATE_ONLY':
-        return WebserverAccessMode.privateOnly;
-      case 'PUBLIC_ONLY':
-        return WebserverAccessMode.publicOnly;
-    }
-    throw Exception('$this is not known in enum WebserverAccessMode');
-  }
+  const WebserverAccessMode(this.value);
+
+  static WebserverAccessMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WebserverAccessMode'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

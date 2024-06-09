@@ -92,7 +92,7 @@ class AgentsForAmazonBedrock {
       'description': description,
       'knowledgeBaseId': knowledgeBaseId,
       if (knowledgeBaseState != null)
-        'knowledgeBaseState': knowledgeBaseState.toValue(),
+        'knowledgeBaseState': knowledgeBaseState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -338,14 +338,13 @@ class AgentsForAmazonBedrock {
       'actionGroupName': actionGroupName,
       if (actionGroupExecutor != null)
         'actionGroupExecutor': actionGroupExecutor,
-      if (actionGroupState != null)
-        'actionGroupState': actionGroupState.toValue(),
+      if (actionGroupState != null) 'actionGroupState': actionGroupState.value,
       if (apiSchema != null) 'apiSchema': apiSchema,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (functionSchema != null) 'functionSchema': functionSchema,
       if (parentActionGroupSignature != null)
-        'parentActionGroupSignature': parentActionGroupSignature.toValue(),
+        'parentActionGroupSignature': parentActionGroupSignature.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -472,7 +471,7 @@ class AgentsForAmazonBedrock {
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (dataDeletionPolicy != null)
-        'dataDeletionPolicy': dataDeletionPolicy.toValue(),
+        'dataDeletionPolicy': dataDeletionPolicy.value,
       if (description != null) 'description': description,
       if (serverSideEncryptionConfiguration != null)
         'serverSideEncryptionConfiguration': serverSideEncryptionConfiguration,
@@ -1781,13 +1780,12 @@ class AgentsForAmazonBedrock {
       'actionGroupName': actionGroupName,
       if (actionGroupExecutor != null)
         'actionGroupExecutor': actionGroupExecutor,
-      if (actionGroupState != null)
-        'actionGroupState': actionGroupState.toValue(),
+      if (actionGroupState != null) 'actionGroupState': actionGroupState.value,
       if (apiSchema != null) 'apiSchema': apiSchema,
       if (description != null) 'description': description,
       if (functionSchema != null) 'functionSchema': functionSchema,
       if (parentActionGroupSignature != null)
-        'parentActionGroupSignature': parentActionGroupSignature.toValue(),
+        'parentActionGroupSignature': parentActionGroupSignature.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1887,7 +1885,7 @@ class AgentsForAmazonBedrock {
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (knowledgeBaseState != null)
-        'knowledgeBaseState': knowledgeBaseState.toValue(),
+        'knowledgeBaseState': knowledgeBaseState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1950,7 +1948,7 @@ class AgentsForAmazonBedrock {
       'dataSourceConfiguration': dataSourceConfiguration,
       'name': name,
       if (dataDeletionPolicy != null)
-        'dataDeletionPolicy': dataDeletionPolicy.toValue(),
+        'dataDeletionPolicy': dataDeletionPolicy.value,
       if (description != null) 'description': description,
       if (serverSideEncryptionConfiguration != null)
         'serverSideEncryptionConfiguration': serverSideEncryptionConfiguration,
@@ -2106,8 +2104,8 @@ class ActionGroupExecutor {
 
   factory ActionGroupExecutor.fromJson(Map<String, dynamic> json) {
     return ActionGroupExecutor(
-      customControl:
-          (json['customControl'] as String?)?.toCustomControlMethod(),
+      customControl: (json['customControl'] as String?)
+          ?.let(CustomControlMethod.fromString),
       lambda: json['lambda'] as String?,
     );
   }
@@ -2116,61 +2114,39 @@ class ActionGroupExecutor {
     final customControl = this.customControl;
     final lambda = this.lambda;
     return {
-      if (customControl != null) 'customControl': customControl.toValue(),
+      if (customControl != null) 'customControl': customControl.value,
       if (lambda != null) 'lambda': lambda,
     };
   }
 }
 
 enum ActionGroupSignature {
-  amazonUserInput,
-}
+  amazonUserInput('AMAZON.UserInput'),
+  ;
 
-extension ActionGroupSignatureValueExtension on ActionGroupSignature {
-  String toValue() {
-    switch (this) {
-      case ActionGroupSignature.amazonUserInput:
-        return 'AMAZON.UserInput';
-    }
-  }
-}
+  final String value;
 
-extension ActionGroupSignatureFromString on String {
-  ActionGroupSignature toActionGroupSignature() {
-    switch (this) {
-      case 'AMAZON.UserInput':
-        return ActionGroupSignature.amazonUserInput;
-    }
-    throw Exception('$this is not known in enum ActionGroupSignature');
-  }
+  const ActionGroupSignature(this.value);
+
+  static ActionGroupSignature fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActionGroupSignature'));
 }
 
 enum ActionGroupState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ActionGroupStateValueExtension on ActionGroupState {
-  String toValue() {
-    switch (this) {
-      case ActionGroupState.enabled:
-        return 'ENABLED';
-      case ActionGroupState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ActionGroupStateFromString on String {
-  ActionGroupState toActionGroupState() {
-    switch (this) {
-      case 'ENABLED':
-        return ActionGroupState.enabled;
-      case 'DISABLED':
-        return ActionGroupState.disabled;
-    }
-    throw Exception('$this is not known in enum ActionGroupState');
-  }
+  const ActionGroupState(this.value);
+
+  static ActionGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActionGroupState'));
 }
 
 /// Contains details about an action group.
@@ -2206,7 +2182,7 @@ class ActionGroupSummary {
       actionGroupId: json['actionGroupId'] as String,
       actionGroupName: json['actionGroupName'] as String,
       actionGroupState:
-          (json['actionGroupState'] as String).toActionGroupState(),
+          ActionGroupState.fromString((json['actionGroupState'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
     );
@@ -2221,7 +2197,7 @@ class ActionGroupSummary {
     return {
       'actionGroupId': actionGroupId,
       'actionGroupName': actionGroupName,
-      'actionGroupState': actionGroupState.toValue(),
+      'actionGroupState': actionGroupState.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
     };
@@ -2356,7 +2332,7 @@ class Agent {
       agentId: json['agentId'] as String,
       agentName: json['agentName'] as String,
       agentResourceRoleArn: json['agentResourceRoleArn'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       agentVersion: json['agentVersion'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int,
@@ -2411,7 +2387,7 @@ class Agent {
       'agentId': agentId,
       'agentName': agentName,
       'agentResourceRoleArn': agentResourceRoleArn,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'agentVersion': agentVersion,
       'createdAt': iso8601ToJson(createdAt),
       'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
@@ -2519,7 +2495,7 @@ class AgentActionGroup {
       actionGroupId: json['actionGroupId'] as String,
       actionGroupName: json['actionGroupName'] as String,
       actionGroupState:
-          (json['actionGroupState'] as String).toActionGroupState(),
+          ActionGroupState.fromString((json['actionGroupState'] as String)),
       agentId: json['agentId'] as String,
       agentVersion: json['agentVersion'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
@@ -2537,8 +2513,8 @@ class AgentActionGroup {
           ? FunctionSchema.fromJson(
               json['functionSchema'] as Map<String, dynamic>)
           : null,
-      parentActionSignature:
-          (json['parentActionSignature'] as String?)?.toActionGroupSignature(),
+      parentActionSignature: (json['parentActionSignature'] as String?)
+          ?.let(ActionGroupSignature.fromString),
     );
   }
 
@@ -2559,7 +2535,7 @@ class AgentActionGroup {
     return {
       'actionGroupId': actionGroupId,
       'actionGroupName': actionGroupName,
-      'actionGroupState': actionGroupState.toValue(),
+      'actionGroupState': actionGroupState.value,
       'agentId': agentId,
       'agentVersion': agentVersion,
       'createdAt': iso8601ToJson(createdAt),
@@ -2571,7 +2547,7 @@ class AgentActionGroup {
       if (description != null) 'description': description,
       if (functionSchema != null) 'functionSchema': functionSchema,
       if (parentActionSignature != null)
-        'parentActionSignature': parentActionSignature.toValue(),
+        'parentActionSignature': parentActionSignature.value,
     };
   }
 }
@@ -2661,7 +2637,7 @@ class AgentAlias {
       agentAliasId: json['agentAliasId'] as String,
       agentAliasName: json['agentAliasName'] as String,
       agentAliasStatus:
-          (json['agentAliasStatus'] as String).toAgentAliasStatus(),
+          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
       agentId: json['agentId'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       routingConfiguration: (json['routingConfiguration'] as List)
@@ -2701,7 +2677,7 @@ class AgentAlias {
       'agentAliasArn': agentAliasArn,
       'agentAliasId': agentAliasId,
       'agentAliasName': agentAliasName,
-      'agentAliasStatus': agentAliasStatus.toValue(),
+      'agentAliasStatus': agentAliasStatus.value,
       'agentId': agentId,
       'createdAt': iso8601ToJson(createdAt),
       'routingConfiguration': routingConfiguration,
@@ -2793,46 +2769,21 @@ class AgentAliasRoutingConfigurationListItem {
 }
 
 enum AgentAliasStatus {
-  creating,
-  prepared,
-  failed,
-  updating,
-  deleting,
-}
+  creating('CREATING'),
+  prepared('PREPARED'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  ;
 
-extension AgentAliasStatusValueExtension on AgentAliasStatus {
-  String toValue() {
-    switch (this) {
-      case AgentAliasStatus.creating:
-        return 'CREATING';
-      case AgentAliasStatus.prepared:
-        return 'PREPARED';
-      case AgentAliasStatus.failed:
-        return 'FAILED';
-      case AgentAliasStatus.updating:
-        return 'UPDATING';
-      case AgentAliasStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension AgentAliasStatusFromString on String {
-  AgentAliasStatus toAgentAliasStatus() {
-    switch (this) {
-      case 'CREATING':
-        return AgentAliasStatus.creating;
-      case 'PREPARED':
-        return AgentAliasStatus.prepared;
-      case 'FAILED':
-        return AgentAliasStatus.failed;
-      case 'UPDATING':
-        return AgentAliasStatus.updating;
-      case 'DELETING':
-        return AgentAliasStatus.deleting;
-    }
-    throw Exception('$this is not known in enum AgentAliasStatus');
-  }
+  const AgentAliasStatus(this.value);
+
+  static AgentAliasStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AgentAliasStatus'));
 }
 
 /// Contains details about an alias of an agent.
@@ -2874,7 +2825,7 @@ class AgentAliasSummary {
       agentAliasId: json['agentAliasId'] as String,
       agentAliasName: json['agentAliasName'] as String,
       agentAliasStatus:
-          (json['agentAliasStatus'] as String).toAgentAliasStatus(),
+          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
@@ -2897,7 +2848,7 @@ class AgentAliasSummary {
     return {
       'agentAliasId': agentAliasId,
       'agentAliasName': agentAliasName,
-      'agentAliasStatus': agentAliasStatus.toValue(),
+      'agentAliasStatus': agentAliasStatus.value,
       'createdAt': iso8601ToJson(createdAt),
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
@@ -2954,7 +2905,7 @@ class AgentKnowledgeBase {
       description: json['description'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       knowledgeBaseState:
-          (json['knowledgeBaseState'] as String).toKnowledgeBaseState(),
+          KnowledgeBaseState.fromString((json['knowledgeBaseState'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
     );
   }
@@ -2973,7 +2924,7 @@ class AgentKnowledgeBase {
       'createdAt': iso8601ToJson(createdAt),
       'description': description,
       'knowledgeBaseId': knowledgeBaseId,
-      'knowledgeBaseState': knowledgeBaseState.toValue(),
+      'knowledgeBaseState': knowledgeBaseState.value,
       'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -3008,7 +2959,7 @@ class AgentKnowledgeBaseSummary {
     return AgentKnowledgeBaseSummary(
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       knowledgeBaseState:
-          (json['knowledgeBaseState'] as String).toKnowledgeBaseState(),
+          KnowledgeBaseState.fromString((json['knowledgeBaseState'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
     );
@@ -3021,7 +2972,7 @@ class AgentKnowledgeBaseSummary {
     final description = this.description;
     return {
       'knowledgeBaseId': knowledgeBaseId,
-      'knowledgeBaseState': knowledgeBaseState.toValue(),
+      'knowledgeBaseState': knowledgeBaseState.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
     };
@@ -3029,61 +2980,23 @@ class AgentKnowledgeBaseSummary {
 }
 
 enum AgentStatus {
-  creating,
-  preparing,
-  prepared,
-  notPrepared,
-  deleting,
-  failed,
-  versioning,
-  updating,
-}
+  creating('CREATING'),
+  preparing('PREPARING'),
+  prepared('PREPARED'),
+  notPrepared('NOT_PREPARED'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  versioning('VERSIONING'),
+  updating('UPDATING'),
+  ;
 
-extension AgentStatusValueExtension on AgentStatus {
-  String toValue() {
-    switch (this) {
-      case AgentStatus.creating:
-        return 'CREATING';
-      case AgentStatus.preparing:
-        return 'PREPARING';
-      case AgentStatus.prepared:
-        return 'PREPARED';
-      case AgentStatus.notPrepared:
-        return 'NOT_PREPARED';
-      case AgentStatus.deleting:
-        return 'DELETING';
-      case AgentStatus.failed:
-        return 'FAILED';
-      case AgentStatus.versioning:
-        return 'VERSIONING';
-      case AgentStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension AgentStatusFromString on String {
-  AgentStatus toAgentStatus() {
-    switch (this) {
-      case 'CREATING':
-        return AgentStatus.creating;
-      case 'PREPARING':
-        return AgentStatus.preparing;
-      case 'PREPARED':
-        return AgentStatus.prepared;
-      case 'NOT_PREPARED':
-        return AgentStatus.notPrepared;
-      case 'DELETING':
-        return AgentStatus.deleting;
-      case 'FAILED':
-        return AgentStatus.failed;
-      case 'VERSIONING':
-        return AgentStatus.versioning;
-      case 'UPDATING':
-        return AgentStatus.updating;
-    }
-    throw Exception('$this is not known in enum AgentStatus');
-  }
+  const AgentStatus(this.value);
+
+  static AgentStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AgentStatus'));
 }
 
 /// Contains details about an agent.
@@ -3123,7 +3036,7 @@ class AgentSummary {
     return AgentSummary(
       agentId: json['agentId'] as String,
       agentName: json['agentName'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       guardrailConfiguration: json['guardrailConfiguration'] != null
@@ -3145,7 +3058,7 @@ class AgentSummary {
     return {
       'agentId': agentId,
       'agentName': agentName,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
       if (guardrailConfiguration != null)
@@ -3244,7 +3157,7 @@ class AgentVersion {
       agentId: json['agentId'] as String,
       agentName: json['agentName'] as String,
       agentResourceRoleArn: json['agentResourceRoleArn'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -3295,7 +3208,7 @@ class AgentVersion {
       'agentId': agentId,
       'agentName': agentName,
       'agentResourceRoleArn': agentResourceRoleArn,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'createdAt': iso8601ToJson(createdAt),
       'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       'updatedAt': iso8601ToJson(updatedAt),
@@ -3351,7 +3264,7 @@ class AgentVersionSummary {
   factory AgentVersionSummary.fromJson(Map<String, dynamic> json) {
     return AgentVersionSummary(
       agentName: json['agentName'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       agentVersion: json['agentVersion'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -3373,7 +3286,7 @@ class AgentVersionSummary {
     final guardrailConfiguration = this.guardrailConfiguration;
     return {
       'agentName': agentName,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'agentVersion': agentVersion,
       'createdAt': iso8601ToJson(createdAt),
       'updatedAt': iso8601ToJson(updatedAt),
@@ -3471,7 +3384,7 @@ class ChunkingConfiguration {
   factory ChunkingConfiguration.fromJson(Map<String, dynamic> json) {
     return ChunkingConfiguration(
       chunkingStrategy:
-          (json['chunkingStrategy'] as String).toChunkingStrategy(),
+          ChunkingStrategy.fromString((json['chunkingStrategy'] as String)),
       fixedSizeChunkingConfiguration: json['fixedSizeChunkingConfiguration'] !=
               null
           ? FixedSizeChunkingConfiguration.fromJson(
@@ -3484,7 +3397,7 @@ class ChunkingConfiguration {
     final chunkingStrategy = this.chunkingStrategy;
     final fixedSizeChunkingConfiguration = this.fixedSizeChunkingConfiguration;
     return {
-      'chunkingStrategy': chunkingStrategy.toValue(),
+      'chunkingStrategy': chunkingStrategy.value,
       if (fixedSizeChunkingConfiguration != null)
         'fixedSizeChunkingConfiguration': fixedSizeChunkingConfiguration,
     };
@@ -3492,31 +3405,18 @@ class ChunkingConfiguration {
 }
 
 enum ChunkingStrategy {
-  fixedSize,
-  none,
-}
+  fixedSize('FIXED_SIZE'),
+  none('NONE'),
+  ;
 
-extension ChunkingStrategyValueExtension on ChunkingStrategy {
-  String toValue() {
-    switch (this) {
-      case ChunkingStrategy.fixedSize:
-        return 'FIXED_SIZE';
-      case ChunkingStrategy.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ChunkingStrategyFromString on String {
-  ChunkingStrategy toChunkingStrategy() {
-    switch (this) {
-      case 'FIXED_SIZE':
-        return ChunkingStrategy.fixedSize;
-      case 'NONE':
-        return ChunkingStrategy.none;
-    }
-    throw Exception('$this is not known in enum ChunkingStrategy');
-  }
+  const ChunkingStrategy(this.value);
+
+  static ChunkingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChunkingStrategy'));
 }
 
 class CreateAgentActionGroupResponse {
@@ -3634,82 +3534,47 @@ class CreateKnowledgeBaseResponse {
 }
 
 enum CreationMode {
-  $default,
-  overridden,
-}
+  $default('DEFAULT'),
+  overridden('OVERRIDDEN'),
+  ;
 
-extension CreationModeValueExtension on CreationMode {
-  String toValue() {
-    switch (this) {
-      case CreationMode.$default:
-        return 'DEFAULT';
-      case CreationMode.overridden:
-        return 'OVERRIDDEN';
-    }
-  }
-}
+  final String value;
 
-extension CreationModeFromString on String {
-  CreationMode toCreationMode() {
-    switch (this) {
-      case 'DEFAULT':
-        return CreationMode.$default;
-      case 'OVERRIDDEN':
-        return CreationMode.overridden;
-    }
-    throw Exception('$this is not known in enum CreationMode');
-  }
+  const CreationMode(this.value);
+
+  static CreationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CreationMode'));
 }
 
 enum CustomControlMethod {
-  returnControl,
-}
+  returnControl('RETURN_CONTROL'),
+  ;
 
-extension CustomControlMethodValueExtension on CustomControlMethod {
-  String toValue() {
-    switch (this) {
-      case CustomControlMethod.returnControl:
-        return 'RETURN_CONTROL';
-    }
-  }
-}
+  final String value;
 
-extension CustomControlMethodFromString on String {
-  CustomControlMethod toCustomControlMethod() {
-    switch (this) {
-      case 'RETURN_CONTROL':
-        return CustomControlMethod.returnControl;
-    }
-    throw Exception('$this is not known in enum CustomControlMethod');
-  }
+  const CustomControlMethod(this.value);
+
+  static CustomControlMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomControlMethod'));
 }
 
 enum DataDeletionPolicy {
-  retain,
-  delete,
-}
+  retain('RETAIN'),
+  delete('DELETE'),
+  ;
 
-extension DataDeletionPolicyValueExtension on DataDeletionPolicy {
-  String toValue() {
-    switch (this) {
-      case DataDeletionPolicy.retain:
-        return 'RETAIN';
-      case DataDeletionPolicy.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension DataDeletionPolicyFromString on String {
-  DataDeletionPolicy toDataDeletionPolicy() {
-    switch (this) {
-      case 'RETAIN':
-        return DataDeletionPolicy.retain;
-      case 'DELETE':
-        return DataDeletionPolicy.delete;
-    }
-    throw Exception('$this is not known in enum DataDeletionPolicy');
-  }
+  const DataDeletionPolicy(this.value);
+
+  static DataDeletionPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataDeletionPolicy'));
 }
 
 /// Contains details about a data source.
@@ -3784,10 +3649,10 @@ class DataSource {
       dataSourceId: json['dataSourceId'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      dataDeletionPolicy:
-          (json['dataDeletionPolicy'] as String?)?.toDataDeletionPolicy(),
+      dataDeletionPolicy: (json['dataDeletionPolicy'] as String?)
+          ?.let(DataDeletionPolicy.fromString),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
           ?.whereNotNull()
@@ -3826,10 +3691,10 @@ class DataSource {
       'dataSourceId': dataSourceId,
       'knowledgeBaseId': knowledgeBaseId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (dataDeletionPolicy != null)
-        'dataDeletionPolicy': dataDeletionPolicy.toValue(),
+        'dataDeletionPolicy': dataDeletionPolicy.value,
       if (description != null) 'description': description,
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (serverSideEncryptionConfiguration != null)
@@ -3856,7 +3721,7 @@ class DataSourceConfiguration {
 
   factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceConfiguration(
-      type: (json['type'] as String).toDataSourceType(),
+      type: DataSourceType.fromString((json['type'] as String)),
       s3Configuration: json['s3Configuration'] != null
           ? S3DataSourceConfiguration.fromJson(
               json['s3Configuration'] as Map<String, dynamic>)
@@ -3868,43 +3733,26 @@ class DataSourceConfiguration {
     final type = this.type;
     final s3Configuration = this.s3Configuration;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (s3Configuration != null) 's3Configuration': s3Configuration,
     };
   }
 }
 
 enum DataSourceStatus {
-  available,
-  deleting,
-  deleteUnsuccessful,
-}
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleteUnsuccessful('DELETE_UNSUCCESSFUL'),
+  ;
 
-extension DataSourceStatusValueExtension on DataSourceStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceStatus.available:
-        return 'AVAILABLE';
-      case DataSourceStatus.deleting:
-        return 'DELETING';
-      case DataSourceStatus.deleteUnsuccessful:
-        return 'DELETE_UNSUCCESSFUL';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceStatusFromString on String {
-  DataSourceStatus toDataSourceStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return DataSourceStatus.available;
-      case 'DELETING':
-        return DataSourceStatus.deleting;
-      case 'DELETE_UNSUCCESSFUL':
-        return DataSourceStatus.deleteUnsuccessful;
-    }
-    throw Exception('$this is not known in enum DataSourceStatus');
-  }
+  const DataSourceStatus(this.value);
+
+  static DataSourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceStatus'));
 }
 
 /// Contains details about a data source.
@@ -3942,7 +3790,7 @@ class DataSourceSummary {
       dataSourceId: json['dataSourceId'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
     );
@@ -3959,7 +3807,7 @@ class DataSourceSummary {
       'dataSourceId': dataSourceId,
       'knowledgeBaseId': knowledgeBaseId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
     };
@@ -3967,26 +3815,17 @@ class DataSourceSummary {
 }
 
 enum DataSourceType {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'S3':
-        return DataSourceType.s3;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 class DeleteAgentActionGroupResponse {
@@ -4021,7 +3860,7 @@ class DeleteAgentAliasResponse {
     return DeleteAgentAliasResponse(
       agentAliasId: json['agentAliasId'] as String,
       agentAliasStatus:
-          (json['agentAliasStatus'] as String).toAgentAliasStatus(),
+          AgentAliasStatus.fromString((json['agentAliasStatus'] as String)),
       agentId: json['agentId'] as String,
     );
   }
@@ -4032,7 +3871,7 @@ class DeleteAgentAliasResponse {
     final agentId = this.agentId;
     return {
       'agentAliasId': agentAliasId,
-      'agentAliasStatus': agentAliasStatus.toValue(),
+      'agentAliasStatus': agentAliasStatus.value,
       'agentId': agentId,
     };
   }
@@ -4053,7 +3892,7 @@ class DeleteAgentResponse {
   factory DeleteAgentResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentResponse(
       agentId: json['agentId'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
     );
   }
 
@@ -4062,7 +3901,7 @@ class DeleteAgentResponse {
     final agentStatus = this.agentStatus;
     return {
       'agentId': agentId,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
     };
   }
 }
@@ -4086,7 +3925,7 @@ class DeleteAgentVersionResponse {
   factory DeleteAgentVersionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentVersionResponse(
       agentId: json['agentId'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       agentVersion: json['agentVersion'] as String,
     );
   }
@@ -4097,7 +3936,7 @@ class DeleteAgentVersionResponse {
     final agentVersion = this.agentVersion;
     return {
       'agentId': agentId,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'agentVersion': agentVersion,
     };
   }
@@ -4124,7 +3963,7 @@ class DeleteDataSourceResponse {
     return DeleteDataSourceResponse(
       dataSourceId: json['dataSourceId'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -4135,7 +3974,7 @@ class DeleteDataSourceResponse {
     return {
       'dataSourceId': dataSourceId,
       'knowledgeBaseId': knowledgeBaseId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -4156,7 +3995,7 @@ class DeleteKnowledgeBaseResponse {
   factory DeleteKnowledgeBaseResponse.fromJson(Map<String, dynamic> json) {
     return DeleteKnowledgeBaseResponse(
       knowledgeBaseId: json['knowledgeBaseId'] as String,
-      status: (json['status'] as String).toKnowledgeBaseStatus(),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -4165,7 +4004,7 @@ class DeleteKnowledgeBaseResponse {
     final status = this.status;
     return {
       'knowledgeBaseId': knowledgeBaseId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -4726,7 +4565,7 @@ class IngestionJob {
       ingestionJobId: json['ingestionJobId'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
-      status: (json['status'] as String).toIngestionJobStatus(),
+      status: IngestionJobStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
@@ -4755,7 +4594,7 @@ class IngestionJob {
       'ingestionJobId': ingestionJobId,
       'knowledgeBaseId': knowledgeBaseId,
       'startedAt': iso8601ToJson(startedAt),
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
       if (failureReasons != null) 'failureReasons': failureReasons,
@@ -4786,59 +4625,39 @@ class IngestionJobFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'attribute': attribute.toValue(),
-      'operator': operator.toValue(),
+      'attribute': attribute.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum IngestionJobFilterAttribute {
-  status,
-}
+  status('STATUS'),
+  ;
 
-extension IngestionJobFilterAttributeValueExtension
-    on IngestionJobFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case IngestionJobFilterAttribute.status:
-        return 'STATUS';
-    }
-  }
-}
+  final String value;
 
-extension IngestionJobFilterAttributeFromString on String {
-  IngestionJobFilterAttribute toIngestionJobFilterAttribute() {
-    switch (this) {
-      case 'STATUS':
-        return IngestionJobFilterAttribute.status;
-    }
-    throw Exception('$this is not known in enum IngestionJobFilterAttribute');
-  }
+  const IngestionJobFilterAttribute(this.value);
+
+  static IngestionJobFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngestionJobFilterAttribute'));
 }
 
 enum IngestionJobFilterOperator {
-  eq,
-}
+  eq('EQ'),
+  ;
 
-extension IngestionJobFilterOperatorValueExtension
-    on IngestionJobFilterOperator {
-  String toValue() {
-    switch (this) {
-      case IngestionJobFilterOperator.eq:
-        return 'EQ';
-    }
-  }
-}
+  final String value;
 
-extension IngestionJobFilterOperatorFromString on String {
-  IngestionJobFilterOperator toIngestionJobFilterOperator() {
-    switch (this) {
-      case 'EQ':
-        return IngestionJobFilterOperator.eq;
-    }
-    throw Exception('$this is not known in enum IngestionJobFilterOperator');
-  }
+  const IngestionJobFilterOperator(this.value);
+
+  static IngestionJobFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngestionJobFilterOperator'));
 }
 
 /// Parameters by which to sort the results.
@@ -4858,39 +4677,25 @@ class IngestionJobSortBy {
     final attribute = this.attribute;
     final order = this.order;
     return {
-      'attribute': attribute.toValue(),
-      'order': order.toValue(),
+      'attribute': attribute.value,
+      'order': order.value,
     };
   }
 }
 
 enum IngestionJobSortByAttribute {
-  status,
-  startedAt,
-}
+  status('STATUS'),
+  startedAt('STARTED_AT'),
+  ;
 
-extension IngestionJobSortByAttributeValueExtension
-    on IngestionJobSortByAttribute {
-  String toValue() {
-    switch (this) {
-      case IngestionJobSortByAttribute.status:
-        return 'STATUS';
-      case IngestionJobSortByAttribute.startedAt:
-        return 'STARTED_AT';
-    }
-  }
-}
+  final String value;
 
-extension IngestionJobSortByAttributeFromString on String {
-  IngestionJobSortByAttribute toIngestionJobSortByAttribute() {
-    switch (this) {
-      case 'STATUS':
-        return IngestionJobSortByAttribute.status;
-      case 'STARTED_AT':
-        return IngestionJobSortByAttribute.startedAt;
-    }
-    throw Exception('$this is not known in enum IngestionJobSortByAttribute');
-  }
+  const IngestionJobSortByAttribute(this.value);
+
+  static IngestionJobSortByAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngestionJobSortByAttribute'));
 }
 
 /// Contains the statistics for the ingestion job.
@@ -4976,41 +4781,20 @@ class IngestionJobStatistics {
 }
 
 enum IngestionJobStatus {
-  starting,
-  inProgress,
-  complete,
-  failed,
-}
+  starting('STARTING'),
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  ;
 
-extension IngestionJobStatusValueExtension on IngestionJobStatus {
-  String toValue() {
-    switch (this) {
-      case IngestionJobStatus.starting:
-        return 'STARTING';
-      case IngestionJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case IngestionJobStatus.complete:
-        return 'COMPLETE';
-      case IngestionJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension IngestionJobStatusFromString on String {
-  IngestionJobStatus toIngestionJobStatus() {
-    switch (this) {
-      case 'STARTING':
-        return IngestionJobStatus.starting;
-      case 'IN_PROGRESS':
-        return IngestionJobStatus.inProgress;
-      case 'COMPLETE':
-        return IngestionJobStatus.complete;
-      case 'FAILED':
-        return IngestionJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum IngestionJobStatus');
-  }
+  const IngestionJobStatus(this.value);
+
+  static IngestionJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngestionJobStatus'));
 }
 
 /// Contains details about an ingestion job.
@@ -5057,7 +4841,7 @@ class IngestionJobSummary {
       ingestionJobId: json['ingestionJobId'] as String,
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
-      status: (json['status'] as String).toIngestionJobStatus(),
+      status: IngestionJobStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       statistics: json['statistics'] != null
@@ -5081,7 +4865,7 @@ class IngestionJobSummary {
       'ingestionJobId': ingestionJobId,
       'knowledgeBaseId': knowledgeBaseId,
       'startedAt': iso8601ToJson(startedAt),
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
       if (statistics != null) 'statistics': statistics,
@@ -5166,7 +4950,7 @@ class KnowledgeBase {
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       name: json['name'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toKnowledgeBaseStatus(),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
       storageConfiguration: StorageConfiguration.fromJson(
           json['storageConfiguration'] as Map<String, dynamic>),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -5197,7 +4981,7 @@ class KnowledgeBase {
       'knowledgeBaseId': knowledgeBaseId,
       'name': name,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       'storageConfiguration': storageConfiguration,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
@@ -5223,7 +5007,7 @@ class KnowledgeBaseConfiguration {
 
   factory KnowledgeBaseConfiguration.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseConfiguration(
-      type: (json['type'] as String).toKnowledgeBaseType(),
+      type: KnowledgeBaseType.fromString((json['type'] as String)),
       vectorKnowledgeBaseConfiguration:
           json['vectorKnowledgeBaseConfiguration'] != null
               ? VectorKnowledgeBaseConfiguration.fromJson(
@@ -5238,7 +5022,7 @@ class KnowledgeBaseConfiguration {
     final vectorKnowledgeBaseConfiguration =
         this.vectorKnowledgeBaseConfiguration;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (vectorKnowledgeBaseConfiguration != null)
         'vectorKnowledgeBaseConfiguration': vectorKnowledgeBaseConfiguration,
     };
@@ -5246,122 +5030,55 @@ class KnowledgeBaseConfiguration {
 }
 
 enum KnowledgeBaseState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension KnowledgeBaseStateValueExtension on KnowledgeBaseState {
-  String toValue() {
-    switch (this) {
-      case KnowledgeBaseState.enabled:
-        return 'ENABLED';
-      case KnowledgeBaseState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension KnowledgeBaseStateFromString on String {
-  KnowledgeBaseState toKnowledgeBaseState() {
-    switch (this) {
-      case 'ENABLED':
-        return KnowledgeBaseState.enabled;
-      case 'DISABLED':
-        return KnowledgeBaseState.disabled;
-    }
-    throw Exception('$this is not known in enum KnowledgeBaseState');
-  }
+  const KnowledgeBaseState(this.value);
+
+  static KnowledgeBaseState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KnowledgeBaseState'));
 }
 
 enum KnowledgeBaseStatus {
-  creating,
-  active,
-  deleting,
-  updating,
-  failed,
-  deleteUnsuccessful,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  failed('FAILED'),
+  deleteUnsuccessful('DELETE_UNSUCCESSFUL'),
+  ;
 
-extension KnowledgeBaseStatusValueExtension on KnowledgeBaseStatus {
-  String toValue() {
-    switch (this) {
-      case KnowledgeBaseStatus.creating:
-        return 'CREATING';
-      case KnowledgeBaseStatus.active:
-        return 'ACTIVE';
-      case KnowledgeBaseStatus.deleting:
-        return 'DELETING';
-      case KnowledgeBaseStatus.updating:
-        return 'UPDATING';
-      case KnowledgeBaseStatus.failed:
-        return 'FAILED';
-      case KnowledgeBaseStatus.deleteUnsuccessful:
-        return 'DELETE_UNSUCCESSFUL';
-    }
-  }
-}
+  final String value;
 
-extension KnowledgeBaseStatusFromString on String {
-  KnowledgeBaseStatus toKnowledgeBaseStatus() {
-    switch (this) {
-      case 'CREATING':
-        return KnowledgeBaseStatus.creating;
-      case 'ACTIVE':
-        return KnowledgeBaseStatus.active;
-      case 'DELETING':
-        return KnowledgeBaseStatus.deleting;
-      case 'UPDATING':
-        return KnowledgeBaseStatus.updating;
-      case 'FAILED':
-        return KnowledgeBaseStatus.failed;
-      case 'DELETE_UNSUCCESSFUL':
-        return KnowledgeBaseStatus.deleteUnsuccessful;
-    }
-    throw Exception('$this is not known in enum KnowledgeBaseStatus');
-  }
+  const KnowledgeBaseStatus(this.value);
+
+  static KnowledgeBaseStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KnowledgeBaseStatus'));
 }
 
 enum KnowledgeBaseStorageType {
-  opensearchServerless,
-  pinecone,
-  redisEnterpriseCloud,
-  rds,
-  mongoDbAtlas,
-}
+  opensearchServerless('OPENSEARCH_SERVERLESS'),
+  pinecone('PINECONE'),
+  redisEnterpriseCloud('REDIS_ENTERPRISE_CLOUD'),
+  rds('RDS'),
+  mongoDbAtlas('MONGO_DB_ATLAS'),
+  ;
 
-extension KnowledgeBaseStorageTypeValueExtension on KnowledgeBaseStorageType {
-  String toValue() {
-    switch (this) {
-      case KnowledgeBaseStorageType.opensearchServerless:
-        return 'OPENSEARCH_SERVERLESS';
-      case KnowledgeBaseStorageType.pinecone:
-        return 'PINECONE';
-      case KnowledgeBaseStorageType.redisEnterpriseCloud:
-        return 'REDIS_ENTERPRISE_CLOUD';
-      case KnowledgeBaseStorageType.rds:
-        return 'RDS';
-      case KnowledgeBaseStorageType.mongoDbAtlas:
-        return 'MONGO_DB_ATLAS';
-    }
-  }
-}
+  final String value;
 
-extension KnowledgeBaseStorageTypeFromString on String {
-  KnowledgeBaseStorageType toKnowledgeBaseStorageType() {
-    switch (this) {
-      case 'OPENSEARCH_SERVERLESS':
-        return KnowledgeBaseStorageType.opensearchServerless;
-      case 'PINECONE':
-        return KnowledgeBaseStorageType.pinecone;
-      case 'REDIS_ENTERPRISE_CLOUD':
-        return KnowledgeBaseStorageType.redisEnterpriseCloud;
-      case 'RDS':
-        return KnowledgeBaseStorageType.rds;
-      case 'MONGO_DB_ATLAS':
-        return KnowledgeBaseStorageType.mongoDbAtlas;
-    }
-    throw Exception('$this is not known in enum KnowledgeBaseStorageType');
-  }
+  const KnowledgeBaseStorageType(this.value);
+
+  static KnowledgeBaseStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KnowledgeBaseStorageType'));
 }
 
 /// Contains details about a knowledge base.
@@ -5393,7 +5110,7 @@ class KnowledgeBaseSummary {
     return KnowledgeBaseSummary(
       knowledgeBaseId: json['knowledgeBaseId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toKnowledgeBaseStatus(),
+      status: KnowledgeBaseStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
     );
@@ -5408,7 +5125,7 @@ class KnowledgeBaseSummary {
     return {
       'knowledgeBaseId': knowledgeBaseId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
     };
@@ -5416,26 +5133,17 @@ class KnowledgeBaseSummary {
 }
 
 enum KnowledgeBaseType {
-  vector,
-}
+  vector('VECTOR'),
+  ;
 
-extension KnowledgeBaseTypeValueExtension on KnowledgeBaseType {
-  String toValue() {
-    switch (this) {
-      case KnowledgeBaseType.vector:
-        return 'VECTOR';
-    }
-  }
-}
+  final String value;
 
-extension KnowledgeBaseTypeFromString on String {
-  KnowledgeBaseType toKnowledgeBaseType() {
-    switch (this) {
-      case 'VECTOR':
-        return KnowledgeBaseType.vector;
-    }
-    throw Exception('$this is not known in enum KnowledgeBaseType');
-  }
+  const KnowledgeBaseType(this.value);
+
+  static KnowledgeBaseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KnowledgeBaseType'));
 }
 
 class ListAgentActionGroupsResponse {
@@ -5986,7 +5694,7 @@ class ParameterDetail {
 
   factory ParameterDetail.fromJson(Map<String, dynamic> json) {
     return ParameterDetail(
-      type: (json['type'] as String).toType(),
+      type: Type.fromString((json['type'] as String)),
       description: json['description'] as String?,
       required: json['required'] as bool?,
     );
@@ -5997,7 +5705,7 @@ class ParameterDetail {
     final description = this.description;
     final required = this.required;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
       if (required != null) 'required': required,
     };
@@ -6113,7 +5821,7 @@ class PrepareAgentResponse {
   factory PrepareAgentResponse.fromJson(Map<String, dynamic> json) {
     return PrepareAgentResponse(
       agentId: json['agentId'] as String,
-      agentStatus: (json['agentStatus'] as String).toAgentStatus(),
+      agentStatus: AgentStatus.fromString((json['agentStatus'] as String)),
       agentVersion: json['agentVersion'] as String,
       preparedAt: nonNullableTimeStampFromJson(json['preparedAt'] as Object),
     );
@@ -6126,7 +5834,7 @@ class PrepareAgentResponse {
     final preparedAt = this.preparedAt;
     return {
       'agentId': agentId,
-      'agentStatus': agentStatus.toValue(),
+      'agentStatus': agentStatus.value,
       'agentVersion': agentVersion,
       'preparedAt': iso8601ToJson(preparedAt),
     };
@@ -6208,11 +5916,12 @@ class PromptConfiguration {
           ? InferenceConfiguration.fromJson(
               json['inferenceConfiguration'] as Map<String, dynamic>)
           : null,
-      parserMode: (json['parserMode'] as String?)?.toCreationMode(),
+      parserMode: (json['parserMode'] as String?)?.let(CreationMode.fromString),
       promptCreationMode:
-          (json['promptCreationMode'] as String?)?.toCreationMode(),
-      promptState: (json['promptState'] as String?)?.toPromptState(),
-      promptType: (json['promptType'] as String?)?.toPromptType(),
+          (json['promptCreationMode'] as String?)?.let(CreationMode.fromString),
+      promptState:
+          (json['promptState'] as String?)?.let(PromptState.fromString),
+      promptType: (json['promptType'] as String?)?.let(PromptType.fromString),
     );
   }
 
@@ -6227,11 +5936,11 @@ class PromptConfiguration {
       if (basePromptTemplate != null) 'basePromptTemplate': basePromptTemplate,
       if (inferenceConfiguration != null)
         'inferenceConfiguration': inferenceConfiguration,
-      if (parserMode != null) 'parserMode': parserMode.toValue(),
+      if (parserMode != null) 'parserMode': parserMode.value,
       if (promptCreationMode != null)
-        'promptCreationMode': promptCreationMode.toValue(),
-      if (promptState != null) 'promptState': promptState.toValue(),
-      if (promptType != null) 'promptType': promptType.toValue(),
+        'promptCreationMode': promptCreationMode.value,
+      if (promptState != null) 'promptState': promptState.value,
+      if (promptType != null) 'promptType': promptType.value,
     };
   }
 }
@@ -6282,69 +5991,33 @@ class PromptOverrideConfiguration {
 }
 
 enum PromptState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension PromptStateValueExtension on PromptState {
-  String toValue() {
-    switch (this) {
-      case PromptState.enabled:
-        return 'ENABLED';
-      case PromptState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension PromptStateFromString on String {
-  PromptState toPromptState() {
-    switch (this) {
-      case 'ENABLED':
-        return PromptState.enabled;
-      case 'DISABLED':
-        return PromptState.disabled;
-    }
-    throw Exception('$this is not known in enum PromptState');
-  }
+  const PromptState(this.value);
+
+  static PromptState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PromptState'));
 }
 
 enum PromptType {
-  preProcessing,
-  orchestration,
-  postProcessing,
-  knowledgeBaseResponseGeneration,
-}
+  preProcessing('PRE_PROCESSING'),
+  orchestration('ORCHESTRATION'),
+  postProcessing('POST_PROCESSING'),
+  knowledgeBaseResponseGeneration('KNOWLEDGE_BASE_RESPONSE_GENERATION'),
+  ;
 
-extension PromptTypeValueExtension on PromptType {
-  String toValue() {
-    switch (this) {
-      case PromptType.preProcessing:
-        return 'PRE_PROCESSING';
-      case PromptType.orchestration:
-        return 'ORCHESTRATION';
-      case PromptType.postProcessing:
-        return 'POST_PROCESSING';
-      case PromptType.knowledgeBaseResponseGeneration:
-        return 'KNOWLEDGE_BASE_RESPONSE_GENERATION';
-    }
-  }
-}
+  final String value;
 
-extension PromptTypeFromString on String {
-  PromptType toPromptType() {
-    switch (this) {
-      case 'PRE_PROCESSING':
-        return PromptType.preProcessing;
-      case 'ORCHESTRATION':
-        return PromptType.orchestration;
-      case 'POST_PROCESSING':
-        return PromptType.postProcessing;
-      case 'KNOWLEDGE_BASE_RESPONSE_GENERATION':
-        return PromptType.knowledgeBaseResponseGeneration;
-    }
-    throw Exception('$this is not known in enum PromptType');
-  }
+  const PromptType(this.value);
+
+  static PromptType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PromptType'));
 }
 
 /// Contains details about the storage configuration of the knowledge base in
@@ -6643,31 +6316,17 @@ class ServerSideEncryptionConfiguration {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartIngestionJobResponse {
@@ -6729,7 +6388,7 @@ class StorageConfiguration {
 
   factory StorageConfiguration.fromJson(Map<String, dynamic> json) {
     return StorageConfiguration(
-      type: (json['type'] as String).toKnowledgeBaseStorageType(),
+      type: KnowledgeBaseStorageType.fromString((json['type'] as String)),
       mongoDbAtlasConfiguration: json['mongoDbAtlasConfiguration'] != null
           ? MongoDbAtlasConfiguration.fromJson(
               json['mongoDbAtlasConfiguration'] as Map<String, dynamic>)
@@ -6767,7 +6426,7 @@ class StorageConfiguration {
     final redisEnterpriseCloudConfiguration =
         this.redisEnterpriseCloudConfiguration;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (mongoDbAtlasConfiguration != null)
         'mongoDbAtlasConfiguration': mongoDbAtlasConfiguration,
       if (opensearchServerlessConfiguration != null)
@@ -6794,46 +6453,20 @@ class TagResourceResponse {
 }
 
 enum Type {
-  string,
-  number,
-  integer,
-  boolean,
-  array,
-}
+  string('string'),
+  number('number'),
+  integer('integer'),
+  boolean('boolean'),
+  array('array'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.string:
-        return 'string';
-      case Type.number:
-        return 'number';
-      case Type.integer:
-        return 'integer';
-      case Type.boolean:
-        return 'boolean';
-      case Type.array:
-        return 'array';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'string':
-        return Type.string;
-      case 'number':
-        return Type.number;
-      case 'integer':
-        return Type.integer;
-      case 'boolean':
-        return Type.boolean;
-      case 'array':
-        return Type.array;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UntagResourceResponse {

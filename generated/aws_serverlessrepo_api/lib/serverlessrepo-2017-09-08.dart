@@ -1025,41 +1025,19 @@ class ApplicationSummary {
 
 /// Values that must be specified in order to deploy some applications.
 enum Capability {
-  capabilityIam,
-  capabilityNamedIam,
-  capabilityAutoExpand,
-  capabilityResourcePolicy,
-}
+  capabilityIam('CAPABILITY_IAM'),
+  capabilityNamedIam('CAPABILITY_NAMED_IAM'),
+  capabilityAutoExpand('CAPABILITY_AUTO_EXPAND'),
+  capabilityResourcePolicy('CAPABILITY_RESOURCE_POLICY'),
+  ;
 
-extension CapabilityValueExtension on Capability {
-  String toValue() {
-    switch (this) {
-      case Capability.capabilityIam:
-        return 'CAPABILITY_IAM';
-      case Capability.capabilityNamedIam:
-        return 'CAPABILITY_NAMED_IAM';
-      case Capability.capabilityAutoExpand:
-        return 'CAPABILITY_AUTO_EXPAND';
-      case Capability.capabilityResourcePolicy:
-        return 'CAPABILITY_RESOURCE_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension CapabilityFromString on String {
-  Capability toCapability() {
-    switch (this) {
-      case 'CAPABILITY_IAM':
-        return Capability.capabilityIam;
-      case 'CAPABILITY_NAMED_IAM':
-        return Capability.capabilityNamedIam;
-      case 'CAPABILITY_AUTO_EXPAND':
-        return Capability.capabilityAutoExpand;
-      case 'CAPABILITY_RESOURCE_POLICY':
-        return Capability.capabilityResourcePolicy;
-    }
-    throw Exception('$this is not known in enum Capability');
-  }
+  const Capability(this.value);
+
+  static Capability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Capability'));
 }
 
 class CreateApplicationResponse {
@@ -1280,7 +1258,7 @@ class CreateApplicationVersionResponse {
           .toList(),
       requiredCapabilities: (json['requiredCapabilities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toCapability())
+          .map((e) => Capability.fromString((e as String)))
           .toList(),
       resourcesSupported: json['resourcesSupported'] as bool?,
       semanticVersion: json['semanticVersion'] as String?,
@@ -1381,7 +1359,7 @@ class CreateCloudFormationTemplateResponse {
       creationTime: json['creationTime'] as String?,
       expirationTime: json['expirationTime'] as String?,
       semanticVersion: json['semanticVersion'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       templateId: json['templateId'] as String?,
       templateUrl: json['templateUrl'] as String?,
     );
@@ -1563,7 +1541,7 @@ class GetCloudFormationTemplateResponse {
       creationTime: json['creationTime'] as String?,
       expirationTime: json['expirationTime'] as String?,
       semanticVersion: json['semanticVersion'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       templateId: json['templateId'] as String?,
       templateUrl: json['templateUrl'] as String?,
     );
@@ -1892,36 +1870,18 @@ class RollbackTrigger {
 }
 
 enum Status {
-  preparing,
-  active,
-  expired,
-}
+  preparing('PREPARING'),
+  active('ACTIVE'),
+  expired('EXPIRED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.preparing:
-        return 'PREPARING';
-      case Status.active:
-        return 'ACTIVE';
-      case Status.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'PREPARING':
-        return Status.preparing;
-      case 'ACTIVE':
-        return Status.active;
-      case 'EXPIRED':
-        return Status.expired;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// This property corresponds to the <i>AWS CloudFormation <a
@@ -2176,7 +2136,7 @@ class Version {
           .toList(),
       requiredCapabilities: (json['requiredCapabilities'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toCapability())
+          .map((e) => Capability.fromString((e as String)))
           .toList(),
       resourcesSupported: json['resourcesSupported'] as bool,
       semanticVersion: json['semanticVersion'] as String,

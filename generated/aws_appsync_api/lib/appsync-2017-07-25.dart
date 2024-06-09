@@ -306,13 +306,13 @@ class AppSync {
     bool? transitEncryptionEnabled,
   }) async {
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior.toValue(),
+      'apiCachingBehavior': apiCachingBehavior.value,
       'ttl': ttl,
-      'type': type.toValue(),
+      'type': type.value,
       if (atRestEncryptionEnabled != null)
         'atRestEncryptionEnabled': atRestEncryptionEnabled,
       if (healthMetricsConfig != null)
-        'healthMetricsConfig': healthMetricsConfig.toValue(),
+        'healthMetricsConfig': healthMetricsConfig.value,
       if (transitEncryptionEnabled != null)
         'transitEncryptionEnabled': transitEncryptionEnabled,
     };
@@ -446,7 +446,7 @@ class AppSync {
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -454,7 +454,7 @@ class AppSync {
       if (eventBridgeConfig != null) 'eventBridgeConfig': eventBridgeConfig,
       if (httpConfig != null) 'httpConfig': httpConfig,
       if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
-      if (metricsConfig != null) 'metricsConfig': metricsConfig.toValue(),
+      if (metricsConfig != null) 'metricsConfig': metricsConfig.value,
       if (openSearchServiceConfig != null)
         'openSearchServiceConfig': openSearchServiceConfig,
       if (relationalDatabaseConfig != null)
@@ -714,15 +714,15 @@ class AppSync {
       10000,
     );
     final $payload = <String, dynamic>{
-      'authenticationType': authenticationType.toValue(),
+      'authenticationType': authenticationType.value,
       'name': name,
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
-      if (apiType != null) 'apiType': apiType.toValue(),
+      if (apiType != null) 'apiType': apiType.value,
       if (enhancedMetricsConfig != null)
         'enhancedMetricsConfig': enhancedMetricsConfig,
       if (introspectionConfig != null)
-        'introspectionConfig': introspectionConfig.toValue(),
+        'introspectionConfig': introspectionConfig.value,
       if (lambdaAuthorizerConfig != null)
         'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (logConfig != null) 'logConfig': logConfig,
@@ -735,7 +735,7 @@ class AppSync {
       if (resolverCountLimit != null) 'resolverCountLimit': resolverCountLimit,
       if (tags != null) 'tags': tags,
       if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
-      if (visibility != null) 'visibility': visibility.toValue(),
+      if (visibility != null) 'visibility': visibility.value,
       if (xrayEnabled != null) 'xrayEnabled': xrayEnabled,
     };
     final response = await _protocol.send(
@@ -858,9 +858,9 @@ class AppSync {
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (code != null) 'code': code,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind.toValue(),
+      if (kind != null) 'kind': kind.value,
       if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
-      if (metricsConfig != null) 'metricsConfig': metricsConfig.toValue(),
+      if (metricsConfig != null) 'metricsConfig': metricsConfig.value,
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -905,7 +905,7 @@ class AppSync {
   }) async {
     final $payload = <String, dynamic>{
       'definition': definition,
-      'format': format.toValue(),
+      'format': format.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1550,7 +1550,7 @@ class AppSync {
     bool? includeDirectives,
   }) async {
     final $query = <String, List<String>>{
-      'format': [format.toValue()],
+      'format': [format.value],
       if (includeDirectives != null)
         'includeDirectives': [includeDirectives.toString()],
     };
@@ -1668,7 +1668,7 @@ class AppSync {
     required String typeName,
   }) async {
     final $query = <String, List<String>>{
-      'format': [format.toValue()],
+      'format': [format.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1878,10 +1878,10 @@ class AppSync {
       25,
     );
     final $query = <String, List<String>>{
-      if (apiType != null) 'apiType': [apiType.toValue()],
+      if (apiType != null) 'apiType': [apiType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (owner != null) 'owner': [owner.toValue()],
+      if (owner != null) 'owner': [owner.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2083,7 +2083,7 @@ class AppSync {
       25,
     );
     final $query = <String, List<String>>{
-      'format': [format.toValue()],
+      'format': [format.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2138,7 +2138,7 @@ class AppSync {
       25,
     );
     final $query = <String, List<String>>{
-      'format': [format.toValue()],
+      'format': [format.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2526,11 +2526,11 @@ class AppSync {
     CacheHealthMetricsConfig? healthMetricsConfig,
   }) async {
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior.toValue(),
+      'apiCachingBehavior': apiCachingBehavior.value,
       'ttl': ttl,
-      'type': type.toValue(),
+      'type': type.value,
       if (healthMetricsConfig != null)
-        'healthMetricsConfig': healthMetricsConfig.toValue(),
+        'healthMetricsConfig': healthMetricsConfig.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2659,7 +2659,7 @@ class AppSync {
     String? serviceRoleArn,
   }) async {
     final $payload = <String, dynamic>{
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -2667,7 +2667,7 @@ class AppSync {
       if (eventBridgeConfig != null) 'eventBridgeConfig': eventBridgeConfig,
       if (httpConfig != null) 'httpConfig': httpConfig,
       if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
-      if (metricsConfig != null) 'metricsConfig': metricsConfig.toValue(),
+      if (metricsConfig != null) 'metricsConfig': metricsConfig.value,
       if (openSearchServiceConfig != null)
         'openSearchServiceConfig': openSearchServiceConfig,
       if (relationalDatabaseConfig != null)
@@ -2912,14 +2912,14 @@ class AppSync {
       10000,
     );
     final $payload = <String, dynamic>{
-      'authenticationType': authenticationType.toValue(),
+      'authenticationType': authenticationType.value,
       'name': name,
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
       if (enhancedMetricsConfig != null)
         'enhancedMetricsConfig': enhancedMetricsConfig,
       if (introspectionConfig != null)
-        'introspectionConfig': introspectionConfig.toValue(),
+        'introspectionConfig': introspectionConfig.value,
       if (lambdaAuthorizerConfig != null)
         'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (logConfig != null) 'logConfig': logConfig,
@@ -3049,9 +3049,9 @@ class AppSync {
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (code != null) 'code': code,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind.toValue(),
+      if (kind != null) 'kind': kind.value,
       if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
-      if (metricsConfig != null) 'metricsConfig': metricsConfig.toValue(),
+      if (metricsConfig != null) 'metricsConfig': metricsConfig.value,
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -3141,7 +3141,7 @@ class AppSync {
     String? definition,
   }) async {
     final $payload = <String, dynamic>{
-      'format': format.toValue(),
+      'format': format.value,
       if (definition != null) 'definition': definition,
     };
     final response = await _protocol.send(
@@ -3179,8 +3179,8 @@ class AdditionalAuthenticationProvider {
 
   factory AdditionalAuthenticationProvider.fromJson(Map<String, dynamic> json) {
     return AdditionalAuthenticationProvider(
-      authenticationType:
-          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      authenticationType: (json['authenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
       lambdaAuthorizerConfig: json['lambdaAuthorizerConfig'] != null
           ? LambdaAuthorizerConfig.fromJson(
               json['lambdaAuthorizerConfig'] as Map<String, dynamic>)
@@ -3203,7 +3203,7 @@ class AdditionalAuthenticationProvider {
     final userPoolConfig = this.userPoolConfig;
     return {
       if (authenticationType != null)
-        'authenticationType': authenticationType.toValue(),
+        'authenticationType': authenticationType.value,
       if (lambdaAuthorizerConfig != null)
         'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (openIDConnectConfig != null)
@@ -3252,8 +3252,8 @@ class ApiAssociation {
   factory ApiAssociation.fromJson(Map<String, dynamic> json) {
     return ApiAssociation(
       apiId: json['apiId'] as String?,
-      associationStatus:
-          (json['associationStatus'] as String?)?.toAssociationStatus(),
+      associationStatus: (json['associationStatus'] as String?)
+          ?.let(AssociationStatus.fromString),
       deploymentDetail: json['deploymentDetail'] as String?,
       domainName: json['domainName'] as String?,
     );
@@ -3400,181 +3400,78 @@ class ApiCache {
 
   factory ApiCache.fromJson(Map<String, dynamic> json) {
     return ApiCache(
-      apiCachingBehavior:
-          (json['apiCachingBehavior'] as String?)?.toApiCachingBehavior(),
+      apiCachingBehavior: (json['apiCachingBehavior'] as String?)
+          ?.let(ApiCachingBehavior.fromString),
       atRestEncryptionEnabled: json['atRestEncryptionEnabled'] as bool?,
       healthMetricsConfig: (json['healthMetricsConfig'] as String?)
-          ?.toCacheHealthMetricsConfig(),
-      status: (json['status'] as String?)?.toApiCacheStatus(),
+          ?.let(CacheHealthMetricsConfig.fromString),
+      status: (json['status'] as String?)?.let(ApiCacheStatus.fromString),
       transitEncryptionEnabled: json['transitEncryptionEnabled'] as bool?,
       ttl: json['ttl'] as int?,
-      type: (json['type'] as String?)?.toApiCacheType(),
+      type: (json['type'] as String?)?.let(ApiCacheType.fromString),
     );
   }
 }
 
 enum ApiCacheStatus {
-  available,
-  creating,
-  deleting,
-  modifying,
-  failed,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  modifying('MODIFYING'),
+  failed('FAILED'),
+  ;
 
-extension ApiCacheStatusValueExtension on ApiCacheStatus {
-  String toValue() {
-    switch (this) {
-      case ApiCacheStatus.available:
-        return 'AVAILABLE';
-      case ApiCacheStatus.creating:
-        return 'CREATING';
-      case ApiCacheStatus.deleting:
-        return 'DELETING';
-      case ApiCacheStatus.modifying:
-        return 'MODIFYING';
-      case ApiCacheStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ApiCacheStatusFromString on String {
-  ApiCacheStatus toApiCacheStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return ApiCacheStatus.available;
-      case 'CREATING':
-        return ApiCacheStatus.creating;
-      case 'DELETING':
-        return ApiCacheStatus.deleting;
-      case 'MODIFYING':
-        return ApiCacheStatus.modifying;
-      case 'FAILED':
-        return ApiCacheStatus.failed;
-    }
-    throw Exception('$this is not known in enum ApiCacheStatus');
-  }
+  const ApiCacheStatus(this.value);
+
+  static ApiCacheStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApiCacheStatus'));
 }
 
 enum ApiCacheType {
-  t2Small,
-  t2Medium,
-  r4Large,
-  r4Xlarge,
-  r4_2xlarge,
-  r4_4xlarge,
-  r4_8xlarge,
-  small,
-  medium,
-  large,
-  xlarge,
-  large_2x,
-  large_4x,
-  large_8x,
-  large_12x,
-}
+  t2Small('T2_SMALL'),
+  t2Medium('T2_MEDIUM'),
+  r4Large('R4_LARGE'),
+  r4Xlarge('R4_XLARGE'),
+  r4_2xlarge('R4_2XLARGE'),
+  r4_4xlarge('R4_4XLARGE'),
+  r4_8xlarge('R4_8XLARGE'),
+  small('SMALL'),
+  medium('MEDIUM'),
+  large('LARGE'),
+  xlarge('XLARGE'),
+  large_2x('LARGE_2X'),
+  large_4x('LARGE_4X'),
+  large_8x('LARGE_8X'),
+  large_12x('LARGE_12X'),
+  ;
 
-extension ApiCacheTypeValueExtension on ApiCacheType {
-  String toValue() {
-    switch (this) {
-      case ApiCacheType.t2Small:
-        return 'T2_SMALL';
-      case ApiCacheType.t2Medium:
-        return 'T2_MEDIUM';
-      case ApiCacheType.r4Large:
-        return 'R4_LARGE';
-      case ApiCacheType.r4Xlarge:
-        return 'R4_XLARGE';
-      case ApiCacheType.r4_2xlarge:
-        return 'R4_2XLARGE';
-      case ApiCacheType.r4_4xlarge:
-        return 'R4_4XLARGE';
-      case ApiCacheType.r4_8xlarge:
-        return 'R4_8XLARGE';
-      case ApiCacheType.small:
-        return 'SMALL';
-      case ApiCacheType.medium:
-        return 'MEDIUM';
-      case ApiCacheType.large:
-        return 'LARGE';
-      case ApiCacheType.xlarge:
-        return 'XLARGE';
-      case ApiCacheType.large_2x:
-        return 'LARGE_2X';
-      case ApiCacheType.large_4x:
-        return 'LARGE_4X';
-      case ApiCacheType.large_8x:
-        return 'LARGE_8X';
-      case ApiCacheType.large_12x:
-        return 'LARGE_12X';
-    }
-  }
-}
+  final String value;
 
-extension ApiCacheTypeFromString on String {
-  ApiCacheType toApiCacheType() {
-    switch (this) {
-      case 'T2_SMALL':
-        return ApiCacheType.t2Small;
-      case 'T2_MEDIUM':
-        return ApiCacheType.t2Medium;
-      case 'R4_LARGE':
-        return ApiCacheType.r4Large;
-      case 'R4_XLARGE':
-        return ApiCacheType.r4Xlarge;
-      case 'R4_2XLARGE':
-        return ApiCacheType.r4_2xlarge;
-      case 'R4_4XLARGE':
-        return ApiCacheType.r4_4xlarge;
-      case 'R4_8XLARGE':
-        return ApiCacheType.r4_8xlarge;
-      case 'SMALL':
-        return ApiCacheType.small;
-      case 'MEDIUM':
-        return ApiCacheType.medium;
-      case 'LARGE':
-        return ApiCacheType.large;
-      case 'XLARGE':
-        return ApiCacheType.xlarge;
-      case 'LARGE_2X':
-        return ApiCacheType.large_2x;
-      case 'LARGE_4X':
-        return ApiCacheType.large_4x;
-      case 'LARGE_8X':
-        return ApiCacheType.large_8x;
-      case 'LARGE_12X':
-        return ApiCacheType.large_12x;
-    }
-    throw Exception('$this is not known in enum ApiCacheType');
-  }
+  const ApiCacheType(this.value);
+
+  static ApiCacheType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApiCacheType'));
 }
 
 enum ApiCachingBehavior {
-  fullRequestCaching,
-  perResolverCaching,
-}
+  fullRequestCaching('FULL_REQUEST_CACHING'),
+  perResolverCaching('PER_RESOLVER_CACHING'),
+  ;
 
-extension ApiCachingBehaviorValueExtension on ApiCachingBehavior {
-  String toValue() {
-    switch (this) {
-      case ApiCachingBehavior.fullRequestCaching:
-        return 'FULL_REQUEST_CACHING';
-      case ApiCachingBehavior.perResolverCaching:
-        return 'PER_RESOLVER_CACHING';
-    }
-  }
-}
+  final String value;
 
-extension ApiCachingBehaviorFromString on String {
-  ApiCachingBehavior toApiCachingBehavior() {
-    switch (this) {
-      case 'FULL_REQUEST_CACHING':
-        return ApiCachingBehavior.fullRequestCaching;
-      case 'PER_RESOLVER_CACHING':
-        return ApiCachingBehavior.perResolverCaching;
-    }
-    throw Exception('$this is not known in enum ApiCachingBehavior');
-  }
+  const ApiCachingBehavior(this.value);
+
+  static ApiCachingBehavior fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApiCachingBehavior'));
 }
 
 /// Describes an API key.
@@ -3690,7 +3587,7 @@ class AppSyncRuntime {
 
   factory AppSyncRuntime.fromJson(Map<String, dynamic> json) {
     return AppSyncRuntime(
-      name: (json['name'] as String).toRuntimeName(),
+      name: RuntimeName.fromString((json['name'] as String)),
       runtimeVersion: json['runtimeVersion'] as String,
     );
   }
@@ -3699,7 +3596,7 @@ class AppSyncRuntime {
     final name = this.name;
     final runtimeVersion = this.runtimeVersion;
     return {
-      'name': name.toValue(),
+      'name': name.value,
       'runtimeVersion': runtimeVersion,
     };
   }
@@ -3762,79 +3659,37 @@ class AssociateSourceGraphqlApiResponse {
 }
 
 enum AssociationStatus {
-  processing,
-  failed,
-  success,
-}
+  processing('PROCESSING'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  ;
 
-extension AssociationStatusValueExtension on AssociationStatus {
-  String toValue() {
-    switch (this) {
-      case AssociationStatus.processing:
-        return 'PROCESSING';
-      case AssociationStatus.failed:
-        return 'FAILED';
-      case AssociationStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension AssociationStatusFromString on String {
-  AssociationStatus toAssociationStatus() {
-    switch (this) {
-      case 'PROCESSING':
-        return AssociationStatus.processing;
-      case 'FAILED':
-        return AssociationStatus.failed;
-      case 'SUCCESS':
-        return AssociationStatus.success;
-    }
-    throw Exception('$this is not known in enum AssociationStatus');
-  }
+  const AssociationStatus(this.value);
+
+  static AssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssociationStatus'));
 }
 
 enum AuthenticationType {
-  apiKey,
-  awsIam,
-  amazonCognitoUserPools,
-  openidConnect,
-  awsLambda,
-}
+  apiKey('API_KEY'),
+  awsIam('AWS_IAM'),
+  amazonCognitoUserPools('AMAZON_COGNITO_USER_POOLS'),
+  openidConnect('OPENID_CONNECT'),
+  awsLambda('AWS_LAMBDA'),
+  ;
 
-extension AuthenticationTypeValueExtension on AuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AuthenticationType.apiKey:
-        return 'API_KEY';
-      case AuthenticationType.awsIam:
-        return 'AWS_IAM';
-      case AuthenticationType.amazonCognitoUserPools:
-        return 'AMAZON_COGNITO_USER_POOLS';
-      case AuthenticationType.openidConnect:
-        return 'OPENID_CONNECT';
-      case AuthenticationType.awsLambda:
-        return 'AWS_LAMBDA';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationTypeFromString on String {
-  AuthenticationType toAuthenticationType() {
-    switch (this) {
-      case 'API_KEY':
-        return AuthenticationType.apiKey;
-      case 'AWS_IAM':
-        return AuthenticationType.awsIam;
-      case 'AMAZON_COGNITO_USER_POOLS':
-        return AuthenticationType.amazonCognitoUserPools;
-      case 'OPENID_CONNECT':
-        return AuthenticationType.openidConnect;
-      case 'AWS_LAMBDA':
-        return AuthenticationType.awsLambda;
-    }
-    throw Exception('$this is not known in enum AuthenticationType');
-  }
+  const AuthenticationType(this.value);
+
+  static AuthenticationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationType'));
 }
 
 /// The authorization configuration in case the HTTP endpoint requires
@@ -3860,7 +3715,7 @@ class AuthorizationConfig {
   factory AuthorizationConfig.fromJson(Map<String, dynamic> json) {
     return AuthorizationConfig(
       authorizationType:
-          (json['authorizationType'] as String).toAuthorizationType(),
+          AuthorizationType.fromString((json['authorizationType'] as String)),
       awsIamConfig: json['awsIamConfig'] != null
           ? AwsIamConfig.fromJson(json['awsIamConfig'] as Map<String, dynamic>)
           : null,
@@ -3871,33 +3726,24 @@ class AuthorizationConfig {
     final authorizationType = this.authorizationType;
     final awsIamConfig = this.awsIamConfig;
     return {
-      'authorizationType': authorizationType.toValue(),
+      'authorizationType': authorizationType.value,
       if (awsIamConfig != null) 'awsIamConfig': awsIamConfig,
     };
   }
 }
 
 enum AuthorizationType {
-  awsIam,
-}
+  awsIam('AWS_IAM'),
+  ;
 
-extension AuthorizationTypeValueExtension on AuthorizationType {
-  String toValue() {
-    switch (this) {
-      case AuthorizationType.awsIam:
-        return 'AWS_IAM';
-    }
-  }
-}
+  final String value;
 
-extension AuthorizationTypeFromString on String {
-  AuthorizationType toAuthorizationType() {
-    switch (this) {
-      case 'AWS_IAM':
-        return AuthorizationType.awsIam;
-    }
-    throw Exception('$this is not known in enum AuthorizationType');
-  }
+  const AuthorizationType(this.value);
+
+  static AuthorizationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuthorizationType'));
 }
 
 /// The Identity and Access Management (IAM) configuration.
@@ -3931,31 +3777,18 @@ class AwsIamConfig {
 }
 
 enum CacheHealthMetricsConfig {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CacheHealthMetricsConfigValueExtension on CacheHealthMetricsConfig {
-  String toValue() {
-    switch (this) {
-      case CacheHealthMetricsConfig.enabled:
-        return 'ENABLED';
-      case CacheHealthMetricsConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CacheHealthMetricsConfigFromString on String {
-  CacheHealthMetricsConfig toCacheHealthMetricsConfig() {
-    switch (this) {
-      case 'ENABLED':
-        return CacheHealthMetricsConfig.enabled;
-      case 'DISABLED':
-        return CacheHealthMetricsConfig.disabled;
-    }
-    throw Exception('$this is not known in enum CacheHealthMetricsConfig');
-  }
+  const CacheHealthMetricsConfig(this.value);
+
+  static CacheHealthMetricsConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CacheHealthMetricsConfig'));
 }
 
 /// The caching configuration for a resolver that has caching activated.
@@ -4095,69 +3928,35 @@ class CognitoUserPoolConfig {
 }
 
 enum ConflictDetectionType {
-  version,
-  none,
-}
+  version('VERSION'),
+  none('NONE'),
+  ;
 
-extension ConflictDetectionTypeValueExtension on ConflictDetectionType {
-  String toValue() {
-    switch (this) {
-      case ConflictDetectionType.version:
-        return 'VERSION';
-      case ConflictDetectionType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ConflictDetectionTypeFromString on String {
-  ConflictDetectionType toConflictDetectionType() {
-    switch (this) {
-      case 'VERSION':
-        return ConflictDetectionType.version;
-      case 'NONE':
-        return ConflictDetectionType.none;
-    }
-    throw Exception('$this is not known in enum ConflictDetectionType');
-  }
+  const ConflictDetectionType(this.value);
+
+  static ConflictDetectionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConflictDetectionType'));
 }
 
 enum ConflictHandlerType {
-  optimisticConcurrency,
-  lambda,
-  automerge,
-  none,
-}
+  optimisticConcurrency('OPTIMISTIC_CONCURRENCY'),
+  lambda('LAMBDA'),
+  automerge('AUTOMERGE'),
+  none('NONE'),
+  ;
 
-extension ConflictHandlerTypeValueExtension on ConflictHandlerType {
-  String toValue() {
-    switch (this) {
-      case ConflictHandlerType.optimisticConcurrency:
-        return 'OPTIMISTIC_CONCURRENCY';
-      case ConflictHandlerType.lambda:
-        return 'LAMBDA';
-      case ConflictHandlerType.automerge:
-        return 'AUTOMERGE';
-      case ConflictHandlerType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ConflictHandlerTypeFromString on String {
-  ConflictHandlerType toConflictHandlerType() {
-    switch (this) {
-      case 'OPTIMISTIC_CONCURRENCY':
-        return ConflictHandlerType.optimisticConcurrency;
-      case 'LAMBDA':
-        return ConflictHandlerType.lambda;
-      case 'AUTOMERGE':
-        return ConflictHandlerType.automerge;
-      case 'NONE':
-        return ConflictHandlerType.none;
-    }
-    throw Exception('$this is not known in enum ConflictHandlerType');
-  }
+  const ConflictHandlerType(this.value);
+
+  static ConflictHandlerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConflictHandlerType'));
 }
 
 /// Represents the output of a <code>CreateApiCache</code> operation.
@@ -4425,8 +4224,8 @@ class DataSource {
           ? LambdaDataSourceConfig.fromJson(
               json['lambdaConfig'] as Map<String, dynamic>)
           : null,
-      metricsConfig:
-          (json['metricsConfig'] as String?)?.toDataSourceLevelMetricsConfig(),
+      metricsConfig: (json['metricsConfig'] as String?)
+          ?.let(DataSourceLevelMetricsConfig.fromString),
       name: json['name'] as String?,
       openSearchServiceConfig: json['openSearchServiceConfig'] != null
           ? OpenSearchServiceDataSourceConfig.fromJson(
@@ -4437,7 +4236,7 @@ class DataSource {
               json['relationalDatabaseConfig'] as Map<String, dynamic>)
           : null,
       serviceRoleArn: json['serviceRoleArn'] as String?,
-      type: (json['type'] as String?)?.toDataSourceType(),
+      type: (json['type'] as String?)?.let(DataSourceType.fromString),
     );
   }
 }
@@ -4644,182 +4443,85 @@ class DataSourceIntrospectionResult {
 }
 
 enum DataSourceIntrospectionStatus {
-  processing,
-  failed,
-  success,
-}
+  processing('PROCESSING'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  ;
 
-extension DataSourceIntrospectionStatusValueExtension
-    on DataSourceIntrospectionStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceIntrospectionStatus.processing:
-        return 'PROCESSING';
-      case DataSourceIntrospectionStatus.failed:
-        return 'FAILED';
-      case DataSourceIntrospectionStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceIntrospectionStatusFromString on String {
-  DataSourceIntrospectionStatus toDataSourceIntrospectionStatus() {
-    switch (this) {
-      case 'PROCESSING':
-        return DataSourceIntrospectionStatus.processing;
-      case 'FAILED':
-        return DataSourceIntrospectionStatus.failed;
-      case 'SUCCESS':
-        return DataSourceIntrospectionStatus.success;
-    }
-    throw Exception('$this is not known in enum DataSourceIntrospectionStatus');
-  }
+  const DataSourceIntrospectionStatus(this.value);
+
+  static DataSourceIntrospectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceIntrospectionStatus'));
 }
 
 enum DataSourceLevelMetricsBehavior {
-  fullRequestDataSourceMetrics,
-  perDataSourceMetrics,
-}
+  fullRequestDataSourceMetrics('FULL_REQUEST_DATA_SOURCE_METRICS'),
+  perDataSourceMetrics('PER_DATA_SOURCE_METRICS'),
+  ;
 
-extension DataSourceLevelMetricsBehaviorValueExtension
-    on DataSourceLevelMetricsBehavior {
-  String toValue() {
-    switch (this) {
-      case DataSourceLevelMetricsBehavior.fullRequestDataSourceMetrics:
-        return 'FULL_REQUEST_DATA_SOURCE_METRICS';
-      case DataSourceLevelMetricsBehavior.perDataSourceMetrics:
-        return 'PER_DATA_SOURCE_METRICS';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceLevelMetricsBehaviorFromString on String {
-  DataSourceLevelMetricsBehavior toDataSourceLevelMetricsBehavior() {
-    switch (this) {
-      case 'FULL_REQUEST_DATA_SOURCE_METRICS':
-        return DataSourceLevelMetricsBehavior.fullRequestDataSourceMetrics;
-      case 'PER_DATA_SOURCE_METRICS':
-        return DataSourceLevelMetricsBehavior.perDataSourceMetrics;
-    }
-    throw Exception(
-        '$this is not known in enum DataSourceLevelMetricsBehavior');
-  }
+  const DataSourceLevelMetricsBehavior(this.value);
+
+  static DataSourceLevelMetricsBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceLevelMetricsBehavior'));
 }
 
 enum DataSourceLevelMetricsConfig {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DataSourceLevelMetricsConfigValueExtension
-    on DataSourceLevelMetricsConfig {
-  String toValue() {
-    switch (this) {
-      case DataSourceLevelMetricsConfig.enabled:
-        return 'ENABLED';
-      case DataSourceLevelMetricsConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceLevelMetricsConfigFromString on String {
-  DataSourceLevelMetricsConfig toDataSourceLevelMetricsConfig() {
-    switch (this) {
-      case 'ENABLED':
-        return DataSourceLevelMetricsConfig.enabled;
-      case 'DISABLED':
-        return DataSourceLevelMetricsConfig.disabled;
-    }
-    throw Exception('$this is not known in enum DataSourceLevelMetricsConfig');
-  }
+  const DataSourceLevelMetricsConfig(this.value);
+
+  static DataSourceLevelMetricsConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceLevelMetricsConfig'));
 }
 
 enum DataSourceType {
-  awsLambda,
-  amazonDynamodb,
-  amazonElasticsearch,
-  none,
-  http,
-  relationalDatabase,
-  amazonOpensearchService,
-  amazonEventbridge,
-}
+  awsLambda('AWS_LAMBDA'),
+  amazonDynamodb('AMAZON_DYNAMODB'),
+  amazonElasticsearch('AMAZON_ELASTICSEARCH'),
+  none('NONE'),
+  http('HTTP'),
+  relationalDatabase('RELATIONAL_DATABASE'),
+  amazonOpensearchService('AMAZON_OPENSEARCH_SERVICE'),
+  amazonEventbridge('AMAZON_EVENTBRIDGE'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.awsLambda:
-        return 'AWS_LAMBDA';
-      case DataSourceType.amazonDynamodb:
-        return 'AMAZON_DYNAMODB';
-      case DataSourceType.amazonElasticsearch:
-        return 'AMAZON_ELASTICSEARCH';
-      case DataSourceType.none:
-        return 'NONE';
-      case DataSourceType.http:
-        return 'HTTP';
-      case DataSourceType.relationalDatabase:
-        return 'RELATIONAL_DATABASE';
-      case DataSourceType.amazonOpensearchService:
-        return 'AMAZON_OPENSEARCH_SERVICE';
-      case DataSourceType.amazonEventbridge:
-        return 'AMAZON_EVENTBRIDGE';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'AWS_LAMBDA':
-        return DataSourceType.awsLambda;
-      case 'AMAZON_DYNAMODB':
-        return DataSourceType.amazonDynamodb;
-      case 'AMAZON_ELASTICSEARCH':
-        return DataSourceType.amazonElasticsearch;
-      case 'NONE':
-        return DataSourceType.none;
-      case 'HTTP':
-        return DataSourceType.http;
-      case 'RELATIONAL_DATABASE':
-        return DataSourceType.relationalDatabase;
-      case 'AMAZON_OPENSEARCH_SERVICE':
-        return DataSourceType.amazonOpensearchService;
-      case 'AMAZON_EVENTBRIDGE':
-        return DataSourceType.amazonEventbridge;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 enum DefaultAction {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension DefaultActionValueExtension on DefaultAction {
-  String toValue() {
-    switch (this) {
-      case DefaultAction.allow:
-        return 'ALLOW';
-      case DefaultAction.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension DefaultActionFromString on String {
-  DefaultAction toDefaultAction() {
-    switch (this) {
-      case 'ALLOW':
-        return DefaultAction.allow;
-      case 'DENY':
-        return DefaultAction.deny;
-    }
-    throw Exception('$this is not known in enum DefaultAction');
-  }
+  const DefaultAction(this.value);
+
+  static DefaultAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DefaultAction'));
 }
 
 /// Represents the output of a <code>DeleteApiCache</code> operation.
@@ -4946,7 +4648,7 @@ class DisassociateMergedGraphqlApiResponse {
     return DisassociateMergedGraphqlApiResponse(
       sourceApiAssociationStatus:
           (json['sourceApiAssociationStatus'] as String?)
-              ?.toSourceApiAssociationStatus(),
+              ?.let(SourceApiAssociationStatus.fromString),
     );
   }
 }
@@ -4964,7 +4666,7 @@ class DisassociateSourceGraphqlApiResponse {
     return DisassociateSourceGraphqlApiResponse(
       sourceApiAssociationStatus:
           (json['sourceApiAssociationStatus'] as String?)
-              ?.toSourceApiAssociationStatus(),
+              ?.let(SourceApiAssociationStatus.fromString),
     );
   }
 }
@@ -5286,15 +4988,12 @@ class EnhancedMetricsConfig {
 
   factory EnhancedMetricsConfig.fromJson(Map<String, dynamic> json) {
     return EnhancedMetricsConfig(
-      dataSourceLevelMetricsBehavior:
-          (json['dataSourceLevelMetricsBehavior'] as String)
-              .toDataSourceLevelMetricsBehavior(),
-      operationLevelMetricsConfig:
-          (json['operationLevelMetricsConfig'] as String)
-              .toOperationLevelMetricsConfig(),
-      resolverLevelMetricsBehavior:
-          (json['resolverLevelMetricsBehavior'] as String)
-              .toResolverLevelMetricsBehavior(),
+      dataSourceLevelMetricsBehavior: DataSourceLevelMetricsBehavior.fromString(
+          (json['dataSourceLevelMetricsBehavior'] as String)),
+      operationLevelMetricsConfig: OperationLevelMetricsConfig.fromString(
+          (json['operationLevelMetricsConfig'] as String)),
+      resolverLevelMetricsBehavior: ResolverLevelMetricsBehavior.fromString(
+          (json['resolverLevelMetricsBehavior'] as String)),
     );
   }
 
@@ -5303,10 +5002,9 @@ class EnhancedMetricsConfig {
     final operationLevelMetricsConfig = this.operationLevelMetricsConfig;
     final resolverLevelMetricsBehavior = this.resolverLevelMetricsBehavior;
     return {
-      'dataSourceLevelMetricsBehavior':
-          dataSourceLevelMetricsBehavior.toValue(),
-      'operationLevelMetricsConfig': operationLevelMetricsConfig.toValue(),
-      'resolverLevelMetricsBehavior': resolverLevelMetricsBehavior.toValue(),
+      'dataSourceLevelMetricsBehavior': dataSourceLevelMetricsBehavior.value,
+      'operationLevelMetricsConfig': operationLevelMetricsConfig.value,
+      'resolverLevelMetricsBehavior': resolverLevelMetricsBehavior.value,
     };
   }
 }
@@ -5441,36 +5139,19 @@ class EventBridgeDataSourceConfig {
 }
 
 enum FieldLogLevel {
-  none,
-  error,
-  all,
-}
+  none('NONE'),
+  error('ERROR'),
+  all('ALL'),
+  ;
 
-extension FieldLogLevelValueExtension on FieldLogLevel {
-  String toValue() {
-    switch (this) {
-      case FieldLogLevel.none:
-        return 'NONE';
-      case FieldLogLevel.error:
-        return 'ERROR';
-      case FieldLogLevel.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension FieldLogLevelFromString on String {
-  FieldLogLevel toFieldLogLevel() {
-    switch (this) {
-      case 'NONE':
-        return FieldLogLevel.none;
-      case 'ERROR':
-        return FieldLogLevel.error;
-      case 'ALL':
-        return FieldLogLevel.all;
-    }
-    throw Exception('$this is not known in enum FieldLogLevel');
-  }
+  const FieldLogLevel(this.value);
+
+  static FieldLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FieldLogLevel'));
 }
 
 /// Represents the output of a <code>FlushApiCache</code> operation.
@@ -5632,7 +5313,7 @@ class GetDataSourceIntrospectionResponse {
               json['introspectionResult'] as Map<String, dynamic>)
           : null,
       introspectionStatus: (json['introspectionStatus'] as String?)
-          ?.toDataSourceIntrospectionStatus(),
+          ?.let(DataSourceIntrospectionStatus.fromString),
       introspectionStatusDetail: json['introspectionStatusDetail'] as String?,
     );
   }
@@ -5772,7 +5453,7 @@ class GetSchemaCreationStatusResponse {
   factory GetSchemaCreationStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetSchemaCreationStatusResponse(
       details: json['details'] as String?,
-      status: (json['status'] as String?)?.toSchemaStatus(),
+      status: (json['status'] as String?)?.let(SchemaStatus.fromString),
     );
   }
 }
@@ -5813,88 +5494,48 @@ class GetTypeResponse {
 }
 
 enum GraphQLApiIntrospectionConfig {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension GraphQLApiIntrospectionConfigValueExtension
-    on GraphQLApiIntrospectionConfig {
-  String toValue() {
-    switch (this) {
-      case GraphQLApiIntrospectionConfig.enabled:
-        return 'ENABLED';
-      case GraphQLApiIntrospectionConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension GraphQLApiIntrospectionConfigFromString on String {
-  GraphQLApiIntrospectionConfig toGraphQLApiIntrospectionConfig() {
-    switch (this) {
-      case 'ENABLED':
-        return GraphQLApiIntrospectionConfig.enabled;
-      case 'DISABLED':
-        return GraphQLApiIntrospectionConfig.disabled;
-    }
-    throw Exception('$this is not known in enum GraphQLApiIntrospectionConfig');
-  }
+  const GraphQLApiIntrospectionConfig(this.value);
+
+  static GraphQLApiIntrospectionConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GraphQLApiIntrospectionConfig'));
 }
 
 enum GraphQLApiType {
-  graphql,
-  merged,
-}
+  graphql('GRAPHQL'),
+  merged('MERGED'),
+  ;
 
-extension GraphQLApiTypeValueExtension on GraphQLApiType {
-  String toValue() {
-    switch (this) {
-      case GraphQLApiType.graphql:
-        return 'GRAPHQL';
-      case GraphQLApiType.merged:
-        return 'MERGED';
-    }
-  }
-}
+  final String value;
 
-extension GraphQLApiTypeFromString on String {
-  GraphQLApiType toGraphQLApiType() {
-    switch (this) {
-      case 'GRAPHQL':
-        return GraphQLApiType.graphql;
-      case 'MERGED':
-        return GraphQLApiType.merged;
-    }
-    throw Exception('$this is not known in enum GraphQLApiType');
-  }
+  const GraphQLApiType(this.value);
+
+  static GraphQLApiType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GraphQLApiType'));
 }
 
 enum GraphQLApiVisibility {
-  global,
-  private,
-}
+  global('GLOBAL'),
+  private('PRIVATE'),
+  ;
 
-extension GraphQLApiVisibilityValueExtension on GraphQLApiVisibility {
-  String toValue() {
-    switch (this) {
-      case GraphQLApiVisibility.global:
-        return 'GLOBAL';
-      case GraphQLApiVisibility.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension GraphQLApiVisibilityFromString on String {
-  GraphQLApiVisibility toGraphQLApiVisibility() {
-    switch (this) {
-      case 'GLOBAL':
-        return GraphQLApiVisibility.global;
-      case 'PRIVATE':
-        return GraphQLApiVisibility.private;
-    }
-    throw Exception('$this is not known in enum GraphQLApiVisibility');
-  }
+  const GraphQLApiVisibility(this.value);
+
+  static GraphQLApiVisibility fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GraphQLApiVisibility'));
 }
 
 /// Describes a GraphQL API.
@@ -6036,10 +5677,10 @@ class GraphqlApi {
                   e as Map<String, dynamic>))
               .toList(),
       apiId: json['apiId'] as String?,
-      apiType: (json['apiType'] as String?)?.toGraphQLApiType(),
+      apiType: (json['apiType'] as String?)?.let(GraphQLApiType.fromString),
       arn: json['arn'] as String?,
-      authenticationType:
-          (json['authenticationType'] as String?)?.toAuthenticationType(),
+      authenticationType: (json['authenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
       dns: (json['dns'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       enhancedMetricsConfig: json['enhancedMetricsConfig'] != null
@@ -6047,7 +5688,7 @@ class GraphqlApi {
               json['enhancedMetricsConfig'] as Map<String, dynamic>)
           : null,
       introspectionConfig: (json['introspectionConfig'] as String?)
-          ?.toGraphQLApiIntrospectionConfig(),
+          ?.let(GraphQLApiIntrospectionConfig.fromString),
       lambdaAuthorizerConfig: json['lambdaAuthorizerConfig'] != null
           ? LambdaAuthorizerConfig.fromJson(
               json['lambdaAuthorizerConfig'] as Map<String, dynamic>)
@@ -6073,7 +5714,8 @@ class GraphqlApi {
           ? UserPoolConfig.fromJson(
               json['userPoolConfig'] as Map<String, dynamic>)
           : null,
-      visibility: (json['visibility'] as String?)?.toGraphQLApiVisibility(),
+      visibility:
+          (json['visibility'] as String?)?.let(GraphQLApiVisibility.fromString),
       wafWebAclArn: json['wafWebAclArn'] as String?,
       xrayEnabled: json['xrayEnabled'] as bool?,
     );
@@ -6539,7 +6181,8 @@ class LogConfig {
   factory LogConfig.fromJson(Map<String, dynamic> json) {
     return LogConfig(
       cloudWatchLogsRoleArn: json['cloudWatchLogsRoleArn'] as String,
-      fieldLogLevel: (json['fieldLogLevel'] as String).toFieldLogLevel(),
+      fieldLogLevel:
+          FieldLogLevel.fromString((json['fieldLogLevel'] as String)),
       excludeVerboseContent: json['excludeVerboseContent'] as bool?,
     );
   }
@@ -6550,7 +6193,7 @@ class LogConfig {
     final excludeVerboseContent = this.excludeVerboseContent;
     return {
       'cloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-      'fieldLogLevel': fieldLogLevel.toValue(),
+      'fieldLogLevel': fieldLogLevel.value,
       if (excludeVerboseContent != null)
         'excludeVerboseContent': excludeVerboseContent,
     };
@@ -6558,31 +6201,17 @@ class LogConfig {
 }
 
 enum MergeType {
-  manualMerge,
-  autoMerge,
-}
+  manualMerge('MANUAL_MERGE'),
+  autoMerge('AUTO_MERGE'),
+  ;
 
-extension MergeTypeValueExtension on MergeType {
-  String toValue() {
-    switch (this) {
-      case MergeType.manualMerge:
-        return 'MANUAL_MERGE';
-      case MergeType.autoMerge:
-        return 'AUTO_MERGE';
-    }
-  }
-}
+  final String value;
 
-extension MergeTypeFromString on String {
-  MergeType toMergeType() {
-    switch (this) {
-      case 'MANUAL_MERGE':
-        return MergeType.manualMerge;
-      case 'AUTO_MERGE':
-        return MergeType.autoMerge;
-    }
-    throw Exception('$this is not known in enum MergeType');
-  }
+  const MergeType(this.value);
+
+  static MergeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MergeType'));
 }
 
 /// Describes an OpenID Connect (OIDC) configuration.
@@ -6666,88 +6295,46 @@ class OpenSearchServiceDataSourceConfig {
 }
 
 enum OperationLevelMetricsConfig {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension OperationLevelMetricsConfigValueExtension
-    on OperationLevelMetricsConfig {
-  String toValue() {
-    switch (this) {
-      case OperationLevelMetricsConfig.enabled:
-        return 'ENABLED';
-      case OperationLevelMetricsConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension OperationLevelMetricsConfigFromString on String {
-  OperationLevelMetricsConfig toOperationLevelMetricsConfig() {
-    switch (this) {
-      case 'ENABLED':
-        return OperationLevelMetricsConfig.enabled;
-      case 'DISABLED':
-        return OperationLevelMetricsConfig.disabled;
-    }
-    throw Exception('$this is not known in enum OperationLevelMetricsConfig');
-  }
+  const OperationLevelMetricsConfig(this.value);
+
+  static OperationLevelMetricsConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OperationLevelMetricsConfig'));
 }
 
 enum OutputType {
-  sdl,
-  json,
-}
+  sdl('SDL'),
+  json('JSON'),
+  ;
 
-extension OutputTypeValueExtension on OutputType {
-  String toValue() {
-    switch (this) {
-      case OutputType.sdl:
-        return 'SDL';
-      case OutputType.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension OutputTypeFromString on String {
-  OutputType toOutputType() {
-    switch (this) {
-      case 'SDL':
-        return OutputType.sdl;
-      case 'JSON':
-        return OutputType.json;
-    }
-    throw Exception('$this is not known in enum OutputType');
-  }
+  const OutputType(this.value);
+
+  static OutputType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OutputType'));
 }
 
 enum Ownership {
-  currentAccount,
-  otherAccounts,
-}
+  currentAccount('CURRENT_ACCOUNT'),
+  otherAccounts('OTHER_ACCOUNTS'),
+  ;
 
-extension OwnershipValueExtension on Ownership {
-  String toValue() {
-    switch (this) {
-      case Ownership.currentAccount:
-        return 'CURRENT_ACCOUNT';
-      case Ownership.otherAccounts:
-        return 'OTHER_ACCOUNTS';
-    }
-  }
-}
+  final String value;
 
-extension OwnershipFromString on String {
-  Ownership toOwnership() {
-    switch (this) {
-      case 'CURRENT_ACCOUNT':
-        return Ownership.currentAccount;
-      case 'OTHER_ACCOUNTS':
-        return Ownership.otherAccounts;
-    }
-    throw Exception('$this is not known in enum Ownership');
-  }
+  const Ownership(this.value);
+
+  static Ownership fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Ownership'));
 }
 
 /// The pipeline configuration for a resolver of kind <code>PIPELINE</code>.
@@ -6911,7 +6498,7 @@ class RelationalDatabaseDataSourceConfig {
           : null,
       relationalDatabaseSourceType:
           (json['relationalDatabaseSourceType'] as String?)
-              ?.toRelationalDatabaseSourceType(),
+              ?.let(RelationalDatabaseSourceType.fromString),
     );
   }
 
@@ -6922,33 +6509,23 @@ class RelationalDatabaseDataSourceConfig {
       if (rdsHttpEndpointConfig != null)
         'rdsHttpEndpointConfig': rdsHttpEndpointConfig,
       if (relationalDatabaseSourceType != null)
-        'relationalDatabaseSourceType': relationalDatabaseSourceType.toValue(),
+        'relationalDatabaseSourceType': relationalDatabaseSourceType.value,
     };
   }
 }
 
 enum RelationalDatabaseSourceType {
-  rdsHttpEndpoint,
-}
+  rdsHttpEndpoint('RDS_HTTP_ENDPOINT'),
+  ;
 
-extension RelationalDatabaseSourceTypeValueExtension
-    on RelationalDatabaseSourceType {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabaseSourceType.rdsHttpEndpoint:
-        return 'RDS_HTTP_ENDPOINT';
-    }
-  }
-}
+  final String value;
 
-extension RelationalDatabaseSourceTypeFromString on String {
-  RelationalDatabaseSourceType toRelationalDatabaseSourceType() {
-    switch (this) {
-      case 'RDS_HTTP_ENDPOINT':
-        return RelationalDatabaseSourceType.rdsHttpEndpoint;
-    }
-    throw Exception('$this is not known in enum RelationalDatabaseSourceType');
-  }
+  const RelationalDatabaseSourceType(this.value);
+
+  static RelationalDatabaseSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RelationalDatabaseSourceType'));
 }
 
 /// Describes a resolver.
@@ -7046,10 +6623,10 @@ class Resolver {
       code: json['code'] as String?,
       dataSourceName: json['dataSourceName'] as String?,
       fieldName: json['fieldName'] as String?,
-      kind: (json['kind'] as String?)?.toResolverKind(),
+      kind: (json['kind'] as String?)?.let(ResolverKind.fromString),
       maxBatchSize: json['maxBatchSize'] as int?,
-      metricsConfig:
-          (json['metricsConfig'] as String?)?.toResolverLevelMetricsConfig(),
+      metricsConfig: (json['metricsConfig'] as String?)
+          ?.let(ResolverLevelMetricsConfig.fromString),
       pipelineConfig: json['pipelineConfig'] != null
           ? PipelineConfig.fromJson(
               json['pipelineConfig'] as Map<String, dynamic>)
@@ -7069,160 +6646,80 @@ class Resolver {
 }
 
 enum ResolverKind {
-  unit,
-  pipeline,
-}
+  unit('UNIT'),
+  pipeline('PIPELINE'),
+  ;
 
-extension ResolverKindValueExtension on ResolverKind {
-  String toValue() {
-    switch (this) {
-      case ResolverKind.unit:
-        return 'UNIT';
-      case ResolverKind.pipeline:
-        return 'PIPELINE';
-    }
-  }
-}
+  final String value;
 
-extension ResolverKindFromString on String {
-  ResolverKind toResolverKind() {
-    switch (this) {
-      case 'UNIT':
-        return ResolverKind.unit;
-      case 'PIPELINE':
-        return ResolverKind.pipeline;
-    }
-    throw Exception('$this is not known in enum ResolverKind');
-  }
+  const ResolverKind(this.value);
+
+  static ResolverKind fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResolverKind'));
 }
 
 enum ResolverLevelMetricsBehavior {
-  fullRequestResolverMetrics,
-  perResolverMetrics,
-}
+  fullRequestResolverMetrics('FULL_REQUEST_RESOLVER_METRICS'),
+  perResolverMetrics('PER_RESOLVER_METRICS'),
+  ;
 
-extension ResolverLevelMetricsBehaviorValueExtension
-    on ResolverLevelMetricsBehavior {
-  String toValue() {
-    switch (this) {
-      case ResolverLevelMetricsBehavior.fullRequestResolverMetrics:
-        return 'FULL_REQUEST_RESOLVER_METRICS';
-      case ResolverLevelMetricsBehavior.perResolverMetrics:
-        return 'PER_RESOLVER_METRICS';
-    }
-  }
-}
+  final String value;
 
-extension ResolverLevelMetricsBehaviorFromString on String {
-  ResolverLevelMetricsBehavior toResolverLevelMetricsBehavior() {
-    switch (this) {
-      case 'FULL_REQUEST_RESOLVER_METRICS':
-        return ResolverLevelMetricsBehavior.fullRequestResolverMetrics;
-      case 'PER_RESOLVER_METRICS':
-        return ResolverLevelMetricsBehavior.perResolverMetrics;
-    }
-    throw Exception('$this is not known in enum ResolverLevelMetricsBehavior');
-  }
+  const ResolverLevelMetricsBehavior(this.value);
+
+  static ResolverLevelMetricsBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverLevelMetricsBehavior'));
 }
 
 enum ResolverLevelMetricsConfig {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ResolverLevelMetricsConfigValueExtension
-    on ResolverLevelMetricsConfig {
-  String toValue() {
-    switch (this) {
-      case ResolverLevelMetricsConfig.enabled:
-        return 'ENABLED';
-      case ResolverLevelMetricsConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ResolverLevelMetricsConfigFromString on String {
-  ResolverLevelMetricsConfig toResolverLevelMetricsConfig() {
-    switch (this) {
-      case 'ENABLED':
-        return ResolverLevelMetricsConfig.enabled;
-      case 'DISABLED':
-        return ResolverLevelMetricsConfig.disabled;
-    }
-    throw Exception('$this is not known in enum ResolverLevelMetricsConfig');
-  }
+  const ResolverLevelMetricsConfig(this.value);
+
+  static ResolverLevelMetricsConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverLevelMetricsConfig'));
 }
 
 enum RuntimeName {
-  appsyncJs,
-}
+  appsyncJs('APPSYNC_JS'),
+  ;
 
-extension RuntimeNameValueExtension on RuntimeName {
-  String toValue() {
-    switch (this) {
-      case RuntimeName.appsyncJs:
-        return 'APPSYNC_JS';
-    }
-  }
-}
+  final String value;
 
-extension RuntimeNameFromString on String {
-  RuntimeName toRuntimeName() {
-    switch (this) {
-      case 'APPSYNC_JS':
-        return RuntimeName.appsyncJs;
-    }
-    throw Exception('$this is not known in enum RuntimeName');
-  }
+  const RuntimeName(this.value);
+
+  static RuntimeName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuntimeName'));
 }
 
 enum SchemaStatus {
-  processing,
-  active,
-  deleting,
-  failed,
-  success,
-  notApplicable,
-}
+  processing('PROCESSING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  notApplicable('NOT_APPLICABLE'),
+  ;
 
-extension SchemaStatusValueExtension on SchemaStatus {
-  String toValue() {
-    switch (this) {
-      case SchemaStatus.processing:
-        return 'PROCESSING';
-      case SchemaStatus.active:
-        return 'ACTIVE';
-      case SchemaStatus.deleting:
-        return 'DELETING';
-      case SchemaStatus.failed:
-        return 'FAILED';
-      case SchemaStatus.success:
-        return 'SUCCESS';
-      case SchemaStatus.notApplicable:
-        return 'NOT_APPLICABLE';
-    }
-  }
-}
+  final String value;
 
-extension SchemaStatusFromString on String {
-  SchemaStatus toSchemaStatus() {
-    switch (this) {
-      case 'PROCESSING':
-        return SchemaStatus.processing;
-      case 'ACTIVE':
-        return SchemaStatus.active;
-      case 'DELETING':
-        return SchemaStatus.deleting;
-      case 'FAILED':
-        return SchemaStatus.failed;
-      case 'SUCCESS':
-        return SchemaStatus.success;
-      case 'NOT_APPLICABLE':
-        return SchemaStatus.notApplicable;
-    }
-    throw Exception('$this is not known in enum SchemaStatus');
-  }
+  const SchemaStatus(this.value);
+
+  static SchemaStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SchemaStatus'));
 }
 
 /// Describes the configuration of a source API. A source API is a GraphQL API
@@ -7303,7 +6800,7 @@ class SourceApiAssociation {
           : null,
       sourceApiAssociationStatus:
           (json['sourceApiAssociationStatus'] as String?)
-              ?.toSourceApiAssociationStatus(),
+              ?.let(SourceApiAssociationStatus.fromString),
       sourceApiAssociationStatusDetail:
           json['sourceApiAssociationStatusDetail'] as String?,
       sourceApiId: json['sourceApiId'] as String?,
@@ -7331,75 +6828,37 @@ class SourceApiAssociationConfig {
 
   factory SourceApiAssociationConfig.fromJson(Map<String, dynamic> json) {
     return SourceApiAssociationConfig(
-      mergeType: (json['mergeType'] as String?)?.toMergeType(),
+      mergeType: (json['mergeType'] as String?)?.let(MergeType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mergeType = this.mergeType;
     return {
-      if (mergeType != null) 'mergeType': mergeType.toValue(),
+      if (mergeType != null) 'mergeType': mergeType.value,
     };
   }
 }
 
 enum SourceApiAssociationStatus {
-  mergeScheduled,
-  mergeFailed,
-  mergeSuccess,
-  mergeInProgress,
-  autoMergeScheduleFailed,
-  deletionScheduled,
-  deletionInProgress,
-  deletionFailed,
-}
+  mergeScheduled('MERGE_SCHEDULED'),
+  mergeFailed('MERGE_FAILED'),
+  mergeSuccess('MERGE_SUCCESS'),
+  mergeInProgress('MERGE_IN_PROGRESS'),
+  autoMergeScheduleFailed('AUTO_MERGE_SCHEDULE_FAILED'),
+  deletionScheduled('DELETION_SCHEDULED'),
+  deletionInProgress('DELETION_IN_PROGRESS'),
+  deletionFailed('DELETION_FAILED'),
+  ;
 
-extension SourceApiAssociationStatusValueExtension
-    on SourceApiAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case SourceApiAssociationStatus.mergeScheduled:
-        return 'MERGE_SCHEDULED';
-      case SourceApiAssociationStatus.mergeFailed:
-        return 'MERGE_FAILED';
-      case SourceApiAssociationStatus.mergeSuccess:
-        return 'MERGE_SUCCESS';
-      case SourceApiAssociationStatus.mergeInProgress:
-        return 'MERGE_IN_PROGRESS';
-      case SourceApiAssociationStatus.autoMergeScheduleFailed:
-        return 'AUTO_MERGE_SCHEDULE_FAILED';
-      case SourceApiAssociationStatus.deletionScheduled:
-        return 'DELETION_SCHEDULED';
-      case SourceApiAssociationStatus.deletionInProgress:
-        return 'DELETION_IN_PROGRESS';
-      case SourceApiAssociationStatus.deletionFailed:
-        return 'DELETION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension SourceApiAssociationStatusFromString on String {
-  SourceApiAssociationStatus toSourceApiAssociationStatus() {
-    switch (this) {
-      case 'MERGE_SCHEDULED':
-        return SourceApiAssociationStatus.mergeScheduled;
-      case 'MERGE_FAILED':
-        return SourceApiAssociationStatus.mergeFailed;
-      case 'MERGE_SUCCESS':
-        return SourceApiAssociationStatus.mergeSuccess;
-      case 'MERGE_IN_PROGRESS':
-        return SourceApiAssociationStatus.mergeInProgress;
-      case 'AUTO_MERGE_SCHEDULE_FAILED':
-        return SourceApiAssociationStatus.autoMergeScheduleFailed;
-      case 'DELETION_SCHEDULED':
-        return SourceApiAssociationStatus.deletionScheduled;
-      case 'DELETION_IN_PROGRESS':
-        return SourceApiAssociationStatus.deletionInProgress;
-      case 'DELETION_FAILED':
-        return SourceApiAssociationStatus.deletionFailed;
-    }
-    throw Exception('$this is not known in enum SourceApiAssociationStatus');
-  }
+  const SourceApiAssociationStatus(this.value);
+
+  static SourceApiAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SourceApiAssociationStatus'));
 }
 
 /// Describes the ARNs and IDs of associations, Merged APIs, and source APIs.
@@ -7478,7 +6937,7 @@ class StartDataSourceIntrospectionResponse {
     return StartDataSourceIntrospectionResponse(
       introspectionId: json['introspectionId'] as String?,
       introspectionStatus: (json['introspectionStatus'] as String?)
-          ?.toDataSourceIntrospectionStatus(),
+          ?.let(DataSourceIntrospectionStatus.fromString),
       introspectionStatusDetail: json['introspectionStatusDetail'] as String?,
     );
   }
@@ -7495,7 +6954,7 @@ class StartSchemaCreationResponse {
 
   factory StartSchemaCreationResponse.fromJson(Map<String, dynamic> json) {
     return StartSchemaCreationResponse(
-      status: (json['status'] as String?)?.toSchemaStatus(),
+      status: (json['status'] as String?)?.let(SchemaStatus.fromString),
     );
   }
 }
@@ -7512,7 +6971,7 @@ class StartSchemaMergeResponse {
     return StartSchemaMergeResponse(
       sourceApiAssociationStatus:
           (json['sourceApiAssociationStatus'] as String?)
-              ?.toSourceApiAssociationStatus(),
+              ?.let(SourceApiAssociationStatus.fromString),
     );
   }
 }
@@ -7564,10 +7023,10 @@ class SyncConfig {
 
   factory SyncConfig.fromJson(Map<String, dynamic> json) {
     return SyncConfig(
-      conflictDetection:
-          (json['conflictDetection'] as String?)?.toConflictDetectionType(),
-      conflictHandler:
-          (json['conflictHandler'] as String?)?.toConflictHandlerType(),
+      conflictDetection: (json['conflictDetection'] as String?)
+          ?.let(ConflictDetectionType.fromString),
+      conflictHandler: (json['conflictHandler'] as String?)
+          ?.let(ConflictHandlerType.fromString),
       lambdaConflictHandlerConfig: json['lambdaConflictHandlerConfig'] != null
           ? LambdaConflictHandlerConfig.fromJson(
               json['lambdaConflictHandlerConfig'] as Map<String, dynamic>)
@@ -7581,8 +7040,8 @@ class SyncConfig {
     final lambdaConflictHandlerConfig = this.lambdaConflictHandlerConfig;
     return {
       if (conflictDetection != null)
-        'conflictDetection': conflictDetection.toValue(),
-      if (conflictHandler != null) 'conflictHandler': conflictHandler.toValue(),
+        'conflictDetection': conflictDetection.value,
+      if (conflictHandler != null) 'conflictHandler': conflictHandler.value,
       if (lambdaConflictHandlerConfig != null)
         'lambdaConflictHandlerConfig': lambdaConflictHandlerConfig,
     };
@@ -7627,38 +7086,25 @@ class Type {
       arn: json['arn'] as String?,
       definition: json['definition'] as String?,
       description: json['description'] as String?,
-      format: (json['format'] as String?)?.toTypeDefinitionFormat(),
+      format: (json['format'] as String?)?.let(TypeDefinitionFormat.fromString),
       name: json['name'] as String?,
     );
   }
 }
 
 enum TypeDefinitionFormat {
-  sdl,
-  json,
-}
+  sdl('SDL'),
+  json('JSON'),
+  ;
 
-extension TypeDefinitionFormatValueExtension on TypeDefinitionFormat {
-  String toValue() {
-    switch (this) {
-      case TypeDefinitionFormat.sdl:
-        return 'SDL';
-      case TypeDefinitionFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension TypeDefinitionFormatFromString on String {
-  TypeDefinitionFormat toTypeDefinitionFormat() {
-    switch (this) {
-      case 'SDL':
-        return TypeDefinitionFormat.sdl;
-      case 'JSON':
-        return TypeDefinitionFormat.json;
-    }
-    throw Exception('$this is not known in enum TypeDefinitionFormat');
-  }
+  const TypeDefinitionFormat(this.value);
+
+  static TypeDefinitionFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TypeDefinitionFormat'));
 }
 
 class UntagResourceResponse {
@@ -7854,7 +7300,8 @@ class UserPoolConfig {
   factory UserPoolConfig.fromJson(Map<String, dynamic> json) {
     return UserPoolConfig(
       awsRegion: json['awsRegion'] as String,
-      defaultAction: (json['defaultAction'] as String).toDefaultAction(),
+      defaultAction:
+          DefaultAction.fromString((json['defaultAction'] as String)),
       userPoolId: json['userPoolId'] as String,
       appIdClientRegex: json['appIdClientRegex'] as String?,
     );
@@ -7867,7 +7314,7 @@ class UserPoolConfig {
     final appIdClientRegex = this.appIdClientRegex;
     return {
       'awsRegion': awsRegion,
-      'defaultAction': defaultAction.toValue(),
+      'defaultAction': defaultAction.value,
       'userPoolId': userPoolId,
       if (appIdClientRegex != null) 'appIdClientRegex': appIdClientRegex,
     };

@@ -544,7 +544,7 @@ class HealthImaging {
       50,
     );
     final $query = <String, List<String>>{
-      if (jobStatus != null) 'jobStatus': [jobStatus.toValue()],
+      if (jobStatus != null) 'jobStatus': [jobStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -587,8 +587,7 @@ class HealthImaging {
       50,
     );
     final $query = <String, List<String>>{
-      if (datastoreStatus != null)
-        'datastoreStatus': [datastoreStatus.toValue()],
+      if (datastoreStatus != null) 'datastoreStatus': [datastoreStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -961,9 +960,10 @@ class CopyDestinationImageSetProperties {
       latestVersionId: json['latestVersionId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetArn: json['imageSetArn'] as String?,
-      imageSetState: (json['imageSetState'] as String?)?.toImageSetState(),
+      imageSetState:
+          (json['imageSetState'] as String?)?.let(ImageSetState.fromString),
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
-          ?.toImageSetWorkflowStatus(),
+          ?.let(ImageSetWorkflowStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -981,9 +981,9 @@ class CopyDestinationImageSetProperties {
       'latestVersionId': latestVersionId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (imageSetArn != null) 'imageSetArn': imageSetArn,
-      if (imageSetState != null) 'imageSetState': imageSetState.toValue(),
+      if (imageSetState != null) 'imageSetState': imageSetState.value,
       if (imageSetWorkflowStatus != null)
-        'imageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+        'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -1107,9 +1107,10 @@ class CopySourceImageSetProperties {
       latestVersionId: json['latestVersionId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetArn: json['imageSetArn'] as String?,
-      imageSetState: (json['imageSetState'] as String?)?.toImageSetState(),
+      imageSetState:
+          (json['imageSetState'] as String?)?.let(ImageSetState.fromString),
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
-          ?.toImageSetWorkflowStatus(),
+          ?.let(ImageSetWorkflowStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -1127,9 +1128,9 @@ class CopySourceImageSetProperties {
       'latestVersionId': latestVersionId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (imageSetArn != null) 'imageSetArn': imageSetArn,
-      if (imageSetState != null) 'imageSetState': imageSetState.toValue(),
+      if (imageSetState != null) 'imageSetState': imageSetState.value,
       if (imageSetWorkflowStatus != null)
-        'imageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+        'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -1150,7 +1151,8 @@ class CreateDatastoreResponse {
   factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateDatastoreResponse(
       datastoreId: json['datastoreId'] as String,
-      datastoreStatus: (json['datastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
     );
   }
 
@@ -1159,7 +1161,7 @@ class CreateDatastoreResponse {
     final datastoreStatus = this.datastoreStatus;
     return {
       'datastoreId': datastoreId,
-      'datastoreStatus': datastoreStatus.toValue(),
+      'datastoreStatus': datastoreStatus.value,
     };
   }
 }
@@ -1219,7 +1221,7 @@ class DICOMImportJobProperties {
       inputS3Uri: json['inputS3Uri'] as String,
       jobId: json['jobId'] as String,
       jobName: json['jobName'] as String,
-      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       outputS3Uri: json['outputS3Uri'] as String,
       endedAt: timeStampFromJson(json['endedAt']),
       message: json['message'] as String?,
@@ -1244,7 +1246,7 @@ class DICOMImportJobProperties {
       'inputS3Uri': inputS3Uri,
       'jobId': jobId,
       'jobName': jobName,
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       'outputS3Uri': outputS3Uri,
       if (endedAt != null) 'endedAt': unixTimestampToJson(endedAt),
       if (message != null) 'message': message,
@@ -1296,7 +1298,7 @@ class DICOMImportJobSummary {
       datastoreId: json['datastoreId'] as String,
       jobId: json['jobId'] as String,
       jobName: json['jobName'] as String,
-      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       dataAccessRoleArn: json['dataAccessRoleArn'] as String?,
       endedAt: timeStampFromJson(json['endedAt']),
       message: json['message'] as String?,
@@ -1317,7 +1319,7 @@ class DICOMImportJobSummary {
       'datastoreId': datastoreId,
       'jobId': jobId,
       'jobName': jobName,
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       if (dataAccessRoleArn != null) 'dataAccessRoleArn': dataAccessRoleArn,
       if (endedAt != null) 'endedAt': unixTimestampToJson(endedAt),
       if (message != null) 'message': message,
@@ -1557,7 +1559,8 @@ class DatastoreProperties {
     return DatastoreProperties(
       datastoreId: json['datastoreId'] as String,
       datastoreName: json['datastoreName'] as String,
-      datastoreStatus: (json['datastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       datastoreArn: json['datastoreArn'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
@@ -1576,7 +1579,7 @@ class DatastoreProperties {
     return {
       'datastoreId': datastoreId,
       'datastoreName': datastoreName,
-      'datastoreStatus': datastoreStatus.toValue(),
+      'datastoreStatus': datastoreStatus.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (datastoreArn != null) 'datastoreArn': datastoreArn,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
@@ -1586,46 +1589,21 @@ class DatastoreProperties {
 }
 
 enum DatastoreStatus {
-  creating,
-  createFailed,
-  active,
-  deleting,
-  deleted,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension DatastoreStatusValueExtension on DatastoreStatus {
-  String toValue() {
-    switch (this) {
-      case DatastoreStatus.creating:
-        return 'CREATING';
-      case DatastoreStatus.createFailed:
-        return 'CREATE_FAILED';
-      case DatastoreStatus.active:
-        return 'ACTIVE';
-      case DatastoreStatus.deleting:
-        return 'DELETING';
-      case DatastoreStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension DatastoreStatusFromString on String {
-  DatastoreStatus toDatastoreStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DatastoreStatus.creating;
-      case 'CREATE_FAILED':
-        return DatastoreStatus.createFailed;
-      case 'ACTIVE':
-        return DatastoreStatus.active;
-      case 'DELETING':
-        return DatastoreStatus.deleting;
-      case 'DELETED':
-        return DatastoreStatus.deleted;
-    }
-    throw Exception('$this is not known in enum DatastoreStatus');
-  }
+  const DatastoreStatus(this.value);
+
+  static DatastoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatastoreStatus'));
 }
 
 /// List of summaries of data stores.
@@ -1661,7 +1639,8 @@ class DatastoreSummary {
     return DatastoreSummary(
       datastoreId: json['datastoreId'] as String,
       datastoreName: json['datastoreName'] as String,
-      datastoreStatus: (json['datastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       datastoreArn: json['datastoreArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1678,7 +1657,7 @@ class DatastoreSummary {
     return {
       'datastoreId': datastoreId,
       'datastoreName': datastoreName,
-      'datastoreStatus': datastoreStatus.toValue(),
+      'datastoreStatus': datastoreStatus.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (datastoreArn != null) 'datastoreArn': datastoreArn,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
@@ -1701,7 +1680,8 @@ class DeleteDatastoreResponse {
   factory DeleteDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDatastoreResponse(
       datastoreId: json['datastoreId'] as String,
-      datastoreStatus: (json['datastoreStatus'] as String).toDatastoreStatus(),
+      datastoreStatus:
+          DatastoreStatus.fromString((json['datastoreStatus'] as String)),
     );
   }
 
@@ -1710,7 +1690,7 @@ class DeleteDatastoreResponse {
     final datastoreStatus = this.datastoreStatus;
     return {
       'datastoreId': datastoreId,
-      'datastoreStatus': datastoreStatus.toValue(),
+      'datastoreStatus': datastoreStatus.value,
     };
   }
 }
@@ -1739,9 +1719,10 @@ class DeleteImageSetResponse {
     return DeleteImageSetResponse(
       datastoreId: json['datastoreId'] as String,
       imageSetId: json['imageSetId'] as String,
-      imageSetState: (json['imageSetState'] as String).toImageSetState(),
-      imageSetWorkflowStatus:
-          (json['imageSetWorkflowStatus'] as String).toImageSetWorkflowStatus(),
+      imageSetState:
+          ImageSetState.fromString((json['imageSetState'] as String)),
+      imageSetWorkflowStatus: ImageSetWorkflowStatus.fromString(
+          (json['imageSetWorkflowStatus'] as String)),
     );
   }
 
@@ -1753,8 +1734,8 @@ class DeleteImageSetResponse {
     return {
       'datastoreId': datastoreId,
       'imageSetId': imageSetId,
-      'imageSetState': imageSetState.toValue(),
-      'imageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+      'imageSetState': imageSetState.value,
+      'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
     };
   }
 }
@@ -1902,13 +1883,14 @@ class GetImageSetResponse {
     return GetImageSetResponse(
       datastoreId: json['datastoreId'] as String,
       imageSetId: json['imageSetId'] as String,
-      imageSetState: (json['imageSetState'] as String).toImageSetState(),
+      imageSetState:
+          ImageSetState.fromString((json['imageSetState'] as String)),
       versionId: json['versionId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       deletedAt: timeStampFromJson(json['deletedAt']),
       imageSetArn: json['imageSetArn'] as String?,
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
-          ?.toImageSetWorkflowStatus(),
+          ?.let(ImageSetWorkflowStatus.fromString),
       message: json['message'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -1928,13 +1910,13 @@ class GetImageSetResponse {
     return {
       'datastoreId': datastoreId,
       'imageSetId': imageSetId,
-      'imageSetState': imageSetState.toValue(),
+      'imageSetState': imageSetState.value,
       'versionId': versionId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (deletedAt != null) 'deletedAt': unixTimestampToJson(deletedAt),
       if (imageSetArn != null) 'imageSetArn': imageSetArn,
       if (imageSetWorkflowStatus != null)
-        'imageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+        'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (message != null) 'message': message,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
@@ -1998,10 +1980,11 @@ class ImageSetProperties {
   factory ImageSetProperties.fromJson(Map<String, dynamic> json) {
     return ImageSetProperties(
       imageSetId: json['imageSetId'] as String,
-      imageSetState: (json['imageSetState'] as String).toImageSetState(),
+      imageSetState:
+          ImageSetState.fromString((json['imageSetState'] as String)),
       versionId: json['versionId'] as String,
       imageSetWorkflowStatus: (json['ImageSetWorkflowStatus'] as String?)
-          ?.toImageSetWorkflowStatus(),
+          ?.let(ImageSetWorkflowStatus.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       deletedAt: timeStampFromJson(json['deletedAt']),
       message: json['message'] as String?,
@@ -2020,10 +2003,10 @@ class ImageSetProperties {
     final updatedAt = this.updatedAt;
     return {
       'imageSetId': imageSetId,
-      'imageSetState': imageSetState.toValue(),
+      'imageSetState': imageSetState.value,
       'versionId': versionId,
       if (imageSetWorkflowStatus != null)
-        'ImageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+        'ImageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (deletedAt != null) 'deletedAt': unixTimestampToJson(deletedAt),
       if (message != null) 'message': message,
@@ -2033,104 +2016,42 @@ class ImageSetProperties {
 }
 
 enum ImageSetState {
-  active,
-  locked,
-  deleted,
-}
+  active('ACTIVE'),
+  locked('LOCKED'),
+  deleted('DELETED'),
+  ;
 
-extension ImageSetStateValueExtension on ImageSetState {
-  String toValue() {
-    switch (this) {
-      case ImageSetState.active:
-        return 'ACTIVE';
-      case ImageSetState.locked:
-        return 'LOCKED';
-      case ImageSetState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ImageSetStateFromString on String {
-  ImageSetState toImageSetState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ImageSetState.active;
-      case 'LOCKED':
-        return ImageSetState.locked;
-      case 'DELETED':
-        return ImageSetState.deleted;
-    }
-    throw Exception('$this is not known in enum ImageSetState');
-  }
+  const ImageSetState(this.value);
+
+  static ImageSetState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageSetState'));
 }
 
 enum ImageSetWorkflowStatus {
-  created,
-  copied,
-  copying,
-  copyingWithReadOnlyAccess,
-  copyFailed,
-  updating,
-  updated,
-  updateFailed,
-  deleting,
-  deleted,
-}
+  created('CREATED'),
+  copied('COPIED'),
+  copying('COPYING'),
+  copyingWithReadOnlyAccess('COPYING_WITH_READ_ONLY_ACCESS'),
+  copyFailed('COPY_FAILED'),
+  updating('UPDATING'),
+  updated('UPDATED'),
+  updateFailed('UPDATE_FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension ImageSetWorkflowStatusValueExtension on ImageSetWorkflowStatus {
-  String toValue() {
-    switch (this) {
-      case ImageSetWorkflowStatus.created:
-        return 'CREATED';
-      case ImageSetWorkflowStatus.copied:
-        return 'COPIED';
-      case ImageSetWorkflowStatus.copying:
-        return 'COPYING';
-      case ImageSetWorkflowStatus.copyingWithReadOnlyAccess:
-        return 'COPYING_WITH_READ_ONLY_ACCESS';
-      case ImageSetWorkflowStatus.copyFailed:
-        return 'COPY_FAILED';
-      case ImageSetWorkflowStatus.updating:
-        return 'UPDATING';
-      case ImageSetWorkflowStatus.updated:
-        return 'UPDATED';
-      case ImageSetWorkflowStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case ImageSetWorkflowStatus.deleting:
-        return 'DELETING';
-      case ImageSetWorkflowStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ImageSetWorkflowStatusFromString on String {
-  ImageSetWorkflowStatus toImageSetWorkflowStatus() {
-    switch (this) {
-      case 'CREATED':
-        return ImageSetWorkflowStatus.created;
-      case 'COPIED':
-        return ImageSetWorkflowStatus.copied;
-      case 'COPYING':
-        return ImageSetWorkflowStatus.copying;
-      case 'COPYING_WITH_READ_ONLY_ACCESS':
-        return ImageSetWorkflowStatus.copyingWithReadOnlyAccess;
-      case 'COPY_FAILED':
-        return ImageSetWorkflowStatus.copyFailed;
-      case 'UPDATING':
-        return ImageSetWorkflowStatus.updating;
-      case 'UPDATED':
-        return ImageSetWorkflowStatus.updated;
-      case 'UPDATE_FAILED':
-        return ImageSetWorkflowStatus.updateFailed;
-      case 'DELETING':
-        return ImageSetWorkflowStatus.deleting;
-      case 'DELETED':
-        return ImageSetWorkflowStatus.deleted;
-    }
-    throw Exception('$this is not known in enum ImageSetWorkflowStatus');
-  }
+  const ImageSetWorkflowStatus(this.value);
+
+  static ImageSetWorkflowStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ImageSetWorkflowStatus'));
 }
 
 /// Summary of the image set metadata.
@@ -2188,41 +2109,19 @@ class ImageSetsMetadataSummary {
 }
 
 enum JobStatus {
-  submitted,
-  inProgress,
-  completed,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'FAILED':
-        return JobStatus.failed;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 class ListDICOMImportJobsResponse {
@@ -2366,31 +2265,17 @@ class MetadataUpdates {
 }
 
 enum Operator {
-  equal,
-  between,
-}
+  equal('EQUAL'),
+  between('BETWEEN'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equal:
-        return 'EQUAL';
-      case Operator.between:
-        return 'BETWEEN';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'EQUAL':
-        return Operator.equal;
-      case 'BETWEEN':
-        return Operator.between;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 /// The search input attribute value.
@@ -2497,7 +2382,7 @@ class SearchFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'operator': operator.toValue(),
+      'operator': operator.value,
       'values': values,
     };
   }
@@ -2560,8 +2445,8 @@ class Sort {
 
   factory Sort.fromJson(Map<String, dynamic> json) {
     return Sort(
-      sortField: (json['sortField'] as String).toSortField(),
-      sortOrder: (json['sortOrder'] as String).toSortOrder(),
+      sortField: SortField.fromString((json['sortField'] as String)),
+      sortOrder: SortOrder.fromString((json['sortOrder'] as String)),
     );
   }
 
@@ -2569,71 +2454,39 @@ class Sort {
     final sortField = this.sortField;
     final sortOrder = this.sortOrder;
     return {
-      'sortField': sortField.toValue(),
-      'sortOrder': sortOrder.toValue(),
+      'sortField': sortField.value,
+      'sortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortField {
-  updatedAt,
-  createdAt,
-  dICOMStudyDateAndTime,
-}
+  updatedAt('updatedAt'),
+  createdAt('createdAt'),
+  dICOMStudyDateAndTime('DICOMStudyDateAndTime'),
+  ;
 
-extension SortFieldValueExtension on SortField {
-  String toValue() {
-    switch (this) {
-      case SortField.updatedAt:
-        return 'updatedAt';
-      case SortField.createdAt:
-        return 'createdAt';
-      case SortField.dICOMStudyDateAndTime:
-        return 'DICOMStudyDateAndTime';
-    }
-  }
-}
+  final String value;
 
-extension SortFieldFromString on String {
-  SortField toSortField() {
-    switch (this) {
-      case 'updatedAt':
-        return SortField.updatedAt;
-      case 'createdAt':
-        return SortField.createdAt;
-      case 'DICOMStudyDateAndTime':
-        return SortField.dICOMStudyDateAndTime;
-    }
-    throw Exception('$this is not known in enum SortField');
-  }
+  const SortField(this.value);
+
+  static SortField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortField'));
 }
 
 enum SortOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortOrder.asc;
-      case 'DESC':
-        return SortOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartDICOMImportJobResponse {
@@ -2660,7 +2513,7 @@ class StartDICOMImportJobResponse {
     return StartDICOMImportJobResponse(
       datastoreId: json['datastoreId'] as String,
       jobId: json['jobId'] as String,
-      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] as Object),
     );
   }
@@ -2673,7 +2526,7 @@ class StartDICOMImportJobResponse {
     return {
       'datastoreId': datastoreId,
       'jobId': jobId,
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       'submittedAt': unixTimestampToJson(submittedAt),
     };
   }
@@ -2743,11 +2596,12 @@ class UpdateImageSetMetadataResponse {
     return UpdateImageSetMetadataResponse(
       datastoreId: json['datastoreId'] as String,
       imageSetId: json['imageSetId'] as String,
-      imageSetState: (json['imageSetState'] as String).toImageSetState(),
+      imageSetState:
+          ImageSetState.fromString((json['imageSetState'] as String)),
       latestVersionId: json['latestVersionId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
-          ?.toImageSetWorkflowStatus(),
+          ?.let(ImageSetWorkflowStatus.fromString),
       message: json['message'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -2765,11 +2619,11 @@ class UpdateImageSetMetadataResponse {
     return {
       'datastoreId': datastoreId,
       'imageSetId': imageSetId,
-      'imageSetState': imageSetState.toValue(),
+      'imageSetState': imageSetState.value,
       'latestVersionId': latestVersionId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (imageSetWorkflowStatus != null)
-        'imageSetWorkflowStatus': imageSetWorkflowStatus.toValue(),
+        'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (message != null) 'message': message,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };

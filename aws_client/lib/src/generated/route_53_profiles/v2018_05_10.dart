@@ -1065,8 +1065,9 @@ class Profile {
       modificationTime: timeStampFromJson(json['ModificationTime']),
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
-      status: (json['Status'] as String?)?.toProfileStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
+      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -1092,8 +1093,8 @@ class Profile {
         'ModificationTime': unixTimestampToJson(modificationTime),
       if (name != null) 'Name': name,
       if (ownerId != null) 'OwnerId': ownerId,
-      if (shareStatus != null) 'ShareStatus': shareStatus.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (shareStatus != null) 'ShareStatus': shareStatus.value,
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -1151,7 +1152,7 @@ class ProfileAssociation {
       ownerId: json['OwnerId'] as String?,
       profileId: json['ProfileId'] as String?,
       resourceId: json['ResourceId'] as String?,
-      status: (json['Status'] as String?)?.toProfileStatus(),
+      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -1176,7 +1177,7 @@ class ProfileAssociation {
       if (ownerId != null) 'OwnerId': ownerId,
       if (profileId != null) 'ProfileId': profileId,
       if (resourceId != null) 'ResourceId': resourceId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -1245,7 +1246,7 @@ class ProfileResourceAssociation {
       resourceArn: json['ResourceArn'] as String?,
       resourceProperties: json['ResourceProperties'] as String?,
       resourceType: json['ResourceType'] as String?,
-      status: (json['Status'] as String?)?.toProfileStatus(),
+      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -1274,58 +1275,29 @@ class ProfileResourceAssociation {
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (resourceProperties != null) 'ResourceProperties': resourceProperties,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
 enum ProfileStatus {
-  complete,
-  deleting,
-  updating,
-  creating,
-  deleted,
-  failed,
-}
+  complete('COMPLETE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  creating('CREATING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  ;
 
-extension ProfileStatusValueExtension on ProfileStatus {
-  String toValue() {
-    switch (this) {
-      case ProfileStatus.complete:
-        return 'COMPLETE';
-      case ProfileStatus.deleting:
-        return 'DELETING';
-      case ProfileStatus.updating:
-        return 'UPDATING';
-      case ProfileStatus.creating:
-        return 'CREATING';
-      case ProfileStatus.deleted:
-        return 'DELETED';
-      case ProfileStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ProfileStatusFromString on String {
-  ProfileStatus toProfileStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return ProfileStatus.complete;
-      case 'DELETING':
-        return ProfileStatus.deleting;
-      case 'UPDATING':
-        return ProfileStatus.updating;
-      case 'CREATING':
-        return ProfileStatus.creating;
-      case 'DELETED':
-        return ProfileStatus.deleted;
-      case 'FAILED':
-        return ProfileStatus.failed;
-    }
-    throw Exception('$this is not known in enum ProfileStatus');
-  }
+  const ProfileStatus(this.value);
+
+  static ProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProfileStatus'));
 }
 
 /// Summary information about a Route 53 Profile.
@@ -1354,7 +1326,8 @@ class ProfileSummary {
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
@@ -1367,42 +1340,24 @@ class ProfileSummary {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (shareStatus != null) 'ShareStatus': shareStatus.toValue(),
+      if (shareStatus != null) 'ShareStatus': shareStatus.value,
     };
   }
 }
 
 enum ShareStatus {
-  notShared,
-  sharedWithMe,
-  sharedByMe,
-}
+  notShared('NOT_SHARED'),
+  sharedWithMe('SHARED_WITH_ME'),
+  sharedByMe('SHARED_BY_ME'),
+  ;
 
-extension ShareStatusValueExtension on ShareStatus {
-  String toValue() {
-    switch (this) {
-      case ShareStatus.notShared:
-        return 'NOT_SHARED';
-      case ShareStatus.sharedWithMe:
-        return 'SHARED_WITH_ME';
-      case ShareStatus.sharedByMe:
-        return 'SHARED_BY_ME';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusFromString on String {
-  ShareStatus toShareStatus() {
-    switch (this) {
-      case 'NOT_SHARED':
-        return ShareStatus.notShared;
-      case 'SHARED_WITH_ME':
-        return ShareStatus.sharedWithMe;
-      case 'SHARED_BY_ME':
-        return ShareStatus.sharedByMe;
-    }
-    throw Exception('$this is not known in enum ShareStatus');
-  }
+  const ShareStatus(this.value);
+
+  static ShareStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
 }
 
 /// Tag for the Profile.

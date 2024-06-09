@@ -299,7 +299,7 @@ class Greengrass {
         'X-Amzn-Client-Token': amznClientToken.toString(),
     };
     final $payload = <String, dynamic>{
-      'DeploymentType': deploymentType.toValue(),
+      'DeploymentType': deploymentType.value,
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (groupVersionId != null) 'GroupVersionId': groupVersionId,
     };
@@ -807,12 +807,12 @@ class Greengrass {
     };
     final $payload = <String, dynamic>{
       'S3UrlSignerRole': s3UrlSignerRole,
-      'SoftwareToUpdate': softwareToUpdate.toValue(),
+      'SoftwareToUpdate': softwareToUpdate.value,
       'UpdateTargets': updateTargets,
-      'UpdateTargetsArchitecture': updateTargetsArchitecture.toValue(),
-      'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem.toValue(),
+      'UpdateTargetsArchitecture': updateTargetsArchitecture.value,
+      'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem.value,
       if (updateAgentLogLevel != null)
-        'UpdateAgentLogLevel': updateAgentLogLevel.toValue(),
+        'UpdateAgentLogLevel': updateAgentLogLevel.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2900,7 +2900,8 @@ class BulkDeploymentResult {
       deploymentArn: json['DeploymentArn'] as String?,
       deploymentId: json['DeploymentId'] as String?,
       deploymentStatus: json['DeploymentStatus'] as String?,
-      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      deploymentType:
+          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
       errorDetails: (json['ErrorDetails'] as List?)
           ?.whereNotNull()
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
@@ -2924,7 +2925,7 @@ class BulkDeploymentResult {
       if (deploymentArn != null) 'DeploymentArn': deploymentArn,
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
-      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (groupArn != null) 'GroupArn': groupArn,
@@ -2934,79 +2935,37 @@ class BulkDeploymentResult {
 
 /// The current status of the bulk deployment.
 enum BulkDeploymentStatus {
-  initializing,
-  running,
-  completed,
-  stopping,
-  stopped,
-  failed,
-}
+  initializing('Initializing'),
+  running('Running'),
+  completed('Completed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  failed('Failed'),
+  ;
 
-extension BulkDeploymentStatusValueExtension on BulkDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case BulkDeploymentStatus.initializing:
-        return 'Initializing';
-      case BulkDeploymentStatus.running:
-        return 'Running';
-      case BulkDeploymentStatus.completed:
-        return 'Completed';
-      case BulkDeploymentStatus.stopping:
-        return 'Stopping';
-      case BulkDeploymentStatus.stopped:
-        return 'Stopped';
-      case BulkDeploymentStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BulkDeploymentStatusFromString on String {
-  BulkDeploymentStatus toBulkDeploymentStatus() {
-    switch (this) {
-      case 'Initializing':
-        return BulkDeploymentStatus.initializing;
-      case 'Running':
-        return BulkDeploymentStatus.running;
-      case 'Completed':
-        return BulkDeploymentStatus.completed;
-      case 'Stopping':
-        return BulkDeploymentStatus.stopping;
-      case 'Stopped':
-        return BulkDeploymentStatus.stopped;
-      case 'Failed':
-        return BulkDeploymentStatus.failed;
-    }
-    throw Exception('$this is not known in enum BulkDeploymentStatus');
-  }
+  const BulkDeploymentStatus(this.value);
+
+  static BulkDeploymentStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BulkDeploymentStatus'));
 }
 
 enum ConfigurationSyncStatus {
-  inSync,
-  outOfSync,
-}
+  inSync('InSync'),
+  outOfSync('OutOfSync'),
+  ;
 
-extension ConfigurationSyncStatusValueExtension on ConfigurationSyncStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationSyncStatus.inSync:
-        return 'InSync';
-      case ConfigurationSyncStatus.outOfSync:
-        return 'OutOfSync';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationSyncStatusFromString on String {
-  ConfigurationSyncStatus toConfigurationSyncStatus() {
-    switch (this) {
-      case 'InSync':
-        return ConfigurationSyncStatus.inSync;
-      case 'OutOfSync':
-        return ConfigurationSyncStatus.outOfSync;
-    }
-    throw Exception('$this is not known in enum ConfigurationSyncStatus');
-  }
+  const ConfigurationSyncStatus(this.value);
+
+  static ConfigurationSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationSyncStatus'));
 }
 
 /// Information about a Greengrass core's connectivity.
@@ -4369,7 +4328,8 @@ class Deployment {
       createdAt: json['CreatedAt'] as String?,
       deploymentArn: json['DeploymentArn'] as String?,
       deploymentId: json['DeploymentId'] as String?,
-      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      deploymentType:
+          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
       groupArn: json['GroupArn'] as String?,
     );
   }
@@ -4384,7 +4344,7 @@ class Deployment {
       if (createdAt != null) 'CreatedAt': createdAt,
       if (deploymentArn != null) 'DeploymentArn': deploymentArn,
       if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
       if (groupArn != null) 'GroupArn': groupArn,
     };
   }
@@ -4393,41 +4353,20 @@ class Deployment {
 /// The type of deployment. When used for ''CreateDeployment'', only
 /// ''NewDeployment'' and ''Redeployment'' are valid.
 enum DeploymentType {
-  newDeployment,
-  redeployment,
-  resetDeployment,
-  forceResetDeployment,
-}
+  newDeployment('NewDeployment'),
+  redeployment('Redeployment'),
+  resetDeployment('ResetDeployment'),
+  forceResetDeployment('ForceResetDeployment'),
+  ;
 
-extension DeploymentTypeValueExtension on DeploymentType {
-  String toValue() {
-    switch (this) {
-      case DeploymentType.newDeployment:
-        return 'NewDeployment';
-      case DeploymentType.redeployment:
-        return 'Redeployment';
-      case DeploymentType.resetDeployment:
-        return 'ResetDeployment';
-      case DeploymentType.forceResetDeployment:
-        return 'ForceResetDeployment';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentTypeFromString on String {
-  DeploymentType toDeploymentType() {
-    switch (this) {
-      case 'NewDeployment':
-        return DeploymentType.newDeployment;
-      case 'Redeployment':
-        return DeploymentType.redeployment;
-      case 'ResetDeployment':
-        return DeploymentType.resetDeployment;
-      case 'ForceResetDeployment':
-        return DeploymentType.forceResetDeployment;
-    }
-    throw Exception('$this is not known in enum DeploymentType');
-  }
+  const DeploymentType(this.value);
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentType'));
 }
 
 /// Information about a device.
@@ -4551,31 +4490,18 @@ class DisassociateServiceRoleFromAccountResponse {
 }
 
 enum EncodingType {
-  binary,
-  json,
-}
+  binary('binary'),
+  json('json'),
+  ;
 
-extension EncodingTypeValueExtension on EncodingType {
-  String toValue() {
-    switch (this) {
-      case EncodingType.binary:
-        return 'binary';
-      case EncodingType.json:
-        return 'json';
-    }
-  }
-}
+  final String value;
 
-extension EncodingTypeFromString on String {
-  EncodingType toEncodingType() {
-    switch (this) {
-      case 'binary':
-        return EncodingType.binary;
-      case 'json':
-        return EncodingType.json;
-    }
-    throw Exception('$this is not known in enum EncodingType');
-  }
+  const EncodingType(this.value);
+
+  static EncodingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncodingType'));
 }
 
 /// Details about the error.
@@ -4698,7 +4624,8 @@ class FunctionConfiguration {
 
   factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
     return FunctionConfiguration(
-      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      encodingType:
+          (json['EncodingType'] as String?)?.let(EncodingType.fromString),
       environment: json['Environment'] != null
           ? FunctionConfigurationEnvironment.fromJson(
               json['Environment'] as Map<String, dynamic>)
@@ -4722,7 +4649,7 @@ class FunctionConfiguration {
     final pinned = this.pinned;
     final timeout = this.timeout;
     return {
-      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (encodingType != null) 'EncodingType': encodingType.value,
       if (environment != null) 'Environment': environment,
       if (execArgs != null) 'ExecArgs': execArgs,
       if (executable != null) 'Executable': executable,
@@ -4831,8 +4758,8 @@ class FunctionDefaultExecutionConfig {
 
   factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) {
     return FunctionDefaultExecutionConfig(
-      isolationMode:
-          (json['IsolationMode'] as String?)?.toFunctionIsolationMode(),
+      isolationMode: (json['IsolationMode'] as String?)
+          ?.let(FunctionIsolationMode.fromString),
       runAs: json['RunAs'] != null
           ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
           : null,
@@ -4843,7 +4770,7 @@ class FunctionDefaultExecutionConfig {
     final isolationMode = this.isolationMode;
     final runAs = this.runAs;
     return {
-      if (isolationMode != null) 'IsolationMode': isolationMode.toValue(),
+      if (isolationMode != null) 'IsolationMode': isolationMode.value,
       if (runAs != null) 'RunAs': runAs,
     };
   }
@@ -4899,8 +4826,8 @@ class FunctionExecutionConfig {
 
   factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) {
     return FunctionExecutionConfig(
-      isolationMode:
-          (json['IsolationMode'] as String?)?.toFunctionIsolationMode(),
+      isolationMode: (json['IsolationMode'] as String?)
+          ?.let(FunctionIsolationMode.fromString),
       runAs: json['RunAs'] != null
           ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
           : null,
@@ -4911,7 +4838,7 @@ class FunctionExecutionConfig {
     final isolationMode = this.isolationMode;
     final runAs = this.runAs;
     return {
-      if (isolationMode != null) 'IsolationMode': isolationMode.toValue(),
+      if (isolationMode != null) 'IsolationMode': isolationMode.value,
       if (runAs != null) 'RunAs': runAs,
     };
   }
@@ -4923,31 +4850,18 @@ class FunctionExecutionConfig {
 /// container. Omit this value to run the Lambda function with the default
 /// containerization for the group.
 enum FunctionIsolationMode {
-  greengrassContainer,
-  noContainer,
-}
+  greengrassContainer('GreengrassContainer'),
+  noContainer('NoContainer'),
+  ;
 
-extension FunctionIsolationModeValueExtension on FunctionIsolationMode {
-  String toValue() {
-    switch (this) {
-      case FunctionIsolationMode.greengrassContainer:
-        return 'GreengrassContainer';
-      case FunctionIsolationMode.noContainer:
-        return 'NoContainer';
-    }
-  }
-}
+  final String value;
 
-extension FunctionIsolationModeFromString on String {
-  FunctionIsolationMode toFunctionIsolationMode() {
-    switch (this) {
-      case 'GreengrassContainer':
-        return FunctionIsolationMode.greengrassContainer;
-      case 'NoContainer':
-        return FunctionIsolationMode.noContainer;
-    }
-    throw Exception('$this is not known in enum FunctionIsolationMode');
-  }
+  const FunctionIsolationMode(this.value);
+
+  static FunctionIsolationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FunctionIsolationMode'));
 }
 
 /// Specifies the user and group whose permissions are used when running the
@@ -5049,8 +4963,8 @@ class GetBulkDeploymentStatusResponse {
           ? BulkDeploymentMetrics.fromJson(
               json['BulkDeploymentMetrics'] as Map<String, dynamic>)
           : null,
-      bulkDeploymentStatus:
-          (json['BulkDeploymentStatus'] as String?)?.toBulkDeploymentStatus(),
+      bulkDeploymentStatus: (json['BulkDeploymentStatus'] as String?)
+          ?.let(BulkDeploymentStatus.fromString),
       createdAt: json['CreatedAt'] as String?,
       errorDetails: (json['ErrorDetails'] as List?)
           ?.whereNotNull()
@@ -5073,7 +4987,7 @@ class GetBulkDeploymentStatusResponse {
       if (bulkDeploymentMetrics != null)
         'BulkDeploymentMetrics': bulkDeploymentMetrics,
       if (bulkDeploymentStatus != null)
-        'BulkDeploymentStatus': bulkDeploymentStatus.toValue(),
+        'BulkDeploymentStatus': bulkDeploymentStatus.value,
       if (createdAt != null) 'CreatedAt': createdAt,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
@@ -5416,7 +5330,8 @@ class GetDeploymentStatusResponse {
   factory GetDeploymentStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentStatusResponse(
       deploymentStatus: json['DeploymentStatus'] as String?,
-      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      deploymentType:
+          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
       errorDetails: (json['ErrorDetails'] as List?)
           ?.whereNotNull()
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
@@ -5434,7 +5349,7 @@ class GetDeploymentStatusResponse {
     final updatedAt = this.updatedAt;
     return {
       if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
-      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (updatedAt != null) 'UpdatedAt': updatedAt,
@@ -7388,10 +7303,10 @@ class Logger {
 
   factory Logger.fromJson(Map<String, dynamic> json) {
     return Logger(
-      component: (json['Component'] as String).toLoggerComponent(),
+      component: LoggerComponent.fromString((json['Component'] as String)),
       id: json['Id'] as String,
-      level: (json['Level'] as String).toLoggerLevel(),
-      type: (json['Type'] as String).toLoggerType(),
+      level: LoggerLevel.fromString((json['Level'] as String)),
+      type: LoggerType.fromString((json['Type'] as String)),
       space: json['Space'] as int?,
     );
   }
@@ -7403,41 +7318,28 @@ class Logger {
     final type = this.type;
     final space = this.space;
     return {
-      'Component': component.toValue(),
+      'Component': component.value,
       'Id': id,
-      'Level': level.toValue(),
-      'Type': type.toValue(),
+      'Level': level.value,
+      'Type': type.value,
       if (space != null) 'Space': space,
     };
   }
 }
 
 enum LoggerComponent {
-  greengrassSystem,
-  lambda,
-}
+  greengrassSystem('GreengrassSystem'),
+  lambda('Lambda'),
+  ;
 
-extension LoggerComponentValueExtension on LoggerComponent {
-  String toValue() {
-    switch (this) {
-      case LoggerComponent.greengrassSystem:
-        return 'GreengrassSystem';
-      case LoggerComponent.lambda:
-        return 'Lambda';
-    }
-  }
-}
+  final String value;
 
-extension LoggerComponentFromString on String {
-  LoggerComponent toLoggerComponent() {
-    switch (this) {
-      case 'GreengrassSystem':
-        return LoggerComponent.greengrassSystem;
-      case 'Lambda':
-        return LoggerComponent.lambda;
-    }
-    throw Exception('$this is not known in enum LoggerComponent');
-  }
+  const LoggerComponent(this.value);
+
+  static LoggerComponent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LoggerComponent'));
 }
 
 /// Information about a logger definition version.
@@ -7467,103 +7369,49 @@ class LoggerDefinitionVersion {
 }
 
 enum LoggerLevel {
-  debug,
-  info,
-  warn,
-  error,
-  fatal,
-}
+  debug('DEBUG'),
+  info('INFO'),
+  warn('WARN'),
+  error('ERROR'),
+  fatal('FATAL'),
+  ;
 
-extension LoggerLevelValueExtension on LoggerLevel {
-  String toValue() {
-    switch (this) {
-      case LoggerLevel.debug:
-        return 'DEBUG';
-      case LoggerLevel.info:
-        return 'INFO';
-      case LoggerLevel.warn:
-        return 'WARN';
-      case LoggerLevel.error:
-        return 'ERROR';
-      case LoggerLevel.fatal:
-        return 'FATAL';
-    }
-  }
-}
+  final String value;
 
-extension LoggerLevelFromString on String {
-  LoggerLevel toLoggerLevel() {
-    switch (this) {
-      case 'DEBUG':
-        return LoggerLevel.debug;
-      case 'INFO':
-        return LoggerLevel.info;
-      case 'WARN':
-        return LoggerLevel.warn;
-      case 'ERROR':
-        return LoggerLevel.error;
-      case 'FATAL':
-        return LoggerLevel.fatal;
-    }
-    throw Exception('$this is not known in enum LoggerLevel');
-  }
+  const LoggerLevel(this.value);
+
+  static LoggerLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LoggerLevel'));
 }
 
 enum LoggerType {
-  fileSystem,
-  awsCloudWatch,
-}
+  fileSystem('FileSystem'),
+  awsCloudWatch('AWSCloudWatch'),
+  ;
 
-extension LoggerTypeValueExtension on LoggerType {
-  String toValue() {
-    switch (this) {
-      case LoggerType.fileSystem:
-        return 'FileSystem';
-      case LoggerType.awsCloudWatch:
-        return 'AWSCloudWatch';
-    }
-  }
-}
+  final String value;
 
-extension LoggerTypeFromString on String {
-  LoggerType toLoggerType() {
-    switch (this) {
-      case 'FileSystem':
-        return LoggerType.fileSystem;
-      case 'AWSCloudWatch':
-        return LoggerType.awsCloudWatch;
-    }
-    throw Exception('$this is not known in enum LoggerType');
-  }
+  const LoggerType(this.value);
+
+  static LoggerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LoggerType'));
 }
 
 /// The type of permission a function has to access a resource.
 enum Permission {
-  ro,
-  rw,
-}
+  ro('ro'),
+  rw('rw'),
+  ;
 
-extension PermissionValueExtension on Permission {
-  String toValue() {
-    switch (this) {
-      case Permission.ro:
-        return 'ro';
-      case Permission.rw:
-        return 'rw';
-    }
-  }
-}
+  final String value;
 
-extension PermissionFromString on String {
-  Permission toPermission() {
-    switch (this) {
-      case 'ro':
-        return Permission.ro;
-      case 'rw':
-        return Permission.rw;
-    }
-    throw Exception('$this is not known in enum Permission');
-  }
+  const Permission(this.value);
+
+  static Permission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Permission'));
 }
 
 class ResetDeploymentsResponse {
@@ -7655,7 +7503,7 @@ class ResourceAccessPolicy {
   factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
     return ResourceAccessPolicy(
       resourceId: json['ResourceId'] as String,
-      permission: (json['Permission'] as String?)?.toPermission(),
+      permission: (json['Permission'] as String?)?.let(Permission.fromString),
     );
   }
 
@@ -7664,7 +7512,7 @@ class ResourceAccessPolicy {
     final permission = this.permission;
     return {
       'ResourceId': resourceId,
-      if (permission != null) 'Permission': permission.toValue(),
+      if (permission != null) 'Permission': permission.value,
     };
   }
 }
@@ -7802,7 +7650,8 @@ class ResourceDownloadOwnerSetting {
   factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
     return ResourceDownloadOwnerSetting(
       groupOwner: json['GroupOwner'] as String,
-      groupPermission: (json['GroupPermission'] as String).toPermission(),
+      groupPermission:
+          Permission.fromString((json['GroupPermission'] as String)),
     );
   }
 
@@ -7811,7 +7660,7 @@ class ResourceDownloadOwnerSetting {
     final groupPermission = this.groupPermission;
     return {
       'GroupOwner': groupOwner,
-      'GroupPermission': groupPermission.toValue(),
+      'GroupPermission': groupPermission.value,
     };
   }
 }
@@ -7967,31 +7816,18 @@ class SecretsManagerSecretResourceData {
 
 /// The piece of software on the Greengrass core that will be updated.
 enum SoftwareToUpdate {
-  core,
-  otaAgent,
-}
+  core('core'),
+  otaAgent('ota_agent'),
+  ;
 
-extension SoftwareToUpdateValueExtension on SoftwareToUpdate {
-  String toValue() {
-    switch (this) {
-      case SoftwareToUpdate.core:
-        return 'core';
-      case SoftwareToUpdate.otaAgent:
-        return 'ota_agent';
-    }
-  }
-}
+  final String value;
 
-extension SoftwareToUpdateFromString on String {
-  SoftwareToUpdate toSoftwareToUpdate() {
-    switch (this) {
-      case 'core':
-        return SoftwareToUpdate.core;
-      case 'ota_agent':
-        return SoftwareToUpdate.otaAgent;
-    }
-    throw Exception('$this is not known in enum SoftwareToUpdate');
-  }
+  const SoftwareToUpdate(this.value);
+
+  static SoftwareToUpdate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SoftwareToUpdate'));
 }
 
 class StartBulkDeploymentResponse {
@@ -8112,31 +7948,17 @@ class SubscriptionDefinitionVersion {
 }
 
 enum Telemetry {
-  on,
-  off,
-}
+  on('On'),
+  off('Off'),
+  ;
 
-extension TelemetryValueExtension on Telemetry {
-  String toValue() {
-    switch (this) {
-      case Telemetry.on:
-        return 'On';
-      case Telemetry.off:
-        return 'Off';
-    }
-  }
-}
+  final String value;
 
-extension TelemetryFromString on String {
-  Telemetry toTelemetry() {
-    switch (this) {
-      case 'On':
-        return Telemetry.on;
-      case 'Off':
-        return Telemetry.off;
-    }
-    throw Exception('$this is not known in enum Telemetry');
-  }
+  const Telemetry(this.value);
+
+  static Telemetry fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Telemetry'));
 }
 
 /// Configuration settings for running telemetry.
@@ -8155,9 +7977,9 @@ class TelemetryConfiguration {
 
   factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
     return TelemetryConfiguration(
-      telemetry: (json['Telemetry'] as String).toTelemetry(),
+      telemetry: Telemetry.fromString((json['Telemetry'] as String)),
       configurationSyncStatus: (json['ConfigurationSyncStatus'] as String?)
-          ?.toConfigurationSyncStatus(),
+          ?.let(ConfigurationSyncStatus.fromString),
     );
   }
 
@@ -8165,9 +7987,9 @@ class TelemetryConfiguration {
     final telemetry = this.telemetry;
     final configurationSyncStatus = this.configurationSyncStatus;
     return {
-      'Telemetry': telemetry.toValue(),
+      'Telemetry': telemetry.value,
       if (configurationSyncStatus != null)
-        'ConfigurationSyncStatus': configurationSyncStatus.toValue(),
+        'ConfigurationSyncStatus': configurationSyncStatus.value,
     };
   }
 }
@@ -8184,7 +8006,7 @@ class TelemetryConfigurationUpdate {
   Map<String, dynamic> toJson() {
     final telemetry = this.telemetry;
     return {
-      'Telemetry': telemetry.toValue(),
+      'Telemetry': telemetry.value,
     };
   }
 }
@@ -8192,61 +8014,24 @@ class TelemetryConfigurationUpdate {
 /// The minimum level of log statements that should be logged by the OTA Agent
 /// during an update.
 enum UpdateAgentLogLevel {
-  none,
-  trace,
-  debug,
-  verbose,
-  info,
-  warn,
-  error,
-  fatal,
-}
+  none('NONE'),
+  trace('TRACE'),
+  debug('DEBUG'),
+  verbose('VERBOSE'),
+  info('INFO'),
+  warn('WARN'),
+  error('ERROR'),
+  fatal('FATAL'),
+  ;
 
-extension UpdateAgentLogLevelValueExtension on UpdateAgentLogLevel {
-  String toValue() {
-    switch (this) {
-      case UpdateAgentLogLevel.none:
-        return 'NONE';
-      case UpdateAgentLogLevel.trace:
-        return 'TRACE';
-      case UpdateAgentLogLevel.debug:
-        return 'DEBUG';
-      case UpdateAgentLogLevel.verbose:
-        return 'VERBOSE';
-      case UpdateAgentLogLevel.info:
-        return 'INFO';
-      case UpdateAgentLogLevel.warn:
-        return 'WARN';
-      case UpdateAgentLogLevel.error:
-        return 'ERROR';
-      case UpdateAgentLogLevel.fatal:
-        return 'FATAL';
-    }
-  }
-}
+  final String value;
 
-extension UpdateAgentLogLevelFromString on String {
-  UpdateAgentLogLevel toUpdateAgentLogLevel() {
-    switch (this) {
-      case 'NONE':
-        return UpdateAgentLogLevel.none;
-      case 'TRACE':
-        return UpdateAgentLogLevel.trace;
-      case 'DEBUG':
-        return UpdateAgentLogLevel.debug;
-      case 'VERBOSE':
-        return UpdateAgentLogLevel.verbose;
-      case 'INFO':
-        return UpdateAgentLogLevel.info;
-      case 'WARN':
-        return UpdateAgentLogLevel.warn;
-      case 'ERROR':
-        return UpdateAgentLogLevel.error;
-      case 'FATAL':
-        return UpdateAgentLogLevel.fatal;
-    }
-    throw Exception('$this is not known in enum UpdateAgentLogLevel');
-  }
+  const UpdateAgentLogLevel(this.value);
+
+  static UpdateAgentLogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UpdateAgentLogLevel'));
 }
 
 class UpdateConnectivityInfoResponse {
@@ -8423,81 +8208,38 @@ class UpdateSubscriptionDefinitionResponse {
 
 /// The architecture of the cores which are the targets of an update.
 enum UpdateTargetsArchitecture {
-  armv6l,
-  armv7l,
-  x86_64,
-  aarch64,
-}
+  armv6l('armv6l'),
+  armv7l('armv7l'),
+  x86_64('x86_64'),
+  aarch64('aarch64'),
+  ;
 
-extension UpdateTargetsArchitectureValueExtension on UpdateTargetsArchitecture {
-  String toValue() {
-    switch (this) {
-      case UpdateTargetsArchitecture.armv6l:
-        return 'armv6l';
-      case UpdateTargetsArchitecture.armv7l:
-        return 'armv7l';
-      case UpdateTargetsArchitecture.x86_64:
-        return 'x86_64';
-      case UpdateTargetsArchitecture.aarch64:
-        return 'aarch64';
-    }
-  }
-}
+  final String value;
 
-extension UpdateTargetsArchitectureFromString on String {
-  UpdateTargetsArchitecture toUpdateTargetsArchitecture() {
-    switch (this) {
-      case 'armv6l':
-        return UpdateTargetsArchitecture.armv6l;
-      case 'armv7l':
-        return UpdateTargetsArchitecture.armv7l;
-      case 'x86_64':
-        return UpdateTargetsArchitecture.x86_64;
-      case 'aarch64':
-        return UpdateTargetsArchitecture.aarch64;
-    }
-    throw Exception('$this is not known in enum UpdateTargetsArchitecture');
-  }
+  const UpdateTargetsArchitecture(this.value);
+
+  static UpdateTargetsArchitecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateTargetsArchitecture'));
 }
 
 /// The operating system of the cores which are the targets of an update.
 enum UpdateTargetsOperatingSystem {
-  ubuntu,
-  raspbian,
-  amazonLinux,
-  openwrt,
-}
+  ubuntu('ubuntu'),
+  raspbian('raspbian'),
+  amazonLinux('amazon_linux'),
+  openwrt('openwrt'),
+  ;
 
-extension UpdateTargetsOperatingSystemValueExtension
-    on UpdateTargetsOperatingSystem {
-  String toValue() {
-    switch (this) {
-      case UpdateTargetsOperatingSystem.ubuntu:
-        return 'ubuntu';
-      case UpdateTargetsOperatingSystem.raspbian:
-        return 'raspbian';
-      case UpdateTargetsOperatingSystem.amazonLinux:
-        return 'amazon_linux';
-      case UpdateTargetsOperatingSystem.openwrt:
-        return 'openwrt';
-    }
-  }
-}
+  final String value;
 
-extension UpdateTargetsOperatingSystemFromString on String {
-  UpdateTargetsOperatingSystem toUpdateTargetsOperatingSystem() {
-    switch (this) {
-      case 'ubuntu':
-        return UpdateTargetsOperatingSystem.ubuntu;
-      case 'raspbian':
-        return UpdateTargetsOperatingSystem.raspbian;
-      case 'amazon_linux':
-        return UpdateTargetsOperatingSystem.amazonLinux;
-      case 'openwrt':
-        return UpdateTargetsOperatingSystem.openwrt;
-    }
-    throw Exception('$this is not known in enum UpdateTargetsOperatingSystem');
-  }
+  const UpdateTargetsOperatingSystem(this.value);
+
+  static UpdateTargetsOperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateTargetsOperatingSystem'));
 }
 
 class UpdateThingRuntimeConfigurationResponse {

@@ -614,7 +614,7 @@ class ApiResult {
       if (httpMethod != null) 'httpMethod': httpMethod,
       if (httpStatusCode != null) 'httpStatusCode': httpStatusCode,
       if (responseBody != null) 'responseBody': responseBody,
-      if (responseState != null) 'responseState': responseState.toValue(),
+      if (responseState != null) 'responseState': responseState.value,
     };
   }
 }
@@ -810,31 +810,18 @@ class ContentBody {
 }
 
 enum CreationMode {
-  $default,
-  overridden,
-}
+  $default('DEFAULT'),
+  overridden('OVERRIDDEN'),
+  ;
 
-extension CreationModeValueExtension on CreationMode {
-  String toValue() {
-    switch (this) {
-      case CreationMode.$default:
-        return 'DEFAULT';
-      case CreationMode.overridden:
-        return 'OVERRIDDEN';
-    }
-  }
-}
+  final String value;
 
-extension CreationModeFromString on String {
-  CreationMode toCreationMode() {
-    switch (this) {
-      case 'DEFAULT':
-        return CreationMode.$default;
-      case 'OVERRIDDEN':
-        return CreationMode.overridden;
-    }
-    throw Exception('$this is not known in enum CreationMode');
-  }
+  const CreationMode(this.value);
+
+  static CreationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CreationMode'));
 }
 
 /// There was an issue with a dependency. Check the resource configurations and
@@ -890,7 +877,7 @@ class ExternalSource {
     final byteContent = this.byteContent;
     final s3Location = this.s3Location;
     return {
-      'sourceType': sourceType.toValue(),
+      'sourceType': sourceType.value,
       if (byteContent != null) 'byteContent': byteContent,
       if (s3Location != null) 's3Location': s3Location,
     };
@@ -898,31 +885,18 @@ class ExternalSource {
 }
 
 enum ExternalSourceType {
-  s3,
-  byteContent,
-}
+  s3('S3'),
+  byteContent('BYTE_CONTENT'),
+  ;
 
-extension ExternalSourceTypeValueExtension on ExternalSourceType {
-  String toValue() {
-    switch (this) {
-      case ExternalSourceType.s3:
-        return 'S3';
-      case ExternalSourceType.byteContent:
-        return 'BYTE_CONTENT';
-    }
-  }
-}
+  final String value;
 
-extension ExternalSourceTypeFromString on String {
-  ExternalSourceType toExternalSourceType() {
-    switch (this) {
-      case 'S3':
-        return ExternalSourceType.s3;
-      case 'BYTE_CONTENT':
-        return ExternalSourceType.byteContent;
-    }
-    throw Exception('$this is not known in enum ExternalSourceType');
-  }
+  const ExternalSourceType(this.value);
+
+  static ExternalSourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExternalSourceType'));
 }
 
 /// Contains the generation configuration of the external source wrapper object.
@@ -1243,7 +1217,7 @@ class FunctionResult {
       'actionGroup': actionGroup,
       if (function != null) 'function': function,
       if (responseBody != null) 'responseBody': responseBody,
-      if (responseState != null) 'responseState': responseState.toValue(),
+      if (responseState != null) 'responseState': responseState.value,
     };
   }
 }
@@ -1345,59 +1319,33 @@ class GenerationConfiguration {
 }
 
 enum GuadrailAction {
-  intervened,
-  none,
-}
+  intervened('INTERVENED'),
+  none('NONE'),
+  ;
 
-extension GuadrailActionValueExtension on GuadrailAction {
-  String toValue() {
-    switch (this) {
-      case GuadrailAction.intervened:
-        return 'INTERVENED';
-      case GuadrailAction.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension GuadrailActionFromString on String {
-  GuadrailAction toGuadrailAction() {
-    switch (this) {
-      case 'INTERVENED':
-        return GuadrailAction.intervened;
-      case 'NONE':
-        return GuadrailAction.none;
-    }
-    throw Exception('$this is not known in enum GuadrailAction');
-  }
+  const GuadrailAction(this.value);
+
+  static GuadrailAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GuadrailAction'));
 }
 
 enum GuardrailAction {
-  intervened,
-  none,
-}
+  intervened('INTERVENED'),
+  none('NONE'),
+  ;
 
-extension GuardrailActionValueExtension on GuardrailAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailAction.intervened:
-        return 'INTERVENED';
-      case GuardrailAction.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailActionFromString on String {
-  GuardrailAction toGuardrailAction() {
-    switch (this) {
-      case 'INTERVENED':
-        return GuardrailAction.intervened;
-      case 'NONE':
-        return GuardrailAction.none;
-    }
-    throw Exception('$this is not known in enum GuardrailAction');
-  }
+  const GuardrailAction(this.value);
+
+  static GuardrailAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GuardrailAction'));
 }
 
 /// Assessment details of the content analyzed by Guardrails.
@@ -1501,10 +1449,12 @@ class GuardrailContentFilter {
 
   factory GuardrailContentFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailContentFilter(
-      action: (json['action'] as String?)?.toGuardrailContentPolicyAction(),
-      confidence:
-          (json['confidence'] as String?)?.toGuardrailContentFilterConfidence(),
-      type: (json['type'] as String?)?.toGuardrailContentFilterType(),
+      action: (json['action'] as String?)
+          ?.let(GuardrailContentPolicyAction.fromString),
+      confidence: (json['confidence'] as String?)
+          ?.let(GuardrailContentFilterConfidence.fromString),
+      type:
+          (json['type'] as String?)?.let(GuardrailContentFilterType.fromString),
     );
   }
 
@@ -1513,124 +1463,61 @@ class GuardrailContentFilter {
     final confidence = this.confidence;
     final type = this.type;
     return {
-      if (action != null) 'action': action.toValue(),
-      if (confidence != null) 'confidence': confidence.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (action != null) 'action': action.value,
+      if (confidence != null) 'confidence': confidence.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum GuardrailContentFilterConfidence {
-  none,
-  low,
-  medium,
-  high,
-}
+  none('NONE'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension GuardrailContentFilterConfidenceValueExtension
-    on GuardrailContentFilterConfidence {
-  String toValue() {
-    switch (this) {
-      case GuardrailContentFilterConfidence.none:
-        return 'NONE';
-      case GuardrailContentFilterConfidence.low:
-        return 'LOW';
-      case GuardrailContentFilterConfidence.medium:
-        return 'MEDIUM';
-      case GuardrailContentFilterConfidence.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailContentFilterConfidenceFromString on String {
-  GuardrailContentFilterConfidence toGuardrailContentFilterConfidence() {
-    switch (this) {
-      case 'NONE':
-        return GuardrailContentFilterConfidence.none;
-      case 'LOW':
-        return GuardrailContentFilterConfidence.low;
-      case 'MEDIUM':
-        return GuardrailContentFilterConfidence.medium;
-      case 'HIGH':
-        return GuardrailContentFilterConfidence.high;
-    }
-    throw Exception(
-        '$this is not known in enum GuardrailContentFilterConfidence');
-  }
+  const GuardrailContentFilterConfidence(this.value);
+
+  static GuardrailContentFilterConfidence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentFilterConfidence'));
 }
 
 enum GuardrailContentFilterType {
-  insults,
-  hate,
-  sexual,
-  violence,
-  misconduct,
-  promptAttack,
-}
+  insults('INSULTS'),
+  hate('HATE'),
+  sexual('SEXUAL'),
+  violence('VIOLENCE'),
+  misconduct('MISCONDUCT'),
+  promptAttack('PROMPT_ATTACK'),
+  ;
 
-extension GuardrailContentFilterTypeValueExtension
-    on GuardrailContentFilterType {
-  String toValue() {
-    switch (this) {
-      case GuardrailContentFilterType.insults:
-        return 'INSULTS';
-      case GuardrailContentFilterType.hate:
-        return 'HATE';
-      case GuardrailContentFilterType.sexual:
-        return 'SEXUAL';
-      case GuardrailContentFilterType.violence:
-        return 'VIOLENCE';
-      case GuardrailContentFilterType.misconduct:
-        return 'MISCONDUCT';
-      case GuardrailContentFilterType.promptAttack:
-        return 'PROMPT_ATTACK';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailContentFilterTypeFromString on String {
-  GuardrailContentFilterType toGuardrailContentFilterType() {
-    switch (this) {
-      case 'INSULTS':
-        return GuardrailContentFilterType.insults;
-      case 'HATE':
-        return GuardrailContentFilterType.hate;
-      case 'SEXUAL':
-        return GuardrailContentFilterType.sexual;
-      case 'VIOLENCE':
-        return GuardrailContentFilterType.violence;
-      case 'MISCONDUCT':
-        return GuardrailContentFilterType.misconduct;
-      case 'PROMPT_ATTACK':
-        return GuardrailContentFilterType.promptAttack;
-    }
-    throw Exception('$this is not known in enum GuardrailContentFilterType');
-  }
+  const GuardrailContentFilterType(this.value);
+
+  static GuardrailContentFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentFilterType'));
 }
 
 enum GuardrailContentPolicyAction {
-  blocked,
-}
+  blocked('BLOCKED'),
+  ;
 
-extension GuardrailContentPolicyActionValueExtension
-    on GuardrailContentPolicyAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailContentPolicyAction.blocked:
-        return 'BLOCKED';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailContentPolicyActionFromString on String {
-  GuardrailContentPolicyAction toGuardrailContentPolicyAction() {
-    switch (this) {
-      case 'BLOCKED':
-        return GuardrailContentPolicyAction.blocked;
-    }
-    throw Exception('$this is not known in enum GuardrailContentPolicyAction');
-  }
+  const GuardrailContentPolicyAction(this.value);
+
+  static GuardrailContentPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentPolicyAction'));
 }
 
 /// The details of the policy assessment in the Guardrails filter.
@@ -1675,7 +1562,8 @@ class GuardrailCustomWord {
 
   factory GuardrailCustomWord.fromJson(Map<String, dynamic> json) {
     return GuardrailCustomWord(
-      action: (json['action'] as String?)?.toGuardrailWordPolicyAction(),
+      action: (json['action'] as String?)
+          ?.let(GuardrailWordPolicyAction.fromString),
       match: json['match'] as String?,
     );
   }
@@ -1684,7 +1572,7 @@ class GuardrailCustomWord {
     final action = this.action;
     final match = this.match;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (match != null) 'match': match,
     };
   }
@@ -1709,9 +1597,10 @@ class GuardrailManagedWord {
 
   factory GuardrailManagedWord.fromJson(Map<String, dynamic> json) {
     return GuardrailManagedWord(
-      action: (json['action'] as String?)?.toGuardrailWordPolicyAction(),
+      action: (json['action'] as String?)
+          ?.let(GuardrailWordPolicyAction.fromString),
       match: json['match'] as String?,
-      type: (json['type'] as String?)?.toGuardrailManagedWordType(),
+      type: (json['type'] as String?)?.let(GuardrailManagedWordType.fromString),
     );
   }
 
@@ -1720,34 +1609,25 @@ class GuardrailManagedWord {
     final match = this.match;
     final type = this.type;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (match != null) 'match': match,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum GuardrailManagedWordType {
-  profanity,
-}
+  profanity('PROFANITY'),
+  ;
 
-extension GuardrailManagedWordTypeValueExtension on GuardrailManagedWordType {
-  String toValue() {
-    switch (this) {
-      case GuardrailManagedWordType.profanity:
-        return 'PROFANITY';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailManagedWordTypeFromString on String {
-  GuardrailManagedWordType toGuardrailManagedWordType() {
-    switch (this) {
-      case 'PROFANITY':
-        return GuardrailManagedWordType.profanity;
-    }
-    throw Exception('$this is not known in enum GuardrailManagedWordType');
-  }
+  const GuardrailManagedWordType(this.value);
+
+  static GuardrailManagedWordType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailManagedWordType'));
 }
 
 /// The Guardrail filter to identify and remove personally identifiable
@@ -1771,9 +1651,9 @@ class GuardrailPiiEntityFilter {
   factory GuardrailPiiEntityFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailPiiEntityFilter(
       action: (json['action'] as String?)
-          ?.toGuardrailSensitiveInformationPolicyAction(),
+          ?.let(GuardrailSensitiveInformationPolicyAction.fromString),
       match: json['match'] as String?,
-      type: (json['type'] as String?)?.toGuardrailPiiEntityType(),
+      type: (json['type'] as String?)?.let(GuardrailPiiEntityType.fromString),
     );
   }
 
@@ -1782,184 +1662,56 @@ class GuardrailPiiEntityFilter {
     final match = this.match;
     final type = this.type;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (match != null) 'match': match,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum GuardrailPiiEntityType {
-  address,
-  age,
-  awsAccessKey,
-  awsSecretKey,
-  caHealthNumber,
-  caSocialInsuranceNumber,
-  creditDebitCardCvv,
-  creditDebitCardExpiry,
-  creditDebitCardNumber,
-  driverId,
-  email,
-  internationalBankAccountNumber,
-  ipAddress,
-  licensePlate,
-  macAddress,
-  name,
-  password,
-  phone,
-  pin,
-  swiftCode,
-  ukNationalHealthServiceNumber,
-  ukNationalInsuranceNumber,
-  ukUniqueTaxpayerReferenceNumber,
-  url,
-  username,
-  usBankAccountNumber,
-  usBankRoutingNumber,
-  usIndividualTaxIdentificationNumber,
-  usPassportNumber,
-  usSocialSecurityNumber,
-  vehicleIdentificationNumber,
-}
+  address('ADDRESS'),
+  age('AGE'),
+  awsAccessKey('AWS_ACCESS_KEY'),
+  awsSecretKey('AWS_SECRET_KEY'),
+  caHealthNumber('CA_HEALTH_NUMBER'),
+  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
+  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
+  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
+  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
+  driverId('DRIVER_ID'),
+  email('EMAIL'),
+  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
+  ipAddress('IP_ADDRESS'),
+  licensePlate('LICENSE_PLATE'),
+  macAddress('MAC_ADDRESS'),
+  name('NAME'),
+  password('PASSWORD'),
+  phone('PHONE'),
+  pin('PIN'),
+  swiftCode('SWIFT_CODE'),
+  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
+  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
+  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
+  url('URL'),
+  username('USERNAME'),
+  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
+  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
+  usIndividualTaxIdentificationNumber(
+      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
+  usPassportNumber('US_PASSPORT_NUMBER'),
+  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
+  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
+  ;
 
-extension GuardrailPiiEntityTypeValueExtension on GuardrailPiiEntityType {
-  String toValue() {
-    switch (this) {
-      case GuardrailPiiEntityType.address:
-        return 'ADDRESS';
-      case GuardrailPiiEntityType.age:
-        return 'AGE';
-      case GuardrailPiiEntityType.awsAccessKey:
-        return 'AWS_ACCESS_KEY';
-      case GuardrailPiiEntityType.awsSecretKey:
-        return 'AWS_SECRET_KEY';
-      case GuardrailPiiEntityType.caHealthNumber:
-        return 'CA_HEALTH_NUMBER';
-      case GuardrailPiiEntityType.caSocialInsuranceNumber:
-        return 'CA_SOCIAL_INSURANCE_NUMBER';
-      case GuardrailPiiEntityType.creditDebitCardCvv:
-        return 'CREDIT_DEBIT_CARD_CVV';
-      case GuardrailPiiEntityType.creditDebitCardExpiry:
-        return 'CREDIT_DEBIT_CARD_EXPIRY';
-      case GuardrailPiiEntityType.creditDebitCardNumber:
-        return 'CREDIT_DEBIT_CARD_NUMBER';
-      case GuardrailPiiEntityType.driverId:
-        return 'DRIVER_ID';
-      case GuardrailPiiEntityType.email:
-        return 'EMAIL';
-      case GuardrailPiiEntityType.internationalBankAccountNumber:
-        return 'INTERNATIONAL_BANK_ACCOUNT_NUMBER';
-      case GuardrailPiiEntityType.ipAddress:
-        return 'IP_ADDRESS';
-      case GuardrailPiiEntityType.licensePlate:
-        return 'LICENSE_PLATE';
-      case GuardrailPiiEntityType.macAddress:
-        return 'MAC_ADDRESS';
-      case GuardrailPiiEntityType.name:
-        return 'NAME';
-      case GuardrailPiiEntityType.password:
-        return 'PASSWORD';
-      case GuardrailPiiEntityType.phone:
-        return 'PHONE';
-      case GuardrailPiiEntityType.pin:
-        return 'PIN';
-      case GuardrailPiiEntityType.swiftCode:
-        return 'SWIFT_CODE';
-      case GuardrailPiiEntityType.ukNationalHealthServiceNumber:
-        return 'UK_NATIONAL_HEALTH_SERVICE_NUMBER';
-      case GuardrailPiiEntityType.ukNationalInsuranceNumber:
-        return 'UK_NATIONAL_INSURANCE_NUMBER';
-      case GuardrailPiiEntityType.ukUniqueTaxpayerReferenceNumber:
-        return 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER';
-      case GuardrailPiiEntityType.url:
-        return 'URL';
-      case GuardrailPiiEntityType.username:
-        return 'USERNAME';
-      case GuardrailPiiEntityType.usBankAccountNumber:
-        return 'US_BANK_ACCOUNT_NUMBER';
-      case GuardrailPiiEntityType.usBankRoutingNumber:
-        return 'US_BANK_ROUTING_NUMBER';
-      case GuardrailPiiEntityType.usIndividualTaxIdentificationNumber:
-        return 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER';
-      case GuardrailPiiEntityType.usPassportNumber:
-        return 'US_PASSPORT_NUMBER';
-      case GuardrailPiiEntityType.usSocialSecurityNumber:
-        return 'US_SOCIAL_SECURITY_NUMBER';
-      case GuardrailPiiEntityType.vehicleIdentificationNumber:
-        return 'VEHICLE_IDENTIFICATION_NUMBER';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailPiiEntityTypeFromString on String {
-  GuardrailPiiEntityType toGuardrailPiiEntityType() {
-    switch (this) {
-      case 'ADDRESS':
-        return GuardrailPiiEntityType.address;
-      case 'AGE':
-        return GuardrailPiiEntityType.age;
-      case 'AWS_ACCESS_KEY':
-        return GuardrailPiiEntityType.awsAccessKey;
-      case 'AWS_SECRET_KEY':
-        return GuardrailPiiEntityType.awsSecretKey;
-      case 'CA_HEALTH_NUMBER':
-        return GuardrailPiiEntityType.caHealthNumber;
-      case 'CA_SOCIAL_INSURANCE_NUMBER':
-        return GuardrailPiiEntityType.caSocialInsuranceNumber;
-      case 'CREDIT_DEBIT_CARD_CVV':
-        return GuardrailPiiEntityType.creditDebitCardCvv;
-      case 'CREDIT_DEBIT_CARD_EXPIRY':
-        return GuardrailPiiEntityType.creditDebitCardExpiry;
-      case 'CREDIT_DEBIT_CARD_NUMBER':
-        return GuardrailPiiEntityType.creditDebitCardNumber;
-      case 'DRIVER_ID':
-        return GuardrailPiiEntityType.driverId;
-      case 'EMAIL':
-        return GuardrailPiiEntityType.email;
-      case 'INTERNATIONAL_BANK_ACCOUNT_NUMBER':
-        return GuardrailPiiEntityType.internationalBankAccountNumber;
-      case 'IP_ADDRESS':
-        return GuardrailPiiEntityType.ipAddress;
-      case 'LICENSE_PLATE':
-        return GuardrailPiiEntityType.licensePlate;
-      case 'MAC_ADDRESS':
-        return GuardrailPiiEntityType.macAddress;
-      case 'NAME':
-        return GuardrailPiiEntityType.name;
-      case 'PASSWORD':
-        return GuardrailPiiEntityType.password;
-      case 'PHONE':
-        return GuardrailPiiEntityType.phone;
-      case 'PIN':
-        return GuardrailPiiEntityType.pin;
-      case 'SWIFT_CODE':
-        return GuardrailPiiEntityType.swiftCode;
-      case 'UK_NATIONAL_HEALTH_SERVICE_NUMBER':
-        return GuardrailPiiEntityType.ukNationalHealthServiceNumber;
-      case 'UK_NATIONAL_INSURANCE_NUMBER':
-        return GuardrailPiiEntityType.ukNationalInsuranceNumber;
-      case 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER':
-        return GuardrailPiiEntityType.ukUniqueTaxpayerReferenceNumber;
-      case 'URL':
-        return GuardrailPiiEntityType.url;
-      case 'USERNAME':
-        return GuardrailPiiEntityType.username;
-      case 'US_BANK_ACCOUNT_NUMBER':
-        return GuardrailPiiEntityType.usBankAccountNumber;
-      case 'US_BANK_ROUTING_NUMBER':
-        return GuardrailPiiEntityType.usBankRoutingNumber;
-      case 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER':
-        return GuardrailPiiEntityType.usIndividualTaxIdentificationNumber;
-      case 'US_PASSPORT_NUMBER':
-        return GuardrailPiiEntityType.usPassportNumber;
-      case 'US_SOCIAL_SECURITY_NUMBER':
-        return GuardrailPiiEntityType.usSocialSecurityNumber;
-      case 'VEHICLE_IDENTIFICATION_NUMBER':
-        return GuardrailPiiEntityType.vehicleIdentificationNumber;
-    }
-    throw Exception('$this is not known in enum GuardrailPiiEntityType');
-  }
+  const GuardrailPiiEntityType(this.value);
+
+  static GuardrailPiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailPiiEntityType'));
 }
 
 /// The details for the regex filter used in the Guardrail.
@@ -1986,7 +1738,7 @@ class GuardrailRegexFilter {
   factory GuardrailRegexFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailRegexFilter(
       action: (json['action'] as String?)
-          ?.toGuardrailSensitiveInformationPolicyAction(),
+          ?.let(GuardrailSensitiveInformationPolicyAction.fromString),
       match: json['match'] as String?,
       name: json['name'] as String?,
       regex: json['regex'] as String?,
@@ -1999,7 +1751,7 @@ class GuardrailRegexFilter {
     final name = this.name;
     final regex = this.regex;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (match != null) 'match': match,
       if (name != null) 'name': name,
       if (regex != null) 'regex': regex,
@@ -2008,34 +1760,18 @@ class GuardrailRegexFilter {
 }
 
 enum GuardrailSensitiveInformationPolicyAction {
-  blocked,
-  anonymized,
-}
+  blocked('BLOCKED'),
+  anonymized('ANONYMIZED'),
+  ;
 
-extension GuardrailSensitiveInformationPolicyActionValueExtension
-    on GuardrailSensitiveInformationPolicyAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailSensitiveInformationPolicyAction.blocked:
-        return 'BLOCKED';
-      case GuardrailSensitiveInformationPolicyAction.anonymized:
-        return 'ANONYMIZED';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailSensitiveInformationPolicyActionFromString on String {
-  GuardrailSensitiveInformationPolicyAction
-      toGuardrailSensitiveInformationPolicyAction() {
-    switch (this) {
-      case 'BLOCKED':
-        return GuardrailSensitiveInformationPolicyAction.blocked;
-      case 'ANONYMIZED':
-        return GuardrailSensitiveInformationPolicyAction.anonymized;
-    }
-    throw Exception(
-        '$this is not known in enum GuardrailSensitiveInformationPolicyAction');
-  }
+  const GuardrailSensitiveInformationPolicyAction(this.value);
+
+  static GuardrailSensitiveInformationPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailSensitiveInformationPolicyAction'));
 }
 
 /// The details of the sensitive policy assessment used in the Guardrail.
@@ -2097,9 +1833,10 @@ class GuardrailTopic {
 
   factory GuardrailTopic.fromJson(Map<String, dynamic> json) {
     return GuardrailTopic(
-      action: (json['action'] as String?)?.toGuardrailTopicPolicyAction(),
+      action: (json['action'] as String?)
+          ?.let(GuardrailTopicPolicyAction.fromString),
       name: json['name'] as String?,
-      type: (json['type'] as String?)?.toGuardrailTopicType(),
+      type: (json['type'] as String?)?.let(GuardrailTopicType.fromString),
     );
   }
 
@@ -2108,35 +1845,25 @@ class GuardrailTopic {
     final name = this.name;
     final type = this.type;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (name != null) 'name': name,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum GuardrailTopicPolicyAction {
-  blocked,
-}
+  blocked('BLOCKED'),
+  ;
 
-extension GuardrailTopicPolicyActionValueExtension
-    on GuardrailTopicPolicyAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailTopicPolicyAction.blocked:
-        return 'BLOCKED';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailTopicPolicyActionFromString on String {
-  GuardrailTopicPolicyAction toGuardrailTopicPolicyAction() {
-    switch (this) {
-      case 'BLOCKED':
-        return GuardrailTopicPolicyAction.blocked;
-    }
-    throw Exception('$this is not known in enum GuardrailTopicPolicyAction');
-  }
+  const GuardrailTopicPolicyAction(this.value);
+
+  static GuardrailTopicPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailTopicPolicyAction'));
 }
 
 /// The details of the policy assessment used in the Guardrail.
@@ -2166,26 +1893,17 @@ class GuardrailTopicPolicyAssessment {
 }
 
 enum GuardrailTopicType {
-  deny,
-}
+  deny('DENY'),
+  ;
 
-extension GuardrailTopicTypeValueExtension on GuardrailTopicType {
-  String toValue() {
-    switch (this) {
-      case GuardrailTopicType.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailTopicTypeFromString on String {
-  GuardrailTopicType toGuardrailTopicType() {
-    switch (this) {
-      case 'DENY':
-        return GuardrailTopicType.deny;
-    }
-    throw Exception('$this is not known in enum GuardrailTopicType');
-  }
+  const GuardrailTopicType(this.value);
+
+  static GuardrailTopicType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GuardrailTopicType'));
 }
 
 /// The trace details used in the Guardrail.
@@ -2211,7 +1929,7 @@ class GuardrailTrace {
 
   factory GuardrailTrace.fromJson(Map<String, dynamic> json) {
     return GuardrailTrace(
-      action: (json['action'] as String?)?.toGuardrailAction(),
+      action: (json['action'] as String?)?.let(GuardrailAction.fromString),
       inputAssessments: (json['inputAssessments'] as List?)
           ?.whereNotNull()
           .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
@@ -2230,7 +1948,7 @@ class GuardrailTrace {
     final outputAssessments = this.outputAssessments;
     final traceId = this.traceId;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (inputAssessments != null) 'inputAssessments': inputAssessments,
       if (outputAssessments != null) 'outputAssessments': outputAssessments,
       if (traceId != null) 'traceId': traceId,
@@ -2239,26 +1957,17 @@ class GuardrailTrace {
 }
 
 enum GuardrailWordPolicyAction {
-  blocked,
-}
+  blocked('BLOCKED'),
+  ;
 
-extension GuardrailWordPolicyActionValueExtension on GuardrailWordPolicyAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailWordPolicyAction.blocked:
-        return 'BLOCKED';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailWordPolicyActionFromString on String {
-  GuardrailWordPolicyAction toGuardrailWordPolicyAction() {
-    switch (this) {
-      case 'BLOCKED':
-        return GuardrailWordPolicyAction.blocked;
-    }
-    throw Exception('$this is not known in enum GuardrailWordPolicyAction');
-  }
+  const GuardrailWordPolicyAction(this.value);
+
+  static GuardrailWordPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailWordPolicyAction'));
 }
 
 /// The assessment details for words defined in the Guardrail filter.
@@ -2442,7 +2151,8 @@ class InvocationInput {
           ? ActionGroupInvocationInput.fromJson(
               json['actionGroupInvocationInput'] as Map<String, dynamic>)
           : null,
-      invocationType: (json['invocationType'] as String?)?.toInvocationType(),
+      invocationType:
+          (json['invocationType'] as String?)?.let(InvocationType.fromString),
       knowledgeBaseLookupInput: json['knowledgeBaseLookupInput'] != null
           ? KnowledgeBaseLookupInput.fromJson(
               json['knowledgeBaseLookupInput'] as Map<String, dynamic>)
@@ -2459,7 +2169,7 @@ class InvocationInput {
     return {
       if (actionGroupInvocationInput != null)
         'actionGroupInvocationInput': actionGroupInvocationInput,
-      if (invocationType != null) 'invocationType': invocationType.toValue(),
+      if (invocationType != null) 'invocationType': invocationType.value,
       if (knowledgeBaseLookupInput != null)
         'knowledgeBaseLookupInput': knowledgeBaseLookupInput,
       if (traceId != null) 'traceId': traceId,
@@ -2555,36 +2265,19 @@ class InvocationResultMember {
 }
 
 enum InvocationType {
-  actionGroup,
-  knowledgeBase,
-  finish,
-}
+  actionGroup('ACTION_GROUP'),
+  knowledgeBase('KNOWLEDGE_BASE'),
+  finish('FINISH'),
+  ;
 
-extension InvocationTypeValueExtension on InvocationType {
-  String toValue() {
-    switch (this) {
-      case InvocationType.actionGroup:
-        return 'ACTION_GROUP';
-      case InvocationType.knowledgeBase:
-        return 'KNOWLEDGE_BASE';
-      case InvocationType.finish:
-        return 'FINISH';
-    }
-  }
-}
+  final String value;
 
-extension InvocationTypeFromString on String {
-  InvocationType toInvocationType() {
-    switch (this) {
-      case 'ACTION_GROUP':
-        return InvocationType.actionGroup;
-      case 'KNOWLEDGE_BASE':
-        return InvocationType.knowledgeBase;
-      case 'FINISH':
-        return InvocationType.finish;
-    }
-    throw Exception('$this is not known in enum InvocationType');
-  }
+  const InvocationType(this.value);
+
+  static InvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InvocationType'));
 }
 
 class InvokeAgentResponse {
@@ -2911,7 +2604,7 @@ class KnowledgeBaseVectorSearchConfiguration {
       if (filter != null) 'filter': filter,
       if (numberOfResults != null) 'numberOfResults': numberOfResults,
       if (overrideSearchType != null)
-        'overrideSearchType': overrideSearchType.toValue(),
+        'overrideSearchType': overrideSearchType.value,
     };
   }
 }
@@ -2983,12 +2676,12 @@ class ModelInvocationInput {
               json['inferenceConfiguration'] as Map<String, dynamic>)
           : null,
       overrideLambda: json['overrideLambda'] as String?,
-      parserMode: (json['parserMode'] as String?)?.toCreationMode(),
+      parserMode: (json['parserMode'] as String?)?.let(CreationMode.fromString),
       promptCreationMode:
-          (json['promptCreationMode'] as String?)?.toCreationMode(),
+          (json['promptCreationMode'] as String?)?.let(CreationMode.fromString),
       text: json['text'] as String?,
       traceId: json['traceId'] as String?,
-      type: (json['type'] as String?)?.toPromptType(),
+      type: (json['type'] as String?)?.let(PromptType.fromString),
     );
   }
 
@@ -3004,12 +2697,12 @@ class ModelInvocationInput {
       if (inferenceConfiguration != null)
         'inferenceConfiguration': inferenceConfiguration,
       if (overrideLambda != null) 'overrideLambda': overrideLambda,
-      if (parserMode != null) 'parserMode': parserMode.toValue(),
+      if (parserMode != null) 'parserMode': parserMode.value,
       if (promptCreationMode != null)
-        'promptCreationMode': promptCreationMode.toValue(),
+        'promptCreationMode': promptCreationMode.value,
       if (text != null) 'text': text,
       if (traceId != null) 'traceId': traceId,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3086,7 +2779,7 @@ class Observation {
               json['repromptResponse'] as Map<String, dynamic>)
           : null,
       traceId: json['traceId'] as String?,
-      type: (json['type'] as String?)?.toType(),
+      type: (json['type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -3105,7 +2798,7 @@ class Observation {
         'knowledgeBaseLookupOutput': knowledgeBaseLookupOutput,
       if (repromptResponse != null) 'repromptResponse': repromptResponse,
       if (traceId != null) 'traceId': traceId,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3539,41 +3232,19 @@ class PromptTemplate {
 }
 
 enum PromptType {
-  preProcessing,
-  orchestration,
-  knowledgeBaseResponseGeneration,
-  postProcessing,
-}
+  preProcessing('PRE_PROCESSING'),
+  orchestration('ORCHESTRATION'),
+  knowledgeBaseResponseGeneration('KNOWLEDGE_BASE_RESPONSE_GENERATION'),
+  postProcessing('POST_PROCESSING'),
+  ;
 
-extension PromptTypeValueExtension on PromptType {
-  String toValue() {
-    switch (this) {
-      case PromptType.preProcessing:
-        return 'PRE_PROCESSING';
-      case PromptType.orchestration:
-        return 'ORCHESTRATION';
-      case PromptType.knowledgeBaseResponseGeneration:
-        return 'KNOWLEDGE_BASE_RESPONSE_GENERATION';
-      case PromptType.postProcessing:
-        return 'POST_PROCESSING';
-    }
-  }
-}
+  final String value;
 
-extension PromptTypeFromString on String {
-  PromptType toPromptType() {
-    switch (this) {
-      case 'PRE_PROCESSING':
-        return PromptType.preProcessing;
-      case 'ORCHESTRATION':
-        return PromptType.orchestration;
-      case 'KNOWLEDGE_BASE_RESPONSE_GENERATION':
-        return PromptType.knowledgeBaseResponseGeneration;
-      case 'POST_PROCESSING':
-        return PromptType.postProcessing;
-    }
-    throw Exception('$this is not known in enum PromptType');
-  }
+  const PromptType(this.value);
+
+  static PromptType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PromptType'));
 }
 
 /// Contains the parameters in the request body.
@@ -3648,7 +3319,7 @@ class RepromptResponse {
 
   factory RepromptResponse.fromJson(Map<String, dynamic> json) {
     return RepromptResponse(
-      source: (json['source'] as String?)?.toSource(),
+      source: (json['source'] as String?)?.let(Source.fromString),
       text: json['text'] as String?,
     );
   }
@@ -3657,7 +3328,7 @@ class RepromptResponse {
     final source = this.source;
     final text = this.text;
     return {
-      if (source != null) 'source': source.toValue(),
+      if (source != null) 'source': source.value,
       if (text != null) 'text': text,
     };
   }
@@ -3716,31 +3387,18 @@ class ResourceNotFoundException implements _s.AwsException {
 }
 
 enum ResponseState {
-  failure,
-  reprompt,
-}
+  failure('FAILURE'),
+  reprompt('REPROMPT'),
+  ;
 
-extension ResponseStateValueExtension on ResponseState {
-  String toValue() {
-    switch (this) {
-      case ResponseState.failure:
-        return 'FAILURE';
-      case ResponseState.reprompt:
-        return 'REPROMPT';
-    }
-  }
-}
+  final String value;
 
-extension ResponseStateFromString on String {
-  ResponseState toResponseState() {
-    switch (this) {
-      case 'FAILURE':
-        return ResponseState.failure;
-      case 'REPROMPT':
-        return ResponseState.reprompt;
-    }
-    throw Exception('$this is not known in enum ResponseState');
-  }
+  const ResponseState(this.value);
+
+  static ResponseState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResponseState'));
 }
 
 /// The response from invoking the agent and associated citations and trace
@@ -4183,7 +3841,7 @@ class RetrievalResultLocation {
 
   factory RetrievalResultLocation.fromJson(Map<String, dynamic> json) {
     return RetrievalResultLocation(
-      type: (json['type'] as String).toRetrievalResultLocationType(),
+      type: RetrievalResultLocationType.fromString((json['type'] as String)),
       s3Location: json['s3Location'] != null
           ? RetrievalResultS3Location.fromJson(
               json['s3Location'] as Map<String, dynamic>)
@@ -4195,34 +3853,24 @@ class RetrievalResultLocation {
     final type = this.type;
     final s3Location = this.s3Location;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (s3Location != null) 's3Location': s3Location,
     };
   }
 }
 
 enum RetrievalResultLocationType {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension RetrievalResultLocationTypeValueExtension
-    on RetrievalResultLocationType {
-  String toValue() {
-    switch (this) {
-      case RetrievalResultLocationType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension RetrievalResultLocationTypeFromString on String {
-  RetrievalResultLocationType toRetrievalResultLocationType() {
-    switch (this) {
-      case 'S3':
-        return RetrievalResultLocationType.s3;
-    }
-    throw Exception('$this is not known in enum RetrievalResultLocationType');
-  }
+  const RetrievalResultLocationType(this.value);
+
+  static RetrievalResultLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RetrievalResultLocationType'));
 }
 
 class RetrievalResultMetadataValue {
@@ -4315,7 +3963,7 @@ class RetrieveAndGenerateConfiguration {
     final externalSourcesConfiguration = this.externalSourcesConfiguration;
     final knowledgeBaseConfiguration = this.knowledgeBaseConfiguration;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (externalSourcesConfiguration != null)
         'externalSourcesConfiguration': externalSourcesConfiguration,
       if (knowledgeBaseConfiguration != null)
@@ -4415,7 +4063,8 @@ class RetrieveAndGenerateResponse {
           ?.whereNotNull()
           .map((e) => Citation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      guardrailAction: (json['guardrailAction'] as String?)?.toGuadrailAction(),
+      guardrailAction:
+          (json['guardrailAction'] as String?)?.let(GuadrailAction.fromString),
     );
   }
 
@@ -4428,7 +4077,7 @@ class RetrieveAndGenerateResponse {
       'output': output,
       'sessionId': sessionId,
       if (citations != null) 'citations': citations,
-      if (guardrailAction != null) 'guardrailAction': guardrailAction.toValue(),
+      if (guardrailAction != null) 'guardrailAction': guardrailAction.value,
     };
   }
 }
@@ -4461,31 +4110,18 @@ class RetrieveAndGenerateSessionConfiguration {
 }
 
 enum RetrieveAndGenerateType {
-  knowledgeBase,
-  externalSources,
-}
+  knowledgeBase('KNOWLEDGE_BASE'),
+  externalSources('EXTERNAL_SOURCES'),
+  ;
 
-extension RetrieveAndGenerateTypeValueExtension on RetrieveAndGenerateType {
-  String toValue() {
-    switch (this) {
-      case RetrieveAndGenerateType.knowledgeBase:
-        return 'KNOWLEDGE_BASE';
-      case RetrieveAndGenerateType.externalSources:
-        return 'EXTERNAL_SOURCES';
-    }
-  }
-}
+  final String value;
 
-extension RetrieveAndGenerateTypeFromString on String {
-  RetrieveAndGenerateType toRetrieveAndGenerateType() {
-    switch (this) {
-      case 'KNOWLEDGE_BASE':
-        return RetrieveAndGenerateType.knowledgeBase;
-      case 'EXTERNAL_SOURCES':
-        return RetrieveAndGenerateType.externalSources;
-    }
-    throw Exception('$this is not known in enum RetrieveAndGenerateType');
-  }
+  const RetrieveAndGenerateType(this.value);
+
+  static RetrieveAndGenerateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RetrieveAndGenerateType'));
 }
 
 class RetrieveResponse {
@@ -4652,31 +4288,17 @@ class S3ObjectDoc {
 }
 
 enum SearchType {
-  hybrid,
-  semantic,
-}
+  hybrid('HYBRID'),
+  semantic('SEMANTIC'),
+  ;
 
-extension SearchTypeValueExtension on SearchType {
-  String toValue() {
-    switch (this) {
-      case SearchType.hybrid:
-        return 'HYBRID';
-      case SearchType.semantic:
-        return 'SEMANTIC';
-    }
-  }
-}
+  final String value;
 
-extension SearchTypeFromString on String {
-  SearchType toSearchType() {
-    switch (this) {
-      case 'HYBRID':
-        return SearchType.hybrid;
-      case 'SEMANTIC':
-        return SearchType.semantic;
-    }
-    throw Exception('$this is not known in enum SearchType');
-  }
+  const SearchType(this.value);
+
+  static SearchType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SearchType'));
 }
 
 /// The number of requests exceeds the service quota. Resubmit your request
@@ -4772,36 +4394,18 @@ class SessionState {
 }
 
 enum Source {
-  actionGroup,
-  knowledgeBase,
-  parser,
-}
+  actionGroup('ACTION_GROUP'),
+  knowledgeBase('KNOWLEDGE_BASE'),
+  parser('PARSER'),
+  ;
 
-extension SourceValueExtension on Source {
-  String toValue() {
-    switch (this) {
-      case Source.actionGroup:
-        return 'ACTION_GROUP';
-      case Source.knowledgeBase:
-        return 'KNOWLEDGE_BASE';
-      case Source.parser:
-        return 'PARSER';
-    }
-  }
-}
+  final String value;
 
-extension SourceFromString on String {
-  Source toSource() {
-    switch (this) {
-      case 'ACTION_GROUP':
-        return Source.actionGroup;
-      case 'KNOWLEDGE_BASE':
-        return Source.knowledgeBase;
-      case 'PARSER':
-        return Source.parser;
-    }
-    throw Exception('$this is not known in enum Source');
-  }
+  const Source(this.value);
+
+  static Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Source'));
 }
 
 /// Contains information about where the text with a citation begins and ends in
@@ -5117,46 +4721,20 @@ class TracePart {
 }
 
 enum Type {
-  actionGroup,
-  knowledgeBase,
-  finish,
-  askUser,
-  reprompt,
-}
+  actionGroup('ACTION_GROUP'),
+  knowledgeBase('KNOWLEDGE_BASE'),
+  finish('FINISH'),
+  askUser('ASK_USER'),
+  reprompt('REPROMPT'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.actionGroup:
-        return 'ACTION_GROUP';
-      case Type.knowledgeBase:
-        return 'KNOWLEDGE_BASE';
-      case Type.finish:
-        return 'FINISH';
-      case Type.askUser:
-        return 'ASK_USER';
-      case Type.reprompt:
-        return 'REPROMPT';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'ACTION_GROUP':
-        return Type.actionGroup;
-      case 'KNOWLEDGE_BASE':
-        return Type.knowledgeBase;
-      case 'FINISH':
-        return Type.finish;
-      case 'ASK_USER':
-        return Type.askUser;
-      case 'REPROMPT':
-        return Type.reprompt;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 /// Input validation failed. Check your request parameters and retry the

@@ -303,7 +303,7 @@ class ArcZonalShift {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -424,7 +424,7 @@ class ArcZonalShift {
       if (nextToken != null) 'nextToken': [nextToken],
       if (resourceIdentifier != null)
         'resourceIdentifier': [resourceIdentifier],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -631,7 +631,7 @@ class ArcZonalShift {
     required ZonalAutoshiftStatus zonalAutoshiftStatus,
   }) async {
     final $payload = <String, dynamic>{
-      'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+      'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -707,87 +707,48 @@ class ArcZonalShift {
 }
 
 enum AppliedStatus {
-  applied,
-  notApplied,
-}
+  applied('APPLIED'),
+  notApplied('NOT_APPLIED'),
+  ;
 
-extension AppliedStatusValueExtension on AppliedStatus {
-  String toValue() {
-    switch (this) {
-      case AppliedStatus.applied:
-        return 'APPLIED';
-      case AppliedStatus.notApplied:
-        return 'NOT_APPLIED';
-    }
-  }
-}
+  final String value;
 
-extension AppliedStatusFromString on String {
-  AppliedStatus toAppliedStatus() {
-    switch (this) {
-      case 'APPLIED':
-        return AppliedStatus.applied;
-      case 'NOT_APPLIED':
-        return AppliedStatus.notApplied;
-    }
-    throw Exception('$this is not known in enum AppliedStatus');
-  }
+  const AppliedStatus(this.value);
+
+  static AppliedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AppliedStatus'));
 }
 
 enum AutoshiftAppliedStatus {
-  applied,
-  notApplied,
-}
+  applied('APPLIED'),
+  notApplied('NOT_APPLIED'),
+  ;
 
-extension AutoshiftAppliedStatusValueExtension on AutoshiftAppliedStatus {
-  String toValue() {
-    switch (this) {
-      case AutoshiftAppliedStatus.applied:
-        return 'APPLIED';
-      case AutoshiftAppliedStatus.notApplied:
-        return 'NOT_APPLIED';
-    }
-  }
-}
+  final String value;
 
-extension AutoshiftAppliedStatusFromString on String {
-  AutoshiftAppliedStatus toAutoshiftAppliedStatus() {
-    switch (this) {
-      case 'APPLIED':
-        return AutoshiftAppliedStatus.applied;
-      case 'NOT_APPLIED':
-        return AutoshiftAppliedStatus.notApplied;
-    }
-    throw Exception('$this is not known in enum AutoshiftAppliedStatus');
-  }
+  const AutoshiftAppliedStatus(this.value);
+
+  static AutoshiftAppliedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoshiftAppliedStatus'));
 }
 
 enum AutoshiftExecutionStatus {
-  active,
-  completed,
-}
+  active('ACTIVE'),
+  completed('COMPLETED'),
+  ;
 
-extension AutoshiftExecutionStatusValueExtension on AutoshiftExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case AutoshiftExecutionStatus.active:
-        return 'ACTIVE';
-      case AutoshiftExecutionStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension AutoshiftExecutionStatusFromString on String {
-  AutoshiftExecutionStatus toAutoshiftExecutionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AutoshiftExecutionStatus.active;
-      case 'COMPLETED':
-        return AutoshiftExecutionStatus.completed;
-    }
-    throw Exception('$this is not known in enum AutoshiftExecutionStatus');
-  }
+  const AutoshiftExecutionStatus(this.value);
+
+  static AutoshiftExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoshiftExecutionStatus'));
 }
 
 /// A complex structure that lists an autoshift that is currently active for a
@@ -838,7 +799,7 @@ class AutoshiftInResource {
   factory AutoshiftInResource.fromJson(Map<String, dynamic> json) {
     return AutoshiftInResource(
       appliedStatus:
-          (json['appliedStatus'] as String).toAutoshiftAppliedStatus(),
+          AutoshiftAppliedStatus.fromString((json['appliedStatus'] as String)),
       awayFrom: json['awayFrom'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
     );
@@ -849,7 +810,7 @@ class AutoshiftInResource {
     final awayFrom = this.awayFrom;
     final startTime = this.startTime;
     return {
-      'appliedStatus': appliedStatus.toValue(),
+      'appliedStatus': appliedStatus.value,
       'awayFrom': awayFrom,
       'startTime': unixTimestampToJson(startTime),
     };
@@ -899,7 +860,7 @@ class AutoshiftSummary {
       awayFrom: json['awayFrom'] as String,
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toAutoshiftExecutionStatus(),
+      status: AutoshiftExecutionStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -912,7 +873,7 @@ class AutoshiftSummary {
       'awayFrom': awayFrom,
       'endTime': unixTimestampToJson(endTime),
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -947,7 +908,7 @@ class ControlCondition {
   factory ControlCondition.fromJson(Map<String, dynamic> json) {
     return ControlCondition(
       alarmIdentifier: json['alarmIdentifier'] as String,
-      type: (json['type'] as String).toControlConditionType(),
+      type: ControlConditionType.fromString((json['type'] as String)),
     );
   }
 
@@ -956,32 +917,23 @@ class ControlCondition {
     final type = this.type;
     return {
       'alarmIdentifier': alarmIdentifier,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum ControlConditionType {
-  cloudwatch,
-}
+  cloudwatch('CLOUDWATCH'),
+  ;
 
-extension ControlConditionTypeValueExtension on ControlConditionType {
-  String toValue() {
-    switch (this) {
-      case ControlConditionType.cloudwatch:
-        return 'CLOUDWATCH';
-    }
-  }
-}
+  final String value;
 
-extension ControlConditionTypeFromString on String {
-  ControlConditionType toControlConditionType() {
-    switch (this) {
-      case 'CLOUDWATCH':
-        return ControlConditionType.cloudwatch;
-    }
-    throw Exception('$this is not known in enum ControlConditionType');
-  }
+  const ControlConditionType(this.value);
+
+  static ControlConditionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ControlConditionType'));
 }
 
 class CreatePracticeRunConfigurationResponse {
@@ -1021,8 +973,8 @@ class CreatePracticeRunConfigurationResponse {
       name: json['name'] as String,
       practiceRunConfiguration: PracticeRunConfiguration.fromJson(
           json['practiceRunConfiguration'] as Map<String, dynamic>),
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String).toZonalAutoshiftStatus(),
+      zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
+          (json['zonalAutoshiftStatus'] as String)),
     );
   }
 
@@ -1035,7 +987,7 @@ class CreatePracticeRunConfigurationResponse {
       'arn': arn,
       'name': name,
       'practiceRunConfiguration': practiceRunConfiguration,
-      'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+      'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
   }
 }
@@ -1062,8 +1014,8 @@ class DeletePracticeRunConfigurationResponse {
     return DeletePracticeRunConfigurationResponse(
       arn: json['arn'] as String,
       name: json['name'] as String,
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String).toZonalAutoshiftStatus(),
+      zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
+          (json['zonalAutoshiftStatus'] as String)),
     );
   }
 
@@ -1074,7 +1026,7 @@ class DeletePracticeRunConfigurationResponse {
     return {
       'arn': arn,
       'name': name,
-      'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+      'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
   }
 }
@@ -1136,8 +1088,8 @@ class GetManagedResourceResponse {
           ? PracticeRunConfiguration.fromJson(
               json['practiceRunConfiguration'] as Map<String, dynamic>)
           : null,
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String?)?.toZonalAutoshiftStatus(),
+      zonalAutoshiftStatus: (json['zonalAutoshiftStatus'] as String?)
+          ?.let(ZonalAutoshiftStatus.fromString),
     );
   }
 
@@ -1158,7 +1110,7 @@ class GetManagedResourceResponse {
       if (practiceRunConfiguration != null)
         'practiceRunConfiguration': practiceRunConfiguration,
       if (zonalAutoshiftStatus != null)
-        'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+        'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
   }
 }
@@ -1346,10 +1298,10 @@ class ManagedResourceSummary {
           .map((e) => AutoshiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
-      practiceRunStatus:
-          (json['practiceRunStatus'] as String?)?.toZonalAutoshiftStatus(),
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String?)?.toZonalAutoshiftStatus(),
+      practiceRunStatus: (json['practiceRunStatus'] as String?)
+          ?.let(ZonalAutoshiftStatus.fromString),
+      zonalAutoshiftStatus: (json['zonalAutoshiftStatus'] as String?)
+          ?.let(ZonalAutoshiftStatus.fromString),
       zonalShifts: (json['zonalShifts'] as List?)
           ?.whereNotNull()
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
@@ -1373,9 +1325,9 @@ class ManagedResourceSummary {
       if (autoshifts != null) 'autoshifts': autoshifts,
       if (name != null) 'name': name,
       if (practiceRunStatus != null)
-        'practiceRunStatus': practiceRunStatus.toValue(),
+        'practiceRunStatus': practiceRunStatus.value,
       if (zonalAutoshiftStatus != null)
-        'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+        'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
       if (zonalShifts != null) 'zonalShifts': zonalShifts,
     };
   }
@@ -1457,41 +1409,20 @@ class PracticeRunConfiguration {
 }
 
 enum PracticeRunOutcome {
-  failed,
-  interrupted,
-  pending,
-  succeeded,
-}
+  failed('FAILED'),
+  interrupted('INTERRUPTED'),
+  pending('PENDING'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension PracticeRunOutcomeValueExtension on PracticeRunOutcome {
-  String toValue() {
-    switch (this) {
-      case PracticeRunOutcome.failed:
-        return 'FAILED';
-      case PracticeRunOutcome.interrupted:
-        return 'INTERRUPTED';
-      case PracticeRunOutcome.pending:
-        return 'PENDING';
-      case PracticeRunOutcome.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension PracticeRunOutcomeFromString on String {
-  PracticeRunOutcome toPracticeRunOutcome() {
-    switch (this) {
-      case 'FAILED':
-        return PracticeRunOutcome.failed;
-      case 'INTERRUPTED':
-        return PracticeRunOutcome.interrupted;
-      case 'PENDING':
-        return PracticeRunOutcome.pending;
-      case 'SUCCEEDED':
-        return PracticeRunOutcome.succeeded;
-    }
-    throw Exception('$this is not known in enum PracticeRunOutcome');
-  }
+  const PracticeRunOutcome(this.value);
+
+  static PracticeRunOutcome fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PracticeRunOutcome'));
 }
 
 class UpdatePracticeRunConfigurationResponse {
@@ -1523,8 +1454,8 @@ class UpdatePracticeRunConfigurationResponse {
       name: json['name'] as String,
       practiceRunConfiguration: PracticeRunConfiguration.fromJson(
           json['practiceRunConfiguration'] as Map<String, dynamic>),
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String).toZonalAutoshiftStatus(),
+      zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
+          (json['zonalAutoshiftStatus'] as String)),
     );
   }
 
@@ -1537,7 +1468,7 @@ class UpdatePracticeRunConfigurationResponse {
       'arn': arn,
       'name': name,
       'practiceRunConfiguration': practiceRunConfiguration,
-      'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+      'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
   }
 }
@@ -1561,8 +1492,8 @@ class UpdateZonalAutoshiftConfigurationResponse {
       Map<String, dynamic> json) {
     return UpdateZonalAutoshiftConfigurationResponse(
       resourceIdentifier: json['resourceIdentifier'] as String,
-      zonalAutoshiftStatus:
-          (json['zonalAutoshiftStatus'] as String).toZonalAutoshiftStatus(),
+      zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
+          (json['zonalAutoshiftStatus'] as String)),
     );
   }
 
@@ -1571,37 +1502,24 @@ class UpdateZonalAutoshiftConfigurationResponse {
     final zonalAutoshiftStatus = this.zonalAutoshiftStatus;
     return {
       'resourceIdentifier': resourceIdentifier,
-      'zonalAutoshiftStatus': zonalAutoshiftStatus.toValue(),
+      'zonalAutoshiftStatus': zonalAutoshiftStatus.value,
     };
   }
 }
 
 enum ZonalAutoshiftStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ZonalAutoshiftStatusValueExtension on ZonalAutoshiftStatus {
-  String toValue() {
-    switch (this) {
-      case ZonalAutoshiftStatus.enabled:
-        return 'ENABLED';
-      case ZonalAutoshiftStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ZonalAutoshiftStatusFromString on String {
-  ZonalAutoshiftStatus toZonalAutoshiftStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ZonalAutoshiftStatus.enabled;
-      case 'DISABLED':
-        return ZonalAutoshiftStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ZonalAutoshiftStatus');
-  }
+  const ZonalAutoshiftStatus(this.value);
+
+  static ZonalAutoshiftStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ZonalAutoshiftStatus'));
 }
 
 class ZonalShift {
@@ -1677,7 +1595,7 @@ class ZonalShift {
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
       resourceIdentifier: json['resourceIdentifier'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toZonalShiftStatus(),
+      status: ZonalShiftStatus.fromString((json['status'] as String)),
       zonalShiftId: json['zonalShiftId'] as String,
     );
   }
@@ -1696,7 +1614,7 @@ class ZonalShift {
       'expiryTime': unixTimestampToJson(expiryTime),
       'resourceIdentifier': resourceIdentifier,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       'zonalShiftId': zonalShiftId,
     };
   }
@@ -1805,15 +1723,16 @@ class ZonalShiftInResource {
 
   factory ZonalShiftInResource.fromJson(Map<String, dynamic> json) {
     return ZonalShiftInResource(
-      appliedStatus: (json['appliedStatus'] as String).toAppliedStatus(),
+      appliedStatus:
+          AppliedStatus.fromString((json['appliedStatus'] as String)),
       awayFrom: json['awayFrom'] as String,
       comment: json['comment'] as String,
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
       resourceIdentifier: json['resourceIdentifier'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
       zonalShiftId: json['zonalShiftId'] as String,
-      practiceRunOutcome:
-          (json['practiceRunOutcome'] as String?)?.toPracticeRunOutcome(),
+      practiceRunOutcome: (json['practiceRunOutcome'] as String?)
+          ?.let(PracticeRunOutcome.fromString),
     );
   }
 
@@ -1827,7 +1746,7 @@ class ZonalShiftInResource {
     final zonalShiftId = this.zonalShiftId;
     final practiceRunOutcome = this.practiceRunOutcome;
     return {
-      'appliedStatus': appliedStatus.toValue(),
+      'appliedStatus': appliedStatus.value,
       'awayFrom': awayFrom,
       'comment': comment,
       'expiryTime': unixTimestampToJson(expiryTime),
@@ -1835,42 +1754,25 @@ class ZonalShiftInResource {
       'startTime': unixTimestampToJson(startTime),
       'zonalShiftId': zonalShiftId,
       if (practiceRunOutcome != null)
-        'practiceRunOutcome': practiceRunOutcome.toValue(),
+        'practiceRunOutcome': practiceRunOutcome.value,
     };
   }
 }
 
 enum ZonalShiftStatus {
-  active,
-  expired,
-  canceled,
-}
+  active('ACTIVE'),
+  expired('EXPIRED'),
+  canceled('CANCELED'),
+  ;
 
-extension ZonalShiftStatusValueExtension on ZonalShiftStatus {
-  String toValue() {
-    switch (this) {
-      case ZonalShiftStatus.active:
-        return 'ACTIVE';
-      case ZonalShiftStatus.expired:
-        return 'EXPIRED';
-      case ZonalShiftStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension ZonalShiftStatusFromString on String {
-  ZonalShiftStatus toZonalShiftStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ZonalShiftStatus.active;
-      case 'EXPIRED':
-        return ZonalShiftStatus.expired;
-      case 'CANCELED':
-        return ZonalShiftStatus.canceled;
-    }
-    throw Exception('$this is not known in enum ZonalShiftStatus');
-  }
+  const ZonalShiftStatus(this.value);
+
+  static ZonalShiftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ZonalShiftStatus'));
 }
 
 /// Lists information about zonal shifts in Amazon Route 53 Application Recovery
@@ -1986,10 +1888,10 @@ class ZonalShiftSummary {
       expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
       resourceIdentifier: json['resourceIdentifier'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toZonalShiftStatus(),
+      status: ZonalShiftStatus.fromString((json['status'] as String)),
       zonalShiftId: json['zonalShiftId'] as String,
-      practiceRunOutcome:
-          (json['practiceRunOutcome'] as String?)?.toPracticeRunOutcome(),
+      practiceRunOutcome: (json['practiceRunOutcome'] as String?)
+          ?.let(PracticeRunOutcome.fromString),
     );
   }
 
@@ -2008,10 +1910,10 @@ class ZonalShiftSummary {
       'expiryTime': unixTimestampToJson(expiryTime),
       'resourceIdentifier': resourceIdentifier,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       'zonalShiftId': zonalShiftId,
       if (practiceRunOutcome != null)
-        'practiceRunOutcome': practiceRunOutcome.toValue(),
+        'practiceRunOutcome': practiceRunOutcome.value,
     };
   }
 }

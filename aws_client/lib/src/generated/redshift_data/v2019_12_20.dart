@@ -965,7 +965,7 @@ class RedshiftDataApi {
         if (nextToken != null) 'NextToken': nextToken,
         if (roleLevel != null) 'RoleLevel': roleLevel,
         if (statementName != null) 'StatementName': statementName,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1465,7 +1465,7 @@ class DescribeStatementResponse {
       resultRows: json['ResultRows'] as int?,
       resultSize: json['ResultSize'] as int?,
       secretArn: json['SecretArn'] as String?,
-      status: (json['Status'] as String?)?.toStatusString(),
+      status: (json['Status'] as String?)?.let(StatusString.fromString),
       subStatements: (json['SubStatements'] as List?)
           ?.whereNotNull()
           .map((e) => SubStatementData.fromJson(e as Map<String, dynamic>))
@@ -1511,7 +1511,7 @@ class DescribeStatementResponse {
       if (resultRows != null) 'ResultRows': resultRows,
       if (resultSize != null) 'ResultSize': resultSize,
       if (secretArn != null) 'SecretArn': secretArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (subStatements != null) 'SubStatements': subStatements,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
       if (workgroupName != null) 'WorkgroupName': workgroupName,
@@ -1995,7 +1995,7 @@ class StatementData {
           .toList(),
       secretArn: json['SecretArn'] as String?,
       statementName: json['StatementName'] as String?,
-      status: (json['Status'] as String?)?.toStatusString(),
+      status: (json['Status'] as String?)?.let(StatusString.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -2020,111 +2020,49 @@ class StatementData {
       if (queryStrings != null) 'QueryStrings': queryStrings,
       if (secretArn != null) 'SecretArn': secretArn,
       if (statementName != null) 'StatementName': statementName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
 
 enum StatementStatusString {
-  submitted,
-  picked,
-  started,
-  finished,
-  aborted,
-  failed,
-}
+  submitted('SUBMITTED'),
+  picked('PICKED'),
+  started('STARTED'),
+  finished('FINISHED'),
+  aborted('ABORTED'),
+  failed('FAILED'),
+  ;
 
-extension StatementStatusStringValueExtension on StatementStatusString {
-  String toValue() {
-    switch (this) {
-      case StatementStatusString.submitted:
-        return 'SUBMITTED';
-      case StatementStatusString.picked:
-        return 'PICKED';
-      case StatementStatusString.started:
-        return 'STARTED';
-      case StatementStatusString.finished:
-        return 'FINISHED';
-      case StatementStatusString.aborted:
-        return 'ABORTED';
-      case StatementStatusString.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StatementStatusStringFromString on String {
-  StatementStatusString toStatementStatusString() {
-    switch (this) {
-      case 'SUBMITTED':
-        return StatementStatusString.submitted;
-      case 'PICKED':
-        return StatementStatusString.picked;
-      case 'STARTED':
-        return StatementStatusString.started;
-      case 'FINISHED':
-        return StatementStatusString.finished;
-      case 'ABORTED':
-        return StatementStatusString.aborted;
-      case 'FAILED':
-        return StatementStatusString.failed;
-    }
-    throw Exception('$this is not known in enum StatementStatusString');
-  }
+  const StatementStatusString(this.value);
+
+  static StatementStatusString fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StatementStatusString'));
 }
 
 enum StatusString {
-  submitted,
-  picked,
-  started,
-  finished,
-  aborted,
-  failed,
-  all,
-}
+  submitted('SUBMITTED'),
+  picked('PICKED'),
+  started('STARTED'),
+  finished('FINISHED'),
+  aborted('ABORTED'),
+  failed('FAILED'),
+  all('ALL'),
+  ;
 
-extension StatusStringValueExtension on StatusString {
-  String toValue() {
-    switch (this) {
-      case StatusString.submitted:
-        return 'SUBMITTED';
-      case StatusString.picked:
-        return 'PICKED';
-      case StatusString.started:
-        return 'STARTED';
-      case StatusString.finished:
-        return 'FINISHED';
-      case StatusString.aborted:
-        return 'ABORTED';
-      case StatusString.failed:
-        return 'FAILED';
-      case StatusString.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension StatusStringFromString on String {
-  StatusString toStatusString() {
-    switch (this) {
-      case 'SUBMITTED':
-        return StatusString.submitted;
-      case 'PICKED':
-        return StatusString.picked;
-      case 'STARTED':
-        return StatusString.started;
-      case 'FINISHED':
-        return StatusString.finished;
-      case 'ABORTED':
-        return StatusString.aborted;
-      case 'FAILED':
-        return StatusString.failed;
-      case 'ALL':
-        return StatusString.all;
-    }
-    throw Exception('$this is not known in enum StatusString');
-  }
+  const StatusString(this.value);
+
+  static StatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StatusString'));
 }
 
 /// Information about an SQL statement.
@@ -2199,7 +2137,8 @@ class SubStatementData {
       redshiftQueryId: json['RedshiftQueryId'] as int?,
       resultRows: json['ResultRows'] as int?,
       resultSize: json['ResultSize'] as int?,
-      status: (json['Status'] as String?)?.toStatementStatusString(),
+      status:
+          (json['Status'] as String?)?.let(StatementStatusString.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -2226,7 +2165,7 @@ class SubStatementData {
       if (redshiftQueryId != null) 'RedshiftQueryId': redshiftQueryId,
       if (resultRows != null) 'ResultRows': resultRows,
       if (resultSize != null) 'ResultSize': resultSize,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }

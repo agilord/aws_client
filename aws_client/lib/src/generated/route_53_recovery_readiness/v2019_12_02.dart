@@ -1520,7 +1520,7 @@ class GetCellReadinessSummaryResponse {
   factory GetCellReadinessSummaryResponse.fromJson(Map<String, dynamic> json) {
     return GetCellReadinessSummaryResponse(
       nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.toReadiness(),
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
       readinessChecks: (json['readinessChecks'] as List?)
           ?.whereNotNull()
           .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
@@ -1534,7 +1534,7 @@ class GetCellReadinessSummaryResponse {
     final readinessChecks = this.readinessChecks;
     return {
       if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.toValue(),
+      if (readiness != null) 'readiness': readiness.value,
       if (readinessChecks != null) 'readinessChecks': readinessChecks,
     };
   }
@@ -1620,7 +1620,7 @@ class GetReadinessCheckResourceStatusResponse {
       Map<String, dynamic> json) {
     return GetReadinessCheckResourceStatusResponse(
       nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.toReadiness(),
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
       rules: (json['rules'] as List?)
           ?.whereNotNull()
           .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
@@ -1634,7 +1634,7 @@ class GetReadinessCheckResourceStatusResponse {
     final rules = this.rules;
     return {
       if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.toValue(),
+      if (readiness != null) 'readiness': readiness.value,
       if (rules != null) 'rules': rules,
     };
   }
@@ -1709,7 +1709,7 @@ class GetReadinessCheckStatusResponse {
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.toReadiness(),
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
       resources: (json['resources'] as List?)
           ?.whereNotNull()
           .map((e) => ResourceResult.fromJson(e as Map<String, dynamic>))
@@ -1725,7 +1725,7 @@ class GetReadinessCheckStatusResponse {
     return {
       if (messages != null) 'messages': messages,
       if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.toValue(),
+      if (readiness != null) 'readiness': readiness.value,
       if (resources != null) 'resources': resources,
     };
   }
@@ -1751,7 +1751,7 @@ class GetRecoveryGroupReadinessSummaryResponse {
       Map<String, dynamic> json) {
     return GetRecoveryGroupReadinessSummaryResponse(
       nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.toReadiness(),
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
       readinessChecks: (json['readinessChecks'] as List?)
           ?.whereNotNull()
           .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
@@ -1765,7 +1765,7 @@ class GetRecoveryGroupReadinessSummaryResponse {
     final readinessChecks = this.readinessChecks;
     return {
       if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.toValue(),
+      if (readiness != null) 'readiness': readiness.value,
       if (readinessChecks != null) 'readinessChecks': readinessChecks,
     };
   }
@@ -2214,41 +2214,19 @@ class R53ResourceRecord {
 
 /// The readiness status.
 enum Readiness {
-  ready,
-  notReady,
-  unknown,
-  notAuthorized,
-}
+  ready('READY'),
+  notReady('NOT_READY'),
+  unknown('UNKNOWN'),
+  notAuthorized('NOT_AUTHORIZED'),
+  ;
 
-extension ReadinessValueExtension on Readiness {
-  String toValue() {
-    switch (this) {
-      case Readiness.ready:
-        return 'READY';
-      case Readiness.notReady:
-        return 'NOT_READY';
-      case Readiness.unknown:
-        return 'UNKNOWN';
-      case Readiness.notAuthorized:
-        return 'NOT_AUTHORIZED';
-    }
-  }
-}
+  final String value;
 
-extension ReadinessFromString on String {
-  Readiness toReadiness() {
-    switch (this) {
-      case 'READY':
-        return Readiness.ready;
-      case 'NOT_READY':
-        return Readiness.notReady;
-      case 'UNKNOWN':
-        return Readiness.unknown;
-      case 'NOT_AUTHORIZED':
-        return Readiness.notAuthorized;
-    }
-    throw Exception('$this is not known in enum Readiness');
-  }
+  const Readiness(this.value);
+
+  static Readiness fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Readiness'));
 }
 
 /// A readiness check.
@@ -2310,7 +2288,7 @@ class ReadinessCheckSummary {
 
   factory ReadinessCheckSummary.fromJson(Map<String, dynamic> json) {
     return ReadinessCheckSummary(
-      readiness: (json['readiness'] as String?)?.toReadiness(),
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
       readinessCheckName: json['readinessCheckName'] as String?,
     );
   }
@@ -2319,7 +2297,7 @@ class ReadinessCheckSummary {
     final readiness = this.readiness;
     final readinessCheckName = this.readinessCheckName;
     return {
-      if (readiness != null) 'readiness': readiness.toValue(),
+      if (readiness != null) 'readiness': readiness.value,
       if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
     };
   }
@@ -2477,7 +2455,7 @@ class ResourceResult {
     return ResourceResult(
       lastCheckedTimestamp:
           nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] as Object),
-      readiness: (json['readiness'] as String).toReadiness(),
+      readiness: Readiness.fromString((json['readiness'] as String)),
       componentId: json['componentId'] as String?,
       resourceArn: json['resourceArn'] as String?,
     );
@@ -2490,7 +2468,7 @@ class ResourceResult {
     final resourceArn = this.resourceArn;
     return {
       'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
-      'readiness': readiness.toValue(),
+      'readiness': readiness.value,
       if (componentId != null) 'componentId': componentId,
       if (resourceArn != null) 'resourceArn': resourceArn,
     };
@@ -2591,7 +2569,7 @@ class RuleResult {
           .whereNotNull()
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
-      readiness: (json['readiness'] as String).toReadiness(),
+      readiness: Readiness.fromString((json['readiness'] as String)),
       ruleId: json['ruleId'] as String,
     );
   }
@@ -2604,7 +2582,7 @@ class RuleResult {
     return {
       'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
       'messages': messages,
-      'readiness': readiness.toValue(),
+      'readiness': readiness.value,
       'ruleId': ruleId,
     };
   }

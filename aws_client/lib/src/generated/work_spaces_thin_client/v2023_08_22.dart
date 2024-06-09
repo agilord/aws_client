@@ -145,9 +145,9 @@ class WorkSpacesThinClient {
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (name != null) 'name': name,
       if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.toValue(),
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -283,7 +283,7 @@ class WorkSpacesThinClient {
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (targetDeviceStatus != null)
-        'targetDeviceStatus': targetDeviceStatus.toValue(),
+        'targetDeviceStatus': targetDeviceStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -608,7 +608,7 @@ class WorkSpacesThinClient {
         'desiredSoftwareSetId': desiredSoftwareSetId,
       if (name != null) 'name': name,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -671,9 +671,9 @@ class WorkSpacesThinClient {
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (name != null) 'name': name,
       if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.toValue(),
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -702,7 +702,7 @@ class WorkSpacesThinClient {
     required SoftwareSetValidationStatus validationStatus,
   }) async {
     final $payload = <String, dynamic>{
-      'validationStatus': validationStatus.toValue(),
+      'validationStatus': validationStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -714,31 +714,17 @@ class WorkSpacesThinClient {
 }
 
 enum ApplyTimeOf {
-  utc,
-  device,
-}
+  utc('UTC'),
+  device('DEVICE'),
+  ;
 
-extension ApplyTimeOfValueExtension on ApplyTimeOf {
-  String toValue() {
-    switch (this) {
-      case ApplyTimeOf.utc:
-        return 'UTC';
-      case ApplyTimeOf.device:
-        return 'DEVICE';
-    }
-  }
-}
+  final String value;
 
-extension ApplyTimeOfFromString on String {
-  ApplyTimeOf toApplyTimeOf() {
-    switch (this) {
-      case 'UTC':
-        return ApplyTimeOf.utc;
-      case 'DEVICE':
-        return ApplyTimeOf.device;
-    }
-    throw Exception('$this is not known in enum ApplyTimeOf');
-  }
+  const ApplyTimeOf(this.value);
+
+  static ApplyTimeOf fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ApplyTimeOf'));
 }
 
 class CreateEnvironmentResponse {
@@ -767,56 +753,22 @@ class CreateEnvironmentResponse {
 }
 
 enum DayOfWeek {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  sunday('SUNDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 class DeleteDeviceResponse {
@@ -856,36 +808,18 @@ class DeregisterDeviceResponse {
 }
 
 enum DesktopType {
-  workspaces,
-  appstream,
-  workspacesWeb,
-}
+  workspaces('workspaces'),
+  appstream('appstream'),
+  workspacesWeb('workspaces-web'),
+  ;
 
-extension DesktopTypeValueExtension on DesktopType {
-  String toValue() {
-    switch (this) {
-      case DesktopType.workspaces:
-        return 'workspaces';
-      case DesktopType.appstream:
-        return 'appstream';
-      case DesktopType.workspacesWeb:
-        return 'workspaces-web';
-    }
-  }
-}
+  final String value;
 
-extension DesktopTypeFromString on String {
-  DesktopType toDesktopType() {
-    switch (this) {
-      case 'workspaces':
-        return DesktopType.workspaces;
-      case 'appstream':
-        return DesktopType.appstream;
-      case 'workspaces-web':
-        return DesktopType.workspacesWeb;
-    }
-    throw Exception('$this is not known in enum DesktopType');
-  }
+  const DesktopType(this.value);
+
+  static DesktopType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DesktopType'));
 }
 
 /// Describes a thin client device.
@@ -1000,12 +934,12 @@ class Device {
       serialNumber: json['serialNumber'] as String?,
       softwareSetComplianceStatus:
           (json['softwareSetComplianceStatus'] as String?)
-              ?.toDeviceSoftwareSetComplianceStatus(),
+              ?.let(DeviceSoftwareSetComplianceStatus.fromString),
       softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.toSoftwareSetUpdateSchedule(),
+          ?.let(SoftwareSetUpdateSchedule.fromString),
       softwareSetUpdateStatus: (json['softwareSetUpdateStatus'] as String?)
-          ?.toSoftwareSetUpdateStatus(),
-      status: (json['status'] as String?)?.toDeviceStatus(),
+          ?.let(SoftwareSetUpdateStatus.fromString),
+      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1058,12 +992,12 @@ class Device {
         'pendingSoftwareSetVersion': pendingSoftwareSetVersion,
       if (serialNumber != null) 'serialNumber': serialNumber,
       if (softwareSetComplianceStatus != null)
-        'softwareSetComplianceStatus': softwareSetComplianceStatus.toValue(),
+        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
       if (softwareSetUpdateStatus != null)
-        'softwareSetUpdateStatus': softwareSetUpdateStatus.toValue(),
-      if (status != null) 'status': status.toValue(),
+        'softwareSetUpdateStatus': softwareSetUpdateStatus.value,
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
@@ -1071,76 +1005,36 @@ class Device {
 }
 
 enum DeviceSoftwareSetComplianceStatus {
-  none,
-  compliant,
-  notCompliant,
-}
+  none('NONE'),
+  compliant('COMPLIANT'),
+  notCompliant('NOT_COMPLIANT'),
+  ;
 
-extension DeviceSoftwareSetComplianceStatusValueExtension
-    on DeviceSoftwareSetComplianceStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceSoftwareSetComplianceStatus.none:
-        return 'NONE';
-      case DeviceSoftwareSetComplianceStatus.compliant:
-        return 'COMPLIANT';
-      case DeviceSoftwareSetComplianceStatus.notCompliant:
-        return 'NOT_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension DeviceSoftwareSetComplianceStatusFromString on String {
-  DeviceSoftwareSetComplianceStatus toDeviceSoftwareSetComplianceStatus() {
-    switch (this) {
-      case 'NONE':
-        return DeviceSoftwareSetComplianceStatus.none;
-      case 'COMPLIANT':
-        return DeviceSoftwareSetComplianceStatus.compliant;
-      case 'NOT_COMPLIANT':
-        return DeviceSoftwareSetComplianceStatus.notCompliant;
-    }
-    throw Exception(
-        '$this is not known in enum DeviceSoftwareSetComplianceStatus');
-  }
+  const DeviceSoftwareSetComplianceStatus(this.value);
+
+  static DeviceSoftwareSetComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceSoftwareSetComplianceStatus'));
 }
 
 enum DeviceStatus {
-  registered,
-  deregistering,
-  deregistered,
-  archived,
-}
+  registered('REGISTERED'),
+  deregistering('DEREGISTERING'),
+  deregistered('DEREGISTERED'),
+  archived('ARCHIVED'),
+  ;
 
-extension DeviceStatusValueExtension on DeviceStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceStatus.registered:
-        return 'REGISTERED';
-      case DeviceStatus.deregistering:
-        return 'DEREGISTERING';
-      case DeviceStatus.deregistered:
-        return 'DEREGISTERED';
-      case DeviceStatus.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStatusFromString on String {
-  DeviceStatus toDeviceStatus() {
-    switch (this) {
-      case 'REGISTERED':
-        return DeviceStatus.registered;
-      case 'DEREGISTERING':
-        return DeviceStatus.deregistering;
-      case 'DEREGISTERED':
-        return DeviceStatus.deregistered;
-      case 'ARCHIVED':
-        return DeviceStatus.archived;
-    }
-    throw Exception('$this is not known in enum DeviceStatus');
-  }
+  const DeviceStatus(this.value);
+
+  static DeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceStatus'));
 }
 
 /// Describes a thin client device.
@@ -1224,8 +1118,8 @@ class DeviceSummary {
       pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
       serialNumber: json['serialNumber'] as String?,
       softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.toSoftwareSetUpdateSchedule(),
-      status: (json['status'] as String?)?.toDeviceStatus(),
+          ?.let(SoftwareSetUpdateSchedule.fromString),
+      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -1265,8 +1159,8 @@ class DeviceSummary {
         'pendingSoftwareSetId': pendingSoftwareSetId,
       if (serialNumber != null) 'serialNumber': serialNumber,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
-      if (status != null) 'status': status.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -1366,7 +1260,8 @@ class Environment {
       desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
       desktopArn: json['desktopArn'] as String?,
       desktopEndpoint: json['desktopEndpoint'] as String?,
-      desktopType: (json['desktopType'] as String?)?.toDesktopType(),
+      desktopType:
+          (json['desktopType'] as String?)?.let(DesktopType.fromString),
       id: json['id'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       maintenanceWindow: json['maintenanceWindow'] != null
@@ -1379,11 +1274,11 @@ class Environment {
       registeredDevicesCount: json['registeredDevicesCount'] as int?,
       softwareSetComplianceStatus:
           (json['softwareSetComplianceStatus'] as String?)
-              ?.toEnvironmentSoftwareSetComplianceStatus(),
-      softwareSetUpdateMode:
-          (json['softwareSetUpdateMode'] as String?)?.toSoftwareSetUpdateMode(),
+              ?.let(EnvironmentSoftwareSetComplianceStatus.fromString),
+      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
+          ?.let(SoftwareSetUpdateMode.fromString),
       softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.toSoftwareSetUpdateSchedule(),
+          ?.let(SoftwareSetUpdateSchedule.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1418,7 +1313,7 @@ class Environment {
         'desiredSoftwareSetId': desiredSoftwareSetId,
       if (desktopArn != null) 'desktopArn': desktopArn,
       if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
-      if (desktopType != null) 'desktopType': desktopType.toValue(),
+      if (desktopType != null) 'desktopType': desktopType.value,
       if (id != null) 'id': id,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
@@ -1430,11 +1325,11 @@ class Environment {
       if (registeredDevicesCount != null)
         'registeredDevicesCount': registeredDevicesCount,
       if (softwareSetComplianceStatus != null)
-        'softwareSetComplianceStatus': softwareSetComplianceStatus.toValue(),
+        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
       if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.toValue(),
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
@@ -1442,39 +1337,19 @@ class Environment {
 }
 
 enum EnvironmentSoftwareSetComplianceStatus {
-  noRegisteredDevices,
-  compliant,
-  notCompliant,
-}
+  noRegisteredDevices('NO_REGISTERED_DEVICES'),
+  compliant('COMPLIANT'),
+  notCompliant('NOT_COMPLIANT'),
+  ;
 
-extension EnvironmentSoftwareSetComplianceStatusValueExtension
-    on EnvironmentSoftwareSetComplianceStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentSoftwareSetComplianceStatus.noRegisteredDevices:
-        return 'NO_REGISTERED_DEVICES';
-      case EnvironmentSoftwareSetComplianceStatus.compliant:
-        return 'COMPLIANT';
-      case EnvironmentSoftwareSetComplianceStatus.notCompliant:
-        return 'NOT_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentSoftwareSetComplianceStatusFromString on String {
-  EnvironmentSoftwareSetComplianceStatus
-      toEnvironmentSoftwareSetComplianceStatus() {
-    switch (this) {
-      case 'NO_REGISTERED_DEVICES':
-        return EnvironmentSoftwareSetComplianceStatus.noRegisteredDevices;
-      case 'COMPLIANT':
-        return EnvironmentSoftwareSetComplianceStatus.compliant;
-      case 'NOT_COMPLIANT':
-        return EnvironmentSoftwareSetComplianceStatus.notCompliant;
-    }
-    throw Exception(
-        '$this is not known in enum EnvironmentSoftwareSetComplianceStatus');
-  }
+  const EnvironmentSoftwareSetComplianceStatus(this.value);
+
+  static EnvironmentSoftwareSetComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EnvironmentSoftwareSetComplianceStatus'));
 }
 
 /// Describes an environment.
@@ -1549,7 +1424,8 @@ class EnvironmentSummary {
       desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
       desktopArn: json['desktopArn'] as String?,
       desktopEndpoint: json['desktopEndpoint'] as String?,
-      desktopType: (json['desktopType'] as String?)?.toDesktopType(),
+      desktopType:
+          (json['desktopType'] as String?)?.let(DesktopType.fromString),
       id: json['id'] as String?,
       maintenanceWindow: json['maintenanceWindow'] != null
           ? MaintenanceWindow.fromJson(
@@ -1557,10 +1433,10 @@ class EnvironmentSummary {
           : null,
       name: json['name'] as String?,
       pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
-      softwareSetUpdateMode:
-          (json['softwareSetUpdateMode'] as String?)?.toSoftwareSetUpdateMode(),
+      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
+          ?.let(SoftwareSetUpdateMode.fromString),
       softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.toSoftwareSetUpdateSchedule(),
+          ?.let(SoftwareSetUpdateSchedule.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -1588,16 +1464,16 @@ class EnvironmentSummary {
         'desiredSoftwareSetId': desiredSoftwareSetId,
       if (desktopArn != null) 'desktopArn': desktopArn,
       if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
-      if (desktopType != null) 'desktopType': desktopType.toValue(),
+      if (desktopType != null) 'desktopType': desktopType.value,
       if (id != null) 'id': id,
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (name != null) 'name': name,
       if (pendingSoftwareSetId != null)
         'pendingSoftwareSetId': pendingSoftwareSetId,
       if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.toValue(),
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
       if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.toValue(),
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -1848,16 +1724,17 @@ class MaintenanceWindow {
 
   factory MaintenanceWindow.fromJson(Map<String, dynamic> json) {
     return MaintenanceWindow(
-      applyTimeOf: (json['applyTimeOf'] as String?)?.toApplyTimeOf(),
+      applyTimeOf:
+          (json['applyTimeOf'] as String?)?.let(ApplyTimeOf.fromString),
       daysOfTheWeek: (json['daysOfTheWeek'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toDayOfWeek())
+          .map((e) => DayOfWeek.fromString((e as String)))
           .toList(),
       endTimeHour: json['endTimeHour'] as int?,
       endTimeMinute: json['endTimeMinute'] as int?,
       startTimeHour: json['startTimeHour'] as int?,
       startTimeMinute: json['startTimeMinute'] as int?,
-      type: (json['type'] as String?)?.toMaintenanceWindowType(),
+      type: (json['type'] as String?)?.let(MaintenanceWindowType.fromString),
     );
   }
 
@@ -1870,44 +1747,31 @@ class MaintenanceWindow {
     final startTimeMinute = this.startTimeMinute;
     final type = this.type;
     return {
-      if (applyTimeOf != null) 'applyTimeOf': applyTimeOf.toValue(),
+      if (applyTimeOf != null) 'applyTimeOf': applyTimeOf.value,
       if (daysOfTheWeek != null)
-        'daysOfTheWeek': daysOfTheWeek.map((e) => e.toValue()).toList(),
+        'daysOfTheWeek': daysOfTheWeek.map((e) => e.value).toList(),
       if (endTimeHour != null) 'endTimeHour': endTimeHour,
       if (endTimeMinute != null) 'endTimeMinute': endTimeMinute,
       if (startTimeHour != null) 'startTimeHour': startTimeHour,
       if (startTimeMinute != null) 'startTimeMinute': startTimeMinute,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum MaintenanceWindowType {
-  system,
-  custom,
-}
+  system('SYSTEM'),
+  custom('CUSTOM'),
+  ;
 
-extension MaintenanceWindowTypeValueExtension on MaintenanceWindowType {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowType.system:
-        return 'SYSTEM';
-      case MaintenanceWindowType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceWindowTypeFromString on String {
-  MaintenanceWindowType toMaintenanceWindowType() {
-    switch (this) {
-      case 'SYSTEM':
-        return MaintenanceWindowType.system;
-      case 'CUSTOM':
-        return MaintenanceWindowType.custom;
-    }
-    throw Exception('$this is not known in enum MaintenanceWindowType');
-  }
+  const MaintenanceWindowType(this.value);
+
+  static MaintenanceWindowType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MaintenanceWindowType'));
 }
 
 /// Describes software.
@@ -1990,7 +1854,7 @@ class SoftwareSet {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       validationStatus: (json['validationStatus'] as String?)
-          ?.toSoftwareSetValidationStatus(),
+          ?.let(SoftwareSetValidationStatus.fromString),
       version: json['version'] as String?,
     );
   }
@@ -2012,8 +1876,7 @@ class SoftwareSet {
       if (supportedUntil != null)
         'supportedUntil': unixTimestampToJson(supportedUntil),
       if (tags != null) 'tags': tags,
-      if (validationStatus != null)
-        'validationStatus': validationStatus.toValue(),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
       if (version != null) 'version': version,
     };
   }
@@ -2055,7 +1918,7 @@ class SoftwareSetSummary {
       releasedAt: timeStampFromJson(json['releasedAt']),
       supportedUntil: timeStampFromJson(json['supportedUntil']),
       validationStatus: (json['validationStatus'] as String?)
-          ?.toSoftwareSetValidationStatus(),
+          ?.let(SoftwareSetValidationStatus.fromString),
       version: json['version'] as String?,
     );
   }
@@ -2073,129 +1936,71 @@ class SoftwareSetSummary {
       if (releasedAt != null) 'releasedAt': unixTimestampToJson(releasedAt),
       if (supportedUntil != null)
         'supportedUntil': unixTimestampToJson(supportedUntil),
-      if (validationStatus != null)
-        'validationStatus': validationStatus.toValue(),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
       if (version != null) 'version': version,
     };
   }
 }
 
 enum SoftwareSetUpdateMode {
-  useLatest,
-  useDesired,
-}
+  useLatest('USE_LATEST'),
+  useDesired('USE_DESIRED'),
+  ;
 
-extension SoftwareSetUpdateModeValueExtension on SoftwareSetUpdateMode {
-  String toValue() {
-    switch (this) {
-      case SoftwareSetUpdateMode.useLatest:
-        return 'USE_LATEST';
-      case SoftwareSetUpdateMode.useDesired:
-        return 'USE_DESIRED';
-    }
-  }
-}
+  final String value;
 
-extension SoftwareSetUpdateModeFromString on String {
-  SoftwareSetUpdateMode toSoftwareSetUpdateMode() {
-    switch (this) {
-      case 'USE_LATEST':
-        return SoftwareSetUpdateMode.useLatest;
-      case 'USE_DESIRED':
-        return SoftwareSetUpdateMode.useDesired;
-    }
-    throw Exception('$this is not known in enum SoftwareSetUpdateMode');
-  }
+  const SoftwareSetUpdateMode(this.value);
+
+  static SoftwareSetUpdateMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SoftwareSetUpdateMode'));
 }
 
 enum SoftwareSetUpdateSchedule {
-  useMaintenanceWindow,
-  applyImmediately,
-}
+  useMaintenanceWindow('USE_MAINTENANCE_WINDOW'),
+  applyImmediately('APPLY_IMMEDIATELY'),
+  ;
 
-extension SoftwareSetUpdateScheduleValueExtension on SoftwareSetUpdateSchedule {
-  String toValue() {
-    switch (this) {
-      case SoftwareSetUpdateSchedule.useMaintenanceWindow:
-        return 'USE_MAINTENANCE_WINDOW';
-      case SoftwareSetUpdateSchedule.applyImmediately:
-        return 'APPLY_IMMEDIATELY';
-    }
-  }
-}
+  final String value;
 
-extension SoftwareSetUpdateScheduleFromString on String {
-  SoftwareSetUpdateSchedule toSoftwareSetUpdateSchedule() {
-    switch (this) {
-      case 'USE_MAINTENANCE_WINDOW':
-        return SoftwareSetUpdateSchedule.useMaintenanceWindow;
-      case 'APPLY_IMMEDIATELY':
-        return SoftwareSetUpdateSchedule.applyImmediately;
-    }
-    throw Exception('$this is not known in enum SoftwareSetUpdateSchedule');
-  }
+  const SoftwareSetUpdateSchedule(this.value);
+
+  static SoftwareSetUpdateSchedule fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SoftwareSetUpdateSchedule'));
 }
 
 enum SoftwareSetUpdateStatus {
-  available,
-  inProgress,
-  upToDate,
-}
+  available('AVAILABLE'),
+  inProgress('IN_PROGRESS'),
+  upToDate('UP_TO_DATE'),
+  ;
 
-extension SoftwareSetUpdateStatusValueExtension on SoftwareSetUpdateStatus {
-  String toValue() {
-    switch (this) {
-      case SoftwareSetUpdateStatus.available:
-        return 'AVAILABLE';
-      case SoftwareSetUpdateStatus.inProgress:
-        return 'IN_PROGRESS';
-      case SoftwareSetUpdateStatus.upToDate:
-        return 'UP_TO_DATE';
-    }
-  }
-}
+  final String value;
 
-extension SoftwareSetUpdateStatusFromString on String {
-  SoftwareSetUpdateStatus toSoftwareSetUpdateStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return SoftwareSetUpdateStatus.available;
-      case 'IN_PROGRESS':
-        return SoftwareSetUpdateStatus.inProgress;
-      case 'UP_TO_DATE':
-        return SoftwareSetUpdateStatus.upToDate;
-    }
-    throw Exception('$this is not known in enum SoftwareSetUpdateStatus');
-  }
+  const SoftwareSetUpdateStatus(this.value);
+
+  static SoftwareSetUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SoftwareSetUpdateStatus'));
 }
 
 enum SoftwareSetValidationStatus {
-  validated,
-  notValidated,
-}
+  validated('VALIDATED'),
+  notValidated('NOT_VALIDATED'),
+  ;
 
-extension SoftwareSetValidationStatusValueExtension
-    on SoftwareSetValidationStatus {
-  String toValue() {
-    switch (this) {
-      case SoftwareSetValidationStatus.validated:
-        return 'VALIDATED';
-      case SoftwareSetValidationStatus.notValidated:
-        return 'NOT_VALIDATED';
-    }
-  }
-}
+  final String value;
 
-extension SoftwareSetValidationStatusFromString on String {
-  SoftwareSetValidationStatus toSoftwareSetValidationStatus() {
-    switch (this) {
-      case 'VALIDATED':
-        return SoftwareSetValidationStatus.validated;
-      case 'NOT_VALIDATED':
-        return SoftwareSetValidationStatus.notValidated;
-    }
-    throw Exception('$this is not known in enum SoftwareSetValidationStatus');
-  }
+  const SoftwareSetValidationStatus(this.value);
+
+  static SoftwareSetValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SoftwareSetValidationStatus'));
 }
 
 class TagResourceResponse {
@@ -2211,31 +2016,18 @@ class TagResourceResponse {
 }
 
 enum TargetDeviceStatus {
-  deregistered,
-  archived,
-}
+  deregistered('DEREGISTERED'),
+  archived('ARCHIVED'),
+  ;
 
-extension TargetDeviceStatusValueExtension on TargetDeviceStatus {
-  String toValue() {
-    switch (this) {
-      case TargetDeviceStatus.deregistered:
-        return 'DEREGISTERED';
-      case TargetDeviceStatus.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension TargetDeviceStatusFromString on String {
-  TargetDeviceStatus toTargetDeviceStatus() {
-    switch (this) {
-      case 'DEREGISTERED':
-        return TargetDeviceStatus.deregistered;
-      case 'ARCHIVED':
-        return TargetDeviceStatus.archived;
-    }
-    throw Exception('$this is not known in enum TargetDeviceStatus');
-  }
+  const TargetDeviceStatus(this.value);
+
+  static TargetDeviceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetDeviceStatus'));
 }
 
 class UntagResourceResponse {

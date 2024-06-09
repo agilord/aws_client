@@ -233,7 +233,7 @@ class ChimeSdkVoice {
   }) async {
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
-      'ProductType': productType.toValue(),
+      'ProductType': productType.value,
       if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
@@ -298,14 +298,14 @@ class ChimeSdkVoice {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+      'Capabilities': capabilities.map((e) => e.value).toList(),
       'ParticipantPhoneNumbers': participantPhoneNumbers,
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.toValue(),
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.value,
       if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
       if (name != null) 'Name': name,
       if (numberSelectionBehavior != null)
-        'NumberSelectionBehavior': numberSelectionBehavior.toValue(),
+        'NumberSelectionBehavior': numberSelectionBehavior.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -468,7 +468,7 @@ class ChimeSdkVoice {
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
-      'TriggerType': triggerType.toValue(),
+      'TriggerType': triggerType.value,
       'TriggerValue': triggerValue,
       if (disabled != null) 'Disabled': disabled,
       if (targetApplications != null) 'TargetApplications': targetApplications,
@@ -518,7 +518,7 @@ class ChimeSdkVoice {
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
-      if (awsRegion != null) 'AwsRegion': awsRegion.toValue(),
+      if (awsRegion != null) 'AwsRegion': awsRegion.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1824,11 +1824,11 @@ class ChimeSdkVoice {
       100,
     );
     final $query = <String, List<String>>{
-      if (filterName != null) 'filter-name': [filterName.toValue()],
+      if (filterName != null) 'filter-name': [filterName.value],
       if (filterValue != null) 'filter-value': [filterValue],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
-      if (productType != null) 'product-type': [productType.toValue()],
+      if (productType != null) 'product-type': [productType.value],
       if (status != null) 'status': [status],
     };
     final response = await _protocol.send(
@@ -1878,7 +1878,7 @@ class ChimeSdkVoice {
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1990,7 +1990,7 @@ class ChimeSdkVoice {
     required PhoneNumberProductType productType,
   }) async {
     final $query = <String, List<String>>{
-      'product-type': [productType.toValue()],
+      'product-type': [productType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2634,8 +2634,7 @@ class ChimeSdkVoice {
       if (country != null) 'country': [country],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
-      if (phoneNumberType != null)
-        'phone-number-type': [phoneNumberType.toValue()],
+      if (phoneNumberType != null) 'phone-number-type': [phoneNumberType.value],
       if (state != null) 'state': [state],
       if (tollFreePrefix != null) 'toll-free-prefix': [tollFreePrefix],
     };
@@ -2696,7 +2695,7 @@ class ChimeSdkVoice {
     final $payload = <String, dynamic>{
       'TransactionId': transactionId,
       'VoiceProfileDomainId': voiceProfileDomainId,
-      if (callLeg != null) 'CallLeg': callLeg.toValue(),
+      if (callLeg != null) 'CallLeg': callLeg.value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
     final response = await _protocol.send(
@@ -2754,7 +2753,7 @@ class ChimeSdkVoice {
     String? clientRequestToken,
   }) async {
     final $payload = <String, dynamic>{
-      'LanguageCode': languageCode.toValue(),
+      'LanguageCode': languageCode.value,
       'TransactionId': transactionId,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
     };
@@ -2958,7 +2957,7 @@ class ChimeSdkVoice {
     final $payload = <String, dynamic>{
       if (callingName != null) 'CallingName': callingName,
       if (name != null) 'Name': name,
-      if (productType != null) 'ProductType': productType.toValue(),
+      if (productType != null) 'ProductType': productType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3032,7 +3031,7 @@ class ChimeSdkVoice {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+      'Capabilities': capabilities.map((e) => e.value).toList(),
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
     };
     final response = await _protocol.send(
@@ -3480,31 +3479,18 @@ class Address {
 }
 
 enum AlexaSkillStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension AlexaSkillStatusValueExtension on AlexaSkillStatus {
-  String toValue() {
-    switch (this) {
-      case AlexaSkillStatus.active:
-        return 'ACTIVE';
-      case AlexaSkillStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension AlexaSkillStatusFromString on String {
-  AlexaSkillStatus toAlexaSkillStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AlexaSkillStatus.active;
-      case 'INACTIVE':
-        return AlexaSkillStatus.inactive;
-    }
-    throw Exception('$this is not known in enum AlexaSkillStatus');
-  }
+  const AlexaSkillStatus(this.value);
+
+  static AlexaSkillStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlexaSkillStatus'));
 }
 
 class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
@@ -3653,69 +3639,34 @@ class CallDetails {
 }
 
 enum CallLegType {
-  caller,
-  callee,
-}
+  caller('Caller'),
+  callee('Callee'),
+  ;
 
-extension CallLegTypeValueExtension on CallLegType {
-  String toValue() {
-    switch (this) {
-      case CallLegType.caller:
-        return 'Caller';
-      case CallLegType.callee:
-        return 'Callee';
-    }
-  }
-}
+  final String value;
 
-extension CallLegTypeFromString on String {
-  CallLegType toCallLegType() {
-    switch (this) {
-      case 'Caller':
-        return CallLegType.caller;
-      case 'Callee':
-        return CallLegType.callee;
-    }
-    throw Exception('$this is not known in enum CallLegType');
-  }
+  const CallLegType(this.value);
+
+  static CallLegType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CallLegType'));
 }
 
 enum CallingNameStatus {
-  unassigned,
-  updateInProgress,
-  updateSucceeded,
-  updateFailed,
-}
+  unassigned('Unassigned'),
+  updateInProgress('UpdateInProgress'),
+  updateSucceeded('UpdateSucceeded'),
+  updateFailed('UpdateFailed'),
+  ;
 
-extension CallingNameStatusValueExtension on CallingNameStatus {
-  String toValue() {
-    switch (this) {
-      case CallingNameStatus.unassigned:
-        return 'Unassigned';
-      case CallingNameStatus.updateInProgress:
-        return 'UpdateInProgress';
-      case CallingNameStatus.updateSucceeded:
-        return 'UpdateSucceeded';
-      case CallingNameStatus.updateFailed:
-        return 'UpdateFailed';
-    }
-  }
-}
+  final String value;
 
-extension CallingNameStatusFromString on String {
-  CallingNameStatus toCallingNameStatus() {
-    switch (this) {
-      case 'Unassigned':
-        return CallingNameStatus.unassigned;
-      case 'UpdateInProgress':
-        return CallingNameStatus.updateInProgress;
-      case 'UpdateSucceeded':
-        return CallingNameStatus.updateSucceeded;
-      case 'UpdateFailed':
-        return CallingNameStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum CallingNameStatus');
-  }
+  const CallingNameStatus(this.value);
+
+  static CallingNameStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CallingNameStatus'));
 }
 
 /// A suggested address.
@@ -3784,31 +3735,17 @@ class CandidateAddress {
 }
 
 enum Capability {
-  voice,
-  sms,
-}
+  voice('Voice'),
+  sms('SMS'),
+  ;
 
-extension CapabilityValueExtension on Capability {
-  String toValue() {
-    switch (this) {
-      case Capability.voice:
-        return 'Voice';
-      case Capability.sms:
-        return 'SMS';
-    }
-  }
-}
+  final String value;
 
-extension CapabilityFromString on String {
-  Capability toCapability() {
-    switch (this) {
-      case 'Voice':
-        return Capability.voice;
-      case 'SMS':
-        return Capability.sms;
-    }
-    throw Exception('$this is not known in enum Capability');
-  }
+  const Capability(this.value);
+
+  static Capability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Capability'));
 }
 
 class CreatePhoneNumberOrderResponse {
@@ -4193,129 +4130,46 @@ class EmergencyCallingConfiguration {
 }
 
 enum ErrorCode {
-  badRequest,
-  conflict,
-  forbidden,
-  notFound,
-  preconditionFailed,
-  resourceLimitExceeded,
-  serviceFailure,
-  accessDenied,
-  serviceUnavailable,
-  throttled,
-  throttling,
-  unauthorized,
-  unprocessable,
-  voiceConnectorGroupAssociationsExist,
-  phoneNumberAssociationsExist,
-  gone,
-}
+  badRequest('BadRequest'),
+  conflict('Conflict'),
+  forbidden('Forbidden'),
+  notFound('NotFound'),
+  preconditionFailed('PreconditionFailed'),
+  resourceLimitExceeded('ResourceLimitExceeded'),
+  serviceFailure('ServiceFailure'),
+  accessDenied('AccessDenied'),
+  serviceUnavailable('ServiceUnavailable'),
+  throttled('Throttled'),
+  throttling('Throttling'),
+  unauthorized('Unauthorized'),
+  unprocessable('Unprocessable'),
+  voiceConnectorGroupAssociationsExist('VoiceConnectorGroupAssociationsExist'),
+  phoneNumberAssociationsExist('PhoneNumberAssociationsExist'),
+  gone('Gone'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.badRequest:
-        return 'BadRequest';
-      case ErrorCode.conflict:
-        return 'Conflict';
-      case ErrorCode.forbidden:
-        return 'Forbidden';
-      case ErrorCode.notFound:
-        return 'NotFound';
-      case ErrorCode.preconditionFailed:
-        return 'PreconditionFailed';
-      case ErrorCode.resourceLimitExceeded:
-        return 'ResourceLimitExceeded';
-      case ErrorCode.serviceFailure:
-        return 'ServiceFailure';
-      case ErrorCode.accessDenied:
-        return 'AccessDenied';
-      case ErrorCode.serviceUnavailable:
-        return 'ServiceUnavailable';
-      case ErrorCode.throttled:
-        return 'Throttled';
-      case ErrorCode.throttling:
-        return 'Throttling';
-      case ErrorCode.unauthorized:
-        return 'Unauthorized';
-      case ErrorCode.unprocessable:
-        return 'Unprocessable';
-      case ErrorCode.voiceConnectorGroupAssociationsExist:
-        return 'VoiceConnectorGroupAssociationsExist';
-      case ErrorCode.phoneNumberAssociationsExist:
-        return 'PhoneNumberAssociationsExist';
-      case ErrorCode.gone:
-        return 'Gone';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'BadRequest':
-        return ErrorCode.badRequest;
-      case 'Conflict':
-        return ErrorCode.conflict;
-      case 'Forbidden':
-        return ErrorCode.forbidden;
-      case 'NotFound':
-        return ErrorCode.notFound;
-      case 'PreconditionFailed':
-        return ErrorCode.preconditionFailed;
-      case 'ResourceLimitExceeded':
-        return ErrorCode.resourceLimitExceeded;
-      case 'ServiceFailure':
-        return ErrorCode.serviceFailure;
-      case 'AccessDenied':
-        return ErrorCode.accessDenied;
-      case 'ServiceUnavailable':
-        return ErrorCode.serviceUnavailable;
-      case 'Throttled':
-        return ErrorCode.throttled;
-      case 'Throttling':
-        return ErrorCode.throttling;
-      case 'Unauthorized':
-        return ErrorCode.unauthorized;
-      case 'Unprocessable':
-        return ErrorCode.unprocessable;
-      case 'VoiceConnectorGroupAssociationsExist':
-        return ErrorCode.voiceConnectorGroupAssociationsExist;
-      case 'PhoneNumberAssociationsExist':
-        return ErrorCode.phoneNumberAssociationsExist;
-      case 'Gone':
-        return ErrorCode.gone;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 enum GeoMatchLevel {
-  country,
-  areaCode,
-}
+  country('Country'),
+  areaCode('AreaCode'),
+  ;
 
-extension GeoMatchLevelValueExtension on GeoMatchLevel {
-  String toValue() {
-    switch (this) {
-      case GeoMatchLevel.country:
-        return 'Country';
-      case GeoMatchLevel.areaCode:
-        return 'AreaCode';
-    }
-  }
-}
+  final String value;
 
-extension GeoMatchLevelFromString on String {
-  GeoMatchLevel toGeoMatchLevel() {
-    switch (this) {
-      case 'Country':
-        return GeoMatchLevel.country;
-      case 'AreaCode':
-        return GeoMatchLevel.areaCode;
-    }
-    throw Exception('$this is not known in enum GeoMatchLevel');
-  }
+  const GeoMatchLevel(this.value);
+
+  static GeoMatchLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GeoMatchLevel'));
 }
 
 /// The country and area code for a proxy phone number in a proxy phone session.
@@ -4926,26 +4780,17 @@ class GetVoiceToneAnalysisTaskResponse {
 }
 
 enum LanguageCode {
-  enUs,
-}
+  enUs('en-US'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.enUs:
-        return 'en-US';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'en-US':
-        return LanguageCode.enUs;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 class ListAvailableVoiceConnectorRegionsResponse {
@@ -4961,7 +4806,7 @@ class ListAvailableVoiceConnectorRegionsResponse {
     return ListAvailableVoiceConnectorRegionsResponse(
       voiceConnectorRegions: (json['VoiceConnectorRegions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toVoiceConnectorAwsRegion())
+          .map((e) => VoiceConnectorAwsRegion.fromString((e as String)))
           .toList(),
     );
   }
@@ -4971,7 +4816,7 @@ class ListAvailableVoiceConnectorRegionsResponse {
     return {
       if (voiceConnectorRegions != null)
         'VoiceConnectorRegions':
-            voiceConnectorRegions.map((e) => e.toValue()).toList(),
+            voiceConnectorRegions.map((e) => e.value).toList(),
     };
   }
 }
@@ -5410,64 +5255,34 @@ class MediaInsightsConfiguration {
 }
 
 enum NotificationTarget {
-  eventBridge,
-  sns,
-  sqs,
-}
+  eventBridge('EventBridge'),
+  sns('SNS'),
+  sqs('SQS'),
+  ;
 
-extension NotificationTargetValueExtension on NotificationTarget {
-  String toValue() {
-    switch (this) {
-      case NotificationTarget.eventBridge:
-        return 'EventBridge';
-      case NotificationTarget.sns:
-        return 'SNS';
-      case NotificationTarget.sqs:
-        return 'SQS';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTargetFromString on String {
-  NotificationTarget toNotificationTarget() {
-    switch (this) {
-      case 'EventBridge':
-        return NotificationTarget.eventBridge;
-      case 'SNS':
-        return NotificationTarget.sns;
-      case 'SQS':
-        return NotificationTarget.sqs;
-    }
-    throw Exception('$this is not known in enum NotificationTarget');
-  }
+  const NotificationTarget(this.value);
+
+  static NotificationTarget fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NotificationTarget'));
 }
 
 enum NumberSelectionBehavior {
-  preferSticky,
-  avoidSticky,
-}
+  preferSticky('PreferSticky'),
+  avoidSticky('AvoidSticky'),
+  ;
 
-extension NumberSelectionBehaviorValueExtension on NumberSelectionBehavior {
-  String toValue() {
-    switch (this) {
-      case NumberSelectionBehavior.preferSticky:
-        return 'PreferSticky';
-      case NumberSelectionBehavior.avoidSticky:
-        return 'AvoidSticky';
-    }
-  }
-}
+  final String value;
 
-extension NumberSelectionBehaviorFromString on String {
-  NumberSelectionBehavior toNumberSelectionBehavior() {
-    switch (this) {
-      case 'PreferSticky':
-        return NumberSelectionBehavior.preferSticky;
-      case 'AvoidSticky':
-        return NumberSelectionBehavior.avoidSticky;
-    }
-    throw Exception('$this is not known in enum NumberSelectionBehavior');
-  }
+  const NumberSelectionBehavior(this.value);
+
+  static NumberSelectionBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NumberSelectionBehavior'));
 }
 
 /// A phone number for which an order has been placed.
@@ -5486,7 +5301,8 @@ class OrderedPhoneNumber {
   factory OrderedPhoneNumber.fromJson(Map<String, dynamic> json) {
     return OrderedPhoneNumber(
       e164PhoneNumber: json['E164PhoneNumber'] as String?,
-      status: (json['Status'] as String?)?.toOrderedPhoneNumberStatus(),
+      status:
+          (json['Status'] as String?)?.let(OrderedPhoneNumberStatus.fromString),
     );
   }
 
@@ -5495,42 +5311,25 @@ class OrderedPhoneNumber {
     final status = this.status;
     return {
       if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum OrderedPhoneNumberStatus {
-  processing,
-  acquired,
-  failed,
-}
+  processing('Processing'),
+  acquired('Acquired'),
+  failed('Failed'),
+  ;
 
-extension OrderedPhoneNumberStatusValueExtension on OrderedPhoneNumberStatus {
-  String toValue() {
-    switch (this) {
-      case OrderedPhoneNumberStatus.processing:
-        return 'Processing';
-      case OrderedPhoneNumberStatus.acquired:
-        return 'Acquired';
-      case OrderedPhoneNumberStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension OrderedPhoneNumberStatusFromString on String {
-  OrderedPhoneNumberStatus toOrderedPhoneNumberStatus() {
-    switch (this) {
-      case 'Processing':
-        return OrderedPhoneNumberStatus.processing;
-      case 'Acquired':
-        return OrderedPhoneNumberStatus.acquired;
-      case 'Failed':
-        return OrderedPhoneNumberStatus.failed;
-    }
-    throw Exception('$this is not known in enum OrderedPhoneNumberStatus');
-  }
+  const OrderedPhoneNumberStatus(this.value);
+
+  static OrderedPhoneNumberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrderedPhoneNumberStatus'));
 }
 
 /// Origination settings enable your SIP hosts to receive inbound calls using
@@ -5612,7 +5411,8 @@ class OriginationRoute {
       host: json['Host'] as String?,
       port: json['Port'] as int?,
       priority: json['Priority'] as int?,
-      protocol: (json['Protocol'] as String?)?.toOriginationRouteProtocol(),
+      protocol: (json['Protocol'] as String?)
+          ?.let(OriginationRouteProtocol.fromString),
       weight: json['Weight'] as int?,
     );
   }
@@ -5627,38 +5427,25 @@ class OriginationRoute {
       if (host != null) 'Host': host,
       if (port != null) 'Port': port,
       if (priority != null) 'Priority': priority,
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (weight != null) 'Weight': weight,
     };
   }
 }
 
 enum OriginationRouteProtocol {
-  tcp,
-  udp,
-}
+  tcp('TCP'),
+  udp('UDP'),
+  ;
 
-extension OriginationRouteProtocolValueExtension on OriginationRouteProtocol {
-  String toValue() {
-    switch (this) {
-      case OriginationRouteProtocol.tcp:
-        return 'TCP';
-      case OriginationRouteProtocol.udp:
-        return 'UDP';
-    }
-  }
-}
+  final String value;
 
-extension OriginationRouteProtocolFromString on String {
-  OriginationRouteProtocol toOriginationRouteProtocol() {
-    switch (this) {
-      case 'TCP':
-        return OriginationRouteProtocol.tcp;
-      case 'UDP':
-        return OriginationRouteProtocol.udp;
-    }
-    throw Exception('$this is not known in enum OriginationRouteProtocol');
-  }
+  const OriginationRouteProtocol(this.value);
+
+  static OriginationRouteProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OriginationRouteProtocol'));
 }
 
 /// The phone number and proxy phone number for a participant in an Amazon Chime
@@ -5765,8 +5552,8 @@ class PhoneNumber {
               (e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
       callingName: json['CallingName'] as String?,
-      callingNameStatus:
-          (json['CallingNameStatus'] as String?)?.toCallingNameStatus(),
+      callingNameStatus: (json['CallingNameStatus'] as String?)
+          ?.let(CallingNameStatus.fromString),
       capabilities: json['Capabilities'] != null
           ? PhoneNumberCapabilities.fromJson(
               json['Capabilities'] as Map<String, dynamic>)
@@ -5778,9 +5565,10 @@ class PhoneNumber {
       name: json['Name'] as String?,
       orderId: json['OrderId'] as String?,
       phoneNumberId: json['PhoneNumberId'] as String?,
-      productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
-      status: (json['Status'] as String?)?.toPhoneNumberStatus(),
-      type: (json['Type'] as String?)?.toPhoneNumberType(),
+      productType: (json['ProductType'] as String?)
+          ?.let(PhoneNumberProductType.fromString),
+      status: (json['Status'] as String?)?.let(PhoneNumberStatus.fromString),
+      type: (json['Type'] as String?)?.let(PhoneNumberType.fromString),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
   }
@@ -5805,7 +5593,7 @@ class PhoneNumber {
       if (associations != null) 'Associations': associations,
       if (callingName != null) 'CallingName': callingName,
       if (callingNameStatus != null)
-        'CallingNameStatus': callingNameStatus.toValue(),
+        'CallingNameStatus': callingNameStatus.value,
       if (capabilities != null) 'Capabilities': capabilities,
       if (country != null) 'Country': country,
       if (createdTimestamp != null)
@@ -5816,9 +5604,9 @@ class PhoneNumber {
       if (name != null) 'Name': name,
       if (orderId != null) 'OrderId': orderId,
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
-      if (productType != null) 'ProductType': productType.toValue(),
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (productType != null) 'ProductType': productType.value,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
     };
@@ -5847,7 +5635,8 @@ class PhoneNumberAssociation {
   factory PhoneNumberAssociation.fromJson(Map<String, dynamic> json) {
     return PhoneNumberAssociation(
       associatedTimestamp: timeStampFromJson(json['AssociatedTimestamp']),
-      name: (json['Name'] as String?)?.toPhoneNumberAssociationName(),
+      name:
+          (json['Name'] as String?)?.let(PhoneNumberAssociationName.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -5859,44 +5648,26 @@ class PhoneNumberAssociation {
     return {
       if (associatedTimestamp != null)
         'AssociatedTimestamp': iso8601ToJson(associatedTimestamp),
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum PhoneNumberAssociationName {
-  voiceConnectorId,
-  voiceConnectorGroupId,
-  sipRuleId,
-}
+  voiceConnectorId('VoiceConnectorId'),
+  voiceConnectorGroupId('VoiceConnectorGroupId'),
+  sipRuleId('SipRuleId'),
+  ;
 
-extension PhoneNumberAssociationNameValueExtension
-    on PhoneNumberAssociationName {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberAssociationName.voiceConnectorId:
-        return 'VoiceConnectorId';
-      case PhoneNumberAssociationName.voiceConnectorGroupId:
-        return 'VoiceConnectorGroupId';
-      case PhoneNumberAssociationName.sipRuleId:
-        return 'SipRuleId';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberAssociationNameFromString on String {
-  PhoneNumberAssociationName toPhoneNumberAssociationName() {
-    switch (this) {
-      case 'VoiceConnectorId':
-        return PhoneNumberAssociationName.voiceConnectorId;
-      case 'VoiceConnectorGroupId':
-        return PhoneNumberAssociationName.voiceConnectorGroupId;
-      case 'SipRuleId':
-        return PhoneNumberAssociationName.sipRuleId;
-    }
-    throw Exception('$this is not known in enum PhoneNumberAssociationName');
-  }
+  const PhoneNumberAssociationName(this.value);
+
+  static PhoneNumberAssociationName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PhoneNumberAssociationName'));
 }
 
 /// The phone number capabilities for Amazon Chime SDK phone numbers, such as
@@ -5976,7 +5747,7 @@ class PhoneNumberCountry {
       countryCode: json['CountryCode'] as String?,
       supportedPhoneNumberTypes: (json['SupportedPhoneNumberTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPhoneNumberType())
+          .map((e) => PhoneNumberType.fromString((e as String)))
           .toList(),
     );
   }
@@ -5988,7 +5759,7 @@ class PhoneNumberCountry {
       if (countryCode != null) 'CountryCode': countryCode,
       if (supportedPhoneNumberTypes != null)
         'SupportedPhoneNumberTypes':
-            supportedPhoneNumberTypes.map((e) => e.toValue()).toList(),
+            supportedPhoneNumberTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -6014,7 +5785,7 @@ class PhoneNumberError {
 
   factory PhoneNumberError.fromJson(Map<String, dynamic> json) {
     return PhoneNumberError(
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       phoneNumberId: json['PhoneNumberId'] as String?,
     );
@@ -6025,7 +5796,7 @@ class PhoneNumberError {
     final errorMessage = this.errorMessage;
     final phoneNumberId = this.phoneNumberId;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
     };
@@ -6069,14 +5840,17 @@ class PhoneNumberOrder {
   factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) {
     return PhoneNumberOrder(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      orderType: (json['OrderType'] as String?)?.toPhoneNumberOrderType(),
+      orderType:
+          (json['OrderType'] as String?)?.let(PhoneNumberOrderType.fromString),
       orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
           ?.whereNotNull()
           .map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
-      productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
-      status: (json['Status'] as String?)?.toPhoneNumberOrderStatus(),
+      productType: (json['ProductType'] as String?)
+          ?.let(PhoneNumberProductType.fromString),
+      status:
+          (json['Status'] as String?)?.let(PhoneNumberOrderStatus.fromString),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
   }
@@ -6092,12 +5866,12 @@ class PhoneNumberOrder {
     return {
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (orderType != null) 'OrderType': orderType.toValue(),
+      if (orderType != null) 'OrderType': orderType.value,
       if (orderedPhoneNumbers != null)
         'OrderedPhoneNumbers': orderedPhoneNumbers,
       if (phoneNumberOrderId != null) 'PhoneNumberOrderId': phoneNumberOrderId,
-      if (productType != null) 'ProductType': productType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (productType != null) 'ProductType': productType.value,
+      if (status != null) 'Status': status.value,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
     };
@@ -6105,233 +5879,96 @@ class PhoneNumberOrder {
 }
 
 enum PhoneNumberOrderStatus {
-  processing,
-  successful,
-  failed,
-  partial,
-  pendingDocuments,
-  submitted,
-  foc,
-  changeRequested,
-  exception,
-  cancelRequested,
-  cancelled,
-}
+  processing('Processing'),
+  successful('Successful'),
+  failed('Failed'),
+  partial('Partial'),
+  pendingDocuments('PendingDocuments'),
+  submitted('Submitted'),
+  foc('FOC'),
+  changeRequested('ChangeRequested'),
+  exception('Exception'),
+  cancelRequested('CancelRequested'),
+  cancelled('Cancelled'),
+  ;
 
-extension PhoneNumberOrderStatusValueExtension on PhoneNumberOrderStatus {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberOrderStatus.processing:
-        return 'Processing';
-      case PhoneNumberOrderStatus.successful:
-        return 'Successful';
-      case PhoneNumberOrderStatus.failed:
-        return 'Failed';
-      case PhoneNumberOrderStatus.partial:
-        return 'Partial';
-      case PhoneNumberOrderStatus.pendingDocuments:
-        return 'PendingDocuments';
-      case PhoneNumberOrderStatus.submitted:
-        return 'Submitted';
-      case PhoneNumberOrderStatus.foc:
-        return 'FOC';
-      case PhoneNumberOrderStatus.changeRequested:
-        return 'ChangeRequested';
-      case PhoneNumberOrderStatus.exception:
-        return 'Exception';
-      case PhoneNumberOrderStatus.cancelRequested:
-        return 'CancelRequested';
-      case PhoneNumberOrderStatus.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberOrderStatusFromString on String {
-  PhoneNumberOrderStatus toPhoneNumberOrderStatus() {
-    switch (this) {
-      case 'Processing':
-        return PhoneNumberOrderStatus.processing;
-      case 'Successful':
-        return PhoneNumberOrderStatus.successful;
-      case 'Failed':
-        return PhoneNumberOrderStatus.failed;
-      case 'Partial':
-        return PhoneNumberOrderStatus.partial;
-      case 'PendingDocuments':
-        return PhoneNumberOrderStatus.pendingDocuments;
-      case 'Submitted':
-        return PhoneNumberOrderStatus.submitted;
-      case 'FOC':
-        return PhoneNumberOrderStatus.foc;
-      case 'ChangeRequested':
-        return PhoneNumberOrderStatus.changeRequested;
-      case 'Exception':
-        return PhoneNumberOrderStatus.exception;
-      case 'CancelRequested':
-        return PhoneNumberOrderStatus.cancelRequested;
-      case 'Cancelled':
-        return PhoneNumberOrderStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum PhoneNumberOrderStatus');
-  }
+  const PhoneNumberOrderStatus(this.value);
+
+  static PhoneNumberOrderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PhoneNumberOrderStatus'));
 }
 
 enum PhoneNumberOrderType {
-  $new,
-  porting,
-}
+  $new('New'),
+  porting('Porting'),
+  ;
 
-extension PhoneNumberOrderTypeValueExtension on PhoneNumberOrderType {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberOrderType.$new:
-        return 'New';
-      case PhoneNumberOrderType.porting:
-        return 'Porting';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberOrderTypeFromString on String {
-  PhoneNumberOrderType toPhoneNumberOrderType() {
-    switch (this) {
-      case 'New':
-        return PhoneNumberOrderType.$new;
-      case 'Porting':
-        return PhoneNumberOrderType.porting;
-    }
-    throw Exception('$this is not known in enum PhoneNumberOrderType');
-  }
+  const PhoneNumberOrderType(this.value);
+
+  static PhoneNumberOrderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PhoneNumberOrderType'));
 }
 
 enum PhoneNumberProductType {
-  voiceConnector,
-  sipMediaApplicationDialIn,
-}
+  voiceConnector('VoiceConnector'),
+  sipMediaApplicationDialIn('SipMediaApplicationDialIn'),
+  ;
 
-extension PhoneNumberProductTypeValueExtension on PhoneNumberProductType {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberProductType.voiceConnector:
-        return 'VoiceConnector';
-      case PhoneNumberProductType.sipMediaApplicationDialIn:
-        return 'SipMediaApplicationDialIn';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberProductTypeFromString on String {
-  PhoneNumberProductType toPhoneNumberProductType() {
-    switch (this) {
-      case 'VoiceConnector':
-        return PhoneNumberProductType.voiceConnector;
-      case 'SipMediaApplicationDialIn':
-        return PhoneNumberProductType.sipMediaApplicationDialIn;
-    }
-    throw Exception('$this is not known in enum PhoneNumberProductType');
-  }
+  const PhoneNumberProductType(this.value);
+
+  static PhoneNumberProductType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PhoneNumberProductType'));
 }
 
 enum PhoneNumberStatus {
-  cancelled,
-  portinCancelRequested,
-  portinInProgress,
-  acquireInProgress,
-  acquireFailed,
-  unassigned,
-  assigned,
-  releaseInProgress,
-  deleteInProgress,
-  releaseFailed,
-  deleteFailed,
-}
+  cancelled('Cancelled'),
+  portinCancelRequested('PortinCancelRequested'),
+  portinInProgress('PortinInProgress'),
+  acquireInProgress('AcquireInProgress'),
+  acquireFailed('AcquireFailed'),
+  unassigned('Unassigned'),
+  assigned('Assigned'),
+  releaseInProgress('ReleaseInProgress'),
+  deleteInProgress('DeleteInProgress'),
+  releaseFailed('ReleaseFailed'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension PhoneNumberStatusValueExtension on PhoneNumberStatus {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberStatus.cancelled:
-        return 'Cancelled';
-      case PhoneNumberStatus.portinCancelRequested:
-        return 'PortinCancelRequested';
-      case PhoneNumberStatus.portinInProgress:
-        return 'PortinInProgress';
-      case PhoneNumberStatus.acquireInProgress:
-        return 'AcquireInProgress';
-      case PhoneNumberStatus.acquireFailed:
-        return 'AcquireFailed';
-      case PhoneNumberStatus.unassigned:
-        return 'Unassigned';
-      case PhoneNumberStatus.assigned:
-        return 'Assigned';
-      case PhoneNumberStatus.releaseInProgress:
-        return 'ReleaseInProgress';
-      case PhoneNumberStatus.deleteInProgress:
-        return 'DeleteInProgress';
-      case PhoneNumberStatus.releaseFailed:
-        return 'ReleaseFailed';
-      case PhoneNumberStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberStatusFromString on String {
-  PhoneNumberStatus toPhoneNumberStatus() {
-    switch (this) {
-      case 'Cancelled':
-        return PhoneNumberStatus.cancelled;
-      case 'PortinCancelRequested':
-        return PhoneNumberStatus.portinCancelRequested;
-      case 'PortinInProgress':
-        return PhoneNumberStatus.portinInProgress;
-      case 'AcquireInProgress':
-        return PhoneNumberStatus.acquireInProgress;
-      case 'AcquireFailed':
-        return PhoneNumberStatus.acquireFailed;
-      case 'Unassigned':
-        return PhoneNumberStatus.unassigned;
-      case 'Assigned':
-        return PhoneNumberStatus.assigned;
-      case 'ReleaseInProgress':
-        return PhoneNumberStatus.releaseInProgress;
-      case 'DeleteInProgress':
-        return PhoneNumberStatus.deleteInProgress;
-      case 'ReleaseFailed':
-        return PhoneNumberStatus.releaseFailed;
-      case 'DeleteFailed':
-        return PhoneNumberStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum PhoneNumberStatus');
-  }
+  const PhoneNumberStatus(this.value);
+
+  static PhoneNumberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PhoneNumberStatus'));
 }
 
 enum PhoneNumberType {
-  local,
-  tollFree,
-}
+  local('Local'),
+  tollFree('TollFree'),
+  ;
 
-extension PhoneNumberTypeValueExtension on PhoneNumberType {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberType.local:
-        return 'Local';
-      case PhoneNumberType.tollFree:
-        return 'TollFree';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberTypeFromString on String {
-  PhoneNumberType toPhoneNumberType() {
-    switch (this) {
-      case 'Local':
-        return PhoneNumberType.local;
-      case 'TollFree':
-        return PhoneNumberType.tollFree;
-    }
-    throw Exception('$this is not known in enum PhoneNumberType');
-  }
+  const PhoneNumberType(this.value);
+
+  static PhoneNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PhoneNumberType'));
 }
 
 /// The proxy configuration for an Amazon Chime SDK Voice Connector.
@@ -6448,25 +6085,26 @@ class ProxySession {
     return ProxySession(
       capabilities: (json['Capabilities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toCapability())
+          .map((e) => Capability.fromString((e as String)))
           .toList(),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       endedTimestamp: timeStampFromJson(json['EndedTimestamp']),
       expiryMinutes: json['ExpiryMinutes'] as int?,
-      geoMatchLevel: (json['GeoMatchLevel'] as String?)?.toGeoMatchLevel(),
+      geoMatchLevel:
+          (json['GeoMatchLevel'] as String?)?.let(GeoMatchLevel.fromString),
       geoMatchParams: json['GeoMatchParams'] != null
           ? GeoMatchParams.fromJson(
               json['GeoMatchParams'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
       numberSelectionBehavior: (json['NumberSelectionBehavior'] as String?)
-          ?.toNumberSelectionBehavior(),
+          ?.let(NumberSelectionBehavior.fromString),
       participants: (json['Participants'] as List?)
           ?.whereNotNull()
           .map((e) => Participant.fromJson(e as Map<String, dynamic>))
           .toList(),
       proxySessionId: json['ProxySessionId'] as String?,
-      status: (json['Status'] as String?)?.toProxySessionStatus(),
+      status: (json['Status'] as String?)?.let(ProxySessionStatus.fromString),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
       voiceConnectorId: json['VoiceConnectorId'] as String?,
     );
@@ -6488,20 +6126,20 @@ class ProxySession {
     final voiceConnectorId = this.voiceConnectorId;
     return {
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
       if (endedTimestamp != null)
         'EndedTimestamp': iso8601ToJson(endedTimestamp),
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.toValue(),
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.value,
       if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
       if (name != null) 'Name': name,
       if (numberSelectionBehavior != null)
-        'NumberSelectionBehavior': numberSelectionBehavior.toValue(),
+        'NumberSelectionBehavior': numberSelectionBehavior.value,
       if (participants != null) 'Participants': participants,
       if (proxySessionId != null) 'ProxySessionId': proxySessionId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
       if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
@@ -6510,36 +6148,19 @@ class ProxySession {
 }
 
 enum ProxySessionStatus {
-  open,
-  inProgress,
-  closed,
-}
+  open('Open'),
+  inProgress('InProgress'),
+  closed('Closed'),
+  ;
 
-extension ProxySessionStatusValueExtension on ProxySessionStatus {
-  String toValue() {
-    switch (this) {
-      case ProxySessionStatus.open:
-        return 'Open';
-      case ProxySessionStatus.inProgress:
-        return 'InProgress';
-      case ProxySessionStatus.closed:
-        return 'Closed';
-    }
-  }
-}
+  final String value;
 
-extension ProxySessionStatusFromString on String {
-  ProxySessionStatus toProxySessionStatus() {
-    switch (this) {
-      case 'Open':
-        return ProxySessionStatus.open;
-      case 'InProgress':
-        return ProxySessionStatus.inProgress;
-      case 'Closed':
-        return ProxySessionStatus.closed;
-    }
-    throw Exception('$this is not known in enum ProxySessionStatus');
-  }
+  const ProxySessionStatus(this.value);
+
+  static ProxySessionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProxySessionStatus'));
 }
 
 class PutSipMediaApplicationAlexaSkillConfigurationResponse {
@@ -6951,7 +6572,7 @@ class SipMediaApplicationAlexaSkillConfiguration {
           .map((e) => e as String)
           .toList(),
       alexaSkillStatus:
-          (json['AlexaSkillStatus'] as String).toAlexaSkillStatus(),
+          AlexaSkillStatus.fromString((json['AlexaSkillStatus'] as String)),
     );
   }
 
@@ -6960,7 +6581,7 @@ class SipMediaApplicationAlexaSkillConfiguration {
     final alexaSkillStatus = this.alexaSkillStatus;
     return {
       'AlexaSkillIds': alexaSkillIds,
-      'AlexaSkillStatus': alexaSkillStatus.toValue(),
+      'AlexaSkillStatus': alexaSkillStatus.value,
     };
   }
 }
@@ -7095,7 +6716,8 @@ class SipRule {
           .map((e) =>
               SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
-      triggerType: (json['TriggerType'] as String?)?.toSipRuleTriggerType(),
+      triggerType:
+          (json['TriggerType'] as String?)?.let(SipRuleTriggerType.fromString),
       triggerValue: json['TriggerValue'] as String?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
@@ -7117,7 +6739,7 @@ class SipRule {
       if (name != null) 'Name': name,
       if (sipRuleId != null) 'SipRuleId': sipRuleId,
       if (targetApplications != null) 'TargetApplications': targetApplications,
-      if (triggerType != null) 'TriggerType': triggerType.toValue(),
+      if (triggerType != null) 'TriggerType': triggerType.value,
       if (triggerValue != null) 'TriggerValue': triggerValue,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
@@ -7166,31 +6788,18 @@ class SipRuleTargetApplication {
 }
 
 enum SipRuleTriggerType {
-  toPhoneNumber,
-  requestUriHostname,
-}
+  toPhoneNumber('ToPhoneNumber'),
+  requestUriHostname('RequestUriHostname'),
+  ;
 
-extension SipRuleTriggerTypeValueExtension on SipRuleTriggerType {
-  String toValue() {
-    switch (this) {
-      case SipRuleTriggerType.toPhoneNumber:
-        return 'ToPhoneNumber';
-      case SipRuleTriggerType.requestUriHostname:
-        return 'RequestUriHostname';
-    }
-  }
-}
+  final String value;
 
-extension SipRuleTriggerTypeFromString on String {
-  SipRuleTriggerType toSipRuleTriggerType() {
-    switch (this) {
-      case 'ToPhoneNumber':
-        return SipRuleTriggerType.toPhoneNumber;
-      case 'RequestUriHostname':
-        return SipRuleTriggerType.requestUriHostname;
-    }
-    throw Exception('$this is not known in enum SipRuleTriggerType');
-  }
+  const SipRuleTriggerType(this.value);
+
+  static SipRuleTriggerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SipRuleTriggerType'));
 }
 
 /// The details of a speaker search task.
@@ -7465,8 +7074,8 @@ class StreamingNotificationTarget {
 
   factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) {
     return StreamingNotificationTarget(
-      notificationTarget:
-          (json['NotificationTarget'] as String?)?.toNotificationTarget(),
+      notificationTarget: (json['NotificationTarget'] as String?)
+          ?.let(NotificationTarget.fromString),
     );
   }
 
@@ -7474,7 +7083,7 @@ class StreamingNotificationTarget {
     final notificationTarget = this.notificationTarget;
     return {
       if (notificationTarget != null)
-        'NotificationTarget': notificationTarget.toValue(),
+        'NotificationTarget': notificationTarget.value,
     };
   }
 }
@@ -7632,7 +7241,7 @@ class UpdatePhoneNumberRequestItem {
       'PhoneNumberId': phoneNumberId,
       if (callingName != null) 'CallingName': callingName,
       if (name != null) 'Name': name,
-      if (productType != null) 'ProductType': productType.toValue(),
+      if (productType != null) 'ProductType': productType.value,
     };
   }
 }
@@ -7956,7 +7565,8 @@ class VoiceConnector {
 
   factory VoiceConnector.fromJson(Map<String, dynamic> json) {
     return VoiceConnector(
-      awsRegion: (json['AwsRegion'] as String?)?.toVoiceConnectorAwsRegion(),
+      awsRegion: (json['AwsRegion'] as String?)
+          ?.let(VoiceConnectorAwsRegion.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       name: json['Name'] as String?,
       outboundHostName: json['OutboundHostName'] as String?,
@@ -7977,7 +7587,7 @@ class VoiceConnector {
     final voiceConnectorArn = this.voiceConnectorArn;
     final voiceConnectorId = this.voiceConnectorId;
     return {
-      if (awsRegion != null) 'AwsRegion': awsRegion.toValue(),
+      if (awsRegion != null) 'AwsRegion': awsRegion.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
       if (name != null) 'Name': name,
@@ -7992,71 +7602,26 @@ class VoiceConnector {
 }
 
 enum VoiceConnectorAwsRegion {
-  usEast_1,
-  usWest_2,
-  caCentral_1,
-  euCentral_1,
-  euWest_1,
-  euWest_2,
-  apNortheast_2,
-  apNortheast_1,
-  apSoutheast_1,
-  apSoutheast_2,
-}
+  usEast_1('us-east-1'),
+  usWest_2('us-west-2'),
+  caCentral_1('ca-central-1'),
+  euCentral_1('eu-central-1'),
+  euWest_1('eu-west-1'),
+  euWest_2('eu-west-2'),
+  apNortheast_2('ap-northeast-2'),
+  apNortheast_1('ap-northeast-1'),
+  apSoutheast_1('ap-southeast-1'),
+  apSoutheast_2('ap-southeast-2'),
+  ;
 
-extension VoiceConnectorAwsRegionValueExtension on VoiceConnectorAwsRegion {
-  String toValue() {
-    switch (this) {
-      case VoiceConnectorAwsRegion.usEast_1:
-        return 'us-east-1';
-      case VoiceConnectorAwsRegion.usWest_2:
-        return 'us-west-2';
-      case VoiceConnectorAwsRegion.caCentral_1:
-        return 'ca-central-1';
-      case VoiceConnectorAwsRegion.euCentral_1:
-        return 'eu-central-1';
-      case VoiceConnectorAwsRegion.euWest_1:
-        return 'eu-west-1';
-      case VoiceConnectorAwsRegion.euWest_2:
-        return 'eu-west-2';
-      case VoiceConnectorAwsRegion.apNortheast_2:
-        return 'ap-northeast-2';
-      case VoiceConnectorAwsRegion.apNortheast_1:
-        return 'ap-northeast-1';
-      case VoiceConnectorAwsRegion.apSoutheast_1:
-        return 'ap-southeast-1';
-      case VoiceConnectorAwsRegion.apSoutheast_2:
-        return 'ap-southeast-2';
-    }
-  }
-}
+  final String value;
 
-extension VoiceConnectorAwsRegionFromString on String {
-  VoiceConnectorAwsRegion toVoiceConnectorAwsRegion() {
-    switch (this) {
-      case 'us-east-1':
-        return VoiceConnectorAwsRegion.usEast_1;
-      case 'us-west-2':
-        return VoiceConnectorAwsRegion.usWest_2;
-      case 'ca-central-1':
-        return VoiceConnectorAwsRegion.caCentral_1;
-      case 'eu-central-1':
-        return VoiceConnectorAwsRegion.euCentral_1;
-      case 'eu-west-1':
-        return VoiceConnectorAwsRegion.euWest_1;
-      case 'eu-west-2':
-        return VoiceConnectorAwsRegion.euWest_2;
-      case 'ap-northeast-2':
-        return VoiceConnectorAwsRegion.apNortheast_2;
-      case 'ap-northeast-1':
-        return VoiceConnectorAwsRegion.apNortheast_1;
-      case 'ap-southeast-1':
-        return VoiceConnectorAwsRegion.apSoutheast_1;
-      case 'ap-southeast-2':
-        return VoiceConnectorAwsRegion.apSoutheast_2;
-    }
-    throw Exception('$this is not known in enum VoiceConnectorAwsRegion');
-  }
+  const VoiceConnectorAwsRegion(this.value);
+
+  static VoiceConnectorAwsRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VoiceConnectorAwsRegion'));
 }
 
 /// The Amazon Chime SDK Voice Connector group configuration, including

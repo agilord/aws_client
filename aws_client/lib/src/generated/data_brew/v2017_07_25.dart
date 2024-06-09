@@ -157,7 +157,7 @@ class GlueDataBrew {
     final $payload = <String, dynamic>{
       'Input': input,
       'Name': name,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
       if (pathOptions != null) 'PathOptions': pathOptions,
       if (tags != null) 'Tags': tags,
@@ -274,9 +274,9 @@ class GlueDataBrew {
       'RoleArn': roleArn,
       if (configuration != null) 'Configuration': configuration,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
       if (jobSample != null) 'JobSample': jobSample,
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (tags != null) 'Tags': tags,
@@ -487,8 +487,8 @@ class GlueDataBrew {
       if (databaseOutputs != null) 'DatabaseOutputs': databaseOutputs,
       if (datasetName != null) 'DatasetName': datasetName,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (outputs != null) 'Outputs': outputs,
@@ -1443,7 +1443,7 @@ class GlueDataBrew {
   }) async {
     final $payload = <String, dynamic>{
       'Input': input,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
       if (pathOptions != null) 'PathOptions': pathOptions,
     };
@@ -1546,9 +1546,9 @@ class GlueDataBrew {
       'RoleArn': roleArn,
       if (configuration != null) 'Configuration': configuration,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
       if (jobSample != null) 'JobSample': jobSample,
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (timeout != null) 'Timeout': timeout,
@@ -1711,8 +1711,8 @@ class GlueDataBrew {
       if (dataCatalogOutputs != null) 'DataCatalogOutputs': dataCatalogOutputs,
       if (databaseOutputs != null) 'DatabaseOutputs': databaseOutputs,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (outputs != null) 'Outputs': outputs,
@@ -1825,31 +1825,18 @@ class AllowedStatistics {
 }
 
 enum AnalyticsMode {
-  enable,
-  disable,
-}
+  enable('ENABLE'),
+  disable('DISABLE'),
+  ;
 
-extension AnalyticsModeValueExtension on AnalyticsMode {
-  String toValue() {
-    switch (this) {
-      case AnalyticsMode.enable:
-        return 'ENABLE';
-      case AnalyticsMode.disable:
-        return 'DISABLE';
-    }
-  }
-}
+  final String value;
 
-extension AnalyticsModeFromString on String {
-  AnalyticsMode toAnalyticsMode() {
-    switch (this) {
-      case 'ENABLE':
-        return AnalyticsMode.enable;
-      case 'DISABLE':
-        return AnalyticsMode.disable;
-    }
-    throw Exception('$this is not known in enum AnalyticsMode');
-  }
+  const AnalyticsMode(this.value);
+
+  static AnalyticsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalyticsMode'));
 }
 
 class BatchDeleteRecipeVersionResponse {
@@ -1957,66 +1944,25 @@ class ColumnStatisticsConfiguration {
 }
 
 enum CompressionFormat {
-  gzip,
-  lz4,
-  snappy,
-  bzip2,
-  deflate,
-  lzo,
-  brotli,
-  zstd,
-  zlib,
-}
+  gzip('GZIP'),
+  lz4('LZ4'),
+  snappy('SNAPPY'),
+  bzip2('BZIP2'),
+  deflate('DEFLATE'),
+  lzo('LZO'),
+  brotli('BROTLI'),
+  zstd('ZSTD'),
+  zlib('ZLIB'),
+  ;
 
-extension CompressionFormatValueExtension on CompressionFormat {
-  String toValue() {
-    switch (this) {
-      case CompressionFormat.gzip:
-        return 'GZIP';
-      case CompressionFormat.lz4:
-        return 'LZ4';
-      case CompressionFormat.snappy:
-        return 'SNAPPY';
-      case CompressionFormat.bzip2:
-        return 'BZIP2';
-      case CompressionFormat.deflate:
-        return 'DEFLATE';
-      case CompressionFormat.lzo:
-        return 'LZO';
-      case CompressionFormat.brotli:
-        return 'BROTLI';
-      case CompressionFormat.zstd:
-        return 'ZSTD';
-      case CompressionFormat.zlib:
-        return 'ZLIB';
-    }
-  }
-}
+  final String value;
 
-extension CompressionFormatFromString on String {
-  CompressionFormat toCompressionFormat() {
-    switch (this) {
-      case 'GZIP':
-        return CompressionFormat.gzip;
-      case 'LZ4':
-        return CompressionFormat.lz4;
-      case 'SNAPPY':
-        return CompressionFormat.snappy;
-      case 'BZIP2':
-        return CompressionFormat.bzip2;
-      case 'DEFLATE':
-        return CompressionFormat.deflate;
-      case 'LZO':
-        return CompressionFormat.lzo;
-      case 'BROTLI':
-        return CompressionFormat.brotli;
-      case 'ZSTD':
-        return CompressionFormat.zstd;
-      case 'ZLIB':
-        return CompressionFormat.zlib;
-    }
-    throw Exception('$this is not known in enum CompressionFormat');
-  }
+  const CompressionFormat(this.value);
+
+  static CompressionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CompressionFormat'));
 }
 
 /// Represents an individual condition that evaluates to true or false.
@@ -2468,8 +2414,8 @@ class DatabaseOutput {
       databaseOptions: DatabaseTableOutputOptions.fromJson(
           json['DatabaseOptions'] as Map<String, dynamic>),
       glueConnectionName: json['GlueConnectionName'] as String,
-      databaseOutputMode:
-          (json['DatabaseOutputMode'] as String?)?.toDatabaseOutputMode(),
+      databaseOutputMode: (json['DatabaseOutputMode'] as String?)
+          ?.let(DatabaseOutputMode.fromString),
     );
   }
 
@@ -2481,32 +2427,23 @@ class DatabaseOutput {
       'DatabaseOptions': databaseOptions,
       'GlueConnectionName': glueConnectionName,
       if (databaseOutputMode != null)
-        'DatabaseOutputMode': databaseOutputMode.toValue(),
+        'DatabaseOutputMode': databaseOutputMode.value,
     };
   }
 }
 
 enum DatabaseOutputMode {
-  newTable,
-}
+  newTable('NEW_TABLE'),
+  ;
 
-extension DatabaseOutputModeValueExtension on DatabaseOutputMode {
-  String toValue() {
-    switch (this) {
-      case DatabaseOutputMode.newTable:
-        return 'NEW_TABLE';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseOutputModeFromString on String {
-  DatabaseOutputMode toDatabaseOutputMode() {
-    switch (this) {
-      case 'NEW_TABLE':
-        return DatabaseOutputMode.newTable;
-    }
-    throw Exception('$this is not known in enum DatabaseOutputMode');
-  }
+  const DatabaseOutputMode(this.value);
+
+  static DatabaseOutputMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DatabaseOutputMode'));
 }
 
 /// Represents options that specify how and where DataBrew writes the database
@@ -2612,7 +2549,7 @@ class Dataset {
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
-      format: (json['Format'] as String?)?.toInputFormat(),
+      format: (json['Format'] as String?)?.let(InputFormat.fromString),
       formatOptions: json['FormatOptions'] != null
           ? FormatOptions.fromJson(
               json['FormatOptions'] as Map<String, dynamic>)
@@ -2623,7 +2560,7 @@ class Dataset {
           ? PathOptions.fromJson(json['PathOptions'] as Map<String, dynamic>)
           : null,
       resourceArn: json['ResourceArn'] as String?,
-      source: (json['Source'] as String?)?.toSource(),
+      source: (json['Source'] as String?)?.let(Source.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2649,14 +2586,14 @@ class Dataset {
       if (accountId != null) 'AccountId': accountId,
       if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
       if (createdBy != null) 'CreatedBy': createdBy,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (pathOptions != null) 'PathOptions': pathOptions,
       if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (source != null) 'Source': source.toValue(),
+      if (source != null) 'Source': source.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2695,7 +2632,7 @@ class DatasetParameter {
   factory DatasetParameter.fromJson(Map<String, dynamic> json) {
     return DatasetParameter(
       name: json['Name'] as String,
-      type: (json['Type'] as String).toParameterType(),
+      type: ParameterType.fromString((json['Type'] as String)),
       createColumn: json['CreateColumn'] as bool?,
       datetimeOptions: json['DatetimeOptions'] != null
           ? DatetimeOptions.fromJson(
@@ -2715,7 +2652,7 @@ class DatasetParameter {
     final filter = this.filter;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (createColumn != null) 'CreateColumn': createColumn,
       if (datetimeOptions != null) 'DatetimeOptions': datetimeOptions,
       if (filter != null) 'Filter': filter,
@@ -2964,7 +2901,7 @@ class DescribeDatasetResponse {
       name: json['Name'] as String,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
-      format: (json['Format'] as String?)?.toInputFormat(),
+      format: (json['Format'] as String?)?.let(InputFormat.fromString),
       formatOptions: json['FormatOptions'] != null
           ? FormatOptions.fromJson(
               json['FormatOptions'] as Map<String, dynamic>)
@@ -2975,7 +2912,7 @@ class DescribeDatasetResponse {
           ? PathOptions.fromJson(json['PathOptions'] as Map<String, dynamic>)
           : null,
       resourceArn: json['ResourceArn'] as String?,
-      source: (json['Source'] as String?)?.toSource(),
+      source: (json['Source'] as String?)?.let(Source.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2999,14 +2936,14 @@ class DescribeDatasetResponse {
       'Name': name,
       if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
       if (createdBy != null) 'CreatedBy': createdBy,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (pathOptions != null) 'PathOptions': pathOptions,
       if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (source != null) 'Source': source.toValue(),
+      if (source != null) 'Source': source.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3155,14 +3092,15 @@ class DescribeJobResponse {
           .toList(),
       datasetName: json['DatasetName'] as String?,
       encryptionKeyArn: json['EncryptionKeyArn'] as String?,
-      encryptionMode: (json['EncryptionMode'] as String?)?.toEncryptionMode(),
+      encryptionMode:
+          (json['EncryptionMode'] as String?)?.let(EncryptionMode.fromString),
       jobSample: json['JobSample'] != null
           ? JobSample.fromJson(json['JobSample'] as Map<String, dynamic>)
           : null,
       lastModifiedBy: json['LastModifiedBy'] as String?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       logSubscription:
-          (json['LogSubscription'] as String?)?.toLogSubscription(),
+          (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       maxCapacity: json['MaxCapacity'] as int?,
       maxRetries: json['MaxRetries'] as int?,
       outputs: (json['Outputs'] as List?)
@@ -3183,7 +3121,7 @@ class DescribeJobResponse {
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       timeout: json['Timeout'] as int?,
-      type: (json['Type'] as String?)?.toJobType(),
+      type: (json['Type'] as String?)?.let(JobType.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -3225,12 +3163,12 @@ class DescribeJobResponse {
       if (databaseOutputs != null) 'DatabaseOutputs': databaseOutputs,
       if (datasetName != null) 'DatasetName': datasetName,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
       if (jobSample != null) 'JobSample': jobSample,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (outputs != null) 'Outputs': outputs,
@@ -3242,7 +3180,7 @@ class DescribeJobResponse {
       if (roleArn != null) 'RoleArn': roleArn,
       if (tags != null) 'Tags': tags,
       if (timeout != null) 'Timeout': timeout,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (validationConfigurations != null)
         'ValidationConfigurations': validationConfigurations,
     };
@@ -3357,7 +3295,7 @@ class DescribeJobRunResponse {
           : null,
       logGroupName: json['LogGroupName'] as String?,
       logSubscription:
-          (json['LogSubscription'] as String?)?.toLogSubscription(),
+          (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       outputs: (json['Outputs'] as List?)
           ?.whereNotNull()
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
@@ -3373,7 +3311,7 @@ class DescribeJobRunResponse {
       runId: json['RunId'] as String?,
       startedBy: json['StartedBy'] as String?,
       startedOn: timeStampFromJson(json['StartedOn']),
-      state: (json['State'] as String?)?.toJobRunState(),
+      state: (json['State'] as String?)?.let(JobRunState.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -3413,7 +3351,7 @@ class DescribeJobRunResponse {
       if (executionTime != null) 'ExecutionTime': executionTime,
       if (jobSample != null) 'JobSample': jobSample,
       if (logGroupName != null) 'LogGroupName': logGroupName,
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (outputs != null) 'Outputs': outputs,
       if (profileConfiguration != null)
         'ProfileConfiguration': profileConfiguration,
@@ -3421,7 +3359,7 @@ class DescribeJobRunResponse {
       if (runId != null) 'RunId': runId,
       if (startedBy != null) 'StartedBy': startedBy,
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (validationConfigurations != null)
         'ValidationConfigurations': validationConfigurations,
     };
@@ -3515,7 +3453,8 @@ class DescribeProjectResponse {
       sample: json['Sample'] != null
           ? Sample.fromJson(json['Sample'] as Map<String, dynamic>)
           : null,
-      sessionStatus: (json['SessionStatus'] as String?)?.toSessionStatus(),
+      sessionStatus:
+          (json['SessionStatus'] as String?)?.let(SessionStatus.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3550,7 +3489,7 @@ class DescribeProjectResponse {
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (roleArn != null) 'RoleArn': roleArn,
       if (sample != null) 'Sample': sample,
-      if (sessionStatus != null) 'SessionStatus': sessionStatus.toValue(),
+      if (sessionStatus != null) 'SessionStatus': sessionStatus.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3848,31 +3787,18 @@ class DescribeScheduleResponse {
 }
 
 enum EncryptionMode {
-  sseKms,
-  sseS3,
-}
+  sseKms('SSE-KMS'),
+  sseS3('SSE-S3'),
+  ;
 
-extension EncryptionModeValueExtension on EncryptionMode {
-  String toValue() {
-    switch (this) {
-      case EncryptionMode.sseKms:
-        return 'SSE-KMS';
-      case EncryptionMode.sseS3:
-        return 'SSE-S3';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionModeFromString on String {
-  EncryptionMode toEncryptionMode() {
-    switch (this) {
-      case 'SSE-KMS':
-        return EncryptionMode.sseKms;
-      case 'SSE-S3':
-        return EncryptionMode.sseS3;
-    }
-    throw Exception('$this is not known in enum EncryptionMode');
-  }
+  const EncryptionMode(this.value);
+
+  static EncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionMode'));
 }
 
 /// Configuration of entity detection for a profile job. When undefined, entity
@@ -4048,8 +3974,8 @@ class FilesLimit {
   factory FilesLimit.fromJson(Map<String, dynamic> json) {
     return FilesLimit(
       maxFiles: json['MaxFiles'] as int,
-      order: (json['Order'] as String?)?.toOrder(),
-      orderedBy: (json['OrderedBy'] as String?)?.toOrderedBy(),
+      order: (json['Order'] as String?)?.let(Order.fromString),
+      orderedBy: (json['OrderedBy'] as String?)?.let(OrderedBy.fromString),
     );
   }
 
@@ -4059,8 +3985,8 @@ class FilesLimit {
     final orderedBy = this.orderedBy;
     return {
       'MaxFiles': maxFiles,
-      if (order != null) 'Order': order.toValue(),
-      if (orderedBy != null) 'OrderedBy': orderedBy.toValue(),
+      if (order != null) 'Order': order.value,
+      if (orderedBy != null) 'OrderedBy': orderedBy.value,
     };
   }
 }
@@ -4207,46 +4133,20 @@ class Input {
 }
 
 enum InputFormat {
-  csv,
-  json,
-  parquet,
-  excel,
-  orc,
-}
+  csv('CSV'),
+  json('JSON'),
+  parquet('PARQUET'),
+  excel('EXCEL'),
+  orc('ORC'),
+  ;
 
-extension InputFormatValueExtension on InputFormat {
-  String toValue() {
-    switch (this) {
-      case InputFormat.csv:
-        return 'CSV';
-      case InputFormat.json:
-        return 'JSON';
-      case InputFormat.parquet:
-        return 'PARQUET';
-      case InputFormat.excel:
-        return 'EXCEL';
-      case InputFormat.orc:
-        return 'ORC';
-    }
-  }
-}
+  final String value;
 
-extension InputFormatFromString on String {
-  InputFormat toInputFormat() {
-    switch (this) {
-      case 'CSV':
-        return InputFormat.csv;
-      case 'JSON':
-        return InputFormat.json;
-      case 'PARQUET':
-        return InputFormat.parquet;
-      case 'EXCEL':
-        return InputFormat.excel;
-      case 'ORC':
-        return InputFormat.orc;
-    }
-    throw Exception('$this is not known in enum InputFormat');
-  }
+  const InputFormat(this.value);
+
+  static InputFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputFormat'));
 }
 
 /// Represents all of the attributes of a DataBrew job.
@@ -4396,14 +4296,15 @@ class Job {
           .toList(),
       datasetName: json['DatasetName'] as String?,
       encryptionKeyArn: json['EncryptionKeyArn'] as String?,
-      encryptionMode: (json['EncryptionMode'] as String?)?.toEncryptionMode(),
+      encryptionMode:
+          (json['EncryptionMode'] as String?)?.let(EncryptionMode.fromString),
       jobSample: json['JobSample'] != null
           ? JobSample.fromJson(json['JobSample'] as Map<String, dynamic>)
           : null,
       lastModifiedBy: json['LastModifiedBy'] as String?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       logSubscription:
-          (json['LogSubscription'] as String?)?.toLogSubscription(),
+          (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       maxCapacity: json['MaxCapacity'] as int?,
       maxRetries: json['MaxRetries'] as int?,
       outputs: (json['Outputs'] as List?)
@@ -4420,7 +4321,7 @@ class Job {
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       timeout: json['Timeout'] as int?,
-      type: (json['Type'] as String?)?.toJobType(),
+      type: (json['Type'] as String?)?.let(JobType.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -4463,12 +4364,12 @@ class Job {
       if (databaseOutputs != null) 'DatabaseOutputs': databaseOutputs,
       if (datasetName != null) 'DatasetName': datasetName,
       if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
       if (jobSample != null) 'JobSample': jobSample,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (outputs != null) 'Outputs': outputs,
@@ -4478,7 +4379,7 @@ class Job {
       if (roleArn != null) 'RoleArn': roleArn,
       if (tags != null) 'Tags': tags,
       if (timeout != null) 'Timeout': timeout,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (validationConfigurations != null)
         'ValidationConfigurations': validationConfigurations,
     };
@@ -4590,7 +4491,7 @@ class JobRun {
           : null,
       logGroupName: json['LogGroupName'] as String?,
       logSubscription:
-          (json['LogSubscription'] as String?)?.toLogSubscription(),
+          (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       outputs: (json['Outputs'] as List?)
           ?.whereNotNull()
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
@@ -4602,7 +4503,7 @@ class JobRun {
       runId: json['RunId'] as String?,
       startedBy: json['StartedBy'] as String?,
       startedOn: timeStampFromJson(json['StartedOn']),
-      state: (json['State'] as String?)?.toJobRunState(),
+      state: (json['State'] as String?)?.let(JobRunState.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -4641,13 +4542,13 @@ class JobRun {
       if (jobName != null) 'JobName': jobName,
       if (jobSample != null) 'JobSample': jobSample,
       if (logGroupName != null) 'LogGroupName': logGroupName,
-      if (logSubscription != null) 'LogSubscription': logSubscription.toValue(),
+      if (logSubscription != null) 'LogSubscription': logSubscription.value,
       if (outputs != null) 'Outputs': outputs,
       if (recipeReference != null) 'RecipeReference': recipeReference,
       if (runId != null) 'RunId': runId,
       if (startedBy != null) 'StartedBy': startedBy,
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (validationConfigurations != null)
         'ValidationConfigurations': validationConfigurations,
     };
@@ -4655,56 +4556,22 @@ class JobRun {
 }
 
 enum JobRunState {
-  starting,
-  running,
-  stopping,
-  stopped,
-  succeeded,
-  failed,
-  timeout,
-}
+  starting('STARTING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  timeout('TIMEOUT'),
+  ;
 
-extension JobRunStateValueExtension on JobRunState {
-  String toValue() {
-    switch (this) {
-      case JobRunState.starting:
-        return 'STARTING';
-      case JobRunState.running:
-        return 'RUNNING';
-      case JobRunState.stopping:
-        return 'STOPPING';
-      case JobRunState.stopped:
-        return 'STOPPED';
-      case JobRunState.succeeded:
-        return 'SUCCEEDED';
-      case JobRunState.failed:
-        return 'FAILED';
-      case JobRunState.timeout:
-        return 'TIMEOUT';
-    }
-  }
-}
+  final String value;
 
-extension JobRunStateFromString on String {
-  JobRunState toJobRunState() {
-    switch (this) {
-      case 'STARTING':
-        return JobRunState.starting;
-      case 'RUNNING':
-        return JobRunState.running;
-      case 'STOPPING':
-        return JobRunState.stopping;
-      case 'STOPPED':
-        return JobRunState.stopped;
-      case 'SUCCEEDED':
-        return JobRunState.succeeded;
-      case 'FAILED':
-        return JobRunState.failed;
-      case 'TIMEOUT':
-        return JobRunState.timeout;
-    }
-    throw Exception('$this is not known in enum JobRunState');
-  }
+  const JobRunState(this.value);
+
+  static JobRunState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobRunState'));
 }
 
 /// A sample configuration for profile jobs only, which determines the number of
@@ -4740,7 +4607,7 @@ class JobSample {
 
   factory JobSample.fromJson(Map<String, dynamic> json) {
     return JobSample(
-      mode: (json['Mode'] as String?)?.toSampleMode(),
+      mode: (json['Mode'] as String?)?.let(SampleMode.fromString),
       size: json['Size'] as int?,
     );
   }
@@ -4749,38 +4616,24 @@ class JobSample {
     final mode = this.mode;
     final size = this.size;
     return {
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (size != null) 'Size': size,
     };
   }
 }
 
 enum JobType {
-  profile,
-  recipe,
-}
+  profile('PROFILE'),
+  recipe('RECIPE'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.profile:
-        return 'PROFILE';
-      case JobType.recipe:
-        return 'RECIPE';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'PROFILE':
-        return JobType.profile;
-      case 'RECIPE':
-        return JobType.recipe;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// Represents the JSON-specific options that define how input is to be
@@ -5096,31 +4949,18 @@ class ListTagsForResourceResponse {
 }
 
 enum LogSubscription {
-  enable,
-  disable,
-}
+  enable('ENABLE'),
+  disable('DISABLE'),
+  ;
 
-extension LogSubscriptionValueExtension on LogSubscription {
-  String toValue() {
-    switch (this) {
-      case LogSubscription.enable:
-        return 'ENABLE';
-      case LogSubscription.disable:
-        return 'DISABLE';
-    }
-  }
-}
+  final String value;
 
-extension LogSubscriptionFromString on String {
-  LogSubscription toLogSubscription() {
-    switch (this) {
-      case 'ENABLE':
-        return LogSubscription.enable;
-      case 'DISABLE':
-        return LogSubscription.disable;
-    }
-    throw Exception('$this is not known in enum LogSubscription');
-  }
+  const LogSubscription(this.value);
+
+  static LogSubscription fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogSubscription'));
 }
 
 /// Contains additional resource information needed for specific datasets.
@@ -5148,54 +4988,30 @@ class Metadata {
 }
 
 enum Order {
-  descending,
-  ascending,
-}
+  descending('DESCENDING'),
+  ascending('ASCENDING'),
+  ;
 
-extension OrderValueExtension on Order {
-  String toValue() {
-    switch (this) {
-      case Order.descending:
-        return 'DESCENDING';
-      case Order.ascending:
-        return 'ASCENDING';
-    }
-  }
-}
+  final String value;
 
-extension OrderFromString on String {
-  Order toOrder() {
-    switch (this) {
-      case 'DESCENDING':
-        return Order.descending;
-      case 'ASCENDING':
-        return Order.ascending;
-    }
-    throw Exception('$this is not known in enum Order');
-  }
+  const Order(this.value);
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Order'));
 }
 
 enum OrderedBy {
-  lastModifiedDate,
-}
+  lastModifiedDate('LAST_MODIFIED_DATE'),
+  ;
 
-extension OrderedByValueExtension on OrderedBy {
-  String toValue() {
-    switch (this) {
-      case OrderedBy.lastModifiedDate:
-        return 'LAST_MODIFIED_DATE';
-    }
-  }
-}
+  final String value;
 
-extension OrderedByFromString on String {
-  OrderedBy toOrderedBy() {
-    switch (this) {
-      case 'LAST_MODIFIED_DATE':
-        return OrderedBy.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum OrderedBy');
-  }
+  const OrderedBy(this.value);
+
+  static OrderedBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderedBy'));
 }
 
 /// Represents options that specify how and where in Amazon S3 DataBrew writes
@@ -5238,9 +5054,9 @@ class Output {
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
       location: S3Location.fromJson(json['Location'] as Map<String, dynamic>),
-      compressionFormat:
-          (json['CompressionFormat'] as String?)?.toCompressionFormat(),
-      format: (json['Format'] as String?)?.toOutputFormat(),
+      compressionFormat: (json['CompressionFormat'] as String?)
+          ?.let(CompressionFormat.fromString),
+      format: (json['Format'] as String?)?.let(OutputFormat.fromString),
       formatOptions: json['FormatOptions'] != null
           ? OutputFormatOptions.fromJson(
               json['FormatOptions'] as Map<String, dynamic>)
@@ -5265,8 +5081,8 @@ class Output {
     return {
       'Location': location,
       if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.toValue(),
-      if (format != null) 'Format': format.toValue(),
+        'CompressionFormat': compressionFormat.value,
+      if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
       if (maxOutputFiles != null) 'MaxOutputFiles': maxOutputFiles,
       if (overwrite != null) 'Overwrite': overwrite,
@@ -5276,61 +5092,24 @@ class Output {
 }
 
 enum OutputFormat {
-  csv,
-  json,
-  parquet,
-  glueparquet,
-  avro,
-  orc,
-  xml,
-  tableauhyper,
-}
+  csv('CSV'),
+  json('JSON'),
+  parquet('PARQUET'),
+  glueparquet('GLUEPARQUET'),
+  avro('AVRO'),
+  orc('ORC'),
+  xml('XML'),
+  tableauhyper('TABLEAUHYPER'),
+  ;
 
-extension OutputFormatValueExtension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.csv:
-        return 'CSV';
-      case OutputFormat.json:
-        return 'JSON';
-      case OutputFormat.parquet:
-        return 'PARQUET';
-      case OutputFormat.glueparquet:
-        return 'GLUEPARQUET';
-      case OutputFormat.avro:
-        return 'AVRO';
-      case OutputFormat.orc:
-        return 'ORC';
-      case OutputFormat.xml:
-        return 'XML';
-      case OutputFormat.tableauhyper:
-        return 'TABLEAUHYPER';
-    }
-  }
-}
+  final String value;
 
-extension OutputFormatFromString on String {
-  OutputFormat toOutputFormat() {
-    switch (this) {
-      case 'CSV':
-        return OutputFormat.csv;
-      case 'JSON':
-        return OutputFormat.json;
-      case 'PARQUET':
-        return OutputFormat.parquet;
-      case 'GLUEPARQUET':
-        return OutputFormat.glueparquet;
-      case 'AVRO':
-        return OutputFormat.avro;
-      case 'ORC':
-        return OutputFormat.orc;
-      case 'XML':
-        return OutputFormat.xml;
-      case 'TABLEAUHYPER':
-        return OutputFormat.tableauhyper;
-    }
-    throw Exception('$this is not known in enum OutputFormat');
-  }
+  const OutputFormat(this.value);
+
+  static OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputFormat'));
 }
 
 /// Represents a set of options that define the structure of comma-separated
@@ -5361,36 +5140,19 @@ class OutputFormatOptions {
 }
 
 enum ParameterType {
-  datetime,
-  number,
-  string,
-}
+  datetime('Datetime'),
+  number('Number'),
+  string('String'),
+  ;
 
-extension ParameterTypeValueExtension on ParameterType {
-  String toValue() {
-    switch (this) {
-      case ParameterType.datetime:
-        return 'Datetime';
-      case ParameterType.number:
-        return 'Number';
-      case ParameterType.string:
-        return 'String';
-    }
-  }
-}
+  final String value;
 
-extension ParameterTypeFromString on String {
-  ParameterType toParameterType() {
-    switch (this) {
-      case 'Datetime':
-        return ParameterType.datetime;
-      case 'Number':
-        return ParameterType.number;
-      case 'String':
-        return ParameterType.string;
-    }
-    throw Exception('$this is not known in enum ParameterType');
-  }
+  const ParameterType(this.value);
+
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParameterType'));
 }
 
 /// Represents a set of options that define how DataBrew selects files for a
@@ -6193,7 +5955,7 @@ class Sample {
 
   factory Sample.fromJson(Map<String, dynamic> json) {
     return Sample(
-      type: (json['Type'] as String).toSampleType(),
+      type: SampleType.fromString((json['Type'] as String)),
       size: json['Size'] as int?,
     );
   }
@@ -6202,71 +5964,39 @@ class Sample {
     final type = this.type;
     final size = this.size;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (size != null) 'Size': size,
     };
   }
 }
 
 enum SampleMode {
-  fullDataset,
-  customRows,
-}
+  fullDataset('FULL_DATASET'),
+  customRows('CUSTOM_ROWS'),
+  ;
 
-extension SampleModeValueExtension on SampleMode {
-  String toValue() {
-    switch (this) {
-      case SampleMode.fullDataset:
-        return 'FULL_DATASET';
-      case SampleMode.customRows:
-        return 'CUSTOM_ROWS';
-    }
-  }
-}
+  final String value;
 
-extension SampleModeFromString on String {
-  SampleMode toSampleMode() {
-    switch (this) {
-      case 'FULL_DATASET':
-        return SampleMode.fullDataset;
-      case 'CUSTOM_ROWS':
-        return SampleMode.customRows;
-    }
-    throw Exception('$this is not known in enum SampleMode');
-  }
+  const SampleMode(this.value);
+
+  static SampleMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SampleMode'));
 }
 
 enum SampleType {
-  firstN,
-  lastN,
-  random,
-}
+  firstN('FIRST_N'),
+  lastN('LAST_N'),
+  random('RANDOM'),
+  ;
 
-extension SampleTypeValueExtension on SampleType {
-  String toValue() {
-    switch (this) {
-      case SampleType.firstN:
-        return 'FIRST_N';
-      case SampleType.lastN:
-        return 'LAST_N';
-      case SampleType.random:
-        return 'RANDOM';
-    }
-  }
-}
+  final String value;
 
-extension SampleTypeFromString on String {
-  SampleType toSampleType() {
-    switch (this) {
-      case 'FIRST_N':
-        return SampleType.firstN;
-      case 'LAST_N':
-        return SampleType.lastN;
-      case 'RANDOM':
-        return SampleType.random;
-    }
-    throw Exception('$this is not known in enum SampleType');
-  }
+  const SampleType(this.value);
+
+  static SampleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SampleType'));
 }
 
 /// Represents one or more dates and times when a job is to run.
@@ -6399,104 +6129,41 @@ class SendProjectSessionActionResponse {
 }
 
 enum SessionStatus {
-  assigned,
-  failed,
-  initializing,
-  provisioning,
-  ready,
-  recycling,
-  rotating,
-  terminated,
-  terminating,
-  updating,
-}
+  assigned('ASSIGNED'),
+  failed('FAILED'),
+  initializing('INITIALIZING'),
+  provisioning('PROVISIONING'),
+  ready('READY'),
+  recycling('RECYCLING'),
+  rotating('ROTATING'),
+  terminated('TERMINATED'),
+  terminating('TERMINATING'),
+  updating('UPDATING'),
+  ;
 
-extension SessionStatusValueExtension on SessionStatus {
-  String toValue() {
-    switch (this) {
-      case SessionStatus.assigned:
-        return 'ASSIGNED';
-      case SessionStatus.failed:
-        return 'FAILED';
-      case SessionStatus.initializing:
-        return 'INITIALIZING';
-      case SessionStatus.provisioning:
-        return 'PROVISIONING';
-      case SessionStatus.ready:
-        return 'READY';
-      case SessionStatus.recycling:
-        return 'RECYCLING';
-      case SessionStatus.rotating:
-        return 'ROTATING';
-      case SessionStatus.terminated:
-        return 'TERMINATED';
-      case SessionStatus.terminating:
-        return 'TERMINATING';
-      case SessionStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension SessionStatusFromString on String {
-  SessionStatus toSessionStatus() {
-    switch (this) {
-      case 'ASSIGNED':
-        return SessionStatus.assigned;
-      case 'FAILED':
-        return SessionStatus.failed;
-      case 'INITIALIZING':
-        return SessionStatus.initializing;
-      case 'PROVISIONING':
-        return SessionStatus.provisioning;
-      case 'READY':
-        return SessionStatus.ready;
-      case 'RECYCLING':
-        return SessionStatus.recycling;
-      case 'ROTATING':
-        return SessionStatus.rotating;
-      case 'TERMINATED':
-        return SessionStatus.terminated;
-      case 'TERMINATING':
-        return SessionStatus.terminating;
-      case 'UPDATING':
-        return SessionStatus.updating;
-    }
-    throw Exception('$this is not known in enum SessionStatus');
-  }
+  const SessionStatus(this.value);
+
+  static SessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SessionStatus'));
 }
 
 enum Source {
-  s3,
-  dataCatalog,
-  database,
-}
+  s3('S3'),
+  dataCatalog('DATA-CATALOG'),
+  database('DATABASE'),
+  ;
 
-extension SourceValueExtension on Source {
-  String toValue() {
-    switch (this) {
-      case Source.s3:
-        return 'S3';
-      case Source.dataCatalog:
-        return 'DATA-CATALOG';
-      case Source.database:
-        return 'DATABASE';
-    }
-  }
-}
+  final String value;
 
-extension SourceFromString on String {
-  Source toSource() {
-    switch (this) {
-      case 'S3':
-        return Source.s3;
-      case 'DATA-CATALOG':
-        return Source.dataCatalog;
-      case 'DATABASE':
-        return Source.database;
-    }
-    throw Exception('$this is not known in enum Source');
-  }
+  const Source(this.value);
+
+  static Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Source'));
 }
 
 class StartJobRunResponse {
@@ -6678,8 +6345,8 @@ class Threshold {
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
       value: json['Value'] as double,
-      type: (json['Type'] as String?)?.toThresholdType(),
-      unit: (json['Unit'] as String?)?.toThresholdUnit(),
+      type: (json['Type'] as String?)?.let(ThresholdType.fromString),
+      unit: (json['Unit'] as String?)?.let(ThresholdUnit.fromString),
     );
   }
 
@@ -6689,76 +6356,42 @@ class Threshold {
     final unit = this.unit;
     return {
       'Value': value,
-      if (type != null) 'Type': type.toValue(),
-      if (unit != null) 'Unit': unit.toValue(),
+      if (type != null) 'Type': type.value,
+      if (unit != null) 'Unit': unit.value,
     };
   }
 }
 
 enum ThresholdType {
-  greaterThanOrEqual,
-  lessThanOrEqual,
-  greaterThan,
-  lessThan,
-}
+  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
+  lessThanOrEqual('LESS_THAN_OR_EQUAL'),
+  greaterThan('GREATER_THAN'),
+  lessThan('LESS_THAN'),
+  ;
 
-extension ThresholdTypeValueExtension on ThresholdType {
-  String toValue() {
-    switch (this) {
-      case ThresholdType.greaterThanOrEqual:
-        return 'GREATER_THAN_OR_EQUAL';
-      case ThresholdType.lessThanOrEqual:
-        return 'LESS_THAN_OR_EQUAL';
-      case ThresholdType.greaterThan:
-        return 'GREATER_THAN';
-      case ThresholdType.lessThan:
-        return 'LESS_THAN';
-    }
-  }
-}
+  final String value;
 
-extension ThresholdTypeFromString on String {
-  ThresholdType toThresholdType() {
-    switch (this) {
-      case 'GREATER_THAN_OR_EQUAL':
-        return ThresholdType.greaterThanOrEqual;
-      case 'LESS_THAN_OR_EQUAL':
-        return ThresholdType.lessThanOrEqual;
-      case 'GREATER_THAN':
-        return ThresholdType.greaterThan;
-      case 'LESS_THAN':
-        return ThresholdType.lessThan;
-    }
-    throw Exception('$this is not known in enum ThresholdType');
-  }
+  const ThresholdType(this.value);
+
+  static ThresholdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThresholdType'));
 }
 
 enum ThresholdUnit {
-  count,
-  percentage,
-}
+  count('COUNT'),
+  percentage('PERCENTAGE'),
+  ;
 
-extension ThresholdUnitValueExtension on ThresholdUnit {
-  String toValue() {
-    switch (this) {
-      case ThresholdUnit.count:
-        return 'COUNT';
-      case ThresholdUnit.percentage:
-        return 'PERCENTAGE';
-    }
-  }
-}
+  final String value;
 
-extension ThresholdUnitFromString on String {
-  ThresholdUnit toThresholdUnit() {
-    switch (this) {
-      case 'COUNT':
-        return ThresholdUnit.count;
-      case 'PERCENTAGE':
-        return ThresholdUnit.percentage;
-    }
-    throw Exception('$this is not known in enum ThresholdUnit');
-  }
+  const ThresholdUnit(this.value);
+
+  static ThresholdUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThresholdUnit'));
 }
 
 class UntagResourceResponse {
@@ -6957,7 +6590,8 @@ class ValidationConfiguration {
   factory ValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return ValidationConfiguration(
       rulesetArn: json['RulesetArn'] as String,
-      validationMode: (json['ValidationMode'] as String?)?.toValidationMode(),
+      validationMode:
+          (json['ValidationMode'] as String?)?.let(ValidationMode.fromString),
     );
   }
 
@@ -6966,32 +6600,23 @@ class ValidationConfiguration {
     final validationMode = this.validationMode;
     return {
       'RulesetArn': rulesetArn,
-      if (validationMode != null) 'ValidationMode': validationMode.toValue(),
+      if (validationMode != null) 'ValidationMode': validationMode.value,
     };
   }
 }
 
 enum ValidationMode {
-  checkAll,
-}
+  checkAll('CHECK_ALL'),
+  ;
 
-extension ValidationModeValueExtension on ValidationMode {
-  String toValue() {
-    switch (this) {
-      case ValidationMode.checkAll:
-        return 'CHECK_ALL';
-    }
-  }
-}
+  final String value;
 
-extension ValidationModeFromString on String {
-  ValidationMode toValidationMode() {
-    switch (this) {
-      case 'CHECK_ALL':
-        return ValidationMode.checkAll;
-    }
-    throw Exception('$this is not known in enum ValidationMode');
-  }
+  const ValidationMode(this.value);
+
+  static ValidationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ValidationMode'));
 }
 
 /// Represents the data being transformed during an action.
@@ -7036,7 +6661,7 @@ class ViewFrame {
     final startRowIndex = this.startRowIndex;
     return {
       'StartColumnIndex': startColumnIndex,
-      if (analytics != null) 'Analytics': analytics.toValue(),
+      if (analytics != null) 'Analytics': analytics.value,
       if (columnRange != null) 'ColumnRange': columnRange,
       if (hiddenColumns != null) 'HiddenColumns': hiddenColumns,
       if (rowRange != null) 'RowRange': rowRange,

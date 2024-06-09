@@ -102,7 +102,7 @@ class PI {
       payload: {
         'EndTime': unixTimestampToJson(endTime),
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         'StartTime': unixTimestampToJson(startTime),
         if (tags != null) 'Tags': tags,
       },
@@ -153,7 +153,7 @@ class PI {
       payload: {
         'AnalysisReportId': analysisReportId,
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
       },
     );
   }
@@ -334,7 +334,7 @@ class PI {
         'GroupBy': groupBy,
         'Identifier': identifier,
         'Metric': metric,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         'StartTime': unixTimestampToJson(startTime),
         if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
         if (filter != null) 'Filter': filter,
@@ -439,7 +439,7 @@ class PI {
         'Group': group,
         'GroupIdentifier': groupIdentifier,
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         if (requestedDimensions != null)
           'RequestedDimensions': requestedDimensions,
       },
@@ -506,9 +506,9 @@ class PI {
       payload: {
         'AnalysisReportId': analysisReportId,
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage.toValue(),
-        if (textFormat != null) 'TextFormat': textFormat.toValue(),
+        'ServiceType': serviceType.value,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage.value,
+        if (textFormat != null) 'TextFormat': textFormat.value,
       },
     );
 
@@ -549,7 +549,7 @@ class PI {
       headers: headers,
       payload: {
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
       },
     );
 
@@ -691,12 +691,11 @@ class PI {
         'EndTime': unixTimestampToJson(endTime),
         'Identifier': identifier,
         'MetricQueries': metricQueries,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         'StartTime': unixTimestampToJson(startTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (periodAlignment != null)
-          'PeriodAlignment': periodAlignment.toValue(),
+        if (periodAlignment != null) 'PeriodAlignment': periodAlignment.value,
         if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,
       },
     );
@@ -773,10 +772,9 @@ class PI {
       payload: {
         'Identifier': identifier,
         'Metrics': metrics,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         if (authorizedActions != null)
-          'AuthorizedActions':
-              authorizedActions.map((e) => e.toValue()).toList(),
+          'AuthorizedActions': authorizedActions.map((e) => e.value).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -861,7 +859,7 @@ class PI {
       payload: {
         'Identifier': identifier,
         'MetricTypes': metricTypes,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -931,7 +929,7 @@ class PI {
       headers: headers,
       payload: {
         'Identifier': identifier,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         if (listTags != null) 'ListTags': listTags,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -974,7 +972,7 @@ class PI {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
       },
     );
 
@@ -1018,7 +1016,7 @@ class PI {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         'Tags': tags,
       },
     );
@@ -1062,7 +1060,7 @@ class PI {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
-        'ServiceType': serviceType.toValue(),
+        'ServiceType': serviceType.value,
         'TagKeys': tagKeys,
       },
     );
@@ -1070,26 +1068,17 @@ class PI {
 }
 
 enum AcceptLanguage {
-  enUs,
-}
+  enUs('EN_US'),
+  ;
 
-extension AcceptLanguageValueExtension on AcceptLanguage {
-  String toValue() {
-    switch (this) {
-      case AcceptLanguage.enUs:
-        return 'EN_US';
-    }
-  }
-}
+  final String value;
 
-extension AcceptLanguageFromString on String {
-  AcceptLanguage toAcceptLanguage() {
-    switch (this) {
-      case 'EN_US':
-        return AcceptLanguage.enUs;
-    }
-    throw Exception('$this is not known in enum AcceptLanguage');
-  }
+  const AcceptLanguage(this.value);
+
+  static AcceptLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceptLanguage'));
 }
 
 /// Retrieves the summary of the performance analysis report created for a time
@@ -1150,9 +1139,10 @@ class AnalysisReport {
           ?.whereNotNull()
           .map((e) => Insight.fromJson(e as Map<String, dynamic>))
           .toList(),
-      serviceType: (json['ServiceType'] as String?)?.toServiceType(),
+      serviceType:
+          (json['ServiceType'] as String?)?.let(ServiceType.fromString),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toAnalysisStatus(),
+      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
     );
   }
 
@@ -1171,9 +1161,9 @@ class AnalysisReport {
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (identifier != null) 'Identifier': identifier,
       if (insights != null) 'Insights': insights,
-      if (serviceType != null) 'ServiceType': serviceType.toValue(),
+      if (serviceType != null) 'ServiceType': serviceType.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -1213,7 +1203,7 @@ class AnalysisReportSummary {
       createTime: timeStampFromJson(json['CreateTime']),
       endTime: timeStampFromJson(json['EndTime']),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toAnalysisStatus(),
+      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -1233,71 +1223,40 @@ class AnalysisReportSummary {
       if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum AnalysisStatus {
-  running,
-  succeeded,
-  failed,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension AnalysisStatusValueExtension on AnalysisStatus {
-  String toValue() {
-    switch (this) {
-      case AnalysisStatus.running:
-        return 'RUNNING';
-      case AnalysisStatus.succeeded:
-        return 'SUCCEEDED';
-      case AnalysisStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisStatusFromString on String {
-  AnalysisStatus toAnalysisStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return AnalysisStatus.running;
-      case 'SUCCEEDED':
-        return AnalysisStatus.succeeded;
-      case 'FAILED':
-        return AnalysisStatus.failed;
-    }
-    throw Exception('$this is not known in enum AnalysisStatus');
-  }
+  const AnalysisStatus(this.value);
+
+  static AnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisStatus'));
 }
 
 enum ContextType {
-  causal,
-  contextual,
-}
+  causal('CAUSAL'),
+  contextual('CONTEXTUAL'),
+  ;
 
-extension ContextTypeValueExtension on ContextType {
-  String toValue() {
-    switch (this) {
-      case ContextType.causal:
-        return 'CAUSAL';
-      case ContextType.contextual:
-        return 'CONTEXTUAL';
-    }
-  }
-}
+  final String value;
 
-extension ContextTypeFromString on String {
-  ContextType toContextType() {
-    switch (this) {
-      case 'CAUSAL':
-        return ContextType.causal;
-      case 'CONTEXTUAL':
-        return ContextType.contextual;
-    }
-    throw Exception('$this is not known in enum ContextType');
-  }
+  const ContextType(this.value);
+
+  static ContextType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContextType'));
 }
 
 class CreatePerformanceAnalysisReportResponse {
@@ -1470,36 +1429,19 @@ class DescribeDimensionKeysResponse {
 }
 
 enum DetailStatus {
-  available,
-  processing,
-  unavailable,
-}
+  available('AVAILABLE'),
+  processing('PROCESSING'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension DetailStatusValueExtension on DetailStatus {
-  String toValue() {
-    switch (this) {
-      case DetailStatus.available:
-        return 'AVAILABLE';
-      case DetailStatus.processing:
-        return 'PROCESSING';
-      case DetailStatus.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension DetailStatusFromString on String {
-  DetailStatus toDetailStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return DetailStatus.available;
-      case 'PROCESSING':
-        return DetailStatus.processing;
-      case 'UNAVAILABLE':
-        return DetailStatus.unavailable;
-    }
-    throw Exception('$this is not known in enum DetailStatus');
-  }
+  const DetailStatus(this.value);
+
+  static DetailStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DetailStatus'));
 }
 
 /// The information about a dimension.
@@ -1945,7 +1887,7 @@ class DimensionKeyDetail {
   factory DimensionKeyDetail.fromJson(Map<String, dynamic> json) {
     return DimensionKeyDetail(
       dimension: json['Dimension'] as String?,
-      status: (json['Status'] as String?)?.toDetailStatus(),
+      status: (json['Status'] as String?)?.let(DetailStatus.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -1956,7 +1898,7 @@ class DimensionKeyDetail {
     final value = this.value;
     return {
       if (dimension != null) 'Dimension': dimension,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (value != null) 'Value': value,
     };
   }
@@ -1998,97 +1940,51 @@ class FeatureMetadata {
 
   factory FeatureMetadata.fromJson(Map<String, dynamic> json) {
     return FeatureMetadata(
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum FeatureStatus {
-  enabled,
-  disabled,
-  unsupported,
-  enabledPendingReboot,
-  disabledPendingReboot,
-  unknown,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  unsupported('UNSUPPORTED'),
+  enabledPendingReboot('ENABLED_PENDING_REBOOT'),
+  disabledPendingReboot('DISABLED_PENDING_REBOOT'),
+  unknown('UNKNOWN'),
+  ;
 
-extension FeatureStatusValueExtension on FeatureStatus {
-  String toValue() {
-    switch (this) {
-      case FeatureStatus.enabled:
-        return 'ENABLED';
-      case FeatureStatus.disabled:
-        return 'DISABLED';
-      case FeatureStatus.unsupported:
-        return 'UNSUPPORTED';
-      case FeatureStatus.enabledPendingReboot:
-        return 'ENABLED_PENDING_REBOOT';
-      case FeatureStatus.disabledPendingReboot:
-        return 'DISABLED_PENDING_REBOOT';
-      case FeatureStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension FeatureStatusFromString on String {
-  FeatureStatus toFeatureStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return FeatureStatus.enabled;
-      case 'DISABLED':
-        return FeatureStatus.disabled;
-      case 'UNSUPPORTED':
-        return FeatureStatus.unsupported;
-      case 'ENABLED_PENDING_REBOOT':
-        return FeatureStatus.enabledPendingReboot;
-      case 'DISABLED_PENDING_REBOOT':
-        return FeatureStatus.disabledPendingReboot;
-      case 'UNKNOWN':
-        return FeatureStatus.unknown;
-    }
-    throw Exception('$this is not known in enum FeatureStatus');
-  }
+  const FeatureStatus(this.value);
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeatureStatus'));
 }
 
 enum FineGrainedAction {
-  describeDimensionKeys,
-  getDimensionKeyDetails,
-  getResourceMetrics,
-}
+  describeDimensionKeys('DescribeDimensionKeys'),
+  getDimensionKeyDetails('GetDimensionKeyDetails'),
+  getResourceMetrics('GetResourceMetrics'),
+  ;
 
-extension FineGrainedActionValueExtension on FineGrainedAction {
-  String toValue() {
-    switch (this) {
-      case FineGrainedAction.describeDimensionKeys:
-        return 'DescribeDimensionKeys';
-      case FineGrainedAction.getDimensionKeyDetails:
-        return 'GetDimensionKeyDetails';
-      case FineGrainedAction.getResourceMetrics:
-        return 'GetResourceMetrics';
-    }
-  }
-}
+  final String value;
 
-extension FineGrainedActionFromString on String {
-  FineGrainedAction toFineGrainedAction() {
-    switch (this) {
-      case 'DescribeDimensionKeys':
-        return FineGrainedAction.describeDimensionKeys;
-      case 'GetDimensionKeyDetails':
-        return FineGrainedAction.getDimensionKeyDetails;
-      case 'GetResourceMetrics':
-        return FineGrainedAction.getResourceMetrics;
-    }
-    throw Exception('$this is not known in enum FineGrainedAction');
-  }
+  const FineGrainedAction(this.value);
+
+  static FineGrainedAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FineGrainedAction'));
 }
 
 class GetDimensionKeyDetailsResponse {
@@ -2311,7 +2207,7 @@ class Insight {
           ?.whereNotNull()
           .map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
-      context: (json['Context'] as String?)?.toContextType(),
+      context: (json['Context'] as String?)?.let(ContextType.fromString),
       description: json['Description'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       insightData: (json['InsightData'] as List?)
@@ -2323,7 +2219,7 @@ class Insight {
           ?.whereNotNull()
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      severity: (json['Severity'] as String?)?.toSeverity(),
+      severity: (json['Severity'] as String?)?.let(Severity.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       supportingInsights: (json['SupportingInsights'] as List?)
           ?.whereNotNull()
@@ -2347,13 +2243,13 @@ class Insight {
     return {
       'InsightId': insightId,
       if (baselineData != null) 'BaselineData': baselineData,
-      if (context != null) 'Context': context.toValue(),
+      if (context != null) 'Context': context.value,
       if (description != null) 'Description': description,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (insightData != null) 'InsightData': insightData,
       if (insightType != null) 'InsightType': insightType,
       if (recommendations != null) 'Recommendations': recommendations,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (supportingInsights != null) 'SupportingInsights': supportingInsights,
     };
@@ -2697,31 +2593,18 @@ class PerformanceInsightsMetric {
 }
 
 enum PeriodAlignment {
-  endTime,
-  startTime,
-}
+  endTime('END_TIME'),
+  startTime('START_TIME'),
+  ;
 
-extension PeriodAlignmentValueExtension on PeriodAlignment {
-  String toValue() {
-    switch (this) {
-      case PeriodAlignment.endTime:
-        return 'END_TIME';
-      case PeriodAlignment.startTime:
-        return 'START_TIME';
-    }
-  }
-}
+  final String value;
 
-extension PeriodAlignmentFromString on String {
-  PeriodAlignment toPeriodAlignment() {
-    switch (this) {
-      case 'END_TIME':
-        return PeriodAlignment.endTime;
-      case 'START_TIME':
-        return PeriodAlignment.startTime;
-    }
-    throw Exception('$this is not known in enum PeriodAlignment');
-  }
+  const PeriodAlignment(this.value);
+
+  static PeriodAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PeriodAlignment'));
 }
 
 /// The list of recommendations for the insight.
@@ -2885,64 +2768,32 @@ class ResponseResourceMetricKey {
 }
 
 enum ServiceType {
-  rds,
-  docdb,
-}
+  rds('RDS'),
+  docdb('DOCDB'),
+  ;
 
-extension ServiceTypeValueExtension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.rds:
-        return 'RDS';
-      case ServiceType.docdb:
-        return 'DOCDB';
-    }
-  }
-}
+  final String value;
 
-extension ServiceTypeFromString on String {
-  ServiceType toServiceType() {
-    switch (this) {
-      case 'RDS':
-        return ServiceType.rds;
-      case 'DOCDB':
-        return ServiceType.docdb;
-    }
-    throw Exception('$this is not known in enum ServiceType');
-  }
+  const ServiceType(this.value);
+
+  static ServiceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceType'));
 }
 
 enum Severity {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.low:
-        return 'LOW';
-      case Severity.medium:
-        return 'MEDIUM';
-      case Severity.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'LOW':
-        return Severity.low;
-      case 'MEDIUM':
-        return Severity.medium;
-      case 'HIGH':
-        return Severity.high;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
@@ -2996,31 +2847,17 @@ class TagResourceResponse {
 }
 
 enum TextFormat {
-  plainText,
-  markdown,
-}
+  plainText('PLAIN_TEXT'),
+  markdown('MARKDOWN'),
+  ;
 
-extension TextFormatValueExtension on TextFormat {
-  String toValue() {
-    switch (this) {
-      case TextFormat.plainText:
-        return 'PLAIN_TEXT';
-      case TextFormat.markdown:
-        return 'MARKDOWN';
-    }
-  }
-}
+  final String value;
 
-extension TextFormatFromString on String {
-  TextFormat toTextFormat() {
-    switch (this) {
-      case 'PLAIN_TEXT':
-        return TextFormat.plainText;
-      case 'MARKDOWN':
-        return TextFormat.markdown;
-    }
-    throw Exception('$this is not known in enum TextFormat');
-  }
+  const TextFormat(this.value);
+
+  static TextFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TextFormat'));
 }
 
 class UntagResourceResponse {

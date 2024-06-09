@@ -99,7 +99,7 @@ class SageMakerFeatureStoreRuntime {
     final $payload = <String, dynamic>{
       'Identifiers': identifiers,
       if (expirationTimeResponse != null)
-        'ExpirationTimeResponse': expirationTimeResponse.toValue(),
+        'ExpirationTimeResponse': expirationTimeResponse.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -188,9 +188,9 @@ class SageMakerFeatureStoreRuntime {
     final $query = <String, List<String>>{
       'EventTime': [eventTime],
       'RecordIdentifierValueAsString': [recordIdentifierValueAsString],
-      if (deletionMode != null) 'DeletionMode': [deletionMode.toValue()],
+      if (deletionMode != null) 'DeletionMode': [deletionMode.value],
       if (targetStores != null)
-        'TargetStores': targetStores.map((e) => e.toValue()).toList(),
+        'TargetStores': targetStores.map((e) => e.value).toList(),
     };
     await _protocol.send(
       payload: null,
@@ -238,7 +238,7 @@ class SageMakerFeatureStoreRuntime {
     final $query = <String, List<String>>{
       'RecordIdentifierValueAsString': [recordIdentifierValueAsString],
       if (expirationTimeResponse != null)
-        'ExpirationTimeResponse': [expirationTimeResponse.toValue()],
+        'ExpirationTimeResponse': [expirationTimeResponse.value],
       if (featureNames != null) 'FeatureName': featureNames,
     };
     final response = await _protocol.send(
@@ -320,7 +320,7 @@ class SageMakerFeatureStoreRuntime {
     final $payload = <String, dynamic>{
       'Record': record,
       if (targetStores != null)
-        'TargetStores': targetStores.map((e) => e.toValue()).toList(),
+        'TargetStores': targetStores.map((e) => e.value).toList(),
       if (ttlDuration != null) 'TtlDuration': ttlDuration,
     };
     await _protocol.send(
@@ -527,59 +527,33 @@ class BatchGetRecordResultDetail {
 }
 
 enum DeletionMode {
-  softDelete,
-  hardDelete,
-}
+  softDelete('SoftDelete'),
+  hardDelete('HardDelete'),
+  ;
 
-extension DeletionModeValueExtension on DeletionMode {
-  String toValue() {
-    switch (this) {
-      case DeletionMode.softDelete:
-        return 'SoftDelete';
-      case DeletionMode.hardDelete:
-        return 'HardDelete';
-    }
-  }
-}
+  final String value;
 
-extension DeletionModeFromString on String {
-  DeletionMode toDeletionMode() {
-    switch (this) {
-      case 'SoftDelete':
-        return DeletionMode.softDelete;
-      case 'HardDelete':
-        return DeletionMode.hardDelete;
-    }
-    throw Exception('$this is not known in enum DeletionMode');
-  }
+  const DeletionMode(this.value);
+
+  static DeletionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeletionMode'));
 }
 
 enum ExpirationTimeResponse {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension ExpirationTimeResponseValueExtension on ExpirationTimeResponse {
-  String toValue() {
-    switch (this) {
-      case ExpirationTimeResponse.enabled:
-        return 'Enabled';
-      case ExpirationTimeResponse.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension ExpirationTimeResponseFromString on String {
-  ExpirationTimeResponse toExpirationTimeResponse() {
-    switch (this) {
-      case 'Enabled':
-        return ExpirationTimeResponse.enabled;
-      case 'Disabled':
-        return ExpirationTimeResponse.disabled;
-    }
-    throw Exception('$this is not known in enum ExpirationTimeResponse');
-  }
+  const ExpirationTimeResponse(this.value);
+
+  static ExpirationTimeResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExpirationTimeResponse'));
 }
 
 /// The value associated with a feature.
@@ -662,31 +636,17 @@ class GetRecordResponse {
 }
 
 enum TargetStore {
-  onlineStore,
-  offlineStore,
-}
+  onlineStore('OnlineStore'),
+  offlineStore('OfflineStore'),
+  ;
 
-extension TargetStoreValueExtension on TargetStore {
-  String toValue() {
-    switch (this) {
-      case TargetStore.onlineStore:
-        return 'OnlineStore';
-      case TargetStore.offlineStore:
-        return 'OfflineStore';
-    }
-  }
-}
+  final String value;
 
-extension TargetStoreFromString on String {
-  TargetStore toTargetStore() {
-    switch (this) {
-      case 'OnlineStore':
-        return TargetStore.onlineStore;
-      case 'OfflineStore':
-        return TargetStore.offlineStore;
-    }
-    throw Exception('$this is not known in enum TargetStore');
-  }
+  const TargetStore(this.value);
+
+  static TargetStore fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetStore'));
 }
 
 /// Time to live duration, where the record is hard deleted after the expiration
@@ -710,53 +670,28 @@ class TtlDuration {
     final unit = this.unit;
     final value = this.value;
     return {
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       'Value': value,
     };
   }
 }
 
 enum TtlDurationUnit {
-  seconds,
-  minutes,
-  hours,
-  days,
-  weeks,
-}
+  seconds('Seconds'),
+  minutes('Minutes'),
+  hours('Hours'),
+  days('Days'),
+  weeks('Weeks'),
+  ;
 
-extension TtlDurationUnitValueExtension on TtlDurationUnit {
-  String toValue() {
-    switch (this) {
-      case TtlDurationUnit.seconds:
-        return 'Seconds';
-      case TtlDurationUnit.minutes:
-        return 'Minutes';
-      case TtlDurationUnit.hours:
-        return 'Hours';
-      case TtlDurationUnit.days:
-        return 'Days';
-      case TtlDurationUnit.weeks:
-        return 'Weeks';
-    }
-  }
-}
+  final String value;
 
-extension TtlDurationUnitFromString on String {
-  TtlDurationUnit toTtlDurationUnit() {
-    switch (this) {
-      case 'Seconds':
-        return TtlDurationUnit.seconds;
-      case 'Minutes':
-        return TtlDurationUnit.minutes;
-      case 'Hours':
-        return TtlDurationUnit.hours;
-      case 'Days':
-        return TtlDurationUnit.days;
-      case 'Weeks':
-        return TtlDurationUnit.weeks;
-    }
-    throw Exception('$this is not known in enum TtlDurationUnit');
-  }
+  const TtlDurationUnit(this.value);
+
+  static TtlDurationUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TtlDurationUnit'));
 }
 
 class AccessForbidden extends _s.GenericAwsException {

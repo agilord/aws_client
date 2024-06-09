@@ -244,7 +244,7 @@ class IoTJobsDataPlane {
     int? stepTimeoutInMinutes,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
       if (executionNumber != null) 'executionNumber': executionNumber,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
       if (includeJobDocument != null) 'includeJobDocument': includeJobDocument,
@@ -376,7 +376,7 @@ class JobExecution {
       lastUpdatedAt: json['lastUpdatedAt'] as int?,
       queuedAt: json['queuedAt'] as int?,
       startedAt: json['startedAt'] as int?,
-      status: (json['status'] as String?)?.toJobExecutionStatus(),
+      status: (json['status'] as String?)?.let(JobExecutionStatus.fromString),
       statusDetails: (json['statusDetails'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       thingName: json['thingName'] as String?,
@@ -407,7 +407,7 @@ class JobExecutionState {
 
   factory JobExecutionState.fromJson(Map<String, dynamic> json) {
     return JobExecutionState(
-      status: (json['status'] as String?)?.toJobExecutionStatus(),
+      status: (json['status'] as String?)?.let(JobExecutionStatus.fromString),
       statusDetails: (json['statusDetails'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       versionNumber: json['versionNumber'] as int?,
@@ -416,61 +416,24 @@ class JobExecutionState {
 }
 
 enum JobExecutionStatus {
-  queued,
-  inProgress,
-  succeeded,
-  failed,
-  timedOut,
-  rejected,
-  removed,
-  canceled,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  timedOut('TIMED_OUT'),
+  rejected('REJECTED'),
+  removed('REMOVED'),
+  canceled('CANCELED'),
+  ;
 
-extension JobExecutionStatusValueExtension on JobExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case JobExecutionStatus.queued:
-        return 'QUEUED';
-      case JobExecutionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobExecutionStatus.failed:
-        return 'FAILED';
-      case JobExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-      case JobExecutionStatus.rejected:
-        return 'REJECTED';
-      case JobExecutionStatus.removed:
-        return 'REMOVED';
-      case JobExecutionStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension JobExecutionStatusFromString on String {
-  JobExecutionStatus toJobExecutionStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return JobExecutionStatus.queued;
-      case 'IN_PROGRESS':
-        return JobExecutionStatus.inProgress;
-      case 'SUCCEEDED':
-        return JobExecutionStatus.succeeded;
-      case 'FAILED':
-        return JobExecutionStatus.failed;
-      case 'TIMED_OUT':
-        return JobExecutionStatus.timedOut;
-      case 'REJECTED':
-        return JobExecutionStatus.rejected;
-      case 'REMOVED':
-        return JobExecutionStatus.removed;
-      case 'CANCELED':
-        return JobExecutionStatus.canceled;
-    }
-    throw Exception('$this is not known in enum JobExecutionStatus');
-  }
+  const JobExecutionStatus(this.value);
+
+  static JobExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum JobExecutionStatus'));
 }
 
 /// Contains a subset of information about a job execution.

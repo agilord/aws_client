@@ -73,41 +73,29 @@ class OutputShape {
   });
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      fooEnum: _s.extractXmlStringValue(elem, 'FooEnum')?.toEC2EnumType(),
+      fooEnum: _s
+          .extractXmlStringValue(elem, 'FooEnum')
+          ?.let(EC2EnumType.fromString),
       listEnums: _s.extractXmlChild(elem, 'ListEnums')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toEC2EnumType())
+          .map(EC2EnumType.fromString)
           .toList()),
     );
   }
 }
 
 enum EC2EnumType {
-  foo,
-  bar,
-}
+  foo('foo'),
+  bar('bar'),
+  ;
 
-extension EC2EnumTypeValueExtension on EC2EnumType {
-  String toValue() {
-    switch (this) {
-      case EC2EnumType.foo:
-        return 'foo';
-      case EC2EnumType.bar:
-        return 'bar';
-    }
-  }
-}
+  final String value;
 
-extension EC2EnumTypeFromString on String {
-  EC2EnumType toEC2EnumType() {
-    switch (this) {
-      case 'foo':
-        return EC2EnumType.foo;
-      case 'bar':
-        return EC2EnumType.bar;
-    }
-    throw Exception('$this is not known in enum EC2EnumType');
-  }
+  const EC2EnumType(this.value);
+
+  static EC2EnumType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EC2EnumType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

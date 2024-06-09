@@ -344,7 +344,7 @@ class ElasticLoadBalancingv2 {
         for (var e1 in mutualAuthentication.toQueryMap().entries)
           'MutualAuthentication.${e1.key}': e1.value,
       if (port != null) 'Port': port.toString(),
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (sslPolicy != null) 'SslPolicy': sslPolicy,
       if (tags != null)
         if (tags.isEmpty)
@@ -520,8 +520,8 @@ class ElasticLoadBalancingv2 {
       'Name': name,
       if (customerOwnedIpv4Pool != null)
         'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
-      if (scheme != null) 'Scheme': scheme.toValue(),
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (scheme != null) 'Scheme': scheme.value,
       if (securityGroups != null)
         if (securityGroups.isEmpty)
           'SecurityGroups': ''
@@ -548,7 +548,7 @@ class ElasticLoadBalancingv2 {
           for (var i1 = 0; i1 < tags.length; i1++)
             for (var e3 in tags[i1].toQueryMap().entries)
               'Tags.member.${i1 + 1}.${e3.key}': e3.value,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -873,17 +873,17 @@ class ElasticLoadBalancingv2 {
       if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
       if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
       if (healthCheckProtocol != null)
-        'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        'HealthCheckProtocol': healthCheckProtocol.value,
       if (healthCheckTimeoutSeconds != null)
         'HealthCheckTimeoutSeconds': healthCheckTimeoutSeconds.toString(),
       if (healthyThresholdCount != null)
         'HealthyThresholdCount': healthyThresholdCount.toString(),
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
       if (matcher != null)
         for (var e1 in matcher.toQueryMap().entries)
           'Matcher.${e1.key}': e1.value,
       if (port != null) 'Port': port.toString(),
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (protocolVersion != null) 'ProtocolVersion': protocolVersion,
       if (tags != null)
         if (tags.isEmpty)
@@ -892,7 +892,7 @@ class ElasticLoadBalancingv2 {
           for (var i1 = 0; i1 < tags.length; i1++)
             for (var e3 in tags[i1].toQueryMap().entries)
               'Tags.member.${i1 + 1}.${e3.key}': e3.value,
-      if (targetType != null) 'TargetType': targetType.toValue(),
+      if (targetType != null) 'TargetType': targetType.value,
       if (unhealthyThresholdCount != null)
         'UnhealthyThresholdCount': unhealthyThresholdCount.toString(),
       if (vpcId != null) 'VpcId': vpcId,
@@ -1532,8 +1532,7 @@ class ElasticLoadBalancingv2 {
       400,
     );
     final $request = <String, String>{
-      if (loadBalancerType != null)
-        'LoadBalancerType': loadBalancerType.toValue(),
+      if (loadBalancerType != null) 'LoadBalancerType': loadBalancerType.value,
       if (marker != null) 'Marker': marker,
       if (names != null)
         if (names.isEmpty)
@@ -1727,7 +1726,7 @@ class ElasticLoadBalancingv2 {
           'Include': ''
         else
           for (var i1 = 0; i1 < include.length; i1++)
-            'Include.member.${i1 + 1}': include[i1].toValue(),
+            'Include.member.${i1 + 1}': include[i1].value,
       if (targets != null)
         if (targets.isEmpty)
           'Targets': ''
@@ -2092,7 +2091,7 @@ class ElasticLoadBalancingv2 {
         for (var e1 in mutualAuthentication.toQueryMap().entries)
           'MutualAuthentication.${e1.key}': e1.value,
       if (port != null) 'Port': port.toString(),
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (sslPolicy != null) 'SslPolicy': sslPolicy,
     };
     final $result = await _protocol.send(
@@ -2309,7 +2308,7 @@ class ElasticLoadBalancingv2 {
       if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
       if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
       if (healthCheckProtocol != null)
-        'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        'HealthCheckProtocol': healthCheckProtocol.value,
       if (healthCheckTimeoutSeconds != null)
         'HealthCheckTimeoutSeconds': healthCheckTimeoutSeconds.toString(),
       if (healthyThresholdCount != null)
@@ -2607,7 +2606,7 @@ class ElasticLoadBalancingv2 {
     required String loadBalancerArn,
   }) async {
     final $request = <String, String>{
-      'IpAddressType': ipAddressType.toValue(),
+      'IpAddressType': ipAddressType.value,
       'LoadBalancerArn': loadBalancerArn,
     };
     final $result = await _protocol.send(
@@ -2695,7 +2694,7 @@ class ElasticLoadBalancingv2 {
           'SecurityGroups.member.${i1 + 1}': securityGroups[i1],
       if (enforceSecurityGroupInboundRulesOnPrivateLinkTraffic != null)
         'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic':
-            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic.toValue(),
+            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2793,7 +2792,7 @@ class ElasticLoadBalancingv2 {
   }) async {
     final $request = <String, String>{
       'LoadBalancerArn': loadBalancerArn,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
       if (subnetMappings != null)
         if (subnetMappings.isEmpty)
           'SubnetMappings': ''
@@ -2880,7 +2879,9 @@ class Action {
   });
   factory Action.fromXml(_s.XmlElement elem) {
     return Action(
-      type: _s.extractXmlStringValue(elem, 'Type')!.toActionTypeEnum(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(ActionTypeEnum.fromString),
       authenticateCognitoConfig: _s
           .extractXmlChild(elem, 'AuthenticateCognitoConfig')
           ?.let(AuthenticateCognitoActionConfig.fromXml),
@@ -2911,7 +2912,7 @@ class Action {
     final redirectConfig = this.redirectConfig;
     final targetGroupArn = this.targetGroupArn;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (authenticateCognitoConfig != null)
         'AuthenticateCognitoConfig': authenticateCognitoConfig,
       if (authenticateOidcConfig != null)
@@ -2935,7 +2936,7 @@ class Action {
     final redirectConfig = this.redirectConfig;
     final targetGroupArn = this.targetGroupArn;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (authenticateCognitoConfig != null)
         for (var e1 in authenticateCognitoConfig.toQueryMap().entries)
           'AuthenticateCognitoConfig.${e1.key}': e1.value,
@@ -2958,46 +2959,21 @@ class Action {
 }
 
 enum ActionTypeEnum {
-  forward,
-  authenticateOidc,
-  authenticateCognito,
-  redirect,
-  fixedResponse,
-}
+  forward('forward'),
+  authenticateOidc('authenticate-oidc'),
+  authenticateCognito('authenticate-cognito'),
+  redirect('redirect'),
+  fixedResponse('fixed-response'),
+  ;
 
-extension ActionTypeEnumValueExtension on ActionTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ActionTypeEnum.forward:
-        return 'forward';
-      case ActionTypeEnum.authenticateOidc:
-        return 'authenticate-oidc';
-      case ActionTypeEnum.authenticateCognito:
-        return 'authenticate-cognito';
-      case ActionTypeEnum.redirect:
-        return 'redirect';
-      case ActionTypeEnum.fixedResponse:
-        return 'fixed-response';
-    }
-  }
-}
+  final String value;
 
-extension ActionTypeEnumFromString on String {
-  ActionTypeEnum toActionTypeEnum() {
-    switch (this) {
-      case 'forward':
-        return ActionTypeEnum.forward;
-      case 'authenticate-oidc':
-        return ActionTypeEnum.authenticateOidc;
-      case 'authenticate-cognito':
-        return ActionTypeEnum.authenticateCognito;
-      case 'redirect':
-        return ActionTypeEnum.redirect;
-      case 'fixed-response':
-        return ActionTypeEnum.fixedResponse;
-    }
-    throw Exception('$this is not known in enum ActionTypeEnum');
-  }
+  const ActionTypeEnum(this.value);
+
+  static ActionTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActionTypeEnum'));
 }
 
 class AddListenerCertificatesOutput {
@@ -3059,74 +3035,44 @@ class AnomalyDetection {
     return AnomalyDetection(
       mitigationInEffect: _s
           .extractXmlStringValue(elem, 'MitigationInEffect')
-          ?.toMitigationInEffectEnum(),
-      result: _s.extractXmlStringValue(elem, 'Result')?.toAnomalyResultEnum(),
+          ?.let(MitigationInEffectEnum.fromString),
+      result: _s
+          .extractXmlStringValue(elem, 'Result')
+          ?.let(AnomalyResultEnum.fromString),
     );
   }
 }
 
 enum AnomalyResultEnum {
-  anomalous,
-  normal,
-}
+  anomalous('anomalous'),
+  normal('normal'),
+  ;
 
-extension AnomalyResultEnumValueExtension on AnomalyResultEnum {
-  String toValue() {
-    switch (this) {
-      case AnomalyResultEnum.anomalous:
-        return 'anomalous';
-      case AnomalyResultEnum.normal:
-        return 'normal';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyResultEnumFromString on String {
-  AnomalyResultEnum toAnomalyResultEnum() {
-    switch (this) {
-      case 'anomalous':
-        return AnomalyResultEnum.anomalous;
-      case 'normal':
-        return AnomalyResultEnum.normal;
-    }
-    throw Exception('$this is not known in enum AnomalyResultEnum');
-  }
+  const AnomalyResultEnum(this.value);
+
+  static AnomalyResultEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnomalyResultEnum'));
 }
 
 enum AuthenticateCognitoActionConditionalBehaviorEnum {
-  deny,
-  allow,
-  authenticate,
-}
+  deny('deny'),
+  allow('allow'),
+  authenticate('authenticate'),
+  ;
 
-extension AuthenticateCognitoActionConditionalBehaviorEnumValueExtension
-    on AuthenticateCognitoActionConditionalBehaviorEnum {
-  String toValue() {
-    switch (this) {
-      case AuthenticateCognitoActionConditionalBehaviorEnum.deny:
-        return 'deny';
-      case AuthenticateCognitoActionConditionalBehaviorEnum.allow:
-        return 'allow';
-      case AuthenticateCognitoActionConditionalBehaviorEnum.authenticate:
-        return 'authenticate';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticateCognitoActionConditionalBehaviorEnumFromString on String {
-  AuthenticateCognitoActionConditionalBehaviorEnum
-      toAuthenticateCognitoActionConditionalBehaviorEnum() {
-    switch (this) {
-      case 'deny':
-        return AuthenticateCognitoActionConditionalBehaviorEnum.deny;
-      case 'allow':
-        return AuthenticateCognitoActionConditionalBehaviorEnum.allow;
-      case 'authenticate':
-        return AuthenticateCognitoActionConditionalBehaviorEnum.authenticate;
-    }
-    throw Exception(
-        '$this is not known in enum AuthenticateCognitoActionConditionalBehaviorEnum');
-  }
+  const AuthenticateCognitoActionConditionalBehaviorEnum(this.value);
+
+  static AuthenticateCognitoActionConditionalBehaviorEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticateCognitoActionConditionalBehaviorEnum'));
 }
 
 /// Request parameters to use when integrating with Amazon Cognito to
@@ -3208,7 +3154,7 @@ class AuthenticateCognitoActionConfig {
       ),
       onUnauthenticatedRequest: _s
           .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.toAuthenticateCognitoActionConditionalBehaviorEnum(),
+          ?.let(AuthenticateCognitoActionConditionalBehaviorEnum.fromString),
       scope: _s.extractXmlStringValue(elem, 'Scope'),
       sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
       sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
@@ -3232,7 +3178,7 @@ class AuthenticateCognitoActionConfig {
       if (authenticationRequestExtraParams != null)
         'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
       if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
       if (scope != null) 'Scope': scope,
       if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
       if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
@@ -3264,7 +3210,7 @@ class AuthenticateCognitoActionConfig {
               e1.value.value,
         },
       if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
       if (scope != null) 'Scope': scope,
       if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
       if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
@@ -3273,39 +3219,20 @@ class AuthenticateCognitoActionConfig {
 }
 
 enum AuthenticateOidcActionConditionalBehaviorEnum {
-  deny,
-  allow,
-  authenticate,
-}
+  deny('deny'),
+  allow('allow'),
+  authenticate('authenticate'),
+  ;
 
-extension AuthenticateOidcActionConditionalBehaviorEnumValueExtension
-    on AuthenticateOidcActionConditionalBehaviorEnum {
-  String toValue() {
-    switch (this) {
-      case AuthenticateOidcActionConditionalBehaviorEnum.deny:
-        return 'deny';
-      case AuthenticateOidcActionConditionalBehaviorEnum.allow:
-        return 'allow';
-      case AuthenticateOidcActionConditionalBehaviorEnum.authenticate:
-        return 'authenticate';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticateOidcActionConditionalBehaviorEnumFromString on String {
-  AuthenticateOidcActionConditionalBehaviorEnum
-      toAuthenticateOidcActionConditionalBehaviorEnum() {
-    switch (this) {
-      case 'deny':
-        return AuthenticateOidcActionConditionalBehaviorEnum.deny;
-      case 'allow':
-        return AuthenticateOidcActionConditionalBehaviorEnum.allow;
-      case 'authenticate':
-        return AuthenticateOidcActionConditionalBehaviorEnum.authenticate;
-    }
-    throw Exception(
-        '$this is not known in enum AuthenticateOidcActionConditionalBehaviorEnum');
-  }
+  const AuthenticateOidcActionConditionalBehaviorEnum(this.value);
+
+  static AuthenticateOidcActionConditionalBehaviorEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticateOidcActionConditionalBehaviorEnum'));
 }
 
 /// Request parameters when using an identity provider (IdP) that is compliant
@@ -3412,7 +3339,7 @@ class AuthenticateOidcActionConfig {
       clientSecret: _s.extractXmlStringValue(elem, 'ClientSecret'),
       onUnauthenticatedRequest: _s
           .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.toAuthenticateOidcActionConditionalBehaviorEnum(),
+          ?.let(AuthenticateOidcActionConditionalBehaviorEnum.fromString),
       scope: _s.extractXmlStringValue(elem, 'Scope'),
       sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
       sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
@@ -3445,7 +3372,7 @@ class AuthenticateOidcActionConfig {
         'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
       if (clientSecret != null) 'ClientSecret': clientSecret,
       if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
       if (scope != null) 'Scope': scope,
       if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
       if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
@@ -3486,7 +3413,7 @@ class AuthenticateOidcActionConfig {
         },
       if (clientSecret != null) 'ClientSecret': clientSecret,
       if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.toValue(),
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
       if (scope != null) 'Scope': scope,
       if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
       if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
@@ -3922,34 +3849,18 @@ class DescribeTargetGroupsOutput {
 }
 
 enum DescribeTargetHealthInputIncludeEnum {
-  anomalyDetection,
-  all,
-}
+  anomalyDetection('AnomalyDetection'),
+  all('All'),
+  ;
 
-extension DescribeTargetHealthInputIncludeEnumValueExtension
-    on DescribeTargetHealthInputIncludeEnum {
-  String toValue() {
-    switch (this) {
-      case DescribeTargetHealthInputIncludeEnum.anomalyDetection:
-        return 'AnomalyDetection';
-      case DescribeTargetHealthInputIncludeEnum.all:
-        return 'All';
-    }
-  }
-}
+  final String value;
 
-extension DescribeTargetHealthInputIncludeEnumFromString on String {
-  DescribeTargetHealthInputIncludeEnum
-      toDescribeTargetHealthInputIncludeEnum() {
-    switch (this) {
-      case 'AnomalyDetection':
-        return DescribeTargetHealthInputIncludeEnum.anomalyDetection;
-      case 'All':
-        return DescribeTargetHealthInputIncludeEnum.all;
-    }
-    throw Exception(
-        '$this is not known in enum DescribeTargetHealthInputIncludeEnum');
-  }
+  const DescribeTargetHealthInputIncludeEnum(this.value);
+
+  static DescribeTargetHealthInputIncludeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribeTargetHealthInputIncludeEnum'));
 }
 
 class DescribeTargetHealthOutput {
@@ -4021,8 +3932,9 @@ class DescribeTrustStoreRevocation {
       numberOfRevokedEntries:
           _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
       revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
-      revocationType:
-          _s.extractXmlStringValue(elem, 'RevocationType')?.toRevocationType(),
+      revocationType: _s
+          .extractXmlStringValue(elem, 'RevocationType')
+          ?.let(RevocationType.fromString),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
   }
@@ -4075,35 +3987,19 @@ class DescribeTrustStoresOutput {
 }
 
 enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
-  on,
-  off,
-}
+  on('on'),
+  off('off'),
+  ;
 
-extension EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnumValueExtension
-    on EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
-  String toValue() {
-    switch (this) {
-      case EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.on:
-        return 'on';
-      case EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.off:
-        return 'off';
-    }
-  }
-}
+  final String value;
 
-extension EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnumFromString
-    on String {
-  EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
-      toEnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum() {
-    switch (this) {
-      case 'on':
-        return EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.on;
-      case 'off':
-        return EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.off;
-    }
-    throw Exception(
-        '$this is not known in enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum');
-  }
+  const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(this.value);
+
+  static EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum'));
 }
 
 /// Information about an action that returns a custom HTTP response.
@@ -4390,36 +4286,19 @@ class HttpRequestMethodConditionConfig {
 }
 
 enum IpAddressType {
-  ipv4,
-  dualstack,
-  dualstackWithoutPublicIpv4,
-}
+  ipv4('ipv4'),
+  dualstack('dualstack'),
+  dualstackWithoutPublicIpv4('dualstack-without-public-ipv4'),
+  ;
 
-extension IpAddressTypeValueExtension on IpAddressType {
-  String toValue() {
-    switch (this) {
-      case IpAddressType.ipv4:
-        return 'ipv4';
-      case IpAddressType.dualstack:
-        return 'dualstack';
-      case IpAddressType.dualstackWithoutPublicIpv4:
-        return 'dualstack-without-public-ipv4';
-    }
-  }
-}
+  final String value;
 
-extension IpAddressTypeFromString on String {
-  IpAddressType toIpAddressType() {
-    switch (this) {
-      case 'ipv4':
-        return IpAddressType.ipv4;
-      case 'dualstack':
-        return IpAddressType.dualstack;
-      case 'dualstack-without-public-ipv4':
-        return IpAddressType.dualstackWithoutPublicIpv4;
-    }
-    throw Exception('$this is not known in enum IpAddressType');
-  }
+  const IpAddressType(this.value);
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IpAddressType'));
 }
 
 /// Information about an Elastic Load Balancing resource limit for your Amazon
@@ -4577,7 +4456,9 @@ class Listener {
           .extractXmlChild(elem, 'MutualAuthentication')
           ?.let(MutualAuthenticationAttributes.fromXml),
       port: _s.extractXmlIntValue(elem, 'Port'),
-      protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocolEnum(),
+      protocol: _s
+          .extractXmlStringValue(elem, 'Protocol')
+          ?.let(ProtocolEnum.fromString),
       sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
     );
   }
@@ -4679,17 +4560,21 @@ class LoadBalancer {
       enforceSecurityGroupInboundRulesOnPrivateLinkTraffic:
           _s.extractXmlStringValue(
               elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'),
-      ipAddressType:
-          _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(IpAddressType.fromString),
       loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
-      scheme:
-          _s.extractXmlStringValue(elem, 'Scheme')?.toLoadBalancerSchemeEnum(),
+      scheme: _s
+          .extractXmlStringValue(elem, 'Scheme')
+          ?.let(LoadBalancerSchemeEnum.fromString),
       securityGroups: _s
           .extractXmlChild(elem, 'SecurityGroups')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       state: _s.extractXmlChild(elem, 'State')?.let(LoadBalancerState.fromXml),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toLoadBalancerTypeEnum(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(LoadBalancerTypeEnum.fromString),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -4925,31 +4810,18 @@ class LoadBalancerAttribute {
 }
 
 enum LoadBalancerSchemeEnum {
-  internetFacing,
-  internal,
-}
+  internetFacing('internet-facing'),
+  internal('internal'),
+  ;
 
-extension LoadBalancerSchemeEnumValueExtension on LoadBalancerSchemeEnum {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerSchemeEnum.internetFacing:
-        return 'internet-facing';
-      case LoadBalancerSchemeEnum.internal:
-        return 'internal';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerSchemeEnumFromString on String {
-  LoadBalancerSchemeEnum toLoadBalancerSchemeEnum() {
-    switch (this) {
-      case 'internet-facing':
-        return LoadBalancerSchemeEnum.internetFacing;
-      case 'internal':
-        return LoadBalancerSchemeEnum.internal;
-    }
-    throw Exception('$this is not known in enum LoadBalancerSchemeEnum');
-  }
+  const LoadBalancerSchemeEnum(this.value);
+
+  static LoadBalancerSchemeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerSchemeEnum'));
 }
 
 /// Information about the state of the load balancer.
@@ -4971,81 +4843,45 @@ class LoadBalancerState {
   });
   factory LoadBalancerState.fromXml(_s.XmlElement elem) {
     return LoadBalancerState(
-      code: _s.extractXmlStringValue(elem, 'Code')?.toLoadBalancerStateEnum(),
+      code: _s
+          .extractXmlStringValue(elem, 'Code')
+          ?.let(LoadBalancerStateEnum.fromString),
       reason: _s.extractXmlStringValue(elem, 'Reason'),
     );
   }
 }
 
 enum LoadBalancerStateEnum {
-  active,
-  provisioning,
-  activeImpaired,
-  failed,
-}
+  active('active'),
+  provisioning('provisioning'),
+  activeImpaired('active_impaired'),
+  failed('failed'),
+  ;
 
-extension LoadBalancerStateEnumValueExtension on LoadBalancerStateEnum {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerStateEnum.active:
-        return 'active';
-      case LoadBalancerStateEnum.provisioning:
-        return 'provisioning';
-      case LoadBalancerStateEnum.activeImpaired:
-        return 'active_impaired';
-      case LoadBalancerStateEnum.failed:
-        return 'failed';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerStateEnumFromString on String {
-  LoadBalancerStateEnum toLoadBalancerStateEnum() {
-    switch (this) {
-      case 'active':
-        return LoadBalancerStateEnum.active;
-      case 'provisioning':
-        return LoadBalancerStateEnum.provisioning;
-      case 'active_impaired':
-        return LoadBalancerStateEnum.activeImpaired;
-      case 'failed':
-        return LoadBalancerStateEnum.failed;
-    }
-    throw Exception('$this is not known in enum LoadBalancerStateEnum');
-  }
+  const LoadBalancerStateEnum(this.value);
+
+  static LoadBalancerStateEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LoadBalancerStateEnum'));
 }
 
 enum LoadBalancerTypeEnum {
-  application,
-  network,
-  gateway,
-}
+  application('application'),
+  network('network'),
+  gateway('gateway'),
+  ;
 
-extension LoadBalancerTypeEnumValueExtension on LoadBalancerTypeEnum {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTypeEnum.application:
-        return 'application';
-      case LoadBalancerTypeEnum.network:
-        return 'network';
-      case LoadBalancerTypeEnum.gateway:
-        return 'gateway';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTypeEnumFromString on String {
-  LoadBalancerTypeEnum toLoadBalancerTypeEnum() {
-    switch (this) {
-      case 'application':
-        return LoadBalancerTypeEnum.application;
-      case 'network':
-        return LoadBalancerTypeEnum.network;
-      case 'gateway':
-        return LoadBalancerTypeEnum.gateway;
-    }
-    throw Exception('$this is not known in enum LoadBalancerTypeEnum');
-  }
+  const LoadBalancerTypeEnum(this.value);
+
+  static LoadBalancerTypeEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LoadBalancerTypeEnum'));
 }
 
 /// The codes to use when checking for a successful response from a target. If
@@ -5102,31 +4938,18 @@ class Matcher {
 }
 
 enum MitigationInEffectEnum {
-  yes,
-  no,
-}
+  yes('yes'),
+  no('no'),
+  ;
 
-extension MitigationInEffectEnumValueExtension on MitigationInEffectEnum {
-  String toValue() {
-    switch (this) {
-      case MitigationInEffectEnum.yes:
-        return 'yes';
-      case MitigationInEffectEnum.no:
-        return 'no';
-    }
-  }
-}
+  final String value;
 
-extension MitigationInEffectEnumFromString on String {
-  MitigationInEffectEnum toMitigationInEffectEnum() {
-    switch (this) {
-      case 'yes':
-        return MitigationInEffectEnum.yes;
-      case 'no':
-        return MitigationInEffectEnum.no;
-    }
-    throw Exception('$this is not known in enum MitigationInEffectEnum');
-  }
+  const MitigationInEffectEnum(this.value);
+
+  static MitigationInEffectEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MitigationInEffectEnum'));
 }
 
 class ModifyListenerOutput {
@@ -5321,56 +5144,23 @@ class PathPatternConditionConfig {
 }
 
 enum ProtocolEnum {
-  http,
-  https,
-  tcp,
-  tls,
-  udp,
-  tcpUdp,
-  geneve,
-}
+  http('HTTP'),
+  https('HTTPS'),
+  tcp('TCP'),
+  tls('TLS'),
+  udp('UDP'),
+  tcpUdp('TCP_UDP'),
+  geneve('GENEVE'),
+  ;
 
-extension ProtocolEnumValueExtension on ProtocolEnum {
-  String toValue() {
-    switch (this) {
-      case ProtocolEnum.http:
-        return 'HTTP';
-      case ProtocolEnum.https:
-        return 'HTTPS';
-      case ProtocolEnum.tcp:
-        return 'TCP';
-      case ProtocolEnum.tls:
-        return 'TLS';
-      case ProtocolEnum.udp:
-        return 'UDP';
-      case ProtocolEnum.tcpUdp:
-        return 'TCP_UDP';
-      case ProtocolEnum.geneve:
-        return 'GENEVE';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolEnumFromString on String {
-  ProtocolEnum toProtocolEnum() {
-    switch (this) {
-      case 'HTTP':
-        return ProtocolEnum.http;
-      case 'HTTPS':
-        return ProtocolEnum.https;
-      case 'TCP':
-        return ProtocolEnum.tcp;
-      case 'TLS':
-        return ProtocolEnum.tls;
-      case 'UDP':
-        return ProtocolEnum.udp;
-      case 'TCP_UDP':
-        return ProtocolEnum.tcpUdp;
-      case 'GENEVE':
-        return ProtocolEnum.geneve;
-    }
-    throw Exception('$this is not known in enum ProtocolEnum');
-  }
+  const ProtocolEnum(this.value);
+
+  static ProtocolEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProtocolEnum'));
 }
 
 /// Information about a query string condition.
@@ -5529,7 +5319,7 @@ class RedirectActionConfig {
     return RedirectActionConfig(
       statusCode: _s
           .extractXmlStringValue(elem, 'StatusCode')!
-          .toRedirectActionStatusCodeEnum(),
+          .let(RedirectActionStatusCodeEnum.fromString),
       host: _s.extractXmlStringValue(elem, 'Host'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       port: _s.extractXmlStringValue(elem, 'Port'),
@@ -5546,7 +5336,7 @@ class RedirectActionConfig {
     final protocol = this.protocol;
     final query = this.query;
     return {
-      'StatusCode': statusCode.toValue(),
+      'StatusCode': statusCode.value,
       if (host != null) 'Host': host,
       if (path != null) 'Path': path,
       if (port != null) 'Port': port,
@@ -5563,7 +5353,7 @@ class RedirectActionConfig {
     final protocol = this.protocol;
     final query = this.query;
     return {
-      'StatusCode': statusCode.toValue(),
+      'StatusCode': statusCode.value,
       if (host != null) 'Host': host,
       if (path != null) 'Path': path,
       if (port != null) 'Port': port,
@@ -5574,32 +5364,18 @@ class RedirectActionConfig {
 }
 
 enum RedirectActionStatusCodeEnum {
-  http_301,
-  http_302,
-}
+  http_301('HTTP_301'),
+  http_302('HTTP_302'),
+  ;
 
-extension RedirectActionStatusCodeEnumValueExtension
-    on RedirectActionStatusCodeEnum {
-  String toValue() {
-    switch (this) {
-      case RedirectActionStatusCodeEnum.http_301:
-        return 'HTTP_301';
-      case RedirectActionStatusCodeEnum.http_302:
-        return 'HTTP_302';
-    }
-  }
-}
+  final String value;
 
-extension RedirectActionStatusCodeEnumFromString on String {
-  RedirectActionStatusCodeEnum toRedirectActionStatusCodeEnum() {
-    switch (this) {
-      case 'HTTP_301':
-        return RedirectActionStatusCodeEnum.http_301;
-      case 'HTTP_302':
-        return RedirectActionStatusCodeEnum.http_302;
-    }
-    throw Exception('$this is not known in enum RedirectActionStatusCodeEnum');
-  }
+  const RedirectActionStatusCodeEnum(this.value);
+
+  static RedirectActionStatusCodeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RedirectActionStatusCodeEnum'));
 }
 
 class RegisterTargetsOutput {
@@ -5665,7 +5441,7 @@ class RevocationContent {
     final s3Key = this.s3Key;
     final s3ObjectVersion = this.s3ObjectVersion;
     return {
-      if (revocationType != null) 'RevocationType': revocationType.toValue(),
+      if (revocationType != null) 'RevocationType': revocationType.value,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
@@ -5678,7 +5454,7 @@ class RevocationContent {
     final s3Key = this.s3Key;
     final s3ObjectVersion = this.s3ObjectVersion;
     return {
-      if (revocationType != null) 'RevocationType': revocationType.toValue(),
+      if (revocationType != null) 'RevocationType': revocationType.value,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
@@ -5687,26 +5463,17 @@ class RevocationContent {
 }
 
 enum RevocationType {
-  crl,
-}
+  crl('CRL'),
+  ;
 
-extension RevocationTypeValueExtension on RevocationType {
-  String toValue() {
-    switch (this) {
-      case RevocationType.crl:
-        return 'CRL';
-    }
-  }
-}
+  final String value;
 
-extension RevocationTypeFromString on String {
-  RevocationType toRevocationType() {
-    switch (this) {
-      case 'CRL':
-        return RevocationType.crl;
-    }
-    throw Exception('$this is not known in enum RevocationType');
-  }
+  const RevocationType(this.value);
+
+  static RevocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RevocationType'));
 }
 
 /// Information about a rule.
@@ -6002,8 +5769,9 @@ class SetIpAddressTypeOutput {
   });
   factory SetIpAddressTypeOutput.fromXml(_s.XmlElement elem) {
     return SetIpAddressTypeOutput(
-      ipAddressType:
-          _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(IpAddressType.fromString),
     );
   }
 }
@@ -6041,7 +5809,8 @@ class SetSecurityGroupsOutput {
       enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: _s
           .extractXmlStringValue(
               elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic')
-          ?.toEnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(),
+          ?.let(EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
+              .fromString),
       securityGroupIds: _s
           .extractXmlChild(elem, 'SecurityGroupIds')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -6071,8 +5840,9 @@ class SetSubnetsOutput {
               .findElements('member')
               .map(AvailabilityZone.fromXml)
               .toList()),
-      ipAddressType:
-          _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(IpAddressType.fromString),
     );
   }
 }
@@ -6449,25 +6219,28 @@ class TargetGroup {
       healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
       healthCheckProtocol: _s
           .extractXmlStringValue(elem, 'HealthCheckProtocol')
-          ?.toProtocolEnum(),
+          ?.let(ProtocolEnum.fromString),
       healthCheckTimeoutSeconds:
           _s.extractXmlIntValue(elem, 'HealthCheckTimeoutSeconds'),
       healthyThresholdCount:
           _s.extractXmlIntValue(elem, 'HealthyThresholdCount'),
       ipAddressType: _s
           .extractXmlStringValue(elem, 'IpAddressType')
-          ?.toTargetGroupIpAddressTypeEnum(),
+          ?.let(TargetGroupIpAddressTypeEnum.fromString),
       loadBalancerArns: _s
           .extractXmlChild(elem, 'LoadBalancerArns')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       matcher: _s.extractXmlChild(elem, 'Matcher')?.let(Matcher.fromXml),
       port: _s.extractXmlIntValue(elem, 'Port'),
-      protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocolEnum(),
+      protocol: _s
+          .extractXmlStringValue(elem, 'Protocol')
+          ?.let(ProtocolEnum.fromString),
       protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
       targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
       targetGroupName: _s.extractXmlStringValue(elem, 'TargetGroupName'),
-      targetType:
-          _s.extractXmlStringValue(elem, 'TargetType')?.toTargetTypeEnum(),
+      targetType: _s
+          .extractXmlStringValue(elem, 'TargetType')
+          ?.let(TargetTypeEnum.fromString),
       unhealthyThresholdCount:
           _s.extractXmlIntValue(elem, 'UnhealthyThresholdCount'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
@@ -6711,32 +6484,18 @@ class TargetGroupAttribute {
 }
 
 enum TargetGroupIpAddressTypeEnum {
-  ipv4,
-  ipv6,
-}
+  ipv4('ipv4'),
+  ipv6('ipv6'),
+  ;
 
-extension TargetGroupIpAddressTypeEnumValueExtension
-    on TargetGroupIpAddressTypeEnum {
-  String toValue() {
-    switch (this) {
-      case TargetGroupIpAddressTypeEnum.ipv4:
-        return 'ipv4';
-      case TargetGroupIpAddressTypeEnum.ipv6:
-        return 'ipv6';
-    }
-  }
-}
+  final String value;
 
-extension TargetGroupIpAddressTypeEnumFromString on String {
-  TargetGroupIpAddressTypeEnum toTargetGroupIpAddressTypeEnum() {
-    switch (this) {
-      case 'ipv4':
-        return TargetGroupIpAddressTypeEnum.ipv4;
-      case 'ipv6':
-        return TargetGroupIpAddressTypeEnum.ipv6;
-    }
-    throw Exception('$this is not known in enum TargetGroupIpAddressTypeEnum');
-  }
+  const TargetGroupIpAddressTypeEnum(this.value);
+
+  static TargetGroupIpAddressTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TargetGroupIpAddressTypeEnum'));
 }
 
 /// Information about the target group stickiness for a rule.
@@ -6922,9 +6681,12 @@ class TargetHealth {
   factory TargetHealth.fromXml(_s.XmlElement elem) {
     return TargetHealth(
       description: _s.extractXmlStringValue(elem, 'Description'),
-      reason:
-          _s.extractXmlStringValue(elem, 'Reason')?.toTargetHealthReasonEnum(),
-      state: _s.extractXmlStringValue(elem, 'State')?.toTargetHealthStateEnum(),
+      reason: _s
+          .extractXmlStringValue(elem, 'Reason')
+          ?.let(TargetHealthReasonEnum.fromString),
+      state: _s
+          .extractXmlStringValue(elem, 'State')
+          ?.let(TargetHealthStateEnum.fromString),
     );
   }
 }
@@ -6968,172 +6730,65 @@ class TargetHealthDescription {
 }
 
 enum TargetHealthReasonEnum {
-  elbRegistrationInProgress,
-  elbInitialHealthChecking,
-  targetResponseCodeMismatch,
-  targetTimeout,
-  targetFailedHealthChecks,
-  targetNotRegistered,
-  targetNotInUse,
-  targetDeregistrationInProgress,
-  targetInvalidState,
-  targetIpUnusable,
-  targetHealthCheckDisabled,
-  elbInternalError,
-}
+  elbRegistrationInProgress('Elb.RegistrationInProgress'),
+  elbInitialHealthChecking('Elb.InitialHealthChecking'),
+  targetResponseCodeMismatch('Target.ResponseCodeMismatch'),
+  targetTimeout('Target.Timeout'),
+  targetFailedHealthChecks('Target.FailedHealthChecks'),
+  targetNotRegistered('Target.NotRegistered'),
+  targetNotInUse('Target.NotInUse'),
+  targetDeregistrationInProgress('Target.DeregistrationInProgress'),
+  targetInvalidState('Target.InvalidState'),
+  targetIpUnusable('Target.IpUnusable'),
+  targetHealthCheckDisabled('Target.HealthCheckDisabled'),
+  elbInternalError('Elb.InternalError'),
+  ;
 
-extension TargetHealthReasonEnumValueExtension on TargetHealthReasonEnum {
-  String toValue() {
-    switch (this) {
-      case TargetHealthReasonEnum.elbRegistrationInProgress:
-        return 'Elb.RegistrationInProgress';
-      case TargetHealthReasonEnum.elbInitialHealthChecking:
-        return 'Elb.InitialHealthChecking';
-      case TargetHealthReasonEnum.targetResponseCodeMismatch:
-        return 'Target.ResponseCodeMismatch';
-      case TargetHealthReasonEnum.targetTimeout:
-        return 'Target.Timeout';
-      case TargetHealthReasonEnum.targetFailedHealthChecks:
-        return 'Target.FailedHealthChecks';
-      case TargetHealthReasonEnum.targetNotRegistered:
-        return 'Target.NotRegistered';
-      case TargetHealthReasonEnum.targetNotInUse:
-        return 'Target.NotInUse';
-      case TargetHealthReasonEnum.targetDeregistrationInProgress:
-        return 'Target.DeregistrationInProgress';
-      case TargetHealthReasonEnum.targetInvalidState:
-        return 'Target.InvalidState';
-      case TargetHealthReasonEnum.targetIpUnusable:
-        return 'Target.IpUnusable';
-      case TargetHealthReasonEnum.targetHealthCheckDisabled:
-        return 'Target.HealthCheckDisabled';
-      case TargetHealthReasonEnum.elbInternalError:
-        return 'Elb.InternalError';
-    }
-  }
-}
+  final String value;
 
-extension TargetHealthReasonEnumFromString on String {
-  TargetHealthReasonEnum toTargetHealthReasonEnum() {
-    switch (this) {
-      case 'Elb.RegistrationInProgress':
-        return TargetHealthReasonEnum.elbRegistrationInProgress;
-      case 'Elb.InitialHealthChecking':
-        return TargetHealthReasonEnum.elbInitialHealthChecking;
-      case 'Target.ResponseCodeMismatch':
-        return TargetHealthReasonEnum.targetResponseCodeMismatch;
-      case 'Target.Timeout':
-        return TargetHealthReasonEnum.targetTimeout;
-      case 'Target.FailedHealthChecks':
-        return TargetHealthReasonEnum.targetFailedHealthChecks;
-      case 'Target.NotRegistered':
-        return TargetHealthReasonEnum.targetNotRegistered;
-      case 'Target.NotInUse':
-        return TargetHealthReasonEnum.targetNotInUse;
-      case 'Target.DeregistrationInProgress':
-        return TargetHealthReasonEnum.targetDeregistrationInProgress;
-      case 'Target.InvalidState':
-        return TargetHealthReasonEnum.targetInvalidState;
-      case 'Target.IpUnusable':
-        return TargetHealthReasonEnum.targetIpUnusable;
-      case 'Target.HealthCheckDisabled':
-        return TargetHealthReasonEnum.targetHealthCheckDisabled;
-      case 'Elb.InternalError':
-        return TargetHealthReasonEnum.elbInternalError;
-    }
-    throw Exception('$this is not known in enum TargetHealthReasonEnum');
-  }
+  const TargetHealthReasonEnum(this.value);
+
+  static TargetHealthReasonEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TargetHealthReasonEnum'));
 }
 
 enum TargetHealthStateEnum {
-  initial,
-  healthy,
-  unhealthy,
-  unhealthyDraining,
-  unused,
-  draining,
-  unavailable,
-}
+  initial('initial'),
+  healthy('healthy'),
+  unhealthy('unhealthy'),
+  unhealthyDraining('unhealthy.draining'),
+  unused('unused'),
+  draining('draining'),
+  unavailable('unavailable'),
+  ;
 
-extension TargetHealthStateEnumValueExtension on TargetHealthStateEnum {
-  String toValue() {
-    switch (this) {
-      case TargetHealthStateEnum.initial:
-        return 'initial';
-      case TargetHealthStateEnum.healthy:
-        return 'healthy';
-      case TargetHealthStateEnum.unhealthy:
-        return 'unhealthy';
-      case TargetHealthStateEnum.unhealthyDraining:
-        return 'unhealthy.draining';
-      case TargetHealthStateEnum.unused:
-        return 'unused';
-      case TargetHealthStateEnum.draining:
-        return 'draining';
-      case TargetHealthStateEnum.unavailable:
-        return 'unavailable';
-    }
-  }
-}
+  final String value;
 
-extension TargetHealthStateEnumFromString on String {
-  TargetHealthStateEnum toTargetHealthStateEnum() {
-    switch (this) {
-      case 'initial':
-        return TargetHealthStateEnum.initial;
-      case 'healthy':
-        return TargetHealthStateEnum.healthy;
-      case 'unhealthy':
-        return TargetHealthStateEnum.unhealthy;
-      case 'unhealthy.draining':
-        return TargetHealthStateEnum.unhealthyDraining;
-      case 'unused':
-        return TargetHealthStateEnum.unused;
-      case 'draining':
-        return TargetHealthStateEnum.draining;
-      case 'unavailable':
-        return TargetHealthStateEnum.unavailable;
-    }
-    throw Exception('$this is not known in enum TargetHealthStateEnum');
-  }
+  const TargetHealthStateEnum(this.value);
+
+  static TargetHealthStateEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetHealthStateEnum'));
 }
 
 enum TargetTypeEnum {
-  instance,
-  ip,
-  lambda,
-  alb,
-}
+  instance('instance'),
+  ip('ip'),
+  lambda('lambda'),
+  alb('alb'),
+  ;
 
-extension TargetTypeEnumValueExtension on TargetTypeEnum {
-  String toValue() {
-    switch (this) {
-      case TargetTypeEnum.instance:
-        return 'instance';
-      case TargetTypeEnum.ip:
-        return 'ip';
-      case TargetTypeEnum.lambda:
-        return 'lambda';
-      case TargetTypeEnum.alb:
-        return 'alb';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeEnumFromString on String {
-  TargetTypeEnum toTargetTypeEnum() {
-    switch (this) {
-      case 'instance':
-        return TargetTypeEnum.instance;
-      case 'ip':
-        return TargetTypeEnum.ip;
-      case 'lambda':
-        return TargetTypeEnum.lambda;
-      case 'alb':
-        return TargetTypeEnum.alb;
-    }
-    throw Exception('$this is not known in enum TargetTypeEnum');
-  }
+  const TargetTypeEnum(this.value);
+
+  static TargetTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetTypeEnum'));
 }
 
 /// Information about a trust store.
@@ -7165,7 +6820,9 @@ class TrustStore {
       name: _s.extractXmlStringValue(elem, 'Name'),
       numberOfCaCertificates:
           _s.extractXmlIntValue(elem, 'NumberOfCaCertificates'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toTrustStoreStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(TrustStoreStatus.fromString),
       totalRevokedEntries: _s.extractXmlIntValue(elem, 'TotalRevokedEntries'),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
@@ -7212,39 +6869,27 @@ class TrustStoreRevocation {
       numberOfRevokedEntries:
           _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
       revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
-      revocationType:
-          _s.extractXmlStringValue(elem, 'RevocationType')?.toRevocationType(),
+      revocationType: _s
+          .extractXmlStringValue(elem, 'RevocationType')
+          ?.let(RevocationType.fromString),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
   }
 }
 
 enum TrustStoreStatus {
-  active,
-  creating,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  ;
 
-extension TrustStoreStatusValueExtension on TrustStoreStatus {
-  String toValue() {
-    switch (this) {
-      case TrustStoreStatus.active:
-        return 'ACTIVE';
-      case TrustStoreStatus.creating:
-        return 'CREATING';
-    }
-  }
-}
+  final String value;
 
-extension TrustStoreStatusFromString on String {
-  TrustStoreStatus toTrustStoreStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TrustStoreStatus.active;
-      case 'CREATING':
-        return TrustStoreStatus.creating;
-    }
-    throw Exception('$this is not known in enum TrustStoreStatus');
-  }
+  const TrustStoreStatus(this.value);
+
+  static TrustStoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrustStoreStatus'));
 }
 
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {

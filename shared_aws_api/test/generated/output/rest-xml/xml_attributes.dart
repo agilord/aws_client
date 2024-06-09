@@ -96,43 +96,27 @@ class ItemDetailShape {
   });
   factory ItemDetailShape.fromXml(_s.XmlElement elem) {
     return ItemDetailShape(
-      type: _s.extractXmlStringAttribute(elem, 'xsi:type')!.toItemType(),
+      type: _s
+          .extractXmlStringAttribute(elem, 'xsi:type')!
+          .let(ItemType.fromString),
       id: _s.extractXmlStringValue(elem, 'ID'),
     );
   }
 }
 
 enum ItemType {
-  type1,
-  type2,
-  type3,
-}
+  type1('Type1'),
+  type2('Type2'),
+  type3('Type3'),
+  ;
 
-extension ItemTypeValueExtension on ItemType {
-  String toValue() {
-    switch (this) {
-      case ItemType.type1:
-        return 'Type1';
-      case ItemType.type2:
-        return 'Type2';
-      case ItemType.type3:
-        return 'Type3';
-    }
-  }
-}
+  final String value;
 
-extension ItemTypeFromString on String {
-  ItemType toItemType() {
-    switch (this) {
-      case 'Type1':
-        return ItemType.type1;
-      case 'Type2':
-        return ItemType.type2;
-      case 'Type3':
-        return ItemType.type3;
-    }
-    throw Exception('$this is not known in enum ItemType');
-  }
+  const ItemType(this.value);
+
+  static ItemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ItemType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

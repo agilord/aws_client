@@ -251,7 +251,7 @@ class ConnectCases {
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
     };
     final response = await _protocol.send(
@@ -363,7 +363,7 @@ class ConnectCases {
   }) async {
     final $payload = <String, dynamic>{
       'content': content,
-      'type': type.toValue(),
+      'type': type.value,
       if (performedBy != null) 'performedBy': performedBy,
     };
     final response = await _protocol.send(
@@ -424,7 +424,7 @@ class ConnectCases {
       if (layoutConfiguration != null)
         'layoutConfiguration': layoutConfiguration,
       if (requiredFields != null) 'requiredFields': requiredFields,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1087,7 +1087,7 @@ class ConnectCases {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': status.map((e) => e.toValue()).toList(),
+      if (status != null) 'status': status.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -1501,7 +1501,7 @@ class ConnectCases {
         'layoutConfiguration': layoutConfiguration,
       if (name != null) 'name': name,
       if (requiredFields != null) 'requiredFields': requiredFields,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1551,13 +1551,13 @@ class AuditEvent {
           .toList(),
       performedTime:
           nonNullableTimeStampFromJson(json['performedTime'] as Object),
-      type: (json['type'] as String).toAuditEventType(),
+      type: AuditEventType.fromString((json['type'] as String)),
       performedBy: json['performedBy'] != null
           ? AuditEventPerformedBy.fromJson(
               json['performedBy'] as Map<String, dynamic>)
           : null,
       relatedItemType:
-          (json['relatedItemType'] as String?)?.toRelatedItemType(),
+          (json['relatedItemType'] as String?)?.let(RelatedItemType.fromString),
     );
   }
 
@@ -1572,9 +1572,9 @@ class AuditEvent {
       'eventId': eventId,
       'fields': fields,
       'performedTime': iso8601ToJson(performedTime),
-      'type': type.toValue(),
+      'type': type.value,
       if (performedBy != null) 'performedBy': performedBy,
-      if (relatedItemType != null) 'relatedItemType': relatedItemType.toValue(),
+      if (relatedItemType != null) 'relatedItemType': relatedItemType.value,
     };
   }
 }
@@ -1706,36 +1706,19 @@ class AuditEventPerformedBy {
 }
 
 enum AuditEventType {
-  caseCreated,
-  caseUpdated,
-  relatedItemCreated,
-}
+  caseCreated('Case.Created'),
+  caseUpdated('Case.Updated'),
+  relatedItemCreated('RelatedItem.Created'),
+  ;
 
-extension AuditEventTypeValueExtension on AuditEventType {
-  String toValue() {
-    switch (this) {
-      case AuditEventType.caseCreated:
-        return 'Case.Created';
-      case AuditEventType.caseUpdated:
-        return 'Case.Updated';
-      case AuditEventType.relatedItemCreated:
-        return 'RelatedItem.Created';
-    }
-  }
-}
+  final String value;
 
-extension AuditEventTypeFromString on String {
-  AuditEventType toAuditEventType() {
-    switch (this) {
-      case 'Case.Created':
-        return AuditEventType.caseCreated;
-      case 'Case.Updated':
-        return AuditEventType.caseUpdated;
-      case 'RelatedItem.Created':
-        return AuditEventType.relatedItemCreated;
-    }
-    throw Exception('$this is not known in enum AuditEventType');
-  }
+  const AuditEventType(this.value);
+
+  static AuditEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuditEventType'));
 }
 
 /// Content specific to <code>BasicLayout</code> type. It configures fields in
@@ -1923,26 +1906,17 @@ class CaseSummary {
 }
 
 enum CommentBodyTextType {
-  textPlain,
-}
+  textPlain('Text/Plain'),
+  ;
 
-extension CommentBodyTextTypeValueExtension on CommentBodyTextType {
-  String toValue() {
-    switch (this) {
-      case CommentBodyTextType.textPlain:
-        return 'Text/Plain';
-    }
-  }
-}
+  final String value;
 
-extension CommentBodyTextTypeFromString on String {
-  CommentBodyTextType toCommentBodyTextType() {
-    switch (this) {
-      case 'Text/Plain':
-        return CommentBodyTextType.textPlain;
-    }
-    throw Exception('$this is not known in enum CommentBodyTextType');
-  }
+  const CommentBodyTextType(this.value);
+
+  static CommentBodyTextType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CommentBodyTextType'));
 }
 
 /// Represents the content of a <code>Comment</code> to be returned to agents.
@@ -1961,7 +1935,8 @@ class CommentContent {
   factory CommentContent.fromJson(Map<String, dynamic> json) {
     return CommentContent(
       body: json['body'] as String,
-      contentType: (json['contentType'] as String).toCommentBodyTextType(),
+      contentType:
+          CommentBodyTextType.fromString((json['contentType'] as String)),
     );
   }
 
@@ -1970,7 +1945,7 @@ class CommentContent {
     final contentType = this.contentType;
     return {
       'body': body,
-      'contentType': contentType.toValue(),
+      'contentType': contentType.value,
     };
   }
 }
@@ -2114,7 +2089,7 @@ class CreateDomainResponse {
     return CreateDomainResponse(
       domainArn: json['domainArn'] as String,
       domainId: json['domainId'] as String,
-      domainStatus: (json['domainStatus'] as String).toDomainStatus(),
+      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
     );
   }
 
@@ -2125,7 +2100,7 @@ class CreateDomainResponse {
     return {
       'domainArn': domainArn,
       'domainId': domainId,
-      'domainStatus': domainStatus.toValue(),
+      'domainStatus': domainStatus.value,
     };
   }
 }
@@ -2295,36 +2270,19 @@ class DeleteTemplateResponse {
 }
 
 enum DomainStatus {
-  active,
-  creationInProgress,
-  creationFailed,
-}
+  active('Active'),
+  creationInProgress('CreationInProgress'),
+  creationFailed('CreationFailed'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.active:
-        return 'Active';
-      case DomainStatus.creationInProgress:
-        return 'CreationInProgress';
-      case DomainStatus.creationFailed:
-        return 'CreationFailed';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'Active':
-        return DomainStatus.active;
-      case 'CreationInProgress':
-        return DomainStatus.creationInProgress;
-      case 'CreationFailed':
-        return DomainStatus.creationFailed;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// Object for the summarized details of the domain.
@@ -2619,31 +2577,18 @@ class FieldItem {
 }
 
 enum FieldNamespace {
-  system,
-  custom,
-}
+  system('System'),
+  custom('Custom'),
+  ;
 
-extension FieldNamespaceValueExtension on FieldNamespace {
-  String toValue() {
-    switch (this) {
-      case FieldNamespace.system:
-        return 'System';
-      case FieldNamespace.custom:
-        return 'Custom';
-    }
-  }
-}
+  final String value;
 
-extension FieldNamespaceFromString on String {
-  FieldNamespace toFieldNamespace() {
-    switch (this) {
-      case 'System':
-        return FieldNamespace.system;
-      case 'Custom':
-        return FieldNamespace.custom;
-    }
-    throw Exception('$this is not known in enum FieldNamespace');
-  }
+  const FieldNamespace(this.value);
+
+  static FieldNamespace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FieldNamespace'));
 }
 
 /// Object for field Options information.
@@ -2753,8 +2698,8 @@ class FieldSummary {
       fieldArn: json['fieldArn'] as String,
       fieldId: json['fieldId'] as String,
       name: json['name'] as String,
-      namespace: (json['namespace'] as String).toFieldNamespace(),
-      type: (json['type'] as String).toFieldType(),
+      namespace: FieldNamespace.fromString((json['namespace'] as String)),
+      type: FieldType.fromString((json['type'] as String)),
     );
   }
 
@@ -2768,63 +2713,29 @@ class FieldSummary {
       'fieldArn': fieldArn,
       'fieldId': fieldId,
       'name': name,
-      'namespace': namespace.toValue(),
-      'type': type.toValue(),
+      'namespace': namespace.value,
+      'type': type.value,
     };
   }
 }
 
 enum FieldType {
-  text,
-  number,
-  boolean,
-  dateTime,
-  singleSelect,
-  url,
-  user,
-}
+  text('Text'),
+  number('Number'),
+  boolean('Boolean'),
+  dateTime('DateTime'),
+  singleSelect('SingleSelect'),
+  url('Url'),
+  user('User'),
+  ;
 
-extension FieldTypeValueExtension on FieldType {
-  String toValue() {
-    switch (this) {
-      case FieldType.text:
-        return 'Text';
-      case FieldType.number:
-        return 'Number';
-      case FieldType.boolean:
-        return 'Boolean';
-      case FieldType.dateTime:
-        return 'DateTime';
-      case FieldType.singleSelect:
-        return 'SingleSelect';
-      case FieldType.url:
-        return 'Url';
-      case FieldType.user:
-        return 'User';
-    }
-  }
-}
+  final String value;
 
-extension FieldTypeFromString on String {
-  FieldType toFieldType() {
-    switch (this) {
-      case 'Text':
-        return FieldType.text;
-      case 'Number':
-        return FieldType.number;
-      case 'Boolean':
-        return FieldType.boolean;
-      case 'DateTime':
-        return FieldType.dateTime;
-      case 'SingleSelect':
-        return FieldType.singleSelect;
-      case 'Url':
-        return FieldType.url;
-      case 'User':
-        return FieldType.user;
-    }
-    throw Exception('$this is not known in enum FieldType');
-  }
+  const FieldType(this.value);
+
+  static FieldType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FieldType'));
 }
 
 /// Object for case field values.
@@ -3097,7 +3008,7 @@ class GetDomainResponse {
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
       domainArn: json['domainArn'] as String,
       domainId: json['domainId'] as String,
-      domainStatus: (json['domainStatus'] as String).toDomainStatus(),
+      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
       name: json['name'] as String,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3115,7 +3026,7 @@ class GetDomainResponse {
       'createdTime': iso8601ToJson(createdTime),
       'domainArn': domainArn,
       'domainId': domainId,
-      'domainStatus': domainStatus.toValue(),
+      'domainStatus': domainStatus.value,
       'name': name,
       if (tags != null) 'tags': tags,
     };
@@ -3173,8 +3084,8 @@ class GetFieldResponse {
       fieldArn: json['fieldArn'] as String,
       fieldId: json['fieldId'] as String,
       name: json['name'] as String,
-      namespace: (json['namespace'] as String).toFieldNamespace(),
-      type: (json['type'] as String).toFieldType(),
+      namespace: FieldNamespace.fromString((json['namespace'] as String)),
+      type: FieldType.fromString((json['type'] as String)),
       createdTime: timeStampFromJson(json['createdTime']),
       deleted: json['deleted'] as bool?,
       description: json['description'] as String?,
@@ -3199,8 +3110,8 @@ class GetFieldResponse {
       'fieldArn': fieldArn,
       'fieldId': fieldId,
       'name': name,
-      'namespace': namespace.toValue(),
-      'type': type.toValue(),
+      'namespace': namespace.value,
+      'type': type.value,
       if (createdTime != null) 'createdTime': iso8601ToJson(createdTime),
       if (deleted != null) 'deleted': deleted,
       if (description != null) 'description': description,
@@ -3339,7 +3250,7 @@ class GetTemplateResponse {
   factory GetTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetTemplateResponse(
       name: json['name'] as String,
-      status: (json['status'] as String).toTemplateStatus(),
+      status: TemplateStatus.fromString((json['status'] as String)),
       templateArn: json['templateArn'] as String,
       templateId: json['templateId'] as String,
       createdTime: timeStampFromJson(json['createdTime']),
@@ -3373,7 +3284,7 @@ class GetTemplateResponse {
     final tags = this.tags;
     return {
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'templateArn': templateArn,
       'templateId': templateId,
       if (createdTime != null) 'createdTime': iso8601ToJson(createdTime),
@@ -3724,31 +3635,17 @@ class ListTemplatesResponse {
 }
 
 enum Order {
-  asc,
-  desc,
-}
+  asc('Asc'),
+  desc('Desc'),
+  ;
 
-extension OrderValueExtension on Order {
-  String toValue() {
-    switch (this) {
-      case Order.asc:
-        return 'Asc';
-      case Order.desc:
-        return 'Desc';
-    }
-  }
-}
+  final String value;
 
-extension OrderFromString on String {
-  Order toOrder() {
-    switch (this) {
-      case 'Asc':
-        return Order.asc;
-      case 'Desc':
-        return Order.desc;
-    }
-    throw Exception('$this is not known in enum Order');
-  }
+  const Order(this.value);
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Order'));
 }
 
 class PutCaseEventConfigurationResponse {
@@ -3861,36 +3758,19 @@ class RelatedItemInputContent {
 }
 
 enum RelatedItemType {
-  contact,
-  comment,
-  file,
-}
+  contact('Contact'),
+  comment('Comment'),
+  file('File'),
+  ;
 
-extension RelatedItemTypeValueExtension on RelatedItemType {
-  String toValue() {
-    switch (this) {
-      case RelatedItemType.contact:
-        return 'Contact';
-      case RelatedItemType.comment:
-        return 'Comment';
-      case RelatedItemType.file:
-        return 'File';
-    }
-  }
-}
+  final String value;
 
-extension RelatedItemTypeFromString on String {
-  RelatedItemType toRelatedItemType() {
-    switch (this) {
-      case 'Contact':
-        return RelatedItemType.contact;
-      case 'Comment':
-        return RelatedItemType.comment;
-      case 'File':
-        return RelatedItemType.file;
-    }
-    throw Exception('$this is not known in enum RelatedItemType');
-  }
+  const RelatedItemType(this.value);
+
+  static RelatedItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelatedItemType'));
 }
 
 /// The list of types of related items and their parameters to use for
@@ -4102,7 +3982,7 @@ class SearchRelatedItemsResponseItem {
       content:
           RelatedItemContent.fromJson(json['content'] as Map<String, dynamic>),
       relatedItemId: json['relatedItemId'] as String,
-      type: (json['type'] as String).toRelatedItemType(),
+      type: RelatedItemType.fromString((json['type'] as String)),
       performedBy: json['performedBy'] != null
           ? UserUnion.fromJson(json['performedBy'] as Map<String, dynamic>)
           : null,
@@ -4122,7 +4002,7 @@ class SearchRelatedItemsResponseItem {
       'associationTime': iso8601ToJson(associationTime),
       'content': content,
       'relatedItemId': relatedItemId,
-      'type': type.toValue(),
+      'type': type.value,
       if (performedBy != null) 'performedBy': performedBy,
       if (tags != null) 'tags': tags,
     };
@@ -4172,37 +4052,24 @@ class Sort {
     final sortOrder = this.sortOrder;
     return {
       'fieldId': fieldId,
-      'sortOrder': sortOrder.toValue(),
+      'sortOrder': sortOrder.value,
     };
   }
 }
 
 enum TemplateStatus {
-  active,
-  inactive,
-}
+  active('Active'),
+  inactive('Inactive'),
+  ;
 
-extension TemplateStatusValueExtension on TemplateStatus {
-  String toValue() {
-    switch (this) {
-      case TemplateStatus.active:
-        return 'Active';
-      case TemplateStatus.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension TemplateStatusFromString on String {
-  TemplateStatus toTemplateStatus() {
-    switch (this) {
-      case 'Active':
-        return TemplateStatus.active;
-      case 'Inactive':
-        return TemplateStatus.inactive;
-    }
-    throw Exception('$this is not known in enum TemplateStatus');
-  }
+  const TemplateStatus(this.value);
+
+  static TemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateStatus'));
 }
 
 /// Template summary information.
@@ -4229,7 +4096,7 @@ class TemplateSummary {
   factory TemplateSummary.fromJson(Map<String, dynamic> json) {
     return TemplateSummary(
       name: json['name'] as String,
-      status: (json['status'] as String).toTemplateStatus(),
+      status: TemplateStatus.fromString((json['status'] as String)),
       templateArn: json['templateArn'] as String,
       templateId: json['templateId'] as String,
     );
@@ -4242,7 +4109,7 @@ class TemplateSummary {
     final templateId = this.templateId;
     return {
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'templateArn': templateArn,
       'templateId': templateId,
     };

@@ -2137,36 +2137,18 @@ class Glacier {
 }
 
 enum ActionCode {
-  archiveRetrieval,
-  inventoryRetrieval,
-  select,
-}
+  archiveRetrieval('ArchiveRetrieval'),
+  inventoryRetrieval('InventoryRetrieval'),
+  select('Select'),
+  ;
 
-extension ActionCodeValueExtension on ActionCode {
-  String toValue() {
-    switch (this) {
-      case ActionCode.archiveRetrieval:
-        return 'ArchiveRetrieval';
-      case ActionCode.inventoryRetrieval:
-        return 'InventoryRetrieval';
-      case ActionCode.select:
-        return 'Select';
-    }
-  }
-}
+  final String value;
 
-extension ActionCodeFromString on String {
-  ActionCode toActionCode() {
-    switch (this) {
-      case 'ArchiveRetrieval':
-        return ActionCode.archiveRetrieval;
-      case 'InventoryRetrieval':
-        return ActionCode.inventoryRetrieval;
-      case 'Select':
-        return ActionCode.select;
-    }
-    throw Exception('$this is not known in enum ActionCode');
-  }
+  const ActionCode(this.value);
+
+  static ActionCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionCode'));
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2231,7 +2213,8 @@ class CSVInput {
     return CSVInput(
       comments: json['Comments'] as String?,
       fieldDelimiter: json['FieldDelimiter'] as String?,
-      fileHeaderInfo: (json['FileHeaderInfo'] as String?)?.toFileHeaderInfo(),
+      fileHeaderInfo:
+          (json['FileHeaderInfo'] as String?)?.let(FileHeaderInfo.fromString),
       quoteCharacter: json['QuoteCharacter'] as String?,
       quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
       recordDelimiter: json['RecordDelimiter'] as String?,
@@ -2248,7 +2231,7 @@ class CSVInput {
     return {
       if (comments != null) 'Comments': comments,
       if (fieldDelimiter != null) 'FieldDelimiter': fieldDelimiter,
-      if (fileHeaderInfo != null) 'FileHeaderInfo': fileHeaderInfo.toValue(),
+      if (fileHeaderInfo != null) 'FileHeaderInfo': fileHeaderInfo.value,
       if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
       if (quoteEscapeCharacter != null)
         'QuoteEscapeCharacter': quoteEscapeCharacter,
@@ -2291,7 +2274,8 @@ class CSVOutput {
       fieldDelimiter: json['FieldDelimiter'] as String?,
       quoteCharacter: json['QuoteCharacter'] as String?,
       quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
-      quoteFields: (json['QuoteFields'] as String?)?.toQuoteFields(),
+      quoteFields:
+          (json['QuoteFields'] as String?)?.let(QuoteFields.fromString),
       recordDelimiter: json['RecordDelimiter'] as String?,
     );
   }
@@ -2307,63 +2291,29 @@ class CSVOutput {
       if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
       if (quoteEscapeCharacter != null)
         'QuoteEscapeCharacter': quoteEscapeCharacter,
-      if (quoteFields != null) 'QuoteFields': quoteFields.toValue(),
+      if (quoteFields != null) 'QuoteFields': quoteFields.value,
       if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
     };
   }
 }
 
 enum CannedACL {
-  private,
-  publicRead,
-  publicReadWrite,
-  awsExecRead,
-  authenticatedRead,
-  bucketOwnerRead,
-  bucketOwnerFullControl,
-}
+  private('private'),
+  publicRead('public-read'),
+  publicReadWrite('public-read-write'),
+  awsExecRead('aws-exec-read'),
+  authenticatedRead('authenticated-read'),
+  bucketOwnerRead('bucket-owner-read'),
+  bucketOwnerFullControl('bucket-owner-full-control'),
+  ;
 
-extension CannedACLValueExtension on CannedACL {
-  String toValue() {
-    switch (this) {
-      case CannedACL.private:
-        return 'private';
-      case CannedACL.publicRead:
-        return 'public-read';
-      case CannedACL.publicReadWrite:
-        return 'public-read-write';
-      case CannedACL.awsExecRead:
-        return 'aws-exec-read';
-      case CannedACL.authenticatedRead:
-        return 'authenticated-read';
-      case CannedACL.bucketOwnerRead:
-        return 'bucket-owner-read';
-      case CannedACL.bucketOwnerFullControl:
-        return 'bucket-owner-full-control';
-    }
-  }
-}
+  final String value;
 
-extension CannedACLFromString on String {
-  CannedACL toCannedACL() {
-    switch (this) {
-      case 'private':
-        return CannedACL.private;
-      case 'public-read':
-        return CannedACL.publicRead;
-      case 'public-read-write':
-        return CannedACL.publicReadWrite;
-      case 'aws-exec-read':
-        return CannedACL.awsExecRead;
-      case 'authenticated-read':
-        return CannedACL.authenticatedRead;
-      case 'bucket-owner-read':
-        return CannedACL.bucketOwnerRead;
-      case 'bucket-owner-full-control':
-        return CannedACL.bucketOwnerFullControl;
-    }
-    throw Exception('$this is not known in enum CannedACL');
-  }
+  const CannedACL(this.value);
+
+  static CannedACL fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CannedACL'));
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2514,7 +2464,8 @@ class Encryption {
 
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
       kMSContext: json['KMSContext'] as String?,
       kMSKeyId: json['KMSKeyId'] as String?,
     );
@@ -2525,7 +2476,7 @@ class Encryption {
     final kMSContext = this.kMSContext;
     final kMSKeyId = this.kMSKeyId;
     return {
-      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+      if (encryptionType != null) 'EncryptionType': encryptionType.value,
       if (kMSContext != null) 'KMSContext': kMSContext,
       if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
     };
@@ -2533,87 +2484,48 @@ class Encryption {
 }
 
 enum EncryptionType {
-  awsKms,
-  aes256,
-}
+  awsKms('aws:kms'),
+  aes256('AES256'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.awsKms:
-        return 'aws:kms';
-      case EncryptionType.aes256:
-        return 'AES256';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'aws:kms':
-        return EncryptionType.awsKms;
-      case 'AES256':
-        return EncryptionType.aes256;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 enum ExpressionType {
-  sql,
-}
+  sql('SQL'),
+  ;
 
-extension ExpressionTypeValueExtension on ExpressionType {
-  String toValue() {
-    switch (this) {
-      case ExpressionType.sql:
-        return 'SQL';
-    }
-  }
-}
+  final String value;
 
-extension ExpressionTypeFromString on String {
-  ExpressionType toExpressionType() {
-    switch (this) {
-      case 'SQL':
-        return ExpressionType.sql;
-    }
-    throw Exception('$this is not known in enum ExpressionType');
-  }
+  const ExpressionType(this.value);
+
+  static ExpressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExpressionType'));
 }
 
 enum FileHeaderInfo {
-  use,
-  ignore,
-  none,
-}
+  use('USE'),
+  ignore('IGNORE'),
+  none('NONE'),
+  ;
 
-extension FileHeaderInfoValueExtension on FileHeaderInfo {
-  String toValue() {
-    switch (this) {
-      case FileHeaderInfo.use:
-        return 'USE';
-      case FileHeaderInfo.ignore:
-        return 'IGNORE';
-      case FileHeaderInfo.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension FileHeaderInfoFromString on String {
-  FileHeaderInfo toFileHeaderInfo() {
-    switch (this) {
-      case 'USE':
-        return FileHeaderInfo.use;
-      case 'IGNORE':
-        return FileHeaderInfo.ignore;
-      case 'NONE':
-        return FileHeaderInfo.none;
-    }
-    throw Exception('$this is not known in enum FileHeaderInfo');
-  }
+  const FileHeaderInfo(this.value);
+
+  static FileHeaderInfo fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileHeaderInfo'));
 }
 
 /// Contains the Amazon S3 Glacier response to the
@@ -2894,7 +2806,7 @@ class GlacierJobDescription {
 
   factory GlacierJobDescription.fromJson(Map<String, dynamic> json) {
     return GlacierJobDescription(
-      action: (json['Action'] as String?)?.toActionCode(),
+      action: (json['Action'] as String?)?.let(ActionCode.fromString),
       archiveId: json['ArchiveId'] as String?,
       archiveSHA256TreeHash: json['ArchiveSHA256TreeHash'] as String?,
       archiveSizeInBytes: json['ArchiveSizeInBytes'] as int?,
@@ -2920,7 +2832,7 @@ class GlacierJobDescription {
           ? SelectParameters.fromJson(
               json['SelectParameters'] as Map<String, dynamic>)
           : null,
-      statusCode: (json['StatusCode'] as String?)?.toStatusCode(),
+      statusCode: (json['StatusCode'] as String?)?.let(StatusCode.fromString),
       statusMessage: json['StatusMessage'] as String?,
       tier: json['Tier'] as String?,
       vaultARN: json['VaultARN'] as String?,
@@ -2946,7 +2858,7 @@ class Grant {
       grantee: json['Grantee'] != null
           ? Grantee.fromJson(json['Grantee'] as Map<String, dynamic>)
           : null,
-      permission: (json['Permission'] as String?)?.toPermission(),
+      permission: (json['Permission'] as String?)?.let(Permission.fromString),
     );
   }
 
@@ -2955,7 +2867,7 @@ class Grant {
     final permission = this.permission;
     return {
       if (grantee != null) 'Grantee': grantee,
-      if (permission != null) 'Permission': permission.toValue(),
+      if (permission != null) 'Permission': permission.value,
     };
   }
 }
@@ -2987,7 +2899,7 @@ class Grantee {
 
   factory Grantee.fromJson(Map<String, dynamic> json) {
     return Grantee(
-      type: (json['Type'] as String).toType(),
+      type: Type.fromString((json['Type'] as String)),
       displayName: json['DisplayName'] as String?,
       emailAddress: json['EmailAddress'] as String?,
       id: json['ID'] as String?,
@@ -3002,7 +2914,7 @@ class Grantee {
     final id = this.id;
     final uri = this.uri;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (displayName != null) 'DisplayName': displayName,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (id != null) 'ID': id,
@@ -3518,46 +3430,20 @@ class PartListElement {
 }
 
 enum Permission {
-  fullControl,
-  write,
-  writeAcp,
-  read,
-  readAcp,
-}
+  fullControl('FULL_CONTROL'),
+  write('WRITE'),
+  writeAcp('WRITE_ACP'),
+  read('READ'),
+  readAcp('READ_ACP'),
+  ;
 
-extension PermissionValueExtension on Permission {
-  String toValue() {
-    switch (this) {
-      case Permission.fullControl:
-        return 'FULL_CONTROL';
-      case Permission.write:
-        return 'WRITE';
-      case Permission.writeAcp:
-        return 'WRITE_ACP';
-      case Permission.read:
-        return 'READ';
-      case Permission.readAcp:
-        return 'READ_ACP';
-    }
-  }
-}
+  final String value;
 
-extension PermissionFromString on String {
-  Permission toPermission() {
-    switch (this) {
-      case 'FULL_CONTROL':
-        return Permission.fullControl;
-      case 'WRITE':
-        return Permission.write;
-      case 'WRITE_ACP':
-        return Permission.writeAcp;
-      case 'READ':
-        return Permission.read;
-      case 'READ_ACP':
-        return Permission.readAcp;
-    }
-    throw Exception('$this is not known in enum Permission');
-  }
+  const Permission(this.value);
+
+  static Permission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Permission'));
 }
 
 /// The definition for a provisioned capacity unit.
@@ -3598,31 +3484,17 @@ class PurchaseProvisionedCapacityOutput {
 }
 
 enum QuoteFields {
-  always,
-  asneeded,
-}
+  always('ALWAYS'),
+  asneeded('ASNEEDED'),
+  ;
 
-extension QuoteFieldsValueExtension on QuoteFields {
-  String toValue() {
-    switch (this) {
-      case QuoteFields.always:
-        return 'ALWAYS';
-      case QuoteFields.asneeded:
-        return 'ASNEEDED';
-    }
-  }
-}
+  final String value;
 
-extension QuoteFieldsFromString on String {
-  QuoteFields toQuoteFields() {
-    switch (this) {
-      case 'ALWAYS':
-        return QuoteFields.always;
-      case 'ASNEEDED':
-        return QuoteFields.asneeded;
-    }
-    throw Exception('$this is not known in enum QuoteFields');
-  }
+  const QuoteFields(this.value);
+
+  static QuoteFields fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QuoteFields'));
 }
 
 /// Contains information about the location in Amazon S3 where the select job
@@ -3671,12 +3543,13 @@ class S3Location {
           .map((e) => Grant.fromJson(e as Map<String, dynamic>))
           .toList(),
       bucketName: json['BucketName'] as String?,
-      cannedACL: (json['CannedACL'] as String?)?.toCannedACL(),
+      cannedACL: (json['CannedACL'] as String?)?.let(CannedACL.fromString),
       encryption: json['Encryption'] != null
           ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
           : null,
       prefix: json['Prefix'] as String?,
-      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      storageClass:
+          (json['StorageClass'] as String?)?.let(StorageClass.fromString),
       tagging: (json['Tagging'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       userMetadata: (json['UserMetadata'] as Map<String, dynamic>?)
@@ -3696,10 +3569,10 @@ class S3Location {
     return {
       if (accessControlList != null) 'AccessControlList': accessControlList,
       if (bucketName != null) 'BucketName': bucketName,
-      if (cannedACL != null) 'CannedACL': cannedACL.toValue(),
+      if (cannedACL != null) 'CannedACL': cannedACL.value,
       if (encryption != null) 'Encryption': encryption,
       if (prefix != null) 'Prefix': prefix,
-      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (storageClass != null) 'StorageClass': storageClass.value,
       if (tagging != null) 'Tagging': tagging,
       if (userMetadata != null) 'UserMetadata': userMetadata,
     };
@@ -3730,7 +3603,8 @@ class SelectParameters {
   factory SelectParameters.fromJson(Map<String, dynamic> json) {
     return SelectParameters(
       expression: json['Expression'] as String?,
-      expressionType: (json['ExpressionType'] as String?)?.toExpressionType(),
+      expressionType:
+          (json['ExpressionType'] as String?)?.let(ExpressionType.fromString),
       inputSerialization: json['InputSerialization'] != null
           ? InputSerialization.fromJson(
               json['InputSerialization'] as Map<String, dynamic>)
@@ -3749,7 +3623,7 @@ class SelectParameters {
     final outputSerialization = this.outputSerialization;
     return {
       if (expression != null) 'Expression': expression,
-      if (expressionType != null) 'ExpressionType': expressionType.toValue(),
+      if (expressionType != null) 'ExpressionType': expressionType.value,
       if (inputSerialization != null) 'InputSerialization': inputSerialization,
       if (outputSerialization != null)
         'OutputSerialization': outputSerialization,
@@ -3758,102 +3632,49 @@ class SelectParameters {
 }
 
 enum StatusCode {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('InProgress'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  ;
 
-extension StatusCodeValueExtension on StatusCode {
-  String toValue() {
-    switch (this) {
-      case StatusCode.inProgress:
-        return 'InProgress';
-      case StatusCode.succeeded:
-        return 'Succeeded';
-      case StatusCode.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension StatusCodeFromString on String {
-  StatusCode toStatusCode() {
-    switch (this) {
-      case 'InProgress':
-        return StatusCode.inProgress;
-      case 'Succeeded':
-        return StatusCode.succeeded;
-      case 'Failed':
-        return StatusCode.failed;
-    }
-    throw Exception('$this is not known in enum StatusCode');
-  }
+  const StatusCode(this.value);
+
+  static StatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusCode'));
 }
 
 enum StorageClass {
-  standard,
-  reducedRedundancy,
-  standardIa,
-}
+  standard('STANDARD'),
+  reducedRedundancy('REDUCED_REDUNDANCY'),
+  standardIa('STANDARD_IA'),
+  ;
 
-extension StorageClassValueExtension on StorageClass {
-  String toValue() {
-    switch (this) {
-      case StorageClass.standard:
-        return 'STANDARD';
-      case StorageClass.reducedRedundancy:
-        return 'REDUCED_REDUNDANCY';
-      case StorageClass.standardIa:
-        return 'STANDARD_IA';
-    }
-  }
-}
+  final String value;
 
-extension StorageClassFromString on String {
-  StorageClass toStorageClass() {
-    switch (this) {
-      case 'STANDARD':
-        return StorageClass.standard;
-      case 'REDUCED_REDUNDANCY':
-        return StorageClass.reducedRedundancy;
-      case 'STANDARD_IA':
-        return StorageClass.standardIa;
-    }
-    throw Exception('$this is not known in enum StorageClass');
-  }
+  const StorageClass(this.value);
+
+  static StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StorageClass'));
 }
 
 enum Type {
-  amazonCustomerByEmail,
-  canonicalUser,
-  group,
-}
+  amazonCustomerByEmail('AmazonCustomerByEmail'),
+  canonicalUser('CanonicalUser'),
+  group('Group'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.amazonCustomerByEmail:
-        return 'AmazonCustomerByEmail';
-      case Type.canonicalUser:
-        return 'CanonicalUser';
-      case Type.group:
-        return 'Group';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'AmazonCustomerByEmail':
-        return Type.amazonCustomerByEmail;
-      case 'CanonicalUser':
-        return Type.canonicalUser;
-      case 'Group':
-        return Type.group;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 /// A list of in-progress multipart uploads for a vault.

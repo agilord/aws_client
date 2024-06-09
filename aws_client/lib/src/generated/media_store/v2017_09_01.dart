@@ -877,7 +877,7 @@ class Container {
       creationTime: timeStampFromJson(json['CreationTime']),
       endpoint: json['Endpoint'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toContainerStatus(),
+      status: (json['Status'] as String?)?.let(ContainerStatus.fromString),
     );
   }
 
@@ -896,70 +896,40 @@ class Container {
         'CreationTime': unixTimestampToJson(creationTime),
       if (endpoint != null) 'Endpoint': endpoint,
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ContainerLevelMetrics {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ContainerLevelMetricsValueExtension on ContainerLevelMetrics {
-  String toValue() {
-    switch (this) {
-      case ContainerLevelMetrics.enabled:
-        return 'ENABLED';
-      case ContainerLevelMetrics.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ContainerLevelMetricsFromString on String {
-  ContainerLevelMetrics toContainerLevelMetrics() {
-    switch (this) {
-      case 'ENABLED':
-        return ContainerLevelMetrics.enabled;
-      case 'DISABLED':
-        return ContainerLevelMetrics.disabled;
-    }
-    throw Exception('$this is not known in enum ContainerLevelMetrics');
-  }
+  const ContainerLevelMetrics(this.value);
+
+  static ContainerLevelMetrics fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ContainerLevelMetrics'));
 }
 
 enum ContainerStatus {
-  active,
-  creating,
-  deleting,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  ;
 
-extension ContainerStatusValueExtension on ContainerStatus {
-  String toValue() {
-    switch (this) {
-      case ContainerStatus.active:
-        return 'ACTIVE';
-      case ContainerStatus.creating:
-        return 'CREATING';
-      case ContainerStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ContainerStatusFromString on String {
-  ContainerStatus toContainerStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ContainerStatus.active;
-      case 'CREATING':
-        return ContainerStatus.creating;
-      case 'DELETING':
-        return ContainerStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ContainerStatus');
-  }
+  const ContainerStatus(this.value);
+
+  static ContainerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContainerStatus'));
 }
 
 /// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
@@ -1025,7 +995,7 @@ class CorsRule {
           .toList(),
       allowedMethods: (json['AllowedMethods'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMethodName())
+          .map((e) => MethodName.fromString((e as String)))
           .toList(),
       exposeHeaders: (json['ExposeHeaders'] as List?)
           ?.whereNotNull()
@@ -1045,7 +1015,7 @@ class CorsRule {
       'AllowedHeaders': allowedHeaders,
       'AllowedOrigins': allowedOrigins,
       if (allowedMethods != null)
-        'AllowedMethods': allowedMethods.map((e) => e.toValue()).toList(),
+        'AllowedMethods': allowedMethods.map((e) => e.value).toList(),
       if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
       if (maxAgeSeconds != null) 'MaxAgeSeconds': maxAgeSeconds,
     };
@@ -1328,41 +1298,19 @@ class ListTagsForResourceOutput {
 }
 
 enum MethodName {
-  put,
-  get,
-  delete,
-  head,
-}
+  put('PUT'),
+  get('GET'),
+  delete('DELETE'),
+  head('HEAD'),
+  ;
 
-extension MethodNameValueExtension on MethodName {
-  String toValue() {
-    switch (this) {
-      case MethodName.put:
-        return 'PUT';
-      case MethodName.get:
-        return 'GET';
-      case MethodName.delete:
-        return 'DELETE';
-      case MethodName.head:
-        return 'HEAD';
-    }
-  }
-}
+  final String value;
 
-extension MethodNameFromString on String {
-  MethodName toMethodName() {
-    switch (this) {
-      case 'PUT':
-        return MethodName.put;
-      case 'GET':
-        return MethodName.get;
-      case 'DELETE':
-        return MethodName.delete;
-      case 'HEAD':
-        return MethodName.head;
-    }
-    throw Exception('$this is not known in enum MethodName');
-  }
+  const MethodName(this.value);
+
+  static MethodName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MethodName'));
 }
 
 /// The metric policy that is associated with the container. A metric policy
@@ -1394,8 +1342,8 @@ class MetricPolicy {
 
   factory MetricPolicy.fromJson(Map<String, dynamic> json) {
     return MetricPolicy(
-      containerLevelMetrics:
-          (json['ContainerLevelMetrics'] as String).toContainerLevelMetrics(),
+      containerLevelMetrics: ContainerLevelMetrics.fromString(
+          (json['ContainerLevelMetrics'] as String)),
       metricPolicyRules: (json['MetricPolicyRules'] as List?)
           ?.whereNotNull()
           .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
@@ -1407,7 +1355,7 @@ class MetricPolicy {
     final containerLevelMetrics = this.containerLevelMetrics;
     final metricPolicyRules = this.metricPolicyRules;
     return {
-      'ContainerLevelMetrics': containerLevelMetrics.toValue(),
+      'ContainerLevelMetrics': containerLevelMetrics.value,
       if (metricPolicyRules != null) 'MetricPolicyRules': metricPolicyRules,
     };
   }

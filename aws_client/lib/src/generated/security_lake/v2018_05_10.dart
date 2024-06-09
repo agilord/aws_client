@@ -444,7 +444,7 @@ class SecurityLake {
       'subscriberIdentity': subscriberIdentity,
       'subscriberName': subscriberName,
       if (accessTypes != null)
-        'accessTypes': accessTypes.map((e) => e.toValue()).toList(),
+        'accessTypes': accessTypes.map((e) => e.value).toList(),
       if (subscriberDescription != null)
         'subscriberDescription': subscriberDescription,
       if (tags != null) 'tags': tags,
@@ -1311,31 +1311,17 @@ class SecurityLake {
 }
 
 enum AccessType {
-  lakeformation,
-  s3,
-}
+  lakeformation('LAKEFORMATION'),
+  s3('S3'),
+  ;
 
-extension AccessTypeValueExtension on AccessType {
-  String toValue() {
-    switch (this) {
-      case AccessType.lakeformation:
-        return 'LAKEFORMATION';
-      case AccessType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension AccessTypeFromString on String {
-  AccessType toAccessType() {
-    switch (this) {
-      case 'LAKEFORMATION':
-        return AccessType.lakeformation;
-      case 'S3':
-        return AccessType.s3;
-    }
-    throw Exception('$this is not known in enum AccessType');
-  }
+  const AccessType(this.value);
+
+  static AccessType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AccessType'));
 }
 
 /// The AWS identity.
@@ -1400,7 +1386,7 @@ class AwsLogSourceConfiguration {
     final sourceVersion = this.sourceVersion;
     return {
       'regions': regions,
-      'sourceName': sourceName.toValue(),
+      'sourceName': sourceName.value,
       if (accounts != null) 'accounts': accounts,
       if (sourceVersion != null) 'sourceVersion': sourceVersion,
     };
@@ -1408,61 +1394,24 @@ class AwsLogSourceConfiguration {
 }
 
 enum AwsLogSourceName {
-  route53,
-  vpcFlow,
-  shFindings,
-  cloudTrailMgmt,
-  lambdaExecution,
-  s3Data,
-  eksAudit,
-  waf,
-}
+  route53('ROUTE53'),
+  vpcFlow('VPC_FLOW'),
+  shFindings('SH_FINDINGS'),
+  cloudTrailMgmt('CLOUD_TRAIL_MGMT'),
+  lambdaExecution('LAMBDA_EXECUTION'),
+  s3Data('S3_DATA'),
+  eksAudit('EKS_AUDIT'),
+  waf('WAF'),
+  ;
 
-extension AwsLogSourceNameValueExtension on AwsLogSourceName {
-  String toValue() {
-    switch (this) {
-      case AwsLogSourceName.route53:
-        return 'ROUTE53';
-      case AwsLogSourceName.vpcFlow:
-        return 'VPC_FLOW';
-      case AwsLogSourceName.shFindings:
-        return 'SH_FINDINGS';
-      case AwsLogSourceName.cloudTrailMgmt:
-        return 'CLOUD_TRAIL_MGMT';
-      case AwsLogSourceName.lambdaExecution:
-        return 'LAMBDA_EXECUTION';
-      case AwsLogSourceName.s3Data:
-        return 'S3_DATA';
-      case AwsLogSourceName.eksAudit:
-        return 'EKS_AUDIT';
-      case AwsLogSourceName.waf:
-        return 'WAF';
-    }
-  }
-}
+  final String value;
 
-extension AwsLogSourceNameFromString on String {
-  AwsLogSourceName toAwsLogSourceName() {
-    switch (this) {
-      case 'ROUTE53':
-        return AwsLogSourceName.route53;
-      case 'VPC_FLOW':
-        return AwsLogSourceName.vpcFlow;
-      case 'SH_FINDINGS':
-        return AwsLogSourceName.shFindings;
-      case 'CLOUD_TRAIL_MGMT':
-        return AwsLogSourceName.cloudTrailMgmt;
-      case 'LAMBDA_EXECUTION':
-        return AwsLogSourceName.lambdaExecution;
-      case 'S3_DATA':
-        return AwsLogSourceName.s3Data;
-      case 'EKS_AUDIT':
-        return AwsLogSourceName.eksAudit;
-      case 'WAF':
-        return AwsLogSourceName.waf;
-    }
-    throw Exception('$this is not known in enum AwsLogSourceName');
-  }
+  const AwsLogSourceName(this.value);
+
+  static AwsLogSourceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AwsLogSourceName'));
 }
 
 /// Amazon Security Lake can collect logs and events from natively-supported
@@ -1483,7 +1432,8 @@ class AwsLogSourceResource {
 
   factory AwsLogSourceResource.fromJson(Map<String, dynamic> json) {
     return AwsLogSourceResource(
-      sourceName: (json['sourceName'] as String?)?.toAwsLogSourceName(),
+      sourceName:
+          (json['sourceName'] as String?)?.let(AwsLogSourceName.fromString),
       sourceVersion: json['sourceVersion'] as String?,
     );
   }
@@ -1492,7 +1442,7 @@ class AwsLogSourceResource {
     final sourceName = this.sourceName;
     final sourceVersion = this.sourceVersion;
     return {
-      if (sourceName != null) 'sourceName': sourceName.toValue(),
+      if (sourceName != null) 'sourceName': sourceName.value,
       if (sourceVersion != null) 'sourceVersion': sourceVersion,
     };
   }
@@ -2158,7 +2108,8 @@ class DataLakeResource {
     return DataLakeResource(
       dataLakeArn: json['dataLakeArn'] as String,
       region: json['region'] as String,
-      createStatus: (json['createStatus'] as String?)?.toDataLakeStatus(),
+      createStatus:
+          (json['createStatus'] as String?)?.let(DataLakeStatus.fromString),
       encryptionConfiguration: json['encryptionConfiguration'] != null
           ? DataLakeEncryptionConfiguration.fromJson(
               json['encryptionConfiguration'] as Map<String, dynamic>)
@@ -2191,7 +2142,7 @@ class DataLakeResource {
     return {
       'dataLakeArn': dataLakeArn,
       'region': region,
-      if (createStatus != null) 'createStatus': createStatus.toValue(),
+      if (createStatus != null) 'createStatus': createStatus.value,
       if (encryptionConfiguration != null)
         'encryptionConfiguration': encryptionConfiguration,
       if (lifecycleConfiguration != null)
@@ -2369,7 +2320,8 @@ class DataLakeSourceStatus {
   factory DataLakeSourceStatus.fromJson(Map<String, dynamic> json) {
     return DataLakeSourceStatus(
       resource: json['resource'] as String?,
-      status: (json['status'] as String?)?.toSourceCollectionStatus(),
+      status:
+          (json['status'] as String?)?.let(SourceCollectionStatus.fromString),
     );
   }
 
@@ -2378,47 +2330,26 @@ class DataLakeSourceStatus {
     final status = this.status;
     return {
       if (resource != null) 'resource': resource,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum DataLakeStatus {
-  initialized,
-  pending,
-  completed,
-  failed,
-}
+  initialized('INITIALIZED'),
+  pending('PENDING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension DataLakeStatusValueExtension on DataLakeStatus {
-  String toValue() {
-    switch (this) {
-      case DataLakeStatus.initialized:
-        return 'INITIALIZED';
-      case DataLakeStatus.pending:
-        return 'PENDING';
-      case DataLakeStatus.completed:
-        return 'COMPLETED';
-      case DataLakeStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DataLakeStatusFromString on String {
-  DataLakeStatus toDataLakeStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return DataLakeStatus.initialized;
-      case 'PENDING':
-        return DataLakeStatus.pending;
-      case 'COMPLETED':
-        return DataLakeStatus.completed;
-      case 'FAILED':
-        return DataLakeStatus.failed;
-    }
-    throw Exception('$this is not known in enum DataLakeStatus');
-  }
+  const DataLakeStatus(this.value);
+
+  static DataLakeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataLakeStatus'));
 }
 
 /// The details of the last <code>UpdateDataLake</code> or
@@ -2484,7 +2415,7 @@ class DataLakeUpdateStatus {
               json['exception'] as Map<String, dynamic>)
           : null,
       requestId: json['requestId'] as String?,
-      status: (json['status'] as String?)?.toDataLakeStatus(),
+      status: (json['status'] as String?)?.let(DataLakeStatus.fromString),
     );
   }
 
@@ -2495,7 +2426,7 @@ class DataLakeUpdateStatus {
     return {
       if (exception != null) 'exception': exception,
       if (requestId != null) 'requestId': requestId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2755,31 +2686,17 @@ class GetSubscriberResponse {
 }
 
 enum HttpMethod {
-  post,
-  put,
-}
+  post('POST'),
+  put('PUT'),
+  ;
 
-extension HttpMethodValueExtension on HttpMethod {
-  String toValue() {
-    switch (this) {
-      case HttpMethod.post:
-        return 'POST';
-      case HttpMethod.put:
-        return 'PUT';
-    }
-  }
-}
+  final String value;
 
-extension HttpMethodFromString on String {
-  HttpMethod toHttpMethod() {
-    switch (this) {
-      case 'POST':
-        return HttpMethod.post;
-      case 'PUT':
-        return HttpMethod.put;
-    }
-    throw Exception('$this is not known in enum HttpMethod');
-  }
+  const HttpMethod(this.value);
+
+  static HttpMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HttpMethod'));
 }
 
 /// The configurations for HTTPS subscriber notification.
@@ -2828,7 +2745,7 @@ class HttpsNotificationConfiguration {
         'authorizationApiKeyName': authorizationApiKeyName,
       if (authorizationApiKeyValue != null)
         'authorizationApiKeyValue': authorizationApiKeyValue,
-      if (httpMethod != null) 'httpMethod': httpMethod.toValue(),
+      if (httpMethod != null) 'httpMethod': httpMethod.value,
     };
   }
 }
@@ -3116,36 +3033,19 @@ class RegisterDataLakeDelegatedAdministratorResponse {
 }
 
 enum SourceCollectionStatus {
-  collecting,
-  misconfigured,
-  notCollecting,
-}
+  collecting('COLLECTING'),
+  misconfigured('MISCONFIGURED'),
+  notCollecting('NOT_COLLECTING'),
+  ;
 
-extension SourceCollectionStatusValueExtension on SourceCollectionStatus {
-  String toValue() {
-    switch (this) {
-      case SourceCollectionStatus.collecting:
-        return 'COLLECTING';
-      case SourceCollectionStatus.misconfigured:
-        return 'MISCONFIGURED';
-      case SourceCollectionStatus.notCollecting:
-        return 'NOT_COLLECTING';
-    }
-  }
-}
+  final String value;
 
-extension SourceCollectionStatusFromString on String {
-  SourceCollectionStatus toSourceCollectionStatus() {
-    switch (this) {
-      case 'COLLECTING':
-        return SourceCollectionStatus.collecting;
-      case 'MISCONFIGURED':
-        return SourceCollectionStatus.misconfigured;
-      case 'NOT_COLLECTING':
-        return SourceCollectionStatus.notCollecting;
-    }
-    throw Exception('$this is not known in enum SourceCollectionStatus');
-  }
+  const SourceCollectionStatus(this.value);
+
+  static SourceCollectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SourceCollectionStatus'));
 }
 
 /// The configurations for SQS subscriber notification.
@@ -3253,7 +3153,7 @@ class SubscriberResource {
       subscriberName: json['subscriberName'] as String,
       accessTypes: (json['accessTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAccessType())
+          .map((e) => AccessType.fromString((e as String)))
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
       resourceShareArn: json['resourceShareArn'] as String?,
@@ -3262,8 +3162,8 @@ class SubscriberResource {
       s3BucketArn: json['s3BucketArn'] as String?,
       subscriberDescription: json['subscriberDescription'] as String?,
       subscriberEndpoint: json['subscriberEndpoint'] as String?,
-      subscriberStatus:
-          (json['subscriberStatus'] as String?)?.toSubscriberStatus(),
+      subscriberStatus: (json['subscriberStatus'] as String?)
+          ?.let(SubscriberStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -3291,7 +3191,7 @@ class SubscriberResource {
       'subscriberIdentity': subscriberIdentity,
       'subscriberName': subscriberName,
       if (accessTypes != null)
-        'accessTypes': accessTypes.map((e) => e.toValue()).toList(),
+        'accessTypes': accessTypes.map((e) => e.value).toList(),
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
       if (resourceShareName != null) 'resourceShareName': resourceShareName,
@@ -3300,49 +3200,27 @@ class SubscriberResource {
       if (subscriberDescription != null)
         'subscriberDescription': subscriberDescription,
       if (subscriberEndpoint != null) 'subscriberEndpoint': subscriberEndpoint,
-      if (subscriberStatus != null)
-        'subscriberStatus': subscriberStatus.toValue(),
+      if (subscriberStatus != null) 'subscriberStatus': subscriberStatus.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
 }
 
 enum SubscriberStatus {
-  active,
-  deactivated,
-  pending,
-  ready,
-}
+  active('ACTIVE'),
+  deactivated('DEACTIVATED'),
+  pending('PENDING'),
+  ready('READY'),
+  ;
 
-extension SubscriberStatusValueExtension on SubscriberStatus {
-  String toValue() {
-    switch (this) {
-      case SubscriberStatus.active:
-        return 'ACTIVE';
-      case SubscriberStatus.deactivated:
-        return 'DEACTIVATED';
-      case SubscriberStatus.pending:
-        return 'PENDING';
-      case SubscriberStatus.ready:
-        return 'READY';
-    }
-  }
-}
+  final String value;
 
-extension SubscriberStatusFromString on String {
-  SubscriberStatus toSubscriberStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return SubscriberStatus.active;
-      case 'DEACTIVATED':
-        return SubscriberStatus.deactivated;
-      case 'PENDING':
-        return SubscriberStatus.pending;
-      case 'READY':
-        return SubscriberStatus.ready;
-    }
-    throw Exception('$this is not known in enum SubscriberStatus');
-  }
+  const SubscriberStatus(this.value);
+
+  static SubscriberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubscriberStatus'));
 }
 
 /// A <i>tag</i> is a label that you can define and associate with Amazon Web

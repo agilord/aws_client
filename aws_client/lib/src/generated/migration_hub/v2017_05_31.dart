@@ -877,7 +877,7 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ApplicationId': applicationId,
-        'Status': status.toValue(),
+        'Status': status.value,
         if (dryRun != null) 'DryRun': dryRun,
         if (updateDateTime != null)
           'UpdateDateTime': unixTimestampToJson(updateDateTime),
@@ -1094,8 +1094,8 @@ class ApplicationState {
   factory ApplicationState.fromJson(Map<String, dynamic> json) {
     return ApplicationState(
       applicationId: json['ApplicationId'] as String?,
-      applicationStatus:
-          (json['ApplicationStatus'] as String?)?.toApplicationStatus(),
+      applicationStatus: (json['ApplicationStatus'] as String?)
+          ?.let(ApplicationStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     );
   }
@@ -1107,7 +1107,7 @@ class ApplicationState {
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
       if (applicationStatus != null)
-        'ApplicationStatus': applicationStatus.toValue(),
+        'ApplicationStatus': applicationStatus.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
     };
@@ -1115,36 +1115,19 @@ class ApplicationState {
 }
 
 enum ApplicationStatus {
-  notStarted,
-  inProgress,
-  completed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  ;
 
-extension ApplicationStatusValueExtension on ApplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationStatus.notStarted:
-        return 'NOT_STARTED';
-      case ApplicationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ApplicationStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStatusFromString on String {
-  ApplicationStatus toApplicationStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ApplicationStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ApplicationStatus.inProgress;
-      case 'COMPLETED':
-        return ApplicationStatus.completed;
-    }
-    throw Exception('$this is not known in enum ApplicationStatus');
-  }
+  const ApplicationStatus(this.value);
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationStatus'));
 }
 
 class AssociateCreatedArtifactResult {
@@ -1241,8 +1224,8 @@ class DescribeApplicationStateResult {
 
   factory DescribeApplicationStateResult.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationStateResult(
-      applicationStatus:
-          (json['ApplicationStatus'] as String?)?.toApplicationStatus(),
+      applicationStatus: (json['ApplicationStatus'] as String?)
+          ?.let(ApplicationStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     );
   }
@@ -1252,7 +1235,7 @@ class DescribeApplicationStateResult {
     final lastUpdatedTime = this.lastUpdatedTime;
     return {
       if (applicationStatus != null)
-        'ApplicationStatus': applicationStatus.toValue(),
+        'ApplicationStatus': applicationStatus.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
     };
@@ -1633,7 +1616,7 @@ class MigrationTaskSummary {
       migrationTaskName: json['MigrationTaskName'] as String?,
       progressPercent: json['ProgressPercent'] as int?,
       progressUpdateStream: json['ProgressUpdateStream'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       statusDetail: json['StatusDetail'] as String?,
       updateDateTime: timeStampFromJson(json['UpdateDateTime']),
     );
@@ -1651,7 +1634,7 @@ class MigrationTaskSummary {
       if (progressPercent != null) 'ProgressPercent': progressPercent,
       if (progressUpdateStream != null)
         'ProgressUpdateStream': progressUpdateStream,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetail != null) 'StatusDetail': statusDetail,
       if (updateDateTime != null)
         'UpdateDateTime': unixTimestampToJson(updateDateTime),
@@ -1751,7 +1734,7 @@ class ResourceAttribute {
 
   factory ResourceAttribute.fromJson(Map<String, dynamic> json) {
     return ResourceAttribute(
-      type: (json['Type'] as String).toResourceAttributeType(),
+      type: ResourceAttributeType.fromString((json['Type'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -1760,116 +1743,49 @@ class ResourceAttribute {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum ResourceAttributeType {
-  ipv4Address,
-  ipv6Address,
-  macAddress,
-  fqdn,
-  vmManagerId,
-  vmManagedObjectReference,
-  vmName,
-  vmPath,
-  biosId,
-  motherboardSerialNumber,
-}
+  ipv4Address('IPV4_ADDRESS'),
+  ipv6Address('IPV6_ADDRESS'),
+  macAddress('MAC_ADDRESS'),
+  fqdn('FQDN'),
+  vmManagerId('VM_MANAGER_ID'),
+  vmManagedObjectReference('VM_MANAGED_OBJECT_REFERENCE'),
+  vmName('VM_NAME'),
+  vmPath('VM_PATH'),
+  biosId('BIOS_ID'),
+  motherboardSerialNumber('MOTHERBOARD_SERIAL_NUMBER'),
+  ;
 
-extension ResourceAttributeTypeValueExtension on ResourceAttributeType {
-  String toValue() {
-    switch (this) {
-      case ResourceAttributeType.ipv4Address:
-        return 'IPV4_ADDRESS';
-      case ResourceAttributeType.ipv6Address:
-        return 'IPV6_ADDRESS';
-      case ResourceAttributeType.macAddress:
-        return 'MAC_ADDRESS';
-      case ResourceAttributeType.fqdn:
-        return 'FQDN';
-      case ResourceAttributeType.vmManagerId:
-        return 'VM_MANAGER_ID';
-      case ResourceAttributeType.vmManagedObjectReference:
-        return 'VM_MANAGED_OBJECT_REFERENCE';
-      case ResourceAttributeType.vmName:
-        return 'VM_NAME';
-      case ResourceAttributeType.vmPath:
-        return 'VM_PATH';
-      case ResourceAttributeType.biosId:
-        return 'BIOS_ID';
-      case ResourceAttributeType.motherboardSerialNumber:
-        return 'MOTHERBOARD_SERIAL_NUMBER';
-    }
-  }
-}
+  final String value;
 
-extension ResourceAttributeTypeFromString on String {
-  ResourceAttributeType toResourceAttributeType() {
-    switch (this) {
-      case 'IPV4_ADDRESS':
-        return ResourceAttributeType.ipv4Address;
-      case 'IPV6_ADDRESS':
-        return ResourceAttributeType.ipv6Address;
-      case 'MAC_ADDRESS':
-        return ResourceAttributeType.macAddress;
-      case 'FQDN':
-        return ResourceAttributeType.fqdn;
-      case 'VM_MANAGER_ID':
-        return ResourceAttributeType.vmManagerId;
-      case 'VM_MANAGED_OBJECT_REFERENCE':
-        return ResourceAttributeType.vmManagedObjectReference;
-      case 'VM_NAME':
-        return ResourceAttributeType.vmName;
-      case 'VM_PATH':
-        return ResourceAttributeType.vmPath;
-      case 'BIOS_ID':
-        return ResourceAttributeType.biosId;
-      case 'MOTHERBOARD_SERIAL_NUMBER':
-        return ResourceAttributeType.motherboardSerialNumber;
-    }
-    throw Exception('$this is not known in enum ResourceAttributeType');
-  }
+  const ResourceAttributeType(this.value);
+
+  static ResourceAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceAttributeType'));
 }
 
 enum Status {
-  notStarted,
-  inProgress,
-  failed,
-  completed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.notStarted:
-        return 'NOT_STARTED';
-      case Status.inProgress:
-        return 'IN_PROGRESS';
-      case Status.failed:
-        return 'FAILED';
-      case Status.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return Status.notStarted;
-      case 'IN_PROGRESS':
-        return Status.inProgress;
-      case 'FAILED':
-        return Status.failed;
-      case 'COMPLETED':
-        return Status.completed;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// Task object encapsulating task information.
@@ -1893,7 +1809,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      status: (json['Status'] as String).toStatus(),
+      status: Status.fromString((json['Status'] as String)),
       progressPercent: json['ProgressPercent'] as int?,
       statusDetail: json['StatusDetail'] as String?,
     );
@@ -1904,7 +1820,7 @@ class Task {
     final progressPercent = this.progressPercent;
     final statusDetail = this.statusDetail;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       if (progressPercent != null) 'ProgressPercent': progressPercent,
       if (statusDetail != null) 'StatusDetail': statusDetail,
     };

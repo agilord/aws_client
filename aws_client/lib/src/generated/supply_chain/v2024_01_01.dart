@@ -175,7 +175,7 @@ class SupplyChain {
     final $payload = <String, dynamic>{
       'data': data,
       'eventGroupId': eventGroupId,
-      'eventType': eventType.toValue(),
+      'eventType': eventType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (eventTimestamp != null)
         'eventTimestamp': unixTimestampToJson(eventTimestamp),
@@ -222,7 +222,7 @@ class BillOfMaterialsImportJob {
       instanceId: json['instanceId'] as String,
       jobId: json['jobId'] as String,
       s3uri: json['s3uri'] as String,
-      status: (json['status'] as String).toConfigurationJobStatus(),
+      status: ConfigurationJobStatus.fromString((json['status'] as String)),
       message: json['message'] as String?,
     );
   }
@@ -237,7 +237,7 @@ class BillOfMaterialsImportJob {
       'instanceId': instanceId,
       'jobId': jobId,
       's3uri': s3uri,
-      'status': status.toValue(),
+      'status': status.value,
       if (message != null) 'message': message,
     };
   }
@@ -245,46 +245,21 @@ class BillOfMaterialsImportJob {
 
 /// The status of the job.
 enum ConfigurationJobStatus {
-  $new,
-  failed,
-  inProgress,
-  queued,
-  success,
-}
+  $new('NEW'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  queued('QUEUED'),
+  success('SUCCESS'),
+  ;
 
-extension ConfigurationJobStatusValueExtension on ConfigurationJobStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationJobStatus.$new:
-        return 'NEW';
-      case ConfigurationJobStatus.failed:
-        return 'FAILED';
-      case ConfigurationJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ConfigurationJobStatus.queued:
-        return 'QUEUED';
-      case ConfigurationJobStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationJobStatusFromString on String {
-  ConfigurationJobStatus toConfigurationJobStatus() {
-    switch (this) {
-      case 'NEW':
-        return ConfigurationJobStatus.$new;
-      case 'FAILED':
-        return ConfigurationJobStatus.failed;
-      case 'IN_PROGRESS':
-        return ConfigurationJobStatus.inProgress;
-      case 'QUEUED':
-        return ConfigurationJobStatus.queued;
-      case 'SUCCESS':
-        return ConfigurationJobStatus.success;
-    }
-    throw Exception('$this is not known in enum ConfigurationJobStatus');
-  }
+  const ConfigurationJobStatus(this.value);
+
+  static ConfigurationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationJobStatus'));
 }
 
 /// The response parameters of CreateBillOfMaterialsImportJob.
@@ -312,96 +287,31 @@ class CreateBillOfMaterialsImportJobResponse {
 }
 
 enum DataIntegrationEventType {
-  scnDataForecast,
-  scnDataInventorylevel,
-  scnDataInboundorder,
-  scnDataInboundorderline,
-  scnDataInboundorderlineschedule,
-  scnDataOutboundorderline,
-  scnDataOutboundshipment,
-  scnDataProcessheader,
-  scnDataProcessoperation,
-  scnDataProcessproduct,
-  scnDataReservation,
-  scnDataShipment,
-  scnDataShipmentstop,
-  scnDataShipmentstoporder,
-  scnDataSupplyplan,
-}
+  scnDataForecast('scn.data.forecast'),
+  scnDataInventorylevel('scn.data.inventorylevel'),
+  scnDataInboundorder('scn.data.inboundorder'),
+  scnDataInboundorderline('scn.data.inboundorderline'),
+  scnDataInboundorderlineschedule('scn.data.inboundorderlineschedule'),
+  scnDataOutboundorderline('scn.data.outboundorderline'),
+  scnDataOutboundshipment('scn.data.outboundshipment'),
+  scnDataProcessheader('scn.data.processheader'),
+  scnDataProcessoperation('scn.data.processoperation'),
+  scnDataProcessproduct('scn.data.processproduct'),
+  scnDataReservation('scn.data.reservation'),
+  scnDataShipment('scn.data.shipment'),
+  scnDataShipmentstop('scn.data.shipmentstop'),
+  scnDataShipmentstoporder('scn.data.shipmentstoporder'),
+  scnDataSupplyplan('scn.data.supplyplan'),
+  ;
 
-extension DataIntegrationEventTypeValueExtension on DataIntegrationEventType {
-  String toValue() {
-    switch (this) {
-      case DataIntegrationEventType.scnDataForecast:
-        return 'scn.data.forecast';
-      case DataIntegrationEventType.scnDataInventorylevel:
-        return 'scn.data.inventorylevel';
-      case DataIntegrationEventType.scnDataInboundorder:
-        return 'scn.data.inboundorder';
-      case DataIntegrationEventType.scnDataInboundorderline:
-        return 'scn.data.inboundorderline';
-      case DataIntegrationEventType.scnDataInboundorderlineschedule:
-        return 'scn.data.inboundorderlineschedule';
-      case DataIntegrationEventType.scnDataOutboundorderline:
-        return 'scn.data.outboundorderline';
-      case DataIntegrationEventType.scnDataOutboundshipment:
-        return 'scn.data.outboundshipment';
-      case DataIntegrationEventType.scnDataProcessheader:
-        return 'scn.data.processheader';
-      case DataIntegrationEventType.scnDataProcessoperation:
-        return 'scn.data.processoperation';
-      case DataIntegrationEventType.scnDataProcessproduct:
-        return 'scn.data.processproduct';
-      case DataIntegrationEventType.scnDataReservation:
-        return 'scn.data.reservation';
-      case DataIntegrationEventType.scnDataShipment:
-        return 'scn.data.shipment';
-      case DataIntegrationEventType.scnDataShipmentstop:
-        return 'scn.data.shipmentstop';
-      case DataIntegrationEventType.scnDataShipmentstoporder:
-        return 'scn.data.shipmentstoporder';
-      case DataIntegrationEventType.scnDataSupplyplan:
-        return 'scn.data.supplyplan';
-    }
-  }
-}
+  final String value;
 
-extension DataIntegrationEventTypeFromString on String {
-  DataIntegrationEventType toDataIntegrationEventType() {
-    switch (this) {
-      case 'scn.data.forecast':
-        return DataIntegrationEventType.scnDataForecast;
-      case 'scn.data.inventorylevel':
-        return DataIntegrationEventType.scnDataInventorylevel;
-      case 'scn.data.inboundorder':
-        return DataIntegrationEventType.scnDataInboundorder;
-      case 'scn.data.inboundorderline':
-        return DataIntegrationEventType.scnDataInboundorderline;
-      case 'scn.data.inboundorderlineschedule':
-        return DataIntegrationEventType.scnDataInboundorderlineschedule;
-      case 'scn.data.outboundorderline':
-        return DataIntegrationEventType.scnDataOutboundorderline;
-      case 'scn.data.outboundshipment':
-        return DataIntegrationEventType.scnDataOutboundshipment;
-      case 'scn.data.processheader':
-        return DataIntegrationEventType.scnDataProcessheader;
-      case 'scn.data.processoperation':
-        return DataIntegrationEventType.scnDataProcessoperation;
-      case 'scn.data.processproduct':
-        return DataIntegrationEventType.scnDataProcessproduct;
-      case 'scn.data.reservation':
-        return DataIntegrationEventType.scnDataReservation;
-      case 'scn.data.shipment':
-        return DataIntegrationEventType.scnDataShipment;
-      case 'scn.data.shipmentstop':
-        return DataIntegrationEventType.scnDataShipmentstop;
-      case 'scn.data.shipmentstoporder':
-        return DataIntegrationEventType.scnDataShipmentstoporder;
-      case 'scn.data.supplyplan':
-        return DataIntegrationEventType.scnDataSupplyplan;
-    }
-    throw Exception('$this is not known in enum DataIntegrationEventType');
-  }
+  const DataIntegrationEventType(this.value);
+
+  static DataIntegrationEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataIntegrationEventType'));
 }
 
 /// The response parameters for GetBillOfMaterialsImportJob.

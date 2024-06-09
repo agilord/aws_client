@@ -182,7 +182,7 @@ class TimestreamInfluxDB {
       headers: headers,
       payload: {
         'allocatedStorage': allocatedStorage,
-        'dbInstanceType': dbInstanceType.toValue(),
+        'dbInstanceType': dbInstanceType.value,
         'name': name,
         'password': password,
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
@@ -190,8 +190,8 @@ class TimestreamInfluxDB {
         if (bucket != null) 'bucket': bucket,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
-        if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-        if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+        if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+        if (deploymentType != null) 'deploymentType': deploymentType.value,
         if (logDeliveryConfiguration != null)
           'logDeliveryConfiguration': logDeliveryConfiguration,
         if (organization != null) 'organization': organization,
@@ -667,10 +667,13 @@ class CreateDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
-      dbInstanceType: (json['dbInstanceType'] as String?)?.toDbInstanceType(),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
       dbParameterGroupIdentifier: json['dbParameterGroupIdentifier'] as String?,
-      dbStorageType: (json['dbStorageType'] as String?)?.toDbStorageType(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       endpoint: json['endpoint'] as String?,
       influxAuthParametersSecretArn:
           json['influxAuthParametersSecretArn'] as String?,
@@ -680,7 +683,7 @@ class CreateDbInstanceOutput {
           : null,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -713,11 +716,11 @@ class CreateDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.toValue(),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
         'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
-      if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (endpoint != null) 'endpoint': endpoint,
       if (influxAuthParametersSecretArn != null)
         'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
@@ -726,7 +729,7 @@ class CreateDbInstanceOutput {
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (secondaryAvailabilityZone != null)
         'secondaryAvailabilityZone': secondaryAvailabilityZone,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (vpcSecurityGroupIds != null)
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
     };
@@ -836,11 +839,14 @@ class DbInstanceSummary {
       id: json['id'] as String,
       name: json['name'] as String,
       allocatedStorage: json['allocatedStorage'] as int?,
-      dbInstanceType: (json['dbInstanceType'] as String?)?.toDbInstanceType(),
-      dbStorageType: (json['dbStorageType'] as String?)?.toDbStorageType(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       endpoint: json['endpoint'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -859,71 +865,34 @@ class DbInstanceSummary {
       'id': id,
       'name': name,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
-      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.toValue(),
-      if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (endpoint != null) 'endpoint': endpoint,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum DbInstanceType {
-  dbInfluxMedium,
-  dbInfluxLarge,
-  dbInfluxXlarge,
-  dbInflux_2xlarge,
-  dbInflux_4xlarge,
-  dbInflux_8xlarge,
-  dbInflux_12xlarge,
-  dbInflux_16xlarge,
-}
+  dbInfluxMedium('db.influx.medium'),
+  dbInfluxLarge('db.influx.large'),
+  dbInfluxXlarge('db.influx.xlarge'),
+  dbInflux_2xlarge('db.influx.2xlarge'),
+  dbInflux_4xlarge('db.influx.4xlarge'),
+  dbInflux_8xlarge('db.influx.8xlarge'),
+  dbInflux_12xlarge('db.influx.12xlarge'),
+  dbInflux_16xlarge('db.influx.16xlarge'),
+  ;
 
-extension DbInstanceTypeValueExtension on DbInstanceType {
-  String toValue() {
-    switch (this) {
-      case DbInstanceType.dbInfluxMedium:
-        return 'db.influx.medium';
-      case DbInstanceType.dbInfluxLarge:
-        return 'db.influx.large';
-      case DbInstanceType.dbInfluxXlarge:
-        return 'db.influx.xlarge';
-      case DbInstanceType.dbInflux_2xlarge:
-        return 'db.influx.2xlarge';
-      case DbInstanceType.dbInflux_4xlarge:
-        return 'db.influx.4xlarge';
-      case DbInstanceType.dbInflux_8xlarge:
-        return 'db.influx.8xlarge';
-      case DbInstanceType.dbInflux_12xlarge:
-        return 'db.influx.12xlarge';
-      case DbInstanceType.dbInflux_16xlarge:
-        return 'db.influx.16xlarge';
-    }
-  }
-}
+  final String value;
 
-extension DbInstanceTypeFromString on String {
-  DbInstanceType toDbInstanceType() {
-    switch (this) {
-      case 'db.influx.medium':
-        return DbInstanceType.dbInfluxMedium;
-      case 'db.influx.large':
-        return DbInstanceType.dbInfluxLarge;
-      case 'db.influx.xlarge':
-        return DbInstanceType.dbInfluxXlarge;
-      case 'db.influx.2xlarge':
-        return DbInstanceType.dbInflux_2xlarge;
-      case 'db.influx.4xlarge':
-        return DbInstanceType.dbInflux_4xlarge;
-      case 'db.influx.8xlarge':
-        return DbInstanceType.dbInflux_8xlarge;
-      case 'db.influx.12xlarge':
-        return DbInstanceType.dbInflux_12xlarge;
-      case 'db.influx.16xlarge':
-        return DbInstanceType.dbInflux_16xlarge;
-    }
-    throw Exception('$this is not known in enum DbInstanceType');
-  }
+  const DbInstanceType(this.value);
+
+  static DbInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DbInstanceType'));
 }
 
 /// Contains a summary of a DB parameter group.
@@ -971,36 +940,19 @@ class DbParameterGroupSummary {
 }
 
 enum DbStorageType {
-  influxIOIncludedT1,
-  influxIOIncludedT2,
-  influxIOIncludedT3,
-}
+  influxIOIncludedT1('InfluxIOIncludedT1'),
+  influxIOIncludedT2('InfluxIOIncludedT2'),
+  influxIOIncludedT3('InfluxIOIncludedT3'),
+  ;
 
-extension DbStorageTypeValueExtension on DbStorageType {
-  String toValue() {
-    switch (this) {
-      case DbStorageType.influxIOIncludedT1:
-        return 'InfluxIOIncludedT1';
-      case DbStorageType.influxIOIncludedT2:
-        return 'InfluxIOIncludedT2';
-      case DbStorageType.influxIOIncludedT3:
-        return 'InfluxIOIncludedT3';
-    }
-  }
-}
+  final String value;
 
-extension DbStorageTypeFromString on String {
-  DbStorageType toDbStorageType() {
-    switch (this) {
-      case 'InfluxIOIncludedT1':
-        return DbStorageType.influxIOIncludedT1;
-      case 'InfluxIOIncludedT2':
-        return DbStorageType.influxIOIncludedT2;
-      case 'InfluxIOIncludedT3':
-        return DbStorageType.influxIOIncludedT3;
-    }
-    throw Exception('$this is not known in enum DbStorageType');
-  }
+  const DbStorageType(this.value);
+
+  static DbStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DbStorageType'));
 }
 
 class DeleteDbInstanceOutput {
@@ -1093,10 +1045,13 @@ class DeleteDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
-      dbInstanceType: (json['dbInstanceType'] as String?)?.toDbInstanceType(),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
       dbParameterGroupIdentifier: json['dbParameterGroupIdentifier'] as String?,
-      dbStorageType: (json['dbStorageType'] as String?)?.toDbStorageType(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       endpoint: json['endpoint'] as String?,
       influxAuthParametersSecretArn:
           json['influxAuthParametersSecretArn'] as String?,
@@ -1106,7 +1061,7 @@ class DeleteDbInstanceOutput {
           : null,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1139,11 +1094,11 @@ class DeleteDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.toValue(),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
         'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
-      if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (endpoint != null) 'endpoint': endpoint,
       if (influxAuthParametersSecretArn != null)
         'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
@@ -1152,7 +1107,7 @@ class DeleteDbInstanceOutput {
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (secondaryAvailabilityZone != null)
         'secondaryAvailabilityZone': secondaryAvailabilityZone,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (vpcSecurityGroupIds != null)
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
     };
@@ -1160,31 +1115,18 @@ class DeleteDbInstanceOutput {
 }
 
 enum DeploymentType {
-  singleAz,
-  withMultiazStandby,
-}
+  singleAz('SINGLE_AZ'),
+  withMultiazStandby('WITH_MULTIAZ_STANDBY'),
+  ;
 
-extension DeploymentTypeValueExtension on DeploymentType {
-  String toValue() {
-    switch (this) {
-      case DeploymentType.singleAz:
-        return 'SINGLE_AZ';
-      case DeploymentType.withMultiazStandby:
-        return 'WITH_MULTIAZ_STANDBY';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentTypeFromString on String {
-  DeploymentType toDeploymentType() {
-    switch (this) {
-      case 'SINGLE_AZ':
-        return DeploymentType.singleAz;
-      case 'WITH_MULTIAZ_STANDBY':
-        return DeploymentType.withMultiazStandby;
-    }
-    throw Exception('$this is not known in enum DeploymentType');
-  }
+  const DeploymentType(this.value);
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentType'));
 }
 
 class GetDbInstanceOutput {
@@ -1277,10 +1219,13 @@ class GetDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
-      dbInstanceType: (json['dbInstanceType'] as String?)?.toDbInstanceType(),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
       dbParameterGroupIdentifier: json['dbParameterGroupIdentifier'] as String?,
-      dbStorageType: (json['dbStorageType'] as String?)?.toDbStorageType(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       endpoint: json['endpoint'] as String?,
       influxAuthParametersSecretArn:
           json['influxAuthParametersSecretArn'] as String?,
@@ -1290,7 +1235,7 @@ class GetDbInstanceOutput {
           : null,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1323,11 +1268,11 @@ class GetDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.toValue(),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
         'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
-      if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (endpoint != null) 'endpoint': endpoint,
       if (influxAuthParametersSecretArn != null)
         'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
@@ -1336,7 +1281,7 @@ class GetDbInstanceOutput {
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (secondaryAvailabilityZone != null)
         'secondaryAvailabilityZone': secondaryAvailabilityZone,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (vpcSecurityGroupIds != null)
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
     };
@@ -1455,12 +1400,13 @@ class InfluxDBv2Parameters {
   factory InfluxDBv2Parameters.fromJson(Map<String, dynamic> json) {
     return InfluxDBv2Parameters(
       fluxLogEnabled: json['fluxLogEnabled'] as bool?,
-      logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      logLevel: (json['logLevel'] as String?)?.let(LogLevel.fromString),
       metricsDisabled: json['metricsDisabled'] as bool?,
       noTasks: json['noTasks'] as bool?,
       queryConcurrency: json['queryConcurrency'] as int?,
       queryQueueSize: json['queryQueueSize'] as int?,
-      tracingType: (json['tracingType'] as String?)?.toTracingType(),
+      tracingType:
+          (json['tracingType'] as String?)?.let(TracingType.fromString),
     );
   }
 
@@ -1474,12 +1420,12 @@ class InfluxDBv2Parameters {
     final tracingType = this.tracingType;
     return {
       if (fluxLogEnabled != null) 'fluxLogEnabled': fluxLogEnabled,
-      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (logLevel != null) 'logLevel': logLevel.value,
       if (metricsDisabled != null) 'metricsDisabled': metricsDisabled,
       if (noTasks != null) 'noTasks': noTasks,
       if (queryConcurrency != null) 'queryConcurrency': queryConcurrency,
       if (queryQueueSize != null) 'queryQueueSize': queryQueueSize,
-      if (tracingType != null) 'tracingType': tracingType.toValue(),
+      if (tracingType != null) 'tracingType': tracingType.value,
     };
   }
 }
@@ -1600,36 +1546,18 @@ class LogDeliveryConfiguration {
 }
 
 enum LogLevel {
-  debug,
-  info,
-  error,
-}
+  debug('debug'),
+  info('info'),
+  error('error'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.debug:
-        return 'debug';
-      case LogLevel.info:
-        return 'info';
-      case LogLevel.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'debug':
-        return LogLevel.debug;
-      case 'info':
-        return LogLevel.info;
-      case 'error':
-        return LogLevel.error;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// The parameters that comprise the parameter group.
@@ -1690,84 +1618,36 @@ class S3Configuration {
 }
 
 enum Status {
-  creating,
-  available,
-  deleting,
-  modifying,
-  updating,
-  deleted,
-  failed,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  modifying('MODIFYING'),
+  updating('UPDATING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.creating:
-        return 'CREATING';
-      case Status.available:
-        return 'AVAILABLE';
-      case Status.deleting:
-        return 'DELETING';
-      case Status.modifying:
-        return 'MODIFYING';
-      case Status.updating:
-        return 'UPDATING';
-      case Status.deleted:
-        return 'DELETED';
-      case Status.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'CREATING':
-        return Status.creating;
-      case 'AVAILABLE':
-        return Status.available;
-      case 'DELETING':
-        return Status.deleting;
-      case 'MODIFYING':
-        return Status.modifying;
-      case 'UPDATING':
-        return Status.updating;
-      case 'DELETED':
-        return Status.deleted;
-      case 'FAILED':
-        return Status.failed;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 enum TracingType {
-  log,
-  jaeger,
-}
+  log('log'),
+  jaeger('jaeger'),
+  ;
 
-extension TracingTypeValueExtension on TracingType {
-  String toValue() {
-    switch (this) {
-      case TracingType.log:
-        return 'log';
-      case TracingType.jaeger:
-        return 'jaeger';
-    }
-  }
-}
+  final String value;
 
-extension TracingTypeFromString on String {
-  TracingType toTracingType() {
-    switch (this) {
-      case 'log':
-        return TracingType.log;
-      case 'jaeger':
-        return TracingType.jaeger;
-    }
-    throw Exception('$this is not known in enum TracingType');
-  }
+  const TracingType(this.value);
+
+  static TracingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TracingType'));
 }
 
 class UpdateDbInstanceOutput {
@@ -1861,10 +1741,13 @@ class UpdateDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
-      dbInstanceType: (json['dbInstanceType'] as String?)?.toDbInstanceType(),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
       dbParameterGroupIdentifier: json['dbParameterGroupIdentifier'] as String?,
-      dbStorageType: (json['dbStorageType'] as String?)?.toDbStorageType(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       endpoint: json['endpoint'] as String?,
       influxAuthParametersSecretArn:
           json['influxAuthParametersSecretArn'] as String?,
@@ -1874,7 +1757,7 @@ class UpdateDbInstanceOutput {
           : null,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1907,11 +1790,11 @@ class UpdateDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.toValue(),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
         'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
-      if (dbStorageType != null) 'dbStorageType': dbStorageType.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (endpoint != null) 'endpoint': endpoint,
       if (influxAuthParametersSecretArn != null)
         'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
@@ -1920,7 +1803,7 @@ class UpdateDbInstanceOutput {
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (secondaryAvailabilityZone != null)
         'secondaryAvailabilityZone': secondaryAvailabilityZone,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (vpcSecurityGroupIds != null)
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
     };

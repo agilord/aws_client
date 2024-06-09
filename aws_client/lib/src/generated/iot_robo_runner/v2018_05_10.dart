@@ -75,7 +75,7 @@ class IoTRoboRunner {
       if (additionalFixedProperties != null)
         'additionalFixedProperties': additionalFixedProperties,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -389,7 +389,7 @@ class IoTRoboRunner {
       'site': [site],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (state != null) 'state': [state.toValue()],
+      if (state != null) 'state': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -517,7 +517,7 @@ class IoTRoboRunner {
       if (additionalFixedProperties != null)
         'additionalFixedProperties': additionalFixedProperties,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -677,7 +677,7 @@ class CreateDestinationResponse {
       arn: json['arn'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
     );
   }
@@ -692,7 +692,7 @@ class CreateDestinationResponse {
       'arn': arn,
       'createdAt': unixTimestampToJson(createdAt),
       'id': id,
-      'state': state.toValue(),
+      'state': state.value,
       'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -888,7 +888,7 @@ class Destination {
       id: json['id'] as String,
       name: json['name'] as String,
       site: json['site'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       additionalFixedProperties: json['additionalFixedProperties'] as String?,
     );
@@ -909,7 +909,7 @@ class Destination {
       'id': id,
       'name': name,
       'site': site,
-      'state': state.toValue(),
+      'state': state.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (additionalFixedProperties != null)
         'additionalFixedProperties': additionalFixedProperties,
@@ -919,36 +919,19 @@ class Destination {
 
 /// State of the destination.
 enum DestinationState {
-  enabled,
-  disabled,
-  decommissioned,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  decommissioned('DECOMMISSIONED'),
+  ;
 
-extension DestinationStateValueExtension on DestinationState {
-  String toValue() {
-    switch (this) {
-      case DestinationState.enabled:
-        return 'ENABLED';
-      case DestinationState.disabled:
-        return 'DISABLED';
-      case DestinationState.decommissioned:
-        return 'DECOMMISSIONED';
-    }
-  }
-}
+  final String value;
 
-extension DestinationStateFromString on String {
-  DestinationState toDestinationState() {
-    switch (this) {
-      case 'ENABLED':
-        return DestinationState.enabled;
-      case 'DISABLED':
-        return DestinationState.disabled;
-      case 'DECOMMISSIONED':
-        return DestinationState.decommissioned;
-    }
-    throw Exception('$this is not known in enum DestinationState');
-  }
+  const DestinationState(this.value);
+
+  static DestinationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DestinationState'));
 }
 
 class GetDestinationResponse {
@@ -979,7 +962,7 @@ class GetDestinationResponse {
       id: json['id'] as String,
       name: json['name'] as String,
       site: json['site'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       additionalFixedProperties: json['additionalFixedProperties'] as String?,
     );
@@ -1000,7 +983,7 @@ class GetDestinationResponse {
       'id': id,
       'name': name,
       'site': site,
-      'state': state.toValue(),
+      'state': state.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (additionalFixedProperties != null)
         'additionalFixedProperties': additionalFixedProperties,
@@ -1426,7 +1409,7 @@ class UpdateDestinationResponse {
       arn: json['arn'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       additionalFixedProperties: json['additionalFixedProperties'] as String?,
     );
@@ -1443,7 +1426,7 @@ class UpdateDestinationResponse {
       'arn': arn,
       'id': id,
       'name': name,
-      'state': state.toValue(),
+      'state': state.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (additionalFixedProperties != null)
         'additionalFixedProperties': additionalFixedProperties,

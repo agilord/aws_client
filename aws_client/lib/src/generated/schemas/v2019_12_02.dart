@@ -163,7 +163,7 @@ class Schemas {
   }) async {
     final $payload = <String, dynamic>{
       'Content': content,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (description != null) 'Description': description,
       if (tags != null) 'tags': tags,
     };
@@ -528,7 +528,7 @@ class Schemas {
   }) async {
     final $payload = <String, dynamic>{
       'Events': events,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1085,7 +1085,7 @@ class Schemas {
       'ClientTokenId': clientTokenId ?? _s.generateIdempotencyToken(),
       if (content != null) 'Content': content,
       if (description != null) 'Description': description,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1099,36 +1099,19 @@ class Schemas {
 }
 
 enum CodeGenerationStatus {
-  createInProgress,
-  createComplete,
-  createFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  createFailed('CREATE_FAILED'),
+  ;
 
-extension CodeGenerationStatusValueExtension on CodeGenerationStatus {
-  String toValue() {
-    switch (this) {
-      case CodeGenerationStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case CodeGenerationStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case CodeGenerationStatus.createFailed:
-        return 'CREATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CodeGenerationStatusFromString on String {
-  CodeGenerationStatus toCodeGenerationStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return CodeGenerationStatus.createInProgress;
-      case 'CREATE_COMPLETE':
-        return CodeGenerationStatus.createComplete;
-      case 'CREATE_FAILED':
-        return CodeGenerationStatus.createFailed;
-    }
-    throw Exception('$this is not known in enum CodeGenerationStatus');
-  }
+  const CodeGenerationStatus(this.value);
+
+  static CodeGenerationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CodeGenerationStatus'));
 }
 
 class CreateDiscovererResponse {
@@ -1171,7 +1154,7 @@ class CreateDiscovererResponse {
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
       sourceArn: json['SourceArn'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1191,7 +1174,7 @@ class CreateDiscovererResponse {
       if (discovererArn != null) 'DiscovererArn': discovererArn,
       if (discovererId != null) 'DiscovererId': discovererId,
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1337,7 +1320,7 @@ class DescribeCodeBindingResponse {
       creationDate: timeStampFromJson(json['CreationDate']),
       lastModified: timeStampFromJson(json['LastModified']),
       schemaVersion: json['SchemaVersion'] as String?,
-      status: (json['Status'] as String?)?.toCodeGenerationStatus(),
+      status: (json['Status'] as String?)?.let(CodeGenerationStatus.fromString),
     );
   }
 
@@ -1350,7 +1333,7 @@ class DescribeCodeBindingResponse {
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
       if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -1395,7 +1378,7 @@ class DescribeDiscovererResponse {
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
       sourceArn: json['SourceArn'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1415,7 +1398,7 @@ class DescribeDiscovererResponse {
       if (discovererArn != null) 'DiscovererArn': discovererArn,
       if (discovererId != null) 'DiscovererId': discovererId,
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1546,31 +1529,18 @@ class DescribeSchemaResponse {
 }
 
 enum DiscovererState {
-  started,
-  stopped,
-}
+  started('STARTED'),
+  stopped('STOPPED'),
+  ;
 
-extension DiscovererStateValueExtension on DiscovererState {
-  String toValue() {
-    switch (this) {
-      case DiscovererState.started:
-        return 'STARTED';
-      case DiscovererState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension DiscovererStateFromString on String {
-  DiscovererState toDiscovererState() {
-    switch (this) {
-      case 'STARTED':
-        return DiscovererState.started;
-      case 'STOPPED':
-        return DiscovererState.stopped;
-    }
-    throw Exception('$this is not known in enum DiscovererState');
-  }
+  const DiscovererState(this.value);
+
+  static DiscovererState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DiscovererState'));
 }
 
 class DiscovererSummary {
@@ -1608,7 +1578,7 @@ class DiscovererSummary {
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
       sourceArn: json['SourceArn'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1626,7 +1596,7 @@ class DiscovererSummary {
       if (discovererArn != null) 'DiscovererArn': discovererArn,
       if (discovererId != null) 'DiscovererId': discovererId,
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1923,7 +1893,7 @@ class PutCodeBindingResponse {
       creationDate: timeStampFromJson(json['CreationDate']),
       lastModified: timeStampFromJson(json['LastModified']),
       schemaVersion: json['SchemaVersion'] as String?,
-      status: (json['Status'] as String?)?.toCodeGenerationStatus(),
+      status: (json['Status'] as String?)?.let(CodeGenerationStatus.fromString),
     );
   }
 
@@ -1936,7 +1906,7 @@ class PutCodeBindingResponse {
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
       if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2085,7 +2055,7 @@ class SchemaVersionSummary {
       schemaArn: json['SchemaArn'] as String?,
       schemaName: json['SchemaName'] as String?,
       schemaVersion: json['SchemaVersion'] as String?,
-      type: (json['Type'] as String?)?.toType(),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -2098,7 +2068,7 @@ class SchemaVersionSummary {
       if (schemaArn != null) 'SchemaArn': schemaArn,
       if (schemaName != null) 'SchemaName': schemaName,
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -2170,7 +2140,7 @@ class SearchSchemaVersionSummary {
     return SearchSchemaVersionSummary(
       createdDate: timeStampFromJson(json['CreatedDate']),
       schemaVersion: json['SchemaVersion'] as String?,
-      type: (json['Type'] as String?)?.toType(),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -2181,7 +2151,7 @@ class SearchSchemaVersionSummary {
     return {
       if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
       if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -2235,7 +2205,7 @@ class StartDiscovererResponse {
   factory StartDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return StartDiscovererResponse(
       discovererId: json['DiscovererId'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
     );
   }
 
@@ -2244,7 +2214,7 @@ class StartDiscovererResponse {
     final state = this.state;
     return {
       if (discovererId != null) 'DiscovererId': discovererId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2264,7 +2234,7 @@ class StopDiscovererResponse {
   factory StopDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return StopDiscovererResponse(
       discovererId: json['DiscovererId'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
     );
   }
 
@@ -2273,37 +2243,23 @@ class StopDiscovererResponse {
     final state = this.state;
     return {
       if (discovererId != null) 'DiscovererId': discovererId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum Type {
-  openApi3,
-  jSONSchemaDraft4,
-}
+  openApi3('OpenApi3'),
+  jSONSchemaDraft4('JSONSchemaDraft4'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.openApi3:
-        return 'OpenApi3';
-      case Type.jSONSchemaDraft4:
-        return 'JSONSchemaDraft4';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'OpenApi3':
-        return Type.openApi3;
-      case 'JSONSchemaDraft4':
-        return Type.jSONSchemaDraft4;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UpdateDiscovererResponse {
@@ -2346,7 +2302,7 @@ class UpdateDiscovererResponse {
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
       sourceArn: json['SourceArn'] as String?,
-      state: (json['State'] as String?)?.toDiscovererState(),
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2366,7 +2322,7 @@ class UpdateDiscovererResponse {
       if (discovererArn != null) 'DiscovererArn': discovererArn,
       if (discovererId != null) 'DiscovererId': discovererId,
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'tags': tags,
     };
   }

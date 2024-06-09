@@ -1153,7 +1153,7 @@ class Redshift {
       if (allowVersionUpgrade != null)
         'AllowVersionUpgrade': allowVersionUpgrade.toString(),
       if (aquaConfigurationStatus != null)
-        'AquaConfigurationStatus': aquaConfigurationStatus.toValue(),
+        'AquaConfigurationStatus': aquaConfigurationStatus.value,
       if (automatedSnapshotRetentionPeriod != null)
         'AutomatedSnapshotRetentionPeriod':
             automatedSnapshotRetentionPeriod.toString(),
@@ -2350,10 +2350,10 @@ class Redshift {
     final $request = <String, String>{
       'Amount': amount.toString(),
       'ClusterIdentifier': clusterIdentifier,
-      'FeatureType': featureType.toValue(),
-      'LimitType': limitType.toValue(),
-      if (breachAction != null) 'BreachAction': breachAction.toValue(),
-      if (period != null) 'Period': period.toValue(),
+      'FeatureType': featureType.value,
+      'LimitType': limitType.value,
+      if (breachAction != null) 'BreachAction': breachAction.value,
+      if (period != null) 'Period': period.value,
       if (tags != null)
         if (tags.isEmpty)
           'Tags': ''
@@ -4054,7 +4054,7 @@ class Redshift {
       if (consumerArn != null) 'ConsumerArn': consumerArn,
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4107,7 +4107,7 @@ class Redshift {
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (producerArn != null) 'ProducerArn': producerArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4529,7 +4529,7 @@ class Redshift {
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
       if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
     };
     final $result = await _protocol.send(
@@ -4888,7 +4888,7 @@ class Redshift {
     String? snapshotIdentifier,
   }) async {
     final $request = <String, String>{
-      'ActionType': actionType.toValue(),
+      'ActionType': actionType.value,
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (filters != null)
         if (filters.isEmpty)
@@ -5349,8 +5349,7 @@ class Redshift {
       if (scheduledActionName != null)
         'ScheduledActionName': scheduledActionName,
       if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
-      if (targetActionType != null)
-        'TargetActionType': targetActionType.toValue(),
+      if (targetActionType != null) 'TargetActionType': targetActionType.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -5827,7 +5826,7 @@ class Redshift {
   }) async {
     final $request = <String, String>{
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (featureType != null) 'FeatureType': featureType.toValue(),
+      if (featureType != null) 'FeatureType': featureType.value,
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (tagKeys != null)
@@ -6051,7 +6050,7 @@ class Redshift {
       'ClusterIdentifier': clusterIdentifier,
       if (bucketName != null) 'BucketName': bucketName,
       if (logDestinationType != null)
-        'LogDestinationType': logDestinationType.toValue(),
+        'LogDestinationType': logDestinationType.value,
       if (logExports != null)
         if (logExports.isEmpty)
           'LogExports': ''
@@ -6475,7 +6474,7 @@ class Redshift {
     String? snapshotIdentifier,
   }) async {
     final $request = <String, String>{
-      'ActionType': actionType.toValue(),
+      'ActionType': actionType.value,
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
@@ -6641,7 +6640,7 @@ class Redshift {
     final $request = <String, String>{
       'ClusterIdentifier': clusterIdentifier,
       if (aquaConfigurationStatus != null)
-        'AquaConfigurationStatus': aquaConfigurationStatus.toValue(),
+        'AquaConfigurationStatus': aquaConfigurationStatus.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -7928,7 +7927,7 @@ class Redshift {
     final $request = <String, String>{
       'UsageLimitId': usageLimitId,
       if (amount != null) 'Amount': amount.toString(),
-      if (breachAction != null) 'BreachAction': breachAction.toValue(),
+      if (breachAction != null) 'BreachAction': breachAction.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -8639,7 +8638,7 @@ class Redshift {
       if (allowVersionUpgrade != null)
         'AllowVersionUpgrade': allowVersionUpgrade.toString(),
       if (aquaConfigurationStatus != null)
-        'AquaConfigurationStatus': aquaConfigurationStatus.toValue(),
+        'AquaConfigurationStatus': aquaConfigurationStatus.value,
       if (automatedSnapshotRetentionPeriod != null)
         'AutomatedSnapshotRetentionPeriod':
             automatedSnapshotRetentionPeriod.toString(),
@@ -9085,7 +9084,7 @@ class Redshift {
       'ClusterIdentifier': clusterIdentifier,
       'DatabaseName': databaseName,
       'PartnerName': partnerName,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
     final $result = await _protocol.send(
@@ -9216,36 +9215,18 @@ class AccountWithRestoreAccess {
 }
 
 enum ActionType {
-  restoreCluster,
-  recommendNodeConfig,
-  resizeCluster,
-}
+  restoreCluster('restore-cluster'),
+  recommendNodeConfig('recommend-node-config'),
+  resizeCluster('resize-cluster'),
+  ;
 
-extension ActionTypeValueExtension on ActionType {
-  String toValue() {
-    switch (this) {
-      case ActionType.restoreCluster:
-        return 'restore-cluster';
-      case ActionType.recommendNodeConfig:
-        return 'recommend-node-config';
-      case ActionType.resizeCluster:
-        return 'resize-cluster';
-    }
-  }
-}
+  final String value;
 
-extension ActionTypeFromString on String {
-  ActionType toActionType() {
-    switch (this) {
-      case 'restore-cluster':
-        return ActionType.restoreCluster;
-      case 'recommend-node-config':
-        return ActionType.recommendNodeConfig;
-      case 'resize-cluster':
-        return ActionType.resizeCluster;
-    }
-    throw Exception('$this is not known in enum ActionType');
-  }
+  const ActionType(this.value);
+
+  static ActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionType'));
 }
 
 /// The operation that uses this structure is retired. Amazon Redshift
@@ -9267,8 +9248,11 @@ class AquaConfiguration {
     return AquaConfiguration(
       aquaConfigurationStatus: _s
           .extractXmlStringValue(elem, 'AquaConfigurationStatus')
-          ?.toAquaConfigurationStatus(),
-      aquaStatus: _s.extractXmlStringValue(elem, 'AquaStatus')?.toAquaStatus(),
+          ?.let(
+              AquaConfigurationStatus.fromString) /* Nullability(true, true) */,
+      aquaStatus: _s
+          .extractXmlStringValue(elem, 'AquaStatus')
+          ?.let(AquaStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -9277,76 +9261,41 @@ class AquaConfiguration {
     final aquaStatus = this.aquaStatus;
     return {
       if (aquaConfigurationStatus != null)
-        'AquaConfigurationStatus': aquaConfigurationStatus.toValue(),
-      if (aquaStatus != null) 'AquaStatus': aquaStatus.toValue(),
+        'AquaConfigurationStatus': aquaConfigurationStatus.value,
+      if (aquaStatus != null) 'AquaStatus': aquaStatus.value,
     };
   }
 }
 
 enum AquaConfigurationStatus {
-  enabled,
-  disabled,
-  auto,
-}
+  enabled('enabled'),
+  disabled('disabled'),
+  auto('auto'),
+  ;
 
-extension AquaConfigurationStatusValueExtension on AquaConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case AquaConfigurationStatus.enabled:
-        return 'enabled';
-      case AquaConfigurationStatus.disabled:
-        return 'disabled';
-      case AquaConfigurationStatus.auto:
-        return 'auto';
-    }
-  }
-}
+  final String value;
 
-extension AquaConfigurationStatusFromString on String {
-  AquaConfigurationStatus toAquaConfigurationStatus() {
-    switch (this) {
-      case 'enabled':
-        return AquaConfigurationStatus.enabled;
-      case 'disabled':
-        return AquaConfigurationStatus.disabled;
-      case 'auto':
-        return AquaConfigurationStatus.auto;
-    }
-    throw Exception('$this is not known in enum AquaConfigurationStatus');
-  }
+  const AquaConfigurationStatus(this.value);
+
+  static AquaConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AquaConfigurationStatus'));
 }
 
 enum AquaStatus {
-  enabled,
-  disabled,
-  applying,
-}
+  enabled('enabled'),
+  disabled('disabled'),
+  applying('applying'),
+  ;
 
-extension AquaStatusValueExtension on AquaStatus {
-  String toValue() {
-    switch (this) {
-      case AquaStatus.enabled:
-        return 'enabled';
-      case AquaStatus.disabled:
-        return 'disabled';
-      case AquaStatus.applying:
-        return 'applying';
-    }
-  }
-}
+  final String value;
 
-extension AquaStatusFromString on String {
-  AquaStatus toAquaStatus() {
-    switch (this) {
-      case 'enabled':
-        return AquaStatus.enabled;
-      case 'disabled':
-        return AquaStatus.disabled;
-      case 'applying':
-        return AquaStatus.applying;
-    }
-    throw Exception('$this is not known in enum AquaStatus');
-  }
+  const AquaStatus(this.value);
+
+  static AquaStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AquaStatus'));
 }
 
 /// Contains information about the custom domain name association.
@@ -9456,31 +9405,18 @@ class AuthenticationProfile {
 }
 
 enum AuthorizationStatus {
-  authorized,
-  revoking,
-}
+  authorized('Authorized'),
+  revoking('Revoking'),
+  ;
 
-extension AuthorizationStatusValueExtension on AuthorizationStatus {
-  String toValue() {
-    switch (this) {
-      case AuthorizationStatus.authorized:
-        return 'Authorized';
-      case AuthorizationStatus.revoking:
-        return 'Revoking';
-    }
-  }
-}
+  final String value;
 
-extension AuthorizationStatusFromString on String {
-  AuthorizationStatus toAuthorizationStatus() {
-    switch (this) {
-      case 'Authorized':
-        return AuthorizationStatus.authorized;
-      case 'Revoking':
-        return AuthorizationStatus.revoking;
-    }
-    throw Exception('$this is not known in enum AuthorizationStatus');
-  }
+  const AuthorizationStatus(this.value);
+
+  static AuthorizationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthorizationStatus'));
 }
 
 class AuthorizeClusterSecurityGroupIngressResult {
@@ -10225,7 +10161,7 @@ class Cluster {
           _s.extractXmlStringValue(elem, 'SnapshotScheduleIdentifier'),
       snapshotScheduleState: _s
           .extractXmlStringValue(elem, 'SnapshotScheduleState')
-          ?.toScheduleState(),
+          ?.let(ScheduleState.fromString) /* Nullability(true, true) */,
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -10396,7 +10332,7 @@ class Cluster {
       if (snapshotScheduleIdentifier != null)
         'SnapshotScheduleIdentifier': snapshotScheduleIdentifier,
       if (snapshotScheduleState != null)
-        'SnapshotScheduleState': snapshotScheduleState.toValue(),
+        'SnapshotScheduleState': snapshotScheduleState.value,
       if (tags != null) 'Tags': tags,
       if (totalStorageCapacityInMegaBytes != null)
         'TotalStorageCapacityInMegaBytes': totalStorageCapacityInMegaBytes,
@@ -10423,7 +10359,7 @@ class ClusterAssociatedToSchedule {
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
       scheduleAssociationState: _s
           .extractXmlStringValue(elem, 'ScheduleAssociationState')
-          ?.toScheduleState(),
+          ?.let(ScheduleState.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -10433,7 +10369,7 @@ class ClusterAssociatedToSchedule {
     return {
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (scheduleAssociationState != null)
-        'ScheduleAssociationState': scheduleAssociationState.toValue(),
+        'ScheduleAssociationState': scheduleAssociationState.value,
     };
   }
 }
@@ -11878,7 +11814,9 @@ class DataShareAssociation {
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
       producerAllowedWrites:
           _s.extractXmlBoolValue(elem, 'ProducerAllowedWrites'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toDataShareStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(DataShareStatus.fromString) /* Nullability(true, true) */,
       statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
     );
   }
@@ -11899,7 +11837,7 @@ class DataShareAssociation {
       if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
       if (producerAllowedWrites != null)
         'ProducerAllowedWrites': producerAllowedWrites,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusChangeDate != null)
         'StatusChangeDate': iso8601ToJson(statusChangeDate),
     };
@@ -11907,124 +11845,55 @@ class DataShareAssociation {
 }
 
 enum DataShareStatus {
-  active,
-  pendingAuthorization,
-  authorized,
-  deauthorized,
-  rejected,
-  available,
-}
+  active('ACTIVE'),
+  pendingAuthorization('PENDING_AUTHORIZATION'),
+  authorized('AUTHORIZED'),
+  deauthorized('DEAUTHORIZED'),
+  rejected('REJECTED'),
+  available('AVAILABLE'),
+  ;
 
-extension DataShareStatusValueExtension on DataShareStatus {
-  String toValue() {
-    switch (this) {
-      case DataShareStatus.active:
-        return 'ACTIVE';
-      case DataShareStatus.pendingAuthorization:
-        return 'PENDING_AUTHORIZATION';
-      case DataShareStatus.authorized:
-        return 'AUTHORIZED';
-      case DataShareStatus.deauthorized:
-        return 'DEAUTHORIZED';
-      case DataShareStatus.rejected:
-        return 'REJECTED';
-      case DataShareStatus.available:
-        return 'AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension DataShareStatusFromString on String {
-  DataShareStatus toDataShareStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DataShareStatus.active;
-      case 'PENDING_AUTHORIZATION':
-        return DataShareStatus.pendingAuthorization;
-      case 'AUTHORIZED':
-        return DataShareStatus.authorized;
-      case 'DEAUTHORIZED':
-        return DataShareStatus.deauthorized;
-      case 'REJECTED':
-        return DataShareStatus.rejected;
-      case 'AVAILABLE':
-        return DataShareStatus.available;
-    }
-    throw Exception('$this is not known in enum DataShareStatus');
-  }
+  const DataShareStatus(this.value);
+
+  static DataShareStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataShareStatus'));
 }
 
 enum DataShareStatusForConsumer {
-  active,
-  available,
-}
+  active('ACTIVE'),
+  available('AVAILABLE'),
+  ;
 
-extension DataShareStatusForConsumerValueExtension
-    on DataShareStatusForConsumer {
-  String toValue() {
-    switch (this) {
-      case DataShareStatusForConsumer.active:
-        return 'ACTIVE';
-      case DataShareStatusForConsumer.available:
-        return 'AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension DataShareStatusForConsumerFromString on String {
-  DataShareStatusForConsumer toDataShareStatusForConsumer() {
-    switch (this) {
-      case 'ACTIVE':
-        return DataShareStatusForConsumer.active;
-      case 'AVAILABLE':
-        return DataShareStatusForConsumer.available;
-    }
-    throw Exception('$this is not known in enum DataShareStatusForConsumer');
-  }
+  const DataShareStatusForConsumer(this.value);
+
+  static DataShareStatusForConsumer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataShareStatusForConsumer'));
 }
 
 enum DataShareStatusForProducer {
-  active,
-  authorized,
-  pendingAuthorization,
-  deauthorized,
-  rejected,
-}
+  active('ACTIVE'),
+  authorized('AUTHORIZED'),
+  pendingAuthorization('PENDING_AUTHORIZATION'),
+  deauthorized('DEAUTHORIZED'),
+  rejected('REJECTED'),
+  ;
 
-extension DataShareStatusForProducerValueExtension
-    on DataShareStatusForProducer {
-  String toValue() {
-    switch (this) {
-      case DataShareStatusForProducer.active:
-        return 'ACTIVE';
-      case DataShareStatusForProducer.authorized:
-        return 'AUTHORIZED';
-      case DataShareStatusForProducer.pendingAuthorization:
-        return 'PENDING_AUTHORIZATION';
-      case DataShareStatusForProducer.deauthorized:
-        return 'DEAUTHORIZED';
-      case DataShareStatusForProducer.rejected:
-        return 'REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension DataShareStatusForProducerFromString on String {
-  DataShareStatusForProducer toDataShareStatusForProducer() {
-    switch (this) {
-      case 'ACTIVE':
-        return DataShareStatusForProducer.active;
-      case 'AUTHORIZED':
-        return DataShareStatusForProducer.authorized;
-      case 'PENDING_AUTHORIZATION':
-        return DataShareStatusForProducer.pendingAuthorization;
-      case 'DEAUTHORIZED':
-        return DataShareStatusForProducer.deauthorized;
-      case 'REJECTED':
-        return DataShareStatusForProducer.rejected;
-    }
-    throw Exception('$this is not known in enum DataShareStatusForProducer');
-  }
+  const DataShareStatusForProducer(this.value);
+
+  static DataShareStatusForProducer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataShareStatusForProducer'));
 }
 
 /// Describes the status of a cluster while it is in the process of resizing
@@ -12915,7 +12784,9 @@ class EndpointAuthorization {
       endpointCount: _s.extractXmlIntValue(elem, 'EndpointCount'),
       grantee: _s.extractXmlStringValue(elem, 'Grantee'),
       grantor: _s.extractXmlStringValue(elem, 'Grantor'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toAuthorizationStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(AuthorizationStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -12938,7 +12809,7 @@ class EndpointAuthorization {
       if (endpointCount != null) 'EndpointCount': endpointCount,
       if (grantee != null) 'Grantee': grantee,
       if (grantor != null) 'Grantor': grantor,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -13026,7 +12897,9 @@ class Event {
       message: _s.extractXmlStringValue(elem, 'Message'),
       severity: _s.extractXmlStringValue(elem, 'Severity'),
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -13045,7 +12918,7 @@ class Event {
       if (message != null) 'Message': message,
       if (severity != null) 'Severity': severity,
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -13750,36 +13623,19 @@ class IPRange {
 }
 
 enum ImpactRankingType {
-  high,
-  medium,
-  low,
-}
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  ;
 
-extension ImpactRankingTypeValueExtension on ImpactRankingType {
-  String toValue() {
-    switch (this) {
-      case ImpactRankingType.high:
-        return 'HIGH';
-      case ImpactRankingType.medium:
-        return 'MEDIUM';
-      case ImpactRankingType.low:
-        return 'LOW';
-    }
-  }
-}
+  final String value;
 
-extension ImpactRankingTypeFromString on String {
-  ImpactRankingType toImpactRankingType() {
-    switch (this) {
-      case 'HIGH':
-        return ImpactRankingType.high;
-      case 'MEDIUM':
-        return ImpactRankingType.medium;
-      case 'LOW':
-        return ImpactRankingType.low;
-    }
-    throw Exception('$this is not known in enum ImpactRankingType');
-  }
+  const ImpactRankingType(this.value);
+
+  static ImpactRankingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImpactRankingType'));
 }
 
 /// The content of an inbound integration.
@@ -13820,9 +13676,8 @@ class InboundIntegration {
           .toList()),
       integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toZeroETLIntegrationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          ZeroETLIntegrationStatus.fromString) /* Nullability(true, true) */,
       targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
     );
   }
@@ -13839,7 +13694,7 @@ class InboundIntegration {
       if (errors != null) 'Errors': errors,
       if (integrationArn != null) 'IntegrationArn': integrationArn,
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (targetArn != null) 'TargetArn': targetArn,
     };
   }
@@ -13924,21 +13779,21 @@ class LakeFormationQuery {
     return LakeFormationQuery(
       authorization: _s
           .extractXmlStringValue(elem, 'Authorization')!
-          .toServiceAuthorization(),
+          .let(ServiceAuthorization.fromString) /* Nullability(true, false) */,
     );
   }
 
   Map<String, dynamic> toJson() {
     final authorization = this.authorization;
     return {
-      'Authorization': authorization.toValue(),
+      'Authorization': authorization.value,
     };
   }
 
   Map<String, String> toQueryMap() {
     final authorization = this.authorization;
     return {
-      'Authorization': authorization.toValue(),
+      'Authorization': authorization.value,
     };
   }
 }
@@ -14013,31 +13868,18 @@ class ListRecommendationsResult {
 }
 
 enum LogDestinationType {
-  s3,
-  cloudwatch,
-}
+  s3('s3'),
+  cloudwatch('cloudwatch'),
+  ;
 
-extension LogDestinationTypeValueExtension on LogDestinationType {
-  String toValue() {
-    switch (this) {
-      case LogDestinationType.s3:
-        return 's3';
-      case LogDestinationType.cloudwatch:
-        return 'cloudwatch';
-    }
-  }
-}
+  final String value;
 
-extension LogDestinationTypeFromString on String {
-  LogDestinationType toLogDestinationType() {
-    switch (this) {
-      case 's3':
-        return LogDestinationType.s3;
-      case 'cloudwatch':
-        return LogDestinationType.cloudwatch;
-    }
-    throw Exception('$this is not known in enum LogDestinationType');
-  }
+  const LogDestinationType(this.value);
+
+  static LogDestinationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LogDestinationType'));
 }
 
 /// Describes the status of logging for a cluster.
@@ -14088,7 +13930,7 @@ class LoggingStatus {
           _s.extractXmlDateTimeValue(elem, 'LastSuccessfulDeliveryTime'),
       logDestinationType: _s
           .extractXmlStringValue(elem, 'LogDestinationType')
-          ?.toLogDestinationType(),
+          ?.let(LogDestinationType.fromString) /* Nullability(true, true) */,
       logExports: _s
           .extractXmlChild(elem, 'LogExports')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -14114,7 +13956,7 @@ class LoggingStatus {
       if (lastSuccessfulDeliveryTime != null)
         'LastSuccessfulDeliveryTime': iso8601ToJson(lastSuccessfulDeliveryTime),
       if (logDestinationType != null)
-        'LogDestinationType': logDestinationType.toValue(),
+        'LogDestinationType': logDestinationType.value,
       if (logExports != null) 'LogExports': logExports,
       if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
       if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
@@ -14169,31 +14011,17 @@ class MaintenanceTrack {
 }
 
 enum Mode {
-  standard,
-  highPerformance,
-}
+  standard('standard'),
+  highPerformance('high-performance'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.standard:
-        return 'standard';
-      case Mode.highPerformance:
-        return 'high-performance';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'standard':
-        return Mode.standard;
-      case 'high-performance':
-        return Mode.highPerformance;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 class ModifyAquaOutputMessage {
@@ -14563,7 +14391,9 @@ class NodeConfigurationOption {
     return NodeConfigurationOption(
       estimatedDiskUtilizationPercent:
           _s.extractXmlDoubleValue(elem, 'EstimatedDiskUtilizationPercent'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.toMode(),
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(Mode.fromString) /* Nullability(true, true) */,
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
       numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
     );
@@ -14578,7 +14408,7 @@ class NodeConfigurationOption {
     return {
       if (estimatedDiskUtilizationPercent != null)
         'EstimatedDiskUtilizationPercent': estimatedDiskUtilizationPercent,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (nodeType != null) 'NodeType': nodeType,
       if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
     };
@@ -14613,8 +14443,8 @@ class NodeConfigurationOptionsFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
-      if (operator != null) 'Operator': operator.toValue(),
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
       if (values != null) 'Value': values,
     };
   }
@@ -14624,8 +14454,8 @@ class NodeConfigurationOptionsFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
-      if (operator != null) 'Operator': operator.toValue(),
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
       if (values != null)
         if (values.isEmpty)
           'Value': ''
@@ -14637,44 +14467,20 @@ class NodeConfigurationOptionsFilter {
 }
 
 enum NodeConfigurationOptionsFilterName {
-  nodeType,
-  numberOfNodes,
-  estimatedDiskUtilizationPercent,
-  mode,
-}
+  nodeType('NodeType'),
+  numberOfNodes('NumberOfNodes'),
+  estimatedDiskUtilizationPercent('EstimatedDiskUtilizationPercent'),
+  mode('Mode'),
+  ;
 
-extension NodeConfigurationOptionsFilterNameValueExtension
-    on NodeConfigurationOptionsFilterName {
-  String toValue() {
-    switch (this) {
-      case NodeConfigurationOptionsFilterName.nodeType:
-        return 'NodeType';
-      case NodeConfigurationOptionsFilterName.numberOfNodes:
-        return 'NumberOfNodes';
-      case NodeConfigurationOptionsFilterName.estimatedDiskUtilizationPercent:
-        return 'EstimatedDiskUtilizationPercent';
-      case NodeConfigurationOptionsFilterName.mode:
-        return 'Mode';
-    }
-  }
-}
+  final String value;
 
-extension NodeConfigurationOptionsFilterNameFromString on String {
-  NodeConfigurationOptionsFilterName toNodeConfigurationOptionsFilterName() {
-    switch (this) {
-      case 'NodeType':
-        return NodeConfigurationOptionsFilterName.nodeType;
-      case 'NumberOfNodes':
-        return NodeConfigurationOptionsFilterName.numberOfNodes;
-      case 'EstimatedDiskUtilizationPercent':
-        return NodeConfigurationOptionsFilterName
-            .estimatedDiskUtilizationPercent;
-      case 'Mode':
-        return NodeConfigurationOptionsFilterName.mode;
-    }
-    throw Exception(
-        '$this is not known in enum NodeConfigurationOptionsFilterName');
-  }
+  const NodeConfigurationOptionsFilterName(this.value);
+
+  static NodeConfigurationOptionsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NodeConfigurationOptionsFilterName'));
 }
 
 class NodeConfigurationOptionsMessage {
@@ -14717,56 +14523,23 @@ class NodeConfigurationOptionsMessage {
 }
 
 enum OperatorType {
-  eq,
-  lt,
-  gt,
-  le,
-  ge,
-  $in,
-  between,
-}
+  eq('eq'),
+  lt('lt'),
+  gt('gt'),
+  le('le'),
+  ge('ge'),
+  $in('in'),
+  between('between'),
+  ;
 
-extension OperatorTypeValueExtension on OperatorType {
-  String toValue() {
-    switch (this) {
-      case OperatorType.eq:
-        return 'eq';
-      case OperatorType.lt:
-        return 'lt';
-      case OperatorType.gt:
-        return 'gt';
-      case OperatorType.le:
-        return 'le';
-      case OperatorType.ge:
-        return 'ge';
-      case OperatorType.$in:
-        return 'in';
-      case OperatorType.between:
-        return 'between';
-    }
-  }
-}
+  final String value;
 
-extension OperatorTypeFromString on String {
-  OperatorType toOperatorType() {
-    switch (this) {
-      case 'eq':
-        return OperatorType.eq;
-      case 'lt':
-        return OperatorType.lt;
-      case 'gt':
-        return OperatorType.gt;
-      case 'le':
-        return OperatorType.le;
-      case 'ge':
-        return OperatorType.ge;
-      case 'in':
-        return OperatorType.$in;
-      case 'between':
-        return OperatorType.between;
-    }
-    throw Exception('$this is not known in enum OperatorType');
-  }
+  const OperatorType(this.value);
+
+  static OperatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperatorType'));
 }
 
 /// Describes an orderable cluster option.
@@ -14909,8 +14682,9 @@ class Parameter {
   factory Parameter.fromXml(_s.XmlElement elem) {
     return Parameter(
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      applyType:
-          _s.extractXmlStringValue(elem, 'ApplyType')?.toParameterApplyType(),
+      applyType: _s
+          .extractXmlStringValue(elem, 'ApplyType')
+          ?.let(ParameterApplyType.fromString) /* Nullability(true, true) */,
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
@@ -14934,7 +14708,7 @@ class Parameter {
     final source = this.source;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyType != null) 'ApplyType': applyType.toValue(),
+      if (applyType != null) 'ApplyType': applyType.value,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
       if (isModifiable != null) 'IsModifiable': isModifiable,
@@ -14958,7 +14732,7 @@ class Parameter {
     final source = this.source;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyType != null) 'ApplyType': applyType.toValue(),
+      if (applyType != null) 'ApplyType': applyType.value,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
       if (isModifiable != null) 'IsModifiable': isModifiable.toString(),
@@ -14972,31 +14746,18 @@ class Parameter {
 }
 
 enum ParameterApplyType {
-  static,
-  $dynamic,
-}
+  static('static'),
+  $dynamic('dynamic'),
+  ;
 
-extension ParameterApplyTypeValueExtension on ParameterApplyType {
-  String toValue() {
-    switch (this) {
-      case ParameterApplyType.static:
-        return 'static';
-      case ParameterApplyType.$dynamic:
-        return 'dynamic';
-    }
-  }
-}
+  final String value;
 
-extension ParameterApplyTypeFromString on String {
-  ParameterApplyType toParameterApplyType() {
-    switch (this) {
-      case 'static':
-        return ParameterApplyType.static;
-      case 'dynamic':
-        return ParameterApplyType.$dynamic;
-    }
-    throw Exception('$this is not known in enum ParameterApplyType');
-  }
+  const ParameterApplyType(this.value);
+
+  static ParameterApplyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ParameterApplyType'));
 }
 
 /// Describes a partner integration.
@@ -15033,9 +14794,8 @@ class PartnerIntegrationInfo {
       createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
       databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
       partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toPartnerIntegrationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          PartnerIntegrationStatus.fromString) /* Nullability(true, true) */,
       statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
       updatedAt: _s.extractXmlDateTimeValue(elem, 'UpdatedAt'),
     );
@@ -15052,7 +14812,7 @@ class PartnerIntegrationInfo {
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (databaseName != null) 'DatabaseName': databaseName,
       if (partnerName != null) 'PartnerName': partnerName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
@@ -15088,41 +14848,20 @@ class PartnerIntegrationOutputMessage {
 }
 
 enum PartnerIntegrationStatus {
-  active,
-  inactive,
-  runtimeFailure,
-  connectionFailure,
-}
+  active('Active'),
+  inactive('Inactive'),
+  runtimeFailure('RuntimeFailure'),
+  connectionFailure('ConnectionFailure'),
+  ;
 
-extension PartnerIntegrationStatusValueExtension on PartnerIntegrationStatus {
-  String toValue() {
-    switch (this) {
-      case PartnerIntegrationStatus.active:
-        return 'Active';
-      case PartnerIntegrationStatus.inactive:
-        return 'Inactive';
-      case PartnerIntegrationStatus.runtimeFailure:
-        return 'RuntimeFailure';
-      case PartnerIntegrationStatus.connectionFailure:
-        return 'ConnectionFailure';
-    }
-  }
-}
+  final String value;
 
-extension PartnerIntegrationStatusFromString on String {
-  PartnerIntegrationStatus toPartnerIntegrationStatus() {
-    switch (this) {
-      case 'Active':
-        return PartnerIntegrationStatus.active;
-      case 'Inactive':
-        return PartnerIntegrationStatus.inactive;
-      case 'RuntimeFailure':
-        return PartnerIntegrationStatus.runtimeFailure;
-      case 'ConnectionFailure':
-        return PartnerIntegrationStatus.connectionFailure;
-    }
-    throw Exception('$this is not known in enum PartnerIntegrationStatus');
-  }
+  const PartnerIntegrationStatus(this.value);
+
+  static PartnerIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PartnerIntegrationStatus'));
 }
 
 /// Describes a pause cluster operation. For example, a scheduled action to run
@@ -15413,7 +15152,7 @@ class Recommendation {
       id: _s.extractXmlStringValue(elem, 'Id'),
       impactRanking: _s
           .extractXmlStringValue(elem, 'ImpactRanking')
-          ?.toImpactRankingType(),
+          ?.let(ImpactRankingType.fromString) /* Nullability(true, true) */,
       namespaceArn: _s.extractXmlStringValue(elem, 'NamespaceArn'),
       observation: _s.extractXmlStringValue(elem, 'Observation'),
       recommendationText: _s.extractXmlStringValue(elem, 'RecommendationText'),
@@ -15450,7 +15189,7 @@ class Recommendation {
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (impactRanking != null) 'ImpactRanking': impactRanking.toValue(),
+      if (impactRanking != null) 'ImpactRanking': impactRanking.value,
       if (namespaceArn != null) 'NamespaceArn': namespaceArn,
       if (observation != null) 'Observation': observation,
       if (recommendationText != null) 'RecommendationText': recommendationText,
@@ -15488,7 +15227,9 @@ class RecommendedAction {
       command: _s.extractXmlStringValue(elem, 'Command'),
       database: _s.extractXmlStringValue(elem, 'Database'),
       text: _s.extractXmlStringValue(elem, 'Text'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRecommendedActionType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(RecommendedActionType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -15501,37 +15242,24 @@ class RecommendedAction {
       if (command != null) 'Command': command,
       if (database != null) 'Database': database,
       if (text != null) 'Text': text,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum RecommendedActionType {
-  sql,
-  cli,
-}
+  sql('SQL'),
+  cli('CLI'),
+  ;
 
-extension RecommendedActionTypeValueExtension on RecommendedActionType {
-  String toValue() {
-    switch (this) {
-      case RecommendedActionType.sql:
-        return 'SQL';
-      case RecommendedActionType.cli:
-        return 'CLI';
-    }
-  }
-}
+  final String value;
 
-extension RecommendedActionTypeFromString on String {
-  RecommendedActionType toRecommendedActionType() {
-    switch (this) {
-      case 'SQL':
-        return RecommendedActionType.sql;
-      case 'CLI':
-        return RecommendedActionType.cli;
-    }
-    throw Exception('$this is not known in enum RecommendedActionType');
-  }
+  const RecommendedActionType(this.value);
+
+  static RecommendedActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendedActionType'));
 }
 
 /// Describes a recurring charge.
@@ -15808,7 +15536,8 @@ class ReservedNode {
           _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
       reservedNodeOfferingType: _s
           .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.toReservedNodeOfferingType(),
+          ?.let(ReservedNodeOfferingType
+              .fromString) /* Nullability(true, true) */,
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       state: _s.extractXmlStringValue(elem, 'State'),
       usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
@@ -15841,7 +15570,7 @@ class ReservedNode {
       if (reservedNodeOfferingId != null)
         'ReservedNodeOfferingId': reservedNodeOfferingId,
       if (reservedNodeOfferingType != null)
-        'ReservedNodeOfferingType': reservedNodeOfferingType.toValue(),
+        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
       if (state != null) 'State': state,
       if (usagePrice != null) 'UsagePrice': usagePrice,
@@ -15891,33 +15620,18 @@ class ReservedNodeConfigurationOption {
 }
 
 enum ReservedNodeExchangeActionType {
-  restoreCluster,
-  resizeCluster,
-}
+  restoreCluster('restore-cluster'),
+  resizeCluster('resize-cluster'),
+  ;
 
-extension ReservedNodeExchangeActionTypeValueExtension
-    on ReservedNodeExchangeActionType {
-  String toValue() {
-    switch (this) {
-      case ReservedNodeExchangeActionType.restoreCluster:
-        return 'restore-cluster';
-      case ReservedNodeExchangeActionType.resizeCluster:
-        return 'resize-cluster';
-    }
-  }
-}
+  final String value;
 
-extension ReservedNodeExchangeActionTypeFromString on String {
-  ReservedNodeExchangeActionType toReservedNodeExchangeActionType() {
-    switch (this) {
-      case 'restore-cluster':
-        return ReservedNodeExchangeActionType.restoreCluster;
-      case 'resize-cluster':
-        return ReservedNodeExchangeActionType.resizeCluster;
-    }
-    throw Exception(
-        '$this is not known in enum ReservedNodeExchangeActionType');
-  }
+  const ReservedNodeExchangeActionType(this.value);
+
+  static ReservedNodeExchangeActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReservedNodeExchangeActionType'));
 }
 
 /// Reserved-node status details, such as the source reserved-node identifier,
@@ -15974,9 +15688,9 @@ class ReservedNodeExchangeStatus {
           _s.extractXmlStringValue(elem, 'SourceReservedNodeId'),
       sourceReservedNodeType:
           _s.extractXmlStringValue(elem, 'SourceReservedNodeType'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toReservedNodeExchangeStatusType(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          ReservedNodeExchangeStatusType
+              .fromString) /* Nullability(true, true) */,
       targetReservedNodeCount:
           _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
       targetReservedNodeOfferingId:
@@ -16006,7 +15720,7 @@ class ReservedNodeExchangeStatus {
         'SourceReservedNodeId': sourceReservedNodeId,
       if (sourceReservedNodeType != null)
         'SourceReservedNodeType': sourceReservedNodeType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (targetReservedNodeCount != null)
         'TargetReservedNodeCount': targetReservedNodeCount,
       if (targetReservedNodeOfferingId != null)
@@ -16018,53 +15732,22 @@ class ReservedNodeExchangeStatus {
 }
 
 enum ReservedNodeExchangeStatusType {
-  requested,
-  pending,
-  inProgress,
-  retrying,
-  succeeded,
-  failed,
-}
+  requested('REQUESTED'),
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  retrying('RETRYING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension ReservedNodeExchangeStatusTypeValueExtension
-    on ReservedNodeExchangeStatusType {
-  String toValue() {
-    switch (this) {
-      case ReservedNodeExchangeStatusType.requested:
-        return 'REQUESTED';
-      case ReservedNodeExchangeStatusType.pending:
-        return 'PENDING';
-      case ReservedNodeExchangeStatusType.inProgress:
-        return 'IN_PROGRESS';
-      case ReservedNodeExchangeStatusType.retrying:
-        return 'RETRYING';
-      case ReservedNodeExchangeStatusType.succeeded:
-        return 'SUCCEEDED';
-      case ReservedNodeExchangeStatusType.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReservedNodeExchangeStatusTypeFromString on String {
-  ReservedNodeExchangeStatusType toReservedNodeExchangeStatusType() {
-    switch (this) {
-      case 'REQUESTED':
-        return ReservedNodeExchangeStatusType.requested;
-      case 'PENDING':
-        return ReservedNodeExchangeStatusType.pending;
-      case 'IN_PROGRESS':
-        return ReservedNodeExchangeStatusType.inProgress;
-      case 'RETRYING':
-        return ReservedNodeExchangeStatusType.retrying;
-      case 'SUCCEEDED':
-        return ReservedNodeExchangeStatusType.succeeded;
-      case 'FAILED':
-        return ReservedNodeExchangeStatusType.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ReservedNodeExchangeStatusType');
-  }
+  const ReservedNodeExchangeStatusType(this.value);
+
+  static ReservedNodeExchangeStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReservedNodeExchangeStatusType'));
 }
 
 /// Describes a reserved node offering.
@@ -16128,7 +15811,8 @@ class ReservedNodeOffering {
           _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
       reservedNodeOfferingType: _s
           .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.toReservedNodeOfferingType(),
+          ?.let(ReservedNodeOfferingType
+              .fromString) /* Nullability(true, true) */,
       usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
     );
   }
@@ -16153,38 +15837,25 @@ class ReservedNodeOffering {
       if (reservedNodeOfferingId != null)
         'ReservedNodeOfferingId': reservedNodeOfferingId,
       if (reservedNodeOfferingType != null)
-        'ReservedNodeOfferingType': reservedNodeOfferingType.toValue(),
+        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
       if (usagePrice != null) 'UsagePrice': usagePrice,
     };
   }
 }
 
 enum ReservedNodeOfferingType {
-  regular,
-  upgradable,
-}
+  regular('Regular'),
+  upgradable('Upgradable'),
+  ;
 
-extension ReservedNodeOfferingTypeValueExtension on ReservedNodeOfferingType {
-  String toValue() {
-    switch (this) {
-      case ReservedNodeOfferingType.regular:
-        return 'Regular';
-      case ReservedNodeOfferingType.upgradable:
-        return 'Upgradable';
-    }
-  }
-}
+  final String value;
 
-extension ReservedNodeOfferingTypeFromString on String {
-  ReservedNodeOfferingType toReservedNodeOfferingType() {
-    switch (this) {
-      case 'Regular':
-        return ReservedNodeOfferingType.regular;
-      case 'Upgradable':
-        return ReservedNodeOfferingType.upgradable;
-    }
-    throw Exception('$this is not known in enum ReservedNodeOfferingType');
-  }
+  const ReservedNodeOfferingType(this.value);
+
+  static ReservedNodeOfferingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReservedNodeOfferingType'));
 }
 
 /// <p/>
@@ -16889,36 +16560,19 @@ class RotateEncryptionKeyResult {
 }
 
 enum ScheduleState {
-  modifying,
-  active,
-  failed,
-}
+  modifying('MODIFYING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension ScheduleStateValueExtension on ScheduleState {
-  String toValue() {
-    switch (this) {
-      case ScheduleState.modifying:
-        return 'MODIFYING';
-      case ScheduleState.active:
-        return 'ACTIVE';
-      case ScheduleState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ScheduleStateFromString on String {
-  ScheduleState toScheduleState() {
-    switch (this) {
-      case 'MODIFYING':
-        return ScheduleState.modifying;
-      case 'ACTIVE':
-        return ScheduleState.active;
-      case 'FAILED':
-        return ScheduleState.failed;
-    }
-    throw Exception('$this is not known in enum ScheduleState');
-  }
+  const ScheduleState(this.value);
+
+  static ScheduleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScheduleState'));
 }
 
 /// Describes a scheduled action. You can use a scheduled action to trigger some
@@ -16999,7 +16653,9 @@ class ScheduledAction {
       scheduledActionName:
           _s.extractXmlStringValue(elem, 'ScheduledActionName'),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      state: _s.extractXmlStringValue(elem, 'State')?.toScheduledActionState(),
+      state: _s
+          .extractXmlStringValue(elem, 'State')
+          ?.let(ScheduledActionState.fromString) /* Nullability(true, true) */,
       targetAction: _s
           .extractXmlChild(elem, 'TargetAction')
           ?.let(ScheduledActionType.fromXml),
@@ -17027,7 +16683,7 @@ class ScheduledAction {
       if (scheduledActionName != null)
         'ScheduledActionName': scheduledActionName,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (targetAction != null) 'TargetAction': targetAction,
     };
   }
@@ -17051,7 +16707,7 @@ class ScheduledActionFilter {
     final name = this.name;
     final values = this.values;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Values': values,
     };
   }
@@ -17060,7 +16716,7 @@ class ScheduledActionFilter {
     final name = this.name;
     final values = this.values;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       if (values.isEmpty)
         'item': ''
       else
@@ -17071,59 +16727,33 @@ class ScheduledActionFilter {
 }
 
 enum ScheduledActionFilterName {
-  clusterIdentifier,
-  iamRole,
-}
+  clusterIdentifier('cluster-identifier'),
+  iamRole('iam-role'),
+  ;
 
-extension ScheduledActionFilterNameValueExtension on ScheduledActionFilterName {
-  String toValue() {
-    switch (this) {
-      case ScheduledActionFilterName.clusterIdentifier:
-        return 'cluster-identifier';
-      case ScheduledActionFilterName.iamRole:
-        return 'iam-role';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledActionFilterNameFromString on String {
-  ScheduledActionFilterName toScheduledActionFilterName() {
-    switch (this) {
-      case 'cluster-identifier':
-        return ScheduledActionFilterName.clusterIdentifier;
-      case 'iam-role':
-        return ScheduledActionFilterName.iamRole;
-    }
-    throw Exception('$this is not known in enum ScheduledActionFilterName');
-  }
+  const ScheduledActionFilterName(this.value);
+
+  static ScheduledActionFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScheduledActionFilterName'));
 }
 
 enum ScheduledActionState {
-  active,
-  disabled,
-}
+  active('ACTIVE'),
+  disabled('DISABLED'),
+  ;
 
-extension ScheduledActionStateValueExtension on ScheduledActionState {
-  String toValue() {
-    switch (this) {
-      case ScheduledActionState.active:
-        return 'ACTIVE';
-      case ScheduledActionState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledActionStateFromString on String {
-  ScheduledActionState toScheduledActionState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ScheduledActionState.active;
-      case 'DISABLED':
-        return ScheduledActionState.disabled;
-    }
-    throw Exception('$this is not known in enum ScheduledActionState');
-  }
+  const ScheduledActionState(this.value);
+
+  static ScheduledActionState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScheduledActionState'));
 }
 
 /// The action type that specifies an Amazon Redshift API operation that is
@@ -17187,36 +16817,19 @@ class ScheduledActionType {
 }
 
 enum ScheduledActionTypeValues {
-  resizeCluster,
-  pauseCluster,
-  resumeCluster,
-}
+  resizeCluster('ResizeCluster'),
+  pauseCluster('PauseCluster'),
+  resumeCluster('ResumeCluster'),
+  ;
 
-extension ScheduledActionTypeValuesValueExtension on ScheduledActionTypeValues {
-  String toValue() {
-    switch (this) {
-      case ScheduledActionTypeValues.resizeCluster:
-        return 'ResizeCluster';
-      case ScheduledActionTypeValues.pauseCluster:
-        return 'PauseCluster';
-      case ScheduledActionTypeValues.resumeCluster:
-        return 'ResumeCluster';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledActionTypeValuesFromString on String {
-  ScheduledActionTypeValues toScheduledActionTypeValues() {
-    switch (this) {
-      case 'ResizeCluster':
-        return ScheduledActionTypeValues.resizeCluster;
-      case 'PauseCluster':
-        return ScheduledActionTypeValues.pauseCluster;
-      case 'ResumeCluster':
-        return ScheduledActionTypeValues.resumeCluster;
-    }
-    throw Exception('$this is not known in enum ScheduledActionTypeValues');
-  }
+  const ScheduledActionTypeValues(this.value);
+
+  static ScheduledActionTypeValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScheduledActionTypeValues'));
 }
 
 class ScheduledActionsMessage {
@@ -17289,31 +16902,18 @@ class SecondaryClusterInfo {
 }
 
 enum ServiceAuthorization {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension ServiceAuthorizationValueExtension on ServiceAuthorization {
-  String toValue() {
-    switch (this) {
-      case ServiceAuthorization.enabled:
-        return 'Enabled';
-      case ServiceAuthorization.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension ServiceAuthorizationFromString on String {
-  ServiceAuthorization toServiceAuthorization() {
-    switch (this) {
-      case 'Enabled':
-        return ServiceAuthorization.enabled;
-      case 'Disabled':
-        return ServiceAuthorization.disabled;
-    }
-    throw Exception('$this is not known in enum ServiceAuthorization');
-  }
+  const ServiceAuthorization(this.value);
+
+  static ServiceAuthorization fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ServiceAuthorization'));
 }
 
 /// A list of service integrations.
@@ -17714,36 +17314,19 @@ class Snapshot {
 }
 
 enum SnapshotAttributeToSortBy {
-  sourceType,
-  totalSize,
-  createTime,
-}
+  sourceType('SOURCE_TYPE'),
+  totalSize('TOTAL_SIZE'),
+  createTime('CREATE_TIME'),
+  ;
 
-extension SnapshotAttributeToSortByValueExtension on SnapshotAttributeToSortBy {
-  String toValue() {
-    switch (this) {
-      case SnapshotAttributeToSortBy.sourceType:
-        return 'SOURCE_TYPE';
-      case SnapshotAttributeToSortBy.totalSize:
-        return 'TOTAL_SIZE';
-      case SnapshotAttributeToSortBy.createTime:
-        return 'CREATE_TIME';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotAttributeToSortByFromString on String {
-  SnapshotAttributeToSortBy toSnapshotAttributeToSortBy() {
-    switch (this) {
-      case 'SOURCE_TYPE':
-        return SnapshotAttributeToSortBy.sourceType;
-      case 'TOTAL_SIZE':
-        return SnapshotAttributeToSortBy.totalSize;
-      case 'CREATE_TIME':
-        return SnapshotAttributeToSortBy.createTime;
-    }
-    throw Exception('$this is not known in enum SnapshotAttributeToSortBy');
-  }
+  const SnapshotAttributeToSortBy(this.value);
+
+  static SnapshotAttributeToSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SnapshotAttributeToSortBy'));
 }
 
 /// The snapshot copy grant that grants Amazon Redshift permission to encrypt
@@ -18013,8 +17596,8 @@ class SnapshotSortingEntity {
     final attribute = this.attribute;
     final sortOrder = this.sortOrder;
     return {
-      'Attribute': attribute.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      'Attribute': attribute.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 
@@ -18022,81 +17605,41 @@ class SnapshotSortingEntity {
     final attribute = this.attribute;
     final sortOrder = this.sortOrder;
     return {
-      'Attribute': attribute.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      'Attribute': attribute.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortByOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortByOrderValueExtension on SortByOrder {
-  String toValue() {
-    switch (this) {
-      case SortByOrder.asc:
-        return 'ASC';
-      case SortByOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortByOrderFromString on String {
-  SortByOrder toSortByOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortByOrder.asc;
-      case 'DESC':
-        return SortByOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortByOrder');
-  }
+  const SortByOrder(this.value);
+
+  static SortByOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortByOrder'));
 }
 
 enum SourceType {
-  cluster,
-  clusterParameterGroup,
-  clusterSecurityGroup,
-  clusterSnapshot,
-  scheduledAction,
-}
+  cluster('cluster'),
+  clusterParameterGroup('cluster-parameter-group'),
+  clusterSecurityGroup('cluster-security-group'),
+  clusterSnapshot('cluster-snapshot'),
+  scheduledAction('scheduled-action'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.cluster:
-        return 'cluster';
-      case SourceType.clusterParameterGroup:
-        return 'cluster-parameter-group';
-      case SourceType.clusterSecurityGroup:
-        return 'cluster-security-group';
-      case SourceType.clusterSnapshot:
-        return 'cluster-snapshot';
-      case SourceType.scheduledAction:
-        return 'scheduled-action';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'cluster':
-        return SourceType.cluster;
-      case 'cluster-parameter-group':
-        return SourceType.clusterParameterGroup;
-      case 'cluster-security-group':
-        return SourceType.clusterSecurityGroup;
-      case 'cluster-snapshot':
-        return SourceType.clusterSnapshot;
-      case 'scheduled-action':
-        return SourceType.scheduledAction;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 /// Describes a subnet.
@@ -18260,8 +17803,8 @@ class TableRestoreStatus {
       sourceDatabaseName: _s.extractXmlStringValue(elem, 'SourceDatabaseName'),
       sourceSchemaName: _s.extractXmlStringValue(elem, 'SourceSchemaName'),
       sourceTableName: _s.extractXmlStringValue(elem, 'SourceTableName'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toTableRestoreStatusType(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          TableRestoreStatusType.fromString) /* Nullability(true, true) */,
       tableRestoreRequestId:
           _s.extractXmlStringValue(elem, 'TableRestoreRequestId'),
       targetDatabaseName: _s.extractXmlStringValue(elem, 'TargetDatabaseName'),
@@ -18296,7 +17839,7 @@ class TableRestoreStatus {
       if (sourceDatabaseName != null) 'SourceDatabaseName': sourceDatabaseName,
       if (sourceSchemaName != null) 'SourceSchemaName': sourceSchemaName,
       if (sourceTableName != null) 'SourceTableName': sourceTableName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tableRestoreRequestId != null)
         'TableRestoreRequestId': tableRestoreRequestId,
       if (targetDatabaseName != null) 'TargetDatabaseName': targetDatabaseName,
@@ -18344,46 +17887,21 @@ class TableRestoreStatusMessage {
 }
 
 enum TableRestoreStatusType {
-  pending,
-  inProgress,
-  succeeded,
-  failed,
-  canceled,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  canceled('CANCELED'),
+  ;
 
-extension TableRestoreStatusTypeValueExtension on TableRestoreStatusType {
-  String toValue() {
-    switch (this) {
-      case TableRestoreStatusType.pending:
-        return 'PENDING';
-      case TableRestoreStatusType.inProgress:
-        return 'IN_PROGRESS';
-      case TableRestoreStatusType.succeeded:
-        return 'SUCCEEDED';
-      case TableRestoreStatusType.failed:
-        return 'FAILED';
-      case TableRestoreStatusType.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension TableRestoreStatusTypeFromString on String {
-  TableRestoreStatusType toTableRestoreStatusType() {
-    switch (this) {
-      case 'PENDING':
-        return TableRestoreStatusType.pending;
-      case 'IN_PROGRESS':
-        return TableRestoreStatusType.inProgress;
-      case 'SUCCEEDED':
-        return TableRestoreStatusType.succeeded;
-      case 'FAILED':
-        return TableRestoreStatusType.failed;
-      case 'CANCELED':
-        return TableRestoreStatusType.canceled;
-    }
-    throw Exception('$this is not known in enum TableRestoreStatusType');
-  }
+  const TableRestoreStatusType(this.value);
+
+  static TableRestoreStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TableRestoreStatusType'));
 }
 
 /// A tag consisting of a name/value pair for a resource.
@@ -18668,16 +18186,18 @@ class UsageLimit {
   factory UsageLimit.fromXml(_s.XmlElement elem) {
     return UsageLimit(
       amount: _s.extractXmlIntValue(elem, 'Amount'),
-      breachAction: _s
-          .extractXmlStringValue(elem, 'BreachAction')
-          ?.toUsageLimitBreachAction(),
+      breachAction: _s.extractXmlStringValue(elem, 'BreachAction')?.let(
+          UsageLimitBreachAction.fromString) /* Nullability(true, true) */,
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
       featureType: _s
           .extractXmlStringValue(elem, 'FeatureType')
-          ?.toUsageLimitFeatureType(),
-      limitType:
-          _s.extractXmlStringValue(elem, 'LimitType')?.toUsageLimitLimitType(),
-      period: _s.extractXmlStringValue(elem, 'Period')?.toUsageLimitPeriod(),
+          ?.let(UsageLimitFeatureType.fromString) /* Nullability(true, true) */,
+      limitType: _s
+          .extractXmlStringValue(elem, 'LimitType')
+          ?.let(UsageLimitLimitType.fromString) /* Nullability(true, true) */,
+      period: _s
+          .extractXmlStringValue(elem, 'Period')
+          ?.let(UsageLimitPeriod.fromString) /* Nullability(true, true) */,
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -18696,11 +18216,11 @@ class UsageLimit {
     final usageLimitId = this.usageLimitId;
     return {
       if (amount != null) 'Amount': amount,
-      if (breachAction != null) 'BreachAction': breachAction.toValue(),
+      if (breachAction != null) 'BreachAction': breachAction.value,
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (featureType != null) 'FeatureType': featureType.toValue(),
-      if (limitType != null) 'LimitType': limitType.toValue(),
-      if (period != null) 'Period': period.toValue(),
+      if (featureType != null) 'FeatureType': featureType.value,
+      if (limitType != null) 'LimitType': limitType.value,
+      if (period != null) 'Period': period.value,
       if (tags != null) 'Tags': tags,
       if (usageLimitId != null) 'UsageLimitId': usageLimitId,
     };
@@ -18708,97 +18228,50 @@ class UsageLimit {
 }
 
 enum UsageLimitBreachAction {
-  log,
-  emitMetric,
-  disable,
-}
+  log('log'),
+  emitMetric('emit-metric'),
+  disable('disable'),
+  ;
 
-extension UsageLimitBreachActionValueExtension on UsageLimitBreachAction {
-  String toValue() {
-    switch (this) {
-      case UsageLimitBreachAction.log:
-        return 'log';
-      case UsageLimitBreachAction.emitMetric:
-        return 'emit-metric';
-      case UsageLimitBreachAction.disable:
-        return 'disable';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitBreachActionFromString on String {
-  UsageLimitBreachAction toUsageLimitBreachAction() {
-    switch (this) {
-      case 'log':
-        return UsageLimitBreachAction.log;
-      case 'emit-metric':
-        return UsageLimitBreachAction.emitMetric;
-      case 'disable':
-        return UsageLimitBreachAction.disable;
-    }
-    throw Exception('$this is not known in enum UsageLimitBreachAction');
-  }
+  const UsageLimitBreachAction(this.value);
+
+  static UsageLimitBreachAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageLimitBreachAction'));
 }
 
 enum UsageLimitFeatureType {
-  spectrum,
-  concurrencyScaling,
-  crossRegionDatasharing,
-}
+  spectrum('spectrum'),
+  concurrencyScaling('concurrency-scaling'),
+  crossRegionDatasharing('cross-region-datasharing'),
+  ;
 
-extension UsageLimitFeatureTypeValueExtension on UsageLimitFeatureType {
-  String toValue() {
-    switch (this) {
-      case UsageLimitFeatureType.spectrum:
-        return 'spectrum';
-      case UsageLimitFeatureType.concurrencyScaling:
-        return 'concurrency-scaling';
-      case UsageLimitFeatureType.crossRegionDatasharing:
-        return 'cross-region-datasharing';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitFeatureTypeFromString on String {
-  UsageLimitFeatureType toUsageLimitFeatureType() {
-    switch (this) {
-      case 'spectrum':
-        return UsageLimitFeatureType.spectrum;
-      case 'concurrency-scaling':
-        return UsageLimitFeatureType.concurrencyScaling;
-      case 'cross-region-datasharing':
-        return UsageLimitFeatureType.crossRegionDatasharing;
-    }
-    throw Exception('$this is not known in enum UsageLimitFeatureType');
-  }
+  const UsageLimitFeatureType(this.value);
+
+  static UsageLimitFeatureType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UsageLimitFeatureType'));
 }
 
 enum UsageLimitLimitType {
-  time,
-  dataScanned,
-}
+  time('time'),
+  dataScanned('data-scanned'),
+  ;
 
-extension UsageLimitLimitTypeValueExtension on UsageLimitLimitType {
-  String toValue() {
-    switch (this) {
-      case UsageLimitLimitType.time:
-        return 'time';
-      case UsageLimitLimitType.dataScanned:
-        return 'data-scanned';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitLimitTypeFromString on String {
-  UsageLimitLimitType toUsageLimitLimitType() {
-    switch (this) {
-      case 'time':
-        return UsageLimitLimitType.time;
-      case 'data-scanned':
-        return UsageLimitLimitType.dataScanned;
-    }
-    throw Exception('$this is not known in enum UsageLimitLimitType');
-  }
+  const UsageLimitLimitType(this.value);
+
+  static UsageLimitLimitType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UsageLimitLimitType'));
 }
 
 class UsageLimitList {
@@ -18836,36 +18309,19 @@ class UsageLimitList {
 }
 
 enum UsageLimitPeriod {
-  daily,
-  weekly,
-  monthly,
-}
+  daily('daily'),
+  weekly('weekly'),
+  monthly('monthly'),
+  ;
 
-extension UsageLimitPeriodValueExtension on UsageLimitPeriod {
-  String toValue() {
-    switch (this) {
-      case UsageLimitPeriod.daily:
-        return 'daily';
-      case UsageLimitPeriod.weekly:
-        return 'weekly';
-      case UsageLimitPeriod.monthly:
-        return 'monthly';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitPeriodFromString on String {
-  UsageLimitPeriod toUsageLimitPeriod() {
-    switch (this) {
-      case 'daily':
-        return UsageLimitPeriod.daily;
-      case 'weekly':
-        return UsageLimitPeriod.weekly;
-      case 'monthly':
-        return UsageLimitPeriod.monthly;
-    }
-    throw Exception('$this is not known in enum UsageLimitPeriod');
-  }
+  const UsageLimitPeriod(this.value);
+
+  static UsageLimitPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UsageLimitPeriod'));
 }
 
 /// The connection endpoint for connecting to an Amazon Redshift cluster through
@@ -18941,56 +18397,23 @@ class VpcSecurityGroupMembership {
 }
 
 enum ZeroETLIntegrationStatus {
-  creating,
-  active,
-  modifying,
-  failed,
-  deleting,
-  syncing,
-  needsAttention,
-}
+  creating('creating'),
+  active('active'),
+  modifying('modifying'),
+  failed('failed'),
+  deleting('deleting'),
+  syncing('syncing'),
+  needsAttention('needs_attention'),
+  ;
 
-extension ZeroETLIntegrationStatusValueExtension on ZeroETLIntegrationStatus {
-  String toValue() {
-    switch (this) {
-      case ZeroETLIntegrationStatus.creating:
-        return 'creating';
-      case ZeroETLIntegrationStatus.active:
-        return 'active';
-      case ZeroETLIntegrationStatus.modifying:
-        return 'modifying';
-      case ZeroETLIntegrationStatus.failed:
-        return 'failed';
-      case ZeroETLIntegrationStatus.deleting:
-        return 'deleting';
-      case ZeroETLIntegrationStatus.syncing:
-        return 'syncing';
-      case ZeroETLIntegrationStatus.needsAttention:
-        return 'needs_attention';
-    }
-  }
-}
+  final String value;
 
-extension ZeroETLIntegrationStatusFromString on String {
-  ZeroETLIntegrationStatus toZeroETLIntegrationStatus() {
-    switch (this) {
-      case 'creating':
-        return ZeroETLIntegrationStatus.creating;
-      case 'active':
-        return ZeroETLIntegrationStatus.active;
-      case 'modifying':
-        return ZeroETLIntegrationStatus.modifying;
-      case 'failed':
-        return ZeroETLIntegrationStatus.failed;
-      case 'deleting':
-        return ZeroETLIntegrationStatus.deleting;
-      case 'syncing':
-        return ZeroETLIntegrationStatus.syncing;
-      case 'needs_attention':
-        return ZeroETLIntegrationStatus.needsAttention;
-    }
-    throw Exception('$this is not known in enum ZeroETLIntegrationStatus');
-  }
+  const ZeroETLIntegrationStatus(this.value);
+
+  static ZeroETLIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ZeroETLIntegrationStatus'));
 }
 
 class AccessToClusterDeniedFault extends _s.GenericAwsException {

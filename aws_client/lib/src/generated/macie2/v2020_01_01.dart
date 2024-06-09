@@ -324,7 +324,7 @@ class Macie2 {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'jobType': jobType.toValue(),
+      'jobType': jobType.value,
       'name': name,
       's3JobDefinition': s3JobDefinition,
       if (allowListIds != null) 'allowListIds': allowListIds,
@@ -336,8 +336,7 @@ class Macie2 {
       if (managedDataIdentifierIds != null)
         'managedDataIdentifierIds': managedDataIdentifierIds,
       if (managedDataIdentifierSelector != null)
-        'managedDataIdentifierSelector':
-            managedDataIdentifierSelector.toValue(),
+        'managedDataIdentifierSelector': managedDataIdentifierSelector.value,
       if (samplingPercentage != null) 'samplingPercentage': samplingPercentage,
       if (scheduleFrequency != null) 'scheduleFrequency': scheduleFrequency,
       if (tags != null) 'tags': tags,
@@ -529,7 +528,7 @@ class Macie2 {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'action': action.toValue(),
+      'action': action.value,
       'findingCriteria': findingCriteria,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -645,7 +644,7 @@ class Macie2 {
   }) async {
     final $payload = <String, dynamic>{
       if (findingTypes != null)
-        'findingTypes': findingTypes.map((e) => e.toValue()).toList(),
+        'findingTypes': findingTypes.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1057,8 +1056,8 @@ class Macie2 {
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
-      if (status != null) 'status': status.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1307,7 +1306,7 @@ class Macie2 {
     FindingStatisticsSortCriteria? sortCriteria,
   }) async {
     final $payload = <String, dynamic>{
-      'groupBy': groupBy.toValue(),
+      'groupBy': groupBy.value,
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
       if (size != null) 'size': size,
       if (sortCriteria != null) 'sortCriteria': sortCriteria,
@@ -1650,7 +1649,7 @@ class Macie2 {
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (sortBy != null) 'sortBy': sortBy,
-      if (timeRange != null) 'timeRange': timeRange.toValue(),
+      if (timeRange != null) 'timeRange': timeRange.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2521,7 +2520,7 @@ class Macie2 {
     required AutomatedDiscoveryStatus status,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2584,7 +2583,7 @@ class Macie2 {
     required JobStatus jobStatus,
   }) async {
     final $payload = <String, dynamic>{
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2684,7 +2683,7 @@ class Macie2 {
     int? position,
   }) async {
     final $payload = <String, dynamic>{
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
@@ -2726,8 +2725,8 @@ class Macie2 {
   }) async {
     final $payload = <String, dynamic>{
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
-      if (status != null) 'status': status.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2761,7 +2760,7 @@ class Macie2 {
     required MacieStatus status,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3075,7 +3074,7 @@ class AdminAccount {
   factory AdminAccount.fromJson(Map<String, dynamic> json) {
     return AdminAccount(
       accountId: json['accountId'] as String?,
-      status: (json['status'] as String?)?.toAdminStatus(),
+      status: (json['status'] as String?)?.let(AdminStatus.fromString),
     );
   }
 
@@ -3084,7 +3083,7 @@ class AdminAccount {
     final status = this.status;
     return {
       if (accountId != null) 'accountId': accountId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3092,31 +3091,17 @@ class AdminAccount {
 /// The current status of an account as the delegated Amazon Macie administrator
 /// account for an organization in Organizations. Possible values are:
 enum AdminStatus {
-  enabled,
-  disablingInProgress,
-}
+  enabled('ENABLED'),
+  disablingInProgress('DISABLING_IN_PROGRESS'),
+  ;
 
-extension AdminStatusValueExtension on AdminStatus {
-  String toValue() {
-    switch (this) {
-      case AdminStatus.enabled:
-        return 'ENABLED';
-      case AdminStatus.disablingInProgress:
-        return 'DISABLING_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension AdminStatusFromString on String {
-  AdminStatus toAdminStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return AdminStatus.enabled;
-      case 'DISABLING_IN_PROGRESS':
-        return AdminStatus.disablingInProgress;
-    }
-    throw Exception('$this is not known in enum AdminStatus');
-  }
+  const AdminStatus(this.value);
+
+  static AdminStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AdminStatus'));
 }
 
 /// Specifies the criteria for an allow list. The criteria must specify a
@@ -3225,7 +3210,7 @@ class AllowListStatus {
 
   factory AllowListStatus.fromJson(Map<String, dynamic> json) {
     return AllowListStatus(
-      code: (json['code'] as String).toAllowListStatusCode(),
+      code: AllowListStatusCode.fromString((json['code'] as String)),
       description: json['description'] as String?,
     );
   }
@@ -3234,7 +3219,7 @@ class AllowListStatus {
     final code = this.code;
     final description = this.description;
     return {
-      'code': code.toValue(),
+      'code': code.value,
       if (description != null) 'description': description,
     };
   }
@@ -3243,61 +3228,24 @@ class AllowListStatus {
 /// Indicates the current status of an allow list. Depending on the type of
 /// criteria that the list specifies, possible values are:
 enum AllowListStatusCode {
-  ok,
-  s3ObjectNotFound,
-  s3UserAccessDenied,
-  s3ObjectAccessDenied,
-  s3Throttled,
-  s3ObjectOversize,
-  s3ObjectEmpty,
-  unknownError,
-}
+  ok('OK'),
+  s3ObjectNotFound('S3_OBJECT_NOT_FOUND'),
+  s3UserAccessDenied('S3_USER_ACCESS_DENIED'),
+  s3ObjectAccessDenied('S3_OBJECT_ACCESS_DENIED'),
+  s3Throttled('S3_THROTTLED'),
+  s3ObjectOversize('S3_OBJECT_OVERSIZE'),
+  s3ObjectEmpty('S3_OBJECT_EMPTY'),
+  unknownError('UNKNOWN_ERROR'),
+  ;
 
-extension AllowListStatusCodeValueExtension on AllowListStatusCode {
-  String toValue() {
-    switch (this) {
-      case AllowListStatusCode.ok:
-        return 'OK';
-      case AllowListStatusCode.s3ObjectNotFound:
-        return 'S3_OBJECT_NOT_FOUND';
-      case AllowListStatusCode.s3UserAccessDenied:
-        return 'S3_USER_ACCESS_DENIED';
-      case AllowListStatusCode.s3ObjectAccessDenied:
-        return 'S3_OBJECT_ACCESS_DENIED';
-      case AllowListStatusCode.s3Throttled:
-        return 'S3_THROTTLED';
-      case AllowListStatusCode.s3ObjectOversize:
-        return 'S3_OBJECT_OVERSIZE';
-      case AllowListStatusCode.s3ObjectEmpty:
-        return 'S3_OBJECT_EMPTY';
-      case AllowListStatusCode.unknownError:
-        return 'UNKNOWN_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension AllowListStatusCodeFromString on String {
-  AllowListStatusCode toAllowListStatusCode() {
-    switch (this) {
-      case 'OK':
-        return AllowListStatusCode.ok;
-      case 'S3_OBJECT_NOT_FOUND':
-        return AllowListStatusCode.s3ObjectNotFound;
-      case 'S3_USER_ACCESS_DENIED':
-        return AllowListStatusCode.s3UserAccessDenied;
-      case 'S3_OBJECT_ACCESS_DENIED':
-        return AllowListStatusCode.s3ObjectAccessDenied;
-      case 'S3_THROTTLED':
-        return AllowListStatusCode.s3Throttled;
-      case 'S3_OBJECT_OVERSIZE':
-        return AllowListStatusCode.s3ObjectOversize;
-      case 'S3_OBJECT_EMPTY':
-        return AllowListStatusCode.s3ObjectEmpty;
-      case 'UNKNOWN_ERROR':
-        return AllowListStatusCode.unknownError;
-    }
-    throw Exception('$this is not known in enum AllowListStatusCode');
-  }
+  const AllowListStatusCode(this.value);
+
+  static AllowListStatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AllowListStatusCode'));
 }
 
 /// Provides a subset of information about an allow list.
@@ -3361,38 +3309,19 @@ class AllowListSummary {
 }
 
 enum AllowsUnencryptedObjectUploads {
-  $true,
-  $false,
-  unknown,
-}
+  $true('TRUE'),
+  $false('FALSE'),
+  unknown('UNKNOWN'),
+  ;
 
-extension AllowsUnencryptedObjectUploadsValueExtension
-    on AllowsUnencryptedObjectUploads {
-  String toValue() {
-    switch (this) {
-      case AllowsUnencryptedObjectUploads.$true:
-        return 'TRUE';
-      case AllowsUnencryptedObjectUploads.$false:
-        return 'FALSE';
-      case AllowsUnencryptedObjectUploads.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension AllowsUnencryptedObjectUploadsFromString on String {
-  AllowsUnencryptedObjectUploads toAllowsUnencryptedObjectUploads() {
-    switch (this) {
-      case 'TRUE':
-        return AllowsUnencryptedObjectUploads.$true;
-      case 'FALSE':
-        return AllowsUnencryptedObjectUploads.$false;
-      case 'UNKNOWN':
-        return AllowsUnencryptedObjectUploads.unknown;
-    }
-    throw Exception(
-        '$this is not known in enum AllowsUnencryptedObjectUploads');
-  }
+  const AllowsUnencryptedObjectUploads(this.value);
+
+  static AllowsUnencryptedObjectUploads fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AllowsUnencryptedObjectUploads'));
 }
 
 /// Provides information about an API operation that an entity invoked for an
@@ -3507,61 +3436,35 @@ class AssumedRole {
 /// The status of the automated sensitive data discovery configuration for an
 /// Amazon Macie account. Valid values are:
 enum AutomatedDiscoveryStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AutomatedDiscoveryStatusValueExtension on AutomatedDiscoveryStatus {
-  String toValue() {
-    switch (this) {
-      case AutomatedDiscoveryStatus.enabled:
-        return 'ENABLED';
-      case AutomatedDiscoveryStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AutomatedDiscoveryStatusFromString on String {
-  AutomatedDiscoveryStatus toAutomatedDiscoveryStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return AutomatedDiscoveryStatus.enabled;
-      case 'DISABLED':
-        return AutomatedDiscoveryStatus.disabled;
-    }
-    throw Exception('$this is not known in enum AutomatedDiscoveryStatus');
-  }
+  const AutomatedDiscoveryStatus(this.value);
+
+  static AutomatedDiscoveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomatedDiscoveryStatus'));
 }
 
 /// Specifies whether occurrences of sensitive data can be retrieved for a
 /// finding. Possible values are:
 enum AvailabilityCode {
-  available,
-  unavailable,
-}
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension AvailabilityCodeValueExtension on AvailabilityCode {
-  String toValue() {
-    switch (this) {
-      case AvailabilityCode.available:
-        return 'AVAILABLE';
-      case AvailabilityCode.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension AvailabilityCodeFromString on String {
-  AvailabilityCode toAvailabilityCode() {
-    switch (this) {
-      case 'AVAILABLE':
-        return AvailabilityCode.available;
-      case 'UNAVAILABLE':
-        return AvailabilityCode.unavailable;
-    }
-    throw Exception('$this is not known in enum AvailabilityCode');
-  }
+  const AvailabilityCode(this.value);
+
+  static AvailabilityCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AvailabilityCode'));
 }
 
 /// Provides information about an Amazon Web Services account and entity that
@@ -4333,13 +4236,14 @@ class BucketMetadata {
       accountId: json['accountId'] as String?,
       allowsUnencryptedObjectUploads:
           (json['allowsUnencryptedObjectUploads'] as String?)
-              ?.toAllowsUnencryptedObjectUploads(),
+              ?.let(AllowsUnencryptedObjectUploads.fromString),
       bucketArn: json['bucketArn'] as String?,
       bucketCreatedAt: timeStampFromJson(json['bucketCreatedAt']),
       bucketName: json['bucketName'] as String?,
       classifiableObjectCount: json['classifiableObjectCount'] as int?,
       classifiableSizeInBytes: json['classifiableSizeInBytes'] as int?,
-      errorCode: (json['errorCode'] as String?)?.toBucketMetadataErrorCode(),
+      errorCode: (json['errorCode'] as String?)
+          ?.let(BucketMetadataErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
       jobDetails: json['jobDetails'] != null
           ? JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>)
@@ -4366,7 +4270,8 @@ class BucketMetadata {
           ? BucketServerSideEncryption.fromJson(
               json['serverSideEncryption'] as Map<String, dynamic>)
           : null,
-      sharedAccess: (json['sharedAccess'] as String?)?.toSharedAccess(),
+      sharedAccess:
+          (json['sharedAccess'] as String?)?.let(SharedAccess.fromString),
       sizeInBytes: json['sizeInBytes'] as int?,
       sizeInBytesCompressed: json['sizeInBytesCompressed'] as int?,
       tags: (json['tags'] as List?)
@@ -4418,8 +4323,7 @@ class BucketMetadata {
     return {
       if (accountId != null) 'accountId': accountId,
       if (allowsUnencryptedObjectUploads != null)
-        'allowsUnencryptedObjectUploads':
-            allowsUnencryptedObjectUploads.toValue(),
+        'allowsUnencryptedObjectUploads': allowsUnencryptedObjectUploads.value,
       if (bucketArn != null) 'bucketArn': bucketArn,
       if (bucketCreatedAt != null)
         'bucketCreatedAt': iso8601ToJson(bucketCreatedAt),
@@ -4428,7 +4332,7 @@ class BucketMetadata {
         'classifiableObjectCount': classifiableObjectCount,
       if (classifiableSizeInBytes != null)
         'classifiableSizeInBytes': classifiableSizeInBytes,
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (jobDetails != null) 'jobDetails': jobDetails,
       if (lastAutomatedDiscoveryTime != null)
@@ -4443,7 +4347,7 @@ class BucketMetadata {
       if (sensitivityScore != null) 'sensitivityScore': sensitivityScore,
       if (serverSideEncryption != null)
         'serverSideEncryption': serverSideEncryption,
-      if (sharedAccess != null) 'sharedAccess': sharedAccess.toValue(),
+      if (sharedAccess != null) 'sharedAccess': sharedAccess.value,
       if (sizeInBytes != null) 'sizeInBytes': sizeInBytes,
       if (sizeInBytesCompressed != null)
         'sizeInBytesCompressed': sizeInBytesCompressed,
@@ -4461,26 +4365,17 @@ class BucketMetadata {
 /// processing metadata from Amazon S3 for an S3 bucket and the bucket's
 /// objects.
 enum BucketMetadataErrorCode {
-  accessDenied,
-}
+  accessDenied('ACCESS_DENIED'),
+  ;
 
-extension BucketMetadataErrorCodeValueExtension on BucketMetadataErrorCode {
-  String toValue() {
-    switch (this) {
-      case BucketMetadataErrorCode.accessDenied:
-        return 'ACCESS_DENIED';
-    }
-  }
-}
+  final String value;
 
-extension BucketMetadataErrorCodeFromString on String {
-  BucketMetadataErrorCode toBucketMetadataErrorCode() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return BucketMetadataErrorCode.accessDenied;
-    }
-    throw Exception('$this is not known in enum BucketMetadataErrorCode');
-  }
+  const BucketMetadataErrorCode(this.value);
+
+  static BucketMetadataErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BucketMetadataErrorCode'));
 }
 
 /// Provides information about the account-level and bucket-level permissions
@@ -4587,8 +4482,8 @@ class BucketPublicAccess {
 
   factory BucketPublicAccess.fromJson(Map<String, dynamic> json) {
     return BucketPublicAccess(
-      effectivePermission:
-          (json['effectivePermission'] as String?)?.toEffectivePermission(),
+      effectivePermission: (json['effectivePermission'] as String?)
+          ?.let(EffectivePermission.fromString),
       permissionConfiguration: json['permissionConfiguration'] != null
           ? BucketPermissionConfiguration.fromJson(
               json['permissionConfiguration'] as Map<String, dynamic>)
@@ -4601,7 +4496,7 @@ class BucketPublicAccess {
     final permissionConfiguration = this.permissionConfiguration;
     return {
       if (effectivePermission != null)
-        'effectivePermission': effectivePermission.toValue(),
+        'effectivePermission': effectivePermission.value,
       if (permissionConfiguration != null)
         'permissionConfiguration': permissionConfiguration,
     };
@@ -4653,7 +4548,7 @@ class BucketServerSideEncryption {
   factory BucketServerSideEncryption.fromJson(Map<String, dynamic> json) {
     return BucketServerSideEncryption(
       kmsMasterKeyId: json['kmsMasterKeyId'] as String?,
-      type: (json['type'] as String?)?.toType(),
+      type: (json['type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -4662,7 +4557,7 @@ class BucketServerSideEncryption {
     final type = this.type;
     return {
       if (kmsMasterKeyId != null) 'kmsMasterKeyId': kmsMasterKeyId,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4691,7 +4586,7 @@ class BucketSortCriteria {
     final orderBy = this.orderBy;
     return {
       if (attributeName != null) 'attributeName': attributeName,
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -4851,7 +4746,7 @@ class ClassificationDetails {
       detailedResultsLocation: json['detailedResultsLocation'] as String?,
       jobArn: json['jobArn'] as String?,
       jobId: json['jobId'] as String?,
-      originType: (json['originType'] as String?)?.toOriginType(),
+      originType: (json['originType'] as String?)?.let(OriginType.fromString),
       result: json['result'] != null
           ? ClassificationResult.fromJson(
               json['result'] as Map<String, dynamic>)
@@ -4870,7 +4765,7 @@ class ClassificationDetails {
         'detailedResultsLocation': detailedResultsLocation,
       if (jobArn != null) 'jobArn': jobArn,
       if (jobId != null) 'jobId': jobId,
-      if (originType != null) 'originType': originType.toValue(),
+      if (originType != null) 'originType': originType.value,
       if (result != null) 'result': result,
     };
   }
@@ -5180,38 +5075,19 @@ class ClassificationScopeSummary {
 /// Specifies how to apply changes to the S3 bucket exclusion list defined by
 /// the classification scope for an Amazon Macie account. Valid values are:
 enum ClassificationScopeUpdateOperation {
-  add,
-  replace,
-  remove,
-}
+  add('ADD'),
+  replace('REPLACE'),
+  remove('REMOVE'),
+  ;
 
-extension ClassificationScopeUpdateOperationValueExtension
-    on ClassificationScopeUpdateOperation {
-  String toValue() {
-    switch (this) {
-      case ClassificationScopeUpdateOperation.add:
-        return 'ADD';
-      case ClassificationScopeUpdateOperation.replace:
-        return 'REPLACE';
-      case ClassificationScopeUpdateOperation.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension ClassificationScopeUpdateOperationFromString on String {
-  ClassificationScopeUpdateOperation toClassificationScopeUpdateOperation() {
-    switch (this) {
-      case 'ADD':
-        return ClassificationScopeUpdateOperation.add;
-      case 'REPLACE':
-        return ClassificationScopeUpdateOperation.replace;
-      case 'REMOVE':
-        return ClassificationScopeUpdateOperation.remove;
-    }
-    throw Exception(
-        '$this is not known in enum ClassificationScopeUpdateOperation');
-  }
+  const ClassificationScopeUpdateOperation(this.value);
+
+  static ClassificationScopeUpdateOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClassificationScopeUpdateOperation'));
 }
 
 class CreateAllowListResponse {
@@ -5548,26 +5424,16 @@ class CriterionAdditionalProperties {
 /// The type of currency that the data for an Amazon Macie usage metric is
 /// reported in. Possible values are:
 enum Currency {
-  usd,
-}
+  usd('USD'),
+  ;
 
-extension CurrencyValueExtension on Currency {
-  String toValue() {
-    switch (this) {
-      case Currency.usd:
-        return 'USD';
-    }
-  }
-}
+  final String value;
 
-extension CurrencyFromString on String {
-  Currency toCurrency() {
-    switch (this) {
-      case 'USD':
-        return Currency.usd;
-    }
-    throw Exception('$this is not known in enum Currency');
-  }
+  const Currency(this.value);
+
+  static Currency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Currency'));
 }
 
 /// Provides information about a custom data identifier.
@@ -5727,119 +5593,55 @@ class DailySchedule {
 /// The severity of a finding, ranging from LOW, for least severe, to HIGH, for
 /// most severe. Valid values are:
 enum DataIdentifierSeverity {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension DataIdentifierSeverityValueExtension on DataIdentifierSeverity {
-  String toValue() {
-    switch (this) {
-      case DataIdentifierSeverity.low:
-        return 'LOW';
-      case DataIdentifierSeverity.medium:
-        return 'MEDIUM';
-      case DataIdentifierSeverity.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension DataIdentifierSeverityFromString on String {
-  DataIdentifierSeverity toDataIdentifierSeverity() {
-    switch (this) {
-      case 'LOW':
-        return DataIdentifierSeverity.low;
-      case 'MEDIUM':
-        return DataIdentifierSeverity.medium;
-      case 'HIGH':
-        return DataIdentifierSeverity.high;
-    }
-    throw Exception('$this is not known in enum DataIdentifierSeverity');
-  }
+  const DataIdentifierSeverity(this.value);
+
+  static DataIdentifierSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataIdentifierSeverity'));
 }
 
 /// The type of data identifier that detected a specific type of sensitive data
 /// in an S3 bucket. Possible values are:
 enum DataIdentifierType {
-  custom,
-  managed,
-}
+  custom('CUSTOM'),
+  managed('MANAGED'),
+  ;
 
-extension DataIdentifierTypeValueExtension on DataIdentifierType {
-  String toValue() {
-    switch (this) {
-      case DataIdentifierType.custom:
-        return 'CUSTOM';
-      case DataIdentifierType.managed:
-        return 'MANAGED';
-    }
-  }
-}
+  final String value;
 
-extension DataIdentifierTypeFromString on String {
-  DataIdentifierType toDataIdentifierType() {
-    switch (this) {
-      case 'CUSTOM':
-        return DataIdentifierType.custom;
-      case 'MANAGED':
-        return DataIdentifierType.managed;
-    }
-    throw Exception('$this is not known in enum DataIdentifierType');
-  }
+  const DataIdentifierType(this.value);
+
+  static DataIdentifierType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataIdentifierType'));
 }
 
 enum DayOfWeek {
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-}
+  sunday('SUNDAY'),
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 class DeclineInvitationsResponse {
@@ -6235,8 +6037,8 @@ class DescribeClassificationJobResponse {
       initialRun: json['initialRun'] as bool?,
       jobArn: json['jobArn'] as String?,
       jobId: json['jobId'] as String?,
-      jobStatus: (json['jobStatus'] as String?)?.toJobStatus(),
-      jobType: (json['jobType'] as String?)?.toJobType(),
+      jobStatus: (json['jobStatus'] as String?)?.let(JobStatus.fromString),
+      jobType: (json['jobType'] as String?)?.let(JobType.fromString),
       lastRunErrorStatus: json['lastRunErrorStatus'] != null
           ? LastRunErrorStatus.fromJson(
               json['lastRunErrorStatus'] as Map<String, dynamic>)
@@ -6248,7 +6050,7 @@ class DescribeClassificationJobResponse {
           .toList(),
       managedDataIdentifierSelector:
           (json['managedDataIdentifierSelector'] as String?)
-              ?.toManagedDataIdentifierSelector(),
+              ?.let(ManagedDataIdentifierSelector.fromString),
       name: json['name'] as String?,
       s3JobDefinition: json['s3JobDefinition'] != null
           ? S3JobDefinition.fromJson(
@@ -6303,15 +6105,14 @@ class DescribeClassificationJobResponse {
       if (initialRun != null) 'initialRun': initialRun,
       if (jobArn != null) 'jobArn': jobArn,
       if (jobId != null) 'jobId': jobId,
-      if (jobStatus != null) 'jobStatus': jobStatus.toValue(),
-      if (jobType != null) 'jobType': jobType.toValue(),
+      if (jobStatus != null) 'jobStatus': jobStatus.value,
+      if (jobType != null) 'jobType': jobType.value,
       if (lastRunErrorStatus != null) 'lastRunErrorStatus': lastRunErrorStatus,
       if (lastRunTime != null) 'lastRunTime': iso8601ToJson(lastRunTime),
       if (managedDataIdentifierIds != null)
         'managedDataIdentifierIds': managedDataIdentifierIds,
       if (managedDataIdentifierSelector != null)
-        'managedDataIdentifierSelector':
-            managedDataIdentifierSelector.toValue(),
+        'managedDataIdentifierSelector': managedDataIdentifierSelector.value,
       if (name != null) 'name': name,
       if (s3JobDefinition != null) 's3JobDefinition': s3JobDefinition,
       if (samplingPercentage != null) 'samplingPercentage': samplingPercentage,
@@ -6432,7 +6233,7 @@ class Detection {
       id: json['id'] as String?,
       name: json['name'] as String?,
       suppressed: json['suppressed'] as bool?,
-      type: (json['type'] as String?)?.toDataIdentifierType(),
+      type: (json['type'] as String?)?.let(DataIdentifierType.fromString),
     );
   }
 
@@ -6449,7 +6250,7 @@ class Detection {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (suppressed != null) 'suppressed': suppressed,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -6542,36 +6343,19 @@ class DomainDetails {
 }
 
 enum EffectivePermission {
-  public,
-  notPublic,
-  unknown,
-}
+  public('PUBLIC'),
+  notPublic('NOT_PUBLIC'),
+  unknown('UNKNOWN'),
+  ;
 
-extension EffectivePermissionValueExtension on EffectivePermission {
-  String toValue() {
-    switch (this) {
-      case EffectivePermission.public:
-        return 'PUBLIC';
-      case EffectivePermission.notPublic:
-        return 'NOT_PUBLIC';
-      case EffectivePermission.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension EffectivePermissionFromString on String {
-  EffectivePermission toEffectivePermission() {
-    switch (this) {
-      case 'PUBLIC':
-        return EffectivePermission.public;
-      case 'NOT_PUBLIC':
-        return EffectivePermission.notPublic;
-      case 'UNKNOWN':
-        return EffectivePermission.unknown;
-    }
-    throw Exception('$this is not known in enum EffectivePermission');
-  }
+  const EffectivePermission(this.value);
+
+  static EffectivePermission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EffectivePermission'));
 }
 
 class EnableMacieResponse {
@@ -6603,75 +6387,36 @@ class EnableOrganizationAdminAccountResponse {
 /// or is used by default to encrypt objects that are added to an S3 bucket.
 /// Possible values are:
 enum EncryptionType {
-  none,
-  aes256,
-  awsKms,
-  unknown,
-  awsKmsDsse,
-}
+  none('NONE'),
+  aes256('AES256'),
+  awsKms('aws:kms'),
+  unknown('UNKNOWN'),
+  awsKmsDsse('aws:kms:dsse'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.none:
-        return 'NONE';
-      case EncryptionType.aes256:
-        return 'AES256';
-      case EncryptionType.awsKms:
-        return 'aws:kms';
-      case EncryptionType.unknown:
-        return 'UNKNOWN';
-      case EncryptionType.awsKmsDsse:
-        return 'aws:kms:dsse';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'NONE':
-        return EncryptionType.none;
-      case 'AES256':
-        return EncryptionType.aes256;
-      case 'aws:kms':
-        return EncryptionType.awsKms;
-      case 'UNKNOWN':
-        return EncryptionType.unknown;
-      case 'aws:kms:dsse':
-        return EncryptionType.awsKmsDsse;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// The source of an issue or delay. Possible values are:
 enum ErrorCode {
-  clientError,
-  internalError,
-}
+  clientError('ClientError'),
+  internalError('InternalError'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.clientError:
-        return 'ClientError';
-      case ErrorCode.internalError:
-        return 'InternalError';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'ClientError':
-        return ErrorCode.clientError;
-      case 'InternalError':
-        return ErrorCode.internalError;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// Provides information about an identity that performed an action on an
@@ -6828,7 +6573,7 @@ class Finding {
     return Finding(
       accountId: json['accountId'] as String?,
       archived: json['archived'] as bool?,
-      category: (json['category'] as String?)?.toFindingCategory(),
+      category: (json['category'] as String?)?.let(FindingCategory.fromString),
       classificationDetails: json['classificationDetails'] != null
           ? ClassificationDetails.fromJson(
               json['classificationDetails'] as Map<String, dynamic>)
@@ -6853,7 +6598,7 @@ class Finding {
           ? Severity.fromJson(json['severity'] as Map<String, dynamic>)
           : null,
       title: json['title'] as String?,
-      type: (json['type'] as String?)?.toFindingType(),
+      type: (json['type'] as String?)?.let(FindingType.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -6880,7 +6625,7 @@ class Finding {
     return {
       if (accountId != null) 'accountId': accountId,
       if (archived != null) 'archived': archived,
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (classificationDetails != null)
         'classificationDetails': classificationDetails,
       if (count != null) 'count': count,
@@ -6895,7 +6640,7 @@ class Finding {
       if (schemaVersion != null) 'schemaVersion': schemaVersion,
       if (severity != null) 'severity': severity,
       if (title != null) 'title': title,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -6920,7 +6665,8 @@ class FindingAction {
 
   factory FindingAction.fromJson(Map<String, dynamic> json) {
     return FindingAction(
-      actionType: (json['actionType'] as String?)?.toFindingActionType(),
+      actionType:
+          (json['actionType'] as String?)?.let(FindingActionType.fromString),
       apiCallDetails: json['apiCallDetails'] != null
           ? ApiCallDetails.fromJson(
               json['apiCallDetails'] as Map<String, dynamic>)
@@ -6932,7 +6678,7 @@ class FindingAction {
     final actionType = this.actionType;
     final apiCallDetails = this.apiCallDetails;
     return {
-      if (actionType != null) 'actionType': actionType.toValue(),
+      if (actionType != null) 'actionType': actionType.value,
       if (apiCallDetails != null) 'apiCallDetails': apiCallDetails,
     };
   }
@@ -6941,26 +6687,17 @@ class FindingAction {
 /// The type of action that occurred for the resource and produced the policy
 /// finding:
 enum FindingActionType {
-  awsApiCall,
-}
+  awsApiCall('AWS_API_CALL'),
+  ;
 
-extension FindingActionTypeValueExtension on FindingActionType {
-  String toValue() {
-    switch (this) {
-      case FindingActionType.awsApiCall:
-        return 'AWS_API_CALL';
-    }
-  }
-}
+  final String value;
 
-extension FindingActionTypeFromString on String {
-  FindingActionType toFindingActionType() {
-    switch (this) {
-      case 'AWS_API_CALL':
-        return FindingActionType.awsApiCall;
-    }
-    throw Exception('$this is not known in enum FindingActionType');
-  }
+  const FindingActionType(this.value);
+
+  static FindingActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingActionType'));
 }
 
 /// Provides information about an entity that performed an action that produced
@@ -7015,31 +6752,18 @@ class FindingActor {
 
 /// The category of the finding. Possible values are:
 enum FindingCategory {
-  classification,
-  policy,
-}
+  classification('CLASSIFICATION'),
+  policy('POLICY'),
+  ;
 
-extension FindingCategoryValueExtension on FindingCategory {
-  String toValue() {
-    switch (this) {
-      case FindingCategory.classification:
-        return 'CLASSIFICATION';
-      case FindingCategory.policy:
-        return 'POLICY';
-    }
-  }
-}
+  final String value;
 
-extension FindingCategoryFromString on String {
-  FindingCategory toFindingCategory() {
-    switch (this) {
-      case 'CLASSIFICATION':
-        return FindingCategory.classification;
-      case 'POLICY':
-        return FindingCategory.policy;
-    }
-    throw Exception('$this is not known in enum FindingCategory');
-  }
+  const FindingCategory(this.value);
+
+  static FindingCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingCategory'));
 }
 
 /// Specifies, as a map, one or more property-based conditions that filter the
@@ -7079,68 +6803,35 @@ class FindingCriteria {
 /// and processing findings</a> in the <i>Amazon Macie User Guide</i>. Valid
 /// values are:
 enum FindingPublishingFrequency {
-  fifteenMinutes,
-  oneHour,
-  sixHours,
-}
+  fifteenMinutes('FIFTEEN_MINUTES'),
+  oneHour('ONE_HOUR'),
+  sixHours('SIX_HOURS'),
+  ;
 
-extension FindingPublishingFrequencyValueExtension
-    on FindingPublishingFrequency {
-  String toValue() {
-    switch (this) {
-      case FindingPublishingFrequency.fifteenMinutes:
-        return 'FIFTEEN_MINUTES';
-      case FindingPublishingFrequency.oneHour:
-        return 'ONE_HOUR';
-      case FindingPublishingFrequency.sixHours:
-        return 'SIX_HOURS';
-    }
-  }
-}
+  final String value;
 
-extension FindingPublishingFrequencyFromString on String {
-  FindingPublishingFrequency toFindingPublishingFrequency() {
-    switch (this) {
-      case 'FIFTEEN_MINUTES':
-        return FindingPublishingFrequency.fifteenMinutes;
-      case 'ONE_HOUR':
-        return FindingPublishingFrequency.oneHour;
-      case 'SIX_HOURS':
-        return FindingPublishingFrequency.sixHours;
-    }
-    throw Exception('$this is not known in enum FindingPublishingFrequency');
-  }
+  const FindingPublishingFrequency(this.value);
+
+  static FindingPublishingFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FindingPublishingFrequency'));
 }
 
 /// The grouping to sort the results by. Valid values are:
 enum FindingStatisticsSortAttributeName {
-  groupKey,
-  count,
-}
+  groupKey('groupKey'),
+  count('count'),
+  ;
 
-extension FindingStatisticsSortAttributeNameValueExtension
-    on FindingStatisticsSortAttributeName {
-  String toValue() {
-    switch (this) {
-      case FindingStatisticsSortAttributeName.groupKey:
-        return 'groupKey';
-      case FindingStatisticsSortAttributeName.count:
-        return 'count';
-    }
-  }
-}
+  final String value;
 
-extension FindingStatisticsSortAttributeNameFromString on String {
-  FindingStatisticsSortAttributeName toFindingStatisticsSortAttributeName() {
-    switch (this) {
-      case 'groupKey':
-        return FindingStatisticsSortAttributeName.groupKey;
-      case 'count':
-        return FindingStatisticsSortAttributeName.count;
-    }
-    throw Exception(
-        '$this is not known in enum FindingStatisticsSortAttributeName');
-  }
+  const FindingStatisticsSortAttributeName(this.value);
+
+  static FindingStatisticsSortAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FindingStatisticsSortAttributeName'));
 }
 
 /// Specifies criteria for sorting the results of a query that retrieves
@@ -7165,8 +6856,8 @@ class FindingStatisticsSortCriteria {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
     return {
-      if (attributeName != null) 'attributeName': attributeName.toValue(),
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (attributeName != null) 'attributeName': attributeName.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -7176,107 +6867,50 @@ class FindingStatisticsSortCriteria {
 /// of Amazon Macie findings</a> in the <i>Amazon Macie User Guide</i>. Possible
 /// values are:
 enum FindingType {
-  sensitiveDataS3ObjectMultiple,
-  sensitiveDataS3ObjectFinancial,
-  sensitiveDataS3ObjectPersonal,
-  sensitiveDataS3ObjectCredentials,
-  sensitiveDataS3ObjectCustomIdentifier,
-  policyIAMUserS3BucketPublic,
-  policyIAMUserS3BucketSharedExternally,
-  policyIAMUserS3BucketReplicatedExternally,
-  policyIAMUserS3BucketEncryptionDisabled,
-  policyIAMUserS3BlockPublicAccessDisabled,
-  policyIAMUserS3BucketSharedWithCloudFront,
-}
+  sensitiveDataS3ObjectMultiple('SensitiveData:S3Object/Multiple'),
+  sensitiveDataS3ObjectFinancial('SensitiveData:S3Object/Financial'),
+  sensitiveDataS3ObjectPersonal('SensitiveData:S3Object/Personal'),
+  sensitiveDataS3ObjectCredentials('SensitiveData:S3Object/Credentials'),
+  sensitiveDataS3ObjectCustomIdentifier(
+      'SensitiveData:S3Object/CustomIdentifier'),
+  policyIAMUserS3BucketPublic('Policy:IAMUser/S3BucketPublic'),
+  policyIAMUserS3BucketSharedExternally(
+      'Policy:IAMUser/S3BucketSharedExternally'),
+  policyIAMUserS3BucketReplicatedExternally(
+      'Policy:IAMUser/S3BucketReplicatedExternally'),
+  policyIAMUserS3BucketEncryptionDisabled(
+      'Policy:IAMUser/S3BucketEncryptionDisabled'),
+  policyIAMUserS3BlockPublicAccessDisabled(
+      'Policy:IAMUser/S3BlockPublicAccessDisabled'),
+  policyIAMUserS3BucketSharedWithCloudFront(
+      'Policy:IAMUser/S3BucketSharedWithCloudFront'),
+  ;
 
-extension FindingTypeValueExtension on FindingType {
-  String toValue() {
-    switch (this) {
-      case FindingType.sensitiveDataS3ObjectMultiple:
-        return 'SensitiveData:S3Object/Multiple';
-      case FindingType.sensitiveDataS3ObjectFinancial:
-        return 'SensitiveData:S3Object/Financial';
-      case FindingType.sensitiveDataS3ObjectPersonal:
-        return 'SensitiveData:S3Object/Personal';
-      case FindingType.sensitiveDataS3ObjectCredentials:
-        return 'SensitiveData:S3Object/Credentials';
-      case FindingType.sensitiveDataS3ObjectCustomIdentifier:
-        return 'SensitiveData:S3Object/CustomIdentifier';
-      case FindingType.policyIAMUserS3BucketPublic:
-        return 'Policy:IAMUser/S3BucketPublic';
-      case FindingType.policyIAMUserS3BucketSharedExternally:
-        return 'Policy:IAMUser/S3BucketSharedExternally';
-      case FindingType.policyIAMUserS3BucketReplicatedExternally:
-        return 'Policy:IAMUser/S3BucketReplicatedExternally';
-      case FindingType.policyIAMUserS3BucketEncryptionDisabled:
-        return 'Policy:IAMUser/S3BucketEncryptionDisabled';
-      case FindingType.policyIAMUserS3BlockPublicAccessDisabled:
-        return 'Policy:IAMUser/S3BlockPublicAccessDisabled';
-      case FindingType.policyIAMUserS3BucketSharedWithCloudFront:
-        return 'Policy:IAMUser/S3BucketSharedWithCloudFront';
-    }
-  }
-}
+  final String value;
 
-extension FindingTypeFromString on String {
-  FindingType toFindingType() {
-    switch (this) {
-      case 'SensitiveData:S3Object/Multiple':
-        return FindingType.sensitiveDataS3ObjectMultiple;
-      case 'SensitiveData:S3Object/Financial':
-        return FindingType.sensitiveDataS3ObjectFinancial;
-      case 'SensitiveData:S3Object/Personal':
-        return FindingType.sensitiveDataS3ObjectPersonal;
-      case 'SensitiveData:S3Object/Credentials':
-        return FindingType.sensitiveDataS3ObjectCredentials;
-      case 'SensitiveData:S3Object/CustomIdentifier':
-        return FindingType.sensitiveDataS3ObjectCustomIdentifier;
-      case 'Policy:IAMUser/S3BucketPublic':
-        return FindingType.policyIAMUserS3BucketPublic;
-      case 'Policy:IAMUser/S3BucketSharedExternally':
-        return FindingType.policyIAMUserS3BucketSharedExternally;
-      case 'Policy:IAMUser/S3BucketReplicatedExternally':
-        return FindingType.policyIAMUserS3BucketReplicatedExternally;
-      case 'Policy:IAMUser/S3BucketEncryptionDisabled':
-        return FindingType.policyIAMUserS3BucketEncryptionDisabled;
-      case 'Policy:IAMUser/S3BlockPublicAccessDisabled':
-        return FindingType.policyIAMUserS3BlockPublicAccessDisabled;
-      case 'Policy:IAMUser/S3BucketSharedWithCloudFront':
-        return FindingType.policyIAMUserS3BucketSharedWithCloudFront;
-    }
-    throw Exception('$this is not known in enum FindingType');
-  }
+  const FindingType(this.value);
+
+  static FindingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FindingType'));
 }
 
 /// The action to perform on findings that match the filter criteria. To
 /// suppress (automatically archive) findings that match the criteria, set this
 /// value to ARCHIVE. Valid values are:
 enum FindingsFilterAction {
-  archive,
-  noop,
-}
+  archive('ARCHIVE'),
+  noop('NOOP'),
+  ;
 
-extension FindingsFilterActionValueExtension on FindingsFilterAction {
-  String toValue() {
-    switch (this) {
-      case FindingsFilterAction.archive:
-        return 'ARCHIVE';
-      case FindingsFilterAction.noop:
-        return 'NOOP';
-    }
-  }
-}
+  final String value;
 
-extension FindingsFilterActionFromString on String {
-  FindingsFilterAction toFindingsFilterAction() {
-    switch (this) {
-      case 'ARCHIVE':
-        return FindingsFilterAction.archive;
-      case 'NOOP':
-        return FindingsFilterAction.noop;
-    }
-    throw Exception('$this is not known in enum FindingsFilterAction');
-  }
+  const FindingsFilterAction(this.value);
+
+  static FindingsFilterAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FindingsFilterAction'));
 }
 
 /// Provides information about a findings filter.
@@ -7309,7 +6943,7 @@ class FindingsFilterListItem {
 
   factory FindingsFilterListItem.fromJson(Map<String, dynamic> json) {
     return FindingsFilterListItem(
-      action: (json['action'] as String?)?.toFindingsFilterAction(),
+      action: (json['action'] as String?)?.let(FindingsFilterAction.fromString),
       arn: json['arn'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
@@ -7325,7 +6959,7 @@ class FindingsFilterListItem {
     final name = this.name;
     final tags = this.tags;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
@@ -7506,7 +7140,8 @@ class GetAutomatedDiscoveryConfigurationResponse {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       sensitivityInspectionTemplateId:
           json['sensitivityInspectionTemplateId'] as String?,
-      status: (json['status'] as String?)?.toAutomatedDiscoveryStatus(),
+      status:
+          (json['status'] as String?)?.let(AutomatedDiscoveryStatus.fromString),
     );
   }
 
@@ -7527,7 +7162,7 @@ class GetAutomatedDiscoveryConfigurationResponse {
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       if (sensitivityInspectionTemplateId != null)
         'sensitivityInspectionTemplateId': sensitivityInspectionTemplateId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7985,7 +7620,7 @@ class GetFindingsFilterResponse {
 
   factory GetFindingsFilterResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsFilterResponse(
-      action: (json['action'] as String?)?.toFindingsFilterAction(),
+      action: (json['action'] as String?)?.let(FindingsFilterAction.fromString),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       findingCriteria: json['findingCriteria'] != null
@@ -8010,7 +7645,7 @@ class GetFindingsFilterResponse {
     final position = this.position;
     final tags = this.tags;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (arn != null) 'arn': arn,
       if (description != null) 'description': description,
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
@@ -8137,9 +7772,9 @@ class GetMacieSessionResponse {
       createdAt: timeStampFromJson(json['createdAt']),
       findingPublishingFrequency:
           (json['findingPublishingFrequency'] as String?)
-              ?.toFindingPublishingFrequency(),
+              ?.let(FindingPublishingFrequency.fromString),
       serviceRole: json['serviceRole'] as String?,
-      status: (json['status'] as String?)?.toMacieStatus(),
+      status: (json['status'] as String?)?.let(MacieStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -8153,9 +7788,9 @@ class GetMacieSessionResponse {
     return {
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (findingPublishingFrequency != null)
-        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.value,
       if (serviceRole != null) 'serviceRole': serviceRole,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -8245,8 +7880,8 @@ class GetMemberResponse {
       email: json['email'] as String?,
       invitedAt: timeStampFromJson(json['invitedAt']),
       masterAccountId: json['masterAccountId'] as String?,
-      relationshipStatus:
-          (json['relationshipStatus'] as String?)?.toRelationshipStatus(),
+      relationshipStatus: (json['relationshipStatus'] as String?)
+          ?.let(RelationshipStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -8272,7 +7907,7 @@ class GetMemberResponse {
       if (invitedAt != null) 'invitedAt': iso8601ToJson(invitedAt),
       if (masterAccountId != null) 'masterAccountId': masterAccountId,
       if (relationshipStatus != null)
-        'relationshipStatus': relationshipStatus.toValue(),
+        'relationshipStatus': relationshipStatus.value,
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -8464,10 +8099,10 @@ class GetSensitiveDataOccurrencesAvailabilityResponse {
   factory GetSensitiveDataOccurrencesAvailabilityResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSensitiveDataOccurrencesAvailabilityResponse(
-      code: (json['code'] as String?)?.toAvailabilityCode(),
+      code: (json['code'] as String?)?.let(AvailabilityCode.fromString),
       reasons: (json['reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnavailabilityReasonCode())
+          .map((e) => UnavailabilityReasonCode.fromString((e as String)))
           .toList(),
     );
   }
@@ -8476,8 +8111,8 @@ class GetSensitiveDataOccurrencesAvailabilityResponse {
     final code = this.code;
     final reasons = this.reasons;
     return {
-      if (code != null) 'code': code.toValue(),
-      if (reasons != null) 'reasons': reasons.map((e) => e.toValue()).toList(),
+      if (code != null) 'code': code.value,
+      if (reasons != null) 'reasons': reasons.map((e) => e.value).toList(),
     };
   }
 }
@@ -8531,7 +8166,7 @@ class GetSensitiveDataOccurrencesResponse {
                   .map((e) =>
                       DetectedDataDetails.fromJson(e as Map<String, dynamic>))
                   .toList())),
-      status: (json['status'] as String?)?.toRevealRequestStatus(),
+      status: (json['status'] as String?)?.let(RevealRequestStatus.fromString),
     );
   }
 
@@ -8543,7 +8178,7 @@ class GetSensitiveDataOccurrencesResponse {
       if (error != null) 'error': error,
       if (sensitiveDataOccurrences != null)
         'sensitiveDataOccurrences': sensitiveDataOccurrences,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8638,7 +8273,7 @@ class GetUsageStatisticsResponse {
           ?.whereNotNull()
           .map((e) => UsageRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timeRange: (json['timeRange'] as String?)?.toTimeRange(),
+      timeRange: (json['timeRange'] as String?)?.let(TimeRange.fromString),
     );
   }
 
@@ -8649,7 +8284,7 @@ class GetUsageStatisticsResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (records != null) 'records': records,
-      if (timeRange != null) 'timeRange': timeRange.toValue(),
+      if (timeRange != null) 'timeRange': timeRange.value,
     };
   }
 }
@@ -8671,7 +8306,7 @@ class GetUsageTotalsResponse {
 
   factory GetUsageTotalsResponse.fromJson(Map<String, dynamic> json) {
     return GetUsageTotalsResponse(
-      timeRange: (json['timeRange'] as String?)?.toTimeRange(),
+      timeRange: (json['timeRange'] as String?)?.let(TimeRange.fromString),
       usageTotals: (json['usageTotals'] as List?)
           ?.whereNotNull()
           .map((e) => UsageTotal.fromJson(e as Map<String, dynamic>))
@@ -8683,48 +8318,26 @@ class GetUsageTotalsResponse {
     final timeRange = this.timeRange;
     final usageTotals = this.usageTotals;
     return {
-      if (timeRange != null) 'timeRange': timeRange.toValue(),
+      if (timeRange != null) 'timeRange': timeRange.value,
       if (usageTotals != null) 'usageTotals': usageTotals,
     };
   }
 }
 
 enum GroupBy {
-  resourcesAffectedS3BucketName,
-  type,
-  classificationDetailsJobId,
-  severityDescription,
-}
+  resourcesAffectedS3BucketName('resourcesAffected.s3Bucket.name'),
+  type('type'),
+  classificationDetailsJobId('classificationDetails.jobId'),
+  severityDescription('severity.description'),
+  ;
 
-extension GroupByValueExtension on GroupBy {
-  String toValue() {
-    switch (this) {
-      case GroupBy.resourcesAffectedS3BucketName:
-        return 'resourcesAffected.s3Bucket.name';
-      case GroupBy.type:
-        return 'type';
-      case GroupBy.classificationDetailsJobId:
-        return 'classificationDetails.jobId';
-      case GroupBy.severityDescription:
-        return 'severity.description';
-    }
-  }
-}
+  final String value;
 
-extension GroupByFromString on String {
-  GroupBy toGroupBy() {
-    switch (this) {
-      case 'resourcesAffected.s3Bucket.name':
-        return GroupBy.resourcesAffectedS3BucketName;
-      case 'type':
-        return GroupBy.type;
-      case 'classificationDetails.jobId':
-        return GroupBy.classificationDetailsJobId;
-      case 'severity.description':
-        return GroupBy.severityDescription;
-    }
-    throw Exception('$this is not known in enum GroupBy');
-  }
+  const GroupBy(this.value);
+
+  static GroupBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum GroupBy'));
 }
 
 /// Provides a group of results for a query that retrieved aggregated
@@ -8835,8 +8448,8 @@ class Invitation {
       accountId: json['accountId'] as String?,
       invitationId: json['invitationId'] as String?,
       invitedAt: timeStampFromJson(json['invitedAt']),
-      relationshipStatus:
-          (json['relationshipStatus'] as String?)?.toRelationshipStatus(),
+      relationshipStatus: (json['relationshipStatus'] as String?)
+          ?.let(RelationshipStatus.fromString),
     );
   }
 
@@ -8850,7 +8463,7 @@ class Invitation {
       if (invitationId != null) 'invitationId': invitationId,
       if (invitedAt != null) 'invitedAt': iso8601ToJson(invitedAt),
       if (relationshipStatus != null)
-        'relationshipStatus': relationshipStatus.toValue(),
+        'relationshipStatus': relationshipStatus.value,
     };
   }
 }
@@ -9049,129 +8662,58 @@ class IpOwner {
 }
 
 enum IsDefinedInJob {
-  $true,
-  $false,
-  unknown,
-}
+  $true('TRUE'),
+  $false('FALSE'),
+  unknown('UNKNOWN'),
+  ;
 
-extension IsDefinedInJobValueExtension on IsDefinedInJob {
-  String toValue() {
-    switch (this) {
-      case IsDefinedInJob.$true:
-        return 'TRUE';
-      case IsDefinedInJob.$false:
-        return 'FALSE';
-      case IsDefinedInJob.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension IsDefinedInJobFromString on String {
-  IsDefinedInJob toIsDefinedInJob() {
-    switch (this) {
-      case 'TRUE':
-        return IsDefinedInJob.$true;
-      case 'FALSE':
-        return IsDefinedInJob.$false;
-      case 'UNKNOWN':
-        return IsDefinedInJob.unknown;
-    }
-    throw Exception('$this is not known in enum IsDefinedInJob');
-  }
+  const IsDefinedInJob(this.value);
+
+  static IsDefinedInJob fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IsDefinedInJob'));
 }
 
 enum IsMonitoredByJob {
-  $true,
-  $false,
-  unknown,
-}
+  $true('TRUE'),
+  $false('FALSE'),
+  unknown('UNKNOWN'),
+  ;
 
-extension IsMonitoredByJobValueExtension on IsMonitoredByJob {
-  String toValue() {
-    switch (this) {
-      case IsMonitoredByJob.$true:
-        return 'TRUE';
-      case IsMonitoredByJob.$false:
-        return 'FALSE';
-      case IsMonitoredByJob.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension IsMonitoredByJobFromString on String {
-  IsMonitoredByJob toIsMonitoredByJob() {
-    switch (this) {
-      case 'TRUE':
-        return IsMonitoredByJob.$true;
-      case 'FALSE':
-        return IsMonitoredByJob.$false;
-      case 'UNKNOWN':
-        return IsMonitoredByJob.unknown;
-    }
-    throw Exception('$this is not known in enum IsMonitoredByJob');
-  }
+  const IsMonitoredByJob(this.value);
+
+  static IsMonitoredByJob fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IsMonitoredByJob'));
 }
 
 /// The operator to use in a condition. Depending on the type of condition,
 /// possible values are:
 enum JobComparator {
-  eq,
-  gt,
-  gte,
-  lt,
-  lte,
-  ne,
-  contains,
-  startsWith,
-}
+  eq('EQ'),
+  gt('GT'),
+  gte('GTE'),
+  lt('LT'),
+  lte('LTE'),
+  ne('NE'),
+  contains('CONTAINS'),
+  startsWith('STARTS_WITH'),
+  ;
 
-extension JobComparatorValueExtension on JobComparator {
-  String toValue() {
-    switch (this) {
-      case JobComparator.eq:
-        return 'EQ';
-      case JobComparator.gt:
-        return 'GT';
-      case JobComparator.gte:
-        return 'GTE';
-      case JobComparator.lt:
-        return 'LT';
-      case JobComparator.lte:
-        return 'LTE';
-      case JobComparator.ne:
-        return 'NE';
-      case JobComparator.contains:
-        return 'CONTAINS';
-      case JobComparator.startsWith:
-        return 'STARTS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension JobComparatorFromString on String {
-  JobComparator toJobComparator() {
-    switch (this) {
-      case 'EQ':
-        return JobComparator.eq;
-      case 'GT':
-        return JobComparator.gt;
-      case 'GTE':
-        return JobComparator.gte;
-      case 'LT':
-        return JobComparator.lt;
-      case 'LTE':
-        return JobComparator.lte;
-      case 'NE':
-        return JobComparator.ne;
-      case 'CONTAINS':
-        return JobComparator.contains;
-      case 'STARTS_WITH':
-        return JobComparator.startsWith;
-    }
-    throw Exception('$this is not known in enum JobComparator');
-  }
+  const JobComparator(this.value);
+
+  static JobComparator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobComparator'));
 }
 
 /// Specifies whether any one-time or recurring classification jobs are
@@ -9252,9 +8794,10 @@ class JobDetails {
 
   factory JobDetails.fromJson(Map<String, dynamic> json) {
     return JobDetails(
-      isDefinedInJob: (json['isDefinedInJob'] as String?)?.toIsDefinedInJob(),
-      isMonitoredByJob:
-          (json['isMonitoredByJob'] as String?)?.toIsMonitoredByJob(),
+      isDefinedInJob:
+          (json['isDefinedInJob'] as String?)?.let(IsDefinedInJob.fromString),
+      isMonitoredByJob: (json['isMonitoredByJob'] as String?)
+          ?.let(IsMonitoredByJob.fromString),
       lastJobId: json['lastJobId'] as String?,
       lastJobRunTime: timeStampFromJson(json['lastJobRunTime']),
     );
@@ -9266,9 +8809,8 @@ class JobDetails {
     final lastJobId = this.lastJobId;
     final lastJobRunTime = this.lastJobRunTime;
     return {
-      if (isDefinedInJob != null) 'isDefinedInJob': isDefinedInJob.toValue(),
-      if (isMonitoredByJob != null)
-        'isMonitoredByJob': isMonitoredByJob.toValue(),
+      if (isDefinedInJob != null) 'isDefinedInJob': isDefinedInJob.value,
+      if (isMonitoredByJob != null) 'isMonitoredByJob': isMonitoredByJob.value,
       if (lastJobId != null) 'lastJobId': lastJobId,
       if (lastJobRunTime != null)
         'lastJobRunTime': iso8601ToJson(lastJobRunTime),
@@ -9393,51 +8935,21 @@ class JobScopingBlock {
 
 /// The status of a classification job. Possible values are:
 enum JobStatus {
-  running,
-  paused,
-  cancelled,
-  complete,
-  idle,
-  userPaused,
-}
+  running('RUNNING'),
+  paused('PAUSED'),
+  cancelled('CANCELLED'),
+  complete('COMPLETE'),
+  idle('IDLE'),
+  userPaused('USER_PAUSED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.running:
-        return 'RUNNING';
-      case JobStatus.paused:
-        return 'PAUSED';
-      case JobStatus.cancelled:
-        return 'CANCELLED';
-      case JobStatus.complete:
-        return 'COMPLETE';
-      case JobStatus.idle:
-        return 'IDLE';
-      case JobStatus.userPaused:
-        return 'USER_PAUSED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return JobStatus.running;
-      case 'PAUSED':
-        return JobStatus.paused;
-      case 'CANCELLED':
-        return JobStatus.cancelled;
-      case 'COMPLETE':
-        return JobStatus.complete;
-      case 'IDLE':
-        return JobStatus.idle;
-      case 'USER_PAUSED':
-        return JobStatus.userPaused;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// Provides information about a classification job, including the current
@@ -9549,8 +9061,8 @@ class JobSummary {
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
       jobId: json['jobId'] as String?,
-      jobStatus: (json['jobStatus'] as String?)?.toJobStatus(),
-      jobType: (json['jobType'] as String?)?.toJobType(),
+      jobStatus: (json['jobStatus'] as String?)?.let(JobStatus.fromString),
+      jobType: (json['jobType'] as String?)?.let(JobType.fromString),
       lastRunErrorStatus: json['lastRunErrorStatus'] != null
           ? LastRunErrorStatus.fromJson(
               json['lastRunErrorStatus'] as Map<String, dynamic>)
@@ -9578,8 +9090,8 @@ class JobSummary {
       if (bucketDefinitions != null) 'bucketDefinitions': bucketDefinitions,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (jobId != null) 'jobId': jobId,
-      if (jobStatus != null) 'jobStatus': jobStatus.toValue(),
-      if (jobType != null) 'jobType': jobType.toValue(),
+      if (jobStatus != null) 'jobStatus': jobStatus.value,
+      if (jobType != null) 'jobType': jobType.value,
       if (lastRunErrorStatus != null) 'lastRunErrorStatus': lastRunErrorStatus,
       if (name != null) 'name': name,
       if (userPausedDetails != null) 'userPausedDetails': userPausedDetails,
@@ -9589,31 +9101,17 @@ class JobSummary {
 
 /// The schedule for running a classification job. Valid values are:
 enum JobType {
-  oneTime,
-  scheduled,
-}
+  oneTime('ONE_TIME'),
+  scheduled('SCHEDULED'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.oneTime:
-        return 'ONE_TIME';
-      case JobType.scheduled:
-        return 'SCHEDULED';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'ONE_TIME':
-        return JobType.oneTime;
-      case 'SCHEDULED':
-        return JobType.scheduled;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// Provides information about the tags that are associated with an S3 bucket or
@@ -9677,14 +9175,14 @@ class LastRunErrorStatus {
 
   factory LastRunErrorStatus.fromJson(Map<String, dynamic> json) {
     return LastRunErrorStatus(
-      code: (json['code'] as String?)?.toLastRunErrorStatusCode(),
+      code: (json['code'] as String?)?.let(LastRunErrorStatusCode.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final code = this.code;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
     };
   }
 }
@@ -9693,31 +9191,18 @@ class LastRunErrorStatus {
 /// the run of a one-time classification job or the most recent run of a
 /// recurring classification job. Possible values are:
 enum LastRunErrorStatusCode {
-  none,
-  error,
-}
+  none('NONE'),
+  error('ERROR'),
+  ;
 
-extension LastRunErrorStatusCodeValueExtension on LastRunErrorStatusCode {
-  String toValue() {
-    switch (this) {
-      case LastRunErrorStatusCode.none:
-        return 'NONE';
-      case LastRunErrorStatusCode.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension LastRunErrorStatusCodeFromString on String {
-  LastRunErrorStatusCode toLastRunErrorStatusCode() {
-    switch (this) {
-      case 'NONE':
-        return LastRunErrorStatusCode.none;
-      case 'ERROR':
-        return LastRunErrorStatusCode.error;
-    }
-    throw Exception('$this is not known in enum LastRunErrorStatusCode');
-  }
+  const LastRunErrorStatusCode(this.value);
+
+  static LastRunErrorStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LastRunErrorStatusCode'));
 }
 
 class ListAllowListsResponse {
@@ -9989,41 +9474,20 @@ class ListJobsFilterCriteria {
 
 /// The property to use to filter the results. Valid values are:
 enum ListJobsFilterKey {
-  jobType,
-  jobStatus,
-  createdAt,
-  name,
-}
+  jobType('jobType'),
+  jobStatus('jobStatus'),
+  createdAt('createdAt'),
+  name('name'),
+  ;
 
-extension ListJobsFilterKeyValueExtension on ListJobsFilterKey {
-  String toValue() {
-    switch (this) {
-      case ListJobsFilterKey.jobType:
-        return 'jobType';
-      case ListJobsFilterKey.jobStatus:
-        return 'jobStatus';
-      case ListJobsFilterKey.createdAt:
-        return 'createdAt';
-      case ListJobsFilterKey.name:
-        return 'name';
-    }
-  }
-}
+  final String value;
 
-extension ListJobsFilterKeyFromString on String {
-  ListJobsFilterKey toListJobsFilterKey() {
-    switch (this) {
-      case 'jobType':
-        return ListJobsFilterKey.jobType;
-      case 'jobStatus':
-        return ListJobsFilterKey.jobStatus;
-      case 'createdAt':
-        return ListJobsFilterKey.createdAt;
-      case 'name':
-        return ListJobsFilterKey.name;
-    }
-    throw Exception('$this is not known in enum ListJobsFilterKey');
-  }
+  const ListJobsFilterKey(this.value);
+
+  static ListJobsFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ListJobsFilterKey'));
 }
 
 /// Specifies a condition that filters the results of a request for information
@@ -10050,8 +9514,8 @@ class ListJobsFilterTerm {
     final key = this.key;
     final values = this.values;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
-      if (key != null) 'key': key.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
+      if (key != null) 'key': key.value,
       if (values != null) 'values': values,
     };
   }
@@ -10059,41 +9523,20 @@ class ListJobsFilterTerm {
 
 /// The property to sort the results by. Valid values are:
 enum ListJobsSortAttributeName {
-  createdAt,
-  jobStatus,
-  name,
-  jobType,
-}
+  createdAt('createdAt'),
+  jobStatus('jobStatus'),
+  name('name'),
+  jobType('jobType'),
+  ;
 
-extension ListJobsSortAttributeNameValueExtension on ListJobsSortAttributeName {
-  String toValue() {
-    switch (this) {
-      case ListJobsSortAttributeName.createdAt:
-        return 'createdAt';
-      case ListJobsSortAttributeName.jobStatus:
-        return 'jobStatus';
-      case ListJobsSortAttributeName.name:
-        return 'name';
-      case ListJobsSortAttributeName.jobType:
-        return 'jobType';
-    }
-  }
-}
+  final String value;
 
-extension ListJobsSortAttributeNameFromString on String {
-  ListJobsSortAttributeName toListJobsSortAttributeName() {
-    switch (this) {
-      case 'createdAt':
-        return ListJobsSortAttributeName.createdAt;
-      case 'jobStatus':
-        return ListJobsSortAttributeName.jobStatus;
-      case 'name':
-        return ListJobsSortAttributeName.name;
-      case 'jobType':
-        return ListJobsSortAttributeName.jobType;
-    }
-    throw Exception('$this is not known in enum ListJobsSortAttributeName');
-  }
+  const ListJobsSortAttributeName(this.value);
+
+  static ListJobsSortAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListJobsSortAttributeName'));
 }
 
 /// Specifies criteria for sorting the results of a request for information
@@ -10116,8 +9559,8 @@ class ListJobsSortCriteria {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
     return {
-      if (attributeName != null) 'attributeName': attributeName.toValue(),
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (attributeName != null) 'attributeName': attributeName.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -10372,77 +9815,37 @@ class ListTagsForResourceResponse {
 
 /// The status of an Amazon Macie account. Valid values are:
 enum MacieStatus {
-  paused,
-  enabled,
-}
+  paused('PAUSED'),
+  enabled('ENABLED'),
+  ;
 
-extension MacieStatusValueExtension on MacieStatus {
-  String toValue() {
-    switch (this) {
-      case MacieStatus.paused:
-        return 'PAUSED';
-      case MacieStatus.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension MacieStatusFromString on String {
-  MacieStatus toMacieStatus() {
-    switch (this) {
-      case 'PAUSED':
-        return MacieStatus.paused;
-      case 'ENABLED':
-        return MacieStatus.enabled;
-    }
-    throw Exception('$this is not known in enum MacieStatus');
-  }
+  const MacieStatus(this.value);
+
+  static MacieStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MacieStatus'));
 }
 
 /// The selection type that determines which managed data identifiers a
 /// classification job uses to analyze data. Valid values are:
 enum ManagedDataIdentifierSelector {
-  all,
-  exclude,
-  include,
-  none,
-  recommended,
-}
+  all('ALL'),
+  exclude('EXCLUDE'),
+  include('INCLUDE'),
+  none('NONE'),
+  recommended('RECOMMENDED'),
+  ;
 
-extension ManagedDataIdentifierSelectorValueExtension
-    on ManagedDataIdentifierSelector {
-  String toValue() {
-    switch (this) {
-      case ManagedDataIdentifierSelector.all:
-        return 'ALL';
-      case ManagedDataIdentifierSelector.exclude:
-        return 'EXCLUDE';
-      case ManagedDataIdentifierSelector.include:
-        return 'INCLUDE';
-      case ManagedDataIdentifierSelector.none:
-        return 'NONE';
-      case ManagedDataIdentifierSelector.recommended:
-        return 'RECOMMENDED';
-    }
-  }
-}
+  final String value;
 
-extension ManagedDataIdentifierSelectorFromString on String {
-  ManagedDataIdentifierSelector toManagedDataIdentifierSelector() {
-    switch (this) {
-      case 'ALL':
-        return ManagedDataIdentifierSelector.all;
-      case 'EXCLUDE':
-        return ManagedDataIdentifierSelector.exclude;
-      case 'INCLUDE':
-        return ManagedDataIdentifierSelector.include;
-      case 'NONE':
-        return ManagedDataIdentifierSelector.none;
-      case 'RECOMMENDED':
-        return ManagedDataIdentifierSelector.recommended;
-    }
-    throw Exception('$this is not known in enum ManagedDataIdentifierSelector');
-  }
+  const ManagedDataIdentifierSelector(this.value);
+
+  static ManagedDataIdentifierSelector fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ManagedDataIdentifierSelector'));
 }
 
 /// Provides information about a managed data identifier. For additional
@@ -10472,7 +9875,8 @@ class ManagedDataIdentifierSummary {
 
   factory ManagedDataIdentifierSummary.fromJson(Map<String, dynamic> json) {
     return ManagedDataIdentifierSummary(
-      category: (json['category'] as String?)?.toSensitiveDataItemCategory(),
+      category: (json['category'] as String?)
+          ?.let(SensitiveDataItemCategory.fromString),
       id: json['id'] as String?,
     );
   }
@@ -10481,7 +9885,7 @@ class ManagedDataIdentifierSummary {
     final category = this.category;
     final id = this.id;
     return {
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (id != null) 'id': id,
     };
   }
@@ -10611,7 +10015,8 @@ class MatchingBucket {
       bucketName: json['bucketName'] as String?,
       classifiableObjectCount: json['classifiableObjectCount'] as int?,
       classifiableSizeInBytes: json['classifiableSizeInBytes'] as int?,
-      errorCode: (json['errorCode'] as String?)?.toBucketMetadataErrorCode(),
+      errorCode: (json['errorCode'] as String?)
+          ?.let(BucketMetadataErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
       jobDetails: json['jobDetails'] != null
           ? JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>)
@@ -10663,7 +10068,7 @@ class MatchingBucket {
         'classifiableObjectCount': classifiableObjectCount,
       if (classifiableSizeInBytes != null)
         'classifiableSizeInBytes': classifiableSizeInBytes,
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (jobDetails != null) 'jobDetails': jobDetails,
       if (lastAutomatedDiscoveryTime != null)
@@ -10769,8 +10174,8 @@ class Member {
       email: json['email'] as String?,
       invitedAt: timeStampFromJson(json['invitedAt']),
       masterAccountId: json['masterAccountId'] as String?,
-      relationshipStatus:
-          (json['relationshipStatus'] as String?)?.toRelationshipStatus(),
+      relationshipStatus: (json['relationshipStatus'] as String?)
+          ?.let(RelationshipStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -10796,7 +10201,7 @@ class Member {
       if (invitedAt != null) 'invitedAt': iso8601ToJson(invitedAt),
       if (masterAccountId != null) 'masterAccountId': masterAccountId,
       if (relationshipStatus != null)
-        'relationshipStatus': relationshipStatus.toValue(),
+        'relationshipStatus': relationshipStatus.value,
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -11036,61 +10441,33 @@ class Occurrences {
 }
 
 enum OrderBy {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension OrderByValueExtension on OrderBy {
-  String toValue() {
-    switch (this) {
-      case OrderBy.asc:
-        return 'ASC';
-      case OrderBy.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension OrderByFromString on String {
-  OrderBy toOrderBy() {
-    switch (this) {
-      case 'ASC':
-        return OrderBy.asc;
-      case 'DESC':
-        return OrderBy.desc;
-    }
-    throw Exception('$this is not known in enum OrderBy');
-  }
+  const OrderBy(this.value);
+
+  static OrderBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OrderBy'));
 }
 
 /// Specifies how Amazon Macie found the sensitive data that produced a finding.
 /// Possible values are:
 enum OriginType {
-  sensitiveDataDiscoveryJob,
-  automatedSensitiveDataDiscovery,
-}
+  sensitiveDataDiscoveryJob('SENSITIVE_DATA_DISCOVERY_JOB'),
+  automatedSensitiveDataDiscovery('AUTOMATED_SENSITIVE_DATA_DISCOVERY'),
+  ;
 
-extension OriginTypeValueExtension on OriginType {
-  String toValue() {
-    switch (this) {
-      case OriginType.sensitiveDataDiscoveryJob:
-        return 'SENSITIVE_DATA_DISCOVERY_JOB';
-      case OriginType.automatedSensitiveDataDiscovery:
-        return 'AUTOMATED_SENSITIVE_DATA_DISCOVERY';
-    }
-  }
-}
+  final String value;
 
-extension OriginTypeFromString on String {
-  OriginType toOriginType() {
-    switch (this) {
-      case 'SENSITIVE_DATA_DISCOVERY_JOB':
-        return OriginType.sensitiveDataDiscoveryJob;
-      case 'AUTOMATED_SENSITIVE_DATA_DISCOVERY':
-        return OriginType.automatedSensitiveDataDiscovery;
-    }
-    throw Exception('$this is not known in enum OriginType');
-  }
+  const OriginType(this.value);
+
+  static OriginType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OriginType'));
 }
 
 /// Specifies the location of an occurrence of sensitive data in an Adobe
@@ -11300,71 +10677,26 @@ class Record {
 /// The current status of the relationship between an account and an associated
 /// Amazon Macie administrator account. Possible values are:
 enum RelationshipStatus {
-  enabled,
-  paused,
-  invited,
-  created,
-  removed,
-  resigned,
-  emailVerificationInProgress,
-  emailVerificationFailed,
-  regionDisabled,
-  accountSuspended,
-}
+  enabled('Enabled'),
+  paused('Paused'),
+  invited('Invited'),
+  created('Created'),
+  removed('Removed'),
+  resigned('Resigned'),
+  emailVerificationInProgress('EmailVerificationInProgress'),
+  emailVerificationFailed('EmailVerificationFailed'),
+  regionDisabled('RegionDisabled'),
+  accountSuspended('AccountSuspended'),
+  ;
 
-extension RelationshipStatusValueExtension on RelationshipStatus {
-  String toValue() {
-    switch (this) {
-      case RelationshipStatus.enabled:
-        return 'Enabled';
-      case RelationshipStatus.paused:
-        return 'Paused';
-      case RelationshipStatus.invited:
-        return 'Invited';
-      case RelationshipStatus.created:
-        return 'Created';
-      case RelationshipStatus.removed:
-        return 'Removed';
-      case RelationshipStatus.resigned:
-        return 'Resigned';
-      case RelationshipStatus.emailVerificationInProgress:
-        return 'EmailVerificationInProgress';
-      case RelationshipStatus.emailVerificationFailed:
-        return 'EmailVerificationFailed';
-      case RelationshipStatus.regionDisabled:
-        return 'RegionDisabled';
-      case RelationshipStatus.accountSuspended:
-        return 'AccountSuspended';
-    }
-  }
-}
+  final String value;
 
-extension RelationshipStatusFromString on String {
-  RelationshipStatus toRelationshipStatus() {
-    switch (this) {
-      case 'Enabled':
-        return RelationshipStatus.enabled;
-      case 'Paused':
-        return RelationshipStatus.paused;
-      case 'Invited':
-        return RelationshipStatus.invited;
-      case 'Created':
-        return RelationshipStatus.created;
-      case 'Removed':
-        return RelationshipStatus.removed;
-      case 'Resigned':
-        return RelationshipStatus.resigned;
-      case 'EmailVerificationInProgress':
-        return RelationshipStatus.emailVerificationInProgress;
-      case 'EmailVerificationFailed':
-        return RelationshipStatus.emailVerificationFailed;
-      case 'RegionDisabled':
-        return RelationshipStatus.regionDisabled;
-      case 'AccountSuspended':
-        return RelationshipStatus.accountSuspended;
-    }
-    throw Exception('$this is not known in enum RelationshipStatus');
-  }
+  const RelationshipStatus(this.value);
+
+  static RelationshipStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RelationshipStatus'));
 }
 
 /// Provides information about settings that define whether one or more objects
@@ -11657,7 +10989,8 @@ class RetrievalConfiguration {
 
   factory RetrievalConfiguration.fromJson(Map<String, dynamic> json) {
     return RetrievalConfiguration(
-      retrievalMode: (json['retrievalMode'] as String).toRetrievalMode(),
+      retrievalMode:
+          RetrievalMode.fromString((json['retrievalMode'] as String)),
       externalId: json['externalId'] as String?,
       roleName: json['roleName'] as String?,
     );
@@ -11668,7 +11001,7 @@ class RetrievalConfiguration {
     final externalId = this.externalId;
     final roleName = this.roleName;
     return {
-      'retrievalMode': retrievalMode.toValue(),
+      'retrievalMode': retrievalMode.value,
       if (externalId != null) 'externalId': externalId,
       if (roleName != null) 'roleName': roleName,
     };
@@ -11678,31 +11011,18 @@ class RetrievalConfiguration {
 /// The access method to use when retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
 enum RetrievalMode {
-  callerCredentials,
-  assumeRole,
-}
+  callerCredentials('CALLER_CREDENTIALS'),
+  assumeRole('ASSUME_ROLE'),
+  ;
 
-extension RetrievalModeValueExtension on RetrievalMode {
-  String toValue() {
-    switch (this) {
-      case RetrievalMode.callerCredentials:
-        return 'CALLER_CREDENTIALS';
-      case RetrievalMode.assumeRole:
-        return 'ASSUME_ROLE';
-    }
-  }
-}
+  final String value;
 
-extension RetrievalModeFromString on String {
-  RetrievalMode toRetrievalMode() {
-    switch (this) {
-      case 'CALLER_CREDENTIALS':
-        return RetrievalMode.callerCredentials;
-      case 'ASSUME_ROLE':
-        return RetrievalMode.assumeRole;
-    }
-    throw Exception('$this is not known in enum RetrievalMode');
-  }
+  const RetrievalMode(this.value);
+
+  static RetrievalMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RetrievalMode'));
 }
 
 /// Specifies the status of the Amazon Macie configuration for retrieving
@@ -11743,7 +11063,7 @@ class RevealConfiguration {
 
   factory RevealConfiguration.fromJson(Map<String, dynamic> json) {
     return RevealConfiguration(
-      status: (json['status'] as String).toRevealStatus(),
+      status: RevealStatus.fromString((json['status'] as String)),
       kmsKeyId: json['kmsKeyId'] as String?,
     );
   }
@@ -11752,7 +11072,7 @@ class RevealConfiguration {
     final status = this.status;
     final kmsKeyId = this.kmsKeyId;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
     };
   }
@@ -11761,66 +11081,36 @@ class RevealConfiguration {
 /// The status of a request to retrieve occurrences of sensitive data reported
 /// by a finding. Possible values are:
 enum RevealRequestStatus {
-  success,
-  processing,
-  error,
-}
+  success('SUCCESS'),
+  processing('PROCESSING'),
+  error('ERROR'),
+  ;
 
-extension RevealRequestStatusValueExtension on RevealRequestStatus {
-  String toValue() {
-    switch (this) {
-      case RevealRequestStatus.success:
-        return 'SUCCESS';
-      case RevealRequestStatus.processing:
-        return 'PROCESSING';
-      case RevealRequestStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension RevealRequestStatusFromString on String {
-  RevealRequestStatus toRevealRequestStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return RevealRequestStatus.success;
-      case 'PROCESSING':
-        return RevealRequestStatus.processing;
-      case 'ERROR':
-        return RevealRequestStatus.error;
-    }
-    throw Exception('$this is not known in enum RevealRequestStatus');
-  }
+  const RevealRequestStatus(this.value);
+
+  static RevealRequestStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RevealRequestStatus'));
 }
 
 /// The status of the configuration for retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
 enum RevealStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension RevealStatusValueExtension on RevealStatus {
-  String toValue() {
-    switch (this) {
-      case RevealStatus.enabled:
-        return 'ENABLED';
-      case RevealStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension RevealStatusFromString on String {
-  RevealStatus toRevealStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return RevealStatus.enabled;
-      case 'DISABLED':
-        return RevealStatus.disabled;
-    }
-    throw Exception('$this is not known in enum RevealStatus');
-  }
+  const RevealStatus(this.value);
+
+  static RevealStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RevealStatus'));
 }
 
 /// Provides information about the S3 bucket that a finding applies to.
@@ -11891,7 +11181,7 @@ class S3Bucket {
     return S3Bucket(
       allowsUnencryptedObjectUploads:
           (json['allowsUnencryptedObjectUploads'] as String?)
-              ?.toAllowsUnencryptedObjectUploads(),
+              ?.let(AllowsUnencryptedObjectUploads.fromString),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       defaultServerSideEncryption: json['defaultServerSideEncryption'] != null
@@ -11924,8 +11214,7 @@ class S3Bucket {
     final tags = this.tags;
     return {
       if (allowsUnencryptedObjectUploads != null)
-        'allowsUnencryptedObjectUploads':
-            allowsUnencryptedObjectUploads.toValue(),
+        'allowsUnencryptedObjectUploads': allowsUnencryptedObjectUploads.value,
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (defaultServerSideEncryption != null)
@@ -12135,7 +11424,7 @@ class S3ClassificationScopeExclusionUpdate {
     final operation = this.operation;
     return {
       'bucketNames': bucketNames,
-      'operation': operation.toValue(),
+      'operation': operation.value,
     };
   }
 }
@@ -12335,7 +11624,8 @@ class S3Object {
               json['serverSideEncryption'] as Map<String, dynamic>)
           : null,
       size: json['size'] as int?,
-      storageClass: (json['storageClass'] as String?)?.toStorageClass(),
+      storageClass:
+          (json['storageClass'] as String?)?.let(StorageClass.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
@@ -12368,7 +11658,7 @@ class S3Object {
       if (serverSideEncryption != null)
         'serverSideEncryption': serverSideEncryption,
       if (size != null) 'size': size,
-      if (storageClass != null) 'storageClass': storageClass.toValue(),
+      if (storageClass != null) 'storageClass': storageClass.value,
       if (tags != null) 'tags': tags,
       if (versionId != null) 'versionId': versionId,
     };
@@ -12408,41 +11698,20 @@ class S3WordsList {
 /// The property to use in a condition that determines whether an S3 object is
 /// included or excluded from a classification job. Valid values are:
 enum ScopeFilterKey {
-  objectExtension,
-  objectLastModifiedDate,
-  objectSize,
-  objectKey,
-}
+  objectExtension('OBJECT_EXTENSION'),
+  objectLastModifiedDate('OBJECT_LAST_MODIFIED_DATE'),
+  objectSize('OBJECT_SIZE'),
+  objectKey('OBJECT_KEY'),
+  ;
 
-extension ScopeFilterKeyValueExtension on ScopeFilterKey {
-  String toValue() {
-    switch (this) {
-      case ScopeFilterKey.objectExtension:
-        return 'OBJECT_EXTENSION';
-      case ScopeFilterKey.objectLastModifiedDate:
-        return 'OBJECT_LAST_MODIFIED_DATE';
-      case ScopeFilterKey.objectSize:
-        return 'OBJECT_SIZE';
-      case ScopeFilterKey.objectKey:
-        return 'OBJECT_KEY';
-    }
-  }
-}
+  final String value;
 
-extension ScopeFilterKeyFromString on String {
-  ScopeFilterKey toScopeFilterKey() {
-    switch (this) {
-      case 'OBJECT_EXTENSION':
-        return ScopeFilterKey.objectExtension;
-      case 'OBJECT_LAST_MODIFIED_DATE':
-        return ScopeFilterKey.objectLastModifiedDate;
-      case 'OBJECT_SIZE':
-        return ScopeFilterKey.objectSize;
-      case 'OBJECT_KEY':
-        return ScopeFilterKey.objectKey;
-    }
-    throw Exception('$this is not known in enum ScopeFilterKey');
-  }
+  const ScopeFilterKey(this.value);
+
+  static ScopeFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScopeFilterKey'));
 }
 
 /// Specifies one or more property- and tag-based conditions that define
@@ -12513,31 +11782,18 @@ class SearchResourcesBucketCriteria {
 /// The operator to use in a condition that filters the results of a query.
 /// Valid values are:
 enum SearchResourcesComparator {
-  eq,
-  ne,
-}
+  eq('EQ'),
+  ne('NE'),
+  ;
 
-extension SearchResourcesComparatorValueExtension on SearchResourcesComparator {
-  String toValue() {
-    switch (this) {
-      case SearchResourcesComparator.eq:
-        return 'EQ';
-      case SearchResourcesComparator.ne:
-        return 'NE';
-    }
-  }
-}
+  final String value;
 
-extension SearchResourcesComparatorFromString on String {
-  SearchResourcesComparator toSearchResourcesComparator() {
-    switch (this) {
-      case 'EQ':
-        return SearchResourcesComparator.eq;
-      case 'NE':
-        return SearchResourcesComparator.ne;
-    }
-    throw Exception('$this is not known in enum SearchResourcesComparator');
-  }
+  const SearchResourcesComparator(this.value);
+
+  static SearchResourcesComparator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SearchResourcesComparator'));
 }
 
 /// Specifies a property- or tag-based filter condition for including or
@@ -12671,8 +11927,8 @@ class SearchResourcesSimpleCriterion {
     final key = this.key;
     final values = this.values;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
-      if (key != null) 'key': key.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
+      if (key != null) 'key': key.value,
       if (values != null) 'values': values,
     };
   }
@@ -12681,84 +11937,38 @@ class SearchResourcesSimpleCriterion {
 /// The property to use in a condition that filters the query results. Valid
 /// values are:
 enum SearchResourcesSimpleCriterionKey {
-  accountId,
-  s3BucketName,
-  s3BucketEffectivePermission,
-  s3BucketSharedAccess,
-}
+  accountId('ACCOUNT_ID'),
+  s3BucketName('S3_BUCKET_NAME'),
+  s3BucketEffectivePermission('S3_BUCKET_EFFECTIVE_PERMISSION'),
+  s3BucketSharedAccess('S3_BUCKET_SHARED_ACCESS'),
+  ;
 
-extension SearchResourcesSimpleCriterionKeyValueExtension
-    on SearchResourcesSimpleCriterionKey {
-  String toValue() {
-    switch (this) {
-      case SearchResourcesSimpleCriterionKey.accountId:
-        return 'ACCOUNT_ID';
-      case SearchResourcesSimpleCriterionKey.s3BucketName:
-        return 'S3_BUCKET_NAME';
-      case SearchResourcesSimpleCriterionKey.s3BucketEffectivePermission:
-        return 'S3_BUCKET_EFFECTIVE_PERMISSION';
-      case SearchResourcesSimpleCriterionKey.s3BucketSharedAccess:
-        return 'S3_BUCKET_SHARED_ACCESS';
-    }
-  }
-}
+  final String value;
 
-extension SearchResourcesSimpleCriterionKeyFromString on String {
-  SearchResourcesSimpleCriterionKey toSearchResourcesSimpleCriterionKey() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return SearchResourcesSimpleCriterionKey.accountId;
-      case 'S3_BUCKET_NAME':
-        return SearchResourcesSimpleCriterionKey.s3BucketName;
-      case 'S3_BUCKET_EFFECTIVE_PERMISSION':
-        return SearchResourcesSimpleCriterionKey.s3BucketEffectivePermission;
-      case 'S3_BUCKET_SHARED_ACCESS':
-        return SearchResourcesSimpleCriterionKey.s3BucketSharedAccess;
-    }
-    throw Exception(
-        '$this is not known in enum SearchResourcesSimpleCriterionKey');
-  }
+  const SearchResourcesSimpleCriterionKey(this.value);
+
+  static SearchResourcesSimpleCriterionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SearchResourcesSimpleCriterionKey'));
 }
 
 /// The property to sort the query results by. Valid values are:
 enum SearchResourcesSortAttributeName {
-  accountId,
-  resourceName,
-  s3ClassifiableObjectCount,
-  s3ClassifiableSizeInBytes,
-}
+  accountId('ACCOUNT_ID'),
+  resourceName('RESOURCE_NAME'),
+  s3ClassifiableObjectCount('S3_CLASSIFIABLE_OBJECT_COUNT'),
+  s3ClassifiableSizeInBytes('S3_CLASSIFIABLE_SIZE_IN_BYTES'),
+  ;
 
-extension SearchResourcesSortAttributeNameValueExtension
-    on SearchResourcesSortAttributeName {
-  String toValue() {
-    switch (this) {
-      case SearchResourcesSortAttributeName.accountId:
-        return 'ACCOUNT_ID';
-      case SearchResourcesSortAttributeName.resourceName:
-        return 'RESOURCE_NAME';
-      case SearchResourcesSortAttributeName.s3ClassifiableObjectCount:
-        return 'S3_CLASSIFIABLE_OBJECT_COUNT';
-      case SearchResourcesSortAttributeName.s3ClassifiableSizeInBytes:
-        return 'S3_CLASSIFIABLE_SIZE_IN_BYTES';
-    }
-  }
-}
+  final String value;
 
-extension SearchResourcesSortAttributeNameFromString on String {
-  SearchResourcesSortAttributeName toSearchResourcesSortAttributeName() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return SearchResourcesSortAttributeName.accountId;
-      case 'RESOURCE_NAME':
-        return SearchResourcesSortAttributeName.resourceName;
-      case 'S3_CLASSIFIABLE_OBJECT_COUNT':
-        return SearchResourcesSortAttributeName.s3ClassifiableObjectCount;
-      case 'S3_CLASSIFIABLE_SIZE_IN_BYTES':
-        return SearchResourcesSortAttributeName.s3ClassifiableSizeInBytes;
-    }
-    throw Exception(
-        '$this is not known in enum SearchResourcesSortAttributeName');
-  }
+  const SearchResourcesSortAttributeName(this.value);
+
+  static SearchResourcesSortAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SearchResourcesSortAttributeName'));
 }
 
 /// Specifies criteria for sorting the results of a query for information about
@@ -12781,8 +11991,8 @@ class SearchResourcesSortCriteria {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
     return {
-      if (attributeName != null) 'attributeName': attributeName.toValue(),
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (attributeName != null) 'attributeName': attributeName.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -12807,7 +12017,7 @@ class SearchResourcesTagCriterion {
     final comparator = this.comparator;
     final tagValues = this.tagValues;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
       if (tagValues != null) 'tagValues': tagValues,
     };
   }
@@ -12909,7 +12119,8 @@ class SensitiveDataItem {
 
   factory SensitiveDataItem.fromJson(Map<String, dynamic> json) {
     return SensitiveDataItem(
-      category: (json['category'] as String?)?.toSensitiveDataItemCategory(),
+      category: (json['category'] as String?)
+          ?.let(SensitiveDataItemCategory.fromString),
       detections: (json['detections'] as List?)
           ?.whereNotNull()
           .map((e) => DefaultDetection.fromJson(e as Map<String, dynamic>))
@@ -12923,7 +12134,7 @@ class SensitiveDataItem {
     final detections = this.detections;
     final totalCount = this.totalCount;
     return {
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (detections != null) 'detections': detections,
       if (totalCount != null) 'totalCount': totalCount,
     };
@@ -12934,41 +12145,20 @@ class SensitiveDataItem {
 /// the finding. For a managed data identifier, the category of sensitive data
 /// that the managed data identifier detects. Possible values are:
 enum SensitiveDataItemCategory {
-  financialInformation,
-  personalInformation,
-  credentials,
-  customIdentifier,
-}
+  financialInformation('FINANCIAL_INFORMATION'),
+  personalInformation('PERSONAL_INFORMATION'),
+  credentials('CREDENTIALS'),
+  customIdentifier('CUSTOM_IDENTIFIER'),
+  ;
 
-extension SensitiveDataItemCategoryValueExtension on SensitiveDataItemCategory {
-  String toValue() {
-    switch (this) {
-      case SensitiveDataItemCategory.financialInformation:
-        return 'FINANCIAL_INFORMATION';
-      case SensitiveDataItemCategory.personalInformation:
-        return 'PERSONAL_INFORMATION';
-      case SensitiveDataItemCategory.credentials:
-        return 'CREDENTIALS';
-      case SensitiveDataItemCategory.customIdentifier:
-        return 'CUSTOM_IDENTIFIER';
-    }
-  }
-}
+  final String value;
 
-extension SensitiveDataItemCategoryFromString on String {
-  SensitiveDataItemCategory toSensitiveDataItemCategory() {
-    switch (this) {
-      case 'FINANCIAL_INFORMATION':
-        return SensitiveDataItemCategory.financialInformation;
-      case 'PERSONAL_INFORMATION':
-        return SensitiveDataItemCategory.personalInformation;
-      case 'CREDENTIALS':
-        return SensitiveDataItemCategory.credentials;
-      case 'CUSTOM_IDENTIFIER':
-        return SensitiveDataItemCategory.customIdentifier;
-    }
-    throw Exception('$this is not known in enum SensitiveDataItemCategory');
-  }
+  const SensitiveDataItemCategory(this.value);
+
+  static SensitiveDataItemCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SensitiveDataItemCategory'));
 }
 
 /// Provides aggregated statistical data for sensitive data discovery metrics
@@ -13189,7 +12379,8 @@ class ServerSideEncryption {
 
   factory ServerSideEncryption.fromJson(Map<String, dynamic> json) {
     return ServerSideEncryption(
-      encryptionType: (json['encryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['encryptionType'] as String?)?.let(EncryptionType.fromString),
       kmsMasterKeyId: json['kmsMasterKeyId'] as String?,
     );
   }
@@ -13198,7 +12389,7 @@ class ServerSideEncryption {
     final encryptionType = this.encryptionType;
     final kmsMasterKeyId = this.kmsMasterKeyId;
     return {
-      if (encryptionType != null) 'encryptionType': encryptionType.toValue(),
+      if (encryptionType != null) 'encryptionType': encryptionType.value,
       if (kmsMasterKeyId != null) 'kmsMasterKeyId': kmsMasterKeyId,
     };
   }
@@ -13226,7 +12417,7 @@ class ServiceLimit {
   factory ServiceLimit.fromJson(Map<String, dynamic> json) {
     return ServiceLimit(
       isServiceLimited: json['isServiceLimited'] as bool?,
-      unit: (json['unit'] as String?)?.toUnit(),
+      unit: (json['unit'] as String?)?.let(Unit.fromString),
       value: json['value'] as int?,
     );
   }
@@ -13237,7 +12428,7 @@ class ServiceLimit {
     final value = this.value;
     return {
       if (isServiceLimited != null) 'isServiceLimited': isServiceLimited,
-      if (unit != null) 'unit': unit.toValue(),
+      if (unit != null) 'unit': unit.value,
       if (value != null) 'value': value,
     };
   }
@@ -13390,7 +12581,8 @@ class Severity {
 
   factory Severity.fromJson(Map<String, dynamic> json) {
     return Severity(
-      description: (json['description'] as String?)?.toSeverityDescription(),
+      description:
+          (json['description'] as String?)?.let(SeverityDescription.fromString),
       score: json['score'] as int?,
     );
   }
@@ -13399,7 +12591,7 @@ class Severity {
     final description = this.description;
     final score = this.score;
     return {
-      if (description != null) 'description': description.toValue(),
+      if (description != null) 'description': description.value,
       if (score != null) 'score': score,
     };
   }
@@ -13408,36 +12600,19 @@ class Severity {
 /// The qualitative representation of the finding's severity. Possible values
 /// are:
 enum SeverityDescription {
-  low,
-  medium,
-  high,
-}
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  ;
 
-extension SeverityDescriptionValueExtension on SeverityDescription {
-  String toValue() {
-    switch (this) {
-      case SeverityDescription.low:
-        return 'Low';
-      case SeverityDescription.medium:
-        return 'Medium';
-      case SeverityDescription.high:
-        return 'High';
-    }
-  }
-}
+  final String value;
 
-extension SeverityDescriptionFromString on String {
-  SeverityDescription toSeverityDescription() {
-    switch (this) {
-      case 'Low':
-        return SeverityDescription.low;
-      case 'Medium':
-        return SeverityDescription.medium;
-      case 'High':
-        return SeverityDescription.high;
-    }
-    throw Exception('$this is not known in enum SeverityDescription');
-  }
+  const SeverityDescription(this.value);
+
+  static SeverityDescription fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SeverityDescription'));
 }
 
 /// Specifies a severity level for findings that a custom data identifier
@@ -13465,7 +12640,7 @@ class SeverityLevel {
   factory SeverityLevel.fromJson(Map<String, dynamic> json) {
     return SeverityLevel(
       occurrencesThreshold: json['occurrencesThreshold'] as int,
-      severity: (json['severity'] as String).toDataIdentifierSeverity(),
+      severity: DataIdentifierSeverity.fromString((json['severity'] as String)),
     );
   }
 
@@ -13474,47 +12649,26 @@ class SeverityLevel {
     final severity = this.severity;
     return {
       'occurrencesThreshold': occurrencesThreshold,
-      'severity': severity.toValue(),
+      'severity': severity.value,
     };
   }
 }
 
 enum SharedAccess {
-  external,
-  internal,
-  notShared,
-  unknown,
-}
+  external('EXTERNAL'),
+  internal('INTERNAL'),
+  notShared('NOT_SHARED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension SharedAccessValueExtension on SharedAccess {
-  String toValue() {
-    switch (this) {
-      case SharedAccess.external:
-        return 'EXTERNAL';
-      case SharedAccess.internal:
-        return 'INTERNAL';
-      case SharedAccess.notShared:
-        return 'NOT_SHARED';
-      case SharedAccess.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension SharedAccessFromString on String {
-  SharedAccess toSharedAccess() {
-    switch (this) {
-      case 'EXTERNAL':
-        return SharedAccess.external;
-      case 'INTERNAL':
-        return SharedAccess.internal;
-      case 'NOT_SHARED':
-        return SharedAccess.notShared;
-      case 'UNKNOWN':
-        return SharedAccess.unknown;
-    }
-    throw Exception('$this is not known in enum SharedAccess');
-  }
+  const SharedAccess(this.value);
+
+  static SharedAccess fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SharedAccess'));
 }
 
 /// Specifies a property-based condition that determines whether an S3 bucket is
@@ -13564,8 +12718,9 @@ class SimpleCriterionForJob {
 
   factory SimpleCriterionForJob.fromJson(Map<String, dynamic> json) {
     return SimpleCriterionForJob(
-      comparator: (json['comparator'] as String?)?.toJobComparator(),
-      key: (json['key'] as String?)?.toSimpleCriterionKeyForJob(),
+      comparator:
+          (json['comparator'] as String?)?.let(JobComparator.fromString),
+      key: (json['key'] as String?)?.let(SimpleCriterionKeyForJob.fromString),
       values: (json['values'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -13578,8 +12733,8 @@ class SimpleCriterionForJob {
     final key = this.key;
     final values = this.values;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
-      if (key != null) 'key': key.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
+      if (key != null) 'key': key.value,
       if (values != null) 'values': values,
     };
   }
@@ -13588,41 +12743,20 @@ class SimpleCriterionForJob {
 /// The property to use in a condition that determines whether an S3 bucket is
 /// included or excluded from a classification job. Valid values are:
 enum SimpleCriterionKeyForJob {
-  accountId,
-  s3BucketName,
-  s3BucketEffectivePermission,
-  s3BucketSharedAccess,
-}
+  accountId('ACCOUNT_ID'),
+  s3BucketName('S3_BUCKET_NAME'),
+  s3BucketEffectivePermission('S3_BUCKET_EFFECTIVE_PERMISSION'),
+  s3BucketSharedAccess('S3_BUCKET_SHARED_ACCESS'),
+  ;
 
-extension SimpleCriterionKeyForJobValueExtension on SimpleCriterionKeyForJob {
-  String toValue() {
-    switch (this) {
-      case SimpleCriterionKeyForJob.accountId:
-        return 'ACCOUNT_ID';
-      case SimpleCriterionKeyForJob.s3BucketName:
-        return 'S3_BUCKET_NAME';
-      case SimpleCriterionKeyForJob.s3BucketEffectivePermission:
-        return 'S3_BUCKET_EFFECTIVE_PERMISSION';
-      case SimpleCriterionKeyForJob.s3BucketSharedAccess:
-        return 'S3_BUCKET_SHARED_ACCESS';
-    }
-  }
-}
+  final String value;
 
-extension SimpleCriterionKeyForJobFromString on String {
-  SimpleCriterionKeyForJob toSimpleCriterionKeyForJob() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return SimpleCriterionKeyForJob.accountId;
-      case 'S3_BUCKET_NAME':
-        return SimpleCriterionKeyForJob.s3BucketName;
-      case 'S3_BUCKET_EFFECTIVE_PERMISSION':
-        return SimpleCriterionKeyForJob.s3BucketEffectivePermission;
-      case 'S3_BUCKET_SHARED_ACCESS':
-        return SimpleCriterionKeyForJob.s3BucketSharedAccess;
-    }
-    throw Exception('$this is not known in enum SimpleCriterionKeyForJob');
-  }
+  const SimpleCriterionKeyForJob(this.value);
+
+  static SimpleCriterionKeyForJob fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimpleCriterionKeyForJob'));
 }
 
 /// Specifies a property-based condition that determines whether an S3 object is
@@ -13692,8 +12826,9 @@ class SimpleScopeTerm {
 
   factory SimpleScopeTerm.fromJson(Map<String, dynamic> json) {
     return SimpleScopeTerm(
-      comparator: (json['comparator'] as String?)?.toJobComparator(),
-      key: (json['key'] as String?)?.toScopeFilterKey(),
+      comparator:
+          (json['comparator'] as String?)?.let(JobComparator.fromString),
+      key: (json['key'] as String?)?.let(ScopeFilterKey.fromString),
       values: (json['values'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -13706,8 +12841,8 @@ class SimpleScopeTerm {
     final key = this.key;
     final values = this.values;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
-      if (key != null) 'key': key.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
+      if (key != null) 'key': key.value,
       if (values != null) 'values': values,
     };
   }
@@ -13736,7 +12871,7 @@ class SortCriteria {
     final orderBy = this.orderBy;
     return {
       if (attributeName != null) 'attributeName': attributeName,
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -13778,66 +12913,25 @@ class Statistics {
 
 /// The storage class of the S3 object. Possible values are:
 enum StorageClass {
-  standard,
-  reducedRedundancy,
-  standardIa,
-  intelligentTiering,
-  deepArchive,
-  onezoneIa,
-  glacier,
-  glacierIr,
-  outposts,
-}
+  standard('STANDARD'),
+  reducedRedundancy('REDUCED_REDUNDANCY'),
+  standardIa('STANDARD_IA'),
+  intelligentTiering('INTELLIGENT_TIERING'),
+  deepArchive('DEEP_ARCHIVE'),
+  onezoneIa('ONEZONE_IA'),
+  glacier('GLACIER'),
+  glacierIr('GLACIER_IR'),
+  outposts('OUTPOSTS'),
+  ;
 
-extension StorageClassValueExtension on StorageClass {
-  String toValue() {
-    switch (this) {
-      case StorageClass.standard:
-        return 'STANDARD';
-      case StorageClass.reducedRedundancy:
-        return 'REDUCED_REDUNDANCY';
-      case StorageClass.standardIa:
-        return 'STANDARD_IA';
-      case StorageClass.intelligentTiering:
-        return 'INTELLIGENT_TIERING';
-      case StorageClass.deepArchive:
-        return 'DEEP_ARCHIVE';
-      case StorageClass.onezoneIa:
-        return 'ONEZONE_IA';
-      case StorageClass.glacier:
-        return 'GLACIER';
-      case StorageClass.glacierIr:
-        return 'GLACIER_IR';
-      case StorageClass.outposts:
-        return 'OUTPOSTS';
-    }
-  }
-}
+  final String value;
 
-extension StorageClassFromString on String {
-  StorageClass toStorageClass() {
-    switch (this) {
-      case 'STANDARD':
-        return StorageClass.standard;
-      case 'REDUCED_REDUNDANCY':
-        return StorageClass.reducedRedundancy;
-      case 'STANDARD_IA':
-        return StorageClass.standardIa;
-      case 'INTELLIGENT_TIERING':
-        return StorageClass.intelligentTiering;
-      case 'DEEP_ARCHIVE':
-        return StorageClass.deepArchive;
-      case 'ONEZONE_IA':
-        return StorageClass.onezoneIa;
-      case 'GLACIER':
-        return StorageClass.glacier;
-      case 'GLACIER_IR':
-        return StorageClass.glacierIr;
-      case 'OUTPOSTS':
-        return StorageClass.outposts;
-    }
-    throw Exception('$this is not known in enum StorageClass');
-  }
+  const StorageClass(this.value);
+
+  static StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StorageClass'));
 }
 
 /// Specifies a custom data identifier or managed data identifier that detected
@@ -13864,7 +12958,7 @@ class SuppressDataIdentifier {
     final type = this.type;
     return {
       if (id != null) 'id': id,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -13887,7 +12981,8 @@ class TagCriterionForJob {
 
   factory TagCriterionForJob.fromJson(Map<String, dynamic> json) {
     return TagCriterionForJob(
-      comparator: (json['comparator'] as String?)?.toJobComparator(),
+      comparator:
+          (json['comparator'] as String?)?.let(JobComparator.fromString),
       tagValues: (json['tagValues'] as List?)
           ?.whereNotNull()
           .map(
@@ -13900,7 +12995,7 @@ class TagCriterionForJob {
     final comparator = this.comparator;
     final tagValues = this.tagValues;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
       if (tagValues != null) 'tagValues': tagValues,
     };
   }
@@ -13979,13 +13074,14 @@ class TagScopeTerm {
 
   factory TagScopeTerm.fromJson(Map<String, dynamic> json) {
     return TagScopeTerm(
-      comparator: (json['comparator'] as String?)?.toJobComparator(),
+      comparator:
+          (json['comparator'] as String?)?.let(JobComparator.fromString),
       key: json['key'] as String?,
       tagValues: (json['tagValues'] as List?)
           ?.whereNotNull()
           .map((e) => TagValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
-      target: (json['target'] as String?)?.toTagTarget(),
+      target: (json['target'] as String?)?.let(TagTarget.fromString),
     );
   }
 
@@ -13995,36 +13091,26 @@ class TagScopeTerm {
     final tagValues = this.tagValues;
     final target = this.target;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
       if (key != null) 'key': key,
       if (tagValues != null) 'tagValues': tagValues,
-      if (target != null) 'target': target.toValue(),
+      if (target != null) 'target': target.value,
     };
   }
 }
 
 /// The type of object to apply a tag-based condition to. Valid values are:
 enum TagTarget {
-  s3Object,
-}
+  s3Object('S3_OBJECT'),
+  ;
 
-extension TagTargetValueExtension on TagTarget {
-  String toValue() {
-    switch (this) {
-      case TagTarget.s3Object:
-        return 'S3_OBJECT';
-    }
-  }
-}
+  final String value;
 
-extension TagTargetFromString on String {
-  TagTarget toTagTarget() {
-    switch (this) {
-      case 'S3_OBJECT':
-        return TagTarget.s3Object;
-    }
-    throw Exception('$this is not known in enum TagTarget');
-  }
+  const TagTarget(this.value);
+
+  static TagTarget fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TagTarget'));
 }
 
 /// Specifies a tag key or tag key and value pair to use in a tag-based
@@ -14089,167 +13175,72 @@ class TestCustomDataIdentifierResponse {
 /// An inclusive time period that Amazon Macie usage data applies to. Possible
 /// values are:
 enum TimeRange {
-  monthToDate,
-  past_30Days,
-}
+  monthToDate('MONTH_TO_DATE'),
+  past_30Days('PAST_30_DAYS'),
+  ;
 
-extension TimeRangeValueExtension on TimeRange {
-  String toValue() {
-    switch (this) {
-      case TimeRange.monthToDate:
-        return 'MONTH_TO_DATE';
-      case TimeRange.past_30Days:
-        return 'PAST_30_DAYS';
-    }
-  }
-}
+  final String value;
 
-extension TimeRangeFromString on String {
-  TimeRange toTimeRange() {
-    switch (this) {
-      case 'MONTH_TO_DATE':
-        return TimeRange.monthToDate;
-      case 'PAST_30_DAYS':
-        return TimeRange.past_30Days;
-    }
-    throw Exception('$this is not known in enum TimeRange');
-  }
+  const TimeRange(this.value);
+
+  static TimeRange fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TimeRange'));
 }
 
 enum Type {
-  none,
-  aes256,
-  awsKms,
-  awsKmsDsse,
-}
+  none('NONE'),
+  aes256('AES256'),
+  awsKms('aws:kms'),
+  awsKmsDsse('aws:kms:dsse'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.none:
-        return 'NONE';
-      case Type.aes256:
-        return 'AES256';
-      case Type.awsKms:
-        return 'aws:kms';
-      case Type.awsKmsDsse:
-        return 'aws:kms:dsse';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'NONE':
-        return Type.none;
-      case 'AES256':
-        return Type.aes256;
-      case 'aws:kms':
-        return Type.awsKms;
-      case 'aws:kms:dsse':
-        return Type.awsKmsDsse;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 /// Specifies why occurrences of sensitive data can't be retrieved for a
 /// finding. Possible values are:
 enum UnavailabilityReasonCode {
-  objectExceedsSizeQuota,
-  unsupportedObjectType,
-  unsupportedFindingType,
-  invalidClassificationResult,
-  objectUnavailable,
-  accountNotInOrganization,
-  missingGetMemberPermission,
-  roleTooPermissive,
-  memberRoleTooPermissive,
-  invalidResultSignature,
-  resultNotSigned,
-}
+  objectExceedsSizeQuota('OBJECT_EXCEEDS_SIZE_QUOTA'),
+  unsupportedObjectType('UNSUPPORTED_OBJECT_TYPE'),
+  unsupportedFindingType('UNSUPPORTED_FINDING_TYPE'),
+  invalidClassificationResult('INVALID_CLASSIFICATION_RESULT'),
+  objectUnavailable('OBJECT_UNAVAILABLE'),
+  accountNotInOrganization('ACCOUNT_NOT_IN_ORGANIZATION'),
+  missingGetMemberPermission('MISSING_GET_MEMBER_PERMISSION'),
+  roleTooPermissive('ROLE_TOO_PERMISSIVE'),
+  memberRoleTooPermissive('MEMBER_ROLE_TOO_PERMISSIVE'),
+  invalidResultSignature('INVALID_RESULT_SIGNATURE'),
+  resultNotSigned('RESULT_NOT_SIGNED'),
+  ;
 
-extension UnavailabilityReasonCodeValueExtension on UnavailabilityReasonCode {
-  String toValue() {
-    switch (this) {
-      case UnavailabilityReasonCode.objectExceedsSizeQuota:
-        return 'OBJECT_EXCEEDS_SIZE_QUOTA';
-      case UnavailabilityReasonCode.unsupportedObjectType:
-        return 'UNSUPPORTED_OBJECT_TYPE';
-      case UnavailabilityReasonCode.unsupportedFindingType:
-        return 'UNSUPPORTED_FINDING_TYPE';
-      case UnavailabilityReasonCode.invalidClassificationResult:
-        return 'INVALID_CLASSIFICATION_RESULT';
-      case UnavailabilityReasonCode.objectUnavailable:
-        return 'OBJECT_UNAVAILABLE';
-      case UnavailabilityReasonCode.accountNotInOrganization:
-        return 'ACCOUNT_NOT_IN_ORGANIZATION';
-      case UnavailabilityReasonCode.missingGetMemberPermission:
-        return 'MISSING_GET_MEMBER_PERMISSION';
-      case UnavailabilityReasonCode.roleTooPermissive:
-        return 'ROLE_TOO_PERMISSIVE';
-      case UnavailabilityReasonCode.memberRoleTooPermissive:
-        return 'MEMBER_ROLE_TOO_PERMISSIVE';
-      case UnavailabilityReasonCode.invalidResultSignature:
-        return 'INVALID_RESULT_SIGNATURE';
-      case UnavailabilityReasonCode.resultNotSigned:
-        return 'RESULT_NOT_SIGNED';
-    }
-  }
-}
+  final String value;
 
-extension UnavailabilityReasonCodeFromString on String {
-  UnavailabilityReasonCode toUnavailabilityReasonCode() {
-    switch (this) {
-      case 'OBJECT_EXCEEDS_SIZE_QUOTA':
-        return UnavailabilityReasonCode.objectExceedsSizeQuota;
-      case 'UNSUPPORTED_OBJECT_TYPE':
-        return UnavailabilityReasonCode.unsupportedObjectType;
-      case 'UNSUPPORTED_FINDING_TYPE':
-        return UnavailabilityReasonCode.unsupportedFindingType;
-      case 'INVALID_CLASSIFICATION_RESULT':
-        return UnavailabilityReasonCode.invalidClassificationResult;
-      case 'OBJECT_UNAVAILABLE':
-        return UnavailabilityReasonCode.objectUnavailable;
-      case 'ACCOUNT_NOT_IN_ORGANIZATION':
-        return UnavailabilityReasonCode.accountNotInOrganization;
-      case 'MISSING_GET_MEMBER_PERMISSION':
-        return UnavailabilityReasonCode.missingGetMemberPermission;
-      case 'ROLE_TOO_PERMISSIVE':
-        return UnavailabilityReasonCode.roleTooPermissive;
-      case 'MEMBER_ROLE_TOO_PERMISSIVE':
-        return UnavailabilityReasonCode.memberRoleTooPermissive;
-      case 'INVALID_RESULT_SIGNATURE':
-        return UnavailabilityReasonCode.invalidResultSignature;
-      case 'RESULT_NOT_SIGNED':
-        return UnavailabilityReasonCode.resultNotSigned;
-    }
-    throw Exception('$this is not known in enum UnavailabilityReasonCode');
-  }
+  const UnavailabilityReasonCode(this.value);
+
+  static UnavailabilityReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnavailabilityReasonCode'));
 }
 
 enum Unit {
-  terabytes,
-}
+  terabytes('TERABYTES'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.terabytes:
-        return 'TERABYTES';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'TERABYTES':
-        return Unit.terabytes;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 /// Provides information about an account-related request that hasn't been
@@ -14274,7 +13265,7 @@ class UnprocessedAccount {
   factory UnprocessedAccount.fromJson(Map<String, dynamic> json) {
     return UnprocessedAccount(
       accountId: json['accountId'] as String?,
-      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['errorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -14285,7 +13276,7 @@ class UnprocessedAccount {
     final errorMessage = this.errorMessage;
     return {
       if (accountId != null) 'accountId': accountId,
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
@@ -14499,7 +13490,7 @@ class UpdateRetrievalConfiguration {
     final retrievalMode = this.retrievalMode;
     final roleName = this.roleName;
     return {
-      'retrievalMode': retrievalMode.toValue(),
+      'retrievalMode': retrievalMode.value,
       if (roleName != null) 'roleName': roleName,
     };
   }
@@ -14586,12 +13577,12 @@ class UsageByAccount {
 
   factory UsageByAccount.fromJson(Map<String, dynamic> json) {
     return UsageByAccount(
-      currency: (json['currency'] as String?)?.toCurrency(),
+      currency: (json['currency'] as String?)?.let(Currency.fromString),
       estimatedCost: json['estimatedCost'] as String?,
       serviceLimit: json['serviceLimit'] != null
           ? ServiceLimit.fromJson(json['serviceLimit'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toUsageType(),
+      type: (json['type'] as String?)?.let(UsageType.fromString),
     );
   }
 
@@ -14601,10 +13592,10 @@ class UsageByAccount {
     final serviceLimit = this.serviceLimit;
     final type = this.type;
     return {
-      if (currency != null) 'currency': currency.toValue(),
+      if (currency != null) 'currency': currency.value,
       if (estimatedCost != null) 'estimatedCost': estimatedCost,
       if (serviceLimit != null) 'serviceLimit': serviceLimit,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -14715,8 +13706,8 @@ class UsageStatisticsFilter {
     final key = this.key;
     final values = this.values;
     return {
-      if (comparator != null) 'comparator': comparator.toValue(),
-      if (key != null) 'key': key.toValue(),
+      if (comparator != null) 'comparator': comparator.value,
+      if (key != null) 'key': key.value,
       if (values != null) 'values': values,
     };
   }
@@ -14725,98 +13716,42 @@ class UsageStatisticsFilter {
 /// The operator to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
 enum UsageStatisticsFilterComparator {
-  gt,
-  gte,
-  lt,
-  lte,
-  eq,
-  ne,
-  contains,
-}
+  gt('GT'),
+  gte('GTE'),
+  lt('LT'),
+  lte('LTE'),
+  eq('EQ'),
+  ne('NE'),
+  contains('CONTAINS'),
+  ;
 
-extension UsageStatisticsFilterComparatorValueExtension
-    on UsageStatisticsFilterComparator {
-  String toValue() {
-    switch (this) {
-      case UsageStatisticsFilterComparator.gt:
-        return 'GT';
-      case UsageStatisticsFilterComparator.gte:
-        return 'GTE';
-      case UsageStatisticsFilterComparator.lt:
-        return 'LT';
-      case UsageStatisticsFilterComparator.lte:
-        return 'LTE';
-      case UsageStatisticsFilterComparator.eq:
-        return 'EQ';
-      case UsageStatisticsFilterComparator.ne:
-        return 'NE';
-      case UsageStatisticsFilterComparator.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension UsageStatisticsFilterComparatorFromString on String {
-  UsageStatisticsFilterComparator toUsageStatisticsFilterComparator() {
-    switch (this) {
-      case 'GT':
-        return UsageStatisticsFilterComparator.gt;
-      case 'GTE':
-        return UsageStatisticsFilterComparator.gte;
-      case 'LT':
-        return UsageStatisticsFilterComparator.lt;
-      case 'LTE':
-        return UsageStatisticsFilterComparator.lte;
-      case 'EQ':
-        return UsageStatisticsFilterComparator.eq;
-      case 'NE':
-        return UsageStatisticsFilterComparator.ne;
-      case 'CONTAINS':
-        return UsageStatisticsFilterComparator.contains;
-    }
-    throw Exception(
-        '$this is not known in enum UsageStatisticsFilterComparator');
-  }
+  const UsageStatisticsFilterComparator(this.value);
+
+  static UsageStatisticsFilterComparator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageStatisticsFilterComparator'));
 }
 
 /// The field to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
 enum UsageStatisticsFilterKey {
-  accountId,
-  serviceLimit,
-  freeTrialStartDate,
-  total,
-}
+  accountId('accountId'),
+  serviceLimit('serviceLimit'),
+  freeTrialStartDate('freeTrialStartDate'),
+  total('total'),
+  ;
 
-extension UsageStatisticsFilterKeyValueExtension on UsageStatisticsFilterKey {
-  String toValue() {
-    switch (this) {
-      case UsageStatisticsFilterKey.accountId:
-        return 'accountId';
-      case UsageStatisticsFilterKey.serviceLimit:
-        return 'serviceLimit';
-      case UsageStatisticsFilterKey.freeTrialStartDate:
-        return 'freeTrialStartDate';
-      case UsageStatisticsFilterKey.total:
-        return 'total';
-    }
-  }
-}
+  final String value;
 
-extension UsageStatisticsFilterKeyFromString on String {
-  UsageStatisticsFilterKey toUsageStatisticsFilterKey() {
-    switch (this) {
-      case 'accountId':
-        return UsageStatisticsFilterKey.accountId;
-      case 'serviceLimit':
-        return UsageStatisticsFilterKey.serviceLimit;
-      case 'freeTrialStartDate':
-        return UsageStatisticsFilterKey.freeTrialStartDate;
-      case 'total':
-        return UsageStatisticsFilterKey.total;
-    }
-    throw Exception('$this is not known in enum UsageStatisticsFilterKey');
-  }
+  const UsageStatisticsFilterKey(this.value);
+
+  static UsageStatisticsFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageStatisticsFilterKey'));
 }
 
 /// Specifies criteria for sorting the results of a query for Amazon Macie
@@ -14839,8 +13774,8 @@ class UsageStatisticsSortBy {
     final key = this.key;
     final orderBy = this.orderBy;
     return {
-      if (key != null) 'key': key.toValue(),
-      if (orderBy != null) 'orderBy': orderBy.toValue(),
+      if (key != null) 'key': key.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
     };
   }
 }
@@ -14848,41 +13783,20 @@ class UsageStatisticsSortBy {
 /// The field to use to sort the results of a query for Amazon Macie account
 /// quotas and usage data. Valid values are:
 enum UsageStatisticsSortKey {
-  accountId,
-  total,
-  serviceLimitValue,
-  freeTrialStartDate,
-}
+  accountId('accountId'),
+  total('total'),
+  serviceLimitValue('serviceLimitValue'),
+  freeTrialStartDate('freeTrialStartDate'),
+  ;
 
-extension UsageStatisticsSortKeyValueExtension on UsageStatisticsSortKey {
-  String toValue() {
-    switch (this) {
-      case UsageStatisticsSortKey.accountId:
-        return 'accountId';
-      case UsageStatisticsSortKey.total:
-        return 'total';
-      case UsageStatisticsSortKey.serviceLimitValue:
-        return 'serviceLimitValue';
-      case UsageStatisticsSortKey.freeTrialStartDate:
-        return 'freeTrialStartDate';
-    }
-  }
-}
+  final String value;
 
-extension UsageStatisticsSortKeyFromString on String {
-  UsageStatisticsSortKey toUsageStatisticsSortKey() {
-    switch (this) {
-      case 'accountId':
-        return UsageStatisticsSortKey.accountId;
-      case 'total':
-        return UsageStatisticsSortKey.total;
-      case 'serviceLimitValue':
-        return UsageStatisticsSortKey.serviceLimitValue;
-      case 'freeTrialStartDate':
-        return UsageStatisticsSortKey.freeTrialStartDate;
-    }
-    throw Exception('$this is not known in enum UsageStatisticsSortKey');
-  }
+  const UsageStatisticsSortKey(this.value);
+
+  static UsageStatisticsSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageStatisticsSortKey'));
 }
 
 /// Provides aggregated data for an Amazon Macie usage metric. The value for the
@@ -14912,9 +13826,9 @@ class UsageTotal {
 
   factory UsageTotal.fromJson(Map<String, dynamic> json) {
     return UsageTotal(
-      currency: (json['currency'] as String?)?.toCurrency(),
+      currency: (json['currency'] as String?)?.let(Currency.fromString),
       estimatedCost: json['estimatedCost'] as String?,
-      type: (json['type'] as String?)?.toUsageType(),
+      type: (json['type'] as String?)?.let(UsageType.fromString),
     );
   }
 
@@ -14923,9 +13837,9 @@ class UsageTotal {
     final estimatedCost = this.estimatedCost;
     final type = this.type;
     return {
-      if (currency != null) 'currency': currency.toValue(),
+      if (currency != null) 'currency': currency.value,
       if (estimatedCost != null) 'estimatedCost': estimatedCost,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -14933,41 +13847,19 @@ class UsageTotal {
 /// The name of an Amazon Macie usage metric for an account. Possible values
 /// are:
 enum UsageType {
-  dataInventoryEvaluation,
-  sensitiveDataDiscovery,
-  automatedSensitiveDataDiscovery,
-  automatedObjectMonitoring,
-}
+  dataInventoryEvaluation('DATA_INVENTORY_EVALUATION'),
+  sensitiveDataDiscovery('SENSITIVE_DATA_DISCOVERY'),
+  automatedSensitiveDataDiscovery('AUTOMATED_SENSITIVE_DATA_DISCOVERY'),
+  automatedObjectMonitoring('AUTOMATED_OBJECT_MONITORING'),
+  ;
 
-extension UsageTypeValueExtension on UsageType {
-  String toValue() {
-    switch (this) {
-      case UsageType.dataInventoryEvaluation:
-        return 'DATA_INVENTORY_EVALUATION';
-      case UsageType.sensitiveDataDiscovery:
-        return 'SENSITIVE_DATA_DISCOVERY';
-      case UsageType.automatedSensitiveDataDiscovery:
-        return 'AUTOMATED_SENSITIVE_DATA_DISCOVERY';
-      case UsageType.automatedObjectMonitoring:
-        return 'AUTOMATED_OBJECT_MONITORING';
-    }
-  }
-}
+  final String value;
 
-extension UsageTypeFromString on String {
-  UsageType toUsageType() {
-    switch (this) {
-      case 'DATA_INVENTORY_EVALUATION':
-        return UsageType.dataInventoryEvaluation;
-      case 'SENSITIVE_DATA_DISCOVERY':
-        return UsageType.sensitiveDataDiscovery;
-      case 'AUTOMATED_SENSITIVE_DATA_DISCOVERY':
-        return UsageType.automatedSensitiveDataDiscovery;
-      case 'AUTOMATED_OBJECT_MONITORING':
-        return UsageType.automatedObjectMonitoring;
-    }
-    throw Exception('$this is not known in enum UsageType');
-  }
+  const UsageType(this.value);
+
+  static UsageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UsageType'));
 }
 
 /// Provides information about the type and other characteristics of an entity
@@ -15034,7 +13926,7 @@ class UserIdentity {
       root: json['root'] != null
           ? UserIdentityRoot.fromJson(json['root'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toUserIdentityType(),
+      type: (json['type'] as String?)?.let(UserIdentityType.fromString),
     );
   }
 
@@ -15053,7 +13945,7 @@ class UserIdentity {
       if (federatedUser != null) 'federatedUser': federatedUser,
       if (iamUser != null) 'iamUser': iamUser,
       if (root != null) 'root': root,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -15102,51 +13994,22 @@ class UserIdentityRoot {
 /// The type of entity that performed the action on the affected resource.
 /// Possible values are:
 enum UserIdentityType {
-  assumedRole,
-  iAMUser,
-  federatedUser,
-  root,
-  awsAccount,
-  awsService,
-}
+  assumedRole('AssumedRole'),
+  iAMUser('IAMUser'),
+  federatedUser('FederatedUser'),
+  root('Root'),
+  awsAccount('AWSAccount'),
+  awsService('AWSService'),
+  ;
 
-extension UserIdentityTypeValueExtension on UserIdentityType {
-  String toValue() {
-    switch (this) {
-      case UserIdentityType.assumedRole:
-        return 'AssumedRole';
-      case UserIdentityType.iAMUser:
-        return 'IAMUser';
-      case UserIdentityType.federatedUser:
-        return 'FederatedUser';
-      case UserIdentityType.root:
-        return 'Root';
-      case UserIdentityType.awsAccount:
-        return 'AWSAccount';
-      case UserIdentityType.awsService:
-        return 'AWSService';
-    }
-  }
-}
+  final String value;
 
-extension UserIdentityTypeFromString on String {
-  UserIdentityType toUserIdentityType() {
-    switch (this) {
-      case 'AssumedRole':
-        return UserIdentityType.assumedRole;
-      case 'IAMUser':
-        return UserIdentityType.iAMUser;
-      case 'FederatedUser':
-        return UserIdentityType.federatedUser;
-      case 'Root':
-        return UserIdentityType.root;
-      case 'AWSAccount':
-        return UserIdentityType.awsAccount;
-      case 'AWSService':
-        return UserIdentityType.awsService;
-    }
-    throw Exception('$this is not known in enum UserIdentityType');
-  }
+  const UserIdentityType(this.value);
+
+  static UserIdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserIdentityType'));
 }
 
 /// Provides information about when a classification job was paused. For a
@@ -15211,14 +14074,14 @@ class WeeklySchedule {
 
   factory WeeklySchedule.fromJson(Map<String, dynamic> json) {
     return WeeklySchedule(
-      dayOfWeek: (json['dayOfWeek'] as String?)?.toDayOfWeek(),
+      dayOfWeek: (json['dayOfWeek'] as String?)?.let(DayOfWeek.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final dayOfWeek = this.dayOfWeek;
     return {
-      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.value,
     };
   }
 }

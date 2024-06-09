@@ -136,10 +136,9 @@ class Ebs {
       'x-amz-ChangedBlocksCount': changedBlocksCount.toString(),
       if (checksum != null) 'x-amz-Checksum': checksum.toString(),
       if (checksumAggregationMethod != null)
-        'x-amz-Checksum-Aggregation-Method':
-            checksumAggregationMethod.toValue(),
+        'x-amz-Checksum-Aggregation-Method': checksumAggregationMethod.value,
       if (checksumAlgorithm != null)
-        'x-amz-Checksum-Algorithm': checksumAlgorithm.toValue(),
+        'x-amz-Checksum-Algorithm': checksumAlgorithm.value,
     };
     final response = await _protocol.send(
       payload: null,
@@ -219,7 +218,7 @@ class Ebs {
       checksumAlgorithm: _s
           .extractHeaderStringValue(
               response.headers, 'x-amz-Checksum-Algorithm')
-          ?.toChecksumAlgorithm(),
+          ?.let(ChecksumAlgorithm.fromString),
       dataLength:
           _s.extractHeaderIntValue(response.headers, 'x-amz-Data-Length'),
     );
@@ -491,7 +490,7 @@ class Ebs {
     );
     final headers = <String, String>{
       'x-amz-Checksum': checksum.toString(),
-      'x-amz-Checksum-Algorithm': checksumAlgorithm.toValue(),
+      'x-amz-Checksum-Algorithm': checksumAlgorithm.value,
       'x-amz-Data-Length': dataLength.toString(),
       if (progress != null) 'x-amz-Progress': progress.toString(),
     };
@@ -509,7 +508,7 @@ class Ebs {
       checksumAlgorithm: _s
           .extractHeaderStringValue(
               response.headers, 'x-amz-Checksum-Algorithm')
-          ?.toChecksumAlgorithm(),
+          ?.let(ChecksumAlgorithm.fromString),
     );
   }
 
@@ -764,49 +763,31 @@ class ChangedBlock {
 }
 
 enum ChecksumAggregationMethod {
-  linear,
-}
+  linear('LINEAR'),
+  ;
 
-extension ChecksumAggregationMethodValueExtension on ChecksumAggregationMethod {
-  String toValue() {
-    switch (this) {
-      case ChecksumAggregationMethod.linear:
-        return 'LINEAR';
-    }
-  }
-}
+  final String value;
 
-extension ChecksumAggregationMethodFromString on String {
-  ChecksumAggregationMethod toChecksumAggregationMethod() {
-    switch (this) {
-      case 'LINEAR':
-        return ChecksumAggregationMethod.linear;
-    }
-    throw Exception('$this is not known in enum ChecksumAggregationMethod');
-  }
+  const ChecksumAggregationMethod(this.value);
+
+  static ChecksumAggregationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ChecksumAggregationMethod'));
 }
 
 enum ChecksumAlgorithm {
-  sha256,
-}
+  sha256('SHA256'),
+  ;
 
-extension ChecksumAlgorithmValueExtension on ChecksumAlgorithm {
-  String toValue() {
-    switch (this) {
-      case ChecksumAlgorithm.sha256:
-        return 'SHA256';
-    }
-  }
-}
+  final String value;
 
-extension ChecksumAlgorithmFromString on String {
-  ChecksumAlgorithm toChecksumAlgorithm() {
-    switch (this) {
-      case 'SHA256':
-        return ChecksumAlgorithm.sha256;
-    }
-    throw Exception('$this is not known in enum ChecksumAlgorithm');
-  }
+  const ChecksumAlgorithm(this.value);
+
+  static ChecksumAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChecksumAlgorithm'));
 }
 
 class CompleteSnapshotResponse {
@@ -819,14 +800,14 @@ class CompleteSnapshotResponse {
 
   factory CompleteSnapshotResponse.fromJson(Map<String, dynamic> json) {
     return CompleteSnapshotResponse(
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -990,36 +971,18 @@ class PutSnapshotBlockResponse {
 }
 
 enum SSEType {
-  sseEbs,
-  sseKms,
-  none,
-}
+  sseEbs('sse-ebs'),
+  sseKms('sse-kms'),
+  none('none'),
+  ;
 
-extension SSETypeValueExtension on SSEType {
-  String toValue() {
-    switch (this) {
-      case SSEType.sseEbs:
-        return 'sse-ebs';
-      case SSEType.sseKms:
-        return 'sse-kms';
-      case SSEType.none:
-        return 'none';
-    }
-  }
-}
+  final String value;
 
-extension SSETypeFromString on String {
-  SSEType toSSEType() {
-    switch (this) {
-      case 'sse-ebs':
-        return SSEType.sseEbs;
-      case 'sse-kms':
-        return SSEType.sseKms;
-      case 'none':
-        return SSEType.none;
-    }
-    throw Exception('$this is not known in enum SSEType');
-  }
+  const SSEType(this.value);
+
+  static SSEType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SSEType'));
 }
 
 class StartSnapshotResponse {
@@ -1083,9 +1046,9 @@ class StartSnapshotResponse {
       ownerId: json['OwnerId'] as String?,
       parentSnapshotId: json['ParentSnapshotId'] as String?,
       snapshotId: json['SnapshotId'] as String?,
-      sseType: (json['SseType'] as String?)?.toSSEType(),
+      sseType: (json['SseType'] as String?)?.let(SSEType.fromString),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -1113,9 +1076,9 @@ class StartSnapshotResponse {
       if (ownerId != null) 'OwnerId': ownerId,
       if (parentSnapshotId != null) 'ParentSnapshotId': parentSnapshotId,
       if (snapshotId != null) 'SnapshotId': snapshotId,
-      if (sseType != null) 'SseType': sseType.toValue(),
+      if (sseType != null) 'SseType': sseType.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
       if (volumeSize != null) 'VolumeSize': volumeSize,
     };
@@ -1123,36 +1086,18 @@ class StartSnapshotResponse {
 }
 
 enum Status {
-  completed,
-  pending,
-  error,
-}
+  completed('completed'),
+  pending('pending'),
+  error('error'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.completed:
-        return 'completed';
-      case Status.pending:
-        return 'pending';
-      case Status.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'completed':
-        return Status.completed;
-      case 'pending':
-        return Status.pending;
-      case 'error':
-        return Status.error;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// Describes a tag.

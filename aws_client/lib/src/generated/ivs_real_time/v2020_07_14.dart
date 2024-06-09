@@ -340,7 +340,7 @@ class Ivsrealtime {
       'stageArn': stageArn,
       if (attributes != null) 'attributes': attributes,
       if (capabilities != null)
-        'capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'capabilities': capabilities.map((e) => e.value).toList(),
       if (duration != null) 'duration': duration,
       if (userId != null) 'userId': userId,
     };
@@ -915,7 +915,7 @@ class Ivsrealtime {
       'sessionId': sessionId,
       'stageArn': stageArn,
       if (filterByPublished != null) 'filterByPublished': filterByPublished,
-      if (filterByState != null) 'filterByState': filterByState.toValue(),
+      if (filterByState != null) 'filterByState': filterByState.value,
       if (filterByUserId != null) 'filterByUserId': filterByUserId,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -1351,7 +1351,7 @@ class Composition {
       layout:
           LayoutConfiguration.fromJson(json['layout'] as Map<String, dynamic>),
       stageArn: json['stageArn'] as String,
-      state: (json['state'] as String).toCompositionState(),
+      state: CompositionState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1373,7 +1373,7 @@ class Composition {
       'destinations': destinations,
       'layout': layout,
       'stageArn': stageArn,
-      'state': state.toValue(),
+      'state': state.value,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (tags != null) 'tags': tags,
@@ -1382,46 +1382,21 @@ class Composition {
 }
 
 enum CompositionState {
-  starting,
-  active,
-  stopping,
-  failed,
-  stopped,
-}
+  starting('STARTING'),
+  active('ACTIVE'),
+  stopping('STOPPING'),
+  failed('FAILED'),
+  stopped('STOPPED'),
+  ;
 
-extension CompositionStateValueExtension on CompositionState {
-  String toValue() {
-    switch (this) {
-      case CompositionState.starting:
-        return 'STARTING';
-      case CompositionState.active:
-        return 'ACTIVE';
-      case CompositionState.stopping:
-        return 'STOPPING';
-      case CompositionState.failed:
-        return 'FAILED';
-      case CompositionState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension CompositionStateFromString on String {
-  CompositionState toCompositionState() {
-    switch (this) {
-      case 'STARTING':
-        return CompositionState.starting;
-      case 'ACTIVE':
-        return CompositionState.active;
-      case 'STOPPING':
-        return CompositionState.stopping;
-      case 'FAILED':
-        return CompositionState.failed;
-      case 'STOPPED':
-        return CompositionState.stopped;
-    }
-    throw Exception('$this is not known in enum CompositionState');
-  }
+  const CompositionState(this.value);
+
+  static CompositionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CompositionState'));
 }
 
 /// Summary information about a Composition.
@@ -1472,7 +1447,7 @@ class CompositionSummary {
           .map((e) => DestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       stageArn: json['stageArn'] as String,
-      state: (json['state'] as String).toCompositionState(),
+      state: CompositionState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1492,7 +1467,7 @@ class CompositionSummary {
       'arn': arn,
       'destinations': destinations,
       'stageArn': stageArn,
-      'state': state.toValue(),
+      'state': state.value,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (tags != null) 'tags': tags,
@@ -1686,7 +1661,7 @@ class Destination {
       configuration: DestinationConfiguration.fromJson(
           json['configuration'] as Map<String, dynamic>),
       id: json['id'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       detail: json['detail'] != null
           ? DestinationDetail.fromJson(json['detail'] as Map<String, dynamic>)
           : null,
@@ -1705,7 +1680,7 @@ class Destination {
     return {
       'configuration': configuration,
       'id': id,
-      'state': state.toValue(),
+      'state': state.value,
       if (detail != null) 'detail': detail,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
@@ -1784,51 +1759,22 @@ class DestinationDetail {
 }
 
 enum DestinationState {
-  starting,
-  active,
-  stopping,
-  reconnecting,
-  failed,
-  stopped,
-}
+  starting('STARTING'),
+  active('ACTIVE'),
+  stopping('STOPPING'),
+  reconnecting('RECONNECTING'),
+  failed('FAILED'),
+  stopped('STOPPED'),
+  ;
 
-extension DestinationStateValueExtension on DestinationState {
-  String toValue() {
-    switch (this) {
-      case DestinationState.starting:
-        return 'STARTING';
-      case DestinationState.active:
-        return 'ACTIVE';
-      case DestinationState.stopping:
-        return 'STOPPING';
-      case DestinationState.reconnecting:
-        return 'RECONNECTING';
-      case DestinationState.failed:
-        return 'FAILED';
-      case DestinationState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension DestinationStateFromString on String {
-  DestinationState toDestinationState() {
-    switch (this) {
-      case 'STARTING':
-        return DestinationState.starting;
-      case 'ACTIVE':
-        return DestinationState.active;
-      case 'STOPPING':
-        return DestinationState.stopping;
-      case 'RECONNECTING':
-        return DestinationState.reconnecting;
-      case 'FAILED':
-        return DestinationState.failed;
-      case 'STOPPED':
-        return DestinationState.stopped;
-    }
-    throw Exception('$this is not known in enum DestinationState');
-  }
+  const DestinationState(this.value);
+
+  static DestinationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DestinationState'));
 }
 
 /// Summary information about a Destination.
@@ -1857,7 +1803,7 @@ class DestinationSummary {
   factory DestinationSummary.fromJson(Map<String, dynamic> json) {
     return DestinationSummary(
       id: json['id'] as String,
-      state: (json['state'] as String).toDestinationState(),
+      state: DestinationState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
     );
@@ -1870,7 +1816,7 @@ class DestinationSummary {
     final startTime = this.startTime;
     return {
       'id': id,
-      'state': state.toValue(),
+      'state': state.value,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
     };
@@ -2026,9 +1972,9 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      errorCode: (json['errorCode'] as String?)?.toEventErrorCode(),
+      errorCode: (json['errorCode'] as String?)?.let(EventErrorCode.fromString),
       eventTime: timeStampFromJson(json['eventTime']),
-      name: (json['name'] as String?)?.toEventName(),
+      name: (json['name'] as String?)?.let(EventName.fromString),
       participantId: json['participantId'] as String?,
       remoteParticipantId: json['remoteParticipantId'] as String?,
     );
@@ -2041,9 +1987,9 @@ class Event {
     final participantId = this.participantId;
     final remoteParticipantId = this.remoteParticipantId;
     return {
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (eventTime != null) 'eventTime': iso8601ToJson(eventTime),
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (participantId != null) 'participantId': participantId,
       if (remoteParticipantId != null)
         'remoteParticipantId': remoteParticipantId,
@@ -2052,99 +1998,40 @@ class Event {
 }
 
 enum EventErrorCode {
-  insufficientCapabilities,
-  quotaExceeded,
-  publisherNotFound,
-}
+  insufficientCapabilities('INSUFFICIENT_CAPABILITIES'),
+  quotaExceeded('QUOTA_EXCEEDED'),
+  publisherNotFound('PUBLISHER_NOT_FOUND'),
+  ;
 
-extension EventErrorCodeValueExtension on EventErrorCode {
-  String toValue() {
-    switch (this) {
-      case EventErrorCode.insufficientCapabilities:
-        return 'INSUFFICIENT_CAPABILITIES';
-      case EventErrorCode.quotaExceeded:
-        return 'QUOTA_EXCEEDED';
-      case EventErrorCode.publisherNotFound:
-        return 'PUBLISHER_NOT_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension EventErrorCodeFromString on String {
-  EventErrorCode toEventErrorCode() {
-    switch (this) {
-      case 'INSUFFICIENT_CAPABILITIES':
-        return EventErrorCode.insufficientCapabilities;
-      case 'QUOTA_EXCEEDED':
-        return EventErrorCode.quotaExceeded;
-      case 'PUBLISHER_NOT_FOUND':
-        return EventErrorCode.publisherNotFound;
-    }
-    throw Exception('$this is not known in enum EventErrorCode');
-  }
+  const EventErrorCode(this.value);
+
+  static EventErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventErrorCode'));
 }
 
 enum EventName {
-  joined,
-  left,
-  publishStarted,
-  publishStopped,
-  subscribeStarted,
-  subscribeStopped,
-  publishError,
-  subscribeError,
-  joinError,
-}
+  joined('JOINED'),
+  left('LEFT'),
+  publishStarted('PUBLISH_STARTED'),
+  publishStopped('PUBLISH_STOPPED'),
+  subscribeStarted('SUBSCRIBE_STARTED'),
+  subscribeStopped('SUBSCRIBE_STOPPED'),
+  publishError('PUBLISH_ERROR'),
+  subscribeError('SUBSCRIBE_ERROR'),
+  joinError('JOIN_ERROR'),
+  ;
 
-extension EventNameValueExtension on EventName {
-  String toValue() {
-    switch (this) {
-      case EventName.joined:
-        return 'JOINED';
-      case EventName.left:
-        return 'LEFT';
-      case EventName.publishStarted:
-        return 'PUBLISH_STARTED';
-      case EventName.publishStopped:
-        return 'PUBLISH_STOPPED';
-      case EventName.subscribeStarted:
-        return 'SUBSCRIBE_STARTED';
-      case EventName.subscribeStopped:
-        return 'SUBSCRIBE_STOPPED';
-      case EventName.publishError:
-        return 'PUBLISH_ERROR';
-      case EventName.subscribeError:
-        return 'SUBSCRIBE_ERROR';
-      case EventName.joinError:
-        return 'JOIN_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension EventNameFromString on String {
-  EventName toEventName() {
-    switch (this) {
-      case 'JOINED':
-        return EventName.joined;
-      case 'LEFT':
-        return EventName.left;
-      case 'PUBLISH_STARTED':
-        return EventName.publishStarted;
-      case 'PUBLISH_STOPPED':
-        return EventName.publishStopped;
-      case 'SUBSCRIBE_STARTED':
-        return EventName.subscribeStarted;
-      case 'SUBSCRIBE_STOPPED':
-        return EventName.subscribeStopped;
-      case 'PUBLISH_ERROR':
-        return EventName.publishError;
-      case 'SUBSCRIBE_ERROR':
-        return EventName.subscribeError;
-      case 'JOIN_ERROR':
-        return EventName.joinError;
-    }
-    throw Exception('$this is not known in enum EventName');
-  }
+  const EventName(this.value);
+
+  static EventName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventName'));
 }
 
 class GetCompositionResponse {
@@ -2336,9 +2223,10 @@ class GridConfiguration {
           json['featuredParticipantAttribute'] as String?,
       gridGap: json['gridGap'] as int?,
       omitStoppedVideo: json['omitStoppedVideo'] as bool?,
-      videoAspectRatio:
-          (json['videoAspectRatio'] as String?)?.toVideoAspectRatio(),
-      videoFillMode: (json['videoFillMode'] as String?)?.toVideoFillMode(),
+      videoAspectRatio: (json['videoAspectRatio'] as String?)
+          ?.let(VideoAspectRatio.fromString),
+      videoFillMode:
+          (json['videoFillMode'] as String?)?.let(VideoFillMode.fromString),
     );
   }
 
@@ -2353,9 +2241,8 @@ class GridConfiguration {
         'featuredParticipantAttribute': featuredParticipantAttribute,
       if (gridGap != null) 'gridGap': gridGap,
       if (omitStoppedVideo != null) 'omitStoppedVideo': omitStoppedVideo,
-      if (videoAspectRatio != null)
-        'videoAspectRatio': videoAspectRatio.toValue(),
-      if (videoFillMode != null) 'videoFillMode': videoFillMode.toValue(),
+      if (videoAspectRatio != null) 'videoAspectRatio': videoAspectRatio.value,
+      if (videoFillMode != null) 'videoFillMode': videoFillMode.value,
     };
   }
 }
@@ -2728,7 +2615,7 @@ class Participant {
       participantId: json['participantId'] as String?,
       published: json['published'] as bool?,
       sdkVersion: json['sdkVersion'] as String?,
-      state: (json['state'] as String?)?.toParticipantState(),
+      state: (json['state'] as String?)?.let(ParticipantState.fromString),
       userId: json['userId'] as String?,
     );
   }
@@ -2757,38 +2644,25 @@ class Participant {
       if (participantId != null) 'participantId': participantId,
       if (published != null) 'published': published,
       if (sdkVersion != null) 'sdkVersion': sdkVersion,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (userId != null) 'userId': userId,
     };
   }
 }
 
 enum ParticipantState {
-  connected,
-  disconnected,
-}
+  connected('CONNECTED'),
+  disconnected('DISCONNECTED'),
+  ;
 
-extension ParticipantStateValueExtension on ParticipantState {
-  String toValue() {
-    switch (this) {
-      case ParticipantState.connected:
-        return 'CONNECTED';
-      case ParticipantState.disconnected:
-        return 'DISCONNECTED';
-    }
-  }
-}
+  final String value;
 
-extension ParticipantStateFromString on String {
-  ParticipantState toParticipantState() {
-    switch (this) {
-      case 'CONNECTED':
-        return ParticipantState.connected;
-      case 'DISCONNECTED':
-        return ParticipantState.disconnected;
-    }
-    throw Exception('$this is not known in enum ParticipantState');
-  }
+  const ParticipantState(this.value);
+
+  static ParticipantState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParticipantState'));
 }
 
 /// Summary object describing a participant that has joined a stage.
@@ -2826,7 +2700,7 @@ class ParticipantSummary {
       firstJoinTime: timeStampFromJson(json['firstJoinTime']),
       participantId: json['participantId'] as String?,
       published: json['published'] as bool?,
-      state: (json['state'] as String?)?.toParticipantState(),
+      state: (json['state'] as String?)?.let(ParticipantState.fromString),
       userId: json['userId'] as String?,
     );
   }
@@ -2841,7 +2715,7 @@ class ParticipantSummary {
       if (firstJoinTime != null) 'firstJoinTime': iso8601ToJson(firstJoinTime),
       if (participantId != null) 'participantId': participantId,
       if (published != null) 'published': published,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (userId != null) 'userId': userId,
     };
   }
@@ -2896,7 +2770,7 @@ class ParticipantToken {
           ?.map((k, e) => MapEntry(k, e as String)),
       capabilities: (json['capabilities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toParticipantTokenCapability())
+          .map((e) => ParticipantTokenCapability.fromString((e as String)))
           .toList(),
       duration: json['duration'] as int?,
       expirationTime: timeStampFromJson(json['expirationTime']),
@@ -2917,7 +2791,7 @@ class ParticipantToken {
     return {
       if (attributes != null) 'attributes': attributes,
       if (capabilities != null)
-        'capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'capabilities': capabilities.map((e) => e.value).toList(),
       if (duration != null) 'duration': duration,
       if (expirationTime != null)
         'expirationTime': iso8601ToJson(expirationTime),
@@ -2929,32 +2803,18 @@ class ParticipantToken {
 }
 
 enum ParticipantTokenCapability {
-  publish,
-  subscribe,
-}
+  publish('PUBLISH'),
+  subscribe('SUBSCRIBE'),
+  ;
 
-extension ParticipantTokenCapabilityValueExtension
-    on ParticipantTokenCapability {
-  String toValue() {
-    switch (this) {
-      case ParticipantTokenCapability.publish:
-        return 'PUBLISH';
-      case ParticipantTokenCapability.subscribe:
-        return 'SUBSCRIBE';
-    }
-  }
-}
+  final String value;
 
-extension ParticipantTokenCapabilityFromString on String {
-  ParticipantTokenCapability toParticipantTokenCapability() {
-    switch (this) {
-      case 'PUBLISH':
-        return ParticipantTokenCapability.publish;
-      case 'SUBSCRIBE':
-        return ParticipantTokenCapability.subscribe;
-    }
-    throw Exception('$this is not known in enum ParticipantTokenCapability');
-  }
+  const ParticipantTokenCapability(this.value);
+
+  static ParticipantTokenCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ParticipantTokenCapability'));
 }
 
 /// Object specifying a participant token configuration in a stage.
@@ -2995,7 +2855,7 @@ class ParticipantTokenConfiguration {
     return {
       if (attributes != null) 'attributes': attributes,
       if (capabilities != null)
-        'capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'capabilities': capabilities.map((e) => e.value).toList(),
       if (duration != null) 'duration': duration,
       if (userId != null) 'userId': userId,
     };
@@ -3003,31 +2863,17 @@ class ParticipantTokenConfiguration {
 }
 
 enum PipBehavior {
-  static,
-  $dynamic,
-}
+  static('STATIC'),
+  $dynamic('DYNAMIC'),
+  ;
 
-extension PipBehaviorValueExtension on PipBehavior {
-  String toValue() {
-    switch (this) {
-      case PipBehavior.static:
-        return 'STATIC';
-      case PipBehavior.$dynamic:
-        return 'DYNAMIC';
-    }
-  }
-}
+  final String value;
 
-extension PipBehaviorFromString on String {
-  PipBehavior toPipBehavior() {
-    switch (this) {
-      case 'STATIC':
-        return PipBehavior.static;
-      case 'DYNAMIC':
-        return PipBehavior.$dynamic;
-    }
-    throw Exception('$this is not known in enum PipBehavior');
-  }
+  const PipBehavior(this.value);
+
+  static PipBehavior fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PipBehavior'));
 }
 
 /// Configuration information specific to Picture-in-Picture (PiP) layout, for
@@ -3098,13 +2944,16 @@ class PipConfiguration {
           json['featuredParticipantAttribute'] as String?,
       gridGap: json['gridGap'] as int?,
       omitStoppedVideo: json['omitStoppedVideo'] as bool?,
-      pipBehavior: (json['pipBehavior'] as String?)?.toPipBehavior(),
+      pipBehavior:
+          (json['pipBehavior'] as String?)?.let(PipBehavior.fromString),
       pipHeight: json['pipHeight'] as int?,
       pipOffset: json['pipOffset'] as int?,
       pipParticipantAttribute: json['pipParticipantAttribute'] as String?,
-      pipPosition: (json['pipPosition'] as String?)?.toPipPosition(),
+      pipPosition:
+          (json['pipPosition'] as String?)?.let(PipPosition.fromString),
       pipWidth: json['pipWidth'] as int?,
-      videoFillMode: (json['videoFillMode'] as String?)?.toVideoFillMode(),
+      videoFillMode:
+          (json['videoFillMode'] as String?)?.let(VideoFillMode.fromString),
     );
   }
 
@@ -3124,54 +2973,32 @@ class PipConfiguration {
         'featuredParticipantAttribute': featuredParticipantAttribute,
       if (gridGap != null) 'gridGap': gridGap,
       if (omitStoppedVideo != null) 'omitStoppedVideo': omitStoppedVideo,
-      if (pipBehavior != null) 'pipBehavior': pipBehavior.toValue(),
+      if (pipBehavior != null) 'pipBehavior': pipBehavior.value,
       if (pipHeight != null) 'pipHeight': pipHeight,
       if (pipOffset != null) 'pipOffset': pipOffset,
       if (pipParticipantAttribute != null)
         'pipParticipantAttribute': pipParticipantAttribute,
-      if (pipPosition != null) 'pipPosition': pipPosition.toValue(),
+      if (pipPosition != null) 'pipPosition': pipPosition.value,
       if (pipWidth != null) 'pipWidth': pipWidth,
-      if (videoFillMode != null) 'videoFillMode': videoFillMode.toValue(),
+      if (videoFillMode != null) 'videoFillMode': videoFillMode.value,
     };
   }
 }
 
 enum PipPosition {
-  topLeft,
-  topRight,
-  bottomLeft,
-  bottomRight,
-}
+  topLeft('TOP_LEFT'),
+  topRight('TOP_RIGHT'),
+  bottomLeft('BOTTOM_LEFT'),
+  bottomRight('BOTTOM_RIGHT'),
+  ;
 
-extension PipPositionValueExtension on PipPosition {
-  String toValue() {
-    switch (this) {
-      case PipPosition.topLeft:
-        return 'TOP_LEFT';
-      case PipPosition.topRight:
-        return 'TOP_RIGHT';
-      case PipPosition.bottomLeft:
-        return 'BOTTOM_LEFT';
-      case PipPosition.bottomRight:
-        return 'BOTTOM_RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension PipPositionFromString on String {
-  PipPosition toPipPosition() {
-    switch (this) {
-      case 'TOP_LEFT':
-        return PipPosition.topLeft;
-      case 'TOP_RIGHT':
-        return PipPosition.topRight;
-      case 'BOTTOM_LEFT':
-        return PipPosition.bottomLeft;
-      case 'BOTTOM_RIGHT':
-        return PipPosition.bottomRight;
-    }
-    throw Exception('$this is not known in enum PipPosition');
-  }
+  const PipPosition(this.value);
+
+  static PipPosition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PipPosition'));
 }
 
 /// An object representing a configuration to record a stage stream.
@@ -3185,40 +3012,31 @@ class RecordingConfiguration {
 
   factory RecordingConfiguration.fromJson(Map<String, dynamic> json) {
     return RecordingConfiguration(
-      format: (json['format'] as String?)?.toRecordingConfigurationFormat(),
+      format: (json['format'] as String?)
+          ?.let(RecordingConfigurationFormat.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final format = this.format;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
     };
   }
 }
 
 enum RecordingConfigurationFormat {
-  hls,
-}
+  hls('HLS'),
+  ;
 
-extension RecordingConfigurationFormatValueExtension
-    on RecordingConfigurationFormat {
-  String toValue() {
-    switch (this) {
-      case RecordingConfigurationFormat.hls:
-        return 'HLS';
-    }
-  }
-}
+  final String value;
 
-extension RecordingConfigurationFormatFromString on String {
-  RecordingConfigurationFormat toRecordingConfigurationFormat() {
-    switch (this) {
-      case 'HLS':
-        return RecordingConfigurationFormat.hls;
-    }
-    throw Exception('$this is not known in enum RecordingConfigurationFormat');
-  }
+  const RecordingConfigurationFormat(this.value);
+
+  static RecordingConfigurationFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecordingConfigurationFormat'));
 }
 
 /// A complex type that describes an S3 location where recorded videos will be
@@ -3736,74 +3554,36 @@ class Video {
 }
 
 enum VideoAspectRatio {
-  auto,
-  video,
-  square,
-  portrait,
-}
+  auto('AUTO'),
+  video('VIDEO'),
+  square('SQUARE'),
+  portrait('PORTRAIT'),
+  ;
 
-extension VideoAspectRatioValueExtension on VideoAspectRatio {
-  String toValue() {
-    switch (this) {
-      case VideoAspectRatio.auto:
-        return 'AUTO';
-      case VideoAspectRatio.video:
-        return 'VIDEO';
-      case VideoAspectRatio.square:
-        return 'SQUARE';
-      case VideoAspectRatio.portrait:
-        return 'PORTRAIT';
-    }
-  }
-}
+  final String value;
 
-extension VideoAspectRatioFromString on String {
-  VideoAspectRatio toVideoAspectRatio() {
-    switch (this) {
-      case 'AUTO':
-        return VideoAspectRatio.auto;
-      case 'VIDEO':
-        return VideoAspectRatio.video;
-      case 'SQUARE':
-        return VideoAspectRatio.square;
-      case 'PORTRAIT':
-        return VideoAspectRatio.portrait;
-    }
-    throw Exception('$this is not known in enum VideoAspectRatio');
-  }
+  const VideoAspectRatio(this.value);
+
+  static VideoAspectRatio fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VideoAspectRatio'));
 }
 
 enum VideoFillMode {
-  fill,
-  cover,
-  contain,
-}
+  fill('FILL'),
+  cover('COVER'),
+  contain('CONTAIN'),
+  ;
 
-extension VideoFillModeValueExtension on VideoFillMode {
-  String toValue() {
-    switch (this) {
-      case VideoFillMode.fill:
-        return 'FILL';
-      case VideoFillMode.cover:
-        return 'COVER';
-      case VideoFillMode.contain:
-        return 'CONTAIN';
-    }
-  }
-}
+  final String value;
 
-extension VideoFillModeFromString on String {
-  VideoFillMode toVideoFillMode() {
-    switch (this) {
-      case 'FILL':
-        return VideoFillMode.fill;
-      case 'COVER':
-        return VideoFillMode.cover;
-      case 'CONTAIN':
-        return VideoFillMode.contain;
-    }
-    throw Exception('$this is not known in enum VideoFillMode');
-  }
+  const VideoFillMode(this.value);
+
+  static VideoFillMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VideoFillMode'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

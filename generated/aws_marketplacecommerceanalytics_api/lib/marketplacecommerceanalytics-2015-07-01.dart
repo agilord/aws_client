@@ -212,7 +212,7 @@ class MarketplaceCommerceAnalytics {
       headers: headers,
       payload: {
         'dataSetPublicationDate': unixTimestampToJson(dataSetPublicationDate),
-        'dataSetType': dataSetType.toValue(),
+        'dataSetType': dataSetType.value,
         'destinationS3BucketName': destinationS3BucketName,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
@@ -316,7 +316,7 @@ class MarketplaceCommerceAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSetType': dataSetType.toValue(),
+        'dataSetType': dataSetType.value,
         'destinationS3BucketName': destinationS3BucketName,
         'fromDate': unixTimestampToJson(fromDate),
         'roleNameArn': roleNameArn,
@@ -333,146 +333,51 @@ class MarketplaceCommerceAnalytics {
 }
 
 enum DataSetType {
-  customerSubscriberHourlyMonthlySubscriptions,
-  customerSubscriberAnnualSubscriptions,
-  dailyBusinessUsageByInstanceType,
-  dailyBusinessFees,
-  dailyBusinessFreeTrialConversions,
-  dailyBusinessNewInstances,
-  dailyBusinessNewProductSubscribers,
-  dailyBusinessCanceledProductSubscribers,
-  monthlyRevenueBillingAndRevenueData,
-  monthlyRevenueAnnualSubscriptions,
-  monthlyRevenueFieldDemonstrationUsage,
-  monthlyRevenueFlexiblePaymentSchedule,
-  disbursedAmountByProduct,
-  disbursedAmountByProductWithUncollectedFunds,
-  disbursedAmountByInstanceHours,
-  disbursedAmountByCustomerGeo,
-  disbursedAmountByAgeOfUncollectedFunds,
-  disbursedAmountByAgeOfDisbursedFunds,
-  disbursedAmountByAgeOfPastDueFunds,
-  disbursedAmountByUncollectedFundsBreakdown,
-  customerProfileByIndustry,
-  customerProfileByRevenue,
-  customerProfileByGeography,
-  salesCompensationBilledRevenue,
-  usSalesAndUseTaxRecords,
-}
+  customerSubscriberHourlyMonthlySubscriptions(
+      'customer_subscriber_hourly_monthly_subscriptions'),
+  customerSubscriberAnnualSubscriptions(
+      'customer_subscriber_annual_subscriptions'),
+  dailyBusinessUsageByInstanceType('daily_business_usage_by_instance_type'),
+  dailyBusinessFees('daily_business_fees'),
+  dailyBusinessFreeTrialConversions('daily_business_free_trial_conversions'),
+  dailyBusinessNewInstances('daily_business_new_instances'),
+  dailyBusinessNewProductSubscribers('daily_business_new_product_subscribers'),
+  dailyBusinessCanceledProductSubscribers(
+      'daily_business_canceled_product_subscribers'),
+  monthlyRevenueBillingAndRevenueData(
+      'monthly_revenue_billing_and_revenue_data'),
+  monthlyRevenueAnnualSubscriptions('monthly_revenue_annual_subscriptions'),
+  monthlyRevenueFieldDemonstrationUsage(
+      'monthly_revenue_field_demonstration_usage'),
+  monthlyRevenueFlexiblePaymentSchedule(
+      'monthly_revenue_flexible_payment_schedule'),
+  disbursedAmountByProduct('disbursed_amount_by_product'),
+  disbursedAmountByProductWithUncollectedFunds(
+      'disbursed_amount_by_product_with_uncollected_funds'),
+  disbursedAmountByInstanceHours('disbursed_amount_by_instance_hours'),
+  disbursedAmountByCustomerGeo('disbursed_amount_by_customer_geo'),
+  disbursedAmountByAgeOfUncollectedFunds(
+      'disbursed_amount_by_age_of_uncollected_funds'),
+  disbursedAmountByAgeOfDisbursedFunds(
+      'disbursed_amount_by_age_of_disbursed_funds'),
+  disbursedAmountByAgeOfPastDueFunds(
+      'disbursed_amount_by_age_of_past_due_funds'),
+  disbursedAmountByUncollectedFundsBreakdown(
+      'disbursed_amount_by_uncollected_funds_breakdown'),
+  customerProfileByIndustry('customer_profile_by_industry'),
+  customerProfileByRevenue('customer_profile_by_revenue'),
+  customerProfileByGeography('customer_profile_by_geography'),
+  salesCompensationBilledRevenue('sales_compensation_billed_revenue'),
+  usSalesAndUseTaxRecords('us_sales_and_use_tax_records'),
+  ;
 
-extension DataSetTypeValueExtension on DataSetType {
-  String toValue() {
-    switch (this) {
-      case DataSetType.customerSubscriberHourlyMonthlySubscriptions:
-        return 'customer_subscriber_hourly_monthly_subscriptions';
-      case DataSetType.customerSubscriberAnnualSubscriptions:
-        return 'customer_subscriber_annual_subscriptions';
-      case DataSetType.dailyBusinessUsageByInstanceType:
-        return 'daily_business_usage_by_instance_type';
-      case DataSetType.dailyBusinessFees:
-        return 'daily_business_fees';
-      case DataSetType.dailyBusinessFreeTrialConversions:
-        return 'daily_business_free_trial_conversions';
-      case DataSetType.dailyBusinessNewInstances:
-        return 'daily_business_new_instances';
-      case DataSetType.dailyBusinessNewProductSubscribers:
-        return 'daily_business_new_product_subscribers';
-      case DataSetType.dailyBusinessCanceledProductSubscribers:
-        return 'daily_business_canceled_product_subscribers';
-      case DataSetType.monthlyRevenueBillingAndRevenueData:
-        return 'monthly_revenue_billing_and_revenue_data';
-      case DataSetType.monthlyRevenueAnnualSubscriptions:
-        return 'monthly_revenue_annual_subscriptions';
-      case DataSetType.monthlyRevenueFieldDemonstrationUsage:
-        return 'monthly_revenue_field_demonstration_usage';
-      case DataSetType.monthlyRevenueFlexiblePaymentSchedule:
-        return 'monthly_revenue_flexible_payment_schedule';
-      case DataSetType.disbursedAmountByProduct:
-        return 'disbursed_amount_by_product';
-      case DataSetType.disbursedAmountByProductWithUncollectedFunds:
-        return 'disbursed_amount_by_product_with_uncollected_funds';
-      case DataSetType.disbursedAmountByInstanceHours:
-        return 'disbursed_amount_by_instance_hours';
-      case DataSetType.disbursedAmountByCustomerGeo:
-        return 'disbursed_amount_by_customer_geo';
-      case DataSetType.disbursedAmountByAgeOfUncollectedFunds:
-        return 'disbursed_amount_by_age_of_uncollected_funds';
-      case DataSetType.disbursedAmountByAgeOfDisbursedFunds:
-        return 'disbursed_amount_by_age_of_disbursed_funds';
-      case DataSetType.disbursedAmountByAgeOfPastDueFunds:
-        return 'disbursed_amount_by_age_of_past_due_funds';
-      case DataSetType.disbursedAmountByUncollectedFundsBreakdown:
-        return 'disbursed_amount_by_uncollected_funds_breakdown';
-      case DataSetType.customerProfileByIndustry:
-        return 'customer_profile_by_industry';
-      case DataSetType.customerProfileByRevenue:
-        return 'customer_profile_by_revenue';
-      case DataSetType.customerProfileByGeography:
-        return 'customer_profile_by_geography';
-      case DataSetType.salesCompensationBilledRevenue:
-        return 'sales_compensation_billed_revenue';
-      case DataSetType.usSalesAndUseTaxRecords:
-        return 'us_sales_and_use_tax_records';
-    }
-  }
-}
+  final String value;
 
-extension DataSetTypeFromString on String {
-  DataSetType toDataSetType() {
-    switch (this) {
-      case 'customer_subscriber_hourly_monthly_subscriptions':
-        return DataSetType.customerSubscriberHourlyMonthlySubscriptions;
-      case 'customer_subscriber_annual_subscriptions':
-        return DataSetType.customerSubscriberAnnualSubscriptions;
-      case 'daily_business_usage_by_instance_type':
-        return DataSetType.dailyBusinessUsageByInstanceType;
-      case 'daily_business_fees':
-        return DataSetType.dailyBusinessFees;
-      case 'daily_business_free_trial_conversions':
-        return DataSetType.dailyBusinessFreeTrialConversions;
-      case 'daily_business_new_instances':
-        return DataSetType.dailyBusinessNewInstances;
-      case 'daily_business_new_product_subscribers':
-        return DataSetType.dailyBusinessNewProductSubscribers;
-      case 'daily_business_canceled_product_subscribers':
-        return DataSetType.dailyBusinessCanceledProductSubscribers;
-      case 'monthly_revenue_billing_and_revenue_data':
-        return DataSetType.monthlyRevenueBillingAndRevenueData;
-      case 'monthly_revenue_annual_subscriptions':
-        return DataSetType.monthlyRevenueAnnualSubscriptions;
-      case 'monthly_revenue_field_demonstration_usage':
-        return DataSetType.monthlyRevenueFieldDemonstrationUsage;
-      case 'monthly_revenue_flexible_payment_schedule':
-        return DataSetType.monthlyRevenueFlexiblePaymentSchedule;
-      case 'disbursed_amount_by_product':
-        return DataSetType.disbursedAmountByProduct;
-      case 'disbursed_amount_by_product_with_uncollected_funds':
-        return DataSetType.disbursedAmountByProductWithUncollectedFunds;
-      case 'disbursed_amount_by_instance_hours':
-        return DataSetType.disbursedAmountByInstanceHours;
-      case 'disbursed_amount_by_customer_geo':
-        return DataSetType.disbursedAmountByCustomerGeo;
-      case 'disbursed_amount_by_age_of_uncollected_funds':
-        return DataSetType.disbursedAmountByAgeOfUncollectedFunds;
-      case 'disbursed_amount_by_age_of_disbursed_funds':
-        return DataSetType.disbursedAmountByAgeOfDisbursedFunds;
-      case 'disbursed_amount_by_age_of_past_due_funds':
-        return DataSetType.disbursedAmountByAgeOfPastDueFunds;
-      case 'disbursed_amount_by_uncollected_funds_breakdown':
-        return DataSetType.disbursedAmountByUncollectedFundsBreakdown;
-      case 'customer_profile_by_industry':
-        return DataSetType.customerProfileByIndustry;
-      case 'customer_profile_by_revenue':
-        return DataSetType.customerProfileByRevenue;
-      case 'customer_profile_by_geography':
-        return DataSetType.customerProfileByGeography;
-      case 'sales_compensation_billed_revenue':
-        return DataSetType.salesCompensationBilledRevenue;
-      case 'us_sales_and_use_tax_records':
-        return DataSetType.usSalesAndUseTaxRecords;
-    }
-    throw Exception('$this is not known in enum DataSetType');
-  }
+  const DataSetType(this.value);
+
+  static DataSetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataSetType'));
 }
 
 /// Container for the result of the GenerateDataSet operation.
@@ -515,31 +420,18 @@ class StartSupportDataExportResult {
 }
 
 enum SupportDataSetType {
-  customerSupportContactsData,
-  testCustomerSupportContactsData,
-}
+  customerSupportContactsData('customer_support_contacts_data'),
+  testCustomerSupportContactsData('test_customer_support_contacts_data'),
+  ;
 
-extension SupportDataSetTypeValueExtension on SupportDataSetType {
-  String toValue() {
-    switch (this) {
-      case SupportDataSetType.customerSupportContactsData:
-        return 'customer_support_contacts_data';
-      case SupportDataSetType.testCustomerSupportContactsData:
-        return 'test_customer_support_contacts_data';
-    }
-  }
-}
+  final String value;
 
-extension SupportDataSetTypeFromString on String {
-  SupportDataSetType toSupportDataSetType() {
-    switch (this) {
-      case 'customer_support_contacts_data':
-        return SupportDataSetType.customerSupportContactsData;
-      case 'test_customer_support_contacts_data':
-        return SupportDataSetType.testCustomerSupportContactsData;
-    }
-    throw Exception('$this is not known in enum SupportDataSetType');
-  }
+  const SupportDataSetType(this.value);
+
+  static SupportDataSetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SupportDataSetType'));
 }
 
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {

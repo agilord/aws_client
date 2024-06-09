@@ -638,10 +638,10 @@ class CognitoIdentityProvider {
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
         if (desiredDeliveryMediums != null)
           'DesiredDeliveryMediums':
-              desiredDeliveryMediums.map((e) => e.toValue()).toList(),
+              desiredDeliveryMediums.map((e) => e.value).toList(),
         if (forceAliasCreation != null)
           'ForceAliasCreation': forceAliasCreation,
-        if (messageAction != null) 'MessageAction': messageAction.toValue(),
+        if (messageAction != null) 'MessageAction': messageAction.value,
         if (temporaryPassword != null) 'TemporaryPassword': temporaryPassword,
         if (userAttributes != null) 'UserAttributes': userAttributes,
         if (validationData != null) 'ValidationData': validationData,
@@ -1429,7 +1429,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow.toValue(),
+        'AuthFlow': authFlow.value,
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -2275,7 +2275,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName.toValue(),
+        'ChallengeName': challengeName.value,
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -2601,7 +2601,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'EventId': eventId,
-        'FeedbackValue': feedbackValue.toValue(),
+        'FeedbackValue': feedbackValue.value,
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -2674,7 +2674,7 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
         'Username': username,
         if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
+          'DeviceRememberedStatus': deviceRememberedStatus.value,
       },
     );
   }
@@ -3683,7 +3683,7 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderDetails': providerDetails,
         'ProviderName': providerName,
-        'ProviderType': providerType.toValue(),
+        'ProviderType': providerType.value,
         'UserPoolId': userPoolId,
         if (attributeMapping != null) 'AttributeMapping': attributeMapping,
         if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
@@ -4073,12 +4073,12 @@ class CognitoIdentityProvider {
         if (adminCreateUserConfig != null)
           'AdminCreateUserConfig': adminCreateUserConfig,
         if (aliasAttributes != null)
-          'AliasAttributes': aliasAttributes.map((e) => e.toValue()).toList(),
+          'AliasAttributes': aliasAttributes.map((e) => e.value).toList(),
         if (autoVerifiedAttributes != null)
           'AutoVerifiedAttributes':
-              autoVerifiedAttributes.map((e) => e.toValue()).toList(),
+              autoVerifiedAttributes.map((e) => e.value).toList(),
         if (deletionProtection != null)
-          'DeletionProtection': deletionProtection.toValue(),
+          'DeletionProtection': deletionProtection.value,
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -4089,7 +4089,7 @@ class CognitoIdentityProvider {
           'EmailVerificationSubject': emailVerificationSubject,
         if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration.toValue(),
+          'MfaConfiguration': mfaConfiguration.value,
         if (policies != null) 'Policies': policies,
         if (schema != null) 'Schema': schema,
         if (smsAuthenticationMessage != null)
@@ -4102,8 +4102,7 @@ class CognitoIdentityProvider {
         if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
         if (userPoolTags != null) 'UserPoolTags': userPoolTags,
         if (usernameAttributes != null)
-          'UsernameAttributes':
-              usernameAttributes.map((e) => e.toValue()).toList(),
+          'UsernameAttributes': usernameAttributes.map((e) => e.value).toList(),
         if (usernameConfiguration != null)
           'UsernameConfiguration': usernameConfiguration,
         if (verificationMessageTemplate != null)
@@ -4545,8 +4544,7 @@ class CognitoIdentityProvider {
         if (accessTokenValidity != null)
           'AccessTokenValidity': accessTokenValidity,
         if (allowedOAuthFlows != null)
-          'AllowedOAuthFlows':
-              allowedOAuthFlows.map((e) => e.toValue()).toList(),
+          'AllowedOAuthFlows': allowedOAuthFlows.map((e) => e.value).toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -4564,13 +4562,12 @@ class CognitoIdentityProvider {
         if (enableTokenRevocation != null)
           'EnableTokenRevocation': enableTokenRevocation,
         if (explicitAuthFlows != null)
-          'ExplicitAuthFlows':
-              explicitAuthFlows.map((e) => e.toValue()).toList(),
+          'ExplicitAuthFlows': explicitAuthFlows.map((e) => e.value).toList(),
         if (generateSecret != null) 'GenerateSecret': generateSecret,
         if (idTokenValidity != null) 'IdTokenValidity': idTokenValidity,
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
         if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
+          'PreventUserExistenceErrors': preventUserExistenceErrors.value,
         if (readAttributes != null) 'ReadAttributes': readAttributes,
         if (refreshTokenValidity != null)
           'RefreshTokenValidity': refreshTokenValidity,
@@ -6272,7 +6269,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow.toValue(),
+        'AuthFlow': authFlow.value,
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (authParameters != null) 'AuthParameters': authParameters,
@@ -7404,7 +7401,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName.toValue(),
+        'ChallengeName': challengeName.value,
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (challengeResponses != null)
@@ -7791,7 +7788,7 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration.toValue(),
+          'MfaConfiguration': mfaConfiguration.value,
         if (smsMfaConfiguration != null)
           'SmsMfaConfiguration': smsMfaConfiguration,
         if (softwareTokenMfaConfiguration != null)
@@ -8261,7 +8258,7 @@ class CognitoIdentityProvider {
       payload: {
         'EventId': eventId,
         'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue.toValue(),
+        'FeedbackValue': feedbackValue.value,
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -8325,7 +8322,7 @@ class CognitoIdentityProvider {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
         if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
+          'DeviceRememberedStatus': deviceRememberedStatus.value,
       },
     );
   }
@@ -9018,9 +9015,9 @@ class CognitoIdentityProvider {
           'AdminCreateUserConfig': adminCreateUserConfig,
         if (autoVerifiedAttributes != null)
           'AutoVerifiedAttributes':
-              autoVerifiedAttributes.map((e) => e.toValue()).toList(),
+              autoVerifiedAttributes.map((e) => e.value).toList(),
         if (deletionProtection != null)
-          'DeletionProtection': deletionProtection.toValue(),
+          'DeletionProtection': deletionProtection.value,
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -9031,7 +9028,7 @@ class CognitoIdentityProvider {
           'EmailVerificationSubject': emailVerificationSubject,
         if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration.toValue(),
+          'MfaConfiguration': mfaConfiguration.value,
         if (policies != null) 'Policies': policies,
         if (smsAuthenticationMessage != null)
           'SmsAuthenticationMessage': smsAuthenticationMessage,
@@ -9471,8 +9468,7 @@ class CognitoIdentityProvider {
         if (accessTokenValidity != null)
           'AccessTokenValidity': accessTokenValidity,
         if (allowedOAuthFlows != null)
-          'AllowedOAuthFlows':
-              allowedOAuthFlows.map((e) => e.toValue()).toList(),
+          'AllowedOAuthFlows': allowedOAuthFlows.map((e) => e.value).toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -9491,12 +9487,11 @@ class CognitoIdentityProvider {
         if (enableTokenRevocation != null)
           'EnableTokenRevocation': enableTokenRevocation,
         if (explicitAuthFlows != null)
-          'ExplicitAuthFlows':
-              explicitAuthFlows.map((e) => e.toValue()).toList(),
+          'ExplicitAuthFlows': explicitAuthFlows.map((e) => e.value).toList(),
         if (idTokenValidity != null) 'IdTokenValidity': idTokenValidity,
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
         if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
+          'PreventUserExistenceErrors': preventUserExistenceErrors.value,
         if (readAttributes != null) 'ReadAttributes': readAttributes,
         if (refreshTokenValidity != null)
           'RefreshTokenValidity': refreshTokenValidity,
@@ -9810,8 +9805,8 @@ class AccountTakeoverActionType {
 
   factory AccountTakeoverActionType.fromJson(Map<String, dynamic> json) {
     return AccountTakeoverActionType(
-      eventAction:
-          (json['EventAction'] as String).toAccountTakeoverEventActionType(),
+      eventAction: AccountTakeoverEventActionType.fromString(
+          (json['EventAction'] as String)),
       notify: json['Notify'] as bool,
     );
   }
@@ -9820,7 +9815,7 @@ class AccountTakeoverActionType {
     final eventAction = this.eventAction;
     final notify = this.notify;
     return {
-      'EventAction': eventAction.toValue(),
+      'EventAction': eventAction.value,
       'Notify': notify,
     };
   }
@@ -9873,43 +9868,20 @@ class AccountTakeoverActionsType {
 }
 
 enum AccountTakeoverEventActionType {
-  block,
-  mfaIfConfigured,
-  mfaRequired,
-  noAction,
-}
+  block('BLOCK'),
+  mfaIfConfigured('MFA_IF_CONFIGURED'),
+  mfaRequired('MFA_REQUIRED'),
+  noAction('NO_ACTION'),
+  ;
 
-extension AccountTakeoverEventActionTypeValueExtension
-    on AccountTakeoverEventActionType {
-  String toValue() {
-    switch (this) {
-      case AccountTakeoverEventActionType.block:
-        return 'BLOCK';
-      case AccountTakeoverEventActionType.mfaIfConfigured:
-        return 'MFA_IF_CONFIGURED';
-      case AccountTakeoverEventActionType.mfaRequired:
-        return 'MFA_REQUIRED';
-      case AccountTakeoverEventActionType.noAction:
-        return 'NO_ACTION';
-    }
-  }
-}
+  final String value;
 
-extension AccountTakeoverEventActionTypeFromString on String {
-  AccountTakeoverEventActionType toAccountTakeoverEventActionType() {
-    switch (this) {
-      case 'BLOCK':
-        return AccountTakeoverEventActionType.block;
-      case 'MFA_IF_CONFIGURED':
-        return AccountTakeoverEventActionType.mfaIfConfigured;
-      case 'MFA_REQUIRED':
-        return AccountTakeoverEventActionType.mfaRequired;
-      case 'NO_ACTION':
-        return AccountTakeoverEventActionType.noAction;
-    }
-    throw Exception(
-        '$this is not known in enum AccountTakeoverEventActionType');
-  }
+  const AccountTakeoverEventActionType(this.value);
+
+  static AccountTakeoverEventActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AccountTakeoverEventActionType'));
 }
 
 /// Configuration for mitigation actions and notification for different levels
@@ -10227,7 +10199,8 @@ class AdminGetUserResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      userStatus: (json['UserStatus'] as String?)?.toUserStatusType(),
+      userStatus:
+          (json['UserStatus'] as String?)?.let(UserStatusType.fromString),
     );
   }
 
@@ -10253,7 +10226,7 @@ class AdminGetUserResponse {
       if (userLastModifiedDate != null)
         'UserLastModifiedDate': unixTimestampToJson(userLastModifiedDate),
       if (userMFASettingList != null) 'UserMFASettingList': userMFASettingList,
-      if (userStatus != null) 'UserStatus': userStatus.toValue(),
+      if (userStatus != null) 'UserStatus': userStatus.value,
     };
   }
 }
@@ -10381,7 +10354,8 @@ class AdminInitiateAuthResponse {
           ? AuthenticationResultType.fromJson(
               json['AuthenticationResult'] as Map<String, dynamic>)
           : null,
-      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeName:
+          (json['ChallengeName'] as String?)?.let(ChallengeNameType.fromString),
       challengeParameters:
           (json['ChallengeParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -10397,7 +10371,7 @@ class AdminInitiateAuthResponse {
     return {
       if (authenticationResult != null)
         'AuthenticationResult': authenticationResult,
-      if (challengeName != null) 'ChallengeName': challengeName.toValue(),
+      if (challengeName != null) 'ChallengeName': challengeName.value,
       if (challengeParameters != null)
         'ChallengeParameters': challengeParameters,
       if (session != null) 'Session': session,
@@ -10567,7 +10541,8 @@ class AdminRespondToAuthChallengeResponse {
           ? AuthenticationResultType.fromJson(
               json['AuthenticationResult'] as Map<String, dynamic>)
           : null,
-      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeName:
+          (json['ChallengeName'] as String?)?.let(ChallengeNameType.fromString),
       challengeParameters:
           (json['ChallengeParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -10583,7 +10558,7 @@ class AdminRespondToAuthChallengeResponse {
     return {
       if (authenticationResult != null)
         'AuthenticationResult': authenticationResult,
-      if (challengeName != null) 'ChallengeName': challengeName.toValue(),
+      if (challengeName != null) 'ChallengeName': challengeName.value,
       if (challengeParameters != null)
         'ChallengeParameters': challengeParameters,
       if (session != null) 'Session': session,
@@ -10684,69 +10659,35 @@ class AdminUserGlobalSignOutResponse {
 }
 
 enum AdvancedSecurityModeType {
-  off,
-  audit,
-  enforced,
-}
+  off('OFF'),
+  audit('AUDIT'),
+  enforced('ENFORCED'),
+  ;
 
-extension AdvancedSecurityModeTypeValueExtension on AdvancedSecurityModeType {
-  String toValue() {
-    switch (this) {
-      case AdvancedSecurityModeType.off:
-        return 'OFF';
-      case AdvancedSecurityModeType.audit:
-        return 'AUDIT';
-      case AdvancedSecurityModeType.enforced:
-        return 'ENFORCED';
-    }
-  }
-}
+  final String value;
 
-extension AdvancedSecurityModeTypeFromString on String {
-  AdvancedSecurityModeType toAdvancedSecurityModeType() {
-    switch (this) {
-      case 'OFF':
-        return AdvancedSecurityModeType.off;
-      case 'AUDIT':
-        return AdvancedSecurityModeType.audit;
-      case 'ENFORCED':
-        return AdvancedSecurityModeType.enforced;
-    }
-    throw Exception('$this is not known in enum AdvancedSecurityModeType');
-  }
+  const AdvancedSecurityModeType(this.value);
+
+  static AdvancedSecurityModeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdvancedSecurityModeType'));
 }
 
 enum AliasAttributeType {
-  phoneNumber,
-  email,
-  preferredUsername,
-}
+  phoneNumber('phone_number'),
+  email('email'),
+  preferredUsername('preferred_username'),
+  ;
 
-extension AliasAttributeTypeValueExtension on AliasAttributeType {
-  String toValue() {
-    switch (this) {
-      case AliasAttributeType.phoneNumber:
-        return 'phone_number';
-      case AliasAttributeType.email:
-        return 'email';
-      case AliasAttributeType.preferredUsername:
-        return 'preferred_username';
-    }
-  }
-}
+  final String value;
 
-extension AliasAttributeTypeFromString on String {
-  AliasAttributeType toAliasAttributeType() {
-    switch (this) {
-      case 'phone_number':
-        return AliasAttributeType.phoneNumber;
-      case 'email':
-        return AliasAttributeType.email;
-      case 'preferred_username':
-        return AliasAttributeType.preferredUsername;
-    }
-    throw Exception('$this is not known in enum AliasAttributeType');
-  }
+  const AliasAttributeType(this.value);
+
+  static AliasAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AliasAttributeType'));
 }
 
 /// The Amazon Pinpoint analytics configuration necessary to collect metrics for
@@ -10870,41 +10811,20 @@ class AssociateSoftwareTokenResponse {
 }
 
 enum AttributeDataType {
-  string,
-  number,
-  dateTime,
-  boolean,
-}
+  string('String'),
+  number('Number'),
+  dateTime('DateTime'),
+  boolean('Boolean'),
+  ;
 
-extension AttributeDataTypeValueExtension on AttributeDataType {
-  String toValue() {
-    switch (this) {
-      case AttributeDataType.string:
-        return 'String';
-      case AttributeDataType.number:
-        return 'Number';
-      case AttributeDataType.dateTime:
-        return 'DateTime';
-      case AttributeDataType.boolean:
-        return 'Boolean';
-    }
-  }
-}
+  final String value;
 
-extension AttributeDataTypeFromString on String {
-  AttributeDataType toAttributeDataType() {
-    switch (this) {
-      case 'String':
-        return AttributeDataType.string;
-      case 'Number':
-        return AttributeDataType.number;
-      case 'DateTime':
-        return AttributeDataType.dateTime;
-      case 'Boolean':
-        return AttributeDataType.boolean;
-    }
-    throw Exception('$this is not known in enum AttributeDataType');
-  }
+  const AttributeDataType(this.value);
+
+  static AttributeDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttributeDataType'));
 }
 
 /// Specifies whether the attribute is standard or custom.
@@ -10995,11 +10915,12 @@ class AuthEventType {
               json['EventFeedback'] as Map<String, dynamic>)
           : null,
       eventId: json['EventId'] as String?,
-      eventResponse: (json['EventResponse'] as String?)?.toEventResponseType(),
+      eventResponse:
+          (json['EventResponse'] as String?)?.let(EventResponseType.fromString),
       eventRisk: json['EventRisk'] != null
           ? EventRiskType.fromJson(json['EventRisk'] as Map<String, dynamic>)
           : null,
-      eventType: (json['EventType'] as String?)?.toEventType(),
+      eventType: (json['EventType'] as String?)?.let(EventType.fromString),
     );
   }
 
@@ -11019,64 +10940,31 @@ class AuthEventType {
       if (eventContextData != null) 'EventContextData': eventContextData,
       if (eventFeedback != null) 'EventFeedback': eventFeedback,
       if (eventId != null) 'EventId': eventId,
-      if (eventResponse != null) 'EventResponse': eventResponse.toValue(),
+      if (eventResponse != null) 'EventResponse': eventResponse.value,
       if (eventRisk != null) 'EventRisk': eventRisk,
-      if (eventType != null) 'EventType': eventType.toValue(),
+      if (eventType != null) 'EventType': eventType.value,
     };
   }
 }
 
 enum AuthFlowType {
-  userSrpAuth,
-  refreshTokenAuth,
-  refreshToken,
-  customAuth,
-  adminNoSrpAuth,
-  userPasswordAuth,
-  adminUserPasswordAuth,
-}
+  userSrpAuth('USER_SRP_AUTH'),
+  refreshTokenAuth('REFRESH_TOKEN_AUTH'),
+  refreshToken('REFRESH_TOKEN'),
+  customAuth('CUSTOM_AUTH'),
+  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
+  userPasswordAuth('USER_PASSWORD_AUTH'),
+  adminUserPasswordAuth('ADMIN_USER_PASSWORD_AUTH'),
+  ;
 
-extension AuthFlowTypeValueExtension on AuthFlowType {
-  String toValue() {
-    switch (this) {
-      case AuthFlowType.userSrpAuth:
-        return 'USER_SRP_AUTH';
-      case AuthFlowType.refreshTokenAuth:
-        return 'REFRESH_TOKEN_AUTH';
-      case AuthFlowType.refreshToken:
-        return 'REFRESH_TOKEN';
-      case AuthFlowType.customAuth:
-        return 'CUSTOM_AUTH';
-      case AuthFlowType.adminNoSrpAuth:
-        return 'ADMIN_NO_SRP_AUTH';
-      case AuthFlowType.userPasswordAuth:
-        return 'USER_PASSWORD_AUTH';
-      case AuthFlowType.adminUserPasswordAuth:
-        return 'ADMIN_USER_PASSWORD_AUTH';
-    }
-  }
-}
+  final String value;
 
-extension AuthFlowTypeFromString on String {
-  AuthFlowType toAuthFlowType() {
-    switch (this) {
-      case 'USER_SRP_AUTH':
-        return AuthFlowType.userSrpAuth;
-      case 'REFRESH_TOKEN_AUTH':
-        return AuthFlowType.refreshTokenAuth;
-      case 'REFRESH_TOKEN':
-        return AuthFlowType.refreshToken;
-      case 'CUSTOM_AUTH':
-        return AuthFlowType.customAuth;
-      case 'ADMIN_NO_SRP_AUTH':
-        return AuthFlowType.adminNoSrpAuth;
-      case 'USER_PASSWORD_AUTH':
-        return AuthFlowType.userPasswordAuth;
-      case 'ADMIN_USER_PASSWORD_AUTH':
-        return AuthFlowType.adminUserPasswordAuth;
-    }
-    throw Exception('$this is not known in enum AuthFlowType');
-  }
+  const AuthFlowType(this.value);
+
+  static AuthFlowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuthFlowType'));
 }
 
 /// The authentication result.
@@ -11142,127 +11030,56 @@ class AuthenticationResultType {
 }
 
 enum ChallengeName {
-  password,
-  mfa,
-}
+  password('Password'),
+  mfa('Mfa'),
+  ;
 
-extension ChallengeNameValueExtension on ChallengeName {
-  String toValue() {
-    switch (this) {
-      case ChallengeName.password:
-        return 'Password';
-      case ChallengeName.mfa:
-        return 'Mfa';
-    }
-  }
-}
+  final String value;
 
-extension ChallengeNameFromString on String {
-  ChallengeName toChallengeName() {
-    switch (this) {
-      case 'Password':
-        return ChallengeName.password;
-      case 'Mfa':
-        return ChallengeName.mfa;
-    }
-    throw Exception('$this is not known in enum ChallengeName');
-  }
+  const ChallengeName(this.value);
+
+  static ChallengeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChallengeName'));
 }
 
 enum ChallengeNameType {
-  smsMfa,
-  softwareTokenMfa,
-  selectMfaType,
-  mfaSetup,
-  passwordVerifier,
-  customChallenge,
-  deviceSrpAuth,
-  devicePasswordVerifier,
-  adminNoSrpAuth,
-  newPasswordRequired,
-}
+  smsMfa('SMS_MFA'),
+  softwareTokenMfa('SOFTWARE_TOKEN_MFA'),
+  selectMfaType('SELECT_MFA_TYPE'),
+  mfaSetup('MFA_SETUP'),
+  passwordVerifier('PASSWORD_VERIFIER'),
+  customChallenge('CUSTOM_CHALLENGE'),
+  deviceSrpAuth('DEVICE_SRP_AUTH'),
+  devicePasswordVerifier('DEVICE_PASSWORD_VERIFIER'),
+  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
+  newPasswordRequired('NEW_PASSWORD_REQUIRED'),
+  ;
 
-extension ChallengeNameTypeValueExtension on ChallengeNameType {
-  String toValue() {
-    switch (this) {
-      case ChallengeNameType.smsMfa:
-        return 'SMS_MFA';
-      case ChallengeNameType.softwareTokenMfa:
-        return 'SOFTWARE_TOKEN_MFA';
-      case ChallengeNameType.selectMfaType:
-        return 'SELECT_MFA_TYPE';
-      case ChallengeNameType.mfaSetup:
-        return 'MFA_SETUP';
-      case ChallengeNameType.passwordVerifier:
-        return 'PASSWORD_VERIFIER';
-      case ChallengeNameType.customChallenge:
-        return 'CUSTOM_CHALLENGE';
-      case ChallengeNameType.deviceSrpAuth:
-        return 'DEVICE_SRP_AUTH';
-      case ChallengeNameType.devicePasswordVerifier:
-        return 'DEVICE_PASSWORD_VERIFIER';
-      case ChallengeNameType.adminNoSrpAuth:
-        return 'ADMIN_NO_SRP_AUTH';
-      case ChallengeNameType.newPasswordRequired:
-        return 'NEW_PASSWORD_REQUIRED';
-    }
-  }
-}
+  final String value;
 
-extension ChallengeNameTypeFromString on String {
-  ChallengeNameType toChallengeNameType() {
-    switch (this) {
-      case 'SMS_MFA':
-        return ChallengeNameType.smsMfa;
-      case 'SOFTWARE_TOKEN_MFA':
-        return ChallengeNameType.softwareTokenMfa;
-      case 'SELECT_MFA_TYPE':
-        return ChallengeNameType.selectMfaType;
-      case 'MFA_SETUP':
-        return ChallengeNameType.mfaSetup;
-      case 'PASSWORD_VERIFIER':
-        return ChallengeNameType.passwordVerifier;
-      case 'CUSTOM_CHALLENGE':
-        return ChallengeNameType.customChallenge;
-      case 'DEVICE_SRP_AUTH':
-        return ChallengeNameType.deviceSrpAuth;
-      case 'DEVICE_PASSWORD_VERIFIER':
-        return ChallengeNameType.devicePasswordVerifier;
-      case 'ADMIN_NO_SRP_AUTH':
-        return ChallengeNameType.adminNoSrpAuth;
-      case 'NEW_PASSWORD_REQUIRED':
-        return ChallengeNameType.newPasswordRequired;
-    }
-    throw Exception('$this is not known in enum ChallengeNameType');
-  }
+  const ChallengeNameType(this.value);
+
+  static ChallengeNameType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChallengeNameType'));
 }
 
 enum ChallengeResponse {
-  success,
-  failure,
-}
+  success('Success'),
+  failure('Failure'),
+  ;
 
-extension ChallengeResponseValueExtension on ChallengeResponse {
-  String toValue() {
-    switch (this) {
-      case ChallengeResponse.success:
-        return 'Success';
-      case ChallengeResponse.failure:
-        return 'Failure';
-    }
-  }
-}
+  final String value;
 
-extension ChallengeResponseFromString on String {
-  ChallengeResponse toChallengeResponse() {
-    switch (this) {
-      case 'Success':
-        return ChallengeResponse.success;
-      case 'Failure':
-        return ChallengeResponse.failure;
-    }
-    throw Exception('$this is not known in enum ChallengeResponse');
-  }
+  const ChallengeResponse(this.value);
+
+  static ChallengeResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChallengeResponse'));
 }
 
 /// The challenge response type.
@@ -11280,9 +11097,10 @@ class ChallengeResponseType {
 
   factory ChallengeResponseType.fromJson(Map<String, dynamic> json) {
     return ChallengeResponseType(
-      challengeName: (json['ChallengeName'] as String?)?.toChallengeName(),
-      challengeResponse:
-          (json['ChallengeResponse'] as String?)?.toChallengeResponse(),
+      challengeName:
+          (json['ChallengeName'] as String?)?.let(ChallengeName.fromString),
+      challengeResponse: (json['ChallengeResponse'] as String?)
+          ?.let(ChallengeResponse.fromString),
     );
   }
 
@@ -11290,9 +11108,9 @@ class ChallengeResponseType {
     final challengeName = this.challengeName;
     final challengeResponse = this.challengeResponse;
     return {
-      if (challengeName != null) 'ChallengeName': challengeName.toValue(),
+      if (challengeName != null) 'ChallengeName': challengeName.value,
       if (challengeResponse != null)
-        'ChallengeResponse': challengeResponse.toValue(),
+        'ChallengeResponse': challengeResponse.value,
     };
   }
 }
@@ -11365,8 +11183,8 @@ class CodeDeliveryDetailsType {
   factory CodeDeliveryDetailsType.fromJson(Map<String, dynamic> json) {
     return CodeDeliveryDetailsType(
       attributeName: json['AttributeName'] as String?,
-      deliveryMedium:
-          (json['DeliveryMedium'] as String?)?.toDeliveryMediumType(),
+      deliveryMedium: (json['DeliveryMedium'] as String?)
+          ?.let(DeliveryMediumType.fromString),
       destination: json['Destination'] as String?,
     );
   }
@@ -11377,7 +11195,7 @@ class CodeDeliveryDetailsType {
     final destination = this.destination;
     return {
       if (attributeName != null) 'AttributeName': attributeName,
-      if (deliveryMedium != null) 'DeliveryMedium': deliveryMedium.toValue(),
+      if (deliveryMedium != null) 'DeliveryMedium': deliveryMedium.value,
       if (destination != null) 'Destination': destination,
     };
   }
@@ -11395,48 +11213,32 @@ class CompromisedCredentialsActionsType {
   factory CompromisedCredentialsActionsType.fromJson(
       Map<String, dynamic> json) {
     return CompromisedCredentialsActionsType(
-      eventAction: (json['EventAction'] as String)
-          .toCompromisedCredentialsEventActionType(),
+      eventAction: CompromisedCredentialsEventActionType.fromString(
+          (json['EventAction'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final eventAction = this.eventAction;
     return {
-      'EventAction': eventAction.toValue(),
+      'EventAction': eventAction.value,
     };
   }
 }
 
 enum CompromisedCredentialsEventActionType {
-  block,
-  noAction,
-}
+  block('BLOCK'),
+  noAction('NO_ACTION'),
+  ;
 
-extension CompromisedCredentialsEventActionTypeValueExtension
-    on CompromisedCredentialsEventActionType {
-  String toValue() {
-    switch (this) {
-      case CompromisedCredentialsEventActionType.block:
-        return 'BLOCK';
-      case CompromisedCredentialsEventActionType.noAction:
-        return 'NO_ACTION';
-    }
-  }
-}
+  final String value;
 
-extension CompromisedCredentialsEventActionTypeFromString on String {
-  CompromisedCredentialsEventActionType
-      toCompromisedCredentialsEventActionType() {
-    switch (this) {
-      case 'BLOCK':
-        return CompromisedCredentialsEventActionType.block;
-      case 'NO_ACTION':
-        return CompromisedCredentialsEventActionType.noAction;
-    }
-    throw Exception(
-        '$this is not known in enum CompromisedCredentialsEventActionType');
-  }
+  const CompromisedCredentialsEventActionType(this.value);
+
+  static CompromisedCredentialsEventActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CompromisedCredentialsEventActionType'));
 }
 
 /// The compromised credentials risk configuration type.
@@ -11460,7 +11262,7 @@ class CompromisedCredentialsRiskConfigurationType {
           json['Actions'] as Map<String, dynamic>),
       eventFilter: (json['EventFilter'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEventFilterType())
+          .map((e) => EventFilterType.fromString((e as String)))
           .toList(),
     );
   }
@@ -11471,7 +11273,7 @@ class CompromisedCredentialsRiskConfigurationType {
     return {
       'Actions': actions,
       if (eventFilter != null)
-        'EventFilter': eventFilter.map((e) => e.toValue()).toList(),
+        'EventFilter': eventFilter.map((e) => e.value).toList(),
     };
   }
 }
@@ -11795,8 +11597,8 @@ class CustomEmailLambdaVersionConfigType {
       Map<String, dynamic> json) {
     return CustomEmailLambdaVersionConfigType(
       lambdaArn: json['LambdaArn'] as String,
-      lambdaVersion: (json['LambdaVersion'] as String)
-          .toCustomEmailSenderLambdaVersionType(),
+      lambdaVersion: CustomEmailSenderLambdaVersionType.fromString(
+          (json['LambdaVersion'] as String)),
     );
   }
 
@@ -11805,34 +11607,23 @@ class CustomEmailLambdaVersionConfigType {
     final lambdaVersion = this.lambdaVersion;
     return {
       'LambdaArn': lambdaArn,
-      'LambdaVersion': lambdaVersion.toValue(),
+      'LambdaVersion': lambdaVersion.value,
     };
   }
 }
 
 enum CustomEmailSenderLambdaVersionType {
-  v1_0,
-}
+  v1_0('V1_0'),
+  ;
 
-extension CustomEmailSenderLambdaVersionTypeValueExtension
-    on CustomEmailSenderLambdaVersionType {
-  String toValue() {
-    switch (this) {
-      case CustomEmailSenderLambdaVersionType.v1_0:
-        return 'V1_0';
-    }
-  }
-}
+  final String value;
 
-extension CustomEmailSenderLambdaVersionTypeFromString on String {
-  CustomEmailSenderLambdaVersionType toCustomEmailSenderLambdaVersionType() {
-    switch (this) {
-      case 'V1_0':
-        return CustomEmailSenderLambdaVersionType.v1_0;
-    }
-    throw Exception(
-        '$this is not known in enum CustomEmailSenderLambdaVersionType');
-  }
+  const CustomEmailSenderLambdaVersionType(this.value);
+
+  static CustomEmailSenderLambdaVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomEmailSenderLambdaVersionType'));
 }
 
 /// The properties of a custom SMS sender Lambda trigger.
@@ -11857,8 +11648,8 @@ class CustomSMSLambdaVersionConfigType {
   factory CustomSMSLambdaVersionConfigType.fromJson(Map<String, dynamic> json) {
     return CustomSMSLambdaVersionConfigType(
       lambdaArn: json['LambdaArn'] as String,
-      lambdaVersion: (json['LambdaVersion'] as String)
-          .toCustomSMSSenderLambdaVersionType(),
+      lambdaVersion: CustomSMSSenderLambdaVersionType.fromString(
+          (json['LambdaVersion'] as String)),
     );
   }
 
@@ -11867,62 +11658,38 @@ class CustomSMSLambdaVersionConfigType {
     final lambdaVersion = this.lambdaVersion;
     return {
       'LambdaArn': lambdaArn,
-      'LambdaVersion': lambdaVersion.toValue(),
+      'LambdaVersion': lambdaVersion.value,
     };
   }
 }
 
 enum CustomSMSSenderLambdaVersionType {
-  v1_0,
-}
+  v1_0('V1_0'),
+  ;
 
-extension CustomSMSSenderLambdaVersionTypeValueExtension
-    on CustomSMSSenderLambdaVersionType {
-  String toValue() {
-    switch (this) {
-      case CustomSMSSenderLambdaVersionType.v1_0:
-        return 'V1_0';
-    }
-  }
-}
+  final String value;
 
-extension CustomSMSSenderLambdaVersionTypeFromString on String {
-  CustomSMSSenderLambdaVersionType toCustomSMSSenderLambdaVersionType() {
-    switch (this) {
-      case 'V1_0':
-        return CustomSMSSenderLambdaVersionType.v1_0;
-    }
-    throw Exception(
-        '$this is not known in enum CustomSMSSenderLambdaVersionType');
-  }
+  const CustomSMSSenderLambdaVersionType(this.value);
+
+  static CustomSMSSenderLambdaVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomSMSSenderLambdaVersionType'));
 }
 
 enum DefaultEmailOptionType {
-  confirmWithLink,
-  confirmWithCode,
-}
+  confirmWithLink('CONFIRM_WITH_LINK'),
+  confirmWithCode('CONFIRM_WITH_CODE'),
+  ;
 
-extension DefaultEmailOptionTypeValueExtension on DefaultEmailOptionType {
-  String toValue() {
-    switch (this) {
-      case DefaultEmailOptionType.confirmWithLink:
-        return 'CONFIRM_WITH_LINK';
-      case DefaultEmailOptionType.confirmWithCode:
-        return 'CONFIRM_WITH_CODE';
-    }
-  }
-}
+  final String value;
 
-extension DefaultEmailOptionTypeFromString on String {
-  DefaultEmailOptionType toDefaultEmailOptionType() {
-    switch (this) {
-      case 'CONFIRM_WITH_LINK':
-        return DefaultEmailOptionType.confirmWithLink;
-      case 'CONFIRM_WITH_CODE':
-        return DefaultEmailOptionType.confirmWithCode;
-    }
-    throw Exception('$this is not known in enum DefaultEmailOptionType');
-  }
+  const DefaultEmailOptionType(this.value);
+
+  static DefaultEmailOptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DefaultEmailOptionType'));
 }
 
 /// Represents the response from the server to delete user attributes.
@@ -11951,59 +11718,33 @@ class DeleteUserPoolDomainResponse {
 }
 
 enum DeletionProtectionType {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension DeletionProtectionTypeValueExtension on DeletionProtectionType {
-  String toValue() {
-    switch (this) {
-      case DeletionProtectionType.active:
-        return 'ACTIVE';
-      case DeletionProtectionType.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DeletionProtectionTypeFromString on String {
-  DeletionProtectionType toDeletionProtectionType() {
-    switch (this) {
-      case 'ACTIVE':
-        return DeletionProtectionType.active;
-      case 'INACTIVE':
-        return DeletionProtectionType.inactive;
-    }
-    throw Exception('$this is not known in enum DeletionProtectionType');
-  }
+  const DeletionProtectionType(this.value);
+
+  static DeletionProtectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeletionProtectionType'));
 }
 
 enum DeliveryMediumType {
-  sms,
-  email,
-}
+  sms('SMS'),
+  email('EMAIL'),
+  ;
 
-extension DeliveryMediumTypeValueExtension on DeliveryMediumType {
-  String toValue() {
-    switch (this) {
-      case DeliveryMediumType.sms:
-        return 'SMS';
-      case DeliveryMediumType.email:
-        return 'EMAIL';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryMediumTypeFromString on String {
-  DeliveryMediumType toDeliveryMediumType() {
-    switch (this) {
-      case 'SMS':
-        return DeliveryMediumType.sms;
-      case 'EMAIL':
-        return DeliveryMediumType.email;
-    }
-    throw Exception('$this is not known in enum DeliveryMediumType');
-  }
+  const DeliveryMediumType(this.value);
+
+  static DeliveryMediumType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeliveryMediumType'));
 }
 
 class DescribeIdentityProviderResponse {
@@ -12261,32 +12002,18 @@ class DeviceConfigurationType {
 }
 
 enum DeviceRememberedStatusType {
-  remembered,
-  notRemembered,
-}
+  remembered('remembered'),
+  notRemembered('not_remembered'),
+  ;
 
-extension DeviceRememberedStatusTypeValueExtension
-    on DeviceRememberedStatusType {
-  String toValue() {
-    switch (this) {
-      case DeviceRememberedStatusType.remembered:
-        return 'remembered';
-      case DeviceRememberedStatusType.notRemembered:
-        return 'not_remembered';
-    }
-  }
-}
+  final String value;
 
-extension DeviceRememberedStatusTypeFromString on String {
-  DeviceRememberedStatusType toDeviceRememberedStatusType() {
-    switch (this) {
-      case 'remembered':
-        return DeviceRememberedStatusType.remembered;
-      case 'not_remembered':
-        return DeviceRememberedStatusType.notRemembered;
-    }
-    throw Exception('$this is not known in enum DeviceRememberedStatusType');
-  }
+  const DeviceRememberedStatusType(this.value);
+
+  static DeviceRememberedStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceRememberedStatusType'));
 }
 
 /// The device verifier against which it is authenticated.
@@ -12424,7 +12151,7 @@ class DomainDescriptionType {
           : null,
       domain: json['Domain'] as String?,
       s3Bucket: json['S3Bucket'] as String?,
-      status: (json['Status'] as String?)?.toDomainStatusType(),
+      status: (json['Status'] as String?)?.let(DomainStatusType.fromString),
       userPoolId: json['UserPoolId'] as String?,
       version: json['Version'] as String?,
     );
@@ -12446,7 +12173,7 @@ class DomainDescriptionType {
       if (customDomainConfig != null) 'CustomDomainConfig': customDomainConfig,
       if (domain != null) 'Domain': domain,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (userPoolId != null) 'UserPoolId': userPoolId,
       if (version != null) 'Version': version,
     };
@@ -12454,46 +12181,21 @@ class DomainDescriptionType {
 }
 
 enum DomainStatusType {
-  creating,
-  deleting,
-  updating,
-  active,
-  failed,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension DomainStatusTypeValueExtension on DomainStatusType {
-  String toValue() {
-    switch (this) {
-      case DomainStatusType.creating:
-        return 'CREATING';
-      case DomainStatusType.deleting:
-        return 'DELETING';
-      case DomainStatusType.updating:
-        return 'UPDATING';
-      case DomainStatusType.active:
-        return 'ACTIVE';
-      case DomainStatusType.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusTypeFromString on String {
-  DomainStatusType toDomainStatusType() {
-    switch (this) {
-      case 'CREATING':
-        return DomainStatusType.creating;
-      case 'DELETING':
-        return DomainStatusType.deleting;
-      case 'UPDATING':
-        return DomainStatusType.updating;
-      case 'ACTIVE':
-        return DomainStatusType.active;
-      case 'FAILED':
-        return DomainStatusType.failed;
-    }
-    throw Exception('$this is not known in enum DomainStatusType');
-  }
+  const DomainStatusType(this.value);
+
+  static DomainStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatusType'));
 }
 
 /// The email configuration of your user pool. The email configuration type sets
@@ -12616,8 +12318,8 @@ class EmailConfigurationType {
   factory EmailConfigurationType.fromJson(Map<String, dynamic> json) {
     return EmailConfigurationType(
       configurationSet: json['ConfigurationSet'] as String?,
-      emailSendingAccount:
-          (json['EmailSendingAccount'] as String?)?.toEmailSendingAccountType(),
+      emailSendingAccount: (json['EmailSendingAccount'] as String?)
+          ?.let(EmailSendingAccountType.fromString),
       from: json['From'] as String?,
       replyToEmailAddress: json['ReplyToEmailAddress'] as String?,
       sourceArn: json['SourceArn'] as String?,
@@ -12633,7 +12335,7 @@ class EmailConfigurationType {
     return {
       if (configurationSet != null) 'ConfigurationSet': configurationSet,
       if (emailSendingAccount != null)
-        'EmailSendingAccount': emailSendingAccount.toValue(),
+        'EmailSendingAccount': emailSendingAccount.value,
       if (from != null) 'From': from,
       if (replyToEmailAddress != null)
         'ReplyToEmailAddress': replyToEmailAddress,
@@ -12643,31 +12345,18 @@ class EmailConfigurationType {
 }
 
 enum EmailSendingAccountType {
-  cognitoDefault,
-  developer,
-}
+  cognitoDefault('COGNITO_DEFAULT'),
+  developer('DEVELOPER'),
+  ;
 
-extension EmailSendingAccountTypeValueExtension on EmailSendingAccountType {
-  String toValue() {
-    switch (this) {
-      case EmailSendingAccountType.cognitoDefault:
-        return 'COGNITO_DEFAULT';
-      case EmailSendingAccountType.developer:
-        return 'DEVELOPER';
-    }
-  }
-}
+  final String value;
 
-extension EmailSendingAccountTypeFromString on String {
-  EmailSendingAccountType toEmailSendingAccountType() {
-    switch (this) {
-      case 'COGNITO_DEFAULT':
-        return EmailSendingAccountType.cognitoDefault;
-      case 'DEVELOPER':
-        return EmailSendingAccountType.developer;
-    }
-    throw Exception('$this is not known in enum EmailSendingAccountType');
-  }
+  const EmailSendingAccountType(this.value);
+
+  static EmailSendingAccountType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmailSendingAccountType'));
 }
 
 /// Specifies the user context data captured at the time of an event request.
@@ -12746,7 +12435,8 @@ class EventFeedbackType {
 
   factory EventFeedbackType.fromJson(Map<String, dynamic> json) {
     return EventFeedbackType(
-      feedbackValue: (json['FeedbackValue'] as String).toFeedbackValueType(),
+      feedbackValue:
+          FeedbackValueType.fromString((json['FeedbackValue'] as String)),
       provider: json['Provider'] as String,
       feedbackDate: timeStampFromJson(json['FeedbackDate']),
     );
@@ -12757,7 +12447,7 @@ class EventFeedbackType {
     final provider = this.provider;
     final feedbackDate = this.feedbackDate;
     return {
-      'FeedbackValue': feedbackValue.toValue(),
+      'FeedbackValue': feedbackValue.value,
       'Provider': provider,
       if (feedbackDate != null)
         'FeedbackDate': unixTimestampToJson(feedbackDate),
@@ -12766,69 +12456,35 @@ class EventFeedbackType {
 }
 
 enum EventFilterType {
-  signIn,
-  passwordChange,
-  signUp,
-}
+  signIn('SIGN_IN'),
+  passwordChange('PASSWORD_CHANGE'),
+  signUp('SIGN_UP'),
+  ;
 
-extension EventFilterTypeValueExtension on EventFilterType {
-  String toValue() {
-    switch (this) {
-      case EventFilterType.signIn:
-        return 'SIGN_IN';
-      case EventFilterType.passwordChange:
-        return 'PASSWORD_CHANGE';
-      case EventFilterType.signUp:
-        return 'SIGN_UP';
-    }
-  }
-}
+  final String value;
 
-extension EventFilterTypeFromString on String {
-  EventFilterType toEventFilterType() {
-    switch (this) {
-      case 'SIGN_IN':
-        return EventFilterType.signIn;
-      case 'PASSWORD_CHANGE':
-        return EventFilterType.passwordChange;
-      case 'SIGN_UP':
-        return EventFilterType.signUp;
-    }
-    throw Exception('$this is not known in enum EventFilterType');
-  }
+  const EventFilterType(this.value);
+
+  static EventFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventFilterType'));
 }
 
 enum EventResponseType {
-  pass,
-  fail,
-  inProgress,
-}
+  pass('Pass'),
+  fail('Fail'),
+  inProgress('InProgress'),
+  ;
 
-extension EventResponseTypeValueExtension on EventResponseType {
-  String toValue() {
-    switch (this) {
-      case EventResponseType.pass:
-        return 'Pass';
-      case EventResponseType.fail:
-        return 'Fail';
-      case EventResponseType.inProgress:
-        return 'InProgress';
-    }
-  }
-}
+  final String value;
 
-extension EventResponseTypeFromString on String {
-  EventResponseType toEventResponseType() {
-    switch (this) {
-      case 'Pass':
-        return EventResponseType.pass;
-      case 'Fail':
-        return EventResponseType.fail;
-      case 'InProgress':
-        return EventResponseType.inProgress;
-    }
-    throw Exception('$this is not known in enum EventResponseType');
-  }
+  const EventResponseType(this.value);
+
+  static EventResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventResponseType'));
 }
 
 /// The event risk type.
@@ -12853,8 +12509,9 @@ class EventRiskType {
     return EventRiskType(
       compromisedCredentialsDetected:
           json['CompromisedCredentialsDetected'] as bool?,
-      riskDecision: (json['RiskDecision'] as String?)?.toRiskDecisionType(),
-      riskLevel: (json['RiskLevel'] as String?)?.toRiskLevelType(),
+      riskDecision:
+          (json['RiskDecision'] as String?)?.let(RiskDecisionType.fromString),
+      riskLevel: (json['RiskLevel'] as String?)?.let(RiskLevelType.fromString),
     );
   }
 
@@ -12865,162 +12522,77 @@ class EventRiskType {
     return {
       if (compromisedCredentialsDetected != null)
         'CompromisedCredentialsDetected': compromisedCredentialsDetected,
-      if (riskDecision != null) 'RiskDecision': riskDecision.toValue(),
-      if (riskLevel != null) 'RiskLevel': riskLevel.toValue(),
+      if (riskDecision != null) 'RiskDecision': riskDecision.value,
+      if (riskLevel != null) 'RiskLevel': riskLevel.value,
     };
   }
 }
 
 enum EventSourceName {
-  userNotification,
-}
+  userNotification('userNotification'),
+  ;
 
-extension EventSourceNameValueExtension on EventSourceName {
-  String toValue() {
-    switch (this) {
-      case EventSourceName.userNotification:
-        return 'userNotification';
-    }
-  }
-}
+  final String value;
 
-extension EventSourceNameFromString on String {
-  EventSourceName toEventSourceName() {
-    switch (this) {
-      case 'userNotification':
-        return EventSourceName.userNotification;
-    }
-    throw Exception('$this is not known in enum EventSourceName');
-  }
+  const EventSourceName(this.value);
+
+  static EventSourceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventSourceName'));
 }
 
 enum EventType {
-  signIn,
-  signUp,
-  forgotPassword,
-  passwordChange,
-  resendCode,
-}
+  signIn('SignIn'),
+  signUp('SignUp'),
+  forgotPassword('ForgotPassword'),
+  passwordChange('PasswordChange'),
+  resendCode('ResendCode'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.signIn:
-        return 'SignIn';
-      case EventType.signUp:
-        return 'SignUp';
-      case EventType.forgotPassword:
-        return 'ForgotPassword';
-      case EventType.passwordChange:
-        return 'PasswordChange';
-      case EventType.resendCode:
-        return 'ResendCode';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'SignIn':
-        return EventType.signIn;
-      case 'SignUp':
-        return EventType.signUp;
-      case 'ForgotPassword':
-        return EventType.forgotPassword;
-      case 'PasswordChange':
-        return EventType.passwordChange;
-      case 'ResendCode':
-        return EventType.resendCode;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 enum ExplicitAuthFlowsType {
-  adminNoSrpAuth,
-  customAuthFlowOnly,
-  userPasswordAuth,
-  allowAdminUserPasswordAuth,
-  allowCustomAuth,
-  allowUserPasswordAuth,
-  allowUserSrpAuth,
-  allowRefreshTokenAuth,
-}
+  adminNoSrpAuth('ADMIN_NO_SRP_AUTH'),
+  customAuthFlowOnly('CUSTOM_AUTH_FLOW_ONLY'),
+  userPasswordAuth('USER_PASSWORD_AUTH'),
+  allowAdminUserPasswordAuth('ALLOW_ADMIN_USER_PASSWORD_AUTH'),
+  allowCustomAuth('ALLOW_CUSTOM_AUTH'),
+  allowUserPasswordAuth('ALLOW_USER_PASSWORD_AUTH'),
+  allowUserSrpAuth('ALLOW_USER_SRP_AUTH'),
+  allowRefreshTokenAuth('ALLOW_REFRESH_TOKEN_AUTH'),
+  ;
 
-extension ExplicitAuthFlowsTypeValueExtension on ExplicitAuthFlowsType {
-  String toValue() {
-    switch (this) {
-      case ExplicitAuthFlowsType.adminNoSrpAuth:
-        return 'ADMIN_NO_SRP_AUTH';
-      case ExplicitAuthFlowsType.customAuthFlowOnly:
-        return 'CUSTOM_AUTH_FLOW_ONLY';
-      case ExplicitAuthFlowsType.userPasswordAuth:
-        return 'USER_PASSWORD_AUTH';
-      case ExplicitAuthFlowsType.allowAdminUserPasswordAuth:
-        return 'ALLOW_ADMIN_USER_PASSWORD_AUTH';
-      case ExplicitAuthFlowsType.allowCustomAuth:
-        return 'ALLOW_CUSTOM_AUTH';
-      case ExplicitAuthFlowsType.allowUserPasswordAuth:
-        return 'ALLOW_USER_PASSWORD_AUTH';
-      case ExplicitAuthFlowsType.allowUserSrpAuth:
-        return 'ALLOW_USER_SRP_AUTH';
-      case ExplicitAuthFlowsType.allowRefreshTokenAuth:
-        return 'ALLOW_REFRESH_TOKEN_AUTH';
-    }
-  }
-}
+  final String value;
 
-extension ExplicitAuthFlowsTypeFromString on String {
-  ExplicitAuthFlowsType toExplicitAuthFlowsType() {
-    switch (this) {
-      case 'ADMIN_NO_SRP_AUTH':
-        return ExplicitAuthFlowsType.adminNoSrpAuth;
-      case 'CUSTOM_AUTH_FLOW_ONLY':
-        return ExplicitAuthFlowsType.customAuthFlowOnly;
-      case 'USER_PASSWORD_AUTH':
-        return ExplicitAuthFlowsType.userPasswordAuth;
-      case 'ALLOW_ADMIN_USER_PASSWORD_AUTH':
-        return ExplicitAuthFlowsType.allowAdminUserPasswordAuth;
-      case 'ALLOW_CUSTOM_AUTH':
-        return ExplicitAuthFlowsType.allowCustomAuth;
-      case 'ALLOW_USER_PASSWORD_AUTH':
-        return ExplicitAuthFlowsType.allowUserPasswordAuth;
-      case 'ALLOW_USER_SRP_AUTH':
-        return ExplicitAuthFlowsType.allowUserSrpAuth;
-      case 'ALLOW_REFRESH_TOKEN_AUTH':
-        return ExplicitAuthFlowsType.allowRefreshTokenAuth;
-    }
-    throw Exception('$this is not known in enum ExplicitAuthFlowsType');
-  }
+  const ExplicitAuthFlowsType(this.value);
+
+  static ExplicitAuthFlowsType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExplicitAuthFlowsType'));
 }
 
 enum FeedbackValueType {
-  valid,
-  invalid,
-}
+  valid('Valid'),
+  invalid('Invalid'),
+  ;
 
-extension FeedbackValueTypeValueExtension on FeedbackValueType {
-  String toValue() {
-    switch (this) {
-      case FeedbackValueType.valid:
-        return 'Valid';
-      case FeedbackValueType.invalid:
-        return 'Invalid';
-    }
-  }
-}
+  final String value;
 
-extension FeedbackValueTypeFromString on String {
-  FeedbackValueType toFeedbackValueType() {
-    switch (this) {
-      case 'Valid':
-        return FeedbackValueType.valid;
-      case 'Invalid':
-        return FeedbackValueType.invalid;
-    }
-    throw Exception('$this is not known in enum FeedbackValueType');
-  }
+  const FeedbackValueType(this.value);
+
+  static FeedbackValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeedbackValueType'));
 }
 
 /// The response from Amazon Cognito to a request to reset a password.
@@ -13290,8 +12862,8 @@ class GetUserPoolMfaConfigResponse {
 
   factory GetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetUserPoolMfaConfigResponse(
-      mfaConfiguration:
-          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      mfaConfiguration: (json['MfaConfiguration'] as String?)
+          ?.let(UserPoolMfaType.fromString),
       smsMfaConfiguration: json['SmsMfaConfiguration'] != null
           ? SmsMfaConfigType.fromJson(
               json['SmsMfaConfiguration'] as Map<String, dynamic>)
@@ -13309,8 +12881,7 @@ class GetUserPoolMfaConfigResponse {
     final smsMfaConfiguration = this.smsMfaConfiguration;
     final softwareTokenMfaConfiguration = this.softwareTokenMfaConfiguration;
     return {
-      if (mfaConfiguration != null)
-        'MfaConfiguration': mfaConfiguration.toValue(),
+      if (mfaConfiguration != null) 'MfaConfiguration': mfaConfiguration.value,
       if (smsMfaConfiguration != null)
         'SmsMfaConfiguration': smsMfaConfiguration,
       if (softwareTokenMfaConfiguration != null)
@@ -13664,8 +13235,8 @@ class IdentityProviderType {
       providerDetails: (json['ProviderDetails'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       providerName: json['ProviderName'] as String?,
-      providerType:
-          (json['ProviderType'] as String?)?.toIdentityProviderTypeType(),
+      providerType: (json['ProviderType'] as String?)
+          ?.let(IdentityProviderTypeType.fromString),
       userPoolId: json['UserPoolId'] as String?,
     );
   }
@@ -13688,58 +13259,29 @@ class IdentityProviderType {
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (providerDetails != null) 'ProviderDetails': providerDetails,
       if (providerName != null) 'ProviderName': providerName,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
       if (userPoolId != null) 'UserPoolId': userPoolId,
     };
   }
 }
 
 enum IdentityProviderTypeType {
-  saml,
-  facebook,
-  google,
-  loginWithAmazon,
-  signInWithApple,
-  oidc,
-}
+  saml('SAML'),
+  facebook('Facebook'),
+  google('Google'),
+  loginWithAmazon('LoginWithAmazon'),
+  signInWithApple('SignInWithApple'),
+  oidc('OIDC'),
+  ;
 
-extension IdentityProviderTypeTypeValueExtension on IdentityProviderTypeType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderTypeType.saml:
-        return 'SAML';
-      case IdentityProviderTypeType.facebook:
-        return 'Facebook';
-      case IdentityProviderTypeType.google:
-        return 'Google';
-      case IdentityProviderTypeType.loginWithAmazon:
-        return 'LoginWithAmazon';
-      case IdentityProviderTypeType.signInWithApple:
-        return 'SignInWithApple';
-      case IdentityProviderTypeType.oidc:
-        return 'OIDC';
-    }
-  }
-}
+  final String value;
 
-extension IdentityProviderTypeTypeFromString on String {
-  IdentityProviderTypeType toIdentityProviderTypeType() {
-    switch (this) {
-      case 'SAML':
-        return IdentityProviderTypeType.saml;
-      case 'Facebook':
-        return IdentityProviderTypeType.facebook;
-      case 'Google':
-        return IdentityProviderTypeType.google;
-      case 'LoginWithAmazon':
-        return IdentityProviderTypeType.loginWithAmazon;
-      case 'SignInWithApple':
-        return IdentityProviderTypeType.signInWithApple;
-      case 'OIDC':
-        return IdentityProviderTypeType.oidc;
-    }
-    throw Exception('$this is not known in enum IdentityProviderTypeType');
-  }
+  const IdentityProviderTypeType(this.value);
+
+  static IdentityProviderTypeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IdentityProviderTypeType'));
 }
 
 /// Initiates the authentication response.
@@ -13848,7 +13390,8 @@ class InitiateAuthResponse {
           ? AuthenticationResultType.fromJson(
               json['AuthenticationResult'] as Map<String, dynamic>)
           : null,
-      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeName:
+          (json['ChallengeName'] as String?)?.let(ChallengeNameType.fromString),
       challengeParameters:
           (json['ChallengeParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -13864,7 +13407,7 @@ class InitiateAuthResponse {
     return {
       if (authenticationResult != null)
         'AuthenticationResult': authenticationResult,
-      if (challengeName != null) 'ChallengeName': challengeName.toValue(),
+      if (challengeName != null) 'ChallengeName': challengeName.value,
       if (challengeParameters != null)
         'ChallengeParameters': challengeParameters,
       if (session != null) 'Session': session,
@@ -14377,8 +13920,8 @@ class LogConfigurationType {
 
   factory LogConfigurationType.fromJson(Map<String, dynamic> json) {
     return LogConfigurationType(
-      eventSource: (json['EventSource'] as String).toEventSourceName(),
-      logLevel: (json['LogLevel'] as String).toLogLevel(),
+      eventSource: EventSourceName.fromString((json['EventSource'] as String)),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
       cloudWatchLogsConfiguration: json['CloudWatchLogsConfiguration'] != null
           ? CloudWatchLogsConfigurationType.fromJson(
               json['CloudWatchLogsConfiguration'] as Map<String, dynamic>)
@@ -14391,8 +13934,8 @@ class LogConfigurationType {
     final logLevel = this.logLevel;
     final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
     return {
-      'EventSource': eventSource.toValue(),
-      'LogLevel': logLevel.toValue(),
+      'EventSource': eventSource.value,
+      'LogLevel': logLevel.value,
       if (cloudWatchLogsConfiguration != null)
         'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
     };
@@ -14433,26 +13976,16 @@ class LogDeliveryConfigurationType {
 }
 
 enum LogLevel {
-  error,
-}
+  error('ERROR'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'ERROR':
-        return LogLevel.error;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// <i>This data type is no longer supported.</i> Applies only to SMS
@@ -14475,8 +14008,8 @@ class MFAOptionType {
   factory MFAOptionType.fromJson(Map<String, dynamic> json) {
     return MFAOptionType(
       attributeName: json['AttributeName'] as String?,
-      deliveryMedium:
-          (json['DeliveryMedium'] as String?)?.toDeliveryMediumType(),
+      deliveryMedium: (json['DeliveryMedium'] as String?)
+          ?.let(DeliveryMediumType.fromString),
     );
   }
 
@@ -14485,37 +14018,24 @@ class MFAOptionType {
     final deliveryMedium = this.deliveryMedium;
     return {
       if (attributeName != null) 'AttributeName': attributeName,
-      if (deliveryMedium != null) 'DeliveryMedium': deliveryMedium.toValue(),
+      if (deliveryMedium != null) 'DeliveryMedium': deliveryMedium.value,
     };
   }
 }
 
 enum MessageActionType {
-  resend,
-  suppress,
-}
+  resend('RESEND'),
+  suppress('SUPPRESS'),
+  ;
 
-extension MessageActionTypeValueExtension on MessageActionType {
-  String toValue() {
-    switch (this) {
-      case MessageActionType.resend:
-        return 'RESEND';
-      case MessageActionType.suppress:
-        return 'SUPPRESS';
-    }
-  }
-}
+  final String value;
 
-extension MessageActionTypeFromString on String {
-  MessageActionType toMessageActionType() {
-    switch (this) {
-      case 'RESEND':
-        return MessageActionType.resend;
-      case 'SUPPRESS':
-        return MessageActionType.suppress;
-    }
-    throw Exception('$this is not known in enum MessageActionType');
-  }
+  const MessageActionType(this.value);
+
+  static MessageActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MessageActionType'));
 }
 
 /// The message template structure.
@@ -14730,36 +14250,19 @@ class NumberAttributeConstraintsType {
 }
 
 enum OAuthFlowType {
-  code,
-  implicit,
-  clientCredentials,
-}
+  code('code'),
+  implicit('implicit'),
+  clientCredentials('client_credentials'),
+  ;
 
-extension OAuthFlowTypeValueExtension on OAuthFlowType {
-  String toValue() {
-    switch (this) {
-      case OAuthFlowType.code:
-        return 'code';
-      case OAuthFlowType.implicit:
-        return 'implicit';
-      case OAuthFlowType.clientCredentials:
-        return 'client_credentials';
-    }
-  }
-}
+  final String value;
 
-extension OAuthFlowTypeFromString on String {
-  OAuthFlowType toOAuthFlowType() {
-    switch (this) {
-      case 'code':
-        return OAuthFlowType.code;
-      case 'implicit':
-        return OAuthFlowType.implicit;
-      case 'client_credentials':
-        return OAuthFlowType.clientCredentials;
-    }
-    throw Exception('$this is not known in enum OAuthFlowType');
-  }
+  const OAuthFlowType(this.value);
+
+  static OAuthFlowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OAuthFlowType'));
 }
 
 /// The password policy type.
@@ -14837,33 +14340,18 @@ class PasswordPolicyType {
 }
 
 enum PreTokenGenerationLambdaVersionType {
-  v1_0,
-  v2_0,
-}
+  v1_0('V1_0'),
+  v2_0('V2_0'),
+  ;
 
-extension PreTokenGenerationLambdaVersionTypeValueExtension
-    on PreTokenGenerationLambdaVersionType {
-  String toValue() {
-    switch (this) {
-      case PreTokenGenerationLambdaVersionType.v1_0:
-        return 'V1_0';
-      case PreTokenGenerationLambdaVersionType.v2_0:
-        return 'V2_0';
-    }
-  }
-}
+  final String value;
 
-extension PreTokenGenerationLambdaVersionTypeFromString on String {
-  PreTokenGenerationLambdaVersionType toPreTokenGenerationLambdaVersionType() {
-    switch (this) {
-      case 'V1_0':
-        return PreTokenGenerationLambdaVersionType.v1_0;
-      case 'V2_0':
-        return PreTokenGenerationLambdaVersionType.v2_0;
-    }
-    throw Exception(
-        '$this is not known in enum PreTokenGenerationLambdaVersionType');
-  }
+  const PreTokenGenerationLambdaVersionType(this.value);
+
+  static PreTokenGenerationLambdaVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PreTokenGenerationLambdaVersionType'));
 }
 
 /// The properties of a pre token generation Lambda trigger.
@@ -14890,8 +14378,8 @@ class PreTokenGenerationVersionConfigType {
       Map<String, dynamic> json) {
     return PreTokenGenerationVersionConfigType(
       lambdaArn: json['LambdaArn'] as String,
-      lambdaVersion: (json['LambdaVersion'] as String)
-          .toPreTokenGenerationLambdaVersionType(),
+      lambdaVersion: PreTokenGenerationLambdaVersionType.fromString(
+          (json['LambdaVersion'] as String)),
     );
   }
 
@@ -14900,39 +14388,24 @@ class PreTokenGenerationVersionConfigType {
     final lambdaVersion = this.lambdaVersion;
     return {
       'LambdaArn': lambdaArn,
-      'LambdaVersion': lambdaVersion.toValue(),
+      'LambdaVersion': lambdaVersion.value,
     };
   }
 }
 
 enum PreventUserExistenceErrorTypes {
-  legacy,
-  enabled,
-}
+  legacy('LEGACY'),
+  enabled('ENABLED'),
+  ;
 
-extension PreventUserExistenceErrorTypesValueExtension
-    on PreventUserExistenceErrorTypes {
-  String toValue() {
-    switch (this) {
-      case PreventUserExistenceErrorTypes.legacy:
-        return 'LEGACY';
-      case PreventUserExistenceErrorTypes.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension PreventUserExistenceErrorTypesFromString on String {
-  PreventUserExistenceErrorTypes toPreventUserExistenceErrorTypes() {
-    switch (this) {
-      case 'LEGACY':
-        return PreventUserExistenceErrorTypes.legacy;
-      case 'ENABLED':
-        return PreventUserExistenceErrorTypes.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum PreventUserExistenceErrorTypes');
-  }
+  const PreventUserExistenceErrorTypes(this.value);
+
+  static PreventUserExistenceErrorTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PreventUserExistenceErrorTypes'));
 }
 
 /// A container for IdP details.
@@ -14963,8 +14436,8 @@ class ProviderDescription {
       creationDate: timeStampFromJson(json['CreationDate']),
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       providerName: json['ProviderName'] as String?,
-      providerType:
-          (json['ProviderType'] as String?)?.toIdentityProviderTypeType(),
+      providerType: (json['ProviderType'] as String?)
+          ?.let(IdentityProviderTypeType.fromString),
     );
   }
 
@@ -14979,7 +14452,7 @@ class ProviderDescription {
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (providerName != null) 'ProviderName': providerName,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
     };
   }
 }
@@ -15017,36 +14490,19 @@ class ProviderUserIdentifierType {
 }
 
 enum RecoveryOptionNameType {
-  verifiedEmail,
-  verifiedPhoneNumber,
-  adminOnly,
-}
+  verifiedEmail('verified_email'),
+  verifiedPhoneNumber('verified_phone_number'),
+  adminOnly('admin_only'),
+  ;
 
-extension RecoveryOptionNameTypeValueExtension on RecoveryOptionNameType {
-  String toValue() {
-    switch (this) {
-      case RecoveryOptionNameType.verifiedEmail:
-        return 'verified_email';
-      case RecoveryOptionNameType.verifiedPhoneNumber:
-        return 'verified_phone_number';
-      case RecoveryOptionNameType.adminOnly:
-        return 'admin_only';
-    }
-  }
-}
+  final String value;
 
-extension RecoveryOptionNameTypeFromString on String {
-  RecoveryOptionNameType toRecoveryOptionNameType() {
-    switch (this) {
-      case 'verified_email':
-        return RecoveryOptionNameType.verifiedEmail;
-      case 'verified_phone_number':
-        return RecoveryOptionNameType.verifiedPhoneNumber;
-      case 'admin_only':
-        return RecoveryOptionNameType.adminOnly;
-    }
-    throw Exception('$this is not known in enum RecoveryOptionNameType');
-  }
+  const RecoveryOptionNameType(this.value);
+
+  static RecoveryOptionNameType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecoveryOptionNameType'));
 }
 
 /// A map containing a priority as a key, and recovery method name as a value.
@@ -15065,7 +14521,7 @@ class RecoveryOptionType {
 
   factory RecoveryOptionType.fromJson(Map<String, dynamic> json) {
     return RecoveryOptionType(
-      name: (json['Name'] as String).toRecoveryOptionNameType(),
+      name: RecoveryOptionNameType.fromString((json['Name'] as String)),
       priority: json['Priority'] as int,
     );
   }
@@ -15074,7 +14530,7 @@ class RecoveryOptionType {
     final name = this.name;
     final priority = this.priority;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Priority': priority,
     };
   }
@@ -15227,7 +14683,8 @@ class RespondToAuthChallengeResponse {
           ? AuthenticationResultType.fromJson(
               json['AuthenticationResult'] as Map<String, dynamic>)
           : null,
-      challengeName: (json['ChallengeName'] as String?)?.toChallengeNameType(),
+      challengeName:
+          (json['ChallengeName'] as String?)?.let(ChallengeNameType.fromString),
       challengeParameters:
           (json['ChallengeParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -15243,7 +14700,7 @@ class RespondToAuthChallengeResponse {
     return {
       if (authenticationResult != null)
         'AuthenticationResult': authenticationResult,
-      if (challengeName != null) 'ChallengeName': challengeName.toValue(),
+      if (challengeName != null) 'ChallengeName': challengeName.value,
       if (challengeParameters != null)
         'ChallengeParameters': challengeParameters,
       if (session != null) 'Session': session,
@@ -15348,36 +14805,19 @@ class RiskConfigurationType {
 }
 
 enum RiskDecisionType {
-  noRisk,
-  accountTakeover,
-  block,
-}
+  noRisk('NoRisk'),
+  accountTakeover('AccountTakeover'),
+  block('Block'),
+  ;
 
-extension RiskDecisionTypeValueExtension on RiskDecisionType {
-  String toValue() {
-    switch (this) {
-      case RiskDecisionType.noRisk:
-        return 'NoRisk';
-      case RiskDecisionType.accountTakeover:
-        return 'AccountTakeover';
-      case RiskDecisionType.block:
-        return 'Block';
-    }
-  }
-}
+  final String value;
 
-extension RiskDecisionTypeFromString on String {
-  RiskDecisionType toRiskDecisionType() {
-    switch (this) {
-      case 'NoRisk':
-        return RiskDecisionType.noRisk;
-      case 'AccountTakeover':
-        return RiskDecisionType.accountTakeover;
-      case 'Block':
-        return RiskDecisionType.block;
-    }
-    throw Exception('$this is not known in enum RiskDecisionType');
-  }
+  const RiskDecisionType(this.value);
+
+  static RiskDecisionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RiskDecisionType'));
 }
 
 /// The type of the configuration to override the risk decision.
@@ -15420,36 +14860,19 @@ class RiskExceptionConfigurationType {
 }
 
 enum RiskLevelType {
-  low,
-  medium,
-  high,
-}
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  ;
 
-extension RiskLevelTypeValueExtension on RiskLevelType {
-  String toValue() {
-    switch (this) {
-      case RiskLevelType.low:
-        return 'Low';
-      case RiskLevelType.medium:
-        return 'Medium';
-      case RiskLevelType.high:
-        return 'High';
-    }
-  }
-}
+  final String value;
 
-extension RiskLevelTypeFromString on String {
-  RiskLevelType toRiskLevelType() {
-    switch (this) {
-      case 'Low':
-        return RiskLevelType.low;
-      case 'Medium':
-        return RiskLevelType.medium;
-      case 'High':
-        return RiskLevelType.high;
-    }
-    throw Exception('$this is not known in enum RiskLevelType');
-  }
+  const RiskLevelType(this.value);
+
+  static RiskLevelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RiskLevelType'));
 }
 
 /// The type used for enabling SMS multi-factor authentication (MFA) at the user
@@ -15562,8 +14985,8 @@ class SchemaAttributeType {
 
   factory SchemaAttributeType.fromJson(Map<String, dynamic> json) {
     return SchemaAttributeType(
-      attributeDataType:
-          (json['AttributeDataType'] as String?)?.toAttributeDataType(),
+      attributeDataType: (json['AttributeDataType'] as String?)
+          ?.let(AttributeDataType.fromString),
       developerOnlyAttribute: json['DeveloperOnlyAttribute'] as bool?,
       mutable: json['Mutable'] as bool?,
       name: json['Name'] as String?,
@@ -15589,7 +15012,7 @@ class SchemaAttributeType {
     final stringAttributeConstraints = this.stringAttributeConstraints;
     return {
       if (attributeDataType != null)
-        'AttributeDataType': attributeDataType.toValue(),
+        'AttributeDataType': attributeDataType.value,
       if (developerOnlyAttribute != null)
         'DeveloperOnlyAttribute': developerOnlyAttribute,
       if (mutable != null) 'Mutable': mutable,
@@ -15720,8 +15143,8 @@ class SetUserPoolMfaConfigResponse {
 
   factory SetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) {
     return SetUserPoolMfaConfigResponse(
-      mfaConfiguration:
-          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      mfaConfiguration: (json['MfaConfiguration'] as String?)
+          ?.let(UserPoolMfaType.fromString),
       smsMfaConfiguration: json['SmsMfaConfiguration'] != null
           ? SmsMfaConfigType.fromJson(
               json['SmsMfaConfiguration'] as Map<String, dynamic>)
@@ -15739,8 +15162,7 @@ class SetUserPoolMfaConfigResponse {
     final smsMfaConfiguration = this.smsMfaConfiguration;
     final softwareTokenMfaConfiguration = this.softwareTokenMfaConfiguration;
     return {
-      if (mfaConfiguration != null)
-        'MfaConfiguration': mfaConfiguration.toValue(),
+      if (mfaConfiguration != null) 'MfaConfiguration': mfaConfiguration.value,
       if (smsMfaConfiguration != null)
         'SmsMfaConfiguration': smsMfaConfiguration,
       if (softwareTokenMfaConfiguration != null)
@@ -15998,31 +15420,17 @@ class StartUserImportJobResponse {
 }
 
 enum StatusType {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension StatusTypeValueExtension on StatusType {
-  String toValue() {
-    switch (this) {
-      case StatusType.enabled:
-        return 'Enabled';
-      case StatusType.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension StatusTypeFromString on String {
-  StatusType toStatusType() {
-    switch (this) {
-      case 'Enabled':
-        return StatusType.enabled;
-      case 'Disabled':
-        return StatusType.disabled;
-    }
-    throw Exception('$this is not known in enum StatusType');
-  }
+  const StatusType(this.value);
+
+  static StatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusType'));
 }
 
 /// Represents the response from the server to the request to stop the user
@@ -16097,41 +15505,20 @@ class TagResourceResponse {
 }
 
 enum TimeUnitsType {
-  seconds,
-  minutes,
-  hours,
-  days,
-}
+  seconds('seconds'),
+  minutes('minutes'),
+  hours('hours'),
+  days('days'),
+  ;
 
-extension TimeUnitsTypeValueExtension on TimeUnitsType {
-  String toValue() {
-    switch (this) {
-      case TimeUnitsType.seconds:
-        return 'seconds';
-      case TimeUnitsType.minutes:
-        return 'minutes';
-      case TimeUnitsType.hours:
-        return 'hours';
-      case TimeUnitsType.days:
-        return 'days';
-    }
-  }
-}
+  final String value;
 
-extension TimeUnitsTypeFromString on String {
-  TimeUnitsType toTimeUnitsType() {
-    switch (this) {
-      case 'seconds':
-        return TimeUnitsType.seconds;
-      case 'minutes':
-        return TimeUnitsType.minutes;
-      case 'hours':
-        return TimeUnitsType.hours;
-      case 'days':
-        return TimeUnitsType.days;
-    }
-    throw Exception('$this is not known in enum TimeUnitsType');
-  }
+  const TimeUnitsType(this.value);
+
+  static TimeUnitsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimeUnitsType'));
 }
 
 /// The data type TokenValidityUnits specifies the time units you use when you
@@ -16169,9 +15556,11 @@ class TokenValidityUnitsType {
 
   factory TokenValidityUnitsType.fromJson(Map<String, dynamic> json) {
     return TokenValidityUnitsType(
-      accessToken: (json['AccessToken'] as String?)?.toTimeUnitsType(),
-      idToken: (json['IdToken'] as String?)?.toTimeUnitsType(),
-      refreshToken: (json['RefreshToken'] as String?)?.toTimeUnitsType(),
+      accessToken:
+          (json['AccessToken'] as String?)?.let(TimeUnitsType.fromString),
+      idToken: (json['IdToken'] as String?)?.let(TimeUnitsType.fromString),
+      refreshToken:
+          (json['RefreshToken'] as String?)?.let(TimeUnitsType.fromString),
     );
   }
 
@@ -16180,9 +15569,9 @@ class TokenValidityUnitsType {
     final idToken = this.idToken;
     final refreshToken = this.refreshToken;
     return {
-      if (accessToken != null) 'AccessToken': accessToken.toValue(),
-      if (idToken != null) 'IdToken': idToken.toValue(),
-      if (refreshToken != null) 'RefreshToken': refreshToken.toValue(),
+      if (accessToken != null) 'AccessToken': accessToken.value,
+      if (idToken != null) 'IdToken': idToken.value,
+      if (refreshToken != null) 'RefreshToken': refreshToken.value,
     };
   }
 }
@@ -16501,7 +15890,7 @@ class UserAttributeUpdateSettingsType {
       attributesRequireVerificationBeforeUpdate:
           (json['AttributesRequireVerificationBeforeUpdate'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toVerifiedAttributeType())
+              .map((e) => VerifiedAttributeType.fromString((e as String)))
               .toList(),
     );
   }
@@ -16513,7 +15902,7 @@ class UserAttributeUpdateSettingsType {
       if (attributesRequireVerificationBeforeUpdate != null)
         'AttributesRequireVerificationBeforeUpdate':
             attributesRequireVerificationBeforeUpdate
-                .map((e) => e.toValue())
+                .map((e) => e.value)
                 .toList(),
     };
   }
@@ -16548,61 +15937,24 @@ class UserContextDataType {
 }
 
 enum UserImportJobStatusType {
-  created,
-  pending,
-  inProgress,
-  stopping,
-  expired,
-  stopped,
-  failed,
-  succeeded,
-}
+  created('Created'),
+  pending('Pending'),
+  inProgress('InProgress'),
+  stopping('Stopping'),
+  expired('Expired'),
+  stopped('Stopped'),
+  failed('Failed'),
+  succeeded('Succeeded'),
+  ;
 
-extension UserImportJobStatusTypeValueExtension on UserImportJobStatusType {
-  String toValue() {
-    switch (this) {
-      case UserImportJobStatusType.created:
-        return 'Created';
-      case UserImportJobStatusType.pending:
-        return 'Pending';
-      case UserImportJobStatusType.inProgress:
-        return 'InProgress';
-      case UserImportJobStatusType.stopping:
-        return 'Stopping';
-      case UserImportJobStatusType.expired:
-        return 'Expired';
-      case UserImportJobStatusType.stopped:
-        return 'Stopped';
-      case UserImportJobStatusType.failed:
-        return 'Failed';
-      case UserImportJobStatusType.succeeded:
-        return 'Succeeded';
-    }
-  }
-}
+  final String value;
 
-extension UserImportJobStatusTypeFromString on String {
-  UserImportJobStatusType toUserImportJobStatusType() {
-    switch (this) {
-      case 'Created':
-        return UserImportJobStatusType.created;
-      case 'Pending':
-        return UserImportJobStatusType.pending;
-      case 'InProgress':
-        return UserImportJobStatusType.inProgress;
-      case 'Stopping':
-        return UserImportJobStatusType.stopping;
-      case 'Expired':
-        return UserImportJobStatusType.expired;
-      case 'Stopped':
-        return UserImportJobStatusType.stopped;
-      case 'Failed':
-        return UserImportJobStatusType.failed;
-      case 'Succeeded':
-        return UserImportJobStatusType.succeeded;
-    }
-    throw Exception('$this is not known in enum UserImportJobStatusType');
-  }
+  const UserImportJobStatusType(this.value);
+
+  static UserImportJobStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UserImportJobStatusType'));
 }
 
 /// The user import job type.
@@ -16711,7 +16063,8 @@ class UserImportJobType {
       preSignedUrl: json['PreSignedUrl'] as String?,
       skippedUsers: json['SkippedUsers'] as int?,
       startDate: timeStampFromJson(json['StartDate']),
-      status: (json['Status'] as String?)?.toUserImportJobStatusType(),
+      status:
+          (json['Status'] as String?)?.let(UserImportJobStatusType.fromString),
       userPoolId: json['UserPoolId'] as String?,
     );
   }
@@ -16745,7 +16098,7 @@ class UserImportJobType {
       if (preSignedUrl != null) 'PreSignedUrl': preSignedUrl,
       if (skippedUsers != null) 'SkippedUsers': skippedUsers,
       if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (userPoolId != null) 'UserPoolId': userPoolId,
     };
   }
@@ -16769,15 +16122,15 @@ class UserPoolAddOnsType {
 
   factory UserPoolAddOnsType.fromJson(Map<String, dynamic> json) {
     return UserPoolAddOnsType(
-      advancedSecurityMode:
-          (json['AdvancedSecurityMode'] as String).toAdvancedSecurityModeType(),
+      advancedSecurityMode: AdvancedSecurityModeType.fromString(
+          (json['AdvancedSecurityMode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final advancedSecurityMode = this.advancedSecurityMode;
     return {
-      'AdvancedSecurityMode': advancedSecurityMode.toValue(),
+      'AdvancedSecurityMode': advancedSecurityMode.value,
     };
   }
 }
@@ -17196,7 +16549,7 @@ class UserPoolClientType {
       accessTokenValidity: json['AccessTokenValidity'] as int?,
       allowedOAuthFlows: (json['AllowedOAuthFlows'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toOAuthFlowType())
+          .map((e) => OAuthFlowType.fromString((e as String)))
           .toList(),
       allowedOAuthFlowsUserPoolClient:
           json['AllowedOAuthFlowsUserPoolClient'] as bool?,
@@ -17223,7 +16576,7 @@ class UserPoolClientType {
       enableTokenRevocation: json['EnableTokenRevocation'] as bool?,
       explicitAuthFlows: (json['ExplicitAuthFlows'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toExplicitAuthFlowsType())
+          .map((e) => ExplicitAuthFlowsType.fromString((e as String)))
           .toList(),
       idTokenValidity: json['IdTokenValidity'] as int?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
@@ -17233,7 +16586,7 @@ class UserPoolClientType {
           .toList(),
       preventUserExistenceErrors:
           (json['PreventUserExistenceErrors'] as String?)
-              ?.toPreventUserExistenceErrorTypes(),
+              ?.let(PreventUserExistenceErrorTypes.fromString),
       readAttributes: (json['ReadAttributes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -17287,7 +16640,7 @@ class UserPoolClientType {
       if (accessTokenValidity != null)
         'AccessTokenValidity': accessTokenValidity,
       if (allowedOAuthFlows != null)
-        'AllowedOAuthFlows': allowedOAuthFlows.map((e) => e.toValue()).toList(),
+        'AllowedOAuthFlows': allowedOAuthFlows.map((e) => e.value).toList(),
       if (allowedOAuthFlowsUserPoolClient != null)
         'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
       if (allowedOAuthScopes != null) 'AllowedOAuthScopes': allowedOAuthScopes,
@@ -17308,13 +16661,13 @@ class UserPoolClientType {
       if (enableTokenRevocation != null)
         'EnableTokenRevocation': enableTokenRevocation,
       if (explicitAuthFlows != null)
-        'ExplicitAuthFlows': explicitAuthFlows.map((e) => e.toValue()).toList(),
+        'ExplicitAuthFlows': explicitAuthFlows.map((e) => e.value).toList(),
       if (idTokenValidity != null) 'IdTokenValidity': idTokenValidity,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (logoutURLs != null) 'LogoutURLs': logoutURLs,
       if (preventUserExistenceErrors != null)
-        'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
+        'PreventUserExistenceErrors': preventUserExistenceErrors.value,
       if (readAttributes != null) 'ReadAttributes': readAttributes,
       if (refreshTokenValidity != null)
         'RefreshTokenValidity': refreshTokenValidity,
@@ -17370,7 +16723,7 @@ class UserPoolDescriptionType {
           : null,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toStatusType(),
+      status: (json['Status'] as String?)?.let(StatusType.fromString),
     );
   }
 
@@ -17389,42 +16742,25 @@ class UserPoolDescriptionType {
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum UserPoolMfaType {
-  off,
-  on,
-  optional,
-}
+  off('OFF'),
+  on('ON'),
+  optional('OPTIONAL'),
+  ;
 
-extension UserPoolMfaTypeValueExtension on UserPoolMfaType {
-  String toValue() {
-    switch (this) {
-      case UserPoolMfaType.off:
-        return 'OFF';
-      case UserPoolMfaType.on:
-        return 'ON';
-      case UserPoolMfaType.optional:
-        return 'OPTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension UserPoolMfaTypeFromString on String {
-  UserPoolMfaType toUserPoolMfaType() {
-    switch (this) {
-      case 'OFF':
-        return UserPoolMfaType.off;
-      case 'ON':
-        return UserPoolMfaType.on;
-      case 'OPTIONAL':
-        return UserPoolMfaType.optional;
-    }
-    throw Exception('$this is not known in enum UserPoolMfaType');
-  }
+  const UserPoolMfaType(this.value);
+
+  static UserPoolMfaType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserPoolMfaType'));
 }
 
 /// The policy associated with a user pool.
@@ -17705,17 +17041,17 @@ class UserPoolType {
           : null,
       aliasAttributes: (json['AliasAttributes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAliasAttributeType())
+          .map((e) => AliasAttributeType.fromString((e as String)))
           .toList(),
       arn: json['Arn'] as String?,
       autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toVerifiedAttributeType())
+          .map((e) => VerifiedAttributeType.fromString((e as String)))
           .toList(),
       creationDate: timeStampFromJson(json['CreationDate']),
       customDomain: json['CustomDomain'] as String?,
-      deletionProtection:
-          (json['DeletionProtection'] as String?)?.toDeletionProtectionType(),
+      deletionProtection: (json['DeletionProtection'] as String?)
+          ?.let(DeletionProtectionType.fromString),
       deviceConfiguration: json['DeviceConfiguration'] != null
           ? DeviceConfigurationType.fromJson(
               json['DeviceConfiguration'] as Map<String, dynamic>)
@@ -17735,8 +17071,8 @@ class UserPoolType {
               json['LambdaConfig'] as Map<String, dynamic>)
           : null,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      mfaConfiguration:
-          (json['MfaConfiguration'] as String?)?.toUserPoolMfaType(),
+      mfaConfiguration: (json['MfaConfiguration'] as String?)
+          ?.let(UserPoolMfaType.fromString),
       name: json['Name'] as String?,
       policies: json['Policies'] != null
           ? UserPoolPolicyType.fromJson(
@@ -17753,7 +17089,7 @@ class UserPoolType {
           : null,
       smsConfigurationFailure: json['SmsConfigurationFailure'] as String?,
       smsVerificationMessage: json['SmsVerificationMessage'] as String?,
-      status: (json['Status'] as String?)?.toStatusType(),
+      status: (json['Status'] as String?)?.let(StatusType.fromString),
       userAttributeUpdateSettings: json['UserAttributeUpdateSettings'] != null
           ? UserAttributeUpdateSettingsType.fromJson(
               json['UserAttributeUpdateSettings'] as Map<String, dynamic>)
@@ -17766,7 +17102,7 @@ class UserPoolType {
           ?.map((k, e) => MapEntry(k, e as String)),
       usernameAttributes: (json['UsernameAttributes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUsernameAttributeType())
+          .map((e) => UsernameAttributeType.fromString((e as String)))
           .toList(),
       usernameConfiguration: json['UsernameConfiguration'] != null
           ? UsernameConfigurationType.fromJson(
@@ -17819,16 +17155,16 @@ class UserPoolType {
       if (adminCreateUserConfig != null)
         'AdminCreateUserConfig': adminCreateUserConfig,
       if (aliasAttributes != null)
-        'AliasAttributes': aliasAttributes.map((e) => e.toValue()).toList(),
+        'AliasAttributes': aliasAttributes.map((e) => e.value).toList(),
       if (arn != null) 'Arn': arn,
       if (autoVerifiedAttributes != null)
         'AutoVerifiedAttributes':
-            autoVerifiedAttributes.map((e) => e.toValue()).toList(),
+            autoVerifiedAttributes.map((e) => e.value).toList(),
       if (creationDate != null)
         'CreationDate': unixTimestampToJson(creationDate),
       if (customDomain != null) 'CustomDomain': customDomain,
       if (deletionProtection != null)
-        'DeletionProtection': deletionProtection.toValue(),
+        'DeletionProtection': deletionProtection.value,
       if (deviceConfiguration != null)
         'DeviceConfiguration': deviceConfiguration,
       if (domain != null) 'Domain': domain,
@@ -17845,8 +17181,7 @@ class UserPoolType {
       if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
       if (lastModifiedDate != null)
         'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (mfaConfiguration != null)
-        'MfaConfiguration': mfaConfiguration.toValue(),
+      if (mfaConfiguration != null) 'MfaConfiguration': mfaConfiguration.value,
       if (name != null) 'Name': name,
       if (policies != null) 'Policies': policies,
       if (schemaAttributes != null) 'SchemaAttributes': schemaAttributes,
@@ -17857,14 +17192,13 @@ class UserPoolType {
         'SmsConfigurationFailure': smsConfigurationFailure,
       if (smsVerificationMessage != null)
         'SmsVerificationMessage': smsVerificationMessage,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (userAttributeUpdateSettings != null)
         'UserAttributeUpdateSettings': userAttributeUpdateSettings,
       if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
       if (userPoolTags != null) 'UserPoolTags': userPoolTags,
       if (usernameAttributes != null)
-        'UsernameAttributes':
-            usernameAttributes.map((e) => e.toValue()).toList(),
+        'UsernameAttributes': usernameAttributes.map((e) => e.value).toList(),
       if (usernameConfiguration != null)
         'UsernameConfiguration': usernameConfiguration,
       if (verificationMessageTemplate != null)
@@ -17874,61 +17208,24 @@ class UserPoolType {
 }
 
 enum UserStatusType {
-  unconfirmed,
-  confirmed,
-  archived,
-  compromised,
-  unknown,
-  resetRequired,
-  forceChangePassword,
-  externalProvider,
-}
+  unconfirmed('UNCONFIRMED'),
+  confirmed('CONFIRMED'),
+  archived('ARCHIVED'),
+  compromised('COMPROMISED'),
+  unknown('UNKNOWN'),
+  resetRequired('RESET_REQUIRED'),
+  forceChangePassword('FORCE_CHANGE_PASSWORD'),
+  externalProvider('EXTERNAL_PROVIDER'),
+  ;
 
-extension UserStatusTypeValueExtension on UserStatusType {
-  String toValue() {
-    switch (this) {
-      case UserStatusType.unconfirmed:
-        return 'UNCONFIRMED';
-      case UserStatusType.confirmed:
-        return 'CONFIRMED';
-      case UserStatusType.archived:
-        return 'ARCHIVED';
-      case UserStatusType.compromised:
-        return 'COMPROMISED';
-      case UserStatusType.unknown:
-        return 'UNKNOWN';
-      case UserStatusType.resetRequired:
-        return 'RESET_REQUIRED';
-      case UserStatusType.forceChangePassword:
-        return 'FORCE_CHANGE_PASSWORD';
-      case UserStatusType.externalProvider:
-        return 'EXTERNAL_PROVIDER';
-    }
-  }
-}
+  final String value;
 
-extension UserStatusTypeFromString on String {
-  UserStatusType toUserStatusType() {
-    switch (this) {
-      case 'UNCONFIRMED':
-        return UserStatusType.unconfirmed;
-      case 'CONFIRMED':
-        return UserStatusType.confirmed;
-      case 'ARCHIVED':
-        return UserStatusType.archived;
-      case 'COMPROMISED':
-        return UserStatusType.compromised;
-      case 'UNKNOWN':
-        return UserStatusType.unknown;
-      case 'RESET_REQUIRED':
-        return UserStatusType.resetRequired;
-      case 'FORCE_CHANGE_PASSWORD':
-        return UserStatusType.forceChangePassword;
-      case 'EXTERNAL_PROVIDER':
-        return UserStatusType.externalProvider;
-    }
-    throw Exception('$this is not known in enum UserStatusType');
-  }
+  const UserStatusType(this.value);
+
+  static UserStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserStatusType'));
 }
 
 /// A user profile in a Amazon Cognito user pool.
@@ -18003,7 +17300,8 @@ class UserType {
           .toList(),
       userCreateDate: timeStampFromJson(json['UserCreateDate']),
       userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
-      userStatus: (json['UserStatus'] as String?)?.toUserStatusType(),
+      userStatus:
+          (json['UserStatus'] as String?)?.let(UserStatusType.fromString),
       username: json['Username'] as String?,
     );
   }
@@ -18024,38 +17322,25 @@ class UserType {
         'UserCreateDate': unixTimestampToJson(userCreateDate),
       if (userLastModifiedDate != null)
         'UserLastModifiedDate': unixTimestampToJson(userLastModifiedDate),
-      if (userStatus != null) 'UserStatus': userStatus.toValue(),
+      if (userStatus != null) 'UserStatus': userStatus.value,
       if (username != null) 'Username': username,
     };
   }
 }
 
 enum UsernameAttributeType {
-  phoneNumber,
-  email,
-}
+  phoneNumber('phone_number'),
+  email('email'),
+  ;
 
-extension UsernameAttributeTypeValueExtension on UsernameAttributeType {
-  String toValue() {
-    switch (this) {
-      case UsernameAttributeType.phoneNumber:
-        return 'phone_number';
-      case UsernameAttributeType.email:
-        return 'email';
-    }
-  }
-}
+  final String value;
 
-extension UsernameAttributeTypeFromString on String {
-  UsernameAttributeType toUsernameAttributeType() {
-    switch (this) {
-      case 'phone_number':
-        return UsernameAttributeType.phoneNumber;
-      case 'email':
-        return UsernameAttributeType.email;
-    }
-    throw Exception('$this is not known in enum UsernameAttributeType');
-  }
+  const UsernameAttributeType(this.value);
+
+  static UsernameAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UsernameAttributeType'));
 }
 
 /// The username configuration type.
@@ -18156,8 +17441,8 @@ class VerificationMessageTemplateType {
 
   factory VerificationMessageTemplateType.fromJson(Map<String, dynamic> json) {
     return VerificationMessageTemplateType(
-      defaultEmailOption:
-          (json['DefaultEmailOption'] as String?)?.toDefaultEmailOptionType(),
+      defaultEmailOption: (json['DefaultEmailOption'] as String?)
+          ?.let(DefaultEmailOptionType.fromString),
       emailMessage: json['EmailMessage'] as String?,
       emailMessageByLink: json['EmailMessageByLink'] as String?,
       emailSubject: json['EmailSubject'] as String?,
@@ -18175,7 +17460,7 @@ class VerificationMessageTemplateType {
     final smsMessage = this.smsMessage;
     return {
       if (defaultEmailOption != null)
-        'DefaultEmailOption': defaultEmailOption.toValue(),
+        'DefaultEmailOption': defaultEmailOption.value,
       if (emailMessage != null) 'EmailMessage': emailMessage,
       if (emailMessageByLink != null) 'EmailMessageByLink': emailMessageByLink,
       if (emailSubject != null) 'EmailSubject': emailSubject,
@@ -18186,31 +17471,18 @@ class VerificationMessageTemplateType {
 }
 
 enum VerifiedAttributeType {
-  phoneNumber,
-  email,
-}
+  phoneNumber('phone_number'),
+  email('email'),
+  ;
 
-extension VerifiedAttributeTypeValueExtension on VerifiedAttributeType {
-  String toValue() {
-    switch (this) {
-      case VerifiedAttributeType.phoneNumber:
-        return 'phone_number';
-      case VerifiedAttributeType.email:
-        return 'email';
-    }
-  }
-}
+  final String value;
 
-extension VerifiedAttributeTypeFromString on String {
-  VerifiedAttributeType toVerifiedAttributeType() {
-    switch (this) {
-      case 'phone_number':
-        return VerifiedAttributeType.phoneNumber;
-      case 'email':
-        return VerifiedAttributeType.email;
-    }
-    throw Exception('$this is not known in enum VerifiedAttributeType');
-  }
+  const VerifiedAttributeType(this.value);
+
+  static VerifiedAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VerifiedAttributeType'));
 }
 
 class VerifySoftwareTokenResponse {
@@ -18229,7 +17501,8 @@ class VerifySoftwareTokenResponse {
   factory VerifySoftwareTokenResponse.fromJson(Map<String, dynamic> json) {
     return VerifySoftwareTokenResponse(
       session: json['Session'] as String?,
-      status: (json['Status'] as String?)?.toVerifySoftwareTokenResponseType(),
+      status: (json['Status'] as String?)
+          ?.let(VerifySoftwareTokenResponseType.fromString),
     );
   }
 
@@ -18238,39 +17511,24 @@ class VerifySoftwareTokenResponse {
     final status = this.status;
     return {
       if (session != null) 'Session': session,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum VerifySoftwareTokenResponseType {
-  success,
-  error,
-}
+  success('SUCCESS'),
+  error('ERROR'),
+  ;
 
-extension VerifySoftwareTokenResponseTypeValueExtension
-    on VerifySoftwareTokenResponseType {
-  String toValue() {
-    switch (this) {
-      case VerifySoftwareTokenResponseType.success:
-        return 'SUCCESS';
-      case VerifySoftwareTokenResponseType.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension VerifySoftwareTokenResponseTypeFromString on String {
-  VerifySoftwareTokenResponseType toVerifySoftwareTokenResponseType() {
-    switch (this) {
-      case 'SUCCESS':
-        return VerifySoftwareTokenResponseType.success;
-      case 'ERROR':
-        return VerifySoftwareTokenResponseType.error;
-    }
-    throw Exception(
-        '$this is not known in enum VerifySoftwareTokenResponseType');
-  }
+  const VerifySoftwareTokenResponseType(this.value);
+
+  static VerifySoftwareTokenResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VerifySoftwareTokenResponseType'));
 }
 
 /// A container representing the response from the server from the request to

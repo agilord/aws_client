@@ -386,7 +386,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'Operations': operations,
@@ -539,7 +539,7 @@ class CloudDirectory {
     };
     final $payload = <String, dynamic>{
       'Name': name,
-      'ObjectType': objectType.toValue(),
+      'ObjectType': objectType.value,
       if (attributes != null) 'Attributes': attributes,
     };
     final response = await _protocol.send(
@@ -1305,8 +1305,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
       'TypedLinkSpecifier': typedLinkSpecifier,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel.toValue(),
+      if (consistencyLevel != null) 'ConsistencyLevel': consistencyLevel.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1356,7 +1355,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'AttributeNames': attributeNames,
@@ -1400,7 +1399,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
@@ -1579,7 +1578,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'TargetReference': targetReference,
@@ -1669,7 +1668,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1842,8 +1841,7 @@ class CloudDirectory {
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel.toValue(),
+      if (consistencyLevel != null) 'ConsistencyLevel': consistencyLevel.value,
       if (filterAttributeRanges != null)
         'FilterAttributeRanges': filterAttributeRanges,
       if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
@@ -1911,7 +1909,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'IndexReference': indexReference,
@@ -1983,7 +1981,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
@@ -2051,7 +2049,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
@@ -2184,7 +2182,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
@@ -2248,7 +2246,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
@@ -2327,8 +2325,7 @@ class CloudDirectory {
     };
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel.toValue(),
+      if (consistencyLevel != null) 'ConsistencyLevel': consistencyLevel.value,
       if (filterAttributeRanges != null)
         'FilterAttributeRanges': filterAttributeRanges,
       if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
@@ -2394,7 +2391,7 @@ class CloudDirectory {
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
-        'x-amz-consistency-level': consistencyLevel.toValue(),
+        'x-amz-consistency-level': consistencyLevel.value,
     };
     final $payload = <String, dynamic>{
       'PolicyReference': policyReference,
@@ -2930,7 +2927,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'Name': name,
       if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
-      if (objectType != null) 'ObjectType': objectType.toValue(),
+      if (objectType != null) 'ObjectType': objectType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4952,7 +4949,7 @@ class BatchReadException {
   factory BatchReadException.fromJson(Map<String, dynamic> json) {
     return BatchReadException(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toBatchReadExceptionType(),
+      type: (json['Type'] as String?)?.let(BatchReadExceptionType.fromString),
     );
   }
 
@@ -4961,92 +4958,35 @@ class BatchReadException {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum BatchReadExceptionType {
-  validationException,
-  invalidArnException,
-  resourceNotFoundException,
-  invalidNextTokenException,
-  accessDeniedException,
-  notNodeException,
-  facetValidationException,
-  cannotListParentOfRootException,
-  notIndexException,
-  notPolicyException,
-  directoryNotEnabledException,
-  limitExceededException,
-  internalServiceException,
-}
+  validationException('ValidationException'),
+  invalidArnException('InvalidArnException'),
+  resourceNotFoundException('ResourceNotFoundException'),
+  invalidNextTokenException('InvalidNextTokenException'),
+  accessDeniedException('AccessDeniedException'),
+  notNodeException('NotNodeException'),
+  facetValidationException('FacetValidationException'),
+  cannotListParentOfRootException('CannotListParentOfRootException'),
+  notIndexException('NotIndexException'),
+  notPolicyException('NotPolicyException'),
+  directoryNotEnabledException('DirectoryNotEnabledException'),
+  limitExceededException('LimitExceededException'),
+  internalServiceException('InternalServiceException'),
+  ;
 
-extension BatchReadExceptionTypeValueExtension on BatchReadExceptionType {
-  String toValue() {
-    switch (this) {
-      case BatchReadExceptionType.validationException:
-        return 'ValidationException';
-      case BatchReadExceptionType.invalidArnException:
-        return 'InvalidArnException';
-      case BatchReadExceptionType.resourceNotFoundException:
-        return 'ResourceNotFoundException';
-      case BatchReadExceptionType.invalidNextTokenException:
-        return 'InvalidNextTokenException';
-      case BatchReadExceptionType.accessDeniedException:
-        return 'AccessDeniedException';
-      case BatchReadExceptionType.notNodeException:
-        return 'NotNodeException';
-      case BatchReadExceptionType.facetValidationException:
-        return 'FacetValidationException';
-      case BatchReadExceptionType.cannotListParentOfRootException:
-        return 'CannotListParentOfRootException';
-      case BatchReadExceptionType.notIndexException:
-        return 'NotIndexException';
-      case BatchReadExceptionType.notPolicyException:
-        return 'NotPolicyException';
-      case BatchReadExceptionType.directoryNotEnabledException:
-        return 'DirectoryNotEnabledException';
-      case BatchReadExceptionType.limitExceededException:
-        return 'LimitExceededException';
-      case BatchReadExceptionType.internalServiceException:
-        return 'InternalServiceException';
-    }
-  }
-}
+  final String value;
 
-extension BatchReadExceptionTypeFromString on String {
-  BatchReadExceptionType toBatchReadExceptionType() {
-    switch (this) {
-      case 'ValidationException':
-        return BatchReadExceptionType.validationException;
-      case 'InvalidArnException':
-        return BatchReadExceptionType.invalidArnException;
-      case 'ResourceNotFoundException':
-        return BatchReadExceptionType.resourceNotFoundException;
-      case 'InvalidNextTokenException':
-        return BatchReadExceptionType.invalidNextTokenException;
-      case 'AccessDeniedException':
-        return BatchReadExceptionType.accessDeniedException;
-      case 'NotNodeException':
-        return BatchReadExceptionType.notNodeException;
-      case 'FacetValidationException':
-        return BatchReadExceptionType.facetValidationException;
-      case 'CannotListParentOfRootException':
-        return BatchReadExceptionType.cannotListParentOfRootException;
-      case 'NotIndexException':
-        return BatchReadExceptionType.notIndexException;
-      case 'NotPolicyException':
-        return BatchReadExceptionType.notPolicyException;
-      case 'DirectoryNotEnabledException':
-        return BatchReadExceptionType.directoryNotEnabledException;
-      case 'LimitExceededException':
-        return BatchReadExceptionType.limitExceededException;
-      case 'InternalServiceException':
-        return BatchReadExceptionType.internalServiceException;
-    }
-    throw Exception('$this is not known in enum BatchReadExceptionType');
-  }
+  const BatchReadExceptionType(this.value);
+
+  static BatchReadExceptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchReadExceptionType'));
 }
 
 /// Represents the output of a <code>BatchRead</code> operation.
@@ -5543,7 +5483,7 @@ class BatchWriteException implements _s.AwsException {
     return BatchWriteException(
       index: json['Index'] as int?,
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toBatchWriteExceptionType(),
+      type: (json['Type'] as String?)?.let(BatchWriteExceptionType.fromString),
     );
   }
 
@@ -5554,117 +5494,40 @@ class BatchWriteException implements _s.AwsException {
     return {
       if (index != null) 'Index': index,
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum BatchWriteExceptionType {
-  internalServiceException,
-  validationException,
-  invalidArnException,
-  linkNameAlreadyInUseException,
-  stillContainsLinksException,
-  facetValidationException,
-  objectNotDetachedException,
-  resourceNotFoundException,
-  accessDeniedException,
-  invalidAttachmentException,
-  notIndexException,
-  notNodeException,
-  indexedAttributeMissingException,
-  objectAlreadyDetachedException,
-  notPolicyException,
-  directoryNotEnabledException,
-  limitExceededException,
-  unsupportedIndexTypeException,
-}
+  internalServiceException('InternalServiceException'),
+  validationException('ValidationException'),
+  invalidArnException('InvalidArnException'),
+  linkNameAlreadyInUseException('LinkNameAlreadyInUseException'),
+  stillContainsLinksException('StillContainsLinksException'),
+  facetValidationException('FacetValidationException'),
+  objectNotDetachedException('ObjectNotDetachedException'),
+  resourceNotFoundException('ResourceNotFoundException'),
+  accessDeniedException('AccessDeniedException'),
+  invalidAttachmentException('InvalidAttachmentException'),
+  notIndexException('NotIndexException'),
+  notNodeException('NotNodeException'),
+  indexedAttributeMissingException('IndexedAttributeMissingException'),
+  objectAlreadyDetachedException('ObjectAlreadyDetachedException'),
+  notPolicyException('NotPolicyException'),
+  directoryNotEnabledException('DirectoryNotEnabledException'),
+  limitExceededException('LimitExceededException'),
+  unsupportedIndexTypeException('UnsupportedIndexTypeException'),
+  ;
 
-extension BatchWriteExceptionTypeValueExtension on BatchWriteExceptionType {
-  String toValue() {
-    switch (this) {
-      case BatchWriteExceptionType.internalServiceException:
-        return 'InternalServiceException';
-      case BatchWriteExceptionType.validationException:
-        return 'ValidationException';
-      case BatchWriteExceptionType.invalidArnException:
-        return 'InvalidArnException';
-      case BatchWriteExceptionType.linkNameAlreadyInUseException:
-        return 'LinkNameAlreadyInUseException';
-      case BatchWriteExceptionType.stillContainsLinksException:
-        return 'StillContainsLinksException';
-      case BatchWriteExceptionType.facetValidationException:
-        return 'FacetValidationException';
-      case BatchWriteExceptionType.objectNotDetachedException:
-        return 'ObjectNotDetachedException';
-      case BatchWriteExceptionType.resourceNotFoundException:
-        return 'ResourceNotFoundException';
-      case BatchWriteExceptionType.accessDeniedException:
-        return 'AccessDeniedException';
-      case BatchWriteExceptionType.invalidAttachmentException:
-        return 'InvalidAttachmentException';
-      case BatchWriteExceptionType.notIndexException:
-        return 'NotIndexException';
-      case BatchWriteExceptionType.notNodeException:
-        return 'NotNodeException';
-      case BatchWriteExceptionType.indexedAttributeMissingException:
-        return 'IndexedAttributeMissingException';
-      case BatchWriteExceptionType.objectAlreadyDetachedException:
-        return 'ObjectAlreadyDetachedException';
-      case BatchWriteExceptionType.notPolicyException:
-        return 'NotPolicyException';
-      case BatchWriteExceptionType.directoryNotEnabledException:
-        return 'DirectoryNotEnabledException';
-      case BatchWriteExceptionType.limitExceededException:
-        return 'LimitExceededException';
-      case BatchWriteExceptionType.unsupportedIndexTypeException:
-        return 'UnsupportedIndexTypeException';
-    }
-  }
-}
+  final String value;
 
-extension BatchWriteExceptionTypeFromString on String {
-  BatchWriteExceptionType toBatchWriteExceptionType() {
-    switch (this) {
-      case 'InternalServiceException':
-        return BatchWriteExceptionType.internalServiceException;
-      case 'ValidationException':
-        return BatchWriteExceptionType.validationException;
-      case 'InvalidArnException':
-        return BatchWriteExceptionType.invalidArnException;
-      case 'LinkNameAlreadyInUseException':
-        return BatchWriteExceptionType.linkNameAlreadyInUseException;
-      case 'StillContainsLinksException':
-        return BatchWriteExceptionType.stillContainsLinksException;
-      case 'FacetValidationException':
-        return BatchWriteExceptionType.facetValidationException;
-      case 'ObjectNotDetachedException':
-        return BatchWriteExceptionType.objectNotDetachedException;
-      case 'ResourceNotFoundException':
-        return BatchWriteExceptionType.resourceNotFoundException;
-      case 'AccessDeniedException':
-        return BatchWriteExceptionType.accessDeniedException;
-      case 'InvalidAttachmentException':
-        return BatchWriteExceptionType.invalidAttachmentException;
-      case 'NotIndexException':
-        return BatchWriteExceptionType.notIndexException;
-      case 'NotNodeException':
-        return BatchWriteExceptionType.notNodeException;
-      case 'IndexedAttributeMissingException':
-        return BatchWriteExceptionType.indexedAttributeMissingException;
-      case 'ObjectAlreadyDetachedException':
-        return BatchWriteExceptionType.objectAlreadyDetachedException;
-      case 'NotPolicyException':
-        return BatchWriteExceptionType.notPolicyException;
-      case 'DirectoryNotEnabledException':
-        return BatchWriteExceptionType.directoryNotEnabledException;
-      case 'LimitExceededException':
-        return BatchWriteExceptionType.limitExceededException;
-      case 'UnsupportedIndexTypeException':
-        return BatchWriteExceptionType.unsupportedIndexTypeException;
-    }
-    throw Exception('$this is not known in enum BatchWriteExceptionType');
-  }
+  const BatchWriteExceptionType(this.value);
+
+  static BatchWriteExceptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchWriteExceptionType'));
 }
 
 /// Represents the output of a <code>BatchWrite</code> operation.
@@ -6007,31 +5870,18 @@ class CannotListParentOfRootException implements _s.AwsException {
 }
 
 enum ConsistencyLevel {
-  serializable,
-  eventual,
-}
+  serializable('SERIALIZABLE'),
+  eventual('EVENTUAL'),
+  ;
 
-extension ConsistencyLevelValueExtension on ConsistencyLevel {
-  String toValue() {
-    switch (this) {
-      case ConsistencyLevel.serializable:
-        return 'SERIALIZABLE';
-      case ConsistencyLevel.eventual:
-        return 'EVENTUAL';
-    }
-  }
-}
+  final String value;
 
-extension ConsistencyLevelFromString on String {
-  ConsistencyLevel toConsistencyLevel() {
-    switch (this) {
-      case 'SERIALIZABLE':
-        return ConsistencyLevel.serializable;
-      case 'EVENTUAL':
-        return ConsistencyLevel.eventual;
-    }
-    throw Exception('$this is not known in enum ConsistencyLevel');
-  }
+  const ConsistencyLevel(this.value);
+
+  static ConsistencyLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConsistencyLevel'));
 }
 
 class CreateDirectoryResponse {
@@ -6339,7 +6189,7 @@ class Directory {
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       directoryArn: json['DirectoryArn'] as String?,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toDirectoryState(),
+      state: (json['State'] as String?)?.let(DirectoryState.fromString),
     );
   }
 
@@ -6353,7 +6203,7 @@ class Directory {
         'CreationDateTime': unixTimestampToJson(creationDateTime),
       if (directoryArn != null) 'DirectoryArn': directoryArn,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -6449,36 +6299,19 @@ class DirectoryNotEnabledException implements _s.AwsException {
 }
 
 enum DirectoryState {
-  enabled,
-  disabled,
-  deleted,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  deleted('DELETED'),
+  ;
 
-extension DirectoryStateValueExtension on DirectoryState {
-  String toValue() {
-    switch (this) {
-      case DirectoryState.enabled:
-        return 'ENABLED';
-      case DirectoryState.disabled:
-        return 'DISABLED';
-      case DirectoryState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryStateFromString on String {
-  DirectoryState toDirectoryState() {
-    switch (this) {
-      case 'ENABLED':
-        return DirectoryState.enabled;
-      case 'DISABLED':
-        return DirectoryState.disabled;
-      case 'DELETED':
-        return DirectoryState.deleted;
-    }
-    throw Exception('$this is not known in enum DirectoryState');
-  }
+  const DirectoryState(this.value);
+
+  static DirectoryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DirectoryState'));
 }
 
 class DisableDirectoryResponse {
@@ -6546,7 +6379,7 @@ class Facet {
   factory Facet.fromJson(Map<String, dynamic> json) {
     return Facet(
       name: json['Name'] as String?,
-      objectType: (json['ObjectType'] as String?)?.toObjectType(),
+      objectType: (json['ObjectType'] as String?)?.let(ObjectType.fromString),
     );
   }
 
@@ -6555,7 +6388,7 @@ class Facet {
     final objectType = this.objectType;
     return {
       if (name != null) 'Name': name,
-      if (objectType != null) 'ObjectType': objectType.toValue(),
+      if (objectType != null) 'ObjectType': objectType.value,
     };
   }
 }
@@ -6619,8 +6452,8 @@ class FacetAttribute {
           ? FacetAttributeReference.fromJson(
               json['AttributeReference'] as Map<String, dynamic>)
           : null,
-      requiredBehavior:
-          (json['RequiredBehavior'] as String?)?.toRequiredAttributeBehavior(),
+      requiredBehavior: (json['RequiredBehavior'] as String?)
+          ?.let(RequiredAttributeBehavior.fromString),
     );
   }
 
@@ -6634,8 +6467,7 @@ class FacetAttribute {
       if (attributeDefinition != null)
         'AttributeDefinition': attributeDefinition,
       if (attributeReference != null) 'AttributeReference': attributeReference,
-      if (requiredBehavior != null)
-        'RequiredBehavior': requiredBehavior.toValue(),
+      if (requiredBehavior != null) 'RequiredBehavior': requiredBehavior.value,
     };
   }
 }
@@ -6665,7 +6497,7 @@ class FacetAttributeDefinition {
 
   factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return FacetAttributeDefinition(
-      type: (json['Type'] as String).toFacetAttributeType(),
+      type: FacetAttributeType.fromString((json['Type'] as String)),
       defaultValue: json['DefaultValue'] != null
           ? TypedAttributeValue.fromJson(
               json['DefaultValue'] as Map<String, dynamic>)
@@ -6682,7 +6514,7 @@ class FacetAttributeDefinition {
     final isImmutable = this.isImmutable;
     final rules = this.rules;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (defaultValue != null) 'DefaultValue': defaultValue,
       if (isImmutable != null) 'IsImmutable': isImmutable,
       if (rules != null) 'Rules': rules,
@@ -6727,46 +6559,21 @@ class FacetAttributeReference {
 }
 
 enum FacetAttributeType {
-  string,
-  binary,
-  boolean,
-  number,
-  datetime,
-}
+  string('STRING'),
+  binary('BINARY'),
+  boolean('BOOLEAN'),
+  number('NUMBER'),
+  datetime('DATETIME'),
+  ;
 
-extension FacetAttributeTypeValueExtension on FacetAttributeType {
-  String toValue() {
-    switch (this) {
-      case FacetAttributeType.string:
-        return 'STRING';
-      case FacetAttributeType.binary:
-        return 'BINARY';
-      case FacetAttributeType.boolean:
-        return 'BOOLEAN';
-      case FacetAttributeType.number:
-        return 'NUMBER';
-      case FacetAttributeType.datetime:
-        return 'DATETIME';
-    }
-  }
-}
+  final String value;
 
-extension FacetAttributeTypeFromString on String {
-  FacetAttributeType toFacetAttributeType() {
-    switch (this) {
-      case 'STRING':
-        return FacetAttributeType.string;
-      case 'BINARY':
-        return FacetAttributeType.binary;
-      case 'BOOLEAN':
-        return FacetAttributeType.boolean;
-      case 'NUMBER':
-        return FacetAttributeType.number;
-      case 'DATETIME':
-        return FacetAttributeType.datetime;
-    }
-    throw Exception('$this is not known in enum FacetAttributeType');
-  }
+  const FacetAttributeType(this.value);
+
+  static FacetAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FacetAttributeType'));
 }
 
 /// A structure that contains information used to update an attribute.
@@ -6786,7 +6593,7 @@ class FacetAttributeUpdate {
     final action = this.action;
     final attribute = this.attribute;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (attribute != null) 'Attribute': attribute,
     };
   }
@@ -7390,7 +7197,7 @@ class LinkAttributeAction {
     final attributeUpdateValue = this.attributeUpdateValue;
     return {
       if (attributeActionType != null)
-        'AttributeActionType': attributeActionType.toValue(),
+        'AttributeActionType': attributeActionType.value,
       if (attributeUpdateValue != null)
         'AttributeUpdateValue': attributeUpdateValue,
     };
@@ -8204,7 +8011,7 @@ class ObjectAttributeAction {
     final objectAttributeUpdateValue = this.objectAttributeUpdateValue;
     return {
       if (objectAttributeActionType != null)
-        'ObjectAttributeActionType': objectAttributeActionType.toValue(),
+        'ObjectAttributeActionType': objectAttributeActionType.value,
       if (objectAttributeUpdateValue != null)
         'ObjectAttributeUpdateValue': objectAttributeUpdateValue,
     };
@@ -8326,41 +8133,19 @@ class ObjectReference {
 }
 
 enum ObjectType {
-  node,
-  leafNode,
-  policy,
-  $index,
-}
+  node('NODE'),
+  leafNode('LEAF_NODE'),
+  policy('POLICY'),
+  $index('INDEX'),
+  ;
 
-extension ObjectTypeValueExtension on ObjectType {
-  String toValue() {
-    switch (this) {
-      case ObjectType.node:
-        return 'NODE';
-      case ObjectType.leafNode:
-        return 'LEAF_NODE';
-      case ObjectType.policy:
-        return 'POLICY';
-      case ObjectType.$index:
-        return 'INDEX';
-    }
-  }
-}
+  final String value;
 
-extension ObjectTypeFromString on String {
-  ObjectType toObjectType() {
-    switch (this) {
-      case 'NODE':
-        return ObjectType.node;
-      case 'LEAF_NODE':
-        return ObjectType.leafNode;
-      case 'POLICY':
-        return ObjectType.policy;
-      case 'INDEX':
-        return ObjectType.$index;
-    }
-    throw Exception('$this is not known in enum ObjectType');
-  }
+  const ObjectType(this.value);
+
+  static ObjectType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ObjectType'));
 }
 
 /// Returns the path to the <code>ObjectIdentifiers</code> that is associated
@@ -8521,46 +8306,20 @@ class PutSchemaFromJsonResponse {
 }
 
 enum RangeMode {
-  first,
-  last,
-  lastBeforeMissingValues,
-  inclusive,
-  exclusive,
-}
+  first('FIRST'),
+  last('LAST'),
+  lastBeforeMissingValues('LAST_BEFORE_MISSING_VALUES'),
+  inclusive('INCLUSIVE'),
+  exclusive('EXCLUSIVE'),
+  ;
 
-extension RangeModeValueExtension on RangeMode {
-  String toValue() {
-    switch (this) {
-      case RangeMode.first:
-        return 'FIRST';
-      case RangeMode.last:
-        return 'LAST';
-      case RangeMode.lastBeforeMissingValues:
-        return 'LAST_BEFORE_MISSING_VALUES';
-      case RangeMode.inclusive:
-        return 'INCLUSIVE';
-      case RangeMode.exclusive:
-        return 'EXCLUSIVE';
-    }
-  }
-}
+  final String value;
 
-extension RangeModeFromString on String {
-  RangeMode toRangeMode() {
-    switch (this) {
-      case 'FIRST':
-        return RangeMode.first;
-      case 'LAST':
-        return RangeMode.last;
-      case 'LAST_BEFORE_MISSING_VALUES':
-        return RangeMode.lastBeforeMissingValues;
-      case 'INCLUSIVE':
-        return RangeMode.inclusive;
-      case 'EXCLUSIVE':
-        return RangeMode.exclusive;
-    }
-    throw Exception('$this is not known in enum RangeMode');
-  }
+  const RangeMode(this.value);
+
+  static RangeMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RangeMode'));
 }
 
 class RemoveFacetFromObjectResponse {
@@ -8576,31 +8335,18 @@ class RemoveFacetFromObjectResponse {
 }
 
 enum RequiredAttributeBehavior {
-  requiredAlways,
-  notRequired,
-}
+  requiredAlways('REQUIRED_ALWAYS'),
+  notRequired('NOT_REQUIRED'),
+  ;
 
-extension RequiredAttributeBehaviorValueExtension on RequiredAttributeBehavior {
-  String toValue() {
-    switch (this) {
-      case RequiredAttributeBehavior.requiredAlways:
-        return 'REQUIRED_ALWAYS';
-      case RequiredAttributeBehavior.notRequired:
-        return 'NOT_REQUIRED';
-    }
-  }
-}
+  final String value;
 
-extension RequiredAttributeBehaviorFromString on String {
-  RequiredAttributeBehavior toRequiredAttributeBehavior() {
-    switch (this) {
-      case 'REQUIRED_ALWAYS':
-        return RequiredAttributeBehavior.requiredAlways;
-      case 'NOT_REQUIRED':
-        return RequiredAttributeBehavior.notRequired;
-    }
-    throw Exception('$this is not known in enum RequiredAttributeBehavior');
-  }
+  const RequiredAttributeBehavior(this.value);
+
+  static RequiredAttributeBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RequiredAttributeBehavior'));
 }
 
 /// The specified resource could not be found.
@@ -8670,7 +8416,7 @@ class Rule {
     return Rule(
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.toRuleType(),
+      type: (json['Type'] as String?)?.let(RuleType.fromString),
     );
   }
 
@@ -8679,47 +8425,25 @@ class Rule {
     final type = this.type;
     return {
       if (parameters != null) 'Parameters': parameters,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum RuleType {
-  binaryLength,
-  numberComparison,
-  stringFromSet,
-  stringLength,
-}
+  binaryLength('BINARY_LENGTH'),
+  numberComparison('NUMBER_COMPARISON'),
+  stringFromSet('STRING_FROM_SET'),
+  stringLength('STRING_LENGTH'),
+  ;
 
-extension RuleTypeValueExtension on RuleType {
-  String toValue() {
-    switch (this) {
-      case RuleType.binaryLength:
-        return 'BINARY_LENGTH';
-      case RuleType.numberComparison:
-        return 'NUMBER_COMPARISON';
-      case RuleType.stringFromSet:
-        return 'STRING_FROM_SET';
-      case RuleType.stringLength:
-        return 'STRING_LENGTH';
-    }
-  }
-}
+  final String value;
 
-extension RuleTypeFromString on String {
-  RuleType toRuleType() {
-    switch (this) {
-      case 'BINARY_LENGTH':
-        return RuleType.binaryLength;
-      case 'NUMBER_COMPARISON':
-        return RuleType.numberComparison;
-      case 'STRING_FROM_SET':
-        return RuleType.stringFromSet;
-      case 'STRING_LENGTH':
-        return RuleType.stringLength;
-    }
-    throw Exception('$this is not known in enum RuleType');
-  }
+  const RuleType(this.value);
+
+  static RuleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleType'));
 }
 
 /// Indicates that a schema could not be created due to a naming conflict.
@@ -8948,8 +8672,8 @@ class TypedAttributeValueRange {
     final endValue = this.endValue;
     final startValue = this.startValue;
     return {
-      'EndMode': endMode.toValue(),
-      'StartMode': startMode.toValue(),
+      'EndMode': endMode.value,
+      'StartMode': startMode.value,
       if (endValue != null) 'EndValue': endValue,
       if (startValue != null) 'StartValue': startValue,
     };
@@ -8988,9 +8712,9 @@ class TypedLinkAttributeDefinition {
   factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return TypedLinkAttributeDefinition(
       name: json['Name'] as String,
-      requiredBehavior:
-          (json['RequiredBehavior'] as String).toRequiredAttributeBehavior(),
-      type: (json['Type'] as String).toFacetAttributeType(),
+      requiredBehavior: RequiredAttributeBehavior.fromString(
+          (json['RequiredBehavior'] as String)),
+      type: FacetAttributeType.fromString((json['Type'] as String)),
       defaultValue: json['DefaultValue'] != null
           ? TypedAttributeValue.fromJson(
               json['DefaultValue'] as Map<String, dynamic>)
@@ -9010,8 +8734,8 @@ class TypedLinkAttributeDefinition {
     final rules = this.rules;
     return {
       'Name': name,
-      'RequiredBehavior': requiredBehavior.toValue(),
-      'Type': type.toValue(),
+      'RequiredBehavior': requiredBehavior.value,
+      'Type': type.value,
       if (defaultValue != null) 'DefaultValue': defaultValue,
       if (isImmutable != null) 'IsImmutable': isImmutable,
       if (rules != null) 'Rules': rules,
@@ -9096,7 +8820,7 @@ class TypedLinkFacetAttributeUpdate {
     final action = this.action;
     final attribute = this.attribute;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'Attribute': attribute,
     };
   }
@@ -9225,31 +8949,18 @@ class UntagResourceResponse {
 }
 
 enum UpdateActionType {
-  createOrUpdate,
-  delete,
-}
+  createOrUpdate('CREATE_OR_UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension UpdateActionTypeValueExtension on UpdateActionType {
-  String toValue() {
-    switch (this) {
-      case UpdateActionType.createOrUpdate:
-        return 'CREATE_OR_UPDATE';
-      case UpdateActionType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension UpdateActionTypeFromString on String {
-  UpdateActionType toUpdateActionType() {
-    switch (this) {
-      case 'CREATE_OR_UPDATE':
-        return UpdateActionType.createOrUpdate;
-      case 'DELETE':
-        return UpdateActionType.delete;
-    }
-    throw Exception('$this is not known in enum UpdateActionType');
-  }
+  const UpdateActionType(this.value);
+
+  static UpdateActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateActionType'));
 }
 
 class UpdateFacetResponse {

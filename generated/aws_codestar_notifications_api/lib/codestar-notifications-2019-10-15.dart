@@ -187,13 +187,13 @@ class CodeStarNotifications {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'DetailType': detailType.toValue(),
+      'DetailType': detailType.value,
       'EventTypeIds': eventTypeIds,
       'Name': name,
       'Resource': resource,
       'Targets': targets,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -609,10 +609,10 @@ class CodeStarNotifications {
   }) async {
     final $payload = <String, dynamic>{
       'Arn': arn,
-      if (detailType != null) 'DetailType': detailType.toValue(),
+      if (detailType != null) 'DetailType': detailType.value,
       if (eventTypeIds != null) 'EventTypeIds': eventTypeIds,
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (targets != null) 'Targets': targets,
     };
     final response = await _protocol.send(
@@ -723,7 +723,7 @@ class DescribeNotificationRuleResult {
       arn: json['Arn'] as String,
       createdBy: json['CreatedBy'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      detailType: (json['DetailType'] as String?)?.toDetailType(),
+      detailType: (json['DetailType'] as String?)?.let(DetailType.fromString),
       eventTypes: (json['EventTypes'] as List?)
           ?.whereNotNull()
           .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
@@ -731,7 +731,8 @@ class DescribeNotificationRuleResult {
       lastModifiedTimestamp: timeStampFromJson(json['LastModifiedTimestamp']),
       name: json['Name'] as String?,
       resource: json['Resource'] as String?,
-      status: (json['Status'] as String?)?.toNotificationRuleStatus(),
+      status:
+          (json['Status'] as String?)?.let(NotificationRuleStatus.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targets: (json['Targets'] as List?)
@@ -743,31 +744,17 @@ class DescribeNotificationRuleResult {
 }
 
 enum DetailType {
-  basic,
-  full,
-}
+  basic('BASIC'),
+  full('FULL'),
+  ;
 
-extension DetailTypeValueExtension on DetailType {
-  String toValue() {
-    switch (this) {
-      case DetailType.basic:
-        return 'BASIC';
-      case DetailType.full:
-        return 'FULL';
-    }
-  }
-}
+  final String value;
 
-extension DetailTypeFromString on String {
-  DetailType toDetailType() {
-    switch (this) {
-      case 'BASIC':
-        return DetailType.basic;
-      case 'FULL':
-        return DetailType.full;
-    }
-    throw Exception('$this is not known in enum DetailType');
-  }
+  const DetailType(this.value);
+
+  static DetailType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DetailType'));
 }
 
 /// Returns information about an event that has triggered a notification rule.
@@ -823,38 +810,25 @@ class ListEventTypesFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Value': value,
     };
   }
 }
 
 enum ListEventTypesFilterName {
-  resourceType,
-  serviceName,
-}
+  resourceType('RESOURCE_TYPE'),
+  serviceName('SERVICE_NAME'),
+  ;
 
-extension ListEventTypesFilterNameValueExtension on ListEventTypesFilterName {
-  String toValue() {
-    switch (this) {
-      case ListEventTypesFilterName.resourceType:
-        return 'RESOURCE_TYPE';
-      case ListEventTypesFilterName.serviceName:
-        return 'SERVICE_NAME';
-    }
-  }
-}
+  final String value;
 
-extension ListEventTypesFilterNameFromString on String {
-  ListEventTypesFilterName toListEventTypesFilterName() {
-    switch (this) {
-      case 'RESOURCE_TYPE':
-        return ListEventTypesFilterName.resourceType;
-      case 'SERVICE_NAME':
-        return ListEventTypesFilterName.serviceName;
-    }
-    throw Exception('$this is not known in enum ListEventTypesFilterName');
-  }
+  const ListEventTypesFilterName(this.value);
+
+  static ListEventTypesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListEventTypesFilterName'));
 }
 
 class ListEventTypesResult {
@@ -904,50 +878,27 @@ class ListNotificationRulesFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Value': value,
     };
   }
 }
 
 enum ListNotificationRulesFilterName {
-  eventTypeId,
-  createdBy,
-  resource,
-  targetAddress,
-}
+  eventTypeId('EVENT_TYPE_ID'),
+  createdBy('CREATED_BY'),
+  resource('RESOURCE'),
+  targetAddress('TARGET_ADDRESS'),
+  ;
 
-extension ListNotificationRulesFilterNameValueExtension
-    on ListNotificationRulesFilterName {
-  String toValue() {
-    switch (this) {
-      case ListNotificationRulesFilterName.eventTypeId:
-        return 'EVENT_TYPE_ID';
-      case ListNotificationRulesFilterName.createdBy:
-        return 'CREATED_BY';
-      case ListNotificationRulesFilterName.resource:
-        return 'RESOURCE';
-      case ListNotificationRulesFilterName.targetAddress:
-        return 'TARGET_ADDRESS';
-    }
-  }
-}
+  final String value;
 
-extension ListNotificationRulesFilterNameFromString on String {
-  ListNotificationRulesFilterName toListNotificationRulesFilterName() {
-    switch (this) {
-      case 'EVENT_TYPE_ID':
-        return ListNotificationRulesFilterName.eventTypeId;
-      case 'CREATED_BY':
-        return ListNotificationRulesFilterName.createdBy;
-      case 'RESOURCE':
-        return ListNotificationRulesFilterName.resource;
-      case 'TARGET_ADDRESS':
-        return ListNotificationRulesFilterName.targetAddress;
-    }
-    throw Exception(
-        '$this is not known in enum ListNotificationRulesFilterName');
-  }
+  const ListNotificationRulesFilterName(this.value);
+
+  static ListNotificationRulesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListNotificationRulesFilterName'));
 }
 
 class ListNotificationRulesResult {
@@ -1016,43 +967,26 @@ class ListTargetsFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Value': value,
     };
   }
 }
 
 enum ListTargetsFilterName {
-  targetType,
-  targetAddress,
-  targetStatus,
-}
+  targetType('TARGET_TYPE'),
+  targetAddress('TARGET_ADDRESS'),
+  targetStatus('TARGET_STATUS'),
+  ;
 
-extension ListTargetsFilterNameValueExtension on ListTargetsFilterName {
-  String toValue() {
-    switch (this) {
-      case ListTargetsFilterName.targetType:
-        return 'TARGET_TYPE';
-      case ListTargetsFilterName.targetAddress:
-        return 'TARGET_ADDRESS';
-      case ListTargetsFilterName.targetStatus:
-        return 'TARGET_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension ListTargetsFilterNameFromString on String {
-  ListTargetsFilterName toListTargetsFilterName() {
-    switch (this) {
-      case 'TARGET_TYPE':
-        return ListTargetsFilterName.targetType;
-      case 'TARGET_ADDRESS':
-        return ListTargetsFilterName.targetAddress;
-      case 'TARGET_STATUS':
-        return ListTargetsFilterName.targetStatus;
-    }
-    throw Exception('$this is not known in enum ListTargetsFilterName');
-  }
+  const ListTargetsFilterName(this.value);
+
+  static ListTargetsFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ListTargetsFilterName'));
 }
 
 class ListTargetsResult {
@@ -1080,31 +1014,18 @@ class ListTargetsResult {
 }
 
 enum NotificationRuleStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension NotificationRuleStatusValueExtension on NotificationRuleStatus {
-  String toValue() {
-    switch (this) {
-      case NotificationRuleStatus.enabled:
-        return 'ENABLED';
-      case NotificationRuleStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension NotificationRuleStatusFromString on String {
-  NotificationRuleStatus toNotificationRuleStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return NotificationRuleStatus.enabled;
-      case 'DISABLED':
-        return NotificationRuleStatus.disabled;
-    }
-    throw Exception('$this is not known in enum NotificationRuleStatus');
-  }
+  const NotificationRuleStatus(this.value);
+
+  static NotificationRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotificationRuleStatus'));
 }
 
 /// Information about a specified notification rule.
@@ -1194,46 +1115,21 @@ class Target {
 }
 
 enum TargetStatus {
-  pending,
-  active,
-  unreachable,
-  inactive,
-  deactivated,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  unreachable('UNREACHABLE'),
+  inactive('INACTIVE'),
+  deactivated('DEACTIVATED'),
+  ;
 
-extension TargetStatusValueExtension on TargetStatus {
-  String toValue() {
-    switch (this) {
-      case TargetStatus.pending:
-        return 'PENDING';
-      case TargetStatus.active:
-        return 'ACTIVE';
-      case TargetStatus.unreachable:
-        return 'UNREACHABLE';
-      case TargetStatus.inactive:
-        return 'INACTIVE';
-      case TargetStatus.deactivated:
-        return 'DEACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension TargetStatusFromString on String {
-  TargetStatus toTargetStatus() {
-    switch (this) {
-      case 'PENDING':
-        return TargetStatus.pending;
-      case 'ACTIVE':
-        return TargetStatus.active;
-      case 'UNREACHABLE':
-        return TargetStatus.unreachable;
-      case 'INACTIVE':
-        return TargetStatus.inactive;
-      case 'DEACTIVATED':
-        return TargetStatus.deactivated;
-    }
-    throw Exception('$this is not known in enum TargetStatus');
-  }
+  const TargetStatus(this.value);
+
+  static TargetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetStatus'));
 }
 
 /// Information about the targets specified for a notification rule.
@@ -1265,7 +1161,8 @@ class TargetSummary {
   factory TargetSummary.fromJson(Map<String, dynamic> json) {
     return TargetSummary(
       targetAddress: json['TargetAddress'] as String?,
-      targetStatus: (json['TargetStatus'] as String?)?.toTargetStatus(),
+      targetStatus:
+          (json['TargetStatus'] as String?)?.let(TargetStatus.fromString),
       targetType: json['TargetType'] as String?,
     );
   }

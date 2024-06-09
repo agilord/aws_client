@@ -277,7 +277,7 @@ class Firehose {
           'DeliveryStreamEncryptionConfigurationInput':
               deliveryStreamEncryptionConfigurationInput,
         if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType.toValue(),
+          'DeliveryStreamType': deliveryStreamType.value,
         if (elasticsearchDestinationConfiguration != null)
           'ElasticsearchDestinationConfiguration':
               elasticsearchDestinationConfiguration,
@@ -483,7 +483,7 @@ class Firehose {
       headers: headers,
       payload: {
         if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType.toValue(),
+          'DeliveryStreamType': deliveryStreamType.value,
         if (exclusiveStartDeliveryStreamName != null)
           'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
         if (limit != null) 'Limit': limit,
@@ -1228,7 +1228,7 @@ class AmazonOpenSearchServerlessDestinationConfiguration {
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
   }
@@ -1296,7 +1296,7 @@ class AmazonOpenSearchServerlessDestinationDescription {
           : null,
       roleARN: json['RoleARN'] as String?,
       s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.toAmazonOpenSearchServerlessS3BackupMode(),
+          ?.let(AmazonOpenSearchServerlessS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -1401,34 +1401,18 @@ class AmazonOpenSearchServerlessRetryOptions {
 }
 
 enum AmazonOpenSearchServerlessS3BackupMode {
-  failedDocumentsOnly,
-  allDocuments,
-}
+  failedDocumentsOnly('FailedDocumentsOnly'),
+  allDocuments('AllDocuments'),
+  ;
 
-extension AmazonOpenSearchServerlessS3BackupModeValueExtension
-    on AmazonOpenSearchServerlessS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case AmazonOpenSearchServerlessS3BackupMode.failedDocumentsOnly:
-        return 'FailedDocumentsOnly';
-      case AmazonOpenSearchServerlessS3BackupMode.allDocuments:
-        return 'AllDocuments';
-    }
-  }
-}
+  final String value;
 
-extension AmazonOpenSearchServerlessS3BackupModeFromString on String {
-  AmazonOpenSearchServerlessS3BackupMode
-      toAmazonOpenSearchServerlessS3BackupMode() {
-    switch (this) {
-      case 'FailedDocumentsOnly':
-        return AmazonOpenSearchServerlessS3BackupMode.failedDocumentsOnly;
-      case 'AllDocuments':
-        return AmazonOpenSearchServerlessS3BackupMode.allDocuments;
-    }
-    throw Exception(
-        '$this is not known in enum AmazonOpenSearchServerlessS3BackupMode');
-  }
+  const AmazonOpenSearchServerlessS3BackupMode(this.value);
+
+  static AmazonOpenSearchServerlessS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AmazonOpenSearchServerlessS3BackupMode'));
 }
 
 /// Describes the buffering to perform before delivering data to the Amazon
@@ -1568,11 +1552,11 @@ class AmazonopensearchserviceDestinationConfiguration {
       if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
       if (domainARN != null) 'DomainARN': domainARN,
       if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+        'IndexRotationPeriod': indexRotationPeriod.value,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (typeName != null) 'TypeName': typeName,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
@@ -1656,7 +1640,7 @@ class AmazonopensearchserviceDestinationDescription {
       domainARN: json['DomainARN'] as String?,
       indexName: json['IndexName'] as String?,
       indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
-          ?.toAmazonopensearchserviceIndexRotationPeriod(),
+          ?.let(AmazonopensearchserviceIndexRotationPeriod.fromString),
       processingConfiguration: json['ProcessingConfiguration'] != null
           ? ProcessingConfiguration.fromJson(
               json['ProcessingConfiguration'] as Map<String, dynamic>)
@@ -1667,7 +1651,7 @@ class AmazonopensearchserviceDestinationDescription {
           : null,
       roleARN: json['RoleARN'] as String?,
       s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.toAmazonopensearchserviceS3BackupMode(),
+          ?.let(AmazonopensearchserviceS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -1767,7 +1751,7 @@ class AmazonopensearchserviceDestinationUpdate {
       if (domainARN != null) 'DomainARN': domainARN,
       if (indexName != null) 'IndexName': indexName,
       if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+        'IndexRotationPeriod': indexRotationPeriod.value,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
@@ -1779,49 +1763,21 @@ class AmazonopensearchserviceDestinationUpdate {
 }
 
 enum AmazonopensearchserviceIndexRotationPeriod {
-  noRotation,
-  oneHour,
-  oneDay,
-  oneWeek,
-  oneMonth,
-}
+  noRotation('NoRotation'),
+  oneHour('OneHour'),
+  oneDay('OneDay'),
+  oneWeek('OneWeek'),
+  oneMonth('OneMonth'),
+  ;
 
-extension AmazonopensearchserviceIndexRotationPeriodValueExtension
-    on AmazonopensearchserviceIndexRotationPeriod {
-  String toValue() {
-    switch (this) {
-      case AmazonopensearchserviceIndexRotationPeriod.noRotation:
-        return 'NoRotation';
-      case AmazonopensearchserviceIndexRotationPeriod.oneHour:
-        return 'OneHour';
-      case AmazonopensearchserviceIndexRotationPeriod.oneDay:
-        return 'OneDay';
-      case AmazonopensearchserviceIndexRotationPeriod.oneWeek:
-        return 'OneWeek';
-      case AmazonopensearchserviceIndexRotationPeriod.oneMonth:
-        return 'OneMonth';
-    }
-  }
-}
+  final String value;
 
-extension AmazonopensearchserviceIndexRotationPeriodFromString on String {
-  AmazonopensearchserviceIndexRotationPeriod
-      toAmazonopensearchserviceIndexRotationPeriod() {
-    switch (this) {
-      case 'NoRotation':
-        return AmazonopensearchserviceIndexRotationPeriod.noRotation;
-      case 'OneHour':
-        return AmazonopensearchserviceIndexRotationPeriod.oneHour;
-      case 'OneDay':
-        return AmazonopensearchserviceIndexRotationPeriod.oneDay;
-      case 'OneWeek':
-        return AmazonopensearchserviceIndexRotationPeriod.oneWeek;
-      case 'OneMonth':
-        return AmazonopensearchserviceIndexRotationPeriod.oneMonth;
-    }
-    throw Exception(
-        '$this is not known in enum AmazonopensearchserviceIndexRotationPeriod');
-  }
+  const AmazonopensearchserviceIndexRotationPeriod(this.value);
+
+  static AmazonopensearchserviceIndexRotationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AmazonopensearchserviceIndexRotationPeriod'));
 }
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
@@ -1854,33 +1810,18 @@ class AmazonopensearchserviceRetryOptions {
 }
 
 enum AmazonopensearchserviceS3BackupMode {
-  failedDocumentsOnly,
-  allDocuments,
-}
+  failedDocumentsOnly('FailedDocumentsOnly'),
+  allDocuments('AllDocuments'),
+  ;
 
-extension AmazonopensearchserviceS3BackupModeValueExtension
-    on AmazonopensearchserviceS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case AmazonopensearchserviceS3BackupMode.failedDocumentsOnly:
-        return 'FailedDocumentsOnly';
-      case AmazonopensearchserviceS3BackupMode.allDocuments:
-        return 'AllDocuments';
-    }
-  }
-}
+  final String value;
 
-extension AmazonopensearchserviceS3BackupModeFromString on String {
-  AmazonopensearchserviceS3BackupMode toAmazonopensearchserviceS3BackupMode() {
-    switch (this) {
-      case 'FailedDocumentsOnly':
-        return AmazonopensearchserviceS3BackupMode.failedDocumentsOnly;
-      case 'AllDocuments':
-        return AmazonopensearchserviceS3BackupMode.allDocuments;
-    }
-    throw Exception(
-        '$this is not known in enum AmazonopensearchserviceS3BackupMode');
-  }
+  const AmazonopensearchserviceS3BackupMode(this.value);
+
+  static AmazonopensearchserviceS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AmazonopensearchserviceS3BackupMode'));
 }
 
 /// The authentication configuration of the Amazon MSK cluster.
@@ -1898,7 +1839,7 @@ class AuthenticationConfiguration {
 
   factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfiguration(
-      connectivity: (json['Connectivity'] as String).toConnectivity(),
+      connectivity: Connectivity.fromString((json['Connectivity'] as String)),
       roleARN: json['RoleARN'] as String,
     );
   }
@@ -1907,7 +1848,7 @@ class AuthenticationConfiguration {
     final connectivity = this.connectivity;
     final roleARN = this.roleARN;
     return {
-      'Connectivity': connectivity.toValue(),
+      'Connectivity': connectivity.value,
       'RoleARN': roleARN,
     };
   }
@@ -1999,102 +1940,51 @@ class CloudWatchLoggingOptions {
 }
 
 enum CompressionFormat {
-  uncompressed,
-  gzip,
-  zip,
-  snappy,
-  hadoopSnappy,
-}
+  uncompressed('UNCOMPRESSED'),
+  gzip('GZIP'),
+  zip('ZIP'),
+  snappy('Snappy'),
+  hadoopSnappy('HADOOP_SNAPPY'),
+  ;
 
-extension CompressionFormatValueExtension on CompressionFormat {
-  String toValue() {
-    switch (this) {
-      case CompressionFormat.uncompressed:
-        return 'UNCOMPRESSED';
-      case CompressionFormat.gzip:
-        return 'GZIP';
-      case CompressionFormat.zip:
-        return 'ZIP';
-      case CompressionFormat.snappy:
-        return 'Snappy';
-      case CompressionFormat.hadoopSnappy:
-        return 'HADOOP_SNAPPY';
-    }
-  }
-}
+  final String value;
 
-extension CompressionFormatFromString on String {
-  CompressionFormat toCompressionFormat() {
-    switch (this) {
-      case 'UNCOMPRESSED':
-        return CompressionFormat.uncompressed;
-      case 'GZIP':
-        return CompressionFormat.gzip;
-      case 'ZIP':
-        return CompressionFormat.zip;
-      case 'Snappy':
-        return CompressionFormat.snappy;
-      case 'HADOOP_SNAPPY':
-        return CompressionFormat.hadoopSnappy;
-    }
-    throw Exception('$this is not known in enum CompressionFormat');
-  }
+  const CompressionFormat(this.value);
+
+  static CompressionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CompressionFormat'));
 }
 
 enum Connectivity {
-  public,
-  private,
-}
+  public('PUBLIC'),
+  private('PRIVATE'),
+  ;
 
-extension ConnectivityValueExtension on Connectivity {
-  String toValue() {
-    switch (this) {
-      case Connectivity.public:
-        return 'PUBLIC';
-      case Connectivity.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension ConnectivityFromString on String {
-  Connectivity toConnectivity() {
-    switch (this) {
-      case 'PUBLIC':
-        return Connectivity.public;
-      case 'PRIVATE':
-        return Connectivity.private;
-    }
-    throw Exception('$this is not known in enum Connectivity');
-  }
+  const Connectivity(this.value);
+
+  static Connectivity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Connectivity'));
 }
 
 enum ContentEncoding {
-  none,
-  gzip,
-}
+  none('NONE'),
+  gzip('GZIP'),
+  ;
 
-extension ContentEncodingValueExtension on ContentEncoding {
-  String toValue() {
-    switch (this) {
-      case ContentEncoding.none:
-        return 'NONE';
-      case ContentEncoding.gzip:
-        return 'GZIP';
-    }
-  }
-}
+  final String value;
 
-extension ContentEncodingFromString on String {
-  ContentEncoding toContentEncoding() {
-    switch (this) {
-      case 'NONE':
-        return ContentEncoding.none;
-      case 'GZIP':
-        return ContentEncoding.gzip;
-    }
-    throw Exception('$this is not known in enum ContentEncoding');
-  }
+  const ContentEncoding(this.value);
+
+  static ContentEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContentEncoding'));
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
@@ -2245,31 +2135,18 @@ class DataFormatConversionConfiguration {
 }
 
 enum DefaultDocumentIdFormat {
-  firehoseDefault,
-  noDocumentId,
-}
+  firehoseDefault('FIREHOSE_DEFAULT'),
+  noDocumentId('NO_DOCUMENT_ID'),
+  ;
 
-extension DefaultDocumentIdFormatValueExtension on DefaultDocumentIdFormat {
-  String toValue() {
-    switch (this) {
-      case DefaultDocumentIdFormat.firehoseDefault:
-        return 'FIREHOSE_DEFAULT';
-      case DefaultDocumentIdFormat.noDocumentId:
-        return 'NO_DOCUMENT_ID';
-    }
-  }
-}
+  final String value;
 
-extension DefaultDocumentIdFormatFromString on String {
-  DefaultDocumentIdFormat toDefaultDocumentIdFormat() {
-    switch (this) {
-      case 'FIREHOSE_DEFAULT':
-        return DefaultDocumentIdFormat.firehoseDefault;
-      case 'NO_DOCUMENT_ID':
-        return DefaultDocumentIdFormat.noDocumentId;
-    }
-    throw Exception('$this is not known in enum DefaultDocumentIdFormat');
-  }
+  const DefaultDocumentIdFormat(this.value);
+
+  static DefaultDocumentIdFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DefaultDocumentIdFormat'));
 }
 
 class DeleteDeliveryStreamOutput {
@@ -2363,10 +2240,10 @@ class DeliveryStreamDescription {
     return DeliveryStreamDescription(
       deliveryStreamARN: json['DeliveryStreamARN'] as String,
       deliveryStreamName: json['DeliveryStreamName'] as String,
-      deliveryStreamStatus:
-          (json['DeliveryStreamStatus'] as String).toDeliveryStreamStatus(),
+      deliveryStreamStatus: DeliveryStreamStatus.fromString(
+          (json['DeliveryStreamStatus'] as String)),
       deliveryStreamType:
-          (json['DeliveryStreamType'] as String).toDeliveryStreamType(),
+          DeliveryStreamType.fromString((json['DeliveryStreamType'] as String)),
       destinations: (json['Destinations'] as List)
           .whereNotNull()
           .map(
@@ -2442,8 +2319,9 @@ class DeliveryStreamEncryptionConfiguration {
               json['FailureDescription'] as Map<String, dynamic>)
           : null,
       keyARN: json['KeyARN'] as String?,
-      keyType: (json['KeyType'] as String?)?.toKeyType(),
-      status: (json['Status'] as String?)?.toDeliveryStreamEncryptionStatus(),
+      keyType: (json['KeyType'] as String?)?.let(KeyType.fromString),
+      status: (json['Status'] as String?)
+          ?.let(DeliveryStreamEncryptionStatus.fromString),
     );
   }
 }
@@ -2496,229 +2374,91 @@ class DeliveryStreamEncryptionConfigurationInput {
     final keyType = this.keyType;
     final keyARN = this.keyARN;
     return {
-      'KeyType': keyType.toValue(),
+      'KeyType': keyType.value,
       if (keyARN != null) 'KeyARN': keyARN,
     };
   }
 }
 
 enum DeliveryStreamEncryptionStatus {
-  enabled,
-  enabling,
-  enablingFailed,
-  disabled,
-  disabling,
-  disablingFailed,
-}
+  enabled('ENABLED'),
+  enabling('ENABLING'),
+  enablingFailed('ENABLING_FAILED'),
+  disabled('DISABLED'),
+  disabling('DISABLING'),
+  disablingFailed('DISABLING_FAILED'),
+  ;
 
-extension DeliveryStreamEncryptionStatusValueExtension
-    on DeliveryStreamEncryptionStatus {
-  String toValue() {
-    switch (this) {
-      case DeliveryStreamEncryptionStatus.enabled:
-        return 'ENABLED';
-      case DeliveryStreamEncryptionStatus.enabling:
-        return 'ENABLING';
-      case DeliveryStreamEncryptionStatus.enablingFailed:
-        return 'ENABLING_FAILED';
-      case DeliveryStreamEncryptionStatus.disabled:
-        return 'DISABLED';
-      case DeliveryStreamEncryptionStatus.disabling:
-        return 'DISABLING';
-      case DeliveryStreamEncryptionStatus.disablingFailed:
-        return 'DISABLING_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStreamEncryptionStatusFromString on String {
-  DeliveryStreamEncryptionStatus toDeliveryStreamEncryptionStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return DeliveryStreamEncryptionStatus.enabled;
-      case 'ENABLING':
-        return DeliveryStreamEncryptionStatus.enabling;
-      case 'ENABLING_FAILED':
-        return DeliveryStreamEncryptionStatus.enablingFailed;
-      case 'DISABLED':
-        return DeliveryStreamEncryptionStatus.disabled;
-      case 'DISABLING':
-        return DeliveryStreamEncryptionStatus.disabling;
-      case 'DISABLING_FAILED':
-        return DeliveryStreamEncryptionStatus.disablingFailed;
-    }
-    throw Exception(
-        '$this is not known in enum DeliveryStreamEncryptionStatus');
-  }
+  const DeliveryStreamEncryptionStatus(this.value);
+
+  static DeliveryStreamEncryptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeliveryStreamEncryptionStatus'));
 }
 
 enum DeliveryStreamFailureType {
-  retireKmsGrantFailed,
-  createKmsGrantFailed,
-  kmsAccessDenied,
-  disabledKmsKey,
-  invalidKmsKey,
-  kmsKeyNotFound,
-  kmsOptInRequired,
-  createEniFailed,
-  deleteEniFailed,
-  subnetNotFound,
-  securityGroupNotFound,
-  eniAccessDenied,
-  subnetAccessDenied,
-  securityGroupAccessDenied,
-  unknownError,
-}
+  retireKmsGrantFailed('RETIRE_KMS_GRANT_FAILED'),
+  createKmsGrantFailed('CREATE_KMS_GRANT_FAILED'),
+  kmsAccessDenied('KMS_ACCESS_DENIED'),
+  disabledKmsKey('DISABLED_KMS_KEY'),
+  invalidKmsKey('INVALID_KMS_KEY'),
+  kmsKeyNotFound('KMS_KEY_NOT_FOUND'),
+  kmsOptInRequired('KMS_OPT_IN_REQUIRED'),
+  createEniFailed('CREATE_ENI_FAILED'),
+  deleteEniFailed('DELETE_ENI_FAILED'),
+  subnetNotFound('SUBNET_NOT_FOUND'),
+  securityGroupNotFound('SECURITY_GROUP_NOT_FOUND'),
+  eniAccessDenied('ENI_ACCESS_DENIED'),
+  subnetAccessDenied('SUBNET_ACCESS_DENIED'),
+  securityGroupAccessDenied('SECURITY_GROUP_ACCESS_DENIED'),
+  unknownError('UNKNOWN_ERROR'),
+  ;
 
-extension DeliveryStreamFailureTypeValueExtension on DeliveryStreamFailureType {
-  String toValue() {
-    switch (this) {
-      case DeliveryStreamFailureType.retireKmsGrantFailed:
-        return 'RETIRE_KMS_GRANT_FAILED';
-      case DeliveryStreamFailureType.createKmsGrantFailed:
-        return 'CREATE_KMS_GRANT_FAILED';
-      case DeliveryStreamFailureType.kmsAccessDenied:
-        return 'KMS_ACCESS_DENIED';
-      case DeliveryStreamFailureType.disabledKmsKey:
-        return 'DISABLED_KMS_KEY';
-      case DeliveryStreamFailureType.invalidKmsKey:
-        return 'INVALID_KMS_KEY';
-      case DeliveryStreamFailureType.kmsKeyNotFound:
-        return 'KMS_KEY_NOT_FOUND';
-      case DeliveryStreamFailureType.kmsOptInRequired:
-        return 'KMS_OPT_IN_REQUIRED';
-      case DeliveryStreamFailureType.createEniFailed:
-        return 'CREATE_ENI_FAILED';
-      case DeliveryStreamFailureType.deleteEniFailed:
-        return 'DELETE_ENI_FAILED';
-      case DeliveryStreamFailureType.subnetNotFound:
-        return 'SUBNET_NOT_FOUND';
-      case DeliveryStreamFailureType.securityGroupNotFound:
-        return 'SECURITY_GROUP_NOT_FOUND';
-      case DeliveryStreamFailureType.eniAccessDenied:
-        return 'ENI_ACCESS_DENIED';
-      case DeliveryStreamFailureType.subnetAccessDenied:
-        return 'SUBNET_ACCESS_DENIED';
-      case DeliveryStreamFailureType.securityGroupAccessDenied:
-        return 'SECURITY_GROUP_ACCESS_DENIED';
-      case DeliveryStreamFailureType.unknownError:
-        return 'UNKNOWN_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStreamFailureTypeFromString on String {
-  DeliveryStreamFailureType toDeliveryStreamFailureType() {
-    switch (this) {
-      case 'RETIRE_KMS_GRANT_FAILED':
-        return DeliveryStreamFailureType.retireKmsGrantFailed;
-      case 'CREATE_KMS_GRANT_FAILED':
-        return DeliveryStreamFailureType.createKmsGrantFailed;
-      case 'KMS_ACCESS_DENIED':
-        return DeliveryStreamFailureType.kmsAccessDenied;
-      case 'DISABLED_KMS_KEY':
-        return DeliveryStreamFailureType.disabledKmsKey;
-      case 'INVALID_KMS_KEY':
-        return DeliveryStreamFailureType.invalidKmsKey;
-      case 'KMS_KEY_NOT_FOUND':
-        return DeliveryStreamFailureType.kmsKeyNotFound;
-      case 'KMS_OPT_IN_REQUIRED':
-        return DeliveryStreamFailureType.kmsOptInRequired;
-      case 'CREATE_ENI_FAILED':
-        return DeliveryStreamFailureType.createEniFailed;
-      case 'DELETE_ENI_FAILED':
-        return DeliveryStreamFailureType.deleteEniFailed;
-      case 'SUBNET_NOT_FOUND':
-        return DeliveryStreamFailureType.subnetNotFound;
-      case 'SECURITY_GROUP_NOT_FOUND':
-        return DeliveryStreamFailureType.securityGroupNotFound;
-      case 'ENI_ACCESS_DENIED':
-        return DeliveryStreamFailureType.eniAccessDenied;
-      case 'SUBNET_ACCESS_DENIED':
-        return DeliveryStreamFailureType.subnetAccessDenied;
-      case 'SECURITY_GROUP_ACCESS_DENIED':
-        return DeliveryStreamFailureType.securityGroupAccessDenied;
-      case 'UNKNOWN_ERROR':
-        return DeliveryStreamFailureType.unknownError;
-    }
-    throw Exception('$this is not known in enum DeliveryStreamFailureType');
-  }
+  const DeliveryStreamFailureType(this.value);
+
+  static DeliveryStreamFailureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeliveryStreamFailureType'));
 }
 
 enum DeliveryStreamStatus {
-  creating,
-  creatingFailed,
-  deleting,
-  deletingFailed,
-  active,
-}
+  creating('CREATING'),
+  creatingFailed('CREATING_FAILED'),
+  deleting('DELETING'),
+  deletingFailed('DELETING_FAILED'),
+  active('ACTIVE'),
+  ;
 
-extension DeliveryStreamStatusValueExtension on DeliveryStreamStatus {
-  String toValue() {
-    switch (this) {
-      case DeliveryStreamStatus.creating:
-        return 'CREATING';
-      case DeliveryStreamStatus.creatingFailed:
-        return 'CREATING_FAILED';
-      case DeliveryStreamStatus.deleting:
-        return 'DELETING';
-      case DeliveryStreamStatus.deletingFailed:
-        return 'DELETING_FAILED';
-      case DeliveryStreamStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStreamStatusFromString on String {
-  DeliveryStreamStatus toDeliveryStreamStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DeliveryStreamStatus.creating;
-      case 'CREATING_FAILED':
-        return DeliveryStreamStatus.creatingFailed;
-      case 'DELETING':
-        return DeliveryStreamStatus.deleting;
-      case 'DELETING_FAILED':
-        return DeliveryStreamStatus.deletingFailed;
-      case 'ACTIVE':
-        return DeliveryStreamStatus.active;
-    }
-    throw Exception('$this is not known in enum DeliveryStreamStatus');
-  }
+  const DeliveryStreamStatus(this.value);
+
+  static DeliveryStreamStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeliveryStreamStatus'));
 }
 
 enum DeliveryStreamType {
-  directPut,
-  kinesisStreamAsSource,
-  mSKAsSource,
-}
+  directPut('DirectPut'),
+  kinesisStreamAsSource('KinesisStreamAsSource'),
+  mSKAsSource('MSKAsSource'),
+  ;
 
-extension DeliveryStreamTypeValueExtension on DeliveryStreamType {
-  String toValue() {
-    switch (this) {
-      case DeliveryStreamType.directPut:
-        return 'DirectPut';
-      case DeliveryStreamType.kinesisStreamAsSource:
-        return 'KinesisStreamAsSource';
-      case DeliveryStreamType.mSKAsSource:
-        return 'MSKAsSource';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStreamTypeFromString on String {
-  DeliveryStreamType toDeliveryStreamType() {
-    switch (this) {
-      case 'DirectPut':
-        return DeliveryStreamType.directPut;
-      case 'KinesisStreamAsSource':
-        return DeliveryStreamType.kinesisStreamAsSource;
-      case 'MSKAsSource':
-        return DeliveryStreamType.mSKAsSource;
-    }
-    throw Exception('$this is not known in enum DeliveryStreamType');
-  }
+  const DeliveryStreamType(this.value);
+
+  static DeliveryStreamType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeliveryStreamType'));
 }
 
 class DescribeDeliveryStreamOutput {
@@ -2916,15 +2656,15 @@ class DocumentIdOptions {
 
   factory DocumentIdOptions.fromJson(Map<String, dynamic> json) {
     return DocumentIdOptions(
-      defaultDocumentIdFormat: (json['DefaultDocumentIdFormat'] as String)
-          .toDefaultDocumentIdFormat(),
+      defaultDocumentIdFormat: DefaultDocumentIdFormat.fromString(
+          (json['DefaultDocumentIdFormat'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final defaultDocumentIdFormat = this.defaultDocumentIdFormat;
     return {
-      'DefaultDocumentIdFormat': defaultDocumentIdFormat.toValue(),
+      'DefaultDocumentIdFormat': defaultDocumentIdFormat.value,
     };
   }
 }
@@ -3129,11 +2869,11 @@ class ElasticsearchDestinationConfiguration {
       if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
       if (domainARN != null) 'DomainARN': domainARN,
       if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+        'IndexRotationPeriod': indexRotationPeriod.value,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (typeName != null) 'TypeName': typeName,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
@@ -3234,7 +2974,7 @@ class ElasticsearchDestinationDescription {
       domainARN: json['DomainARN'] as String?,
       indexName: json['IndexName'] as String?,
       indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
-          ?.toElasticsearchIndexRotationPeriod(),
+          ?.let(ElasticsearchIndexRotationPeriod.fromString),
       processingConfiguration: json['ProcessingConfiguration'] != null
           ? ProcessingConfiguration.fromJson(
               json['ProcessingConfiguration'] as Map<String, dynamic>)
@@ -3244,8 +2984,8 @@ class ElasticsearchDestinationDescription {
               json['RetryOptions'] as Map<String, dynamic>)
           : null,
       roleARN: json['RoleARN'] as String?,
-      s3BackupMode:
-          (json['S3BackupMode'] as String?)?.toElasticsearchS3BackupMode(),
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(ElasticsearchS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -3363,7 +3103,7 @@ class ElasticsearchDestinationUpdate {
       if (domainARN != null) 'DomainARN': domainARN,
       if (indexName != null) 'IndexName': indexName,
       if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+        'IndexRotationPeriod': indexRotationPeriod.value,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
@@ -3375,48 +3115,21 @@ class ElasticsearchDestinationUpdate {
 }
 
 enum ElasticsearchIndexRotationPeriod {
-  noRotation,
-  oneHour,
-  oneDay,
-  oneWeek,
-  oneMonth,
-}
+  noRotation('NoRotation'),
+  oneHour('OneHour'),
+  oneDay('OneDay'),
+  oneWeek('OneWeek'),
+  oneMonth('OneMonth'),
+  ;
 
-extension ElasticsearchIndexRotationPeriodValueExtension
-    on ElasticsearchIndexRotationPeriod {
-  String toValue() {
-    switch (this) {
-      case ElasticsearchIndexRotationPeriod.noRotation:
-        return 'NoRotation';
-      case ElasticsearchIndexRotationPeriod.oneHour:
-        return 'OneHour';
-      case ElasticsearchIndexRotationPeriod.oneDay:
-        return 'OneDay';
-      case ElasticsearchIndexRotationPeriod.oneWeek:
-        return 'OneWeek';
-      case ElasticsearchIndexRotationPeriod.oneMonth:
-        return 'OneMonth';
-    }
-  }
-}
+  final String value;
 
-extension ElasticsearchIndexRotationPeriodFromString on String {
-  ElasticsearchIndexRotationPeriod toElasticsearchIndexRotationPeriod() {
-    switch (this) {
-      case 'NoRotation':
-        return ElasticsearchIndexRotationPeriod.noRotation;
-      case 'OneHour':
-        return ElasticsearchIndexRotationPeriod.oneHour;
-      case 'OneDay':
-        return ElasticsearchIndexRotationPeriod.oneDay;
-      case 'OneWeek':
-        return ElasticsearchIndexRotationPeriod.oneWeek;
-      case 'OneMonth':
-        return ElasticsearchIndexRotationPeriod.oneMonth;
-    }
-    throw Exception(
-        '$this is not known in enum ElasticsearchIndexRotationPeriod');
-  }
+  const ElasticsearchIndexRotationPeriod(this.value);
+
+  static ElasticsearchIndexRotationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ElasticsearchIndexRotationPeriod'));
 }
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
@@ -3448,31 +3161,18 @@ class ElasticsearchRetryOptions {
 }
 
 enum ElasticsearchS3BackupMode {
-  failedDocumentsOnly,
-  allDocuments,
-}
+  failedDocumentsOnly('FailedDocumentsOnly'),
+  allDocuments('AllDocuments'),
+  ;
 
-extension ElasticsearchS3BackupModeValueExtension on ElasticsearchS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case ElasticsearchS3BackupMode.failedDocumentsOnly:
-        return 'FailedDocumentsOnly';
-      case ElasticsearchS3BackupMode.allDocuments:
-        return 'AllDocuments';
-    }
-  }
-}
+  final String value;
 
-extension ElasticsearchS3BackupModeFromString on String {
-  ElasticsearchS3BackupMode toElasticsearchS3BackupMode() {
-    switch (this) {
-      case 'FailedDocumentsOnly':
-        return ElasticsearchS3BackupMode.failedDocumentsOnly;
-      case 'AllDocuments':
-        return ElasticsearchS3BackupMode.allDocuments;
-    }
-    throw Exception('$this is not known in enum ElasticsearchS3BackupMode');
-  }
+  const ElasticsearchS3BackupMode(this.value);
+
+  static ElasticsearchS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ElasticsearchS3BackupMode'));
 }
 
 /// Describes the encryption for a destination in Amazon S3.
@@ -3495,8 +3195,8 @@ class EncryptionConfiguration {
           ? KMSEncryptionConfig.fromJson(
               json['KMSEncryptionConfig'] as Map<String, dynamic>)
           : null,
-      noEncryptionConfig:
-          (json['NoEncryptionConfig'] as String?)?.toNoEncryptionConfig(),
+      noEncryptionConfig: (json['NoEncryptionConfig'] as String?)
+          ?.let(NoEncryptionConfig.fromString),
     );
   }
 
@@ -3507,7 +3207,7 @@ class EncryptionConfiguration {
       if (kMSEncryptionConfig != null)
         'KMSEncryptionConfig': kMSEncryptionConfig,
       if (noEncryptionConfig != null)
-        'NoEncryptionConfig': noEncryptionConfig.toValue(),
+        'NoEncryptionConfig': noEncryptionConfig.value,
     };
   }
 }
@@ -3622,7 +3322,7 @@ class ExtendedS3DestinationConfiguration {
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.toValue(),
+        'CompressionFormat': compressionFormat.value,
       if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
       if (dataFormatConversionConfiguration != null)
         'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
@@ -3637,7 +3337,7 @@ class ExtendedS3DestinationConfiguration {
         'ProcessingConfiguration': processingConfiguration,
       if (s3BackupConfiguration != null)
         'S3BackupConfiguration': s3BackupConfiguration,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
     };
   }
 }
@@ -3731,7 +3431,7 @@ class ExtendedS3DestinationDescription {
       bufferingHints: BufferingHints.fromJson(
           json['BufferingHints'] as Map<String, dynamic>),
       compressionFormat:
-          (json['CompressionFormat'] as String).toCompressionFormat(),
+          CompressionFormat.fromString((json['CompressionFormat'] as String)),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
           json['EncryptionConfiguration'] as Map<String, dynamic>),
       roleARN: json['RoleARN'] as String,
@@ -3763,7 +3463,8 @@ class ExtendedS3DestinationDescription {
           ? S3DestinationDescription.fromJson(
               json['S3BackupDescription'] as Map<String, dynamic>)
           : null,
-      s3BackupMode: (json['S3BackupMode'] as String?)?.toS3BackupMode(),
+      s3BackupMode:
+          (json['S3BackupMode'] as String?)?.let(S3BackupMode.fromString),
     );
   }
 }
@@ -3877,7 +3578,7 @@ class ExtendedS3DestinationUpdate {
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.toValue(),
+        'CompressionFormat': compressionFormat.value,
       if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
       if (dataFormatConversionConfiguration != null)
         'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
@@ -3891,7 +3592,7 @@ class ExtendedS3DestinationUpdate {
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
     };
   }
@@ -3916,37 +3617,24 @@ class FailureDescription {
   factory FailureDescription.fromJson(Map<String, dynamic> json) {
     return FailureDescription(
       details: json['Details'] as String,
-      type: (json['Type'] as String).toDeliveryStreamFailureType(),
+      type: DeliveryStreamFailureType.fromString((json['Type'] as String)),
     );
   }
 }
 
 enum HECEndpointType {
-  raw,
-  event,
-}
+  raw('Raw'),
+  event('Event'),
+  ;
 
-extension HECEndpointTypeValueExtension on HECEndpointType {
-  String toValue() {
-    switch (this) {
-      case HECEndpointType.raw:
-        return 'Raw';
-      case HECEndpointType.event:
-        return 'Event';
-    }
-  }
-}
+  final String value;
 
-extension HECEndpointTypeFromString on String {
-  HECEndpointType toHECEndpointType() {
-    switch (this) {
-      case 'Raw':
-        return HECEndpointType.raw;
-      case 'Event':
-        return HECEndpointType.event;
-    }
-    throw Exception('$this is not known in enum HECEndpointType');
-  }
+  const HECEndpointType(this.value);
+
+  static HECEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HECEndpointType'));
 }
 
 /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
@@ -4186,7 +3874,7 @@ class HttpEndpointDestinationConfiguration {
         'RequestConfiguration': requestConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
     };
   }
 }
@@ -4266,8 +3954,8 @@ class HttpEndpointDestinationDescription {
               json['RetryOptions'] as Map<String, dynamic>)
           : null,
       roleARN: json['RoleARN'] as String?,
-      s3BackupMode:
-          (json['S3BackupMode'] as String?)?.toHttpEndpointS3BackupMode(),
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(HttpEndpointS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -4345,7 +4033,7 @@ class HttpEndpointDestinationUpdate {
         'RequestConfiguration': requestConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
     };
   }
@@ -4375,7 +4063,7 @@ class HttpEndpointRequestConfiguration {
               HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       contentEncoding:
-          (json['ContentEncoding'] as String?)?.toContentEncoding(),
+          (json['ContentEncoding'] as String?)?.let(ContentEncoding.fromString),
     );
   }
 
@@ -4384,7 +4072,7 @@ class HttpEndpointRequestConfiguration {
     final contentEncoding = this.contentEncoding;
     return {
       if (commonAttributes != null) 'CommonAttributes': commonAttributes,
-      if (contentEncoding != null) 'ContentEncoding': contentEncoding.toValue(),
+      if (contentEncoding != null) 'ContentEncoding': contentEncoding.value,
     };
   }
 }
@@ -4418,31 +4106,18 @@ class HttpEndpointRetryOptions {
 }
 
 enum HttpEndpointS3BackupMode {
-  failedDataOnly,
-  allData,
-}
+  failedDataOnly('FailedDataOnly'),
+  allData('AllData'),
+  ;
 
-extension HttpEndpointS3BackupModeValueExtension on HttpEndpointS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case HttpEndpointS3BackupMode.failedDataOnly:
-        return 'FailedDataOnly';
-      case HttpEndpointS3BackupMode.allData:
-        return 'AllData';
-    }
-  }
-}
+  final String value;
 
-extension HttpEndpointS3BackupModeFromString on String {
-  HttpEndpointS3BackupMode toHttpEndpointS3BackupMode() {
-    switch (this) {
-      case 'FailedDataOnly':
-        return HttpEndpointS3BackupMode.failedDataOnly;
-      case 'AllData':
-        return HttpEndpointS3BackupMode.allData;
-    }
-    throw Exception('$this is not known in enum HttpEndpointS3BackupMode');
-  }
+  const HttpEndpointS3BackupMode(this.value);
+
+  static HttpEndpointS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HttpEndpointS3BackupMode'));
 }
 
 /// Specifies the deserializer you want to use to convert the format of the
@@ -4502,31 +4177,17 @@ class KMSEncryptionConfig {
 }
 
 enum KeyType {
-  awsOwnedCmk,
-  customerManagedCmk,
-}
+  awsOwnedCmk('AWS_OWNED_CMK'),
+  customerManagedCmk('CUSTOMER_MANAGED_CMK'),
+  ;
 
-extension KeyTypeValueExtension on KeyType {
-  String toValue() {
-    switch (this) {
-      case KeyType.awsOwnedCmk:
-        return 'AWS_OWNED_CMK';
-      case KeyType.customerManagedCmk:
-        return 'CUSTOMER_MANAGED_CMK';
-    }
-  }
-}
+  final String value;
 
-extension KeyTypeFromString on String {
-  KeyType toKeyType() {
-    switch (this) {
-      case 'AWS_OWNED_CMK':
-        return KeyType.awsOwnedCmk;
-      case 'CUSTOMER_MANAGED_CMK':
-        return KeyType.customerManagedCmk;
-    }
-    throw Exception('$this is not known in enum KeyType');
-  }
+  const KeyType(this.value);
+
+  static KeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum KeyType'));
 }
 
 /// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
@@ -4709,26 +4370,17 @@ class MSKSourceDescription {
 }
 
 enum NoEncryptionConfig {
-  noEncryption,
-}
+  noEncryption('NoEncryption'),
+  ;
 
-extension NoEncryptionConfigValueExtension on NoEncryptionConfig {
-  String toValue() {
-    switch (this) {
-      case NoEncryptionConfig.noEncryption:
-        return 'NoEncryption';
-    }
-  }
-}
+  final String value;
 
-extension NoEncryptionConfigFromString on String {
-  NoEncryptionConfig toNoEncryptionConfig() {
-    switch (this) {
-      case 'NoEncryption':
-        return NoEncryptionConfig.noEncryption;
-    }
-    throw Exception('$this is not known in enum NoEncryptionConfig');
-  }
+  const NoEncryptionConfig(this.value);
+
+  static NoEncryptionConfig fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NoEncryptionConfig'));
 }
 
 /// The OpenX SerDe. Used by Firehose for deserializing data, which means
@@ -4791,64 +4443,34 @@ class OpenXJsonSerDe {
 }
 
 enum OrcCompression {
-  none,
-  zlib,
-  snappy,
-}
+  none('NONE'),
+  zlib('ZLIB'),
+  snappy('SNAPPY'),
+  ;
 
-extension OrcCompressionValueExtension on OrcCompression {
-  String toValue() {
-    switch (this) {
-      case OrcCompression.none:
-        return 'NONE';
-      case OrcCompression.zlib:
-        return 'ZLIB';
-      case OrcCompression.snappy:
-        return 'SNAPPY';
-    }
-  }
-}
+  final String value;
 
-extension OrcCompressionFromString on String {
-  OrcCompression toOrcCompression() {
-    switch (this) {
-      case 'NONE':
-        return OrcCompression.none;
-      case 'ZLIB':
-        return OrcCompression.zlib;
-      case 'SNAPPY':
-        return OrcCompression.snappy;
-    }
-    throw Exception('$this is not known in enum OrcCompression');
-  }
+  const OrcCompression(this.value);
+
+  static OrcCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrcCompression'));
 }
 
 enum OrcFormatVersion {
-  v0_11,
-  v0_12,
-}
+  v0_11('V0_11'),
+  v0_12('V0_12'),
+  ;
 
-extension OrcFormatVersionValueExtension on OrcFormatVersion {
-  String toValue() {
-    switch (this) {
-      case OrcFormatVersion.v0_11:
-        return 'V0_11';
-      case OrcFormatVersion.v0_12:
-        return 'V0_12';
-    }
-  }
-}
+  final String value;
 
-extension OrcFormatVersionFromString on String {
-  OrcFormatVersion toOrcFormatVersion() {
-    switch (this) {
-      case 'V0_11':
-        return OrcFormatVersion.v0_11;
-      case 'V0_12':
-        return OrcFormatVersion.v0_12;
-    }
-    throw Exception('$this is not known in enum OrcFormatVersion');
-  }
+  const OrcFormatVersion(this.value);
+
+  static OrcFormatVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrcFormatVersion'));
 }
 
 /// A serializer to use for converting data to the ORC format before storing it
@@ -4934,10 +4556,12 @@ class OrcSerDe {
           .toList(),
       bloomFilterFalsePositiveProbability:
           json['BloomFilterFalsePositiveProbability'] as double?,
-      compression: (json['Compression'] as String?)?.toOrcCompression(),
+      compression:
+          (json['Compression'] as String?)?.let(OrcCompression.fromString),
       dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
       enablePadding: json['EnablePadding'] as bool?,
-      formatVersion: (json['FormatVersion'] as String?)?.toOrcFormatVersion(),
+      formatVersion:
+          (json['FormatVersion'] as String?)?.let(OrcFormatVersion.fromString),
       paddingTolerance: json['PaddingTolerance'] as double?,
       rowIndexStride: json['RowIndexStride'] as int?,
       stripeSizeBytes: json['StripeSizeBytes'] as int?,
@@ -4962,11 +4586,11 @@ class OrcSerDe {
       if (bloomFilterFalsePositiveProbability != null)
         'BloomFilterFalsePositiveProbability':
             bloomFilterFalsePositiveProbability,
-      if (compression != null) 'Compression': compression.toValue(),
+      if (compression != null) 'Compression': compression.value,
       if (dictionaryKeyThreshold != null)
         'DictionaryKeyThreshold': dictionaryKeyThreshold,
       if (enablePadding != null) 'EnablePadding': enablePadding,
-      if (formatVersion != null) 'FormatVersion': formatVersion.toValue(),
+      if (formatVersion != null) 'FormatVersion': formatVersion.value,
       if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
       if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
       if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
@@ -5003,36 +4627,19 @@ class OutputFormatConfiguration {
 }
 
 enum ParquetCompression {
-  uncompressed,
-  gzip,
-  snappy,
-}
+  uncompressed('UNCOMPRESSED'),
+  gzip('GZIP'),
+  snappy('SNAPPY'),
+  ;
 
-extension ParquetCompressionValueExtension on ParquetCompression {
-  String toValue() {
-    switch (this) {
-      case ParquetCompression.uncompressed:
-        return 'UNCOMPRESSED';
-      case ParquetCompression.gzip:
-        return 'GZIP';
-      case ParquetCompression.snappy:
-        return 'SNAPPY';
-    }
-  }
-}
+  final String value;
 
-extension ParquetCompressionFromString on String {
-  ParquetCompression toParquetCompression() {
-    switch (this) {
-      case 'UNCOMPRESSED':
-        return ParquetCompression.uncompressed;
-      case 'GZIP':
-        return ParquetCompression.gzip;
-      case 'SNAPPY':
-        return ParquetCompression.snappy;
-    }
-    throw Exception('$this is not known in enum ParquetCompression');
-  }
+  const ParquetCompression(this.value);
+
+  static ParquetCompression fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ParquetCompression'));
 }
 
 /// A serializer to use for converting data to the Parquet format before storing
@@ -5080,12 +4687,13 @@ class ParquetSerDe {
   factory ParquetSerDe.fromJson(Map<String, dynamic> json) {
     return ParquetSerDe(
       blockSizeBytes: json['BlockSizeBytes'] as int?,
-      compression: (json['Compression'] as String?)?.toParquetCompression(),
+      compression:
+          (json['Compression'] as String?)?.let(ParquetCompression.fromString),
       enableDictionaryCompression: json['EnableDictionaryCompression'] as bool?,
       maxPaddingBytes: json['MaxPaddingBytes'] as int?,
       pageSizeBytes: json['PageSizeBytes'] as int?,
-      writerVersion:
-          (json['WriterVersion'] as String?)?.toParquetWriterVersion(),
+      writerVersion: (json['WriterVersion'] as String?)
+          ?.let(ParquetWriterVersion.fromString),
     );
   }
 
@@ -5098,42 +4706,29 @@ class ParquetSerDe {
     final writerVersion = this.writerVersion;
     return {
       if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
-      if (compression != null) 'Compression': compression.toValue(),
+      if (compression != null) 'Compression': compression.value,
       if (enableDictionaryCompression != null)
         'EnableDictionaryCompression': enableDictionaryCompression,
       if (maxPaddingBytes != null) 'MaxPaddingBytes': maxPaddingBytes,
       if (pageSizeBytes != null) 'PageSizeBytes': pageSizeBytes,
-      if (writerVersion != null) 'WriterVersion': writerVersion.toValue(),
+      if (writerVersion != null) 'WriterVersion': writerVersion.value,
     };
   }
 }
 
 enum ParquetWriterVersion {
-  v1,
-  v2,
-}
+  v1('V1'),
+  v2('V2'),
+  ;
 
-extension ParquetWriterVersionValueExtension on ParquetWriterVersion {
-  String toValue() {
-    switch (this) {
-      case ParquetWriterVersion.v1:
-        return 'V1';
-      case ParquetWriterVersion.v2:
-        return 'V2';
-    }
-  }
-}
+  final String value;
 
-extension ParquetWriterVersionFromString on String {
-  ParquetWriterVersion toParquetWriterVersion() {
-    switch (this) {
-      case 'V1':
-        return ParquetWriterVersion.v1;
-      case 'V2':
-        return ParquetWriterVersion.v2;
-    }
-    throw Exception('$this is not known in enum ParquetWriterVersion');
-  }
+  const ParquetWriterVersion(this.value);
+
+  static ParquetWriterVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ParquetWriterVersion'));
 }
 
 /// Describes a data processing configuration.
@@ -5190,7 +4785,7 @@ class Processor {
 
   factory Processor.fromJson(Map<String, dynamic> json) {
     return Processor(
-      type: (json['Type'] as String).toProcessorType(),
+      type: ProcessorType.fromString((json['Type'] as String)),
       parameters: (json['Parameters'] as List?)
           ?.whereNotNull()
           .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
@@ -5202,7 +4797,7 @@ class Processor {
     final type = this.type;
     final parameters = this.parameters;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (parameters != null) 'Parameters': parameters,
     };
   }
@@ -5229,7 +4824,7 @@ class ProcessorParameter {
   factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
     return ProcessorParameter(
       parameterName:
-          (json['ParameterName'] as String).toProcessorParameterName(),
+          ProcessorParameterName.fromString((json['ParameterName'] as String)),
       parameterValue: json['ParameterValue'] as String,
     );
   }
@@ -5238,131 +4833,53 @@ class ProcessorParameter {
     final parameterName = this.parameterName;
     final parameterValue = this.parameterValue;
     return {
-      'ParameterName': parameterName.toValue(),
+      'ParameterName': parameterName.value,
       'ParameterValue': parameterValue,
     };
   }
 }
 
 enum ProcessorParameterName {
-  lambdaArn,
-  numberOfRetries,
-  metadataExtractionQuery,
-  jsonParsingEngine,
-  roleArn,
-  bufferSizeInMBs,
-  bufferIntervalInSeconds,
-  subRecordType,
-  delimiter,
-  compressionFormat,
-  dataMessageExtraction,
-}
+  lambdaArn('LambdaArn'),
+  numberOfRetries('NumberOfRetries'),
+  metadataExtractionQuery('MetadataExtractionQuery'),
+  jsonParsingEngine('JsonParsingEngine'),
+  roleArn('RoleArn'),
+  bufferSizeInMBs('BufferSizeInMBs'),
+  bufferIntervalInSeconds('BufferIntervalInSeconds'),
+  subRecordType('SubRecordType'),
+  delimiter('Delimiter'),
+  compressionFormat('CompressionFormat'),
+  dataMessageExtraction('DataMessageExtraction'),
+  ;
 
-extension ProcessorParameterNameValueExtension on ProcessorParameterName {
-  String toValue() {
-    switch (this) {
-      case ProcessorParameterName.lambdaArn:
-        return 'LambdaArn';
-      case ProcessorParameterName.numberOfRetries:
-        return 'NumberOfRetries';
-      case ProcessorParameterName.metadataExtractionQuery:
-        return 'MetadataExtractionQuery';
-      case ProcessorParameterName.jsonParsingEngine:
-        return 'JsonParsingEngine';
-      case ProcessorParameterName.roleArn:
-        return 'RoleArn';
-      case ProcessorParameterName.bufferSizeInMBs:
-        return 'BufferSizeInMBs';
-      case ProcessorParameterName.bufferIntervalInSeconds:
-        return 'BufferIntervalInSeconds';
-      case ProcessorParameterName.subRecordType:
-        return 'SubRecordType';
-      case ProcessorParameterName.delimiter:
-        return 'Delimiter';
-      case ProcessorParameterName.compressionFormat:
-        return 'CompressionFormat';
-      case ProcessorParameterName.dataMessageExtraction:
-        return 'DataMessageExtraction';
-    }
-  }
-}
+  final String value;
 
-extension ProcessorParameterNameFromString on String {
-  ProcessorParameterName toProcessorParameterName() {
-    switch (this) {
-      case 'LambdaArn':
-        return ProcessorParameterName.lambdaArn;
-      case 'NumberOfRetries':
-        return ProcessorParameterName.numberOfRetries;
-      case 'MetadataExtractionQuery':
-        return ProcessorParameterName.metadataExtractionQuery;
-      case 'JsonParsingEngine':
-        return ProcessorParameterName.jsonParsingEngine;
-      case 'RoleArn':
-        return ProcessorParameterName.roleArn;
-      case 'BufferSizeInMBs':
-        return ProcessorParameterName.bufferSizeInMBs;
-      case 'BufferIntervalInSeconds':
-        return ProcessorParameterName.bufferIntervalInSeconds;
-      case 'SubRecordType':
-        return ProcessorParameterName.subRecordType;
-      case 'Delimiter':
-        return ProcessorParameterName.delimiter;
-      case 'CompressionFormat':
-        return ProcessorParameterName.compressionFormat;
-      case 'DataMessageExtraction':
-        return ProcessorParameterName.dataMessageExtraction;
-    }
-    throw Exception('$this is not known in enum ProcessorParameterName');
-  }
+  const ProcessorParameterName(this.value);
+
+  static ProcessorParameterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProcessorParameterName'));
 }
 
 enum ProcessorType {
-  recordDeAggregation,
-  decompression,
-  cloudWatchLogProcessing,
-  lambda,
-  metadataExtraction,
-  appendDelimiterToRecord,
-}
+  recordDeAggregation('RecordDeAggregation'),
+  decompression('Decompression'),
+  cloudWatchLogProcessing('CloudWatchLogProcessing'),
+  lambda('Lambda'),
+  metadataExtraction('MetadataExtraction'),
+  appendDelimiterToRecord('AppendDelimiterToRecord'),
+  ;
 
-extension ProcessorTypeValueExtension on ProcessorType {
-  String toValue() {
-    switch (this) {
-      case ProcessorType.recordDeAggregation:
-        return 'RecordDeAggregation';
-      case ProcessorType.decompression:
-        return 'Decompression';
-      case ProcessorType.cloudWatchLogProcessing:
-        return 'CloudWatchLogProcessing';
-      case ProcessorType.lambda:
-        return 'Lambda';
-      case ProcessorType.metadataExtraction:
-        return 'MetadataExtraction';
-      case ProcessorType.appendDelimiterToRecord:
-        return 'AppendDelimiterToRecord';
-    }
-  }
-}
+  final String value;
 
-extension ProcessorTypeFromString on String {
-  ProcessorType toProcessorType() {
-    switch (this) {
-      case 'RecordDeAggregation':
-        return ProcessorType.recordDeAggregation;
-      case 'Decompression':
-        return ProcessorType.decompression;
-      case 'CloudWatchLogProcessing':
-        return ProcessorType.cloudWatchLogProcessing;
-      case 'Lambda':
-        return ProcessorType.lambda;
-      case 'MetadataExtraction':
-        return ProcessorType.metadataExtraction;
-      case 'AppendDelimiterToRecord':
-        return ProcessorType.appendDelimiterToRecord;
-    }
-    throw Exception('$this is not known in enum ProcessorType');
-  }
+  const ProcessorType(this.value);
+
+  static ProcessorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProcessorType'));
 }
 
 class PutRecordBatchOutput {
@@ -5555,7 +5072,7 @@ class RedshiftDestinationConfiguration {
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupConfiguration != null)
         'S3BackupConfiguration': s3BackupConfiguration,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
     };
   }
 }
@@ -5634,7 +5151,8 @@ class RedshiftDestinationDescription {
           ? S3DestinationDescription.fromJson(
               json['S3BackupDescription'] as Map<String, dynamic>)
           : null,
-      s3BackupMode: (json['S3BackupMode'] as String?)?.toRedshiftS3BackupMode(),
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(RedshiftS3BackupMode.fromString),
     );
   }
 }
@@ -5721,7 +5239,7 @@ class RedshiftDestinationUpdate {
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
       if (s3Update != null) 'S3Update': s3Update,
       if (username != null) 'Username': username,
@@ -5758,31 +5276,18 @@ class RedshiftRetryOptions {
 }
 
 enum RedshiftS3BackupMode {
-  disabled,
-  enabled,
-}
+  disabled('Disabled'),
+  enabled('Enabled'),
+  ;
 
-extension RedshiftS3BackupModeValueExtension on RedshiftS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case RedshiftS3BackupMode.disabled:
-        return 'Disabled';
-      case RedshiftS3BackupMode.enabled:
-        return 'Enabled';
-    }
-  }
-}
+  final String value;
 
-extension RedshiftS3BackupModeFromString on String {
-  RedshiftS3BackupMode toRedshiftS3BackupMode() {
-    switch (this) {
-      case 'Disabled':
-        return RedshiftS3BackupMode.disabled;
-      case 'Enabled':
-        return RedshiftS3BackupMode.enabled;
-    }
-    throw Exception('$this is not known in enum RedshiftS3BackupMode');
-  }
+  const RedshiftS3BackupMode(this.value);
+
+  static RedshiftS3BackupMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RedshiftS3BackupMode'));
 }
 
 /// The retry behavior in case Firehose is unable to deliver data to an Amazon
@@ -5811,31 +5316,18 @@ class RetryOptions {
 }
 
 enum S3BackupMode {
-  disabled,
-  enabled,
-}
+  disabled('Disabled'),
+  enabled('Enabled'),
+  ;
 
-extension S3BackupModeValueExtension on S3BackupMode {
-  String toValue() {
-    switch (this) {
-      case S3BackupMode.disabled:
-        return 'Disabled';
-      case S3BackupMode.enabled:
-        return 'Enabled';
-    }
-  }
-}
+  final String value;
 
-extension S3BackupModeFromString on String {
-  S3BackupMode toS3BackupMode() {
-    switch (this) {
-      case 'Disabled':
-        return S3BackupMode.disabled;
-      case 'Enabled':
-        return S3BackupMode.enabled;
-    }
-    throw Exception('$this is not known in enum S3BackupMode');
-  }
+  const S3BackupMode(this.value);
+
+  static S3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3BackupMode'));
 }
 
 /// Describes the configuration of a destination in Amazon S3.
@@ -5911,7 +5403,7 @@ class S3DestinationConfiguration {
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.toValue(),
+        'CompressionFormat': compressionFormat.value,
       if (encryptionConfiguration != null)
         'EncryptionConfiguration': encryptionConfiguration,
       if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
@@ -5978,7 +5470,7 @@ class S3DestinationDescription {
       bufferingHints: BufferingHints.fromJson(
           json['BufferingHints'] as Map<String, dynamic>),
       compressionFormat:
-          (json['CompressionFormat'] as String).toCompressionFormat(),
+          CompressionFormat.fromString((json['CompressionFormat'] as String)),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
           json['EncryptionConfiguration'] as Map<String, dynamic>),
       roleARN: json['RoleARN'] as String,
@@ -6064,7 +5556,7 @@ class S3DestinationUpdate {
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.toValue(),
+        'CompressionFormat': compressionFormat.value,
       if (encryptionConfiguration != null)
         'EncryptionConfiguration': encryptionConfiguration,
       if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
@@ -6204,37 +5696,19 @@ class Serializer {
 }
 
 enum SnowflakeDataLoadingOption {
-  jsonMapping,
-  variantContentMapping,
-  variantContentAndMetadataMapping,
-}
+  jsonMapping('JSON_MAPPING'),
+  variantContentMapping('VARIANT_CONTENT_MAPPING'),
+  variantContentAndMetadataMapping('VARIANT_CONTENT_AND_METADATA_MAPPING'),
+  ;
 
-extension SnowflakeDataLoadingOptionValueExtension
-    on SnowflakeDataLoadingOption {
-  String toValue() {
-    switch (this) {
-      case SnowflakeDataLoadingOption.jsonMapping:
-        return 'JSON_MAPPING';
-      case SnowflakeDataLoadingOption.variantContentMapping:
-        return 'VARIANT_CONTENT_MAPPING';
-      case SnowflakeDataLoadingOption.variantContentAndMetadataMapping:
-        return 'VARIANT_CONTENT_AND_METADATA_MAPPING';
-    }
-  }
-}
+  final String value;
 
-extension SnowflakeDataLoadingOptionFromString on String {
-  SnowflakeDataLoadingOption toSnowflakeDataLoadingOption() {
-    switch (this) {
-      case 'JSON_MAPPING':
-        return SnowflakeDataLoadingOption.jsonMapping;
-      case 'VARIANT_CONTENT_MAPPING':
-        return SnowflakeDataLoadingOption.variantContentMapping;
-      case 'VARIANT_CONTENT_AND_METADATA_MAPPING':
-        return SnowflakeDataLoadingOption.variantContentAndMetadataMapping;
-    }
-    throw Exception('$this is not known in enum SnowflakeDataLoadingOption');
-  }
+  const SnowflakeDataLoadingOption(this.value);
+
+  static SnowflakeDataLoadingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SnowflakeDataLoadingOption'));
 }
 
 /// Configure Snowflake destination
@@ -6359,13 +5833,13 @@ class SnowflakeDestinationConfiguration {
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (contentColumnName != null) 'ContentColumnName': contentColumnName,
       if (dataLoadingOption != null)
-        'DataLoadingOption': dataLoadingOption.toValue(),
+        'DataLoadingOption': dataLoadingOption.value,
       if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
       if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (snowflakeRoleConfiguration != null)
         'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
       if (snowflakeVpcConfiguration != null)
@@ -6459,7 +5933,7 @@ class SnowflakeDestinationDescription {
           : null,
       contentColumnName: json['ContentColumnName'] as String?,
       dataLoadingOption: (json['DataLoadingOption'] as String?)
-          ?.toSnowflakeDataLoadingOption(),
+          ?.let(SnowflakeDataLoadingOption.fromString),
       database: json['Database'] as String?,
       metaDataColumnName: json['MetaDataColumnName'] as String?,
       processingConfiguration: json['ProcessingConfiguration'] != null
@@ -6471,8 +5945,8 @@ class SnowflakeDestinationDescription {
               json['RetryOptions'] as Map<String, dynamic>)
           : null,
       roleARN: json['RoleARN'] as String?,
-      s3BackupMode:
-          (json['S3BackupMode'] as String?)?.toSnowflakeS3BackupMode(),
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(SnowflakeS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -6612,7 +6086,7 @@ class SnowflakeDestinationUpdate {
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (contentColumnName != null) 'ContentColumnName': contentColumnName,
       if (dataLoadingOption != null)
-        'DataLoadingOption': dataLoadingOption.toValue(),
+        'DataLoadingOption': dataLoadingOption.value,
       if (database != null) 'Database': database,
       if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
       if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
@@ -6621,7 +6095,7 @@ class SnowflakeDestinationUpdate {
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
       if (schema != null) 'Schema': schema,
       if (snowflakeRoleConfiguration != null)
@@ -6703,31 +6177,18 @@ class SnowflakeRoleConfiguration {
 }
 
 enum SnowflakeS3BackupMode {
-  failedDataOnly,
-  allData,
-}
+  failedDataOnly('FailedDataOnly'),
+  allData('AllData'),
+  ;
 
-extension SnowflakeS3BackupModeValueExtension on SnowflakeS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case SnowflakeS3BackupMode.failedDataOnly:
-        return 'FailedDataOnly';
-      case SnowflakeS3BackupMode.allData:
-        return 'AllData';
-    }
-  }
-}
+  final String value;
 
-extension SnowflakeS3BackupModeFromString on String {
-  SnowflakeS3BackupMode toSnowflakeS3BackupMode() {
-    switch (this) {
-      case 'FailedDataOnly':
-        return SnowflakeS3BackupMode.failedDataOnly;
-      case 'AllData':
-        return SnowflakeS3BackupMode.allData;
-    }
-    throw Exception('$this is not known in enum SnowflakeS3BackupMode');
-  }
+  const SnowflakeS3BackupMode(this.value);
+
+  static SnowflakeS3BackupMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SnowflakeS3BackupMode'));
 }
 
 /// Configure a Snowflake VPC
@@ -6895,7 +6356,7 @@ class SplunkDestinationConfiguration {
     final s3BackupMode = this.s3BackupMode;
     return {
       'HECEndpoint': hECEndpoint,
-      'HECEndpointType': hECEndpointType.toValue(),
+      'HECEndpointType': hECEndpointType.value,
       'HECToken': hECToken,
       'S3Configuration': s3Configuration,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
@@ -6906,7 +6367,7 @@ class SplunkDestinationConfiguration {
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
     };
   }
 }
@@ -6981,7 +6442,7 @@ class SplunkDestinationDescription {
           json['HECAcknowledgmentTimeoutInSeconds'] as int?,
       hECEndpoint: json['HECEndpoint'] as String?,
       hECEndpointType:
-          (json['HECEndpointType'] as String?)?.toHECEndpointType(),
+          (json['HECEndpointType'] as String?)?.let(HECEndpointType.fromString),
       hECToken: json['HECToken'] as String?,
       processingConfiguration: json['ProcessingConfiguration'] != null
           ? ProcessingConfiguration.fromJson(
@@ -6991,7 +6452,8 @@ class SplunkDestinationDescription {
           ? SplunkRetryOptions.fromJson(
               json['RetryOptions'] as Map<String, dynamic>)
           : null,
-      s3BackupMode: (json['S3BackupMode'] as String?)?.toSplunkS3BackupMode(),
+      s3BackupMode:
+          (json['S3BackupMode'] as String?)?.let(SplunkS3BackupMode.fromString),
       s3DestinationDescription: json['S3DestinationDescription'] != null
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
@@ -7079,12 +6541,12 @@ class SplunkDestinationUpdate {
       if (hECAcknowledgmentTimeoutInSeconds != null)
         'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
       if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
-      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.toValue(),
+      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.value,
       if (hECToken != null) 'HECToken': hECToken,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
     };
   }
@@ -7118,31 +6580,18 @@ class SplunkRetryOptions {
 }
 
 enum SplunkS3BackupMode {
-  failedEventsOnly,
-  allEvents,
-}
+  failedEventsOnly('FailedEventsOnly'),
+  allEvents('AllEvents'),
+  ;
 
-extension SplunkS3BackupModeValueExtension on SplunkS3BackupMode {
-  String toValue() {
-    switch (this) {
-      case SplunkS3BackupMode.failedEventsOnly:
-        return 'FailedEventsOnly';
-      case SplunkS3BackupMode.allEvents:
-        return 'AllEvents';
-    }
-  }
-}
+  final String value;
 
-extension SplunkS3BackupModeFromString on String {
-  SplunkS3BackupMode toSplunkS3BackupMode() {
-    switch (this) {
-      case 'FailedEventsOnly':
-        return SplunkS3BackupMode.failedEventsOnly;
-      case 'AllEvents':
-        return SplunkS3BackupMode.allEvents;
-    }
-    throw Exception('$this is not known in enum SplunkS3BackupMode');
-  }
+  const SplunkS3BackupMode(this.value);
+
+  static SplunkS3BackupMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SplunkS3BackupMode'));
 }
 
 class StartDeliveryStreamEncryptionOutput {

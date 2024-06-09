@@ -405,7 +405,7 @@ class Ecr {
         if (credentialArn != null) 'credentialArn': credentialArn,
         if (registryId != null) 'registryId': registryId,
         if (upstreamRegistry != null)
-          'upstreamRegistry': upstreamRegistry.toValue(),
+          'upstreamRegistry': upstreamRegistry.value,
       },
     );
 
@@ -485,7 +485,7 @@ class Ecr {
         if (imageScanningConfiguration != null)
           'imageScanningConfiguration': imageScanningConfiguration,
         if (imageTagMutability != null)
-          'imageTagMutability': imageTagMutability.toValue(),
+          'imageTagMutability': imageTagMutability.value,
         if (registryId != null) 'registryId': registryId,
         if (tags != null) 'tags': tags,
       },
@@ -1689,7 +1689,7 @@ class Ecr {
       // TODO queryParams
       headers: headers,
       payload: {
-        'imageTagMutability': imageTagMutability.toValue(),
+        'imageTagMutability': imageTagMutability.value,
         'repositoryName': repositoryName,
         if (registryId != null) 'registryId': registryId,
       },
@@ -1826,7 +1826,7 @@ class Ecr {
       headers: headers,
       payload: {
         if (rules != null) 'rules': rules,
-        if (scanType != null) 'scanType': scanType.toValue(),
+        if (scanType != null) 'scanType': scanType.value,
       },
     );
 
@@ -2658,8 +2658,8 @@ class CreatePullThroughCacheRuleResponse {
       credentialArn: json['credentialArn'] as String?,
       ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
       registryId: json['registryId'] as String?,
-      upstreamRegistry:
-          (json['upstreamRegistry'] as String?)?.toUpstreamRegistry(),
+      upstreamRegistry: (json['upstreamRegistry'] as String?)
+          ?.let(UpstreamRegistry.fromString),
       upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
     );
   }
@@ -2677,8 +2677,7 @@ class CreatePullThroughCacheRuleResponse {
       if (ecrRepositoryPrefix != null)
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
       if (registryId != null) 'registryId': registryId,
-      if (upstreamRegistry != null)
-        'upstreamRegistry': upstreamRegistry.toValue(),
+      if (upstreamRegistry != null) 'upstreamRegistry': upstreamRegistry.value,
       if (upstreamRegistryUrl != null)
         'upstreamRegistryUrl': upstreamRegistryUrl,
     };
@@ -3153,7 +3152,7 @@ class DescribeImagesFilter {
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {
-      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+      if (tagStatus != null) 'tagStatus': tagStatus.value,
     };
   }
 }
@@ -3355,7 +3354,8 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      encryptionType: (json['encryptionType'] as String).toEncryptionType(),
+      encryptionType:
+          EncryptionType.fromString((json['encryptionType'] as String)),
       kmsKey: json['kmsKey'] as String?,
     );
   }
@@ -3364,38 +3364,25 @@ class EncryptionConfiguration {
     final encryptionType = this.encryptionType;
     final kmsKey = this.kmsKey;
     return {
-      'encryptionType': encryptionType.toValue(),
+      'encryptionType': encryptionType.value,
       if (kmsKey != null) 'kmsKey': kmsKey,
     };
   }
 }
 
 enum EncryptionType {
-  aes256,
-  kms,
-}
+  aes256('AES256'),
+  kms('KMS'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.aes256:
-        return 'AES256';
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'AES256':
-        return EncryptionType.aes256;
-      case 'KMS':
-        return EncryptionType.kms;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// The details of an enhanced image scan. This is returned when enhanced
@@ -3534,51 +3521,22 @@ class EnhancedImageScanFinding {
 }
 
 enum FindingSeverity {
-  informational,
-  low,
-  medium,
-  high,
-  critical,
-  undefined,
-}
+  informational('INFORMATIONAL'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  critical('CRITICAL'),
+  undefined('UNDEFINED'),
+  ;
 
-extension FindingSeverityValueExtension on FindingSeverity {
-  String toValue() {
-    switch (this) {
-      case FindingSeverity.informational:
-        return 'INFORMATIONAL';
-      case FindingSeverity.low:
-        return 'LOW';
-      case FindingSeverity.medium:
-        return 'MEDIUM';
-      case FindingSeverity.high:
-        return 'HIGH';
-      case FindingSeverity.critical:
-        return 'CRITICAL';
-      case FindingSeverity.undefined:
-        return 'UNDEFINED';
-    }
-  }
-}
+  final String value;
 
-extension FindingSeverityFromString on String {
-  FindingSeverity toFindingSeverity() {
-    switch (this) {
-      case 'INFORMATIONAL':
-        return FindingSeverity.informational;
-      case 'LOW':
-        return FindingSeverity.low;
-      case 'MEDIUM':
-        return FindingSeverity.medium;
-      case 'HIGH':
-        return FindingSeverity.high;
-      case 'CRITICAL':
-        return FindingSeverity.critical;
-      case 'UNDEFINED':
-        return FindingSeverity.undefined;
-    }
-    throw Exception('$this is not known in enum FindingSeverity');
-  }
+  const FindingSeverity(this.value);
+
+  static FindingSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FindingSeverity'));
 }
 
 class GetAuthorizationTokenResponse {
@@ -3685,7 +3643,8 @@ class GetLifecyclePolicyPreviewResponse {
           .toList(),
       registryId: json['registryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
-      status: (json['status'] as String?)?.toLifecyclePolicyPreviewStatus(),
+      status: (json['status'] as String?)
+          ?.let(LifecyclePolicyPreviewStatus.fromString),
       summary: json['summary'] != null
           ? LifecyclePolicyPreviewSummary.fromJson(
               json['summary'] as Map<String, dynamic>)
@@ -3708,7 +3667,7 @@ class GetLifecyclePolicyPreviewResponse {
       if (previewResults != null) 'previewResults': previewResults,
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (summary != null) 'summary': summary,
     };
   }
@@ -3915,26 +3874,17 @@ class Image {
 }
 
 enum ImageActionType {
-  expire,
-}
+  expire('EXPIRE'),
+  ;
 
-extension ImageActionTypeValueExtension on ImageActionType {
-  String toValue() {
-    switch (this) {
-      case ImageActionType.expire:
-        return 'EXPIRE';
-    }
-  }
-}
+  final String value;
 
-extension ImageActionTypeFromString on String {
-  ImageActionType toImageActionType() {
-    switch (this) {
-      case 'EXPIRE':
-        return ImageActionType.expire;
-    }
-    throw Exception('$this is not known in enum ImageActionType');
-  }
+  const ImageActionType(this.value);
+
+  static ImageActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageActionType'));
 }
 
 /// An object that describes an image returned by a <a>DescribeImages</a>
@@ -4084,7 +4034,8 @@ class ImageFailure {
 
   factory ImageFailure.fromJson(Map<String, dynamic> json) {
     return ImageFailure(
-      failureCode: (json['failureCode'] as String?)?.toImageFailureCode(),
+      failureCode:
+          (json['failureCode'] as String?)?.let(ImageFailureCode.fromString),
       failureReason: json['failureReason'] as String?,
       imageId: json['imageId'] != null
           ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
@@ -4097,7 +4048,7 @@ class ImageFailure {
     final failureReason = this.failureReason;
     final imageId = this.imageId;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (imageId != null) 'imageId': imageId,
     };
@@ -4105,71 +4056,26 @@ class ImageFailure {
 }
 
 enum ImageFailureCode {
-  invalidImageDigest,
-  invalidImageTag,
-  imageTagDoesNotMatchDigest,
-  imageNotFound,
-  missingDigestAndTag,
-  imageReferencedByManifestList,
-  kmsError,
-  upstreamAccessDenied,
-  upstreamTooManyRequests,
-  upstreamUnavailable,
-}
+  invalidImageDigest('InvalidImageDigest'),
+  invalidImageTag('InvalidImageTag'),
+  imageTagDoesNotMatchDigest('ImageTagDoesNotMatchDigest'),
+  imageNotFound('ImageNotFound'),
+  missingDigestAndTag('MissingDigestAndTag'),
+  imageReferencedByManifestList('ImageReferencedByManifestList'),
+  kmsError('KmsError'),
+  upstreamAccessDenied('UpstreamAccessDenied'),
+  upstreamTooManyRequests('UpstreamTooManyRequests'),
+  upstreamUnavailable('UpstreamUnavailable'),
+  ;
 
-extension ImageFailureCodeValueExtension on ImageFailureCode {
-  String toValue() {
-    switch (this) {
-      case ImageFailureCode.invalidImageDigest:
-        return 'InvalidImageDigest';
-      case ImageFailureCode.invalidImageTag:
-        return 'InvalidImageTag';
-      case ImageFailureCode.imageTagDoesNotMatchDigest:
-        return 'ImageTagDoesNotMatchDigest';
-      case ImageFailureCode.imageNotFound:
-        return 'ImageNotFound';
-      case ImageFailureCode.missingDigestAndTag:
-        return 'MissingDigestAndTag';
-      case ImageFailureCode.imageReferencedByManifestList:
-        return 'ImageReferencedByManifestList';
-      case ImageFailureCode.kmsError:
-        return 'KmsError';
-      case ImageFailureCode.upstreamAccessDenied:
-        return 'UpstreamAccessDenied';
-      case ImageFailureCode.upstreamTooManyRequests:
-        return 'UpstreamTooManyRequests';
-      case ImageFailureCode.upstreamUnavailable:
-        return 'UpstreamUnavailable';
-    }
-  }
-}
+  final String value;
 
-extension ImageFailureCodeFromString on String {
-  ImageFailureCode toImageFailureCode() {
-    switch (this) {
-      case 'InvalidImageDigest':
-        return ImageFailureCode.invalidImageDigest;
-      case 'InvalidImageTag':
-        return ImageFailureCode.invalidImageTag;
-      case 'ImageTagDoesNotMatchDigest':
-        return ImageFailureCode.imageTagDoesNotMatchDigest;
-      case 'ImageNotFound':
-        return ImageFailureCode.imageNotFound;
-      case 'MissingDigestAndTag':
-        return ImageFailureCode.missingDigestAndTag;
-      case 'ImageReferencedByManifestList':
-        return ImageFailureCode.imageReferencedByManifestList;
-      case 'KmsError':
-        return ImageFailureCode.kmsError;
-      case 'UpstreamAccessDenied':
-        return ImageFailureCode.upstreamAccessDenied;
-      case 'UpstreamTooManyRequests':
-        return ImageFailureCode.upstreamTooManyRequests;
-      case 'UpstreamUnavailable':
-        return ImageFailureCode.upstreamUnavailable;
-    }
-    throw Exception('$this is not known in enum ImageFailureCode');
-  }
+  const ImageFailureCode(this.value);
+
+  static ImageFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageFailureCode'));
 }
 
 /// An object with identifying information for an image in an Amazon ECR
@@ -4230,7 +4136,7 @@ class ImageReplicationStatus {
       failureCode: json['failureCode'] as String?,
       region: json['region'] as String?,
       registryId: json['registryId'] as String?,
-      status: (json['status'] as String?)?.toReplicationStatus(),
+      status: (json['status'] as String?)?.let(ReplicationStatus.fromString),
     );
   }
 
@@ -4243,7 +4149,7 @@ class ImageReplicationStatus {
       if (failureCode != null) 'failureCode': failureCode,
       if (region != null) 'region': region,
       if (registryId != null) 'registryId': registryId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4281,7 +4187,7 @@ class ImageScanFinding {
           .toList(),
       description: json['description'] as String?,
       name: json['name'] as String?,
-      severity: (json['severity'] as String?)?.toFindingSeverity(),
+      severity: (json['severity'] as String?)?.let(FindingSeverity.fromString),
       uri: json['uri'] as String?,
     );
   }
@@ -4296,7 +4202,7 @@ class ImageScanFinding {
       if (attributes != null) 'attributes': attributes,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
-      if (severity != null) 'severity': severity.toValue(),
+      if (severity != null) 'severity': severity.value,
       if (uri != null) 'uri': uri,
     };
   }
@@ -4334,9 +4240,9 @@ class ImageScanFindings {
           .map((e) =>
               EnhancedImageScanFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
-      findingSeverityCounts:
-          (json['findingSeverityCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toFindingSeverity(), e as int)),
+      findingSeverityCounts: (json['findingSeverityCounts']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(FindingSeverity.fromString(k), e as int)),
       findings: (json['findings'] as List?)
           ?.whereNotNull()
           .map((e) => ImageScanFinding.fromJson(e as Map<String, dynamic>))
@@ -4357,7 +4263,7 @@ class ImageScanFindings {
       if (enhancedFindings != null) 'enhancedFindings': enhancedFindings,
       if (findingSeverityCounts != null)
         'findingSeverityCounts':
-            findingSeverityCounts.map((k, e) => MapEntry(k.toValue(), e)),
+            findingSeverityCounts.map((k, e) => MapEntry(k.value, e)),
       if (findings != null) 'findings': findings,
       if (imageScanCompletedAt != null)
         'imageScanCompletedAt': unixTimestampToJson(imageScanCompletedAt),
@@ -4387,9 +4293,9 @@ class ImageScanFindingsSummary {
 
   factory ImageScanFindingsSummary.fromJson(Map<String, dynamic> json) {
     return ImageScanFindingsSummary(
-      findingSeverityCounts:
-          (json['findingSeverityCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toFindingSeverity(), e as int)),
+      findingSeverityCounts: (json['findingSeverityCounts']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(FindingSeverity.fromString(k), e as int)),
       imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
       vulnerabilitySourceUpdatedAt:
           timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
@@ -4403,7 +4309,7 @@ class ImageScanFindingsSummary {
     return {
       if (findingSeverityCounts != null)
         'findingSeverityCounts':
-            findingSeverityCounts.map((k, e) => MapEntry(k.toValue(), e)),
+            findingSeverityCounts.map((k, e) => MapEntry(k.value, e)),
       if (imageScanCompletedAt != null)
         'imageScanCompletedAt': unixTimestampToJson(imageScanCompletedAt),
       if (vulnerabilitySourceUpdatedAt != null)
@@ -4429,7 +4335,7 @@ class ImageScanStatus {
   factory ImageScanStatus.fromJson(Map<String, dynamic> json) {
     return ImageScanStatus(
       description: json['description'] as String?,
-      status: (json['status'] as String?)?.toScanStatus(),
+      status: (json['status'] as String?)?.let(ScanStatus.fromString),
     );
   }
 
@@ -4438,7 +4344,7 @@ class ImageScanStatus {
     final status = this.status;
     return {
       if (description != null) 'description': description,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4473,31 +4379,18 @@ class ImageScanningConfiguration {
 }
 
 enum ImageTagMutability {
-  mutable,
-  immutable,
-}
+  mutable('MUTABLE'),
+  immutable('IMMUTABLE'),
+  ;
 
-extension ImageTagMutabilityValueExtension on ImageTagMutability {
-  String toValue() {
-    switch (this) {
-      case ImageTagMutability.mutable:
-        return 'MUTABLE';
-      case ImageTagMutability.immutable:
-        return 'IMMUTABLE';
-    }
-  }
-}
+  final String value;
 
-extension ImageTagMutabilityFromString on String {
-  ImageTagMutability toImageTagMutability() {
-    switch (this) {
-      case 'MUTABLE':
-        return ImageTagMutability.mutable;
-      case 'IMMUTABLE':
-        return ImageTagMutability.immutable;
-    }
-    throw Exception('$this is not known in enum ImageTagMutability');
-  }
+  const ImageTagMutability(this.value);
+
+  static ImageTagMutability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImageTagMutability'));
 }
 
 class InitiateLayerUploadResponse {
@@ -4555,8 +4448,8 @@ class Layer {
 
   factory Layer.fromJson(Map<String, dynamic> json) {
     return Layer(
-      layerAvailability:
-          (json['layerAvailability'] as String?)?.toLayerAvailability(),
+      layerAvailability: (json['layerAvailability'] as String?)
+          ?.let(LayerAvailability.fromString),
       layerDigest: json['layerDigest'] as String?,
       layerSize: json['layerSize'] as int?,
       mediaType: json['mediaType'] as String?,
@@ -4570,7 +4463,7 @@ class Layer {
     final mediaType = this.mediaType;
     return {
       if (layerAvailability != null)
-        'layerAvailability': layerAvailability.toValue(),
+        'layerAvailability': layerAvailability.value,
       if (layerDigest != null) 'layerDigest': layerDigest,
       if (layerSize != null) 'layerSize': layerSize,
       if (mediaType != null) 'mediaType': mediaType,
@@ -4579,31 +4472,18 @@ class Layer {
 }
 
 enum LayerAvailability {
-  available,
-  unavailable,
-}
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension LayerAvailabilityValueExtension on LayerAvailability {
-  String toValue() {
-    switch (this) {
-      case LayerAvailability.available:
-        return 'AVAILABLE';
-      case LayerAvailability.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension LayerAvailabilityFromString on String {
-  LayerAvailability toLayerAvailability() {
-    switch (this) {
-      case 'AVAILABLE':
-        return LayerAvailability.available;
-      case 'UNAVAILABLE':
-        return LayerAvailability.unavailable;
-    }
-    throw Exception('$this is not known in enum LayerAvailability');
-  }
+  const LayerAvailability(this.value);
+
+  static LayerAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LayerAvailability'));
 }
 
 /// An object representing an Amazon ECR image layer failure.
@@ -4625,7 +4505,8 @@ class LayerFailure {
 
   factory LayerFailure.fromJson(Map<String, dynamic> json) {
     return LayerFailure(
-      failureCode: (json['failureCode'] as String?)?.toLayerFailureCode(),
+      failureCode:
+          (json['failureCode'] as String?)?.let(LayerFailureCode.fromString),
       failureReason: json['failureReason'] as String?,
       layerDigest: json['layerDigest'] as String?,
     );
@@ -4636,7 +4517,7 @@ class LayerFailure {
     final failureReason = this.failureReason;
     final layerDigest = this.layerDigest;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (layerDigest != null) 'layerDigest': layerDigest,
     };
@@ -4644,31 +4525,18 @@ class LayerFailure {
 }
 
 enum LayerFailureCode {
-  invalidLayerDigest,
-  missingLayerDigest,
-}
+  invalidLayerDigest('InvalidLayerDigest'),
+  missingLayerDigest('MissingLayerDigest'),
+  ;
 
-extension LayerFailureCodeValueExtension on LayerFailureCode {
-  String toValue() {
-    switch (this) {
-      case LayerFailureCode.invalidLayerDigest:
-        return 'InvalidLayerDigest';
-      case LayerFailureCode.missingLayerDigest:
-        return 'MissingLayerDigest';
-    }
-  }
-}
+  final String value;
 
-extension LayerFailureCodeFromString on String {
-  LayerFailureCode toLayerFailureCode() {
-    switch (this) {
-      case 'InvalidLayerDigest':
-        return LayerFailureCode.invalidLayerDigest;
-      case 'MissingLayerDigest':
-        return LayerFailureCode.missingLayerDigest;
-    }
-    throw Exception('$this is not known in enum LayerFailureCode');
-  }
+  const LayerFailureCode(this.value);
+
+  static LayerFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LayerFailureCode'));
 }
 
 /// The filter for the lifecycle policy preview.
@@ -4683,7 +4551,7 @@ class LifecyclePolicyPreviewFilter {
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {
-      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+      if (tagStatus != null) 'tagStatus': tagStatus.value,
     };
   }
 }
@@ -4749,42 +4617,20 @@ class LifecyclePolicyPreviewResult {
 }
 
 enum LifecyclePolicyPreviewStatus {
-  inProgress,
-  complete,
-  expired,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  expired('EXPIRED'),
+  failed('FAILED'),
+  ;
 
-extension LifecyclePolicyPreviewStatusValueExtension
-    on LifecyclePolicyPreviewStatus {
-  String toValue() {
-    switch (this) {
-      case LifecyclePolicyPreviewStatus.inProgress:
-        return 'IN_PROGRESS';
-      case LifecyclePolicyPreviewStatus.complete:
-        return 'COMPLETE';
-      case LifecyclePolicyPreviewStatus.expired:
-        return 'EXPIRED';
-      case LifecyclePolicyPreviewStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LifecyclePolicyPreviewStatusFromString on String {
-  LifecyclePolicyPreviewStatus toLifecyclePolicyPreviewStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return LifecyclePolicyPreviewStatus.inProgress;
-      case 'COMPLETE':
-        return LifecyclePolicyPreviewStatus.complete;
-      case 'EXPIRED':
-        return LifecyclePolicyPreviewStatus.expired;
-      case 'FAILED':
-        return LifecyclePolicyPreviewStatus.failed;
-    }
-    throw Exception('$this is not known in enum LifecyclePolicyPreviewStatus');
-  }
+  const LifecyclePolicyPreviewStatus(this.value);
+
+  static LifecyclePolicyPreviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LifecyclePolicyPreviewStatus'));
 }
 
 /// The summary of the lifecycle policy preview request.
@@ -4822,14 +4668,14 @@ class LifecyclePolicyRuleAction {
 
   factory LifecyclePolicyRuleAction.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicyRuleAction(
-      type: (json['type'] as String?)?.toImageActionType(),
+      type: (json['type'] as String?)?.let(ImageActionType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4848,7 +4694,7 @@ class ListImagesFilter {
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {
-      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+      if (tagStatus != null) 'tagStatus': tagStatus.value,
     };
   }
 }
@@ -5062,8 +4908,8 @@ class PullThroughCacheRule {
       ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
       registryId: json['registryId'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
-      upstreamRegistry:
-          (json['upstreamRegistry'] as String?)?.toUpstreamRegistry(),
+      upstreamRegistry: (json['upstreamRegistry'] as String?)
+          ?.let(UpstreamRegistry.fromString),
       upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
     );
   }
@@ -5083,8 +4929,7 @@ class PullThroughCacheRule {
         'ecrRepositoryPrefix': ecrRepositoryPrefix,
       if (registryId != null) 'registryId': registryId,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-      if (upstreamRegistry != null)
-        'upstreamRegistry': upstreamRegistry.toValue(),
+      if (upstreamRegistry != null) 'upstreamRegistry': upstreamRegistry.value,
       if (upstreamRegistryUrl != null)
         'upstreamRegistryUrl': upstreamRegistryUrl,
     };
@@ -5174,8 +5019,8 @@ class PutImageTagMutabilityResponse {
 
   factory PutImageTagMutabilityResponse.fromJson(Map<String, dynamic> json) {
     return PutImageTagMutabilityResponse(
-      imageTagMutability:
-          (json['imageTagMutability'] as String?)?.toImageTagMutability(),
+      imageTagMutability: (json['imageTagMutability'] as String?)
+          ?.let(ImageTagMutability.fromString),
       registryId: json['registryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
     );
@@ -5187,7 +5032,7 @@ class PutImageTagMutabilityResponse {
     final repositoryName = this.repositoryName;
     return {
       if (imageTagMutability != null)
-        'imageTagMutability': imageTagMutability.toValue(),
+        'imageTagMutability': imageTagMutability.value,
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
     };
@@ -5364,7 +5209,7 @@ class RegistryScanningConfiguration {
           ?.whereNotNull()
           .map((e) => RegistryScanningRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scanType: (json['scanType'] as String?)?.toScanType(),
+      scanType: (json['scanType'] as String?)?.let(ScanType.fromString),
     );
   }
 
@@ -5373,7 +5218,7 @@ class RegistryScanningConfiguration {
     final scanType = this.scanType;
     return {
       if (rules != null) 'rules': rules,
-      if (scanType != null) 'scanType': scanType.toValue(),
+      if (scanType != null) 'scanType': scanType.value,
     };
   }
 }
@@ -5404,7 +5249,8 @@ class RegistryScanningRule {
           .map((e) =>
               ScanningRepositoryFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scanFrequency: (json['scanFrequency'] as String).toScanFrequency(),
+      scanFrequency:
+          ScanFrequency.fromString((json['scanFrequency'] as String)),
     );
   }
 
@@ -5413,7 +5259,7 @@ class RegistryScanningRule {
     final scanFrequency = this.scanFrequency;
     return {
       'repositoryFilters': repositoryFilters,
-      'scanFrequency': scanFrequency.toValue(),
+      'scanFrequency': scanFrequency.value,
     };
   }
 }
@@ -5545,36 +5391,19 @@ class ReplicationRule {
 }
 
 enum ReplicationStatus {
-  inProgress,
-  complete,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  ;
 
-extension ReplicationStatusValueExtension on ReplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ReplicationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReplicationStatus.complete:
-        return 'COMPLETE';
-      case ReplicationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationStatusFromString on String {
-  ReplicationStatus toReplicationStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ReplicationStatus.inProgress;
-      case 'COMPLETE':
-        return ReplicationStatus.complete;
-      case 'FAILED':
-        return ReplicationStatus.failed;
-    }
-    throw Exception('$this is not known in enum ReplicationStatus');
-  }
+  const ReplicationStatus(this.value);
+
+  static ReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReplicationStatus'));
 }
 
 /// An object representing a repository.
@@ -5631,8 +5460,8 @@ class Repository {
           ? ImageScanningConfiguration.fromJson(
               json['imageScanningConfiguration'] as Map<String, dynamic>)
           : null,
-      imageTagMutability:
-          (json['imageTagMutability'] as String?)?.toImageTagMutability(),
+      imageTagMutability: (json['imageTagMutability'] as String?)
+          ?.let(ImageTagMutability.fromString),
       registryId: json['registryId'] as String?,
       repositoryArn: json['repositoryArn'] as String?,
       repositoryName: json['repositoryName'] as String?,
@@ -5656,7 +5485,7 @@ class Repository {
       if (imageScanningConfiguration != null)
         'imageScanningConfiguration': imageScanningConfiguration,
       if (imageTagMutability != null)
-        'imageTagMutability': imageTagMutability.toValue(),
+        'imageTagMutability': imageTagMutability.value,
       if (registryId != null) 'registryId': registryId,
       if (repositoryArn != null) 'repositoryArn': repositoryArn,
       if (repositoryName != null) 'repositoryName': repositoryName,
@@ -5688,7 +5517,8 @@ class RepositoryFilter {
   factory RepositoryFilter.fromJson(Map<String, dynamic> json) {
     return RepositoryFilter(
       filter: json['filter'] as String,
-      filterType: (json['filterType'] as String).toRepositoryFilterType(),
+      filterType:
+          RepositoryFilterType.fromString((json['filterType'] as String)),
     );
   }
 
@@ -5697,32 +5527,23 @@ class RepositoryFilter {
     final filterType = this.filterType;
     return {
       'filter': filter,
-      'filterType': filterType.toValue(),
+      'filterType': filterType.value,
     };
   }
 }
 
 enum RepositoryFilterType {
-  prefixMatch,
-}
+  prefixMatch('PREFIX_MATCH'),
+  ;
 
-extension RepositoryFilterTypeValueExtension on RepositoryFilterType {
-  String toValue() {
-    switch (this) {
-      case RepositoryFilterType.prefixMatch:
-        return 'PREFIX_MATCH';
-    }
-  }
-}
+  final String value;
 
-extension RepositoryFilterTypeFromString on String {
-  RepositoryFilterType toRepositoryFilterType() {
-    switch (this) {
-      case 'PREFIX_MATCH':
-        return RepositoryFilterType.prefixMatch;
-    }
-    throw Exception('$this is not known in enum RepositoryFilterType');
-  }
+  const RepositoryFilterType(this.value);
+
+  static RepositoryFilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RepositoryFilterType'));
 }
 
 /// The details of the scanning configuration for a repository.
@@ -5759,7 +5580,8 @@ class RepositoryScanningConfiguration {
           .toList(),
       repositoryArn: json['repositoryArn'] as String?,
       repositoryName: json['repositoryName'] as String?,
-      scanFrequency: (json['scanFrequency'] as String?)?.toScanFrequency(),
+      scanFrequency:
+          (json['scanFrequency'] as String?)?.let(ScanFrequency.fromString),
       scanOnPush: json['scanOnPush'] as bool?,
     );
   }
@@ -5774,7 +5596,7 @@ class RepositoryScanningConfiguration {
       if (appliedScanFilters != null) 'appliedScanFilters': appliedScanFilters,
       if (repositoryArn != null) 'repositoryArn': repositoryArn,
       if (repositoryName != null) 'repositoryName': repositoryName,
-      if (scanFrequency != null) 'scanFrequency': scanFrequency.toValue(),
+      if (scanFrequency != null) 'scanFrequency': scanFrequency.value,
       if (scanOnPush != null) 'scanOnPush': scanOnPush,
     };
   }
@@ -5802,7 +5624,7 @@ class RepositoryScanningConfigurationFailure {
       Map<String, dynamic> json) {
     return RepositoryScanningConfigurationFailure(
       failureCode: (json['failureCode'] as String?)
-          ?.toScanningConfigurationFailureCode(),
+          ?.let(ScanningConfigurationFailureCode.fromString),
       failureReason: json['failureReason'] as String?,
       repositoryName: json['repositoryName'] as String?,
     );
@@ -5813,7 +5635,7 @@ class RepositoryScanningConfigurationFailure {
     final failureReason = this.failureReason;
     final repositoryName = this.repositoryName;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (repositoryName != null) 'repositoryName': repositoryName,
     };
@@ -5896,147 +5718,67 @@ class ResourceDetails {
 }
 
 enum ScanFrequency {
-  scanOnPush,
-  continuousScan,
-  manual,
-}
+  scanOnPush('SCAN_ON_PUSH'),
+  continuousScan('CONTINUOUS_SCAN'),
+  manual('MANUAL'),
+  ;
 
-extension ScanFrequencyValueExtension on ScanFrequency {
-  String toValue() {
-    switch (this) {
-      case ScanFrequency.scanOnPush:
-        return 'SCAN_ON_PUSH';
-      case ScanFrequency.continuousScan:
-        return 'CONTINUOUS_SCAN';
-      case ScanFrequency.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension ScanFrequencyFromString on String {
-  ScanFrequency toScanFrequency() {
-    switch (this) {
-      case 'SCAN_ON_PUSH':
-        return ScanFrequency.scanOnPush;
-      case 'CONTINUOUS_SCAN':
-        return ScanFrequency.continuousScan;
-      case 'MANUAL':
-        return ScanFrequency.manual;
-    }
-    throw Exception('$this is not known in enum ScanFrequency');
-  }
+  const ScanFrequency(this.value);
+
+  static ScanFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScanFrequency'));
 }
 
 enum ScanStatus {
-  inProgress,
-  complete,
-  failed,
-  unsupportedImage,
-  active,
-  pending,
-  scanEligibilityExpired,
-  findingsUnavailable,
-}
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  unsupportedImage('UNSUPPORTED_IMAGE'),
+  active('ACTIVE'),
+  pending('PENDING'),
+  scanEligibilityExpired('SCAN_ELIGIBILITY_EXPIRED'),
+  findingsUnavailable('FINDINGS_UNAVAILABLE'),
+  ;
 
-extension ScanStatusValueExtension on ScanStatus {
-  String toValue() {
-    switch (this) {
-      case ScanStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ScanStatus.complete:
-        return 'COMPLETE';
-      case ScanStatus.failed:
-        return 'FAILED';
-      case ScanStatus.unsupportedImage:
-        return 'UNSUPPORTED_IMAGE';
-      case ScanStatus.active:
-        return 'ACTIVE';
-      case ScanStatus.pending:
-        return 'PENDING';
-      case ScanStatus.scanEligibilityExpired:
-        return 'SCAN_ELIGIBILITY_EXPIRED';
-      case ScanStatus.findingsUnavailable:
-        return 'FINDINGS_UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension ScanStatusFromString on String {
-  ScanStatus toScanStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ScanStatus.inProgress;
-      case 'COMPLETE':
-        return ScanStatus.complete;
-      case 'FAILED':
-        return ScanStatus.failed;
-      case 'UNSUPPORTED_IMAGE':
-        return ScanStatus.unsupportedImage;
-      case 'ACTIVE':
-        return ScanStatus.active;
-      case 'PENDING':
-        return ScanStatus.pending;
-      case 'SCAN_ELIGIBILITY_EXPIRED':
-        return ScanStatus.scanEligibilityExpired;
-      case 'FINDINGS_UNAVAILABLE':
-        return ScanStatus.findingsUnavailable;
-    }
-    throw Exception('$this is not known in enum ScanStatus');
-  }
+  const ScanStatus(this.value);
+
+  static ScanStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanStatus'));
 }
 
 enum ScanType {
-  basic,
-  enhanced,
-}
+  basic('BASIC'),
+  enhanced('ENHANCED'),
+  ;
 
-extension ScanTypeValueExtension on ScanType {
-  String toValue() {
-    switch (this) {
-      case ScanType.basic:
-        return 'BASIC';
-      case ScanType.enhanced:
-        return 'ENHANCED';
-    }
-  }
-}
+  final String value;
 
-extension ScanTypeFromString on String {
-  ScanType toScanType() {
-    switch (this) {
-      case 'BASIC':
-        return ScanType.basic;
-      case 'ENHANCED':
-        return ScanType.enhanced;
-    }
-    throw Exception('$this is not known in enum ScanType');
-  }
+  const ScanType(this.value);
+
+  static ScanType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanType'));
 }
 
 enum ScanningConfigurationFailureCode {
-  repositoryNotFound,
-}
+  repositoryNotFound('REPOSITORY_NOT_FOUND'),
+  ;
 
-extension ScanningConfigurationFailureCodeValueExtension
-    on ScanningConfigurationFailureCode {
-  String toValue() {
-    switch (this) {
-      case ScanningConfigurationFailureCode.repositoryNotFound:
-        return 'REPOSITORY_NOT_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension ScanningConfigurationFailureCodeFromString on String {
-  ScanningConfigurationFailureCode toScanningConfigurationFailureCode() {
-    switch (this) {
-      case 'REPOSITORY_NOT_FOUND':
-        return ScanningConfigurationFailureCode.repositoryNotFound;
-    }
-    throw Exception(
-        '$this is not known in enum ScanningConfigurationFailureCode');
-  }
+  const ScanningConfigurationFailureCode(this.value);
+
+  static ScanningConfigurationFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScanningConfigurationFailureCode'));
 }
 
 /// The details of a scanning repository filter. For more information on how to
@@ -6058,8 +5800,8 @@ class ScanningRepositoryFilter {
   factory ScanningRepositoryFilter.fromJson(Map<String, dynamic> json) {
     return ScanningRepositoryFilter(
       filter: json['filter'] as String,
-      filterType:
-          (json['filterType'] as String).toScanningRepositoryFilterType(),
+      filterType: ScanningRepositoryFilterType.fromString(
+          (json['filterType'] as String)),
     );
   }
 
@@ -6068,33 +5810,23 @@ class ScanningRepositoryFilter {
     final filterType = this.filterType;
     return {
       'filter': filter,
-      'filterType': filterType.toValue(),
+      'filterType': filterType.value,
     };
   }
 }
 
 enum ScanningRepositoryFilterType {
-  wildcard,
-}
+  wildcard('WILDCARD'),
+  ;
 
-extension ScanningRepositoryFilterTypeValueExtension
-    on ScanningRepositoryFilterType {
-  String toValue() {
-    switch (this) {
-      case ScanningRepositoryFilterType.wildcard:
-        return 'WILDCARD';
-    }
-  }
-}
+  final String value;
 
-extension ScanningRepositoryFilterTypeFromString on String {
-  ScanningRepositoryFilterType toScanningRepositoryFilterType() {
-    switch (this) {
-      case 'WILDCARD':
-        return ScanningRepositoryFilterType.wildcard;
-    }
-    throw Exception('$this is not known in enum ScanningRepositoryFilterType');
-  }
+  const ScanningRepositoryFilterType(this.value);
+
+  static ScanningRepositoryFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScanningRepositoryFilterType'));
 }
 
 /// Information about the Amazon Inspector score given to a finding.
@@ -6231,7 +5963,8 @@ class StartLifecyclePolicyPreviewResponse {
       lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
       registryId: json['registryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
-      status: (json['status'] as String?)?.toLifecyclePolicyPreviewStatus(),
+      status: (json['status'] as String?)
+          ?.let(LifecyclePolicyPreviewStatus.fromString),
     );
   }
 
@@ -6245,7 +5978,7 @@ class StartLifecyclePolicyPreviewResponse {
         'lifecyclePolicyText': lifecyclePolicyText,
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6297,36 +6030,18 @@ class TagResourceResponse {
 }
 
 enum TagStatus {
-  tagged,
-  untagged,
-  any,
-}
+  tagged('TAGGED'),
+  untagged('UNTAGGED'),
+  any('ANY'),
+  ;
 
-extension TagStatusValueExtension on TagStatus {
-  String toValue() {
-    switch (this) {
-      case TagStatus.tagged:
-        return 'TAGGED';
-      case TagStatus.untagged:
-        return 'UNTAGGED';
-      case TagStatus.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension TagStatusFromString on String {
-  TagStatus toTagStatus() {
-    switch (this) {
-      case 'TAGGED':
-        return TagStatus.tagged;
-      case 'UNTAGGED':
-        return TagStatus.untagged;
-      case 'ANY':
-        return TagStatus.any;
-    }
-    throw Exception('$this is not known in enum TagStatus');
-  }
+  const TagStatus(this.value);
+
+  static TagStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TagStatus'));
 }
 
 class UntagResourceResponse {
@@ -6433,56 +6148,23 @@ class UploadLayerPartResponse {
 }
 
 enum UpstreamRegistry {
-  ecrPublic,
-  quay,
-  k8s,
-  dockerHub,
-  githubContainerRegistry,
-  azureContainerRegistry,
-  gitlabContainerRegistry,
-}
+  ecrPublic('ecr-public'),
+  quay('quay'),
+  k8s('k8s'),
+  dockerHub('docker-hub'),
+  githubContainerRegistry('github-container-registry'),
+  azureContainerRegistry('azure-container-registry'),
+  gitlabContainerRegistry('gitlab-container-registry'),
+  ;
 
-extension UpstreamRegistryValueExtension on UpstreamRegistry {
-  String toValue() {
-    switch (this) {
-      case UpstreamRegistry.ecrPublic:
-        return 'ecr-public';
-      case UpstreamRegistry.quay:
-        return 'quay';
-      case UpstreamRegistry.k8s:
-        return 'k8s';
-      case UpstreamRegistry.dockerHub:
-        return 'docker-hub';
-      case UpstreamRegistry.githubContainerRegistry:
-        return 'github-container-registry';
-      case UpstreamRegistry.azureContainerRegistry:
-        return 'azure-container-registry';
-      case UpstreamRegistry.gitlabContainerRegistry:
-        return 'gitlab-container-registry';
-    }
-  }
-}
+  final String value;
 
-extension UpstreamRegistryFromString on String {
-  UpstreamRegistry toUpstreamRegistry() {
-    switch (this) {
-      case 'ecr-public':
-        return UpstreamRegistry.ecrPublic;
-      case 'quay':
-        return UpstreamRegistry.quay;
-      case 'k8s':
-        return UpstreamRegistry.k8s;
-      case 'docker-hub':
-        return UpstreamRegistry.dockerHub;
-      case 'github-container-registry':
-        return UpstreamRegistry.githubContainerRegistry;
-      case 'azure-container-registry':
-        return UpstreamRegistry.azureContainerRegistry;
-      case 'gitlab-container-registry':
-        return UpstreamRegistry.gitlabContainerRegistry;
-    }
-    throw Exception('$this is not known in enum UpstreamRegistry');
-  }
+  const UpstreamRegistry(this.value);
+
+  static UpstreamRegistry fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpstreamRegistry'));
 }
 
 class ValidatePullThroughCacheRuleResponse {

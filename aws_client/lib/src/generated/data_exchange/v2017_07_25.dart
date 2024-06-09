@@ -123,7 +123,7 @@ class DataExchange {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'AssetType': assetType.toValue(),
+      'AssetType': assetType.value,
       'Description': description,
       'Name': name,
       if (tags != null) 'Tags': tags,
@@ -187,7 +187,7 @@ class DataExchange {
   }) async {
     final $payload = <String, dynamic>{
       'Details': details,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -846,7 +846,7 @@ class DataExchange {
     ScopeDetails? scope,
   }) async {
     final $payload = <String, dynamic>{
-      'Type': type.toValue(),
+      'Type': type.value,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (comment != null) 'Comment': comment,
       if (details != null) 'Details': details,
@@ -1158,7 +1158,8 @@ class ApiGatewayApiAsset {
           json['ApiSpecificationDownloadUrl'] as String?,
       apiSpecificationDownloadUrlExpiresAt:
           timeStampFromJson(json['ApiSpecificationDownloadUrlExpiresAt']),
-      protocolType: (json['ProtocolType'] as String?)?.toProtocolType(),
+      protocolType:
+          (json['ProtocolType'] as String?)?.let(ProtocolType.fromString),
       stage: json['Stage'] as String?,
     );
   }
@@ -1185,7 +1186,7 @@ class ApiGatewayApiAsset {
       if (apiSpecificationDownloadUrlExpiresAt != null)
         'ApiSpecificationDownloadUrlExpiresAt':
             iso8601ToJson(apiSpecificationDownloadUrlExpiresAt),
-      if (protocolType != null) 'ProtocolType': protocolType.toValue(),
+      if (protocolType != null) 'ProtocolType': protocolType.value,
       if (stage != null) 'Stage': stage,
     };
   }
@@ -1367,7 +1368,7 @@ class AssetEntry {
       arn: json['Arn'] as String,
       assetDetails:
           AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
-      assetType: (json['AssetType'] as String).toAssetType(),
+      assetType: AssetType.fromString((json['AssetType'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
       dataSetId: json['DataSetId'] as String,
       id: json['Id'] as String,
@@ -1392,7 +1393,7 @@ class AssetEntry {
     return {
       'Arn': arn,
       'AssetDetails': assetDetails,
-      'AssetType': assetType.toValue(),
+      'AssetType': assetType.value,
       'CreatedAt': iso8601ToJson(createdAt),
       'DataSetId': dataSetId,
       'Id': id,
@@ -1435,46 +1436,20 @@ class AssetSourceEntry {
 }
 
 enum AssetType {
-  s3Snapshot,
-  redshiftDataShare,
-  apiGatewayApi,
-  s3DataAccess,
-  lakeFormationDataPermission,
-}
+  s3Snapshot('S3_SNAPSHOT'),
+  redshiftDataShare('REDSHIFT_DATA_SHARE'),
+  apiGatewayApi('API_GATEWAY_API'),
+  s3DataAccess('S3_DATA_ACCESS'),
+  lakeFormationDataPermission('LAKE_FORMATION_DATA_PERMISSION'),
+  ;
 
-extension AssetTypeValueExtension on AssetType {
-  String toValue() {
-    switch (this) {
-      case AssetType.s3Snapshot:
-        return 'S3_SNAPSHOT';
-      case AssetType.redshiftDataShare:
-        return 'REDSHIFT_DATA_SHARE';
-      case AssetType.apiGatewayApi:
-        return 'API_GATEWAY_API';
-      case AssetType.s3DataAccess:
-        return 'S3_DATA_ACCESS';
-      case AssetType.lakeFormationDataPermission:
-        return 'LAKE_FORMATION_DATA_PERMISSION';
-    }
-  }
-}
+  final String value;
 
-extension AssetTypeFromString on String {
-  AssetType toAssetType() {
-    switch (this) {
-      case 'S3_SNAPSHOT':
-        return AssetType.s3Snapshot;
-      case 'REDSHIFT_DATA_SHARE':
-        return AssetType.redshiftDataShare;
-      case 'API_GATEWAY_API':
-        return AssetType.apiGatewayApi;
-      case 'S3_DATA_ACCESS':
-        return AssetType.s3DataAccess;
-      case 'LAKE_FORMATION_DATA_PERMISSION':
-        return AssetType.lakeFormationDataPermission;
-    }
-    throw Exception('$this is not known in enum AssetType');
-  }
+  const AssetType(this.value);
+
+  static AssetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AssetType'));
 }
 
 /// A revision destination is the Amazon S3 bucket folder destination to where
@@ -1549,56 +1524,22 @@ class AutoExportRevisionToS3RequestDetails {
 }
 
 enum Code {
-  accessDeniedException,
-  internalServerException,
-  malwareDetected,
-  resourceNotFoundException,
-  serviceQuotaExceededException,
-  validationException,
-  malwareScanEncryptedFile,
-}
+  accessDeniedException('ACCESS_DENIED_EXCEPTION'),
+  internalServerException('INTERNAL_SERVER_EXCEPTION'),
+  malwareDetected('MALWARE_DETECTED'),
+  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
+  serviceQuotaExceededException('SERVICE_QUOTA_EXCEEDED_EXCEPTION'),
+  validationException('VALIDATION_EXCEPTION'),
+  malwareScanEncryptedFile('MALWARE_SCAN_ENCRYPTED_FILE'),
+  ;
 
-extension CodeValueExtension on Code {
-  String toValue() {
-    switch (this) {
-      case Code.accessDeniedException:
-        return 'ACCESS_DENIED_EXCEPTION';
-      case Code.internalServerException:
-        return 'INTERNAL_SERVER_EXCEPTION';
-      case Code.malwareDetected:
-        return 'MALWARE_DETECTED';
-      case Code.resourceNotFoundException:
-        return 'RESOURCE_NOT_FOUND_EXCEPTION';
-      case Code.serviceQuotaExceededException:
-        return 'SERVICE_QUOTA_EXCEEDED_EXCEPTION';
-      case Code.validationException:
-        return 'VALIDATION_EXCEPTION';
-      case Code.malwareScanEncryptedFile:
-        return 'MALWARE_SCAN_ENCRYPTED_FILE';
-    }
-  }
-}
+  final String value;
 
-extension CodeFromString on String {
-  Code toCode() {
-    switch (this) {
-      case 'ACCESS_DENIED_EXCEPTION':
-        return Code.accessDeniedException;
-      case 'INTERNAL_SERVER_EXCEPTION':
-        return Code.internalServerException;
-      case 'MALWARE_DETECTED':
-        return Code.malwareDetected;
-      case 'RESOURCE_NOT_FOUND_EXCEPTION':
-        return Code.resourceNotFoundException;
-      case 'SERVICE_QUOTA_EXCEEDED_EXCEPTION':
-        return Code.serviceQuotaExceededException;
-      case 'VALIDATION_EXCEPTION':
-        return Code.validationException;
-      case 'MALWARE_SCAN_ENCRYPTED_FILE':
-        return Code.malwareScanEncryptedFile;
-    }
-    throw Exception('$this is not known in enum Code');
-  }
+  const Code(this.value);
+
+  static Code fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Code'));
 }
 
 class CreateDataSetResponse {
@@ -1656,12 +1597,12 @@ class CreateDataSetResponse {
   factory CreateDataSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataSetResponse(
       arn: json['Arn'] as String?,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      origin: (json['Origin'] as String?)?.toOrigin(),
+      origin: (json['Origin'] as String?)?.let(Origin.fromString),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
               json['OriginDetails'] as Map<String, dynamic>)
@@ -1687,12 +1628,12 @@ class CreateDataSetResponse {
     final updatedAt = this.updatedAt;
     return {
       if (arn != null) 'Arn': arn,
-      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (assetType != null) 'AssetType': assetType.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (origin != null) 'Origin': origin.toValue(),
+      if (origin != null) 'Origin': origin.value,
       if (originDetails != null) 'OriginDetails': originDetails,
       if (sourceId != null) 'SourceId': sourceId,
       if (tags != null) 'Tags': tags,
@@ -1811,8 +1752,8 @@ class CreateJobResponse {
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
-      state: (json['State'] as String?)?.toState(),
-      type: (json['Type'] as String?)?.toType(),
+      state: (json['State'] as String?)?.let(State.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -1832,8 +1773,8 @@ class CreateJobResponse {
       if (details != null) 'Details': details,
       if (errors != null) 'Errors': errors,
       if (id != null) 'Id': id,
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -2073,12 +2014,12 @@ class DataSetEntry {
   factory DataSetEntry.fromJson(Map<String, dynamic> json) {
     return DataSetEntry(
       arn: json['Arn'] as String,
-      assetType: (json['AssetType'] as String).toAssetType(),
+      assetType: AssetType.fromString((json['AssetType'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
       description: json['Description'] as String,
       id: json['Id'] as String,
       name: json['Name'] as String,
-      origin: (json['Origin'] as String).toOrigin(),
+      origin: Origin.fromString((json['Origin'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
@@ -2101,12 +2042,12 @@ class DataSetEntry {
     final sourceId = this.sourceId;
     return {
       'Arn': arn,
-      'AssetType': assetType.toValue(),
+      'AssetType': assetType.value,
       'CreatedAt': iso8601ToJson(createdAt),
       'Description': description,
       'Id': id,
       'Name': name,
-      'Origin': origin.toValue(),
+      'Origin': origin.value,
       'UpdatedAt': iso8601ToJson(updatedAt),
       if (originDetails != null) 'OriginDetails': originDetails,
       if (sourceId != null) 'SourceId': sourceId,
@@ -2180,7 +2121,7 @@ class DatabaseLFTagPolicyAndPermissions {
           .toList(),
       permissions: (json['Permissions'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toDatabaseLFTagPolicyPermission())
+          .map((e) => DatabaseLFTagPolicyPermission.fromString((e as String)))
           .toList(),
     );
   }
@@ -2190,33 +2131,23 @@ class DatabaseLFTagPolicyAndPermissions {
     final permissions = this.permissions;
     return {
       'Expression': expression,
-      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Permissions': permissions.map((e) => e.value).toList(),
     };
   }
 }
 
 enum DatabaseLFTagPolicyPermission {
-  describe,
-}
+  describe('DESCRIBE'),
+  ;
 
-extension DatabaseLFTagPolicyPermissionValueExtension
-    on DatabaseLFTagPolicyPermission {
-  String toValue() {
-    switch (this) {
-      case DatabaseLFTagPolicyPermission.describe:
-        return 'DESCRIBE';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseLFTagPolicyPermissionFromString on String {
-  DatabaseLFTagPolicyPermission toDatabaseLFTagPolicyPermission() {
-    switch (this) {
-      case 'DESCRIBE':
-        return DatabaseLFTagPolicyPermission.describe;
-    }
-    throw Exception('$this is not known in enum DatabaseLFTagPolicyPermission');
-  }
+  const DatabaseLFTagPolicyPermission(this.value);
+
+  static DatabaseLFTagPolicyPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatabaseLFTagPolicyPermission'));
 }
 
 /// Extra details specific to a deprecation type notification.
@@ -2636,7 +2567,7 @@ class ExportServerSideEncryption {
 
   factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) {
     return ExportServerSideEncryption(
-      type: (json['Type'] as String).toServerSideEncryptionTypes(),
+      type: ServerSideEncryptionTypes.fromString((json['Type'] as String)),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -2645,7 +2576,7 @@ class ExportServerSideEncryption {
     final type = this.type;
     final kmsKeyArn = this.kmsKeyArn;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
@@ -2710,7 +2641,7 @@ class GetAssetResponse {
       assetDetails: json['AssetDetails'] != null
           ? AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>)
           : null,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       dataSetId: json['DataSetId'] as String?,
       id: json['Id'] as String?,
@@ -2735,7 +2666,7 @@ class GetAssetResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (assetDetails != null) 'AssetDetails': assetDetails,
-      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (assetType != null) 'AssetType': assetType.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (dataSetId != null) 'DataSetId': dataSetId,
       if (id != null) 'Id': id,
@@ -2802,12 +2733,12 @@ class GetDataSetResponse {
   factory GetDataSetResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetResponse(
       arn: json['Arn'] as String?,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      origin: (json['Origin'] as String?)?.toOrigin(),
+      origin: (json['Origin'] as String?)?.let(Origin.fromString),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
               json['OriginDetails'] as Map<String, dynamic>)
@@ -2833,12 +2764,12 @@ class GetDataSetResponse {
     final updatedAt = this.updatedAt;
     return {
       if (arn != null) 'Arn': arn,
-      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (assetType != null) 'AssetType': assetType.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (origin != null) 'Origin': origin.toValue(),
+      if (origin != null) 'Origin': origin.value,
       if (originDetails != null) 'OriginDetails': originDetails,
       if (sourceId != null) 'SourceId': sourceId,
       if (tags != null) 'Tags': tags,
@@ -2957,8 +2888,8 @@ class GetJobResponse {
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
-      state: (json['State'] as String?)?.toState(),
-      type: (json['Type'] as String?)?.toType(),
+      state: (json['State'] as String?)?.let(State.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -2978,8 +2909,8 @@ class GetJobResponse {
       if (details != null) 'Details': details,
       if (errors != null) 'Errors': errors,
       if (id != null) 'Id': id,
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -3153,7 +3084,7 @@ class ImportAssetFromApiGatewayApiRequestDetails {
       'ApiName': apiName,
       'ApiSpecificationMd5Hash': apiSpecificationMd5Hash,
       'DataSetId': dataSetId,
-      'ProtocolType': protocolType.toValue(),
+      'ProtocolType': protocolType.value,
       'RevisionId': revisionId,
       'Stage': stage,
       if (apiDescription != null) 'ApiDescription': apiDescription,
@@ -3222,7 +3153,7 @@ class ImportAssetFromApiGatewayApiResponseDetails {
       apiSpecificationUploadUrlExpiresAt: nonNullableTimeStampFromJson(
           json['ApiSpecificationUploadUrlExpiresAt'] as Object),
       dataSetId: json['DataSetId'] as String,
-      protocolType: (json['ProtocolType'] as String).toProtocolType(),
+      protocolType: ProtocolType.fromString((json['ProtocolType'] as String)),
       revisionId: json['RevisionId'] as String,
       stage: json['Stage'] as String,
       apiDescription: json['ApiDescription'] as String?,
@@ -3251,7 +3182,7 @@ class ImportAssetFromApiGatewayApiResponseDetails {
       'ApiSpecificationUploadUrlExpiresAt':
           iso8601ToJson(apiSpecificationUploadUrlExpiresAt),
       'DataSetId': dataSetId,
-      'ProtocolType': protocolType.toValue(),
+      'ProtocolType': protocolType.value,
       'RevisionId': revisionId,
       'Stage': stage,
       if (apiDescription != null) 'ApiDescription': apiDescription,
@@ -3688,8 +3619,8 @@ class JobEntry {
       details:
           ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
       id: json['Id'] as String,
-      state: (json['State'] as String).toState(),
-      type: (json['Type'] as String).toType(),
+      state: State.fromString((json['State'] as String)),
+      type: Type.fromString((json['Type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
       errors: (json['Errors'] as List?)
           ?.whereNotNull()
@@ -3712,8 +3643,8 @@ class JobEntry {
       'CreatedAt': iso8601ToJson(createdAt),
       'Details': details,
       'Id': id,
-      'State': state.toValue(),
-      'Type': type.toValue(),
+      'State': state.value,
+      'Type': type.value,
       'UpdatedAt': iso8601ToJson(updatedAt),
       if (errors != null) 'Errors': errors,
     };
@@ -3755,16 +3686,17 @@ class JobError {
 
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
-      code: (json['Code'] as String).toCode(),
+      code: Code.fromString((json['Code'] as String)),
       message: json['Message'] as String,
       details: json['Details'] != null
           ? Details.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
-      limitName: (json['LimitName'] as String?)?.toJobErrorLimitName(),
+      limitName:
+          (json['LimitName'] as String?)?.let(JobErrorLimitName.fromString),
       limitValue: json['LimitValue'] as double?,
       resourceId: json['ResourceId'] as String?,
-      resourceType:
-          (json['ResourceType'] as String?)?.toJobErrorResourceTypes(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(JobErrorResourceTypes.fromString),
     );
   }
 
@@ -3777,92 +3709,52 @@ class JobError {
     final resourceId = this.resourceId;
     final resourceType = this.resourceType;
     return {
-      'Code': code.toValue(),
+      'Code': code.value,
       'Message': message,
       if (details != null) 'Details': details,
-      if (limitName != null) 'LimitName': limitName.toValue(),
+      if (limitName != null) 'LimitName': limitName.value,
       if (limitValue != null) 'LimitValue': limitValue,
       if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
 
 enum JobErrorLimitName {
-  assetsPerRevision,
-  assetSizeInGb,
-  amazonRedshiftDatashareAssetsPerRevision,
-  awsLakeFormationDataPermissionAssetsPerRevision,
-  amazonS3DataAccessAssetsPerRevision,
-}
+  assetsPerRevision('Assets per revision'),
+  assetSizeInGb('Asset size in GB'),
+  amazonRedshiftDatashareAssetsPerRevision(
+      'Amazon Redshift datashare assets per revision'),
+  awsLakeFormationDataPermissionAssetsPerRevision(
+      'AWS Lake Formation data permission assets per revision'),
+  amazonS3DataAccessAssetsPerRevision(
+      'Amazon S3 data access assets per revision'),
+  ;
 
-extension JobErrorLimitNameValueExtension on JobErrorLimitName {
-  String toValue() {
-    switch (this) {
-      case JobErrorLimitName.assetsPerRevision:
-        return 'Assets per revision';
-      case JobErrorLimitName.assetSizeInGb:
-        return 'Asset size in GB';
-      case JobErrorLimitName.amazonRedshiftDatashareAssetsPerRevision:
-        return 'Amazon Redshift datashare assets per revision';
-      case JobErrorLimitName.awsLakeFormationDataPermissionAssetsPerRevision:
-        return 'AWS Lake Formation data permission assets per revision';
-      case JobErrorLimitName.amazonS3DataAccessAssetsPerRevision:
-        return 'Amazon S3 data access assets per revision';
-    }
-  }
-}
+  final String value;
 
-extension JobErrorLimitNameFromString on String {
-  JobErrorLimitName toJobErrorLimitName() {
-    switch (this) {
-      case 'Assets per revision':
-        return JobErrorLimitName.assetsPerRevision;
-      case 'Asset size in GB':
-        return JobErrorLimitName.assetSizeInGb;
-      case 'Amazon Redshift datashare assets per revision':
-        return JobErrorLimitName.amazonRedshiftDatashareAssetsPerRevision;
-      case 'AWS Lake Formation data permission assets per revision':
-        return JobErrorLimitName
-            .awsLakeFormationDataPermissionAssetsPerRevision;
-      case 'Amazon S3 data access assets per revision':
-        return JobErrorLimitName.amazonS3DataAccessAssetsPerRevision;
-    }
-    throw Exception('$this is not known in enum JobErrorLimitName');
-  }
+  const JobErrorLimitName(this.value);
+
+  static JobErrorLimitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobErrorLimitName'));
 }
 
 enum JobErrorResourceTypes {
-  revision,
-  asset,
-  dataSet,
-}
+  revision('REVISION'),
+  asset('ASSET'),
+  dataSet('DATA_SET'),
+  ;
 
-extension JobErrorResourceTypesValueExtension on JobErrorResourceTypes {
-  String toValue() {
-    switch (this) {
-      case JobErrorResourceTypes.revision:
-        return 'REVISION';
-      case JobErrorResourceTypes.asset:
-        return 'ASSET';
-      case JobErrorResourceTypes.dataSet:
-        return 'DATA_SET';
-    }
-  }
-}
+  final String value;
 
-extension JobErrorResourceTypesFromString on String {
-  JobErrorResourceTypes toJobErrorResourceTypes() {
-    switch (this) {
-      case 'REVISION':
-        return JobErrorResourceTypes.revision;
-      case 'ASSET':
-        return JobErrorResourceTypes.asset;
-      case 'DATA_SET':
-        return JobErrorResourceTypes.dataSet;
-    }
-    throw Exception('$this is not known in enum JobErrorResourceTypes');
-  }
+  const JobErrorResourceTypes(this.value);
+
+  static JobErrorResourceTypes fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum JobErrorResourceTypes'));
 }
 
 /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared
@@ -3893,31 +3785,18 @@ class KmsKeyToGrant {
 }
 
 enum LFPermission {
-  describe,
-  select,
-}
+  describe('DESCRIBE'),
+  select('SELECT'),
+  ;
 
-extension LFPermissionValueExtension on LFPermission {
-  String toValue() {
-    switch (this) {
-      case LFPermission.describe:
-        return 'DESCRIBE';
-      case LFPermission.select:
-        return 'SELECT';
-    }
-  }
-}
+  final String value;
 
-extension LFPermissionFromString on String {
-  LFPermission toLFPermission() {
-    switch (this) {
-      case 'DESCRIBE':
-        return LFPermission.describe;
-      case 'SELECT':
-        return LFPermission.select;
-    }
-    throw Exception('$this is not known in enum LFPermission');
-  }
+  const LFPermission(this.value);
+
+  static LFPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LFPermission'));
 }
 
 /// Details about the AWS Lake Formation resource (Table or Database) included
@@ -3959,31 +3838,18 @@ class LFResourceDetails {
 }
 
 enum LFResourceType {
-  table,
-  database,
-}
+  table('TABLE'),
+  database('DATABASE'),
+  ;
 
-extension LFResourceTypeValueExtension on LFResourceType {
-  String toValue() {
-    switch (this) {
-      case LFResourceType.table:
-        return 'TABLE';
-      case LFResourceType.database:
-        return 'DATABASE';
-    }
-  }
-}
+  final String value;
 
-extension LFResourceTypeFromString on String {
-  LFResourceType toLFResourceType() {
-    switch (this) {
-      case 'TABLE':
-        return LFResourceType.table;
-      case 'DATABASE':
-        return LFResourceType.database;
-    }
-    throw Exception('$this is not known in enum LFResourceType');
-  }
+  const LFResourceType(this.value);
+
+  static LFResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LFResourceType'));
 }
 
 /// A structure that allows an LF-admin to grant permissions on certain
@@ -4042,7 +3908,7 @@ class LFTagPolicyDetails {
       catalogId: json['CatalogId'] as String,
       resourceDetails: LFResourceDetails.fromJson(
           json['ResourceDetails'] as Map<String, dynamic>),
-      resourceType: (json['ResourceType'] as String).toLFResourceType(),
+      resourceType: LFResourceType.fromString((json['ResourceType'] as String)),
     );
   }
 
@@ -4053,7 +3919,7 @@ class LFTagPolicyDetails {
     return {
       'CatalogId': catalogId,
       'ResourceDetails': resourceDetails,
-      'ResourceType': resourceType.toValue(),
+      'ResourceType': resourceType.value,
     };
   }
 }
@@ -4087,11 +3953,11 @@ class LakeFormationDataPermissionAsset {
               json['LakeFormationDataPermissionDetails']
                   as Map<String, dynamic>),
       lakeFormationDataPermissionType:
-          (json['LakeFormationDataPermissionType'] as String)
-              .toLakeFormationDataPermissionType(),
+          LakeFormationDataPermissionType.fromString(
+              (json['LakeFormationDataPermissionType'] as String)),
       permissions: (json['Permissions'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toLFPermission())
+          .map((e) => LFPermission.fromString((e as String)))
           .toList(),
       roleArn: json['RoleArn'] as String?,
     );
@@ -4106,9 +3972,8 @@ class LakeFormationDataPermissionAsset {
     final roleArn = this.roleArn;
     return {
       'LakeFormationDataPermissionDetails': lakeFormationDataPermissionDetails,
-      'LakeFormationDataPermissionType':
-          lakeFormationDataPermissionType.toValue(),
-      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'LakeFormationDataPermissionType': lakeFormationDataPermissionType.value,
+      'Permissions': permissions.map((e) => e.value).toList(),
       if (roleArn != null) 'RoleArn': roleArn,
     };
   }
@@ -4142,28 +4007,17 @@ class LakeFormationDataPermissionDetails {
 }
 
 enum LakeFormationDataPermissionType {
-  lFTagPolicy,
-}
+  lFTagPolicy('LFTagPolicy'),
+  ;
 
-extension LakeFormationDataPermissionTypeValueExtension
-    on LakeFormationDataPermissionType {
-  String toValue() {
-    switch (this) {
-      case LakeFormationDataPermissionType.lFTagPolicy:
-        return 'LFTagPolicy';
-    }
-  }
-}
+  final String value;
 
-extension LakeFormationDataPermissionTypeFromString on String {
-  LakeFormationDataPermissionType toLakeFormationDataPermissionType() {
-    switch (this) {
-      case 'LFTagPolicy':
-        return LakeFormationDataPermissionType.lFTagPolicy;
-    }
-    throw Exception(
-        '$this is not known in enum LakeFormationDataPermissionType');
-  }
+  const LakeFormationDataPermissionType(this.value);
+
+  static LakeFormationDataPermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LakeFormationDataPermissionType'));
 }
 
 /// Extra details specific to the affected scope in this LF data set.
@@ -4407,69 +4261,34 @@ class NotificationDetails {
 }
 
 enum NotificationType {
-  dataDelay,
-  dataUpdate,
-  deprecation,
-  schemaChange,
-}
+  dataDelay('DATA_DELAY'),
+  dataUpdate('DATA_UPDATE'),
+  deprecation('DEPRECATION'),
+  schemaChange('SCHEMA_CHANGE'),
+  ;
 
-extension NotificationTypeValueExtension on NotificationType {
-  String toValue() {
-    switch (this) {
-      case NotificationType.dataDelay:
-        return 'DATA_DELAY';
-      case NotificationType.dataUpdate:
-        return 'DATA_UPDATE';
-      case NotificationType.deprecation:
-        return 'DEPRECATION';
-      case NotificationType.schemaChange:
-        return 'SCHEMA_CHANGE';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTypeFromString on String {
-  NotificationType toNotificationType() {
-    switch (this) {
-      case 'DATA_DELAY':
-        return NotificationType.dataDelay;
-      case 'DATA_UPDATE':
-        return NotificationType.dataUpdate;
-      case 'DEPRECATION':
-        return NotificationType.deprecation;
-      case 'SCHEMA_CHANGE':
-        return NotificationType.schemaChange;
-    }
-    throw Exception('$this is not known in enum NotificationType');
-  }
+  const NotificationType(this.value);
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationType'));
 }
 
 enum Origin {
-  owned,
-  entitled,
-}
+  owned('OWNED'),
+  entitled('ENTITLED'),
+  ;
 
-extension OriginValueExtension on Origin {
-  String toValue() {
-    switch (this) {
-      case Origin.owned:
-        return 'OWNED';
-      case Origin.entitled:
-        return 'ENTITLED';
-    }
-  }
-}
+  final String value;
 
-extension OriginFromString on String {
-  Origin toOrigin() {
-    switch (this) {
-      case 'OWNED':
-        return Origin.owned;
-      case 'ENTITLED':
-        return Origin.entitled;
-    }
-    throw Exception('$this is not known in enum Origin');
-  }
+  const Origin(this.value);
+
+  static Origin fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Origin'));
 }
 
 /// Details about the origin of the data set.
@@ -4496,26 +4315,17 @@ class OriginDetails {
 }
 
 enum ProtocolType {
-  rest,
-}
+  rest('REST'),
+  ;
 
-extension ProtocolTypeValueExtension on ProtocolType {
-  String toValue() {
-    switch (this) {
-      case ProtocolType.rest:
-        return 'REST';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolTypeFromString on String {
-  ProtocolType toProtocolType() {
-    switch (this) {
-      case 'REST':
-        return ProtocolType.rest;
-    }
-    throw Exception('$this is not known in enum ProtocolType');
-  }
+  const ProtocolType(this.value);
+
+  static ProtocolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProtocolType'));
 }
 
 /// The Amazon Redshift datashare asset.
@@ -5296,7 +5106,7 @@ class SchemaChangeDetails {
     final description = this.description;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (description != null) 'Description': description,
     };
   }
@@ -5327,36 +5137,19 @@ class SchemaChangeRequestDetails {
 }
 
 enum SchemaChangeType {
-  add,
-  remove,
-  modify,
-}
+  add('ADD'),
+  remove('REMOVE'),
+  modify('MODIFY'),
+  ;
 
-extension SchemaChangeTypeValueExtension on SchemaChangeType {
-  String toValue() {
-    switch (this) {
-      case SchemaChangeType.add:
-        return 'ADD';
-      case SchemaChangeType.remove:
-        return 'REMOVE';
-      case SchemaChangeType.modify:
-        return 'MODIFY';
-    }
-  }
-}
+  final String value;
 
-extension SchemaChangeTypeFromString on String {
-  SchemaChangeType toSchemaChangeType() {
-    switch (this) {
-      case 'ADD':
-        return SchemaChangeType.add;
-      case 'REMOVE':
-        return SchemaChangeType.remove;
-      case 'MODIFY':
-        return SchemaChangeType.modify;
-    }
-    throw Exception('$this is not known in enum SchemaChangeType');
-  }
+  const SchemaChangeType(this.value);
+
+  static SchemaChangeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SchemaChangeType'));
 }
 
 /// Details about the scope of the notifications such as the affected resources.
@@ -5423,31 +5216,18 @@ class SendDataSetNotificationResponse {
 }
 
 enum ServerSideEncryptionTypes {
-  awsKms,
-  aes256,
-}
+  awsKms('aws:kms'),
+  aes256('AES256'),
+  ;
 
-extension ServerSideEncryptionTypesValueExtension on ServerSideEncryptionTypes {
-  String toValue() {
-    switch (this) {
-      case ServerSideEncryptionTypes.awsKms:
-        return 'aws:kms';
-      case ServerSideEncryptionTypes.aes256:
-        return 'AES256';
-    }
-  }
-}
+  final String value;
 
-extension ServerSideEncryptionTypesFromString on String {
-  ServerSideEncryptionTypes toServerSideEncryptionTypes() {
-    switch (this) {
-      case 'aws:kms':
-        return ServerSideEncryptionTypes.awsKms;
-      case 'AES256':
-        return ServerSideEncryptionTypes.aes256;
-    }
-    throw Exception('$this is not known in enum ServerSideEncryptionTypes');
-  }
+  const ServerSideEncryptionTypes(this.value);
+
+  static ServerSideEncryptionTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServerSideEncryptionTypes'));
 }
 
 class StartJobResponse {
@@ -5463,51 +5243,21 @@ class StartJobResponse {
 }
 
 enum State {
-  waiting,
-  inProgress,
-  error,
-  completed,
-  cancelled,
-  timedOut,
-}
+  waiting('WAITING'),
+  inProgress('IN_PROGRESS'),
+  error('ERROR'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.waiting:
-        return 'WAITING';
-      case State.inProgress:
-        return 'IN_PROGRESS';
-      case State.error:
-        return 'ERROR';
-      case State.completed:
-        return 'COMPLETED';
-      case State.cancelled:
-        return 'CANCELLED';
-      case State.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'WAITING':
-        return State.waiting;
-      case 'IN_PROGRESS':
-        return State.inProgress;
-      case 'ERROR':
-        return State.error;
-      case 'COMPLETED':
-        return State.completed;
-      case 'CANCELLED':
-        return State.cancelled;
-      case 'TIMED_OUT':
-        return State.timedOut;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 /// The LF-tag policy for a table resource.
@@ -5557,7 +5307,7 @@ class TableLFTagPolicyAndPermissions {
           .toList(),
       permissions: (json['Permissions'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toTableTagPolicyLFPermission())
+          .map((e) => TableTagPolicyLFPermission.fromString((e as String)))
           .toList(),
     );
   }
@@ -5567,101 +5317,46 @@ class TableLFTagPolicyAndPermissions {
     final permissions = this.permissions;
     return {
       'Expression': expression,
-      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Permissions': permissions.map((e) => e.value).toList(),
     };
   }
 }
 
 enum TableTagPolicyLFPermission {
-  describe,
-  select,
-}
+  describe('DESCRIBE'),
+  select('SELECT'),
+  ;
 
-extension TableTagPolicyLFPermissionValueExtension
-    on TableTagPolicyLFPermission {
-  String toValue() {
-    switch (this) {
-      case TableTagPolicyLFPermission.describe:
-        return 'DESCRIBE';
-      case TableTagPolicyLFPermission.select:
-        return 'SELECT';
-    }
-  }
-}
+  final String value;
 
-extension TableTagPolicyLFPermissionFromString on String {
-  TableTagPolicyLFPermission toTableTagPolicyLFPermission() {
-    switch (this) {
-      case 'DESCRIBE':
-        return TableTagPolicyLFPermission.describe;
-      case 'SELECT':
-        return TableTagPolicyLFPermission.select;
-    }
-    throw Exception('$this is not known in enum TableTagPolicyLFPermission');
-  }
+  const TableTagPolicyLFPermission(this.value);
+
+  static TableTagPolicyLFPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TableTagPolicyLFPermission'));
 }
 
 enum Type {
-  importAssetsFromS3,
-  importAssetFromSignedUrl,
-  exportAssetsToS3,
-  exportAssetToSignedUrl,
-  exportRevisionsToS3,
-  importAssetsFromRedshiftDataShares,
-  importAssetFromApiGatewayApi,
-  createS3DataAccessFromS3Bucket,
-  importAssetsFromLakeFormationTagPolicy,
-}
+  importAssetsFromS3('IMPORT_ASSETS_FROM_S3'),
+  importAssetFromSignedUrl('IMPORT_ASSET_FROM_SIGNED_URL'),
+  exportAssetsToS3('EXPORT_ASSETS_TO_S3'),
+  exportAssetToSignedUrl('EXPORT_ASSET_TO_SIGNED_URL'),
+  exportRevisionsToS3('EXPORT_REVISIONS_TO_S3'),
+  importAssetsFromRedshiftDataShares('IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES'),
+  importAssetFromApiGatewayApi('IMPORT_ASSET_FROM_API_GATEWAY_API'),
+  createS3DataAccessFromS3Bucket('CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET'),
+  importAssetsFromLakeFormationTagPolicy(
+      'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.importAssetsFromS3:
-        return 'IMPORT_ASSETS_FROM_S3';
-      case Type.importAssetFromSignedUrl:
-        return 'IMPORT_ASSET_FROM_SIGNED_URL';
-      case Type.exportAssetsToS3:
-        return 'EXPORT_ASSETS_TO_S3';
-      case Type.exportAssetToSignedUrl:
-        return 'EXPORT_ASSET_TO_SIGNED_URL';
-      case Type.exportRevisionsToS3:
-        return 'EXPORT_REVISIONS_TO_S3';
-      case Type.importAssetsFromRedshiftDataShares:
-        return 'IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES';
-      case Type.importAssetFromApiGatewayApi:
-        return 'IMPORT_ASSET_FROM_API_GATEWAY_API';
-      case Type.createS3DataAccessFromS3Bucket:
-        return 'CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET';
-      case Type.importAssetsFromLakeFormationTagPolicy:
-        return 'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'IMPORT_ASSETS_FROM_S3':
-        return Type.importAssetsFromS3;
-      case 'IMPORT_ASSET_FROM_SIGNED_URL':
-        return Type.importAssetFromSignedUrl;
-      case 'EXPORT_ASSETS_TO_S3':
-        return Type.exportAssetsToS3;
-      case 'EXPORT_ASSET_TO_SIGNED_URL':
-        return Type.exportAssetToSignedUrl;
-      case 'EXPORT_REVISIONS_TO_S3':
-        return Type.exportRevisionsToS3;
-      case 'IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES':
-        return Type.importAssetsFromRedshiftDataShares;
-      case 'IMPORT_ASSET_FROM_API_GATEWAY_API':
-        return Type.importAssetFromApiGatewayApi;
-      case 'CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET':
-        return Type.createS3DataAccessFromS3Bucket;
-      case 'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY':
-        return Type.importAssetsFromLakeFormationTagPolicy;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UpdateAssetResponse {
@@ -5723,7 +5418,7 @@ class UpdateAssetResponse {
       assetDetails: json['AssetDetails'] != null
           ? AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>)
           : null,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       dataSetId: json['DataSetId'] as String?,
       id: json['Id'] as String?,
@@ -5748,7 +5443,7 @@ class UpdateAssetResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (assetDetails != null) 'AssetDetails': assetDetails,
-      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (assetType != null) 'AssetType': assetType.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (dataSetId != null) 'DataSetId': dataSetId,
       if (id != null) 'Id': id,
@@ -5811,12 +5506,12 @@ class UpdateDataSetResponse {
   factory UpdateDataSetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDataSetResponse(
       arn: json['Arn'] as String?,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      origin: (json['Origin'] as String?)?.toOrigin(),
+      origin: (json['Origin'] as String?)?.let(Origin.fromString),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
               json['OriginDetails'] as Map<String, dynamic>)
@@ -5839,12 +5534,12 @@ class UpdateDataSetResponse {
     final updatedAt = this.updatedAt;
     return {
       if (arn != null) 'Arn': arn,
-      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (assetType != null) 'AssetType': assetType.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (origin != null) 'Origin': origin.toValue(),
+      if (origin != null) 'Origin': origin.value,
       if (originDetails != null) 'OriginDetails': originDetails,
       if (sourceId != null) 'SourceId': sourceId,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),

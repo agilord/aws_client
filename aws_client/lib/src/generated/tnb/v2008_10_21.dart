@@ -392,7 +392,7 @@ class TelcoNetworkBuilder {
     required String vnfPkgId,
   }) async {
     final headers = <String, String>{
-      'Accept': accept.toValue(),
+      'Accept': accept.value,
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -406,7 +406,7 @@ class TelcoNetworkBuilder {
       packageContent: await response.stream.toBytes(),
       contentType: _s
           .extractHeaderStringValue(response.headers, 'Content-Type')
-          ?.toPackageContentType(),
+          ?.let(PackageContentType.fromString),
     );
   }
 
@@ -439,7 +439,7 @@ class TelcoNetworkBuilder {
     required String vnfPkgId,
   }) async {
     final headers = <String, String>{
-      'Accept': accept.toValue(),
+      'Accept': accept.value,
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -453,7 +453,7 @@ class TelcoNetworkBuilder {
       vnfd: await response.stream.toBytes(),
       contentType: _s
           .extractHeaderStringValue(response.headers, 'Content-Type')
-          ?.toDescriptorContentType(),
+          ?.let(DescriptorContentType.fromString),
     );
   }
 
@@ -560,7 +560,7 @@ class TelcoNetworkBuilder {
     required String nsdInfoId,
   }) async {
     final headers = <String, String>{
-      'Accept': accept.toValue(),
+      'Accept': accept.value,
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -574,7 +574,7 @@ class TelcoNetworkBuilder {
       nsdContent: await response.stream.toBytes(),
       contentType: _s
           .extractHeaderStringValue(response.headers, 'Content-Type')
-          ?.toPackageContentType(),
+          ?.let(PackageContentType.fromString),
     );
   }
 
@@ -607,7 +607,7 @@ class TelcoNetworkBuilder {
       nsd: await response.stream.toBytes(),
       contentType: _s
           .extractHeaderStringValue(response.headers, 'Content-Type')
-          ?.toDescriptorContentType(),
+          ?.let(DescriptorContentType.fromString),
     );
   }
 
@@ -919,7 +919,7 @@ class TelcoNetworkBuilder {
     PackageContentType? contentType,
   }) async {
     final headers = <String, String>{
-      if (contentType != null) 'Content-Type': contentType.toValue(),
+      if (contentType != null) 'Content-Type': contentType.value,
     };
     final response = await _protocol.send(
       payload: file,
@@ -958,7 +958,7 @@ class TelcoNetworkBuilder {
     PackageContentType? contentType,
   }) async {
     final headers = <String, String>{
-      if (contentType != null) 'Content-Type': contentType.toValue(),
+      if (contentType != null) 'Content-Type': contentType.value,
     };
     final response = await _protocol.send(
       payload: file,
@@ -1101,7 +1101,7 @@ class TelcoNetworkBuilder {
     required String vnfPkgId,
   }) async {
     final $payload = <String, dynamic>{
-      'operationalState': operationalState.toValue(),
+      'operationalState': operationalState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1148,7 +1148,7 @@ class TelcoNetworkBuilder {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'updateType': updateType.toValue(),
+      'updateType': updateType.value,
       if (modifyVnfInfoData != null) 'modifyVnfInfoData': modifyVnfInfoData,
       if (tags != null) 'tags': tags,
     };
@@ -1190,7 +1190,7 @@ class TelcoNetworkBuilder {
     required NsdOperationalState nsdOperationalState,
   }) async {
     final $payload = <String, dynamic>{
-      'nsdOperationalState': nsdOperationalState.toValue(),
+      'nsdOperationalState': nsdOperationalState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1232,7 +1232,7 @@ class TelcoNetworkBuilder {
     PackageContentType? contentType,
   }) async {
     final headers = <String, String>{
-      if (contentType != null) 'Content-Type': contentType.toValue(),
+      if (contentType != null) 'Content-Type': contentType.value,
     };
     final response = await _protocol.send(
       payload: file,
@@ -1274,7 +1274,7 @@ class TelcoNetworkBuilder {
     PackageContentType? contentType,
   }) async {
     final headers = <String, String>{
-      if (contentType != null) 'Content-Type': contentType.toValue(),
+      if (contentType != null) 'Content-Type': contentType.value,
     };
     final response = await _protocol.send(
       payload: file,
@@ -1322,10 +1322,11 @@ class CreateSolFunctionPackageOutput {
     return CreateSolFunctionPackageOutput(
       arn: json['arn'] as String,
       id: json['id'] as String,
-      onboardingState: (json['onboardingState'] as String).toOnboardingState(),
+      onboardingState:
+          OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
-          (json['operationalState'] as String).toOperationalState(),
-      usageState: (json['usageState'] as String).toUsageState(),
+          OperationalState.fromString((json['operationalState'] as String)),
+      usageState: UsageState.fromString((json['usageState'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1341,9 +1342,9 @@ class CreateSolFunctionPackageOutput {
     return {
       'arn': arn,
       'id': id,
-      'onboardingState': onboardingState.toValue(),
-      'operationalState': operationalState.toValue(),
-      'usageState': usageState.toValue(),
+      'onboardingState': onboardingState.value,
+      'operationalState': operationalState.value,
+      'usageState': usageState.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1437,10 +1438,11 @@ class CreateSolNetworkPackageOutput {
       arn: json['arn'] as String,
       id: json['id'] as String,
       nsdOnboardingState:
-          (json['nsdOnboardingState'] as String).toNsdOnboardingState(),
-      nsdOperationalState:
-          (json['nsdOperationalState'] as String).toNsdOperationalState(),
-      nsdUsageState: (json['nsdUsageState'] as String).toNsdUsageState(),
+          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOperationalState: NsdOperationalState.fromString(
+          (json['nsdOperationalState'] as String)),
+      nsdUsageState:
+          NsdUsageState.fromString((json['nsdUsageState'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1456,35 +1458,26 @@ class CreateSolNetworkPackageOutput {
     return {
       'arn': arn,
       'id': id,
-      'nsdOnboardingState': nsdOnboardingState.toValue(),
-      'nsdOperationalState': nsdOperationalState.toValue(),
-      'nsdUsageState': nsdUsageState.toValue(),
+      'nsdOnboardingState': nsdOnboardingState.value,
+      'nsdOperationalState': nsdOperationalState.value,
+      'nsdUsageState': nsdUsageState.value,
       if (tags != null) 'tags': tags,
     };
   }
 }
 
 enum DescriptorContentType {
-  textPlain,
-}
+  textPlain('text/plain'),
+  ;
 
-extension DescriptorContentTypeValueExtension on DescriptorContentType {
-  String toValue() {
-    switch (this) {
-      case DescriptorContentType.textPlain:
-        return 'text/plain';
-    }
-  }
-}
+  final String value;
 
-extension DescriptorContentTypeFromString on String {
-  DescriptorContentType toDescriptorContentType() {
-    switch (this) {
-      case 'text/plain':
-        return DescriptorContentType.textPlain;
-    }
-    throw Exception('$this is not known in enum DescriptorContentType');
-  }
+  const DescriptorContentType(this.value);
+
+  static DescriptorContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DescriptorContentType'));
 }
 
 class Document {
@@ -1641,8 +1634,8 @@ class GetSolFunctionInstanceOutput {
     return GetSolFunctionInstanceOutput(
       arn: json['arn'] as String,
       id: json['id'] as String,
-      instantiationState:
-          (json['instantiationState'] as String).toVnfInstantiationState(),
+      instantiationState: VnfInstantiationState.fromString(
+          (json['instantiationState'] as String)),
       metadata: GetSolFunctionInstanceMetadata.fromJson(
           json['metadata'] as Map<String, dynamic>),
       nsInstanceId: json['nsInstanceId'] as String,
@@ -1676,7 +1669,7 @@ class GetSolFunctionInstanceOutput {
     return {
       'arn': arn,
       'id': id,
-      'instantiationState': instantiationState.toValue(),
+      'instantiationState': instantiationState.value,
       'metadata': metadata,
       'nsInstanceId': nsInstanceId,
       'vnfPkgId': vnfPkgId,
@@ -1831,10 +1824,11 @@ class GetSolFunctionPackageOutput {
     return GetSolFunctionPackageOutput(
       arn: json['arn'] as String,
       id: json['id'] as String,
-      onboardingState: (json['onboardingState'] as String).toOnboardingState(),
+      onboardingState:
+          OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
-          (json['operationalState'] as String).toOperationalState(),
-      usageState: (json['usageState'] as String).toUsageState(),
+          OperationalState.fromString((json['operationalState'] as String)),
+      usageState: UsageState.fromString((json['usageState'] as String)),
       metadata: json['metadata'] != null
           ? GetSolFunctionPackageMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
@@ -1863,9 +1857,9 @@ class GetSolFunctionPackageOutput {
     return {
       'arn': arn,
       'id': id,
-      'onboardingState': onboardingState.toValue(),
-      'operationalState': operationalState.toValue(),
-      'usageState': usageState.toValue(),
+      'onboardingState': onboardingState.value,
+      'operationalState': operationalState.value,
+      'usageState': usageState.value,
       if (metadata != null) 'metadata': metadata,
       if (tags != null) 'tags': tags,
       if (vnfProductName != null) 'vnfProductName': vnfProductName,
@@ -1891,14 +1885,15 @@ class GetSolInstantiatedVnfInfo {
 
   factory GetSolInstantiatedVnfInfo.fromJson(Map<String, dynamic> json) {
     return GetSolInstantiatedVnfInfo(
-      vnfState: (json['vnfState'] as String?)?.toVnfOperationalState(),
+      vnfState:
+          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final vnfState = this.vnfState;
     return {
-      if (vnfState != null) 'vnfState': vnfState.toValue(),
+      if (vnfState != null) 'vnfState': vnfState.value,
     };
   }
 }
@@ -1993,7 +1988,7 @@ class GetSolNetworkInstanceOutput {
       lcmOpInfo: json['lcmOpInfo'] != null
           ? LcmOperationInfo.fromJson(json['lcmOpInfo'] as Map<String, dynamic>)
           : null,
-      nsState: (json['nsState'] as String?)?.toNsState(),
+      nsState: (json['nsState'] as String?)?.let(NsState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2019,7 +2014,7 @@ class GetSolNetworkInstanceOutput {
       'nsdId': nsdId,
       'nsdInfoId': nsdInfoId,
       if (lcmOpInfo != null) 'lcmOpInfo': lcmOpInfo,
-      if (nsState != null) 'nsState': nsState.toValue(),
+      if (nsState != null) 'nsState': nsState.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -2108,15 +2103,15 @@ class GetSolNetworkOperationOutput {
           ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
           : null,
       id: json['id'] as String?,
-      lcmOperationType:
-          (json['lcmOperationType'] as String?)?.toLcmOperationType(),
+      lcmOperationType: (json['lcmOperationType'] as String?)
+          ?.let(LcmOperationType.fromString),
       metadata: json['metadata'] != null
           ? GetSolNetworkOperationMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
           : null,
       nsInstanceId: json['nsInstanceId'] as String?,
-      operationState:
-          (json['operationState'] as String?)?.toNsLcmOperationState(),
+      operationState: (json['operationState'] as String?)
+          ?.let(NsLcmOperationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tasks: (json['tasks'] as List?)
@@ -2141,11 +2136,10 @@ class GetSolNetworkOperationOutput {
       'arn': arn,
       if (error != null) 'error': error,
       if (id != null) 'id': id,
-      if (lcmOperationType != null)
-        'lcmOperationType': lcmOperationType.toValue(),
+      if (lcmOperationType != null) 'lcmOperationType': lcmOperationType.value,
       if (metadata != null) 'metadata': metadata,
       if (nsInstanceId != null) 'nsInstanceId': nsInstanceId,
-      if (operationState != null) 'operationState': operationState.toValue(),
+      if (operationState != null) 'operationState': operationState.value,
       if (tags != null) 'tags': tags,
       if (tasks != null) 'tasks': tasks,
     };
@@ -2195,7 +2189,7 @@ class GetSolNetworkOperationTaskDetails {
           : null,
       taskName: json['taskName'] as String?,
       taskStartTime: timeStampFromJson(json['taskStartTime']),
-      taskStatus: (json['taskStatus'] as String?)?.toTaskStatus(),
+      taskStatus: (json['taskStatus'] as String?)?.let(TaskStatus.fromString),
     );
   }
 
@@ -2212,7 +2206,7 @@ class GetSolNetworkOperationTaskDetails {
       if (taskErrorDetails != null) 'taskErrorDetails': taskErrorDetails,
       if (taskName != null) 'taskName': taskName,
       if (taskStartTime != null) 'taskStartTime': iso8601ToJson(taskStartTime),
-      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+      if (taskStatus != null) 'taskStatus': taskStatus.value,
     };
   }
 }
@@ -2362,10 +2356,11 @@ class GetSolNetworkPackageOutput {
       nsdId: json['nsdId'] as String,
       nsdName: json['nsdName'] as String,
       nsdOnboardingState:
-          (json['nsdOnboardingState'] as String).toNsdOnboardingState(),
-      nsdOperationalState:
-          (json['nsdOperationalState'] as String).toNsdOperationalState(),
-      nsdUsageState: (json['nsdUsageState'] as String).toNsdUsageState(),
+          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOperationalState: NsdOperationalState.fromString(
+          (json['nsdOperationalState'] as String)),
+      nsdUsageState:
+          NsdUsageState.fromString((json['nsdUsageState'] as String)),
       nsdVersion: json['nsdVersion'] as String,
       vnfPkgIds: (json['vnfPkgIds'] as List)
           .whereNotNull()
@@ -2394,9 +2389,9 @@ class GetSolNetworkPackageOutput {
       'metadata': metadata,
       'nsdId': nsdId,
       'nsdName': nsdName,
-      'nsdOnboardingState': nsdOnboardingState.toValue(),
-      'nsdOperationalState': nsdOperationalState.toValue(),
-      'nsdUsageState': nsdUsageState.toValue(),
+      'nsdOnboardingState': nsdOnboardingState.value,
+      'nsdOperationalState': nsdOperationalState.value,
+      'nsdUsageState': nsdUsageState.value,
       'nsdVersion': nsdVersion,
       'vnfPkgIds': vnfPkgIds,
       if (tags != null) 'tags': tags,
@@ -2421,7 +2416,8 @@ class GetSolVnfInfo {
 
   factory GetSolVnfInfo.fromJson(Map<String, dynamic> json) {
     return GetSolVnfInfo(
-      vnfState: (json['vnfState'] as String?)?.toVnfOperationalState(),
+      vnfState:
+          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
       vnfcResourceInfo: (json['vnfcResourceInfo'] as List?)
           ?.whereNotNull()
           .map(
@@ -2434,7 +2430,7 @@ class GetSolVnfInfo {
     final vnfState = this.vnfState;
     final vnfcResourceInfo = this.vnfcResourceInfo;
     return {
-      if (vnfState != null) 'vnfState': vnfState.toValue(),
+      if (vnfState != null) 'vnfState': vnfState.value,
       if (vnfcResourceInfo != null) 'vnfcResourceInfo': vnfcResourceInfo,
     };
   }
@@ -2571,36 +2567,19 @@ class LcmOperationInfo {
 }
 
 enum LcmOperationType {
-  instantiate,
-  update,
-  terminate,
-}
+  instantiate('INSTANTIATE'),
+  update('UPDATE'),
+  terminate('TERMINATE'),
+  ;
 
-extension LcmOperationTypeValueExtension on LcmOperationType {
-  String toValue() {
-    switch (this) {
-      case LcmOperationType.instantiate:
-        return 'INSTANTIATE';
-      case LcmOperationType.update:
-        return 'UPDATE';
-      case LcmOperationType.terminate:
-        return 'TERMINATE';
-    }
-  }
-}
+  final String value;
 
-extension LcmOperationTypeFromString on String {
-  LcmOperationType toLcmOperationType() {
-    switch (this) {
-      case 'INSTANTIATE':
-        return LcmOperationType.instantiate;
-      case 'UPDATE':
-        return LcmOperationType.update;
-      case 'TERMINATE':
-        return LcmOperationType.terminate;
-    }
-    throw Exception('$this is not known in enum LcmOperationType');
-  }
+  const LcmOperationType(this.value);
+
+  static LcmOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LcmOperationType'));
 }
 
 /// Lists information about a network function instance.
@@ -2644,8 +2623,8 @@ class ListSolFunctionInstanceInfo {
     return ListSolFunctionInstanceInfo(
       arn: json['arn'] as String,
       id: json['id'] as String,
-      instantiationState:
-          (json['instantiationState'] as String).toVnfInstantiationState(),
+      instantiationState: VnfInstantiationState.fromString(
+          (json['instantiationState'] as String)),
       metadata: ListSolFunctionInstanceMetadata.fromJson(
           json['metadata'] as Map<String, dynamic>),
       nsInstanceId: json['nsInstanceId'] as String,
@@ -2670,7 +2649,7 @@ class ListSolFunctionInstanceInfo {
     return {
       'arn': arn,
       'id': id,
-      'instantiationState': instantiationState.toValue(),
+      'instantiationState': instantiationState.value,
       'metadata': metadata,
       'nsInstanceId': nsInstanceId,
       'vnfPkgId': vnfPkgId,
@@ -2802,10 +2781,11 @@ class ListSolFunctionPackageInfo {
     return ListSolFunctionPackageInfo(
       arn: json['arn'] as String,
       id: json['id'] as String,
-      onboardingState: (json['onboardingState'] as String).toOnboardingState(),
+      onboardingState:
+          OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
-          (json['operationalState'] as String).toOperationalState(),
-      usageState: (json['usageState'] as String).toUsageState(),
+          OperationalState.fromString((json['operationalState'] as String)),
+      usageState: UsageState.fromString((json['usageState'] as String)),
       metadata: json['metadata'] != null
           ? ListSolFunctionPackageMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
@@ -2831,9 +2811,9 @@ class ListSolFunctionPackageInfo {
     return {
       'arn': arn,
       'id': id,
-      'onboardingState': onboardingState.toValue(),
-      'operationalState': operationalState.toValue(),
-      'usageState': usageState.toValue(),
+      'onboardingState': onboardingState.value,
+      'operationalState': operationalState.value,
+      'usageState': usageState.value,
       if (metadata != null) 'metadata': metadata,
       if (vnfProductName != null) 'vnfProductName': vnfProductName,
       if (vnfProvider != null) 'vnfProvider': vnfProvider,
@@ -2966,7 +2946,7 @@ class ListSolNetworkInstanceInfo {
           json['metadata'] as Map<String, dynamic>),
       nsInstanceDescription: json['nsInstanceDescription'] as String,
       nsInstanceName: json['nsInstanceName'] as String,
-      nsState: (json['nsState'] as String).toNsState(),
+      nsState: NsState.fromString((json['nsState'] as String)),
       nsdId: json['nsdId'] as String,
       nsdInfoId: json['nsdInfoId'] as String,
     );
@@ -2987,7 +2967,7 @@ class ListSolNetworkInstanceInfo {
       'metadata': metadata,
       'nsInstanceDescription': nsInstanceDescription,
       'nsInstanceName': nsInstanceName,
-      'nsState': nsState.toValue(),
+      'nsState': nsState.value,
       'nsdId': nsdId,
       'nsdInfoId': nsdInfoId,
     };
@@ -3101,10 +3081,10 @@ class ListSolNetworkOperationsInfo {
       arn: json['arn'] as String,
       id: json['id'] as String,
       lcmOperationType:
-          (json['lcmOperationType'] as String).toLcmOperationType(),
+          LcmOperationType.fromString((json['lcmOperationType'] as String)),
       nsInstanceId: json['nsInstanceId'] as String,
       operationState:
-          (json['operationState'] as String).toNsLcmOperationState(),
+          NsLcmOperationState.fromString((json['operationState'] as String)),
       error: json['error'] != null
           ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
           : null,
@@ -3126,9 +3106,9 @@ class ListSolNetworkOperationsInfo {
     return {
       'arn': arn,
       'id': id,
-      'lcmOperationType': lcmOperationType.toValue(),
+      'lcmOperationType': lcmOperationType.value,
       'nsInstanceId': nsInstanceId,
-      'operationState': operationState.toValue(),
+      'operationState': operationState.value,
       if (error != null) 'error': error,
       if (metadata != null) 'metadata': metadata,
     };
@@ -3269,10 +3249,11 @@ class ListSolNetworkPackageInfo {
       metadata: ListSolNetworkPackageMetadata.fromJson(
           json['metadata'] as Map<String, dynamic>),
       nsdOnboardingState:
-          (json['nsdOnboardingState'] as String).toNsdOnboardingState(),
-      nsdOperationalState:
-          (json['nsdOperationalState'] as String).toNsdOperationalState(),
-      nsdUsageState: (json['nsdUsageState'] as String).toNsdUsageState(),
+          NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
+      nsdOperationalState: NsdOperationalState.fromString(
+          (json['nsdOperationalState'] as String)),
+      nsdUsageState:
+          NsdUsageState.fromString((json['nsdUsageState'] as String)),
       nsdDesigner: json['nsdDesigner'] as String?,
       nsdId: json['nsdId'] as String?,
       nsdInvariantId: json['nsdInvariantId'] as String?,
@@ -3302,9 +3283,9 @@ class ListSolNetworkPackageInfo {
       'arn': arn,
       'id': id,
       'metadata': metadata,
-      'nsdOnboardingState': nsdOnboardingState.toValue(),
-      'nsdOperationalState': nsdOperationalState.toValue(),
-      'nsdUsageState': nsdUsageState.toValue(),
+      'nsdOnboardingState': nsdOnboardingState.value,
+      'nsdOperationalState': nsdOperationalState.value,
+      'nsdUsageState': nsdUsageState.value,
       if (nsdDesigner != null) 'nsdDesigner': nsdDesigner,
       if (nsdId != null) 'nsdId': nsdId,
       if (nsdInvariantId != null) 'nsdInvariantId': nsdInvariantId,
@@ -3441,277 +3422,132 @@ class NetworkArtifactMeta {
 }
 
 enum NsLcmOperationState {
-  processing,
-  completed,
-  failed,
-  cancelling,
-  cancelled,
-}
+  processing('PROCESSING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  ;
 
-extension NsLcmOperationStateValueExtension on NsLcmOperationState {
-  String toValue() {
-    switch (this) {
-      case NsLcmOperationState.processing:
-        return 'PROCESSING';
-      case NsLcmOperationState.completed:
-        return 'COMPLETED';
-      case NsLcmOperationState.failed:
-        return 'FAILED';
-      case NsLcmOperationState.cancelling:
-        return 'CANCELLING';
-      case NsLcmOperationState.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension NsLcmOperationStateFromString on String {
-  NsLcmOperationState toNsLcmOperationState() {
-    switch (this) {
-      case 'PROCESSING':
-        return NsLcmOperationState.processing;
-      case 'COMPLETED':
-        return NsLcmOperationState.completed;
-      case 'FAILED':
-        return NsLcmOperationState.failed;
-      case 'CANCELLING':
-        return NsLcmOperationState.cancelling;
-      case 'CANCELLED':
-        return NsLcmOperationState.cancelled;
-    }
-    throw Exception('$this is not known in enum NsLcmOperationState');
-  }
+  const NsLcmOperationState(this.value);
+
+  static NsLcmOperationState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NsLcmOperationState'));
 }
 
 enum NsState {
-  instantiated,
-  notInstantiated,
-  impaired,
-  stopped,
-  deleted,
-  instantiateInProgress,
-  updateInProgress,
-  terminateInProgress,
-}
+  instantiated('INSTANTIATED'),
+  notInstantiated('NOT_INSTANTIATED'),
+  impaired('IMPAIRED'),
+  stopped('STOPPED'),
+  deleted('DELETED'),
+  instantiateInProgress('INSTANTIATE_IN_PROGRESS'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  terminateInProgress('TERMINATE_IN_PROGRESS'),
+  ;
 
-extension NsStateValueExtension on NsState {
-  String toValue() {
-    switch (this) {
-      case NsState.instantiated:
-        return 'INSTANTIATED';
-      case NsState.notInstantiated:
-        return 'NOT_INSTANTIATED';
-      case NsState.impaired:
-        return 'IMPAIRED';
-      case NsState.stopped:
-        return 'STOPPED';
-      case NsState.deleted:
-        return 'DELETED';
-      case NsState.instantiateInProgress:
-        return 'INSTANTIATE_IN_PROGRESS';
-      case NsState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case NsState.terminateInProgress:
-        return 'TERMINATE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension NsStateFromString on String {
-  NsState toNsState() {
-    switch (this) {
-      case 'INSTANTIATED':
-        return NsState.instantiated;
-      case 'NOT_INSTANTIATED':
-        return NsState.notInstantiated;
-      case 'IMPAIRED':
-        return NsState.impaired;
-      case 'STOPPED':
-        return NsState.stopped;
-      case 'DELETED':
-        return NsState.deleted;
-      case 'INSTANTIATE_IN_PROGRESS':
-        return NsState.instantiateInProgress;
-      case 'UPDATE_IN_PROGRESS':
-        return NsState.updateInProgress;
-      case 'TERMINATE_IN_PROGRESS':
-        return NsState.terminateInProgress;
-    }
-    throw Exception('$this is not known in enum NsState');
-  }
+  const NsState(this.value);
+
+  static NsState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum NsState'));
 }
 
 enum NsdOnboardingState {
-  created,
-  onboarded,
-  error,
-}
+  created('CREATED'),
+  onboarded('ONBOARDED'),
+  error('ERROR'),
+  ;
 
-extension NsdOnboardingStateValueExtension on NsdOnboardingState {
-  String toValue() {
-    switch (this) {
-      case NsdOnboardingState.created:
-        return 'CREATED';
-      case NsdOnboardingState.onboarded:
-        return 'ONBOARDED';
-      case NsdOnboardingState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension NsdOnboardingStateFromString on String {
-  NsdOnboardingState toNsdOnboardingState() {
-    switch (this) {
-      case 'CREATED':
-        return NsdOnboardingState.created;
-      case 'ONBOARDED':
-        return NsdOnboardingState.onboarded;
-      case 'ERROR':
-        return NsdOnboardingState.error;
-    }
-    throw Exception('$this is not known in enum NsdOnboardingState');
-  }
+  const NsdOnboardingState(this.value);
+
+  static NsdOnboardingState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NsdOnboardingState'));
 }
 
 enum NsdOperationalState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension NsdOperationalStateValueExtension on NsdOperationalState {
-  String toValue() {
-    switch (this) {
-      case NsdOperationalState.enabled:
-        return 'ENABLED';
-      case NsdOperationalState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension NsdOperationalStateFromString on String {
-  NsdOperationalState toNsdOperationalState() {
-    switch (this) {
-      case 'ENABLED':
-        return NsdOperationalState.enabled;
-      case 'DISABLED':
-        return NsdOperationalState.disabled;
-    }
-    throw Exception('$this is not known in enum NsdOperationalState');
-  }
+  const NsdOperationalState(this.value);
+
+  static NsdOperationalState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NsdOperationalState'));
 }
 
 enum NsdUsageState {
-  inUse,
-  notInUse,
-}
+  inUse('IN_USE'),
+  notInUse('NOT_IN_USE'),
+  ;
 
-extension NsdUsageStateValueExtension on NsdUsageState {
-  String toValue() {
-    switch (this) {
-      case NsdUsageState.inUse:
-        return 'IN_USE';
-      case NsdUsageState.notInUse:
-        return 'NOT_IN_USE';
-    }
-  }
-}
+  final String value;
 
-extension NsdUsageStateFromString on String {
-  NsdUsageState toNsdUsageState() {
-    switch (this) {
-      case 'IN_USE':
-        return NsdUsageState.inUse;
-      case 'NOT_IN_USE':
-        return NsdUsageState.notInUse;
-    }
-    throw Exception('$this is not known in enum NsdUsageState');
-  }
+  const NsdUsageState(this.value);
+
+  static NsdUsageState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NsdUsageState'));
 }
 
 enum OnboardingState {
-  created,
-  onboarded,
-  error,
-}
+  created('CREATED'),
+  onboarded('ONBOARDED'),
+  error('ERROR'),
+  ;
 
-extension OnboardingStateValueExtension on OnboardingState {
-  String toValue() {
-    switch (this) {
-      case OnboardingState.created:
-        return 'CREATED';
-      case OnboardingState.onboarded:
-        return 'ONBOARDED';
-      case OnboardingState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension OnboardingStateFromString on String {
-  OnboardingState toOnboardingState() {
-    switch (this) {
-      case 'CREATED':
-        return OnboardingState.created;
-      case 'ONBOARDED':
-        return OnboardingState.onboarded;
-      case 'ERROR':
-        return OnboardingState.error;
-    }
-    throw Exception('$this is not known in enum OnboardingState');
-  }
+  const OnboardingState(this.value);
+
+  static OnboardingState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OnboardingState'));
 }
 
 enum OperationalState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension OperationalStateValueExtension on OperationalState {
-  String toValue() {
-    switch (this) {
-      case OperationalState.enabled:
-        return 'ENABLED';
-      case OperationalState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension OperationalStateFromString on String {
-  OperationalState toOperationalState() {
-    switch (this) {
-      case 'ENABLED':
-        return OperationalState.enabled;
-      case 'DISABLED':
-        return OperationalState.disabled;
-    }
-    throw Exception('$this is not known in enum OperationalState');
-  }
+  const OperationalState(this.value);
+
+  static OperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationalState'));
 }
 
 enum PackageContentType {
-  applicationZip,
-}
+  applicationZip('application/zip'),
+  ;
 
-extension PackageContentTypeValueExtension on PackageContentType {
-  String toValue() {
-    switch (this) {
-      case PackageContentType.applicationZip:
-        return 'application/zip';
-    }
-  }
-}
+  final String value;
 
-extension PackageContentTypeFromString on String {
-  PackageContentType toPackageContentType() {
-    switch (this) {
-      case 'application/zip':
-        return PackageContentType.applicationZip;
-    }
-    throw Exception('$this is not known in enum PackageContentType');
-  }
+  const PackageContentType(this.value);
+
+  static PackageContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PackageContentType'));
 }
 
 /// Details related to problems with AWS TNB resources.
@@ -3944,56 +3780,22 @@ class TagResourceOutput {
 }
 
 enum TaskStatus {
-  scheduled,
-  started,
-  inProgress,
-  completed,
-  error,
-  skipped,
-  cancelled,
-}
+  scheduled('SCHEDULED'),
+  started('STARTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  error('ERROR'),
+  skipped('SKIPPED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension TaskStatusValueExtension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.scheduled:
-        return 'SCHEDULED';
-      case TaskStatus.started:
-        return 'STARTED';
-      case TaskStatus.inProgress:
-        return 'IN_PROGRESS';
-      case TaskStatus.completed:
-        return 'COMPLETED';
-      case TaskStatus.error:
-        return 'ERROR';
-      case TaskStatus.skipped:
-        return 'SKIPPED';
-      case TaskStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension TaskStatusFromString on String {
-  TaskStatus toTaskStatus() {
-    switch (this) {
-      case 'SCHEDULED':
-        return TaskStatus.scheduled;
-      case 'STARTED':
-        return TaskStatus.started;
-      case 'IN_PROGRESS':
-        return TaskStatus.inProgress;
-      case 'COMPLETED':
-        return TaskStatus.completed;
-      case 'ERROR':
-        return TaskStatus.error;
-      case 'SKIPPED':
-        return TaskStatus.skipped;
-      case 'CANCELLED':
-        return TaskStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum TaskStatus');
-  }
+  const TaskStatus(this.value);
+
+  static TaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
 }
 
 class TerminateSolNetworkInstanceOutput {
@@ -4083,14 +3885,14 @@ class UpdateSolFunctionPackageOutput {
   factory UpdateSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSolFunctionPackageOutput(
       operationalState:
-          (json['operationalState'] as String).toOperationalState(),
+          OperationalState.fromString((json['operationalState'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final operationalState = this.operationalState;
     return {
-      'operationalState': operationalState.toValue(),
+      'operationalState': operationalState.value,
     };
   }
 }
@@ -4167,68 +3969,45 @@ class UpdateSolNetworkPackageOutput {
 
   factory UpdateSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSolNetworkPackageOutput(
-      nsdOperationalState:
-          (json['nsdOperationalState'] as String).toNsdOperationalState(),
+      nsdOperationalState: NsdOperationalState.fromString(
+          (json['nsdOperationalState'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final nsdOperationalState = this.nsdOperationalState;
     return {
-      'nsdOperationalState': nsdOperationalState.toValue(),
+      'nsdOperationalState': nsdOperationalState.value,
     };
   }
 }
 
 enum UpdateSolNetworkType {
-  modifyVnfInformation,
-}
+  modifyVnfInformation('MODIFY_VNF_INFORMATION'),
+  ;
 
-extension UpdateSolNetworkTypeValueExtension on UpdateSolNetworkType {
-  String toValue() {
-    switch (this) {
-      case UpdateSolNetworkType.modifyVnfInformation:
-        return 'MODIFY_VNF_INFORMATION';
-    }
-  }
-}
+  final String value;
 
-extension UpdateSolNetworkTypeFromString on String {
-  UpdateSolNetworkType toUpdateSolNetworkType() {
-    switch (this) {
-      case 'MODIFY_VNF_INFORMATION':
-        return UpdateSolNetworkType.modifyVnfInformation;
-    }
-    throw Exception('$this is not known in enum UpdateSolNetworkType');
-  }
+  const UpdateSolNetworkType(this.value);
+
+  static UpdateSolNetworkType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UpdateSolNetworkType'));
 }
 
 enum UsageState {
-  inUse,
-  notInUse,
-}
+  inUse('IN_USE'),
+  notInUse('NOT_IN_USE'),
+  ;
 
-extension UsageStateValueExtension on UsageState {
-  String toValue() {
-    switch (this) {
-      case UsageState.inUse:
-        return 'IN_USE';
-      case UsageState.notInUse:
-        return 'NOT_IN_USE';
-    }
-  }
-}
+  final String value;
 
-extension UsageStateFromString on String {
-  UsageState toUsageState() {
-    switch (this) {
-      case 'IN_USE':
-        return UsageState.inUse;
-      case 'NOT_IN_USE':
-        return UsageState.notInUse;
-    }
-    throw Exception('$this is not known in enum UsageState');
-  }
+  const UsageState(this.value);
+
+  static UsageState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UsageState'));
 }
 
 /// Validates function package content metadata.
@@ -4419,59 +4198,33 @@ class ValidateSolNetworkPackageContentOutput {
 }
 
 enum VnfInstantiationState {
-  instantiated,
-  notInstantiated,
-}
+  instantiated('INSTANTIATED'),
+  notInstantiated('NOT_INSTANTIATED'),
+  ;
 
-extension VnfInstantiationStateValueExtension on VnfInstantiationState {
-  String toValue() {
-    switch (this) {
-      case VnfInstantiationState.instantiated:
-        return 'INSTANTIATED';
-      case VnfInstantiationState.notInstantiated:
-        return 'NOT_INSTANTIATED';
-    }
-  }
-}
+  final String value;
 
-extension VnfInstantiationStateFromString on String {
-  VnfInstantiationState toVnfInstantiationState() {
-    switch (this) {
-      case 'INSTANTIATED':
-        return VnfInstantiationState.instantiated;
-      case 'NOT_INSTANTIATED':
-        return VnfInstantiationState.notInstantiated;
-    }
-    throw Exception('$this is not known in enum VnfInstantiationState');
-  }
+  const VnfInstantiationState(this.value);
+
+  static VnfInstantiationState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VnfInstantiationState'));
 }
 
 enum VnfOperationalState {
-  started,
-  stopped,
-}
+  started('STARTED'),
+  stopped('STOPPED'),
+  ;
 
-extension VnfOperationalStateValueExtension on VnfOperationalState {
-  String toValue() {
-    switch (this) {
-      case VnfOperationalState.started:
-        return 'STARTED';
-      case VnfOperationalState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension VnfOperationalStateFromString on String {
-  VnfOperationalState toVnfOperationalState() {
-    switch (this) {
-      case 'STARTED':
-        return VnfOperationalState.started;
-      case 'STOPPED':
-        return VnfOperationalState.stopped;
-    }
-    throw Exception('$this is not known in enum VnfOperationalState');
-  }
+  const VnfOperationalState(this.value);
+
+  static VnfOperationalState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VnfOperationalState'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

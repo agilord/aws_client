@@ -219,10 +219,10 @@ class Appflow {
     String? kmsArn,
   }) async {
     final $payload = <String, dynamic>{
-      'connectionMode': connectionMode.toValue(),
+      'connectionMode': connectionMode.value,
       'connectorProfileConfig': connectorProfileConfig,
       'connectorProfileName': connectorProfileName,
-      'connectorType': connectorType.toValue(),
+      'connectorType': connectorType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (kmsArn != null) 'kmsArn': kmsArn,
@@ -418,7 +418,7 @@ class Appflow {
     String? connectorLabel,
   }) async {
     final $payload = <String, dynamic>{
-      'connectorType': connectorType.toValue(),
+      'connectorType': connectorType.value,
       if (connectorLabel != null) 'connectorLabel': connectorLabel,
     };
     final response = await _protocol.send(
@@ -463,7 +463,7 @@ class Appflow {
       if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -522,7 +522,7 @@ class Appflow {
       if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (connectorProfileNames != null)
         'connectorProfileNames': connectorProfileNames,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -567,7 +567,7 @@ class Appflow {
     );
     final $payload = <String, dynamic>{
       if (connectorTypes != null)
-        'connectorTypes': connectorTypes.map((e) => e.toValue()).toList(),
+        'connectorTypes': connectorTypes.map((e) => e.value).toList(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -700,7 +700,7 @@ class Appflow {
       if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (entitiesPath != null) 'entitiesPath': entitiesPath,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -863,7 +863,7 @@ class Appflow {
       if (connectorProvisioningConfig != null)
         'connectorProvisioningConfig': connectorProvisioningConfig,
       if (connectorProvisioningType != null)
-        'connectorProvisioningType': connectorProvisioningType.toValue(),
+        'connectorProvisioningType': connectorProvisioningType.value,
       if (description != null) 'description': description,
     };
     final response = await _protocol.send(
@@ -959,7 +959,7 @@ class Appflow {
         'connectorEntityName': connectorEntityName,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (entitiesPath != null) 'entitiesPath': entitiesPath,
     };
     final response = await _protocol.send(
@@ -1174,7 +1174,7 @@ class Appflow {
     String? clientToken,
   }) async {
     final $payload = <String, dynamic>{
-      'connectionMode': connectionMode.toValue(),
+      'connectionMode': connectionMode.value,
       'connectorProfileConfig': connectorProfileConfig,
       'connectorProfileName': connectorProfileName,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -1359,7 +1359,7 @@ class AggregationConfig {
   factory AggregationConfig.fromJson(Map<String, dynamic> json) {
     return AggregationConfig(
       aggregationType:
-          (json['aggregationType'] as String?)?.toAggregationType(),
+          (json['aggregationType'] as String?)?.let(AggregationType.fromString),
       targetFileSize: json['targetFileSize'] as int?,
     );
   }
@@ -1368,62 +1368,39 @@ class AggregationConfig {
     final aggregationType = this.aggregationType;
     final targetFileSize = this.targetFileSize;
     return {
-      if (aggregationType != null) 'aggregationType': aggregationType.toValue(),
+      if (aggregationType != null) 'aggregationType': aggregationType.value,
       if (targetFileSize != null) 'targetFileSize': targetFileSize,
     };
   }
 }
 
 enum AggregationType {
-  none,
-  singleFile,
-}
+  none('None'),
+  singleFile('SingleFile'),
+  ;
 
-extension AggregationTypeValueExtension on AggregationType {
-  String toValue() {
-    switch (this) {
-      case AggregationType.none:
-        return 'None';
-      case AggregationType.singleFile:
-        return 'SingleFile';
-    }
-  }
-}
+  final String value;
 
-extension AggregationTypeFromString on String {
-  AggregationType toAggregationType() {
-    switch (this) {
-      case 'None':
-        return AggregationType.none;
-      case 'SingleFile':
-        return AggregationType.singleFile;
-    }
-    throw Exception('$this is not known in enum AggregationType');
-  }
+  const AggregationType(this.value);
+
+  static AggregationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AggregationType'));
 }
 
 enum AmplitudeConnectorOperator {
-  between,
-}
+  between('BETWEEN'),
+  ;
 
-extension AmplitudeConnectorOperatorValueExtension
-    on AmplitudeConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case AmplitudeConnectorOperator.between:
-        return 'BETWEEN';
-    }
-  }
-}
+  final String value;
 
-extension AmplitudeConnectorOperatorFromString on String {
-  AmplitudeConnectorOperator toAmplitudeConnectorOperator() {
-    switch (this) {
-      case 'BETWEEN':
-        return AmplitudeConnectorOperator.between;
-    }
-    throw Exception('$this is not known in enum AmplitudeConnectorOperator');
-  }
+  const AmplitudeConnectorOperator(this.value);
+
+  static AmplitudeConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AmplitudeConnectorOperator'));
 }
 
 /// The connector-specific credentials required when using Amplitude.
@@ -1654,41 +1631,20 @@ class AuthenticationConfig {
 }
 
 enum AuthenticationType {
-  oauth2,
-  apikey,
-  basic,
-  custom,
-}
+  oauth2('OAUTH2'),
+  apikey('APIKEY'),
+  basic('BASIC'),
+  custom('CUSTOM'),
+  ;
 
-extension AuthenticationTypeValueExtension on AuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AuthenticationType.oauth2:
-        return 'OAUTH2';
-      case AuthenticationType.apikey:
-        return 'APIKEY';
-      case AuthenticationType.basic:
-        return 'BASIC';
-      case AuthenticationType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationTypeFromString on String {
-  AuthenticationType toAuthenticationType() {
-    switch (this) {
-      case 'OAUTH2':
-        return AuthenticationType.oauth2;
-      case 'APIKEY':
-        return AuthenticationType.apikey;
-      case 'BASIC':
-        return AuthenticationType.basic;
-      case 'CUSTOM':
-        return AuthenticationType.custom;
-    }
-    throw Exception('$this is not known in enum AuthenticationType');
-  }
+  const AuthenticationType(this.value);
+
+  static AuthenticationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationType'));
 }
 
 /// The basic auth credentials required for basic authentication.
@@ -1742,54 +1698,31 @@ class CancelFlowExecutionsResponse {
 }
 
 enum CatalogType {
-  glue,
-}
+  glue('GLUE'),
+  ;
 
-extension CatalogTypeValueExtension on CatalogType {
-  String toValue() {
-    switch (this) {
-      case CatalogType.glue:
-        return 'GLUE';
-    }
-  }
-}
+  final String value;
 
-extension CatalogTypeFromString on String {
-  CatalogType toCatalogType() {
-    switch (this) {
-      case 'GLUE':
-        return CatalogType.glue;
-    }
-    throw Exception('$this is not known in enum CatalogType');
-  }
+  const CatalogType(this.value);
+
+  static CatalogType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CatalogType'));
 }
 
 enum ConnectionMode {
-  public,
-  private,
-}
+  public('Public'),
+  private('Private'),
+  ;
 
-extension ConnectionModeValueExtension on ConnectionMode {
-  String toValue() {
-    switch (this) {
-      case ConnectionMode.public:
-        return 'Public';
-      case ConnectionMode.private:
-        return 'Private';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionModeFromString on String {
-  ConnectionMode toConnectionMode() {
-    switch (this) {
-      case 'Public':
-        return ConnectionMode.public;
-      case 'Private':
-        return ConnectionMode.private;
-    }
-    throw Exception('$this is not known in enum ConnectionMode');
-  }
+  const ConnectionMode(this.value);
+
+  static ConnectionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionMode'));
 }
 
 /// The configuration settings related to a given connector.
@@ -1943,13 +1876,14 @@ class ConnectorConfiguration {
               json['connectorProvisioningConfig'] as Map<String, dynamic>)
           : null,
       connectorProvisioningType: (json['connectorProvisioningType'] as String?)
-          ?.toConnectorProvisioningType(),
+          ?.let(ConnectorProvisioningType.fromString),
       connectorRuntimeSettings: (json['connectorRuntimeSettings'] as List?)
           ?.whereNotNull()
           .map((e) =>
               ConnectorRuntimeSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
-      connectorType: (json['connectorType'] as String?)?.toConnectorType(),
+      connectorType:
+          (json['connectorType'] as String?)?.let(ConnectorType.fromString),
       connectorVersion: json['connectorVersion'] as String?,
       isPrivateLinkEnabled: json['isPrivateLinkEnabled'] as bool?,
       isPrivateLinkEndpointUrlRequired:
@@ -1967,29 +1901,29 @@ class ConnectorConfiguration {
           .toList(),
       supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSupportedDataTransferType())
+          .map((e) => SupportedDataTransferType.fromString((e as String)))
           .toList(),
       supportedDestinationConnectors:
           (json['supportedDestinationConnectors'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toConnectorType())
+              .map((e) => ConnectorType.fromString((e as String)))
               .toList(),
       supportedOperators: (json['supportedOperators'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toOperators())
+          .map((e) => Operators.fromString((e as String)))
           .toList(),
       supportedSchedulingFrequencies:
           (json['supportedSchedulingFrequencies'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toScheduleFrequencyType())
+              .map((e) => ScheduleFrequencyType.fromString((e as String)))
               .toList(),
       supportedTriggerTypes: (json['supportedTriggerTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toTriggerType())
+          .map((e) => TriggerType.fromString((e as String)))
           .toList(),
       supportedWriteOperations: (json['supportedWriteOperations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toWriteOperationType())
+          .map((e) => WriteOperationType.fromString((e as String)))
           .toList(),
     );
   }
@@ -2041,10 +1975,10 @@ class ConnectorConfiguration {
       if (connectorProvisioningConfig != null)
         'connectorProvisioningConfig': connectorProvisioningConfig,
       if (connectorProvisioningType != null)
-        'connectorProvisioningType': connectorProvisioningType.toValue(),
+        'connectorProvisioningType': connectorProvisioningType.value,
       if (connectorRuntimeSettings != null)
         'connectorRuntimeSettings': connectorRuntimeSettings,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (connectorVersion != null) 'connectorVersion': connectorVersion,
       if (isPrivateLinkEnabled != null)
         'isPrivateLinkEnabled': isPrivateLinkEnabled,
@@ -2060,22 +1994,21 @@ class ConnectorConfiguration {
         'supportedDataTransferApis': supportedDataTransferApis,
       if (supportedDataTransferTypes != null)
         'supportedDataTransferTypes':
-            supportedDataTransferTypes.map((e) => e.toValue()).toList(),
+            supportedDataTransferTypes.map((e) => e.value).toList(),
       if (supportedDestinationConnectors != null)
         'supportedDestinationConnectors':
-            supportedDestinationConnectors.map((e) => e.toValue()).toList(),
+            supportedDestinationConnectors.map((e) => e.value).toList(),
       if (supportedOperators != null)
-        'supportedOperators':
-            supportedOperators.map((e) => e.toValue()).toList(),
+        'supportedOperators': supportedOperators.map((e) => e.value).toList(),
       if (supportedSchedulingFrequencies != null)
         'supportedSchedulingFrequencies':
-            supportedSchedulingFrequencies.map((e) => e.toValue()).toList(),
+            supportedSchedulingFrequencies.map((e) => e.value).toList(),
       if (supportedTriggerTypes != null)
         'supportedTriggerTypes':
-            supportedTriggerTypes.map((e) => e.toValue()).toList(),
+            supportedTriggerTypes.map((e) => e.value).toList(),
       if (supportedWriteOperations != null)
         'supportedWriteOperations':
-            supportedWriteOperations.map((e) => e.toValue()).toList(),
+            supportedWriteOperations.map((e) => e.value).toList(),
     };
   }
 }
@@ -2150,14 +2083,15 @@ class ConnectorDetail {
       connectorName: json['connectorName'] as String?,
       connectorOwner: json['connectorOwner'] as String?,
       connectorProvisioningType: (json['connectorProvisioningType'] as String?)
-          ?.toConnectorProvisioningType(),
-      connectorType: (json['connectorType'] as String?)?.toConnectorType(),
+          ?.let(ConnectorProvisioningType.fromString),
+      connectorType:
+          (json['connectorType'] as String?)?.let(ConnectorType.fromString),
       connectorVersion: json['connectorVersion'] as String?,
       registeredAt: timeStampFromJson(json['registeredAt']),
       registeredBy: json['registeredBy'] as String?,
       supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSupportedDataTransferType())
+          .map((e) => SupportedDataTransferType.fromString((e as String)))
           .toList(),
     );
   }
@@ -2184,15 +2118,15 @@ class ConnectorDetail {
       if (connectorName != null) 'connectorName': connectorName,
       if (connectorOwner != null) 'connectorOwner': connectorOwner,
       if (connectorProvisioningType != null)
-        'connectorProvisioningType': connectorProvisioningType.toValue(),
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+        'connectorProvisioningType': connectorProvisioningType.value,
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (connectorVersion != null) 'connectorVersion': connectorVersion,
       if (registeredAt != null)
         'registeredAt': unixTimestampToJson(registeredAt),
       if (registeredBy != null) 'registeredBy': registeredBy,
       if (supportedDataTransferTypes != null)
         'supportedDataTransferTypes':
-            supportedDataTransferTypes.map((e) => e.toValue()).toList(),
+            supportedDataTransferTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -2681,28 +2615,37 @@ class ConnectorOperator {
 
   factory ConnectorOperator.fromJson(Map<String, dynamic> json) {
     return ConnectorOperator(
-      amplitude: (json['Amplitude'] as String?)?.toAmplitudeConnectorOperator(),
-      customConnector: (json['CustomConnector'] as String?)?.toOperator(),
-      datadog: (json['Datadog'] as String?)?.toDatadogConnectorOperator(),
-      dynatrace: (json['Dynatrace'] as String?)?.toDynatraceConnectorOperator(),
+      amplitude: (json['Amplitude'] as String?)
+          ?.let(AmplitudeConnectorOperator.fromString),
+      customConnector:
+          (json['CustomConnector'] as String?)?.let(Operator.fromString),
+      datadog: (json['Datadog'] as String?)
+          ?.let(DatadogConnectorOperator.fromString),
+      dynatrace: (json['Dynatrace'] as String?)
+          ?.let(DynatraceConnectorOperator.fromString),
       googleAnalytics: (json['GoogleAnalytics'] as String?)
-          ?.toGoogleAnalyticsConnectorOperator(),
-      inforNexus:
-          (json['InforNexus'] as String?)?.toInforNexusConnectorOperator(),
-      marketo: (json['Marketo'] as String?)?.toMarketoConnectorOperator(),
-      pardot: (json['Pardot'] as String?)?.toPardotConnectorOperator(),
-      s3: (json['S3'] as String?)?.toS3ConnectorOperator(),
-      sAPOData: (json['SAPOData'] as String?)?.toSAPODataConnectorOperator(),
-      salesforce:
-          (json['Salesforce'] as String?)?.toSalesforceConnectorOperator(),
-      serviceNow:
-          (json['ServiceNow'] as String?)?.toServiceNowConnectorOperator(),
-      singular: (json['Singular'] as String?)?.toSingularConnectorOperator(),
-      slack: (json['Slack'] as String?)?.toSlackConnectorOperator(),
-      trendmicro:
-          (json['Trendmicro'] as String?)?.toTrendmicroConnectorOperator(),
-      veeva: (json['Veeva'] as String?)?.toVeevaConnectorOperator(),
-      zendesk: (json['Zendesk'] as String?)?.toZendeskConnectorOperator(),
+          ?.let(GoogleAnalyticsConnectorOperator.fromString),
+      inforNexus: (json['InforNexus'] as String?)
+          ?.let(InforNexusConnectorOperator.fromString),
+      marketo: (json['Marketo'] as String?)
+          ?.let(MarketoConnectorOperator.fromString),
+      pardot:
+          (json['Pardot'] as String?)?.let(PardotConnectorOperator.fromString),
+      s3: (json['S3'] as String?)?.let(S3ConnectorOperator.fromString),
+      sAPOData: (json['SAPOData'] as String?)
+          ?.let(SAPODataConnectorOperator.fromString),
+      salesforce: (json['Salesforce'] as String?)
+          ?.let(SalesforceConnectorOperator.fromString),
+      serviceNow: (json['ServiceNow'] as String?)
+          ?.let(ServiceNowConnectorOperator.fromString),
+      singular: (json['Singular'] as String?)
+          ?.let(SingularConnectorOperator.fromString),
+      slack: (json['Slack'] as String?)?.let(SlackConnectorOperator.fromString),
+      trendmicro: (json['Trendmicro'] as String?)
+          ?.let(TrendmicroConnectorOperator.fromString),
+      veeva: (json['Veeva'] as String?)?.let(VeevaConnectorOperator.fromString),
+      zendesk: (json['Zendesk'] as String?)
+          ?.let(ZendeskConnectorOperator.fromString),
     );
   }
 
@@ -2725,23 +2668,23 @@ class ConnectorOperator {
     final veeva = this.veeva;
     final zendesk = this.zendesk;
     return {
-      if (amplitude != null) 'Amplitude': amplitude.toValue(),
-      if (customConnector != null) 'CustomConnector': customConnector.toValue(),
-      if (datadog != null) 'Datadog': datadog.toValue(),
-      if (dynatrace != null) 'Dynatrace': dynatrace.toValue(),
-      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics.toValue(),
-      if (inforNexus != null) 'InforNexus': inforNexus.toValue(),
-      if (marketo != null) 'Marketo': marketo.toValue(),
-      if (pardot != null) 'Pardot': pardot.toValue(),
-      if (s3 != null) 'S3': s3.toValue(),
-      if (sAPOData != null) 'SAPOData': sAPOData.toValue(),
-      if (salesforce != null) 'Salesforce': salesforce.toValue(),
-      if (serviceNow != null) 'ServiceNow': serviceNow.toValue(),
-      if (singular != null) 'Singular': singular.toValue(),
-      if (slack != null) 'Slack': slack.toValue(),
-      if (trendmicro != null) 'Trendmicro': trendmicro.toValue(),
-      if (veeva != null) 'Veeva': veeva.toValue(),
-      if (zendesk != null) 'Zendesk': zendesk.toValue(),
+      if (amplitude != null) 'Amplitude': amplitude.value,
+      if (customConnector != null) 'CustomConnector': customConnector.value,
+      if (datadog != null) 'Datadog': datadog.value,
+      if (dynatrace != null) 'Dynatrace': dynatrace.value,
+      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics.value,
+      if (inforNexus != null) 'InforNexus': inforNexus.value,
+      if (marketo != null) 'Marketo': marketo.value,
+      if (pardot != null) 'Pardot': pardot.value,
+      if (s3 != null) 'S3': s3.value,
+      if (sAPOData != null) 'SAPOData': sAPOData.value,
+      if (salesforce != null) 'Salesforce': salesforce.value,
+      if (serviceNow != null) 'ServiceNow': serviceNow.value,
+      if (singular != null) 'Singular': singular.value,
+      if (slack != null) 'Slack': slack.value,
+      if (trendmicro != null) 'Trendmicro': trendmicro.value,
+      if (veeva != null) 'Veeva': veeva.value,
+      if (zendesk != null) 'Zendesk': zendesk.value,
     };
   }
 }
@@ -2799,7 +2742,8 @@ class ConnectorProfile {
 
   factory ConnectorProfile.fromJson(Map<String, dynamic> json) {
     return ConnectorProfile(
-      connectionMode: (json['connectionMode'] as String?)?.toConnectionMode(),
+      connectionMode:
+          (json['connectionMode'] as String?)?.let(ConnectionMode.fromString),
       connectorLabel: json['connectorLabel'] as String?,
       connectorProfileArn: json['connectorProfileArn'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
@@ -2807,7 +2751,8 @@ class ConnectorProfile {
           ? ConnectorProfileProperties.fromJson(
               json['connectorProfileProperties'] as Map<String, dynamic>)
           : null,
-      connectorType: (json['connectorType'] as String?)?.toConnectorType(),
+      connectorType:
+          (json['connectorType'] as String?)?.let(ConnectorType.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       credentialsArn: json['credentialsArn'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -2833,7 +2778,7 @@ class ConnectorProfile {
     final privateConnectionProvisioningState =
         this.privateConnectionProvisioningState;
     return {
-      if (connectionMode != null) 'connectionMode': connectionMode.toValue(),
+      if (connectionMode != null) 'connectionMode': connectionMode.value,
       if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (connectorProfileArn != null)
         'connectorProfileArn': connectorProfileArn,
@@ -2841,7 +2786,7 @@ class ConnectorProfile {
         'connectorProfileName': connectorProfileName,
       if (connectorProfileProperties != null)
         'connectorProfileProperties': connectorProfileProperties,
-      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (lastUpdatedAt != null)
@@ -3233,26 +3178,17 @@ class ConnectorProvisioningConfig {
 
 /// The type of provisioning that the connector supports, such as Lambda.
 enum ConnectorProvisioningType {
-  lambda,
-}
+  lambda('LAMBDA'),
+  ;
 
-extension ConnectorProvisioningTypeValueExtension on ConnectorProvisioningType {
-  String toValue() {
-    switch (this) {
-      case ConnectorProvisioningType.lambda:
-        return 'LAMBDA';
-    }
-  }
-}
+  final String value;
 
-extension ConnectorProvisioningTypeFromString on String {
-  ConnectorProvisioningType toConnectorProvisioningType() {
-    switch (this) {
-      case 'LAMBDA':
-        return ConnectorProvisioningType.lambda;
-    }
-    throw Exception('$this is not known in enum ConnectorProvisioningType');
-  }
+  const ConnectorProvisioningType(this.value);
+
+  static ConnectorProvisioningType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConnectorProvisioningType'));
 }
 
 /// Contains information about the connector runtime settings that are required
@@ -3328,141 +3264,40 @@ class ConnectorRuntimeSetting {
 }
 
 enum ConnectorType {
-  salesforce,
-  singular,
-  slack,
-  redshift,
-  s3,
-  marketo,
-  googleanalytics,
-  zendesk,
-  servicenow,
-  datadog,
-  trendmicro,
-  snowflake,
-  dynatrace,
-  infornexus,
-  amplitude,
-  veeva,
-  eventBridge,
-  lookoutMetrics,
-  upsolver,
-  honeycode,
-  customerProfiles,
-  sAPOData,
-  customConnector,
-  pardot,
-}
+  salesforce('Salesforce'),
+  singular('Singular'),
+  slack('Slack'),
+  redshift('Redshift'),
+  s3('S3'),
+  marketo('Marketo'),
+  googleanalytics('Googleanalytics'),
+  zendesk('Zendesk'),
+  servicenow('Servicenow'),
+  datadog('Datadog'),
+  trendmicro('Trendmicro'),
+  snowflake('Snowflake'),
+  dynatrace('Dynatrace'),
+  infornexus('Infornexus'),
+  amplitude('Amplitude'),
+  veeva('Veeva'),
+  eventBridge('EventBridge'),
+  lookoutMetrics('LookoutMetrics'),
+  upsolver('Upsolver'),
+  honeycode('Honeycode'),
+  customerProfiles('CustomerProfiles'),
+  sAPOData('SAPOData'),
+  customConnector('CustomConnector'),
+  pardot('Pardot'),
+  ;
 
-extension ConnectorTypeValueExtension on ConnectorType {
-  String toValue() {
-    switch (this) {
-      case ConnectorType.salesforce:
-        return 'Salesforce';
-      case ConnectorType.singular:
-        return 'Singular';
-      case ConnectorType.slack:
-        return 'Slack';
-      case ConnectorType.redshift:
-        return 'Redshift';
-      case ConnectorType.s3:
-        return 'S3';
-      case ConnectorType.marketo:
-        return 'Marketo';
-      case ConnectorType.googleanalytics:
-        return 'Googleanalytics';
-      case ConnectorType.zendesk:
-        return 'Zendesk';
-      case ConnectorType.servicenow:
-        return 'Servicenow';
-      case ConnectorType.datadog:
-        return 'Datadog';
-      case ConnectorType.trendmicro:
-        return 'Trendmicro';
-      case ConnectorType.snowflake:
-        return 'Snowflake';
-      case ConnectorType.dynatrace:
-        return 'Dynatrace';
-      case ConnectorType.infornexus:
-        return 'Infornexus';
-      case ConnectorType.amplitude:
-        return 'Amplitude';
-      case ConnectorType.veeva:
-        return 'Veeva';
-      case ConnectorType.eventBridge:
-        return 'EventBridge';
-      case ConnectorType.lookoutMetrics:
-        return 'LookoutMetrics';
-      case ConnectorType.upsolver:
-        return 'Upsolver';
-      case ConnectorType.honeycode:
-        return 'Honeycode';
-      case ConnectorType.customerProfiles:
-        return 'CustomerProfiles';
-      case ConnectorType.sAPOData:
-        return 'SAPOData';
-      case ConnectorType.customConnector:
-        return 'CustomConnector';
-      case ConnectorType.pardot:
-        return 'Pardot';
-    }
-  }
-}
+  final String value;
 
-extension ConnectorTypeFromString on String {
-  ConnectorType toConnectorType() {
-    switch (this) {
-      case 'Salesforce':
-        return ConnectorType.salesforce;
-      case 'Singular':
-        return ConnectorType.singular;
-      case 'Slack':
-        return ConnectorType.slack;
-      case 'Redshift':
-        return ConnectorType.redshift;
-      case 'S3':
-        return ConnectorType.s3;
-      case 'Marketo':
-        return ConnectorType.marketo;
-      case 'Googleanalytics':
-        return ConnectorType.googleanalytics;
-      case 'Zendesk':
-        return ConnectorType.zendesk;
-      case 'Servicenow':
-        return ConnectorType.servicenow;
-      case 'Datadog':
-        return ConnectorType.datadog;
-      case 'Trendmicro':
-        return ConnectorType.trendmicro;
-      case 'Snowflake':
-        return ConnectorType.snowflake;
-      case 'Dynatrace':
-        return ConnectorType.dynatrace;
-      case 'Infornexus':
-        return ConnectorType.infornexus;
-      case 'Amplitude':
-        return ConnectorType.amplitude;
-      case 'Veeva':
-        return ConnectorType.veeva;
-      case 'EventBridge':
-        return ConnectorType.eventBridge;
-      case 'LookoutMetrics':
-        return ConnectorType.lookoutMetrics;
-      case 'Upsolver':
-        return ConnectorType.upsolver;
-      case 'Honeycode':
-        return ConnectorType.honeycode;
-      case 'CustomerProfiles':
-        return ConnectorType.customerProfiles;
-      case 'SAPOData':
-        return ConnectorType.sAPOData;
-      case 'CustomConnector':
-        return ConnectorType.customConnector;
-      case 'Pardot':
-        return ConnectorType.pardot;
-    }
-    throw Exception('$this is not known in enum ConnectorType');
-  }
+  const ConnectorType(this.value);
+
+  static ConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectorType'));
 }
 
 class CreateConnectorProfileResponse {
@@ -3503,7 +3338,7 @@ class CreateFlowResponse {
   factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
     return CreateFlowResponse(
       flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
     );
   }
 
@@ -3512,7 +3347,7 @@ class CreateFlowResponse {
     final flowStatus = this.flowStatus;
     return {
       if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
     };
   }
 }
@@ -3618,8 +3453,8 @@ class CustomConnectorDestinationProperties {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      writeOperationType:
-          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
     );
   }
 
@@ -3636,7 +3471,7 @@ class CustomConnectorDestinationProperties {
         'errorHandlingConfig': errorHandlingConfig,
       if (idFieldNames != null) 'idFieldNames': idFieldNames,
       if (writeOperationType != null)
-        'writeOperationType': writeOperationType.toValue(),
+        'writeOperationType': writeOperationType.value,
     };
   }
 }
@@ -3676,7 +3511,7 @@ class CustomConnectorProfileCredentials {
     final custom = this.custom;
     final oauth2 = this.oauth2;
     return {
-      'authenticationType': authenticationType.toValue(),
+      'authenticationType': authenticationType.value,
       if (apiKey != null) 'apiKey': apiKey,
       if (basic != null) 'basic': basic,
       if (custom != null) 'custom': custom,
@@ -3809,31 +3644,18 @@ class CustomerProfilesMetadata {
 }
 
 enum DataPullMode {
-  incremental,
-  complete,
-}
+  incremental('Incremental'),
+  complete('Complete'),
+  ;
 
-extension DataPullModeValueExtension on DataPullMode {
-  String toValue() {
-    switch (this) {
-      case DataPullMode.incremental:
-        return 'Incremental';
-      case DataPullMode.complete:
-        return 'Complete';
-    }
-  }
-}
+  final String value;
 
-extension DataPullModeFromString on String {
-  DataPullMode toDataPullMode() {
-    switch (this) {
-      case 'Incremental':
-        return DataPullMode.incremental;
-      case 'Complete':
-        return DataPullMode.complete;
-    }
-    throw Exception('$this is not known in enum DataPullMode');
-  }
+  const DataPullMode(this.value);
+
+  static DataPullMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataPullMode'));
 }
 
 /// The API of the connector application that Amazon AppFlow uses to transfer
@@ -3863,7 +3685,7 @@ class DataTransferApi {
   factory DataTransferApi.fromJson(Map<String, dynamic> json) {
     return DataTransferApi(
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toDataTransferApiType(),
+      type: (json['Type'] as String?)?.let(DataTransferApiType.fromString),
     );
   }
 
@@ -3872,135 +3694,53 @@ class DataTransferApi {
     final type = this.type;
     return {
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DataTransferApiType {
-  sync,
-  async,
-  automatic,
-}
+  sync('SYNC'),
+  async('ASYNC'),
+  automatic('AUTOMATIC'),
+  ;
 
-extension DataTransferApiTypeValueExtension on DataTransferApiType {
-  String toValue() {
-    switch (this) {
-      case DataTransferApiType.sync:
-        return 'SYNC';
-      case DataTransferApiType.async:
-        return 'ASYNC';
-      case DataTransferApiType.automatic:
-        return 'AUTOMATIC';
-    }
-  }
-}
+  final String value;
 
-extension DataTransferApiTypeFromString on String {
-  DataTransferApiType toDataTransferApiType() {
-    switch (this) {
-      case 'SYNC':
-        return DataTransferApiType.sync;
-      case 'ASYNC':
-        return DataTransferApiType.async;
-      case 'AUTOMATIC':
-        return DataTransferApiType.automatic;
-    }
-    throw Exception('$this is not known in enum DataTransferApiType');
-  }
+  const DataTransferApiType(this.value);
+
+  static DataTransferApiType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataTransferApiType'));
 }
 
 enum DatadogConnectorOperator {
-  projection,
-  between,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  between('BETWEEN'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension DatadogConnectorOperatorValueExtension on DatadogConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case DatadogConnectorOperator.projection:
-        return 'PROJECTION';
-      case DatadogConnectorOperator.between:
-        return 'BETWEEN';
-      case DatadogConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case DatadogConnectorOperator.addition:
-        return 'ADDITION';
-      case DatadogConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case DatadogConnectorOperator.division:
-        return 'DIVISION';
-      case DatadogConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case DatadogConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case DatadogConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case DatadogConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case DatadogConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case DatadogConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case DatadogConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case DatadogConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case DatadogConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension DatadogConnectorOperatorFromString on String {
-  DatadogConnectorOperator toDatadogConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return DatadogConnectorOperator.projection;
-      case 'BETWEEN':
-        return DatadogConnectorOperator.between;
-      case 'EQUAL_TO':
-        return DatadogConnectorOperator.equalTo;
-      case 'ADDITION':
-        return DatadogConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return DatadogConnectorOperator.multiplication;
-      case 'DIVISION':
-        return DatadogConnectorOperator.division;
-      case 'SUBTRACTION':
-        return DatadogConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return DatadogConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return DatadogConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return DatadogConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return DatadogConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return DatadogConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return DatadogConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return DatadogConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return DatadogConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum DatadogConnectorOperator');
-  }
+  const DatadogConnectorOperator(this.value);
+
+  static DatadogConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatadogConnectorOperator'));
 }
 
 /// The connector-specific credentials required by Datadog.
@@ -4222,7 +3962,7 @@ class DescribeConnectorsResponse {
     return DescribeConnectorsResponse(
       connectorConfigurations:
           (json['connectorConfigurations'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(k.toConnectorType(),
+              (k, e) => MapEntry(ConnectorType.fromString(k),
                   ConnectorConfiguration.fromJson(e as Map<String, dynamic>))),
       connectors: (json['connectors'] as List?)
           ?.whereNotNull()
@@ -4239,7 +3979,7 @@ class DescribeConnectorsResponse {
     return {
       if (connectorConfigurations != null)
         'connectorConfigurations':
-            connectorConfigurations.map((k, e) => MapEntry(k.toValue(), e)),
+            connectorConfigurations.map((k, e) => MapEntry(k.value, e)),
       if (connectors != null) 'connectors': connectors,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -4396,7 +4136,7 @@ class DescribeFlowResponse {
           .toList(),
       flowArn: json['flowArn'] as String?,
       flowName: json['flowName'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
       flowStatusMessage: json['flowStatusMessage'] as String?,
       kmsArn: json['kmsArn'] as String?,
       lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
@@ -4460,7 +4200,7 @@ class DescribeFlowResponse {
         'destinationFlowConfigList': destinationFlowConfigList,
       if (flowArn != null) 'flowArn': flowArn,
       if (flowName != null) 'flowName': flowName,
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
       if (flowStatusMessage != null) 'flowStatusMessage': flowStatusMessage,
       if (kmsArn != null) 'kmsArn': kmsArn,
       if (lastRunExecutionDetails != null)
@@ -4671,7 +4411,7 @@ class DestinationFieldProperties {
       isUpsertable: json['isUpsertable'] as bool?,
       supportedWriteOperations: (json['supportedWriteOperations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toWriteOperationType())
+          .map((e) => WriteOperationType.fromString((e as String)))
           .toList(),
     );
   }
@@ -4692,7 +4432,7 @@ class DestinationFieldProperties {
       if (isUpsertable != null) 'isUpsertable': isUpsertable,
       if (supportedWriteOperations != null)
         'supportedWriteOperations':
-            supportedWriteOperations.map((e) => e.toValue()).toList(),
+            supportedWriteOperations.map((e) => e.value).toList(),
     };
   }
 }
@@ -4723,7 +4463,8 @@ class DestinationFlowConfig {
 
   factory DestinationFlowConfig.fromJson(Map<String, dynamic> json) {
     return DestinationFlowConfig(
-      connectorType: (json['connectorType'] as String).toConnectorType(),
+      connectorType:
+          ConnectorType.fromString((json['connectorType'] as String)),
       destinationConnectorProperties: DestinationConnectorProperties.fromJson(
           json['destinationConnectorProperties'] as Map<String, dynamic>),
       apiVersion: json['apiVersion'] as String?,
@@ -4737,7 +4478,7 @@ class DestinationFlowConfig {
     final apiVersion = this.apiVersion;
     final connectorProfileName = this.connectorProfileName;
     return {
-      'connectorType': connectorType.toValue(),
+      'connectorType': connectorType.value,
       'destinationConnectorProperties': destinationConnectorProperties,
       if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
@@ -4747,97 +4488,31 @@ class DestinationFlowConfig {
 }
 
 enum DynatraceConnectorOperator {
-  projection,
-  between,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  between('BETWEEN'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension DynatraceConnectorOperatorValueExtension
-    on DynatraceConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case DynatraceConnectorOperator.projection:
-        return 'PROJECTION';
-      case DynatraceConnectorOperator.between:
-        return 'BETWEEN';
-      case DynatraceConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case DynatraceConnectorOperator.addition:
-        return 'ADDITION';
-      case DynatraceConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case DynatraceConnectorOperator.division:
-        return 'DIVISION';
-      case DynatraceConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case DynatraceConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case DynatraceConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case DynatraceConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case DynatraceConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case DynatraceConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case DynatraceConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case DynatraceConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case DynatraceConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension DynatraceConnectorOperatorFromString on String {
-  DynatraceConnectorOperator toDynatraceConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return DynatraceConnectorOperator.projection;
-      case 'BETWEEN':
-        return DynatraceConnectorOperator.between;
-      case 'EQUAL_TO':
-        return DynatraceConnectorOperator.equalTo;
-      case 'ADDITION':
-        return DynatraceConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return DynatraceConnectorOperator.multiplication;
-      case 'DIVISION':
-        return DynatraceConnectorOperator.division;
-      case 'SUBTRACTION':
-        return DynatraceConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return DynatraceConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return DynatraceConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return DynatraceConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return DynatraceConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return DynatraceConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return DynatraceConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return DynatraceConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return DynatraceConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum DynatraceConnectorOperator');
-  }
+  const DynatraceConnectorOperator(this.value);
+
+  static DynatraceConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DynatraceConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required by Dynatrace.
@@ -5059,8 +4734,8 @@ class ExecutionDetails {
   factory ExecutionDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionDetails(
       mostRecentExecutionMessage: json['mostRecentExecutionMessage'] as String?,
-      mostRecentExecutionStatus:
-          (json['mostRecentExecutionStatus'] as String?)?.toExecutionStatus(),
+      mostRecentExecutionStatus: (json['mostRecentExecutionStatus'] as String?)
+          ?.let(ExecutionStatus.fromString),
       mostRecentExecutionTime:
           timeStampFromJson(json['mostRecentExecutionTime']),
     );
@@ -5074,7 +4749,7 @@ class ExecutionDetails {
       if (mostRecentExecutionMessage != null)
         'mostRecentExecutionMessage': mostRecentExecutionMessage,
       if (mostRecentExecutionStatus != null)
-        'mostRecentExecutionStatus': mostRecentExecutionStatus.toValue(),
+        'mostRecentExecutionStatus': mostRecentExecutionStatus.value,
       if (mostRecentExecutionTime != null)
         'mostRecentExecutionTime': unixTimestampToJson(mostRecentExecutionTime),
     };
@@ -5132,7 +4807,7 @@ class ExecutionRecord {
               json['executionResult'] as Map<String, dynamic>)
           : null,
       executionStatus:
-          (json['executionStatus'] as String?)?.toExecutionStatus(),
+          (json['executionStatus'] as String?)?.let(ExecutionStatus.fromString),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       metadataCatalogDetails: (json['metadataCatalogDetails'] as List?)
           ?.whereNotNull()
@@ -5158,7 +4833,7 @@ class ExecutionRecord {
         'dataPullStartTime': unixTimestampToJson(dataPullStartTime),
       if (executionId != null) 'executionId': executionId,
       if (executionResult != null) 'executionResult': executionResult,
-      if (executionStatus != null) 'executionStatus': executionStatus.toValue(),
+      if (executionStatus != null) 'executionStatus': executionStatus.value,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (metadataCatalogDetails != null)
@@ -5232,46 +4907,21 @@ class ExecutionResult {
 }
 
 enum ExecutionStatus {
-  inProgress,
-  successful,
-  error,
-  cancelStarted,
-  canceled,
-}
+  inProgress('InProgress'),
+  successful('Successful'),
+  error('Error'),
+  cancelStarted('CancelStarted'),
+  canceled('Canceled'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.inProgress:
-        return 'InProgress';
-      case ExecutionStatus.successful:
-        return 'Successful';
-      case ExecutionStatus.error:
-        return 'Error';
-      case ExecutionStatus.cancelStarted:
-        return 'CancelStarted';
-      case ExecutionStatus.canceled:
-        return 'Canceled';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ExecutionStatus.inProgress;
-      case 'Successful':
-        return ExecutionStatus.successful;
-      case 'Error':
-        return ExecutionStatus.error;
-      case 'CancelStarted':
-        return ExecutionStatus.cancelStarted;
-      case 'Canceled':
-        return ExecutionStatus.canceled;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 /// Contains details regarding the supported field type and the operators that
@@ -5314,7 +4964,7 @@ class FieldTypeDetails {
       fieldType: json['fieldType'] as String,
       filterOperators: (json['filterOperators'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toOperator())
+          .map((e) => Operator.fromString((e as String)))
           .toList(),
       fieldLengthRange: json['fieldLengthRange'] != null
           ? Range.fromJson(json['fieldLengthRange'] as Map<String, dynamic>)
@@ -5341,7 +4991,7 @@ class FieldTypeDetails {
     final valueRegexPattern = this.valueRegexPattern;
     return {
       'fieldType': fieldType,
-      'filterOperators': filterOperators.map((e) => e.toValue()).toList(),
+      'filterOperators': filterOperators.map((e) => e.value).toList(),
       if (fieldLengthRange != null) 'fieldLengthRange': fieldLengthRange,
       if (fieldValueRange != null) 'fieldValueRange': fieldValueRange,
       if (supportedDateFormat != null)
@@ -5353,36 +5003,18 @@ class FieldTypeDetails {
 }
 
 enum FileType {
-  csv,
-  json,
-  parquet,
-}
+  csv('CSV'),
+  json('JSON'),
+  parquet('PARQUET'),
+  ;
 
-extension FileTypeValueExtension on FileType {
-  String toValue() {
-    switch (this) {
-      case FileType.csv:
-        return 'CSV';
-      case FileType.json:
-        return 'JSON';
-      case FileType.parquet:
-        return 'PARQUET';
-    }
-  }
-}
+  final String value;
 
-extension FileTypeFromString on String {
-  FileType toFileType() {
-    switch (this) {
-      case 'CSV':
-        return FileType.csv;
-      case 'JSON':
-        return FileType.json;
-      case 'PARQUET':
-        return FileType.parquet;
-    }
-    throw Exception('$this is not known in enum FileType');
-  }
+  const FileType(this.value);
+
+  static FileType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FileType'));
 }
 
 /// The properties of the flow, such as its source, destination, trigger type,
@@ -5461,11 +5093,11 @@ class FlowDefinition {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       destinationConnectorLabel: json['destinationConnectorLabel'] as String?,
-      destinationConnectorType:
-          (json['destinationConnectorType'] as String?)?.toConnectorType(),
+      destinationConnectorType: (json['destinationConnectorType'] as String?)
+          ?.let(ConnectorType.fromString),
       flowArn: json['flowArn'] as String?,
       flowName: json['flowName'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
       lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
           ? ExecutionDetails.fromJson(
               json['lastRunExecutionDetails'] as Map<String, dynamic>)
@@ -5473,11 +5105,12 @@ class FlowDefinition {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       lastUpdatedBy: json['lastUpdatedBy'] as String?,
       sourceConnectorLabel: json['sourceConnectorLabel'] as String?,
-      sourceConnectorType:
-          (json['sourceConnectorType'] as String?)?.toConnectorType(),
+      sourceConnectorType: (json['sourceConnectorType'] as String?)
+          ?.let(ConnectorType.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      triggerType: (json['triggerType'] as String?)?.toTriggerType(),
+      triggerType:
+          (json['triggerType'] as String?)?.let(TriggerType.fromString),
     );
   }
 
@@ -5504,10 +5137,10 @@ class FlowDefinition {
       if (destinationConnectorLabel != null)
         'destinationConnectorLabel': destinationConnectorLabel,
       if (destinationConnectorType != null)
-        'destinationConnectorType': destinationConnectorType.toValue(),
+        'destinationConnectorType': destinationConnectorType.value,
       if (flowArn != null) 'flowArn': flowArn,
       if (flowName != null) 'flowName': flowName,
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
       if (lastRunExecutionDetails != null)
         'lastRunExecutionDetails': lastRunExecutionDetails,
       if (lastUpdatedAt != null)
@@ -5516,59 +5149,29 @@ class FlowDefinition {
       if (sourceConnectorLabel != null)
         'sourceConnectorLabel': sourceConnectorLabel,
       if (sourceConnectorType != null)
-        'sourceConnectorType': sourceConnectorType.toValue(),
+        'sourceConnectorType': sourceConnectorType.value,
       if (tags != null) 'tags': tags,
-      if (triggerType != null) 'triggerType': triggerType.toValue(),
+      if (triggerType != null) 'triggerType': triggerType.value,
     };
   }
 }
 
 enum FlowStatus {
-  active,
-  deprecated,
-  deleted,
-  draft,
-  errored,
-  suspended,
-}
+  active('Active'),
+  deprecated('Deprecated'),
+  deleted('Deleted'),
+  draft('Draft'),
+  errored('Errored'),
+  suspended('Suspended'),
+  ;
 
-extension FlowStatusValueExtension on FlowStatus {
-  String toValue() {
-    switch (this) {
-      case FlowStatus.active:
-        return 'Active';
-      case FlowStatus.deprecated:
-        return 'Deprecated';
-      case FlowStatus.deleted:
-        return 'Deleted';
-      case FlowStatus.draft:
-        return 'Draft';
-      case FlowStatus.errored:
-        return 'Errored';
-      case FlowStatus.suspended:
-        return 'Suspended';
-    }
-  }
-}
+  final String value;
 
-extension FlowStatusFromString on String {
-  FlowStatus toFlowStatus() {
-    switch (this) {
-      case 'Active':
-        return FlowStatus.active;
-      case 'Deprecated':
-        return FlowStatus.deprecated;
-      case 'Deleted':
-        return FlowStatus.deleted;
-      case 'Draft':
-        return FlowStatus.draft;
-      case 'Errored':
-        return FlowStatus.errored;
-      case 'Suspended':
-        return FlowStatus.suspended;
-    }
-    throw Exception('$this is not known in enum FlowStatus');
-  }
+  const FlowStatus(this.value);
+
+  static FlowStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FlowStatus'));
 }
 
 /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
@@ -5631,33 +5234,18 @@ class GlueDataCatalogConfig {
 }
 
 enum GoogleAnalyticsConnectorOperator {
-  projection,
-  between,
-}
+  projection('PROJECTION'),
+  between('BETWEEN'),
+  ;
 
-extension GoogleAnalyticsConnectorOperatorValueExtension
-    on GoogleAnalyticsConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case GoogleAnalyticsConnectorOperator.projection:
-        return 'PROJECTION';
-      case GoogleAnalyticsConnectorOperator.between:
-        return 'BETWEEN';
-    }
-  }
-}
+  final String value;
 
-extension GoogleAnalyticsConnectorOperatorFromString on String {
-  GoogleAnalyticsConnectorOperator toGoogleAnalyticsConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return GoogleAnalyticsConnectorOperator.projection;
-      case 'BETWEEN':
-        return GoogleAnalyticsConnectorOperator.between;
-    }
-    throw Exception(
-        '$this is not known in enum GoogleAnalyticsConnectorOperator');
-  }
+  const GoogleAnalyticsConnectorOperator(this.value);
+
+  static GoogleAnalyticsConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GoogleAnalyticsConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required by Google Analytics.
@@ -5894,97 +5482,31 @@ class IncrementalPullConfig {
 }
 
 enum InforNexusConnectorOperator {
-  projection,
-  between,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  between('BETWEEN'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension InforNexusConnectorOperatorValueExtension
-    on InforNexusConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case InforNexusConnectorOperator.projection:
-        return 'PROJECTION';
-      case InforNexusConnectorOperator.between:
-        return 'BETWEEN';
-      case InforNexusConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case InforNexusConnectorOperator.addition:
-        return 'ADDITION';
-      case InforNexusConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case InforNexusConnectorOperator.division:
-        return 'DIVISION';
-      case InforNexusConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case InforNexusConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case InforNexusConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case InforNexusConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case InforNexusConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case InforNexusConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case InforNexusConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case InforNexusConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case InforNexusConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension InforNexusConnectorOperatorFromString on String {
-  InforNexusConnectorOperator toInforNexusConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return InforNexusConnectorOperator.projection;
-      case 'BETWEEN':
-        return InforNexusConnectorOperator.between;
-      case 'EQUAL_TO':
-        return InforNexusConnectorOperator.equalTo;
-      case 'ADDITION':
-        return InforNexusConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return InforNexusConnectorOperator.multiplication;
-      case 'DIVISION':
-        return InforNexusConnectorOperator.division;
-      case 'SUBTRACTION':
-        return InforNexusConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return InforNexusConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return InforNexusConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return InforNexusConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return InforNexusConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return InforNexusConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return InforNexusConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return InforNexusConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return InforNexusConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum InforNexusConnectorOperator');
-  }
+  const InforNexusConnectorOperator(this.value);
+
+  static InforNexusConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InforNexusConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required by Infor Nexus.
@@ -6251,101 +5773,32 @@ class LookoutMetricsDestinationProperties {
 }
 
 enum MarketoConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  between,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension MarketoConnectorOperatorValueExtension on MarketoConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case MarketoConnectorOperator.projection:
-        return 'PROJECTION';
-      case MarketoConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case MarketoConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case MarketoConnectorOperator.between:
-        return 'BETWEEN';
-      case MarketoConnectorOperator.addition:
-        return 'ADDITION';
-      case MarketoConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case MarketoConnectorOperator.division:
-        return 'DIVISION';
-      case MarketoConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case MarketoConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case MarketoConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case MarketoConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case MarketoConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case MarketoConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case MarketoConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case MarketoConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case MarketoConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension MarketoConnectorOperatorFromString on String {
-  MarketoConnectorOperator toMarketoConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return MarketoConnectorOperator.projection;
-      case 'LESS_THAN':
-        return MarketoConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return MarketoConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return MarketoConnectorOperator.between;
-      case 'ADDITION':
-        return MarketoConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return MarketoConnectorOperator.multiplication;
-      case 'DIVISION':
-        return MarketoConnectorOperator.division;
-      case 'SUBTRACTION':
-        return MarketoConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return MarketoConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return MarketoConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return MarketoConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return MarketoConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return MarketoConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return MarketoConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return MarketoConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return MarketoConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum MarketoConnectorOperator');
-  }
+  const MarketoConnectorOperator(this.value);
+
+  static MarketoConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MarketoConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required by Marketo.
@@ -6544,7 +5997,8 @@ class MetadataCatalogDetail {
 
   factory MetadataCatalogDetail.fromJson(Map<String, dynamic> json) {
     return MetadataCatalogDetail(
-      catalogType: (json['catalogType'] as String?)?.toCatalogType(),
+      catalogType:
+          (json['catalogType'] as String?)?.let(CatalogType.fromString),
       partitionRegistrationOutput: json['partitionRegistrationOutput'] != null
           ? RegistrationOutput.fromJson(
               json['partitionRegistrationOutput'] as Map<String, dynamic>)
@@ -6563,7 +6017,7 @@ class MetadataCatalogDetail {
     final tableName = this.tableName;
     final tableRegistrationOutput = this.tableRegistrationOutput;
     return {
-      if (catalogType != null) 'catalogType': catalogType.toValue(),
+      if (catalogType != null) 'catalogType': catalogType.value,
       if (partitionRegistrationOutput != null)
         'partitionRegistrationOutput': partitionRegistrationOutput,
       if (tableName != null) 'tableName': tableName,
@@ -6659,7 +6113,7 @@ class OAuth2CustomParameter {
       isSensitiveField: json['isSensitiveField'] as bool?,
       key: json['key'] as String?,
       label: json['label'] as String?,
-      type: (json['type'] as String?)?.toOAuth2CustomPropType(),
+      type: (json['type'] as String?)?.let(OAuth2CustomPropType.fromString),
     );
   }
 
@@ -6679,37 +6133,24 @@ class OAuth2CustomParameter {
       if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
       if (key != null) 'key': key,
       if (label != null) 'label': label,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum OAuth2CustomPropType {
-  tokenUrl,
-  authUrl,
-}
+  tokenUrl('TOKEN_URL'),
+  authUrl('AUTH_URL'),
+  ;
 
-extension OAuth2CustomPropTypeValueExtension on OAuth2CustomPropType {
-  String toValue() {
-    switch (this) {
-      case OAuth2CustomPropType.tokenUrl:
-        return 'TOKEN_URL';
-      case OAuth2CustomPropType.authUrl:
-        return 'AUTH_URL';
-    }
-  }
-}
+  final String value;
 
-extension OAuth2CustomPropTypeFromString on String {
-  OAuth2CustomPropType toOAuth2CustomPropType() {
-    switch (this) {
-      case 'TOKEN_URL':
-        return OAuth2CustomPropType.tokenUrl;
-      case 'AUTH_URL':
-        return OAuth2CustomPropType.authUrl;
-    }
-    throw Exception('$this is not known in enum OAuth2CustomPropType');
-  }
+  const OAuth2CustomPropType(this.value);
+
+  static OAuth2CustomPropType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OAuth2CustomPropType'));
 }
 
 /// Contains the default values required for OAuth 2.0 authentication.
@@ -6749,7 +6190,7 @@ class OAuth2Defaults {
           .toList(),
       oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toOAuth2GrantType())
+          .map((e) => OAuth2GrantType.fromString((e as String)))
           .toList(),
       oauthScopes: (json['oauthScopes'] as List?)
           ?.whereNotNull()
@@ -6774,7 +6215,7 @@ class OAuth2Defaults {
         'oauth2CustomProperties': oauth2CustomProperties,
       if (oauth2GrantTypesSupported != null)
         'oauth2GrantTypesSupported':
-            oauth2GrantTypesSupported.map((e) => e.toValue()).toList(),
+            oauth2GrantTypesSupported.map((e) => e.value).toList(),
       if (oauthScopes != null) 'oauthScopes': oauthScopes,
       if (tokenUrls != null) 'tokenUrls': tokenUrls,
     };
@@ -6782,36 +6223,19 @@ class OAuth2Defaults {
 }
 
 enum OAuth2GrantType {
-  clientCredentials,
-  authorizationCode,
-  jwtBearer,
-}
+  clientCredentials('CLIENT_CREDENTIALS'),
+  authorizationCode('AUTHORIZATION_CODE'),
+  jwtBearer('JWT_BEARER'),
+  ;
 
-extension OAuth2GrantTypeValueExtension on OAuth2GrantType {
-  String toValue() {
-    switch (this) {
-      case OAuth2GrantType.clientCredentials:
-        return 'CLIENT_CREDENTIALS';
-      case OAuth2GrantType.authorizationCode:
-        return 'AUTHORIZATION_CODE';
-      case OAuth2GrantType.jwtBearer:
-        return 'JWT_BEARER';
-    }
-  }
-}
+  final String value;
 
-extension OAuth2GrantTypeFromString on String {
-  OAuth2GrantType toOAuth2GrantType() {
-    switch (this) {
-      case 'CLIENT_CREDENTIALS':
-        return OAuth2GrantType.clientCredentials;
-      case 'AUTHORIZATION_CODE':
-        return OAuth2GrantType.authorizationCode;
-      case 'JWT_BEARER':
-        return OAuth2GrantType.jwtBearer;
-    }
-    throw Exception('$this is not known in enum OAuth2GrantType');
-  }
+  const OAuth2GrantType(this.value);
+
+  static OAuth2GrantType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OAuth2GrantType'));
 }
 
 /// The OAuth 2.0 properties required for OAuth 2.0 authentication.
@@ -6835,7 +6259,8 @@ class OAuth2Properties {
 
   factory OAuth2Properties.fromJson(Map<String, dynamic> json) {
     return OAuth2Properties(
-      oAuth2GrantType: (json['oAuth2GrantType'] as String).toOAuth2GrantType(),
+      oAuth2GrantType:
+          OAuth2GrantType.fromString((json['oAuth2GrantType'] as String)),
       tokenUrl: json['tokenUrl'] as String,
       tokenUrlCustomProperties:
           (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
@@ -6848,7 +6273,7 @@ class OAuth2Properties {
     final tokenUrl = this.tokenUrl;
     final tokenUrlCustomProperties = this.tokenUrlCustomProperties;
     return {
-      'oAuth2GrantType': oAuth2GrantType.toValue(),
+      'oAuth2GrantType': oAuth2GrantType.value,
       'tokenUrl': tokenUrl,
       if (tokenUrlCustomProperties != null)
         'tokenUrlCustomProperties': tokenUrlCustomProperties,
@@ -6942,440 +6367,126 @@ class OAuthProperties {
 }
 
 enum Operator {
-  projection,
-  lessThan,
-  greaterThan,
-  contains,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  contains('CONTAINS'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.projection:
-        return 'PROJECTION';
-      case Operator.lessThan:
-        return 'LESS_THAN';
-      case Operator.greaterThan:
-        return 'GREATER_THAN';
-      case Operator.contains:
-        return 'CONTAINS';
-      case Operator.between:
-        return 'BETWEEN';
-      case Operator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case Operator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case Operator.equalTo:
-        return 'EQUAL_TO';
-      case Operator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case Operator.addition:
-        return 'ADDITION';
-      case Operator.multiplication:
-        return 'MULTIPLICATION';
-      case Operator.division:
-        return 'DIVISION';
-      case Operator.subtraction:
-        return 'SUBTRACTION';
-      case Operator.maskAll:
-        return 'MASK_ALL';
-      case Operator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case Operator.maskLastN:
-        return 'MASK_LAST_N';
-      case Operator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case Operator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case Operator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case Operator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case Operator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return Operator.projection;
-      case 'LESS_THAN':
-        return Operator.lessThan;
-      case 'GREATER_THAN':
-        return Operator.greaterThan;
-      case 'CONTAINS':
-        return Operator.contains;
-      case 'BETWEEN':
-        return Operator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return Operator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return Operator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return Operator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return Operator.notEqualTo;
-      case 'ADDITION':
-        return Operator.addition;
-      case 'MULTIPLICATION':
-        return Operator.multiplication;
-      case 'DIVISION':
-        return Operator.division;
-      case 'SUBTRACTION':
-        return Operator.subtraction;
-      case 'MASK_ALL':
-        return Operator.maskAll;
-      case 'MASK_FIRST_N':
-        return Operator.maskFirstN;
-      case 'MASK_LAST_N':
-        return Operator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return Operator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return Operator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return Operator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return Operator.validateNumeric;
-      case 'NO_OP':
-        return Operator.noOp;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 enum OperatorPropertiesKeys {
-  value,
-  $values,
-  dataType,
-  upperBound,
-  lowerBound,
-  sourceDataType,
-  destinationDataType,
-  validationAction,
-  maskValue,
-  maskLength,
-  truncateLength,
-  mathOperationFieldsOrder,
-  concatFormat,
-  subfieldCategoryMap,
-  excludeSourceFieldsList,
-  includeNewFields,
-  orderedPartitionKeysList,
-}
+  $value('VALUE'),
+  $values('VALUES'),
+  dataType('DATA_TYPE'),
+  upperBound('UPPER_BOUND'),
+  lowerBound('LOWER_BOUND'),
+  sourceDataType('SOURCE_DATA_TYPE'),
+  destinationDataType('DESTINATION_DATA_TYPE'),
+  validationAction('VALIDATION_ACTION'),
+  maskValue('MASK_VALUE'),
+  maskLength('MASK_LENGTH'),
+  truncateLength('TRUNCATE_LENGTH'),
+  mathOperationFieldsOrder('MATH_OPERATION_FIELDS_ORDER'),
+  concatFormat('CONCAT_FORMAT'),
+  subfieldCategoryMap('SUBFIELD_CATEGORY_MAP'),
+  excludeSourceFieldsList('EXCLUDE_SOURCE_FIELDS_LIST'),
+  includeNewFields('INCLUDE_NEW_FIELDS'),
+  orderedPartitionKeysList('ORDERED_PARTITION_KEYS_LIST'),
+  ;
 
-extension OperatorPropertiesKeysValueExtension on OperatorPropertiesKeys {
-  String toValue() {
-    switch (this) {
-      case OperatorPropertiesKeys.value:
-        return 'VALUE';
-      case OperatorPropertiesKeys.$values:
-        return 'VALUES';
-      case OperatorPropertiesKeys.dataType:
-        return 'DATA_TYPE';
-      case OperatorPropertiesKeys.upperBound:
-        return 'UPPER_BOUND';
-      case OperatorPropertiesKeys.lowerBound:
-        return 'LOWER_BOUND';
-      case OperatorPropertiesKeys.sourceDataType:
-        return 'SOURCE_DATA_TYPE';
-      case OperatorPropertiesKeys.destinationDataType:
-        return 'DESTINATION_DATA_TYPE';
-      case OperatorPropertiesKeys.validationAction:
-        return 'VALIDATION_ACTION';
-      case OperatorPropertiesKeys.maskValue:
-        return 'MASK_VALUE';
-      case OperatorPropertiesKeys.maskLength:
-        return 'MASK_LENGTH';
-      case OperatorPropertiesKeys.truncateLength:
-        return 'TRUNCATE_LENGTH';
-      case OperatorPropertiesKeys.mathOperationFieldsOrder:
-        return 'MATH_OPERATION_FIELDS_ORDER';
-      case OperatorPropertiesKeys.concatFormat:
-        return 'CONCAT_FORMAT';
-      case OperatorPropertiesKeys.subfieldCategoryMap:
-        return 'SUBFIELD_CATEGORY_MAP';
-      case OperatorPropertiesKeys.excludeSourceFieldsList:
-        return 'EXCLUDE_SOURCE_FIELDS_LIST';
-      case OperatorPropertiesKeys.includeNewFields:
-        return 'INCLUDE_NEW_FIELDS';
-      case OperatorPropertiesKeys.orderedPartitionKeysList:
-        return 'ORDERED_PARTITION_KEYS_LIST';
-    }
-  }
-}
+  final String value;
 
-extension OperatorPropertiesKeysFromString on String {
-  OperatorPropertiesKeys toOperatorPropertiesKeys() {
-    switch (this) {
-      case 'VALUE':
-        return OperatorPropertiesKeys.value;
-      case 'VALUES':
-        return OperatorPropertiesKeys.$values;
-      case 'DATA_TYPE':
-        return OperatorPropertiesKeys.dataType;
-      case 'UPPER_BOUND':
-        return OperatorPropertiesKeys.upperBound;
-      case 'LOWER_BOUND':
-        return OperatorPropertiesKeys.lowerBound;
-      case 'SOURCE_DATA_TYPE':
-        return OperatorPropertiesKeys.sourceDataType;
-      case 'DESTINATION_DATA_TYPE':
-        return OperatorPropertiesKeys.destinationDataType;
-      case 'VALIDATION_ACTION':
-        return OperatorPropertiesKeys.validationAction;
-      case 'MASK_VALUE':
-        return OperatorPropertiesKeys.maskValue;
-      case 'MASK_LENGTH':
-        return OperatorPropertiesKeys.maskLength;
-      case 'TRUNCATE_LENGTH':
-        return OperatorPropertiesKeys.truncateLength;
-      case 'MATH_OPERATION_FIELDS_ORDER':
-        return OperatorPropertiesKeys.mathOperationFieldsOrder;
-      case 'CONCAT_FORMAT':
-        return OperatorPropertiesKeys.concatFormat;
-      case 'SUBFIELD_CATEGORY_MAP':
-        return OperatorPropertiesKeys.subfieldCategoryMap;
-      case 'EXCLUDE_SOURCE_FIELDS_LIST':
-        return OperatorPropertiesKeys.excludeSourceFieldsList;
-      case 'INCLUDE_NEW_FIELDS':
-        return OperatorPropertiesKeys.includeNewFields;
-      case 'ORDERED_PARTITION_KEYS_LIST':
-        return OperatorPropertiesKeys.orderedPartitionKeysList;
-    }
-    throw Exception('$this is not known in enum OperatorPropertiesKeys');
-  }
+  const OperatorPropertiesKeys(this.value);
+
+  static OperatorPropertiesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OperatorPropertiesKeys'));
 }
 
 enum Operators {
-  projection,
-  lessThan,
-  greaterThan,
-  contains,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  contains('CONTAINS'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension OperatorsValueExtension on Operators {
-  String toValue() {
-    switch (this) {
-      case Operators.projection:
-        return 'PROJECTION';
-      case Operators.lessThan:
-        return 'LESS_THAN';
-      case Operators.greaterThan:
-        return 'GREATER_THAN';
-      case Operators.contains:
-        return 'CONTAINS';
-      case Operators.between:
-        return 'BETWEEN';
-      case Operators.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case Operators.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case Operators.equalTo:
-        return 'EQUAL_TO';
-      case Operators.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case Operators.addition:
-        return 'ADDITION';
-      case Operators.multiplication:
-        return 'MULTIPLICATION';
-      case Operators.division:
-        return 'DIVISION';
-      case Operators.subtraction:
-        return 'SUBTRACTION';
-      case Operators.maskAll:
-        return 'MASK_ALL';
-      case Operators.maskFirstN:
-        return 'MASK_FIRST_N';
-      case Operators.maskLastN:
-        return 'MASK_LAST_N';
-      case Operators.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case Operators.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case Operators.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case Operators.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case Operators.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension OperatorsFromString on String {
-  Operators toOperators() {
-    switch (this) {
-      case 'PROJECTION':
-        return Operators.projection;
-      case 'LESS_THAN':
-        return Operators.lessThan;
-      case 'GREATER_THAN':
-        return Operators.greaterThan;
-      case 'CONTAINS':
-        return Operators.contains;
-      case 'BETWEEN':
-        return Operators.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return Operators.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return Operators.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return Operators.equalTo;
-      case 'NOT_EQUAL_TO':
-        return Operators.notEqualTo;
-      case 'ADDITION':
-        return Operators.addition;
-      case 'MULTIPLICATION':
-        return Operators.multiplication;
-      case 'DIVISION':
-        return Operators.division;
-      case 'SUBTRACTION':
-        return Operators.subtraction;
-      case 'MASK_ALL':
-        return Operators.maskAll;
-      case 'MASK_FIRST_N':
-        return Operators.maskFirstN;
-      case 'MASK_LAST_N':
-        return Operators.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return Operators.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return Operators.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return Operators.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return Operators.validateNumeric;
-      case 'NO_OP':
-        return Operators.noOp;
-    }
-    throw Exception('$this is not known in enum Operators');
-  }
+  const Operators(this.value);
+
+  static Operators fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operators'));
 }
 
 enum PardotConnectorOperator {
-  projection,
-  equalTo,
-  noOp,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-}
+  projection('PROJECTION'),
+  equalTo('EQUAL_TO'),
+  noOp('NO_OP'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  ;
 
-extension PardotConnectorOperatorValueExtension on PardotConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case PardotConnectorOperator.projection:
-        return 'PROJECTION';
-      case PardotConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case PardotConnectorOperator.noOp:
-        return 'NO_OP';
-      case PardotConnectorOperator.addition:
-        return 'ADDITION';
-      case PardotConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case PardotConnectorOperator.division:
-        return 'DIVISION';
-      case PardotConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case PardotConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case PardotConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case PardotConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case PardotConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case PardotConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case PardotConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case PardotConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-    }
-  }
-}
+  final String value;
 
-extension PardotConnectorOperatorFromString on String {
-  PardotConnectorOperator toPardotConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return PardotConnectorOperator.projection;
-      case 'EQUAL_TO':
-        return PardotConnectorOperator.equalTo;
-      case 'NO_OP':
-        return PardotConnectorOperator.noOp;
-      case 'ADDITION':
-        return PardotConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return PardotConnectorOperator.multiplication;
-      case 'DIVISION':
-        return PardotConnectorOperator.division;
-      case 'SUBTRACTION':
-        return PardotConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return PardotConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return PardotConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return PardotConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return PardotConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return PardotConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return PardotConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return PardotConnectorOperator.validateNumeric;
-    }
-    throw Exception('$this is not known in enum PardotConnectorOperator');
-  }
+  const PardotConnectorOperator(this.value);
+
+  static PardotConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PardotConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Salesforce
@@ -7492,31 +6603,17 @@ class PardotSourceProperties {
 }
 
 enum PathPrefix {
-  executionId,
-  schemaVersion,
-}
+  executionId('EXECUTION_ID'),
+  schemaVersion('SCHEMA_VERSION'),
+  ;
 
-extension PathPrefixValueExtension on PathPrefix {
-  String toValue() {
-    switch (this) {
-      case PathPrefix.executionId:
-        return 'EXECUTION_ID';
-      case PathPrefix.schemaVersion:
-        return 'SCHEMA_VERSION';
-    }
-  }
-}
+  final String value;
 
-extension PathPrefixFromString on String {
-  PathPrefix toPathPrefix() {
-    switch (this) {
-      case 'EXECUTION_ID':
-        return PathPrefix.executionId;
-      case 'SCHEMA_VERSION':
-        return PathPrefix.schemaVersion;
-    }
-    throw Exception('$this is not known in enum PathPrefix');
-  }
+  const PathPrefix(this.value);
+
+  static PathPrefix fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PathPrefix'));
 }
 
 /// Specifies elements that Amazon AppFlow includes in the file and folder names
@@ -7562,10 +6659,11 @@ class PrefixConfig {
     return PrefixConfig(
       pathPrefixHierarchy: (json['pathPrefixHierarchy'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPathPrefix())
+          .map((e) => PathPrefix.fromString((e as String)))
           .toList(),
-      prefixFormat: (json['prefixFormat'] as String?)?.toPrefixFormat(),
-      prefixType: (json['prefixType'] as String?)?.toPrefixType(),
+      prefixFormat:
+          (json['prefixFormat'] as String?)?.let(PrefixFormat.fromString),
+      prefixType: (json['prefixType'] as String?)?.let(PrefixType.fromString),
     );
   }
 
@@ -7575,135 +6673,62 @@ class PrefixConfig {
     final prefixType = this.prefixType;
     return {
       if (pathPrefixHierarchy != null)
-        'pathPrefixHierarchy':
-            pathPrefixHierarchy.map((e) => e.toValue()).toList(),
-      if (prefixFormat != null) 'prefixFormat': prefixFormat.toValue(),
-      if (prefixType != null) 'prefixType': prefixType.toValue(),
+        'pathPrefixHierarchy': pathPrefixHierarchy.map((e) => e.value).toList(),
+      if (prefixFormat != null) 'prefixFormat': prefixFormat.value,
+      if (prefixType != null) 'prefixType': prefixType.value,
     };
   }
 }
 
 enum PrefixFormat {
-  year,
-  month,
-  day,
-  hour,
-  minute,
-}
+  year('YEAR'),
+  month('MONTH'),
+  day('DAY'),
+  hour('HOUR'),
+  minute('MINUTE'),
+  ;
 
-extension PrefixFormatValueExtension on PrefixFormat {
-  String toValue() {
-    switch (this) {
-      case PrefixFormat.year:
-        return 'YEAR';
-      case PrefixFormat.month:
-        return 'MONTH';
-      case PrefixFormat.day:
-        return 'DAY';
-      case PrefixFormat.hour:
-        return 'HOUR';
-      case PrefixFormat.minute:
-        return 'MINUTE';
-    }
-  }
-}
+  final String value;
 
-extension PrefixFormatFromString on String {
-  PrefixFormat toPrefixFormat() {
-    switch (this) {
-      case 'YEAR':
-        return PrefixFormat.year;
-      case 'MONTH':
-        return PrefixFormat.month;
-      case 'DAY':
-        return PrefixFormat.day;
-      case 'HOUR':
-        return PrefixFormat.hour;
-      case 'MINUTE':
-        return PrefixFormat.minute;
-    }
-    throw Exception('$this is not known in enum PrefixFormat');
-  }
+  const PrefixFormat(this.value);
+
+  static PrefixFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrefixFormat'));
 }
 
 enum PrefixType {
-  filename,
-  path,
-  pathAndFilename,
-}
+  filename('FILENAME'),
+  path('PATH'),
+  pathAndFilename('PATH_AND_FILENAME'),
+  ;
 
-extension PrefixTypeValueExtension on PrefixType {
-  String toValue() {
-    switch (this) {
-      case PrefixType.filename:
-        return 'FILENAME';
-      case PrefixType.path:
-        return 'PATH';
-      case PrefixType.pathAndFilename:
-        return 'PATH_AND_FILENAME';
-    }
-  }
-}
+  final String value;
 
-extension PrefixTypeFromString on String {
-  PrefixType toPrefixType() {
-    switch (this) {
-      case 'FILENAME':
-        return PrefixType.filename;
-      case 'PATH':
-        return PrefixType.path;
-      case 'PATH_AND_FILENAME':
-        return PrefixType.pathAndFilename;
-    }
-    throw Exception('$this is not known in enum PrefixType');
-  }
+  const PrefixType(this.value);
+
+  static PrefixType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PrefixType'));
 }
 
 enum PrivateConnectionProvisioningFailureCause {
-  connectorAuthentication,
-  connectorServer,
-  internalServer,
-  accessDenied,
-  validation,
-}
+  connectorAuthentication('CONNECTOR_AUTHENTICATION'),
+  connectorServer('CONNECTOR_SERVER'),
+  internalServer('INTERNAL_SERVER'),
+  accessDenied('ACCESS_DENIED'),
+  validation('VALIDATION'),
+  ;
 
-extension PrivateConnectionProvisioningFailureCauseValueExtension
-    on PrivateConnectionProvisioningFailureCause {
-  String toValue() {
-    switch (this) {
-      case PrivateConnectionProvisioningFailureCause.connectorAuthentication:
-        return 'CONNECTOR_AUTHENTICATION';
-      case PrivateConnectionProvisioningFailureCause.connectorServer:
-        return 'CONNECTOR_SERVER';
-      case PrivateConnectionProvisioningFailureCause.internalServer:
-        return 'INTERNAL_SERVER';
-      case PrivateConnectionProvisioningFailureCause.accessDenied:
-        return 'ACCESS_DENIED';
-      case PrivateConnectionProvisioningFailureCause.validation:
-        return 'VALIDATION';
-    }
-  }
-}
+  final String value;
 
-extension PrivateConnectionProvisioningFailureCauseFromString on String {
-  PrivateConnectionProvisioningFailureCause
-      toPrivateConnectionProvisioningFailureCause() {
-    switch (this) {
-      case 'CONNECTOR_AUTHENTICATION':
-        return PrivateConnectionProvisioningFailureCause
-            .connectorAuthentication;
-      case 'CONNECTOR_SERVER':
-        return PrivateConnectionProvisioningFailureCause.connectorServer;
-      case 'INTERNAL_SERVER':
-        return PrivateConnectionProvisioningFailureCause.internalServer;
-      case 'ACCESS_DENIED':
-        return PrivateConnectionProvisioningFailureCause.accessDenied;
-      case 'VALIDATION':
-        return PrivateConnectionProvisioningFailureCause.validation;
-    }
-    throw Exception(
-        '$this is not known in enum PrivateConnectionProvisioningFailureCause');
-  }
+  const PrivateConnectionProvisioningFailureCause(this.value);
+
+  static PrivateConnectionProvisioningFailureCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PrivateConnectionProvisioningFailureCause'));
 }
 
 /// Specifies the private connection provisioning state.
@@ -7727,10 +6752,10 @@ class PrivateConnectionProvisioningState {
       Map<String, dynamic> json) {
     return PrivateConnectionProvisioningState(
       failureCause: (json['failureCause'] as String?)
-          ?.toPrivateConnectionProvisioningFailureCause(),
+          ?.let(PrivateConnectionProvisioningFailureCause.fromString),
       failureMessage: json['failureMessage'] as String?,
-      status:
-          (json['status'] as String?)?.toPrivateConnectionProvisioningStatus(),
+      status: (json['status'] as String?)
+          ?.let(PrivateConnectionProvisioningStatus.fromString),
     );
   }
 
@@ -7739,46 +6764,27 @@ class PrivateConnectionProvisioningState {
     final failureMessage = this.failureMessage;
     final status = this.status;
     return {
-      if (failureCause != null) 'failureCause': failureCause.toValue(),
+      if (failureCause != null) 'failureCause': failureCause.value,
       if (failureMessage != null) 'failureMessage': failureMessage,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum PrivateConnectionProvisioningStatus {
-  failed,
-  pending,
-  created,
-}
+  failed('FAILED'),
+  pending('PENDING'),
+  created('CREATED'),
+  ;
 
-extension PrivateConnectionProvisioningStatusValueExtension
-    on PrivateConnectionProvisioningStatus {
-  String toValue() {
-    switch (this) {
-      case PrivateConnectionProvisioningStatus.failed:
-        return 'FAILED';
-      case PrivateConnectionProvisioningStatus.pending:
-        return 'PENDING';
-      case PrivateConnectionProvisioningStatus.created:
-        return 'CREATED';
-    }
-  }
-}
+  final String value;
 
-extension PrivateConnectionProvisioningStatusFromString on String {
-  PrivateConnectionProvisioningStatus toPrivateConnectionProvisioningStatus() {
-    switch (this) {
-      case 'FAILED':
-        return PrivateConnectionProvisioningStatus.failed;
-      case 'PENDING':
-        return PrivateConnectionProvisioningStatus.pending;
-      case 'CREATED':
-        return PrivateConnectionProvisioningStatus.created;
-    }
-    throw Exception(
-        '$this is not known in enum PrivateConnectionProvisioningStatus');
-  }
+  const PrivateConnectionProvisioningStatus(this.value);
+
+  static PrivateConnectionProvisioningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PrivateConnectionProvisioningStatus'));
 }
 
 /// The range of values that the property supports.
@@ -8047,7 +7053,7 @@ class RegistrationOutput {
     return RegistrationOutput(
       message: json['message'] as String?,
       result: json['result'] as String?,
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
     );
   }
 
@@ -8058,7 +7064,7 @@ class RegistrationOutput {
     return {
       if (message != null) 'message': message,
       if (result != null) 'result': result,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8076,121 +7082,36 @@ class ResetConnectorMetadataCacheResponse {
 }
 
 enum S3ConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension S3ConnectorOperatorValueExtension on S3ConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case S3ConnectorOperator.projection:
-        return 'PROJECTION';
-      case S3ConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case S3ConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case S3ConnectorOperator.between:
-        return 'BETWEEN';
-      case S3ConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case S3ConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case S3ConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case S3ConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case S3ConnectorOperator.addition:
-        return 'ADDITION';
-      case S3ConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case S3ConnectorOperator.division:
-        return 'DIVISION';
-      case S3ConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case S3ConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case S3ConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case S3ConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case S3ConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case S3ConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case S3ConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case S3ConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case S3ConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension S3ConnectorOperatorFromString on String {
-  S3ConnectorOperator toS3ConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return S3ConnectorOperator.projection;
-      case 'LESS_THAN':
-        return S3ConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return S3ConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return S3ConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return S3ConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return S3ConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return S3ConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return S3ConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return S3ConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return S3ConnectorOperator.multiplication;
-      case 'DIVISION':
-        return S3ConnectorOperator.division;
-      case 'SUBTRACTION':
-        return S3ConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return S3ConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return S3ConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return S3ConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return S3ConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return S3ConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return S3ConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return S3ConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return S3ConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum S3ConnectorOperator');
-  }
+  const S3ConnectorOperator(this.value);
+
+  static S3ConnectorOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum S3ConnectorOperator'));
 }
 
 /// The properties that are applied when Amazon S3 is used as a destination.
@@ -8235,31 +7156,18 @@ class S3DestinationProperties {
 }
 
 enum S3InputFileType {
-  csv,
-  json,
-}
+  csv('CSV'),
+  json('JSON'),
+  ;
 
-extension S3InputFileTypeValueExtension on S3InputFileType {
-  String toValue() {
-    switch (this) {
-      case S3InputFileType.csv:
-        return 'CSV';
-      case S3InputFileType.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension S3InputFileTypeFromString on String {
-  S3InputFileType toS3InputFileType() {
-    switch (this) {
-      case 'CSV':
-        return S3InputFileType.csv;
-      case 'JSON':
-        return S3InputFileType.json;
-    }
-    throw Exception('$this is not known in enum S3InputFileType');
-  }
+  const S3InputFileType(this.value);
+
+  static S3InputFileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3InputFileType'));
 }
 
 /// When you use Amazon S3 as the source, the configuration format that you
@@ -8275,14 +7183,14 @@ class S3InputFormatConfig {
   factory S3InputFormatConfig.fromJson(Map<String, dynamic> json) {
     return S3InputFormatConfig(
       s3InputFileType:
-          (json['s3InputFileType'] as String?)?.toS3InputFileType(),
+          (json['s3InputFileType'] as String?)?.let(S3InputFileType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final s3InputFileType = this.s3InputFileType;
     return {
-      if (s3InputFileType != null) 's3InputFileType': s3InputFileType.toValue(),
+      if (s3InputFileType != null) 's3InputFileType': s3InputFileType.value,
     };
   }
 }
@@ -8345,7 +7253,7 @@ class S3OutputFormatConfig {
           ? AggregationConfig.fromJson(
               json['aggregationConfig'] as Map<String, dynamic>)
           : null,
-      fileType: (json['fileType'] as String?)?.toFileType(),
+      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
       prefixConfig: json['prefixConfig'] != null
           ? PrefixConfig.fromJson(json['prefixConfig'] as Map<String, dynamic>)
           : null,
@@ -8360,7 +7268,7 @@ class S3OutputFormatConfig {
     final preserveSourceDataTyping = this.preserveSourceDataTyping;
     return {
       if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
-      if (fileType != null) 'fileType': fileType.toValue(),
+      if (fileType != null) 'fileType': fileType.value,
       if (prefixConfig != null) 'prefixConfig': prefixConfig,
       if (preserveSourceDataTyping != null)
         'preserveSourceDataTyping': preserveSourceDataTyping,
@@ -8410,126 +7318,37 @@ class S3SourceProperties {
 }
 
 enum SAPODataConnectorOperator {
-  projection,
-  lessThan,
-  contains,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  contains('CONTAINS'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension SAPODataConnectorOperatorValueExtension on SAPODataConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case SAPODataConnectorOperator.projection:
-        return 'PROJECTION';
-      case SAPODataConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case SAPODataConnectorOperator.contains:
-        return 'CONTAINS';
-      case SAPODataConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case SAPODataConnectorOperator.between:
-        return 'BETWEEN';
-      case SAPODataConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case SAPODataConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case SAPODataConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case SAPODataConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case SAPODataConnectorOperator.addition:
-        return 'ADDITION';
-      case SAPODataConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case SAPODataConnectorOperator.division:
-        return 'DIVISION';
-      case SAPODataConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case SAPODataConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case SAPODataConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case SAPODataConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case SAPODataConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case SAPODataConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case SAPODataConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case SAPODataConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case SAPODataConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension SAPODataConnectorOperatorFromString on String {
-  SAPODataConnectorOperator toSAPODataConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return SAPODataConnectorOperator.projection;
-      case 'LESS_THAN':
-        return SAPODataConnectorOperator.lessThan;
-      case 'CONTAINS':
-        return SAPODataConnectorOperator.contains;
-      case 'GREATER_THAN':
-        return SAPODataConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return SAPODataConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return SAPODataConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return SAPODataConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return SAPODataConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return SAPODataConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return SAPODataConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return SAPODataConnectorOperator.multiplication;
-      case 'DIVISION':
-        return SAPODataConnectorOperator.division;
-      case 'SUBTRACTION':
-        return SAPODataConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return SAPODataConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return SAPODataConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return SAPODataConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return SAPODataConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return SAPODataConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return SAPODataConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return SAPODataConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return SAPODataConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum SAPODataConnectorOperator');
-  }
+  const SAPODataConnectorOperator(this.value);
+
+  static SAPODataConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SAPODataConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using SAPOData.
@@ -8683,8 +7502,8 @@ class SAPODataDestinationProperties {
               ? SuccessResponseHandlingConfig.fromJson(
                   json['successResponseHandlingConfig'] as Map<String, dynamic>)
               : null,
-      writeOperationType:
-          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
     );
   }
 
@@ -8702,7 +7521,7 @@ class SAPODataDestinationProperties {
       if (successResponseHandlingConfig != null)
         'successResponseHandlingConfig': successResponseHandlingConfig,
       if (writeOperationType != null)
-        'writeOperationType': writeOperationType.toValue(),
+        'writeOperationType': writeOperationType.value,
     };
   }
 }
@@ -8822,127 +7641,37 @@ class SAPODataSourceProperties {
 }
 
 enum SalesforceConnectorOperator {
-  projection,
-  lessThan,
-  contains,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  contains('CONTAINS'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension SalesforceConnectorOperatorValueExtension
-    on SalesforceConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case SalesforceConnectorOperator.projection:
-        return 'PROJECTION';
-      case SalesforceConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case SalesforceConnectorOperator.contains:
-        return 'CONTAINS';
-      case SalesforceConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case SalesforceConnectorOperator.between:
-        return 'BETWEEN';
-      case SalesforceConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case SalesforceConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case SalesforceConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case SalesforceConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case SalesforceConnectorOperator.addition:
-        return 'ADDITION';
-      case SalesforceConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case SalesforceConnectorOperator.division:
-        return 'DIVISION';
-      case SalesforceConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case SalesforceConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case SalesforceConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case SalesforceConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case SalesforceConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case SalesforceConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case SalesforceConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case SalesforceConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case SalesforceConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceConnectorOperatorFromString on String {
-  SalesforceConnectorOperator toSalesforceConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return SalesforceConnectorOperator.projection;
-      case 'LESS_THAN':
-        return SalesforceConnectorOperator.lessThan;
-      case 'CONTAINS':
-        return SalesforceConnectorOperator.contains;
-      case 'GREATER_THAN':
-        return SalesforceConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return SalesforceConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return SalesforceConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return SalesforceConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return SalesforceConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return SalesforceConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return SalesforceConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return SalesforceConnectorOperator.multiplication;
-      case 'DIVISION':
-        return SalesforceConnectorOperator.division;
-      case 'SUBTRACTION':
-        return SalesforceConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return SalesforceConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return SalesforceConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return SalesforceConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return SalesforceConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return SalesforceConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return SalesforceConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return SalesforceConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return SalesforceConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum SalesforceConnectorOperator');
-  }
+  const SalesforceConnectorOperator(this.value);
+
+  static SalesforceConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Salesforce.
@@ -9010,7 +7739,7 @@ class SalesforceConnectorProfileCredentials {
       if (clientCredentialsArn != null)
         'clientCredentialsArn': clientCredentialsArn,
       if (jwtToken != null) 'jwtToken': jwtToken,
-      if (oAuth2GrantType != null) 'oAuth2GrantType': oAuth2GrantType.toValue(),
+      if (oAuth2GrantType != null) 'oAuth2GrantType': oAuth2GrantType.value,
       if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
       if (refreshToken != null) 'refreshToken': refreshToken,
     };
@@ -9106,36 +7835,19 @@ class SalesforceConnectorProfileProperties {
 }
 
 enum SalesforceDataTransferApi {
-  automatic,
-  bulkv2,
-  restSync,
-}
+  automatic('AUTOMATIC'),
+  bulkv2('BULKV2'),
+  restSync('REST_SYNC'),
+  ;
 
-extension SalesforceDataTransferApiValueExtension on SalesforceDataTransferApi {
-  String toValue() {
-    switch (this) {
-      case SalesforceDataTransferApi.automatic:
-        return 'AUTOMATIC';
-      case SalesforceDataTransferApi.bulkv2:
-        return 'BULKV2';
-      case SalesforceDataTransferApi.restSync:
-        return 'REST_SYNC';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceDataTransferApiFromString on String {
-  SalesforceDataTransferApi toSalesforceDataTransferApi() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return SalesforceDataTransferApi.automatic;
-      case 'BULKV2':
-        return SalesforceDataTransferApi.bulkv2;
-      case 'REST_SYNC':
-        return SalesforceDataTransferApi.restSync;
-    }
-    throw Exception('$this is not known in enum SalesforceDataTransferApi');
-  }
+  const SalesforceDataTransferApi(this.value);
+
+  static SalesforceDataTransferApi fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceDataTransferApi'));
 }
 
 /// The properties that are applied when Salesforce is being used as a
@@ -9210,8 +7922,8 @@ class SalesforceDestinationProperties {
   factory SalesforceDestinationProperties.fromJson(Map<String, dynamic> json) {
     return SalesforceDestinationProperties(
       object: json['object'] as String,
-      dataTransferApi:
-          (json['dataTransferApi'] as String?)?.toSalesforceDataTransferApi(),
+      dataTransferApi: (json['dataTransferApi'] as String?)
+          ?.let(SalesforceDataTransferApi.fromString),
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -9220,8 +7932,8 @@ class SalesforceDestinationProperties {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      writeOperationType:
-          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
     );
   }
 
@@ -9233,12 +7945,12 @@ class SalesforceDestinationProperties {
     final writeOperationType = this.writeOperationType;
     return {
       'object': object,
-      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.toValue(),
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
       if (errorHandlingConfig != null)
         'errorHandlingConfig': errorHandlingConfig,
       if (idFieldNames != null) 'idFieldNames': idFieldNames,
       if (writeOperationType != null)
-        'writeOperationType': writeOperationType.toValue(),
+        'writeOperationType': writeOperationType.value,
     };
   }
 }
@@ -9284,7 +7996,7 @@ class SalesforceMetadata {
     return SalesforceMetadata(
       dataTransferApis: (json['dataTransferApis'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSalesforceDataTransferApi())
+          .map((e) => SalesforceDataTransferApi.fromString((e as String)))
           .toList(),
       oAuthScopes: (json['oAuthScopes'] as List?)
           ?.whereNotNull()
@@ -9292,7 +8004,7 @@ class SalesforceMetadata {
           .toList(),
       oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toOAuth2GrantType())
+          .map((e) => OAuth2GrantType.fromString((e as String)))
           .toList(),
     );
   }
@@ -9303,11 +8015,11 @@ class SalesforceMetadata {
     final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
     return {
       if (dataTransferApis != null)
-        'dataTransferApis': dataTransferApis.map((e) => e.toValue()).toList(),
+        'dataTransferApis': dataTransferApis.map((e) => e.value).toList(),
       if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
       if (oauth2GrantTypesSupported != null)
         'oauth2GrantTypesSupported':
-            oauth2GrantTypesSupported.map((e) => e.toValue()).toList(),
+            oauth2GrantTypesSupported.map((e) => e.value).toList(),
     };
   }
 }
@@ -9372,8 +8084,8 @@ class SalesforceSourceProperties {
   factory SalesforceSourceProperties.fromJson(Map<String, dynamic> json) {
     return SalesforceSourceProperties(
       object: json['object'] as String,
-      dataTransferApi:
-          (json['dataTransferApi'] as String?)?.toSalesforceDataTransferApi(),
+      dataTransferApi: (json['dataTransferApi'] as String?)
+          ?.let(SalesforceDataTransferApi.fromString),
       enableDynamicFieldUpdate: json['enableDynamicFieldUpdate'] as bool?,
       includeDeletedRecords: json['includeDeletedRecords'] as bool?,
     );
@@ -9386,7 +8098,7 @@ class SalesforceSourceProperties {
     final includeDeletedRecords = this.includeDeletedRecords;
     return {
       'object': object,
-      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.toValue(),
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
       if (enableDynamicFieldUpdate != null)
         'enableDynamicFieldUpdate': enableDynamicFieldUpdate,
       if (includeDeletedRecords != null)
@@ -9396,51 +8108,22 @@ class SalesforceSourceProperties {
 }
 
 enum ScheduleFrequencyType {
-  byminute,
-  hourly,
-  daily,
-  weekly,
-  monthly,
-  once,
-}
+  byminute('BYMINUTE'),
+  hourly('HOURLY'),
+  daily('DAILY'),
+  weekly('WEEKLY'),
+  monthly('MONTHLY'),
+  once('ONCE'),
+  ;
 
-extension ScheduleFrequencyTypeValueExtension on ScheduleFrequencyType {
-  String toValue() {
-    switch (this) {
-      case ScheduleFrequencyType.byminute:
-        return 'BYMINUTE';
-      case ScheduleFrequencyType.hourly:
-        return 'HOURLY';
-      case ScheduleFrequencyType.daily:
-        return 'DAILY';
-      case ScheduleFrequencyType.weekly:
-        return 'WEEKLY';
-      case ScheduleFrequencyType.monthly:
-        return 'MONTHLY';
-      case ScheduleFrequencyType.once:
-        return 'ONCE';
-    }
-  }
-}
+  final String value;
 
-extension ScheduleFrequencyTypeFromString on String {
-  ScheduleFrequencyType toScheduleFrequencyType() {
-    switch (this) {
-      case 'BYMINUTE':
-        return ScheduleFrequencyType.byminute;
-      case 'HOURLY':
-        return ScheduleFrequencyType.hourly;
-      case 'DAILY':
-        return ScheduleFrequencyType.daily;
-      case 'WEEKLY':
-        return ScheduleFrequencyType.weekly;
-      case 'MONTHLY':
-        return ScheduleFrequencyType.monthly;
-      case 'ONCE':
-        return ScheduleFrequencyType.once;
-    }
-    throw Exception('$this is not known in enum ScheduleFrequencyType');
-  }
+  const ScheduleFrequencyType(this.value);
+
+  static ScheduleFrequencyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScheduleFrequencyType'));
 }
 
 /// Specifies the configuration details of a schedule-triggered flow as defined
@@ -9502,7 +8185,8 @@ class ScheduledTriggerProperties {
   factory ScheduledTriggerProperties.fromJson(Map<String, dynamic> json) {
     return ScheduledTriggerProperties(
       scheduleExpression: json['scheduleExpression'] as String,
-      dataPullMode: (json['dataPullMode'] as String?)?.toDataPullMode(),
+      dataPullMode:
+          (json['dataPullMode'] as String?)?.let(DataPullMode.fromString),
       firstExecutionFrom: timeStampFromJson(json['firstExecutionFrom']),
       flowErrorDeactivationThreshold:
           json['flowErrorDeactivationThreshold'] as int?,
@@ -9524,7 +8208,7 @@ class ScheduledTriggerProperties {
     final timezone = this.timezone;
     return {
       'scheduleExpression': scheduleExpression,
-      if (dataPullMode != null) 'dataPullMode': dataPullMode.toValue(),
+      if (dataPullMode != null) 'dataPullMode': dataPullMode.value,
       if (firstExecutionFrom != null)
         'firstExecutionFrom': unixTimestampToJson(firstExecutionFrom),
       if (flowErrorDeactivationThreshold != null)
@@ -9540,127 +8224,37 @@ class ScheduledTriggerProperties {
 }
 
 enum ServiceNowConnectorOperator {
-  projection,
-  contains,
-  lessThan,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  contains('CONTAINS'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension ServiceNowConnectorOperatorValueExtension
-    on ServiceNowConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case ServiceNowConnectorOperator.projection:
-        return 'PROJECTION';
-      case ServiceNowConnectorOperator.contains:
-        return 'CONTAINS';
-      case ServiceNowConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case ServiceNowConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case ServiceNowConnectorOperator.between:
-        return 'BETWEEN';
-      case ServiceNowConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case ServiceNowConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case ServiceNowConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case ServiceNowConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case ServiceNowConnectorOperator.addition:
-        return 'ADDITION';
-      case ServiceNowConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case ServiceNowConnectorOperator.division:
-        return 'DIVISION';
-      case ServiceNowConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case ServiceNowConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case ServiceNowConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case ServiceNowConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case ServiceNowConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case ServiceNowConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case ServiceNowConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case ServiceNowConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case ServiceNowConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNowConnectorOperatorFromString on String {
-  ServiceNowConnectorOperator toServiceNowConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return ServiceNowConnectorOperator.projection;
-      case 'CONTAINS':
-        return ServiceNowConnectorOperator.contains;
-      case 'LESS_THAN':
-        return ServiceNowConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return ServiceNowConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return ServiceNowConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return ServiceNowConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return ServiceNowConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return ServiceNowConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return ServiceNowConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return ServiceNowConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return ServiceNowConnectorOperator.multiplication;
-      case 'DIVISION':
-        return ServiceNowConnectorOperator.division;
-      case 'SUBTRACTION':
-        return ServiceNowConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return ServiceNowConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return ServiceNowConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return ServiceNowConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return ServiceNowConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return ServiceNowConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return ServiceNowConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return ServiceNowConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return ServiceNowConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum ServiceNowConnectorOperator');
-  }
+  const ServiceNowConnectorOperator(this.value);
+
+  static ServiceNowConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceNowConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using ServiceNow.
@@ -9753,91 +8347,30 @@ class ServiceNowSourceProperties {
 }
 
 enum SingularConnectorOperator {
-  projection,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension SingularConnectorOperatorValueExtension on SingularConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case SingularConnectorOperator.projection:
-        return 'PROJECTION';
-      case SingularConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case SingularConnectorOperator.addition:
-        return 'ADDITION';
-      case SingularConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case SingularConnectorOperator.division:
-        return 'DIVISION';
-      case SingularConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case SingularConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case SingularConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case SingularConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case SingularConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case SingularConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case SingularConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case SingularConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case SingularConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension SingularConnectorOperatorFromString on String {
-  SingularConnectorOperator toSingularConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return SingularConnectorOperator.projection;
-      case 'EQUAL_TO':
-        return SingularConnectorOperator.equalTo;
-      case 'ADDITION':
-        return SingularConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return SingularConnectorOperator.multiplication;
-      case 'DIVISION':
-        return SingularConnectorOperator.division;
-      case 'SUBTRACTION':
-        return SingularConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return SingularConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return SingularConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return SingularConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return SingularConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return SingularConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return SingularConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return SingularConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return SingularConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum SingularConnectorOperator');
-  }
+  const SingularConnectorOperator(this.value);
+
+  static SingularConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SingularConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Singular.
@@ -9908,116 +8441,35 @@ class SingularSourceProperties {
 }
 
 enum SlackConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension SlackConnectorOperatorValueExtension on SlackConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case SlackConnectorOperator.projection:
-        return 'PROJECTION';
-      case SlackConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case SlackConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case SlackConnectorOperator.between:
-        return 'BETWEEN';
-      case SlackConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case SlackConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case SlackConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case SlackConnectorOperator.addition:
-        return 'ADDITION';
-      case SlackConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case SlackConnectorOperator.division:
-        return 'DIVISION';
-      case SlackConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case SlackConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case SlackConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case SlackConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case SlackConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case SlackConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case SlackConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case SlackConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case SlackConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension SlackConnectorOperatorFromString on String {
-  SlackConnectorOperator toSlackConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return SlackConnectorOperator.projection;
-      case 'LESS_THAN':
-        return SlackConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return SlackConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return SlackConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return SlackConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return SlackConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return SlackConnectorOperator.equalTo;
-      case 'ADDITION':
-        return SlackConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return SlackConnectorOperator.multiplication;
-      case 'DIVISION':
-        return SlackConnectorOperator.division;
-      case 'SUBTRACTION':
-        return SlackConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return SlackConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return SlackConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return SlackConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return SlackConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return SlackConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return SlackConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return SlackConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return SlackConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum SlackConnectorOperator');
-  }
+  const SlackConnectorOperator(this.value);
+
+  static SlackConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SlackConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Slack.
@@ -10560,7 +9012,8 @@ class SourceFlowConfig {
 
   factory SourceFlowConfig.fromJson(Map<String, dynamic> json) {
     return SourceFlowConfig(
-      connectorType: (json['connectorType'] as String).toConnectorType(),
+      connectorType:
+          ConnectorType.fromString((json['connectorType'] as String)),
       sourceConnectorProperties: SourceConnectorProperties.fromJson(
           json['sourceConnectorProperties'] as Map<String, dynamic>),
       apiVersion: json['apiVersion'] as String?,
@@ -10579,7 +9032,7 @@ class SourceFlowConfig {
     final connectorProfileName = this.connectorProfileName;
     final incrementalPullConfig = this.incrementalPullConfig;
     return {
-      'connectorType': connectorType.toValue(),
+      'connectorType': connectorType.value,
       'sourceConnectorProperties': sourceConnectorProperties,
       if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
@@ -10611,7 +9064,7 @@ class StartFlowResponse {
     return StartFlowResponse(
       executionId: json['executionId'] as String?,
       flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
     );
   }
 
@@ -10622,7 +9075,7 @@ class StartFlowResponse {
     return {
       if (executionId != null) 'executionId': executionId,
       if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
     };
   }
 }
@@ -10642,7 +9095,7 @@ class StopFlowResponse {
   factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
     return StopFlowResponse(
       flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
     );
   }
 
@@ -10651,7 +9104,7 @@ class StopFlowResponse {
     final flowStatus = this.flowStatus;
     return {
       if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
     };
   }
 }
@@ -10691,31 +9144,18 @@ class SuccessResponseHandlingConfig {
 }
 
 enum SupportedDataTransferType {
-  record,
-  file,
-}
+  record('RECORD'),
+  file('FILE'),
+  ;
 
-extension SupportedDataTransferTypeValueExtension on SupportedDataTransferType {
-  String toValue() {
-    switch (this) {
-      case SupportedDataTransferType.record:
-        return 'RECORD';
-      case SupportedDataTransferType.file:
-        return 'FILE';
-    }
-  }
-}
+  final String value;
 
-extension SupportedDataTransferTypeFromString on String {
-  SupportedDataTransferType toSupportedDataTransferType() {
-    switch (this) {
-      case 'RECORD':
-        return SupportedDataTransferType.record;
-      case 'FILE':
-        return SupportedDataTransferType.file;
-    }
-    throw Exception('$this is not known in enum SupportedDataTransferType');
-  }
+  const SupportedDataTransferType(this.value);
+
+  static SupportedDataTransferType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SupportedDataTransferType'));
 }
 
 /// Contains details regarding all the supported <code>FieldTypes</code> and
@@ -10790,14 +9230,15 @@ class Task {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      taskType: (json['taskType'] as String).toTaskType(),
+      taskType: TaskType.fromString((json['taskType'] as String)),
       connectorOperator: json['connectorOperator'] != null
           ? ConnectorOperator.fromJson(
               json['connectorOperator'] as Map<String, dynamic>)
           : null,
       destinationField: json['destinationField'] as String?,
-      taskProperties: (json['taskProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toOperatorPropertiesKeys(), e as String)),
+      taskProperties: (json['taskProperties'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(OperatorPropertiesKeys.fromString(k), e as String)),
     );
   }
 
@@ -10809,171 +9250,62 @@ class Task {
     final taskProperties = this.taskProperties;
     return {
       'sourceFields': sourceFields,
-      'taskType': taskType.toValue(),
+      'taskType': taskType.value,
       if (connectorOperator != null) 'connectorOperator': connectorOperator,
       if (destinationField != null) 'destinationField': destinationField,
       if (taskProperties != null)
-        'taskProperties':
-            taskProperties.map((k, e) => MapEntry(k.toValue(), e)),
+        'taskProperties': taskProperties.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum TaskType {
-  arithmetic,
-  filter,
-  map,
-  mapAll,
-  mask,
-  merge,
-  passthrough,
-  truncate,
-  validate,
-  partition,
-}
+  arithmetic('Arithmetic'),
+  filter('Filter'),
+  map('Map'),
+  mapAll('Map_all'),
+  mask('Mask'),
+  merge('Merge'),
+  passthrough('Passthrough'),
+  truncate('Truncate'),
+  validate('Validate'),
+  partition('Partition'),
+  ;
 
-extension TaskTypeValueExtension on TaskType {
-  String toValue() {
-    switch (this) {
-      case TaskType.arithmetic:
-        return 'Arithmetic';
-      case TaskType.filter:
-        return 'Filter';
-      case TaskType.map:
-        return 'Map';
-      case TaskType.mapAll:
-        return 'Map_all';
-      case TaskType.mask:
-        return 'Mask';
-      case TaskType.merge:
-        return 'Merge';
-      case TaskType.passthrough:
-        return 'Passthrough';
-      case TaskType.truncate:
-        return 'Truncate';
-      case TaskType.validate:
-        return 'Validate';
-      case TaskType.partition:
-        return 'Partition';
-    }
-  }
-}
+  final String value;
 
-extension TaskTypeFromString on String {
-  TaskType toTaskType() {
-    switch (this) {
-      case 'Arithmetic':
-        return TaskType.arithmetic;
-      case 'Filter':
-        return TaskType.filter;
-      case 'Map':
-        return TaskType.map;
-      case 'Map_all':
-        return TaskType.mapAll;
-      case 'Mask':
-        return TaskType.mask;
-      case 'Merge':
-        return TaskType.merge;
-      case 'Passthrough':
-        return TaskType.passthrough;
-      case 'Truncate':
-        return TaskType.truncate;
-      case 'Validate':
-        return TaskType.validate;
-      case 'Partition':
-        return TaskType.partition;
-    }
-    throw Exception('$this is not known in enum TaskType');
-  }
+  const TaskType(this.value);
+
+  static TaskType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskType'));
 }
 
 enum TrendmicroConnectorOperator {
-  projection,
-  equalTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  equalTo('EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension TrendmicroConnectorOperatorValueExtension
-    on TrendmicroConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case TrendmicroConnectorOperator.projection:
-        return 'PROJECTION';
-      case TrendmicroConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case TrendmicroConnectorOperator.addition:
-        return 'ADDITION';
-      case TrendmicroConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case TrendmicroConnectorOperator.division:
-        return 'DIVISION';
-      case TrendmicroConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case TrendmicroConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case TrendmicroConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case TrendmicroConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case TrendmicroConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case TrendmicroConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case TrendmicroConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case TrendmicroConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case TrendmicroConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension TrendmicroConnectorOperatorFromString on String {
-  TrendmicroConnectorOperator toTrendmicroConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return TrendmicroConnectorOperator.projection;
-      case 'EQUAL_TO':
-        return TrendmicroConnectorOperator.equalTo;
-      case 'ADDITION':
-        return TrendmicroConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return TrendmicroConnectorOperator.multiplication;
-      case 'DIVISION':
-        return TrendmicroConnectorOperator.division;
-      case 'SUBTRACTION':
-        return TrendmicroConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return TrendmicroConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return TrendmicroConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return TrendmicroConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return TrendmicroConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return TrendmicroConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return TrendmicroConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return TrendmicroConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return TrendmicroConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum TrendmicroConnectorOperator');
-  }
+  const TrendmicroConnectorOperator(this.value);
+
+  static TrendmicroConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrendmicroConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Trend Micro.
@@ -11062,7 +9394,7 @@ class TriggerConfig {
 
   factory TriggerConfig.fromJson(Map<String, dynamic> json) {
     return TriggerConfig(
-      triggerType: (json['triggerType'] as String).toTriggerType(),
+      triggerType: TriggerType.fromString((json['triggerType'] as String)),
       triggerProperties: json['triggerProperties'] != null
           ? TriggerProperties.fromJson(
               json['triggerProperties'] as Map<String, dynamic>)
@@ -11074,7 +9406,7 @@ class TriggerConfig {
     final triggerType = this.triggerType;
     final triggerProperties = this.triggerProperties;
     return {
-      'triggerType': triggerType.toValue(),
+      'triggerType': triggerType.value,
       if (triggerProperties != null) 'triggerProperties': triggerProperties,
     };
   }
@@ -11110,36 +9442,18 @@ class TriggerProperties {
 }
 
 enum TriggerType {
-  scheduled,
-  event,
-  onDemand,
-}
+  scheduled('Scheduled'),
+  event('Event'),
+  onDemand('OnDemand'),
+  ;
 
-extension TriggerTypeValueExtension on TriggerType {
-  String toValue() {
-    switch (this) {
-      case TriggerType.scheduled:
-        return 'Scheduled';
-      case TriggerType.event:
-        return 'Event';
-      case TriggerType.onDemand:
-        return 'OnDemand';
-    }
-  }
-}
+  final String value;
 
-extension TriggerTypeFromString on String {
-  TriggerType toTriggerType() {
-    switch (this) {
-      case 'Scheduled':
-        return TriggerType.scheduled;
-      case 'Event':
-        return TriggerType.event;
-      case 'OnDemand':
-        return TriggerType.onDemand;
-    }
-    throw Exception('$this is not known in enum TriggerType');
-  }
+  const TriggerType(this.value);
+
+  static TriggerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TriggerType'));
 }
 
 class UnregisterConnectorResponse {
@@ -11222,14 +9536,14 @@ class UpdateFlowResponse {
 
   factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowResponse(
-      flowStatus: (json['flowStatus'] as String?)?.toFlowStatus(),
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final flowStatus = this.flowStatus;
     return {
-      if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
     };
   }
 }
@@ -11312,7 +9626,7 @@ class UpsolverS3OutputFormatConfig {
           ? AggregationConfig.fromJson(
               json['aggregationConfig'] as Map<String, dynamic>)
           : null,
-      fileType: (json['fileType'] as String?)?.toFileType(),
+      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
     );
   }
 
@@ -11323,132 +9637,43 @@ class UpsolverS3OutputFormatConfig {
     return {
       'prefixConfig': prefixConfig,
       if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
-      if (fileType != null) 'fileType': fileType.toValue(),
+      if (fileType != null) 'fileType': fileType.value,
     };
   }
 }
 
 enum VeevaConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  contains,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  contains('CONTAINS'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension VeevaConnectorOperatorValueExtension on VeevaConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case VeevaConnectorOperator.projection:
-        return 'PROJECTION';
-      case VeevaConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case VeevaConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case VeevaConnectorOperator.contains:
-        return 'CONTAINS';
-      case VeevaConnectorOperator.between:
-        return 'BETWEEN';
-      case VeevaConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case VeevaConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case VeevaConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case VeevaConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case VeevaConnectorOperator.addition:
-        return 'ADDITION';
-      case VeevaConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case VeevaConnectorOperator.division:
-        return 'DIVISION';
-      case VeevaConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case VeevaConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case VeevaConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case VeevaConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case VeevaConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case VeevaConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case VeevaConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case VeevaConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case VeevaConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension VeevaConnectorOperatorFromString on String {
-  VeevaConnectorOperator toVeevaConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return VeevaConnectorOperator.projection;
-      case 'LESS_THAN':
-        return VeevaConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return VeevaConnectorOperator.greaterThan;
-      case 'CONTAINS':
-        return VeevaConnectorOperator.contains;
-      case 'BETWEEN':
-        return VeevaConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return VeevaConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return VeevaConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return VeevaConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return VeevaConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return VeevaConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return VeevaConnectorOperator.multiplication;
-      case 'DIVISION':
-        return VeevaConnectorOperator.division;
-      case 'SUBTRACTION':
-        return VeevaConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return VeevaConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return VeevaConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return VeevaConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return VeevaConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return VeevaConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return VeevaConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return VeevaConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return VeevaConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum VeevaConnectorOperator');
-  }
+  const VeevaConnectorOperator(this.value);
+
+  static VeevaConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VeevaConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Veeva.
@@ -11565,129 +9790,47 @@ class VeevaSourceProperties {
 /// The possible write operations in the destination connector. When this value
 /// is not provided, this defaults to the <code>INSERT</code> operation.
 enum WriteOperationType {
-  insert,
-  upsert,
-  update,
-  delete,
-}
+  insert('INSERT'),
+  upsert('UPSERT'),
+  update('UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension WriteOperationTypeValueExtension on WriteOperationType {
-  String toValue() {
-    switch (this) {
-      case WriteOperationType.insert:
-        return 'INSERT';
-      case WriteOperationType.upsert:
-        return 'UPSERT';
-      case WriteOperationType.update:
-        return 'UPDATE';
-      case WriteOperationType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension WriteOperationTypeFromString on String {
-  WriteOperationType toWriteOperationType() {
-    switch (this) {
-      case 'INSERT':
-        return WriteOperationType.insert;
-      case 'UPSERT':
-        return WriteOperationType.upsert;
-      case 'UPDATE':
-        return WriteOperationType.update;
-      case 'DELETE':
-        return WriteOperationType.delete;
-    }
-    throw Exception('$this is not known in enum WriteOperationType');
-  }
+  const WriteOperationType(this.value);
+
+  static WriteOperationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WriteOperationType'));
 }
 
 enum ZendeskConnectorOperator {
-  projection,
-  greaterThan,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  greaterThan('GREATER_THAN'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension ZendeskConnectorOperatorValueExtension on ZendeskConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case ZendeskConnectorOperator.projection:
-        return 'PROJECTION';
-      case ZendeskConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case ZendeskConnectorOperator.addition:
-        return 'ADDITION';
-      case ZendeskConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case ZendeskConnectorOperator.division:
-        return 'DIVISION';
-      case ZendeskConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case ZendeskConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case ZendeskConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case ZendeskConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case ZendeskConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case ZendeskConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case ZendeskConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case ZendeskConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case ZendeskConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension ZendeskConnectorOperatorFromString on String {
-  ZendeskConnectorOperator toZendeskConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return ZendeskConnectorOperator.projection;
-      case 'GREATER_THAN':
-        return ZendeskConnectorOperator.greaterThan;
-      case 'ADDITION':
-        return ZendeskConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return ZendeskConnectorOperator.multiplication;
-      case 'DIVISION':
-        return ZendeskConnectorOperator.division;
-      case 'SUBTRACTION':
-        return ZendeskConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return ZendeskConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return ZendeskConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return ZendeskConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return ZendeskConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return ZendeskConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return ZendeskConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return ZendeskConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return ZendeskConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum ZendeskConnectorOperator');
-  }
+  const ZendeskConnectorOperator(this.value);
+
+  static ZendeskConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ZendeskConnectorOperator'));
 }
 
 /// The connector-specific profile credentials required when using Zendesk.
@@ -11777,8 +9920,8 @@ class ZendeskDestinationProperties {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      writeOperationType:
-          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
     );
   }
 
@@ -11793,7 +9936,7 @@ class ZendeskDestinationProperties {
         'errorHandlingConfig': errorHandlingConfig,
       if (idFieldNames != null) 'idFieldNames': idFieldNames,
       if (writeOperationType != null)
-        'writeOperationType': writeOperationType.toValue(),
+        'writeOperationType': writeOperationType.value,
     };
   }
 }

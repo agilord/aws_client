@@ -203,9 +203,9 @@ class ApplicationCostProfiler {
   }) async {
     final $payload = <String, dynamic>{
       'destinationS3Location': destinationS3Location,
-      'format': format.toValue(),
+      'format': format.value,
       'reportDescription': reportDescription,
-      'reportFrequency': reportFrequency.toValue(),
+      'reportFrequency': reportFrequency.value,
       'reportId': reportId,
     };
     final response = await _protocol.send(
@@ -248,9 +248,9 @@ class ApplicationCostProfiler {
   }) async {
     final $payload = <String, dynamic>{
       'destinationS3Location': destinationS3Location,
-      'format': format.toValue(),
+      'format': format.value,
       'reportDescription': reportDescription,
-      'reportFrequency': reportFrequency.toValue(),
+      'reportFrequency': reportFrequency.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -285,31 +285,17 @@ class DeleteReportDefinitionResult {
 }
 
 enum Format {
-  csv,
-  parquet,
-}
+  csv('CSV'),
+  parquet('PARQUET'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.csv:
-        return 'CSV';
-      case Format.parquet:
-        return 'PARQUET';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'CSV':
-        return Format.csv;
-      case 'PARQUET':
-        return Format.parquet;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 class GetReportDefinitionResult {
@@ -350,10 +336,11 @@ class GetReportDefinitionResult {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       destinationS3Location: S3Location.fromJson(
           json['destinationS3Location'] as Map<String, dynamic>),
-      format: (json['format'] as String).toFormat(),
+      format: Format.fromString((json['format'] as String)),
       lastUpdated: nonNullableTimeStampFromJson(json['lastUpdated'] as Object),
       reportDescription: json['reportDescription'] as String,
-      reportFrequency: (json['reportFrequency'] as String).toReportFrequency(),
+      reportFrequency:
+          ReportFrequency.fromString((json['reportFrequency'] as String)),
       reportId: json['reportId'] as String,
     );
   }
@@ -369,10 +356,10 @@ class GetReportDefinitionResult {
     return {
       'createdAt': unixTimestampToJson(createdAt),
       'destinationS3Location': destinationS3Location,
-      'format': format.toValue(),
+      'format': format.value,
       'lastUpdated': unixTimestampToJson(lastUpdated),
       'reportDescription': reportDescription,
-      'reportFrequency': reportFrequency.toValue(),
+      'reportFrequency': reportFrequency.value,
       'reportId': reportId,
     };
   }
@@ -496,11 +483,11 @@ class ReportDefinition {
           ? S3Location.fromJson(
               json['destinationS3Location'] as Map<String, dynamic>)
           : null,
-      format: (json['format'] as String?)?.toFormat(),
+      format: (json['format'] as String?)?.let(Format.fromString),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       reportDescription: json['reportDescription'] as String?,
       reportFrequency:
-          (json['reportFrequency'] as String?)?.toReportFrequency(),
+          (json['reportFrequency'] as String?)?.let(ReportFrequency.fromString),
       reportId: json['reportId'] as String?,
     );
   }
@@ -517,85 +504,47 @@ class ReportDefinition {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (destinationS3Location != null)
         'destinationS3Location': destinationS3Location,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (reportDescription != null) 'reportDescription': reportDescription,
-      if (reportFrequency != null) 'reportFrequency': reportFrequency.toValue(),
+      if (reportFrequency != null) 'reportFrequency': reportFrequency.value,
       if (reportId != null) 'reportId': reportId,
     };
   }
 }
 
 enum ReportFrequency {
-  monthly,
-  daily,
-  all,
-}
+  monthly('MONTHLY'),
+  daily('DAILY'),
+  all('ALL'),
+  ;
 
-extension ReportFrequencyValueExtension on ReportFrequency {
-  String toValue() {
-    switch (this) {
-      case ReportFrequency.monthly:
-        return 'MONTHLY';
-      case ReportFrequency.daily:
-        return 'DAILY';
-      case ReportFrequency.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension ReportFrequencyFromString on String {
-  ReportFrequency toReportFrequency() {
-    switch (this) {
-      case 'MONTHLY':
-        return ReportFrequency.monthly;
-      case 'DAILY':
-        return ReportFrequency.daily;
-      case 'ALL':
-        return ReportFrequency.all;
-    }
-    throw Exception('$this is not known in enum ReportFrequency');
-  }
+  const ReportFrequency(this.value);
+
+  static ReportFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportFrequency'));
 }
 
 enum S3BucketRegion {
-  apEast_1,
-  meSouth_1,
-  euSouth_1,
-  afSouth_1,
-}
+  apEast_1('ap-east-1'),
+  meSouth_1('me-south-1'),
+  euSouth_1('eu-south-1'),
+  afSouth_1('af-south-1'),
+  ;
 
-extension S3BucketRegionValueExtension on S3BucketRegion {
-  String toValue() {
-    switch (this) {
-      case S3BucketRegion.apEast_1:
-        return 'ap-east-1';
-      case S3BucketRegion.meSouth_1:
-        return 'me-south-1';
-      case S3BucketRegion.euSouth_1:
-        return 'eu-south-1';
-      case S3BucketRegion.afSouth_1:
-        return 'af-south-1';
-    }
-  }
-}
+  final String value;
 
-extension S3BucketRegionFromString on String {
-  S3BucketRegion toS3BucketRegion() {
-    switch (this) {
-      case 'ap-east-1':
-        return S3BucketRegion.apEast_1;
-      case 'me-south-1':
-        return S3BucketRegion.meSouth_1;
-      case 'eu-south-1':
-        return S3BucketRegion.euSouth_1;
-      case 'af-south-1':
-        return S3BucketRegion.afSouth_1;
-    }
-    throw Exception('$this is not known in enum S3BucketRegion');
-  }
+  const S3BucketRegion(this.value);
+
+  static S3BucketRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3BucketRegion'));
 }
 
 /// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS
@@ -658,7 +607,7 @@ class SourceS3Location {
     return {
       'bucket': bucket,
       'key': key,
-      if (region != null) 'region': region.toValue(),
+      if (region != null) 'region': region.value,
     };
   }
 }

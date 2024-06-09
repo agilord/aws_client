@@ -556,7 +556,7 @@ class GreengrassV2 {
   }) async {
     final $query = <String, List<String>>{
       if (recipeOutputFormat != null)
-        'recipeOutputFormat': [recipeOutputFormat.toValue()],
+        'recipeOutputFormat': [recipeOutputFormat.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -615,10 +615,10 @@ class GreengrassV2 {
   }) async {
     final headers = <String, String>{
       if (iotEndpointType != null)
-        'x-amz-iot-endpoint-type': iotEndpointType.toValue(),
+        'x-amz-iot-endpoint-type': iotEndpointType.value,
     };
     final $query = <String, List<String>>{
-      if (s3EndpointType != null) 's3EndpointType': [s3EndpointType.toValue()],
+      if (s3EndpointType != null) 's3EndpointType': [s3EndpointType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -882,7 +882,7 @@ class GreengrassV2 {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (scope != null) 'scope': [scope.toValue()],
+      if (scope != null) 'scope': [scope.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -977,7 +977,7 @@ class GreengrassV2 {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
       if (thingGroupArn != null) 'thingGroupArn': [thingGroupArn],
     };
     final response = await _protocol.send(
@@ -1043,7 +1043,7 @@ class GreengrassV2 {
       100,
     );
     final $query = <String, List<String>>{
-      if (historyFilter != null) 'historyFilter': [historyFilter.toValue()],
+      if (historyFilter != null) 'historyFilter': [historyFilter.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (parentTargetArn != null) 'parentTargetArn': [parentTargetArn],
@@ -1186,7 +1186,7 @@ class GreengrassV2 {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (topologyFilter != null) 'topologyFilter': [topologyFilter.toValue()],
+      if (topologyFilter != null) 'topologyFilter': [topologyFilter.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1522,46 +1522,21 @@ class CancelDeploymentResponse {
 }
 
 enum CloudComponentState {
-  requested,
-  initiated,
-  deployable,
-  failed,
-  deprecated,
-}
+  requested('REQUESTED'),
+  initiated('INITIATED'),
+  deployable('DEPLOYABLE'),
+  failed('FAILED'),
+  deprecated('DEPRECATED'),
+  ;
 
-extension CloudComponentStateValueExtension on CloudComponentState {
-  String toValue() {
-    switch (this) {
-      case CloudComponentState.requested:
-        return 'REQUESTED';
-      case CloudComponentState.initiated:
-        return 'INITIATED';
-      case CloudComponentState.deployable:
-        return 'DEPLOYABLE';
-      case CloudComponentState.failed:
-        return 'FAILED';
-      case CloudComponentState.deprecated:
-        return 'DEPRECATED';
-    }
-  }
-}
+  final String value;
 
-extension CloudComponentStateFromString on String {
-  CloudComponentState toCloudComponentState() {
-    switch (this) {
-      case 'REQUESTED':
-        return CloudComponentState.requested;
-      case 'INITIATED':
-        return CloudComponentState.initiated;
-      case 'DEPLOYABLE':
-        return CloudComponentState.deployable;
-      case 'FAILED':
-        return CloudComponentState.failed;
-      case 'DEPRECATED':
-        return CloudComponentState.deprecated;
-    }
-    throw Exception('$this is not known in enum CloudComponentState');
-  }
+  const CloudComponentState(this.value);
+
+  static CloudComponentState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CloudComponentState'));
 }
 
 /// Contains the status of a component version in the IoT Greengrass service.
@@ -1616,12 +1591,13 @@ class CloudComponentStatus {
 
   factory CloudComponentStatus.fromJson(Map<String, dynamic> json) {
     return CloudComponentStatus(
-      componentState:
-          (json['componentState'] as String?)?.toCloudComponentState(),
+      componentState: (json['componentState'] as String?)
+          ?.let(CloudComponentState.fromString),
       errors: (json['errors'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       message: json['message'] as String?,
-      vendorGuidance: (json['vendorGuidance'] as String?)?.toVendorGuidance(),
+      vendorGuidance:
+          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
       vendorGuidanceMessage: json['vendorGuidanceMessage'] as String?,
     );
   }
@@ -1777,38 +1753,25 @@ class ComponentDependencyRequirement {
     final dependencyType = this.dependencyType;
     final versionRequirement = this.versionRequirement;
     return {
-      if (dependencyType != null) 'dependencyType': dependencyType.toValue(),
+      if (dependencyType != null) 'dependencyType': dependencyType.value,
       if (versionRequirement != null) 'versionRequirement': versionRequirement,
     };
   }
 }
 
 enum ComponentDependencyType {
-  hard,
-  soft,
-}
+  hard('HARD'),
+  soft('SOFT'),
+  ;
 
-extension ComponentDependencyTypeValueExtension on ComponentDependencyType {
-  String toValue() {
-    switch (this) {
-      case ComponentDependencyType.hard:
-        return 'HARD';
-      case ComponentDependencyType.soft:
-        return 'SOFT';
-    }
-  }
-}
+  final String value;
 
-extension ComponentDependencyTypeFromString on String {
-  ComponentDependencyType toComponentDependencyType() {
-    switch (this) {
-      case 'HARD':
-        return ComponentDependencyType.hard;
-      case 'SOFT':
-        return ComponentDependencyType.soft;
-    }
-    throw Exception('$this is not known in enum ComponentDependencyType');
-  }
+  const ComponentDependencyType(this.value);
+
+  static ComponentDependencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ComponentDependencyType'));
 }
 
 /// Contains information about a component to deploy.
@@ -2057,31 +2020,18 @@ class ComponentVersionListItem {
 }
 
 enum ComponentVisibilityScope {
-  private,
-  public,
-}
+  private('PRIVATE'),
+  public('PUBLIC'),
+  ;
 
-extension ComponentVisibilityScopeValueExtension on ComponentVisibilityScope {
-  String toValue() {
-    switch (this) {
-      case ComponentVisibilityScope.private:
-        return 'PRIVATE';
-      case ComponentVisibilityScope.public:
-        return 'PUBLIC';
-    }
-  }
-}
+  final String value;
 
-extension ComponentVisibilityScopeFromString on String {
-  ComponentVisibilityScope toComponentVisibilityScope() {
-    switch (this) {
-      case 'PRIVATE':
-        return ComponentVisibilityScope.private;
-      case 'PUBLIC':
-        return ComponentVisibilityScope.public;
-    }
-    throw Exception('$this is not known in enum ComponentVisibilityScope');
-  }
+  const ComponentVisibilityScope(this.value);
+
+  static ComponentVisibilityScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ComponentVisibilityScope'));
 }
 
 /// Contains information about an endpoint and port where client devices can
@@ -2168,37 +2118,24 @@ class CoreDevice {
       coreDeviceThingName: json['coreDeviceThingName'] as String?,
       lastStatusUpdateTimestamp:
           timeStampFromJson(json['lastStatusUpdateTimestamp']),
-      status: (json['status'] as String?)?.toCoreDeviceStatus(),
+      status: (json['status'] as String?)?.let(CoreDeviceStatus.fromString),
     );
   }
 }
 
 enum CoreDeviceStatus {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension CoreDeviceStatusValueExtension on CoreDeviceStatus {
-  String toValue() {
-    switch (this) {
-      case CoreDeviceStatus.healthy:
-        return 'HEALTHY';
-      case CoreDeviceStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension CoreDeviceStatusFromString on String {
-  CoreDeviceStatus toCoreDeviceStatus() {
-    switch (this) {
-      case 'HEALTHY':
-        return CoreDeviceStatus.healthy;
-      case 'UNHEALTHY':
-        return CoreDeviceStatus.unhealthy;
-    }
-    throw Exception('$this is not known in enum CoreDeviceStatus');
-  }
+  const CoreDeviceStatus(this.value);
+
+  static CoreDeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CoreDeviceStatus'));
 }
 
 class CreateComponentVersionResponse {
@@ -2315,8 +2252,8 @@ class Deployment {
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       deploymentId: json['deploymentId'] as String?,
       deploymentName: json['deploymentName'] as String?,
-      deploymentStatus:
-          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatus: (json['deploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
       isLatestForTarget: json['isLatestForTarget'] as bool?,
       parentTargetArn: json['parentTargetArn'] as String?,
       revisionId: json['revisionId'] as String?,
@@ -2372,7 +2309,7 @@ class DeploymentComponentUpdatePolicy {
   factory DeploymentComponentUpdatePolicy.fromJson(Map<String, dynamic> json) {
     return DeploymentComponentUpdatePolicy(
       action: (json['action'] as String?)
-          ?.toDeploymentComponentUpdatePolicyAction(),
+          ?.let(DeploymentComponentUpdatePolicyAction.fromString),
       timeoutInSeconds: json['timeoutInSeconds'] as int?,
     );
   }
@@ -2381,41 +2318,25 @@ class DeploymentComponentUpdatePolicy {
     final action = this.action;
     final timeoutInSeconds = this.timeoutInSeconds;
     return {
-      if (action != null) 'action': action.toValue(),
+      if (action != null) 'action': action.value,
       if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
     };
   }
 }
 
 enum DeploymentComponentUpdatePolicyAction {
-  notifyComponents,
-  skipNotifyComponents,
-}
+  notifyComponents('NOTIFY_COMPONENTS'),
+  skipNotifyComponents('SKIP_NOTIFY_COMPONENTS'),
+  ;
 
-extension DeploymentComponentUpdatePolicyActionValueExtension
-    on DeploymentComponentUpdatePolicyAction {
-  String toValue() {
-    switch (this) {
-      case DeploymentComponentUpdatePolicyAction.notifyComponents:
-        return 'NOTIFY_COMPONENTS';
-      case DeploymentComponentUpdatePolicyAction.skipNotifyComponents:
-        return 'SKIP_NOTIFY_COMPONENTS';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentComponentUpdatePolicyActionFromString on String {
-  DeploymentComponentUpdatePolicyAction
-      toDeploymentComponentUpdatePolicyAction() {
-    switch (this) {
-      case 'NOTIFY_COMPONENTS':
-        return DeploymentComponentUpdatePolicyAction.notifyComponents;
-      case 'SKIP_NOTIFY_COMPONENTS':
-        return DeploymentComponentUpdatePolicyAction.skipNotifyComponents;
-    }
-    throw Exception(
-        '$this is not known in enum DeploymentComponentUpdatePolicyAction');
-  }
+  const DeploymentComponentUpdatePolicyAction(this.value);
+
+  static DeploymentComponentUpdatePolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeploymentComponentUpdatePolicyAction'));
 }
 
 /// Contains information about how long a component on a core device can
@@ -2456,61 +2377,33 @@ class DeploymentConfigurationValidationPolicy {
 }
 
 enum DeploymentFailureHandlingPolicy {
-  rollback,
-  doNothing,
-}
+  rollback('ROLLBACK'),
+  doNothing('DO_NOTHING'),
+  ;
 
-extension DeploymentFailureHandlingPolicyValueExtension
-    on DeploymentFailureHandlingPolicy {
-  String toValue() {
-    switch (this) {
-      case DeploymentFailureHandlingPolicy.rollback:
-        return 'ROLLBACK';
-      case DeploymentFailureHandlingPolicy.doNothing:
-        return 'DO_NOTHING';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentFailureHandlingPolicyFromString on String {
-  DeploymentFailureHandlingPolicy toDeploymentFailureHandlingPolicy() {
-    switch (this) {
-      case 'ROLLBACK':
-        return DeploymentFailureHandlingPolicy.rollback;
-      case 'DO_NOTHING':
-        return DeploymentFailureHandlingPolicy.doNothing;
-    }
-    throw Exception(
-        '$this is not known in enum DeploymentFailureHandlingPolicy');
-  }
+  const DeploymentFailureHandlingPolicy(this.value);
+
+  static DeploymentFailureHandlingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeploymentFailureHandlingPolicy'));
 }
 
 enum DeploymentHistoryFilter {
-  all,
-  latestOnly,
-}
+  all('ALL'),
+  latestOnly('LATEST_ONLY'),
+  ;
 
-extension DeploymentHistoryFilterValueExtension on DeploymentHistoryFilter {
-  String toValue() {
-    switch (this) {
-      case DeploymentHistoryFilter.all:
-        return 'ALL';
-      case DeploymentHistoryFilter.latestOnly:
-        return 'LATEST_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentHistoryFilterFromString on String {
-  DeploymentHistoryFilter toDeploymentHistoryFilter() {
-    switch (this) {
-      case 'ALL':
-        return DeploymentHistoryFilter.all;
-      case 'LATEST_ONLY':
-        return DeploymentHistoryFilter.latestOnly;
-    }
-    throw Exception('$this is not known in enum DeploymentHistoryFilter');
-  }
+  const DeploymentHistoryFilter(this.value);
+
+  static DeploymentHistoryFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeploymentHistoryFilter'));
 }
 
 /// Contains information about an IoT job configuration.
@@ -2599,7 +2492,7 @@ class DeploymentPolicies {
                   json['configurationValidationPolicy'] as Map<String, dynamic>)
               : null,
       failureHandlingPolicy: (json['failureHandlingPolicy'] as String?)
-          ?.toDeploymentFailureHandlingPolicy(),
+          ?.let(DeploymentFailureHandlingPolicy.fromString),
     );
   }
 
@@ -2613,52 +2506,27 @@ class DeploymentPolicies {
       if (configurationValidationPolicy != null)
         'configurationValidationPolicy': configurationValidationPolicy,
       if (failureHandlingPolicy != null)
-        'failureHandlingPolicy': failureHandlingPolicy.toValue(),
+        'failureHandlingPolicy': failureHandlingPolicy.value,
     };
   }
 }
 
 enum DeploymentStatus {
-  active,
-  completed,
-  canceled,
-  failed,
-  inactive,
-}
+  active('ACTIVE'),
+  completed('COMPLETED'),
+  canceled('CANCELED'),
+  failed('FAILED'),
+  inactive('INACTIVE'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.active:
-        return 'ACTIVE';
-      case DeploymentStatus.completed:
-        return 'COMPLETED';
-      case DeploymentStatus.canceled:
-        return 'CANCELED';
-      case DeploymentStatus.failed:
-        return 'FAILED';
-      case DeploymentStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DeploymentStatus.active;
-      case 'COMPLETED':
-        return DeploymentStatus.completed;
-      case 'CANCELED':
-        return DeploymentStatus.canceled;
-      case 'FAILED':
-        return DeploymentStatus.failed;
-      case 'INACTIVE':
-        return DeploymentStatus.inactive;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 class DescribeComponentResponse {
@@ -2887,8 +2755,8 @@ class EffectiveDeployment {
 
   factory EffectiveDeployment.fromJson(Map<String, dynamic> json) {
     return EffectiveDeployment(
-      coreDeviceExecutionStatus: (json['coreDeviceExecutionStatus'] as String)
-          .toEffectiveDeploymentExecutionStatus(),
+      coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus.fromString(
+          (json['coreDeviceExecutionStatus'] as String)),
       creationTimestamp:
           nonNullableTimeStampFromJson(json['creationTimestamp'] as Object),
       deploymentId: json['deploymentId'] as String,
@@ -2909,63 +2777,24 @@ class EffectiveDeployment {
 }
 
 enum EffectiveDeploymentExecutionStatus {
-  inProgress,
-  queued,
-  failed,
-  completed,
-  timedOut,
-  canceled,
-  rejected,
-  succeeded,
-}
+  inProgress('IN_PROGRESS'),
+  queued('QUEUED'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  timedOut('TIMED_OUT'),
+  canceled('CANCELED'),
+  rejected('REJECTED'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension EffectiveDeploymentExecutionStatusValueExtension
-    on EffectiveDeploymentExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case EffectiveDeploymentExecutionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case EffectiveDeploymentExecutionStatus.queued:
-        return 'QUEUED';
-      case EffectiveDeploymentExecutionStatus.failed:
-        return 'FAILED';
-      case EffectiveDeploymentExecutionStatus.completed:
-        return 'COMPLETED';
-      case EffectiveDeploymentExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-      case EffectiveDeploymentExecutionStatus.canceled:
-        return 'CANCELED';
-      case EffectiveDeploymentExecutionStatus.rejected:
-        return 'REJECTED';
-      case EffectiveDeploymentExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension EffectiveDeploymentExecutionStatusFromString on String {
-  EffectiveDeploymentExecutionStatus toEffectiveDeploymentExecutionStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return EffectiveDeploymentExecutionStatus.inProgress;
-      case 'QUEUED':
-        return EffectiveDeploymentExecutionStatus.queued;
-      case 'FAILED':
-        return EffectiveDeploymentExecutionStatus.failed;
-      case 'COMPLETED':
-        return EffectiveDeploymentExecutionStatus.completed;
-      case 'TIMED_OUT':
-        return EffectiveDeploymentExecutionStatus.timedOut;
-      case 'CANCELED':
-        return EffectiveDeploymentExecutionStatus.canceled;
-      case 'REJECTED':
-        return EffectiveDeploymentExecutionStatus.rejected;
-      case 'SUCCEEDED':
-        return EffectiveDeploymentExecutionStatus.succeeded;
-    }
-    throw Exception(
-        '$this is not known in enum EffectiveDeploymentExecutionStatus');
-  }
+  const EffectiveDeploymentExecutionStatus(this.value);
+
+  static EffectiveDeploymentExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EffectiveDeploymentExecutionStatus'));
 }
 
 /// Contains all error-related information for the deployment record. The status
@@ -3029,7 +2858,7 @@ class GetComponentResponse {
     return GetComponentResponse(
       recipe: _s.decodeUint8List(json['recipe']! as String),
       recipeOutputFormat:
-          (json['recipeOutputFormat'] as String).toRecipeOutputFormat(),
+          RecipeOutputFormat.fromString((json['recipeOutputFormat'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3134,7 +2963,7 @@ class GetCoreDeviceResponse {
       lastStatusUpdateTimestamp:
           timeStampFromJson(json['lastStatusUpdateTimestamp']),
       platform: json['platform'] as String?,
-      status: (json['status'] as String?)?.toCoreDeviceStatus(),
+      status: (json['status'] as String?)?.let(CoreDeviceStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3229,8 +3058,8 @@ class GetDeploymentResponse {
           ? DeploymentPolicies.fromJson(
               json['deploymentPolicies'] as Map<String, dynamic>)
           : null,
-      deploymentStatus:
-          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatus: (json['deploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
       iotJobArn: json['iotJobArn'] as String?,
       iotJobConfiguration: json['iotJobConfiguration'] != null
           ? DeploymentIoTJobConfiguration.fromJson(
@@ -3342,7 +3171,7 @@ class InstalledComponent {
       lastStatusChangeTimestamp:
           timeStampFromJson(json['lastStatusChangeTimestamp']),
       lifecycleState: (json['lifecycleState'] as String?)
-          ?.toInstalledComponentLifecycleState(),
+          ?.let(InstalledComponentLifecycleState.fromString),
       lifecycleStateDetails: json['lifecycleStateDetails'] as String?,
       lifecycleStatusCodes: (json['lifecycleStatusCodes'] as List?)
           ?.whereNotNull()
@@ -3353,116 +3182,53 @@ class InstalledComponent {
 }
 
 enum InstalledComponentLifecycleState {
-  $new,
-  installed,
-  starting,
-  running,
-  stopping,
-  errored,
-  broken,
-  finished,
-}
+  $new('NEW'),
+  installed('INSTALLED'),
+  starting('STARTING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  errored('ERRORED'),
+  broken('BROKEN'),
+  finished('FINISHED'),
+  ;
 
-extension InstalledComponentLifecycleStateValueExtension
-    on InstalledComponentLifecycleState {
-  String toValue() {
-    switch (this) {
-      case InstalledComponentLifecycleState.$new:
-        return 'NEW';
-      case InstalledComponentLifecycleState.installed:
-        return 'INSTALLED';
-      case InstalledComponentLifecycleState.starting:
-        return 'STARTING';
-      case InstalledComponentLifecycleState.running:
-        return 'RUNNING';
-      case InstalledComponentLifecycleState.stopping:
-        return 'STOPPING';
-      case InstalledComponentLifecycleState.errored:
-        return 'ERRORED';
-      case InstalledComponentLifecycleState.broken:
-        return 'BROKEN';
-      case InstalledComponentLifecycleState.finished:
-        return 'FINISHED';
-    }
-  }
-}
+  final String value;
 
-extension InstalledComponentLifecycleStateFromString on String {
-  InstalledComponentLifecycleState toInstalledComponentLifecycleState() {
-    switch (this) {
-      case 'NEW':
-        return InstalledComponentLifecycleState.$new;
-      case 'INSTALLED':
-        return InstalledComponentLifecycleState.installed;
-      case 'STARTING':
-        return InstalledComponentLifecycleState.starting;
-      case 'RUNNING':
-        return InstalledComponentLifecycleState.running;
-      case 'STOPPING':
-        return InstalledComponentLifecycleState.stopping;
-      case 'ERRORED':
-        return InstalledComponentLifecycleState.errored;
-      case 'BROKEN':
-        return InstalledComponentLifecycleState.broken;
-      case 'FINISHED':
-        return InstalledComponentLifecycleState.finished;
-    }
-    throw Exception(
-        '$this is not known in enum InstalledComponentLifecycleState');
-  }
+  const InstalledComponentLifecycleState(this.value);
+
+  static InstalledComponentLifecycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstalledComponentLifecycleState'));
 }
 
 enum InstalledComponentTopologyFilter {
-  all,
-  root,
-}
+  all('ALL'),
+  root('ROOT'),
+  ;
 
-extension InstalledComponentTopologyFilterValueExtension
-    on InstalledComponentTopologyFilter {
-  String toValue() {
-    switch (this) {
-      case InstalledComponentTopologyFilter.all:
-        return 'ALL';
-      case InstalledComponentTopologyFilter.root:
-        return 'ROOT';
-    }
-  }
-}
+  final String value;
 
-extension InstalledComponentTopologyFilterFromString on String {
-  InstalledComponentTopologyFilter toInstalledComponentTopologyFilter() {
-    switch (this) {
-      case 'ALL':
-        return InstalledComponentTopologyFilter.all;
-      case 'ROOT':
-        return InstalledComponentTopologyFilter.root;
-    }
-    throw Exception(
-        '$this is not known in enum InstalledComponentTopologyFilter');
-  }
+  const InstalledComponentTopologyFilter(this.value);
+
+  static InstalledComponentTopologyFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstalledComponentTopologyFilter'));
 }
 
 enum IoTJobAbortAction {
-  cancel,
-}
+  cancel('CANCEL'),
+  ;
 
-extension IoTJobAbortActionValueExtension on IoTJobAbortAction {
-  String toValue() {
-    switch (this) {
-      case IoTJobAbortAction.cancel:
-        return 'CANCEL';
-    }
-  }
-}
+  final String value;
 
-extension IoTJobAbortActionFromString on String {
-  IoTJobAbortAction toIoTJobAbortAction() {
-    switch (this) {
-      case 'CANCEL':
-        return IoTJobAbortAction.cancel;
-    }
-    throw Exception('$this is not known in enum IoTJobAbortAction');
-  }
+  const IoTJobAbortAction(this.value);
+
+  static IoTJobAbortAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IoTJobAbortAction'));
 }
 
 /// Contains a list of criteria that define when and how to cancel a
@@ -3533,9 +3299,9 @@ class IoTJobAbortCriteria {
 
   factory IoTJobAbortCriteria.fromJson(Map<String, dynamic> json) {
     return IoTJobAbortCriteria(
-      action: (json['action'] as String).toIoTJobAbortAction(),
-      failureType:
-          (json['failureType'] as String).toIoTJobExecutionFailureType(),
+      action: IoTJobAbortAction.fromString((json['action'] as String)),
+      failureType: IoTJobExecutionFailureType.fromString(
+          (json['failureType'] as String)),
       minNumberOfExecutedThings: json['minNumberOfExecutedThings'] as int,
       thresholdPercentage: json['thresholdPercentage'] as double,
     );
@@ -3547,8 +3313,8 @@ class IoTJobAbortCriteria {
     final minNumberOfExecutedThings = this.minNumberOfExecutedThings;
     final thresholdPercentage = this.thresholdPercentage;
     return {
-      'action': action.toValue(),
-      'failureType': failureType.toValue(),
+      'action': action.value,
+      'failureType': failureType.value,
       'minNumberOfExecutedThings': minNumberOfExecutedThings,
       'thresholdPercentage': thresholdPercentage,
     };
@@ -3556,42 +3322,20 @@ class IoTJobAbortCriteria {
 }
 
 enum IoTJobExecutionFailureType {
-  failed,
-  rejected,
-  timedOut,
-  all,
-}
+  failed('FAILED'),
+  rejected('REJECTED'),
+  timedOut('TIMED_OUT'),
+  all('ALL'),
+  ;
 
-extension IoTJobExecutionFailureTypeValueExtension
-    on IoTJobExecutionFailureType {
-  String toValue() {
-    switch (this) {
-      case IoTJobExecutionFailureType.failed:
-        return 'FAILED';
-      case IoTJobExecutionFailureType.rejected:
-        return 'REJECTED';
-      case IoTJobExecutionFailureType.timedOut:
-        return 'TIMED_OUT';
-      case IoTJobExecutionFailureType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension IoTJobExecutionFailureTypeFromString on String {
-  IoTJobExecutionFailureType toIoTJobExecutionFailureType() {
-    switch (this) {
-      case 'FAILED':
-        return IoTJobExecutionFailureType.failed;
-      case 'REJECTED':
-        return IoTJobExecutionFailureType.rejected;
-      case 'TIMED_OUT':
-        return IoTJobExecutionFailureType.timedOut;
-      case 'ALL':
-        return IoTJobExecutionFailureType.all;
-    }
-    throw Exception('$this is not known in enum IoTJobExecutionFailureType');
-  }
+  const IoTJobExecutionFailureType(this.value);
+
+  static IoTJobExecutionFailureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IoTJobExecutionFailureType'));
 }
 
 /// Contains information about the rollout configuration for a job. This
@@ -3740,31 +3484,18 @@ class IoTJobTimeoutConfig {
 }
 
 enum IotEndpointType {
-  fips,
-  standard,
-}
+  fips('fips'),
+  standard('standard'),
+  ;
 
-extension IotEndpointTypeValueExtension on IotEndpointType {
-  String toValue() {
-    switch (this) {
-      case IotEndpointType.fips:
-        return 'fips';
-      case IotEndpointType.standard:
-        return 'standard';
-    }
-  }
-}
+  final String value;
 
-extension IotEndpointTypeFromString on String {
-  IotEndpointType toIotEndpointType() {
-    switch (this) {
-      case 'fips':
-        return IotEndpointType.fips;
-      case 'standard':
-        return IotEndpointType.standard;
-    }
-    throw Exception('$this is not known in enum IotEndpointType');
-  }
+  const IotEndpointType(this.value);
+
+  static IotEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IotEndpointType'));
 }
 
 /// Contains information about a container in which Lambda functions run on
@@ -3838,7 +3569,7 @@ class LambdaDeviceMount {
     return {
       'path': path,
       if (addGroupOwner != null) 'addGroupOwner': addGroupOwner,
-      if (permission != null) 'permission': permission.toValue(),
+      if (permission != null) 'permission': permission.value,
     };
   }
 }
@@ -3876,37 +3607,24 @@ class LambdaEventSource {
     final type = this.type;
     return {
       'topic': topic,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum LambdaEventSourceType {
-  pubSub,
-  iotCore,
-}
+  pubSub('PUB_SUB'),
+  iotCore('IOT_CORE'),
+  ;
 
-extension LambdaEventSourceTypeValueExtension on LambdaEventSourceType {
-  String toValue() {
-    switch (this) {
-      case LambdaEventSourceType.pubSub:
-        return 'PUB_SUB';
-      case LambdaEventSourceType.iotCore:
-        return 'IOT_CORE';
-    }
-  }
-}
+  final String value;
 
-extension LambdaEventSourceTypeFromString on String {
-  LambdaEventSourceType toLambdaEventSourceType() {
-    switch (this) {
-      case 'PUB_SUB':
-        return LambdaEventSourceType.pubSub;
-      case 'IOT_CORE':
-        return LambdaEventSourceType.iotCore;
-    }
-    throw Exception('$this is not known in enum LambdaEventSourceType');
-  }
+  const LambdaEventSourceType(this.value);
+
+  static LambdaEventSourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LambdaEventSourceType'));
 }
 
 /// Contains parameters for a Lambda function that runs on IoT Greengrass.
@@ -4002,7 +3720,7 @@ class LambdaExecutionParameters {
       if (eventSources != null) 'eventSources': eventSources,
       if (execArgs != null) 'execArgs': execArgs,
       if (inputPayloadEncodingType != null)
-        'inputPayloadEncodingType': inputPayloadEncodingType.toValue(),
+        'inputPayloadEncodingType': inputPayloadEncodingType.value,
       if (linuxProcessParams != null) 'linuxProcessParams': linuxProcessParams,
       if (maxIdleTimeInSeconds != null)
         'maxIdleTimeInSeconds': maxIdleTimeInSeconds,
@@ -4017,32 +3735,18 @@ class LambdaExecutionParameters {
 }
 
 enum LambdaFilesystemPermission {
-  ro,
-  rw,
-}
+  ro('ro'),
+  rw('rw'),
+  ;
 
-extension LambdaFilesystemPermissionValueExtension
-    on LambdaFilesystemPermission {
-  String toValue() {
-    switch (this) {
-      case LambdaFilesystemPermission.ro:
-        return 'ro';
-      case LambdaFilesystemPermission.rw:
-        return 'rw';
-    }
-  }
-}
+  final String value;
 
-extension LambdaFilesystemPermissionFromString on String {
-  LambdaFilesystemPermission toLambdaFilesystemPermission() {
-    switch (this) {
-      case 'ro':
-        return LambdaFilesystemPermission.ro;
-      case 'rw':
-        return LambdaFilesystemPermission.rw;
-    }
-    throw Exception('$this is not known in enum LambdaFilesystemPermission');
-  }
+  const LambdaFilesystemPermission(this.value);
+
+  static LambdaFilesystemPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LambdaFilesystemPermission'));
 }
 
 /// Contains information about an Lambda function to import to create a
@@ -4106,61 +3810,33 @@ class LambdaFunctionRecipeSource {
 }
 
 enum LambdaInputPayloadEncodingType {
-  json,
-  binary,
-}
+  json('json'),
+  binary('binary'),
+  ;
 
-extension LambdaInputPayloadEncodingTypeValueExtension
-    on LambdaInputPayloadEncodingType {
-  String toValue() {
-    switch (this) {
-      case LambdaInputPayloadEncodingType.json:
-        return 'json';
-      case LambdaInputPayloadEncodingType.binary:
-        return 'binary';
-    }
-  }
-}
+  final String value;
 
-extension LambdaInputPayloadEncodingTypeFromString on String {
-  LambdaInputPayloadEncodingType toLambdaInputPayloadEncodingType() {
-    switch (this) {
-      case 'json':
-        return LambdaInputPayloadEncodingType.json;
-      case 'binary':
-        return LambdaInputPayloadEncodingType.binary;
-    }
-    throw Exception(
-        '$this is not known in enum LambdaInputPayloadEncodingType');
-  }
+  const LambdaInputPayloadEncodingType(this.value);
+
+  static LambdaInputPayloadEncodingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LambdaInputPayloadEncodingType'));
 }
 
 enum LambdaIsolationMode {
-  greengrassContainer,
-  noContainer,
-}
+  greengrassContainer('GreengrassContainer'),
+  noContainer('NoContainer'),
+  ;
 
-extension LambdaIsolationModeValueExtension on LambdaIsolationMode {
-  String toValue() {
-    switch (this) {
-      case LambdaIsolationMode.greengrassContainer:
-        return 'GreengrassContainer';
-      case LambdaIsolationMode.noContainer:
-        return 'NoContainer';
-    }
-  }
-}
+  final String value;
 
-extension LambdaIsolationModeFromString on String {
-  LambdaIsolationMode toLambdaIsolationMode() {
-    switch (this) {
-      case 'GreengrassContainer':
-        return LambdaIsolationMode.greengrassContainer;
-      case 'NoContainer':
-        return LambdaIsolationMode.noContainer;
-    }
-    throw Exception('$this is not known in enum LambdaIsolationMode');
-  }
+  const LambdaIsolationMode(this.value);
+
+  static LambdaIsolationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LambdaIsolationMode'));
 }
 
 /// Contains parameters for a Linux process that contains an Lambda function.
@@ -4185,7 +3861,7 @@ class LambdaLinuxProcessParams {
     final isolationMode = this.isolationMode;
     return {
       if (containerParams != null) 'containerParams': containerParams,
-      if (isolationMode != null) 'isolationMode': isolationMode.toValue(),
+      if (isolationMode != null) 'isolationMode': isolationMode.value,
     };
   }
 }
@@ -4228,7 +3904,7 @@ class LambdaVolumeMount {
       'destinationPath': destinationPath,
       'sourcePath': sourcePath,
       if (addGroupOwner != null) 'addGroupOwner': addGroupOwner,
-      if (permission != null) 'permission': permission.toValue(),
+      if (permission != null) 'permission': permission.value,
     };
   }
 }
@@ -4435,31 +4111,18 @@ class ListTagsForResourceResponse {
 }
 
 enum RecipeOutputFormat {
-  json,
-  yaml,
-}
+  json('JSON'),
+  yaml('YAML'),
+  ;
 
-extension RecipeOutputFormatValueExtension on RecipeOutputFormat {
-  String toValue() {
-    switch (this) {
-      case RecipeOutputFormat.json:
-        return 'JSON';
-      case RecipeOutputFormat.yaml:
-        return 'YAML';
-    }
-  }
-}
+  final String value;
 
-extension RecipeOutputFormatFromString on String {
-  RecipeOutputFormat toRecipeOutputFormat() {
-    switch (this) {
-      case 'JSON':
-        return RecipeOutputFormat.json;
-      case 'YAML':
-        return RecipeOutputFormat.yaml;
-    }
-    throw Exception('$this is not known in enum RecipeOutputFormat');
-  }
+  const RecipeOutputFormat(this.value);
+
+  static RecipeOutputFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecipeOutputFormat'));
 }
 
 class ResolveComponentCandidatesResponse {
@@ -4544,37 +4207,25 @@ class ResolvedComponentVersion {
       componentVersion: json['componentVersion'] as String?,
       message: json['message'] as String?,
       recipe: _s.decodeNullableUint8List(json['recipe'] as String?),
-      vendorGuidance: (json['vendorGuidance'] as String?)?.toVendorGuidance(),
+      vendorGuidance:
+          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
     );
   }
 }
 
 enum S3EndpointType {
-  regional,
-  global,
-}
+  regional('REGIONAL'),
+  global('GLOBAL'),
+  ;
 
-extension S3EndpointTypeValueExtension on S3EndpointType {
-  String toValue() {
-    switch (this) {
-      case S3EndpointType.regional:
-        return 'REGIONAL';
-      case S3EndpointType.global:
-        return 'GLOBAL';
-    }
-  }
-}
+  final String value;
 
-extension S3EndpointTypeFromString on String {
-  S3EndpointType toS3EndpointType() {
-    switch (this) {
-      case 'REGIONAL':
-        return S3EndpointType.regional;
-      case 'GLOBAL':
-        return S3EndpointType.global;
-    }
-    throw Exception('$this is not known in enum S3EndpointType');
-  }
+  const S3EndpointType(this.value);
+
+  static S3EndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3EndpointType'));
 }
 
 /// Contains information about system resource limits that the IoT Greengrass
@@ -4657,36 +4308,19 @@ class UpdateConnectivityInfoResponse {
 }
 
 enum VendorGuidance {
-  active,
-  discontinued,
-  deleted,
-}
+  active('ACTIVE'),
+  discontinued('DISCONTINUED'),
+  deleted('DELETED'),
+  ;
 
-extension VendorGuidanceValueExtension on VendorGuidance {
-  String toValue() {
-    switch (this) {
-      case VendorGuidance.active:
-        return 'ACTIVE';
-      case VendorGuidance.discontinued:
-        return 'DISCONTINUED';
-      case VendorGuidance.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension VendorGuidanceFromString on String {
-  VendorGuidance toVendorGuidance() {
-    switch (this) {
-      case 'ACTIVE':
-        return VendorGuidance.active;
-      case 'DISCONTINUED':
-        return VendorGuidance.discontinued;
-      case 'DELETED':
-        return VendorGuidance.deleted;
-    }
-    throw Exception('$this is not known in enum VendorGuidance');
-  }
+  const VendorGuidance(this.value);
+
+  static VendorGuidance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VendorGuidance'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

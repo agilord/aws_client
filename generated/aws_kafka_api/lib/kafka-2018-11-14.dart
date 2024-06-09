@@ -189,10 +189,10 @@ class Kafka {
       if (configurationInfo != null) 'configurationInfo': configurationInfo,
       if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
       if (enhancedMonitoring != null)
-        'enhancedMonitoring': enhancedMonitoring.toValue(),
+        'enhancedMonitoring': enhancedMonitoring.value,
       if (loggingInfo != null) 'loggingInfo': loggingInfo,
       if (openMonitoring != null) 'openMonitoring': openMonitoring,
-      if (storageMode != null) 'storageMode': storageMode.toValue(),
+      if (storageMode != null) 'storageMode': storageMode.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2148,7 +2148,7 @@ class Kafka {
     final $payload = <String, dynamic>{
       'currentVersion': currentVersion,
       if (enhancedMonitoring != null)
-        'enhancedMonitoring': enhancedMonitoring.toValue(),
+        'enhancedMonitoring': enhancedMonitoring.value,
       if (loggingInfo != null) 'loggingInfo': loggingInfo,
       if (openMonitoring != null) 'openMonitoring': openMonitoring,
     };
@@ -2316,7 +2316,7 @@ class Kafka {
       'currentVersion': currentVersion,
       if (provisionedThroughput != null)
         'provisionedThroughput': provisionedThroughput,
-      if (storageMode != null) 'storageMode': storageMode.toValue(),
+      if (storageMode != null) 'storageMode': storageMode.value,
       if (volumeSizeGB != null) 'volumeSizeGB': volumeSizeGB,
     };
     final response = await _protocol.send(
@@ -2392,26 +2392,17 @@ class BatchAssociateScramSecretResponse {
 /// that correspond to the subnets you provide when you create the cluster.
 ///
 enum BrokerAZDistribution {
-  $default,
-}
+  $default('DEFAULT'),
+  ;
 
-extension BrokerAZDistributionValueExtension on BrokerAZDistribution {
-  String toValue() {
-    switch (this) {
-      case BrokerAZDistribution.$default:
-        return 'DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension BrokerAZDistributionFromString on String {
-  BrokerAZDistribution toBrokerAZDistribution() {
-    switch (this) {
-      case 'DEFAULT':
-        return BrokerAZDistribution.$default;
-    }
-    throw Exception('$this is not known in enum BrokerAZDistribution');
-  }
+  const BrokerAZDistribution(this.value);
+
+  static BrokerAZDistribution fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BrokerAZDistribution'));
 }
 
 ///
@@ -2608,8 +2599,8 @@ class BrokerNodeGroupInfo {
           .map((e) => e as String)
           .toList(),
       instanceType: json['instanceType'] as String,
-      brokerAZDistribution:
-          (json['brokerAZDistribution'] as String?)?.toBrokerAZDistribution(),
+      brokerAZDistribution: (json['brokerAZDistribution'] as String?)
+          ?.let(BrokerAZDistribution.fromString),
       connectivityInfo: json['connectivityInfo'] != null
           ? ConnectivityInfo.fromJson(
               json['connectivityInfo'] as Map<String, dynamic>)
@@ -2640,7 +2631,7 @@ class BrokerNodeGroupInfo {
       'clientSubnets': clientSubnets,
       'instanceType': instanceType,
       if (brokerAZDistribution != null)
-        'brokerAZDistribution': brokerAZDistribution.toValue(),
+        'brokerAZDistribution': brokerAZDistribution.value,
       if (connectivityInfo != null) 'connectivityInfo': connectivityInfo,
       if (securityGroups != null) 'securityGroups': securityGroups,
       if (storageInfo != null) 'storageInfo': storageInfo,
@@ -2873,36 +2864,19 @@ class ServerlessClientAuthentication {
 /// Client-broker encryption in transit setting.
 ///
 enum ClientBroker {
-  tls,
-  tlsPlaintext,
-  plaintext,
-}
+  tls('TLS'),
+  tlsPlaintext('TLS_PLAINTEXT'),
+  plaintext('PLAINTEXT'),
+  ;
 
-extension ClientBrokerValueExtension on ClientBroker {
-  String toValue() {
-    switch (this) {
-      case ClientBroker.tls:
-        return 'TLS';
-      case ClientBroker.tlsPlaintext:
-        return 'TLS_PLAINTEXT';
-      case ClientBroker.plaintext:
-        return 'PLAINTEXT';
-    }
-  }
-}
+  final String value;
 
-extension ClientBrokerFromString on String {
-  ClientBroker toClientBroker() {
-    switch (this) {
-      case 'TLS':
-        return ClientBroker.tls;
-      case 'TLS_PLAINTEXT':
-        return ClientBroker.tlsPlaintext;
-      case 'PLAINTEXT':
-        return ClientBroker.plaintext;
-    }
-    throw Exception('$this is not known in enum ClientBroker');
-  }
+  const ClientBroker(this.value);
+
+  static ClientBroker fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClientBroker'));
 }
 
 class CloudWatchLogs {
@@ -3075,14 +3049,14 @@ class ClusterInfo {
               json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
           : null,
       currentVersion: json['currentVersion'] as String?,
-      customerActionStatus:
-          (json['customerActionStatus'] as String?)?.toCustomerActionStatus(),
+      customerActionStatus: (json['customerActionStatus'] as String?)
+          ?.let(CustomerActionStatus.fromString),
       encryptionInfo: json['encryptionInfo'] != null
           ? EncryptionInfo.fromJson(
               json['encryptionInfo'] as Map<String, dynamic>)
           : null,
-      enhancedMonitoring:
-          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      enhancedMonitoring: (json['enhancedMonitoring'] as String?)
+          ?.let(EnhancedMonitoring.fromString),
       loggingInfo: json['loggingInfo'] != null
           ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
           : null,
@@ -3091,11 +3065,12 @@ class ClusterInfo {
           ? OpenMonitoring.fromJson(
               json['openMonitoring'] as Map<String, dynamic>)
           : null,
-      state: (json['state'] as String?)?.toClusterState(),
+      state: (json['state'] as String?)?.let(ClusterState.fromString),
       stateInfo: json['stateInfo'] != null
           ? StateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>)
           : null,
-      storageMode: (json['storageMode'] as String?)?.toStorageMode(),
+      storageMode:
+          (json['storageMode'] as String?)?.let(StorageMode.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       zookeeperConnectString: json['zookeeperConnectString'] as String?,
@@ -3183,7 +3158,8 @@ class Cluster {
       activeOperationArn: json['activeOperationArn'] as String?,
       clusterArn: json['clusterArn'] as String?,
       clusterName: json['clusterName'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(ClusterType.fromString),
       creationTime: timeStampFromJson(json['creationTime']),
       currentVersion: json['currentVersion'] as String?,
       provisioned: json['provisioned'] != null
@@ -3192,7 +3168,7 @@ class Cluster {
       serverless: json['serverless'] != null
           ? Serverless.fromJson(json['serverless'] as Map<String, dynamic>)
           : null,
-      state: (json['state'] as String?)?.toClusterState(),
+      state: (json['state'] as String?)?.let(ClusterState.fromString),
       stateInfo: json['stateInfo'] != null
           ? StateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>)
           : null,
@@ -3368,92 +3344,41 @@ class ClusterOperationStepInfo {
 /// The state of the Apache Kafka cluster.
 ///
 enum ClusterState {
-  active,
-  creating,
-  deleting,
-  failed,
-  healing,
-  maintenance,
-  rebootingBroker,
-  updating,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  healing('HEALING'),
+  maintenance('MAINTENANCE'),
+  rebootingBroker('REBOOTING_BROKER'),
+  updating('UPDATING'),
+  ;
 
-extension ClusterStateValueExtension on ClusterState {
-  String toValue() {
-    switch (this) {
-      case ClusterState.active:
-        return 'ACTIVE';
-      case ClusterState.creating:
-        return 'CREATING';
-      case ClusterState.deleting:
-        return 'DELETING';
-      case ClusterState.failed:
-        return 'FAILED';
-      case ClusterState.healing:
-        return 'HEALING';
-      case ClusterState.maintenance:
-        return 'MAINTENANCE';
-      case ClusterState.rebootingBroker:
-        return 'REBOOTING_BROKER';
-      case ClusterState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStateFromString on String {
-  ClusterState toClusterState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ClusterState.active;
-      case 'CREATING':
-        return ClusterState.creating;
-      case 'DELETING':
-        return ClusterState.deleting;
-      case 'FAILED':
-        return ClusterState.failed;
-      case 'HEALING':
-        return ClusterState.healing;
-      case 'MAINTENANCE':
-        return ClusterState.maintenance;
-      case 'REBOOTING_BROKER':
-        return ClusterState.rebootingBroker;
-      case 'UPDATING':
-        return ClusterState.updating;
-    }
-    throw Exception('$this is not known in enum ClusterState');
-  }
+  const ClusterState(this.value);
+
+  static ClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterState'));
 }
 
 ///
 /// The type of cluster.
 ///
 enum ClusterType {
-  provisioned,
-  serverless,
-}
+  provisioned('PROVISIONED'),
+  serverless('SERVERLESS'),
+  ;
 
-extension ClusterTypeValueExtension on ClusterType {
-  String toValue() {
-    switch (this) {
-      case ClusterType.provisioned:
-        return 'PROVISIONED';
-      case ClusterType.serverless:
-        return 'SERVERLESS';
-    }
-  }
-}
+  final String value;
 
-extension ClusterTypeFromString on String {
-  ClusterType toClusterType() {
-    switch (this) {
-      case 'PROVISIONED':
-        return ClusterType.provisioned;
-      case 'SERVERLESS':
-        return ClusterType.serverless;
-    }
-    throw Exception('$this is not known in enum ClusterType');
-  }
+  const ClusterType(this.value);
+
+  static ClusterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ClusterType'));
 }
 
 ///
@@ -3545,10 +3470,10 @@ class ProvisionedRequest {
       if (configurationInfo != null) 'configurationInfo': configurationInfo,
       if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
       if (enhancedMonitoring != null)
-        'enhancedMonitoring': enhancedMonitoring.toValue(),
+        'enhancedMonitoring': enhancedMonitoring.value,
       if (loggingInfo != null) 'loggingInfo': loggingInfo,
       if (openMonitoring != null) 'openMonitoring': openMonitoring,
-      if (storageMode != null) 'storageMode': storageMode.toValue(),
+      if (storageMode != null) 'storageMode': storageMode.value,
     };
   }
 }
@@ -3647,14 +3572,14 @@ class Provisioned {
           ? BrokerSoftwareInfo.fromJson(
               json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
           : null,
-      customerActionStatus:
-          (json['customerActionStatus'] as String?)?.toCustomerActionStatus(),
+      customerActionStatus: (json['customerActionStatus'] as String?)
+          ?.let(CustomerActionStatus.fromString),
       encryptionInfo: json['encryptionInfo'] != null
           ? EncryptionInfo.fromJson(
               json['encryptionInfo'] as Map<String, dynamic>)
           : null,
-      enhancedMonitoring:
-          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      enhancedMonitoring: (json['enhancedMonitoring'] as String?)
+          ?.let(EnhancedMonitoring.fromString),
       loggingInfo: json['loggingInfo'] != null
           ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
           : null,
@@ -3662,7 +3587,8 @@ class Provisioned {
           ? OpenMonitoringInfo.fromJson(
               json['openMonitoring'] as Map<String, dynamic>)
           : null,
-      storageMode: (json['storageMode'] as String?)?.toStorageMode(),
+      storageMode:
+          (json['storageMode'] as String?)?.let(StorageMode.fromString),
       zookeeperConnectString: json['zookeeperConnectString'] as String?,
       zookeeperConnectStringTls: json['zookeeperConnectStringTls'] as String?,
     );
@@ -3817,7 +3743,7 @@ class ClientVpcConnection {
       authentication: json['authentication'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       owner: json['owner'] as String?,
-      state: (json['state'] as String?)?.toVpcConnectionState(),
+      state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
     );
   }
 }
@@ -3871,7 +3797,7 @@ class VpcConnection {
       vpcConnectionArn: json['vpcConnectionArn'] as String,
       authentication: json['authentication'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
-      state: (json['state'] as String?)?.toVpcConnectionState(),
+      state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
       vpcId: json['vpcId'] as String?,
     );
   }
@@ -3973,7 +3899,7 @@ class Configuration {
       latestRevision: ConfigurationRevision.fromJson(
           json['latestRevision'] as Map<String, dynamic>),
       name: json['name'] as String,
-      state: (json['state'] as String).toConfigurationState(),
+      state: ConfigurationState.fromString((json['state'] as String)),
     );
   }
 }
@@ -4053,36 +3979,19 @@ class ConfigurationRevision {
 /// The state of a configuration.
 ///
 enum ConfigurationState {
-  active,
-  deleting,
-  deleteFailed,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension ConfigurationStateValueExtension on ConfigurationState {
-  String toValue() {
-    switch (this) {
-      case ConfigurationState.active:
-        return 'ACTIVE';
-      case ConfigurationState.deleting:
-        return 'DELETING';
-      case ConfigurationState.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationStateFromString on String {
-  ConfigurationState toConfigurationState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ConfigurationState.active;
-      case 'DELETING':
-        return ConfigurationState.deleting;
-      case 'DELETE_FAILED':
-        return ConfigurationState.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ConfigurationState');
-  }
+  const ConfigurationState(this.value);
+
+  static ConfigurationState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfigurationState'));
 }
 
 ///
@@ -4249,7 +4158,7 @@ class CreateClusterResponse {
     return CreateClusterResponse(
       clusterArn: json['clusterArn'] as String?,
       clusterName: json['clusterName'] as String?,
-      state: (json['state'] as String?)?.toClusterState(),
+      state: (json['state'] as String?)?.let(ClusterState.fromString),
     );
   }
 }
@@ -4287,8 +4196,9 @@ class CreateClusterV2Response {
     return CreateClusterV2Response(
       clusterArn: json['clusterArn'] as String?,
       clusterName: json['clusterName'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toClusterType(),
-      state: (json['state'] as String?)?.toClusterState(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(ClusterType.fromString),
+      state: (json['state'] as String?)?.let(ClusterState.fromString),
     );
   }
 }
@@ -4337,7 +4247,7 @@ class CreateConfigurationResponse {
               json['latestRevision'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toConfigurationState(),
+      state: (json['state'] as String?)?.let(ConfigurationState.fromString),
     );
   }
 }
@@ -4363,7 +4273,7 @@ class CreateReplicatorResponse {
       replicatorArn: json['replicatorArn'] as String?,
       replicatorName: json['replicatorName'] as String?,
       replicatorState:
-          (json['replicatorState'] as String?)?.toReplicatorState(),
+          (json['replicatorState'] as String?)?.let(ReplicatorState.fromString),
     );
   }
 }
@@ -4432,7 +4342,7 @@ class CreateVpcConnectionResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      state: (json['state'] as String?)?.toVpcConnectionState(),
+      state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcConnectionArn: json['vpcConnectionArn'] as String?,
@@ -4500,7 +4410,8 @@ class ClusterOperationV2 {
   factory ClusterOperationV2.fromJson(Map<String, dynamic> json) {
     return ClusterOperationV2(
       clusterArn: json['clusterArn'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(ClusterType.fromString),
       endTime: timeStampFromJson(json['endTime']),
       errorInfo: json['errorInfo'] != null
           ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
@@ -4636,7 +4547,8 @@ class ClusterOperationV2Summary {
   factory ClusterOperationV2Summary.fromJson(Map<String, dynamic> json) {
     return ClusterOperationV2Summary(
       clusterArn: json['clusterArn'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(ClusterType.fromString),
       endTime: timeStampFromJson(json['endTime']),
       operationArn: json['operationArn'] as String?,
       operationState: json['operationState'] as String?,
@@ -4672,36 +4584,19 @@ class ControllerNodeInfo {
 ///
 /// A type of an action required from the customer.
 enum CustomerActionStatus {
-  criticalActionRequired,
-  actionRecommended,
-  none,
-}
+  criticalActionRequired('CRITICAL_ACTION_REQUIRED'),
+  actionRecommended('ACTION_RECOMMENDED'),
+  none('NONE'),
+  ;
 
-extension CustomerActionStatusValueExtension on CustomerActionStatus {
-  String toValue() {
-    switch (this) {
-      case CustomerActionStatus.criticalActionRequired:
-        return 'CRITICAL_ACTION_REQUIRED';
-      case CustomerActionStatus.actionRecommended:
-        return 'ACTION_RECOMMENDED';
-      case CustomerActionStatus.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CustomerActionStatusFromString on String {
-  CustomerActionStatus toCustomerActionStatus() {
-    switch (this) {
-      case 'CRITICAL_ACTION_REQUIRED':
-        return CustomerActionStatus.criticalActionRequired;
-      case 'ACTION_RECOMMENDED':
-        return CustomerActionStatus.actionRecommended;
-      case 'NONE':
-        return CustomerActionStatus.none;
-    }
-    throw Exception('$this is not known in enum CustomerActionStatus');
-  }
+  const CustomerActionStatus(this.value);
+
+  static CustomerActionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomerActionStatus'));
 }
 
 class DeleteClusterResponse {
@@ -4724,7 +4619,7 @@ class DeleteClusterResponse {
   factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
     return DeleteClusterResponse(
       clusterArn: json['clusterArn'] as String?,
-      state: (json['state'] as String?)?.toClusterState(),
+      state: (json['state'] as String?)?.let(ClusterState.fromString),
     );
   }
 }
@@ -4758,7 +4653,7 @@ class DeleteConfigurationResponse {
   factory DeleteConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return DeleteConfigurationResponse(
       arn: json['arn'] as String?,
-      state: (json['state'] as String?)?.toConfigurationState(),
+      state: (json['state'] as String?)?.let(ConfigurationState.fromString),
     );
   }
 }
@@ -4779,7 +4674,7 @@ class DeleteReplicatorResponse {
     return DeleteReplicatorResponse(
       replicatorArn: json['replicatorArn'] as String?,
       replicatorState:
-          (json['replicatorState'] as String?)?.toReplicatorState(),
+          (json['replicatorState'] as String?)?.let(ReplicatorState.fromString),
     );
   }
 }
@@ -4803,7 +4698,7 @@ class DeleteVpcConnectionResponse {
 
   factory DeleteVpcConnectionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVpcConnectionResponse(
-      state: (json['state'] as String?)?.toVpcConnectionState(),
+      state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
       vpcConnectionArn: json['vpcConnectionArn'] as String?,
     );
   }
@@ -4948,7 +4843,7 @@ class DescribeConfigurationResponse {
               json['latestRevision'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toConfigurationState(),
+      state: (json['state'] as String?)?.let(ConfigurationState.fromString),
     );
   }
 }
@@ -5082,7 +4977,7 @@ class DescribeReplicatorResponse {
       replicatorName: json['replicatorName'] as String?,
       replicatorResourceArn: json['replicatorResourceArn'] as String?,
       replicatorState:
-          (json['replicatorState'] as String?)?.toReplicatorState(),
+          (json['replicatorState'] as String?)?.let(ReplicatorState.fromString),
       serviceExecutionRoleArn: json['serviceExecutionRoleArn'] as String?,
       stateInfo: json['stateInfo'] != null
           ? ReplicationStateInfo.fromJson(
@@ -5161,7 +5056,7 @@ class DescribeVpcConnectionResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      state: (json['state'] as String?)?.toVpcConnectionState(),
+      state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
       subnets: (json['subnets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -5317,7 +5212,8 @@ class EncryptionInTransit {
 
   factory EncryptionInTransit.fromJson(Map<String, dynamic> json) {
     return EncryptionInTransit(
-      clientBroker: (json['clientBroker'] as String?)?.toClientBroker(),
+      clientBroker:
+          (json['clientBroker'] as String?)?.let(ClientBroker.fromString),
       inCluster: json['inCluster'] as bool?,
     );
   }
@@ -5326,7 +5222,7 @@ class EncryptionInTransit {
     final clientBroker = this.clientBroker;
     final inCluster = this.inCluster;
     return {
-      if (clientBroker != null) 'clientBroker': clientBroker.toValue(),
+      if (clientBroker != null) 'clientBroker': clientBroker.value,
       if (inCluster != null) 'inCluster': inCluster,
     };
   }
@@ -5385,41 +5281,20 @@ class EncryptionInfo {
 /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
 ///
 enum EnhancedMonitoring {
-  $default,
-  perBroker,
-  perTopicPerBroker,
-  perTopicPerPartition,
-}
+  $default('DEFAULT'),
+  perBroker('PER_BROKER'),
+  perTopicPerBroker('PER_TOPIC_PER_BROKER'),
+  perTopicPerPartition('PER_TOPIC_PER_PARTITION'),
+  ;
 
-extension EnhancedMonitoringValueExtension on EnhancedMonitoring {
-  String toValue() {
-    switch (this) {
-      case EnhancedMonitoring.$default:
-        return 'DEFAULT';
-      case EnhancedMonitoring.perBroker:
-        return 'PER_BROKER';
-      case EnhancedMonitoring.perTopicPerBroker:
-        return 'PER_TOPIC_PER_BROKER';
-      case EnhancedMonitoring.perTopicPerPartition:
-        return 'PER_TOPIC_PER_PARTITION';
-    }
-  }
-}
+  final String value;
 
-extension EnhancedMonitoringFromString on String {
-  EnhancedMonitoring toEnhancedMonitoring() {
-    switch (this) {
-      case 'DEFAULT':
-        return EnhancedMonitoring.$default;
-      case 'PER_BROKER':
-        return EnhancedMonitoring.perBroker;
-      case 'PER_TOPIC_PER_BROKER':
-        return EnhancedMonitoring.perTopicPerBroker;
-      case 'PER_TOPIC_PER_PARTITION':
-        return EnhancedMonitoring.perTopicPerPartition;
-    }
-    throw Exception('$this is not known in enum EnhancedMonitoring');
-  }
+  const EnhancedMonitoring(this.value);
+
+  static EnhancedMonitoring fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EnhancedMonitoring'));
 }
 
 ///
@@ -5745,38 +5620,25 @@ class KafkaVersion {
 
   factory KafkaVersion.fromJson(Map<String, dynamic> json) {
     return KafkaVersion(
-      status: (json['status'] as String?)?.toKafkaVersionStatus(),
+      status: (json['status'] as String?)?.let(KafkaVersionStatus.fromString),
       version: json['version'] as String?,
     );
   }
 }
 
 enum KafkaVersionStatus {
-  active,
-  deprecated,
-}
+  active('ACTIVE'),
+  deprecated('DEPRECATED'),
+  ;
 
-extension KafkaVersionStatusValueExtension on KafkaVersionStatus {
-  String toValue() {
-    switch (this) {
-      case KafkaVersionStatus.active:
-        return 'ACTIVE';
-      case KafkaVersionStatus.deprecated:
-        return 'DEPRECATED';
-    }
-  }
-}
+  final String value;
 
-extension KafkaVersionStatusFromString on String {
-  KafkaVersionStatus toKafkaVersionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return KafkaVersionStatus.active;
-      case 'DEPRECATED':
-        return KafkaVersionStatus.deprecated;
-    }
-    throw Exception('$this is not known in enum KafkaVersionStatus');
-  }
+  const KafkaVersionStatus(this.value);
+
+  static KafkaVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KafkaVersionStatus'));
 }
 
 class ListClusterOperationsResponse {
@@ -6275,8 +6137,8 @@ class MutableClusterInfo {
           ? EncryptionInfo.fromJson(
               json['encryptionInfo'] as Map<String, dynamic>)
           : null,
-      enhancedMonitoring:
-          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      enhancedMonitoring: (json['enhancedMonitoring'] as String?)
+          ?.let(EnhancedMonitoring.fromString),
       instanceType: json['instanceType'] as String?,
       kafkaVersion: json['kafkaVersion'] as String?,
       loggingInfo: json['loggingInfo'] != null
@@ -6287,7 +6149,8 @@ class MutableClusterInfo {
           ? OpenMonitoring.fromJson(
               json['openMonitoring'] as Map<String, dynamic>)
           : null,
-      storageMode: (json['storageMode'] as String?)?.toStorageMode(),
+      storageMode:
+          (json['storageMode'] as String?)?.let(StorageMode.fromString),
     );
   }
 }
@@ -6923,7 +6786,7 @@ class NodeInfo {
           : null,
       instanceType: json['instanceType'] as String?,
       nodeARN: json['nodeARN'] as String?,
-      nodeType: (json['nodeType'] as String?)?.toNodeType(),
+      nodeType: (json['nodeType'] as String?)?.let(NodeType.fromString),
       zookeeperNodeInfo: json['zookeeperNodeInfo'] != null
           ? ZookeeperNodeInfo.fromJson(
               json['zookeeperNodeInfo'] as Map<String, dynamic>)
@@ -6936,26 +6799,16 @@ class NodeInfo {
 /// The broker or Zookeeper node.
 ///
 enum NodeType {
-  broker,
-}
+  broker('BROKER'),
+  ;
 
-extension NodeTypeValueExtension on NodeType {
-  String toValue() {
-    switch (this) {
-      case NodeType.broker:
-        return 'BROKER';
-    }
-  }
-}
+  final String value;
 
-extension NodeTypeFromString on String {
-  NodeType toNodeType() {
-    switch (this) {
-      case 'BROKER':
-        return NodeType.broker;
-    }
-    throw Exception('$this is not known in enum NodeType');
-  }
+  const NodeType(this.value);
+
+  static NodeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum NodeType'));
 }
 
 /// Specifies configuration for replication between a source and target Kafka
@@ -6993,7 +6846,7 @@ class ReplicationInfo {
     return {
       'consumerGroupReplication': consumerGroupReplication,
       'sourceKafkaClusterArn': sourceKafkaClusterArn,
-      'targetCompressionType': targetCompressionType.toValue(),
+      'targetCompressionType': targetCompressionType.value,
       'targetKafkaClusterArn': targetKafkaClusterArn,
       'topicReplication': topicReplication,
     };
@@ -7033,8 +6886,8 @@ class ReplicationInfoDescription {
               json['consumerGroupReplication'] as Map<String, dynamic>)
           : null,
       sourceKafkaClusterAlias: json['sourceKafkaClusterAlias'] as String?,
-      targetCompressionType:
-          (json['targetCompressionType'] as String?)?.toTargetCompressionType(),
+      targetCompressionType: (json['targetCompressionType'] as String?)
+          ?.let(TargetCompressionType.fromString),
       targetKafkaClusterAlias: json['targetKafkaClusterAlias'] as String?,
       topicReplication: json['topicReplication'] != null
           ? TopicReplication.fromJson(
@@ -7077,47 +6930,33 @@ class ReplicationStartingPosition {
 
   factory ReplicationStartingPosition.fromJson(Map<String, dynamic> json) {
     return ReplicationStartingPosition(
-      type: (json['type'] as String?)?.toReplicationStartingPositionType(),
+      type: (json['type'] as String?)
+          ?.let(ReplicationStartingPositionType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 /// The type of replication starting position.
 enum ReplicationStartingPositionType {
-  latest,
-  earliest,
-}
+  latest('LATEST'),
+  earliest('EARLIEST'),
+  ;
 
-extension ReplicationStartingPositionTypeValueExtension
-    on ReplicationStartingPositionType {
-  String toValue() {
-    switch (this) {
-      case ReplicationStartingPositionType.latest:
-        return 'LATEST';
-      case ReplicationStartingPositionType.earliest:
-        return 'EARLIEST';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationStartingPositionTypeFromString on String {
-  ReplicationStartingPositionType toReplicationStartingPositionType() {
-    switch (this) {
-      case 'LATEST':
-        return ReplicationStartingPositionType.latest;
-      case 'EARLIEST':
-        return ReplicationStartingPositionType.earliest;
-    }
-    throw Exception(
-        '$this is not known in enum ReplicationStartingPositionType');
-  }
+  const ReplicationStartingPositionType(this.value);
+
+  static ReplicationStartingPositionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReplicationStartingPositionType'));
 }
 
 /// Details about the state of a replicator
@@ -7143,46 +6982,21 @@ class ReplicationStateInfo {
 
 /// The state of a replicator.
 enum ReplicatorState {
-  running,
-  creating,
-  updating,
-  deleting,
-  failed,
-}
+  running('RUNNING'),
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ReplicatorStateValueExtension on ReplicatorState {
-  String toValue() {
-    switch (this) {
-      case ReplicatorState.running:
-        return 'RUNNING';
-      case ReplicatorState.creating:
-        return 'CREATING';
-      case ReplicatorState.updating:
-        return 'UPDATING';
-      case ReplicatorState.deleting:
-        return 'DELETING';
-      case ReplicatorState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReplicatorStateFromString on String {
-  ReplicatorState toReplicatorState() {
-    switch (this) {
-      case 'RUNNING':
-        return ReplicatorState.running;
-      case 'CREATING':
-        return ReplicatorState.creating;
-      case 'UPDATING':
-        return ReplicatorState.updating;
-      case 'DELETING':
-        return ReplicatorState.deleting;
-      case 'FAILED':
-        return ReplicatorState.failed;
-    }
-    throw Exception('$this is not known in enum ReplicatorState');
-  }
+  const ReplicatorState(this.value);
+
+  static ReplicatorState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReplicatorState'));
 }
 
 /// Information about a replicator.
@@ -7245,7 +7059,7 @@ class ReplicatorSummary {
       replicatorName: json['replicatorName'] as String?,
       replicatorResourceArn: json['replicatorResourceArn'] as String?,
       replicatorState:
-          (json['replicatorState'] as String?)?.toReplicatorState(),
+          (json['replicatorState'] as String?)?.let(ReplicatorState.fromString),
     );
   }
 }
@@ -7299,75 +7113,36 @@ class StorageInfo {
 
 /// Controls storage mode for various supported storage tiers.
 enum StorageMode {
-  local,
-  tiered,
-}
+  local('LOCAL'),
+  tiered('TIERED'),
+  ;
 
-extension StorageModeValueExtension on StorageMode {
-  String toValue() {
-    switch (this) {
-      case StorageMode.local:
-        return 'LOCAL';
-      case StorageMode.tiered:
-        return 'TIERED';
-    }
-  }
-}
+  final String value;
 
-extension StorageModeFromString on String {
-  StorageMode toStorageMode() {
-    switch (this) {
-      case 'LOCAL':
-        return StorageMode.local;
-      case 'TIERED':
-        return StorageMode.tiered;
-    }
-    throw Exception('$this is not known in enum StorageMode');
-  }
+  const StorageMode(this.value);
+
+  static StorageMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageMode'));
 }
 
 /// The type of compression to use producing records to the target cluster.
 enum TargetCompressionType {
-  none,
-  gzip,
-  snappy,
-  lz4,
-  zstd,
-}
+  none('NONE'),
+  gzip('GZIP'),
+  snappy('SNAPPY'),
+  lz4('LZ4'),
+  zstd('ZSTD'),
+  ;
 
-extension TargetCompressionTypeValueExtension on TargetCompressionType {
-  String toValue() {
-    switch (this) {
-      case TargetCompressionType.none:
-        return 'NONE';
-      case TargetCompressionType.gzip:
-        return 'GZIP';
-      case TargetCompressionType.snappy:
-        return 'SNAPPY';
-      case TargetCompressionType.lz4:
-        return 'LZ4';
-      case TargetCompressionType.zstd:
-        return 'ZSTD';
-    }
-  }
-}
+  final String value;
 
-extension TargetCompressionTypeFromString on String {
-  TargetCompressionType toTargetCompressionType() {
-    switch (this) {
-      case 'NONE':
-        return TargetCompressionType.none;
-      case 'GZIP':
-        return TargetCompressionType.gzip;
-      case 'SNAPPY':
-        return TargetCompressionType.snappy;
-      case 'LZ4':
-        return TargetCompressionType.lz4;
-      case 'ZSTD':
-        return TargetCompressionType.zstd;
-    }
-    throw Exception('$this is not known in enum TargetCompressionType');
-  }
+  const TargetCompressionType(this.value);
+
+  static TargetCompressionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetCompressionType'));
 }
 
 ///
@@ -7780,7 +7555,7 @@ class UpdateReplicationInfoResponse {
     return UpdateReplicationInfoResponse(
       replicatorArn: json['replicatorArn'] as String?,
       replicatorState:
-          (json['replicatorState'] as String?)?.toReplicatorState(),
+          (json['replicatorState'] as String?)?.let(ReplicatorState.fromString),
     );
   }
 }
@@ -7906,7 +7681,7 @@ class UserIdentity {
   factory UserIdentity.fromJson(Map<String, dynamic> json) {
     return UserIdentity(
       principalId: json['principalId'] as String?,
-      type: (json['type'] as String?)?.toUserIdentityType(),
+      type: (json['type'] as String?)?.let(UserIdentityType.fromString),
     );
   }
 }
@@ -7915,31 +7690,18 @@ class UserIdentity {
 /// The identity type of the requester that calls the API operation.
 ///
 enum UserIdentityType {
-  awsaccount,
-  awsservice,
-}
+  awsaccount('AWSACCOUNT'),
+  awsservice('AWSSERVICE'),
+  ;
 
-extension UserIdentityTypeValueExtension on UserIdentityType {
-  String toValue() {
-    switch (this) {
-      case UserIdentityType.awsaccount:
-        return 'AWSACCOUNT';
-      case UserIdentityType.awsservice:
-        return 'AWSSERVICE';
-    }
-  }
-}
+  final String value;
 
-extension UserIdentityTypeFromString on String {
-  UserIdentityType toUserIdentityType() {
-    switch (this) {
-      case 'AWSACCOUNT':
-        return UserIdentityType.awsaccount;
-      case 'AWSSERVICE':
-        return UserIdentityType.awsservice;
-    }
-    throw Exception('$this is not known in enum UserIdentityType');
-  }
+  const UserIdentityType(this.value);
+
+  static UserIdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserIdentityType'));
 }
 
 ///
@@ -8026,61 +7788,24 @@ class VpcConnectionInfoServerless {
 /// The state of a VPC connection.
 ///
 enum VpcConnectionState {
-  creating,
-  available,
-  inactive,
-  deactivating,
-  deleting,
-  failed,
-  rejected,
-  rejecting,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  inactive('INACTIVE'),
+  deactivating('DEACTIVATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  rejected('REJECTED'),
+  rejecting('REJECTING'),
+  ;
 
-extension VpcConnectionStateValueExtension on VpcConnectionState {
-  String toValue() {
-    switch (this) {
-      case VpcConnectionState.creating:
-        return 'CREATING';
-      case VpcConnectionState.available:
-        return 'AVAILABLE';
-      case VpcConnectionState.inactive:
-        return 'INACTIVE';
-      case VpcConnectionState.deactivating:
-        return 'DEACTIVATING';
-      case VpcConnectionState.deleting:
-        return 'DELETING';
-      case VpcConnectionState.failed:
-        return 'FAILED';
-      case VpcConnectionState.rejected:
-        return 'REJECTED';
-      case VpcConnectionState.rejecting:
-        return 'REJECTING';
-    }
-  }
-}
+  final String value;
 
-extension VpcConnectionStateFromString on String {
-  VpcConnectionState toVpcConnectionState() {
-    switch (this) {
-      case 'CREATING':
-        return VpcConnectionState.creating;
-      case 'AVAILABLE':
-        return VpcConnectionState.available;
-      case 'INACTIVE':
-        return VpcConnectionState.inactive;
-      case 'DEACTIVATING':
-        return VpcConnectionState.deactivating;
-      case 'DELETING':
-        return VpcConnectionState.deleting;
-      case 'FAILED':
-        return VpcConnectionState.failed;
-      case 'REJECTED':
-        return VpcConnectionState.rejected;
-      case 'REJECTING':
-        return VpcConnectionState.rejecting;
-    }
-    throw Exception('$this is not known in enum VpcConnectionState');
-  }
+  const VpcConnectionState(this.value);
+
+  static VpcConnectionState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VpcConnectionState'));
 }
 
 /// VPC connectivity access control for brokers.

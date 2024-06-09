@@ -745,9 +745,10 @@ class AccountMetaData {
           ? Address.fromJson(json['address'] as Map<String, dynamic>)
           : null,
       addressRoleMap: (json['addressRoleMap'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k.toAddressRoleType(),
+          (k, e) => MapEntry(AddressRoleType.fromString(k),
               Jurisdiction.fromJson(e as Map<String, dynamic>))),
-      addressType: (json['addressType'] as String?)?.toAddressRoleType(),
+      addressType:
+          (json['addressType'] as String?)?.let(AddressRoleType.fromString),
       seller: json['seller'] as String?,
     );
   }
@@ -762,9 +763,8 @@ class AccountMetaData {
       if (accountName != null) 'accountName': accountName,
       if (address != null) 'address': address,
       if (addressRoleMap != null)
-        'addressRoleMap':
-            addressRoleMap.map((k, e) => MapEntry(k.toValue(), e)),
-      if (addressType != null) 'addressType': addressType.toValue(),
+        'addressRoleMap': addressRoleMap.map((k, e) => MapEntry(k.value, e)),
+      if (addressType != null) 'addressType': addressType.value,
       if (seller != null) 'seller': seller,
     };
   }
@@ -1170,36 +1170,19 @@ class Address {
 }
 
 enum AddressRoleType {
-  taxAddress,
-  billingAddress,
-  contactAddress,
-}
+  taxAddress('TaxAddress'),
+  billingAddress('BillingAddress'),
+  contactAddress('ContactAddress'),
+  ;
 
-extension AddressRoleTypeValueExtension on AddressRoleType {
-  String toValue() {
-    switch (this) {
-      case AddressRoleType.taxAddress:
-        return 'TaxAddress';
-      case AddressRoleType.billingAddress:
-        return 'BillingAddress';
-      case AddressRoleType.contactAddress:
-        return 'ContactAddress';
-    }
-  }
-}
+  final String value;
 
-extension AddressRoleTypeFromString on String {
-  AddressRoleType toAddressRoleType() {
-    switch (this) {
-      case 'TaxAddress':
-        return AddressRoleType.taxAddress;
-      case 'BillingAddress':
-        return AddressRoleType.billingAddress;
-      case 'ContactAddress':
-        return AddressRoleType.contactAddress;
-    }
-    throw Exception('$this is not known in enum AddressRoleType');
-  }
+  const AddressRoleType(this.value);
+
+  static AddressRoleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AddressRoleType'));
 }
 
 /// The error object for representing failures in the
@@ -1336,7 +1319,8 @@ class BatchPutTaxRegistrationResponse {
           .map((e) =>
               BatchPutTaxRegistrationError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toTaxRegistrationStatus(),
+      status:
+          (json['status'] as String?)?.let(TaxRegistrationStatus.fromString),
     );
   }
 
@@ -1345,7 +1329,7 @@ class BatchPutTaxRegistrationResponse {
     final status = this.status;
     return {
       'errors': errors,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1529,14 +1513,14 @@ class GeorgiaAdditionalInfo {
 
   factory GeorgiaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return GeorgiaAdditionalInfo(
-      personType: (json['personType'] as String).toPersonType(),
+      personType: PersonType.fromString((json['personType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final personType = this.personType;
     return {
-      'personType': personType.toValue(),
+      'personType': personType.value,
     };
   }
 }
@@ -1615,51 +1599,21 @@ class IndiaAdditionalInfo {
 }
 
 enum Industries {
-  circulatingOrg,
-  professionalOrg,
-  banks,
-  insurance,
-  pensionAndBenefitFunds,
-  developmentAgencies,
-}
+  circulatingOrg('CirculatingOrg'),
+  professionalOrg('ProfessionalOrg'),
+  banks('Banks'),
+  insurance('Insurance'),
+  pensionAndBenefitFunds('PensionAndBenefitFunds'),
+  developmentAgencies('DevelopmentAgencies'),
+  ;
 
-extension IndustriesValueExtension on Industries {
-  String toValue() {
-    switch (this) {
-      case Industries.circulatingOrg:
-        return 'CirculatingOrg';
-      case Industries.professionalOrg:
-        return 'ProfessionalOrg';
-      case Industries.banks:
-        return 'Banks';
-      case Industries.insurance:
-        return 'Insurance';
-      case Industries.pensionAndBenefitFunds:
-        return 'PensionAndBenefitFunds';
-      case Industries.developmentAgencies:
-        return 'DevelopmentAgencies';
-    }
-  }
-}
+  final String value;
 
-extension IndustriesFromString on String {
-  Industries toIndustries() {
-    switch (this) {
-      case 'CirculatingOrg':
-        return Industries.circulatingOrg;
-      case 'ProfessionalOrg':
-        return Industries.professionalOrg;
-      case 'Banks':
-        return Industries.banks;
-      case 'Insurance':
-        return Industries.insurance;
-      case 'PensionAndBenefitFunds':
-        return Industries.pensionAndBenefitFunds;
-      case 'DevelopmentAgencies':
-        return Industries.developmentAgencies;
-    }
-    throw Exception('$this is not known in enum Industries');
-  }
+  const Industries(this.value);
+
+  static Industries fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Industries'));
 }
 
 /// Additional tax information associated with your TRN in Israel.
@@ -1681,8 +1635,9 @@ class IsraelAdditionalInfo {
 
   factory IsraelAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return IsraelAdditionalInfo(
-      customerType: (json['customerType'] as String).toIsraelCustomerType(),
-      dealerType: (json['dealerType'] as String).toIsraelDealerType(),
+      customerType:
+          IsraelCustomerType.fromString((json['customerType'] as String)),
+      dealerType: IsraelDealerType.fromString((json['dealerType'] as String)),
     );
   }
 
@@ -1690,66 +1645,40 @@ class IsraelAdditionalInfo {
     final customerType = this.customerType;
     final dealerType = this.dealerType;
     return {
-      'customerType': customerType.toValue(),
-      'dealerType': dealerType.toValue(),
+      'customerType': customerType.value,
+      'dealerType': dealerType.value,
     };
   }
 }
 
 enum IsraelCustomerType {
-  business,
-  individual,
-}
+  business('Business'),
+  individual('Individual'),
+  ;
 
-extension IsraelCustomerTypeValueExtension on IsraelCustomerType {
-  String toValue() {
-    switch (this) {
-      case IsraelCustomerType.business:
-        return 'Business';
-      case IsraelCustomerType.individual:
-        return 'Individual';
-    }
-  }
-}
+  final String value;
 
-extension IsraelCustomerTypeFromString on String {
-  IsraelCustomerType toIsraelCustomerType() {
-    switch (this) {
-      case 'Business':
-        return IsraelCustomerType.business;
-      case 'Individual':
-        return IsraelCustomerType.individual;
-    }
-    throw Exception('$this is not known in enum IsraelCustomerType');
-  }
+  const IsraelCustomerType(this.value);
+
+  static IsraelCustomerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IsraelCustomerType'));
 }
 
 enum IsraelDealerType {
-  authorized,
-  nonAuthorized,
-}
+  authorized('Authorized'),
+  nonAuthorized('Non-authorized'),
+  ;
 
-extension IsraelDealerTypeValueExtension on IsraelDealerType {
-  String toValue() {
-    switch (this) {
-      case IsraelDealerType.authorized:
-        return 'Authorized';
-      case IsraelDealerType.nonAuthorized:
-        return 'Non-authorized';
-    }
-  }
-}
+  final String value;
 
-extension IsraelDealerTypeFromString on String {
-  IsraelDealerType toIsraelDealerType() {
-    switch (this) {
-      case 'Authorized':
-        return IsraelDealerType.authorized;
-      case 'Non-authorized':
-        return IsraelDealerType.nonAuthorized;
-    }
-    throw Exception('$this is not known in enum IsraelDealerType');
-  }
+  const IsraelDealerType(this.value);
+
+  static IsraelDealerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IsraelDealerType'));
 }
 
 /// Additional tax information associated with your TRN in Italy.
@@ -1844,14 +1773,14 @@ class KenyaAdditionalInfo {
 
   factory KenyaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return KenyaAdditionalInfo(
-      personType: (json['personType'] as String).toPersonType(),
+      personType: PersonType.fromString((json['personType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final personType = this.personType;
     return {
-      'personType': personType.toValue(),
+      'personType': personType.value,
     };
   }
 }
@@ -1902,7 +1831,7 @@ class MalaysiaAdditionalInfo {
     return MalaysiaAdditionalInfo(
       serviceTaxCodes: (json['serviceTaxCodes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toMalaysiaServiceTaxCode())
+          .map((e) => MalaysiaServiceTaxCode.fromString((e as String)))
           .toList(),
     );
   }
@@ -1910,80 +1839,41 @@ class MalaysiaAdditionalInfo {
   Map<String, dynamic> toJson() {
     final serviceTaxCodes = this.serviceTaxCodes;
     return {
-      'serviceTaxCodes': serviceTaxCodes.map((e) => e.toValue()).toList(),
+      'serviceTaxCodes': serviceTaxCodes.map((e) => e.value).toList(),
     };
   }
 }
 
 enum MalaysiaServiceTaxCode {
-  consultancy,
-  digitalServiceAndElectronicMedium,
-  itServices,
-  trainingOrCoaching,
-}
+  consultancy('Consultancy'),
+  digitalServiceAndElectronicMedium('Digital Service And Electronic Medium'),
+  itServices('IT Services'),
+  trainingOrCoaching('Training Or Coaching'),
+  ;
 
-extension MalaysiaServiceTaxCodeValueExtension on MalaysiaServiceTaxCode {
-  String toValue() {
-    switch (this) {
-      case MalaysiaServiceTaxCode.consultancy:
-        return 'Consultancy';
-      case MalaysiaServiceTaxCode.digitalServiceAndElectronicMedium:
-        return 'Digital Service And Electronic Medium';
-      case MalaysiaServiceTaxCode.itServices:
-        return 'IT Services';
-      case MalaysiaServiceTaxCode.trainingOrCoaching:
-        return 'Training Or Coaching';
-    }
-  }
-}
+  final String value;
 
-extension MalaysiaServiceTaxCodeFromString on String {
-  MalaysiaServiceTaxCode toMalaysiaServiceTaxCode() {
-    switch (this) {
-      case 'Consultancy':
-        return MalaysiaServiceTaxCode.consultancy;
-      case 'Digital Service And Electronic Medium':
-        return MalaysiaServiceTaxCode.digitalServiceAndElectronicMedium;
-      case 'IT Services':
-        return MalaysiaServiceTaxCode.itServices;
-      case 'Training Or Coaching':
-        return MalaysiaServiceTaxCode.trainingOrCoaching;
-    }
-    throw Exception('$this is not known in enum MalaysiaServiceTaxCode');
-  }
+  const MalaysiaServiceTaxCode(this.value);
+
+  static MalaysiaServiceTaxCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MalaysiaServiceTaxCode'));
 }
 
 enum PersonType {
-  legalPerson,
-  physicalPerson,
-  business,
-}
+  legalPerson('Legal Person'),
+  physicalPerson('Physical Person'),
+  business('Business'),
+  ;
 
-extension PersonTypeValueExtension on PersonType {
-  String toValue() {
-    switch (this) {
-      case PersonType.legalPerson:
-        return 'Legal Person';
-      case PersonType.physicalPerson:
-        return 'Physical Person';
-      case PersonType.business:
-        return 'Business';
-    }
-  }
-}
+  final String value;
 
-extension PersonTypeFromString on String {
-  PersonType toPersonType() {
-    switch (this) {
-      case 'Legal Person':
-        return PersonType.legalPerson;
-      case 'Physical Person':
-        return PersonType.physicalPerson;
-      case 'Business':
-        return PersonType.business;
-    }
-    throw Exception('$this is not known in enum PersonType');
-  }
+  const PersonType(this.value);
+
+  static PersonType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PersonType'));
 }
 
 /// Additional tax information associated with your TRN in Poland.
@@ -2032,44 +1922,32 @@ class PutTaxRegistrationResponse {
 
   factory PutTaxRegistrationResponse.fromJson(Map<String, dynamic> json) {
     return PutTaxRegistrationResponse(
-      status: (json['status'] as String?)?.toTaxRegistrationStatus(),
+      status:
+          (json['status'] as String?)?.let(TaxRegistrationStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum RegistrationType {
-  intraEu,
-  local,
-}
+  intraEu('Intra-EU'),
+  local('Local'),
+  ;
 
-extension RegistrationTypeValueExtension on RegistrationType {
-  String toValue() {
-    switch (this) {
-      case RegistrationType.intraEu:
-        return 'Intra-EU';
-      case RegistrationType.local:
-        return 'Local';
-    }
-  }
-}
+  final String value;
 
-extension RegistrationTypeFromString on String {
-  RegistrationType toRegistrationType() {
-    switch (this) {
-      case 'Intra-EU':
-        return RegistrationType.intraEu;
-      case 'Local':
-        return RegistrationType.local;
-    }
-    throw Exception('$this is not known in enum RegistrationType');
-  }
+  const RegistrationType(this.value);
+
+  static RegistrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RegistrationType'));
 }
 
 /// Additional tax information to specify for a TRN in Romania.
@@ -2084,15 +1962,15 @@ class RomaniaAdditionalInfo {
 
   factory RomaniaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return RomaniaAdditionalInfo(
-      taxRegistrationNumberType: (json['taxRegistrationNumberType'] as String)
-          .toTaxRegistrationNumberType(),
+      taxRegistrationNumberType: TaxRegistrationNumberType.fromString(
+          (json['taxRegistrationNumberType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final taxRegistrationNumberType = this.taxRegistrationNumberType;
     return {
-      'taxRegistrationNumberType': taxRegistrationNumberType.toValue(),
+      'taxRegistrationNumberType': taxRegistrationNumberType.value,
     };
   }
 }
@@ -2109,7 +1987,7 @@ class SaudiArabiaAdditionalInfo {
   factory SaudiArabiaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return SaudiArabiaAdditionalInfo(
       taxRegistrationNumberType: (json['taxRegistrationNumberType'] as String?)
-          ?.toSaudiArabiaTaxRegistrationNumberType(),
+          ?.let(SaudiArabiaTaxRegistrationNumberType.fromString),
     );
   }
 
@@ -2117,79 +1995,40 @@ class SaudiArabiaAdditionalInfo {
     final taxRegistrationNumberType = this.taxRegistrationNumberType;
     return {
       if (taxRegistrationNumberType != null)
-        'taxRegistrationNumberType': taxRegistrationNumberType.toValue(),
+        'taxRegistrationNumberType': taxRegistrationNumberType.value,
     };
   }
 }
 
 enum SaudiArabiaTaxRegistrationNumberType {
-  taxRegistrationNumber,
-  taxIdentificationNumber,
-  commercialRegistrationNumber,
-}
+  taxRegistrationNumber('TaxRegistrationNumber'),
+  taxIdentificationNumber('TaxIdentificationNumber'),
+  commercialRegistrationNumber('CommercialRegistrationNumber'),
+  ;
 
-extension SaudiArabiaTaxRegistrationNumberTypeValueExtension
-    on SaudiArabiaTaxRegistrationNumberType {
-  String toValue() {
-    switch (this) {
-      case SaudiArabiaTaxRegistrationNumberType.taxRegistrationNumber:
-        return 'TaxRegistrationNumber';
-      case SaudiArabiaTaxRegistrationNumberType.taxIdentificationNumber:
-        return 'TaxIdentificationNumber';
-      case SaudiArabiaTaxRegistrationNumberType.commercialRegistrationNumber:
-        return 'CommercialRegistrationNumber';
-    }
-  }
-}
+  final String value;
 
-extension SaudiArabiaTaxRegistrationNumberTypeFromString on String {
-  SaudiArabiaTaxRegistrationNumberType
-      toSaudiArabiaTaxRegistrationNumberType() {
-    switch (this) {
-      case 'TaxRegistrationNumber':
-        return SaudiArabiaTaxRegistrationNumberType.taxRegistrationNumber;
-      case 'TaxIdentificationNumber':
-        return SaudiArabiaTaxRegistrationNumberType.taxIdentificationNumber;
-      case 'CommercialRegistrationNumber':
-        return SaudiArabiaTaxRegistrationNumberType
-            .commercialRegistrationNumber;
-    }
-    throw Exception(
-        '$this is not known in enum SaudiArabiaTaxRegistrationNumberType');
-  }
+  const SaudiArabiaTaxRegistrationNumberType(this.value);
+
+  static SaudiArabiaTaxRegistrationNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SaudiArabiaTaxRegistrationNumberType'));
 }
 
 enum Sector {
-  business,
-  individual,
-  government,
-}
+  business('Business'),
+  individual('Individual'),
+  government('Government'),
+  ;
 
-extension SectorValueExtension on Sector {
-  String toValue() {
-    switch (this) {
-      case Sector.business:
-        return 'Business';
-      case Sector.individual:
-        return 'Individual';
-      case Sector.government:
-        return 'Government';
-    }
-  }
-}
+  final String value;
 
-extension SectorFromString on String {
-  Sector toSector() {
-    switch (this) {
-      case 'Business':
-        return Sector.business;
-      case 'Individual':
-        return Sector.individual;
-      case 'Government':
-        return Sector.government;
-    }
-    throw Exception('$this is not known in enum Sector');
-  }
+  const Sector(this.value);
+
+  static Sector fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Sector'));
 }
 
 /// The Amazon S3 bucket in your account where your tax document is located.
@@ -2267,14 +2106,14 @@ class SpainAdditionalInfo {
   factory SpainAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return SpainAdditionalInfo(
       registrationType:
-          (json['registrationType'] as String).toRegistrationType(),
+          RegistrationType.fromString((json['registrationType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final registrationType = this.registrationType;
     return {
-      'registrationType': registrationType.toValue(),
+      'registrationType': registrationType.value,
     };
   }
 }
@@ -2402,14 +2241,14 @@ class TaxRegistration {
       legalName: json['legalName'] as String,
       registrationId: json['registrationId'] as String,
       registrationType:
-          (json['registrationType'] as String).toTaxRegistrationType(),
-      status: (json['status'] as String).toTaxRegistrationStatus(),
+          TaxRegistrationType.fromString((json['registrationType'] as String)),
+      status: TaxRegistrationStatus.fromString((json['status'] as String)),
       additionalTaxInformation: json['additionalTaxInformation'] != null
           ? AdditionalInfoResponse.fromJson(
               json['additionalTaxInformation'] as Map<String, dynamic>)
           : null,
       certifiedEmailId: json['certifiedEmailId'] as String?,
-      sector: (json['sector'] as String?)?.toSector(),
+      sector: (json['sector'] as String?)?.let(Sector.fromString),
       taxDocumentMetadatas: (json['taxDocumentMetadatas'] as List?)
           ?.whereNotNull()
           .map((e) => TaxDocumentMetadata.fromJson(e as Map<String, dynamic>))
@@ -2431,12 +2270,12 @@ class TaxRegistration {
       'legalAddress': legalAddress,
       'legalName': legalName,
       'registrationId': registrationId,
-      'registrationType': registrationType.toValue(),
-      'status': status.toValue(),
+      'registrationType': registrationType.value,
+      'status': status.value,
       if (additionalTaxInformation != null)
         'additionalTaxInformation': additionalTaxInformation,
       if (certifiedEmailId != null) 'certifiedEmailId': certifiedEmailId,
-      if (sector != null) 'sector': sector.toValue(),
+      if (sector != null) 'sector': sector.value,
       if (taxDocumentMetadatas != null)
         'taxDocumentMetadatas': taxDocumentMetadatas,
     };
@@ -2532,13 +2371,13 @@ class TaxRegistrationEntry {
     final verificationDetails = this.verificationDetails;
     return {
       'registrationId': registrationId,
-      'registrationType': registrationType.toValue(),
+      'registrationType': registrationType.value,
       if (additionalTaxInformation != null)
         'additionalTaxInformation': additionalTaxInformation,
       if (certifiedEmailId != null) 'certifiedEmailId': certifiedEmailId,
       if (legalAddress != null) 'legalAddress': legalAddress,
       if (legalName != null) 'legalName': legalName,
-      if (sector != null) 'sector': sector.toValue(),
+      if (sector != null) 'sector': sector.value,
       if (verificationDetails != null)
         'verificationDetails': verificationDetails,
     };
@@ -2546,112 +2385,53 @@ class TaxRegistrationEntry {
 }
 
 enum TaxRegistrationNumberType {
-  taxRegistrationNumber,
-  localRegistrationNumber,
-}
+  taxRegistrationNumber('TaxRegistrationNumber'),
+  localRegistrationNumber('LocalRegistrationNumber'),
+  ;
 
-extension TaxRegistrationNumberTypeValueExtension on TaxRegistrationNumberType {
-  String toValue() {
-    switch (this) {
-      case TaxRegistrationNumberType.taxRegistrationNumber:
-        return 'TaxRegistrationNumber';
-      case TaxRegistrationNumberType.localRegistrationNumber:
-        return 'LocalRegistrationNumber';
-    }
-  }
-}
+  final String value;
 
-extension TaxRegistrationNumberTypeFromString on String {
-  TaxRegistrationNumberType toTaxRegistrationNumberType() {
-    switch (this) {
-      case 'TaxRegistrationNumber':
-        return TaxRegistrationNumberType.taxRegistrationNumber;
-      case 'LocalRegistrationNumber':
-        return TaxRegistrationNumberType.localRegistrationNumber;
-    }
-    throw Exception('$this is not known in enum TaxRegistrationNumberType');
-  }
+  const TaxRegistrationNumberType(this.value);
+
+  static TaxRegistrationNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TaxRegistrationNumberType'));
 }
 
 enum TaxRegistrationStatus {
-  verified,
-  pending,
-  deleted,
-  rejected,
-}
+  verified('Verified'),
+  pending('Pending'),
+  deleted('Deleted'),
+  rejected('Rejected'),
+  ;
 
-extension TaxRegistrationStatusValueExtension on TaxRegistrationStatus {
-  String toValue() {
-    switch (this) {
-      case TaxRegistrationStatus.verified:
-        return 'Verified';
-      case TaxRegistrationStatus.pending:
-        return 'Pending';
-      case TaxRegistrationStatus.deleted:
-        return 'Deleted';
-      case TaxRegistrationStatus.rejected:
-        return 'Rejected';
-    }
-  }
-}
+  final String value;
 
-extension TaxRegistrationStatusFromString on String {
-  TaxRegistrationStatus toTaxRegistrationStatus() {
-    switch (this) {
-      case 'Verified':
-        return TaxRegistrationStatus.verified;
-      case 'Pending':
-        return TaxRegistrationStatus.pending;
-      case 'Deleted':
-        return TaxRegistrationStatus.deleted;
-      case 'Rejected':
-        return TaxRegistrationStatus.rejected;
-    }
-    throw Exception('$this is not known in enum TaxRegistrationStatus');
-  }
+  const TaxRegistrationStatus(this.value);
+
+  static TaxRegistrationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TaxRegistrationStatus'));
 }
 
 enum TaxRegistrationType {
-  vat,
-  gst,
-  cpf,
-  cnpj,
-  sst,
-}
+  vat('VAT'),
+  gst('GST'),
+  cpf('CPF'),
+  cnpj('CNPJ'),
+  sst('SST'),
+  ;
 
-extension TaxRegistrationTypeValueExtension on TaxRegistrationType {
-  String toValue() {
-    switch (this) {
-      case TaxRegistrationType.vat:
-        return 'VAT';
-      case TaxRegistrationType.gst:
-        return 'GST';
-      case TaxRegistrationType.cpf:
-        return 'CPF';
-      case TaxRegistrationType.cnpj:
-        return 'CNPJ';
-      case TaxRegistrationType.sst:
-        return 'SST';
-    }
-  }
-}
+  final String value;
 
-extension TaxRegistrationTypeFromString on String {
-  TaxRegistrationType toTaxRegistrationType() {
-    switch (this) {
-      case 'VAT':
-        return TaxRegistrationType.vat;
-      case 'GST':
-        return TaxRegistrationType.gst;
-      case 'CPF':
-        return TaxRegistrationType.cpf;
-      case 'CNPJ':
-        return TaxRegistrationType.cnpj;
-      case 'SST':
-        return TaxRegistrationType.sst;
-    }
-    throw Exception('$this is not known in enum TaxRegistrationType');
-  }
+  const TaxRegistrationType(this.value);
+
+  static TaxRegistrationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TaxRegistrationType'));
 }
 
 /// Your TRN information with jurisdiction details. This doesn't contain the
@@ -2709,14 +2489,14 @@ class TaxRegistrationWithJurisdiction {
       legalName: json['legalName'] as String,
       registrationId: json['registrationId'] as String,
       registrationType:
-          (json['registrationType'] as String).toTaxRegistrationType(),
-      status: (json['status'] as String).toTaxRegistrationStatus(),
+          TaxRegistrationType.fromString((json['registrationType'] as String)),
+      status: TaxRegistrationStatus.fromString((json['status'] as String)),
       additionalTaxInformation: json['additionalTaxInformation'] != null
           ? AdditionalInfoResponse.fromJson(
               json['additionalTaxInformation'] as Map<String, dynamic>)
           : null,
       certifiedEmailId: json['certifiedEmailId'] as String?,
-      sector: (json['sector'] as String?)?.toSector(),
+      sector: (json['sector'] as String?)?.let(Sector.fromString),
       taxDocumentMetadatas: (json['taxDocumentMetadatas'] as List?)
           ?.whereNotNull()
           .map((e) => TaxDocumentMetadata.fromJson(e as Map<String, dynamic>))
@@ -2738,12 +2518,12 @@ class TaxRegistrationWithJurisdiction {
       'jurisdiction': jurisdiction,
       'legalName': legalName,
       'registrationId': registrationId,
-      'registrationType': registrationType.toValue(),
-      'status': status.toValue(),
+      'registrationType': registrationType.value,
+      'status': status.value,
       if (additionalTaxInformation != null)
         'additionalTaxInformation': additionalTaxInformation,
       if (certifiedEmailId != null) 'certifiedEmailId': certifiedEmailId,
-      if (sector != null) 'sector': sector.toValue(),
+      if (sector != null) 'sector': sector.value,
       if (taxDocumentMetadatas != null)
         'taxDocumentMetadatas': taxDocumentMetadatas,
     };
@@ -2784,7 +2564,7 @@ class TurkeyAdditionalInfo {
 
   factory TurkeyAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return TurkeyAdditionalInfo(
-      industries: (json['industries'] as String?)?.toIndustries(),
+      industries: (json['industries'] as String?)?.let(Industries.fromString),
       kepEmailId: json['kepEmailId'] as String?,
       secondaryTaxId: json['secondaryTaxId'] as String?,
       taxOffice: json['taxOffice'] as String?,
@@ -2797,7 +2577,7 @@ class TurkeyAdditionalInfo {
     final secondaryTaxId = this.secondaryTaxId;
     final taxOffice = this.taxOffice;
     return {
-      if (industries != null) 'industries': industries.toValue(),
+      if (industries != null) 'industries': industries.value,
       if (kepEmailId != null) 'kepEmailId': kepEmailId,
       if (secondaryTaxId != null) 'secondaryTaxId': secondaryTaxId,
       if (taxOffice != null) 'taxOffice': taxOffice,
@@ -2816,44 +2596,32 @@ class UkraineAdditionalInfo {
 
   factory UkraineAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return UkraineAdditionalInfo(
-      ukraineTrnType: (json['ukraineTrnType'] as String).toUkraineTrnType(),
+      ukraineTrnType:
+          UkraineTrnType.fromString((json['ukraineTrnType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final ukraineTrnType = this.ukraineTrnType;
     return {
-      'ukraineTrnType': ukraineTrnType.toValue(),
+      'ukraineTrnType': ukraineTrnType.value,
     };
   }
 }
 
 enum UkraineTrnType {
-  business,
-  individual,
-}
+  business('Business'),
+  individual('Individual'),
+  ;
 
-extension UkraineTrnTypeValueExtension on UkraineTrnType {
-  String toValue() {
-    switch (this) {
-      case UkraineTrnType.business:
-        return 'Business';
-      case UkraineTrnType.individual:
-        return 'Individual';
-    }
-  }
-}
+  final String value;
 
-extension UkraineTrnTypeFromString on String {
-  UkraineTrnType toUkraineTrnType() {
-    switch (this) {
-      case 'Business':
-        return UkraineTrnType.business;
-      case 'Individual':
-        return UkraineTrnType.individual;
-    }
-    throw Exception('$this is not known in enum UkraineTrnType');
-  }
+  const UkraineTrnType(this.value);
+
+  static UkraineTrnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UkraineTrnType'));
 }
 
 /// Required information to verify your TRN.

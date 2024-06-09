@@ -541,9 +541,9 @@ class Lambda {
     );
     final $query = <String, List<String>>{
       'Handler': [handler],
-      'Mode': [mode.toValue()],
+      'Mode': [mode.value],
       'Role': [role],
-      'Runtime': [runtime.toValue()],
+      'Runtime': [runtime.value],
       if (description != null) 'Description': [description],
       if (memorySize != null) 'MemorySize': [memorySize.toString()],
       if (timeout != null) 'Timeout': [timeout.toString()],
@@ -749,9 +749,9 @@ class FunctionConfiguration {
       handler: json['Handler'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
       memorySize: json['MemorySize'] as int?,
-      mode: (json['Mode'] as String?)?.toMode(),
+      mode: (json['Mode'] as String?)?.let(Mode.fromString),
       role: json['Role'] as String?,
-      runtime: (json['Runtime'] as String?)?.toRuntime(),
+      runtime: (json['Runtime'] as String?)?.let(Runtime.fromString),
       timeout: json['Timeout'] as int?,
     );
   }
@@ -779,9 +779,9 @@ class FunctionConfiguration {
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
       if (memorySize != null) 'MemorySize': memorySize,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (role != null) 'Role': role,
-      if (runtime != null) 'Runtime': runtime.toValue(),
+      if (runtime != null) 'Runtime': runtime.value,
       if (timeout != null) 'Timeout': timeout,
     };
   }
@@ -967,26 +967,16 @@ class ListFunctionsResponse {
 }
 
 enum Mode {
-  event,
-}
+  event('event'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.event:
-        return 'event';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'event':
-        return Mode.event;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 /// The function or the event source specified in the request does not exist.
@@ -1017,26 +1007,16 @@ class ResourceNotFoundException implements _s.AwsException {
 }
 
 enum Runtime {
-  nodejs,
-}
+  nodejs('nodejs'),
+  ;
 
-extension RuntimeValueExtension on Runtime {
-  String toValue() {
-    switch (this) {
-      case Runtime.nodejs:
-        return 'nodejs';
-    }
-  }
-}
+  final String value;
 
-extension RuntimeFromString on String {
-  Runtime toRuntime() {
-    switch (this) {
-      case 'nodejs':
-        return Runtime.nodejs;
-    }
-    throw Exception('$this is not known in enum Runtime');
-  }
+  const Runtime(this.value);
+
+  static Runtime fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Runtime'));
 }
 
 /// The AWS Lambda service encountered an internal error.

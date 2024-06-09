@@ -72,7 +72,7 @@ class SsmSap {
   }) async {
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
-      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (actionType != null) 'ActionType': actionType.value,
       if (sourceResourceArn != null) 'SourceResourceArn': sourceResourceArn,
     };
     final response = await _protocol.send(
@@ -247,7 +247,7 @@ class SsmSap {
   }) async {
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
-      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (actionType != null) 'ActionType': actionType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -536,7 +536,7 @@ class SsmSap {
     required String sourceResourceArn,
   }) async {
     final $payload = <String, dynamic>{
-      'ActionType': actionType.toValue(),
+      'ActionType': actionType.value,
       'ResourceArn': resourceArn,
       'SourceResourceArn': sourceResourceArn,
     };
@@ -601,7 +601,7 @@ class SsmSap {
   }) async {
     final $payload = <String, dynamic>{
       'ApplicationId': applicationId,
-      'ApplicationType': applicationType.toValue(),
+      'ApplicationType': applicationType.value,
       'Instances': instances,
       if (credentials != null) 'Credentials': credentials,
       if (databaseArn != null) 'DatabaseArn': databaseArn,
@@ -704,7 +704,7 @@ class SsmSap {
       if (includeEc2InstanceShutdown != null)
         'IncludeEc2InstanceShutdown': includeEc2InstanceShutdown,
       if (stopConnectedEntity != null)
-        'StopConnectedEntity': stopConnectedEntity.toValue(),
+        'StopConnectedEntity': stopConnectedEntity.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -820,41 +820,20 @@ class SsmSap {
 }
 
 enum AllocationType {
-  vpcSubnet,
-  elasticIp,
-  overlay,
-  unknown,
-}
+  vpcSubnet('VPC_SUBNET'),
+  elasticIp('ELASTIC_IP'),
+  overlay('OVERLAY'),
+  unknown('UNKNOWN'),
+  ;
 
-extension AllocationTypeValueExtension on AllocationType {
-  String toValue() {
-    switch (this) {
-      case AllocationType.vpcSubnet:
-        return 'VPC_SUBNET';
-      case AllocationType.elasticIp:
-        return 'ELASTIC_IP';
-      case AllocationType.overlay:
-        return 'OVERLAY';
-      case AllocationType.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension AllocationTypeFromString on String {
-  AllocationType toAllocationType() {
-    switch (this) {
-      case 'VPC_SUBNET':
-        return AllocationType.vpcSubnet;
-      case 'ELASTIC_IP':
-        return AllocationType.elasticIp;
-      case 'OVERLAY':
-        return AllocationType.overlay;
-      case 'UNKNOWN':
-        return AllocationType.unknown;
-    }
-    throw Exception('$this is not known in enum AllocationType');
-  }
+  const AllocationType(this.value);
+
+  static AllocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AllocationType'));
 }
 
 /// An SAP application registered with AWS Systems Manager for SAP.
@@ -906,13 +885,13 @@ class Application {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      discoveryStatus:
-          (json['DiscoveryStatus'] as String?)?.toApplicationDiscoveryStatus(),
+      discoveryStatus: (json['DiscoveryStatus'] as String?)
+          ?.let(ApplicationDiscoveryStatus.fromString),
       id: json['Id'] as String?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
-      status: (json['Status'] as String?)?.toApplicationStatus(),
+      status: (json['Status'] as String?)?.let(ApplicationStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      type: (json['Type'] as String?)?.toApplicationType(),
+      type: (json['Type'] as String?)?.let(ApplicationType.fromString),
     );
   }
 
@@ -930,12 +909,12 @@ class Application {
       if (appRegistryArn != null) 'AppRegistryArn': appRegistryArn,
       if (arn != null) 'Arn': arn,
       if (components != null) 'Components': components,
-      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.toValue(),
+      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.value,
       if (id != null) 'Id': id,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -960,7 +939,8 @@ class ApplicationCredential {
 
   factory ApplicationCredential.fromJson(Map<String, dynamic> json) {
     return ApplicationCredential(
-      credentialType: (json['CredentialType'] as String).toCredentialType(),
+      credentialType:
+          CredentialType.fromString((json['CredentialType'] as String)),
       databaseName: json['DatabaseName'] as String,
       secretId: json['SecretId'] as String,
     );
@@ -971,7 +951,7 @@ class ApplicationCredential {
     final databaseName = this.databaseName;
     final secretId = this.secretId;
     return {
-      'CredentialType': credentialType.toValue(),
+      'CredentialType': credentialType.value,
       'DatabaseName': databaseName,
       'SecretId': secretId,
     };
@@ -979,105 +959,42 @@ class ApplicationCredential {
 }
 
 enum ApplicationDiscoveryStatus {
-  success,
-  registrationFailed,
-  refreshFailed,
-  registering,
-  deleting,
-}
+  success('SUCCESS'),
+  registrationFailed('REGISTRATION_FAILED'),
+  refreshFailed('REFRESH_FAILED'),
+  registering('REGISTERING'),
+  deleting('DELETING'),
+  ;
 
-extension ApplicationDiscoveryStatusValueExtension
-    on ApplicationDiscoveryStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationDiscoveryStatus.success:
-        return 'SUCCESS';
-      case ApplicationDiscoveryStatus.registrationFailed:
-        return 'REGISTRATION_FAILED';
-      case ApplicationDiscoveryStatus.refreshFailed:
-        return 'REFRESH_FAILED';
-      case ApplicationDiscoveryStatus.registering:
-        return 'REGISTERING';
-      case ApplicationDiscoveryStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationDiscoveryStatusFromString on String {
-  ApplicationDiscoveryStatus toApplicationDiscoveryStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return ApplicationDiscoveryStatus.success;
-      case 'REGISTRATION_FAILED':
-        return ApplicationDiscoveryStatus.registrationFailed;
-      case 'REFRESH_FAILED':
-        return ApplicationDiscoveryStatus.refreshFailed;
-      case 'REGISTERING':
-        return ApplicationDiscoveryStatus.registering;
-      case 'DELETING':
-        return ApplicationDiscoveryStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ApplicationDiscoveryStatus');
-  }
+  const ApplicationDiscoveryStatus(this.value);
+
+  static ApplicationDiscoveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationDiscoveryStatus'));
 }
 
 enum ApplicationStatus {
-  activated,
-  starting,
-  stopped,
-  stopping,
-  failed,
-  registering,
-  deleting,
-  unknown,
-}
+  activated('ACTIVATED'),
+  starting('STARTING'),
+  stopped('STOPPED'),
+  stopping('STOPPING'),
+  failed('FAILED'),
+  registering('REGISTERING'),
+  deleting('DELETING'),
+  unknown('UNKNOWN'),
+  ;
 
-extension ApplicationStatusValueExtension on ApplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationStatus.activated:
-        return 'ACTIVATED';
-      case ApplicationStatus.starting:
-        return 'STARTING';
-      case ApplicationStatus.stopped:
-        return 'STOPPED';
-      case ApplicationStatus.stopping:
-        return 'STOPPING';
-      case ApplicationStatus.failed:
-        return 'FAILED';
-      case ApplicationStatus.registering:
-        return 'REGISTERING';
-      case ApplicationStatus.deleting:
-        return 'DELETING';
-      case ApplicationStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStatusFromString on String {
-  ApplicationStatus toApplicationStatus() {
-    switch (this) {
-      case 'ACTIVATED':
-        return ApplicationStatus.activated;
-      case 'STARTING':
-        return ApplicationStatus.starting;
-      case 'STOPPED':
-        return ApplicationStatus.stopped;
-      case 'STOPPING':
-        return ApplicationStatus.stopping;
-      case 'FAILED':
-        return ApplicationStatus.failed;
-      case 'REGISTERING':
-        return ApplicationStatus.registering;
-      case 'DELETING':
-        return ApplicationStatus.deleting;
-      case 'UNKNOWN':
-        return ApplicationStatus.unknown;
-    }
-    throw Exception('$this is not known in enum ApplicationStatus');
-  }
+  const ApplicationStatus(this.value);
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationStatus'));
 }
 
 /// The summary of the SAP application registered with AWS Systems Manager for
@@ -1109,12 +1026,12 @@ class ApplicationSummary {
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
       arn: json['Arn'] as String?,
-      discoveryStatus:
-          (json['DiscoveryStatus'] as String?)?.toApplicationDiscoveryStatus(),
+      discoveryStatus: (json['DiscoveryStatus'] as String?)
+          ?.let(ApplicationDiscoveryStatus.fromString),
       id: json['Id'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.toApplicationType(),
+      type: (json['Type'] as String?)?.let(ApplicationType.fromString),
     );
   }
 
@@ -1126,40 +1043,27 @@ class ApplicationSummary {
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
-      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.toValue(),
+      if (discoveryStatus != null) 'DiscoveryStatus': discoveryStatus.value,
       if (id != null) 'Id': id,
       if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ApplicationType {
-  hana,
-  sapAbap,
-}
+  hana('HANA'),
+  sapAbap('SAP_ABAP'),
+  ;
 
-extension ApplicationTypeValueExtension on ApplicationType {
-  String toValue() {
-    switch (this) {
-      case ApplicationType.hana:
-        return 'HANA';
-      case ApplicationType.sapAbap:
-        return 'SAP_ABAP';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationTypeFromString on String {
-  ApplicationType toApplicationType() {
-    switch (this) {
-      case 'HANA':
-        return ApplicationType.hana;
-      case 'SAP_ABAP':
-        return ApplicationType.sapAbap;
-    }
-    throw Exception('$this is not known in enum ApplicationType');
-  }
+  const ApplicationType(this.value);
+
+  static ApplicationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationType'));
 }
 
 /// Describes the properties of the associated host.
@@ -1227,76 +1131,41 @@ class BackintConfig {
     final backintMode = this.backintMode;
     final ensureNoBackupInProcess = this.ensureNoBackupInProcess;
     return {
-      'BackintMode': backintMode.toValue(),
+      'BackintMode': backintMode.value,
       'EnsureNoBackupInProcess': ensureNoBackupInProcess,
     };
   }
 }
 
 enum BackintMode {
-  awsBackup,
-}
+  awsBackup('AWSBackup'),
+  ;
 
-extension BackintModeValueExtension on BackintMode {
-  String toValue() {
-    switch (this) {
-      case BackintMode.awsBackup:
-        return 'AWSBackup';
-    }
-  }
-}
+  final String value;
 
-extension BackintModeFromString on String {
-  BackintMode toBackintMode() {
-    switch (this) {
-      case 'AWSBackup':
-        return BackintMode.awsBackup;
-    }
-    throw Exception('$this is not known in enum BackintMode');
-  }
+  const BackintMode(this.value);
+
+  static BackintMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BackintMode'));
 }
 
 enum ClusterStatus {
-  online,
-  standby,
-  maintenance,
-  offline,
-  none,
-}
+  online('ONLINE'),
+  standby('STANDBY'),
+  maintenance('MAINTENANCE'),
+  offline('OFFLINE'),
+  none('NONE'),
+  ;
 
-extension ClusterStatusValueExtension on ClusterStatus {
-  String toValue() {
-    switch (this) {
-      case ClusterStatus.online:
-        return 'ONLINE';
-      case ClusterStatus.standby:
-        return 'STANDBY';
-      case ClusterStatus.maintenance:
-        return 'MAINTENANCE';
-      case ClusterStatus.offline:
-        return 'OFFLINE';
-      case ClusterStatus.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStatusFromString on String {
-  ClusterStatus toClusterStatus() {
-    switch (this) {
-      case 'ONLINE':
-        return ClusterStatus.online;
-      case 'STANDBY':
-        return ClusterStatus.standby;
-      case 'MAINTENANCE':
-        return ClusterStatus.maintenance;
-      case 'OFFLINE':
-        return ClusterStatus.offline;
-      case 'NONE':
-        return ClusterStatus.none;
-    }
-    throw Exception('$this is not known in enum ClusterStatus');
-  }
+  const ClusterStatus(this.value);
+
+  static ClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterStatus'));
 }
 
 /// The SAP component of your application.
@@ -1429,7 +1298,8 @@ class Component {
           .map((e) => e as String)
           .toList(),
       componentId: json['ComponentId'] as String?,
-      componentType: (json['ComponentType'] as String?)?.toComponentType(),
+      componentType:
+          (json['ComponentType'] as String?)?.let(ComponentType.fromString),
       databaseConnection: json['DatabaseConnection'] != null
           ? DatabaseConnection.fromJson(
               json['DatabaseConnection'] as Map<String, dynamic>)
@@ -1453,7 +1323,7 @@ class Component {
       sapHostname: json['SapHostname'] as String?,
       sapKernelVersion: json['SapKernelVersion'] as String?,
       sid: json['Sid'] as String?,
-      status: (json['Status'] as String?)?.toComponentStatus(),
+      status: (json['Status'] as String?)?.let(ComponentStatus.fromString),
       systemNumber: json['SystemNumber'] as String?,
     );
   }
@@ -1485,7 +1355,7 @@ class Component {
       if (associatedHost != null) 'AssociatedHost': associatedHost,
       if (childComponents != null) 'ChildComponents': childComponents,
       if (componentId != null) 'ComponentId': componentId,
-      if (componentType != null) 'ComponentType': componentType.toValue(),
+      if (componentType != null) 'ComponentType': componentType.value,
       if (databaseConnection != null) 'DatabaseConnection': databaseConnection,
       if (databases != null) 'Databases': databases,
       if (hdbVersion != null) 'HdbVersion': hdbVersion,
@@ -1498,63 +1368,30 @@ class Component {
       if (sapHostname != null) 'SapHostname': sapHostname,
       if (sapKernelVersion != null) 'SapKernelVersion': sapKernelVersion,
       if (sid != null) 'Sid': sid,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (systemNumber != null) 'SystemNumber': systemNumber,
     };
   }
 }
 
 enum ComponentStatus {
-  activated,
-  starting,
-  stopped,
-  stopping,
-  running,
-  runningWithError,
-  undefined,
-}
+  activated('ACTIVATED'),
+  starting('STARTING'),
+  stopped('STOPPED'),
+  stopping('STOPPING'),
+  running('RUNNING'),
+  runningWithError('RUNNING_WITH_ERROR'),
+  undefined('UNDEFINED'),
+  ;
 
-extension ComponentStatusValueExtension on ComponentStatus {
-  String toValue() {
-    switch (this) {
-      case ComponentStatus.activated:
-        return 'ACTIVATED';
-      case ComponentStatus.starting:
-        return 'STARTING';
-      case ComponentStatus.stopped:
-        return 'STOPPED';
-      case ComponentStatus.stopping:
-        return 'STOPPING';
-      case ComponentStatus.running:
-        return 'RUNNING';
-      case ComponentStatus.runningWithError:
-        return 'RUNNING_WITH_ERROR';
-      case ComponentStatus.undefined:
-        return 'UNDEFINED';
-    }
-  }
-}
+  final String value;
 
-extension ComponentStatusFromString on String {
-  ComponentStatus toComponentStatus() {
-    switch (this) {
-      case 'ACTIVATED':
-        return ComponentStatus.activated;
-      case 'STARTING':
-        return ComponentStatus.starting;
-      case 'STOPPED':
-        return ComponentStatus.stopped;
-      case 'STOPPING':
-        return ComponentStatus.stopping;
-      case 'RUNNING':
-        return ComponentStatus.running;
-      case 'RUNNING_WITH_ERROR':
-        return ComponentStatus.runningWithError;
-      case 'UNDEFINED':
-        return ComponentStatus.undefined;
-    }
-    throw Exception('$this is not known in enum ComponentStatus');
-  }
+  const ComponentStatus(this.value);
+
+  static ComponentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComponentStatus'));
 }
 
 /// The summary of the component.
@@ -1587,7 +1424,8 @@ class ComponentSummary {
       applicationId: json['ApplicationId'] as String?,
       arn: json['Arn'] as String?,
       componentId: json['ComponentId'] as String?,
-      componentType: (json['ComponentType'] as String?)?.toComponentType(),
+      componentType:
+          (json['ComponentType'] as String?)?.let(ComponentType.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1603,114 +1441,59 @@ class ComponentSummary {
       if (applicationId != null) 'ApplicationId': applicationId,
       if (arn != null) 'Arn': arn,
       if (componentId != null) 'ComponentId': componentId,
-      if (componentType != null) 'ComponentType': componentType.toValue(),
+      if (componentType != null) 'ComponentType': componentType.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum ComponentType {
-  hana,
-  hanaNode,
-  abap,
-  ascs,
-  dialog,
-  webdisp,
-  wd,
-  ers,
-}
+  hana('HANA'),
+  hanaNode('HANA_NODE'),
+  abap('ABAP'),
+  ascs('ASCS'),
+  dialog('DIALOG'),
+  webdisp('WEBDISP'),
+  wd('WD'),
+  ers('ERS'),
+  ;
 
-extension ComponentTypeValueExtension on ComponentType {
-  String toValue() {
-    switch (this) {
-      case ComponentType.hana:
-        return 'HANA';
-      case ComponentType.hanaNode:
-        return 'HANA_NODE';
-      case ComponentType.abap:
-        return 'ABAP';
-      case ComponentType.ascs:
-        return 'ASCS';
-      case ComponentType.dialog:
-        return 'DIALOG';
-      case ComponentType.webdisp:
-        return 'WEBDISP';
-      case ComponentType.wd:
-        return 'WD';
-      case ComponentType.ers:
-        return 'ERS';
-    }
-  }
-}
+  final String value;
 
-extension ComponentTypeFromString on String {
-  ComponentType toComponentType() {
-    switch (this) {
-      case 'HANA':
-        return ComponentType.hana;
-      case 'HANA_NODE':
-        return ComponentType.hanaNode;
-      case 'ABAP':
-        return ComponentType.abap;
-      case 'ASCS':
-        return ComponentType.ascs;
-      case 'DIALOG':
-        return ComponentType.dialog;
-      case 'WEBDISP':
-        return ComponentType.webdisp;
-      case 'WD':
-        return ComponentType.wd;
-      case 'ERS':
-        return ComponentType.ers;
-    }
-    throw Exception('$this is not known in enum ComponentType');
-  }
+  const ComponentType(this.value);
+
+  static ComponentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComponentType'));
 }
 
 enum ConnectedEntityType {
-  dbms,
-}
+  dbms('DBMS'),
+  ;
 
-extension ConnectedEntityTypeValueExtension on ConnectedEntityType {
-  String toValue() {
-    switch (this) {
-      case ConnectedEntityType.dbms:
-        return 'DBMS';
-    }
-  }
-}
+  final String value;
 
-extension ConnectedEntityTypeFromString on String {
-  ConnectedEntityType toConnectedEntityType() {
-    switch (this) {
-      case 'DBMS':
-        return ConnectedEntityType.dbms;
-    }
-    throw Exception('$this is not known in enum ConnectedEntityType');
-  }
+  const ConnectedEntityType(this.value);
+
+  static ConnectedEntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConnectedEntityType'));
 }
 
 enum CredentialType {
-  admin,
-}
+  admin('ADMIN'),
+  ;
 
-extension CredentialTypeValueExtension on CredentialType {
-  String toValue() {
-    switch (this) {
-      case CredentialType.admin:
-        return 'ADMIN';
-    }
-  }
-}
+  final String value;
 
-extension CredentialTypeFromString on String {
-  CredentialType toCredentialType() {
-    switch (this) {
-      case 'ADMIN':
-        return CredentialType.admin;
-    }
-    throw Exception('$this is not known in enum CredentialType');
-  }
+  const CredentialType(this.value);
+
+  static CredentialType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CredentialType'));
 }
 
 /// The SAP HANA database of the application registered with AWS Systems Manager
@@ -1774,11 +1557,12 @@ class Database {
           .toList(),
       databaseId: json['DatabaseId'] as String?,
       databaseName: json['DatabaseName'] as String?,
-      databaseType: (json['DatabaseType'] as String?)?.toDatabaseType(),
+      databaseType:
+          (json['DatabaseType'] as String?)?.let(DatabaseType.fromString),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       primaryHost: json['PrimaryHost'] as String?,
       sQLPort: json['SQLPort'] as int?,
-      status: (json['Status'] as String?)?.toDatabaseStatus(),
+      status: (json['Status'] as String?)?.let(DatabaseStatus.fromString),
     );
   }
 
@@ -1801,11 +1585,11 @@ class Database {
       if (credentials != null) 'Credentials': credentials,
       if (databaseId != null) 'DatabaseId': databaseId,
       if (databaseName != null) 'DatabaseName': databaseName,
-      if (databaseType != null) 'DatabaseType': databaseType.toValue(),
+      if (databaseType != null) 'DatabaseType': databaseType.value,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (primaryHost != null) 'PrimaryHost': primaryHost,
       if (sQLPort != null) 'SQLPort': sQLPort,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -1832,7 +1616,7 @@ class DatabaseConnection {
       connectionIp: json['ConnectionIp'] as String?,
       databaseArn: json['DatabaseArn'] as String?,
       databaseConnectionMethod: (json['DatabaseConnectionMethod'] as String?)
-          ?.toDatabaseConnectionMethod(),
+          ?.let(DatabaseConnectionMethod.fromString),
     );
   }
 
@@ -1844,85 +1628,43 @@ class DatabaseConnection {
       if (connectionIp != null) 'ConnectionIp': connectionIp,
       if (databaseArn != null) 'DatabaseArn': databaseArn,
       if (databaseConnectionMethod != null)
-        'DatabaseConnectionMethod': databaseConnectionMethod.toValue(),
+        'DatabaseConnectionMethod': databaseConnectionMethod.value,
     };
   }
 }
 
 enum DatabaseConnectionMethod {
-  direct,
-  overlay,
-}
+  direct('DIRECT'),
+  overlay('OVERLAY'),
+  ;
 
-extension DatabaseConnectionMethodValueExtension on DatabaseConnectionMethod {
-  String toValue() {
-    switch (this) {
-      case DatabaseConnectionMethod.direct:
-        return 'DIRECT';
-      case DatabaseConnectionMethod.overlay:
-        return 'OVERLAY';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseConnectionMethodFromString on String {
-  DatabaseConnectionMethod toDatabaseConnectionMethod() {
-    switch (this) {
-      case 'DIRECT':
-        return DatabaseConnectionMethod.direct;
-      case 'OVERLAY':
-        return DatabaseConnectionMethod.overlay;
-    }
-    throw Exception('$this is not known in enum DatabaseConnectionMethod');
-  }
+  const DatabaseConnectionMethod(this.value);
+
+  static DatabaseConnectionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatabaseConnectionMethod'));
 }
 
 enum DatabaseStatus {
-  running,
-  starting,
-  stopped,
-  warning,
-  unknown,
-  error,
-}
+  running('RUNNING'),
+  starting('STARTING'),
+  stopped('STOPPED'),
+  warning('WARNING'),
+  unknown('UNKNOWN'),
+  error('ERROR'),
+  ;
 
-extension DatabaseStatusValueExtension on DatabaseStatus {
-  String toValue() {
-    switch (this) {
-      case DatabaseStatus.running:
-        return 'RUNNING';
-      case DatabaseStatus.starting:
-        return 'STARTING';
-      case DatabaseStatus.stopped:
-        return 'STOPPED';
-      case DatabaseStatus.warning:
-        return 'WARNING';
-      case DatabaseStatus.unknown:
-        return 'UNKNOWN';
-      case DatabaseStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseStatusFromString on String {
-  DatabaseStatus toDatabaseStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return DatabaseStatus.running;
-      case 'STARTING':
-        return DatabaseStatus.starting;
-      case 'STOPPED':
-        return DatabaseStatus.stopped;
-      case 'WARNING':
-        return DatabaseStatus.warning;
-      case 'UNKNOWN':
-        return DatabaseStatus.unknown;
-      case 'ERROR':
-        return DatabaseStatus.error;
-    }
-    throw Exception('$this is not known in enum DatabaseStatus');
-  }
+  const DatabaseStatus(this.value);
+
+  static DatabaseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatabaseStatus'));
 }
 
 /// The summary of the database.
@@ -1960,7 +1702,8 @@ class DatabaseSummary {
       arn: json['Arn'] as String?,
       componentId: json['ComponentId'] as String?,
       databaseId: json['DatabaseId'] as String?,
-      databaseType: (json['DatabaseType'] as String?)?.toDatabaseType(),
+      databaseType:
+          (json['DatabaseType'] as String?)?.let(DatabaseType.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1978,38 +1721,25 @@ class DatabaseSummary {
       if (arn != null) 'Arn': arn,
       if (componentId != null) 'ComponentId': componentId,
       if (databaseId != null) 'DatabaseId': databaseId,
-      if (databaseType != null) 'DatabaseType': databaseType.toValue(),
+      if (databaseType != null) 'DatabaseType': databaseType.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum DatabaseType {
-  system,
-  tenant,
-}
+  system('SYSTEM'),
+  tenant('TENANT'),
+  ;
 
-extension DatabaseTypeValueExtension on DatabaseType {
-  String toValue() {
-    switch (this) {
-      case DatabaseType.system:
-        return 'SYSTEM';
-      case DatabaseType.tenant:
-        return 'TENANT';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseTypeFromString on String {
-  DatabaseType toDatabaseType() {
-    switch (this) {
-      case 'SYSTEM':
-        return DatabaseType.system;
-      case 'TENANT':
-        return DatabaseType.tenant;
-    }
-    throw Exception('$this is not known in enum DatabaseType');
-  }
+  const DatabaseType(this.value);
+
+  static DatabaseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatabaseType'));
 }
 
 class DeleteResourcePermissionOutput {
@@ -2071,43 +1801,26 @@ class Filter {
     final value = this.value;
     return {
       'Name': name,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Value': value,
     };
   }
 }
 
 enum FilterOperator {
-  equals,
-  greaterThanOrEquals,
-  lessThanOrEquals,
-}
+  equals('Equals'),
+  greaterThanOrEquals('GreaterThanOrEquals'),
+  lessThanOrEquals('LessThanOrEquals'),
+  ;
 
-extension FilterOperatorValueExtension on FilterOperator {
-  String toValue() {
-    switch (this) {
-      case FilterOperator.equals:
-        return 'Equals';
-      case FilterOperator.greaterThanOrEquals:
-        return 'GreaterThanOrEquals';
-      case FilterOperator.lessThanOrEquals:
-        return 'LessThanOrEquals';
-    }
-  }
-}
+  final String value;
 
-extension FilterOperatorFromString on String {
-  FilterOperator toFilterOperator() {
-    switch (this) {
-      case 'Equals':
-        return FilterOperator.equals;
-      case 'GreaterThanOrEquals':
-        return FilterOperator.greaterThanOrEquals;
-      case 'LessThanOrEquals':
-        return FilterOperator.lessThanOrEquals;
-    }
-    throw Exception('$this is not known in enum FilterOperator');
-  }
+  const FilterOperator(this.value);
+
+  static FilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterOperator'));
 }
 
 class GetApplicationOutput {
@@ -2288,7 +2001,7 @@ class Host {
       eC2InstanceId: json['EC2InstanceId'] as String?,
       hostIp: json['HostIp'] as String?,
       hostName: json['HostName'] as String?,
-      hostRole: (json['HostRole'] as String?)?.toHostRole(),
+      hostRole: (json['HostRole'] as String?)?.let(HostRole.fromString),
       instanceId: json['InstanceId'] as String?,
       osVersion: json['OsVersion'] as String?,
     );
@@ -2305,7 +2018,7 @@ class Host {
       if (eC2InstanceId != null) 'EC2InstanceId': eC2InstanceId,
       if (hostIp != null) 'HostIp': hostIp,
       if (hostName != null) 'HostName': hostName,
-      if (hostRole != null) 'HostRole': hostRole.toValue(),
+      if (hostRole != null) 'HostRole': hostRole.value,
       if (instanceId != null) 'InstanceId': instanceId,
       if (osVersion != null) 'OsVersion': osVersion,
     };
@@ -2313,41 +2026,19 @@ class Host {
 }
 
 enum HostRole {
-  leader,
-  worker,
-  standby,
-  unknown,
-}
+  leader('LEADER'),
+  worker('WORKER'),
+  standby('STANDBY'),
+  unknown('UNKNOWN'),
+  ;
 
-extension HostRoleValueExtension on HostRole {
-  String toValue() {
-    switch (this) {
-      case HostRole.leader:
-        return 'LEADER';
-      case HostRole.worker:
-        return 'WORKER';
-      case HostRole.standby:
-        return 'STANDBY';
-      case HostRole.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension HostRoleFromString on String {
-  HostRole toHostRole() {
-    switch (this) {
-      case 'LEADER':
-        return HostRole.leader;
-      case 'WORKER':
-        return HostRole.worker;
-      case 'STANDBY':
-        return HostRole.standby;
-      case 'UNKNOWN':
-        return HostRole.unknown;
-    }
-    throw Exception('$this is not known in enum HostRole');
-  }
+  const HostRole(this.value);
+
+  static HostRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HostRole'));
 }
 
 /// Provides information of the IP address.
@@ -2369,7 +2060,8 @@ class IpAddressMember {
 
   factory IpAddressMember.fromJson(Map<String, dynamic> json) {
     return IpAddressMember(
-      allocationType: (json['AllocationType'] as String?)?.toAllocationType(),
+      allocationType:
+          (json['AllocationType'] as String?)?.let(AllocationType.fromString),
       ipAddress: json['IpAddress'] as String?,
       primary: json['Primary'] as bool?,
     );
@@ -2380,7 +2072,7 @@ class IpAddressMember {
     final ipAddress = this.ipAddress;
     final primary = this.primary;
     return {
-      if (allocationType != null) 'AllocationType': allocationType.toValue(),
+      if (allocationType != null) 'AllocationType': allocationType.value,
       if (ipAddress != null) 'IpAddress': ipAddress,
       if (primary != null) 'Primary': primary,
     };
@@ -2635,7 +2327,7 @@ class Operation {
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toOperationStatus(),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       type: json['Type'] as String?,
     );
@@ -2663,7 +2355,7 @@ class Operation {
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (type != null) 'Type': type,
     };
@@ -2727,7 +2419,7 @@ class OperationEvent {
       resource: json['Resource'] != null
           ? Resource.fromJson(json['Resource'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toOperationEventStatus(),
+      status: (json['Status'] as String?)?.let(OperationEventStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       timestamp: timeStampFromJson(json['Timestamp']),
     );
@@ -2742,7 +2434,7 @@ class OperationEvent {
     return {
       if (description != null) 'Description': description,
       if (resource != null) 'Resource': resource,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
@@ -2750,135 +2442,67 @@ class OperationEvent {
 }
 
 enum OperationEventStatus {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension OperationEventStatusValueExtension on OperationEventStatus {
-  String toValue() {
-    switch (this) {
-      case OperationEventStatus.inProgress:
-        return 'IN_PROGRESS';
-      case OperationEventStatus.completed:
-        return 'COMPLETED';
-      case OperationEventStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OperationEventStatusFromString on String {
-  OperationEventStatus toOperationEventStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return OperationEventStatus.inProgress;
-      case 'COMPLETED':
-        return OperationEventStatus.completed;
-      case 'FAILED':
-        return OperationEventStatus.failed;
-    }
-    throw Exception('$this is not known in enum OperationEventStatus');
-  }
+  const OperationEventStatus(this.value);
+
+  static OperationEventStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OperationEventStatus'));
 }
 
 enum OperationMode {
-  primary,
-  logreplay,
-  deltaDatashipping,
-  logreplayReadaccess,
-  none,
-}
+  primary('PRIMARY'),
+  logreplay('LOGREPLAY'),
+  deltaDatashipping('DELTA_DATASHIPPING'),
+  logreplayReadaccess('LOGREPLAY_READACCESS'),
+  none('NONE'),
+  ;
 
-extension OperationModeValueExtension on OperationMode {
-  String toValue() {
-    switch (this) {
-      case OperationMode.primary:
-        return 'PRIMARY';
-      case OperationMode.logreplay:
-        return 'LOGREPLAY';
-      case OperationMode.deltaDatashipping:
-        return 'DELTA_DATASHIPPING';
-      case OperationMode.logreplayReadaccess:
-        return 'LOGREPLAY_READACCESS';
-      case OperationMode.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension OperationModeFromString on String {
-  OperationMode toOperationMode() {
-    switch (this) {
-      case 'PRIMARY':
-        return OperationMode.primary;
-      case 'LOGREPLAY':
-        return OperationMode.logreplay;
-      case 'DELTA_DATASHIPPING':
-        return OperationMode.deltaDatashipping;
-      case 'LOGREPLAY_READACCESS':
-        return OperationMode.logreplayReadaccess;
-      case 'NONE':
-        return OperationMode.none;
-    }
-    throw Exception('$this is not known in enum OperationMode');
-  }
+  const OperationMode(this.value);
+
+  static OperationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationMode'));
 }
 
 enum OperationStatus {
-  inprogress,
-  success,
-  error,
-}
+  inprogress('INPROGRESS'),
+  success('SUCCESS'),
+  error('ERROR'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.inprogress:
-        return 'INPROGRESS';
-      case OperationStatus.success:
-        return 'SUCCESS';
-      case OperationStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'INPROGRESS':
-        return OperationStatus.inprogress;
-      case 'SUCCESS':
-        return OperationStatus.success;
-      case 'ERROR':
-        return OperationStatus.error;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 enum PermissionActionType {
-  restore,
-}
+  restore('RESTORE'),
+  ;
 
-extension PermissionActionTypeValueExtension on PermissionActionType {
-  String toValue() {
-    switch (this) {
-      case PermissionActionType.restore:
-        return 'RESTORE';
-    }
-  }
-}
+  final String value;
 
-extension PermissionActionTypeFromString on String {
-  PermissionActionType toPermissionActionType() {
-    switch (this) {
-      case 'RESTORE':
-        return PermissionActionType.restore;
-    }
-    throw Exception('$this is not known in enum PermissionActionType');
-  }
+  const PermissionActionType(this.value);
+
+  static PermissionActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PermissionActionType'));
 }
 
 class PutResourcePermissionOutput {
@@ -2935,46 +2559,21 @@ class RegisterApplicationOutput {
 }
 
 enum ReplicationMode {
-  primary,
-  none,
-  sync,
-  syncmem,
-  async,
-}
+  primary('PRIMARY'),
+  none('NONE'),
+  sync('SYNC'),
+  syncmem('SYNCMEM'),
+  async('ASYNC'),
+  ;
 
-extension ReplicationModeValueExtension on ReplicationMode {
-  String toValue() {
-    switch (this) {
-      case ReplicationMode.primary:
-        return 'PRIMARY';
-      case ReplicationMode.none:
-        return 'NONE';
-      case ReplicationMode.sync:
-        return 'SYNC';
-      case ReplicationMode.syncmem:
-        return 'SYNCMEM';
-      case ReplicationMode.async:
-        return 'ASYNC';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationModeFromString on String {
-  ReplicationMode toReplicationMode() {
-    switch (this) {
-      case 'PRIMARY':
-        return ReplicationMode.primary;
-      case 'NONE':
-        return ReplicationMode.none;
-      case 'SYNC':
-        return ReplicationMode.sync;
-      case 'SYNCMEM':
-        return ReplicationMode.syncmem;
-      case 'ASYNC':
-        return ReplicationMode.async;
-    }
-    throw Exception('$this is not known in enum ReplicationMode');
-  }
+  const ReplicationMode(this.value);
+
+  static ReplicationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReplicationMode'));
 }
 
 /// Details of the SAP HANA system replication for the instance.
@@ -3004,12 +2603,13 @@ class Resilience {
 
   factory Resilience.fromJson(Map<String, dynamic> json) {
     return Resilience(
-      clusterStatus: (json['ClusterStatus'] as String?)?.toClusterStatus(),
+      clusterStatus:
+          (json['ClusterStatus'] as String?)?.let(ClusterStatus.fromString),
       enqueueReplication: json['EnqueueReplication'] as bool?,
       hsrOperationMode:
-          (json['HsrOperationMode'] as String?)?.toOperationMode(),
-      hsrReplicationMode:
-          (json['HsrReplicationMode'] as String?)?.toReplicationMode(),
+          (json['HsrOperationMode'] as String?)?.let(OperationMode.fromString),
+      hsrReplicationMode: (json['HsrReplicationMode'] as String?)
+          ?.let(ReplicationMode.fromString),
       hsrTier: json['HsrTier'] as String?,
     );
   }
@@ -3021,12 +2621,11 @@ class Resilience {
     final hsrReplicationMode = this.hsrReplicationMode;
     final hsrTier = this.hsrTier;
     return {
-      if (clusterStatus != null) 'ClusterStatus': clusterStatus.toValue(),
+      if (clusterStatus != null) 'ClusterStatus': clusterStatus.value,
       if (enqueueReplication != null) 'EnqueueReplication': enqueueReplication,
-      if (hsrOperationMode != null)
-        'HsrOperationMode': hsrOperationMode.toValue(),
+      if (hsrOperationMode != null) 'HsrOperationMode': hsrOperationMode.value,
       if (hsrReplicationMode != null)
-        'HsrReplicationMode': hsrReplicationMode.toValue(),
+        'HsrReplicationMode': hsrReplicationMode.value,
       if (hsrTier != null) 'HsrTier': hsrTier,
     };
   }

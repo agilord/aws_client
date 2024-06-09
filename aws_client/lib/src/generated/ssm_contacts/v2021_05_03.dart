@@ -114,10 +114,10 @@ class SsmContacts {
       headers: headers,
       payload: {
         'AcceptCode': acceptCode,
-        'AcceptType': acceptType.toValue(),
+        'AcceptType': acceptType.value,
         'PageId': pageId,
         if (acceptCodeValidation != null)
-          'AcceptCodeValidation': acceptCodeValidation.toValue(),
+          'AcceptCodeValidation': acceptCodeValidation.value,
         if (contactChannelId != null) 'ContactChannelId': contactChannelId,
         if (note != null) 'Note': note,
       },
@@ -215,7 +215,7 @@ class SsmContacts {
       payload: {
         'Alias': alias,
         'Plan': plan,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (displayName != null) 'DisplayName': displayName,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
@@ -304,7 +304,7 @@ class SsmContacts {
         'ContactId': contactId,
         'DeliveryAddress': deliveryAddress,
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (deferActivation != null) 'DeferActivation': deferActivation,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
@@ -938,7 +938,7 @@ class SsmContacts {
         if (aliasPrefix != null) 'AliasPrefix': aliasPrefix,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -1882,31 +1882,18 @@ class SsmContacts {
 }
 
 enum AcceptCodeValidation {
-  ignore,
-  enforce,
-}
+  ignore('IGNORE'),
+  enforce('ENFORCE'),
+  ;
 
-extension AcceptCodeValidationValueExtension on AcceptCodeValidation {
-  String toValue() {
-    switch (this) {
-      case AcceptCodeValidation.ignore:
-        return 'IGNORE';
-      case AcceptCodeValidation.enforce:
-        return 'ENFORCE';
-    }
-  }
-}
+  final String value;
 
-extension AcceptCodeValidationFromString on String {
-  AcceptCodeValidation toAcceptCodeValidation() {
-    switch (this) {
-      case 'IGNORE':
-        return AcceptCodeValidation.ignore;
-      case 'ENFORCE':
-        return AcceptCodeValidation.enforce;
-    }
-    throw Exception('$this is not known in enum AcceptCodeValidation');
-  }
+  const AcceptCodeValidation(this.value);
+
+  static AcceptCodeValidation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AcceptCodeValidation'));
 }
 
 class AcceptPageResult {
@@ -1922,31 +1909,17 @@ class AcceptPageResult {
 }
 
 enum AcceptType {
-  delivered,
-  read,
-}
+  delivered('DELIVERED'),
+  read('READ'),
+  ;
 
-extension AcceptTypeValueExtension on AcceptType {
-  String toValue() {
-    switch (this) {
-      case AcceptType.delivered:
-        return 'DELIVERED';
-      case AcceptType.read:
-        return 'READ';
-    }
-  }
-}
+  final String value;
 
-extension AcceptTypeFromString on String {
-  AcceptType toAcceptType() {
-    switch (this) {
-      case 'DELIVERED':
-        return AcceptType.delivered;
-      case 'READ':
-        return AcceptType.read;
-    }
-    throw Exception('$this is not known in enum AcceptType');
-  }
+  const AcceptType(this.value);
+
+  static AcceptType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AcceptType'));
 }
 
 class ActivateContactChannelResult {
@@ -1962,31 +1935,18 @@ class ActivateContactChannelResult {
 }
 
 enum ActivationStatus {
-  activated,
-  notActivated,
-}
+  activated('ACTIVATED'),
+  notActivated('NOT_ACTIVATED'),
+  ;
 
-extension ActivationStatusValueExtension on ActivationStatus {
-  String toValue() {
-    switch (this) {
-      case ActivationStatus.activated:
-        return 'ACTIVATED';
-      case ActivationStatus.notActivated:
-        return 'NOT_ACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension ActivationStatusFromString on String {
-  ActivationStatus toActivationStatus() {
-    switch (this) {
-      case 'ACTIVATED':
-        return ActivationStatus.activated;
-      case 'NOT_ACTIVATED':
-        return ActivationStatus.notActivated;
-    }
-    throw Exception('$this is not known in enum ActivationStatus');
-  }
+  const ActivationStatus(this.value);
+
+  static ActivationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActivationStatus'));
 }
 
 /// Information about the contact channel that Incident Manager uses to engage
@@ -2023,36 +1983,18 @@ class ChannelTargetInfo {
 }
 
 enum ChannelType {
-  sms,
-  voice,
-  email,
-}
+  sms('SMS'),
+  voice('VOICE'),
+  email('EMAIL'),
+  ;
 
-extension ChannelTypeValueExtension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.sms:
-        return 'SMS';
-      case ChannelType.voice:
-        return 'VOICE';
-      case ChannelType.email:
-        return 'EMAIL';
-    }
-  }
-}
+  final String value;
 
-extension ChannelTypeFromString on String {
-  ChannelType toChannelType() {
-    switch (this) {
-      case 'SMS':
-        return ChannelType.sms;
-      case 'VOICE':
-        return ChannelType.voice;
-      case 'EMAIL':
-        return ChannelType.email;
-    }
-    throw Exception('$this is not known in enum ChannelType');
-  }
+  const ChannelType(this.value);
+
+  static ChannelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelType'));
 }
 
 /// A personal contact or escalation plan that Incident Manager engages during
@@ -2083,7 +2025,7 @@ class Contact {
     return Contact(
       alias: json['Alias'] as String,
       contactArn: json['ContactArn'] as String,
-      type: (json['Type'] as String).toContactType(),
+      type: ContactType.fromString((json['Type'] as String)),
       displayName: json['DisplayName'] as String?,
     );
   }
@@ -2096,7 +2038,7 @@ class Contact {
     return {
       'Alias': alias,
       'ContactArn': contactArn,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (displayName != null) 'DisplayName': displayName,
     };
   }
@@ -2150,13 +2092,13 @@ class ContactChannel {
   factory ContactChannel.fromJson(Map<String, dynamic> json) {
     return ContactChannel(
       activationStatus:
-          (json['ActivationStatus'] as String).toActivationStatus(),
+          ActivationStatus.fromString((json['ActivationStatus'] as String)),
       contactArn: json['ContactArn'] as String,
       contactChannelArn: json['ContactChannelArn'] as String,
       deliveryAddress: ContactChannelAddress.fromJson(
           json['DeliveryAddress'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      type: (json['Type'] as String?)?.toChannelType(),
+      type: (json['Type'] as String?)?.let(ChannelType.fromString),
     );
   }
 
@@ -2168,12 +2110,12 @@ class ContactChannel {
     final name = this.name;
     final type = this.type;
     return {
-      'ActivationStatus': activationStatus.toValue(),
+      'ActivationStatus': activationStatus.value,
       'ContactArn': contactArn,
       'ContactChannelArn': contactChannelArn,
       'DeliveryAddress': deliveryAddress,
       'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -2247,36 +2189,18 @@ class ContactTargetInfo {
 }
 
 enum ContactType {
-  personal,
-  escalation,
-  oncallSchedule,
-}
+  personal('PERSONAL'),
+  escalation('ESCALATION'),
+  oncallSchedule('ONCALL_SCHEDULE'),
+  ;
 
-extension ContactTypeValueExtension on ContactType {
-  String toValue() {
-    switch (this) {
-      case ContactType.personal:
-        return 'PERSONAL';
-      case ContactType.escalation:
-        return 'ESCALATION';
-      case ContactType.oncallSchedule:
-        return 'ONCALL_SCHEDULE';
-    }
-  }
-}
+  final String value;
 
-extension ContactTypeFromString on String {
-  ContactType toContactType() {
-    switch (this) {
-      case 'PERSONAL':
-        return ContactType.personal;
-      case 'ESCALATION':
-        return ContactType.escalation;
-      case 'ONCALL_SCHEDULE':
-        return ContactType.oncallSchedule;
-    }
-    throw Exception('$this is not known in enum ContactType');
-  }
+  const ContactType(this.value);
+
+  static ContactType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContactType'));
 }
 
 /// Information about when an on-call shift begins and ends.
@@ -2402,56 +2326,22 @@ class CreateRotationResult {
 }
 
 enum DayOfWeek {
-  mon,
-  tue,
-  wed,
-  thu,
-  fri,
-  sat,
-  sun,
-}
+  mon('MON'),
+  tue('TUE'),
+  wed('WED'),
+  thu('THU'),
+  fri('FRI'),
+  sat('SAT'),
+  sun('SUN'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.mon:
-        return 'MON';
-      case DayOfWeek.tue:
-        return 'TUE';
-      case DayOfWeek.wed:
-        return 'WED';
-      case DayOfWeek.thu:
-        return 'THU';
-      case DayOfWeek.fri:
-        return 'FRI';
-      case DayOfWeek.sat:
-        return 'SAT';
-      case DayOfWeek.sun:
-        return 'SUN';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'MON':
-        return DayOfWeek.mon;
-      case 'TUE':
-        return DayOfWeek.tue;
-      case 'WED':
-        return DayOfWeek.wed;
-      case 'THU':
-        return DayOfWeek.thu;
-      case 'FRI':
-        return DayOfWeek.fri;
-      case 'SAT':
-        return DayOfWeek.sat;
-      case 'SUN':
-        return DayOfWeek.sun;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 class DeactivateContactChannelResult {
@@ -2803,9 +2693,9 @@ class GetContactChannelResult {
       deliveryAddress: ContactChannelAddress.fromJson(
           json['DeliveryAddress'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      type: (json['Type'] as String).toChannelType(),
-      activationStatus:
-          (json['ActivationStatus'] as String?)?.toActivationStatus(),
+      type: ChannelType.fromString((json['Type'] as String)),
+      activationStatus: (json['ActivationStatus'] as String?)
+          ?.let(ActivationStatus.fromString),
     );
   }
 
@@ -2821,9 +2711,8 @@ class GetContactChannelResult {
       'ContactChannelArn': contactChannelArn,
       'DeliveryAddress': deliveryAddress,
       'Name': name,
-      'Type': type.toValue(),
-      if (activationStatus != null)
-        'ActivationStatus': activationStatus.toValue(),
+      'Type': type.value,
+      if (activationStatus != null) 'ActivationStatus': activationStatus.value,
     };
   }
 }
@@ -2890,7 +2779,7 @@ class GetContactResult {
       alias: json['Alias'] as String,
       contactArn: json['ContactArn'] as String,
       plan: Plan.fromJson(json['Plan'] as Map<String, dynamic>),
-      type: (json['Type'] as String).toContactType(),
+      type: ContactType.fromString((json['Type'] as String)),
       displayName: json['DisplayName'] as String?,
     );
   }
@@ -2905,7 +2794,7 @@ class GetContactResult {
       'Alias': alias,
       'ContactArn': contactArn,
       'Plan': plan,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (displayName != null) 'DisplayName': displayName,
     };
   }
@@ -3661,7 +3550,7 @@ class Receipt {
   factory Receipt.fromJson(Map<String, dynamic> json) {
     return Receipt(
       receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] as Object),
-      receiptType: (json['ReceiptType'] as String).toReceiptType(),
+      receiptType: ReceiptType.fromString((json['ReceiptType'] as String)),
       contactChannelArn: json['ContactChannelArn'] as String?,
       receiptInfo: json['ReceiptInfo'] as String?,
     );
@@ -3674,7 +3563,7 @@ class Receipt {
     final receiptInfo = this.receiptInfo;
     return {
       'ReceiptTime': unixTimestampToJson(receiptTime),
-      'ReceiptType': receiptType.toValue(),
+      'ReceiptType': receiptType.value,
       if (contactChannelArn != null) 'ContactChannelArn': contactChannelArn,
       if (receiptInfo != null) 'ReceiptInfo': receiptInfo,
     };
@@ -3682,46 +3571,20 @@ class Receipt {
 }
 
 enum ReceiptType {
-  delivered,
-  error,
-  read,
-  sent,
-  stop,
-}
+  delivered('DELIVERED'),
+  error('ERROR'),
+  read('READ'),
+  sent('SENT'),
+  stop('STOP'),
+  ;
 
-extension ReceiptTypeValueExtension on ReceiptType {
-  String toValue() {
-    switch (this) {
-      case ReceiptType.delivered:
-        return 'DELIVERED';
-      case ReceiptType.error:
-        return 'ERROR';
-      case ReceiptType.read:
-        return 'READ';
-      case ReceiptType.sent:
-        return 'SENT';
-      case ReceiptType.stop:
-        return 'STOP';
-    }
-  }
-}
+  final String value;
 
-extension ReceiptTypeFromString on String {
-  ReceiptType toReceiptType() {
-    switch (this) {
-      case 'DELIVERED':
-        return ReceiptType.delivered;
-      case 'ERROR':
-        return ReceiptType.error;
-      case 'READ':
-        return ReceiptType.read;
-      case 'SENT':
-        return ReceiptType.sent;
-      case 'STOP':
-        return ReceiptType.stop;
-    }
-    throw Exception('$this is not known in enum ReceiptType');
-  }
+  const ReceiptType(this.value);
+
+  static ReceiptType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReceiptType'));
 }
 
 /// Information about when an on-call rotation is in effect and how long the
@@ -3772,7 +3635,7 @@ class RecurrenceSettings {
           .toList(),
       shiftCoverages: (json['ShiftCoverages'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
-              k.toDayOfWeek(),
+              DayOfWeek.fromString(k),
               (e as List)
                   .whereNotNull()
                   .map((e) => CoverageTime.fromJson(e as Map<String, dynamic>))
@@ -3797,8 +3660,7 @@ class RecurrenceSettings {
       if (dailySettings != null) 'DailySettings': dailySettings,
       if (monthlySettings != null) 'MonthlySettings': monthlySettings,
       if (shiftCoverages != null)
-        'ShiftCoverages':
-            shiftCoverages.map((k, e) => MapEntry(k.toValue(), e)),
+        'ShiftCoverages': shiftCoverages.map((k, e) => MapEntry(k.value, e)),
       if (weeklySettings != null) 'WeeklySettings': weeklySettings,
     };
   }
@@ -3831,7 +3693,7 @@ class ResolutionContact {
   factory ResolutionContact.fromJson(Map<String, dynamic> json) {
     return ResolutionContact(
       contactArn: json['ContactArn'] as String,
-      type: (json['Type'] as String).toContactType(),
+      type: ContactType.fromString((json['Type'] as String)),
       stageIndex: json['StageIndex'] as int?,
     );
   }
@@ -3842,7 +3704,7 @@ class ResolutionContact {
     final stageIndex = this.stageIndex;
     return {
       'ContactArn': contactArn,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (stageIndex != null) 'StageIndex': stageIndex,
     };
   }
@@ -4008,7 +3870,7 @@ class RotationShift {
       shiftDetails: json['ShiftDetails'] != null
           ? ShiftDetails.fromJson(json['ShiftDetails'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toShiftType(),
+      type: (json['Type'] as String?)?.let(ShiftType.fromString),
     );
   }
 
@@ -4023,7 +3885,7 @@ class RotationShift {
       'StartTime': unixTimestampToJson(startTime),
       if (contactIds != null) 'ContactIds': contactIds,
       if (shiftDetails != null) 'ShiftDetails': shiftDetails,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -4069,31 +3931,17 @@ class ShiftDetails {
 }
 
 enum ShiftType {
-  regular,
-  overridden,
-}
+  regular('REGULAR'),
+  overridden('OVERRIDDEN'),
+  ;
 
-extension ShiftTypeValueExtension on ShiftType {
-  String toValue() {
-    switch (this) {
-      case ShiftType.regular:
-        return 'REGULAR';
-      case ShiftType.overridden:
-        return 'OVERRIDDEN';
-    }
-  }
-}
+  final String value;
 
-extension ShiftTypeFromString on String {
-  ShiftType toShiftType() {
-    switch (this) {
-      case 'REGULAR':
-        return ShiftType.regular;
-      case 'OVERRIDDEN':
-        return ShiftType.overridden;
-    }
-    throw Exception('$this is not known in enum ShiftType');
-  }
+  const ShiftType(this.value);
+
+  static ShiftType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShiftType'));
 }
 
 /// A set amount of time that an escalation plan or engagement plan engages the
@@ -4330,7 +4178,7 @@ class WeeklySetting {
 
   factory WeeklySetting.fromJson(Map<String, dynamic> json) {
     return WeeklySetting(
-      dayOfWeek: (json['DayOfWeek'] as String).toDayOfWeek(),
+      dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String)),
       handOffTime:
           HandOffTime.fromJson(json['HandOffTime'] as Map<String, dynamic>),
     );
@@ -4340,7 +4188,7 @@ class WeeklySetting {
     final dayOfWeek = this.dayOfWeek;
     final handOffTime = this.handOffTime;
     return {
-      'DayOfWeek': dayOfWeek.toValue(),
+      'DayOfWeek': dayOfWeek.value,
       'HandOffTime': handOffTime,
     };
   }

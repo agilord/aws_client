@@ -120,7 +120,7 @@ class B2BI {
       payload: {
         'configuration': configuration,
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (instructionsDocuments != null)
           'instructionsDocuments': instructionsDocuments,
@@ -255,7 +255,7 @@ class B2BI {
       headers: headers,
       payload: {
         'businessName': businessName,
-        'logging': logging.toValue(),
+        'logging': logging.value,
         'name': name,
         'phone': phone,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -326,7 +326,7 @@ class B2BI {
       headers: headers,
       payload: {
         'ediType': ediType,
-        'fileFormat': fileFormat.toValue(),
+        'fileFormat': fileFormat.value,
         'mappingTemplate': mappingTemplate,
         'name': name,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -977,7 +977,7 @@ class B2BI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'fileFormat': fileFormat.toValue(),
+        'fileFormat': fileFormat.value,
         'inputFileContent': inputFileContent,
         'mappingTemplate': mappingTemplate,
       },
@@ -1024,7 +1024,7 @@ class B2BI {
       headers: headers,
       payload: {
         'ediType': ediType,
-        'fileFormat': fileFormat.toValue(),
+        'fileFormat': fileFormat.value,
         'inputFile': inputFile,
       },
     );
@@ -1283,11 +1283,11 @@ class B2BI {
       payload: {
         'transformerId': transformerId,
         if (ediType != null) 'ediType': ediType,
-        if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+        if (fileFormat != null) 'fileFormat': fileFormat.value,
         if (mappingTemplate != null) 'mappingTemplate': mappingTemplate,
         if (name != null) 'name': name,
         if (sampleDocument != null) 'sampleDocument': sampleDocument,
-        if (status != null) 'status': status.toValue(),
+        if (status != null) 'status': status.value,
       },
     );
 
@@ -1356,7 +1356,7 @@ class CapabilitySummary {
       capabilityId: json['capabilityId'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       name: json['name'] as String,
-      type: (json['type'] as String).toCapabilityType(),
+      type: CapabilityType.fromString((json['type'] as String)),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
   }
@@ -1371,33 +1371,24 @@ class CapabilitySummary {
       'capabilityId': capabilityId,
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
 }
 
 enum CapabilityType {
-  edi,
-}
+  edi('edi'),
+  ;
 
-extension CapabilityTypeValueExtension on CapabilityType {
-  String toValue() {
-    switch (this) {
-      case CapabilityType.edi:
-        return 'edi';
-    }
-  }
-}
+  final String value;
 
-extension CapabilityTypeFromString on String {
-  CapabilityType toCapabilityType() {
-    switch (this) {
-      case 'edi':
-        return CapabilityType.edi;
-    }
-    throw Exception('$this is not known in enum CapabilityType');
-  }
+  const CapabilityType(this.value);
+
+  static CapabilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CapabilityType'));
 }
 
 class CreateCapabilityResponse {
@@ -1444,7 +1435,7 @@ class CreateCapabilityResponse {
           json['configuration'] as Map<String, dynamic>),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       name: json['name'] as String,
-      type: (json['type'] as String).toCapabilityType(),
+      type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.whereNotNull()
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -1466,7 +1457,7 @@ class CreateCapabilityResponse {
       'configuration': configuration,
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (instructionsDocuments != null)
         'instructionsDocuments': instructionsDocuments,
     };
@@ -1606,7 +1597,7 @@ class CreateProfileResponse {
       profileId: json['profileId'] as String,
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
-      logging: (json['logging'] as String?)?.toLogging(),
+      logging: (json['logging'] as String?)?.let(Logging.fromString),
     );
   }
 
@@ -1629,7 +1620,7 @@ class CreateProfileResponse {
       'profileId': profileId,
       if (email != null) 'email': email,
       if (logGroupName != null) 'logGroupName': logGroupName,
-      if (logging != null) 'logging': logging.toValue(),
+      if (logging != null) 'logging': logging.value,
     };
   }
 }
@@ -1686,10 +1677,10 @@ class CreateTransformerResponse {
     return CreateTransformerResponse(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
-      fileFormat: (json['fileFormat'] as String).toFileFormat(),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
       mappingTemplate: json['mappingTemplate'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toTransformerStatus(),
+      status: TransformerStatus.fromString((json['status'] as String)),
       transformerArn: json['transformerArn'] as String,
       transformerId: json['transformerId'] as String,
       sampleDocument: json['sampleDocument'] as String?,
@@ -1709,10 +1700,10 @@ class CreateTransformerResponse {
     return {
       'createdAt': iso8601ToJson(createdAt),
       'ediType': ediType,
-      'fileFormat': fileFormat.toValue(),
+      'fileFormat': fileFormat.value,
       'mappingTemplate': mappingTemplate,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'transformerArn': transformerArn,
       'transformerId': transformerId,
       if (sampleDocument != null) 'sampleDocument': sampleDocument,
@@ -1800,31 +1791,17 @@ class EdiType {
 }
 
 enum FileFormat {
-  xml,
-  json,
-}
+  xml('XML'),
+  json('JSON'),
+  ;
 
-extension FileFormatValueExtension on FileFormat {
-  String toValue() {
-    switch (this) {
-      case FileFormat.xml:
-        return 'XML';
-      case FileFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension FileFormatFromString on String {
-  FileFormat toFileFormat() {
-    switch (this) {
-      case 'XML':
-        return FileFormat.xml;
-      case 'JSON':
-        return FileFormat.json;
-    }
-    throw Exception('$this is not known in enum FileFormat');
-  }
+  const FileFormat(this.value);
+
+  static FileFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FileFormat'));
 }
 
 class GetCapabilityResponse {
@@ -1875,7 +1852,7 @@ class GetCapabilityResponse {
           json['configuration'] as Map<String, dynamic>),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       name: json['name'] as String,
-      type: (json['type'] as String).toCapabilityType(),
+      type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.whereNotNull()
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -1899,7 +1876,7 @@ class GetCapabilityResponse {
       'configuration': configuration,
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (instructionsDocuments != null)
         'instructionsDocuments': instructionsDocuments,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
@@ -2053,7 +2030,7 @@ class GetProfileResponse {
       profileId: json['profileId'] as String,
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
-      logging: (json['logging'] as String?)?.toLogging(),
+      logging: (json['logging'] as String?)?.let(Logging.fromString),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
   }
@@ -2078,7 +2055,7 @@ class GetProfileResponse {
       'profileId': profileId,
       if (email != null) 'email': email,
       if (logGroupName != null) 'logGroupName': logGroupName,
-      if (logging != null) 'logging': logging.toValue(),
+      if (logging != null) 'logging': logging.value,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
@@ -2106,7 +2083,7 @@ class GetTransformerJobResponse {
 
   factory GetTransformerJobResponse.fromJson(Map<String, dynamic> json) {
     return GetTransformerJobResponse(
-      status: (json['status'] as String).toTransformerJobStatus(),
+      status: TransformerJobStatus.fromString((json['status'] as String)),
       message: json['message'] as String?,
       outputFiles: (json['outputFiles'] as List?)
           ?.whereNotNull()
@@ -2120,7 +2097,7 @@ class GetTransformerJobResponse {
     final message = this.message;
     final outputFiles = this.outputFiles;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       if (message != null) 'message': message,
       if (outputFiles != null) 'outputFiles': outputFiles,
     };
@@ -2183,10 +2160,10 @@ class GetTransformerResponse {
     return GetTransformerResponse(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
-      fileFormat: (json['fileFormat'] as String).toFileFormat(),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
       mappingTemplate: json['mappingTemplate'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toTransformerStatus(),
+      status: TransformerStatus.fromString((json['status'] as String)),
       transformerArn: json['transformerArn'] as String,
       transformerId: json['transformerId'] as String,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -2208,10 +2185,10 @@ class GetTransformerResponse {
     return {
       'createdAt': iso8601ToJson(createdAt),
       'ediType': ediType,
-      'fileFormat': fileFormat.toValue(),
+      'fileFormat': fileFormat.value,
       'mappingTemplate': mappingTemplate,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'transformerArn': transformerArn,
       'transformerId': transformerId,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
@@ -2392,31 +2369,17 @@ class ListTransformersResponse {
 }
 
 enum Logging {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension LoggingValueExtension on Logging {
-  String toValue() {
-    switch (this) {
-      case Logging.enabled:
-        return 'ENABLED';
-      case Logging.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LoggingFromString on String {
-  Logging toLogging() {
-    switch (this) {
-      case 'ENABLED':
-        return Logging.enabled;
-      case 'DISABLED':
-        return Logging.disabled;
-    }
-    throw Exception('$this is not known in enum Logging');
-  }
+  const Logging(this.value);
+
+  static Logging fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Logging'));
 }
 
 /// A structure that contains the details for a partnership. A partnership
@@ -2533,7 +2496,7 @@ class ProfileSummary {
       name: json['name'] as String,
       profileId: json['profileId'] as String,
       logGroupName: json['logGroupName'] as String?,
-      logging: (json['logging'] as String?)?.toLogging(),
+      logging: (json['logging'] as String?)?.let(Logging.fromString),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
   }
@@ -2552,7 +2515,7 @@ class ProfileSummary {
       'name': name,
       'profileId': profileId,
       if (logGroupName != null) 'logGroupName': logGroupName,
-      if (logging != null) 'logging': logging.toValue(),
+      if (logging != null) 'logging': logging.value,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
@@ -2696,64 +2659,34 @@ class TestParsingResponse {
 }
 
 enum TransformerJobStatus {
-  running,
-  succeeded,
-  failed,
-}
+  running('running'),
+  succeeded('succeeded'),
+  failed('failed'),
+  ;
 
-extension TransformerJobStatusValueExtension on TransformerJobStatus {
-  String toValue() {
-    switch (this) {
-      case TransformerJobStatus.running:
-        return 'running';
-      case TransformerJobStatus.succeeded:
-        return 'succeeded';
-      case TransformerJobStatus.failed:
-        return 'failed';
-    }
-  }
-}
+  final String value;
 
-extension TransformerJobStatusFromString on String {
-  TransformerJobStatus toTransformerJobStatus() {
-    switch (this) {
-      case 'running':
-        return TransformerJobStatus.running;
-      case 'succeeded':
-        return TransformerJobStatus.succeeded;
-      case 'failed':
-        return TransformerJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum TransformerJobStatus');
-  }
+  const TransformerJobStatus(this.value);
+
+  static TransformerJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TransformerJobStatus'));
 }
 
 enum TransformerStatus {
-  active,
-  inactive,
-}
+  active('active'),
+  inactive('inactive'),
+  ;
 
-extension TransformerStatusValueExtension on TransformerStatus {
-  String toValue() {
-    switch (this) {
-      case TransformerStatus.active:
-        return 'active';
-      case TransformerStatus.inactive:
-        return 'inactive';
-    }
-  }
-}
+  final String value;
 
-extension TransformerStatusFromString on String {
-  TransformerStatus toTransformerStatus() {
-    switch (this) {
-      case 'active':
-        return TransformerStatus.active;
-      case 'inactive':
-        return TransformerStatus.inactive;
-    }
-    throw Exception('$this is not known in enum TransformerStatus');
-  }
+  const TransformerStatus(this.value);
+
+  static TransformerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TransformerStatus'));
 }
 
 /// Contains the details for a transformer object. A transformer describes how
@@ -2812,10 +2745,10 @@ class TransformerSummary {
     return TransformerSummary(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
-      fileFormat: (json['fileFormat'] as String).toFileFormat(),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
       mappingTemplate: json['mappingTemplate'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toTransformerStatus(),
+      status: TransformerStatus.fromString((json['status'] as String)),
       transformerId: json['transformerId'] as String,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       sampleDocument: json['sampleDocument'] as String?,
@@ -2835,10 +2768,10 @@ class TransformerSummary {
     return {
       'createdAt': iso8601ToJson(createdAt),
       'ediType': ediType,
-      'fileFormat': fileFormat.toValue(),
+      'fileFormat': fileFormat.value,
       'mappingTemplate': mappingTemplate,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'transformerId': transformerId,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
       if (sampleDocument != null) 'sampleDocument': sampleDocument,
@@ -2894,7 +2827,7 @@ class UpdateCapabilityResponse {
           json['configuration'] as Map<String, dynamic>),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       name: json['name'] as String,
-      type: (json['type'] as String).toCapabilityType(),
+      type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.whereNotNull()
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
@@ -2918,7 +2851,7 @@ class UpdateCapabilityResponse {
       'configuration': configuration,
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (instructionsDocuments != null)
         'instructionsDocuments': instructionsDocuments,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
@@ -3072,7 +3005,7 @@ class UpdateProfileResponse {
       profileId: json['profileId'] as String,
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
-      logging: (json['logging'] as String?)?.toLogging(),
+      logging: (json['logging'] as String?)?.let(Logging.fromString),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
   }
@@ -3097,7 +3030,7 @@ class UpdateProfileResponse {
       'profileId': profileId,
       if (email != null) 'email': email,
       if (logGroupName != null) 'logGroupName': logGroupName,
-      if (logging != null) 'logging': logging.toValue(),
+      if (logging != null) 'logging': logging.value,
       if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
@@ -3159,11 +3092,11 @@ class UpdateTransformerResponse {
     return UpdateTransformerResponse(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
-      fileFormat: (json['fileFormat'] as String).toFileFormat(),
+      fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
       mappingTemplate: json['mappingTemplate'] as String,
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toTransformerStatus(),
+      status: TransformerStatus.fromString((json['status'] as String)),
       transformerArn: json['transformerArn'] as String,
       transformerId: json['transformerId'] as String,
       sampleDocument: json['sampleDocument'] as String?,
@@ -3184,11 +3117,11 @@ class UpdateTransformerResponse {
     return {
       'createdAt': iso8601ToJson(createdAt),
       'ediType': ediType,
-      'fileFormat': fileFormat.toValue(),
+      'fileFormat': fileFormat.value,
       'mappingTemplate': mappingTemplate,
       'modifiedAt': iso8601ToJson(modifiedAt),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'transformerArn': transformerArn,
       'transformerId': transformerId,
       if (sampleDocument != null) 'sampleDocument': sampleDocument,
@@ -3221,9 +3154,9 @@ class X12Details {
 
   factory X12Details.fromJson(Map<String, dynamic> json) {
     return X12Details(
-      transactionSet:
-          (json['transactionSet'] as String?)?.toX12TransactionSet(),
-      version: (json['version'] as String?)?.toX12Version(),
+      transactionSet: (json['transactionSet'] as String?)
+          ?.let(X12TransactionSet.fromString),
+      version: (json['version'] as String?)?.let(X12Version.fromString),
     );
   }
 
@@ -3231,441 +3164,114 @@ class X12Details {
     final transactionSet = this.transactionSet;
     final version = this.version;
     return {
-      if (transactionSet != null) 'transactionSet': transactionSet.toValue(),
-      if (version != null) 'version': version.toValue(),
+      if (transactionSet != null) 'transactionSet': transactionSet.value,
+      if (version != null) 'version': version.value,
     };
   }
 }
 
 enum X12TransactionSet {
-  x12_110,
-  x12_180,
-  x12_204,
-  x12_210,
-  x12_211,
-  x12_214,
-  x12_215,
-  x12_259,
-  x12_260,
-  x12_266,
-  x12_269,
-  x12_270,
-  x12_271,
-  x12_274,
-  x12_275,
-  x12_276,
-  x12_277,
-  x12_278,
-  x12_310,
-  x12_315,
-  x12_322,
-  x12_404,
-  x12_410,
-  x12_417,
-  x12_421,
-  x12_426,
-  x12_810,
-  x12_820,
-  x12_824,
-  x12_830,
-  x12_832,
-  x12_834,
-  x12_835,
-  x12_837,
-  x12_844,
-  x12_846,
-  x12_849,
-  x12_850,
-  x12_852,
-  x12_855,
-  x12_856,
-  x12_860,
-  x12_861,
-  x12_864,
-  x12_865,
-  x12_869,
-  x12_870,
-  x12_940,
-  x12_945,
-  x12_990,
-  x12_997,
-  x12_999,
-  x12_270x279,
-  x12_271x279,
-  x12_275x210,
-  x12_275x211,
-  x12_276x212,
-  x12_277x212,
-  x12_277x214,
-  x12_277x364,
-  x12_278x217,
-  x12_820x218,
-  x12_820x306,
-  x12_824x186,
-  x12_834x220,
-  x12_834x307,
-  x12_834x318,
-  x12_835x221,
-  x12_837x222,
-  x12_837x223,
-  x12_837x224,
-  x12_837x291,
-  x12_837x292,
-  x12_837x298,
-  x12_999x231,
-}
+  x12_110('X12_110'),
+  x12_180('X12_180'),
+  x12_204('X12_204'),
+  x12_210('X12_210'),
+  x12_211('X12_211'),
+  x12_214('X12_214'),
+  x12_215('X12_215'),
+  x12_259('X12_259'),
+  x12_260('X12_260'),
+  x12_266('X12_266'),
+  x12_269('X12_269'),
+  x12_270('X12_270'),
+  x12_271('X12_271'),
+  x12_274('X12_274'),
+  x12_275('X12_275'),
+  x12_276('X12_276'),
+  x12_277('X12_277'),
+  x12_278('X12_278'),
+  x12_310('X12_310'),
+  x12_315('X12_315'),
+  x12_322('X12_322'),
+  x12_404('X12_404'),
+  x12_410('X12_410'),
+  x12_417('X12_417'),
+  x12_421('X12_421'),
+  x12_426('X12_426'),
+  x12_810('X12_810'),
+  x12_820('X12_820'),
+  x12_824('X12_824'),
+  x12_830('X12_830'),
+  x12_832('X12_832'),
+  x12_834('X12_834'),
+  x12_835('X12_835'),
+  x12_837('X12_837'),
+  x12_844('X12_844'),
+  x12_846('X12_846'),
+  x12_849('X12_849'),
+  x12_850('X12_850'),
+  x12_852('X12_852'),
+  x12_855('X12_855'),
+  x12_856('X12_856'),
+  x12_860('X12_860'),
+  x12_861('X12_861'),
+  x12_864('X12_864'),
+  x12_865('X12_865'),
+  x12_869('X12_869'),
+  x12_870('X12_870'),
+  x12_940('X12_940'),
+  x12_945('X12_945'),
+  x12_990('X12_990'),
+  x12_997('X12_997'),
+  x12_999('X12_999'),
+  x12_270x279('X12_270_X279'),
+  x12_271x279('X12_271_X279'),
+  x12_275x210('X12_275_X210'),
+  x12_275x211('X12_275_X211'),
+  x12_276x212('X12_276_X212'),
+  x12_277x212('X12_277_X212'),
+  x12_277x214('X12_277_X214'),
+  x12_277x364('X12_277_X364'),
+  x12_278x217('X12_278_X217'),
+  x12_820x218('X12_820_X218'),
+  x12_820x306('X12_820_X306'),
+  x12_824x186('X12_824_X186'),
+  x12_834x220('X12_834_X220'),
+  x12_834x307('X12_834_X307'),
+  x12_834x318('X12_834_X318'),
+  x12_835x221('X12_835_X221'),
+  x12_837x222('X12_837_X222'),
+  x12_837x223('X12_837_X223'),
+  x12_837x224('X12_837_X224'),
+  x12_837x291('X12_837_X291'),
+  x12_837x292('X12_837_X292'),
+  x12_837x298('X12_837_X298'),
+  x12_999x231('X12_999_X231'),
+  ;
 
-extension X12TransactionSetValueExtension on X12TransactionSet {
-  String toValue() {
-    switch (this) {
-      case X12TransactionSet.x12_110:
-        return 'X12_110';
-      case X12TransactionSet.x12_180:
-        return 'X12_180';
-      case X12TransactionSet.x12_204:
-        return 'X12_204';
-      case X12TransactionSet.x12_210:
-        return 'X12_210';
-      case X12TransactionSet.x12_211:
-        return 'X12_211';
-      case X12TransactionSet.x12_214:
-        return 'X12_214';
-      case X12TransactionSet.x12_215:
-        return 'X12_215';
-      case X12TransactionSet.x12_259:
-        return 'X12_259';
-      case X12TransactionSet.x12_260:
-        return 'X12_260';
-      case X12TransactionSet.x12_266:
-        return 'X12_266';
-      case X12TransactionSet.x12_269:
-        return 'X12_269';
-      case X12TransactionSet.x12_270:
-        return 'X12_270';
-      case X12TransactionSet.x12_271:
-        return 'X12_271';
-      case X12TransactionSet.x12_274:
-        return 'X12_274';
-      case X12TransactionSet.x12_275:
-        return 'X12_275';
-      case X12TransactionSet.x12_276:
-        return 'X12_276';
-      case X12TransactionSet.x12_277:
-        return 'X12_277';
-      case X12TransactionSet.x12_278:
-        return 'X12_278';
-      case X12TransactionSet.x12_310:
-        return 'X12_310';
-      case X12TransactionSet.x12_315:
-        return 'X12_315';
-      case X12TransactionSet.x12_322:
-        return 'X12_322';
-      case X12TransactionSet.x12_404:
-        return 'X12_404';
-      case X12TransactionSet.x12_410:
-        return 'X12_410';
-      case X12TransactionSet.x12_417:
-        return 'X12_417';
-      case X12TransactionSet.x12_421:
-        return 'X12_421';
-      case X12TransactionSet.x12_426:
-        return 'X12_426';
-      case X12TransactionSet.x12_810:
-        return 'X12_810';
-      case X12TransactionSet.x12_820:
-        return 'X12_820';
-      case X12TransactionSet.x12_824:
-        return 'X12_824';
-      case X12TransactionSet.x12_830:
-        return 'X12_830';
-      case X12TransactionSet.x12_832:
-        return 'X12_832';
-      case X12TransactionSet.x12_834:
-        return 'X12_834';
-      case X12TransactionSet.x12_835:
-        return 'X12_835';
-      case X12TransactionSet.x12_837:
-        return 'X12_837';
-      case X12TransactionSet.x12_844:
-        return 'X12_844';
-      case X12TransactionSet.x12_846:
-        return 'X12_846';
-      case X12TransactionSet.x12_849:
-        return 'X12_849';
-      case X12TransactionSet.x12_850:
-        return 'X12_850';
-      case X12TransactionSet.x12_852:
-        return 'X12_852';
-      case X12TransactionSet.x12_855:
-        return 'X12_855';
-      case X12TransactionSet.x12_856:
-        return 'X12_856';
-      case X12TransactionSet.x12_860:
-        return 'X12_860';
-      case X12TransactionSet.x12_861:
-        return 'X12_861';
-      case X12TransactionSet.x12_864:
-        return 'X12_864';
-      case X12TransactionSet.x12_865:
-        return 'X12_865';
-      case X12TransactionSet.x12_869:
-        return 'X12_869';
-      case X12TransactionSet.x12_870:
-        return 'X12_870';
-      case X12TransactionSet.x12_940:
-        return 'X12_940';
-      case X12TransactionSet.x12_945:
-        return 'X12_945';
-      case X12TransactionSet.x12_990:
-        return 'X12_990';
-      case X12TransactionSet.x12_997:
-        return 'X12_997';
-      case X12TransactionSet.x12_999:
-        return 'X12_999';
-      case X12TransactionSet.x12_270x279:
-        return 'X12_270_X279';
-      case X12TransactionSet.x12_271x279:
-        return 'X12_271_X279';
-      case X12TransactionSet.x12_275x210:
-        return 'X12_275_X210';
-      case X12TransactionSet.x12_275x211:
-        return 'X12_275_X211';
-      case X12TransactionSet.x12_276x212:
-        return 'X12_276_X212';
-      case X12TransactionSet.x12_277x212:
-        return 'X12_277_X212';
-      case X12TransactionSet.x12_277x214:
-        return 'X12_277_X214';
-      case X12TransactionSet.x12_277x364:
-        return 'X12_277_X364';
-      case X12TransactionSet.x12_278x217:
-        return 'X12_278_X217';
-      case X12TransactionSet.x12_820x218:
-        return 'X12_820_X218';
-      case X12TransactionSet.x12_820x306:
-        return 'X12_820_X306';
-      case X12TransactionSet.x12_824x186:
-        return 'X12_824_X186';
-      case X12TransactionSet.x12_834x220:
-        return 'X12_834_X220';
-      case X12TransactionSet.x12_834x307:
-        return 'X12_834_X307';
-      case X12TransactionSet.x12_834x318:
-        return 'X12_834_X318';
-      case X12TransactionSet.x12_835x221:
-        return 'X12_835_X221';
-      case X12TransactionSet.x12_837x222:
-        return 'X12_837_X222';
-      case X12TransactionSet.x12_837x223:
-        return 'X12_837_X223';
-      case X12TransactionSet.x12_837x224:
-        return 'X12_837_X224';
-      case X12TransactionSet.x12_837x291:
-        return 'X12_837_X291';
-      case X12TransactionSet.x12_837x292:
-        return 'X12_837_X292';
-      case X12TransactionSet.x12_837x298:
-        return 'X12_837_X298';
-      case X12TransactionSet.x12_999x231:
-        return 'X12_999_X231';
-    }
-  }
-}
+  final String value;
 
-extension X12TransactionSetFromString on String {
-  X12TransactionSet toX12TransactionSet() {
-    switch (this) {
-      case 'X12_110':
-        return X12TransactionSet.x12_110;
-      case 'X12_180':
-        return X12TransactionSet.x12_180;
-      case 'X12_204':
-        return X12TransactionSet.x12_204;
-      case 'X12_210':
-        return X12TransactionSet.x12_210;
-      case 'X12_211':
-        return X12TransactionSet.x12_211;
-      case 'X12_214':
-        return X12TransactionSet.x12_214;
-      case 'X12_215':
-        return X12TransactionSet.x12_215;
-      case 'X12_259':
-        return X12TransactionSet.x12_259;
-      case 'X12_260':
-        return X12TransactionSet.x12_260;
-      case 'X12_266':
-        return X12TransactionSet.x12_266;
-      case 'X12_269':
-        return X12TransactionSet.x12_269;
-      case 'X12_270':
-        return X12TransactionSet.x12_270;
-      case 'X12_271':
-        return X12TransactionSet.x12_271;
-      case 'X12_274':
-        return X12TransactionSet.x12_274;
-      case 'X12_275':
-        return X12TransactionSet.x12_275;
-      case 'X12_276':
-        return X12TransactionSet.x12_276;
-      case 'X12_277':
-        return X12TransactionSet.x12_277;
-      case 'X12_278':
-        return X12TransactionSet.x12_278;
-      case 'X12_310':
-        return X12TransactionSet.x12_310;
-      case 'X12_315':
-        return X12TransactionSet.x12_315;
-      case 'X12_322':
-        return X12TransactionSet.x12_322;
-      case 'X12_404':
-        return X12TransactionSet.x12_404;
-      case 'X12_410':
-        return X12TransactionSet.x12_410;
-      case 'X12_417':
-        return X12TransactionSet.x12_417;
-      case 'X12_421':
-        return X12TransactionSet.x12_421;
-      case 'X12_426':
-        return X12TransactionSet.x12_426;
-      case 'X12_810':
-        return X12TransactionSet.x12_810;
-      case 'X12_820':
-        return X12TransactionSet.x12_820;
-      case 'X12_824':
-        return X12TransactionSet.x12_824;
-      case 'X12_830':
-        return X12TransactionSet.x12_830;
-      case 'X12_832':
-        return X12TransactionSet.x12_832;
-      case 'X12_834':
-        return X12TransactionSet.x12_834;
-      case 'X12_835':
-        return X12TransactionSet.x12_835;
-      case 'X12_837':
-        return X12TransactionSet.x12_837;
-      case 'X12_844':
-        return X12TransactionSet.x12_844;
-      case 'X12_846':
-        return X12TransactionSet.x12_846;
-      case 'X12_849':
-        return X12TransactionSet.x12_849;
-      case 'X12_850':
-        return X12TransactionSet.x12_850;
-      case 'X12_852':
-        return X12TransactionSet.x12_852;
-      case 'X12_855':
-        return X12TransactionSet.x12_855;
-      case 'X12_856':
-        return X12TransactionSet.x12_856;
-      case 'X12_860':
-        return X12TransactionSet.x12_860;
-      case 'X12_861':
-        return X12TransactionSet.x12_861;
-      case 'X12_864':
-        return X12TransactionSet.x12_864;
-      case 'X12_865':
-        return X12TransactionSet.x12_865;
-      case 'X12_869':
-        return X12TransactionSet.x12_869;
-      case 'X12_870':
-        return X12TransactionSet.x12_870;
-      case 'X12_940':
-        return X12TransactionSet.x12_940;
-      case 'X12_945':
-        return X12TransactionSet.x12_945;
-      case 'X12_990':
-        return X12TransactionSet.x12_990;
-      case 'X12_997':
-        return X12TransactionSet.x12_997;
-      case 'X12_999':
-        return X12TransactionSet.x12_999;
-      case 'X12_270_X279':
-        return X12TransactionSet.x12_270x279;
-      case 'X12_271_X279':
-        return X12TransactionSet.x12_271x279;
-      case 'X12_275_X210':
-        return X12TransactionSet.x12_275x210;
-      case 'X12_275_X211':
-        return X12TransactionSet.x12_275x211;
-      case 'X12_276_X212':
-        return X12TransactionSet.x12_276x212;
-      case 'X12_277_X212':
-        return X12TransactionSet.x12_277x212;
-      case 'X12_277_X214':
-        return X12TransactionSet.x12_277x214;
-      case 'X12_277_X364':
-        return X12TransactionSet.x12_277x364;
-      case 'X12_278_X217':
-        return X12TransactionSet.x12_278x217;
-      case 'X12_820_X218':
-        return X12TransactionSet.x12_820x218;
-      case 'X12_820_X306':
-        return X12TransactionSet.x12_820x306;
-      case 'X12_824_X186':
-        return X12TransactionSet.x12_824x186;
-      case 'X12_834_X220':
-        return X12TransactionSet.x12_834x220;
-      case 'X12_834_X307':
-        return X12TransactionSet.x12_834x307;
-      case 'X12_834_X318':
-        return X12TransactionSet.x12_834x318;
-      case 'X12_835_X221':
-        return X12TransactionSet.x12_835x221;
-      case 'X12_837_X222':
-        return X12TransactionSet.x12_837x222;
-      case 'X12_837_X223':
-        return X12TransactionSet.x12_837x223;
-      case 'X12_837_X224':
-        return X12TransactionSet.x12_837x224;
-      case 'X12_837_X291':
-        return X12TransactionSet.x12_837x291;
-      case 'X12_837_X292':
-        return X12TransactionSet.x12_837x292;
-      case 'X12_837_X298':
-        return X12TransactionSet.x12_837x298;
-      case 'X12_999_X231':
-        return X12TransactionSet.x12_999x231;
-    }
-    throw Exception('$this is not known in enum X12TransactionSet');
-  }
+  const X12TransactionSet(this.value);
+
+  static X12TransactionSet fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum X12TransactionSet'));
 }
 
 enum X12Version {
-  version_4010,
-  version_4030,
-  version_5010,
-  version_5010Hipaa,
-}
+  version_4010('VERSION_4010'),
+  version_4030('VERSION_4030'),
+  version_5010('VERSION_5010'),
+  version_5010Hipaa('VERSION_5010_HIPAA'),
+  ;
 
-extension X12VersionValueExtension on X12Version {
-  String toValue() {
-    switch (this) {
-      case X12Version.version_4010:
-        return 'VERSION_4010';
-      case X12Version.version_4030:
-        return 'VERSION_4030';
-      case X12Version.version_5010:
-        return 'VERSION_5010';
-      case X12Version.version_5010Hipaa:
-        return 'VERSION_5010_HIPAA';
-    }
-  }
-}
+  final String value;
 
-extension X12VersionFromString on String {
-  X12Version toX12Version() {
-    switch (this) {
-      case 'VERSION_4010':
-        return X12Version.version_4010;
-      case 'VERSION_4030':
-        return X12Version.version_4030;
-      case 'VERSION_5010':
-        return X12Version.version_5010;
-      case 'VERSION_5010_HIPAA':
-        return X12Version.version_5010Hipaa;
-    }
-    throw Exception('$this is not known in enum X12Version');
-  }
+  const X12Version(this.value);
+
+  static X12Version fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum X12Version'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

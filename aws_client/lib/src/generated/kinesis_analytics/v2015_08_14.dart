@@ -1519,7 +1519,7 @@ class ApplicationDetail {
       applicationARN: json['ApplicationARN'] as String,
       applicationName: json['ApplicationName'] as String,
       applicationStatus:
-          (json['ApplicationStatus'] as String).toApplicationStatus(),
+          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
       applicationVersionId: json['ApplicationVersionId'] as int,
       applicationCode: json['ApplicationCode'] as String?,
       applicationDescription: json['ApplicationDescription'] as String?,
@@ -1566,7 +1566,7 @@ class ApplicationDetail {
     return {
       'ApplicationARN': applicationARN,
       'ApplicationName': applicationName,
-      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationStatus': applicationStatus.value,
       'ApplicationVersionId': applicationVersionId,
       if (applicationCode != null) 'ApplicationCode': applicationCode,
       if (applicationDescription != null)
@@ -1587,51 +1587,22 @@ class ApplicationDetail {
 }
 
 enum ApplicationStatus {
-  deleting,
-  starting,
-  stopping,
-  ready,
-  running,
-  updating,
-}
+  deleting('DELETING'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  ready('READY'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  ;
 
-extension ApplicationStatusValueExtension on ApplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationStatus.deleting:
-        return 'DELETING';
-      case ApplicationStatus.starting:
-        return 'STARTING';
-      case ApplicationStatus.stopping:
-        return 'STOPPING';
-      case ApplicationStatus.ready:
-        return 'READY';
-      case ApplicationStatus.running:
-        return 'RUNNING';
-      case ApplicationStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStatusFromString on String {
-  ApplicationStatus toApplicationStatus() {
-    switch (this) {
-      case 'DELETING':
-        return ApplicationStatus.deleting;
-      case 'STARTING':
-        return ApplicationStatus.starting;
-      case 'STOPPING':
-        return ApplicationStatus.stopping;
-      case 'READY':
-        return ApplicationStatus.ready;
-      case 'RUNNING':
-        return ApplicationStatus.running;
-      case 'UPDATING':
-        return ApplicationStatus.updating;
-    }
-    throw Exception('$this is not known in enum ApplicationStatus');
-  }
+  const ApplicationStatus(this.value);
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationStatus'));
 }
 
 /// <note>
@@ -1664,7 +1635,7 @@ class ApplicationSummary {
       applicationARN: json['ApplicationARN'] as String,
       applicationName: json['ApplicationName'] as String,
       applicationStatus:
-          (json['ApplicationStatus'] as String).toApplicationStatus(),
+          ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
     );
   }
 
@@ -1675,7 +1646,7 @@ class ApplicationSummary {
     return {
       'ApplicationARN': applicationARN,
       'ApplicationName': applicationName,
-      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationStatus': applicationStatus.value,
     };
   }
 }
@@ -1994,14 +1965,14 @@ class DestinationSchema {
   factory DestinationSchema.fromJson(Map<String, dynamic> json) {
     return DestinationSchema(
       recordFormatType:
-          (json['RecordFormatType'] as String).toRecordFormatType(),
+          RecordFormatType.fromString((json['RecordFormatType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final recordFormatType = this.recordFormatType;
     return {
-      'RecordFormatType': recordFormatType.toValue(),
+      'RecordFormatType': recordFormatType.value,
     };
   }
 }
@@ -2566,36 +2537,19 @@ class InputSchemaUpdate {
 }
 
 enum InputStartingPosition {
-  now,
-  trimHorizon,
-  lastStoppedPoint,
-}
+  now('NOW'),
+  trimHorizon('TRIM_HORIZON'),
+  lastStoppedPoint('LAST_STOPPED_POINT'),
+  ;
 
-extension InputStartingPositionValueExtension on InputStartingPosition {
-  String toValue() {
-    switch (this) {
-      case InputStartingPosition.now:
-        return 'NOW';
-      case InputStartingPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case InputStartingPosition.lastStoppedPoint:
-        return 'LAST_STOPPED_POINT';
-    }
-  }
-}
+  final String value;
 
-extension InputStartingPositionFromString on String {
-  InputStartingPosition toInputStartingPosition() {
-    switch (this) {
-      case 'NOW':
-        return InputStartingPosition.now;
-      case 'TRIM_HORIZON':
-        return InputStartingPosition.trimHorizon;
-      case 'LAST_STOPPED_POINT':
-        return InputStartingPosition.lastStoppedPoint;
-    }
-    throw Exception('$this is not known in enum InputStartingPosition');
-  }
+  const InputStartingPosition(this.value);
+
+  static InputStartingPosition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputStartingPosition'));
 }
 
 /// Describes the point at which the application reads from the streaming
@@ -2627,8 +2581,8 @@ class InputStartingPositionConfiguration {
   factory InputStartingPositionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return InputStartingPositionConfiguration(
-      inputStartingPosition:
-          (json['InputStartingPosition'] as String?)?.toInputStartingPosition(),
+      inputStartingPosition: (json['InputStartingPosition'] as String?)
+          ?.let(InputStartingPosition.fromString),
     );
   }
 
@@ -2636,7 +2590,7 @@ class InputStartingPositionConfiguration {
     final inputStartingPosition = this.inputStartingPosition;
     return {
       if (inputStartingPosition != null)
-        'InputStartingPosition': inputStartingPosition.toValue(),
+        'InputStartingPosition': inputStartingPosition.value,
     };
   }
 }
@@ -3543,7 +3497,7 @@ class RecordFormat {
   factory RecordFormat.fromJson(Map<String, dynamic> json) {
     return RecordFormat(
       recordFormatType:
-          (json['RecordFormatType'] as String).toRecordFormatType(),
+          RecordFormatType.fromString((json['RecordFormatType'] as String)),
       mappingParameters: json['MappingParameters'] != null
           ? MappingParameters.fromJson(
               json['MappingParameters'] as Map<String, dynamic>)
@@ -3555,38 +3509,25 @@ class RecordFormat {
     final recordFormatType = this.recordFormatType;
     final mappingParameters = this.mappingParameters;
     return {
-      'RecordFormatType': recordFormatType.toValue(),
+      'RecordFormatType': recordFormatType.value,
       if (mappingParameters != null) 'MappingParameters': mappingParameters,
     };
   }
 }
 
 enum RecordFormatType {
-  json,
-  csv,
-}
+  json('JSON'),
+  csv('CSV'),
+  ;
 
-extension RecordFormatTypeValueExtension on RecordFormatType {
-  String toValue() {
-    switch (this) {
-      case RecordFormatType.json:
-        return 'JSON';
-      case RecordFormatType.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension RecordFormatTypeFromString on String {
-  RecordFormatType toRecordFormatType() {
-    switch (this) {
-      case 'JSON':
-        return RecordFormatType.json;
-      case 'CSV':
-        return RecordFormatType.csv;
-    }
-    throw Exception('$this is not known in enum RecordFormatType');
-  }
+  const RecordFormatType(this.value);
+
+  static RecordFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordFormatType'));
 }
 
 /// Describes the reference data source by providing the source information (S3

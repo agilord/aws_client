@@ -288,11 +288,10 @@ class CleanRoomsML {
       'name': name,
       'outputConfig': outputConfig,
       'sharedAudienceMetrics':
-          sharedAudienceMetrics.map((e) => e.toValue()).toList(),
+          sharedAudienceMetrics.map((e) => e.value).toList(),
       if (audienceSizeConfig != null) 'audienceSizeConfig': audienceSizeConfig,
       if (childResourceTagOnCreatePolicy != null)
-        'childResourceTagOnCreatePolicy':
-            childResourceTagOnCreatePolicy.toValue(),
+        'childResourceTagOnCreatePolicy': childResourceTagOnCreatePolicy.value,
       if (description != null) 'description': description,
       if (minMatchingSeedSize != null)
         'minMatchingSeedSize': minMatchingSeedSize,
@@ -870,7 +869,7 @@ class CleanRoomsML {
     final $payload = <String, dynamic>{
       'configuredAudienceModelPolicy': configuredAudienceModelPolicy,
       if (policyExistenceCondition != null)
-        'policyExistenceCondition': policyExistenceCondition.toValue(),
+        'policyExistenceCondition': policyExistenceCondition.value,
       if (previousPolicyHash != null) 'previousPolicyHash': previousPolicyHash,
     };
     final response = await _protocol.send(
@@ -1165,7 +1164,7 @@ class CleanRoomsML {
       if (outputConfig != null) 'outputConfig': outputConfig,
       if (sharedAudienceMetrics != null)
         'sharedAudienceMetrics':
-            sharedAudienceMetrics.map((e) => e.toValue()).toList(),
+            sharedAudienceMetrics.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1203,41 +1202,20 @@ class AudienceDestination {
 }
 
 enum AudienceExportJobStatus {
-  createPending,
-  createInProgress,
-  createFailed,
-  active,
-}
+  createPending('CREATE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  ;
 
-extension AudienceExportJobStatusValueExtension on AudienceExportJobStatus {
-  String toValue() {
-    switch (this) {
-      case AudienceExportJobStatus.createPending:
-        return 'CREATE_PENDING';
-      case AudienceExportJobStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case AudienceExportJobStatus.createFailed:
-        return 'CREATE_FAILED';
-      case AudienceExportJobStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension AudienceExportJobStatusFromString on String {
-  AudienceExportJobStatus toAudienceExportJobStatus() {
-    switch (this) {
-      case 'CREATE_PENDING':
-        return AudienceExportJobStatus.createPending;
-      case 'CREATE_IN_PROGRESS':
-        return AudienceExportJobStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return AudienceExportJobStatus.createFailed;
-      case 'ACTIVE':
-        return AudienceExportJobStatus.active;
-    }
-    throw Exception('$this is not known in enum AudienceExportJobStatus');
-  }
+  const AudienceExportJobStatus(this.value);
+
+  static AudienceExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudienceExportJobStatus'));
 }
 
 /// Provides information about the audience export job.
@@ -1285,7 +1263,7 @@ class AudienceExportJobSummary {
           AudienceSize.fromJson(json['audienceSize'] as Map<String, dynamic>),
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAudienceExportJobStatus(),
+      status: AudienceExportJobStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
       outputLocation: json['outputLocation'] as String?,
@@ -1311,7 +1289,7 @@ class AudienceExportJobSummary {
       'audienceSize': audienceSize,
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
       if (outputLocation != null) 'outputLocation': outputLocation,
@@ -1362,57 +1340,23 @@ class AudienceGenerationJobDataSource {
 }
 
 enum AudienceGenerationJobStatus {
-  createPending,
-  createInProgress,
-  createFailed,
-  active,
-  deletePending,
-  deleteInProgress,
-  deleteFailed,
-}
+  createPending('CREATE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  deletePending('DELETE_PENDING'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension AudienceGenerationJobStatusValueExtension
-    on AudienceGenerationJobStatus {
-  String toValue() {
-    switch (this) {
-      case AudienceGenerationJobStatus.createPending:
-        return 'CREATE_PENDING';
-      case AudienceGenerationJobStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case AudienceGenerationJobStatus.createFailed:
-        return 'CREATE_FAILED';
-      case AudienceGenerationJobStatus.active:
-        return 'ACTIVE';
-      case AudienceGenerationJobStatus.deletePending:
-        return 'DELETE_PENDING';
-      case AudienceGenerationJobStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case AudienceGenerationJobStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AudienceGenerationJobStatusFromString on String {
-  AudienceGenerationJobStatus toAudienceGenerationJobStatus() {
-    switch (this) {
-      case 'CREATE_PENDING':
-        return AudienceGenerationJobStatus.createPending;
-      case 'CREATE_IN_PROGRESS':
-        return AudienceGenerationJobStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return AudienceGenerationJobStatus.createFailed;
-      case 'ACTIVE':
-        return AudienceGenerationJobStatus.active;
-      case 'DELETE_PENDING':
-        return AudienceGenerationJobStatus.deletePending;
-      case 'DELETE_IN_PROGRESS':
-        return AudienceGenerationJobStatus.deleteInProgress;
-      case 'DELETE_FAILED':
-        return AudienceGenerationJobStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum AudienceGenerationJobStatus');
-  }
+  const AudienceGenerationJobStatus(this.value);
+
+  static AudienceGenerationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudienceGenerationJobStatus'));
 }
 
 /// Provides information about the configured audience generation job.
@@ -1464,7 +1408,8 @@ class AudienceGenerationJobSummary {
       configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAudienceGenerationJobStatus(),
+      status:
+          AudienceGenerationJobStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
@@ -1487,7 +1432,7 @@ class AudienceGenerationJobSummary {
       'configuredAudienceModelArn': configuredAudienceModelArn,
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (collaborationId != null) 'collaborationId': collaborationId,
       if (description != null) 'description': description,
@@ -1497,56 +1442,23 @@ class AudienceGenerationJobSummary {
 }
 
 enum AudienceModelStatus {
-  createPending,
-  createInProgress,
-  createFailed,
-  active,
-  deletePending,
-  deleteInProgress,
-  deleteFailed,
-}
+  createPending('CREATE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  deletePending('DELETE_PENDING'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension AudienceModelStatusValueExtension on AudienceModelStatus {
-  String toValue() {
-    switch (this) {
-      case AudienceModelStatus.createPending:
-        return 'CREATE_PENDING';
-      case AudienceModelStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case AudienceModelStatus.createFailed:
-        return 'CREATE_FAILED';
-      case AudienceModelStatus.active:
-        return 'ACTIVE';
-      case AudienceModelStatus.deletePending:
-        return 'DELETE_PENDING';
-      case AudienceModelStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case AudienceModelStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AudienceModelStatusFromString on String {
-  AudienceModelStatus toAudienceModelStatus() {
-    switch (this) {
-      case 'CREATE_PENDING':
-        return AudienceModelStatus.createPending;
-      case 'CREATE_IN_PROGRESS':
-        return AudienceModelStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return AudienceModelStatus.createFailed;
-      case 'ACTIVE':
-        return AudienceModelStatus.active;
-      case 'DELETE_PENDING':
-        return AudienceModelStatus.deletePending;
-      case 'DELETE_IN_PROGRESS':
-        return AudienceModelStatus.deleteInProgress;
-      case 'DELETE_FAILED':
-        return AudienceModelStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum AudienceModelStatus');
-  }
+  const AudienceModelStatus(this.value);
+
+  static AudienceModelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AudienceModelStatus'));
 }
 
 /// Information about the audience model.
@@ -1588,7 +1500,7 @@ class AudienceModelSummary {
       audienceModelArn: json['audienceModelArn'] as String,
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAudienceModelStatus(),
+      status: AudienceModelStatus.fromString((json['status'] as String)),
       trainingDatasetArn: json['trainingDatasetArn'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
@@ -1607,7 +1519,7 @@ class AudienceModelSummary {
       'audienceModelArn': audienceModelArn,
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'trainingDatasetArn': trainingDatasetArn,
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
@@ -1673,7 +1585,7 @@ class AudienceSize {
 
   factory AudienceSize.fromJson(Map<String, dynamic> json) {
     return AudienceSize(
-      type: (json['type'] as String).toAudienceSizeType(),
+      type: AudienceSizeType.fromString((json['type'] as String)),
       value: json['value'] as int,
     );
   }
@@ -1682,7 +1594,7 @@ class AudienceSize {
     final type = this.type;
     final value = this.value;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       'value': value,
     };
   }
@@ -1715,7 +1627,7 @@ class AudienceSizeConfig {
           .map((e) => e as int)
           .toList(),
       audienceSizeType:
-          (json['audienceSizeType'] as String).toAudienceSizeType(),
+          AudienceSizeType.fromString((json['audienceSizeType'] as String)),
     );
   }
 
@@ -1724,37 +1636,24 @@ class AudienceSizeConfig {
     final audienceSizeType = this.audienceSizeType;
     return {
       'audienceSizeBins': audienceSizeBins,
-      'audienceSizeType': audienceSizeType.toValue(),
+      'audienceSizeType': audienceSizeType.value,
     };
   }
 }
 
 enum AudienceSizeType {
-  absolute,
-  percentage,
-}
+  absolute('ABSOLUTE'),
+  percentage('PERCENTAGE'),
+  ;
 
-extension AudienceSizeTypeValueExtension on AudienceSizeType {
-  String toValue() {
-    switch (this) {
-      case AudienceSizeType.absolute:
-        return 'ABSOLUTE';
-      case AudienceSizeType.percentage:
-        return 'PERCENTAGE';
-    }
-  }
-}
+  final String value;
 
-extension AudienceSizeTypeFromString on String {
-  AudienceSizeType toAudienceSizeType() {
-    switch (this) {
-      case 'ABSOLUTE':
-        return AudienceSizeType.absolute;
-      case 'PERCENTAGE':
-        return AudienceSizeType.percentage;
-    }
-    throw Exception('$this is not known in enum AudienceSizeType');
-  }
+  const AudienceSizeType(this.value);
+
+  static AudienceSizeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AudienceSizeType'));
 }
 
 /// Metadata for a column.
@@ -1775,7 +1674,7 @@ class ColumnSchema {
       columnName: json['columnName'] as String,
       columnTypes: (json['columnTypes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toColumnType())
+          .map((e) => ColumnType.fromString((e as String)))
           .toList(),
     );
   }
@@ -1785,52 +1684,26 @@ class ColumnSchema {
     final columnTypes = this.columnTypes;
     return {
       'columnName': columnName,
-      'columnTypes': columnTypes.map((e) => e.toValue()).toList(),
+      'columnTypes': columnTypes.map((e) => e.value).toList(),
     };
   }
 }
 
 enum ColumnType {
-  userId,
-  itemId,
-  timestamp,
-  categoricalFeature,
-  numericalFeature,
-}
+  userId('USER_ID'),
+  itemId('ITEM_ID'),
+  timestamp('TIMESTAMP'),
+  categoricalFeature('CATEGORICAL_FEATURE'),
+  numericalFeature('NUMERICAL_FEATURE'),
+  ;
 
-extension ColumnTypeValueExtension on ColumnType {
-  String toValue() {
-    switch (this) {
-      case ColumnType.userId:
-        return 'USER_ID';
-      case ColumnType.itemId:
-        return 'ITEM_ID';
-      case ColumnType.timestamp:
-        return 'TIMESTAMP';
-      case ColumnType.categoricalFeature:
-        return 'CATEGORICAL_FEATURE';
-      case ColumnType.numericalFeature:
-        return 'NUMERICAL_FEATURE';
-    }
-  }
-}
+  final String value;
 
-extension ColumnTypeFromString on String {
-  ColumnType toColumnType() {
-    switch (this) {
-      case 'USER_ID':
-        return ColumnType.userId;
-      case 'ITEM_ID':
-        return ColumnType.itemId;
-      case 'TIMESTAMP':
-        return ColumnType.timestamp;
-      case 'CATEGORICAL_FEATURE':
-        return ColumnType.categoricalFeature;
-      case 'NUMERICAL_FEATURE':
-        return ColumnType.numericalFeature;
-    }
-    throw Exception('$this is not known in enum ColumnType');
-  }
+  const ColumnType(this.value);
+
+  static ColumnType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ColumnType'));
 }
 
 /// Configuration information necessary for the configure audience model output.
@@ -1865,27 +1738,17 @@ class ConfiguredAudienceModelOutputConfig {
 }
 
 enum ConfiguredAudienceModelStatus {
-  active,
-}
+  active('ACTIVE'),
+  ;
 
-extension ConfiguredAudienceModelStatusValueExtension
-    on ConfiguredAudienceModelStatus {
-  String toValue() {
-    switch (this) {
-      case ConfiguredAudienceModelStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ConfiguredAudienceModelStatusFromString on String {
-  ConfiguredAudienceModelStatus toConfiguredAudienceModelStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ConfiguredAudienceModelStatus.active;
-    }
-    throw Exception('$this is not known in enum ConfiguredAudienceModelStatus');
-  }
+  const ConfiguredAudienceModelStatus(this.value);
+
+  static ConfiguredAudienceModelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfiguredAudienceModelStatus'));
 }
 
 /// Information about the configured audience model.
@@ -1935,7 +1798,8 @@ class ConfiguredAudienceModelSummary {
       name: json['name'] as String,
       outputConfig: ConfiguredAudienceModelOutputConfig.fromJson(
           json['outputConfig'] as Map<String, dynamic>),
-      status: (json['status'] as String).toConfiguredAudienceModelStatus(),
+      status:
+          ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
     );
@@ -1956,7 +1820,7 @@ class ConfiguredAudienceModelSummary {
       'createTime': iso8601ToJson(createTime),
       'name': name,
       'outputConfig': outputConfig,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
     };
@@ -2074,7 +1938,7 @@ class Dataset {
     return Dataset(
       inputConfig: DatasetInputConfig.fromJson(
           json['inputConfig'] as Map<String, dynamic>),
-      type: (json['type'] as String).toDatasetType(),
+      type: DatasetType.fromString((json['type'] as String)),
     );
   }
 
@@ -2083,7 +1947,7 @@ class Dataset {
     final type = this.type;
     return {
       'inputConfig': inputConfig,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -2124,26 +1988,16 @@ class DatasetInputConfig {
 }
 
 enum DatasetType {
-  interactions,
-}
+  interactions('INTERACTIONS'),
+  ;
 
-extension DatasetTypeValueExtension on DatasetType {
-  String toValue() {
-    switch (this) {
-      case DatasetType.interactions:
-        return 'INTERACTIONS';
-    }
-  }
-}
+  final String value;
 
-extension DatasetTypeFromString on String {
-  DatasetType toDatasetType() {
-    switch (this) {
-      case 'INTERACTIONS':
-        return DatasetType.interactions;
-    }
-    throw Exception('$this is not known in enum DatasetType');
-  }
+  const DatasetType(this.value);
+
+  static DatasetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DatasetType'));
 }
 
 class GetAudienceGenerationJobResponse {
@@ -2222,7 +2076,8 @@ class GetAudienceGenerationJobResponse {
       configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAudienceGenerationJobStatus(),
+      status:
+          AudienceGenerationJobStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
@@ -2265,7 +2120,7 @@ class GetAudienceGenerationJobResponse {
       'configuredAudienceModelArn': configuredAudienceModelArn,
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (collaborationId != null) 'collaborationId': collaborationId,
       if (description != null) 'description': description,
@@ -2338,7 +2193,7 @@ class GetAudienceModelResponse {
       audienceModelArn: json['audienceModelArn'] as String,
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toAudienceModelStatus(),
+      status: AudienceModelStatus.fromString((json['status'] as String)),
       trainingDatasetArn: json['trainingDatasetArn'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
@@ -2371,7 +2226,7 @@ class GetAudienceModelResponse {
       'audienceModelArn': audienceModelArn,
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'trainingDatasetArn': trainingDatasetArn,
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
@@ -2502,9 +2357,10 @@ class GetConfiguredAudienceModelResponse {
           json['outputConfig'] as Map<String, dynamic>),
       sharedAudienceMetrics: (json['sharedAudienceMetrics'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toSharedAudienceMetrics())
+          .map((e) => SharedAudienceMetrics.fromString((e as String)))
           .toList(),
-      status: (json['status'] as String).toConfiguredAudienceModelStatus(),
+      status:
+          ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       audienceSizeConfig: json['audienceSizeConfig'] != null
           ? AudienceSizeConfig.fromJson(
@@ -2512,7 +2368,7 @@ class GetConfiguredAudienceModelResponse {
           : null,
       childResourceTagOnCreatePolicy:
           (json['childResourceTagOnCreatePolicy'] as String?)
-              ?.toTagOnCreatePolicy(),
+              ?.let(TagOnCreatePolicy.fromString),
       description: json['description'] as String?,
       minMatchingSeedSize: json['minMatchingSeedSize'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2541,13 +2397,12 @@ class GetConfiguredAudienceModelResponse {
       'name': name,
       'outputConfig': outputConfig,
       'sharedAudienceMetrics':
-          sharedAudienceMetrics.map((e) => e.toValue()).toList(),
-      'status': status.toValue(),
+          sharedAudienceMetrics.map((e) => e.value).toList(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (audienceSizeConfig != null) 'audienceSizeConfig': audienceSizeConfig,
       if (childResourceTagOnCreatePolicy != null)
-        'childResourceTagOnCreatePolicy':
-            childResourceTagOnCreatePolicy.toValue(),
+        'childResourceTagOnCreatePolicy': childResourceTagOnCreatePolicy.value,
       if (description != null) 'description': description,
       if (minMatchingSeedSize != null)
         'minMatchingSeedSize': minMatchingSeedSize,
@@ -2601,7 +2456,7 @@ class GetTrainingDatasetResponse {
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toTrainingDatasetStatus(),
+      status: TrainingDatasetStatus.fromString((json['status'] as String)),
       trainingData: (json['trainingData'] as List)
           .whereNotNull()
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
@@ -2628,7 +2483,7 @@ class GetTrainingDatasetResponse {
       'createTime': iso8601ToJson(createTime),
       'name': name,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       'trainingData': trainingData,
       'trainingDatasetArn': trainingDatasetArn,
       'updateTime': iso8601ToJson(updateTime),
@@ -2870,31 +2725,18 @@ class ListTrainingDatasetsResponse {
 }
 
 enum PolicyExistenceCondition {
-  policyMustExist,
-  policyMustNotExist,
-}
+  policyMustExist('POLICY_MUST_EXIST'),
+  policyMustNotExist('POLICY_MUST_NOT_EXIST'),
+  ;
 
-extension PolicyExistenceConditionValueExtension on PolicyExistenceCondition {
-  String toValue() {
-    switch (this) {
-      case PolicyExistenceCondition.policyMustExist:
-        return 'POLICY_MUST_EXIST';
-      case PolicyExistenceCondition.policyMustNotExist:
-        return 'POLICY_MUST_NOT_EXIST';
-    }
-  }
-}
+  final String value;
 
-extension PolicyExistenceConditionFromString on String {
-  PolicyExistenceCondition toPolicyExistenceCondition() {
-    switch (this) {
-      case 'POLICY_MUST_EXIST':
-        return PolicyExistenceCondition.policyMustExist;
-      case 'POLICY_MUST_NOT_EXIST':
-        return PolicyExistenceCondition.policyMustNotExist;
-    }
-    throw Exception('$this is not known in enum PolicyExistenceCondition');
-  }
+  const PolicyExistenceCondition(this.value);
+
+  static PolicyExistenceCondition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PolicyExistenceCondition'));
 }
 
 class PutConfiguredAudienceModelPolicyResponse {
@@ -2983,31 +2825,18 @@ class S3ConfigMap {
 }
 
 enum SharedAudienceMetrics {
-  all,
-  none,
-}
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension SharedAudienceMetricsValueExtension on SharedAudienceMetrics {
-  String toValue() {
-    switch (this) {
-      case SharedAudienceMetrics.all:
-        return 'ALL';
-      case SharedAudienceMetrics.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension SharedAudienceMetricsFromString on String {
-  SharedAudienceMetrics toSharedAudienceMetrics() {
-    switch (this) {
-      case 'ALL':
-        return SharedAudienceMetrics.all;
-      case 'NONE':
-        return SharedAudienceMetrics.none;
-    }
-    throw Exception('$this is not known in enum SharedAudienceMetrics');
-  }
+  const SharedAudienceMetrics(this.value);
+
+  static SharedAudienceMetrics fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SharedAudienceMetrics'));
 }
 
 class StartAudienceGenerationJobResponse {
@@ -3068,31 +2897,18 @@ class StatusDetails {
 }
 
 enum TagOnCreatePolicy {
-  fromParentResource,
-  none,
-}
+  fromParentResource('FROM_PARENT_RESOURCE'),
+  none('NONE'),
+  ;
 
-extension TagOnCreatePolicyValueExtension on TagOnCreatePolicy {
-  String toValue() {
-    switch (this) {
-      case TagOnCreatePolicy.fromParentResource:
-        return 'FROM_PARENT_RESOURCE';
-      case TagOnCreatePolicy.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TagOnCreatePolicyFromString on String {
-  TagOnCreatePolicy toTagOnCreatePolicy() {
-    switch (this) {
-      case 'FROM_PARENT_RESOURCE':
-        return TagOnCreatePolicy.fromParentResource;
-      case 'NONE':
-        return TagOnCreatePolicy.none;
-    }
-    throw Exception('$this is not known in enum TagOnCreatePolicy');
-  }
+  const TagOnCreatePolicy(this.value);
+
+  static TagOnCreatePolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TagOnCreatePolicy'));
 }
 
 class TagResourceResponse {
@@ -3108,26 +2924,17 @@ class TagResourceResponse {
 }
 
 enum TrainingDatasetStatus {
-  active,
-}
+  active('ACTIVE'),
+  ;
 
-extension TrainingDatasetStatusValueExtension on TrainingDatasetStatus {
-  String toValue() {
-    switch (this) {
-      case TrainingDatasetStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension TrainingDatasetStatusFromString on String {
-  TrainingDatasetStatus toTrainingDatasetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TrainingDatasetStatus.active;
-    }
-    throw Exception('$this is not known in enum TrainingDatasetStatus');
-  }
+  const TrainingDatasetStatus(this.value);
+
+  static TrainingDatasetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TrainingDatasetStatus'));
 }
 
 /// Provides information about the training dataset.
@@ -3163,7 +2970,7 @@ class TrainingDatasetSummary {
     return TrainingDatasetSummary(
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toTrainingDatasetStatus(),
+      status: TrainingDatasetStatus.fromString((json['status'] as String)),
       trainingDatasetArn: json['trainingDatasetArn'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
@@ -3180,7 +2987,7 @@ class TrainingDatasetSummary {
     return {
       'createTime': iso8601ToJson(createTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'trainingDatasetArn': trainingDatasetArn,
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,

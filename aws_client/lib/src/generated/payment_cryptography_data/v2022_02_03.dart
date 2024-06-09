@@ -522,7 +522,7 @@ class PaymentCryptographyDataPlane {
       'EncryptionKeyIdentifier': encryptionKeyIdentifier,
       'GenerationAttributes': generationAttributes,
       'GenerationKeyIdentifier': generationKeyIdentifier,
-      'PinBlockFormat': pinBlockFormat.toValue(),
+      'PinBlockFormat': pinBlockFormat.value,
       'PrimaryAccountNumber': primaryAccountNumber,
       if (pinDataLength != null) 'PinDataLength': pinDataLength,
     };
@@ -833,7 +833,7 @@ class PaymentCryptographyDataPlane {
     final $payload = <String, dynamic>{
       'AuthRequestCryptogram': authRequestCryptogram,
       'KeyIdentifier': keyIdentifier,
-      'MajorKeyDerivationMode': majorKeyDerivationMode.toValue(),
+      'MajorKeyDerivationMode': majorKeyDerivationMode.value,
       'SessionKeyDerivationAttributes': sessionKeyDerivationAttributes,
       'TransactionData': transactionData,
       if (authResponseAttributes != null)
@@ -1107,7 +1107,7 @@ class PaymentCryptographyDataPlane {
     final $payload = <String, dynamic>{
       'EncryptedPinBlock': encryptedPinBlock,
       'EncryptionKeyIdentifier': encryptionKeyIdentifier,
-      'PinBlockFormat': pinBlockFormat.toValue(),
+      'PinBlockFormat': pinBlockFormat.value,
       'PrimaryAccountNumber': primaryAccountNumber,
       'VerificationAttributes': verificationAttributes,
       'VerificationKeyIdentifier': verificationKeyIdentifier,
@@ -1179,7 +1179,7 @@ class AsymmetricEncryptionAttributes {
   Map<String, dynamic> toJson() {
     final paddingType = this.paddingType;
     return {
-      if (paddingType != null) 'PaddingType': paddingType.toValue(),
+      if (paddingType != null) 'PaddingType': paddingType.value,
     };
   }
 }
@@ -1572,7 +1572,7 @@ class DukptAttributes {
     final dukptDerivationType = this.dukptDerivationType;
     final keySerialNumber = this.keySerialNumber;
     return {
-      'DukptDerivationType': dukptDerivationType.toValue(),
+      'DukptDerivationType': dukptDerivationType.value,
       'KeySerialNumber': keySerialNumber,
     };
   }
@@ -1608,53 +1608,28 @@ class DukptDerivationAttributes {
     return {
       'KeySerialNumber': keySerialNumber,
       if (dukptKeyDerivationType != null)
-        'DukptKeyDerivationType': dukptKeyDerivationType.toValue(),
-      if (dukptKeyVariant != null) 'DukptKeyVariant': dukptKeyVariant.toValue(),
+        'DukptKeyDerivationType': dukptKeyDerivationType.value,
+      if (dukptKeyVariant != null) 'DukptKeyVariant': dukptKeyVariant.value,
     };
   }
 }
 
 enum DukptDerivationType {
-  tdes_2key,
-  tdes_3key,
-  aes_128,
-  aes_192,
-  aes_256,
-}
+  tdes_2key('TDES_2KEY'),
+  tdes_3key('TDES_3KEY'),
+  aes_128('AES_128'),
+  aes_192('AES_192'),
+  aes_256('AES_256'),
+  ;
 
-extension DukptDerivationTypeValueExtension on DukptDerivationType {
-  String toValue() {
-    switch (this) {
-      case DukptDerivationType.tdes_2key:
-        return 'TDES_2KEY';
-      case DukptDerivationType.tdes_3key:
-        return 'TDES_3KEY';
-      case DukptDerivationType.aes_128:
-        return 'AES_128';
-      case DukptDerivationType.aes_192:
-        return 'AES_192';
-      case DukptDerivationType.aes_256:
-        return 'AES_256';
-    }
-  }
-}
+  final String value;
 
-extension DukptDerivationTypeFromString on String {
-  DukptDerivationType toDukptDerivationType() {
-    switch (this) {
-      case 'TDES_2KEY':
-        return DukptDerivationType.tdes_2key;
-      case 'TDES_3KEY':
-        return DukptDerivationType.tdes_3key;
-      case 'AES_128':
-        return DukptDerivationType.aes_128;
-      case 'AES_192':
-        return DukptDerivationType.aes_192;
-      case 'AES_256':
-        return DukptDerivationType.aes_256;
-    }
-    throw Exception('$this is not known in enum DukptDerivationType');
-  }
+  const DukptDerivationType(this.value);
+
+  static DukptDerivationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DukptDerivationType'));
 }
 
 /// Parameters that are required to encrypt plaintext data using DUKPT.
@@ -1700,74 +1675,44 @@ class DukptEncryptionAttributes {
     return {
       'KeySerialNumber': keySerialNumber,
       if (dukptKeyDerivationType != null)
-        'DukptKeyDerivationType': dukptKeyDerivationType.toValue(),
-      if (dukptKeyVariant != null) 'DukptKeyVariant': dukptKeyVariant.toValue(),
+        'DukptKeyDerivationType': dukptKeyDerivationType.value,
+      if (dukptKeyVariant != null) 'DukptKeyVariant': dukptKeyVariant.value,
       if (initializationVector != null)
         'InitializationVector': initializationVector,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
     };
   }
 }
 
 enum DukptEncryptionMode {
-  ecb,
-  cbc,
-}
+  ecb('ECB'),
+  cbc('CBC'),
+  ;
 
-extension DukptEncryptionModeValueExtension on DukptEncryptionMode {
-  String toValue() {
-    switch (this) {
-      case DukptEncryptionMode.ecb:
-        return 'ECB';
-      case DukptEncryptionMode.cbc:
-        return 'CBC';
-    }
-  }
-}
+  final String value;
 
-extension DukptEncryptionModeFromString on String {
-  DukptEncryptionMode toDukptEncryptionMode() {
-    switch (this) {
-      case 'ECB':
-        return DukptEncryptionMode.ecb;
-      case 'CBC':
-        return DukptEncryptionMode.cbc;
-    }
-    throw Exception('$this is not known in enum DukptEncryptionMode');
-  }
+  const DukptEncryptionMode(this.value);
+
+  static DukptEncryptionMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DukptEncryptionMode'));
 }
 
 enum DukptKeyVariant {
-  bidirectional,
-  request,
-  response,
-}
+  bidirectional('BIDIRECTIONAL'),
+  request('REQUEST'),
+  response('RESPONSE'),
+  ;
 
-extension DukptKeyVariantValueExtension on DukptKeyVariant {
-  String toValue() {
-    switch (this) {
-      case DukptKeyVariant.bidirectional:
-        return 'BIDIRECTIONAL';
-      case DukptKeyVariant.request:
-        return 'REQUEST';
-      case DukptKeyVariant.response:
-        return 'RESPONSE';
-    }
-  }
-}
+  final String value;
 
-extension DukptKeyVariantFromString on String {
-  DukptKeyVariant toDukptKeyVariant() {
-    switch (this) {
-      case 'BIDIRECTIONAL':
-        return DukptKeyVariant.bidirectional;
-      case 'REQUEST':
-        return DukptKeyVariant.request;
-      case 'RESPONSE':
-        return DukptKeyVariant.response;
-    }
-    throw Exception('$this is not known in enum DukptKeyVariant');
-  }
+  const DukptKeyVariant(this.value);
+
+  static DukptKeyVariant fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DukptKeyVariant'));
 }
 
 /// Parameters that are required to generate or verify Dynamic Card Verification
@@ -1891,71 +1836,45 @@ class EmvEncryptionAttributes {
     final initializationVector = this.initializationVector;
     final mode = this.mode;
     return {
-      'MajorKeyDerivationMode': majorKeyDerivationMode.toValue(),
+      'MajorKeyDerivationMode': majorKeyDerivationMode.value,
       'PanSequenceNumber': panSequenceNumber,
       'PrimaryAccountNumber': primaryAccountNumber,
       'SessionDerivationData': sessionDerivationData,
       if (initializationVector != null)
         'InitializationVector': initializationVector,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
     };
   }
 }
 
 enum EmvEncryptionMode {
-  ecb,
-  cbc,
-}
+  ecb('ECB'),
+  cbc('CBC'),
+  ;
 
-extension EmvEncryptionModeValueExtension on EmvEncryptionMode {
-  String toValue() {
-    switch (this) {
-      case EmvEncryptionMode.ecb:
-        return 'ECB';
-      case EmvEncryptionMode.cbc:
-        return 'CBC';
-    }
-  }
-}
+  final String value;
 
-extension EmvEncryptionModeFromString on String {
-  EmvEncryptionMode toEmvEncryptionMode() {
-    switch (this) {
-      case 'ECB':
-        return EmvEncryptionMode.ecb;
-      case 'CBC':
-        return EmvEncryptionMode.cbc;
-    }
-    throw Exception('$this is not known in enum EmvEncryptionMode');
-  }
+  const EmvEncryptionMode(this.value);
+
+  static EmvEncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EmvEncryptionMode'));
 }
 
 enum EmvMajorKeyDerivationMode {
-  emvOptionA,
-  emvOptionB,
-}
+  emvOptionA('EMV_OPTION_A'),
+  emvOptionB('EMV_OPTION_B'),
+  ;
 
-extension EmvMajorKeyDerivationModeValueExtension on EmvMajorKeyDerivationMode {
-  String toValue() {
-    switch (this) {
-      case EmvMajorKeyDerivationMode.emvOptionA:
-        return 'EMV_OPTION_A';
-      case EmvMajorKeyDerivationMode.emvOptionB:
-        return 'EMV_OPTION_B';
-    }
-  }
-}
+  final String value;
 
-extension EmvMajorKeyDerivationModeFromString on String {
-  EmvMajorKeyDerivationMode toEmvMajorKeyDerivationMode() {
-    switch (this) {
-      case 'EMV_OPTION_A':
-        return EmvMajorKeyDerivationMode.emvOptionA;
-      case 'EMV_OPTION_B':
-        return EmvMajorKeyDerivationMode.emvOptionB;
-    }
-    throw Exception('$this is not known in enum EmvMajorKeyDerivationMode');
-  }
+  const EmvMajorKeyDerivationMode(this.value);
+
+  static EmvMajorKeyDerivationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmvMajorKeyDerivationMode'));
 }
 
 class EncryptDataOutput {
@@ -2035,61 +1954,24 @@ class EncryptionDecryptionAttributes {
 }
 
 enum EncryptionMode {
-  ecb,
-  cbc,
-  cfb,
-  cfb1,
-  cfb8,
-  cfb64,
-  cfb128,
-  ofb,
-}
+  ecb('ECB'),
+  cbc('CBC'),
+  cfb('CFB'),
+  cfb1('CFB1'),
+  cfb8('CFB8'),
+  cfb64('CFB64'),
+  cfb128('CFB128'),
+  ofb('OFB'),
+  ;
 
-extension EncryptionModeValueExtension on EncryptionMode {
-  String toValue() {
-    switch (this) {
-      case EncryptionMode.ecb:
-        return 'ECB';
-      case EncryptionMode.cbc:
-        return 'CBC';
-      case EncryptionMode.cfb:
-        return 'CFB';
-      case EncryptionMode.cfb1:
-        return 'CFB1';
-      case EncryptionMode.cfb8:
-        return 'CFB8';
-      case EncryptionMode.cfb64:
-        return 'CFB64';
-      case EncryptionMode.cfb128:
-        return 'CFB128';
-      case EncryptionMode.ofb:
-        return 'OFB';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionModeFromString on String {
-  EncryptionMode toEncryptionMode() {
-    switch (this) {
-      case 'ECB':
-        return EncryptionMode.ecb;
-      case 'CBC':
-        return EncryptionMode.cbc;
-      case 'CFB':
-        return EncryptionMode.cfb;
-      case 'CFB1':
-        return EncryptionMode.cfb1;
-      case 'CFB8':
-        return EncryptionMode.cfb8;
-      case 'CFB64':
-        return EncryptionMode.cfb64;
-      case 'CFB128':
-        return EncryptionMode.cfb128;
-      case 'OFB':
-        return EncryptionMode.ofb;
-    }
-    throw Exception('$this is not known in enum EncryptionMode');
-  }
+  const EncryptionMode(this.value);
+
+  static EncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionMode'));
 }
 
 class GenerateCardValidationDataOutput {
@@ -2429,56 +2311,23 @@ class Ibm3624RandomPin {
 }
 
 enum MacAlgorithm {
-  iso9797Algorithm1,
-  iso9797Algorithm3,
-  cmac,
-  hmacSha224,
-  hmacSha256,
-  hmacSha384,
-  hmacSha512,
-}
+  iso9797Algorithm1('ISO9797_ALGORITHM1'),
+  iso9797Algorithm3('ISO9797_ALGORITHM3'),
+  cmac('CMAC'),
+  hmacSha224('HMAC_SHA224'),
+  hmacSha256('HMAC_SHA256'),
+  hmacSha384('HMAC_SHA384'),
+  hmacSha512('HMAC_SHA512'),
+  ;
 
-extension MacAlgorithmValueExtension on MacAlgorithm {
-  String toValue() {
-    switch (this) {
-      case MacAlgorithm.iso9797Algorithm1:
-        return 'ISO9797_ALGORITHM1';
-      case MacAlgorithm.iso9797Algorithm3:
-        return 'ISO9797_ALGORITHM3';
-      case MacAlgorithm.cmac:
-        return 'CMAC';
-      case MacAlgorithm.hmacSha224:
-        return 'HMAC_SHA224';
-      case MacAlgorithm.hmacSha256:
-        return 'HMAC_SHA256';
-      case MacAlgorithm.hmacSha384:
-        return 'HMAC_SHA384';
-      case MacAlgorithm.hmacSha512:
-        return 'HMAC_SHA512';
-    }
-  }
-}
+  final String value;
 
-extension MacAlgorithmFromString on String {
-  MacAlgorithm toMacAlgorithm() {
-    switch (this) {
-      case 'ISO9797_ALGORITHM1':
-        return MacAlgorithm.iso9797Algorithm1;
-      case 'ISO9797_ALGORITHM3':
-        return MacAlgorithm.iso9797Algorithm3;
-      case 'CMAC':
-        return MacAlgorithm.cmac;
-      case 'HMAC_SHA224':
-        return MacAlgorithm.hmacSha224;
-      case 'HMAC_SHA256':
-        return MacAlgorithm.hmacSha256;
-      case 'HMAC_SHA384':
-        return MacAlgorithm.hmacSha384;
-      case 'HMAC_SHA512':
-        return MacAlgorithm.hmacSha512;
-    }
-    throw Exception('$this is not known in enum MacAlgorithm');
-  }
+  const MacAlgorithm(this.value);
+
+  static MacAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MacAlgorithm'));
 }
 
 /// Parameters required for DUKPT MAC generation and verification.
@@ -2509,10 +2358,10 @@ class MacAlgorithmDukpt {
     final keySerialNumber = this.keySerialNumber;
     final dukptDerivationType = this.dukptDerivationType;
     return {
-      'DukptKeyVariant': dukptKeyVariant.toValue(),
+      'DukptKeyVariant': dukptKeyVariant.value,
       'KeySerialNumber': keySerialNumber,
       if (dukptDerivationType != null)
-        'DukptDerivationType': dukptDerivationType.toValue(),
+        'DukptDerivationType': dukptDerivationType.value,
     };
   }
 }
@@ -2553,10 +2402,10 @@ class MacAlgorithmEmv {
     final sessionKeyDerivationMode = this.sessionKeyDerivationMode;
     final sessionKeyDerivationValue = this.sessionKeyDerivationValue;
     return {
-      'MajorKeyDerivationMode': majorKeyDerivationMode.toValue(),
+      'MajorKeyDerivationMode': majorKeyDerivationMode.value,
       'PanSequenceNumber': panSequenceNumber,
       'PrimaryAccountNumber': primaryAccountNumber,
-      'SessionKeyDerivationMode': sessionKeyDerivationMode.toValue(),
+      'SessionKeyDerivationMode': sessionKeyDerivationMode.value,
       'SessionKeyDerivationValue': sessionKeyDerivationValue,
     };
   }
@@ -2599,7 +2448,7 @@ class MacAttributes {
     final dukptIso9797Algorithm3 = this.dukptIso9797Algorithm3;
     final emvMac = this.emvMac;
     return {
-      if (algorithm != null) 'Algorithm': algorithm.toValue(),
+      if (algorithm != null) 'Algorithm': algorithm.value,
       if (dukptCmac != null) 'DukptCmac': dukptCmac,
       if (dukptIso9797Algorithm1 != null)
         'DukptIso9797Algorithm1': dukptIso9797Algorithm1,
@@ -2611,97 +2460,49 @@ class MacAttributes {
 }
 
 enum MajorKeyDerivationMode {
-  emvOptionA,
-  emvOptionB,
-}
+  emvOptionA('EMV_OPTION_A'),
+  emvOptionB('EMV_OPTION_B'),
+  ;
 
-extension MajorKeyDerivationModeValueExtension on MajorKeyDerivationMode {
-  String toValue() {
-    switch (this) {
-      case MajorKeyDerivationMode.emvOptionA:
-        return 'EMV_OPTION_A';
-      case MajorKeyDerivationMode.emvOptionB:
-        return 'EMV_OPTION_B';
-    }
-  }
-}
+  final String value;
 
-extension MajorKeyDerivationModeFromString on String {
-  MajorKeyDerivationMode toMajorKeyDerivationMode() {
-    switch (this) {
-      case 'EMV_OPTION_A':
-        return MajorKeyDerivationMode.emvOptionA;
-      case 'EMV_OPTION_B':
-        return MajorKeyDerivationMode.emvOptionB;
-    }
-    throw Exception('$this is not known in enum MajorKeyDerivationMode');
-  }
+  const MajorKeyDerivationMode(this.value);
+
+  static MajorKeyDerivationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MajorKeyDerivationMode'));
 }
 
 enum PaddingType {
-  pkcs1,
-  oaepSha1,
-  oaepSha256,
-  oaepSha512,
-}
+  pkcs1('PKCS1'),
+  oaepSha1('OAEP_SHA1'),
+  oaepSha256('OAEP_SHA256'),
+  oaepSha512('OAEP_SHA512'),
+  ;
 
-extension PaddingTypeValueExtension on PaddingType {
-  String toValue() {
-    switch (this) {
-      case PaddingType.pkcs1:
-        return 'PKCS1';
-      case PaddingType.oaepSha1:
-        return 'OAEP_SHA1';
-      case PaddingType.oaepSha256:
-        return 'OAEP_SHA256';
-      case PaddingType.oaepSha512:
-        return 'OAEP_SHA512';
-    }
-  }
-}
+  final String value;
 
-extension PaddingTypeFromString on String {
-  PaddingType toPaddingType() {
-    switch (this) {
-      case 'PKCS1':
-        return PaddingType.pkcs1;
-      case 'OAEP_SHA1':
-        return PaddingType.oaepSha1;
-      case 'OAEP_SHA256':
-        return PaddingType.oaepSha256;
-      case 'OAEP_SHA512':
-        return PaddingType.oaepSha512;
-    }
-    throw Exception('$this is not known in enum PaddingType');
-  }
+  const PaddingType(this.value);
+
+  static PaddingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PaddingType'));
 }
 
 enum PinBlockFormatForPinData {
-  isoFormat_0,
-  isoFormat_3,
-}
+  isoFormat_0('ISO_FORMAT_0'),
+  isoFormat_3('ISO_FORMAT_3'),
+  ;
 
-extension PinBlockFormatForPinDataValueExtension on PinBlockFormatForPinData {
-  String toValue() {
-    switch (this) {
-      case PinBlockFormatForPinData.isoFormat_0:
-        return 'ISO_FORMAT_0';
-      case PinBlockFormatForPinData.isoFormat_3:
-        return 'ISO_FORMAT_3';
-    }
-  }
-}
+  final String value;
 
-extension PinBlockFormatForPinDataFromString on String {
-  PinBlockFormatForPinData toPinBlockFormatForPinData() {
-    switch (this) {
-      case 'ISO_FORMAT_0':
-        return PinBlockFormatForPinData.isoFormat_0;
-      case 'ISO_FORMAT_3':
-        return PinBlockFormatForPinData.isoFormat_3;
-    }
-    throw Exception('$this is not known in enum PinBlockFormatForPinData');
-  }
+  const PinBlockFormatForPinData(this.value);
+
+  static PinBlockFormatForPinData fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PinBlockFormatForPinData'));
 }
 
 /// Parameters that are required to generate, translate, or verify PIN data.
@@ -2948,46 +2749,21 @@ class SessionKeyDerivation {
 }
 
 enum SessionKeyDerivationMode {
-  emvCommonSessionKey,
-  emv2000,
-  amex,
-  mastercardSessionKey,
-  visa,
-}
+  emvCommonSessionKey('EMV_COMMON_SESSION_KEY'),
+  emv2000('EMV2000'),
+  amex('AMEX'),
+  mastercardSessionKey('MASTERCARD_SESSION_KEY'),
+  visa('VISA'),
+  ;
 
-extension SessionKeyDerivationModeValueExtension on SessionKeyDerivationMode {
-  String toValue() {
-    switch (this) {
-      case SessionKeyDerivationMode.emvCommonSessionKey:
-        return 'EMV_COMMON_SESSION_KEY';
-      case SessionKeyDerivationMode.emv2000:
-        return 'EMV2000';
-      case SessionKeyDerivationMode.amex:
-        return 'AMEX';
-      case SessionKeyDerivationMode.mastercardSessionKey:
-        return 'MASTERCARD_SESSION_KEY';
-      case SessionKeyDerivationMode.visa:
-        return 'VISA';
-    }
-  }
-}
+  final String value;
 
-extension SessionKeyDerivationModeFromString on String {
-  SessionKeyDerivationMode toSessionKeyDerivationMode() {
-    switch (this) {
-      case 'EMV_COMMON_SESSION_KEY':
-        return SessionKeyDerivationMode.emvCommonSessionKey;
-      case 'EMV2000':
-        return SessionKeyDerivationMode.emv2000;
-      case 'AMEX':
-        return SessionKeyDerivationMode.amex;
-      case 'MASTERCARD_SESSION_KEY':
-        return SessionKeyDerivationMode.mastercardSessionKey;
-      case 'VISA':
-        return SessionKeyDerivationMode.visa;
-    }
-    throw Exception('$this is not known in enum SessionKeyDerivationMode');
-  }
+  const SessionKeyDerivationMode(this.value);
+
+  static SessionKeyDerivationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SessionKeyDerivationMode'));
 }
 
 /// Parameters to derive session key value using a MAC EMV algorithm.
@@ -3174,10 +2950,10 @@ class SymmetricEncryptionAttributes {
     final initializationVector = this.initializationVector;
     final paddingType = this.paddingType;
     return {
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
       if (initializationVector != null)
         'InitializationVector': initializationVector,
-      if (paddingType != null) 'PaddingType': paddingType.toValue(),
+      if (paddingType != null) 'PaddingType': paddingType.value,
     };
   }
 }

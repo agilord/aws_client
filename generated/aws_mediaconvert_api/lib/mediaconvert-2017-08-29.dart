@@ -216,16 +216,16 @@ class MediaConvert {
       if (accelerationSettings != null)
         'accelerationSettings': accelerationSettings,
       if (billingTagsSource != null)
-        'billingTagsSource': billingTagsSource.toValue(),
+        'billingTagsSource': billingTagsSource.value,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (hopDestinations != null) 'hopDestinations': hopDestinations,
       if (jobTemplate != null) 'jobTemplate': jobTemplate,
       if (priority != null) 'priority': priority,
       if (queue != null) 'queue': queue,
       if (simulateReservedQueue != null)
-        'simulateReservedQueue': simulateReservedQueue.toValue(),
+        'simulateReservedQueue': simulateReservedQueue.value,
       if (statusUpdateInterval != null)
-        'statusUpdateInterval': statusUpdateInterval.toValue(),
+        'statusUpdateInterval': statusUpdateInterval.value,
       if (tags != null) 'tags': tags,
       if (userMetadata != null) 'userMetadata': userMetadata,
     };
@@ -325,7 +325,7 @@ class MediaConvert {
       if (priority != null) 'priority': priority,
       if (queue != null) 'queue': queue,
       if (statusUpdateInterval != null)
-        'statusUpdateInterval': statusUpdateInterval.toValue(),
+        'statusUpdateInterval': statusUpdateInterval.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -432,10 +432,10 @@ class MediaConvert {
     final $payload = <String, dynamic>{
       'name': name,
       if (description != null) 'description': description,
-      if (pricingPlan != null) 'pricingPlan': pricingPlan.toValue(),
+      if (pricingPlan != null) 'pricingPlan': pricingPlan.value,
       if (reservationPlanSettings != null)
         'reservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -562,7 +562,7 @@ class MediaConvert {
   }) async {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
       if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -756,10 +756,10 @@ class MediaConvert {
     );
     final $query = <String, List<String>>{
       if (category != null) 'category': [category],
-      if (listBy != null) 'listBy': [listBy.toValue()],
+      if (listBy != null) 'listBy': [listBy.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (order != null) 'order': [order.toValue()],
+      if (order != null) 'order': [order.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -818,9 +818,9 @@ class MediaConvert {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (order != null) 'order': [order.toValue()],
+      if (order != null) 'order': [order.value],
       if (queue != null) 'queue': [queue],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -879,10 +879,10 @@ class MediaConvert {
     );
     final $query = <String, List<String>>{
       if (category != null) 'category': [category],
-      if (listBy != null) 'listBy': [listBy.toValue()],
+      if (listBy != null) 'listBy': [listBy.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (order != null) 'order': [order.toValue()],
+      if (order != null) 'order': [order.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -935,10 +935,10 @@ class MediaConvert {
       20,
     );
     final $query = <String, List<String>>{
-      if (listBy != null) 'listBy': [listBy.toValue()],
+      if (listBy != null) 'listBy': [listBy.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (order != null) 'order': [order.toValue()],
+      if (order != null) 'order': [order.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1144,7 +1144,7 @@ class MediaConvert {
       if (queue != null) 'queue': queue,
       if (settings != null) 'settings': settings,
       if (statusUpdateInterval != null)
-        'statusUpdateInterval': statusUpdateInterval.toValue(),
+        'statusUpdateInterval': statusUpdateInterval.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1233,7 +1233,7 @@ class MediaConvert {
       if (description != null) 'description': description,
       if (reservationPlanSettings != null)
         'reservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1255,67 +1255,35 @@ class MediaConvert {
 /// contain pre-mixed audio + audio description (AD). In this case, the encoder
 /// will use any values you provide for AudioType and FollowInputAudioType.
 enum AacAudioDescriptionBroadcasterMix {
-  broadcasterMixedAd,
-  normal,
-}
+  broadcasterMixedAd('BROADCASTER_MIXED_AD'),
+  normal('NORMAL'),
+  ;
 
-extension AacAudioDescriptionBroadcasterMixValueExtension
-    on AacAudioDescriptionBroadcasterMix {
-  String toValue() {
-    switch (this) {
-      case AacAudioDescriptionBroadcasterMix.broadcasterMixedAd:
-        return 'BROADCASTER_MIXED_AD';
-      case AacAudioDescriptionBroadcasterMix.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension AacAudioDescriptionBroadcasterMixFromString on String {
-  AacAudioDescriptionBroadcasterMix toAacAudioDescriptionBroadcasterMix() {
-    switch (this) {
-      case 'BROADCASTER_MIXED_AD':
-        return AacAudioDescriptionBroadcasterMix.broadcasterMixedAd;
-      case 'NORMAL':
-        return AacAudioDescriptionBroadcasterMix.normal;
-    }
-    throw Exception(
-        '$this is not known in enum AacAudioDescriptionBroadcasterMix');
-  }
+  const AacAudioDescriptionBroadcasterMix(this.value);
+
+  static AacAudioDescriptionBroadcasterMix fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AacAudioDescriptionBroadcasterMix'));
 }
 
 /// AAC Profile.
 enum AacCodecProfile {
-  lc,
-  hev1,
-  hev2,
-}
+  lc('LC'),
+  hev1('HEV1'),
+  hev2('HEV2'),
+  ;
 
-extension AacCodecProfileValueExtension on AacCodecProfile {
-  String toValue() {
-    switch (this) {
-      case AacCodecProfile.lc:
-        return 'LC';
-      case AacCodecProfile.hev1:
-        return 'HEV1';
-      case AacCodecProfile.hev2:
-        return 'HEV2';
-    }
-  }
-}
+  final String value;
 
-extension AacCodecProfileFromString on String {
-  AacCodecProfile toAacCodecProfile() {
-    switch (this) {
-      case 'LC':
-        return AacCodecProfile.lc;
-      case 'HEV1':
-        return AacCodecProfile.hev1;
-      case 'HEV2':
-        return AacCodecProfile.hev2;
-    }
-    throw Exception('$this is not known in enum AacCodecProfile');
-  }
+  const AacCodecProfile(this.value);
+
+  static AacCodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AacCodecProfile'));
 }
 
 /// The Coding mode that you specify determines the number of audio channels and
@@ -1327,105 +1295,54 @@ extension AacCodecProfileFromString on String {
 /// 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L,
 /// R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
 enum AacCodingMode {
-  adReceiverMix,
-  codingMode_1_0,
-  codingMode_1_1,
-  codingMode_2_0,
-  codingMode_5_1,
-}
+  adReceiverMix('AD_RECEIVER_MIX'),
+  codingMode_1_0('CODING_MODE_1_0'),
+  codingMode_1_1('CODING_MODE_1_1'),
+  codingMode_2_0('CODING_MODE_2_0'),
+  codingMode_5_1('CODING_MODE_5_1'),
+  ;
 
-extension AacCodingModeValueExtension on AacCodingMode {
-  String toValue() {
-    switch (this) {
-      case AacCodingMode.adReceiverMix:
-        return 'AD_RECEIVER_MIX';
-      case AacCodingMode.codingMode_1_0:
-        return 'CODING_MODE_1_0';
-      case AacCodingMode.codingMode_1_1:
-        return 'CODING_MODE_1_1';
-      case AacCodingMode.codingMode_2_0:
-        return 'CODING_MODE_2_0';
-      case AacCodingMode.codingMode_5_1:
-        return 'CODING_MODE_5_1';
-    }
-  }
-}
+  final String value;
 
-extension AacCodingModeFromString on String {
-  AacCodingMode toAacCodingMode() {
-    switch (this) {
-      case 'AD_RECEIVER_MIX':
-        return AacCodingMode.adReceiverMix;
-      case 'CODING_MODE_1_0':
-        return AacCodingMode.codingMode_1_0;
-      case 'CODING_MODE_1_1':
-        return AacCodingMode.codingMode_1_1;
-      case 'CODING_MODE_2_0':
-        return AacCodingMode.codingMode_2_0;
-      case 'CODING_MODE_5_1':
-        return AacCodingMode.codingMode_5_1;
-    }
-    throw Exception('$this is not known in enum AacCodingMode');
-  }
+  const AacCodingMode(this.value);
+
+  static AacCodingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AacCodingMode'));
 }
 
 /// Rate Control Mode.
 enum AacRateControlMode {
-  cbr,
-  vbr,
-}
+  cbr('CBR'),
+  vbr('VBR'),
+  ;
 
-extension AacRateControlModeValueExtension on AacRateControlMode {
-  String toValue() {
-    switch (this) {
-      case AacRateControlMode.cbr:
-        return 'CBR';
-      case AacRateControlMode.vbr:
-        return 'VBR';
-    }
-  }
-}
+  final String value;
 
-extension AacRateControlModeFromString on String {
-  AacRateControlMode toAacRateControlMode() {
-    switch (this) {
-      case 'CBR':
-        return AacRateControlMode.cbr;
-      case 'VBR':
-        return AacRateControlMode.vbr;
-    }
-    throw Exception('$this is not known in enum AacRateControlMode');
-  }
+  const AacRateControlMode(this.value);
+
+  static AacRateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AacRateControlMode'));
 }
 
 /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an
 /// output, you must choose "No container" for the output container.
 enum AacRawFormat {
-  latmLoas,
-  none,
-}
+  latmLoas('LATM_LOAS'),
+  none('NONE'),
+  ;
 
-extension AacRawFormatValueExtension on AacRawFormat {
-  String toValue() {
-    switch (this) {
-      case AacRawFormat.latmLoas:
-        return 'LATM_LOAS';
-      case AacRawFormat.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AacRawFormatFromString on String {
-  AacRawFormat toAacRawFormat() {
-    switch (this) {
-      case 'LATM_LOAS':
-        return AacRawFormat.latmLoas;
-      case 'NONE':
-        return AacRawFormat.none;
-    }
-    throw Exception('$this is not known in enum AacRawFormat');
-  }
+  const AacRawFormat(this.value);
+
+  static AacRawFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AacRawFormat'));
 }
 
 /// Required when you set Codec to the value AAC. The service accepts one of two
@@ -1508,16 +1425,20 @@ class AacSettings {
     return AacSettings(
       audioDescriptionBroadcasterMix:
           (json['audioDescriptionBroadcasterMix'] as String?)
-              ?.toAacAudioDescriptionBroadcasterMix(),
+              ?.let(AacAudioDescriptionBroadcasterMix.fromString),
       bitrate: json['bitrate'] as int?,
-      codecProfile: (json['codecProfile'] as String?)?.toAacCodecProfile(),
-      codingMode: (json['codingMode'] as String?)?.toAacCodingMode(),
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toAacRateControlMode(),
-      rawFormat: (json['rawFormat'] as String?)?.toAacRawFormat(),
+      codecProfile:
+          (json['codecProfile'] as String?)?.let(AacCodecProfile.fromString),
+      codingMode:
+          (json['codingMode'] as String?)?.let(AacCodingMode.fromString),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(AacRateControlMode.fromString),
+      rawFormat: (json['rawFormat'] as String?)?.let(AacRawFormat.fromString),
       sampleRate: json['sampleRate'] as int?,
-      specification: (json['specification'] as String?)?.toAacSpecification(),
-      vbrQuality: (json['vbrQuality'] as String?)?.toAacVbrQuality(),
+      specification:
+          (json['specification'] as String?)?.let(AacSpecification.fromString),
+      vbrQuality:
+          (json['vbrQuality'] as String?)?.let(AacVbrQuality.fromString),
     );
   }
 
@@ -1533,16 +1454,15 @@ class AacSettings {
     final vbrQuality = this.vbrQuality;
     return {
       if (audioDescriptionBroadcasterMix != null)
-        'audioDescriptionBroadcasterMix':
-            audioDescriptionBroadcasterMix.toValue(),
+        'audioDescriptionBroadcasterMix': audioDescriptionBroadcasterMix.value,
       if (bitrate != null) 'bitrate': bitrate,
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
-      if (codingMode != null) 'codingMode': codingMode.toValue(),
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
-      if (rawFormat != null) 'rawFormat': rawFormat.toValue(),
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
+      if (codingMode != null) 'codingMode': codingMode.value,
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
+      if (rawFormat != null) 'rawFormat': rawFormat.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
-      if (specification != null) 'specification': specification.toValue(),
-      if (vbrQuality != null) 'vbrQuality': vbrQuality.toValue(),
+      if (specification != null) 'specification': specification.value,
+      if (vbrQuality != null) 'vbrQuality': vbrQuality.value,
     };
   }
 }
@@ -1550,169 +1470,77 @@ class AacSettings {
 /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport
 /// Stream containers.
 enum AacSpecification {
-  mpeg2,
-  mpeg4,
-}
+  mpeg2('MPEG2'),
+  mpeg4('MPEG4'),
+  ;
 
-extension AacSpecificationValueExtension on AacSpecification {
-  String toValue() {
-    switch (this) {
-      case AacSpecification.mpeg2:
-        return 'MPEG2';
-      case AacSpecification.mpeg4:
-        return 'MPEG4';
-    }
-  }
-}
+  final String value;
 
-extension AacSpecificationFromString on String {
-  AacSpecification toAacSpecification() {
-    switch (this) {
-      case 'MPEG2':
-        return AacSpecification.mpeg2;
-      case 'MPEG4':
-        return AacSpecification.mpeg4;
-    }
-    throw Exception('$this is not known in enum AacSpecification');
-  }
+  const AacSpecification(this.value);
+
+  static AacSpecification fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AacSpecification'));
 }
 
 /// VBR Quality Level - Only used if rate_control_mode is VBR.
 enum AacVbrQuality {
-  low,
-  mediumLow,
-  mediumHigh,
-  high,
-}
+  low('LOW'),
+  mediumLow('MEDIUM_LOW'),
+  mediumHigh('MEDIUM_HIGH'),
+  high('HIGH'),
+  ;
 
-extension AacVbrQualityValueExtension on AacVbrQuality {
-  String toValue() {
-    switch (this) {
-      case AacVbrQuality.low:
-        return 'LOW';
-      case AacVbrQuality.mediumLow:
-        return 'MEDIUM_LOW';
-      case AacVbrQuality.mediumHigh:
-        return 'MEDIUM_HIGH';
-      case AacVbrQuality.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension AacVbrQualityFromString on String {
-  AacVbrQuality toAacVbrQuality() {
-    switch (this) {
-      case 'LOW':
-        return AacVbrQuality.low;
-      case 'MEDIUM_LOW':
-        return AacVbrQuality.mediumLow;
-      case 'MEDIUM_HIGH':
-        return AacVbrQuality.mediumHigh;
-      case 'HIGH':
-        return AacVbrQuality.high;
-    }
-    throw Exception('$this is not known in enum AacVbrQuality');
-  }
+  const AacVbrQuality(this.value);
+
+  static AacVbrQuality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AacVbrQuality'));
 }
 
 /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For
 /// more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
 enum Ac3BitstreamMode {
-  completeMain,
-  commentary,
-  dialogue,
-  emergency,
-  hearingImpaired,
-  musicAndEffects,
-  visuallyImpaired,
-  voiceOver,
-}
+  completeMain('COMPLETE_MAIN'),
+  commentary('COMMENTARY'),
+  dialogue('DIALOGUE'),
+  emergency('EMERGENCY'),
+  hearingImpaired('HEARING_IMPAIRED'),
+  musicAndEffects('MUSIC_AND_EFFECTS'),
+  visuallyImpaired('VISUALLY_IMPAIRED'),
+  voiceOver('VOICE_OVER'),
+  ;
 
-extension Ac3BitstreamModeValueExtension on Ac3BitstreamMode {
-  String toValue() {
-    switch (this) {
-      case Ac3BitstreamMode.completeMain:
-        return 'COMPLETE_MAIN';
-      case Ac3BitstreamMode.commentary:
-        return 'COMMENTARY';
-      case Ac3BitstreamMode.dialogue:
-        return 'DIALOGUE';
-      case Ac3BitstreamMode.emergency:
-        return 'EMERGENCY';
-      case Ac3BitstreamMode.hearingImpaired:
-        return 'HEARING_IMPAIRED';
-      case Ac3BitstreamMode.musicAndEffects:
-        return 'MUSIC_AND_EFFECTS';
-      case Ac3BitstreamMode.visuallyImpaired:
-        return 'VISUALLY_IMPAIRED';
-      case Ac3BitstreamMode.voiceOver:
-        return 'VOICE_OVER';
-    }
-  }
-}
+  final String value;
 
-extension Ac3BitstreamModeFromString on String {
-  Ac3BitstreamMode toAc3BitstreamMode() {
-    switch (this) {
-      case 'COMPLETE_MAIN':
-        return Ac3BitstreamMode.completeMain;
-      case 'COMMENTARY':
-        return Ac3BitstreamMode.commentary;
-      case 'DIALOGUE':
-        return Ac3BitstreamMode.dialogue;
-      case 'EMERGENCY':
-        return Ac3BitstreamMode.emergency;
-      case 'HEARING_IMPAIRED':
-        return Ac3BitstreamMode.hearingImpaired;
-      case 'MUSIC_AND_EFFECTS':
-        return Ac3BitstreamMode.musicAndEffects;
-      case 'VISUALLY_IMPAIRED':
-        return Ac3BitstreamMode.visuallyImpaired;
-      case 'VOICE_OVER':
-        return Ac3BitstreamMode.voiceOver;
-    }
-    throw Exception('$this is not known in enum Ac3BitstreamMode');
-  }
+  const Ac3BitstreamMode(this.value);
+
+  static Ac3BitstreamMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Ac3BitstreamMode'));
 }
 
 /// Dolby Digital coding mode. Determines number of channels.
 enum Ac3CodingMode {
-  codingMode_1_0,
-  codingMode_1_1,
-  codingMode_2_0,
-  codingMode_3_2Lfe,
-}
+  codingMode_1_0('CODING_MODE_1_0'),
+  codingMode_1_1('CODING_MODE_1_1'),
+  codingMode_2_0('CODING_MODE_2_0'),
+  codingMode_3_2Lfe('CODING_MODE_3_2_LFE'),
+  ;
 
-extension Ac3CodingModeValueExtension on Ac3CodingMode {
-  String toValue() {
-    switch (this) {
-      case Ac3CodingMode.codingMode_1_0:
-        return 'CODING_MODE_1_0';
-      case Ac3CodingMode.codingMode_1_1:
-        return 'CODING_MODE_1_1';
-      case Ac3CodingMode.codingMode_2_0:
-        return 'CODING_MODE_2_0';
-      case Ac3CodingMode.codingMode_3_2Lfe:
-        return 'CODING_MODE_3_2_LFE';
-    }
-  }
-}
+  final String value;
 
-extension Ac3CodingModeFromString on String {
-  Ac3CodingMode toAc3CodingMode() {
-    switch (this) {
-      case 'CODING_MODE_1_0':
-        return Ac3CodingMode.codingMode_1_0;
-      case 'CODING_MODE_1_1':
-        return Ac3CodingMode.codingMode_1_1;
-      case 'CODING_MODE_2_0':
-        return Ac3CodingMode.codingMode_2_0;
-      case 'CODING_MODE_3_2_LFE':
-        return Ac3CodingMode.codingMode_3_2Lfe;
-    }
-    throw Exception('$this is not known in enum Ac3CodingMode');
-  }
+  const Ac3CodingMode(this.value);
+
+  static Ac3CodingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Ac3CodingMode'));
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -1724,53 +1552,22 @@ extension Ac3CodingModeFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Ac3DynamicRangeCompressionLine {
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-  none,
-}
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  none('NONE'),
+  ;
 
-extension Ac3DynamicRangeCompressionLineValueExtension
-    on Ac3DynamicRangeCompressionLine {
-  String toValue() {
-    switch (this) {
-      case Ac3DynamicRangeCompressionLine.filmStandard:
-        return 'FILM_STANDARD';
-      case Ac3DynamicRangeCompressionLine.filmLight:
-        return 'FILM_LIGHT';
-      case Ac3DynamicRangeCompressionLine.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Ac3DynamicRangeCompressionLine.musicLight:
-        return 'MUSIC_LIGHT';
-      case Ac3DynamicRangeCompressionLine.speech:
-        return 'SPEECH';
-      case Ac3DynamicRangeCompressionLine.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension Ac3DynamicRangeCompressionLineFromString on String {
-  Ac3DynamicRangeCompressionLine toAc3DynamicRangeCompressionLine() {
-    switch (this) {
-      case 'FILM_STANDARD':
-        return Ac3DynamicRangeCompressionLine.filmStandard;
-      case 'FILM_LIGHT':
-        return Ac3DynamicRangeCompressionLine.filmLight;
-      case 'MUSIC_STANDARD':
-        return Ac3DynamicRangeCompressionLine.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Ac3DynamicRangeCompressionLine.musicLight;
-      case 'SPEECH':
-        return Ac3DynamicRangeCompressionLine.speech;
-      case 'NONE':
-        return Ac3DynamicRangeCompressionLine.none;
-    }
-    throw Exception(
-        '$this is not known in enum Ac3DynamicRangeCompressionLine');
-  }
+  const Ac3DynamicRangeCompressionLine(this.value);
+
+  static Ac3DynamicRangeCompressionLine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Ac3DynamicRangeCompressionLine'));
 }
 
 /// When you want to add Dolby dynamic range compression (DRC) signaling to your
@@ -1783,33 +1580,18 @@ extension Ac3DynamicRangeCompressionLineFromString on String {
 /// choose None to leave out DRC signaling. Keep the default Film standard to
 /// set the profile to Dolby's film standard profile for all operating modes.
 enum Ac3DynamicRangeCompressionProfile {
-  filmStandard,
-  none,
-}
+  filmStandard('FILM_STANDARD'),
+  none('NONE'),
+  ;
 
-extension Ac3DynamicRangeCompressionProfileValueExtension
-    on Ac3DynamicRangeCompressionProfile {
-  String toValue() {
-    switch (this) {
-      case Ac3DynamicRangeCompressionProfile.filmStandard:
-        return 'FILM_STANDARD';
-      case Ac3DynamicRangeCompressionProfile.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension Ac3DynamicRangeCompressionProfileFromString on String {
-  Ac3DynamicRangeCompressionProfile toAc3DynamicRangeCompressionProfile() {
-    switch (this) {
-      case 'FILM_STANDARD':
-        return Ac3DynamicRangeCompressionProfile.filmStandard;
-      case 'NONE':
-        return Ac3DynamicRangeCompressionProfile.none;
-    }
-    throw Exception(
-        '$this is not known in enum Ac3DynamicRangeCompressionProfile');
-  }
+  const Ac3DynamicRangeCompressionProfile(this.value);
+
+  static Ac3DynamicRangeCompressionProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Ac3DynamicRangeCompressionProfile'));
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -1821,113 +1603,57 @@ extension Ac3DynamicRangeCompressionProfileFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Ac3DynamicRangeCompressionRf {
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-  none,
-}
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  none('NONE'),
+  ;
 
-extension Ac3DynamicRangeCompressionRfValueExtension
-    on Ac3DynamicRangeCompressionRf {
-  String toValue() {
-    switch (this) {
-      case Ac3DynamicRangeCompressionRf.filmStandard:
-        return 'FILM_STANDARD';
-      case Ac3DynamicRangeCompressionRf.filmLight:
-        return 'FILM_LIGHT';
-      case Ac3DynamicRangeCompressionRf.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Ac3DynamicRangeCompressionRf.musicLight:
-        return 'MUSIC_LIGHT';
-      case Ac3DynamicRangeCompressionRf.speech:
-        return 'SPEECH';
-      case Ac3DynamicRangeCompressionRf.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension Ac3DynamicRangeCompressionRfFromString on String {
-  Ac3DynamicRangeCompressionRf toAc3DynamicRangeCompressionRf() {
-    switch (this) {
-      case 'FILM_STANDARD':
-        return Ac3DynamicRangeCompressionRf.filmStandard;
-      case 'FILM_LIGHT':
-        return Ac3DynamicRangeCompressionRf.filmLight;
-      case 'MUSIC_STANDARD':
-        return Ac3DynamicRangeCompressionRf.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Ac3DynamicRangeCompressionRf.musicLight;
-      case 'SPEECH':
-        return Ac3DynamicRangeCompressionRf.speech;
-      case 'NONE':
-        return Ac3DynamicRangeCompressionRf.none;
-    }
-    throw Exception('$this is not known in enum Ac3DynamicRangeCompressionRf');
-  }
+  const Ac3DynamicRangeCompressionRf(this.value);
+
+  static Ac3DynamicRangeCompressionRf fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Ac3DynamicRangeCompressionRf'));
 }
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
 enum Ac3LfeFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Ac3LfeFilterValueExtension on Ac3LfeFilter {
-  String toValue() {
-    switch (this) {
-      case Ac3LfeFilter.enabled:
-        return 'ENABLED';
-      case Ac3LfeFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Ac3LfeFilterFromString on String {
-  Ac3LfeFilter toAc3LfeFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return Ac3LfeFilter.enabled;
-      case 'DISABLED':
-        return Ac3LfeFilter.disabled;
-    }
-    throw Exception('$this is not known in enum Ac3LfeFilter');
-  }
+  const Ac3LfeFilter(this.value);
+
+  static Ac3LfeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Ac3LfeFilter'));
 }
 
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
 enum Ac3MetadataControl {
-  followInput,
-  useConfigured,
-}
+  followInput('FOLLOW_INPUT'),
+  useConfigured('USE_CONFIGURED'),
+  ;
 
-extension Ac3MetadataControlValueExtension on Ac3MetadataControl {
-  String toValue() {
-    switch (this) {
-      case Ac3MetadataControl.followInput:
-        return 'FOLLOW_INPUT';
-      case Ac3MetadataControl.useConfigured:
-        return 'USE_CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension Ac3MetadataControlFromString on String {
-  Ac3MetadataControl toAc3MetadataControl() {
-    switch (this) {
-      case 'FOLLOW_INPUT':
-        return Ac3MetadataControl.followInput;
-      case 'USE_CONFIGURED':
-        return Ac3MetadataControl.useConfigured;
-    }
-    throw Exception('$this is not known in enum Ac3MetadataControl');
-  }
+  const Ac3MetadataControl(this.value);
+
+  static Ac3MetadataControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Ac3MetadataControl'));
 }
 
 /// Required when you set Codec to the value AC3.
@@ -2013,20 +1739,22 @@ class Ac3Settings {
   factory Ac3Settings.fromJson(Map<String, dynamic> json) {
     return Ac3Settings(
       bitrate: json['bitrate'] as int?,
-      bitstreamMode: (json['bitstreamMode'] as String?)?.toAc3BitstreamMode(),
-      codingMode: (json['codingMode'] as String?)?.toAc3CodingMode(),
+      bitstreamMode:
+          (json['bitstreamMode'] as String?)?.let(Ac3BitstreamMode.fromString),
+      codingMode:
+          (json['codingMode'] as String?)?.let(Ac3CodingMode.fromString),
       dialnorm: json['dialnorm'] as int?,
       dynamicRangeCompressionLine:
           (json['dynamicRangeCompressionLine'] as String?)
-              ?.toAc3DynamicRangeCompressionLine(),
+              ?.let(Ac3DynamicRangeCompressionLine.fromString),
       dynamicRangeCompressionProfile:
           (json['dynamicRangeCompressionProfile'] as String?)
-              ?.toAc3DynamicRangeCompressionProfile(),
+              ?.let(Ac3DynamicRangeCompressionProfile.fromString),
       dynamicRangeCompressionRf: (json['dynamicRangeCompressionRf'] as String?)
-          ?.toAc3DynamicRangeCompressionRf(),
-      lfeFilter: (json['lfeFilter'] as String?)?.toAc3LfeFilter(),
-      metadataControl:
-          (json['metadataControl'] as String?)?.toAc3MetadataControl(),
+          ?.let(Ac3DynamicRangeCompressionRf.fromString),
+      lfeFilter: (json['lfeFilter'] as String?)?.let(Ac3LfeFilter.fromString),
+      metadataControl: (json['metadataControl'] as String?)
+          ?.let(Ac3MetadataControl.fromString),
       sampleRate: json['sampleRate'] as int?,
     );
   }
@@ -2044,18 +1772,17 @@ class Ac3Settings {
     final sampleRate = this.sampleRate;
     return {
       if (bitrate != null) 'bitrate': bitrate,
-      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.toValue(),
-      if (codingMode != null) 'codingMode': codingMode.toValue(),
+      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.value,
+      if (codingMode != null) 'codingMode': codingMode.value,
       if (dialnorm != null) 'dialnorm': dialnorm,
       if (dynamicRangeCompressionLine != null)
-        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.toValue(),
+        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.value,
       if (dynamicRangeCompressionProfile != null)
-        'dynamicRangeCompressionProfile':
-            dynamicRangeCompressionProfile.toValue(),
+        'dynamicRangeCompressionProfile': dynamicRangeCompressionProfile.value,
       if (dynamicRangeCompressionRf != null)
-        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.toValue(),
-      if (lfeFilter != null) 'lfeFilter': lfeFilter.toValue(),
-      if (metadataControl != null) 'metadataControl': metadataControl.toValue(),
+        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.value,
+      if (lfeFilter != null) 'lfeFilter': lfeFilter.value,
+      if (metadataControl != null) 'metadataControl': metadataControl.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
     };
   }
@@ -2069,36 +1796,19 @@ class Ac3Settings {
 /// transcoding if the job is compatible with the feature and to run at standard
 /// speed if it's not.
 enum AccelerationMode {
-  disabled,
-  enabled,
-  preferred,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  preferred('PREFERRED'),
+  ;
 
-extension AccelerationModeValueExtension on AccelerationMode {
-  String toValue() {
-    switch (this) {
-      case AccelerationMode.disabled:
-        return 'DISABLED';
-      case AccelerationMode.enabled:
-        return 'ENABLED';
-      case AccelerationMode.preferred:
-        return 'PREFERRED';
-    }
-  }
-}
+  final String value;
 
-extension AccelerationModeFromString on String {
-  AccelerationMode toAccelerationMode() {
-    switch (this) {
-      case 'DISABLED':
-        return AccelerationMode.disabled;
-      case 'ENABLED':
-        return AccelerationMode.enabled;
-      case 'PREFERRED':
-        return AccelerationMode.preferred;
-    }
-    throw Exception('$this is not known in enum AccelerationMode');
-  }
+  const AccelerationMode(this.value);
+
+  static AccelerationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccelerationMode'));
 }
 
 /// Accelerated transcoding can significantly speed up jobs with long, visually
@@ -2114,14 +1824,14 @@ class AccelerationSettings {
 
   factory AccelerationSettings.fromJson(Map<String, dynamic> json) {
     return AccelerationSettings(
-      mode: (json['mode'] as String).toAccelerationMode(),
+      mode: AccelerationMode.fromString((json['mode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      'mode': mode.toValue(),
+      'mode': mode.value,
     };
   }
 }
@@ -2139,41 +1849,20 @@ class AccelerationSettings {
 /// (AccelerationMode). When the service runs your job without accelerated
 /// transcoding, AccelerationStatus is NOT_ACCELERATED.
 enum AccelerationStatus {
-  notApplicable,
-  inProgress,
-  accelerated,
-  notAccelerated,
-}
+  notApplicable('NOT_APPLICABLE'),
+  inProgress('IN_PROGRESS'),
+  accelerated('ACCELERATED'),
+  notAccelerated('NOT_ACCELERATED'),
+  ;
 
-extension AccelerationStatusValueExtension on AccelerationStatus {
-  String toValue() {
-    switch (this) {
-      case AccelerationStatus.notApplicable:
-        return 'NOT_APPLICABLE';
-      case AccelerationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AccelerationStatus.accelerated:
-        return 'ACCELERATED';
-      case AccelerationStatus.notAccelerated:
-        return 'NOT_ACCELERATED';
-    }
-  }
-}
+  final String value;
 
-extension AccelerationStatusFromString on String {
-  AccelerationStatus toAccelerationStatus() {
-    switch (this) {
-      case 'NOT_APPLICABLE':
-        return AccelerationStatus.notApplicable;
-      case 'IN_PROGRESS':
-        return AccelerationStatus.inProgress;
-      case 'ACCELERATED':
-        return AccelerationStatus.accelerated;
-      case 'NOT_ACCELERATED':
-        return AccelerationStatus.notAccelerated;
-    }
-    throw Exception('$this is not known in enum AccelerationStatus');
-  }
+  const AccelerationStatus(this.value);
+
+  static AccelerationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccelerationStatus'));
 }
 
 /// Use to remove noise, blocking, blurriness, or ringing from your input as a
@@ -2189,31 +1878,18 @@ extension AccelerationStatusFromString on String {
 /// Choose Disabled. Note that you can still apply basic filtering with Deblock
 /// and Denoise.
 enum AdvancedInputFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AdvancedInputFilterValueExtension on AdvancedInputFilter {
-  String toValue() {
-    switch (this) {
-      case AdvancedInputFilter.enabled:
-        return 'ENABLED';
-      case AdvancedInputFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AdvancedInputFilterFromString on String {
-  AdvancedInputFilter toAdvancedInputFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return AdvancedInputFilter.enabled;
-      case 'DISABLED':
-        return AdvancedInputFilter.disabled;
-    }
-    throw Exception('$this is not known in enum AdvancedInputFilter');
-  }
+  const AdvancedInputFilter(this.value);
+
+  static AdvancedInputFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AdvancedInputFilter'));
 }
 
 /// Add texture and detail to areas of your input video content that were lost
@@ -2223,32 +1899,18 @@ extension AdvancedInputFilterFromString on String {
 /// content that doesn't have texture, including screen recordings, computer
 /// graphics, or cartoons.
 enum AdvancedInputFilterAddTexture {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AdvancedInputFilterAddTextureValueExtension
-    on AdvancedInputFilterAddTexture {
-  String toValue() {
-    switch (this) {
-      case AdvancedInputFilterAddTexture.enabled:
-        return 'ENABLED';
-      case AdvancedInputFilterAddTexture.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AdvancedInputFilterAddTextureFromString on String {
-  AdvancedInputFilterAddTexture toAdvancedInputFilterAddTexture() {
-    switch (this) {
-      case 'ENABLED':
-        return AdvancedInputFilterAddTexture.enabled;
-      case 'DISABLED':
-        return AdvancedInputFilterAddTexture.disabled;
-    }
-    throw Exception('$this is not known in enum AdvancedInputFilterAddTexture');
-  }
+  const AdvancedInputFilterAddTexture(this.value);
+
+  static AdvancedInputFilterAddTexture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdvancedInputFilterAddTexture'));
 }
 
 /// Optional settings for Advanced input filter when you set Advanced input
@@ -2276,10 +1938,10 @@ class AdvancedInputFilterSettings {
 
   factory AdvancedInputFilterSettings.fromJson(Map<String, dynamic> json) {
     return AdvancedInputFilterSettings(
-      addTexture:
-          (json['addTexture'] as String?)?.toAdvancedInputFilterAddTexture(),
-      sharpening:
-          (json['sharpening'] as String?)?.toAdvancedInputFilterSharpen(),
+      addTexture: (json['addTexture'] as String?)
+          ?.let(AdvancedInputFilterAddTexture.fromString),
+      sharpening: (json['sharpening'] as String?)
+          ?.let(AdvancedInputFilterSharpen.fromString),
     );
   }
 
@@ -2287,8 +1949,8 @@ class AdvancedInputFilterSettings {
     final addTexture = this.addTexture;
     final sharpening = this.sharpening;
     return {
-      if (addTexture != null) 'addTexture': addTexture.toValue(),
-      if (sharpening != null) 'sharpening': sharpening.toValue(),
+      if (addTexture != null) 'addTexture': addTexture.value,
+      if (sharpening != null) 'sharpening': sharpening.value,
     };
   }
 }
@@ -2299,37 +1961,19 @@ class AdvancedInputFilterSettings {
 /// value, Off. To apply a minimal amount of sharpening choose Low, or for the
 /// maximum choose High.
 enum AdvancedInputFilterSharpen {
-  off,
-  low,
-  high,
-}
+  off('OFF'),
+  low('LOW'),
+  high('HIGH'),
+  ;
 
-extension AdvancedInputFilterSharpenValueExtension
-    on AdvancedInputFilterSharpen {
-  String toValue() {
-    switch (this) {
-      case AdvancedInputFilterSharpen.off:
-        return 'OFF';
-      case AdvancedInputFilterSharpen.low:
-        return 'LOW';
-      case AdvancedInputFilterSharpen.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension AdvancedInputFilterSharpenFromString on String {
-  AdvancedInputFilterSharpen toAdvancedInputFilterSharpen() {
-    switch (this) {
-      case 'OFF':
-        return AdvancedInputFilterSharpen.off;
-      case 'LOW':
-        return AdvancedInputFilterSharpen.low;
-      case 'HIGH':
-        return AdvancedInputFilterSharpen.high;
-    }
-    throw Exception('$this is not known in enum AdvancedInputFilterSharpen');
-  }
+  const AdvancedInputFilterSharpen(this.value);
+
+  static AdvancedInputFilterSharpen fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdvancedInputFilterSharpen'));
 }
 
 /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD
@@ -2339,36 +1983,19 @@ extension AdvancedInputFilterSharpenFromString on String {
 /// encode the value specified in the job. * Choose Auto to calculate output AFD
 /// values based on the input AFD scaler data.
 enum AfdSignaling {
-  none,
-  auto,
-  fixed,
-}
+  none('NONE'),
+  auto('AUTO'),
+  fixed('FIXED'),
+  ;
 
-extension AfdSignalingValueExtension on AfdSignaling {
-  String toValue() {
-    switch (this) {
-      case AfdSignaling.none:
-        return 'NONE';
-      case AfdSignaling.auto:
-        return 'AUTO';
-      case AfdSignaling.fixed:
-        return 'FIXED';
-    }
-  }
-}
+  final String value;
 
-extension AfdSignalingFromString on String {
-  AfdSignaling toAfdSignaling() {
-    switch (this) {
-      case 'NONE':
-        return AfdSignaling.none;
-      case 'AUTO':
-        return AfdSignaling.auto;
-      case 'FIXED':
-        return AfdSignaling.fixed;
-    }
-    throw Exception('$this is not known in enum AfdSignaling');
-  }
+  const AfdSignaling(this.value);
+
+  static AfdSignaling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AfdSignaling'));
 }
 
 /// Required when you set Codec to the value AIFF.
@@ -2438,7 +2065,7 @@ class AllowedRenditionSize {
   factory AllowedRenditionSize.fromJson(Map<String, dynamic> json) {
     return AllowedRenditionSize(
       height: json['height'] as int?,
-      required: (json['required'] as String?)?.toRequiredFlag(),
+      required: (json['required'] as String?)?.let(RequiredFlag.fromString),
       width: json['width'] as int?,
     );
   }
@@ -2449,7 +2076,7 @@ class AllowedRenditionSize {
     final width = this.width;
     return {
       if (height != null) 'height': height,
-      if (required != null) 'required': required.toValue(),
+      if (required != null) 'required': required.value,
       if (width != null) 'width': width,
     };
   }
@@ -2462,31 +2089,18 @@ class AllowedRenditionSize {
 /// preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the
 /// alpha channel to the luma channel of your outputs.
 enum AlphaBehavior {
-  discard,
-  remapToLuma,
-}
+  discard('DISCARD'),
+  remapToLuma('REMAP_TO_LUMA'),
+  ;
 
-extension AlphaBehaviorValueExtension on AlphaBehavior {
-  String toValue() {
-    switch (this) {
-      case AlphaBehavior.discard:
-        return 'DISCARD';
-      case AlphaBehavior.remapToLuma:
-        return 'REMAP_TO_LUMA';
-    }
-  }
-}
+  final String value;
 
-extension AlphaBehaviorFromString on String {
-  AlphaBehavior toAlphaBehavior() {
-    switch (this) {
-      case 'DISCARD':
-        return AlphaBehavior.discard;
-      case 'REMAP_TO_LUMA':
-        return AlphaBehavior.remapToLuma;
-    }
-    throw Exception('$this is not known in enum AlphaBehavior');
-  }
+  const AlphaBehavior(this.value);
+
+  static AlphaBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlphaBehavior'));
 }
 
 /// Specify whether this set of input captions appears in your outputs in both
@@ -2495,31 +2109,18 @@ extension AlphaBehaviorFromString on String {
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
 enum AncillaryConvert608To708 {
-  upconvert,
-  disabled,
-}
+  upconvert('UPCONVERT'),
+  disabled('DISABLED'),
+  ;
 
-extension AncillaryConvert608To708ValueExtension on AncillaryConvert608To708 {
-  String toValue() {
-    switch (this) {
-      case AncillaryConvert608To708.upconvert:
-        return 'UPCONVERT';
-      case AncillaryConvert608To708.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AncillaryConvert608To708FromString on String {
-  AncillaryConvert608To708 toAncillaryConvert608To708() {
-    switch (this) {
-      case 'UPCONVERT':
-        return AncillaryConvert608To708.upconvert;
-      case 'DISABLED':
-        return AncillaryConvert608To708.disabled;
-    }
-    throw Exception('$this is not known in enum AncillaryConvert608To708');
-  }
+  const AncillaryConvert608To708(this.value);
+
+  static AncillaryConvert608To708 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AncillaryConvert608To708'));
 }
 
 /// Settings for ancillary captions source.
@@ -2548,12 +2149,12 @@ class AncillarySourceSettings {
 
   factory AncillarySourceSettings.fromJson(Map<String, dynamic> json) {
     return AncillarySourceSettings(
-      convert608To708:
-          (json['convert608To708'] as String?)?.toAncillaryConvert608To708(),
+      convert608To708: (json['convert608To708'] as String?)
+          ?.let(AncillaryConvert608To708.fromString),
       sourceAncillaryChannelNumber:
           json['sourceAncillaryChannelNumber'] as int?,
       terminateCaptions: (json['terminateCaptions'] as String?)
-          ?.toAncillaryTerminateCaptions(),
+          ?.let(AncillaryTerminateCaptions.fromString),
     );
   }
 
@@ -2562,11 +2163,11 @@ class AncillarySourceSettings {
     final sourceAncillaryChannelNumber = this.sourceAncillaryChannelNumber;
     final terminateCaptions = this.terminateCaptions;
     return {
-      if (convert608To708 != null) 'convert608To708': convert608To708.toValue(),
+      if (convert608To708 != null) 'convert608To708': convert608To708.value,
       if (sourceAncillaryChannelNumber != null)
         'sourceAncillaryChannelNumber': sourceAncillaryChannelNumber,
       if (terminateCaptions != null)
-        'terminateCaptions': terminateCaptions.toValue(),
+        'terminateCaptions': terminateCaptions.value,
     };
   }
 }
@@ -2575,63 +2176,35 @@ class AncillarySourceSettings {
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
 enum AncillaryTerminateCaptions {
-  endOfInput,
-  disabled,
-}
+  endOfInput('END_OF_INPUT'),
+  disabled('DISABLED'),
+  ;
 
-extension AncillaryTerminateCaptionsValueExtension
-    on AncillaryTerminateCaptions {
-  String toValue() {
-    switch (this) {
-      case AncillaryTerminateCaptions.endOfInput:
-        return 'END_OF_INPUT';
-      case AncillaryTerminateCaptions.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AncillaryTerminateCaptionsFromString on String {
-  AncillaryTerminateCaptions toAncillaryTerminateCaptions() {
-    switch (this) {
-      case 'END_OF_INPUT':
-        return AncillaryTerminateCaptions.endOfInput;
-      case 'DISABLED':
-        return AncillaryTerminateCaptions.disabled;
-    }
-    throw Exception('$this is not known in enum AncillaryTerminateCaptions');
-  }
+  const AncillaryTerminateCaptions(this.value);
+
+  static AncillaryTerminateCaptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AncillaryTerminateCaptions'));
 }
 
 /// The anti-alias filter is automatically applied to all outputs. The service
 /// no longer accepts the value DISABLED for AntiAlias. If you specify that in
 /// your job, the service will ignore the setting.
 enum AntiAlias {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension AntiAliasValueExtension on AntiAlias {
-  String toValue() {
-    switch (this) {
-      case AntiAlias.disabled:
-        return 'DISABLED';
-      case AntiAlias.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension AntiAliasFromString on String {
-  AntiAlias toAntiAlias() {
-    switch (this) {
-      case 'DISABLED':
-        return AntiAlias.disabled;
-      case 'ENABLED':
-        return AntiAlias.enabled;
-    }
-    throw Exception('$this is not known in enum AntiAlias');
-  }
+  const AntiAlias(this.value);
+
+  static AntiAlias fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AntiAlias'));
 }
 
 class AssociateCertificateResponse {
@@ -2649,161 +2222,44 @@ class AssociateCertificateResponse {
 /// for the second. If your output has multiple single-channel audio tracks,
 /// enter a single channel layout tag for each track.
 enum AudioChannelTag {
-  l,
-  r,
-  c,
-  lfe,
-  ls,
-  rs,
-  lc,
-  rc,
-  cs,
-  lsd,
-  rsd,
-  tcs,
-  vhl,
-  vhc,
-  vhr,
-  tbl,
-  tbc,
-  tbr,
-  rsl,
-  rsr,
-  lw,
-  rw,
-  lfe2,
-  lt,
-  rt,
-  hi,
-  nar,
-  m,
-}
+  l('L'),
+  r('R'),
+  c('C'),
+  lfe('LFE'),
+  ls('LS'),
+  rs('RS'),
+  lc('LC'),
+  rc('RC'),
+  cs('CS'),
+  lsd('LSD'),
+  rsd('RSD'),
+  tcs('TCS'),
+  vhl('VHL'),
+  vhc('VHC'),
+  vhr('VHR'),
+  tbl('TBL'),
+  tbc('TBC'),
+  tbr('TBR'),
+  rsl('RSL'),
+  rsr('RSR'),
+  lw('LW'),
+  rw('RW'),
+  lfe2('LFE2'),
+  lt('LT'),
+  rt('RT'),
+  hi('HI'),
+  nar('NAR'),
+  m('M'),
+  ;
 
-extension AudioChannelTagValueExtension on AudioChannelTag {
-  String toValue() {
-    switch (this) {
-      case AudioChannelTag.l:
-        return 'L';
-      case AudioChannelTag.r:
-        return 'R';
-      case AudioChannelTag.c:
-        return 'C';
-      case AudioChannelTag.lfe:
-        return 'LFE';
-      case AudioChannelTag.ls:
-        return 'LS';
-      case AudioChannelTag.rs:
-        return 'RS';
-      case AudioChannelTag.lc:
-        return 'LC';
-      case AudioChannelTag.rc:
-        return 'RC';
-      case AudioChannelTag.cs:
-        return 'CS';
-      case AudioChannelTag.lsd:
-        return 'LSD';
-      case AudioChannelTag.rsd:
-        return 'RSD';
-      case AudioChannelTag.tcs:
-        return 'TCS';
-      case AudioChannelTag.vhl:
-        return 'VHL';
-      case AudioChannelTag.vhc:
-        return 'VHC';
-      case AudioChannelTag.vhr:
-        return 'VHR';
-      case AudioChannelTag.tbl:
-        return 'TBL';
-      case AudioChannelTag.tbc:
-        return 'TBC';
-      case AudioChannelTag.tbr:
-        return 'TBR';
-      case AudioChannelTag.rsl:
-        return 'RSL';
-      case AudioChannelTag.rsr:
-        return 'RSR';
-      case AudioChannelTag.lw:
-        return 'LW';
-      case AudioChannelTag.rw:
-        return 'RW';
-      case AudioChannelTag.lfe2:
-        return 'LFE2';
-      case AudioChannelTag.lt:
-        return 'LT';
-      case AudioChannelTag.rt:
-        return 'RT';
-      case AudioChannelTag.hi:
-        return 'HI';
-      case AudioChannelTag.nar:
-        return 'NAR';
-      case AudioChannelTag.m:
-        return 'M';
-    }
-  }
-}
+  final String value;
 
-extension AudioChannelTagFromString on String {
-  AudioChannelTag toAudioChannelTag() {
-    switch (this) {
-      case 'L':
-        return AudioChannelTag.l;
-      case 'R':
-        return AudioChannelTag.r;
-      case 'C':
-        return AudioChannelTag.c;
-      case 'LFE':
-        return AudioChannelTag.lfe;
-      case 'LS':
-        return AudioChannelTag.ls;
-      case 'RS':
-        return AudioChannelTag.rs;
-      case 'LC':
-        return AudioChannelTag.lc;
-      case 'RC':
-        return AudioChannelTag.rc;
-      case 'CS':
-        return AudioChannelTag.cs;
-      case 'LSD':
-        return AudioChannelTag.lsd;
-      case 'RSD':
-        return AudioChannelTag.rsd;
-      case 'TCS':
-        return AudioChannelTag.tcs;
-      case 'VHL':
-        return AudioChannelTag.vhl;
-      case 'VHC':
-        return AudioChannelTag.vhc;
-      case 'VHR':
-        return AudioChannelTag.vhr;
-      case 'TBL':
-        return AudioChannelTag.tbl;
-      case 'TBC':
-        return AudioChannelTag.tbc;
-      case 'TBR':
-        return AudioChannelTag.tbr;
-      case 'RSL':
-        return AudioChannelTag.rsl;
-      case 'RSR':
-        return AudioChannelTag.rsr;
-      case 'LW':
-        return AudioChannelTag.lw;
-      case 'RW':
-        return AudioChannelTag.rw;
-      case 'LFE2':
-        return AudioChannelTag.lfe2;
-      case 'LT':
-        return AudioChannelTag.lt;
-      case 'RT':
-        return AudioChannelTag.rt;
-      case 'HI':
-        return AudioChannelTag.hi;
-      case 'NAR':
-        return AudioChannelTag.nar;
-      case 'M':
-        return AudioChannelTag.m;
-    }
-    throw Exception('$this is not known in enum AudioChannelTag');
-  }
+  const AudioChannelTag(this.value);
+
+  static AudioChannelTag fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AudioChannelTag'));
 }
 
 /// Specify the QuickTime audio channel layout tags for the audio channels in
@@ -2835,10 +2291,11 @@ class AudioChannelTaggingSettings {
 
   factory AudioChannelTaggingSettings.fromJson(Map<String, dynamic> json) {
     return AudioChannelTaggingSettings(
-      channelTag: (json['channelTag'] as String?)?.toAudioChannelTag(),
+      channelTag:
+          (json['channelTag'] as String?)?.let(AudioChannelTag.fromString),
       channelTags: (json['channelTags'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAudioChannelTag())
+          .map((e) => AudioChannelTag.fromString((e as String)))
           .toList(),
     );
   }
@@ -2847,9 +2304,9 @@ class AudioChannelTaggingSettings {
     final channelTag = this.channelTag;
     final channelTags = this.channelTags;
     return {
-      if (channelTag != null) 'channelTag': channelTag.toValue(),
+      if (channelTag != null) 'channelTag': channelTag.value,
       if (channelTags != null)
-        'channelTags': channelTags.map((e) => e.toValue()).toList(),
+        'channelTags': channelTags.map((e) => e.value).toList(),
     };
   }
 }
@@ -2866,81 +2323,27 @@ class AudioChannelTaggingSettings {
 /// and
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
 enum AudioCodec {
-  aac,
-  mp2,
-  mp3,
-  wav,
-  aiff,
-  ac3,
-  eac3,
-  eac3Atmos,
-  vorbis,
-  opus,
-  passthrough,
-  flac,
-}
+  aac('AAC'),
+  mp2('MP2'),
+  mp3('MP3'),
+  wav('WAV'),
+  aiff('AIFF'),
+  ac3('AC3'),
+  eac3('EAC3'),
+  eac3Atmos('EAC3_ATMOS'),
+  vorbis('VORBIS'),
+  opus('OPUS'),
+  passthrough('PASSTHROUGH'),
+  flac('FLAC'),
+  ;
 
-extension AudioCodecValueExtension on AudioCodec {
-  String toValue() {
-    switch (this) {
-      case AudioCodec.aac:
-        return 'AAC';
-      case AudioCodec.mp2:
-        return 'MP2';
-      case AudioCodec.mp3:
-        return 'MP3';
-      case AudioCodec.wav:
-        return 'WAV';
-      case AudioCodec.aiff:
-        return 'AIFF';
-      case AudioCodec.ac3:
-        return 'AC3';
-      case AudioCodec.eac3:
-        return 'EAC3';
-      case AudioCodec.eac3Atmos:
-        return 'EAC3_ATMOS';
-      case AudioCodec.vorbis:
-        return 'VORBIS';
-      case AudioCodec.opus:
-        return 'OPUS';
-      case AudioCodec.passthrough:
-        return 'PASSTHROUGH';
-      case AudioCodec.flac:
-        return 'FLAC';
-    }
-  }
-}
+  final String value;
 
-extension AudioCodecFromString on String {
-  AudioCodec toAudioCodec() {
-    switch (this) {
-      case 'AAC':
-        return AudioCodec.aac;
-      case 'MP2':
-        return AudioCodec.mp2;
-      case 'MP3':
-        return AudioCodec.mp3;
-      case 'WAV':
-        return AudioCodec.wav;
-      case 'AIFF':
-        return AudioCodec.aiff;
-      case 'AC3':
-        return AudioCodec.ac3;
-      case 'EAC3':
-        return AudioCodec.eac3;
-      case 'EAC3_ATMOS':
-        return AudioCodec.eac3Atmos;
-      case 'VORBIS':
-        return AudioCodec.vorbis;
-      case 'OPUS':
-        return AudioCodec.opus;
-      case 'PASSTHROUGH':
-        return AudioCodec.passthrough;
-      case 'FLAC':
-        return AudioCodec.flac;
-    }
-    throw Exception('$this is not known in enum AudioCodec');
-  }
+  const AudioCodec(this.value);
+
+  static AudioCodec fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AudioCodec'));
 }
 
 /// Settings related to audio encoding. The settings in this group vary
@@ -3027,7 +2430,7 @@ class AudioCodecSettings {
       aiffSettings: json['aiffSettings'] != null
           ? AiffSettings.fromJson(json['aiffSettings'] as Map<String, dynamic>)
           : null,
-      codec: (json['codec'] as String?)?.toAudioCodec(),
+      codec: (json['codec'] as String?)?.let(AudioCodec.fromString),
       eac3AtmosSettings: json['eac3AtmosSettings'] != null
           ? Eac3AtmosSettings.fromJson(
               json['eac3AtmosSettings'] as Map<String, dynamic>)
@@ -3074,7 +2477,7 @@ class AudioCodecSettings {
       if (aacSettings != null) 'aacSettings': aacSettings,
       if (ac3Settings != null) 'ac3Settings': ac3Settings,
       if (aiffSettings != null) 'aiffSettings': aiffSettings,
-      if (codec != null) 'codec': codec.toValue(),
+      if (codec != null) 'codec': codec.value,
       if (eac3AtmosSettings != null) 'eac3AtmosSettings': eac3AtmosSettings,
       if (eac3Settings != null) 'eac3Settings': eac3Settings,
       if (flacSettings != null) 'flacSettings': flacSettings,
@@ -3092,31 +2495,18 @@ class AudioCodecSettings {
 /// specified input audio. If you don't set a default, those outputs have no
 /// audio.
 enum AudioDefaultSelection {
-  $default,
-  notDefault,
-}
+  $default('DEFAULT'),
+  notDefault('NOT_DEFAULT'),
+  ;
 
-extension AudioDefaultSelectionValueExtension on AudioDefaultSelection {
-  String toValue() {
-    switch (this) {
-      case AudioDefaultSelection.$default:
-        return 'DEFAULT';
-      case AudioDefaultSelection.notDefault:
-        return 'NOT_DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension AudioDefaultSelectionFromString on String {
-  AudioDefaultSelection toAudioDefaultSelection() {
-    switch (this) {
-      case 'DEFAULT':
-        return AudioDefaultSelection.$default;
-      case 'NOT_DEFAULT':
-        return AudioDefaultSelection.notDefault;
-    }
-    throw Exception('$this is not known in enum AudioDefaultSelection');
-  }
+  const AudioDefaultSelection(this.value);
+
+  static AudioDefaultSelection fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AudioDefaultSelection'));
 }
 
 /// Settings related to one audio tab on the MediaConvert console. In your job
@@ -3228,16 +2618,17 @@ class AudioDescription {
           : null,
       audioSourceName: json['audioSourceName'] as String?,
       audioType: json['audioType'] as int?,
-      audioTypeControl:
-          (json['audioTypeControl'] as String?)?.toAudioTypeControl(),
+      audioTypeControl: (json['audioTypeControl'] as String?)
+          ?.let(AudioTypeControl.fromString),
       codecSettings: json['codecSettings'] != null
           ? AudioCodecSettings.fromJson(
               json['codecSettings'] as Map<String, dynamic>)
           : null,
       customLanguageCode: json['customLanguageCode'] as String?,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       languageCodeControl: (json['languageCodeControl'] as String?)
-          ?.toAudioLanguageCodeControl(),
+          ?.let(AudioLanguageCodeControl.fromString),
       remixSettings: json['remixSettings'] != null
           ? RemixSettings.fromJson(
               json['remixSettings'] as Map<String, dynamic>)
@@ -3265,13 +2656,12 @@ class AudioDescription {
         'audioNormalizationSettings': audioNormalizationSettings,
       if (audioSourceName != null) 'audioSourceName': audioSourceName,
       if (audioType != null) 'audioType': audioType,
-      if (audioTypeControl != null)
-        'audioTypeControl': audioTypeControl.toValue(),
+      if (audioTypeControl != null) 'audioTypeControl': audioTypeControl.value,
       if (codecSettings != null) 'codecSettings': codecSettings,
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (languageCodeControl != null)
-        'languageCodeControl': languageCodeControl.toValue(),
+        'languageCodeControl': languageCodeControl.value,
       if (remixSettings != null) 'remixSettings': remixSettings,
       if (streamName != null) 'streamName': streamName,
     };
@@ -3294,41 +2684,20 @@ class AudioDescription {
 /// corrected frames, and is recommended for atonal audio content such as speech
 /// or percussion.
 enum AudioDurationCorrection {
-  disabled,
-  auto,
-  track,
-  frame,
-}
+  disabled('DISABLED'),
+  auto('AUTO'),
+  track('TRACK'),
+  frame('FRAME'),
+  ;
 
-extension AudioDurationCorrectionValueExtension on AudioDurationCorrection {
-  String toValue() {
-    switch (this) {
-      case AudioDurationCorrection.disabled:
-        return 'DISABLED';
-      case AudioDurationCorrection.auto:
-        return 'AUTO';
-      case AudioDurationCorrection.track:
-        return 'TRACK';
-      case AudioDurationCorrection.frame:
-        return 'FRAME';
-    }
-  }
-}
+  final String value;
 
-extension AudioDurationCorrectionFromString on String {
-  AudioDurationCorrection toAudioDurationCorrection() {
-    switch (this) {
-      case 'DISABLED':
-        return AudioDurationCorrection.disabled;
-      case 'AUTO':
-        return AudioDurationCorrection.auto;
-      case 'TRACK':
-        return AudioDurationCorrection.track;
-      case 'FRAME':
-        return AudioDurationCorrection.frame;
-    }
-    throw Exception('$this is not known in enum AudioDurationCorrection');
-  }
+  const AudioDurationCorrection(this.value);
+
+  static AudioDurationCorrection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioDurationCorrection'));
 }
 
 /// Specify which source for language code takes precedence for this audio
@@ -3338,31 +2707,18 @@ extension AudioDurationCorrectionFromString on String {
 /// code. When you choose Use configured, the service uses the language code
 /// that you specify.
 enum AudioLanguageCodeControl {
-  followInput,
-  useConfigured,
-}
+  followInput('FOLLOW_INPUT'),
+  useConfigured('USE_CONFIGURED'),
+  ;
 
-extension AudioLanguageCodeControlValueExtension on AudioLanguageCodeControl {
-  String toValue() {
-    switch (this) {
-      case AudioLanguageCodeControl.followInput:
-        return 'FOLLOW_INPUT';
-      case AudioLanguageCodeControl.useConfigured:
-        return 'USE_CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension AudioLanguageCodeControlFromString on String {
-  AudioLanguageCodeControl toAudioLanguageCodeControl() {
-    switch (this) {
-      case 'FOLLOW_INPUT':
-        return AudioLanguageCodeControl.followInput;
-      case 'USE_CONFIGURED':
-        return AudioLanguageCodeControl.useConfigured;
-    }
-    throw Exception('$this is not known in enum AudioLanguageCodeControl');
-  }
+  const AudioLanguageCodeControl(this.value);
+
+  static AudioLanguageCodeControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioLanguageCodeControl'));
 }
 
 /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1:
@@ -3376,137 +2732,70 @@ extension AudioLanguageCodeControlFromString on String {
 /// count. Allows for more audio channels than the other algorithms, including
 /// configurations such as 7.1.
 enum AudioNormalizationAlgorithm {
-  ituBs_1770_1,
-  ituBs_1770_2,
-  ituBs_1770_3,
-  ituBs_1770_4,
-}
+  ituBs_1770_1('ITU_BS_1770_1'),
+  ituBs_1770_2('ITU_BS_1770_2'),
+  ituBs_1770_3('ITU_BS_1770_3'),
+  ituBs_1770_4('ITU_BS_1770_4'),
+  ;
 
-extension AudioNormalizationAlgorithmValueExtension
-    on AudioNormalizationAlgorithm {
-  String toValue() {
-    switch (this) {
-      case AudioNormalizationAlgorithm.ituBs_1770_1:
-        return 'ITU_BS_1770_1';
-      case AudioNormalizationAlgorithm.ituBs_1770_2:
-        return 'ITU_BS_1770_2';
-      case AudioNormalizationAlgorithm.ituBs_1770_3:
-        return 'ITU_BS_1770_3';
-      case AudioNormalizationAlgorithm.ituBs_1770_4:
-        return 'ITU_BS_1770_4';
-    }
-  }
-}
+  final String value;
 
-extension AudioNormalizationAlgorithmFromString on String {
-  AudioNormalizationAlgorithm toAudioNormalizationAlgorithm() {
-    switch (this) {
-      case 'ITU_BS_1770_1':
-        return AudioNormalizationAlgorithm.ituBs_1770_1;
-      case 'ITU_BS_1770_2':
-        return AudioNormalizationAlgorithm.ituBs_1770_2;
-      case 'ITU_BS_1770_3':
-        return AudioNormalizationAlgorithm.ituBs_1770_3;
-      case 'ITU_BS_1770_4':
-        return AudioNormalizationAlgorithm.ituBs_1770_4;
-    }
-    throw Exception('$this is not known in enum AudioNormalizationAlgorithm');
-  }
+  const AudioNormalizationAlgorithm(this.value);
+
+  static AudioNormalizationAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioNormalizationAlgorithm'));
 }
 
 /// When enabled the output audio is corrected using the chosen algorithm. If
 /// disabled, the audio will be measured but not adjusted.
 enum AudioNormalizationAlgorithmControl {
-  correctAudio,
-  measureOnly,
-}
+  correctAudio('CORRECT_AUDIO'),
+  measureOnly('MEASURE_ONLY'),
+  ;
 
-extension AudioNormalizationAlgorithmControlValueExtension
-    on AudioNormalizationAlgorithmControl {
-  String toValue() {
-    switch (this) {
-      case AudioNormalizationAlgorithmControl.correctAudio:
-        return 'CORRECT_AUDIO';
-      case AudioNormalizationAlgorithmControl.measureOnly:
-        return 'MEASURE_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension AudioNormalizationAlgorithmControlFromString on String {
-  AudioNormalizationAlgorithmControl toAudioNormalizationAlgorithmControl() {
-    switch (this) {
-      case 'CORRECT_AUDIO':
-        return AudioNormalizationAlgorithmControl.correctAudio;
-      case 'MEASURE_ONLY':
-        return AudioNormalizationAlgorithmControl.measureOnly;
-    }
-    throw Exception(
-        '$this is not known in enum AudioNormalizationAlgorithmControl');
-  }
+  const AudioNormalizationAlgorithmControl(this.value);
+
+  static AudioNormalizationAlgorithmControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioNormalizationAlgorithmControl'));
 }
 
 /// If set to LOG, log each output's audio track loudness to a CSV file.
 enum AudioNormalizationLoudnessLogging {
-  log,
-  dontLog,
-}
+  log('LOG'),
+  dontLog('DONT_LOG'),
+  ;
 
-extension AudioNormalizationLoudnessLoggingValueExtension
-    on AudioNormalizationLoudnessLogging {
-  String toValue() {
-    switch (this) {
-      case AudioNormalizationLoudnessLogging.log:
-        return 'LOG';
-      case AudioNormalizationLoudnessLogging.dontLog:
-        return 'DONT_LOG';
-    }
-  }
-}
+  final String value;
 
-extension AudioNormalizationLoudnessLoggingFromString on String {
-  AudioNormalizationLoudnessLogging toAudioNormalizationLoudnessLogging() {
-    switch (this) {
-      case 'LOG':
-        return AudioNormalizationLoudnessLogging.log;
-      case 'DONT_LOG':
-        return AudioNormalizationLoudnessLogging.dontLog;
-    }
-    throw Exception(
-        '$this is not known in enum AudioNormalizationLoudnessLogging');
-  }
+  const AudioNormalizationLoudnessLogging(this.value);
+
+  static AudioNormalizationLoudnessLogging fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioNormalizationLoudnessLogging'));
 }
 
 /// If set to TRUE_PEAK, calculate and log the TruePeak for each output's audio
 /// track loudness.
 enum AudioNormalizationPeakCalculation {
-  truePeak,
-  none,
-}
+  truePeak('TRUE_PEAK'),
+  none('NONE'),
+  ;
 
-extension AudioNormalizationPeakCalculationValueExtension
-    on AudioNormalizationPeakCalculation {
-  String toValue() {
-    switch (this) {
-      case AudioNormalizationPeakCalculation.truePeak:
-        return 'TRUE_PEAK';
-      case AudioNormalizationPeakCalculation.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AudioNormalizationPeakCalculationFromString on String {
-  AudioNormalizationPeakCalculation toAudioNormalizationPeakCalculation() {
-    switch (this) {
-      case 'TRUE_PEAK':
-        return AudioNormalizationPeakCalculation.truePeak;
-      case 'NONE':
-        return AudioNormalizationPeakCalculation.none;
-    }
-    throw Exception(
-        '$this is not known in enum AudioNormalizationPeakCalculation');
-  }
+  const AudioNormalizationPeakCalculation(this.value);
+
+  static AudioNormalizationPeakCalculation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AudioNormalizationPeakCalculation'));
 }
 
 /// Advanced audio normalization settings. Ignore these settings unless you need
@@ -3564,15 +2853,15 @@ class AudioNormalizationSettings {
 
   factory AudioNormalizationSettings.fromJson(Map<String, dynamic> json) {
     return AudioNormalizationSettings(
-      algorithm:
-          (json['algorithm'] as String?)?.toAudioNormalizationAlgorithm(),
+      algorithm: (json['algorithm'] as String?)
+          ?.let(AudioNormalizationAlgorithm.fromString),
       algorithmControl: (json['algorithmControl'] as String?)
-          ?.toAudioNormalizationAlgorithmControl(),
+          ?.let(AudioNormalizationAlgorithmControl.fromString),
       correctionGateLevel: json['correctionGateLevel'] as int?,
       loudnessLogging: (json['loudnessLogging'] as String?)
-          ?.toAudioNormalizationLoudnessLogging(),
+          ?.let(AudioNormalizationLoudnessLogging.fromString),
       peakCalculation: (json['peakCalculation'] as String?)
-          ?.toAudioNormalizationPeakCalculation(),
+          ?.let(AudioNormalizationPeakCalculation.fromString),
       targetLkfs: json['targetLkfs'] as double?,
       truePeakLimiterThreshold: json['truePeakLimiterThreshold'] as double?,
     );
@@ -3587,13 +2876,12 @@ class AudioNormalizationSettings {
     final targetLkfs = this.targetLkfs;
     final truePeakLimiterThreshold = this.truePeakLimiterThreshold;
     return {
-      if (algorithm != null) 'algorithm': algorithm.toValue(),
-      if (algorithmControl != null)
-        'algorithmControl': algorithmControl.toValue(),
+      if (algorithm != null) 'algorithm': algorithm.value,
+      if (algorithmControl != null) 'algorithmControl': algorithmControl.value,
       if (correctionGateLevel != null)
         'correctionGateLevel': correctionGateLevel,
-      if (loudnessLogging != null) 'loudnessLogging': loudnessLogging.toValue(),
-      if (peakCalculation != null) 'peakCalculation': peakCalculation.toValue(),
+      if (loudnessLogging != null) 'loudnessLogging': loudnessLogging.value,
+      if (peakCalculation != null) 'peakCalculation': peakCalculation.value,
       if (targetLkfs != null) 'targetLkfs': targetLkfs,
       if (truePeakLimiterThreshold != null)
         'truePeakLimiterThreshold': truePeakLimiterThreshold,
@@ -3699,16 +2987,17 @@ class AudioSelector {
   factory AudioSelector.fromJson(Map<String, dynamic> json) {
     return AudioSelector(
       audioDurationCorrection: (json['audioDurationCorrection'] as String?)
-          ?.toAudioDurationCorrection(),
+          ?.let(AudioDurationCorrection.fromString),
       customLanguageCode: json['customLanguageCode'] as String?,
-      defaultSelection:
-          (json['defaultSelection'] as String?)?.toAudioDefaultSelection(),
+      defaultSelection: (json['defaultSelection'] as String?)
+          ?.let(AudioDefaultSelection.fromString),
       externalAudioFileInput: json['externalAudioFileInput'] as String?,
       hlsRenditionGroupSettings: json['hlsRenditionGroupSettings'] != null
           ? HlsRenditionGroupSettings.fromJson(
               json['hlsRenditionGroupSettings'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       offset: json['offset'] as int?,
       pids:
           (json['pids'] as List?)?.whereNotNull().map((e) => e as int).toList(),
@@ -3717,7 +3006,8 @@ class AudioSelector {
           ? RemixSettings.fromJson(
               json['remixSettings'] as Map<String, dynamic>)
           : null,
-      selectorType: (json['selectorType'] as String?)?.toAudioSelectorType(),
+      selectorType:
+          (json['selectorType'] as String?)?.let(AudioSelectorType.fromString),
       tracks: (json['tracks'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
@@ -3740,20 +3030,19 @@ class AudioSelector {
     final tracks = this.tracks;
     return {
       if (audioDurationCorrection != null)
-        'audioDurationCorrection': audioDurationCorrection.toValue(),
+        'audioDurationCorrection': audioDurationCorrection.value,
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
-      if (defaultSelection != null)
-        'defaultSelection': defaultSelection.toValue(),
+      if (defaultSelection != null) 'defaultSelection': defaultSelection.value,
       if (externalAudioFileInput != null)
         'externalAudioFileInput': externalAudioFileInput,
       if (hlsRenditionGroupSettings != null)
         'hlsRenditionGroupSettings': hlsRenditionGroupSettings,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (offset != null) 'offset': offset,
       if (pids != null) 'pids': pids,
       if (programSelection != null) 'programSelection': programSelection,
       if (remixSettings != null) 'remixSettings': remixSettings,
-      if (selectorType != null) 'selectorType': selectorType.toValue(),
+      if (selectorType != null) 'selectorType': selectorType.value,
       if (tracks != null) 'tracks': tracks,
     };
   }
@@ -3793,41 +3082,20 @@ class AudioSelectorGroup {
 
 /// Specifies the type of the audio selector.
 enum AudioSelectorType {
-  pid,
-  track,
-  languageCode,
-  hlsRenditionGroup,
-}
+  pid('PID'),
+  track('TRACK'),
+  languageCode('LANGUAGE_CODE'),
+  hlsRenditionGroup('HLS_RENDITION_GROUP'),
+  ;
 
-extension AudioSelectorTypeValueExtension on AudioSelectorType {
-  String toValue() {
-    switch (this) {
-      case AudioSelectorType.pid:
-        return 'PID';
-      case AudioSelectorType.track:
-        return 'TRACK';
-      case AudioSelectorType.languageCode:
-        return 'LANGUAGE_CODE';
-      case AudioSelectorType.hlsRenditionGroup:
-        return 'HLS_RENDITION_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension AudioSelectorTypeFromString on String {
-  AudioSelectorType toAudioSelectorType() {
-    switch (this) {
-      case 'PID':
-        return AudioSelectorType.pid;
-      case 'TRACK':
-        return AudioSelectorType.track;
-      case 'LANGUAGE_CODE':
-        return AudioSelectorType.languageCode;
-      case 'HLS_RENDITION_GROUP':
-        return AudioSelectorType.hlsRenditionGroup;
-    }
-    throw Exception('$this is not known in enum AudioSelectorType');
-  }
+  const AudioSelectorType(this.value);
+
+  static AudioSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AudioSelectorType'));
 }
 
 /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then
@@ -3837,31 +3105,18 @@ extension AudioSelectorTypeFromString on String {
 /// audioType are both ignored if audioDescriptionBroadcasterMix is set to
 /// BROADCASTER_MIXED_AD.
 enum AudioTypeControl {
-  followInput,
-  useConfigured,
-}
+  followInput('FOLLOW_INPUT'),
+  useConfigured('USE_CONFIGURED'),
+  ;
 
-extension AudioTypeControlValueExtension on AudioTypeControl {
-  String toValue() {
-    switch (this) {
-      case AudioTypeControl.followInput:
-        return 'FOLLOW_INPUT';
-      case AudioTypeControl.useConfigured:
-        return 'USE_CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension AudioTypeControlFromString on String {
-  AudioTypeControl toAudioTypeControl() {
-    switch (this) {
-      case 'FOLLOW_INPUT':
-        return AudioTypeControl.followInput;
-      case 'USE_CONFIGURED':
-        return AudioTypeControl.useConfigured;
-    }
-    throw Exception('$this is not known in enum AudioTypeControl');
-  }
+  const AudioTypeControl(this.value);
+
+  static AudioTypeControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AudioTypeControl'));
 }
 
 /// Specify one or more Automated ABR rule types. Note: Force include and
@@ -3957,7 +3212,7 @@ class AutomatedAbrRule {
           ? MinTopRenditionSize.fromJson(
               json['minTopRenditionSize'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toRuleType(),
+      type: (json['type'] as String?)?.let(RuleType.fromString),
     );
   }
 
@@ -3975,7 +3230,7 @@ class AutomatedAbrRule {
         'minBottomRenditionSize': minBottomRenditionSize,
       if (minTopRenditionSize != null)
         'minTopRenditionSize': minTopRenditionSize,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4080,80 +3335,37 @@ class AutomatedEncodingSettings {
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to Spatial adaptive quantization.
 enum Av1AdaptiveQuantization {
-  off,
-  low,
-  medium,
-  high,
-  higher,
-  max,
-}
+  off('OFF'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  higher('HIGHER'),
+  max('MAX'),
+  ;
 
-extension Av1AdaptiveQuantizationValueExtension on Av1AdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case Av1AdaptiveQuantization.off:
-        return 'OFF';
-      case Av1AdaptiveQuantization.low:
-        return 'LOW';
-      case Av1AdaptiveQuantization.medium:
-        return 'MEDIUM';
-      case Av1AdaptiveQuantization.high:
-        return 'HIGH';
-      case Av1AdaptiveQuantization.higher:
-        return 'HIGHER';
-      case Av1AdaptiveQuantization.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension Av1AdaptiveQuantizationFromString on String {
-  Av1AdaptiveQuantization toAv1AdaptiveQuantization() {
-    switch (this) {
-      case 'OFF':
-        return Av1AdaptiveQuantization.off;
-      case 'LOW':
-        return Av1AdaptiveQuantization.low;
-      case 'MEDIUM':
-        return Av1AdaptiveQuantization.medium;
-      case 'HIGH':
-        return Av1AdaptiveQuantization.high;
-      case 'HIGHER':
-        return Av1AdaptiveQuantization.higher;
-      case 'MAX':
-        return Av1AdaptiveQuantization.max;
-    }
-    throw Exception('$this is not known in enum Av1AdaptiveQuantization');
-  }
+  const Av1AdaptiveQuantization(this.value);
+
+  static Av1AdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Av1AdaptiveQuantization'));
 }
 
 /// Specify the Bit depth. You can choose 8-bit or 10-bit.
 enum Av1BitDepth {
-  bit_8,
-  bit_10,
-}
+  bit_8('BIT_8'),
+  bit_10('BIT_10'),
+  ;
 
-extension Av1BitDepthValueExtension on Av1BitDepth {
-  String toValue() {
-    switch (this) {
-      case Av1BitDepth.bit_8:
-        return 'BIT_8';
-      case Av1BitDepth.bit_10:
-        return 'BIT_10';
-    }
-  }
-}
+  final String value;
 
-extension Av1BitDepthFromString on String {
-  Av1BitDepth toAv1BitDepth() {
-    switch (this) {
-      case 'BIT_8':
-        return Av1BitDepth.bit_8;
-      case 'BIT_10':
-        return Av1BitDepth.bit_10;
-    }
-    throw Exception('$this is not known in enum Av1BitDepth');
-  }
+  const Av1BitDepth(this.value);
+
+  static Av1BitDepth fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Av1BitDepth'));
 }
 
 /// Film grain synthesis replaces film grain present in your content with
@@ -4163,31 +3375,18 @@ extension Av1BitDepthFromString on String {
 /// the default value, Disabled. When you include Film grain synthesis, you
 /// cannot include the Noise reducer preprocessor.
 enum Av1FilmGrainSynthesis {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Av1FilmGrainSynthesisValueExtension on Av1FilmGrainSynthesis {
-  String toValue() {
-    switch (this) {
-      case Av1FilmGrainSynthesis.disabled:
-        return 'DISABLED';
-      case Av1FilmGrainSynthesis.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Av1FilmGrainSynthesisFromString on String {
-  Av1FilmGrainSynthesis toAv1FilmGrainSynthesis() {
-    switch (this) {
-      case 'DISABLED':
-        return Av1FilmGrainSynthesis.disabled;
-      case 'ENABLED':
-        return Av1FilmGrainSynthesis.enabled;
-    }
-    throw Exception('$this is not known in enum Av1FilmGrainSynthesis');
-  }
+  const Av1FilmGrainSynthesis(this.value);
+
+  static Av1FilmGrainSynthesis fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Av1FilmGrainSynthesis'));
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -4197,31 +3396,18 @@ extension Av1FilmGrainSynthesisFromString on String {
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
 enum Av1FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Av1FramerateControlValueExtension on Av1FramerateControl {
-  String toValue() {
-    switch (this) {
-      case Av1FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Av1FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Av1FramerateControlFromString on String {
-  Av1FramerateControl toAv1FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Av1FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Av1FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum Av1FramerateControl');
-  }
+  const Av1FramerateControl(this.value);
+
+  static Av1FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Av1FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -4236,38 +3422,19 @@ extension Av1FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum Av1FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension Av1FramerateConversionAlgorithmValueExtension
-    on Av1FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case Av1FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case Av1FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case Av1FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension Av1FramerateConversionAlgorithmFromString on String {
-  Av1FramerateConversionAlgorithm toAv1FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return Av1FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return Av1FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return Av1FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum Av1FramerateConversionAlgorithm');
-  }
+  const Av1FramerateConversionAlgorithm(this.value);
+
+  static Av1FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Av1FramerateConversionAlgorithm'));
 }
 
 /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
@@ -4321,26 +3488,17 @@ class Av1QvbrSettings {
 /// 'With AV1 outputs, for rate control mode, MediaConvert supports only
 /// quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
 enum Av1RateControlMode {
-  qvbr,
-}
+  qvbr('QVBR'),
+  ;
 
-extension Av1RateControlModeValueExtension on Av1RateControlMode {
-  String toValue() {
-    switch (this) {
-      case Av1RateControlMode.qvbr:
-        return 'QVBR';
-    }
-  }
-}
+  final String value;
 
-extension Av1RateControlModeFromString on String {
-  Av1RateControlMode toAv1RateControlMode() {
-    switch (this) {
-      case 'QVBR':
-        return Av1RateControlMode.qvbr;
-    }
-    throw Exception('$this is not known in enum Av1RateControlMode');
-  }
+  const Av1RateControlMode(this.value);
+
+  static Av1RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Av1RateControlMode'));
 }
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
@@ -4465,15 +3623,15 @@ class Av1Settings {
   factory Av1Settings.fromJson(Map<String, dynamic> json) {
     return Av1Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
-          ?.toAv1AdaptiveQuantization(),
-      bitDepth: (json['bitDepth'] as String?)?.toAv1BitDepth(),
-      filmGrainSynthesis:
-          (json['filmGrainSynthesis'] as String?)?.toAv1FilmGrainSynthesis(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toAv1FramerateControl(),
+          ?.let(Av1AdaptiveQuantization.fromString),
+      bitDepth: (json['bitDepth'] as String?)?.let(Av1BitDepth.fromString),
+      filmGrainSynthesis: (json['filmGrainSynthesis'] as String?)
+          ?.let(Av1FilmGrainSynthesis.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(Av1FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toAv1FramerateConversionAlgorithm(),
+              ?.let(Av1FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       gopSize: json['gopSize'] as double?,
@@ -4484,12 +3642,12 @@ class Av1Settings {
           ? Av1QvbrSettings.fromJson(
               json['qvbrSettings'] as Map<String, dynamic>)
           : null,
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toAv1RateControlMode(),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(Av1RateControlMode.fromString),
       slices: json['slices'] as int?,
       spatialAdaptiveQuantization:
           (json['spatialAdaptiveQuantization'] as String?)
-              ?.toAv1SpatialAdaptiveQuantization(),
+              ?.let(Av1SpatialAdaptiveQuantization.fromString),
     );
   }
 
@@ -4511,14 +3669,13 @@ class Av1Settings {
     final spatialAdaptiveQuantization = this.spatialAdaptiveQuantization;
     return {
       if (adaptiveQuantization != null)
-        'adaptiveQuantization': adaptiveQuantization.toValue(),
-      if (bitDepth != null) 'bitDepth': bitDepth.toValue(),
+        'adaptiveQuantization': adaptiveQuantization.value,
+      if (bitDepth != null) 'bitDepth': bitDepth.value,
       if (filmGrainSynthesis != null)
-        'filmGrainSynthesis': filmGrainSynthesis.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+        'filmGrainSynthesis': filmGrainSynthesis.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
@@ -4528,10 +3685,10 @@ class Av1Settings {
         'numberBFramesBetweenReferenceFrames':
             numberBFramesBetweenReferenceFrames,
       if (qvbrSettings != null) 'qvbrSettings': qvbrSettings,
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
       if (slices != null) 'slices': slices,
       if (spatialAdaptiveQuantization != null)
-        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.value,
     };
   }
 }
@@ -4552,33 +3709,18 @@ class Av1Settings {
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
 enum Av1SpatialAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Av1SpatialAdaptiveQuantizationValueExtension
-    on Av1SpatialAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case Av1SpatialAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case Av1SpatialAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Av1SpatialAdaptiveQuantizationFromString on String {
-  Av1SpatialAdaptiveQuantization toAv1SpatialAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return Av1SpatialAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return Av1SpatialAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum Av1SpatialAdaptiveQuantization');
-  }
+  const Av1SpatialAdaptiveQuantization(this.value);
+
+  static Av1SpatialAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Av1SpatialAdaptiveQuantization'));
 }
 
 /// Use ad avail blanking settings to specify your output content during SCTE-35
@@ -4615,41 +3757,20 @@ class AvailBlanking {
 /// image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2
 /// chroma subsampling.
 enum AvcIntraClass {
-  class_50,
-  class_100,
-  class_200,
-  class_4k_2k,
-}
+  class_50('CLASS_50'),
+  class_100('CLASS_100'),
+  class_200('CLASS_200'),
+  class_4k_2k('CLASS_4K_2K'),
+  ;
 
-extension AvcIntraClassValueExtension on AvcIntraClass {
-  String toValue() {
-    switch (this) {
-      case AvcIntraClass.class_50:
-        return 'CLASS_50';
-      case AvcIntraClass.class_100:
-        return 'CLASS_100';
-      case AvcIntraClass.class_200:
-        return 'CLASS_200';
-      case AvcIntraClass.class_4k_2k:
-        return 'CLASS_4K_2K';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraClassFromString on String {
-  AvcIntraClass toAvcIntraClass() {
-    switch (this) {
-      case 'CLASS_50':
-        return AvcIntraClass.class_50;
-      case 'CLASS_100':
-        return AvcIntraClass.class_100;
-      case 'CLASS_200':
-        return AvcIntraClass.class_200;
-      case 'CLASS_4K_2K':
-        return AvcIntraClass.class_4k_2k;
-    }
-    throw Exception('$this is not known in enum AvcIntraClass');
-  }
+  const AvcIntraClass(this.value);
+
+  static AvcIntraClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AvcIntraClass'));
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -4659,31 +3780,18 @@ extension AvcIntraClassFromString on String {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum AvcIntraFramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension AvcIntraFramerateControlValueExtension on AvcIntraFramerateControl {
-  String toValue() {
-    switch (this) {
-      case AvcIntraFramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case AvcIntraFramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraFramerateControlFromString on String {
-  AvcIntraFramerateControl toAvcIntraFramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return AvcIntraFramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return AvcIntraFramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum AvcIntraFramerateControl');
-  }
+  const AvcIntraFramerateControl(this.value);
+
+  static AvcIntraFramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AvcIntraFramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -4698,39 +3806,19 @@ extension AvcIntraFramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum AvcIntraFramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension AvcIntraFramerateConversionAlgorithmValueExtension
-    on AvcIntraFramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case AvcIntraFramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case AvcIntraFramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case AvcIntraFramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraFramerateConversionAlgorithmFromString on String {
-  AvcIntraFramerateConversionAlgorithm
-      toAvcIntraFramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return AvcIntraFramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return AvcIntraFramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return AvcIntraFramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum AvcIntraFramerateConversionAlgorithm');
-  }
+  const AvcIntraFramerateConversionAlgorithm(this.value);
+
+  static AvcIntraFramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AvcIntraFramerateConversionAlgorithm'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -4745,46 +3833,21 @@ extension AvcIntraFramerateConversionAlgorithmFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum AvcIntraInterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension AvcIntraInterlaceModeValueExtension on AvcIntraInterlaceMode {
-  String toValue() {
-    switch (this) {
-      case AvcIntraInterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case AvcIntraInterlaceMode.topField:
-        return 'TOP_FIELD';
-      case AvcIntraInterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case AvcIntraInterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case AvcIntraInterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraInterlaceModeFromString on String {
-  AvcIntraInterlaceMode toAvcIntraInterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return AvcIntraInterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return AvcIntraInterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return AvcIntraInterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return AvcIntraInterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return AvcIntraInterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum AvcIntraInterlaceMode');
-  }
+  const AvcIntraInterlaceMode(this.value);
+
+  static AvcIntraInterlaceMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AvcIntraInterlaceMode'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -4800,33 +3863,18 @@ extension AvcIntraInterlaceModeFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum AvcIntraScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension AvcIntraScanTypeConversionModeValueExtension
-    on AvcIntraScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case AvcIntraScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case AvcIntraScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraScanTypeConversionModeFromString on String {
-  AvcIntraScanTypeConversionMode toAvcIntraScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return AvcIntraScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return AvcIntraScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception(
-        '$this is not known in enum AvcIntraScanTypeConversionMode');
-  }
+  const AvcIntraScanTypeConversionMode(this.value);
+
+  static AvcIntraScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AvcIntraScanTypeConversionMode'));
 }
 
 /// Required when you choose AVC-Intra for your output video codec. For more
@@ -4942,24 +3990,25 @@ class AvcIntraSettings {
 
   factory AvcIntraSettings.fromJson(Map<String, dynamic> json) {
     return AvcIntraSettings(
-      avcIntraClass: (json['avcIntraClass'] as String?)?.toAvcIntraClass(),
+      avcIntraClass:
+          (json['avcIntraClass'] as String?)?.let(AvcIntraClass.fromString),
       avcIntraUhdSettings: json['avcIntraUhdSettings'] != null
           ? AvcIntraUhdSettings.fromJson(
               json['avcIntraUhdSettings'] as Map<String, dynamic>)
           : null,
-      framerateControl:
-          (json['framerateControl'] as String?)?.toAvcIntraFramerateControl(),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(AvcIntraFramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toAvcIntraFramerateConversionAlgorithm(),
+              ?.let(AvcIntraFramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      interlaceMode:
-          (json['interlaceMode'] as String?)?.toAvcIntraInterlaceMode(),
+      interlaceMode: (json['interlaceMode'] as String?)
+          ?.let(AvcIntraInterlaceMode.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toAvcIntraScanTypeConversionMode(),
-      slowPal: (json['slowPal'] as String?)?.toAvcIntraSlowPal(),
-      telecine: (json['telecine'] as String?)?.toAvcIntraTelecine(),
+          ?.let(AvcIntraScanTypeConversionMode.fromString),
+      slowPal: (json['slowPal'] as String?)?.let(AvcIntraSlowPal.fromString),
+      telecine: (json['telecine'] as String?)?.let(AvcIntraTelecine.fromString),
     );
   }
 
@@ -4975,21 +4024,20 @@ class AvcIntraSettings {
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     return {
-      if (avcIntraClass != null) 'avcIntraClass': avcIntraClass.toValue(),
+      if (avcIntraClass != null) 'avcIntraClass': avcIntraClass.value,
       if (avcIntraUhdSettings != null)
         'avcIntraUhdSettings': avcIntraUhdSettings,
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
+      if (telecine != null) 'telecine': telecine.value,
     };
   }
 }
@@ -5001,31 +4049,18 @@ class AvcIntraSettings {
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
 enum AvcIntraSlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension AvcIntraSlowPalValueExtension on AvcIntraSlowPal {
-  String toValue() {
-    switch (this) {
-      case AvcIntraSlowPal.disabled:
-        return 'DISABLED';
-      case AvcIntraSlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraSlowPalFromString on String {
-  AvcIntraSlowPal toAvcIntraSlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return AvcIntraSlowPal.disabled;
-      case 'ENABLED':
-        return AvcIntraSlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum AvcIntraSlowPal');
-  }
+  const AvcIntraSlowPal(this.value);
+
+  static AvcIntraSlowPal fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AvcIntraSlowPal'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -5034,31 +4069,18 @@ extension AvcIntraSlowPalFromString on String {
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
 enum AvcIntraTelecine {
-  none,
-  hard,
-}
+  none('NONE'),
+  hard('HARD'),
+  ;
 
-extension AvcIntraTelecineValueExtension on AvcIntraTelecine {
-  String toValue() {
-    switch (this) {
-      case AvcIntraTelecine.none:
-        return 'NONE';
-      case AvcIntraTelecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraTelecineFromString on String {
-  AvcIntraTelecine toAvcIntraTelecine() {
-    switch (this) {
-      case 'NONE':
-        return AvcIntraTelecine.none;
-      case 'HARD':
-        return AvcIntraTelecine.hard;
-    }
-    throw Exception('$this is not known in enum AvcIntraTelecine');
-  }
+  const AvcIntraTelecine(this.value);
+
+  static AvcIntraTelecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AvcIntraTelecine'));
 }
 
 /// Optional. Use Quality tuning level to choose how many transcoding passes
@@ -5068,32 +4090,18 @@ extension AvcIntraTelecineFromString on String {
 /// specification. When you choose Single-pass, your encoding time is faster.
 /// The default behavior is Single-pass.
 enum AvcIntraUhdQualityTuningLevel {
-  singlePass,
-  multiPass,
-}
+  singlePass('SINGLE_PASS'),
+  multiPass('MULTI_PASS'),
+  ;
 
-extension AvcIntraUhdQualityTuningLevelValueExtension
-    on AvcIntraUhdQualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case AvcIntraUhdQualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case AvcIntraUhdQualityTuningLevel.multiPass:
-        return 'MULTI_PASS';
-    }
-  }
-}
+  final String value;
 
-extension AvcIntraUhdQualityTuningLevelFromString on String {
-  AvcIntraUhdQualityTuningLevel toAvcIntraUhdQualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return AvcIntraUhdQualityTuningLevel.singlePass;
-      case 'MULTI_PASS':
-        return AvcIntraUhdQualityTuningLevel.multiPass;
-    }
-    throw Exception('$this is not known in enum AvcIntraUhdQualityTuningLevel');
-  }
+  const AvcIntraUhdQualityTuningLevel(this.value);
+
+  static AvcIntraUhdQualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AvcIntraUhdQualityTuningLevel'));
 }
 
 /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra
@@ -5114,7 +4122,7 @@ class AvcIntraUhdSettings {
   factory AvcIntraUhdSettings.fromJson(Map<String, dynamic> json) {
     return AvcIntraUhdSettings(
       qualityTuningLevel: (json['qualityTuningLevel'] as String?)
-          ?.toAvcIntraUhdQualityTuningLevel(),
+          ?.let(AvcIntraUhdQualityTuningLevel.fromString),
     );
   }
 
@@ -5122,7 +4130,7 @@ class AvcIntraUhdSettings {
     final qualityTuningLevel = this.qualityTuningLevel;
     return {
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
     };
   }
 }
@@ -5159,9 +4167,9 @@ class BandwidthReductionFilter {
   factory BandwidthReductionFilter.fromJson(Map<String, dynamic> json) {
     return BandwidthReductionFilter(
       sharpening: (json['sharpening'] as String?)
-          ?.toBandwidthReductionFilterSharpening(),
-      strength:
-          (json['strength'] as String?)?.toBandwidthReductionFilterStrength(),
+          ?.let(BandwidthReductionFilterSharpening.fromString),
+      strength: (json['strength'] as String?)
+          ?.let(BandwidthReductionFilterStrength.fromString),
     );
   }
 
@@ -5169,8 +4177,8 @@ class BandwidthReductionFilter {
     final sharpening = this.sharpening;
     final strength = this.strength;
     return {
-      if (sharpening != null) 'sharpening': sharpening.toValue(),
-      if (strength != null) 'strength': strength.toValue(),
+      if (sharpening != null) 'sharpening': sharpening.value,
+      if (strength != null) 'strength': strength.value,
     };
   }
 }
@@ -5181,43 +4189,20 @@ class BandwidthReductionFilter {
 /// no sharpening. Set Sharpening strength to Low to apply a minimal amount of
 /// sharpening, or High to apply a maximum amount of sharpening.
 enum BandwidthReductionFilterSharpening {
-  low,
-  medium,
-  high,
-  off,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  off('OFF'),
+  ;
 
-extension BandwidthReductionFilterSharpeningValueExtension
-    on BandwidthReductionFilterSharpening {
-  String toValue() {
-    switch (this) {
-      case BandwidthReductionFilterSharpening.low:
-        return 'LOW';
-      case BandwidthReductionFilterSharpening.medium:
-        return 'MEDIUM';
-      case BandwidthReductionFilterSharpening.high:
-        return 'HIGH';
-      case BandwidthReductionFilterSharpening.off:
-        return 'OFF';
-    }
-  }
-}
+  final String value;
 
-extension BandwidthReductionFilterSharpeningFromString on String {
-  BandwidthReductionFilterSharpening toBandwidthReductionFilterSharpening() {
-    switch (this) {
-      case 'LOW':
-        return BandwidthReductionFilterSharpening.low;
-      case 'MEDIUM':
-        return BandwidthReductionFilterSharpening.medium;
-      case 'HIGH':
-        return BandwidthReductionFilterSharpening.high;
-      case 'OFF':
-        return BandwidthReductionFilterSharpening.off;
-    }
-    throw Exception(
-        '$this is not known in enum BandwidthReductionFilterSharpening');
-  }
+  const BandwidthReductionFilterSharpening(this.value);
+
+  static BandwidthReductionFilterSharpening fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BandwidthReductionFilterSharpening'));
 }
 
 /// Specify the strength of the Bandwidth reduction filter. For most workflows,
@@ -5227,88 +4212,40 @@ extension BandwidthReductionFilterSharpeningFromString on String {
 /// High. We recommend that you choose High for low bitrate outputs. Note that
 /// High may incur a slight increase in the softness of your output.
 enum BandwidthReductionFilterStrength {
-  low,
-  medium,
-  high,
-  auto,
-  off,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  auto('AUTO'),
+  off('OFF'),
+  ;
 
-extension BandwidthReductionFilterStrengthValueExtension
-    on BandwidthReductionFilterStrength {
-  String toValue() {
-    switch (this) {
-      case BandwidthReductionFilterStrength.low:
-        return 'LOW';
-      case BandwidthReductionFilterStrength.medium:
-        return 'MEDIUM';
-      case BandwidthReductionFilterStrength.high:
-        return 'HIGH';
-      case BandwidthReductionFilterStrength.auto:
-        return 'AUTO';
-      case BandwidthReductionFilterStrength.off:
-        return 'OFF';
-    }
-  }
-}
+  final String value;
 
-extension BandwidthReductionFilterStrengthFromString on String {
-  BandwidthReductionFilterStrength toBandwidthReductionFilterStrength() {
-    switch (this) {
-      case 'LOW':
-        return BandwidthReductionFilterStrength.low;
-      case 'MEDIUM':
-        return BandwidthReductionFilterStrength.medium;
-      case 'HIGH':
-        return BandwidthReductionFilterStrength.high;
-      case 'AUTO':
-        return BandwidthReductionFilterStrength.auto;
-      case 'OFF':
-        return BandwidthReductionFilterStrength.off;
-    }
-    throw Exception(
-        '$this is not known in enum BandwidthReductionFilterStrength');
-  }
+  const BandwidthReductionFilterStrength(this.value);
+
+  static BandwidthReductionFilterStrength fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BandwidthReductionFilterStrength'));
 }
 
 /// The tag type that AWS Billing and Cost Management will use to sort your AWS
 /// Elemental MediaConvert costs on any billing report that you set up.
 enum BillingTagsSource {
-  queue,
-  preset,
-  jobTemplate,
-  job,
-}
+  queue('QUEUE'),
+  preset('PRESET'),
+  jobTemplate('JOB_TEMPLATE'),
+  job('JOB'),
+  ;
 
-extension BillingTagsSourceValueExtension on BillingTagsSource {
-  String toValue() {
-    switch (this) {
-      case BillingTagsSource.queue:
-        return 'QUEUE';
-      case BillingTagsSource.preset:
-        return 'PRESET';
-      case BillingTagsSource.jobTemplate:
-        return 'JOB_TEMPLATE';
-      case BillingTagsSource.job:
-        return 'JOB';
-    }
-  }
-}
+  final String value;
 
-extension BillingTagsSourceFromString on String {
-  BillingTagsSource toBillingTagsSource() {
-    switch (this) {
-      case 'QUEUE':
-        return BillingTagsSource.queue;
-      case 'PRESET':
-        return BillingTagsSource.preset;
-      case 'JOB_TEMPLATE':
-        return BillingTagsSource.jobTemplate;
-      case 'JOB':
-        return BillingTagsSource.job;
-    }
-    throw Exception('$this is not known in enum BillingTagsSource');
-  }
+  const BillingTagsSource(this.value);
+
+  static BillingTagsSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BillingTagsSource'));
 }
 
 /// To use the available style, color, and position information from your input
@@ -5322,33 +4259,18 @@ extension BillingTagsSourceFromString on String {
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
 enum BurnInSubtitleStylePassthrough {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension BurnInSubtitleStylePassthroughValueExtension
-    on BurnInSubtitleStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case BurnInSubtitleStylePassthrough.enabled:
-        return 'ENABLED';
-      case BurnInSubtitleStylePassthrough.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension BurnInSubtitleStylePassthroughFromString on String {
-  BurnInSubtitleStylePassthrough toBurnInSubtitleStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return BurnInSubtitleStylePassthrough.enabled;
-      case 'DISABLED':
-        return BurnInSubtitleStylePassthrough.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum BurnInSubtitleStylePassthrough');
-  }
+  const BurnInSubtitleStylePassthrough(this.value);
+
+  static BurnInSubtitleStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurnInSubtitleStylePassthrough'));
 }
 
 /// Burn-in is a captions delivery method, rather than a captions format.
@@ -5543,36 +4465,38 @@ class BurninDestinationSettings {
 
   factory BurninDestinationSettings.fromJson(Map<String, dynamic> json) {
     return BurninDestinationSettings(
-      alignment: (json['alignment'] as String?)?.toBurninSubtitleAlignment(),
-      applyFontColor:
-          (json['applyFontColor'] as String?)?.toBurninSubtitleApplyFontColor(),
+      alignment: (json['alignment'] as String?)
+          ?.let(BurninSubtitleAlignment.fromString),
+      applyFontColor: (json['applyFontColor'] as String?)
+          ?.let(BurninSubtitleApplyFontColor.fromString),
       backgroundColor: (json['backgroundColor'] as String?)
-          ?.toBurninSubtitleBackgroundColor(),
+          ?.let(BurninSubtitleBackgroundColor.fromString),
       backgroundOpacity: json['backgroundOpacity'] as int?,
-      fallbackFont:
-          (json['fallbackFont'] as String?)?.toBurninSubtitleFallbackFont(),
-      fontColor: (json['fontColor'] as String?)?.toBurninSubtitleFontColor(),
+      fallbackFont: (json['fallbackFont'] as String?)
+          ?.let(BurninSubtitleFallbackFont.fromString),
+      fontColor: (json['fontColor'] as String?)
+          ?.let(BurninSubtitleFontColor.fromString),
       fontFileBold: json['fontFileBold'] as String?,
       fontFileBoldItalic: json['fontFileBoldItalic'] as String?,
       fontFileItalic: json['fontFileItalic'] as String?,
       fontFileRegular: json['fontFileRegular'] as String?,
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
-      fontScript: (json['fontScript'] as String?)?.toFontScript(),
+      fontScript: (json['fontScript'] as String?)?.let(FontScript.fromString),
       fontSize: json['fontSize'] as int?,
       hexFontColor: json['hexFontColor'] as String?,
-      outlineColor:
-          (json['outlineColor'] as String?)?.toBurninSubtitleOutlineColor(),
+      outlineColor: (json['outlineColor'] as String?)
+          ?.let(BurninSubtitleOutlineColor.fromString),
       outlineSize: json['outlineSize'] as int?,
-      shadowColor:
-          (json['shadowColor'] as String?)?.toBurninSubtitleShadowColor(),
+      shadowColor: (json['shadowColor'] as String?)
+          ?.let(BurninSubtitleShadowColor.fromString),
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
       stylePassthrough: (json['stylePassthrough'] as String?)
-          ?.toBurnInSubtitleStylePassthrough(),
+          ?.let(BurnInSubtitleStylePassthrough.fromString),
       teletextSpacing: (json['teletextSpacing'] as String?)
-          ?.toBurninSubtitleTeletextSpacing(),
+          ?.let(BurninSubtitleTeletextSpacing.fromString),
       xPosition: json['xPosition'] as int?,
       yPosition: json['yPosition'] as int?,
     );
@@ -5605,30 +4529,29 @@ class BurninDestinationSettings {
     final xPosition = this.xPosition;
     final yPosition = this.yPosition;
     return {
-      if (alignment != null) 'alignment': alignment.toValue(),
-      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
-      if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
+      if (alignment != null) 'alignment': alignment.value,
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.value,
+      if (backgroundColor != null) 'backgroundColor': backgroundColor.value,
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
-      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
-      if (fontColor != null) 'fontColor': fontColor.toValue(),
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.value,
+      if (fontColor != null) 'fontColor': fontColor.value,
       if (fontFileBold != null) 'fontFileBold': fontFileBold,
       if (fontFileBoldItalic != null) 'fontFileBoldItalic': fontFileBoldItalic,
       if (fontFileItalic != null) 'fontFileItalic': fontFileItalic,
       if (fontFileRegular != null) 'fontFileRegular': fontFileRegular,
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
-      if (fontScript != null) 'fontScript': fontScript.toValue(),
+      if (fontScript != null) 'fontScript': fontScript.value,
       if (fontSize != null) 'fontSize': fontSize,
       if (hexFontColor != null) 'hexFontColor': hexFontColor,
-      if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
+      if (outlineColor != null) 'outlineColor': outlineColor.value,
       if (outlineSize != null) 'outlineSize': outlineSize,
-      if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
+      if (shadowColor != null) 'shadowColor': shadowColor.value,
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
-      if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
+      if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.value,
       if (xPosition != null) 'xPosition': xPosition,
       if (yPosition != null) 'yPosition': yPosition,
     };
@@ -5642,36 +4565,19 @@ class BurninDestinationSettings {
 /// conjunction with the alignment parameter, the font will be justified (either
 /// left or centered) relative to those coordinates.
 enum BurninSubtitleAlignment {
-  centered,
-  left,
-  auto,
-}
+  centered('CENTERED'),
+  left('LEFT'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleAlignmentValueExtension on BurninSubtitleAlignment {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleAlignment.centered:
-        return 'CENTERED';
-      case BurninSubtitleAlignment.left:
-        return 'LEFT';
-      case BurninSubtitleAlignment.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleAlignmentFromString on String {
-  BurninSubtitleAlignment toBurninSubtitleAlignment() {
-    switch (this) {
-      case 'CENTERED':
-        return BurninSubtitleAlignment.centered;
-      case 'LEFT':
-        return BurninSubtitleAlignment.left;
-      case 'AUTO':
-        return BurninSubtitleAlignment.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleAlignment');
-  }
+  const BurninSubtitleAlignment(this.value);
+
+  static BurninSubtitleAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleAlignment'));
 }
 
 /// Ignore this setting unless Style passthrough is set to Enabled and Font
@@ -5683,74 +4589,38 @@ extension BurninSubtitleAlignmentFromString on String {
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
 enum BurninSubtitleApplyFontColor {
-  whiteTextOnly,
-  allText,
-}
+  whiteTextOnly('WHITE_TEXT_ONLY'),
+  allText('ALL_TEXT'),
+  ;
 
-extension BurninSubtitleApplyFontColorValueExtension
-    on BurninSubtitleApplyFontColor {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleApplyFontColor.whiteTextOnly:
-        return 'WHITE_TEXT_ONLY';
-      case BurninSubtitleApplyFontColor.allText:
-        return 'ALL_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleApplyFontColorFromString on String {
-  BurninSubtitleApplyFontColor toBurninSubtitleApplyFontColor() {
-    switch (this) {
-      case 'WHITE_TEXT_ONLY':
-        return BurninSubtitleApplyFontColor.whiteTextOnly;
-      case 'ALL_TEXT':
-        return BurninSubtitleApplyFontColor.allText;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleApplyFontColor');
-  }
+  const BurninSubtitleApplyFontColor(this.value);
+
+  static BurninSubtitleApplyFontColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleApplyFontColor'));
 }
 
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
 enum BurninSubtitleBackgroundColor {
-  none,
-  black,
-  white,
-  auto,
-}
+  none('NONE'),
+  black('BLACK'),
+  white('WHITE'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleBackgroundColorValueExtension
-    on BurninSubtitleBackgroundColor {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleBackgroundColor.none:
-        return 'NONE';
-      case BurninSubtitleBackgroundColor.black:
-        return 'BLACK';
-      case BurninSubtitleBackgroundColor.white:
-        return 'WHITE';
-      case BurninSubtitleBackgroundColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleBackgroundColorFromString on String {
-  BurninSubtitleBackgroundColor toBurninSubtitleBackgroundColor() {
-    switch (this) {
-      case 'NONE':
-        return BurninSubtitleBackgroundColor.none;
-      case 'BLACK':
-        return BurninSubtitleBackgroundColor.black;
-      case 'WHITE':
-        return BurninSubtitleBackgroundColor.white;
-      case 'AUTO':
-        return BurninSubtitleBackgroundColor.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleBackgroundColor');
-  }
+  const BurninSubtitleBackgroundColor(this.value);
+
+  static BurninSubtitleBackgroundColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleBackgroundColor'));
 }
 
 /// Specify the font that you want the service to use for your burn in captions
@@ -5762,206 +4632,88 @@ extension BurninSubtitleBackgroundColorFromString on String {
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
 enum BurninSubtitleFallbackFont {
-  bestMatch,
-  monospacedSansserif,
-  monospacedSerif,
-  proportionalSansserif,
-  proportionalSerif,
-}
+  bestMatch('BEST_MATCH'),
+  monospacedSansserif('MONOSPACED_SANSSERIF'),
+  monospacedSerif('MONOSPACED_SERIF'),
+  proportionalSansserif('PROPORTIONAL_SANSSERIF'),
+  proportionalSerif('PROPORTIONAL_SERIF'),
+  ;
 
-extension BurninSubtitleFallbackFontValueExtension
-    on BurninSubtitleFallbackFont {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleFallbackFont.bestMatch:
-        return 'BEST_MATCH';
-      case BurninSubtitleFallbackFont.monospacedSansserif:
-        return 'MONOSPACED_SANSSERIF';
-      case BurninSubtitleFallbackFont.monospacedSerif:
-        return 'MONOSPACED_SERIF';
-      case BurninSubtitleFallbackFont.proportionalSansserif:
-        return 'PROPORTIONAL_SANSSERIF';
-      case BurninSubtitleFallbackFont.proportionalSerif:
-        return 'PROPORTIONAL_SERIF';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleFallbackFontFromString on String {
-  BurninSubtitleFallbackFont toBurninSubtitleFallbackFont() {
-    switch (this) {
-      case 'BEST_MATCH':
-        return BurninSubtitleFallbackFont.bestMatch;
-      case 'MONOSPACED_SANSSERIF':
-        return BurninSubtitleFallbackFont.monospacedSansserif;
-      case 'MONOSPACED_SERIF':
-        return BurninSubtitleFallbackFont.monospacedSerif;
-      case 'PROPORTIONAL_SANSSERIF':
-        return BurninSubtitleFallbackFont.proportionalSansserif;
-      case 'PROPORTIONAL_SERIF':
-        return BurninSubtitleFallbackFont.proportionalSerif;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleFallbackFont');
-  }
+  const BurninSubtitleFallbackFont(this.value);
+
+  static BurninSubtitleFallbackFont fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleFallbackFont'));
 }
 
 /// Specify the color of the burned-in captions text. Leave Font color blank and
 /// set Style passthrough to enabled to use the font color data from your input
 /// captions, if present.
 enum BurninSubtitleFontColor {
-  white,
-  black,
-  yellow,
-  red,
-  green,
-  blue,
-  hex,
-  auto,
-}
+  white('WHITE'),
+  black('BLACK'),
+  yellow('YELLOW'),
+  red('RED'),
+  green('GREEN'),
+  blue('BLUE'),
+  hex('HEX'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleFontColorValueExtension on BurninSubtitleFontColor {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleFontColor.white:
-        return 'WHITE';
-      case BurninSubtitleFontColor.black:
-        return 'BLACK';
-      case BurninSubtitleFontColor.yellow:
-        return 'YELLOW';
-      case BurninSubtitleFontColor.red:
-        return 'RED';
-      case BurninSubtitleFontColor.green:
-        return 'GREEN';
-      case BurninSubtitleFontColor.blue:
-        return 'BLUE';
-      case BurninSubtitleFontColor.hex:
-        return 'HEX';
-      case BurninSubtitleFontColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleFontColorFromString on String {
-  BurninSubtitleFontColor toBurninSubtitleFontColor() {
-    switch (this) {
-      case 'WHITE':
-        return BurninSubtitleFontColor.white;
-      case 'BLACK':
-        return BurninSubtitleFontColor.black;
-      case 'YELLOW':
-        return BurninSubtitleFontColor.yellow;
-      case 'RED':
-        return BurninSubtitleFontColor.red;
-      case 'GREEN':
-        return BurninSubtitleFontColor.green;
-      case 'BLUE':
-        return BurninSubtitleFontColor.blue;
-      case 'HEX':
-        return BurninSubtitleFontColor.hex;
-      case 'AUTO':
-        return BurninSubtitleFontColor.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleFontColor');
-  }
+  const BurninSubtitleFontColor(this.value);
+
+  static BurninSubtitleFontColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleFontColor'));
 }
 
 /// Specify font outline color. Leave Outline color blank and set Style
 /// passthrough to enabled to use the font outline color data from your input
 /// captions, if present.
 enum BurninSubtitleOutlineColor {
-  black,
-  white,
-  yellow,
-  red,
-  green,
-  blue,
-  auto,
-}
+  black('BLACK'),
+  white('WHITE'),
+  yellow('YELLOW'),
+  red('RED'),
+  green('GREEN'),
+  blue('BLUE'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleOutlineColorValueExtension
-    on BurninSubtitleOutlineColor {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleOutlineColor.black:
-        return 'BLACK';
-      case BurninSubtitleOutlineColor.white:
-        return 'WHITE';
-      case BurninSubtitleOutlineColor.yellow:
-        return 'YELLOW';
-      case BurninSubtitleOutlineColor.red:
-        return 'RED';
-      case BurninSubtitleOutlineColor.green:
-        return 'GREEN';
-      case BurninSubtitleOutlineColor.blue:
-        return 'BLUE';
-      case BurninSubtitleOutlineColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleOutlineColorFromString on String {
-  BurninSubtitleOutlineColor toBurninSubtitleOutlineColor() {
-    switch (this) {
-      case 'BLACK':
-        return BurninSubtitleOutlineColor.black;
-      case 'WHITE':
-        return BurninSubtitleOutlineColor.white;
-      case 'YELLOW':
-        return BurninSubtitleOutlineColor.yellow;
-      case 'RED':
-        return BurninSubtitleOutlineColor.red;
-      case 'GREEN':
-        return BurninSubtitleOutlineColor.green;
-      case 'BLUE':
-        return BurninSubtitleOutlineColor.blue;
-      case 'AUTO':
-        return BurninSubtitleOutlineColor.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleOutlineColor');
-  }
+  const BurninSubtitleOutlineColor(this.value);
+
+  static BurninSubtitleOutlineColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleOutlineColor'));
 }
 
 /// Specify the color of the shadow cast by the captions. Leave Shadow color
 /// blank and set Style passthrough to enabled to use the shadow color data from
 /// your input captions, if present.
 enum BurninSubtitleShadowColor {
-  none,
-  black,
-  white,
-  auto,
-}
+  none('NONE'),
+  black('BLACK'),
+  white('WHITE'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleShadowColorValueExtension on BurninSubtitleShadowColor {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleShadowColor.none:
-        return 'NONE';
-      case BurninSubtitleShadowColor.black:
-        return 'BLACK';
-      case BurninSubtitleShadowColor.white:
-        return 'WHITE';
-      case BurninSubtitleShadowColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleShadowColorFromString on String {
-  BurninSubtitleShadowColor toBurninSubtitleShadowColor() {
-    switch (this) {
-      case 'NONE':
-        return BurninSubtitleShadowColor.none;
-      case 'BLACK':
-        return BurninSubtitleShadowColor.black;
-      case 'WHITE':
-        return BurninSubtitleShadowColor.white;
-      case 'AUTO':
-        return BurninSubtitleShadowColor.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleShadowColor');
-  }
+  const BurninSubtitleShadowColor(this.value);
+
+  static BurninSubtitleShadowColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleShadowColor'));
 }
 
 /// Specify whether the text spacing in your captions is set by the captions
@@ -5969,37 +4721,19 @@ extension BurninSubtitleShadowColorFromString on String {
 /// the spacing specified in the captions file more accurately. Choose
 /// proportional to make the text easier to read for closed captions.
 enum BurninSubtitleTeletextSpacing {
-  fixedGrid,
-  proportional,
-  auto,
-}
+  fixedGrid('FIXED_GRID'),
+  proportional('PROPORTIONAL'),
+  auto('AUTO'),
+  ;
 
-extension BurninSubtitleTeletextSpacingValueExtension
-    on BurninSubtitleTeletextSpacing {
-  String toValue() {
-    switch (this) {
-      case BurninSubtitleTeletextSpacing.fixedGrid:
-        return 'FIXED_GRID';
-      case BurninSubtitleTeletextSpacing.proportional:
-        return 'PROPORTIONAL';
-      case BurninSubtitleTeletextSpacing.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension BurninSubtitleTeletextSpacingFromString on String {
-  BurninSubtitleTeletextSpacing toBurninSubtitleTeletextSpacing() {
-    switch (this) {
-      case 'FIXED_GRID':
-        return BurninSubtitleTeletextSpacing.fixedGrid;
-      case 'PROPORTIONAL':
-        return BurninSubtitleTeletextSpacing.proportional;
-      case 'AUTO':
-        return BurninSubtitleTeletextSpacing.auto;
-    }
-    throw Exception('$this is not known in enum BurninSubtitleTeletextSpacing');
-  }
+  const BurninSubtitleTeletextSpacing(this.value);
+
+  static BurninSubtitleTeletextSpacing fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BurninSubtitleTeletextSpacing'));
 }
 
 class CancelJobResponse {
@@ -6067,7 +4801,8 @@ class CaptionDescription {
           ? CaptionDestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       languageDescription: json['languageDescription'] as String?,
     );
   }
@@ -6084,7 +4819,7 @@ class CaptionDescription {
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (languageDescription != null)
         'languageDescription': languageDescription,
     };
@@ -6139,7 +4874,8 @@ class CaptionDescriptionPreset {
           ? CaptionDestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       languageDescription: json['languageDescription'] as String?,
     );
   }
@@ -6153,7 +4889,7 @@ class CaptionDescriptionPreset {
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (languageDescription != null)
         'languageDescription': languageDescription,
     };
@@ -6251,8 +4987,8 @@ class CaptionDestinationSettings {
           ? BurninDestinationSettings.fromJson(
               json['burninDestinationSettings'] as Map<String, dynamic>)
           : null,
-      destinationType:
-          (json['destinationType'] as String?)?.toCaptionDestinationType(),
+      destinationType: (json['destinationType'] as String?)
+          ?.let(CaptionDestinationType.fromString),
       dvbSubDestinationSettings: json['dvbSubDestinationSettings'] != null
           ? DvbSubDestinationSettings.fromJson(
               json['dvbSubDestinationSettings'] as Map<String, dynamic>)
@@ -6302,7 +5038,7 @@ class CaptionDestinationSettings {
     return {
       if (burninDestinationSettings != null)
         'burninDestinationSettings': burninDestinationSettings,
-      if (destinationType != null) 'destinationType': destinationType.toValue(),
+      if (destinationType != null) 'destinationType': destinationType.value,
       if (dvbSubDestinationSettings != null)
         'dvbSubDestinationSettings': dvbSubDestinationSettings,
       if (embeddedDestinationSettings != null)
@@ -6332,81 +5068,28 @@ class CaptionDestinationSettings {
 /// the SCTE-43 spec, choose SCTE-20 plus embedded. To create a non-compliant
 /// output where the embedded captions come first, choose Embedded plus SCTE-20.
 enum CaptionDestinationType {
-  burnIn,
-  dvbSub,
-  embedded,
-  embeddedPlusScte20,
-  imsc,
-  scte20PlusEmbedded,
-  scc,
-  srt,
-  smi,
-  teletext,
-  ttml,
-  webvtt,
-}
+  burnIn('BURN_IN'),
+  dvbSub('DVB_SUB'),
+  embedded('EMBEDDED'),
+  embeddedPlusScte20('EMBEDDED_PLUS_SCTE20'),
+  imsc('IMSC'),
+  scte20PlusEmbedded('SCTE20_PLUS_EMBEDDED'),
+  scc('SCC'),
+  srt('SRT'),
+  smi('SMI'),
+  teletext('TELETEXT'),
+  ttml('TTML'),
+  webvtt('WEBVTT'),
+  ;
 
-extension CaptionDestinationTypeValueExtension on CaptionDestinationType {
-  String toValue() {
-    switch (this) {
-      case CaptionDestinationType.burnIn:
-        return 'BURN_IN';
-      case CaptionDestinationType.dvbSub:
-        return 'DVB_SUB';
-      case CaptionDestinationType.embedded:
-        return 'EMBEDDED';
-      case CaptionDestinationType.embeddedPlusScte20:
-        return 'EMBEDDED_PLUS_SCTE20';
-      case CaptionDestinationType.imsc:
-        return 'IMSC';
-      case CaptionDestinationType.scte20PlusEmbedded:
-        return 'SCTE20_PLUS_EMBEDDED';
-      case CaptionDestinationType.scc:
-        return 'SCC';
-      case CaptionDestinationType.srt:
-        return 'SRT';
-      case CaptionDestinationType.smi:
-        return 'SMI';
-      case CaptionDestinationType.teletext:
-        return 'TELETEXT';
-      case CaptionDestinationType.ttml:
-        return 'TTML';
-      case CaptionDestinationType.webvtt:
-        return 'WEBVTT';
-    }
-  }
-}
+  final String value;
 
-extension CaptionDestinationTypeFromString on String {
-  CaptionDestinationType toCaptionDestinationType() {
-    switch (this) {
-      case 'BURN_IN':
-        return CaptionDestinationType.burnIn;
-      case 'DVB_SUB':
-        return CaptionDestinationType.dvbSub;
-      case 'EMBEDDED':
-        return CaptionDestinationType.embedded;
-      case 'EMBEDDED_PLUS_SCTE20':
-        return CaptionDestinationType.embeddedPlusScte20;
-      case 'IMSC':
-        return CaptionDestinationType.imsc;
-      case 'SCTE20_PLUS_EMBEDDED':
-        return CaptionDestinationType.scte20PlusEmbedded;
-      case 'SCC':
-        return CaptionDestinationType.scc;
-      case 'SRT':
-        return CaptionDestinationType.srt;
-      case 'SMI':
-        return CaptionDestinationType.smi;
-      case 'TELETEXT':
-        return CaptionDestinationType.teletext;
-      case 'TTML':
-        return CaptionDestinationType.ttml;
-      case 'WEBVTT':
-        return CaptionDestinationType.webvtt;
-    }
-    throw Exception('$this is not known in enum CaptionDestinationType');
-  }
+  const CaptionDestinationType(this.value);
+
+  static CaptionDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CaptionDestinationType'));
 }
 
 /// Use captions selectors to specify the captions data from your input that you
@@ -6444,7 +5127,8 @@ class CaptionSelector {
   factory CaptionSelector.fromJson(Map<String, dynamic> json) {
     return CaptionSelector(
       customLanguageCode: json['customLanguageCode'] as String?,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       sourceSettings: json['sourceSettings'] != null
           ? CaptionSourceSettings.fromJson(
               json['sourceSettings'] as Map<String, dynamic>)
@@ -6458,7 +5142,7 @@ class CaptionSelector {
     final sourceSettings = this.sourceSettings;
     return {
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (sourceSettings != null) 'sourceSettings': sourceSettings,
     };
   }
@@ -6470,33 +5154,18 @@ class CaptionSelector {
 /// you choose Enabled if you notice additional repeated lines in your output
 /// captions.
 enum CaptionSourceConvertPaintOnToPopOn {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CaptionSourceConvertPaintOnToPopOnValueExtension
-    on CaptionSourceConvertPaintOnToPopOn {
-  String toValue() {
-    switch (this) {
-      case CaptionSourceConvertPaintOnToPopOn.enabled:
-        return 'ENABLED';
-      case CaptionSourceConvertPaintOnToPopOn.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CaptionSourceConvertPaintOnToPopOnFromString on String {
-  CaptionSourceConvertPaintOnToPopOn toCaptionSourceConvertPaintOnToPopOn() {
-    switch (this) {
-      case 'ENABLED':
-        return CaptionSourceConvertPaintOnToPopOn.enabled;
-      case 'DISABLED':
-        return CaptionSourceConvertPaintOnToPopOn.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum CaptionSourceConvertPaintOnToPopOn');
-  }
+  const CaptionSourceConvertPaintOnToPopOn(this.value);
+
+  static CaptionSourceConvertPaintOnToPopOn fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CaptionSourceConvertPaintOnToPopOn'));
 }
 
 /// Ignore this setting unless your input captions format is SCC. To have the
@@ -6611,7 +5280,8 @@ class CaptionSourceSettings {
           ? FileSourceSettings.fromJson(
               json['fileSourceSettings'] as Map<String, dynamic>)
           : null,
-      sourceType: (json['sourceType'] as String?)?.toCaptionSourceType(),
+      sourceType:
+          (json['sourceType'] as String?)?.let(CaptionSourceType.fromString),
       teletextSourceSettings: json['teletextSourceSettings'] != null
           ? TeletextSourceSettings.fromJson(
               json['teletextSourceSettings'] as Map<String, dynamic>)
@@ -6644,7 +5314,7 @@ class CaptionSourceSettings {
       if (embeddedSourceSettings != null)
         'embeddedSourceSettings': embeddedSourceSettings,
       if (fileSourceSettings != null) 'fileSourceSettings': fileSourceSettings,
-      if (sourceType != null) 'sourceType': sourceType.toValue(),
+      if (sourceType != null) 'sourceType': sourceType.value,
       if (teletextSourceSettings != null)
         'teletextSourceSettings': teletextSourceSettings,
       if (trackSourceSettings != null)
@@ -6658,91 +5328,30 @@ class CaptionSourceSettings {
 /// Use Source to identify the format of your input captions. The service cannot
 /// auto-detect caption format.
 enum CaptionSourceType {
-  ancillary,
-  dvbSub,
-  embedded,
-  scte20,
-  scc,
-  ttml,
-  stl,
-  srt,
-  smi,
-  smpteTt,
-  teletext,
-  nullSource,
-  imsc,
-  webvtt,
-}
+  ancillary('ANCILLARY'),
+  dvbSub('DVB_SUB'),
+  embedded('EMBEDDED'),
+  scte20('SCTE20'),
+  scc('SCC'),
+  ttml('TTML'),
+  stl('STL'),
+  srt('SRT'),
+  smi('SMI'),
+  smpteTt('SMPTE_TT'),
+  teletext('TELETEXT'),
+  nullSource('NULL_SOURCE'),
+  imsc('IMSC'),
+  webvtt('WEBVTT'),
+  ;
 
-extension CaptionSourceTypeValueExtension on CaptionSourceType {
-  String toValue() {
-    switch (this) {
-      case CaptionSourceType.ancillary:
-        return 'ANCILLARY';
-      case CaptionSourceType.dvbSub:
-        return 'DVB_SUB';
-      case CaptionSourceType.embedded:
-        return 'EMBEDDED';
-      case CaptionSourceType.scte20:
-        return 'SCTE20';
-      case CaptionSourceType.scc:
-        return 'SCC';
-      case CaptionSourceType.ttml:
-        return 'TTML';
-      case CaptionSourceType.stl:
-        return 'STL';
-      case CaptionSourceType.srt:
-        return 'SRT';
-      case CaptionSourceType.smi:
-        return 'SMI';
-      case CaptionSourceType.smpteTt:
-        return 'SMPTE_TT';
-      case CaptionSourceType.teletext:
-        return 'TELETEXT';
-      case CaptionSourceType.nullSource:
-        return 'NULL_SOURCE';
-      case CaptionSourceType.imsc:
-        return 'IMSC';
-      case CaptionSourceType.webvtt:
-        return 'WEBVTT';
-    }
-  }
-}
+  final String value;
 
-extension CaptionSourceTypeFromString on String {
-  CaptionSourceType toCaptionSourceType() {
-    switch (this) {
-      case 'ANCILLARY':
-        return CaptionSourceType.ancillary;
-      case 'DVB_SUB':
-        return CaptionSourceType.dvbSub;
-      case 'EMBEDDED':
-        return CaptionSourceType.embedded;
-      case 'SCTE20':
-        return CaptionSourceType.scte20;
-      case 'SCC':
-        return CaptionSourceType.scc;
-      case 'TTML':
-        return CaptionSourceType.ttml;
-      case 'STL':
-        return CaptionSourceType.stl;
-      case 'SRT':
-        return CaptionSourceType.srt;
-      case 'SMI':
-        return CaptionSourceType.smi;
-      case 'SMPTE_TT':
-        return CaptionSourceType.smpteTt;
-      case 'TELETEXT':
-        return CaptionSourceType.teletext;
-      case 'NULL_SOURCE':
-        return CaptionSourceType.nullSource;
-      case 'IMSC':
-        return CaptionSourceType.imsc;
-      case 'WEBVTT':
-        return CaptionSourceType.webvtt;
-    }
-    throw Exception('$this is not known in enum CaptionSourceType');
-  }
+  const CaptionSourceType(this.value);
+
+  static CaptionSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CaptionSourceType'));
 }
 
 /// Channel mapping contains the group of fields that hold the remixing value
@@ -6902,61 +5511,35 @@ class CmafAdditionalManifest {
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
 enum CmafClientCache {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension CmafClientCacheValueExtension on CmafClientCache {
-  String toValue() {
-    switch (this) {
-      case CmafClientCache.disabled:
-        return 'DISABLED';
-      case CmafClientCache.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension CmafClientCacheFromString on String {
-  CmafClientCache toCmafClientCache() {
-    switch (this) {
-      case 'DISABLED':
-        return CmafClientCache.disabled;
-      case 'ENABLED':
-        return CmafClientCache.enabled;
-    }
-    throw Exception('$this is not known in enum CmafClientCache');
-  }
+  const CmafClientCache(this.value);
+
+  static CmafClientCache fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmafClientCache'));
 }
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
 enum CmafCodecSpecification {
-  rfc_6381,
-  rfc_4281,
-}
+  rfc_6381('RFC_6381'),
+  rfc_4281('RFC_4281'),
+  ;
 
-extension CmafCodecSpecificationValueExtension on CmafCodecSpecification {
-  String toValue() {
-    switch (this) {
-      case CmafCodecSpecification.rfc_6381:
-        return 'RFC_6381';
-      case CmafCodecSpecification.rfc_4281:
-        return 'RFC_4281';
-    }
-  }
-}
+  final String value;
 
-extension CmafCodecSpecificationFromString on String {
-  CmafCodecSpecification toCmafCodecSpecification() {
-    switch (this) {
-      case 'RFC_6381':
-        return CmafCodecSpecification.rfc_6381;
-      case 'RFC_4281':
-        return CmafCodecSpecification.rfc_4281;
-    }
-    throw Exception('$this is not known in enum CmafCodecSpecification');
-  }
+  const CmafCodecSpecification(this.value);
+
+  static CmafCodecSpecification fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafCodecSpecification'));
 }
 
 /// Settings for CMAF encryption
@@ -7000,11 +5583,11 @@ class CmafEncryptionSettings {
     return CmafEncryptionSettings(
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
-      encryptionMethod:
-          (json['encryptionMethod'] as String?)?.toCmafEncryptionType(),
+      encryptionMethod: (json['encryptionMethod'] as String?)
+          ?.let(CmafEncryptionType.fromString),
       initializationVectorInManifest:
           (json['initializationVectorInManifest'] as String?)
-              ?.toCmafInitializationVectorInManifest(),
+              ?.let(CmafInitializationVectorInManifest.fromString),
       spekeKeyProvider: json['spekeKeyProvider'] != null
           ? SpekeKeyProviderCmaf.fromJson(
               json['spekeKeyProvider'] as Map<String, dynamic>)
@@ -7013,7 +5596,7 @@ class CmafEncryptionSettings {
           ? StaticKeyProvider.fromJson(
               json['staticKeyProvider'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toCmafKeyProviderType(),
+      type: (json['type'] as String?)?.let(CmafKeyProviderType.fromString),
     );
   }
 
@@ -7027,14 +5610,12 @@ class CmafEncryptionSettings {
     return {
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
-      if (encryptionMethod != null)
-        'encryptionMethod': encryptionMethod.toValue(),
+      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
       if (initializationVectorInManifest != null)
-        'initializationVectorInManifest':
-            initializationVectorInManifest.toValue(),
+        'initializationVectorInManifest': initializationVectorInManifest.value,
       if (spekeKeyProvider != null) 'spekeKeyProvider': spekeKeyProvider,
       if (staticKeyProvider != null) 'staticKeyProvider': staticKeyProvider,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -7042,31 +5623,18 @@ class CmafEncryptionSettings {
 /// Specify the encryption scheme that you want the service to use when
 /// encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
 enum CmafEncryptionType {
-  sampleAes,
-  aesCtr,
-}
+  sampleAes('SAMPLE_AES'),
+  aesCtr('AES_CTR'),
+  ;
 
-extension CmafEncryptionTypeValueExtension on CmafEncryptionType {
-  String toValue() {
-    switch (this) {
-      case CmafEncryptionType.sampleAes:
-        return 'SAMPLE_AES';
-      case CmafEncryptionType.aesCtr:
-        return 'AES_CTR';
-    }
-  }
-}
+  final String value;
 
-extension CmafEncryptionTypeFromString on String {
-  CmafEncryptionType toCmafEncryptionType() {
-    switch (this) {
-      case 'SAMPLE_AES':
-        return CmafEncryptionType.sampleAes;
-      case 'AES_CTR':
-        return CmafEncryptionType.aesCtr;
-    }
-    throw Exception('$this is not known in enum CmafEncryptionType');
-  }
+  const CmafEncryptionType(this.value);
+
+  static CmafEncryptionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafEncryptionType'));
 }
 
 /// Settings related to your CMAF output package. For more information, see
@@ -7288,11 +5856,12 @@ class CmafGroupSettings {
               (e) => CmafAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       baseUrl: json['baseUrl'] as String?,
-      clientCache: (json['clientCache'] as String?)?.toCmafClientCache(),
-      codecSpecification:
-          (json['codecSpecification'] as String?)?.toCmafCodecSpecification(),
-      dashManifestStyle:
-          (json['dashManifestStyle'] as String?)?.toDashManifestStyle(),
+      clientCache:
+          (json['clientCache'] as String?)?.let(CmafClientCache.fromString),
+      codecSpecification: (json['codecSpecification'] as String?)
+          ?.let(CmafCodecSpecification.fromString),
+      dashManifestStyle: (json['dashManifestStyle'] as String?)
+          ?.let(DashManifestStyle.fromString),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
@@ -7303,43 +5872,44 @@ class CmafGroupSettings {
               json['encryption'] as Map<String, dynamic>)
           : null,
       fragmentLength: json['fragmentLength'] as int?,
-      imageBasedTrickPlay:
-          (json['imageBasedTrickPlay'] as String?)?.toCmafImageBasedTrickPlay(),
+      imageBasedTrickPlay: (json['imageBasedTrickPlay'] as String?)
+          ?.let(CmafImageBasedTrickPlay.fromString),
       imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
           ? CmafImageBasedTrickPlaySettings.fromJson(
               json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
           : null,
-      manifestCompression:
-          (json['manifestCompression'] as String?)?.toCmafManifestCompression(),
+      manifestCompression: (json['manifestCompression'] as String?)
+          ?.let(CmafManifestCompression.fromString),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
-          ?.toCmafManifestDurationFormat(),
+          ?.let(CmafManifestDurationFormat.fromString),
       minBufferTime: json['minBufferTime'] as int?,
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
       mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
-          ?.toCmafMpdManifestBandwidthType(),
-      mpdProfile: (json['mpdProfile'] as String?)?.toCmafMpdProfile(),
+          ?.let(CmafMpdManifestBandwidthType.fromString),
+      mpdProfile:
+          (json['mpdProfile'] as String?)?.let(CmafMpdProfile.fromString),
       ptsOffsetHandlingForBFrames:
           (json['ptsOffsetHandlingForBFrames'] as String?)
-              ?.toCmafPtsOffsetHandlingForBFrames(),
-      segmentControl:
-          (json['segmentControl'] as String?)?.toCmafSegmentControl(),
+              ?.let(CmafPtsOffsetHandlingForBFrames.fromString),
+      segmentControl: (json['segmentControl'] as String?)
+          ?.let(CmafSegmentControl.fromString),
       segmentLength: json['segmentLength'] as int?,
       segmentLengthControl: (json['segmentLengthControl'] as String?)
-          ?.toCmafSegmentLengthControl(),
-      streamInfResolution:
-          (json['streamInfResolution'] as String?)?.toCmafStreamInfResolution(),
+          ?.let(CmafSegmentLengthControl.fromString),
+      streamInfResolution: (json['streamInfResolution'] as String?)
+          ?.let(CmafStreamInfResolution.fromString),
       targetDurationCompatibilityMode:
           (json['targetDurationCompatibilityMode'] as String?)
-              ?.toCmafTargetDurationCompatibilityMode(),
+              ?.let(CmafTargetDurationCompatibilityMode.fromString),
       videoCompositionOffsets: (json['videoCompositionOffsets'] as String?)
-          ?.toCmafVideoCompositionOffsets(),
-      writeDashManifest:
-          (json['writeDashManifest'] as String?)?.toCmafWriteDASHManifest(),
-      writeHlsManifest:
-          (json['writeHlsManifest'] as String?)?.toCmafWriteHLSManifest(),
+          ?.let(CmafVideoCompositionOffsets.fromString),
+      writeDashManifest: (json['writeDashManifest'] as String?)
+          ?.let(CmafWriteDASHManifest.fromString),
+      writeHlsManifest: (json['writeHlsManifest'] as String?)
+          ?.let(CmafWriteHLSManifest.fromString),
       writeSegmentTimelineInRepresentation:
           (json['writeSegmentTimelineInRepresentation'] as String?)
-              ?.toCmafWriteSegmentTimelineInRepresentation(),
+              ?.let(CmafWriteSegmentTimelineInRepresentation.fromString),
     );
   }
 
@@ -7377,50 +5947,49 @@ class CmafGroupSettings {
       if (additionalManifests != null)
         'additionalManifests': additionalManifests,
       if (baseUrl != null) 'baseUrl': baseUrl,
-      if (clientCache != null) 'clientCache': clientCache.toValue(),
+      if (clientCache != null) 'clientCache': clientCache.value,
       if (codecSpecification != null)
-        'codecSpecification': codecSpecification.toValue(),
+        'codecSpecification': codecSpecification.value,
       if (dashManifestStyle != null)
-        'dashManifestStyle': dashManifestStyle.toValue(),
+        'dashManifestStyle': dashManifestStyle.value,
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
       if (imageBasedTrickPlay != null)
-        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+        'imageBasedTrickPlay': imageBasedTrickPlay.value,
       if (imageBasedTrickPlaySettings != null)
         'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
-        'manifestCompression': manifestCompression.toValue(),
+        'manifestCompression': manifestCompression.value,
       if (manifestDurationFormat != null)
-        'manifestDurationFormat': manifestDurationFormat.toValue(),
+        'manifestDurationFormat': manifestDurationFormat.value,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
       if (mpdManifestBandwidthType != null)
-        'mpdManifestBandwidthType': mpdManifestBandwidthType.toValue(),
-      if (mpdProfile != null) 'mpdProfile': mpdProfile.toValue(),
+        'mpdManifestBandwidthType': mpdManifestBandwidthType.value,
+      if (mpdProfile != null) 'mpdProfile': mpdProfile.value,
       if (ptsOffsetHandlingForBFrames != null)
-        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
-      if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
+        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.value,
+      if (segmentControl != null) 'segmentControl': segmentControl.value,
       if (segmentLength != null) 'segmentLength': segmentLength,
       if (segmentLengthControl != null)
-        'segmentLengthControl': segmentLengthControl.toValue(),
+        'segmentLengthControl': segmentLengthControl.value,
       if (streamInfResolution != null)
-        'streamInfResolution': streamInfResolution.toValue(),
+        'streamInfResolution': streamInfResolution.value,
       if (targetDurationCompatibilityMode != null)
         'targetDurationCompatibilityMode':
-            targetDurationCompatibilityMode.toValue(),
+            targetDurationCompatibilityMode.value,
       if (videoCompositionOffsets != null)
-        'videoCompositionOffsets': videoCompositionOffsets.toValue(),
+        'videoCompositionOffsets': videoCompositionOffsets.value,
       if (writeDashManifest != null)
-        'writeDashManifest': writeDashManifest.toValue(),
-      if (writeHlsManifest != null)
-        'writeHlsManifest': writeHlsManifest.toValue(),
+        'writeDashManifest': writeDashManifest.value,
+      if (writeHlsManifest != null) 'writeHlsManifest': writeHlsManifest.value,
       if (writeSegmentTimelineInRepresentation != null)
         'writeSegmentTimelineInRepresentation':
-            writeSegmentTimelineInRepresentation.toValue(),
+            writeSegmentTimelineInRepresentation.value,
     };
   }
 }
@@ -7438,41 +6007,20 @@ class CmafGroupSettings {
 /// with this Roku specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
 enum CmafImageBasedTrickPlay {
-  none,
-  thumbnail,
-  thumbnailAndFullframe,
-  advanced,
-}
+  none('NONE'),
+  thumbnail('THUMBNAIL'),
+  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
+  advanced('ADVANCED'),
+  ;
 
-extension CmafImageBasedTrickPlayValueExtension on CmafImageBasedTrickPlay {
-  String toValue() {
-    switch (this) {
-      case CmafImageBasedTrickPlay.none:
-        return 'NONE';
-      case CmafImageBasedTrickPlay.thumbnail:
-        return 'THUMBNAIL';
-      case CmafImageBasedTrickPlay.thumbnailAndFullframe:
-        return 'THUMBNAIL_AND_FULLFRAME';
-      case CmafImageBasedTrickPlay.advanced:
-        return 'ADVANCED';
-    }
-  }
-}
+  final String value;
 
-extension CmafImageBasedTrickPlayFromString on String {
-  CmafImageBasedTrickPlay toCmafImageBasedTrickPlay() {
-    switch (this) {
-      case 'NONE':
-        return CmafImageBasedTrickPlay.none;
-      case 'THUMBNAIL':
-        return CmafImageBasedTrickPlay.thumbnail;
-      case 'THUMBNAIL_AND_FULLFRAME':
-        return CmafImageBasedTrickPlay.thumbnailAndFullframe;
-      case 'ADVANCED':
-        return CmafImageBasedTrickPlay.advanced;
-    }
-    throw Exception('$this is not known in enum CmafImageBasedTrickPlay');
-  }
+  const CmafImageBasedTrickPlay(this.value);
+
+  static CmafImageBasedTrickPlay fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafImageBasedTrickPlay'));
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -7521,8 +6069,8 @@ class CmafImageBasedTrickPlaySettings {
 
   factory CmafImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
     return CmafImageBasedTrickPlaySettings(
-      intervalCadence:
-          (json['intervalCadence'] as String?)?.toCmafIntervalCadence(),
+      intervalCadence: (json['intervalCadence'] as String?)
+          ?.let(CmafIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
       thumbnailInterval: json['thumbnailInterval'] as double?,
       thumbnailWidth: json['thumbnailWidth'] as int?,
@@ -7539,7 +6087,7 @@ class CmafImageBasedTrickPlaySettings {
     final tileHeight = this.tileHeight;
     final tileWidth = this.tileWidth;
     return {
-      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
       if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
@@ -7552,33 +6100,18 @@ class CmafImageBasedTrickPlaySettings {
 /// When you use DRM with CMAF outputs, choose whether the service writes the
 /// 128-bit encryption initialization vector in the HLS and DASH manifests.
 enum CmafInitializationVectorInManifest {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension CmafInitializationVectorInManifestValueExtension
-    on CmafInitializationVectorInManifest {
-  String toValue() {
-    switch (this) {
-      case CmafInitializationVectorInManifest.include:
-        return 'INCLUDE';
-      case CmafInitializationVectorInManifest.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension CmafInitializationVectorInManifestFromString on String {
-  CmafInitializationVectorInManifest toCmafInitializationVectorInManifest() {
-    switch (this) {
-      case 'INCLUDE':
-        return CmafInitializationVectorInManifest.include;
-      case 'EXCLUDE':
-        return CmafInitializationVectorInManifest.exclude;
-    }
-    throw Exception(
-        '$this is not known in enum CmafInitializationVectorInManifest');
-  }
+  const CmafInitializationVectorInManifest(this.value);
+
+  static CmafInitializationVectorInManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafInitializationVectorInManifest'));
 }
 
 /// The cadence MediaConvert follows for generating thumbnails. If set to
@@ -7587,122 +6120,69 @@ extension CmafInitializationVectorInManifestFromString on String {
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
 enum CmafIntervalCadence {
-  followIframe,
-  followCustom,
-}
+  followIframe('FOLLOW_IFRAME'),
+  followCustom('FOLLOW_CUSTOM'),
+  ;
 
-extension CmafIntervalCadenceValueExtension on CmafIntervalCadence {
-  String toValue() {
-    switch (this) {
-      case CmafIntervalCadence.followIframe:
-        return 'FOLLOW_IFRAME';
-      case CmafIntervalCadence.followCustom:
-        return 'FOLLOW_CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension CmafIntervalCadenceFromString on String {
-  CmafIntervalCadence toCmafIntervalCadence() {
-    switch (this) {
-      case 'FOLLOW_IFRAME':
-        return CmafIntervalCadence.followIframe;
-      case 'FOLLOW_CUSTOM':
-        return CmafIntervalCadence.followCustom;
-    }
-    throw Exception('$this is not known in enum CmafIntervalCadence');
-  }
+  const CmafIntervalCadence(this.value);
+
+  static CmafIntervalCadence fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafIntervalCadence'));
 }
 
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
 enum CmafKeyProviderType {
-  speke,
-  staticKey,
-}
+  speke('SPEKE'),
+  staticKey('STATIC_KEY'),
+  ;
 
-extension CmafKeyProviderTypeValueExtension on CmafKeyProviderType {
-  String toValue() {
-    switch (this) {
-      case CmafKeyProviderType.speke:
-        return 'SPEKE';
-      case CmafKeyProviderType.staticKey:
-        return 'STATIC_KEY';
-    }
-  }
-}
+  final String value;
 
-extension CmafKeyProviderTypeFromString on String {
-  CmafKeyProviderType toCmafKeyProviderType() {
-    switch (this) {
-      case 'SPEKE':
-        return CmafKeyProviderType.speke;
-      case 'STATIC_KEY':
-        return CmafKeyProviderType.staticKey;
-    }
-    throw Exception('$this is not known in enum CmafKeyProviderType');
-  }
+  const CmafKeyProviderType(this.value);
+
+  static CmafKeyProviderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafKeyProviderType'));
 }
 
 /// When set to GZIP, compresses HLS playlist.
 enum CmafManifestCompression {
-  gzip,
-  none,
-}
+  gzip('GZIP'),
+  none('NONE'),
+  ;
 
-extension CmafManifestCompressionValueExtension on CmafManifestCompression {
-  String toValue() {
-    switch (this) {
-      case CmafManifestCompression.gzip:
-        return 'GZIP';
-      case CmafManifestCompression.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CmafManifestCompressionFromString on String {
-  CmafManifestCompression toCmafManifestCompression() {
-    switch (this) {
-      case 'GZIP':
-        return CmafManifestCompression.gzip;
-      case 'NONE':
-        return CmafManifestCompression.none;
-    }
-    throw Exception('$this is not known in enum CmafManifestCompression');
-  }
+  const CmafManifestCompression(this.value);
+
+  static CmafManifestCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafManifestCompression'));
 }
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
 enum CmafManifestDurationFormat {
-  floatingPoint,
-  integer,
-}
+  floatingPoint('FLOATING_POINT'),
+  integer('INTEGER'),
+  ;
 
-extension CmafManifestDurationFormatValueExtension
-    on CmafManifestDurationFormat {
-  String toValue() {
-    switch (this) {
-      case CmafManifestDurationFormat.floatingPoint:
-        return 'FLOATING_POINT';
-      case CmafManifestDurationFormat.integer:
-        return 'INTEGER';
-    }
-  }
-}
+  final String value;
 
-extension CmafManifestDurationFormatFromString on String {
-  CmafManifestDurationFormat toCmafManifestDurationFormat() {
-    switch (this) {
-      case 'FLOATING_POINT':
-        return CmafManifestDurationFormat.floatingPoint;
-      case 'INTEGER':
-        return CmafManifestDurationFormat.integer;
-    }
-    throw Exception('$this is not known in enum CmafManifestDurationFormat');
-  }
+  const CmafManifestDurationFormat(this.value);
+
+  static CmafManifestDurationFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafManifestDurationFormat'));
 }
 
 /// Specify how the value for bandwidth is determined for each video
@@ -7712,32 +6192,18 @@ extension CmafManifestDurationFormatFromString on String {
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
 enum CmafMpdManifestBandwidthType {
-  average,
-  max,
-}
+  average('AVERAGE'),
+  max('MAX'),
+  ;
 
-extension CmafMpdManifestBandwidthTypeValueExtension
-    on CmafMpdManifestBandwidthType {
-  String toValue() {
-    switch (this) {
-      case CmafMpdManifestBandwidthType.average:
-        return 'AVERAGE';
-      case CmafMpdManifestBandwidthType.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension CmafMpdManifestBandwidthTypeFromString on String {
-  CmafMpdManifestBandwidthType toCmafMpdManifestBandwidthType() {
-    switch (this) {
-      case 'AVERAGE':
-        return CmafMpdManifestBandwidthType.average;
-      case 'MAX':
-        return CmafMpdManifestBandwidthType.max;
-    }
-    throw Exception('$this is not known in enum CmafMpdManifestBandwidthType');
-  }
+  const CmafMpdManifestBandwidthType(this.value);
+
+  static CmafMpdManifestBandwidthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafMpdManifestBandwidthType'));
 }
 
 /// Specify whether your DASH profile is on-demand or main. When you choose Main
@@ -7747,31 +6213,18 @@ extension CmafMpdManifestBandwidthTypeFromString on String {
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
 enum CmafMpdProfile {
-  mainProfile,
-  onDemandProfile,
-}
+  mainProfile('MAIN_PROFILE'),
+  onDemandProfile('ON_DEMAND_PROFILE'),
+  ;
 
-extension CmafMpdProfileValueExtension on CmafMpdProfile {
-  String toValue() {
-    switch (this) {
-      case CmafMpdProfile.mainProfile:
-        return 'MAIN_PROFILE';
-      case CmafMpdProfile.onDemandProfile:
-        return 'ON_DEMAND_PROFILE';
-    }
-  }
-}
+  final String value;
 
-extension CmafMpdProfileFromString on String {
-  CmafMpdProfile toCmafMpdProfile() {
-    switch (this) {
-      case 'MAIN_PROFILE':
-        return CmafMpdProfile.mainProfile;
-      case 'ON_DEMAND_PROFILE':
-        return CmafMpdProfile.onDemandProfile;
-    }
-    throw Exception('$this is not known in enum CmafMpdProfile');
-  }
+  const CmafMpdProfile(this.value);
+
+  static CmafMpdProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmafMpdProfile'));
 }
 
 /// Use this setting only when your output video stream has B-frames, which
@@ -7784,64 +6237,36 @@ extension CmafMpdProfileFromString on String {
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
 enum CmafPtsOffsetHandlingForBFrames {
-  zeroBased,
-  matchInitialPts,
-}
+  zeroBased('ZERO_BASED'),
+  matchInitialPts('MATCH_INITIAL_PTS'),
+  ;
 
-extension CmafPtsOffsetHandlingForBFramesValueExtension
-    on CmafPtsOffsetHandlingForBFrames {
-  String toValue() {
-    switch (this) {
-      case CmafPtsOffsetHandlingForBFrames.zeroBased:
-        return 'ZERO_BASED';
-      case CmafPtsOffsetHandlingForBFrames.matchInitialPts:
-        return 'MATCH_INITIAL_PTS';
-    }
-  }
-}
+  final String value;
 
-extension CmafPtsOffsetHandlingForBFramesFromString on String {
-  CmafPtsOffsetHandlingForBFrames toCmafPtsOffsetHandlingForBFrames() {
-    switch (this) {
-      case 'ZERO_BASED':
-        return CmafPtsOffsetHandlingForBFrames.zeroBased;
-      case 'MATCH_INITIAL_PTS':
-        return CmafPtsOffsetHandlingForBFrames.matchInitialPts;
-    }
-    throw Exception(
-        '$this is not known in enum CmafPtsOffsetHandlingForBFrames');
-  }
+  const CmafPtsOffsetHandlingForBFrames(this.value);
+
+  static CmafPtsOffsetHandlingForBFrames fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafPtsOffsetHandlingForBFrames'));
 }
 
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
 enum CmafSegmentControl {
-  singleFile,
-  segmentedFiles,
-}
+  singleFile('SINGLE_FILE'),
+  segmentedFiles('SEGMENTED_FILES'),
+  ;
 
-extension CmafSegmentControlValueExtension on CmafSegmentControl {
-  String toValue() {
-    switch (this) {
-      case CmafSegmentControl.singleFile:
-        return 'SINGLE_FILE';
-      case CmafSegmentControl.segmentedFiles:
-        return 'SEGMENTED_FILES';
-    }
-  }
-}
+  final String value;
 
-extension CmafSegmentControlFromString on String {
-  CmafSegmentControl toCmafSegmentControl() {
-    switch (this) {
-      case 'SINGLE_FILE':
-        return CmafSegmentControl.singleFile;
-      case 'SEGMENTED_FILES':
-        return CmafSegmentControl.segmentedFiles;
-    }
-    throw Exception('$this is not known in enum CmafSegmentControl');
-  }
+  const CmafSegmentControl(this.value);
+
+  static CmafSegmentControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafSegmentControl'));
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -7850,61 +6275,35 @@ extension CmafSegmentControlFromString on String {
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
 enum CmafSegmentLengthControl {
-  exact,
-  gopMultiple,
-}
+  exact('EXACT'),
+  gopMultiple('GOP_MULTIPLE'),
+  ;
 
-extension CmafSegmentLengthControlValueExtension on CmafSegmentLengthControl {
-  String toValue() {
-    switch (this) {
-      case CmafSegmentLengthControl.exact:
-        return 'EXACT';
-      case CmafSegmentLengthControl.gopMultiple:
-        return 'GOP_MULTIPLE';
-    }
-  }
-}
+  final String value;
 
-extension CmafSegmentLengthControlFromString on String {
-  CmafSegmentLengthControl toCmafSegmentLengthControl() {
-    switch (this) {
-      case 'EXACT':
-        return CmafSegmentLengthControl.exact;
-      case 'GOP_MULTIPLE':
-        return CmafSegmentLengthControl.gopMultiple;
-    }
-    throw Exception('$this is not known in enum CmafSegmentLengthControl');
-  }
+  const CmafSegmentLengthControl(this.value);
+
+  static CmafSegmentLengthControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafSegmentLengthControl'));
 }
 
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
 enum CmafStreamInfResolution {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension CmafStreamInfResolutionValueExtension on CmafStreamInfResolution {
-  String toValue() {
-    switch (this) {
-      case CmafStreamInfResolution.include:
-        return 'INCLUDE';
-      case CmafStreamInfResolution.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension CmafStreamInfResolutionFromString on String {
-  CmafStreamInfResolution toCmafStreamInfResolution() {
-    switch (this) {
-      case 'INCLUDE':
-        return CmafStreamInfResolution.include;
-      case 'EXCLUDE':
-        return CmafStreamInfResolution.exclude;
-    }
-    throw Exception('$this is not known in enum CmafStreamInfResolution');
-  }
+  const CmafStreamInfResolution(this.value);
+
+  static CmafStreamInfResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafStreamInfResolution'));
 }
 
 /// When set to LEGACY, the segment target duration is always rounded up to the
@@ -7917,33 +6316,18 @@ extension CmafStreamInfResolutionFromString on String {
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
 enum CmafTargetDurationCompatibilityMode {
-  legacy,
-  specCompliant,
-}
+  legacy('LEGACY'),
+  specCompliant('SPEC_COMPLIANT'),
+  ;
 
-extension CmafTargetDurationCompatibilityModeValueExtension
-    on CmafTargetDurationCompatibilityMode {
-  String toValue() {
-    switch (this) {
-      case CmafTargetDurationCompatibilityMode.legacy:
-        return 'LEGACY';
-      case CmafTargetDurationCompatibilityMode.specCompliant:
-        return 'SPEC_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension CmafTargetDurationCompatibilityModeFromString on String {
-  CmafTargetDurationCompatibilityMode toCmafTargetDurationCompatibilityMode() {
-    switch (this) {
-      case 'LEGACY':
-        return CmafTargetDurationCompatibilityMode.legacy;
-      case 'SPEC_COMPLIANT':
-        return CmafTargetDurationCompatibilityMode.specCompliant;
-    }
-    throw Exception(
-        '$this is not known in enum CmafTargetDurationCompatibilityMode');
-  }
+  const CmafTargetDurationCompatibilityMode(this.value);
+
+  static CmafTargetDurationCompatibilityMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafTargetDurationCompatibilityMode'));
 }
 
 /// Specify the video sample composition time offset mode in the output fMP4
@@ -7954,91 +6338,51 @@ extension CmafTargetDurationCompatibilityModeFromString on String {
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
 enum CmafVideoCompositionOffsets {
-  signed,
-  unsigned,
-}
+  signed('SIGNED'),
+  unsigned('UNSIGNED'),
+  ;
 
-extension CmafVideoCompositionOffsetsValueExtension
-    on CmafVideoCompositionOffsets {
-  String toValue() {
-    switch (this) {
-      case CmafVideoCompositionOffsets.signed:
-        return 'SIGNED';
-      case CmafVideoCompositionOffsets.unsigned:
-        return 'UNSIGNED';
-    }
-  }
-}
+  final String value;
 
-extension CmafVideoCompositionOffsetsFromString on String {
-  CmafVideoCompositionOffsets toCmafVideoCompositionOffsets() {
-    switch (this) {
-      case 'SIGNED':
-        return CmafVideoCompositionOffsets.signed;
-      case 'UNSIGNED':
-        return CmafVideoCompositionOffsets.unsigned;
-    }
-    throw Exception('$this is not known in enum CmafVideoCompositionOffsets');
-  }
+  const CmafVideoCompositionOffsets(this.value);
+
+  static CmafVideoCompositionOffsets fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafVideoCompositionOffsets'));
 }
 
 /// When set to ENABLED, a DASH MPD manifest will be generated for this output.
 enum CmafWriteDASHManifest {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension CmafWriteDASHManifestValueExtension on CmafWriteDASHManifest {
-  String toValue() {
-    switch (this) {
-      case CmafWriteDASHManifest.disabled:
-        return 'DISABLED';
-      case CmafWriteDASHManifest.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension CmafWriteDASHManifestFromString on String {
-  CmafWriteDASHManifest toCmafWriteDASHManifest() {
-    switch (this) {
-      case 'DISABLED':
-        return CmafWriteDASHManifest.disabled;
-      case 'ENABLED':
-        return CmafWriteDASHManifest.enabled;
-    }
-    throw Exception('$this is not known in enum CmafWriteDASHManifest');
-  }
+  const CmafWriteDASHManifest(this.value);
+
+  static CmafWriteDASHManifest fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafWriteDASHManifest'));
 }
 
 /// When set to ENABLED, an Apple HLS manifest will be generated for this
 /// output.
 enum CmafWriteHLSManifest {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension CmafWriteHLSManifestValueExtension on CmafWriteHLSManifest {
-  String toValue() {
-    switch (this) {
-      case CmafWriteHLSManifest.disabled:
-        return 'DISABLED';
-      case CmafWriteHLSManifest.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension CmafWriteHLSManifestFromString on String {
-  CmafWriteHLSManifest toCmafWriteHLSManifest() {
-    switch (this) {
-      case 'DISABLED':
-        return CmafWriteHLSManifest.disabled;
-      case 'ENABLED':
-        return CmafWriteHLSManifest.enabled;
-    }
-    throw Exception('$this is not known in enum CmafWriteHLSManifest');
-  }
+  const CmafWriteHLSManifest(this.value);
+
+  static CmafWriteHLSManifest fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmafWriteHLSManifest'));
 }
 
 /// When you enable Precise segment duration in DASH manifests, your DASH
@@ -8048,34 +6392,18 @@ extension CmafWriteHLSManifestFromString on String {
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
 enum CmafWriteSegmentTimelineInRepresentation {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CmafWriteSegmentTimelineInRepresentationValueExtension
-    on CmafWriteSegmentTimelineInRepresentation {
-  String toValue() {
-    switch (this) {
-      case CmafWriteSegmentTimelineInRepresentation.enabled:
-        return 'ENABLED';
-      case CmafWriteSegmentTimelineInRepresentation.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CmafWriteSegmentTimelineInRepresentationFromString on String {
-  CmafWriteSegmentTimelineInRepresentation
-      toCmafWriteSegmentTimelineInRepresentation() {
-    switch (this) {
-      case 'ENABLED':
-        return CmafWriteSegmentTimelineInRepresentation.enabled;
-      case 'DISABLED':
-        return CmafWriteSegmentTimelineInRepresentation.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum CmafWriteSegmentTimelineInRepresentation');
-  }
+  const CmafWriteSegmentTimelineInRepresentation(this.value);
+
+  static CmafWriteSegmentTimelineInRepresentation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmafWriteSegmentTimelineInRepresentation'));
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -8092,31 +6420,18 @@ extension CmafWriteSegmentTimelineInRepresentationFromString on String {
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
 enum CmfcAudioDuration {
-  defaultCodecDuration,
-  matchVideoDuration,
-}
+  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
+  matchVideoDuration('MATCH_VIDEO_DURATION'),
+  ;
 
-extension CmfcAudioDurationValueExtension on CmfcAudioDuration {
-  String toValue() {
-    switch (this) {
-      case CmfcAudioDuration.defaultCodecDuration:
-        return 'DEFAULT_CODEC_DURATION';
-      case CmfcAudioDuration.matchVideoDuration:
-        return 'MATCH_VIDEO_DURATION';
-    }
-  }
-}
+  final String value;
 
-extension CmfcAudioDurationFromString on String {
-  CmfcAudioDuration toCmfcAudioDuration() {
-    switch (this) {
-      case 'DEFAULT_CODEC_DURATION':
-        return CmfcAudioDuration.defaultCodecDuration;
-      case 'MATCH_VIDEO_DURATION':
-        return CmfcAudioDuration.matchVideoDuration;
-    }
-    throw Exception('$this is not known in enum CmfcAudioDuration');
-  }
+  const CmfcAudioDuration(this.value);
+
+  static CmfcAudioDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmfcAudioDuration'));
 }
 
 /// Use this setting to control the values that MediaConvert puts in your HLS
@@ -8138,41 +6453,20 @@ extension CmfcAudioDurationFromString on String {
 /// is more than one variant in your output group, you must explicitly choose a
 /// value for this setting.
 enum CmfcAudioTrackType {
-  alternateAudioAutoSelectDefault,
-  alternateAudioAutoSelect,
-  alternateAudioNotAutoSelect,
-  audioOnlyVariantStream,
-}
+  alternateAudioAutoSelectDefault('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT'),
+  alternateAudioAutoSelect('ALTERNATE_AUDIO_AUTO_SELECT'),
+  alternateAudioNotAutoSelect('ALTERNATE_AUDIO_NOT_AUTO_SELECT'),
+  audioOnlyVariantStream('AUDIO_ONLY_VARIANT_STREAM'),
+  ;
 
-extension CmfcAudioTrackTypeValueExtension on CmfcAudioTrackType {
-  String toValue() {
-    switch (this) {
-      case CmfcAudioTrackType.alternateAudioAutoSelectDefault:
-        return 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT';
-      case CmfcAudioTrackType.alternateAudioAutoSelect:
-        return 'ALTERNATE_AUDIO_AUTO_SELECT';
-      case CmfcAudioTrackType.alternateAudioNotAutoSelect:
-        return 'ALTERNATE_AUDIO_NOT_AUTO_SELECT';
-      case CmfcAudioTrackType.audioOnlyVariantStream:
-        return 'AUDIO_ONLY_VARIANT_STREAM';
-    }
-  }
-}
+  final String value;
 
-extension CmfcAudioTrackTypeFromString on String {
-  CmfcAudioTrackType toCmfcAudioTrackType() {
-    switch (this) {
-      case 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT':
-        return CmfcAudioTrackType.alternateAudioAutoSelectDefault;
-      case 'ALTERNATE_AUDIO_AUTO_SELECT':
-        return CmfcAudioTrackType.alternateAudioAutoSelect;
-      case 'ALTERNATE_AUDIO_NOT_AUTO_SELECT':
-        return CmfcAudioTrackType.alternateAudioNotAutoSelect;
-      case 'AUDIO_ONLY_VARIANT_STREAM':
-        return CmfcAudioTrackType.audioOnlyVariantStream;
-    }
-    throw Exception('$this is not known in enum CmfcAudioTrackType');
-  }
+  const CmfcAudioTrackType(this.value);
+
+  static CmfcAudioTrackType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CmfcAudioTrackType'));
 }
 
 /// Specify whether to flag this audio track as descriptive video service (DVS)
@@ -8183,33 +6477,18 @@ extension CmfcAudioTrackTypeFromString on String {
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
 enum CmfcDescriptiveVideoServiceFlag {
-  dontFlag,
-  flag,
-}
+  dontFlag('DONT_FLAG'),
+  flag('FLAG'),
+  ;
 
-extension CmfcDescriptiveVideoServiceFlagValueExtension
-    on CmfcDescriptiveVideoServiceFlag {
-  String toValue() {
-    switch (this) {
-      case CmfcDescriptiveVideoServiceFlag.dontFlag:
-        return 'DONT_FLAG';
-      case CmfcDescriptiveVideoServiceFlag.flag:
-        return 'FLAG';
-    }
-  }
-}
+  final String value;
 
-extension CmfcDescriptiveVideoServiceFlagFromString on String {
-  CmfcDescriptiveVideoServiceFlag toCmfcDescriptiveVideoServiceFlag() {
-    switch (this) {
-      case 'DONT_FLAG':
-        return CmfcDescriptiveVideoServiceFlag.dontFlag;
-      case 'FLAG':
-        return CmfcDescriptiveVideoServiceFlag.flag;
-    }
-    throw Exception(
-        '$this is not known in enum CmfcDescriptiveVideoServiceFlag');
-  }
+  const CmfcDescriptiveVideoServiceFlag(this.value);
+
+  static CmfcDescriptiveVideoServiceFlag fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmfcDescriptiveVideoServiceFlag'));
 }
 
 /// Choose Include to have MediaConvert generate an HLS child manifest that
@@ -8220,31 +6499,18 @@ extension CmfcDescriptiveVideoServiceFlagFromString on String {
 /// parent manifest. When you don't need the I-frame only child manifest, keep
 /// the default value Exclude.
 enum CmfcIFrameOnlyManifest {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension CmfcIFrameOnlyManifestValueExtension on CmfcIFrameOnlyManifest {
-  String toValue() {
-    switch (this) {
-      case CmfcIFrameOnlyManifest.include:
-        return 'INCLUDE';
-      case CmfcIFrameOnlyManifest.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension CmfcIFrameOnlyManifestFromString on String {
-  CmfcIFrameOnlyManifest toCmfcIFrameOnlyManifest() {
-    switch (this) {
-      case 'INCLUDE':
-        return CmfcIFrameOnlyManifest.include;
-      case 'EXCLUDE':
-        return CmfcIFrameOnlyManifest.exclude;
-    }
-    throw Exception('$this is not known in enum CmfcIFrameOnlyManifest');
-  }
+  const CmfcIFrameOnlyManifest(this.value);
+
+  static CmfcIFrameOnlyManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmfcIFrameOnlyManifest'));
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
@@ -8253,31 +6519,18 @@ extension CmfcIFrameOnlyManifestFromString on String {
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
 enum CmfcKlvMetadata {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension CmfcKlvMetadataValueExtension on CmfcKlvMetadata {
-  String toValue() {
-    switch (this) {
-      case CmfcKlvMetadata.passthrough:
-        return 'PASSTHROUGH';
-      case CmfcKlvMetadata.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CmfcKlvMetadataFromString on String {
-  CmfcKlvMetadata toCmfcKlvMetadata() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return CmfcKlvMetadata.passthrough;
-      case 'NONE':
-        return CmfcKlvMetadata.none;
-    }
-    throw Exception('$this is not known in enum CmfcKlvMetadata');
-  }
+  const CmfcKlvMetadata(this.value);
+
+  static CmfcKlvMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmfcKlvMetadata'));
 }
 
 /// To add an InbandEventStream element in your output MPD manifest for each
@@ -8290,32 +6543,18 @@ extension CmfcKlvMetadataFromString on String {
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
 enum CmfcManifestMetadataSignaling {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CmfcManifestMetadataSignalingValueExtension
-    on CmfcManifestMetadataSignaling {
-  String toValue() {
-    switch (this) {
-      case CmfcManifestMetadataSignaling.enabled:
-        return 'ENABLED';
-      case CmfcManifestMetadataSignaling.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CmfcManifestMetadataSignalingFromString on String {
-  CmfcManifestMetadataSignaling toCmfcManifestMetadataSignaling() {
-    switch (this) {
-      case 'ENABLED':
-        return CmfcManifestMetadataSignaling.enabled;
-      case 'DISABLED':
-        return CmfcManifestMetadataSignaling.disabled;
-    }
-    throw Exception('$this is not known in enum CmfcManifestMetadataSignaling');
-  }
+  const CmfcManifestMetadataSignaling(this.value);
+
+  static CmfcManifestMetadataSignaling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmfcManifestMetadataSignaling'));
 }
 
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
@@ -8323,31 +6562,18 @@ extension CmfcManifestMetadataSignalingFromString on String {
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
 enum CmfcScte35Esam {
-  insert,
-  none,
-}
+  insert('INSERT'),
+  none('NONE'),
+  ;
 
-extension CmfcScte35EsamValueExtension on CmfcScte35Esam {
-  String toValue() {
-    switch (this) {
-      case CmfcScte35Esam.insert:
-        return 'INSERT';
-      case CmfcScte35Esam.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CmfcScte35EsamFromString on String {
-  CmfcScte35Esam toCmfcScte35Esam() {
-    switch (this) {
-      case 'INSERT':
-        return CmfcScte35Esam.insert;
-      case 'NONE':
-        return CmfcScte35Esam.none;
-    }
-    throw Exception('$this is not known in enum CmfcScte35Esam');
-  }
+  const CmfcScte35Esam(this.value);
+
+  static CmfcScte35Esam fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmfcScte35Esam'));
 }
 
 /// Ignore this setting unless you have SCTE-35 markers in your input video
@@ -8355,31 +6581,18 @@ extension CmfcScte35EsamFromString on String {
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
 enum CmfcScte35Source {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension CmfcScte35SourceValueExtension on CmfcScte35Source {
-  String toValue() {
-    switch (this) {
-      case CmfcScte35Source.passthrough:
-        return 'PASSTHROUGH';
-      case CmfcScte35Source.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CmfcScte35SourceFromString on String {
-  CmfcScte35Source toCmfcScte35Source() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return CmfcScte35Source.passthrough;
-      case 'NONE':
-        return CmfcScte35Source.none;
-    }
-    throw Exception('$this is not known in enum CmfcScte35Source');
-  }
+  const CmfcScte35Source(this.value);
+
+  static CmfcScte35Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmfcScte35Source'));
 }
 
 /// These settings relate to the fragmented MP4 container for the segments in
@@ -8543,24 +6756,29 @@ class CmfcSettings {
 
   factory CmfcSettings.fromJson(Map<String, dynamic> json) {
     return CmfcSettings(
-      audioDuration: (json['audioDuration'] as String?)?.toCmfcAudioDuration(),
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(CmfcAudioDuration.fromString),
       audioGroupId: json['audioGroupId'] as String?,
       audioRenditionSets: json['audioRenditionSets'] as String?,
-      audioTrackType:
-          (json['audioTrackType'] as String?)?.toCmfcAudioTrackType(),
+      audioTrackType: (json['audioTrackType'] as String?)
+          ?.let(CmfcAudioTrackType.fromString),
       descriptiveVideoServiceFlag:
           (json['descriptiveVideoServiceFlag'] as String?)
-              ?.toCmfcDescriptiveVideoServiceFlag(),
-      iFrameOnlyManifest:
-          (json['iFrameOnlyManifest'] as String?)?.toCmfcIFrameOnlyManifest(),
-      klvMetadata: (json['klvMetadata'] as String?)?.toCmfcKlvMetadata(),
+              ?.let(CmfcDescriptiveVideoServiceFlag.fromString),
+      iFrameOnlyManifest: (json['iFrameOnlyManifest'] as String?)
+          ?.let(CmfcIFrameOnlyManifest.fromString),
+      klvMetadata:
+          (json['klvMetadata'] as String?)?.let(CmfcKlvMetadata.fromString),
       manifestMetadataSignaling: (json['manifestMetadataSignaling'] as String?)
-          ?.toCmfcManifestMetadataSignaling(),
-      scte35Esam: (json['scte35Esam'] as String?)?.toCmfcScte35Esam(),
-      scte35Source: (json['scte35Source'] as String?)?.toCmfcScte35Source(),
-      timedMetadata: (json['timedMetadata'] as String?)?.toCmfcTimedMetadata(),
+          ?.let(CmfcManifestMetadataSignaling.fromString),
+      scte35Esam:
+          (json['scte35Esam'] as String?)?.let(CmfcScte35Esam.fromString),
+      scte35Source:
+          (json['scte35Source'] as String?)?.let(CmfcScte35Source.fromString),
+      timedMetadata:
+          (json['timedMetadata'] as String?)?.let(CmfcTimedMetadata.fromString),
       timedMetadataBoxVersion: (json['timedMetadataBoxVersion'] as String?)
-          ?.toCmfcTimedMetadataBoxVersion(),
+          ?.let(CmfcTimedMetadataBoxVersion.fromString),
       timedMetadataSchemeIdUri: json['timedMetadataSchemeIdUri'] as String?,
       timedMetadataValue: json['timedMetadataValue'] as String?,
     );
@@ -8582,22 +6800,22 @@ class CmfcSettings {
     final timedMetadataSchemeIdUri = this.timedMetadataSchemeIdUri;
     final timedMetadataValue = this.timedMetadataValue;
     return {
-      if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
       if (audioGroupId != null) 'audioGroupId': audioGroupId,
       if (audioRenditionSets != null) 'audioRenditionSets': audioRenditionSets,
-      if (audioTrackType != null) 'audioTrackType': audioTrackType.toValue(),
+      if (audioTrackType != null) 'audioTrackType': audioTrackType.value,
       if (descriptiveVideoServiceFlag != null)
-        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.toValue(),
+        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.value,
       if (iFrameOnlyManifest != null)
-        'iFrameOnlyManifest': iFrameOnlyManifest.toValue(),
-      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
+        'iFrameOnlyManifest': iFrameOnlyManifest.value,
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.value,
       if (manifestMetadataSignaling != null)
-        'manifestMetadataSignaling': manifestMetadataSignaling.toValue(),
-      if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
-      if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
-      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
+        'manifestMetadataSignaling': manifestMetadataSignaling.value,
+      if (scte35Esam != null) 'scte35Esam': scte35Esam.value,
+      if (scte35Source != null) 'scte35Source': scte35Source.value,
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.value,
       if (timedMetadataBoxVersion != null)
-        'timedMetadataBoxVersion': timedMetadataBoxVersion.toValue(),
+        'timedMetadataBoxVersion': timedMetadataBoxVersion.value,
       if (timedMetadataSchemeIdUri != null)
         'timedMetadataSchemeIdUri': timedMetadataSchemeIdUri,
       if (timedMetadataValue != null) 'timedMetadataValue': timedMetadataValue,
@@ -8610,31 +6828,18 @@ class CmfcSettings {
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
 enum CmfcTimedMetadata {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension CmfcTimedMetadataValueExtension on CmfcTimedMetadata {
-  String toValue() {
-    switch (this) {
-      case CmfcTimedMetadata.passthrough:
-        return 'PASSTHROUGH';
-      case CmfcTimedMetadata.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension CmfcTimedMetadataFromString on String {
-  CmfcTimedMetadata toCmfcTimedMetadata() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return CmfcTimedMetadata.passthrough;
-      case 'NONE':
-        return CmfcTimedMetadata.none;
-    }
-    throw Exception('$this is not known in enum CmfcTimedMetadata');
-  }
+  const CmfcTimedMetadata(this.value);
+
+  static CmfcTimedMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CmfcTimedMetadata'));
 }
 
 /// Specify the event message box (eMSG) version for ID3 timed metadata in your
@@ -8643,32 +6848,18 @@ extension CmfcTimedMetadataFromString on String {
 /// Leave blank to use the default value Version 0.
 /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
 enum CmfcTimedMetadataBoxVersion {
-  version_0,
-  version_1,
-}
+  version_0('VERSION_0'),
+  version_1('VERSION_1'),
+  ;
 
-extension CmfcTimedMetadataBoxVersionValueExtension
-    on CmfcTimedMetadataBoxVersion {
-  String toValue() {
-    switch (this) {
-      case CmfcTimedMetadataBoxVersion.version_0:
-        return 'VERSION_0';
-      case CmfcTimedMetadataBoxVersion.version_1:
-        return 'VERSION_1';
-    }
-  }
-}
+  final String value;
 
-extension CmfcTimedMetadataBoxVersionFromString on String {
-  CmfcTimedMetadataBoxVersion toCmfcTimedMetadataBoxVersion() {
-    switch (this) {
-      case 'VERSION_0':
-        return CmfcTimedMetadataBoxVersion.version_0;
-      case 'VERSION_1':
-        return CmfcTimedMetadataBoxVersion.version_1;
-    }
-    throw Exception('$this is not known in enum CmfcTimedMetadataBoxVersion');
-  }
+  const CmfcTimedMetadataBoxVersion(this.value);
+
+  static CmfcTimedMetadataBoxVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CmfcTimedMetadataBoxVersion'));
 }
 
 /// Custom 3D lut settings
@@ -8708,9 +6899,11 @@ class ColorConversion3DLUTSetting {
   factory ColorConversion3DLUTSetting.fromJson(Map<String, dynamic> json) {
     return ColorConversion3DLUTSetting(
       fileInput: json['fileInput'] as String?,
-      inputColorSpace: (json['inputColorSpace'] as String?)?.toColorSpace(),
+      inputColorSpace:
+          (json['inputColorSpace'] as String?)?.let(ColorSpace.fromString),
       inputMasteringLuminance: json['inputMasteringLuminance'] as int?,
-      outputColorSpace: (json['outputColorSpace'] as String?)?.toColorSpace(),
+      outputColorSpace:
+          (json['outputColorSpace'] as String?)?.let(ColorSpace.fromString),
       outputMasteringLuminance: json['outputMasteringLuminance'] as int?,
     );
   }
@@ -8723,11 +6916,10 @@ class ColorConversion3DLUTSetting {
     final outputMasteringLuminance = this.outputMasteringLuminance;
     return {
       if (fileInput != null) 'fileInput': fileInput,
-      if (inputColorSpace != null) 'inputColorSpace': inputColorSpace.toValue(),
+      if (inputColorSpace != null) 'inputColorSpace': inputColorSpace.value,
       if (inputMasteringLuminance != null)
         'inputMasteringLuminance': inputMasteringLuminance,
-      if (outputColorSpace != null)
-        'outputColorSpace': outputColorSpace.toValue(),
+      if (outputColorSpace != null) 'outputColorSpace': outputColorSpace.value,
       if (outputMasteringLuminance != null)
         'outputMasteringLuminance': outputMasteringLuminance,
     };
@@ -8848,19 +7040,19 @@ class ColorCorrector {
       clipLimits: json['clipLimits'] != null
           ? ClipLimits.fromJson(json['clipLimits'] as Map<String, dynamic>)
           : null,
-      colorSpaceConversion:
-          (json['colorSpaceConversion'] as String?)?.toColorSpaceConversion(),
+      colorSpaceConversion: (json['colorSpaceConversion'] as String?)
+          ?.let(ColorSpaceConversion.fromString),
       contrast: json['contrast'] as int?,
       hdr10Metadata: json['hdr10Metadata'] != null
           ? Hdr10Metadata.fromJson(
               json['hdr10Metadata'] as Map<String, dynamic>)
           : null,
-      hdrToSdrToneMapper:
-          (json['hdrToSdrToneMapper'] as String?)?.toHDRToSDRToneMapper(),
+      hdrToSdrToneMapper: (json['hdrToSdrToneMapper'] as String?)
+          ?.let(HDRToSDRToneMapper.fromString),
       hue: json['hue'] as int?,
       maxLuminance: json['maxLuminance'] as int?,
-      sampleRangeConversion:
-          (json['sampleRangeConversion'] as String?)?.toSampleRangeConversion(),
+      sampleRangeConversion: (json['sampleRangeConversion'] as String?)
+          ?.let(SampleRangeConversion.fromString),
       saturation: json['saturation'] as int?,
       sdrReferenceWhiteLevel: json['sdrReferenceWhiteLevel'] as int?,
     );
@@ -8882,15 +7074,15 @@ class ColorCorrector {
       if (brightness != null) 'brightness': brightness,
       if (clipLimits != null) 'clipLimits': clipLimits,
       if (colorSpaceConversion != null)
-        'colorSpaceConversion': colorSpaceConversion.toValue(),
+        'colorSpaceConversion': colorSpaceConversion.value,
       if (contrast != null) 'contrast': contrast,
       if (hdr10Metadata != null) 'hdr10Metadata': hdr10Metadata,
       if (hdrToSdrToneMapper != null)
-        'hdrToSdrToneMapper': hdrToSdrToneMapper.toValue(),
+        'hdrToSdrToneMapper': hdrToSdrToneMapper.value,
       if (hue != null) 'hue': hue,
       if (maxLuminance != null) 'maxLuminance': maxLuminance,
       if (sampleRangeConversion != null)
-        'sampleRangeConversion': sampleRangeConversion.toValue(),
+        'sampleRangeConversion': sampleRangeConversion.value,
       if (saturation != null) 'saturation': saturation,
       if (sdrReferenceWhiteLevel != null)
         'sdrReferenceWhiteLevel': sdrReferenceWhiteLevel,
@@ -8902,31 +7094,18 @@ class ColorCorrector {
 /// Choose Ignore to exclude color metadata from this output. If you don't
 /// specify a value, the service sets this to Insert by default.
 enum ColorMetadata {
-  ignore,
-  insert,
-}
+  ignore('IGNORE'),
+  insert('INSERT'),
+  ;
 
-extension ColorMetadataValueExtension on ColorMetadata {
-  String toValue() {
-    switch (this) {
-      case ColorMetadata.ignore:
-        return 'IGNORE';
-      case ColorMetadata.insert:
-        return 'INSERT';
-    }
-  }
-}
+  final String value;
 
-extension ColorMetadataFromString on String {
-  ColorMetadata toColorMetadata() {
-    switch (this) {
-      case 'IGNORE':
-        return ColorMetadata.ignore;
-      case 'INSERT':
-        return ColorMetadata.insert;
-    }
-    throw Exception('$this is not known in enum ColorMetadata');
-  }
+  const ColorMetadata(this.value);
+
+  static ColorMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColorMetadata'));
 }
 
 /// If your input video has accurate color space metadata, or if you don't know
@@ -8948,61 +7127,23 @@ extension ColorMetadataFromString on String {
 /// * P3D65 (SDR): Display P3, sRGB, BT.709
 /// * P3D65 (HDR): Display P3, PQ, BT.709
 enum ColorSpace {
-  follow,
-  rec_601,
-  rec_709,
-  hdr10,
-  hlg_2020,
-  p3dci,
-  p3d65Sdr,
-  p3d65Hdr,
-}
+  follow('FOLLOW'),
+  rec_601('REC_601'),
+  rec_709('REC_709'),
+  hdr10('HDR10'),
+  hlg_2020('HLG_2020'),
+  p3dci('P3DCI'),
+  p3d65Sdr('P3D65_SDR'),
+  p3d65Hdr('P3D65_HDR'),
+  ;
 
-extension ColorSpaceValueExtension on ColorSpace {
-  String toValue() {
-    switch (this) {
-      case ColorSpace.follow:
-        return 'FOLLOW';
-      case ColorSpace.rec_601:
-        return 'REC_601';
-      case ColorSpace.rec_709:
-        return 'REC_709';
-      case ColorSpace.hdr10:
-        return 'HDR10';
-      case ColorSpace.hlg_2020:
-        return 'HLG_2020';
-      case ColorSpace.p3dci:
-        return 'P3DCI';
-      case ColorSpace.p3d65Sdr:
-        return 'P3D65_SDR';
-      case ColorSpace.p3d65Hdr:
-        return 'P3D65_HDR';
-    }
-  }
-}
+  final String value;
 
-extension ColorSpaceFromString on String {
-  ColorSpace toColorSpace() {
-    switch (this) {
-      case 'FOLLOW':
-        return ColorSpace.follow;
-      case 'REC_601':
-        return ColorSpace.rec_601;
-      case 'REC_709':
-        return ColorSpace.rec_709;
-      case 'HDR10':
-        return ColorSpace.hdr10;
-      case 'HLG_2020':
-        return ColorSpace.hlg_2020;
-      case 'P3DCI':
-        return ColorSpace.p3dci;
-      case 'P3D65_SDR':
-        return ColorSpace.p3d65Sdr;
-      case 'P3D65_HDR':
-        return ColorSpace.p3d65Hdr;
-    }
-    throw Exception('$this is not known in enum ColorSpace');
-  }
+  const ColorSpace(this.value);
+
+  static ColorSpace fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ColorSpace'));
 }
 
 /// Specify the color space you want for this output. The service supports
@@ -9020,61 +7161,24 @@ extension ColorSpaceFromString on String {
 /// * P3D65 (SDR): Display P3, sRGB, BT.709
 /// * P3D65 (HDR): Display P3, PQ, BT.709
 enum ColorSpaceConversion {
-  none,
-  force_601,
-  force_709,
-  forceHdr10,
-  forceHlg_2020,
-  forceP3dci,
-  forceP3d65Sdr,
-  forceP3d65Hdr,
-}
+  none('NONE'),
+  force_601('FORCE_601'),
+  force_709('FORCE_709'),
+  forceHdr10('FORCE_HDR10'),
+  forceHlg_2020('FORCE_HLG_2020'),
+  forceP3dci('FORCE_P3DCI'),
+  forceP3d65Sdr('FORCE_P3D65_SDR'),
+  forceP3d65Hdr('FORCE_P3D65_HDR'),
+  ;
 
-extension ColorSpaceConversionValueExtension on ColorSpaceConversion {
-  String toValue() {
-    switch (this) {
-      case ColorSpaceConversion.none:
-        return 'NONE';
-      case ColorSpaceConversion.force_601:
-        return 'FORCE_601';
-      case ColorSpaceConversion.force_709:
-        return 'FORCE_709';
-      case ColorSpaceConversion.forceHdr10:
-        return 'FORCE_HDR10';
-      case ColorSpaceConversion.forceHlg_2020:
-        return 'FORCE_HLG_2020';
-      case ColorSpaceConversion.forceP3dci:
-        return 'FORCE_P3DCI';
-      case ColorSpaceConversion.forceP3d65Sdr:
-        return 'FORCE_P3D65_SDR';
-      case ColorSpaceConversion.forceP3d65Hdr:
-        return 'FORCE_P3D65_HDR';
-    }
-  }
-}
+  final String value;
 
-extension ColorSpaceConversionFromString on String {
-  ColorSpaceConversion toColorSpaceConversion() {
-    switch (this) {
-      case 'NONE':
-        return ColorSpaceConversion.none;
-      case 'FORCE_601':
-        return ColorSpaceConversion.force_601;
-      case 'FORCE_709':
-        return ColorSpaceConversion.force_709;
-      case 'FORCE_HDR10':
-        return ColorSpaceConversion.forceHdr10;
-      case 'FORCE_HLG_2020':
-        return ColorSpaceConversion.forceHlg_2020;
-      case 'FORCE_P3DCI':
-        return ColorSpaceConversion.forceP3dci;
-      case 'FORCE_P3D65_SDR':
-        return ColorSpaceConversion.forceP3d65Sdr;
-      case 'FORCE_P3D65_HDR':
-        return ColorSpaceConversion.forceP3d65Hdr;
-    }
-    throw Exception('$this is not known in enum ColorSpaceConversion');
-  }
+  const ColorSpaceConversion(this.value);
+
+  static ColorSpaceConversion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ColorSpaceConversion'));
 }
 
 /// There are two sources for color metadata, the input file and the job input
@@ -9086,55 +7190,32 @@ extension ColorSpaceConversionFromString on String {
 /// present. If there's no color metadata in your input file, the service
 /// defaults to using values you specify in the input settings.
 enum ColorSpaceUsage {
-  force,
-  fallback,
-}
+  force('FORCE'),
+  fallback('FALLBACK'),
+  ;
 
-extension ColorSpaceUsageValueExtension on ColorSpaceUsage {
-  String toValue() {
-    switch (this) {
-      case ColorSpaceUsage.force:
-        return 'FORCE';
-      case ColorSpaceUsage.fallback:
-        return 'FALLBACK';
-    }
-  }
-}
+  final String value;
 
-extension ColorSpaceUsageFromString on String {
-  ColorSpaceUsage toColorSpaceUsage() {
-    switch (this) {
-      case 'FORCE':
-        return ColorSpaceUsage.force;
-      case 'FALLBACK':
-        return ColorSpaceUsage.fallback;
-    }
-    throw Exception('$this is not known in enum ColorSpaceUsage');
-  }
+  const ColorSpaceUsage(this.value);
+
+  static ColorSpaceUsage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColorSpaceUsage'));
 }
 
 /// The length of the term of your reserved queue pricing plan commitment.
 enum Commitment {
-  oneYear,
-}
+  oneYear('ONE_YEAR'),
+  ;
 
-extension CommitmentValueExtension on Commitment {
-  String toValue() {
-    switch (this) {
-      case Commitment.oneYear:
-        return 'ONE_YEAR';
-    }
-  }
-}
+  final String value;
 
-extension CommitmentFromString on String {
-  Commitment toCommitment() {
-    switch (this) {
-      case 'ONE_YEAR':
-        return Commitment.oneYear;
-    }
-    throw Exception('$this is not known in enum Commitment');
-  }
+  const Commitment(this.value);
+
+  static Commitment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Commitment'));
 }
 
 /// Container specific settings.
@@ -9198,7 +7279,7 @@ class ContainerSettings {
       cmfcSettings: json['cmfcSettings'] != null
           ? CmfcSettings.fromJson(json['cmfcSettings'] as Map<String, dynamic>)
           : null,
-      container: (json['container'] as String?)?.toContainerType(),
+      container: (json['container'] as String?)?.let(ContainerType.fromString),
       f4vSettings: json['f4vSettings'] != null
           ? F4vSettings.fromJson(json['f4vSettings'] as Map<String, dynamic>)
           : null,
@@ -9235,7 +7316,7 @@ class ContainerSettings {
     final mxfSettings = this.mxfSettings;
     return {
       if (cmfcSettings != null) 'cmfcSettings': cmfcSettings,
-      if (container != null) 'container': container.toValue(),
+      if (container != null) 'container': container.value,
       if (f4vSettings != null) 'f4vSettings': f4vSettings,
       if (m2tsSettings != null) 'm2tsSettings': m2tsSettings,
       if (m3u8Settings != null) 'm3u8Settings': m3u8Settings,
@@ -9250,112 +7331,46 @@ class ContainerSettings {
 /// Container for this output. Some containers require a container settings
 /// object. If not specified, the default object will be created.
 enum ContainerType {
-  f4v,
-  ismv,
-  m2ts,
-  m3u8,
-  cmfc,
-  mov,
-  mp4,
-  mpd,
-  mxf,
-  webm,
-  raw,
-  y4m,
-}
+  f4v('F4V'),
+  ismv('ISMV'),
+  m2ts('M2TS'),
+  m3u8('M3U8'),
+  cmfc('CMFC'),
+  mov('MOV'),
+  mp4('MP4'),
+  mpd('MPD'),
+  mxf('MXF'),
+  webm('WEBM'),
+  raw('RAW'),
+  y4m('Y4M'),
+  ;
 
-extension ContainerTypeValueExtension on ContainerType {
-  String toValue() {
-    switch (this) {
-      case ContainerType.f4v:
-        return 'F4V';
-      case ContainerType.ismv:
-        return 'ISMV';
-      case ContainerType.m2ts:
-        return 'M2TS';
-      case ContainerType.m3u8:
-        return 'M3U8';
-      case ContainerType.cmfc:
-        return 'CMFC';
-      case ContainerType.mov:
-        return 'MOV';
-      case ContainerType.mp4:
-        return 'MP4';
-      case ContainerType.mpd:
-        return 'MPD';
-      case ContainerType.mxf:
-        return 'MXF';
-      case ContainerType.webm:
-        return 'WEBM';
-      case ContainerType.raw:
-        return 'RAW';
-      case ContainerType.y4m:
-        return 'Y4M';
-    }
-  }
-}
+  final String value;
 
-extension ContainerTypeFromString on String {
-  ContainerType toContainerType() {
-    switch (this) {
-      case 'F4V':
-        return ContainerType.f4v;
-      case 'ISMV':
-        return ContainerType.ismv;
-      case 'M2TS':
-        return ContainerType.m2ts;
-      case 'M3U8':
-        return ContainerType.m3u8;
-      case 'CMFC':
-        return ContainerType.cmfc;
-      case 'MOV':
-        return ContainerType.mov;
-      case 'MP4':
-        return ContainerType.mp4;
-      case 'MPD':
-        return ContainerType.mpd;
-      case 'MXF':
-        return ContainerType.mxf;
-      case 'WEBM':
-        return ContainerType.webm;
-      case 'RAW':
-        return ContainerType.raw;
-      case 'Y4M':
-        return ContainerType.y4m;
-    }
-    throw Exception('$this is not known in enum ContainerType');
-  }
+  const ContainerType(this.value);
+
+  static ContainerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContainerType'));
 }
 
 /// The action to take on copy and redistribution control XDS packets. If you
 /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
 /// packets will be removed in output captions.
 enum CopyProtectionAction {
-  passthrough,
-  strip,
-}
+  passthrough('PASSTHROUGH'),
+  strip('STRIP'),
+  ;
 
-extension CopyProtectionActionValueExtension on CopyProtectionAction {
-  String toValue() {
-    switch (this) {
-      case CopyProtectionAction.passthrough:
-        return 'PASSTHROUGH';
-      case CopyProtectionAction.strip:
-        return 'STRIP';
-    }
-  }
-}
+  final String value;
 
-extension CopyProtectionActionFromString on String {
-  CopyProtectionAction toCopyProtectionAction() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return CopyProtectionAction.passthrough;
-      case 'STRIP':
-        return CopyProtectionAction.strip;
-    }
-    throw Exception('$this is not known in enum CopyProtectionAction');
-  }
+  const CopyProtectionAction(this.value);
+
+  static CopyProtectionAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CopyProtectionAction'));
 }
 
 class CreateJobResponse {
@@ -9501,7 +7516,7 @@ class DashIsoEncryptionSettings {
     return DashIsoEncryptionSettings(
       playbackDeviceCompatibility:
           (json['playbackDeviceCompatibility'] as String?)
-              ?.toDashIsoPlaybackDeviceCompatibility(),
+              ?.let(DashIsoPlaybackDeviceCompatibility.fromString),
       spekeKeyProvider: json['spekeKeyProvider'] != null
           ? SpekeKeyProvider.fromJson(
               json['spekeKeyProvider'] as Map<String, dynamic>)
@@ -9514,7 +7529,7 @@ class DashIsoEncryptionSettings {
     final spekeKeyProvider = this.spekeKeyProvider;
     return {
       if (playbackDeviceCompatibility != null)
-        'playbackDeviceCompatibility': playbackDeviceCompatibility.toValue(),
+        'playbackDeviceCompatibility': playbackDeviceCompatibility.value,
       if (spekeKeyProvider != null) 'spekeKeyProvider': spekeKeyProvider,
     };
   }
@@ -9530,36 +7545,18 @@ class DashIsoEncryptionSettings {
 /// Dolby channel configuration to have MediaConvert write this instead:
 /// tag:dolby.com,2014:dash:audio_channel_configuration:2011.
 enum DashIsoGroupAudioChannelConfigSchemeIdUri {
-  mpegChannelConfiguration,
-  dolbyChannelConfiguration,
-}
+  mpegChannelConfiguration('MPEG_CHANNEL_CONFIGURATION'),
+  dolbyChannelConfiguration('DOLBY_CHANNEL_CONFIGURATION'),
+  ;
 
-extension DashIsoGroupAudioChannelConfigSchemeIdUriValueExtension
-    on DashIsoGroupAudioChannelConfigSchemeIdUri {
-  String toValue() {
-    switch (this) {
-      case DashIsoGroupAudioChannelConfigSchemeIdUri.mpegChannelConfiguration:
-        return 'MPEG_CHANNEL_CONFIGURATION';
-      case DashIsoGroupAudioChannelConfigSchemeIdUri.dolbyChannelConfiguration:
-        return 'DOLBY_CHANNEL_CONFIGURATION';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoGroupAudioChannelConfigSchemeIdUriFromString on String {
-  DashIsoGroupAudioChannelConfigSchemeIdUri
-      toDashIsoGroupAudioChannelConfigSchemeIdUri() {
-    switch (this) {
-      case 'MPEG_CHANNEL_CONFIGURATION':
-        return DashIsoGroupAudioChannelConfigSchemeIdUri
-            .mpegChannelConfiguration;
-      case 'DOLBY_CHANNEL_CONFIGURATION':
-        return DashIsoGroupAudioChannelConfigSchemeIdUri
-            .dolbyChannelConfiguration;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoGroupAudioChannelConfigSchemeIdUri');
-  }
+  const DashIsoGroupAudioChannelConfigSchemeIdUri(this.value);
+
+  static DashIsoGroupAudioChannelConfigSchemeIdUri fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoGroupAudioChannelConfigSchemeIdUri'));
 }
 
 /// Settings related to your DASH output package. For more information, see
@@ -9751,10 +7748,10 @@ class DashIsoGroupSettings {
           .toList(),
       audioChannelConfigSchemeIdUri:
           (json['audioChannelConfigSchemeIdUri'] as String?)
-              ?.toDashIsoGroupAudioChannelConfigSchemeIdUri(),
+              ?.let(DashIsoGroupAudioChannelConfigSchemeIdUri.fromString),
       baseUrl: json['baseUrl'] as String?,
-      dashManifestStyle:
-          (json['dashManifestStyle'] as String?)?.toDashManifestStyle(),
+      dashManifestStyle: (json['dashManifestStyle'] as String?)
+          ?.let(DashManifestStyle.fromString),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
@@ -9765,10 +7762,10 @@ class DashIsoGroupSettings {
               json['encryption'] as Map<String, dynamic>)
           : null,
       fragmentLength: json['fragmentLength'] as int?,
-      hbbtvCompliance:
-          (json['hbbtvCompliance'] as String?)?.toDashIsoHbbtvCompliance(),
+      hbbtvCompliance: (json['hbbtvCompliance'] as String?)
+          ?.let(DashIsoHbbtvCompliance.fromString),
       imageBasedTrickPlay: (json['imageBasedTrickPlay'] as String?)
-          ?.toDashIsoImageBasedTrickPlay(),
+          ?.let(DashIsoImageBasedTrickPlay.fromString),
       imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
           ? DashIsoImageBasedTrickPlaySettings.fromJson(
               json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
@@ -9776,21 +7773,22 @@ class DashIsoGroupSettings {
       minBufferTime: json['minBufferTime'] as int?,
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
       mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
-          ?.toDashIsoMpdManifestBandwidthType(),
-      mpdProfile: (json['mpdProfile'] as String?)?.toDashIsoMpdProfile(),
+          ?.let(DashIsoMpdManifestBandwidthType.fromString),
+      mpdProfile:
+          (json['mpdProfile'] as String?)?.let(DashIsoMpdProfile.fromString),
       ptsOffsetHandlingForBFrames:
           (json['ptsOffsetHandlingForBFrames'] as String?)
-              ?.toDashIsoPtsOffsetHandlingForBFrames(),
-      segmentControl:
-          (json['segmentControl'] as String?)?.toDashIsoSegmentControl(),
+              ?.let(DashIsoPtsOffsetHandlingForBFrames.fromString),
+      segmentControl: (json['segmentControl'] as String?)
+          ?.let(DashIsoSegmentControl.fromString),
       segmentLength: json['segmentLength'] as int?,
       segmentLengthControl: (json['segmentLengthControl'] as String?)
-          ?.toDashIsoSegmentLengthControl(),
+          ?.let(DashIsoSegmentLengthControl.fromString),
       videoCompositionOffsets: (json['videoCompositionOffsets'] as String?)
-          ?.toDashIsoVideoCompositionOffsets(),
+          ?.let(DashIsoVideoCompositionOffsets.fromString),
       writeSegmentTimelineInRepresentation:
           (json['writeSegmentTimelineInRepresentation'] as String?)
-              ?.toDashIsoWriteSegmentTimelineInRepresentation(),
+              ?.let(DashIsoWriteSegmentTimelineInRepresentation.fromString),
     );
   }
 
@@ -9821,69 +7819,55 @@ class DashIsoGroupSettings {
       if (additionalManifests != null)
         'additionalManifests': additionalManifests,
       if (audioChannelConfigSchemeIdUri != null)
-        'audioChannelConfigSchemeIdUri':
-            audioChannelConfigSchemeIdUri.toValue(),
+        'audioChannelConfigSchemeIdUri': audioChannelConfigSchemeIdUri.value,
       if (baseUrl != null) 'baseUrl': baseUrl,
       if (dashManifestStyle != null)
-        'dashManifestStyle': dashManifestStyle.toValue(),
+        'dashManifestStyle': dashManifestStyle.value,
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
-      if (hbbtvCompliance != null) 'hbbtvCompliance': hbbtvCompliance.toValue(),
+      if (hbbtvCompliance != null) 'hbbtvCompliance': hbbtvCompliance.value,
       if (imageBasedTrickPlay != null)
-        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+        'imageBasedTrickPlay': imageBasedTrickPlay.value,
       if (imageBasedTrickPlaySettings != null)
         'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
       if (mpdManifestBandwidthType != null)
-        'mpdManifestBandwidthType': mpdManifestBandwidthType.toValue(),
-      if (mpdProfile != null) 'mpdProfile': mpdProfile.toValue(),
+        'mpdManifestBandwidthType': mpdManifestBandwidthType.value,
+      if (mpdProfile != null) 'mpdProfile': mpdProfile.value,
       if (ptsOffsetHandlingForBFrames != null)
-        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
-      if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
+        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.value,
+      if (segmentControl != null) 'segmentControl': segmentControl.value,
       if (segmentLength != null) 'segmentLength': segmentLength,
       if (segmentLengthControl != null)
-        'segmentLengthControl': segmentLengthControl.toValue(),
+        'segmentLengthControl': segmentLengthControl.value,
       if (videoCompositionOffsets != null)
-        'videoCompositionOffsets': videoCompositionOffsets.toValue(),
+        'videoCompositionOffsets': videoCompositionOffsets.value,
       if (writeSegmentTimelineInRepresentation != null)
         'writeSegmentTimelineInRepresentation':
-            writeSegmentTimelineInRepresentation.toValue(),
+            writeSegmentTimelineInRepresentation.value,
     };
   }
 }
 
 /// Supports HbbTV specification as indicated
 enum DashIsoHbbtvCompliance {
-  hbbtv_1_5,
-  none,
-}
+  hbbtv_1_5('HBBTV_1_5'),
+  none('NONE'),
+  ;
 
-extension DashIsoHbbtvComplianceValueExtension on DashIsoHbbtvCompliance {
-  String toValue() {
-    switch (this) {
-      case DashIsoHbbtvCompliance.hbbtv_1_5:
-        return 'HBBTV_1_5';
-      case DashIsoHbbtvCompliance.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoHbbtvComplianceFromString on String {
-  DashIsoHbbtvCompliance toDashIsoHbbtvCompliance() {
-    switch (this) {
-      case 'HBBTV_1_5':
-        return DashIsoHbbtvCompliance.hbbtv_1_5;
-      case 'NONE':
-        return DashIsoHbbtvCompliance.none;
-    }
-    throw Exception('$this is not known in enum DashIsoHbbtvCompliance');
-  }
+  const DashIsoHbbtvCompliance(this.value);
+
+  static DashIsoHbbtvCompliance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoHbbtvCompliance'));
 }
 
 /// Specify whether MediaConvert generates images for trick play. Keep the
@@ -9896,42 +7880,20 @@ extension DashIsoHbbtvComplianceFromString on String {
 /// with this Roku specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
 enum DashIsoImageBasedTrickPlay {
-  none,
-  thumbnail,
-  thumbnailAndFullframe,
-  advanced,
-}
+  none('NONE'),
+  thumbnail('THUMBNAIL'),
+  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
+  advanced('ADVANCED'),
+  ;
 
-extension DashIsoImageBasedTrickPlayValueExtension
-    on DashIsoImageBasedTrickPlay {
-  String toValue() {
-    switch (this) {
-      case DashIsoImageBasedTrickPlay.none:
-        return 'NONE';
-      case DashIsoImageBasedTrickPlay.thumbnail:
-        return 'THUMBNAIL';
-      case DashIsoImageBasedTrickPlay.thumbnailAndFullframe:
-        return 'THUMBNAIL_AND_FULLFRAME';
-      case DashIsoImageBasedTrickPlay.advanced:
-        return 'ADVANCED';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoImageBasedTrickPlayFromString on String {
-  DashIsoImageBasedTrickPlay toDashIsoImageBasedTrickPlay() {
-    switch (this) {
-      case 'NONE':
-        return DashIsoImageBasedTrickPlay.none;
-      case 'THUMBNAIL':
-        return DashIsoImageBasedTrickPlay.thumbnail;
-      case 'THUMBNAIL_AND_FULLFRAME':
-        return DashIsoImageBasedTrickPlay.thumbnailAndFullframe;
-      case 'ADVANCED':
-        return DashIsoImageBasedTrickPlay.advanced;
-    }
-    throw Exception('$this is not known in enum DashIsoImageBasedTrickPlay');
-  }
+  const DashIsoImageBasedTrickPlay(this.value);
+
+  static DashIsoImageBasedTrickPlay fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoImageBasedTrickPlay'));
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -9981,8 +7943,8 @@ class DashIsoImageBasedTrickPlaySettings {
   factory DashIsoImageBasedTrickPlaySettings.fromJson(
       Map<String, dynamic> json) {
     return DashIsoImageBasedTrickPlaySettings(
-      intervalCadence:
-          (json['intervalCadence'] as String?)?.toDashIsoIntervalCadence(),
+      intervalCadence: (json['intervalCadence'] as String?)
+          ?.let(DashIsoIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
       thumbnailInterval: json['thumbnailInterval'] as double?,
       thumbnailWidth: json['thumbnailWidth'] as int?,
@@ -9999,7 +7961,7 @@ class DashIsoImageBasedTrickPlaySettings {
     final tileHeight = this.tileHeight;
     final tileWidth = this.tileWidth;
     return {
-      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
       if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
@@ -10015,31 +7977,18 @@ class DashIsoImageBasedTrickPlaySettings {
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
 enum DashIsoIntervalCadence {
-  followIframe,
-  followCustom,
-}
+  followIframe('FOLLOW_IFRAME'),
+  followCustom('FOLLOW_CUSTOM'),
+  ;
 
-extension DashIsoIntervalCadenceValueExtension on DashIsoIntervalCadence {
-  String toValue() {
-    switch (this) {
-      case DashIsoIntervalCadence.followIframe:
-        return 'FOLLOW_IFRAME';
-      case DashIsoIntervalCadence.followCustom:
-        return 'FOLLOW_CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoIntervalCadenceFromString on String {
-  DashIsoIntervalCadence toDashIsoIntervalCadence() {
-    switch (this) {
-      case 'FOLLOW_IFRAME':
-        return DashIsoIntervalCadence.followIframe;
-      case 'FOLLOW_CUSTOM':
-        return DashIsoIntervalCadence.followCustom;
-    }
-    throw Exception('$this is not known in enum DashIsoIntervalCadence');
-  }
+  const DashIsoIntervalCadence(this.value);
+
+  static DashIsoIntervalCadence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoIntervalCadence'));
 }
 
 /// Specify how the value for bandwidth is determined for each video
@@ -10049,33 +7998,18 @@ extension DashIsoIntervalCadenceFromString on String {
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
 enum DashIsoMpdManifestBandwidthType {
-  average,
-  max,
-}
+  average('AVERAGE'),
+  max('MAX'),
+  ;
 
-extension DashIsoMpdManifestBandwidthTypeValueExtension
-    on DashIsoMpdManifestBandwidthType {
-  String toValue() {
-    switch (this) {
-      case DashIsoMpdManifestBandwidthType.average:
-        return 'AVERAGE';
-      case DashIsoMpdManifestBandwidthType.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoMpdManifestBandwidthTypeFromString on String {
-  DashIsoMpdManifestBandwidthType toDashIsoMpdManifestBandwidthType() {
-    switch (this) {
-      case 'AVERAGE':
-        return DashIsoMpdManifestBandwidthType.average;
-      case 'MAX':
-        return DashIsoMpdManifestBandwidthType.max;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoMpdManifestBandwidthType');
-  }
+  const DashIsoMpdManifestBandwidthType(this.value);
+
+  static DashIsoMpdManifestBandwidthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoMpdManifestBandwidthType'));
 }
 
 /// Specify whether your DASH profile is on-demand or main. When you choose Main
@@ -10085,31 +8019,18 @@ extension DashIsoMpdManifestBandwidthTypeFromString on String {
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
 enum DashIsoMpdProfile {
-  mainProfile,
-  onDemandProfile,
-}
+  mainProfile('MAIN_PROFILE'),
+  onDemandProfile('ON_DEMAND_PROFILE'),
+  ;
 
-extension DashIsoMpdProfileValueExtension on DashIsoMpdProfile {
-  String toValue() {
-    switch (this) {
-      case DashIsoMpdProfile.mainProfile:
-        return 'MAIN_PROFILE';
-      case DashIsoMpdProfile.onDemandProfile:
-        return 'ON_DEMAND_PROFILE';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoMpdProfileFromString on String {
-  DashIsoMpdProfile toDashIsoMpdProfile() {
-    switch (this) {
-      case 'MAIN_PROFILE':
-        return DashIsoMpdProfile.mainProfile;
-      case 'ON_DEMAND_PROFILE':
-        return DashIsoMpdProfile.onDemandProfile;
-    }
-    throw Exception('$this is not known in enum DashIsoMpdProfile');
-  }
+  const DashIsoMpdProfile(this.value);
+
+  static DashIsoMpdProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DashIsoMpdProfile'));
 }
 
 /// This setting can improve the compatibility of your output with video players
@@ -10119,33 +8040,18 @@ extension DashIsoMpdProfileFromString on String {
 /// Unencrypted SEI, for that output, the service will exclude the access unit
 /// delimiter and will leave the SEI NAL units unencrypted.
 enum DashIsoPlaybackDeviceCompatibility {
-  cencV1,
-  unencryptedSei,
-}
+  cencV1('CENC_V1'),
+  unencryptedSei('UNENCRYPTED_SEI'),
+  ;
 
-extension DashIsoPlaybackDeviceCompatibilityValueExtension
-    on DashIsoPlaybackDeviceCompatibility {
-  String toValue() {
-    switch (this) {
-      case DashIsoPlaybackDeviceCompatibility.cencV1:
-        return 'CENC_V1';
-      case DashIsoPlaybackDeviceCompatibility.unencryptedSei:
-        return 'UNENCRYPTED_SEI';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoPlaybackDeviceCompatibilityFromString on String {
-  DashIsoPlaybackDeviceCompatibility toDashIsoPlaybackDeviceCompatibility() {
-    switch (this) {
-      case 'CENC_V1':
-        return DashIsoPlaybackDeviceCompatibility.cencV1;
-      case 'UNENCRYPTED_SEI':
-        return DashIsoPlaybackDeviceCompatibility.unencryptedSei;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoPlaybackDeviceCompatibility');
-  }
+  const DashIsoPlaybackDeviceCompatibility(this.value);
+
+  static DashIsoPlaybackDeviceCompatibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoPlaybackDeviceCompatibility'));
 }
 
 /// Use this setting only when your output video stream has B-frames, which
@@ -10158,64 +8064,36 @@ extension DashIsoPlaybackDeviceCompatibilityFromString on String {
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
 enum DashIsoPtsOffsetHandlingForBFrames {
-  zeroBased,
-  matchInitialPts,
-}
+  zeroBased('ZERO_BASED'),
+  matchInitialPts('MATCH_INITIAL_PTS'),
+  ;
 
-extension DashIsoPtsOffsetHandlingForBFramesValueExtension
-    on DashIsoPtsOffsetHandlingForBFrames {
-  String toValue() {
-    switch (this) {
-      case DashIsoPtsOffsetHandlingForBFrames.zeroBased:
-        return 'ZERO_BASED';
-      case DashIsoPtsOffsetHandlingForBFrames.matchInitialPts:
-        return 'MATCH_INITIAL_PTS';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoPtsOffsetHandlingForBFramesFromString on String {
-  DashIsoPtsOffsetHandlingForBFrames toDashIsoPtsOffsetHandlingForBFrames() {
-    switch (this) {
-      case 'ZERO_BASED':
-        return DashIsoPtsOffsetHandlingForBFrames.zeroBased;
-      case 'MATCH_INITIAL_PTS':
-        return DashIsoPtsOffsetHandlingForBFrames.matchInitialPts;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoPtsOffsetHandlingForBFrames');
-  }
+  const DashIsoPtsOffsetHandlingForBFrames(this.value);
+
+  static DashIsoPtsOffsetHandlingForBFrames fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoPtsOffsetHandlingForBFrames'));
 }
 
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
 enum DashIsoSegmentControl {
-  singleFile,
-  segmentedFiles,
-}
+  singleFile('SINGLE_FILE'),
+  segmentedFiles('SEGMENTED_FILES'),
+  ;
 
-extension DashIsoSegmentControlValueExtension on DashIsoSegmentControl {
-  String toValue() {
-    switch (this) {
-      case DashIsoSegmentControl.singleFile:
-        return 'SINGLE_FILE';
-      case DashIsoSegmentControl.segmentedFiles:
-        return 'SEGMENTED_FILES';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoSegmentControlFromString on String {
-  DashIsoSegmentControl toDashIsoSegmentControl() {
-    switch (this) {
-      case 'SINGLE_FILE':
-        return DashIsoSegmentControl.singleFile;
-      case 'SEGMENTED_FILES':
-        return DashIsoSegmentControl.segmentedFiles;
-    }
-    throw Exception('$this is not known in enum DashIsoSegmentControl');
-  }
+  const DashIsoSegmentControl(this.value);
+
+  static DashIsoSegmentControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DashIsoSegmentControl'));
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -10224,32 +8102,18 @@ extension DashIsoSegmentControlFromString on String {
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
 enum DashIsoSegmentLengthControl {
-  exact,
-  gopMultiple,
-}
+  exact('EXACT'),
+  gopMultiple('GOP_MULTIPLE'),
+  ;
 
-extension DashIsoSegmentLengthControlValueExtension
-    on DashIsoSegmentLengthControl {
-  String toValue() {
-    switch (this) {
-      case DashIsoSegmentLengthControl.exact:
-        return 'EXACT';
-      case DashIsoSegmentLengthControl.gopMultiple:
-        return 'GOP_MULTIPLE';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoSegmentLengthControlFromString on String {
-  DashIsoSegmentLengthControl toDashIsoSegmentLengthControl() {
-    switch (this) {
-      case 'EXACT':
-        return DashIsoSegmentLengthControl.exact;
-      case 'GOP_MULTIPLE':
-        return DashIsoSegmentLengthControl.gopMultiple;
-    }
-    throw Exception('$this is not known in enum DashIsoSegmentLengthControl');
-  }
+  const DashIsoSegmentLengthControl(this.value);
+
+  static DashIsoSegmentLengthControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoSegmentLengthControl'));
 }
 
 /// Specify the video sample composition time offset mode in the output fMP4
@@ -10260,33 +8124,18 @@ extension DashIsoSegmentLengthControlFromString on String {
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
 enum DashIsoVideoCompositionOffsets {
-  signed,
-  unsigned,
-}
+  signed('SIGNED'),
+  unsigned('UNSIGNED'),
+  ;
 
-extension DashIsoVideoCompositionOffsetsValueExtension
-    on DashIsoVideoCompositionOffsets {
-  String toValue() {
-    switch (this) {
-      case DashIsoVideoCompositionOffsets.signed:
-        return 'SIGNED';
-      case DashIsoVideoCompositionOffsets.unsigned:
-        return 'UNSIGNED';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoVideoCompositionOffsetsFromString on String {
-  DashIsoVideoCompositionOffsets toDashIsoVideoCompositionOffsets() {
-    switch (this) {
-      case 'SIGNED':
-        return DashIsoVideoCompositionOffsets.signed;
-      case 'UNSIGNED':
-        return DashIsoVideoCompositionOffsets.unsigned;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoVideoCompositionOffsets');
-  }
+  const DashIsoVideoCompositionOffsets(this.value);
+
+  static DashIsoVideoCompositionOffsets fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoVideoCompositionOffsets'));
 }
 
 /// When you enable Precise segment duration in manifests, your DASH manifest
@@ -10296,34 +8145,18 @@ extension DashIsoVideoCompositionOffsetsFromString on String {
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
 enum DashIsoWriteSegmentTimelineInRepresentation {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DashIsoWriteSegmentTimelineInRepresentationValueExtension
-    on DashIsoWriteSegmentTimelineInRepresentation {
-  String toValue() {
-    switch (this) {
-      case DashIsoWriteSegmentTimelineInRepresentation.enabled:
-        return 'ENABLED';
-      case DashIsoWriteSegmentTimelineInRepresentation.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DashIsoWriteSegmentTimelineInRepresentationFromString on String {
-  DashIsoWriteSegmentTimelineInRepresentation
-      toDashIsoWriteSegmentTimelineInRepresentation() {
-    switch (this) {
-      case 'ENABLED':
-        return DashIsoWriteSegmentTimelineInRepresentation.enabled;
-      case 'DISABLED':
-        return DashIsoWriteSegmentTimelineInRepresentation.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum DashIsoWriteSegmentTimelineInRepresentation');
-  }
+  const DashIsoWriteSegmentTimelineInRepresentation(this.value);
+
+  static DashIsoWriteSegmentTimelineInRepresentation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashIsoWriteSegmentTimelineInRepresentation'));
 }
 
 /// Specify how MediaConvert writes SegmentTimeline in your output DASH
@@ -10334,70 +8167,36 @@ extension DashIsoWriteSegmentTimelineInRepresentationFromString on String {
 /// To write a video AdaptationSet for each different output framerate, and a
 /// common SegmentTimeline in each AdaptationSet: Choose Distinct.
 enum DashManifestStyle {
-  basic,
-  compact,
-  distinct,
-}
+  basic('BASIC'),
+  compact('COMPACT'),
+  distinct('DISTINCT'),
+  ;
 
-extension DashManifestStyleValueExtension on DashManifestStyle {
-  String toValue() {
-    switch (this) {
-      case DashManifestStyle.basic:
-        return 'BASIC';
-      case DashManifestStyle.compact:
-        return 'COMPACT';
-      case DashManifestStyle.distinct:
-        return 'DISTINCT';
-    }
-  }
-}
+  final String value;
 
-extension DashManifestStyleFromString on String {
-  DashManifestStyle toDashManifestStyle() {
-    switch (this) {
-      case 'BASIC':
-        return DashManifestStyle.basic;
-      case 'COMPACT':
-        return DashManifestStyle.compact;
-      case 'DISTINCT':
-        return DashManifestStyle.distinct;
-    }
-    throw Exception('$this is not known in enum DashManifestStyle');
-  }
+  const DashManifestStyle(this.value);
+
+  static DashManifestStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DashManifestStyle'));
 }
 
 /// Specify the encryption mode that you used to encrypt your input files.
 enum DecryptionMode {
-  aesCtr,
-  aesCbc,
-  aesGcm,
-}
+  aesCtr('AES_CTR'),
+  aesCbc('AES_CBC'),
+  aesGcm('AES_GCM'),
+  ;
 
-extension DecryptionModeValueExtension on DecryptionMode {
-  String toValue() {
-    switch (this) {
-      case DecryptionMode.aesCtr:
-        return 'AES_CTR';
-      case DecryptionMode.aesCbc:
-        return 'AES_CBC';
-      case DecryptionMode.aesGcm:
-        return 'AES_GCM';
-    }
-  }
-}
+  final String value;
 
-extension DecryptionModeFromString on String {
-  DecryptionMode toDecryptionMode() {
-    switch (this) {
-      case 'AES_CTR':
-        return DecryptionMode.aesCtr;
-      case 'AES_CBC':
-        return DecryptionMode.aesCbc;
-      case 'AES_GCM':
-        return DecryptionMode.aesGcm;
-    }
-    throw Exception('$this is not known in enum DecryptionMode');
-  }
+  const DecryptionMode(this.value);
+
+  static DecryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DecryptionMode'));
 }
 
 /// Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
@@ -10407,46 +8206,21 @@ extension DecryptionModeFromString on String {
 /// field doubling: Choose Linear interpolation. Note that Linear interpolation
 /// may introduce video artifacts into your output.
 enum DeinterlaceAlgorithm {
-  interpolate,
-  interpolateTicker,
-  blend,
-  blendTicker,
-  linearInterpolation,
-}
+  interpolate('INTERPOLATE'),
+  interpolateTicker('INTERPOLATE_TICKER'),
+  blend('BLEND'),
+  blendTicker('BLEND_TICKER'),
+  linearInterpolation('LINEAR_INTERPOLATION'),
+  ;
 
-extension DeinterlaceAlgorithmValueExtension on DeinterlaceAlgorithm {
-  String toValue() {
-    switch (this) {
-      case DeinterlaceAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case DeinterlaceAlgorithm.interpolateTicker:
-        return 'INTERPOLATE_TICKER';
-      case DeinterlaceAlgorithm.blend:
-        return 'BLEND';
-      case DeinterlaceAlgorithm.blendTicker:
-        return 'BLEND_TICKER';
-      case DeinterlaceAlgorithm.linearInterpolation:
-        return 'LINEAR_INTERPOLATION';
-    }
-  }
-}
+  final String value;
 
-extension DeinterlaceAlgorithmFromString on String {
-  DeinterlaceAlgorithm toDeinterlaceAlgorithm() {
-    switch (this) {
-      case 'INTERPOLATE':
-        return DeinterlaceAlgorithm.interpolate;
-      case 'INTERPOLATE_TICKER':
-        return DeinterlaceAlgorithm.interpolateTicker;
-      case 'BLEND':
-        return DeinterlaceAlgorithm.blend;
-      case 'BLEND_TICKER':
-        return DeinterlaceAlgorithm.blendTicker;
-      case 'LINEAR_INTERPOLATION':
-        return DeinterlaceAlgorithm.linearInterpolation;
-    }
-    throw Exception('$this is not known in enum DeinterlaceAlgorithm');
-  }
+  const DeinterlaceAlgorithm(this.value);
+
+  static DeinterlaceAlgorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeinterlaceAlgorithm'));
 }
 
 /// Settings for deinterlacer
@@ -10484,9 +8258,11 @@ class Deinterlacer {
 
   factory Deinterlacer.fromJson(Map<String, dynamic> json) {
     return Deinterlacer(
-      algorithm: (json['algorithm'] as String?)?.toDeinterlaceAlgorithm(),
-      control: (json['control'] as String?)?.toDeinterlacerControl(),
-      mode: (json['mode'] as String?)?.toDeinterlacerMode(),
+      algorithm:
+          (json['algorithm'] as String?)?.let(DeinterlaceAlgorithm.fromString),
+      control:
+          (json['control'] as String?)?.let(DeinterlacerControl.fromString),
+      mode: (json['mode'] as String?)?.let(DeinterlacerMode.fromString),
     );
   }
 
@@ -10495,9 +8271,9 @@ class Deinterlacer {
     final control = this.control;
     final mode = this.mode;
     return {
-      if (algorithm != null) 'algorithm': algorithm.toValue(),
-      if (control != null) 'control': control.toValue(),
-      if (mode != null) 'mode': mode.toValue(),
+      if (algorithm != null) 'algorithm': algorithm.value,
+      if (control != null) 'control': control.value,
+      if (mode != null) 'mode': mode.value,
     };
   }
 }
@@ -10511,31 +8287,18 @@ class Deinterlacer {
 /// progressive. Do not turn on otherwise; processing frames that are already
 /// progressive into progressive will probably result in lower quality video.
 enum DeinterlacerControl {
-  forceAllFrames,
-  normal,
-}
+  forceAllFrames('FORCE_ALL_FRAMES'),
+  normal('NORMAL'),
+  ;
 
-extension DeinterlacerControlValueExtension on DeinterlacerControl {
-  String toValue() {
-    switch (this) {
-      case DeinterlacerControl.forceAllFrames:
-        return 'FORCE_ALL_FRAMES';
-      case DeinterlacerControl.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension DeinterlacerControlFromString on String {
-  DeinterlacerControl toDeinterlacerControl() {
-    switch (this) {
-      case 'FORCE_ALL_FRAMES':
-        return DeinterlacerControl.forceAllFrames;
-      case 'NORMAL':
-        return DeinterlacerControl.normal;
-    }
-    throw Exception('$this is not known in enum DeinterlacerControl');
-  }
+  const DeinterlacerControl(this.value);
+
+  static DeinterlacerControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeinterlacerControl'));
 }
 
 /// Use Deinterlacer to choose how the service will do deinterlacing. Default is
@@ -10544,36 +8307,19 @@ extension DeinterlacerControlFromString on String {
 /// - Inverse telecine converts Hard Telecine 29.97i to progressive 23.976p.
 /// - Adaptive auto-detects and converts to progressive.
 enum DeinterlacerMode {
-  deinterlace,
-  inverseTelecine,
-  adaptive,
-}
+  deinterlace('DEINTERLACE'),
+  inverseTelecine('INVERSE_TELECINE'),
+  adaptive('ADAPTIVE'),
+  ;
 
-extension DeinterlacerModeValueExtension on DeinterlacerMode {
-  String toValue() {
-    switch (this) {
-      case DeinterlacerMode.deinterlace:
-        return 'DEINTERLACE';
-      case DeinterlacerMode.inverseTelecine:
-        return 'INVERSE_TELECINE';
-      case DeinterlacerMode.adaptive:
-        return 'ADAPTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DeinterlacerModeFromString on String {
-  DeinterlacerMode toDeinterlacerMode() {
-    switch (this) {
-      case 'DEINTERLACE':
-        return DeinterlacerMode.deinterlace;
-      case 'INVERSE_TELECINE':
-        return DeinterlacerMode.inverseTelecine;
-      case 'ADAPTIVE':
-        return DeinterlacerMode.adaptive;
-    }
-    throw Exception('$this is not known in enum DeinterlacerMode');
-  }
+  const DeinterlacerMode(this.value);
+
+  static DeinterlacerMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeinterlacerMode'));
 }
 
 class DeleteJobTemplateResponse {
@@ -10615,31 +8361,18 @@ class DeleteQueueResponse {
 @Deprecated(
     'DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.')
 enum DescribeEndpointsMode {
-  $default,
-  getOnly,
-}
+  $default('DEFAULT'),
+  getOnly('GET_ONLY'),
+  ;
 
-extension DescribeEndpointsModeValueExtension on DescribeEndpointsMode {
-  String toValue() {
-    switch (this) {
-      case DescribeEndpointsMode.$default:
-        return 'DEFAULT';
-      case DescribeEndpointsMode.getOnly:
-        return 'GET_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension DescribeEndpointsModeFromString on String {
-  DescribeEndpointsMode toDescribeEndpointsMode() {
-    switch (this) {
-      case 'DEFAULT':
-        return DescribeEndpointsMode.$default;
-      case 'GET_ONLY':
-        return DescribeEndpointsMode.getOnly;
-    }
-    throw Exception('$this is not known in enum DescribeEndpointsMode');
-  }
+  const DescribeEndpointsMode(this.value);
+
+  static DescribeEndpointsMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DescribeEndpointsMode'));
 }
 
 @Deprecated(
@@ -10743,9 +8476,10 @@ class DolbyVision {
           ? DolbyVisionLevel6Metadata.fromJson(
               json['l6Metadata'] as Map<String, dynamic>)
           : null,
-      l6Mode: (json['l6Mode'] as String?)?.toDolbyVisionLevel6Mode(),
-      mapping: (json['mapping'] as String?)?.toDolbyVisionMapping(),
-      profile: (json['profile'] as String?)?.toDolbyVisionProfile(),
+      l6Mode:
+          (json['l6Mode'] as String?)?.let(DolbyVisionLevel6Mode.fromString),
+      mapping: (json['mapping'] as String?)?.let(DolbyVisionMapping.fromString),
+      profile: (json['profile'] as String?)?.let(DolbyVisionProfile.fromString),
     );
   }
 
@@ -10756,9 +8490,9 @@ class DolbyVision {
     final profile = this.profile;
     return {
       if (l6Metadata != null) 'l6Metadata': l6Metadata,
-      if (l6Mode != null) 'l6Mode': l6Mode.toValue(),
-      if (mapping != null) 'mapping': mapping.toValue(),
-      if (profile != null) 'profile': profile.toValue(),
+      if (l6Mode != null) 'l6Mode': l6Mode.value,
+      if (mapping != null) 'mapping': mapping.value,
+      if (profile != null) 'profile': profile.value,
     };
   }
 }
@@ -10799,36 +8533,19 @@ class DolbyVisionLevel6Metadata {
 /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision
 /// MaxCLL and MaxFALL properies.
 enum DolbyVisionLevel6Mode {
-  passthrough,
-  recalculate,
-  specify,
-}
+  passthrough('PASSTHROUGH'),
+  recalculate('RECALCULATE'),
+  specify('SPECIFY'),
+  ;
 
-extension DolbyVisionLevel6ModeValueExtension on DolbyVisionLevel6Mode {
-  String toValue() {
-    switch (this) {
-      case DolbyVisionLevel6Mode.passthrough:
-        return 'PASSTHROUGH';
-      case DolbyVisionLevel6Mode.recalculate:
-        return 'RECALCULATE';
-      case DolbyVisionLevel6Mode.specify:
-        return 'SPECIFY';
-    }
-  }
-}
+  final String value;
 
-extension DolbyVisionLevel6ModeFromString on String {
-  DolbyVisionLevel6Mode toDolbyVisionLevel6Mode() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return DolbyVisionLevel6Mode.passthrough;
-      case 'RECALCULATE':
-        return DolbyVisionLevel6Mode.recalculate;
-      case 'SPECIFY':
-        return DolbyVisionLevel6Mode.specify;
-    }
-    throw Exception('$this is not known in enum DolbyVisionLevel6Mode');
-  }
+  const DolbyVisionLevel6Mode(this.value);
+
+  static DolbyVisionLevel6Mode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DolbyVisionLevel6Mode'));
 }
 
 /// Required when you set Dolby Vision Profile to Profile 8.1. When you set
@@ -10841,31 +8558,18 @@ extension DolbyVisionLevel6ModeFromString on String {
 /// from analysis. For graded Dolby Vision content, be aware that creative
 /// intent might not be guaranteed with extreme 1,000 nits trims.
 enum DolbyVisionMapping {
-  hdr10Nomap,
-  hdr10_1000,
-}
+  hdr10Nomap('HDR10_NOMAP'),
+  hdr10_1000('HDR10_1000'),
+  ;
 
-extension DolbyVisionMappingValueExtension on DolbyVisionMapping {
-  String toValue() {
-    switch (this) {
-      case DolbyVisionMapping.hdr10Nomap:
-        return 'HDR10_NOMAP';
-      case DolbyVisionMapping.hdr10_1000:
-        return 'HDR10_1000';
-    }
-  }
-}
+  final String value;
 
-extension DolbyVisionMappingFromString on String {
-  DolbyVisionMapping toDolbyVisionMapping() {
-    switch (this) {
-      case 'HDR10_NOMAP':
-        return DolbyVisionMapping.hdr10Nomap;
-      case 'HDR10_1000':
-        return DolbyVisionMapping.hdr10_1000;
-    }
-    throw Exception('$this is not known in enum DolbyVisionMapping');
-  }
+  const DolbyVisionMapping(this.value);
+
+  static DolbyVisionMapping fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DolbyVisionMapping'));
 }
 
 /// Required when you enable Dolby Vision. Use Profile 5 to include
@@ -10874,31 +8578,18 @@ extension DolbyVisionMappingFromString on String {
 /// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
 /// your output. Your input must include Dolby Vision metadata.
 enum DolbyVisionProfile {
-  profile_5,
-  profile_8_1,
-}
+  profile_5('PROFILE_5'),
+  profile_8_1('PROFILE_8_1'),
+  ;
 
-extension DolbyVisionProfileValueExtension on DolbyVisionProfile {
-  String toValue() {
-    switch (this) {
-      case DolbyVisionProfile.profile_5:
-        return 'PROFILE_5';
-      case DolbyVisionProfile.profile_8_1:
-        return 'PROFILE_8_1';
-    }
-  }
-}
+  final String value;
 
-extension DolbyVisionProfileFromString on String {
-  DolbyVisionProfile toDolbyVisionProfile() {
-    switch (this) {
-      case 'PROFILE_5':
-        return DolbyVisionProfile.profile_5;
-      case 'PROFILE_8_1':
-        return DolbyVisionProfile.profile_8_1;
-    }
-    throw Exception('$this is not known in enum DolbyVisionProfile');
-  }
+  const DolbyVisionProfile(this.value);
+
+  static DolbyVisionProfile fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DolbyVisionProfile'));
 }
 
 /// Applies only to 29.97 fps outputs. When this feature is enabled, the service
@@ -10906,31 +8597,18 @@ extension DolbyVisionProfileFromString on String {
 /// drop-frame timecode, the system will fall back to non-drop-frame. This
 /// setting is enabled by default when Timecode insertion is enabled.
 enum DropFrameTimecode {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension DropFrameTimecodeValueExtension on DropFrameTimecode {
-  String toValue() {
-    switch (this) {
-      case DropFrameTimecode.disabled:
-        return 'DISABLED';
-      case DropFrameTimecode.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension DropFrameTimecodeFromString on String {
-  DropFrameTimecode toDropFrameTimecode() {
-    switch (this) {
-      case 'DISABLED':
-        return DropFrameTimecode.disabled;
-      case 'ENABLED':
-        return DropFrameTimecode.enabled;
-    }
-    throw Exception('$this is not known in enum DropFrameTimecode');
-  }
+  const DropFrameTimecode(this.value);
+
+  static DropFrameTimecode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DropFrameTimecode'));
 }
 
 /// Use these settings to insert a DVB Network Information Table (NIT) in the
@@ -11006,7 +8684,7 @@ class DvbSdtSettings {
 
   factory DvbSdtSettings.fromJson(Map<String, dynamic> json) {
     return DvbSdtSettings(
-      outputSdt: (json['outputSdt'] as String?)?.toOutputSdt(),
+      outputSdt: (json['outputSdt'] as String?)?.let(OutputSdt.fromString),
       sdtInterval: json['sdtInterval'] as int?,
       serviceName: json['serviceName'] as String?,
       serviceProviderName: json['serviceProviderName'] as String?,
@@ -11019,7 +8697,7 @@ class DvbSdtSettings {
     final serviceName = this.serviceName;
     final serviceProviderName = this.serviceProviderName;
     return {
-      if (outputSdt != null) 'outputSdt': outputSdt.toValue(),
+      if (outputSdt != null) 'outputSdt': outputSdt.value,
       if (sdtInterval != null) 'sdtInterval': sdtInterval,
       if (serviceName != null) 'serviceName': serviceName,
       if (serviceProviderName != null)
@@ -11291,41 +8969,45 @@ class DvbSubDestinationSettings {
 
   factory DvbSubDestinationSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubDestinationSettings(
-      alignment: (json['alignment'] as String?)?.toDvbSubtitleAlignment(),
-      applyFontColor:
-          (json['applyFontColor'] as String?)?.toDvbSubtitleApplyFontColor(),
-      backgroundColor:
-          (json['backgroundColor'] as String?)?.toDvbSubtitleBackgroundColor(),
+      alignment:
+          (json['alignment'] as String?)?.let(DvbSubtitleAlignment.fromString),
+      applyFontColor: (json['applyFontColor'] as String?)
+          ?.let(DvbSubtitleApplyFontColor.fromString),
+      backgroundColor: (json['backgroundColor'] as String?)
+          ?.let(DvbSubtitleBackgroundColor.fromString),
       backgroundOpacity: json['backgroundOpacity'] as int?,
-      ddsHandling: (json['ddsHandling'] as String?)?.toDvbddsHandling(),
+      ddsHandling:
+          (json['ddsHandling'] as String?)?.let(DvbddsHandling.fromString),
       ddsXCoordinate: json['ddsXCoordinate'] as int?,
       ddsYCoordinate: json['ddsYCoordinate'] as int?,
-      fallbackFont:
-          (json['fallbackFont'] as String?)?.toDvbSubSubtitleFallbackFont(),
-      fontColor: (json['fontColor'] as String?)?.toDvbSubtitleFontColor(),
+      fallbackFont: (json['fallbackFont'] as String?)
+          ?.let(DvbSubSubtitleFallbackFont.fromString),
+      fontColor:
+          (json['fontColor'] as String?)?.let(DvbSubtitleFontColor.fromString),
       fontFileBold: json['fontFileBold'] as String?,
       fontFileBoldItalic: json['fontFileBoldItalic'] as String?,
       fontFileItalic: json['fontFileItalic'] as String?,
       fontFileRegular: json['fontFileRegular'] as String?,
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
-      fontScript: (json['fontScript'] as String?)?.toFontScript(),
+      fontScript: (json['fontScript'] as String?)?.let(FontScript.fromString),
       fontSize: json['fontSize'] as int?,
       height: json['height'] as int?,
       hexFontColor: json['hexFontColor'] as String?,
-      outlineColor:
-          (json['outlineColor'] as String?)?.toDvbSubtitleOutlineColor(),
+      outlineColor: (json['outlineColor'] as String?)
+          ?.let(DvbSubtitleOutlineColor.fromString),
       outlineSize: json['outlineSize'] as int?,
-      shadowColor: (json['shadowColor'] as String?)?.toDvbSubtitleShadowColor(),
+      shadowColor: (json['shadowColor'] as String?)
+          ?.let(DvbSubtitleShadowColor.fromString),
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
       stylePassthrough: (json['stylePassthrough'] as String?)
-          ?.toDvbSubtitleStylePassthrough(),
-      subtitlingType:
-          (json['subtitlingType'] as String?)?.toDvbSubtitlingType(),
-      teletextSpacing:
-          (json['teletextSpacing'] as String?)?.toDvbSubtitleTeletextSpacing(),
+          ?.let(DvbSubtitleStylePassthrough.fromString),
+      subtitlingType: (json['subtitlingType'] as String?)
+          ?.let(DvbSubtitlingType.fromString),
+      teletextSpacing: (json['teletextSpacing'] as String?)
+          ?.let(DvbSubtitleTeletextSpacing.fromString),
       width: json['width'] as int?,
       xPosition: json['xPosition'] as int?,
       yPosition: json['yPosition'] as int?,
@@ -11365,35 +9047,34 @@ class DvbSubDestinationSettings {
     final xPosition = this.xPosition;
     final yPosition = this.yPosition;
     return {
-      if (alignment != null) 'alignment': alignment.toValue(),
-      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
-      if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
+      if (alignment != null) 'alignment': alignment.value,
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.value,
+      if (backgroundColor != null) 'backgroundColor': backgroundColor.value,
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
-      if (ddsHandling != null) 'ddsHandling': ddsHandling.toValue(),
+      if (ddsHandling != null) 'ddsHandling': ddsHandling.value,
       if (ddsXCoordinate != null) 'ddsXCoordinate': ddsXCoordinate,
       if (ddsYCoordinate != null) 'ddsYCoordinate': ddsYCoordinate,
-      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
-      if (fontColor != null) 'fontColor': fontColor.toValue(),
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.value,
+      if (fontColor != null) 'fontColor': fontColor.value,
       if (fontFileBold != null) 'fontFileBold': fontFileBold,
       if (fontFileBoldItalic != null) 'fontFileBoldItalic': fontFileBoldItalic,
       if (fontFileItalic != null) 'fontFileItalic': fontFileItalic,
       if (fontFileRegular != null) 'fontFileRegular': fontFileRegular,
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
-      if (fontScript != null) 'fontScript': fontScript.toValue(),
+      if (fontScript != null) 'fontScript': fontScript.value,
       if (fontSize != null) 'fontSize': fontSize,
       if (height != null) 'height': height,
       if (hexFontColor != null) 'hexFontColor': hexFontColor,
-      if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
+      if (outlineColor != null) 'outlineColor': outlineColor.value,
       if (outlineSize != null) 'outlineSize': outlineSize,
-      if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
+      if (shadowColor != null) 'shadowColor': shadowColor.value,
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
-      if (subtitlingType != null) 'subtitlingType': subtitlingType.toValue(),
-      if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
+      if (subtitlingType != null) 'subtitlingType': subtitlingType.value,
+      if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.value,
       if (width != null) 'width': width,
       if (xPosition != null) 'xPosition': xPosition,
       if (yPosition != null) 'yPosition': yPosition,
@@ -11435,47 +9116,21 @@ class DvbSubSourceSettings {
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
 enum DvbSubSubtitleFallbackFont {
-  bestMatch,
-  monospacedSansserif,
-  monospacedSerif,
-  proportionalSansserif,
-  proportionalSerif,
-}
+  bestMatch('BEST_MATCH'),
+  monospacedSansserif('MONOSPACED_SANSSERIF'),
+  monospacedSerif('MONOSPACED_SERIF'),
+  proportionalSansserif('PROPORTIONAL_SANSSERIF'),
+  proportionalSerif('PROPORTIONAL_SERIF'),
+  ;
 
-extension DvbSubSubtitleFallbackFontValueExtension
-    on DvbSubSubtitleFallbackFont {
-  String toValue() {
-    switch (this) {
-      case DvbSubSubtitleFallbackFont.bestMatch:
-        return 'BEST_MATCH';
-      case DvbSubSubtitleFallbackFont.monospacedSansserif:
-        return 'MONOSPACED_SANSSERIF';
-      case DvbSubSubtitleFallbackFont.monospacedSerif:
-        return 'MONOSPACED_SERIF';
-      case DvbSubSubtitleFallbackFont.proportionalSansserif:
-        return 'PROPORTIONAL_SANSSERIF';
-      case DvbSubSubtitleFallbackFont.proportionalSerif:
-        return 'PROPORTIONAL_SERIF';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubSubtitleFallbackFontFromString on String {
-  DvbSubSubtitleFallbackFont toDvbSubSubtitleFallbackFont() {
-    switch (this) {
-      case 'BEST_MATCH':
-        return DvbSubSubtitleFallbackFont.bestMatch;
-      case 'MONOSPACED_SANSSERIF':
-        return DvbSubSubtitleFallbackFont.monospacedSansserif;
-      case 'MONOSPACED_SERIF':
-        return DvbSubSubtitleFallbackFont.monospacedSerif;
-      case 'PROPORTIONAL_SANSSERIF':
-        return DvbSubSubtitleFallbackFont.proportionalSansserif;
-      case 'PROPORTIONAL_SERIF':
-        return DvbSubSubtitleFallbackFont.proportionalSerif;
-    }
-    throw Exception('$this is not known in enum DvbSubSubtitleFallbackFont');
-  }
+  const DvbSubSubtitleFallbackFont(this.value);
+
+  static DvbSubSubtitleFallbackFont fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubSubtitleFallbackFont'));
 }
 
 /// Specify the alignment of your captions. If no explicit x_position is
@@ -11486,36 +9141,19 @@ extension DvbSubSubtitleFallbackFontFromString on String {
 /// left or centered) relative to those coordinates. Within your job settings,
 /// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleAlignment {
-  centered,
-  left,
-  auto,
-}
+  centered('CENTERED'),
+  left('LEFT'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleAlignmentValueExtension on DvbSubtitleAlignment {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleAlignment.centered:
-        return 'CENTERED';
-      case DvbSubtitleAlignment.left:
-        return 'LEFT';
-      case DvbSubtitleAlignment.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleAlignmentFromString on String {
-  DvbSubtitleAlignment toDvbSubtitleAlignment() {
-    switch (this) {
-      case 'CENTERED':
-        return DvbSubtitleAlignment.centered;
-      case 'LEFT':
-        return DvbSubtitleAlignment.left;
-      case 'AUTO':
-        return DvbSubtitleAlignment.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleAlignment');
-  }
+  const DvbSubtitleAlignment(this.value);
+
+  static DvbSubtitleAlignment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DvbSubtitleAlignment'));
 }
 
 /// Ignore this setting unless Style Passthrough is set to Enabled and Font
@@ -11527,73 +9165,38 @@ extension DvbSubtitleAlignmentFromString on String {
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
 enum DvbSubtitleApplyFontColor {
-  whiteTextOnly,
-  allText,
-}
+  whiteTextOnly('WHITE_TEXT_ONLY'),
+  allText('ALL_TEXT'),
+  ;
 
-extension DvbSubtitleApplyFontColorValueExtension on DvbSubtitleApplyFontColor {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleApplyFontColor.whiteTextOnly:
-        return 'WHITE_TEXT_ONLY';
-      case DvbSubtitleApplyFontColor.allText:
-        return 'ALL_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleApplyFontColorFromString on String {
-  DvbSubtitleApplyFontColor toDvbSubtitleApplyFontColor() {
-    switch (this) {
-      case 'WHITE_TEXT_ONLY':
-        return DvbSubtitleApplyFontColor.whiteTextOnly;
-      case 'ALL_TEXT':
-        return DvbSubtitleApplyFontColor.allText;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleApplyFontColor');
-  }
+  const DvbSubtitleApplyFontColor(this.value);
+
+  static DvbSubtitleApplyFontColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleApplyFontColor'));
 }
 
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
 enum DvbSubtitleBackgroundColor {
-  none,
-  black,
-  white,
-  auto,
-}
+  none('NONE'),
+  black('BLACK'),
+  white('WHITE'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleBackgroundColorValueExtension
-    on DvbSubtitleBackgroundColor {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleBackgroundColor.none:
-        return 'NONE';
-      case DvbSubtitleBackgroundColor.black:
-        return 'BLACK';
-      case DvbSubtitleBackgroundColor.white:
-        return 'WHITE';
-      case DvbSubtitleBackgroundColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleBackgroundColorFromString on String {
-  DvbSubtitleBackgroundColor toDvbSubtitleBackgroundColor() {
-    switch (this) {
-      case 'NONE':
-        return DvbSubtitleBackgroundColor.none;
-      case 'BLACK':
-        return DvbSubtitleBackgroundColor.black;
-      case 'WHITE':
-        return DvbSubtitleBackgroundColor.white;
-      case 'AUTO':
-        return DvbSubtitleBackgroundColor.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleBackgroundColor');
-  }
+  const DvbSubtitleBackgroundColor(this.value);
+
+  static DvbSubtitleBackgroundColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleBackgroundColor'));
 }
 
 /// Specify the color of the captions text. Leave Font color blank and set Style
@@ -11601,61 +9204,24 @@ extension DvbSubtitleBackgroundColorFromString on String {
 /// if present. Within your job settings, all of your DVB-Sub settings must be
 /// identical.
 enum DvbSubtitleFontColor {
-  white,
-  black,
-  yellow,
-  red,
-  green,
-  blue,
-  hex,
-  auto,
-}
+  white('WHITE'),
+  black('BLACK'),
+  yellow('YELLOW'),
+  red('RED'),
+  green('GREEN'),
+  blue('BLUE'),
+  hex('HEX'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleFontColorValueExtension on DvbSubtitleFontColor {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleFontColor.white:
-        return 'WHITE';
-      case DvbSubtitleFontColor.black:
-        return 'BLACK';
-      case DvbSubtitleFontColor.yellow:
-        return 'YELLOW';
-      case DvbSubtitleFontColor.red:
-        return 'RED';
-      case DvbSubtitleFontColor.green:
-        return 'GREEN';
-      case DvbSubtitleFontColor.blue:
-        return 'BLUE';
-      case DvbSubtitleFontColor.hex:
-        return 'HEX';
-      case DvbSubtitleFontColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleFontColorFromString on String {
-  DvbSubtitleFontColor toDvbSubtitleFontColor() {
-    switch (this) {
-      case 'WHITE':
-        return DvbSubtitleFontColor.white;
-      case 'BLACK':
-        return DvbSubtitleFontColor.black;
-      case 'YELLOW':
-        return DvbSubtitleFontColor.yellow;
-      case 'RED':
-        return DvbSubtitleFontColor.red;
-      case 'GREEN':
-        return DvbSubtitleFontColor.green;
-      case 'BLUE':
-        return DvbSubtitleFontColor.blue;
-      case 'HEX':
-        return DvbSubtitleFontColor.hex;
-      case 'AUTO':
-        return DvbSubtitleFontColor.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleFontColor');
-  }
+  const DvbSubtitleFontColor(this.value);
+
+  static DvbSubtitleFontColor fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DvbSubtitleFontColor'));
 }
 
 /// Specify font outline color. Leave Outline color blank and set Style
@@ -11663,56 +9229,23 @@ extension DvbSubtitleFontColorFromString on String {
 /// captions, if present. Within your job settings, all of your DVB-Sub settings
 /// must be identical.
 enum DvbSubtitleOutlineColor {
-  black,
-  white,
-  yellow,
-  red,
-  green,
-  blue,
-  auto,
-}
+  black('BLACK'),
+  white('WHITE'),
+  yellow('YELLOW'),
+  red('RED'),
+  green('GREEN'),
+  blue('BLUE'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleOutlineColorValueExtension on DvbSubtitleOutlineColor {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleOutlineColor.black:
-        return 'BLACK';
-      case DvbSubtitleOutlineColor.white:
-        return 'WHITE';
-      case DvbSubtitleOutlineColor.yellow:
-        return 'YELLOW';
-      case DvbSubtitleOutlineColor.red:
-        return 'RED';
-      case DvbSubtitleOutlineColor.green:
-        return 'GREEN';
-      case DvbSubtitleOutlineColor.blue:
-        return 'BLUE';
-      case DvbSubtitleOutlineColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleOutlineColorFromString on String {
-  DvbSubtitleOutlineColor toDvbSubtitleOutlineColor() {
-    switch (this) {
-      case 'BLACK':
-        return DvbSubtitleOutlineColor.black;
-      case 'WHITE':
-        return DvbSubtitleOutlineColor.white;
-      case 'YELLOW':
-        return DvbSubtitleOutlineColor.yellow;
-      case 'RED':
-        return DvbSubtitleOutlineColor.red;
-      case 'GREEN':
-        return DvbSubtitleOutlineColor.green;
-      case 'BLUE':
-        return DvbSubtitleOutlineColor.blue;
-      case 'AUTO':
-        return DvbSubtitleOutlineColor.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleOutlineColor');
-  }
+  const DvbSubtitleOutlineColor(this.value);
+
+  static DvbSubtitleOutlineColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleOutlineColor'));
 }
 
 /// Specify the color of the shadow cast by the captions. Leave Shadow color
@@ -11720,41 +9253,20 @@ extension DvbSubtitleOutlineColorFromString on String {
 /// your input captions, if present. Within your job settings, all of your
 /// DVB-Sub settings must be identical.
 enum DvbSubtitleShadowColor {
-  none,
-  black,
-  white,
-  auto,
-}
+  none('NONE'),
+  black('BLACK'),
+  white('WHITE'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleShadowColorValueExtension on DvbSubtitleShadowColor {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleShadowColor.none:
-        return 'NONE';
-      case DvbSubtitleShadowColor.black:
-        return 'BLACK';
-      case DvbSubtitleShadowColor.white:
-        return 'WHITE';
-      case DvbSubtitleShadowColor.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleShadowColorFromString on String {
-  DvbSubtitleShadowColor toDvbSubtitleShadowColor() {
-    switch (this) {
-      case 'NONE':
-        return DvbSubtitleShadowColor.none;
-      case 'BLACK':
-        return DvbSubtitleShadowColor.black;
-      case 'WHITE':
-        return DvbSubtitleShadowColor.white;
-      case 'AUTO':
-        return DvbSubtitleShadowColor.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleShadowColor');
-  }
+  const DvbSubtitleShadowColor(this.value);
+
+  static DvbSubtitleShadowColor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleShadowColor'));
 }
 
 /// To use the available style, color, and position information from your input
@@ -11768,32 +9280,18 @@ extension DvbSubtitleShadowColorFromString on String {
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
 enum DvbSubtitleStylePassthrough {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DvbSubtitleStylePassthroughValueExtension
-    on DvbSubtitleStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleStylePassthrough.enabled:
-        return 'ENABLED';
-      case DvbSubtitleStylePassthrough.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleStylePassthroughFromString on String {
-  DvbSubtitleStylePassthrough toDvbSubtitleStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return DvbSubtitleStylePassthrough.enabled;
-      case 'DISABLED':
-        return DvbSubtitleStylePassthrough.disabled;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleStylePassthrough');
-  }
+  const DvbSubtitleStylePassthrough(this.value);
+
+  static DvbSubtitleStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleStylePassthrough'));
 }
 
 /// Specify whether the Text spacing in your captions is set by the captions
@@ -11802,68 +9300,37 @@ extension DvbSubtitleStylePassthroughFromString on String {
 /// proportional to make the text easier to read for closed captions. Within
 /// your job settings, all of your DVB-Sub settings must be identical.
 enum DvbSubtitleTeletextSpacing {
-  fixedGrid,
-  proportional,
-  auto,
-}
+  fixedGrid('FIXED_GRID'),
+  proportional('PROPORTIONAL'),
+  auto('AUTO'),
+  ;
 
-extension DvbSubtitleTeletextSpacingValueExtension
-    on DvbSubtitleTeletextSpacing {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitleTeletextSpacing.fixedGrid:
-        return 'FIXED_GRID';
-      case DvbSubtitleTeletextSpacing.proportional:
-        return 'PROPORTIONAL';
-      case DvbSubtitleTeletextSpacing.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitleTeletextSpacingFromString on String {
-  DvbSubtitleTeletextSpacing toDvbSubtitleTeletextSpacing() {
-    switch (this) {
-      case 'FIXED_GRID':
-        return DvbSubtitleTeletextSpacing.fixedGrid;
-      case 'PROPORTIONAL':
-        return DvbSubtitleTeletextSpacing.proportional;
-      case 'AUTO':
-        return DvbSubtitleTeletextSpacing.auto;
-    }
-    throw Exception('$this is not known in enum DvbSubtitleTeletextSpacing');
-  }
+  const DvbSubtitleTeletextSpacing(this.value);
+
+  static DvbSubtitleTeletextSpacing fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DvbSubtitleTeletextSpacing'));
 }
 
 /// Specify whether your DVB subtitles are standard or for hearing impaired.
 /// Choose hearing impaired if your subtitles include audio descriptions and
 /// dialogue. Choose standard if your subtitles include only dialogue.
 enum DvbSubtitlingType {
-  hearingImpaired,
-  standard,
-}
+  hearingImpaired('HEARING_IMPAIRED'),
+  standard('STANDARD'),
+  ;
 
-extension DvbSubtitlingTypeValueExtension on DvbSubtitlingType {
-  String toValue() {
-    switch (this) {
-      case DvbSubtitlingType.hearingImpaired:
-        return 'HEARING_IMPAIRED';
-      case DvbSubtitlingType.standard:
-        return 'STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension DvbSubtitlingTypeFromString on String {
-  DvbSubtitlingType toDvbSubtitlingType() {
-    switch (this) {
-      case 'HEARING_IMPAIRED':
-        return DvbSubtitlingType.hearingImpaired;
-      case 'STANDARD':
-        return DvbSubtitlingType.standard;
-    }
-    throw Exception('$this is not known in enum DvbSubtitlingType');
-  }
+  const DvbSubtitlingType(this.value);
+
+  static DvbSubtitlingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DvbSubtitlingType'));
 }
 
 /// Use these settings to insert a DVB Time and Date Table (TDT) in the
@@ -11902,132 +9369,71 @@ class DvbTdtSettings {
 /// MediaConvert doesn't include the DDS, regardless of the value you choose for
 /// DDS handling. All burn-in and DVB-Sub font settings must match.
 enum DvbddsHandling {
-  none,
-  specified,
-  noDisplayWindow,
-}
+  none('NONE'),
+  specified('SPECIFIED'),
+  noDisplayWindow('NO_DISPLAY_WINDOW'),
+  ;
 
-extension DvbddsHandlingValueExtension on DvbddsHandling {
-  String toValue() {
-    switch (this) {
-      case DvbddsHandling.none:
-        return 'NONE';
-      case DvbddsHandling.specified:
-        return 'SPECIFIED';
-      case DvbddsHandling.noDisplayWindow:
-        return 'NO_DISPLAY_WINDOW';
-    }
-  }
-}
+  final String value;
 
-extension DvbddsHandlingFromString on String {
-  DvbddsHandling toDvbddsHandling() {
-    switch (this) {
-      case 'NONE':
-        return DvbddsHandling.none;
-      case 'SPECIFIED':
-        return DvbddsHandling.specified;
-      case 'NO_DISPLAY_WINDOW':
-        return DvbddsHandling.noDisplayWindow;
-    }
-    throw Exception('$this is not known in enum DvbddsHandling');
-  }
+  const DvbddsHandling(this.value);
+
+  static DvbddsHandling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DvbddsHandling'));
 }
 
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
 enum Eac3AtmosBitstreamMode {
-  completeMain,
-}
+  completeMain('COMPLETE_MAIN'),
+  ;
 
-extension Eac3AtmosBitstreamModeValueExtension on Eac3AtmosBitstreamMode {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosBitstreamMode.completeMain:
-        return 'COMPLETE_MAIN';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosBitstreamModeFromString on String {
-  Eac3AtmosBitstreamMode toEac3AtmosBitstreamMode() {
-    switch (this) {
-      case 'COMPLETE_MAIN':
-        return Eac3AtmosBitstreamMode.completeMain;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosBitstreamMode');
-  }
+  const Eac3AtmosBitstreamMode(this.value);
+
+  static Eac3AtmosBitstreamMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosBitstreamMode'));
 }
 
 /// The coding mode for Dolby Digital Plus JOC (Atmos).
 enum Eac3AtmosCodingMode {
-  codingModeAuto,
-  codingMode_5_1_4,
-  codingMode_7_1_4,
-  codingMode_9_1_6,
-}
+  codingModeAuto('CODING_MODE_AUTO'),
+  codingMode_5_1_4('CODING_MODE_5_1_4'),
+  codingMode_7_1_4('CODING_MODE_7_1_4'),
+  codingMode_9_1_6('CODING_MODE_9_1_6'),
+  ;
 
-extension Eac3AtmosCodingModeValueExtension on Eac3AtmosCodingMode {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosCodingMode.codingModeAuto:
-        return 'CODING_MODE_AUTO';
-      case Eac3AtmosCodingMode.codingMode_5_1_4:
-        return 'CODING_MODE_5_1_4';
-      case Eac3AtmosCodingMode.codingMode_7_1_4:
-        return 'CODING_MODE_7_1_4';
-      case Eac3AtmosCodingMode.codingMode_9_1_6:
-        return 'CODING_MODE_9_1_6';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosCodingModeFromString on String {
-  Eac3AtmosCodingMode toEac3AtmosCodingMode() {
-    switch (this) {
-      case 'CODING_MODE_AUTO':
-        return Eac3AtmosCodingMode.codingModeAuto;
-      case 'CODING_MODE_5_1_4':
-        return Eac3AtmosCodingMode.codingMode_5_1_4;
-      case 'CODING_MODE_7_1_4':
-        return Eac3AtmosCodingMode.codingMode_7_1_4;
-      case 'CODING_MODE_9_1_6':
-        return Eac3AtmosCodingMode.codingMode_9_1_6;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosCodingMode');
-  }
+  const Eac3AtmosCodingMode(this.value);
+
+  static Eac3AtmosCodingMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Eac3AtmosCodingMode'));
 }
 
 /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue
 /// analysis.
 enum Eac3AtmosDialogueIntelligence {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3AtmosDialogueIntelligenceValueExtension
-    on Eac3AtmosDialogueIntelligence {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosDialogueIntelligence.enabled:
-        return 'ENABLED';
-      case Eac3AtmosDialogueIntelligence.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosDialogueIntelligenceFromString on String {
-  Eac3AtmosDialogueIntelligence toEac3AtmosDialogueIntelligence() {
-    switch (this) {
-      case 'ENABLED':
-        return Eac3AtmosDialogueIntelligence.enabled;
-      case 'DISABLED':
-        return Eac3AtmosDialogueIntelligence.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosDialogueIntelligence');
-  }
+  const Eac3AtmosDialogueIntelligence(this.value);
+
+  static Eac3AtmosDialogueIntelligence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosDialogueIntelligence'));
 }
 
 /// Specify whether MediaConvert should use any downmix metadata from your input
@@ -12039,31 +9445,18 @@ extension Eac3AtmosDialogueIntelligenceFromString on String {
 /// Custom for Downmix control and you don't specify values for the related
 /// settings, MediaConvert uses default values for those settings.
 enum Eac3AtmosDownmixControl {
-  specified,
-  initializeFromSource,
-}
+  specified('SPECIFIED'),
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  ;
 
-extension Eac3AtmosDownmixControlValueExtension on Eac3AtmosDownmixControl {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosDownmixControl.specified:
-        return 'SPECIFIED';
-      case Eac3AtmosDownmixControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosDownmixControlFromString on String {
-  Eac3AtmosDownmixControl toEac3AtmosDownmixControl() {
-    switch (this) {
-      case 'SPECIFIED':
-        return Eac3AtmosDownmixControl.specified;
-      case 'INITIALIZE_FROM_SOURCE':
-        return Eac3AtmosDownmixControl.initializeFromSource;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosDownmixControl');
-  }
+  const Eac3AtmosDownmixControl(this.value);
+
+  static Eac3AtmosDownmixControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosDownmixControl'));
 }
 
 /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
@@ -12076,54 +9469,22 @@ extension Eac3AtmosDownmixControlFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3AtmosDynamicRangeCompressionLine {
-  none,
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-}
+  none('NONE'),
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  ;
 
-extension Eac3AtmosDynamicRangeCompressionLineValueExtension
-    on Eac3AtmosDynamicRangeCompressionLine {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosDynamicRangeCompressionLine.none:
-        return 'NONE';
-      case Eac3AtmosDynamicRangeCompressionLine.filmStandard:
-        return 'FILM_STANDARD';
-      case Eac3AtmosDynamicRangeCompressionLine.filmLight:
-        return 'FILM_LIGHT';
-      case Eac3AtmosDynamicRangeCompressionLine.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Eac3AtmosDynamicRangeCompressionLine.musicLight:
-        return 'MUSIC_LIGHT';
-      case Eac3AtmosDynamicRangeCompressionLine.speech:
-        return 'SPEECH';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosDynamicRangeCompressionLineFromString on String {
-  Eac3AtmosDynamicRangeCompressionLine
-      toEac3AtmosDynamicRangeCompressionLine() {
-    switch (this) {
-      case 'NONE':
-        return Eac3AtmosDynamicRangeCompressionLine.none;
-      case 'FILM_STANDARD':
-        return Eac3AtmosDynamicRangeCompressionLine.filmStandard;
-      case 'FILM_LIGHT':
-        return Eac3AtmosDynamicRangeCompressionLine.filmLight;
-      case 'MUSIC_STANDARD':
-        return Eac3AtmosDynamicRangeCompressionLine.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Eac3AtmosDynamicRangeCompressionLine.musicLight;
-      case 'SPEECH':
-        return Eac3AtmosDynamicRangeCompressionLine.speech;
-    }
-    throw Exception(
-        '$this is not known in enum Eac3AtmosDynamicRangeCompressionLine');
-  }
+  const Eac3AtmosDynamicRangeCompressionLine(this.value);
+
+  static Eac3AtmosDynamicRangeCompressionLine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosDynamicRangeCompressionLine'));
 }
 
 /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
@@ -12136,53 +9497,22 @@ extension Eac3AtmosDynamicRangeCompressionLineFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3AtmosDynamicRangeCompressionRf {
-  none,
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-}
+  none('NONE'),
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  ;
 
-extension Eac3AtmosDynamicRangeCompressionRfValueExtension
-    on Eac3AtmosDynamicRangeCompressionRf {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosDynamicRangeCompressionRf.none:
-        return 'NONE';
-      case Eac3AtmosDynamicRangeCompressionRf.filmStandard:
-        return 'FILM_STANDARD';
-      case Eac3AtmosDynamicRangeCompressionRf.filmLight:
-        return 'FILM_LIGHT';
-      case Eac3AtmosDynamicRangeCompressionRf.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Eac3AtmosDynamicRangeCompressionRf.musicLight:
-        return 'MUSIC_LIGHT';
-      case Eac3AtmosDynamicRangeCompressionRf.speech:
-        return 'SPEECH';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosDynamicRangeCompressionRfFromString on String {
-  Eac3AtmosDynamicRangeCompressionRf toEac3AtmosDynamicRangeCompressionRf() {
-    switch (this) {
-      case 'NONE':
-        return Eac3AtmosDynamicRangeCompressionRf.none;
-      case 'FILM_STANDARD':
-        return Eac3AtmosDynamicRangeCompressionRf.filmStandard;
-      case 'FILM_LIGHT':
-        return Eac3AtmosDynamicRangeCompressionRf.filmLight;
-      case 'MUSIC_STANDARD':
-        return Eac3AtmosDynamicRangeCompressionRf.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Eac3AtmosDynamicRangeCompressionRf.musicLight;
-      case 'SPEECH':
-        return Eac3AtmosDynamicRangeCompressionRf.speech;
-    }
-    throw Exception(
-        '$this is not known in enum Eac3AtmosDynamicRangeCompressionRf');
-  }
+  const Eac3AtmosDynamicRangeCompressionRf(this.value);
+
+  static Eac3AtmosDynamicRangeCompressionRf fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosDynamicRangeCompressionRf'));
 }
 
 /// Specify whether MediaConvert should use any dynamic range control metadata
@@ -12194,76 +9524,37 @@ extension Eac3AtmosDynamicRangeCompressionRfFromString on String {
 /// range control and you don't specify values for the related settings,
 /// MediaConvert uses default values for those settings.
 enum Eac3AtmosDynamicRangeControl {
-  specified,
-  initializeFromSource,
-}
+  specified('SPECIFIED'),
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  ;
 
-extension Eac3AtmosDynamicRangeControlValueExtension
-    on Eac3AtmosDynamicRangeControl {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosDynamicRangeControl.specified:
-        return 'SPECIFIED';
-      case Eac3AtmosDynamicRangeControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosDynamicRangeControlFromString on String {
-  Eac3AtmosDynamicRangeControl toEac3AtmosDynamicRangeControl() {
-    switch (this) {
-      case 'SPECIFIED':
-        return Eac3AtmosDynamicRangeControl.specified;
-      case 'INITIALIZE_FROM_SOURCE':
-        return Eac3AtmosDynamicRangeControl.initializeFromSource;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosDynamicRangeControl');
-  }
+  const Eac3AtmosDynamicRangeControl(this.value);
+
+  static Eac3AtmosDynamicRangeControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosDynamicRangeControl'));
 }
 
 /// Choose how the service meters the loudness of your audio.
 enum Eac3AtmosMeteringMode {
-  leqA,
-  ituBs_1770_1,
-  ituBs_1770_2,
-  ituBs_1770_3,
-  ituBs_1770_4,
-}
+  leqA('LEQ_A'),
+  ituBs_1770_1('ITU_BS_1770_1'),
+  ituBs_1770_2('ITU_BS_1770_2'),
+  ituBs_1770_3('ITU_BS_1770_3'),
+  ituBs_1770_4('ITU_BS_1770_4'),
+  ;
 
-extension Eac3AtmosMeteringModeValueExtension on Eac3AtmosMeteringMode {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosMeteringMode.leqA:
-        return 'LEQ_A';
-      case Eac3AtmosMeteringMode.ituBs_1770_1:
-        return 'ITU_BS_1770_1';
-      case Eac3AtmosMeteringMode.ituBs_1770_2:
-        return 'ITU_BS_1770_2';
-      case Eac3AtmosMeteringMode.ituBs_1770_3:
-        return 'ITU_BS_1770_3';
-      case Eac3AtmosMeteringMode.ituBs_1770_4:
-        return 'ITU_BS_1770_4';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosMeteringModeFromString on String {
-  Eac3AtmosMeteringMode toEac3AtmosMeteringMode() {
-    switch (this) {
-      case 'LEQ_A':
-        return Eac3AtmosMeteringMode.leqA;
-      case 'ITU_BS_1770_1':
-        return Eac3AtmosMeteringMode.ituBs_1770_1;
-      case 'ITU_BS_1770_2':
-        return Eac3AtmosMeteringMode.ituBs_1770_2;
-      case 'ITU_BS_1770_3':
-        return Eac3AtmosMeteringMode.ituBs_1770_3;
-      case 'ITU_BS_1770_4':
-        return Eac3AtmosMeteringMode.ituBs_1770_4;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosMeteringMode');
-  }
+  const Eac3AtmosMeteringMode(this.value);
+
+  static Eac3AtmosMeteringMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Eac3AtmosMeteringMode'));
 }
 
 /// Required when you set Codec to the value EAC3_ATMOS.
@@ -12411,32 +9702,33 @@ class Eac3AtmosSettings {
   factory Eac3AtmosSettings.fromJson(Map<String, dynamic> json) {
     return Eac3AtmosSettings(
       bitrate: json['bitrate'] as int?,
-      bitstreamMode:
-          (json['bitstreamMode'] as String?)?.toEac3AtmosBitstreamMode(),
-      codingMode: (json['codingMode'] as String?)?.toEac3AtmosCodingMode(),
+      bitstreamMode: (json['bitstreamMode'] as String?)
+          ?.let(Eac3AtmosBitstreamMode.fromString),
+      codingMode:
+          (json['codingMode'] as String?)?.let(Eac3AtmosCodingMode.fromString),
       dialogueIntelligence: (json['dialogueIntelligence'] as String?)
-          ?.toEac3AtmosDialogueIntelligence(),
-      downmixControl:
-          (json['downmixControl'] as String?)?.toEac3AtmosDownmixControl(),
+          ?.let(Eac3AtmosDialogueIntelligence.fromString),
+      downmixControl: (json['downmixControl'] as String?)
+          ?.let(Eac3AtmosDownmixControl.fromString),
       dynamicRangeCompressionLine:
           (json['dynamicRangeCompressionLine'] as String?)
-              ?.toEac3AtmosDynamicRangeCompressionLine(),
+              ?.let(Eac3AtmosDynamicRangeCompressionLine.fromString),
       dynamicRangeCompressionRf: (json['dynamicRangeCompressionRf'] as String?)
-          ?.toEac3AtmosDynamicRangeCompressionRf(),
+          ?.let(Eac3AtmosDynamicRangeCompressionRf.fromString),
       dynamicRangeControl: (json['dynamicRangeControl'] as String?)
-          ?.toEac3AtmosDynamicRangeControl(),
+          ?.let(Eac3AtmosDynamicRangeControl.fromString),
       loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
       loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
       ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
       ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
-      meteringMode:
-          (json['meteringMode'] as String?)?.toEac3AtmosMeteringMode(),
+      meteringMode: (json['meteringMode'] as String?)
+          ?.let(Eac3AtmosMeteringMode.fromString),
       sampleRate: json['sampleRate'] as int?,
       speechThreshold: json['speechThreshold'] as int?,
-      stereoDownmix:
-          (json['stereoDownmix'] as String?)?.toEac3AtmosStereoDownmix(),
-      surroundExMode:
-          (json['surroundExMode'] as String?)?.toEac3AtmosSurroundExMode(),
+      stereoDownmix: (json['stereoDownmix'] as String?)
+          ?.let(Eac3AtmosStereoDownmix.fromString),
+      surroundExMode: (json['surroundExMode'] as String?)
+          ?.let(Eac3AtmosSurroundExMode.fromString),
     );
   }
 
@@ -12460,28 +9752,28 @@ class Eac3AtmosSettings {
     final surroundExMode = this.surroundExMode;
     return {
       if (bitrate != null) 'bitrate': bitrate,
-      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.toValue(),
-      if (codingMode != null) 'codingMode': codingMode.toValue(),
+      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.value,
+      if (codingMode != null) 'codingMode': codingMode.value,
       if (dialogueIntelligence != null)
-        'dialogueIntelligence': dialogueIntelligence.toValue(),
-      if (downmixControl != null) 'downmixControl': downmixControl.toValue(),
+        'dialogueIntelligence': dialogueIntelligence.value,
+      if (downmixControl != null) 'downmixControl': downmixControl.value,
       if (dynamicRangeCompressionLine != null)
-        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.toValue(),
+        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.value,
       if (dynamicRangeCompressionRf != null)
-        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.toValue(),
+        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.value,
       if (dynamicRangeControl != null)
-        'dynamicRangeControl': dynamicRangeControl.toValue(),
+        'dynamicRangeControl': dynamicRangeControl.value,
       if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
       if (loRoSurroundMixLevel != null)
         'loRoSurroundMixLevel': loRoSurroundMixLevel,
       if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
       if (ltRtSurroundMixLevel != null)
         'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
-      if (meteringMode != null) 'meteringMode': meteringMode.toValue(),
+      if (meteringMode != null) 'meteringMode': meteringMode.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
       if (speechThreshold != null) 'speechThreshold': speechThreshold,
-      if (stereoDownmix != null) 'stereoDownmix': stereoDownmix.toValue(),
-      if (surroundExMode != null) 'surroundExMode': surroundExMode.toValue(),
+      if (stereoDownmix != null) 'stereoDownmix': stereoDownmix.value,
+      if (surroundExMode != null) 'surroundExMode': surroundExMode.value,
     };
   }
 }
@@ -12491,215 +9783,109 @@ class Eac3AtmosSettings {
 /// value, Custom for the setting Downmix control. Otherwise, MediaConvert
 /// ignores Stereo downmix.
 enum Eac3AtmosStereoDownmix {
-  notIndicated,
-  stereo,
-  surround,
-  dpl2,
-}
+  notIndicated('NOT_INDICATED'),
+  stereo('STEREO'),
+  surround('SURROUND'),
+  dpl2('DPL2'),
+  ;
 
-extension Eac3AtmosStereoDownmixValueExtension on Eac3AtmosStereoDownmix {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosStereoDownmix.notIndicated:
-        return 'NOT_INDICATED';
-      case Eac3AtmosStereoDownmix.stereo:
-        return 'STEREO';
-      case Eac3AtmosStereoDownmix.surround:
-        return 'SURROUND';
-      case Eac3AtmosStereoDownmix.dpl2:
-        return 'DPL2';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosStereoDownmixFromString on String {
-  Eac3AtmosStereoDownmix toEac3AtmosStereoDownmix() {
-    switch (this) {
-      case 'NOT_INDICATED':
-        return Eac3AtmosStereoDownmix.notIndicated;
-      case 'STEREO':
-        return Eac3AtmosStereoDownmix.stereo;
-      case 'SURROUND':
-        return Eac3AtmosStereoDownmix.surround;
-      case 'DPL2':
-        return Eac3AtmosStereoDownmix.dpl2;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosStereoDownmix');
-  }
+  const Eac3AtmosStereoDownmix(this.value);
+
+  static Eac3AtmosStereoDownmix fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosStereoDownmix'));
 }
 
 /// Specify whether your input audio has an additional center rear surround
 /// channel matrix encoded into your left and right surround channels.
 enum Eac3AtmosSurroundExMode {
-  notIndicated,
-  enabled,
-  disabled,
-}
+  notIndicated('NOT_INDICATED'),
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3AtmosSurroundExModeValueExtension on Eac3AtmosSurroundExMode {
-  String toValue() {
-    switch (this) {
-      case Eac3AtmosSurroundExMode.notIndicated:
-        return 'NOT_INDICATED';
-      case Eac3AtmosSurroundExMode.enabled:
-        return 'ENABLED';
-      case Eac3AtmosSurroundExMode.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AtmosSurroundExModeFromString on String {
-  Eac3AtmosSurroundExMode toEac3AtmosSurroundExMode() {
-    switch (this) {
-      case 'NOT_INDICATED':
-        return Eac3AtmosSurroundExMode.notIndicated;
-      case 'ENABLED':
-        return Eac3AtmosSurroundExMode.enabled;
-      case 'DISABLED':
-        return Eac3AtmosSurroundExMode.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3AtmosSurroundExMode');
-  }
+  const Eac3AtmosSurroundExMode(this.value);
+
+  static Eac3AtmosSurroundExMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AtmosSurroundExMode'));
 }
 
 /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround
 /// channels. Only used for 3/2 coding mode.
 enum Eac3AttenuationControl {
-  attenuate_3Db,
-  none,
-}
+  attenuate_3Db('ATTENUATE_3_DB'),
+  none('NONE'),
+  ;
 
-extension Eac3AttenuationControlValueExtension on Eac3AttenuationControl {
-  String toValue() {
-    switch (this) {
-      case Eac3AttenuationControl.attenuate_3Db:
-        return 'ATTENUATE_3_DB';
-      case Eac3AttenuationControl.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension Eac3AttenuationControlFromString on String {
-  Eac3AttenuationControl toEac3AttenuationControl() {
-    switch (this) {
-      case 'ATTENUATE_3_DB':
-        return Eac3AttenuationControl.attenuate_3Db;
-      case 'NONE':
-        return Eac3AttenuationControl.none;
-    }
-    throw Exception('$this is not known in enum Eac3AttenuationControl');
-  }
+  const Eac3AttenuationControl(this.value);
+
+  static Eac3AttenuationControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3AttenuationControl'));
 }
 
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
 enum Eac3BitstreamMode {
-  completeMain,
-  commentary,
-  emergency,
-  hearingImpaired,
-  visuallyImpaired,
-}
+  completeMain('COMPLETE_MAIN'),
+  commentary('COMMENTARY'),
+  emergency('EMERGENCY'),
+  hearingImpaired('HEARING_IMPAIRED'),
+  visuallyImpaired('VISUALLY_IMPAIRED'),
+  ;
 
-extension Eac3BitstreamModeValueExtension on Eac3BitstreamMode {
-  String toValue() {
-    switch (this) {
-      case Eac3BitstreamMode.completeMain:
-        return 'COMPLETE_MAIN';
-      case Eac3BitstreamMode.commentary:
-        return 'COMMENTARY';
-      case Eac3BitstreamMode.emergency:
-        return 'EMERGENCY';
-      case Eac3BitstreamMode.hearingImpaired:
-        return 'HEARING_IMPAIRED';
-      case Eac3BitstreamMode.visuallyImpaired:
-        return 'VISUALLY_IMPAIRED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3BitstreamModeFromString on String {
-  Eac3BitstreamMode toEac3BitstreamMode() {
-    switch (this) {
-      case 'COMPLETE_MAIN':
-        return Eac3BitstreamMode.completeMain;
-      case 'COMMENTARY':
-        return Eac3BitstreamMode.commentary;
-      case 'EMERGENCY':
-        return Eac3BitstreamMode.emergency;
-      case 'HEARING_IMPAIRED':
-        return Eac3BitstreamMode.hearingImpaired;
-      case 'VISUALLY_IMPAIRED':
-        return Eac3BitstreamMode.visuallyImpaired;
-    }
-    throw Exception('$this is not known in enum Eac3BitstreamMode');
-  }
+  const Eac3BitstreamMode(this.value);
+
+  static Eac3BitstreamMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3BitstreamMode'));
 }
 
 /// Dolby Digital Plus coding mode. Determines number of channels.
 enum Eac3CodingMode {
-  codingMode_1_0,
-  codingMode_2_0,
-  codingMode_3_2,
-}
+  codingMode_1_0('CODING_MODE_1_0'),
+  codingMode_2_0('CODING_MODE_2_0'),
+  codingMode_3_2('CODING_MODE_3_2'),
+  ;
 
-extension Eac3CodingModeValueExtension on Eac3CodingMode {
-  String toValue() {
-    switch (this) {
-      case Eac3CodingMode.codingMode_1_0:
-        return 'CODING_MODE_1_0';
-      case Eac3CodingMode.codingMode_2_0:
-        return 'CODING_MODE_2_0';
-      case Eac3CodingMode.codingMode_3_2:
-        return 'CODING_MODE_3_2';
-    }
-  }
-}
+  final String value;
 
-extension Eac3CodingModeFromString on String {
-  Eac3CodingMode toEac3CodingMode() {
-    switch (this) {
-      case 'CODING_MODE_1_0':
-        return Eac3CodingMode.codingMode_1_0;
-      case 'CODING_MODE_2_0':
-        return Eac3CodingMode.codingMode_2_0;
-      case 'CODING_MODE_3_2':
-        return Eac3CodingMode.codingMode_3_2;
-    }
-    throw Exception('$this is not known in enum Eac3CodingMode');
-  }
+  const Eac3CodingMode(this.value);
+
+  static Eac3CodingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3CodingMode'));
 }
 
 /// Activates a DC highpass filter for all input channels.
 enum Eac3DcFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3DcFilterValueExtension on Eac3DcFilter {
-  String toValue() {
-    switch (this) {
-      case Eac3DcFilter.enabled:
-        return 'ENABLED';
-      case Eac3DcFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3DcFilterFromString on String {
-  Eac3DcFilter toEac3DcFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return Eac3DcFilter.enabled;
-      case 'DISABLED':
-        return Eac3DcFilter.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3DcFilter');
-  }
+  const Eac3DcFilter(this.value);
+
+  static Eac3DcFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3DcFilter'));
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -12711,53 +9897,22 @@ extension Eac3DcFilterFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3DynamicRangeCompressionLine {
-  none,
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-}
+  none('NONE'),
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  ;
 
-extension Eac3DynamicRangeCompressionLineValueExtension
-    on Eac3DynamicRangeCompressionLine {
-  String toValue() {
-    switch (this) {
-      case Eac3DynamicRangeCompressionLine.none:
-        return 'NONE';
-      case Eac3DynamicRangeCompressionLine.filmStandard:
-        return 'FILM_STANDARD';
-      case Eac3DynamicRangeCompressionLine.filmLight:
-        return 'FILM_LIGHT';
-      case Eac3DynamicRangeCompressionLine.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Eac3DynamicRangeCompressionLine.musicLight:
-        return 'MUSIC_LIGHT';
-      case Eac3DynamicRangeCompressionLine.speech:
-        return 'SPEECH';
-    }
-  }
-}
+  final String value;
 
-extension Eac3DynamicRangeCompressionLineFromString on String {
-  Eac3DynamicRangeCompressionLine toEac3DynamicRangeCompressionLine() {
-    switch (this) {
-      case 'NONE':
-        return Eac3DynamicRangeCompressionLine.none;
-      case 'FILM_STANDARD':
-        return Eac3DynamicRangeCompressionLine.filmStandard;
-      case 'FILM_LIGHT':
-        return Eac3DynamicRangeCompressionLine.filmLight;
-      case 'MUSIC_STANDARD':
-        return Eac3DynamicRangeCompressionLine.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Eac3DynamicRangeCompressionLine.musicLight;
-      case 'SPEECH':
-        return Eac3DynamicRangeCompressionLine.speech;
-    }
-    throw Exception(
-        '$this is not known in enum Eac3DynamicRangeCompressionLine');
-  }
+  const Eac3DynamicRangeCompressionLine(this.value);
+
+  static Eac3DynamicRangeCompressionLine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3DynamicRangeCompressionLine'));
 }
 
 /// Choose the Dolby Digital dynamic range control (DRC) profile that
@@ -12769,142 +9924,73 @@ extension Eac3DynamicRangeCompressionLineFromString on String {
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3DynamicRangeCompressionRf {
-  none,
-  filmStandard,
-  filmLight,
-  musicStandard,
-  musicLight,
-  speech,
-}
+  none('NONE'),
+  filmStandard('FILM_STANDARD'),
+  filmLight('FILM_LIGHT'),
+  musicStandard('MUSIC_STANDARD'),
+  musicLight('MUSIC_LIGHT'),
+  speech('SPEECH'),
+  ;
 
-extension Eac3DynamicRangeCompressionRfValueExtension
-    on Eac3DynamicRangeCompressionRf {
-  String toValue() {
-    switch (this) {
-      case Eac3DynamicRangeCompressionRf.none:
-        return 'NONE';
-      case Eac3DynamicRangeCompressionRf.filmStandard:
-        return 'FILM_STANDARD';
-      case Eac3DynamicRangeCompressionRf.filmLight:
-        return 'FILM_LIGHT';
-      case Eac3DynamicRangeCompressionRf.musicStandard:
-        return 'MUSIC_STANDARD';
-      case Eac3DynamicRangeCompressionRf.musicLight:
-        return 'MUSIC_LIGHT';
-      case Eac3DynamicRangeCompressionRf.speech:
-        return 'SPEECH';
-    }
-  }
-}
+  final String value;
 
-extension Eac3DynamicRangeCompressionRfFromString on String {
-  Eac3DynamicRangeCompressionRf toEac3DynamicRangeCompressionRf() {
-    switch (this) {
-      case 'NONE':
-        return Eac3DynamicRangeCompressionRf.none;
-      case 'FILM_STANDARD':
-        return Eac3DynamicRangeCompressionRf.filmStandard;
-      case 'FILM_LIGHT':
-        return Eac3DynamicRangeCompressionRf.filmLight;
-      case 'MUSIC_STANDARD':
-        return Eac3DynamicRangeCompressionRf.musicStandard;
-      case 'MUSIC_LIGHT':
-        return Eac3DynamicRangeCompressionRf.musicLight;
-      case 'SPEECH':
-        return Eac3DynamicRangeCompressionRf.speech;
-    }
-    throw Exception('$this is not known in enum Eac3DynamicRangeCompressionRf');
-  }
+  const Eac3DynamicRangeCompressionRf(this.value);
+
+  static Eac3DynamicRangeCompressionRf fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3DynamicRangeCompressionRf'));
 }
 
 /// When encoding 3/2 audio, controls whether the LFE channel is enabled
 enum Eac3LfeControl {
-  lfe,
-  noLfe,
-}
+  lfe('LFE'),
+  noLfe('NO_LFE'),
+  ;
 
-extension Eac3LfeControlValueExtension on Eac3LfeControl {
-  String toValue() {
-    switch (this) {
-      case Eac3LfeControl.lfe:
-        return 'LFE';
-      case Eac3LfeControl.noLfe:
-        return 'NO_LFE';
-    }
-  }
-}
+  final String value;
 
-extension Eac3LfeControlFromString on String {
-  Eac3LfeControl toEac3LfeControl() {
-    switch (this) {
-      case 'LFE':
-        return Eac3LfeControl.lfe;
-      case 'NO_LFE':
-        return Eac3LfeControl.noLfe;
-    }
-    throw Exception('$this is not known in enum Eac3LfeControl');
-  }
+  const Eac3LfeControl(this.value);
+
+  static Eac3LfeControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3LfeControl'));
 }
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
 enum Eac3LfeFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3LfeFilterValueExtension on Eac3LfeFilter {
-  String toValue() {
-    switch (this) {
-      case Eac3LfeFilter.enabled:
-        return 'ENABLED';
-      case Eac3LfeFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3LfeFilterFromString on String {
-  Eac3LfeFilter toEac3LfeFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return Eac3LfeFilter.enabled;
-      case 'DISABLED':
-        return Eac3LfeFilter.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3LfeFilter');
-  }
+  const Eac3LfeFilter(this.value);
+
+  static Eac3LfeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3LfeFilter'));
 }
 
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
 enum Eac3MetadataControl {
-  followInput,
-  useConfigured,
-}
+  followInput('FOLLOW_INPUT'),
+  useConfigured('USE_CONFIGURED'),
+  ;
 
-extension Eac3MetadataControlValueExtension on Eac3MetadataControl {
-  String toValue() {
-    switch (this) {
-      case Eac3MetadataControl.followInput:
-        return 'FOLLOW_INPUT';
-      case Eac3MetadataControl.useConfigured:
-        return 'USE_CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3MetadataControlFromString on String {
-  Eac3MetadataControl toEac3MetadataControl() {
-    switch (this) {
-      case 'FOLLOW_INPUT':
-        return Eac3MetadataControl.followInput;
-      case 'USE_CONFIGURED':
-        return Eac3MetadataControl.useConfigured;
-    }
-    throw Exception('$this is not known in enum Eac3MetadataControl');
-  }
+  const Eac3MetadataControl(this.value);
+
+  static Eac3MetadataControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Eac3MetadataControl'));
 }
 
 /// When set to WHEN_POSSIBLE, input DD+ audio will be passed through if it is
@@ -12913,61 +9999,35 @@ extension Eac3MetadataControlFromString on String {
 /// consistent DD+ output as the system alternates between passthrough and
 /// encoding.
 enum Eac3PassthroughControl {
-  whenPossible,
-  noPassthrough,
-}
+  whenPossible('WHEN_POSSIBLE'),
+  noPassthrough('NO_PASSTHROUGH'),
+  ;
 
-extension Eac3PassthroughControlValueExtension on Eac3PassthroughControl {
-  String toValue() {
-    switch (this) {
-      case Eac3PassthroughControl.whenPossible:
-        return 'WHEN_POSSIBLE';
-      case Eac3PassthroughControl.noPassthrough:
-        return 'NO_PASSTHROUGH';
-    }
-  }
-}
+  final String value;
 
-extension Eac3PassthroughControlFromString on String {
-  Eac3PassthroughControl toEac3PassthroughControl() {
-    switch (this) {
-      case 'WHEN_POSSIBLE':
-        return Eac3PassthroughControl.whenPossible;
-      case 'NO_PASSTHROUGH':
-        return Eac3PassthroughControl.noPassthrough;
-    }
-    throw Exception('$this is not known in enum Eac3PassthroughControl');
-  }
+  const Eac3PassthroughControl(this.value);
+
+  static Eac3PassthroughControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Eac3PassthroughControl'));
 }
 
 /// Controls the amount of phase-shift applied to the surround channels. Only
 /// used for 3/2 coding mode.
 enum Eac3PhaseControl {
-  shift_90Degrees,
-  noShift,
-}
+  shift_90Degrees('SHIFT_90_DEGREES'),
+  noShift('NO_SHIFT'),
+  ;
 
-extension Eac3PhaseControlValueExtension on Eac3PhaseControl {
-  String toValue() {
-    switch (this) {
-      case Eac3PhaseControl.shift_90Degrees:
-        return 'SHIFT_90_DEGREES';
-      case Eac3PhaseControl.noShift:
-        return 'NO_SHIFT';
-    }
-  }
-}
+  final String value;
 
-extension Eac3PhaseControlFromString on String {
-  Eac3PhaseControl toEac3PhaseControl() {
-    switch (this) {
-      case 'SHIFT_90_DEGREES':
-        return Eac3PhaseControl.shift_90Degrees;
-      case 'NO_SHIFT':
-        return Eac3PhaseControl.noShift;
-    }
-    throw Exception('$this is not known in enum Eac3PhaseControl');
-  }
+  const Eac3PhaseControl(this.value);
+
+  static Eac3PhaseControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3PhaseControl'));
 }
 
 /// Required when you set Codec to the value EAC3.
@@ -13125,34 +10185,40 @@ class Eac3Settings {
 
   factory Eac3Settings.fromJson(Map<String, dynamic> json) {
     return Eac3Settings(
-      attenuationControl:
-          (json['attenuationControl'] as String?)?.toEac3AttenuationControl(),
+      attenuationControl: (json['attenuationControl'] as String?)
+          ?.let(Eac3AttenuationControl.fromString),
       bitrate: json['bitrate'] as int?,
-      bitstreamMode: (json['bitstreamMode'] as String?)?.toEac3BitstreamMode(),
-      codingMode: (json['codingMode'] as String?)?.toEac3CodingMode(),
-      dcFilter: (json['dcFilter'] as String?)?.toEac3DcFilter(),
+      bitstreamMode:
+          (json['bitstreamMode'] as String?)?.let(Eac3BitstreamMode.fromString),
+      codingMode:
+          (json['codingMode'] as String?)?.let(Eac3CodingMode.fromString),
+      dcFilter: (json['dcFilter'] as String?)?.let(Eac3DcFilter.fromString),
       dialnorm: json['dialnorm'] as int?,
       dynamicRangeCompressionLine:
           (json['dynamicRangeCompressionLine'] as String?)
-              ?.toEac3DynamicRangeCompressionLine(),
+              ?.let(Eac3DynamicRangeCompressionLine.fromString),
       dynamicRangeCompressionRf: (json['dynamicRangeCompressionRf'] as String?)
-          ?.toEac3DynamicRangeCompressionRf(),
-      lfeControl: (json['lfeControl'] as String?)?.toEac3LfeControl(),
-      lfeFilter: (json['lfeFilter'] as String?)?.toEac3LfeFilter(),
+          ?.let(Eac3DynamicRangeCompressionRf.fromString),
+      lfeControl:
+          (json['lfeControl'] as String?)?.let(Eac3LfeControl.fromString),
+      lfeFilter: (json['lfeFilter'] as String?)?.let(Eac3LfeFilter.fromString),
       loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
       loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
       ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
       ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
-      metadataControl:
-          (json['metadataControl'] as String?)?.toEac3MetadataControl(),
-      passthroughControl:
-          (json['passthroughControl'] as String?)?.toEac3PassthroughControl(),
-      phaseControl: (json['phaseControl'] as String?)?.toEac3PhaseControl(),
+      metadataControl: (json['metadataControl'] as String?)
+          ?.let(Eac3MetadataControl.fromString),
+      passthroughControl: (json['passthroughControl'] as String?)
+          ?.let(Eac3PassthroughControl.fromString),
+      phaseControl:
+          (json['phaseControl'] as String?)?.let(Eac3PhaseControl.fromString),
       sampleRate: json['sampleRate'] as int?,
-      stereoDownmix: (json['stereoDownmix'] as String?)?.toEac3StereoDownmix(),
-      surroundExMode:
-          (json['surroundExMode'] as String?)?.toEac3SurroundExMode(),
-      surroundMode: (json['surroundMode'] as String?)?.toEac3SurroundMode(),
+      stereoDownmix:
+          (json['stereoDownmix'] as String?)?.let(Eac3StereoDownmix.fromString),
+      surroundExMode: (json['surroundExMode'] as String?)
+          ?.let(Eac3SurroundExMode.fromString),
+      surroundMode:
+          (json['surroundMode'] as String?)?.let(Eac3SurroundMode.fromString),
     );
   }
 
@@ -13180,32 +10246,32 @@ class Eac3Settings {
     final surroundMode = this.surroundMode;
     return {
       if (attenuationControl != null)
-        'attenuationControl': attenuationControl.toValue(),
+        'attenuationControl': attenuationControl.value,
       if (bitrate != null) 'bitrate': bitrate,
-      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.toValue(),
-      if (codingMode != null) 'codingMode': codingMode.toValue(),
-      if (dcFilter != null) 'dcFilter': dcFilter.toValue(),
+      if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.value,
+      if (codingMode != null) 'codingMode': codingMode.value,
+      if (dcFilter != null) 'dcFilter': dcFilter.value,
       if (dialnorm != null) 'dialnorm': dialnorm,
       if (dynamicRangeCompressionLine != null)
-        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.toValue(),
+        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.value,
       if (dynamicRangeCompressionRf != null)
-        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.toValue(),
-      if (lfeControl != null) 'lfeControl': lfeControl.toValue(),
-      if (lfeFilter != null) 'lfeFilter': lfeFilter.toValue(),
+        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.value,
+      if (lfeControl != null) 'lfeControl': lfeControl.value,
+      if (lfeFilter != null) 'lfeFilter': lfeFilter.value,
       if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
       if (loRoSurroundMixLevel != null)
         'loRoSurroundMixLevel': loRoSurroundMixLevel,
       if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
       if (ltRtSurroundMixLevel != null)
         'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
-      if (metadataControl != null) 'metadataControl': metadataControl.toValue(),
+      if (metadataControl != null) 'metadataControl': metadataControl.value,
       if (passthroughControl != null)
-        'passthroughControl': passthroughControl.toValue(),
-      if (phaseControl != null) 'phaseControl': phaseControl.toValue(),
+        'passthroughControl': passthroughControl.value,
+      if (phaseControl != null) 'phaseControl': phaseControl.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
-      if (stereoDownmix != null) 'stereoDownmix': stereoDownmix.toValue(),
-      if (surroundExMode != null) 'surroundExMode': surroundExMode.toValue(),
-      if (surroundMode != null) 'surroundMode': surroundMode.toValue(),
+      if (stereoDownmix != null) 'stereoDownmix': stereoDownmix.value,
+      if (surroundExMode != null) 'surroundExMode': surroundExMode.value,
+      if (surroundMode != null) 'surroundMode': surroundMode.value,
     };
   }
 }
@@ -13215,111 +10281,56 @@ class Eac3Settings {
 /// mode. If you choose a different value for Coding mode, the service ignores
 /// Stereo downmix.
 enum Eac3StereoDownmix {
-  notIndicated,
-  loRo,
-  ltRt,
-  dpl2,
-}
+  notIndicated('NOT_INDICATED'),
+  loRo('LO_RO'),
+  ltRt('LT_RT'),
+  dpl2('DPL2'),
+  ;
 
-extension Eac3StereoDownmixValueExtension on Eac3StereoDownmix {
-  String toValue() {
-    switch (this) {
-      case Eac3StereoDownmix.notIndicated:
-        return 'NOT_INDICATED';
-      case Eac3StereoDownmix.loRo:
-        return 'LO_RO';
-      case Eac3StereoDownmix.ltRt:
-        return 'LT_RT';
-      case Eac3StereoDownmix.dpl2:
-        return 'DPL2';
-    }
-  }
-}
+  final String value;
 
-extension Eac3StereoDownmixFromString on String {
-  Eac3StereoDownmix toEac3StereoDownmix() {
-    switch (this) {
-      case 'NOT_INDICATED':
-        return Eac3StereoDownmix.notIndicated;
-      case 'LO_RO':
-        return Eac3StereoDownmix.loRo;
-      case 'LT_RT':
-        return Eac3StereoDownmix.ltRt;
-      case 'DPL2':
-        return Eac3StereoDownmix.dpl2;
-    }
-    throw Exception('$this is not known in enum Eac3StereoDownmix');
-  }
+  const Eac3StereoDownmix(this.value);
+
+  static Eac3StereoDownmix fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3StereoDownmix'));
 }
 
 /// When encoding 3/2 audio, sets whether an extra center back surround channel
 /// is matrix encoded into the left and right surround channels.
 enum Eac3SurroundExMode {
-  notIndicated,
-  enabled,
-  disabled,
-}
+  notIndicated('NOT_INDICATED'),
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3SurroundExModeValueExtension on Eac3SurroundExMode {
-  String toValue() {
-    switch (this) {
-      case Eac3SurroundExMode.notIndicated:
-        return 'NOT_INDICATED';
-      case Eac3SurroundExMode.enabled:
-        return 'ENABLED';
-      case Eac3SurroundExMode.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3SurroundExModeFromString on String {
-  Eac3SurroundExMode toEac3SurroundExMode() {
-    switch (this) {
-      case 'NOT_INDICATED':
-        return Eac3SurroundExMode.notIndicated;
-      case 'ENABLED':
-        return Eac3SurroundExMode.enabled;
-      case 'DISABLED':
-        return Eac3SurroundExMode.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3SurroundExMode');
-  }
+  const Eac3SurroundExMode(this.value);
+
+  static Eac3SurroundExMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Eac3SurroundExMode'));
 }
 
 /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into
 /// the two channels.
 enum Eac3SurroundMode {
-  notIndicated,
-  enabled,
-  disabled,
-}
+  notIndicated('NOT_INDICATED'),
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension Eac3SurroundModeValueExtension on Eac3SurroundMode {
-  String toValue() {
-    switch (this) {
-      case Eac3SurroundMode.notIndicated:
-        return 'NOT_INDICATED';
-      case Eac3SurroundMode.enabled:
-        return 'ENABLED';
-      case Eac3SurroundMode.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension Eac3SurroundModeFromString on String {
-  Eac3SurroundMode toEac3SurroundMode() {
-    switch (this) {
-      case 'NOT_INDICATED':
-        return Eac3SurroundMode.notIndicated;
-      case 'ENABLED':
-        return Eac3SurroundMode.enabled;
-      case 'DISABLED':
-        return Eac3SurroundMode.disabled;
-    }
-    throw Exception('$this is not known in enum Eac3SurroundMode');
-  }
+  const Eac3SurroundMode(this.value);
+
+  static Eac3SurroundMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Eac3SurroundMode'));
 }
 
 /// Specify whether this set of input captions appears in your outputs in both
@@ -13328,31 +10339,18 @@ extension Eac3SurroundModeFromString on String {
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
 enum EmbeddedConvert608To708 {
-  upconvert,
-  disabled,
-}
+  upconvert('UPCONVERT'),
+  disabled('DISABLED'),
+  ;
 
-extension EmbeddedConvert608To708ValueExtension on EmbeddedConvert608To708 {
-  String toValue() {
-    switch (this) {
-      case EmbeddedConvert608To708.upconvert:
-        return 'UPCONVERT';
-      case EmbeddedConvert608To708.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EmbeddedConvert608To708FromString on String {
-  EmbeddedConvert608To708 toEmbeddedConvert608To708() {
-    switch (this) {
-      case 'UPCONVERT':
-        return EmbeddedConvert608To708.upconvert;
-      case 'DISABLED':
-        return EmbeddedConvert608To708.disabled;
-    }
-    throw Exception('$this is not known in enum EmbeddedConvert608To708');
-  }
+  const EmbeddedConvert608To708(this.value);
+
+  static EmbeddedConvert608To708 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmbeddedConvert608To708'));
 }
 
 /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or
@@ -13434,12 +10432,12 @@ class EmbeddedSourceSettings {
 
   factory EmbeddedSourceSettings.fromJson(Map<String, dynamic> json) {
     return EmbeddedSourceSettings(
-      convert608To708:
-          (json['convert608To708'] as String?)?.toEmbeddedConvert608To708(),
+      convert608To708: (json['convert608To708'] as String?)
+          ?.let(EmbeddedConvert608To708.fromString),
       source608ChannelNumber: json['source608ChannelNumber'] as int?,
       source608TrackNumber: json['source608TrackNumber'] as int?,
-      terminateCaptions:
-          (json['terminateCaptions'] as String?)?.toEmbeddedTerminateCaptions(),
+      terminateCaptions: (json['terminateCaptions'] as String?)
+          ?.let(EmbeddedTerminateCaptions.fromString),
     );
   }
 
@@ -13449,13 +10447,13 @@ class EmbeddedSourceSettings {
     final source608TrackNumber = this.source608TrackNumber;
     final terminateCaptions = this.terminateCaptions;
     return {
-      if (convert608To708 != null) 'convert608To708': convert608To708.toValue(),
+      if (convert608To708 != null) 'convert608To708': convert608To708.value,
       if (source608ChannelNumber != null)
         'source608ChannelNumber': source608ChannelNumber,
       if (source608TrackNumber != null)
         'source608TrackNumber': source608TrackNumber,
       if (terminateCaptions != null)
-        'terminateCaptions': terminateCaptions.toValue(),
+        'terminateCaptions': terminateCaptions.value,
     };
   }
 }
@@ -13464,31 +10462,18 @@ class EmbeddedSourceSettings {
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
 enum EmbeddedTerminateCaptions {
-  endOfInput,
-  disabled,
-}
+  endOfInput('END_OF_INPUT'),
+  disabled('DISABLED'),
+  ;
 
-extension EmbeddedTerminateCaptionsValueExtension on EmbeddedTerminateCaptions {
-  String toValue() {
-    switch (this) {
-      case EmbeddedTerminateCaptions.endOfInput:
-        return 'END_OF_INPUT';
-      case EmbeddedTerminateCaptions.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EmbeddedTerminateCaptionsFromString on String {
-  EmbeddedTerminateCaptions toEmbeddedTerminateCaptions() {
-    switch (this) {
-      case 'END_OF_INPUT':
-        return EmbeddedTerminateCaptions.endOfInput;
-      case 'DISABLED':
-        return EmbeddedTerminateCaptions.disabled;
-    }
-    throw Exception('$this is not known in enum EmbeddedTerminateCaptions');
-  }
+  const EmbeddedTerminateCaptions(this.value);
+
+  static EmbeddedTerminateCaptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmbeddedTerminateCaptions'));
 }
 
 /// Set Embedded timecode override to Use MDPM when your AVCHD input contains
@@ -13497,31 +10482,18 @@ extension EmbeddedTerminateCaptionsFromString on String {
 /// timecode override blank, or set to None, when your input does not contain
 /// MDPM timecode.
 enum EmbeddedTimecodeOverride {
-  none,
-  useMdpm,
-}
+  none('NONE'),
+  useMdpm('USE_MDPM'),
+  ;
 
-extension EmbeddedTimecodeOverrideValueExtension on EmbeddedTimecodeOverride {
-  String toValue() {
-    switch (this) {
-      case EmbeddedTimecodeOverride.none:
-        return 'NONE';
-      case EmbeddedTimecodeOverride.useMdpm:
-        return 'USE_MDPM';
-    }
-  }
-}
+  final String value;
 
-extension EmbeddedTimecodeOverrideFromString on String {
-  EmbeddedTimecodeOverride toEmbeddedTimecodeOverride() {
-    switch (this) {
-      case 'NONE':
-        return EmbeddedTimecodeOverride.none;
-      case 'USE_MDPM':
-        return EmbeddedTimecodeOverride.useMdpm;
-    }
-    throw Exception('$this is not known in enum EmbeddedTimecodeOverride');
-  }
+  const EmbeddedTimecodeOverride(this.value);
+
+  static EmbeddedTimecodeOverride fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EmbeddedTimecodeOverride'));
 }
 
 /// Describes an account-specific API endpoint.
@@ -13680,9 +10652,10 @@ class ExtendedDataServices {
 
   factory ExtendedDataServices.fromJson(Map<String, dynamic> json) {
     return ExtendedDataServices(
-      copyProtectionAction:
-          (json['copyProtectionAction'] as String?)?.toCopyProtectionAction(),
-      vchipAction: (json['vchipAction'] as String?)?.toVchipAction(),
+      copyProtectionAction: (json['copyProtectionAction'] as String?)
+          ?.let(CopyProtectionAction.fromString),
+      vchipAction:
+          (json['vchipAction'] as String?)?.let(VchipAction.fromString),
     );
   }
 
@@ -13691,8 +10664,8 @@ class ExtendedDataServices {
     final vchipAction = this.vchipAction;
     return {
       if (copyProtectionAction != null)
-        'copyProtectionAction': copyProtectionAction.toValue(),
-      if (vchipAction != null) 'vchipAction': vchipAction.toValue(),
+        'copyProtectionAction': copyProtectionAction.value,
+      if (vchipAction != null) 'vchipAction': vchipAction.value,
     };
   }
 }
@@ -13701,31 +10674,18 @@ class ExtendedDataServices {
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
 enum F4vMoovPlacement {
-  progressiveDownload,
-  normal,
-}
+  progressiveDownload('PROGRESSIVE_DOWNLOAD'),
+  normal('NORMAL'),
+  ;
 
-extension F4vMoovPlacementValueExtension on F4vMoovPlacement {
-  String toValue() {
-    switch (this) {
-      case F4vMoovPlacement.progressiveDownload:
-        return 'PROGRESSIVE_DOWNLOAD';
-      case F4vMoovPlacement.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension F4vMoovPlacementFromString on String {
-  F4vMoovPlacement toF4vMoovPlacement() {
-    switch (this) {
-      case 'PROGRESSIVE_DOWNLOAD':
-        return F4vMoovPlacement.progressiveDownload;
-      case 'NORMAL':
-        return F4vMoovPlacement.normal;
-    }
-    throw Exception('$this is not known in enum F4vMoovPlacement');
-  }
+  const F4vMoovPlacement(this.value);
+
+  static F4vMoovPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum F4vMoovPlacement'));
 }
 
 /// Settings for F4v container
@@ -13741,14 +10701,15 @@ class F4vSettings {
 
   factory F4vSettings.fromJson(Map<String, dynamic> json) {
     return F4vSettings(
-      moovPlacement: (json['moovPlacement'] as String?)?.toF4vMoovPlacement(),
+      moovPlacement:
+          (json['moovPlacement'] as String?)?.let(F4vMoovPlacement.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final moovPlacement = this.moovPlacement;
     return {
-      if (moovPlacement != null) 'moovPlacement': moovPlacement.toValue(),
+      if (moovPlacement != null) 'moovPlacement': moovPlacement.value,
     };
   }
 }
@@ -13800,31 +10761,18 @@ class FileGroupSettings {
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
 enum FileSourceConvert608To708 {
-  upconvert,
-  disabled,
-}
+  upconvert('UPCONVERT'),
+  disabled('DISABLED'),
+  ;
 
-extension FileSourceConvert608To708ValueExtension on FileSourceConvert608To708 {
-  String toValue() {
-    switch (this) {
-      case FileSourceConvert608To708.upconvert:
-        return 'UPCONVERT';
-      case FileSourceConvert608To708.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension FileSourceConvert608To708FromString on String {
-  FileSourceConvert608To708 toFileSourceConvert608To708() {
-    switch (this) {
-      case 'UPCONVERT':
-        return FileSourceConvert608To708.upconvert;
-      case 'DISABLED':
-        return FileSourceConvert608To708.disabled;
-    }
-    throw Exception('$this is not known in enum FileSourceConvert608To708');
-  }
+  const FileSourceConvert608To708(this.value);
+
+  static FileSourceConvert608To708 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FileSourceConvert608To708'));
 }
 
 /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in
@@ -13889,18 +10837,18 @@ class FileSourceSettings {
 
   factory FileSourceSettings.fromJson(Map<String, dynamic> json) {
     return FileSourceSettings(
-      convert608To708:
-          (json['convert608To708'] as String?)?.toFileSourceConvert608To708(),
+      convert608To708: (json['convert608To708'] as String?)
+          ?.let(FileSourceConvert608To708.fromString),
       convertPaintToPop: (json['convertPaintToPop'] as String?)
-          ?.toCaptionSourceConvertPaintOnToPopOn(),
+          ?.let(CaptionSourceConvertPaintOnToPopOn.fromString),
       framerate: json['framerate'] != null
           ? CaptionSourceFramerate.fromJson(
               json['framerate'] as Map<String, dynamic>)
           : null,
       sourceFile: json['sourceFile'] as String?,
       timeDelta: json['timeDelta'] as int?,
-      timeDeltaUnits:
-          (json['timeDeltaUnits'] as String?)?.toFileSourceTimeDeltaUnits(),
+      timeDeltaUnits: (json['timeDeltaUnits'] as String?)
+          ?.let(FileSourceTimeDeltaUnits.fromString),
     );
   }
 
@@ -13912,13 +10860,13 @@ class FileSourceSettings {
     final timeDelta = this.timeDelta;
     final timeDeltaUnits = this.timeDeltaUnits;
     return {
-      if (convert608To708 != null) 'convert608To708': convert608To708.toValue(),
+      if (convert608To708 != null) 'convert608To708': convert608To708.value,
       if (convertPaintToPop != null)
-        'convertPaintToPop': convertPaintToPop.toValue(),
+        'convertPaintToPop': convertPaintToPop.value,
       if (framerate != null) 'framerate': framerate,
       if (sourceFile != null) 'sourceFile': sourceFile,
       if (timeDelta != null) 'timeDelta': timeDelta,
-      if (timeDeltaUnits != null) 'timeDeltaUnits': timeDeltaUnits.toValue(),
+      if (timeDeltaUnits != null) 'timeDeltaUnits': timeDeltaUnits.value,
     };
   }
 }
@@ -13928,31 +10876,18 @@ class FileSourceSettings {
 /// that you specify. When you don't specify a value for Time delta units,
 /// MediaConvert uses seconds by default.
 enum FileSourceTimeDeltaUnits {
-  seconds,
-  milliseconds,
-}
+  seconds('SECONDS'),
+  milliseconds('MILLISECONDS'),
+  ;
 
-extension FileSourceTimeDeltaUnitsValueExtension on FileSourceTimeDeltaUnits {
-  String toValue() {
-    switch (this) {
-      case FileSourceTimeDeltaUnits.seconds:
-        return 'SECONDS';
-      case FileSourceTimeDeltaUnits.milliseconds:
-        return 'MILLISECONDS';
-    }
-  }
-}
+  final String value;
 
-extension FileSourceTimeDeltaUnitsFromString on String {
-  FileSourceTimeDeltaUnits toFileSourceTimeDeltaUnits() {
-    switch (this) {
-      case 'SECONDS':
-        return FileSourceTimeDeltaUnits.seconds;
-      case 'MILLISECONDS':
-        return FileSourceTimeDeltaUnits.milliseconds;
-    }
-    throw Exception('$this is not known in enum FileSourceTimeDeltaUnits');
-  }
+  const FileSourceTimeDeltaUnits(this.value);
+
+  static FileSourceTimeDeltaUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FileSourceTimeDeltaUnits'));
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -14000,36 +10935,18 @@ class FlacSettings {
 /// is not sufficient for determining the script type. Where LanguageCode or
 /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset.
 enum FontScript {
-  automatic,
-  hans,
-  hant,
-}
+  automatic('AUTOMATIC'),
+  hans('HANS'),
+  hant('HANT'),
+  ;
 
-extension FontScriptValueExtension on FontScript {
-  String toValue() {
-    switch (this) {
-      case FontScript.automatic:
-        return 'AUTOMATIC';
-      case FontScript.hans:
-        return 'HANS';
-      case FontScript.hant:
-        return 'HANT';
-    }
-  }
-}
+  final String value;
 
-extension FontScriptFromString on String {
-  FontScript toFontScript() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return FontScript.automatic;
-      case 'HANS':
-        return FontScript.hans;
-      case 'HANT':
-        return FontScript.hant;
-    }
-    throw Exception('$this is not known in enum FontScript');
-  }
+  const FontScript(this.value);
+
+  static FontScript fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FontScript'));
 }
 
 /// Use Force include renditions to specify one or more resolutions to include
@@ -14233,211 +11150,76 @@ class GetQueueResponse {
 /// H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and
 /// H264TemporalAdaptiveQuantization.
 enum H264AdaptiveQuantization {
-  off,
-  auto,
-  low,
-  medium,
-  high,
-  higher,
-  max,
-}
+  off('OFF'),
+  auto('AUTO'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  higher('HIGHER'),
+  max('MAX'),
+  ;
 
-extension H264AdaptiveQuantizationValueExtension on H264AdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H264AdaptiveQuantization.off:
-        return 'OFF';
-      case H264AdaptiveQuantization.auto:
-        return 'AUTO';
-      case H264AdaptiveQuantization.low:
-        return 'LOW';
-      case H264AdaptiveQuantization.medium:
-        return 'MEDIUM';
-      case H264AdaptiveQuantization.high:
-        return 'HIGH';
-      case H264AdaptiveQuantization.higher:
-        return 'HIGHER';
-      case H264AdaptiveQuantization.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension H264AdaptiveQuantizationFromString on String {
-  H264AdaptiveQuantization toH264AdaptiveQuantization() {
-    switch (this) {
-      case 'OFF':
-        return H264AdaptiveQuantization.off;
-      case 'AUTO':
-        return H264AdaptiveQuantization.auto;
-      case 'LOW':
-        return H264AdaptiveQuantization.low;
-      case 'MEDIUM':
-        return H264AdaptiveQuantization.medium;
-      case 'HIGH':
-        return H264AdaptiveQuantization.high;
-      case 'HIGHER':
-        return H264AdaptiveQuantization.higher;
-      case 'MAX':
-        return H264AdaptiveQuantization.max;
-    }
-    throw Exception('$this is not known in enum H264AdaptiveQuantization');
-  }
+  const H264AdaptiveQuantization(this.value);
+
+  static H264AdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264AdaptiveQuantization'));
 }
 
 /// Specify an H.264 level that is consistent with your output video settings.
 /// If you aren't sure what level to specify, choose Auto.
 enum H264CodecLevel {
-  auto,
-  level_1,
-  level_1_1,
-  level_1_2,
-  level_1_3,
-  level_2,
-  level_2_1,
-  level_2_2,
-  level_3,
-  level_3_1,
-  level_3_2,
-  level_4,
-  level_4_1,
-  level_4_2,
-  level_5,
-  level_5_1,
-  level_5_2,
-}
+  auto('AUTO'),
+  level_1('LEVEL_1'),
+  level_1_1('LEVEL_1_1'),
+  level_1_2('LEVEL_1_2'),
+  level_1_3('LEVEL_1_3'),
+  level_2('LEVEL_2'),
+  level_2_1('LEVEL_2_1'),
+  level_2_2('LEVEL_2_2'),
+  level_3('LEVEL_3'),
+  level_3_1('LEVEL_3_1'),
+  level_3_2('LEVEL_3_2'),
+  level_4('LEVEL_4'),
+  level_4_1('LEVEL_4_1'),
+  level_4_2('LEVEL_4_2'),
+  level_5('LEVEL_5'),
+  level_5_1('LEVEL_5_1'),
+  level_5_2('LEVEL_5_2'),
+  ;
 
-extension H264CodecLevelValueExtension on H264CodecLevel {
-  String toValue() {
-    switch (this) {
-      case H264CodecLevel.auto:
-        return 'AUTO';
-      case H264CodecLevel.level_1:
-        return 'LEVEL_1';
-      case H264CodecLevel.level_1_1:
-        return 'LEVEL_1_1';
-      case H264CodecLevel.level_1_2:
-        return 'LEVEL_1_2';
-      case H264CodecLevel.level_1_3:
-        return 'LEVEL_1_3';
-      case H264CodecLevel.level_2:
-        return 'LEVEL_2';
-      case H264CodecLevel.level_2_1:
-        return 'LEVEL_2_1';
-      case H264CodecLevel.level_2_2:
-        return 'LEVEL_2_2';
-      case H264CodecLevel.level_3:
-        return 'LEVEL_3';
-      case H264CodecLevel.level_3_1:
-        return 'LEVEL_3_1';
-      case H264CodecLevel.level_3_2:
-        return 'LEVEL_3_2';
-      case H264CodecLevel.level_4:
-        return 'LEVEL_4';
-      case H264CodecLevel.level_4_1:
-        return 'LEVEL_4_1';
-      case H264CodecLevel.level_4_2:
-        return 'LEVEL_4_2';
-      case H264CodecLevel.level_5:
-        return 'LEVEL_5';
-      case H264CodecLevel.level_5_1:
-        return 'LEVEL_5_1';
-      case H264CodecLevel.level_5_2:
-        return 'LEVEL_5_2';
-    }
-  }
-}
+  final String value;
 
-extension H264CodecLevelFromString on String {
-  H264CodecLevel toH264CodecLevel() {
-    switch (this) {
-      case 'AUTO':
-        return H264CodecLevel.auto;
-      case 'LEVEL_1':
-        return H264CodecLevel.level_1;
-      case 'LEVEL_1_1':
-        return H264CodecLevel.level_1_1;
-      case 'LEVEL_1_2':
-        return H264CodecLevel.level_1_2;
-      case 'LEVEL_1_3':
-        return H264CodecLevel.level_1_3;
-      case 'LEVEL_2':
-        return H264CodecLevel.level_2;
-      case 'LEVEL_2_1':
-        return H264CodecLevel.level_2_1;
-      case 'LEVEL_2_2':
-        return H264CodecLevel.level_2_2;
-      case 'LEVEL_3':
-        return H264CodecLevel.level_3;
-      case 'LEVEL_3_1':
-        return H264CodecLevel.level_3_1;
-      case 'LEVEL_3_2':
-        return H264CodecLevel.level_3_2;
-      case 'LEVEL_4':
-        return H264CodecLevel.level_4;
-      case 'LEVEL_4_1':
-        return H264CodecLevel.level_4_1;
-      case 'LEVEL_4_2':
-        return H264CodecLevel.level_4_2;
-      case 'LEVEL_5':
-        return H264CodecLevel.level_5;
-      case 'LEVEL_5_1':
-        return H264CodecLevel.level_5_1;
-      case 'LEVEL_5_2':
-        return H264CodecLevel.level_5_2;
-    }
-    throw Exception('$this is not known in enum H264CodecLevel');
-  }
+  const H264CodecLevel(this.value);
+
+  static H264CodecLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264CodecLevel'));
 }
 
 /// H.264 Profile. High 4:2:2 and 10-bit profiles are only available with the
 /// AVC-I License.
 enum H264CodecProfile {
-  baseline,
-  high,
-  high_10bit,
-  high_422,
-  high_422_10bit,
-  main,
-}
+  baseline('BASELINE'),
+  high('HIGH'),
+  high_10bit('HIGH_10BIT'),
+  high_422('HIGH_422'),
+  high_422_10bit('HIGH_422_10BIT'),
+  main('MAIN'),
+  ;
 
-extension H264CodecProfileValueExtension on H264CodecProfile {
-  String toValue() {
-    switch (this) {
-      case H264CodecProfile.baseline:
-        return 'BASELINE';
-      case H264CodecProfile.high:
-        return 'HIGH';
-      case H264CodecProfile.high_10bit:
-        return 'HIGH_10BIT';
-      case H264CodecProfile.high_422:
-        return 'HIGH_422';
-      case H264CodecProfile.high_422_10bit:
-        return 'HIGH_422_10BIT';
-      case H264CodecProfile.main:
-        return 'MAIN';
-    }
-  }
-}
+  final String value;
 
-extension H264CodecProfileFromString on String {
-  H264CodecProfile toH264CodecProfile() {
-    switch (this) {
-      case 'BASELINE':
-        return H264CodecProfile.baseline;
-      case 'HIGH':
-        return H264CodecProfile.high;
-      case 'HIGH_10BIT':
-        return H264CodecProfile.high_10bit;
-      case 'HIGH_422':
-        return H264CodecProfile.high_422;
-      case 'HIGH_422_10BIT':
-        return H264CodecProfile.high_422_10bit;
-      case 'MAIN':
-        return H264CodecProfile.main;
-    }
-    throw Exception('$this is not known in enum H264CodecProfile');
-  }
+  const H264CodecProfile(this.value);
+
+  static H264CodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264CodecProfile'));
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -14446,31 +11228,18 @@ extension H264CodecProfileFromString on String {
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
 enum H264DynamicSubGop {
-  adaptive,
-  static,
-}
+  adaptive('ADAPTIVE'),
+  static('STATIC'),
+  ;
 
-extension H264DynamicSubGopValueExtension on H264DynamicSubGop {
-  String toValue() {
-    switch (this) {
-      case H264DynamicSubGop.adaptive:
-        return 'ADAPTIVE';
-      case H264DynamicSubGop.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension H264DynamicSubGopFromString on String {
-  H264DynamicSubGop toH264DynamicSubGop() {
-    switch (this) {
-      case 'ADAPTIVE':
-        return H264DynamicSubGop.adaptive;
-      case 'STATIC':
-        return H264DynamicSubGop.static;
-    }
-    throw Exception('$this is not known in enum H264DynamicSubGop');
-  }
+  const H264DynamicSubGop(this.value);
+
+  static H264DynamicSubGop fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264DynamicSubGop'));
 }
 
 /// Optionally include or suppress markers at the end of your output that signal
@@ -14479,60 +11248,34 @@ extension H264DynamicSubGopFromString on String {
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
 enum H264EndOfStreamMarkers {
-  include,
-  suppress,
-}
+  include('INCLUDE'),
+  suppress('SUPPRESS'),
+  ;
 
-extension H264EndOfStreamMarkersValueExtension on H264EndOfStreamMarkers {
-  String toValue() {
-    switch (this) {
-      case H264EndOfStreamMarkers.include:
-        return 'INCLUDE';
-      case H264EndOfStreamMarkers.suppress:
-        return 'SUPPRESS';
-    }
-  }
-}
+  final String value;
 
-extension H264EndOfStreamMarkersFromString on String {
-  H264EndOfStreamMarkers toH264EndOfStreamMarkers() {
-    switch (this) {
-      case 'INCLUDE':
-        return H264EndOfStreamMarkers.include;
-      case 'SUPPRESS':
-        return H264EndOfStreamMarkers.suppress;
-    }
-    throw Exception('$this is not known in enum H264EndOfStreamMarkers');
-  }
+  const H264EndOfStreamMarkers(this.value);
+
+  static H264EndOfStreamMarkers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264EndOfStreamMarkers'));
 }
 
 /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
 enum H264EntropyEncoding {
-  cabac,
-  cavlc,
-}
+  cabac('CABAC'),
+  cavlc('CAVLC'),
+  ;
 
-extension H264EntropyEncodingValueExtension on H264EntropyEncoding {
-  String toValue() {
-    switch (this) {
-      case H264EntropyEncoding.cabac:
-        return 'CABAC';
-      case H264EntropyEncoding.cavlc:
-        return 'CAVLC';
-    }
-  }
-}
+  final String value;
 
-extension H264EntropyEncodingFromString on String {
-  H264EntropyEncoding toH264EntropyEncoding() {
-    switch (this) {
-      case 'CABAC':
-        return H264EntropyEncoding.cabac;
-      case 'CAVLC':
-        return H264EntropyEncoding.cavlc;
-    }
-    throw Exception('$this is not known in enum H264EntropyEncoding');
-  }
+  const H264EntropyEncoding(this.value);
+
+  static H264EntropyEncoding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H264EntropyEncoding'));
 }
 
 /// The video encoding method for your MPEG-4 AVC output. Keep the default
@@ -14541,36 +11284,19 @@ extension H264EntropyEncodingFromString on String {
 /// fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF
 /// encoding for interlaced outputs.
 enum H264FieldEncoding {
-  paff,
-  forceField,
-  mbaff,
-}
+  paff('PAFF'),
+  forceField('FORCE_FIELD'),
+  mbaff('MBAFF'),
+  ;
 
-extension H264FieldEncodingValueExtension on H264FieldEncoding {
-  String toValue() {
-    switch (this) {
-      case H264FieldEncoding.paff:
-        return 'PAFF';
-      case H264FieldEncoding.forceField:
-        return 'FORCE_FIELD';
-      case H264FieldEncoding.mbaff:
-        return 'MBAFF';
-    }
-  }
-}
+  final String value;
 
-extension H264FieldEncodingFromString on String {
-  H264FieldEncoding toH264FieldEncoding() {
-    switch (this) {
-      case 'PAFF':
-        return H264FieldEncoding.paff;
-      case 'FORCE_FIELD':
-        return H264FieldEncoding.forceField;
-      case 'MBAFF':
-        return H264FieldEncoding.mbaff;
-    }
-    throw Exception('$this is not known in enum H264FieldEncoding');
-  }
+  const H264FieldEncoding(this.value);
+
+  static H264FieldEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264FieldEncoding'));
 }
 
 /// Only use this setting when you change the default value, AUTO, for the
@@ -14588,33 +11314,18 @@ extension H264FieldEncodingFromString on String {
 /// H264FlickerAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
 enum H264FlickerAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264FlickerAdaptiveQuantizationValueExtension
-    on H264FlickerAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H264FlickerAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H264FlickerAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264FlickerAdaptiveQuantizationFromString on String {
-  H264FlickerAdaptiveQuantization toH264FlickerAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H264FlickerAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H264FlickerAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H264FlickerAdaptiveQuantization');
-  }
+  const H264FlickerAdaptiveQuantization(this.value);
+
+  static H264FlickerAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264FlickerAdaptiveQuantization'));
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -14624,31 +11335,18 @@ extension H264FlickerAdaptiveQuantizationFromString on String {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum H264FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension H264FramerateControlValueExtension on H264FramerateControl {
-  String toValue() {
-    switch (this) {
-      case H264FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case H264FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension H264FramerateControlFromString on String {
-  H264FramerateControl toH264FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return H264FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return H264FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum H264FramerateControl');
-  }
+  const H264FramerateControl(this.value);
+
+  static H264FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H264FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -14663,38 +11361,19 @@ extension H264FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum H264FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension H264FramerateConversionAlgorithmValueExtension
-    on H264FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case H264FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case H264FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case H264FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension H264FramerateConversionAlgorithmFromString on String {
-  H264FramerateConversionAlgorithm toH264FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return H264FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return H264FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return H264FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum H264FramerateConversionAlgorithm');
-  }
+  const H264FramerateConversionAlgorithm(this.value);
+
+  static H264FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264FramerateConversionAlgorithm'));
 }
 
 /// Specify whether to allow B-frames to be referenced by other frame types. To
@@ -14703,31 +11382,18 @@ extension H264FramerateConversionAlgorithmFromString on String {
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
 enum H264GopBReference {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264GopBReferenceValueExtension on H264GopBReference {
-  String toValue() {
-    switch (this) {
-      case H264GopBReference.disabled:
-        return 'DISABLED';
-      case H264GopBReference.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264GopBReferenceFromString on String {
-  H264GopBReference toH264GopBReference() {
-    switch (this) {
-      case 'DISABLED':
-        return H264GopBReference.disabled;
-      case 'ENABLED':
-        return H264GopBReference.enabled;
-    }
-    throw Exception('$this is not known in enum H264GopBReference');
-  }
+  const H264GopBReference(this.value);
+
+  static H264GopBReference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264GopBReference'));
 }
 
 /// Specify how the transcoder determines GOP size for this output. We recommend
@@ -14740,36 +11406,19 @@ extension H264GopBReferenceFromString on String {
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
 enum H264GopSizeUnits {
-  frames,
-  seconds,
-  auto,
-}
+  frames('FRAMES'),
+  seconds('SECONDS'),
+  auto('AUTO'),
+  ;
 
-extension H264GopSizeUnitsValueExtension on H264GopSizeUnits {
-  String toValue() {
-    switch (this) {
-      case H264GopSizeUnits.frames:
-        return 'FRAMES';
-      case H264GopSizeUnits.seconds:
-        return 'SECONDS';
-      case H264GopSizeUnits.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension H264GopSizeUnitsFromString on String {
-  H264GopSizeUnits toH264GopSizeUnits() {
-    switch (this) {
-      case 'FRAMES':
-        return H264GopSizeUnits.frames;
-      case 'SECONDS':
-        return H264GopSizeUnits.seconds;
-      case 'AUTO':
-        return H264GopSizeUnits.auto;
-    }
-    throw Exception('$this is not known in enum H264GopSizeUnits');
-  }
+  const H264GopSizeUnits(this.value);
+
+  static H264GopSizeUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264GopSizeUnits'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -14784,46 +11433,21 @@ extension H264GopSizeUnitsFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum H264InterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension H264InterlaceModeValueExtension on H264InterlaceMode {
-  String toValue() {
-    switch (this) {
-      case H264InterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case H264InterlaceMode.topField:
-        return 'TOP_FIELD';
-      case H264InterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case H264InterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case H264InterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension H264InterlaceModeFromString on String {
-  H264InterlaceMode toH264InterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return H264InterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return H264InterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return H264InterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return H264InterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return H264InterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum H264InterlaceMode');
-  }
+  const H264InterlaceMode(this.value);
+
+  static H264InterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264InterlaceMode'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -14833,31 +11457,18 @@ extension H264InterlaceModeFromString on String {
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
 enum H264ParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension H264ParControlValueExtension on H264ParControl {
-  String toValue() {
-    switch (this) {
-      case H264ParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case H264ParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension H264ParControlFromString on String {
-  H264ParControl toH264ParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return H264ParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return H264ParControl.specified;
-    }
-    throw Exception('$this is not known in enum H264ParControl');
-  }
+  const H264ParControl(this.value);
+
+  static H264ParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264ParControl'));
 }
 
 /// The Quality tuning level you choose represents a trade-off between the
@@ -14869,36 +11480,19 @@ extension H264ParControlFromString on String {
 /// on your input followed by an encoding pass. Outputs that use this feature
 /// incur pro-tier pricing.
 enum H264QualityTuningLevel {
-  singlePass,
-  singlePassHq,
-  multiPassHq,
-}
+  singlePass('SINGLE_PASS'),
+  singlePassHq('SINGLE_PASS_HQ'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension H264QualityTuningLevelValueExtension on H264QualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case H264QualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case H264QualityTuningLevel.singlePassHq:
-        return 'SINGLE_PASS_HQ';
-      case H264QualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension H264QualityTuningLevelFromString on String {
-  H264QualityTuningLevel toH264QualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return H264QualityTuningLevel.singlePass;
-      case 'SINGLE_PASS_HQ':
-        return H264QualityTuningLevel.singlePassHq;
-      case 'MULTI_PASS_HQ':
-        return H264QualityTuningLevel.multiPassHq;
-    }
-    throw Exception('$this is not known in enum H264QualityTuningLevel');
-  }
+  const H264QualityTuningLevel(this.value);
+
+  static H264QualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264QualityTuningLevel'));
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.264 codec.
@@ -14964,65 +11558,35 @@ class H264QvbrSettings {
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
 enum H264RateControlMode {
-  vbr,
-  cbr,
-  qvbr,
-}
+  vbr('VBR'),
+  cbr('CBR'),
+  qvbr('QVBR'),
+  ;
 
-extension H264RateControlModeValueExtension on H264RateControlMode {
-  String toValue() {
-    switch (this) {
-      case H264RateControlMode.vbr:
-        return 'VBR';
-      case H264RateControlMode.cbr:
-        return 'CBR';
-      case H264RateControlMode.qvbr:
-        return 'QVBR';
-    }
-  }
-}
+  final String value;
 
-extension H264RateControlModeFromString on String {
-  H264RateControlMode toH264RateControlMode() {
-    switch (this) {
-      case 'VBR':
-        return H264RateControlMode.vbr;
-      case 'CBR':
-        return H264RateControlMode.cbr;
-      case 'QVBR':
-        return H264RateControlMode.qvbr;
-    }
-    throw Exception('$this is not known in enum H264RateControlMode');
-  }
+  const H264RateControlMode(this.value);
+
+  static H264RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H264RateControlMode'));
 }
 
 /// Places a PPS header on each encoded picture, even if repeated.
 enum H264RepeatPps {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264RepeatPpsValueExtension on H264RepeatPps {
-  String toValue() {
-    switch (this) {
-      case H264RepeatPps.disabled:
-        return 'DISABLED';
-      case H264RepeatPps.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264RepeatPpsFromString on String {
-  H264RepeatPps toH264RepeatPps() {
-    switch (this) {
-      case 'DISABLED':
-        return H264RepeatPps.disabled;
-      case 'ENABLED':
-        return H264RepeatPps.enabled;
-    }
-    throw Exception('$this is not known in enum H264RepeatPps');
-  }
+  const H264RepeatPps(this.value);
+
+  static H264RepeatPps fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264RepeatPps'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -15038,32 +11602,18 @@ extension H264RepeatPpsFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum H264ScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension H264ScanTypeConversionModeValueExtension
-    on H264ScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case H264ScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case H264ScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension H264ScanTypeConversionModeFromString on String {
-  H264ScanTypeConversionMode toH264ScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return H264ScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return H264ScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception('$this is not known in enum H264ScanTypeConversionMode');
-  }
+  const H264ScanTypeConversionMode(this.value);
+
+  static H264ScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264ScanTypeConversionMode'));
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
@@ -15072,36 +11622,19 @@ extension H264ScanTypeConversionModeFromString on String {
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
 enum H264SceneChangeDetect {
-  disabled,
-  enabled,
-  transitionDetection,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  transitionDetection('TRANSITION_DETECTION'),
+  ;
 
-extension H264SceneChangeDetectValueExtension on H264SceneChangeDetect {
-  String toValue() {
-    switch (this) {
-      case H264SceneChangeDetect.disabled:
-        return 'DISABLED';
-      case H264SceneChangeDetect.enabled:
-        return 'ENABLED';
-      case H264SceneChangeDetect.transitionDetection:
-        return 'TRANSITION_DETECTION';
-    }
-  }
-}
+  final String value;
 
-extension H264SceneChangeDetectFromString on String {
-  H264SceneChangeDetect toH264SceneChangeDetect() {
-    switch (this) {
-      case 'DISABLED':
-        return H264SceneChangeDetect.disabled;
-      case 'ENABLED':
-        return H264SceneChangeDetect.enabled;
-      case 'TRANSITION_DETECTION':
-        return H264SceneChangeDetect.transitionDetection;
-    }
-    throw Exception('$this is not known in enum H264SceneChangeDetect');
-  }
+  const H264SceneChangeDetect(this.value);
+
+  static H264SceneChangeDetect fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H264SceneChangeDetect'));
 }
 
 /// Required when you set Codec to the value H_264.
@@ -15523,74 +12056,82 @@ class H264Settings {
   factory H264Settings.fromJson(Map<String, dynamic> json) {
     return H264Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
-          ?.toH264AdaptiveQuantization(),
+          ?.let(H264AdaptiveQuantization.fromString),
       bandwidthReductionFilter: json['bandwidthReductionFilter'] != null
           ? BandwidthReductionFilter.fromJson(
               json['bandwidthReductionFilter'] as Map<String, dynamic>)
           : null,
       bitrate: json['bitrate'] as int?,
-      codecLevel: (json['codecLevel'] as String?)?.toH264CodecLevel(),
-      codecProfile: (json['codecProfile'] as String?)?.toH264CodecProfile(),
-      dynamicSubGop: (json['dynamicSubGop'] as String?)?.toH264DynamicSubGop(),
-      endOfStreamMarkers:
-          (json['endOfStreamMarkers'] as String?)?.toH264EndOfStreamMarkers(),
-      entropyEncoding:
-          (json['entropyEncoding'] as String?)?.toH264EntropyEncoding(),
-      fieldEncoding: (json['fieldEncoding'] as String?)?.toH264FieldEncoding(),
+      codecLevel:
+          (json['codecLevel'] as String?)?.let(H264CodecLevel.fromString),
+      codecProfile:
+          (json['codecProfile'] as String?)?.let(H264CodecProfile.fromString),
+      dynamicSubGop:
+          (json['dynamicSubGop'] as String?)?.let(H264DynamicSubGop.fromString),
+      endOfStreamMarkers: (json['endOfStreamMarkers'] as String?)
+          ?.let(H264EndOfStreamMarkers.fromString),
+      entropyEncoding: (json['entropyEncoding'] as String?)
+          ?.let(H264EntropyEncoding.fromString),
+      fieldEncoding:
+          (json['fieldEncoding'] as String?)?.let(H264FieldEncoding.fromString),
       flickerAdaptiveQuantization:
           (json['flickerAdaptiveQuantization'] as String?)
-              ?.toH264FlickerAdaptiveQuantization(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toH264FramerateControl(),
+              ?.let(H264FlickerAdaptiveQuantization.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(H264FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toH264FramerateConversionAlgorithm(),
+              ?.let(H264FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      gopBReference: (json['gopBReference'] as String?)?.toH264GopBReference(),
+      gopBReference:
+          (json['gopBReference'] as String?)?.let(H264GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
-      gopSizeUnits: (json['gopSizeUnits'] as String?)?.toH264GopSizeUnits(),
+      gopSizeUnits:
+          (json['gopSizeUnits'] as String?)?.let(H264GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
           json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
-      interlaceMode: (json['interlaceMode'] as String?)?.toH264InterlaceMode(),
+      interlaceMode:
+          (json['interlaceMode'] as String?)?.let(H264InterlaceMode.fromString),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
       numberBFramesBetweenReferenceFrames:
           json['numberBFramesBetweenReferenceFrames'] as int?,
       numberReferenceFrames: json['numberReferenceFrames'] as int?,
-      parControl: (json['parControl'] as String?)?.toH264ParControl(),
+      parControl:
+          (json['parControl'] as String?)?.let(H264ParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
-      qualityTuningLevel:
-          (json['qualityTuningLevel'] as String?)?.toH264QualityTuningLevel(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.let(H264QualityTuningLevel.fromString),
       qvbrSettings: json['qvbrSettings'] != null
           ? H264QvbrSettings.fromJson(
               json['qvbrSettings'] as Map<String, dynamic>)
           : null,
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toH264RateControlMode(),
-      repeatPps: (json['repeatPps'] as String?)?.toH264RepeatPps(),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(H264RateControlMode.fromString),
+      repeatPps: (json['repeatPps'] as String?)?.let(H264RepeatPps.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toH264ScanTypeConversionMode(),
-      sceneChangeDetect:
-          (json['sceneChangeDetect'] as String?)?.toH264SceneChangeDetect(),
+          ?.let(H264ScanTypeConversionMode.fromString),
+      sceneChangeDetect: (json['sceneChangeDetect'] as String?)
+          ?.let(H264SceneChangeDetect.fromString),
       slices: json['slices'] as int?,
-      slowPal: (json['slowPal'] as String?)?.toH264SlowPal(),
+      slowPal: (json['slowPal'] as String?)?.let(H264SlowPal.fromString),
       softness: json['softness'] as int?,
       spatialAdaptiveQuantization:
           (json['spatialAdaptiveQuantization'] as String?)
-              ?.toH264SpatialAdaptiveQuantization(),
-      syntax: (json['syntax'] as String?)?.toH264Syntax(),
-      telecine: (json['telecine'] as String?)?.toH264Telecine(),
+              ?.let(H264SpatialAdaptiveQuantization.fromString),
+      syntax: (json['syntax'] as String?)?.let(H264Syntax.fromString),
+      telecine: (json['telecine'] as String?)?.let(H264Telecine.fromString),
       temporalAdaptiveQuantization:
           (json['temporalAdaptiveQuantization'] as String?)
-              ?.toH264TemporalAdaptiveQuantization(),
+              ?.let(H264TemporalAdaptiveQuantization.fromString),
       unregisteredSeiTimecode: (json['unregisteredSeiTimecode'] as String?)
-          ?.toH264UnregisteredSeiTimecode(),
+          ?.let(H264UnregisteredSeiTimecode.fromString),
     );
   }
 
@@ -15641,36 +12182,35 @@ class H264Settings {
     final unregisteredSeiTimecode = this.unregisteredSeiTimecode;
     return {
       if (adaptiveQuantization != null)
-        'adaptiveQuantization': adaptiveQuantization.toValue(),
+        'adaptiveQuantization': adaptiveQuantization.value,
       if (bandwidthReductionFilter != null)
         'bandwidthReductionFilter': bandwidthReductionFilter,
       if (bitrate != null) 'bitrate': bitrate,
-      if (codecLevel != null) 'codecLevel': codecLevel.toValue(),
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
-      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.toValue(),
+      if (codecLevel != null) 'codecLevel': codecLevel.value,
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
+      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.value,
       if (endOfStreamMarkers != null)
-        'endOfStreamMarkers': endOfStreamMarkers.toValue(),
-      if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.toValue(),
-      if (fieldEncoding != null) 'fieldEncoding': fieldEncoding.toValue(),
+        'endOfStreamMarkers': endOfStreamMarkers.value,
+      if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.value,
+      if (fieldEncoding != null) 'fieldEncoding': fieldEncoding.value,
       if (flickerAdaptiveQuantization != null)
-        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+      if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
-      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
       if (numberBFramesBetweenReferenceFrames != null)
@@ -15678,29 +12218,29 @@ class H264Settings {
             numberBFramesBetweenReferenceFrames,
       if (numberReferenceFrames != null)
         'numberReferenceFrames': numberReferenceFrames,
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
       if (qvbrSettings != null) 'qvbrSettings': qvbrSettings,
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
-      if (repeatPps != null) 'repeatPps': repeatPps.toValue(),
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
+      if (repeatPps != null) 'repeatPps': repeatPps.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
       if (sceneChangeDetect != null)
-        'sceneChangeDetect': sceneChangeDetect.toValue(),
+        'sceneChangeDetect': sceneChangeDetect.value,
       if (slices != null) 'slices': slices,
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
+      if (slowPal != null) 'slowPal': slowPal.value,
       if (softness != null) 'softness': softness,
       if (spatialAdaptiveQuantization != null)
-        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
-      if (syntax != null) 'syntax': syntax.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.value,
+      if (syntax != null) 'syntax': syntax.value,
+      if (telecine != null) 'telecine': telecine.value,
       if (temporalAdaptiveQuantization != null)
-        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.toValue(),
+        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.value,
       if (unregisteredSeiTimecode != null)
-        'unregisteredSeiTimecode': unregisteredSeiTimecode.toValue(),
+        'unregisteredSeiTimecode': unregisteredSeiTimecode.value,
     };
   }
 }
@@ -15712,31 +12252,17 @@ class H264Settings {
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
 enum H264SlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264SlowPalValueExtension on H264SlowPal {
-  String toValue() {
-    switch (this) {
-      case H264SlowPal.disabled:
-        return 'DISABLED';
-      case H264SlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264SlowPalFromString on String {
-  H264SlowPal toH264SlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return H264SlowPal.disabled;
-      case 'ENABLED':
-        return H264SlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum H264SlowPal');
-  }
+  const H264SlowPal(this.value);
+
+  static H264SlowPal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum H264SlowPal'));
 }
 
 /// Only use this setting when you change the default value, Auto, for the
@@ -15764,62 +12290,33 @@ extension H264SlowPalFromString on String {
 /// H264SpatialAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
 enum H264SpatialAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264SpatialAdaptiveQuantizationValueExtension
-    on H264SpatialAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H264SpatialAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H264SpatialAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264SpatialAdaptiveQuantizationFromString on String {
-  H264SpatialAdaptiveQuantization toH264SpatialAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H264SpatialAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H264SpatialAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H264SpatialAdaptiveQuantization');
-  }
+  const H264SpatialAdaptiveQuantization(this.value);
+
+  static H264SpatialAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264SpatialAdaptiveQuantization'));
 }
 
 /// Produces a bitstream compliant with SMPTE RP-2027.
 enum H264Syntax {
-  $default,
-  rp2027,
-}
+  $default('DEFAULT'),
+  rp2027('RP2027'),
+  ;
 
-extension H264SyntaxValueExtension on H264Syntax {
-  String toValue() {
-    switch (this) {
-      case H264Syntax.$default:
-        return 'DEFAULT';
-      case H264Syntax.rp2027:
-        return 'RP2027';
-    }
-  }
-}
+  final String value;
 
-extension H264SyntaxFromString on String {
-  H264Syntax toH264Syntax() {
-    switch (this) {
-      case 'DEFAULT':
-        return H264Syntax.$default;
-      case 'RP2027':
-        return H264Syntax.rp2027;
-    }
-    throw Exception('$this is not known in enum H264Syntax');
-  }
+  const H264Syntax(this.value);
+
+  static H264Syntax fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum H264Syntax'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -15831,36 +12328,19 @@ extension H264SyntaxFromString on String {
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
 enum H264Telecine {
-  none,
-  soft,
-  hard,
-}
+  none('NONE'),
+  soft('SOFT'),
+  hard('HARD'),
+  ;
 
-extension H264TelecineValueExtension on H264Telecine {
-  String toValue() {
-    switch (this) {
-      case H264Telecine.none:
-        return 'NONE';
-      case H264Telecine.soft:
-        return 'SOFT';
-      case H264Telecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension H264TelecineFromString on String {
-  H264Telecine toH264Telecine() {
-    switch (this) {
-      case 'NONE':
-        return H264Telecine.none;
-      case 'SOFT':
-        return H264Telecine.soft;
-      case 'HARD':
-        return H264Telecine.hard;
-    }
-    throw Exception('$this is not known in enum H264Telecine');
-  }
+  const H264Telecine(this.value);
+
+  static H264Telecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H264Telecine'));
 }
 
 /// Only use this setting when you change the default value, AUTO, for the
@@ -15886,63 +12366,34 @@ extension H264TelecineFromString on String {
 /// H264TemporalAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
 enum H264TemporalAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264TemporalAdaptiveQuantizationValueExtension
-    on H264TemporalAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H264TemporalAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H264TemporalAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264TemporalAdaptiveQuantizationFromString on String {
-  H264TemporalAdaptiveQuantization toH264TemporalAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H264TemporalAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H264TemporalAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H264TemporalAdaptiveQuantization');
-  }
+  const H264TemporalAdaptiveQuantization(this.value);
+
+  static H264TemporalAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264TemporalAdaptiveQuantization'));
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
 enum H264UnregisteredSeiTimecode {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H264UnregisteredSeiTimecodeValueExtension
-    on H264UnregisteredSeiTimecode {
-  String toValue() {
-    switch (this) {
-      case H264UnregisteredSeiTimecode.disabled:
-        return 'DISABLED';
-      case H264UnregisteredSeiTimecode.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H264UnregisteredSeiTimecodeFromString on String {
-  H264UnregisteredSeiTimecode toH264UnregisteredSeiTimecode() {
-    switch (this) {
-      case 'DISABLED':
-        return H264UnregisteredSeiTimecode.disabled;
-      case 'ENABLED':
-        return H264UnregisteredSeiTimecode.enabled;
-    }
-    throw Exception('$this is not known in enum H264UnregisteredSeiTimecode');
-  }
+  const H264UnregisteredSeiTimecode(this.value);
+
+  static H264UnregisteredSeiTimecode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H264UnregisteredSeiTimecode'));
 }
 
 /// When you set Adaptive Quantization to Auto, or leave blank, MediaConvert
@@ -15954,177 +12405,68 @@ extension H264UnregisteredSeiTimecodeFromString on String {
 /// quantization filter. Set Adaptive Quantization to Off to apply no
 /// quantization to your output.
 enum H265AdaptiveQuantization {
-  off,
-  low,
-  medium,
-  high,
-  higher,
-  max,
-  auto,
-}
+  off('OFF'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  higher('HIGHER'),
+  max('MAX'),
+  auto('AUTO'),
+  ;
 
-extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H265AdaptiveQuantization.off:
-        return 'OFF';
-      case H265AdaptiveQuantization.low:
-        return 'LOW';
-      case H265AdaptiveQuantization.medium:
-        return 'MEDIUM';
-      case H265AdaptiveQuantization.high:
-        return 'HIGH';
-      case H265AdaptiveQuantization.higher:
-        return 'HIGHER';
-      case H265AdaptiveQuantization.max:
-        return 'MAX';
-      case H265AdaptiveQuantization.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension H265AdaptiveQuantizationFromString on String {
-  H265AdaptiveQuantization toH265AdaptiveQuantization() {
-    switch (this) {
-      case 'OFF':
-        return H265AdaptiveQuantization.off;
-      case 'LOW':
-        return H265AdaptiveQuantization.low;
-      case 'MEDIUM':
-        return H265AdaptiveQuantization.medium;
-      case 'HIGH':
-        return H265AdaptiveQuantization.high;
-      case 'HIGHER':
-        return H265AdaptiveQuantization.higher;
-      case 'MAX':
-        return H265AdaptiveQuantization.max;
-      case 'AUTO':
-        return H265AdaptiveQuantization.auto;
-    }
-    throw Exception('$this is not known in enum H265AdaptiveQuantization');
-  }
+  const H265AdaptiveQuantization(this.value);
+
+  static H265AdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265AdaptiveQuantization'));
 }
 
 /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log
 /// Gamma (HLG) Electro-Optical Transfer Function (EOTF).
 enum H265AlternateTransferFunctionSei {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265AlternateTransferFunctionSeiValueExtension
-    on H265AlternateTransferFunctionSei {
-  String toValue() {
-    switch (this) {
-      case H265AlternateTransferFunctionSei.disabled:
-        return 'DISABLED';
-      case H265AlternateTransferFunctionSei.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265AlternateTransferFunctionSeiFromString on String {
-  H265AlternateTransferFunctionSei toH265AlternateTransferFunctionSei() {
-    switch (this) {
-      case 'DISABLED':
-        return H265AlternateTransferFunctionSei.disabled;
-      case 'ENABLED':
-        return H265AlternateTransferFunctionSei.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H265AlternateTransferFunctionSei');
-  }
+  const H265AlternateTransferFunctionSei(this.value);
+
+  static H265AlternateTransferFunctionSei fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265AlternateTransferFunctionSei'));
 }
 
 /// H.265 Level.
 enum H265CodecLevel {
-  auto,
-  level_1,
-  level_2,
-  level_2_1,
-  level_3,
-  level_3_1,
-  level_4,
-  level_4_1,
-  level_5,
-  level_5_1,
-  level_5_2,
-  level_6,
-  level_6_1,
-  level_6_2,
-}
+  auto('AUTO'),
+  level_1('LEVEL_1'),
+  level_2('LEVEL_2'),
+  level_2_1('LEVEL_2_1'),
+  level_3('LEVEL_3'),
+  level_3_1('LEVEL_3_1'),
+  level_4('LEVEL_4'),
+  level_4_1('LEVEL_4_1'),
+  level_5('LEVEL_5'),
+  level_5_1('LEVEL_5_1'),
+  level_5_2('LEVEL_5_2'),
+  level_6('LEVEL_6'),
+  level_6_1('LEVEL_6_1'),
+  level_6_2('LEVEL_6_2'),
+  ;
 
-extension H265CodecLevelValueExtension on H265CodecLevel {
-  String toValue() {
-    switch (this) {
-      case H265CodecLevel.auto:
-        return 'AUTO';
-      case H265CodecLevel.level_1:
-        return 'LEVEL_1';
-      case H265CodecLevel.level_2:
-        return 'LEVEL_2';
-      case H265CodecLevel.level_2_1:
-        return 'LEVEL_2_1';
-      case H265CodecLevel.level_3:
-        return 'LEVEL_3';
-      case H265CodecLevel.level_3_1:
-        return 'LEVEL_3_1';
-      case H265CodecLevel.level_4:
-        return 'LEVEL_4';
-      case H265CodecLevel.level_4_1:
-        return 'LEVEL_4_1';
-      case H265CodecLevel.level_5:
-        return 'LEVEL_5';
-      case H265CodecLevel.level_5_1:
-        return 'LEVEL_5_1';
-      case H265CodecLevel.level_5_2:
-        return 'LEVEL_5_2';
-      case H265CodecLevel.level_6:
-        return 'LEVEL_6';
-      case H265CodecLevel.level_6_1:
-        return 'LEVEL_6_1';
-      case H265CodecLevel.level_6_2:
-        return 'LEVEL_6_2';
-    }
-  }
-}
+  final String value;
 
-extension H265CodecLevelFromString on String {
-  H265CodecLevel toH265CodecLevel() {
-    switch (this) {
-      case 'AUTO':
-        return H265CodecLevel.auto;
-      case 'LEVEL_1':
-        return H265CodecLevel.level_1;
-      case 'LEVEL_2':
-        return H265CodecLevel.level_2;
-      case 'LEVEL_2_1':
-        return H265CodecLevel.level_2_1;
-      case 'LEVEL_3':
-        return H265CodecLevel.level_3;
-      case 'LEVEL_3_1':
-        return H265CodecLevel.level_3_1;
-      case 'LEVEL_4':
-        return H265CodecLevel.level_4;
-      case 'LEVEL_4_1':
-        return H265CodecLevel.level_4_1;
-      case 'LEVEL_5':
-        return H265CodecLevel.level_5;
-      case 'LEVEL_5_1':
-        return H265CodecLevel.level_5_1;
-      case 'LEVEL_5_2':
-        return H265CodecLevel.level_5_2;
-      case 'LEVEL_6':
-        return H265CodecLevel.level_6;
-      case 'LEVEL_6_1':
-        return H265CodecLevel.level_6_1;
-      case 'LEVEL_6_2':
-        return H265CodecLevel.level_6_2;
-    }
-    throw Exception('$this is not known in enum H265CodecLevel');
-  }
+  const H265CodecLevel(this.value);
+
+  static H265CodecLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265CodecLevel'));
 }
 
 /// Represents the Profile and Tier, per the HEVC (H.265) specification.
@@ -16132,61 +12474,24 @@ extension H265CodecLevelFromString on String {
 /// Profile with High Tier. 4:2:2 profiles are only available with the HEVC
 /// 4:2:2 License.
 enum H265CodecProfile {
-  mainMain,
-  mainHigh,
-  main10Main,
-  main10High,
-  main_422_8bitMain,
-  main_422_8bitHigh,
-  main_422_10bitMain,
-  main_422_10bitHigh,
-}
+  mainMain('MAIN_MAIN'),
+  mainHigh('MAIN_HIGH'),
+  main10Main('MAIN10_MAIN'),
+  main10High('MAIN10_HIGH'),
+  main_422_8bitMain('MAIN_422_8BIT_MAIN'),
+  main_422_8bitHigh('MAIN_422_8BIT_HIGH'),
+  main_422_10bitMain('MAIN_422_10BIT_MAIN'),
+  main_422_10bitHigh('MAIN_422_10BIT_HIGH'),
+  ;
 
-extension H265CodecProfileValueExtension on H265CodecProfile {
-  String toValue() {
-    switch (this) {
-      case H265CodecProfile.mainMain:
-        return 'MAIN_MAIN';
-      case H265CodecProfile.mainHigh:
-        return 'MAIN_HIGH';
-      case H265CodecProfile.main10Main:
-        return 'MAIN10_MAIN';
-      case H265CodecProfile.main10High:
-        return 'MAIN10_HIGH';
-      case H265CodecProfile.main_422_8bitMain:
-        return 'MAIN_422_8BIT_MAIN';
-      case H265CodecProfile.main_422_8bitHigh:
-        return 'MAIN_422_8BIT_HIGH';
-      case H265CodecProfile.main_422_10bitMain:
-        return 'MAIN_422_10BIT_MAIN';
-      case H265CodecProfile.main_422_10bitHigh:
-        return 'MAIN_422_10BIT_HIGH';
-    }
-  }
-}
+  final String value;
 
-extension H265CodecProfileFromString on String {
-  H265CodecProfile toH265CodecProfile() {
-    switch (this) {
-      case 'MAIN_MAIN':
-        return H265CodecProfile.mainMain;
-      case 'MAIN_HIGH':
-        return H265CodecProfile.mainHigh;
-      case 'MAIN10_MAIN':
-        return H265CodecProfile.main10Main;
-      case 'MAIN10_HIGH':
-        return H265CodecProfile.main10High;
-      case 'MAIN_422_8BIT_MAIN':
-        return H265CodecProfile.main_422_8bitMain;
-      case 'MAIN_422_8BIT_HIGH':
-        return H265CodecProfile.main_422_8bitHigh;
-      case 'MAIN_422_10BIT_MAIN':
-        return H265CodecProfile.main_422_10bitMain;
-      case 'MAIN_422_10BIT_HIGH':
-        return H265CodecProfile.main_422_10bitHigh;
-    }
-    throw Exception('$this is not known in enum H265CodecProfile');
-  }
+  const H265CodecProfile(this.value);
+
+  static H265CodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265CodecProfile'));
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -16195,31 +12500,18 @@ extension H265CodecProfileFromString on String {
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
 enum H265DynamicSubGop {
-  adaptive,
-  static,
-}
+  adaptive('ADAPTIVE'),
+  static('STATIC'),
+  ;
 
-extension H265DynamicSubGopValueExtension on H265DynamicSubGop {
-  String toValue() {
-    switch (this) {
-      case H265DynamicSubGop.adaptive:
-        return 'ADAPTIVE';
-      case H265DynamicSubGop.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension H265DynamicSubGopFromString on String {
-  H265DynamicSubGop toH265DynamicSubGop() {
-    switch (this) {
-      case 'ADAPTIVE':
-        return H265DynamicSubGop.adaptive;
-      case 'STATIC':
-        return H265DynamicSubGop.static;
-    }
-    throw Exception('$this is not known in enum H265DynamicSubGop');
-  }
+  const H265DynamicSubGop(this.value);
+
+  static H265DynamicSubGop fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265DynamicSubGop'));
 }
 
 /// Optionally include or suppress markers at the end of your output that signal
@@ -16228,31 +12520,18 @@ extension H265DynamicSubGopFromString on String {
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
 enum H265EndOfStreamMarkers {
-  include,
-  suppress,
-}
+  include('INCLUDE'),
+  suppress('SUPPRESS'),
+  ;
 
-extension H265EndOfStreamMarkersValueExtension on H265EndOfStreamMarkers {
-  String toValue() {
-    switch (this) {
-      case H265EndOfStreamMarkers.include:
-        return 'INCLUDE';
-      case H265EndOfStreamMarkers.suppress:
-        return 'SUPPRESS';
-    }
-  }
-}
+  final String value;
 
-extension H265EndOfStreamMarkersFromString on String {
-  H265EndOfStreamMarkers toH265EndOfStreamMarkers() {
-    switch (this) {
-      case 'INCLUDE':
-        return H265EndOfStreamMarkers.include;
-      case 'SUPPRESS':
-        return H265EndOfStreamMarkers.suppress;
-    }
-    throw Exception('$this is not known in enum H265EndOfStreamMarkers');
-  }
+  const H265EndOfStreamMarkers(this.value);
+
+  static H265EndOfStreamMarkers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265EndOfStreamMarkers'));
 }
 
 /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop
@@ -16263,33 +12542,18 @@ extension H265EndOfStreamMarkersFromString on String {
 /// disabled by default. Related setting: In addition to enabling this setting,
 /// you must also set adaptiveQuantization to a value other than Off.
 enum H265FlickerAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265FlickerAdaptiveQuantizationValueExtension
-    on H265FlickerAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H265FlickerAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H265FlickerAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265FlickerAdaptiveQuantizationFromString on String {
-  H265FlickerAdaptiveQuantization toH265FlickerAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H265FlickerAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H265FlickerAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H265FlickerAdaptiveQuantization');
-  }
+  const H265FlickerAdaptiveQuantization(this.value);
+
+  static H265FlickerAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265FlickerAdaptiveQuantization'));
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -16299,31 +12563,18 @@ extension H265FlickerAdaptiveQuantizationFromString on String {
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
 enum H265FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension H265FramerateControlValueExtension on H265FramerateControl {
-  String toValue() {
-    switch (this) {
-      case H265FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case H265FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension H265FramerateControlFromString on String {
-  H265FramerateControl toH265FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return H265FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return H265FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum H265FramerateControl');
-  }
+  const H265FramerateControl(this.value);
+
+  static H265FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H265FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -16338,38 +12589,19 @@ extension H265FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum H265FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension H265FramerateConversionAlgorithmValueExtension
-    on H265FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case H265FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case H265FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case H265FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension H265FramerateConversionAlgorithmFromString on String {
-  H265FramerateConversionAlgorithm toH265FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return H265FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return H265FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return H265FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum H265FramerateConversionAlgorithm');
-  }
+  const H265FramerateConversionAlgorithm(this.value);
+
+  static H265FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265FramerateConversionAlgorithm'));
 }
 
 /// Specify whether to allow B-frames to be referenced by other frame types. To
@@ -16378,31 +12610,18 @@ extension H265FramerateConversionAlgorithmFromString on String {
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
 enum H265GopBReference {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265GopBReferenceValueExtension on H265GopBReference {
-  String toValue() {
-    switch (this) {
-      case H265GopBReference.disabled:
-        return 'DISABLED';
-      case H265GopBReference.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265GopBReferenceFromString on String {
-  H265GopBReference toH265GopBReference() {
-    switch (this) {
-      case 'DISABLED':
-        return H265GopBReference.disabled;
-      case 'ENABLED':
-        return H265GopBReference.enabled;
-    }
-    throw Exception('$this is not known in enum H265GopBReference');
-  }
+  const H265GopBReference(this.value);
+
+  static H265GopBReference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265GopBReference'));
 }
 
 /// Specify how the transcoder determines GOP size for this output. We recommend
@@ -16415,36 +12634,19 @@ extension H265GopBReferenceFromString on String {
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
 enum H265GopSizeUnits {
-  frames,
-  seconds,
-  auto,
-}
+  frames('FRAMES'),
+  seconds('SECONDS'),
+  auto('AUTO'),
+  ;
 
-extension H265GopSizeUnitsValueExtension on H265GopSizeUnits {
-  String toValue() {
-    switch (this) {
-      case H265GopSizeUnits.frames:
-        return 'FRAMES';
-      case H265GopSizeUnits.seconds:
-        return 'SECONDS';
-      case H265GopSizeUnits.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension H265GopSizeUnitsFromString on String {
-  H265GopSizeUnits toH265GopSizeUnits() {
-    switch (this) {
-      case 'FRAMES':
-        return H265GopSizeUnits.frames;
-      case 'SECONDS':
-        return H265GopSizeUnits.seconds;
-      case 'AUTO':
-        return H265GopSizeUnits.auto;
-    }
-    throw Exception('$this is not known in enum H265GopSizeUnits');
-  }
+  const H265GopSizeUnits(this.value);
+
+  static H265GopSizeUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265GopSizeUnits'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -16459,46 +12661,21 @@ extension H265GopSizeUnitsFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum H265InterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension H265InterlaceModeValueExtension on H265InterlaceMode {
-  String toValue() {
-    switch (this) {
-      case H265InterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case H265InterlaceMode.topField:
-        return 'TOP_FIELD';
-      case H265InterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case H265InterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case H265InterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension H265InterlaceModeFromString on String {
-  H265InterlaceMode toH265InterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return H265InterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return H265InterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return H265InterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return H265InterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return H265InterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum H265InterlaceMode');
-  }
+  const H265InterlaceMode(this.value);
+
+  static H265InterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265InterlaceMode'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -16507,67 +12684,37 @@ extension H265InterlaceModeFromString on String {
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
 enum H265ParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension H265ParControlValueExtension on H265ParControl {
-  String toValue() {
-    switch (this) {
-      case H265ParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case H265ParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension H265ParControlFromString on String {
-  H265ParControl toH265ParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return H265ParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return H265ParControl.specified;
-    }
-    throw Exception('$this is not known in enum H265ParControl');
-  }
+  const H265ParControl(this.value);
+
+  static H265ParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265ParControl'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
 enum H265QualityTuningLevel {
-  singlePass,
-  singlePassHq,
-  multiPassHq,
-}
+  singlePass('SINGLE_PASS'),
+  singlePassHq('SINGLE_PASS_HQ'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension H265QualityTuningLevelValueExtension on H265QualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case H265QualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case H265QualityTuningLevel.singlePassHq:
-        return 'SINGLE_PASS_HQ';
-      case H265QualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension H265QualityTuningLevelFromString on String {
-  H265QualityTuningLevel toH265QualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return H265QualityTuningLevel.singlePass;
-      case 'SINGLE_PASS_HQ':
-        return H265QualityTuningLevel.singlePassHq;
-      case 'MULTI_PASS_HQ':
-        return H265QualityTuningLevel.multiPassHq;
-    }
-    throw Exception('$this is not known in enum H265QualityTuningLevel');
-  }
+  const H265QualityTuningLevel(this.value);
+
+  static H265QualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265QualityTuningLevel'));
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
@@ -16633,73 +12780,37 @@ class H265QvbrSettings {
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
 enum H265RateControlMode {
-  vbr,
-  cbr,
-  qvbr,
-}
+  vbr('VBR'),
+  cbr('CBR'),
+  qvbr('QVBR'),
+  ;
 
-extension H265RateControlModeValueExtension on H265RateControlMode {
-  String toValue() {
-    switch (this) {
-      case H265RateControlMode.vbr:
-        return 'VBR';
-      case H265RateControlMode.cbr:
-        return 'CBR';
-      case H265RateControlMode.qvbr:
-        return 'QVBR';
-    }
-  }
-}
+  final String value;
 
-extension H265RateControlModeFromString on String {
-  H265RateControlMode toH265RateControlMode() {
-    switch (this) {
-      case 'VBR':
-        return H265RateControlMode.vbr;
-      case 'CBR':
-        return H265RateControlMode.cbr;
-      case 'QVBR':
-        return H265RateControlMode.qvbr;
-    }
-    throw Exception('$this is not known in enum H265RateControlMode');
-  }
+  const H265RateControlMode(this.value);
+
+  static H265RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H265RateControlMode'));
 }
 
 /// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode
 /// dynamically selects best strength based on content
 enum H265SampleAdaptiveOffsetFilterMode {
-  $default,
-  adaptive,
-  off,
-}
+  $default('DEFAULT'),
+  adaptive('ADAPTIVE'),
+  off('OFF'),
+  ;
 
-extension H265SampleAdaptiveOffsetFilterModeValueExtension
-    on H265SampleAdaptiveOffsetFilterMode {
-  String toValue() {
-    switch (this) {
-      case H265SampleAdaptiveOffsetFilterMode.$default:
-        return 'DEFAULT';
-      case H265SampleAdaptiveOffsetFilterMode.adaptive:
-        return 'ADAPTIVE';
-      case H265SampleAdaptiveOffsetFilterMode.off:
-        return 'OFF';
-    }
-  }
-}
+  final String value;
 
-extension H265SampleAdaptiveOffsetFilterModeFromString on String {
-  H265SampleAdaptiveOffsetFilterMode toH265SampleAdaptiveOffsetFilterMode() {
-    switch (this) {
-      case 'DEFAULT':
-        return H265SampleAdaptiveOffsetFilterMode.$default;
-      case 'ADAPTIVE':
-        return H265SampleAdaptiveOffsetFilterMode.adaptive;
-      case 'OFF':
-        return H265SampleAdaptiveOffsetFilterMode.off;
-    }
-    throw Exception(
-        '$this is not known in enum H265SampleAdaptiveOffsetFilterMode');
-  }
+  const H265SampleAdaptiveOffsetFilterMode(this.value);
+
+  static H265SampleAdaptiveOffsetFilterMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265SampleAdaptiveOffsetFilterMode'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -16715,32 +12826,18 @@ extension H265SampleAdaptiveOffsetFilterModeFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum H265ScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension H265ScanTypeConversionModeValueExtension
-    on H265ScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case H265ScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case H265ScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension H265ScanTypeConversionModeFromString on String {
-  H265ScanTypeConversionMode toH265ScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return H265ScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return H265ScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception('$this is not known in enum H265ScanTypeConversionMode');
-  }
+  const H265ScanTypeConversionMode(this.value);
+
+  static H265ScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265ScanTypeConversionMode'));
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
@@ -16749,36 +12846,19 @@ extension H265ScanTypeConversionModeFromString on String {
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
 enum H265SceneChangeDetect {
-  disabled,
-  enabled,
-  transitionDetection,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  transitionDetection('TRANSITION_DETECTION'),
+  ;
 
-extension H265SceneChangeDetectValueExtension on H265SceneChangeDetect {
-  String toValue() {
-    switch (this) {
-      case H265SceneChangeDetect.disabled:
-        return 'DISABLED';
-      case H265SceneChangeDetect.enabled:
-        return 'ENABLED';
-      case H265SceneChangeDetect.transitionDetection:
-        return 'TRANSITION_DETECTION';
-    }
-  }
-}
+  final String value;
 
-extension H265SceneChangeDetectFromString on String {
-  H265SceneChangeDetect toH265SceneChangeDetect() {
-    switch (this) {
-      case 'DISABLED':
-        return H265SceneChangeDetect.disabled;
-      case 'ENABLED':
-        return H265SceneChangeDetect.enabled;
-      case 'TRANSITION_DETECTION':
-        return H265SceneChangeDetect.transitionDetection;
-    }
-    throw Exception('$this is not known in enum H265SceneChangeDetect');
-  }
+  const H265SceneChangeDetect(this.value);
+
+  static H265SceneChangeDetect fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum H265SceneChangeDetect'));
 }
 
 /// Settings for H265 codec
@@ -17173,78 +13253,86 @@ class H265Settings {
   factory H265Settings.fromJson(Map<String, dynamic> json) {
     return H265Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
-          ?.toH265AdaptiveQuantization(),
+          ?.let(H265AdaptiveQuantization.fromString),
       alternateTransferFunctionSei:
           (json['alternateTransferFunctionSei'] as String?)
-              ?.toH265AlternateTransferFunctionSei(),
+              ?.let(H265AlternateTransferFunctionSei.fromString),
       bandwidthReductionFilter: json['bandwidthReductionFilter'] != null
           ? BandwidthReductionFilter.fromJson(
               json['bandwidthReductionFilter'] as Map<String, dynamic>)
           : null,
       bitrate: json['bitrate'] as int?,
-      codecLevel: (json['codecLevel'] as String?)?.toH265CodecLevel(),
-      codecProfile: (json['codecProfile'] as String?)?.toH265CodecProfile(),
-      dynamicSubGop: (json['dynamicSubGop'] as String?)?.toH265DynamicSubGop(),
-      endOfStreamMarkers:
-          (json['endOfStreamMarkers'] as String?)?.toH265EndOfStreamMarkers(),
+      codecLevel:
+          (json['codecLevel'] as String?)?.let(H265CodecLevel.fromString),
+      codecProfile:
+          (json['codecProfile'] as String?)?.let(H265CodecProfile.fromString),
+      dynamicSubGop:
+          (json['dynamicSubGop'] as String?)?.let(H265DynamicSubGop.fromString),
+      endOfStreamMarkers: (json['endOfStreamMarkers'] as String?)
+          ?.let(H265EndOfStreamMarkers.fromString),
       flickerAdaptiveQuantization:
           (json['flickerAdaptiveQuantization'] as String?)
-              ?.toH265FlickerAdaptiveQuantization(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toH265FramerateControl(),
+              ?.let(H265FlickerAdaptiveQuantization.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(H265FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toH265FramerateConversionAlgorithm(),
+              ?.let(H265FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      gopBReference: (json['gopBReference'] as String?)?.toH265GopBReference(),
+      gopBReference:
+          (json['gopBReference'] as String?)?.let(H265GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
-      gopSizeUnits: (json['gopSizeUnits'] as String?)?.toH265GopSizeUnits(),
+      gopSizeUnits:
+          (json['gopSizeUnits'] as String?)?.let(H265GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
           json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
-      interlaceMode: (json['interlaceMode'] as String?)?.toH265InterlaceMode(),
+      interlaceMode:
+          (json['interlaceMode'] as String?)?.let(H265InterlaceMode.fromString),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
       numberBFramesBetweenReferenceFrames:
           json['numberBFramesBetweenReferenceFrames'] as int?,
       numberReferenceFrames: json['numberReferenceFrames'] as int?,
-      parControl: (json['parControl'] as String?)?.toH265ParControl(),
+      parControl:
+          (json['parControl'] as String?)?.let(H265ParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
-      qualityTuningLevel:
-          (json['qualityTuningLevel'] as String?)?.toH265QualityTuningLevel(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.let(H265QualityTuningLevel.fromString),
       qvbrSettings: json['qvbrSettings'] != null
           ? H265QvbrSettings.fromJson(
               json['qvbrSettings'] as Map<String, dynamic>)
           : null,
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toH265RateControlMode(),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(H265RateControlMode.fromString),
       sampleAdaptiveOffsetFilterMode:
           (json['sampleAdaptiveOffsetFilterMode'] as String?)
-              ?.toH265SampleAdaptiveOffsetFilterMode(),
+              ?.let(H265SampleAdaptiveOffsetFilterMode.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toH265ScanTypeConversionMode(),
-      sceneChangeDetect:
-          (json['sceneChangeDetect'] as String?)?.toH265SceneChangeDetect(),
+          ?.let(H265ScanTypeConversionMode.fromString),
+      sceneChangeDetect: (json['sceneChangeDetect'] as String?)
+          ?.let(H265SceneChangeDetect.fromString),
       slices: json['slices'] as int?,
-      slowPal: (json['slowPal'] as String?)?.toH265SlowPal(),
+      slowPal: (json['slowPal'] as String?)?.let(H265SlowPal.fromString),
       spatialAdaptiveQuantization:
           (json['spatialAdaptiveQuantization'] as String?)
-              ?.toH265SpatialAdaptiveQuantization(),
-      telecine: (json['telecine'] as String?)?.toH265Telecine(),
+              ?.let(H265SpatialAdaptiveQuantization.fromString),
+      telecine: (json['telecine'] as String?)?.let(H265Telecine.fromString),
       temporalAdaptiveQuantization:
           (json['temporalAdaptiveQuantization'] as String?)
-              ?.toH265TemporalAdaptiveQuantization(),
-      temporalIds: (json['temporalIds'] as String?)?.toH265TemporalIds(),
-      tiles: (json['tiles'] as String?)?.toH265Tiles(),
+              ?.let(H265TemporalAdaptiveQuantization.fromString),
+      temporalIds:
+          (json['temporalIds'] as String?)?.let(H265TemporalIds.fromString),
+      tiles: (json['tiles'] as String?)?.let(H265Tiles.fromString),
       unregisteredSeiTimecode: (json['unregisteredSeiTimecode'] as String?)
-          ?.toH265UnregisteredSeiTimecode(),
+          ?.let(H265UnregisteredSeiTimecode.fromString),
       writeMp4PackagingType: (json['writeMp4PackagingType'] as String?)
-          ?.toH265WriteMp4PackagingType(),
+          ?.let(H265WriteMp4PackagingType.fromString),
     );
   }
 
@@ -17295,36 +13383,35 @@ class H265Settings {
     final writeMp4PackagingType = this.writeMp4PackagingType;
     return {
       if (adaptiveQuantization != null)
-        'adaptiveQuantization': adaptiveQuantization.toValue(),
+        'adaptiveQuantization': adaptiveQuantization.value,
       if (alternateTransferFunctionSei != null)
-        'alternateTransferFunctionSei': alternateTransferFunctionSei.toValue(),
+        'alternateTransferFunctionSei': alternateTransferFunctionSei.value,
       if (bandwidthReductionFilter != null)
         'bandwidthReductionFilter': bandwidthReductionFilter,
       if (bitrate != null) 'bitrate': bitrate,
-      if (codecLevel != null) 'codecLevel': codecLevel.toValue(),
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
-      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.toValue(),
+      if (codecLevel != null) 'codecLevel': codecLevel.value,
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
+      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.value,
       if (endOfStreamMarkers != null)
-        'endOfStreamMarkers': endOfStreamMarkers.toValue(),
+        'endOfStreamMarkers': endOfStreamMarkers.value,
       if (flickerAdaptiveQuantization != null)
-        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+      if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
-      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
       if (numberBFramesBetweenReferenceFrames != null)
@@ -17332,33 +13419,32 @@ class H265Settings {
             numberBFramesBetweenReferenceFrames,
       if (numberReferenceFrames != null)
         'numberReferenceFrames': numberReferenceFrames,
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
       if (qvbrSettings != null) 'qvbrSettings': qvbrSettings,
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
       if (sampleAdaptiveOffsetFilterMode != null)
-        'sampleAdaptiveOffsetFilterMode':
-            sampleAdaptiveOffsetFilterMode.toValue(),
+        'sampleAdaptiveOffsetFilterMode': sampleAdaptiveOffsetFilterMode.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
       if (sceneChangeDetect != null)
-        'sceneChangeDetect': sceneChangeDetect.toValue(),
+        'sceneChangeDetect': sceneChangeDetect.value,
       if (slices != null) 'slices': slices,
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
+      if (slowPal != null) 'slowPal': slowPal.value,
       if (spatialAdaptiveQuantization != null)
-        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.value,
+      if (telecine != null) 'telecine': telecine.value,
       if (temporalAdaptiveQuantization != null)
-        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.toValue(),
-      if (temporalIds != null) 'temporalIds': temporalIds.toValue(),
-      if (tiles != null) 'tiles': tiles.toValue(),
+        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.value,
+      if (temporalIds != null) 'temporalIds': temporalIds.value,
+      if (tiles != null) 'tiles': tiles.value,
       if (unregisteredSeiTimecode != null)
-        'unregisteredSeiTimecode': unregisteredSeiTimecode.toValue(),
+        'unregisteredSeiTimecode': unregisteredSeiTimecode.value,
       if (writeMp4PackagingType != null)
-        'writeMp4PackagingType': writeMp4PackagingType.toValue(),
+        'writeMp4PackagingType': writeMp4PackagingType.value,
     };
   }
 }
@@ -17370,31 +13456,17 @@ class H265Settings {
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
 enum H265SlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265SlowPalValueExtension on H265SlowPal {
-  String toValue() {
-    switch (this) {
-      case H265SlowPal.disabled:
-        return 'DISABLED';
-      case H265SlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265SlowPalFromString on String {
-  H265SlowPal toH265SlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return H265SlowPal.disabled;
-      case 'ENABLED':
-        return H265SlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum H265SlowPal');
-  }
+  const H265SlowPal(this.value);
+
+  static H265SlowPal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum H265SlowPal'));
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -17413,33 +13485,18 @@ extension H265SlowPalFromString on String {
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
 enum H265SpatialAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265SpatialAdaptiveQuantizationValueExtension
-    on H265SpatialAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H265SpatialAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H265SpatialAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265SpatialAdaptiveQuantizationFromString on String {
-  H265SpatialAdaptiveQuantization toH265SpatialAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H265SpatialAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H265SpatialAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H265SpatialAdaptiveQuantization');
-  }
+  const H265SpatialAdaptiveQuantization(this.value);
+
+  static H265SpatialAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265SpatialAdaptiveQuantization'));
 }
 
 /// This field applies only if the Streams > Advanced > Framerate field is set
@@ -17449,36 +13506,19 @@ extension H265SpatialAdaptiveQuantizationFromString on String {
 /// Telecine or Soft Telecine. - Hard: produces 29.97i output from 23.976 input.
 /// - Soft: produces 23.976; the player converts this output to 29.97i.
 enum H265Telecine {
-  none,
-  soft,
-  hard,
-}
+  none('NONE'),
+  soft('SOFT'),
+  hard('HARD'),
+  ;
 
-extension H265TelecineValueExtension on H265Telecine {
-  String toValue() {
-    switch (this) {
-      case H265Telecine.none:
-        return 'NONE';
-      case H265Telecine.soft:
-        return 'SOFT';
-      case H265Telecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension H265TelecineFromString on String {
-  H265Telecine toH265Telecine() {
-    switch (this) {
-      case 'NONE':
-        return H265Telecine.none;
-      case 'SOFT':
-        return H265Telecine.soft;
-      case 'HARD':
-        return H265Telecine.hard;
-    }
-    throw Exception('$this is not known in enum H265Telecine');
-  }
+  const H265Telecine(this.value);
+
+  static H265Telecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265Telecine'));
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -17495,33 +13535,18 @@ extension H265TelecineFromString on String {
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
 enum H265TemporalAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265TemporalAdaptiveQuantizationValueExtension
-    on H265TemporalAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case H265TemporalAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case H265TemporalAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265TemporalAdaptiveQuantizationFromString on String {
-  H265TemporalAdaptiveQuantization toH265TemporalAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return H265TemporalAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return H265TemporalAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum H265TemporalAdaptiveQuantization');
-  }
+  const H265TemporalAdaptiveQuantization(this.value);
+
+  static H265TemporalAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265TemporalAdaptiveQuantization'));
 }
 
 /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers
@@ -17533,91 +13558,50 @@ extension H265TemporalAdaptiveQuantizationFromString on String {
 /// decoder could decode all the frames for full frame rate output or only the I
 /// and P frames (lowest temporal layer) for a half frame rate output.
 enum H265TemporalIds {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265TemporalIdsValueExtension on H265TemporalIds {
-  String toValue() {
-    switch (this) {
-      case H265TemporalIds.disabled:
-        return 'DISABLED';
-      case H265TemporalIds.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265TemporalIdsFromString on String {
-  H265TemporalIds toH265TemporalIds() {
-    switch (this) {
-      case 'DISABLED':
-        return H265TemporalIds.disabled;
-      case 'ENABLED':
-        return H265TemporalIds.enabled;
-    }
-    throw Exception('$this is not known in enum H265TemporalIds');
-  }
+  const H265TemporalIds(this.value);
+
+  static H265TemporalIds fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum H265TemporalIds'));
 }
 
 /// Enable use of tiles, allowing horizontal as well as vertical subdivision of
 /// the encoded pictures.
 enum H265Tiles {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265TilesValueExtension on H265Tiles {
-  String toValue() {
-    switch (this) {
-      case H265Tiles.disabled:
-        return 'DISABLED';
-      case H265Tiles.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265TilesFromString on String {
-  H265Tiles toH265Tiles() {
-    switch (this) {
-      case 'DISABLED':
-        return H265Tiles.disabled;
-      case 'ENABLED':
-        return H265Tiles.enabled;
-    }
-    throw Exception('$this is not known in enum H265Tiles');
-  }
+  const H265Tiles(this.value);
+
+  static H265Tiles fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum H265Tiles'));
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
 enum H265UnregisteredSeiTimecode {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension H265UnregisteredSeiTimecodeValueExtension
-    on H265UnregisteredSeiTimecode {
-  String toValue() {
-    switch (this) {
-      case H265UnregisteredSeiTimecode.disabled:
-        return 'DISABLED';
-      case H265UnregisteredSeiTimecode.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension H265UnregisteredSeiTimecodeFromString on String {
-  H265UnregisteredSeiTimecode toH265UnregisteredSeiTimecode() {
-    switch (this) {
-      case 'DISABLED':
-        return H265UnregisteredSeiTimecode.disabled;
-      case 'ENABLED':
-        return H265UnregisteredSeiTimecode.enabled;
-    }
-    throw Exception('$this is not known in enum H265UnregisteredSeiTimecode');
-  }
+  const H265UnregisteredSeiTimecode(this.value);
+
+  static H265UnregisteredSeiTimecode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265UnregisteredSeiTimecode'));
 }
 
 /// If the location of parameter set NAL units doesn't matter in your workflow,
@@ -17632,31 +13616,18 @@ extension H265UnregisteredSeiTimecodeFromString on String {
 /// output as HEV1. For these outputs, the service writes parameter set NAL
 /// units directly into the samples.
 enum H265WriteMp4PackagingType {
-  hvc1,
-  hev1,
-}
+  hvc1('HVC1'),
+  hev1('HEV1'),
+  ;
 
-extension H265WriteMp4PackagingTypeValueExtension on H265WriteMp4PackagingType {
-  String toValue() {
-    switch (this) {
-      case H265WriteMp4PackagingType.hvc1:
-        return 'HVC1';
-      case H265WriteMp4PackagingType.hev1:
-        return 'HEV1';
-    }
-  }
-}
+  final String value;
 
-extension H265WriteMp4PackagingTypeFromString on String {
-  H265WriteMp4PackagingType toH265WriteMp4PackagingType() {
-    switch (this) {
-      case 'HVC1':
-        return H265WriteMp4PackagingType.hvc1;
-      case 'HEV1':
-        return H265WriteMp4PackagingType.hev1;
-    }
-    throw Exception('$this is not known in enum H265WriteMp4PackagingType');
-  }
+  const H265WriteMp4PackagingType(this.value);
+
+  static H265WriteMp4PackagingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum H265WriteMp4PackagingType'));
 }
 
 /// Specify how MediaConvert maps brightness and colors from your HDR input to
@@ -17672,31 +13643,18 @@ extension H265WriteMp4PackagingTypeFromString on String {
 /// saturated areas of your output. HDR to SDR tone mapping has no effect when
 /// your input is SDR.
 enum HDRToSDRToneMapper {
-  preserveDetails,
-  vibrant,
-}
+  preserveDetails('PRESERVE_DETAILS'),
+  vibrant('VIBRANT'),
+  ;
 
-extension HDRToSDRToneMapperValueExtension on HDRToSDRToneMapper {
-  String toValue() {
-    switch (this) {
-      case HDRToSDRToneMapper.preserveDetails:
-        return 'PRESERVE_DETAILS';
-      case HDRToSDRToneMapper.vibrant:
-        return 'VIBRANT';
-    }
-  }
-}
+  final String value;
 
-extension HDRToSDRToneMapperFromString on String {
-  HDRToSDRToneMapper toHDRToSDRToneMapper() {
-    switch (this) {
-      case 'PRESERVE_DETAILS':
-        return HDRToSDRToneMapper.preserveDetails;
-      case 'VIBRANT':
-        return HDRToSDRToneMapper.vibrant;
-    }
-    throw Exception('$this is not known in enum HDRToSDRToneMapper');
-  }
+  const HDRToSDRToneMapper(this.value);
+
+  static HDRToSDRToneMapper fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HDRToSDRToneMapper'));
 }
 
 /// Use these settings to specify static color calibration metadata, as defined
@@ -17872,31 +13830,18 @@ class Hdr10Plus {
 
 /// Ad marker for Apple HLS manifest.
 enum HlsAdMarkers {
-  elemental,
-  elementalScte35,
-}
+  elemental('ELEMENTAL'),
+  elementalScte35('ELEMENTAL_SCTE35'),
+  ;
 
-extension HlsAdMarkersValueExtension on HlsAdMarkers {
-  String toValue() {
-    switch (this) {
-      case HlsAdMarkers.elemental:
-        return 'ELEMENTAL';
-      case HlsAdMarkers.elementalScte35:
-        return 'ELEMENTAL_SCTE35';
-    }
-  }
-}
+  final String value;
 
-extension HlsAdMarkersFromString on String {
-  HlsAdMarkers toHlsAdMarkers() {
-    switch (this) {
-      case 'ELEMENTAL':
-        return HlsAdMarkers.elemental;
-      case 'ELEMENTAL_SCTE35':
-        return HlsAdMarkers.elementalScte35;
-    }
-    throw Exception('$this is not known in enum HlsAdMarkers');
-  }
+  const HlsAdMarkers(this.value);
+
+  static HlsAdMarkers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HlsAdMarkers'));
 }
 
 /// Specify the details for each additional HLS manifest that you want the
@@ -17950,31 +13895,18 @@ class HlsAdditionalManifest {
 /// the value that you specify here, if this output has video, the service will
 /// place outputs into an MPEG2-TS container.
 enum HlsAudioOnlyContainer {
-  automatic,
-  m2ts,
-}
+  automatic('AUTOMATIC'),
+  m2ts('M2TS'),
+  ;
 
-extension HlsAudioOnlyContainerValueExtension on HlsAudioOnlyContainer {
-  String toValue() {
-    switch (this) {
-      case HlsAudioOnlyContainer.automatic:
-        return 'AUTOMATIC';
-      case HlsAudioOnlyContainer.m2ts:
-        return 'M2TS';
-    }
-  }
-}
+  final String value;
 
-extension HlsAudioOnlyContainerFromString on String {
-  HlsAudioOnlyContainer toHlsAudioOnlyContainer() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return HlsAudioOnlyContainer.automatic;
-      case 'M2TS':
-        return HlsAudioOnlyContainer.m2ts;
-    }
-    throw Exception('$this is not known in enum HlsAudioOnlyContainer');
-  }
+  const HlsAudioOnlyContainer(this.value);
+
+  static HlsAudioOnlyContainer fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsAudioOnlyContainer'));
 }
 
 /// Ignore this setting unless you are using FairPlay DRM with Verimatrix and
@@ -17982,31 +13914,18 @@ extension HlsAudioOnlyContainerFromString on String {
 /// audio-only headers. Choose Exclude to remove the audio-only headers from
 /// your audio segments.
 enum HlsAudioOnlyHeader {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension HlsAudioOnlyHeaderValueExtension on HlsAudioOnlyHeader {
-  String toValue() {
-    switch (this) {
-      case HlsAudioOnlyHeader.include:
-        return 'INCLUDE';
-      case HlsAudioOnlyHeader.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension HlsAudioOnlyHeaderFromString on String {
-  HlsAudioOnlyHeader toHlsAudioOnlyHeader() {
-    switch (this) {
-      case 'INCLUDE':
-        return HlsAudioOnlyHeader.include;
-      case 'EXCLUDE':
-        return HlsAudioOnlyHeader.exclude;
-    }
-    throw Exception('$this is not known in enum HlsAudioOnlyHeader');
-  }
+  const HlsAudioOnlyHeader(this.value);
+
+  static HlsAudioOnlyHeader fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsAudioOnlyHeader'));
 }
 
 /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The
@@ -18021,41 +13940,20 @@ extension HlsAudioOnlyHeaderFromString on String {
 /// rendition that the client will not try to play back by default. Represented
 /// as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
 enum HlsAudioTrackType {
-  alternateAudioAutoSelectDefault,
-  alternateAudioAutoSelect,
-  alternateAudioNotAutoSelect,
-  audioOnlyVariantStream,
-}
+  alternateAudioAutoSelectDefault('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT'),
+  alternateAudioAutoSelect('ALTERNATE_AUDIO_AUTO_SELECT'),
+  alternateAudioNotAutoSelect('ALTERNATE_AUDIO_NOT_AUTO_SELECT'),
+  audioOnlyVariantStream('AUDIO_ONLY_VARIANT_STREAM'),
+  ;
 
-extension HlsAudioTrackTypeValueExtension on HlsAudioTrackType {
-  String toValue() {
-    switch (this) {
-      case HlsAudioTrackType.alternateAudioAutoSelectDefault:
-        return 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT';
-      case HlsAudioTrackType.alternateAudioAutoSelect:
-        return 'ALTERNATE_AUDIO_AUTO_SELECT';
-      case HlsAudioTrackType.alternateAudioNotAutoSelect:
-        return 'ALTERNATE_AUDIO_NOT_AUTO_SELECT';
-      case HlsAudioTrackType.audioOnlyVariantStream:
-        return 'AUDIO_ONLY_VARIANT_STREAM';
-    }
-  }
-}
+  final String value;
 
-extension HlsAudioTrackTypeFromString on String {
-  HlsAudioTrackType toHlsAudioTrackType() {
-    switch (this) {
-      case 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT':
-        return HlsAudioTrackType.alternateAudioAutoSelectDefault;
-      case 'ALTERNATE_AUDIO_AUTO_SELECT':
-        return HlsAudioTrackType.alternateAudioAutoSelect;
-      case 'ALTERNATE_AUDIO_NOT_AUTO_SELECT':
-        return HlsAudioTrackType.alternateAudioNotAutoSelect;
-      case 'AUDIO_ONLY_VARIANT_STREAM':
-        return HlsAudioTrackType.audioOnlyVariantStream;
-    }
-    throw Exception('$this is not known in enum HlsAudioTrackType');
-  }
+  const HlsAudioTrackType(this.value);
+
+  static HlsAudioTrackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HlsAudioTrackType'));
 }
 
 /// Caption Language Mapping
@@ -18085,7 +13983,8 @@ class HlsCaptionLanguageMapping {
     return HlsCaptionLanguageMapping(
       captionChannel: json['captionChannel'] as int?,
       customLanguageCode: json['customLanguageCode'] as String?,
-      languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       languageDescription: json['languageDescription'] as String?,
     );
   }
@@ -18098,7 +13997,7 @@ class HlsCaptionLanguageMapping {
     return {
       if (captionChannel != null) 'captionChannel': captionChannel,
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
-      if (languageCode != null) 'languageCode': languageCode.toValue(),
+      if (languageCode != null) 'languageCode': languageCode.value,
       if (languageDescription != null)
         'languageDescription': languageDescription,
     };
@@ -18115,36 +14014,19 @@ class HlsCaptionLanguageMapping {
 /// output captions. None: Include CLOSED-CAPTIONS=NONE line in the manifest.
 /// Omit: Omit any CLOSED-CAPTIONS line from the manifest.
 enum HlsCaptionLanguageSetting {
-  insert,
-  omit,
-  none,
-}
+  insert('INSERT'),
+  omit('OMIT'),
+  none('NONE'),
+  ;
 
-extension HlsCaptionLanguageSettingValueExtension on HlsCaptionLanguageSetting {
-  String toValue() {
-    switch (this) {
-      case HlsCaptionLanguageSetting.insert:
-        return 'INSERT';
-      case HlsCaptionLanguageSetting.omit:
-        return 'OMIT';
-      case HlsCaptionLanguageSetting.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension HlsCaptionLanguageSettingFromString on String {
-  HlsCaptionLanguageSetting toHlsCaptionLanguageSetting() {
-    switch (this) {
-      case 'INSERT':
-        return HlsCaptionLanguageSetting.insert;
-      case 'OMIT':
-        return HlsCaptionLanguageSetting.omit;
-      case 'NONE':
-        return HlsCaptionLanguageSetting.none;
-    }
-    throw Exception('$this is not known in enum HlsCaptionLanguageSetting');
-  }
+  const HlsCaptionLanguageSetting(this.value);
+
+  static HlsCaptionLanguageSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsCaptionLanguageSetting'));
 }
 
 /// Set Caption segment length control to Match video to create caption segments
@@ -18153,33 +14035,18 @@ extension HlsCaptionLanguageSettingFromString on String {
 /// WebVTT segments will also be 2 seconds long. Keep the default setting, Large
 /// segments to create caption segments that are 300 seconds long.
 enum HlsCaptionSegmentLengthControl {
-  largeSegments,
-  matchVideo,
-}
+  largeSegments('LARGE_SEGMENTS'),
+  matchVideo('MATCH_VIDEO'),
+  ;
 
-extension HlsCaptionSegmentLengthControlValueExtension
-    on HlsCaptionSegmentLengthControl {
-  String toValue() {
-    switch (this) {
-      case HlsCaptionSegmentLengthControl.largeSegments:
-        return 'LARGE_SEGMENTS';
-      case HlsCaptionSegmentLengthControl.matchVideo:
-        return 'MATCH_VIDEO';
-    }
-  }
-}
+  final String value;
 
-extension HlsCaptionSegmentLengthControlFromString on String {
-  HlsCaptionSegmentLengthControl toHlsCaptionSegmentLengthControl() {
-    switch (this) {
-      case 'LARGE_SEGMENTS':
-        return HlsCaptionSegmentLengthControl.largeSegments;
-      case 'MATCH_VIDEO':
-        return HlsCaptionSegmentLengthControl.matchVideo;
-    }
-    throw Exception(
-        '$this is not known in enum HlsCaptionSegmentLengthControl');
-  }
+  const HlsCaptionSegmentLengthControl(this.value);
+
+  static HlsCaptionSegmentLengthControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsCaptionSegmentLengthControl'));
 }
 
 /// Disable this setting only when your workflow requires the
@@ -18187,61 +14054,35 @@ extension HlsCaptionSegmentLengthControlFromString on String {
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
 enum HlsClientCache {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension HlsClientCacheValueExtension on HlsClientCache {
-  String toValue() {
-    switch (this) {
-      case HlsClientCache.disabled:
-        return 'DISABLED';
-      case HlsClientCache.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension HlsClientCacheFromString on String {
-  HlsClientCache toHlsClientCache() {
-    switch (this) {
-      case 'DISABLED':
-        return HlsClientCache.disabled;
-      case 'ENABLED':
-        return HlsClientCache.enabled;
-    }
-    throw Exception('$this is not known in enum HlsClientCache');
-  }
+  const HlsClientCache(this.value);
+
+  static HlsClientCache fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HlsClientCache'));
 }
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
 enum HlsCodecSpecification {
-  rfc_6381,
-  rfc_4281,
-}
+  rfc_6381('RFC_6381'),
+  rfc_4281('RFC_4281'),
+  ;
 
-extension HlsCodecSpecificationValueExtension on HlsCodecSpecification {
-  String toValue() {
-    switch (this) {
-      case HlsCodecSpecification.rfc_6381:
-        return 'RFC_6381';
-      case HlsCodecSpecification.rfc_4281:
-        return 'RFC_4281';
-    }
-  }
-}
+  final String value;
 
-extension HlsCodecSpecificationFromString on String {
-  HlsCodecSpecification toHlsCodecSpecification() {
-    switch (this) {
-      case 'RFC_6381':
-        return HlsCodecSpecification.rfc_6381;
-      case 'RFC_4281':
-        return HlsCodecSpecification.rfc_4281;
-    }
-    throw Exception('$this is not known in enum HlsCodecSpecification');
-  }
+  const HlsCodecSpecification(this.value);
+
+  static HlsCodecSpecification fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsCodecSpecification'));
 }
 
 /// Specify whether to flag this audio track as descriptive video service (DVS)
@@ -18252,62 +14093,34 @@ extension HlsCodecSpecificationFromString on String {
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
 enum HlsDescriptiveVideoServiceFlag {
-  dontFlag,
-  flag,
-}
+  dontFlag('DONT_FLAG'),
+  flag('FLAG'),
+  ;
 
-extension HlsDescriptiveVideoServiceFlagValueExtension
-    on HlsDescriptiveVideoServiceFlag {
-  String toValue() {
-    switch (this) {
-      case HlsDescriptiveVideoServiceFlag.dontFlag:
-        return 'DONT_FLAG';
-      case HlsDescriptiveVideoServiceFlag.flag:
-        return 'FLAG';
-    }
-  }
-}
+  final String value;
 
-extension HlsDescriptiveVideoServiceFlagFromString on String {
-  HlsDescriptiveVideoServiceFlag toHlsDescriptiveVideoServiceFlag() {
-    switch (this) {
-      case 'DONT_FLAG':
-        return HlsDescriptiveVideoServiceFlag.dontFlag;
-      case 'FLAG':
-        return HlsDescriptiveVideoServiceFlag.flag;
-    }
-    throw Exception(
-        '$this is not known in enum HlsDescriptiveVideoServiceFlag');
-  }
+  const HlsDescriptiveVideoServiceFlag(this.value);
+
+  static HlsDescriptiveVideoServiceFlag fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsDescriptiveVideoServiceFlag'));
 }
 
 /// Indicates whether segments should be placed in subdirectories.
 enum HlsDirectoryStructure {
-  singleDirectory,
-  subdirectoryPerStream,
-}
+  singleDirectory('SINGLE_DIRECTORY'),
+  subdirectoryPerStream('SUBDIRECTORY_PER_STREAM'),
+  ;
 
-extension HlsDirectoryStructureValueExtension on HlsDirectoryStructure {
-  String toValue() {
-    switch (this) {
-      case HlsDirectoryStructure.singleDirectory:
-        return 'SINGLE_DIRECTORY';
-      case HlsDirectoryStructure.subdirectoryPerStream:
-        return 'SUBDIRECTORY_PER_STREAM';
-    }
-  }
-}
+  final String value;
 
-extension HlsDirectoryStructureFromString on String {
-  HlsDirectoryStructure toHlsDirectoryStructure() {
-    switch (this) {
-      case 'SINGLE_DIRECTORY':
-        return HlsDirectoryStructure.singleDirectory;
-      case 'SUBDIRECTORY_PER_STREAM':
-        return HlsDirectoryStructure.subdirectoryPerStream;
-    }
-    throw Exception('$this is not known in enum HlsDirectoryStructure');
-  }
+  const HlsDirectoryStructure(this.value);
+
+  static HlsDirectoryStructure fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsDirectoryStructure'));
 }
 
 /// Settings for HLS encryption
@@ -18359,13 +14172,13 @@ class HlsEncryptionSettings {
     return HlsEncryptionSettings(
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
-      encryptionMethod:
-          (json['encryptionMethod'] as String?)?.toHlsEncryptionType(),
+      encryptionMethod: (json['encryptionMethod'] as String?)
+          ?.let(HlsEncryptionType.fromString),
       initializationVectorInManifest:
           (json['initializationVectorInManifest'] as String?)
-              ?.toHlsInitializationVectorInManifest(),
-      offlineEncrypted:
-          (json['offlineEncrypted'] as String?)?.toHlsOfflineEncrypted(),
+              ?.let(HlsInitializationVectorInManifest.fromString),
+      offlineEncrypted: (json['offlineEncrypted'] as String?)
+          ?.let(HlsOfflineEncrypted.fromString),
       spekeKeyProvider: json['spekeKeyProvider'] != null
           ? SpekeKeyProvider.fromJson(
               json['spekeKeyProvider'] as Map<String, dynamic>)
@@ -18374,7 +14187,7 @@ class HlsEncryptionSettings {
           ? StaticKeyProvider.fromJson(
               json['staticKeyProvider'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toHlsKeyProviderType(),
+      type: (json['type'] as String?)?.let(HlsKeyProviderType.fromString),
     );
   }
 
@@ -18389,16 +14202,13 @@ class HlsEncryptionSettings {
     return {
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
-      if (encryptionMethod != null)
-        'encryptionMethod': encryptionMethod.toValue(),
+      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
       if (initializationVectorInManifest != null)
-        'initializationVectorInManifest':
-            initializationVectorInManifest.toValue(),
-      if (offlineEncrypted != null)
-        'offlineEncrypted': offlineEncrypted.toValue(),
+        'initializationVectorInManifest': initializationVectorInManifest.value,
+      if (offlineEncrypted != null) 'offlineEncrypted': offlineEncrypted.value,
       if (spekeKeyProvider != null) 'spekeKeyProvider': spekeKeyProvider,
       if (staticKeyProvider != null) 'staticKeyProvider': staticKeyProvider,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -18406,31 +14216,18 @@ class HlsEncryptionSettings {
 /// Encrypts the segments with the given encryption scheme. Leave blank to
 /// disable. Selecting 'Disabled' in the web interface also disables encryption.
 enum HlsEncryptionType {
-  aes128,
-  sampleAes,
-}
+  aes128('AES128'),
+  sampleAes('SAMPLE_AES'),
+  ;
 
-extension HlsEncryptionTypeValueExtension on HlsEncryptionType {
-  String toValue() {
-    switch (this) {
-      case HlsEncryptionType.aes128:
-        return 'AES128';
-      case HlsEncryptionType.sampleAes:
-        return 'SAMPLE_AES';
-    }
-  }
-}
+  final String value;
 
-extension HlsEncryptionTypeFromString on String {
-  HlsEncryptionType toHlsEncryptionType() {
-    switch (this) {
-      case 'AES128':
-        return HlsEncryptionType.aes128;
-      case 'SAMPLE_AES':
-        return HlsEncryptionType.sampleAes;
-    }
-    throw Exception('$this is not known in enum HlsEncryptionType');
-  }
+  const HlsEncryptionType(this.value);
+
+  static HlsEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HlsEncryptionType'));
 }
 
 /// Settings related to your HLS output package. For more information, see
@@ -18666,14 +14463,14 @@ class HlsGroupSettings {
     return HlsGroupSettings(
       adMarkers: (json['adMarkers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHlsAdMarkers())
+          .map((e) => HlsAdMarkers.fromString((e as String)))
           .toList(),
       additionalManifests: (json['additionalManifests'] as List?)
           ?.whereNotNull()
           .map((e) => HlsAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
-      audioOnlyHeader:
-          (json['audioOnlyHeader'] as String?)?.toHlsAudioOnlyHeader(),
+      audioOnlyHeader: (json['audioOnlyHeader'] as String?)
+          ?.let(HlsAudioOnlyHeader.fromString),
       baseUrl: json['baseUrl'] as String?,
       captionLanguageMappings: (json['captionLanguageMappings'] as List?)
           ?.whereNotNull()
@@ -18681,57 +14478,58 @@ class HlsGroupSettings {
               HlsCaptionLanguageMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       captionLanguageSetting: (json['captionLanguageSetting'] as String?)
-          ?.toHlsCaptionLanguageSetting(),
+          ?.let(HlsCaptionLanguageSetting.fromString),
       captionSegmentLengthControl:
           (json['captionSegmentLengthControl'] as String?)
-              ?.toHlsCaptionSegmentLengthControl(),
-      clientCache: (json['clientCache'] as String?)?.toHlsClientCache(),
-      codecSpecification:
-          (json['codecSpecification'] as String?)?.toHlsCodecSpecification(),
+              ?.let(HlsCaptionSegmentLengthControl.fromString),
+      clientCache:
+          (json['clientCache'] as String?)?.let(HlsClientCache.fromString),
+      codecSpecification: (json['codecSpecification'] as String?)
+          ?.let(HlsCodecSpecification.fromString),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
           : null,
-      directoryStructure:
-          (json['directoryStructure'] as String?)?.toHlsDirectoryStructure(),
+      directoryStructure: (json['directoryStructure'] as String?)
+          ?.let(HlsDirectoryStructure.fromString),
       encryption: json['encryption'] != null
           ? HlsEncryptionSettings.fromJson(
               json['encryption'] as Map<String, dynamic>)
           : null,
-      imageBasedTrickPlay:
-          (json['imageBasedTrickPlay'] as String?)?.toHlsImageBasedTrickPlay(),
+      imageBasedTrickPlay: (json['imageBasedTrickPlay'] as String?)
+          ?.let(HlsImageBasedTrickPlay.fromString),
       imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
           ? HlsImageBasedTrickPlaySettings.fromJson(
               json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
           : null,
-      manifestCompression:
-          (json['manifestCompression'] as String?)?.toHlsManifestCompression(),
+      manifestCompression: (json['manifestCompression'] as String?)
+          ?.let(HlsManifestCompression.fromString),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
-          ?.toHlsManifestDurationFormat(),
+          ?.let(HlsManifestDurationFormat.fromString),
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
       minSegmentLength: json['minSegmentLength'] as int?,
-      outputSelection:
-          (json['outputSelection'] as String?)?.toHlsOutputSelection(),
-      programDateTime:
-          (json['programDateTime'] as String?)?.toHlsProgramDateTime(),
+      outputSelection: (json['outputSelection'] as String?)
+          ?.let(HlsOutputSelection.fromString),
+      programDateTime: (json['programDateTime'] as String?)
+          ?.let(HlsProgramDateTime.fromString),
       programDateTimePeriod: json['programDateTimePeriod'] as int?,
       progressiveWriteHlsManifest:
           (json['progressiveWriteHlsManifest'] as String?)
-              ?.toHlsProgressiveWriteHlsManifest(),
-      segmentControl:
-          (json['segmentControl'] as String?)?.toHlsSegmentControl(),
+              ?.let(HlsProgressiveWriteHlsManifest.fromString),
+      segmentControl: (json['segmentControl'] as String?)
+          ?.let(HlsSegmentControl.fromString),
       segmentLength: json['segmentLength'] as int?,
       segmentLengthControl: (json['segmentLengthControl'] as String?)
-          ?.toHlsSegmentLengthControl(),
+          ?.let(HlsSegmentLengthControl.fromString),
       segmentsPerSubdirectory: json['segmentsPerSubdirectory'] as int?,
-      streamInfResolution:
-          (json['streamInfResolution'] as String?)?.toHlsStreamInfResolution(),
+      streamInfResolution: (json['streamInfResolution'] as String?)
+          ?.let(HlsStreamInfResolution.fromString),
       targetDurationCompatibilityMode:
           (json['targetDurationCompatibilityMode'] as String?)
-              ?.toHlsTargetDurationCompatibilityMode(),
+              ?.let(HlsTargetDurationCompatibilityMode.fromString),
       timedMetadataId3Frame: (json['timedMetadataId3Frame'] as String?)
-          ?.toHlsTimedMetadataId3Frame(),
+          ?.let(HlsTimedMetadataId3Frame.fromString),
       timedMetadataId3Period: json['timedMetadataId3Period'] as int?,
       timestampDeltaMilliseconds: json['timestampDeltaMilliseconds'] as int?,
     );
@@ -18773,56 +14571,56 @@ class HlsGroupSettings {
     final timestampDeltaMilliseconds = this.timestampDeltaMilliseconds;
     return {
       if (adMarkers != null)
-        'adMarkers': adMarkers.map((e) => e.toValue()).toList(),
+        'adMarkers': adMarkers.map((e) => e.value).toList(),
       if (additionalManifests != null)
         'additionalManifests': additionalManifests,
-      if (audioOnlyHeader != null) 'audioOnlyHeader': audioOnlyHeader.toValue(),
+      if (audioOnlyHeader != null) 'audioOnlyHeader': audioOnlyHeader.value,
       if (baseUrl != null) 'baseUrl': baseUrl,
       if (captionLanguageMappings != null)
         'captionLanguageMappings': captionLanguageMappings,
       if (captionLanguageSetting != null)
-        'captionLanguageSetting': captionLanguageSetting.toValue(),
+        'captionLanguageSetting': captionLanguageSetting.value,
       if (captionSegmentLengthControl != null)
-        'captionSegmentLengthControl': captionSegmentLengthControl.toValue(),
-      if (clientCache != null) 'clientCache': clientCache.toValue(),
+        'captionSegmentLengthControl': captionSegmentLengthControl.value,
+      if (clientCache != null) 'clientCache': clientCache.value,
       if (codecSpecification != null)
-        'codecSpecification': codecSpecification.toValue(),
+        'codecSpecification': codecSpecification.value,
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (directoryStructure != null)
-        'directoryStructure': directoryStructure.toValue(),
+        'directoryStructure': directoryStructure.value,
       if (encryption != null) 'encryption': encryption,
       if (imageBasedTrickPlay != null)
-        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+        'imageBasedTrickPlay': imageBasedTrickPlay.value,
       if (imageBasedTrickPlaySettings != null)
         'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
-        'manifestCompression': manifestCompression.toValue(),
+        'manifestCompression': manifestCompression.value,
       if (manifestDurationFormat != null)
-        'manifestDurationFormat': manifestDurationFormat.toValue(),
+        'manifestDurationFormat': manifestDurationFormat.value,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
       if (minSegmentLength != null) 'minSegmentLength': minSegmentLength,
-      if (outputSelection != null) 'outputSelection': outputSelection.toValue(),
-      if (programDateTime != null) 'programDateTime': programDateTime.toValue(),
+      if (outputSelection != null) 'outputSelection': outputSelection.value,
+      if (programDateTime != null) 'programDateTime': programDateTime.value,
       if (programDateTimePeriod != null)
         'programDateTimePeriod': programDateTimePeriod,
       if (progressiveWriteHlsManifest != null)
-        'progressiveWriteHlsManifest': progressiveWriteHlsManifest.toValue(),
-      if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
+        'progressiveWriteHlsManifest': progressiveWriteHlsManifest.value,
+      if (segmentControl != null) 'segmentControl': segmentControl.value,
       if (segmentLength != null) 'segmentLength': segmentLength,
       if (segmentLengthControl != null)
-        'segmentLengthControl': segmentLengthControl.toValue(),
+        'segmentLengthControl': segmentLengthControl.value,
       if (segmentsPerSubdirectory != null)
         'segmentsPerSubdirectory': segmentsPerSubdirectory,
       if (streamInfResolution != null)
-        'streamInfResolution': streamInfResolution.toValue(),
+        'streamInfResolution': streamInfResolution.value,
       if (targetDurationCompatibilityMode != null)
         'targetDurationCompatibilityMode':
-            targetDurationCompatibilityMode.toValue(),
+            targetDurationCompatibilityMode.value,
       if (timedMetadataId3Frame != null)
-        'timedMetadataId3Frame': timedMetadataId3Frame.toValue(),
+        'timedMetadataId3Frame': timedMetadataId3Frame.value,
       if (timedMetadataId3Period != null)
         'timedMetadataId3Period': timedMetadataId3Period,
       if (timestampDeltaMilliseconds != null)
@@ -18839,31 +14637,18 @@ class HlsGroupSettings {
 /// When you don't need the I-frame only child manifest, keep the default value
 /// Exclude.
 enum HlsIFrameOnlyManifest {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension HlsIFrameOnlyManifestValueExtension on HlsIFrameOnlyManifest {
-  String toValue() {
-    switch (this) {
-      case HlsIFrameOnlyManifest.include:
-        return 'INCLUDE';
-      case HlsIFrameOnlyManifest.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension HlsIFrameOnlyManifestFromString on String {
-  HlsIFrameOnlyManifest toHlsIFrameOnlyManifest() {
-    switch (this) {
-      case 'INCLUDE':
-        return HlsIFrameOnlyManifest.include;
-      case 'EXCLUDE':
-        return HlsIFrameOnlyManifest.exclude;
-    }
-    throw Exception('$this is not known in enum HlsIFrameOnlyManifest');
-  }
+  const HlsIFrameOnlyManifest(this.value);
+
+  static HlsIFrameOnlyManifest fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsIFrameOnlyManifest'));
 }
 
 /// Specify whether MediaConvert generates images for trick play. Keep the
@@ -18877,41 +14662,20 @@ extension HlsIFrameOnlyManifestFromString on String {
 /// specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
 enum HlsImageBasedTrickPlay {
-  none,
-  thumbnail,
-  thumbnailAndFullframe,
-  advanced,
-}
+  none('NONE'),
+  thumbnail('THUMBNAIL'),
+  thumbnailAndFullframe('THUMBNAIL_AND_FULLFRAME'),
+  advanced('ADVANCED'),
+  ;
 
-extension HlsImageBasedTrickPlayValueExtension on HlsImageBasedTrickPlay {
-  String toValue() {
-    switch (this) {
-      case HlsImageBasedTrickPlay.none:
-        return 'NONE';
-      case HlsImageBasedTrickPlay.thumbnail:
-        return 'THUMBNAIL';
-      case HlsImageBasedTrickPlay.thumbnailAndFullframe:
-        return 'THUMBNAIL_AND_FULLFRAME';
-      case HlsImageBasedTrickPlay.advanced:
-        return 'ADVANCED';
-    }
-  }
-}
+  final String value;
 
-extension HlsImageBasedTrickPlayFromString on String {
-  HlsImageBasedTrickPlay toHlsImageBasedTrickPlay() {
-    switch (this) {
-      case 'NONE':
-        return HlsImageBasedTrickPlay.none;
-      case 'THUMBNAIL':
-        return HlsImageBasedTrickPlay.thumbnail;
-      case 'THUMBNAIL_AND_FULLFRAME':
-        return HlsImageBasedTrickPlay.thumbnailAndFullframe;
-      case 'ADVANCED':
-        return HlsImageBasedTrickPlay.advanced;
-    }
-    throw Exception('$this is not known in enum HlsImageBasedTrickPlay');
-  }
+  const HlsImageBasedTrickPlay(this.value);
+
+  static HlsImageBasedTrickPlay fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsImageBasedTrickPlay'));
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
@@ -18960,8 +14724,8 @@ class HlsImageBasedTrickPlaySettings {
 
   factory HlsImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
     return HlsImageBasedTrickPlaySettings(
-      intervalCadence:
-          (json['intervalCadence'] as String?)?.toHlsIntervalCadence(),
+      intervalCadence: (json['intervalCadence'] as String?)
+          ?.let(HlsIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
       thumbnailInterval: json['thumbnailInterval'] as double?,
       thumbnailWidth: json['thumbnailWidth'] as int?,
@@ -18978,7 +14742,7 @@ class HlsImageBasedTrickPlaySettings {
     final tileHeight = this.tileHeight;
     final tileWidth = this.tileWidth;
     return {
-      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
       if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
@@ -18993,33 +14757,18 @@ class HlsImageBasedTrickPlaySettings {
 /// listed in the manifest. Otherwise Initialization Vector is not in the
 /// manifest.
 enum HlsInitializationVectorInManifest {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension HlsInitializationVectorInManifestValueExtension
-    on HlsInitializationVectorInManifest {
-  String toValue() {
-    switch (this) {
-      case HlsInitializationVectorInManifest.include:
-        return 'INCLUDE';
-      case HlsInitializationVectorInManifest.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension HlsInitializationVectorInManifestFromString on String {
-  HlsInitializationVectorInManifest toHlsInitializationVectorInManifest() {
-    switch (this) {
-      case 'INCLUDE':
-        return HlsInitializationVectorInManifest.include;
-      case 'EXCLUDE':
-        return HlsInitializationVectorInManifest.exclude;
-    }
-    throw Exception(
-        '$this is not known in enum HlsInitializationVectorInManifest');
-  }
+  const HlsInitializationVectorInManifest(this.value);
+
+  static HlsInitializationVectorInManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsInitializationVectorInManifest'));
 }
 
 /// The cadence MediaConvert follows for generating thumbnails. If set to
@@ -19028,181 +14777,103 @@ extension HlsInitializationVectorInManifestFromString on String {
 /// generates thumbnails according to the interval you specify in
 /// thumbnailInterval.
 enum HlsIntervalCadence {
-  followIframe,
-  followCustom,
-}
+  followIframe('FOLLOW_IFRAME'),
+  followCustom('FOLLOW_CUSTOM'),
+  ;
 
-extension HlsIntervalCadenceValueExtension on HlsIntervalCadence {
-  String toValue() {
-    switch (this) {
-      case HlsIntervalCadence.followIframe:
-        return 'FOLLOW_IFRAME';
-      case HlsIntervalCadence.followCustom:
-        return 'FOLLOW_CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension HlsIntervalCadenceFromString on String {
-  HlsIntervalCadence toHlsIntervalCadence() {
-    switch (this) {
-      case 'FOLLOW_IFRAME':
-        return HlsIntervalCadence.followIframe;
-      case 'FOLLOW_CUSTOM':
-        return HlsIntervalCadence.followCustom;
-    }
-    throw Exception('$this is not known in enum HlsIntervalCadence');
-  }
+  const HlsIntervalCadence(this.value);
+
+  static HlsIntervalCadence fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsIntervalCadence'));
 }
 
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
 enum HlsKeyProviderType {
-  speke,
-  staticKey,
-}
+  speke('SPEKE'),
+  staticKey('STATIC_KEY'),
+  ;
 
-extension HlsKeyProviderTypeValueExtension on HlsKeyProviderType {
-  String toValue() {
-    switch (this) {
-      case HlsKeyProviderType.speke:
-        return 'SPEKE';
-      case HlsKeyProviderType.staticKey:
-        return 'STATIC_KEY';
-    }
-  }
-}
+  final String value;
 
-extension HlsKeyProviderTypeFromString on String {
-  HlsKeyProviderType toHlsKeyProviderType() {
-    switch (this) {
-      case 'SPEKE':
-        return HlsKeyProviderType.speke;
-      case 'STATIC_KEY':
-        return HlsKeyProviderType.staticKey;
-    }
-    throw Exception('$this is not known in enum HlsKeyProviderType');
-  }
+  const HlsKeyProviderType(this.value);
+
+  static HlsKeyProviderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsKeyProviderType'));
 }
 
 /// When set to GZIP, compresses HLS playlist.
 enum HlsManifestCompression {
-  gzip,
-  none,
-}
+  gzip('GZIP'),
+  none('NONE'),
+  ;
 
-extension HlsManifestCompressionValueExtension on HlsManifestCompression {
-  String toValue() {
-    switch (this) {
-      case HlsManifestCompression.gzip:
-        return 'GZIP';
-      case HlsManifestCompression.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension HlsManifestCompressionFromString on String {
-  HlsManifestCompression toHlsManifestCompression() {
-    switch (this) {
-      case 'GZIP':
-        return HlsManifestCompression.gzip;
-      case 'NONE':
-        return HlsManifestCompression.none;
-    }
-    throw Exception('$this is not known in enum HlsManifestCompression');
-  }
+  const HlsManifestCompression(this.value);
+
+  static HlsManifestCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsManifestCompression'));
 }
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
 enum HlsManifestDurationFormat {
-  floatingPoint,
-  integer,
-}
+  floatingPoint('FLOATING_POINT'),
+  integer('INTEGER'),
+  ;
 
-extension HlsManifestDurationFormatValueExtension on HlsManifestDurationFormat {
-  String toValue() {
-    switch (this) {
-      case HlsManifestDurationFormat.floatingPoint:
-        return 'FLOATING_POINT';
-      case HlsManifestDurationFormat.integer:
-        return 'INTEGER';
-    }
-  }
-}
+  final String value;
 
-extension HlsManifestDurationFormatFromString on String {
-  HlsManifestDurationFormat toHlsManifestDurationFormat() {
-    switch (this) {
-      case 'FLOATING_POINT':
-        return HlsManifestDurationFormat.floatingPoint;
-      case 'INTEGER':
-        return HlsManifestDurationFormat.integer;
-    }
-    throw Exception('$this is not known in enum HlsManifestDurationFormat');
-  }
+  const HlsManifestDurationFormat(this.value);
+
+  static HlsManifestDurationFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsManifestDurationFormat'));
 }
 
 /// Enable this setting to insert the EXT-X-SESSION-KEY element into the master
 /// playlist. This allows for offline Apple HLS FairPlay content protection.
 enum HlsOfflineEncrypted {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension HlsOfflineEncryptedValueExtension on HlsOfflineEncrypted {
-  String toValue() {
-    switch (this) {
-      case HlsOfflineEncrypted.enabled:
-        return 'ENABLED';
-      case HlsOfflineEncrypted.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension HlsOfflineEncryptedFromString on String {
-  HlsOfflineEncrypted toHlsOfflineEncrypted() {
-    switch (this) {
-      case 'ENABLED':
-        return HlsOfflineEncrypted.enabled;
-      case 'DISABLED':
-        return HlsOfflineEncrypted.disabled;
-    }
-    throw Exception('$this is not known in enum HlsOfflineEncrypted');
-  }
+  const HlsOfflineEncrypted(this.value);
+
+  static HlsOfflineEncrypted fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsOfflineEncrypted'));
 }
 
 /// Indicates whether the .m3u8 manifest file should be generated for this HLS
 /// output group.
 enum HlsOutputSelection {
-  manifestsAndSegments,
-  segmentsOnly,
-}
+  manifestsAndSegments('MANIFESTS_AND_SEGMENTS'),
+  segmentsOnly('SEGMENTS_ONLY'),
+  ;
 
-extension HlsOutputSelectionValueExtension on HlsOutputSelection {
-  String toValue() {
-    switch (this) {
-      case HlsOutputSelection.manifestsAndSegments:
-        return 'MANIFESTS_AND_SEGMENTS';
-      case HlsOutputSelection.segmentsOnly:
-        return 'SEGMENTS_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension HlsOutputSelectionFromString on String {
-  HlsOutputSelection toHlsOutputSelection() {
-    switch (this) {
-      case 'MANIFESTS_AND_SEGMENTS':
-        return HlsOutputSelection.manifestsAndSegments;
-      case 'SEGMENTS_ONLY':
-        return HlsOutputSelection.segmentsOnly;
-    }
-    throw Exception('$this is not known in enum HlsOutputSelection');
-  }
+  const HlsOutputSelection(this.value);
+
+  static HlsOutputSelection fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsOutputSelection'));
 }
 
 /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files.
@@ -19211,31 +14882,18 @@ extension HlsOutputSelectionFromString on String {
 /// using the input timecode source and the date is initialized using the
 /// timestamp_offset.
 enum HlsProgramDateTime {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension HlsProgramDateTimeValueExtension on HlsProgramDateTime {
-  String toValue() {
-    switch (this) {
-      case HlsProgramDateTime.include:
-        return 'INCLUDE';
-      case HlsProgramDateTime.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension HlsProgramDateTimeFromString on String {
-  HlsProgramDateTime toHlsProgramDateTime() {
-    switch (this) {
-      case 'INCLUDE':
-        return HlsProgramDateTime.include;
-      case 'EXCLUDE':
-        return HlsProgramDateTime.exclude;
-    }
-    throw Exception('$this is not known in enum HlsProgramDateTime');
-  }
+  const HlsProgramDateTime(this.value);
+
+  static HlsProgramDateTime fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HlsProgramDateTime'));
 }
 
 /// Specify whether MediaConvert generates HLS manifests while your job is
@@ -19250,33 +14908,18 @@ extension HlsProgramDateTimeFromString on String {
 /// include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job
 /// completes: Choose Disabled.
 enum HlsProgressiveWriteHlsManifest {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension HlsProgressiveWriteHlsManifestValueExtension
-    on HlsProgressiveWriteHlsManifest {
-  String toValue() {
-    switch (this) {
-      case HlsProgressiveWriteHlsManifest.enabled:
-        return 'ENABLED';
-      case HlsProgressiveWriteHlsManifest.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension HlsProgressiveWriteHlsManifestFromString on String {
-  HlsProgressiveWriteHlsManifest toHlsProgressiveWriteHlsManifest() {
-    switch (this) {
-      case 'ENABLED':
-        return HlsProgressiveWriteHlsManifest.enabled;
-      case 'DISABLED':
-        return HlsProgressiveWriteHlsManifest.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum HlsProgressiveWriteHlsManifest');
-  }
+  const HlsProgressiveWriteHlsManifest(this.value);
+
+  static HlsProgressiveWriteHlsManifest fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsProgressiveWriteHlsManifest'));
 }
 
 /// Settings specific to audio sources in an HLS alternate rendition group.
@@ -19306,8 +14949,8 @@ class HlsRenditionGroupSettings {
   factory HlsRenditionGroupSettings.fromJson(Map<String, dynamic> json) {
     return HlsRenditionGroupSettings(
       renditionGroupId: json['renditionGroupId'] as String?,
-      renditionLanguageCode:
-          (json['renditionLanguageCode'] as String?)?.toLanguageCode(),
+      renditionLanguageCode: (json['renditionLanguageCode'] as String?)
+          ?.let(LanguageCode.fromString),
       renditionName: json['renditionName'] as String?,
     );
   }
@@ -19319,7 +14962,7 @@ class HlsRenditionGroupSettings {
     return {
       if (renditionGroupId != null) 'renditionGroupId': renditionGroupId,
       if (renditionLanguageCode != null)
-        'renditionLanguageCode': renditionLanguageCode.toValue(),
+        'renditionLanguageCode': renditionLanguageCode.value,
       if (renditionName != null) 'renditionName': renditionName,
     };
   }
@@ -19328,31 +14971,18 @@ class HlsRenditionGroupSettings {
 /// When set to SINGLE_FILE, emits program as a single media resource (.ts)
 /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
 enum HlsSegmentControl {
-  singleFile,
-  segmentedFiles,
-}
+  singleFile('SINGLE_FILE'),
+  segmentedFiles('SEGMENTED_FILES'),
+  ;
 
-extension HlsSegmentControlValueExtension on HlsSegmentControl {
-  String toValue() {
-    switch (this) {
-      case HlsSegmentControl.singleFile:
-        return 'SINGLE_FILE';
-      case HlsSegmentControl.segmentedFiles:
-        return 'SEGMENTED_FILES';
-    }
-  }
-}
+  final String value;
 
-extension HlsSegmentControlFromString on String {
-  HlsSegmentControl toHlsSegmentControl() {
-    switch (this) {
-      case 'SINGLE_FILE':
-        return HlsSegmentControl.singleFile;
-      case 'SEGMENTED_FILES':
-        return HlsSegmentControl.segmentedFiles;
-    }
-    throw Exception('$this is not known in enum HlsSegmentControl');
-  }
+  const HlsSegmentControl(this.value);
+
+  static HlsSegmentControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HlsSegmentControl'));
 }
 
 /// Specify how you want MediaConvert to determine the segment length. Choose
@@ -19361,31 +14991,18 @@ extension HlsSegmentControlFromString on String {
 /// of GOP to have the encoder round up the segment lengths to match the next
 /// GOP boundary.
 enum HlsSegmentLengthControl {
-  exact,
-  gopMultiple,
-}
+  exact('EXACT'),
+  gopMultiple('GOP_MULTIPLE'),
+  ;
 
-extension HlsSegmentLengthControlValueExtension on HlsSegmentLengthControl {
-  String toValue() {
-    switch (this) {
-      case HlsSegmentLengthControl.exact:
-        return 'EXACT';
-      case HlsSegmentLengthControl.gopMultiple:
-        return 'GOP_MULTIPLE';
-    }
-  }
-}
+  final String value;
 
-extension HlsSegmentLengthControlFromString on String {
-  HlsSegmentLengthControl toHlsSegmentLengthControl() {
-    switch (this) {
-      case 'EXACT':
-        return HlsSegmentLengthControl.exact;
-      case 'GOP_MULTIPLE':
-        return HlsSegmentLengthControl.gopMultiple;
-    }
-    throw Exception('$this is not known in enum HlsSegmentLengthControl');
-  }
+  const HlsSegmentLengthControl(this.value);
+
+  static HlsSegmentLengthControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsSegmentLengthControl'));
 }
 
 /// Settings for HLS output groups
@@ -19455,16 +15072,16 @@ class HlsSettings {
   factory HlsSettings.fromJson(Map<String, dynamic> json) {
     return HlsSettings(
       audioGroupId: json['audioGroupId'] as String?,
-      audioOnlyContainer:
-          (json['audioOnlyContainer'] as String?)?.toHlsAudioOnlyContainer(),
+      audioOnlyContainer: (json['audioOnlyContainer'] as String?)
+          ?.let(HlsAudioOnlyContainer.fromString),
       audioRenditionSets: json['audioRenditionSets'] as String?,
-      audioTrackType:
-          (json['audioTrackType'] as String?)?.toHlsAudioTrackType(),
+      audioTrackType: (json['audioTrackType'] as String?)
+          ?.let(HlsAudioTrackType.fromString),
       descriptiveVideoServiceFlag:
           (json['descriptiveVideoServiceFlag'] as String?)
-              ?.toHlsDescriptiveVideoServiceFlag(),
-      iFrameOnlyManifest:
-          (json['iFrameOnlyManifest'] as String?)?.toHlsIFrameOnlyManifest(),
+              ?.let(HlsDescriptiveVideoServiceFlag.fromString),
+      iFrameOnlyManifest: (json['iFrameOnlyManifest'] as String?)
+          ?.let(HlsIFrameOnlyManifest.fromString),
       segmentModifier: json['segmentModifier'] as String?,
     );
   }
@@ -19480,13 +15097,13 @@ class HlsSettings {
     return {
       if (audioGroupId != null) 'audioGroupId': audioGroupId,
       if (audioOnlyContainer != null)
-        'audioOnlyContainer': audioOnlyContainer.toValue(),
+        'audioOnlyContainer': audioOnlyContainer.value,
       if (audioRenditionSets != null) 'audioRenditionSets': audioRenditionSets,
-      if (audioTrackType != null) 'audioTrackType': audioTrackType.toValue(),
+      if (audioTrackType != null) 'audioTrackType': audioTrackType.value,
       if (descriptiveVideoServiceFlag != null)
-        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.toValue(),
+        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.value,
       if (iFrameOnlyManifest != null)
-        'iFrameOnlyManifest': iFrameOnlyManifest.toValue(),
+        'iFrameOnlyManifest': iFrameOnlyManifest.value,
       if (segmentModifier != null) 'segmentModifier': segmentModifier,
     };
   }
@@ -19495,31 +15112,18 @@ class HlsSettings {
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
 enum HlsStreamInfResolution {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension HlsStreamInfResolutionValueExtension on HlsStreamInfResolution {
-  String toValue() {
-    switch (this) {
-      case HlsStreamInfResolution.include:
-        return 'INCLUDE';
-      case HlsStreamInfResolution.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension HlsStreamInfResolutionFromString on String {
-  HlsStreamInfResolution toHlsStreamInfResolution() {
-    switch (this) {
-      case 'INCLUDE':
-        return HlsStreamInfResolution.include;
-      case 'EXCLUDE':
-        return HlsStreamInfResolution.exclude;
-    }
-    throw Exception('$this is not known in enum HlsStreamInfResolution');
-  }
+  const HlsStreamInfResolution(this.value);
+
+  static HlsStreamInfResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsStreamInfResolution'));
 }
 
 /// When set to LEGACY, the segment target duration is always rounded up to the
@@ -19532,33 +15136,18 @@ extension HlsStreamInfResolutionFromString on String {
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
 enum HlsTargetDurationCompatibilityMode {
-  legacy,
-  specCompliant,
-}
+  legacy('LEGACY'),
+  specCompliant('SPEC_COMPLIANT'),
+  ;
 
-extension HlsTargetDurationCompatibilityModeValueExtension
-    on HlsTargetDurationCompatibilityMode {
-  String toValue() {
-    switch (this) {
-      case HlsTargetDurationCompatibilityMode.legacy:
-        return 'LEGACY';
-      case HlsTargetDurationCompatibilityMode.specCompliant:
-        return 'SPEC_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension HlsTargetDurationCompatibilityModeFromString on String {
-  HlsTargetDurationCompatibilityMode toHlsTargetDurationCompatibilityMode() {
-    switch (this) {
-      case 'LEGACY':
-        return HlsTargetDurationCompatibilityMode.legacy;
-      case 'SPEC_COMPLIANT':
-        return HlsTargetDurationCompatibilityMode.specCompliant;
-    }
-    throw Exception(
-        '$this is not known in enum HlsTargetDurationCompatibilityMode');
-  }
+  const HlsTargetDurationCompatibilityMode(this.value);
+
+  static HlsTargetDurationCompatibilityMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsTargetDurationCompatibilityMode'));
 }
 
 /// Specify the type of the ID3 frame to use for ID3 timestamps in your output.
@@ -19566,36 +15155,19 @@ extension HlsTargetDurationCompatibilityModeFromString on String {
 /// Passthrough. To exclude ID3 timestamps: Set ID3 timestamp frame type to
 /// None.
 enum HlsTimedMetadataId3Frame {
-  none,
-  priv,
-  tdrl,
-}
+  none('NONE'),
+  priv('PRIV'),
+  tdrl('TDRL'),
+  ;
 
-extension HlsTimedMetadataId3FrameValueExtension on HlsTimedMetadataId3Frame {
-  String toValue() {
-    switch (this) {
-      case HlsTimedMetadataId3Frame.none:
-        return 'NONE';
-      case HlsTimedMetadataId3Frame.priv:
-        return 'PRIV';
-      case HlsTimedMetadataId3Frame.tdrl:
-        return 'TDRL';
-    }
-  }
-}
+  final String value;
 
-extension HlsTimedMetadataId3FrameFromString on String {
-  HlsTimedMetadataId3Frame toHlsTimedMetadataId3Frame() {
-    switch (this) {
-      case 'NONE':
-        return HlsTimedMetadataId3Frame.none;
-      case 'PRIV':
-        return HlsTimedMetadataId3Frame.priv;
-      case 'TDRL':
-        return HlsTimedMetadataId3Frame.tdrl;
-    }
-    throw Exception('$this is not known in enum HlsTimedMetadataId3Frame');
-  }
+  const HlsTimedMetadataId3Frame(this.value);
+
+  static HlsTimedMetadataId3Frame fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HlsTimedMetadataId3Frame'));
 }
 
 /// Optional. Configuration for a destination queue to which the job can hop
@@ -19735,31 +15307,18 @@ class ImageInserter {
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
 enum ImscAccessibilitySubs {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension ImscAccessibilitySubsValueExtension on ImscAccessibilitySubs {
-  String toValue() {
-    switch (this) {
-      case ImscAccessibilitySubs.disabled:
-        return 'DISABLED';
-      case ImscAccessibilitySubs.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension ImscAccessibilitySubsFromString on String {
-  ImscAccessibilitySubs toImscAccessibilitySubs() {
-    switch (this) {
-      case 'DISABLED':
-        return ImscAccessibilitySubs.disabled;
-      case 'ENABLED':
-        return ImscAccessibilitySubs.enabled;
-    }
-    throw Exception('$this is not known in enum ImscAccessibilitySubs');
-  }
+  const ImscAccessibilitySubs(this.value);
+
+  static ImscAccessibilitySubs fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImscAccessibilitySubs'));
 }
 
 /// Settings related to IMSC captions. IMSC is a sidecar format that holds
@@ -19796,10 +15355,10 @@ class ImscDestinationSettings {
 
   factory ImscDestinationSettings.fromJson(Map<String, dynamic> json) {
     return ImscDestinationSettings(
-      accessibility:
-          (json['accessibility'] as String?)?.toImscAccessibilitySubs(),
-      stylePassthrough:
-          (json['stylePassthrough'] as String?)?.toImscStylePassthrough(),
+      accessibility: (json['accessibility'] as String?)
+          ?.let(ImscAccessibilitySubs.fromString),
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.let(ImscStylePassthrough.fromString),
     );
   }
 
@@ -19807,9 +15366,8 @@ class ImscDestinationSettings {
     final accessibility = this.accessibility;
     final stylePassthrough = this.stylePassthrough;
     return {
-      if (accessibility != null) 'accessibility': accessibility.toValue(),
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
+      if (accessibility != null) 'accessibility': accessibility.value,
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
     };
   }
 }
@@ -19819,31 +15377,18 @@ class ImscDestinationSettings {
 /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
 /// this setting for simplified output captions.
 enum ImscStylePassthrough {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ImscStylePassthroughValueExtension on ImscStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case ImscStylePassthrough.enabled:
-        return 'ENABLED';
-      case ImscStylePassthrough.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ImscStylePassthroughFromString on String {
-  ImscStylePassthrough toImscStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return ImscStylePassthrough.enabled;
-      case 'DISABLED':
-        return ImscStylePassthrough.disabled;
-    }
-    throw Exception('$this is not known in enum ImscStylePassthrough');
-  }
+  const ImscStylePassthrough(this.value);
+
+  static ImscStylePassthrough fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImscStylePassthrough'));
 }
 
 /// Use inputs to define the source files used in your transcoding job. For more
@@ -20059,8 +15604,8 @@ class Input {
 
   factory Input.fromJson(Map<String, dynamic> json) {
     return Input(
-      advancedInputFilter:
-          (json['advancedInputFilter'] as String?)?.toAdvancedInputFilter(),
+      advancedInputFilter: (json['advancedInputFilter'] as String?)
+          ?.let(AdvancedInputFilter.fromString),
       advancedInputFilterSettings: json['advancedInputFilterSettings'] != null
           ? AdvancedInputFilterSettings.fromJson(
               json['advancedInputFilterSettings'] as Map<String, dynamic>)
@@ -20078,15 +15623,18 @@ class Input {
       crop: json['crop'] != null
           ? Rectangle.fromJson(json['crop'] as Map<String, dynamic>)
           : null,
-      deblockFilter: (json['deblockFilter'] as String?)?.toInputDeblockFilter(),
+      deblockFilter: (json['deblockFilter'] as String?)
+          ?.let(InputDeblockFilter.fromString),
       decryptionSettings: json['decryptionSettings'] != null
           ? InputDecryptionSettings.fromJson(
               json['decryptionSettings'] as Map<String, dynamic>)
           : null,
-      denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      denoiseFilter: (json['denoiseFilter'] as String?)
+          ?.let(InputDenoiseFilter.fromString),
       dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
       fileInput: json['fileInput'] as String?,
-      filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
+      filterEnable:
+          (json['filterEnable'] as String?)?.let(InputFilterEnable.fromString),
       filterStrength: json['filterStrength'] as int?,
       imageInserter: json['imageInserter'] != null
           ? ImageInserter.fromJson(
@@ -20096,18 +15644,20 @@ class Input {
           ?.whereNotNull()
           .map((e) => InputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      inputScanType: (json['inputScanType'] as String?)?.toInputScanType(),
+      inputScanType:
+          (json['inputScanType'] as String?)?.let(InputScanType.fromString),
       position: json['position'] != null
           ? Rectangle.fromJson(json['position'] as Map<String, dynamic>)
           : null,
       programNumber: json['programNumber'] as int?,
-      psiControl: (json['psiControl'] as String?)?.toInputPsiControl(),
+      psiControl:
+          (json['psiControl'] as String?)?.let(InputPsiControl.fromString),
       supplementalImps: (json['supplementalImps'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      timecodeSource:
-          (json['timecodeSource'] as String?)?.toInputTimecodeSource(),
+      timecodeSource: (json['timecodeSource'] as String?)
+          ?.let(InputTimecodeSource.fromString),
       timecodeStart: json['timecodeStart'] as String?,
       videoGenerator: json['videoGenerator'] != null
           ? InputVideoGenerator.fromJson(
@@ -20152,7 +15702,7 @@ class Input {
     final videoSelector = this.videoSelector;
     return {
       if (advancedInputFilter != null)
-        'advancedInputFilter': advancedInputFilter.toValue(),
+        'advancedInputFilter': advancedInputFilter.value,
       if (advancedInputFilterSettings != null)
         'advancedInputFilterSettings': advancedInputFilterSettings,
       if (audioSelectorGroups != null)
@@ -20160,22 +15710,22 @@ class Input {
       if (audioSelectors != null) 'audioSelectors': audioSelectors,
       if (captionSelectors != null) 'captionSelectors': captionSelectors,
       if (crop != null) 'crop': crop,
-      if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
+      if (deblockFilter != null) 'deblockFilter': deblockFilter.value,
       if (decryptionSettings != null) 'decryptionSettings': decryptionSettings,
-      if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.value,
       if (dolbyVisionMetadataXml != null)
         'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
       if (fileInput != null) 'fileInput': fileInput,
-      if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
+      if (filterEnable != null) 'filterEnable': filterEnable.value,
       if (filterStrength != null) 'filterStrength': filterStrength,
       if (imageInserter != null) 'imageInserter': imageInserter,
       if (inputClippings != null) 'inputClippings': inputClippings,
-      if (inputScanType != null) 'inputScanType': inputScanType.toValue(),
+      if (inputScanType != null) 'inputScanType': inputScanType.value,
       if (position != null) 'position': position,
       if (programNumber != null) 'programNumber': programNumber,
-      if (psiControl != null) 'psiControl': psiControl.toValue(),
+      if (psiControl != null) 'psiControl': psiControl.value,
       if (supplementalImps != null) 'supplementalImps': supplementalImps,
-      if (timecodeSource != null) 'timecodeSource': timecodeSource.toValue(),
+      if (timecodeSource != null) 'timecodeSource': timecodeSource.value,
       if (timecodeStart != null) 'timecodeStart': timecodeStart,
       if (videoGenerator != null) 'videoGenerator': videoGenerator,
       if (videoOverlays != null) 'videoOverlays': videoOverlays,
@@ -20236,31 +15786,18 @@ class InputClipping {
 /// disabled. Only manually controllable for MPEG2 and uncompressed video
 /// inputs.
 enum InputDeblockFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension InputDeblockFilterValueExtension on InputDeblockFilter {
-  String toValue() {
-    switch (this) {
-      case InputDeblockFilter.enabled:
-        return 'ENABLED';
-      case InputDeblockFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension InputDeblockFilterFromString on String {
-  InputDeblockFilter toInputDeblockFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return InputDeblockFilter.enabled;
-      case 'DISABLED':
-        return InputDeblockFilter.disabled;
-    }
-    throw Exception('$this is not known in enum InputDeblockFilter');
-  }
+  const InputDeblockFilter(this.value);
+
+  static InputDeblockFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputDeblockFilter'));
 }
 
 /// Settings for decrypting any input files that you encrypt before you upload
@@ -20299,7 +15836,8 @@ class InputDecryptionSettings {
 
   factory InputDecryptionSettings.fromJson(Map<String, dynamic> json) {
     return InputDecryptionSettings(
-      decryptionMode: (json['decryptionMode'] as String?)?.toDecryptionMode(),
+      decryptionMode:
+          (json['decryptionMode'] as String?)?.let(DecryptionMode.fromString),
       encryptedDecryptionKey: json['encryptedDecryptionKey'] as String?,
       initializationVector: json['initializationVector'] as String?,
       kmsKeyRegion: json['kmsKeyRegion'] as String?,
@@ -20312,7 +15850,7 @@ class InputDecryptionSettings {
     final initializationVector = this.initializationVector;
     final kmsKeyRegion = this.kmsKeyRegion;
     return {
-      if (decryptionMode != null) 'decryptionMode': decryptionMode.toValue(),
+      if (decryptionMode != null) 'decryptionMode': decryptionMode.value,
       if (encryptedDecryptionKey != null)
         'encryptedDecryptionKey': encryptedDecryptionKey,
       if (initializationVector != null)
@@ -20325,31 +15863,18 @@ class InputDecryptionSettings {
 /// Enable Denoise to filter noise from the input. Default is disabled. Only
 /// applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
 enum InputDenoiseFilter {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension InputDenoiseFilterValueExtension on InputDenoiseFilter {
-  String toValue() {
-    switch (this) {
-      case InputDenoiseFilter.enabled:
-        return 'ENABLED';
-      case InputDenoiseFilter.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension InputDenoiseFilterFromString on String {
-  InputDenoiseFilter toInputDenoiseFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return InputDenoiseFilter.enabled;
-      case 'DISABLED':
-        return InputDenoiseFilter.disabled;
-    }
-    throw Exception('$this is not known in enum InputDenoiseFilter');
-  }
+  const InputDenoiseFilter(this.value);
+
+  static InputDenoiseFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputDenoiseFilter'));
 }
 
 /// Specify whether to apply input filtering to improve the video quality of
@@ -20358,66 +15883,35 @@ extension InputDenoiseFilterFromString on String {
 /// regardless of your input type and quality: Choose Force. When you do, you
 /// must also specify a value for Filter strength.
 enum InputFilterEnable {
-  auto,
-  disable,
-  force,
-}
+  auto('AUTO'),
+  disable('DISABLE'),
+  force('FORCE'),
+  ;
 
-extension InputFilterEnableValueExtension on InputFilterEnable {
-  String toValue() {
-    switch (this) {
-      case InputFilterEnable.auto:
-        return 'AUTO';
-      case InputFilterEnable.disable:
-        return 'DISABLE';
-      case InputFilterEnable.force:
-        return 'FORCE';
-    }
-  }
-}
+  final String value;
 
-extension InputFilterEnableFromString on String {
-  InputFilterEnable toInputFilterEnable() {
-    switch (this) {
-      case 'AUTO':
-        return InputFilterEnable.auto;
-      case 'DISABLE':
-        return InputFilterEnable.disable;
-      case 'FORCE':
-        return InputFilterEnable.force;
-    }
-    throw Exception('$this is not known in enum InputFilterEnable');
-  }
+  const InputFilterEnable(this.value);
+
+  static InputFilterEnable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InputFilterEnable'));
 }
 
 /// An input policy allows or disallows a job you submit to run based on the
 /// conditions that you specify.
 enum InputPolicy {
-  allowed,
-  disallowed,
-}
+  allowed('ALLOWED'),
+  disallowed('DISALLOWED'),
+  ;
 
-extension InputPolicyValueExtension on InputPolicy {
-  String toValue() {
-    switch (this) {
-      case InputPolicy.allowed:
-        return 'ALLOWED';
-      case InputPolicy.disallowed:
-        return 'DISALLOWED';
-    }
-  }
-}
+  final String value;
 
-extension InputPolicyFromString on String {
-  InputPolicy toInputPolicy() {
-    switch (this) {
-      case 'ALLOWED':
-        return InputPolicy.allowed;
-      case 'DISALLOWED':
-        return InputPolicy.disallowed;
-    }
-    throw Exception('$this is not known in enum InputPolicy');
-  }
+  const InputPolicy(this.value);
+
+  static InputPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputPolicy'));
 }
 
 /// Set PSI control for transport stream inputs to specify which data the demux
@@ -20425,31 +15919,18 @@ extension InputPolicyFromString on String {
 /// * Ignore PSI - Scan all PIDs for audio and video.
 /// * Use PSI - Scan only PSI data.
 enum InputPsiControl {
-  ignorePsi,
-  usePsi,
-}
+  ignorePsi('IGNORE_PSI'),
+  usePsi('USE_PSI'),
+  ;
 
-extension InputPsiControlValueExtension on InputPsiControl {
-  String toValue() {
-    switch (this) {
-      case InputPsiControl.ignorePsi:
-        return 'IGNORE_PSI';
-      case InputPsiControl.usePsi:
-        return 'USE_PSI';
-    }
-  }
-}
+  final String value;
 
-extension InputPsiControlFromString on String {
-  InputPsiControl toInputPsiControl() {
-    switch (this) {
-      case 'IGNORE_PSI':
-        return InputPsiControl.ignorePsi;
-      case 'USE_PSI':
-        return InputPsiControl.usePsi;
-    }
-    throw Exception('$this is not known in enum InputPsiControl');
-  }
+  const InputPsiControl(this.value);
+
+  static InputPsiControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InputPsiControl'));
 }
 
 /// Use Rotate to specify how the service rotates your video. You can choose
@@ -20463,46 +15944,20 @@ extension InputPsiControlFromString on String {
 /// if your input video has rotation metadata. The service doesn't pass through
 /// rotation metadata.
 enum InputRotate {
-  degree_0,
-  degrees_90,
-  degrees_180,
-  degrees_270,
-  auto,
-}
+  degree_0('DEGREE_0'),
+  degrees_90('DEGREES_90'),
+  degrees_180('DEGREES_180'),
+  degrees_270('DEGREES_270'),
+  auto('AUTO'),
+  ;
 
-extension InputRotateValueExtension on InputRotate {
-  String toValue() {
-    switch (this) {
-      case InputRotate.degree_0:
-        return 'DEGREE_0';
-      case InputRotate.degrees_90:
-        return 'DEGREES_90';
-      case InputRotate.degrees_180:
-        return 'DEGREES_180';
-      case InputRotate.degrees_270:
-        return 'DEGREES_270';
-      case InputRotate.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension InputRotateFromString on String {
-  InputRotate toInputRotate() {
-    switch (this) {
-      case 'DEGREE_0':
-        return InputRotate.degree_0;
-      case 'DEGREES_90':
-        return InputRotate.degrees_90;
-      case 'DEGREES_180':
-        return InputRotate.degrees_180;
-      case 'DEGREES_270':
-        return InputRotate.degrees_270;
-      case 'AUTO':
-        return InputRotate.auto;
-    }
-    throw Exception('$this is not known in enum InputRotate');
-  }
+  const InputRotate(this.value);
+
+  static InputRotate fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputRotate'));
 }
 
 /// If the sample range metadata in your input video is accurate, or if you
@@ -20515,36 +15970,19 @@ extension InputRotateFromString on String {
 /// specify, MediaConvert uses the sample range for transcoding and also writes
 /// it to the output metadata.
 enum InputSampleRange {
-  follow,
-  fullRange,
-  limitedRange,
-}
+  follow('FOLLOW'),
+  fullRange('FULL_RANGE'),
+  limitedRange('LIMITED_RANGE'),
+  ;
 
-extension InputSampleRangeValueExtension on InputSampleRange {
-  String toValue() {
-    switch (this) {
-      case InputSampleRange.follow:
-        return 'FOLLOW';
-      case InputSampleRange.fullRange:
-        return 'FULL_RANGE';
-      case InputSampleRange.limitedRange:
-        return 'LIMITED_RANGE';
-    }
-  }
-}
+  final String value;
 
-extension InputSampleRangeFromString on String {
-  InputSampleRange toInputSampleRange() {
-    switch (this) {
-      case 'FOLLOW':
-        return InputSampleRange.follow;
-      case 'FULL_RANGE':
-        return InputSampleRange.fullRange;
-      case 'LIMITED_RANGE':
-        return InputSampleRange.limitedRange;
-    }
-    throw Exception('$this is not known in enum InputSampleRange');
-  }
+  const InputSampleRange(this.value);
+
+  static InputSampleRange fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InputSampleRange'));
 }
 
 /// When you have a progressive segmented frame (PsF) input, use this setting to
@@ -20555,31 +15993,18 @@ extension InputSampleRangeFromString on String {
 /// all inputs that are not PsF. Don't set this value to PsF when your input is
 /// interlaced. Doing so creates horizontal interlacing artifacts.
 enum InputScanType {
-  auto,
-  psf,
-}
+  auto('AUTO'),
+  psf('PSF'),
+  ;
 
-extension InputScanTypeValueExtension on InputScanType {
-  String toValue() {
-    switch (this) {
-      case InputScanType.auto:
-        return 'AUTO';
-      case InputScanType.psf:
-        return 'PSF';
-    }
-  }
-}
+  final String value;
 
-extension InputScanTypeFromString on String {
-  InputScanType toInputScanType() {
-    switch (this) {
-      case 'AUTO':
-        return InputScanType.auto;
-      case 'PSF':
-        return InputScanType.psf;
-    }
-    throw Exception('$this is not known in enum InputScanType');
-  }
+  const InputScanType(this.value);
+
+  static InputScanType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InputScanType'));
 }
 
 /// Specified video input in a template.
@@ -20755,8 +16180,8 @@ class InputTemplate {
 
   factory InputTemplate.fromJson(Map<String, dynamic> json) {
     return InputTemplate(
-      advancedInputFilter:
-          (json['advancedInputFilter'] as String?)?.toAdvancedInputFilter(),
+      advancedInputFilter: (json['advancedInputFilter'] as String?)
+          ?.let(AdvancedInputFilter.fromString),
       advancedInputFilterSettings: json['advancedInputFilterSettings'] != null
           ? AdvancedInputFilterSettings.fromJson(
               json['advancedInputFilterSettings'] as Map<String, dynamic>)
@@ -20774,10 +16199,13 @@ class InputTemplate {
       crop: json['crop'] != null
           ? Rectangle.fromJson(json['crop'] as Map<String, dynamic>)
           : null,
-      deblockFilter: (json['deblockFilter'] as String?)?.toInputDeblockFilter(),
-      denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      deblockFilter: (json['deblockFilter'] as String?)
+          ?.let(InputDeblockFilter.fromString),
+      denoiseFilter: (json['denoiseFilter'] as String?)
+          ?.let(InputDenoiseFilter.fromString),
       dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
-      filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
+      filterEnable:
+          (json['filterEnable'] as String?)?.let(InputFilterEnable.fromString),
       filterStrength: json['filterStrength'] as int?,
       imageInserter: json['imageInserter'] != null
           ? ImageInserter.fromJson(
@@ -20787,14 +16215,16 @@ class InputTemplate {
           ?.whereNotNull()
           .map((e) => InputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      inputScanType: (json['inputScanType'] as String?)?.toInputScanType(),
+      inputScanType:
+          (json['inputScanType'] as String?)?.let(InputScanType.fromString),
       position: json['position'] != null
           ? Rectangle.fromJson(json['position'] as Map<String, dynamic>)
           : null,
       programNumber: json['programNumber'] as int?,
-      psiControl: (json['psiControl'] as String?)?.toInputPsiControl(),
-      timecodeSource:
-          (json['timecodeSource'] as String?)?.toInputTimecodeSource(),
+      psiControl:
+          (json['psiControl'] as String?)?.let(InputPsiControl.fromString),
+      timecodeSource: (json['timecodeSource'] as String?)
+          ?.let(InputTimecodeSource.fromString),
       timecodeStart: json['timecodeStart'] as String?,
       videoOverlays: (json['videoOverlays'] as List?)
           ?.whereNotNull()
@@ -20831,7 +16261,7 @@ class InputTemplate {
     final videoSelector = this.videoSelector;
     return {
       if (advancedInputFilter != null)
-        'advancedInputFilter': advancedInputFilter.toValue(),
+        'advancedInputFilter': advancedInputFilter.value,
       if (advancedInputFilterSettings != null)
         'advancedInputFilterSettings': advancedInputFilterSettings,
       if (audioSelectorGroups != null)
@@ -20839,19 +16269,19 @@ class InputTemplate {
       if (audioSelectors != null) 'audioSelectors': audioSelectors,
       if (captionSelectors != null) 'captionSelectors': captionSelectors,
       if (crop != null) 'crop': crop,
-      if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
-      if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (deblockFilter != null) 'deblockFilter': deblockFilter.value,
+      if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.value,
       if (dolbyVisionMetadataXml != null)
         'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
-      if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
+      if (filterEnable != null) 'filterEnable': filterEnable.value,
       if (filterStrength != null) 'filterStrength': filterStrength,
       if (imageInserter != null) 'imageInserter': imageInserter,
       if (inputClippings != null) 'inputClippings': inputClippings,
-      if (inputScanType != null) 'inputScanType': inputScanType.toValue(),
+      if (inputScanType != null) 'inputScanType': inputScanType.value,
       if (position != null) 'position': position,
       if (programNumber != null) 'programNumber': programNumber,
-      if (psiControl != null) 'psiControl': psiControl.toValue(),
-      if (timecodeSource != null) 'timecodeSource': timecodeSource.toValue(),
+      if (psiControl != null) 'psiControl': psiControl.value,
+      if (timecodeSource != null) 'timecodeSource': timecodeSource.value,
       if (timecodeStart != null) 'timecodeStart': timecodeStart,
       if (videoOverlays != null) 'videoOverlays': videoOverlays,
       if (videoSelector != null) 'videoSelector': videoSelector,
@@ -20870,36 +16300,19 @@ class InputTemplate {
 /// default. For more information about timecodes, see
 /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
 enum InputTimecodeSource {
-  embedded,
-  zerobased,
-  specifiedstart,
-}
+  embedded('EMBEDDED'),
+  zerobased('ZEROBASED'),
+  specifiedstart('SPECIFIEDSTART'),
+  ;
 
-extension InputTimecodeSourceValueExtension on InputTimecodeSource {
-  String toValue() {
-    switch (this) {
-      case InputTimecodeSource.embedded:
-        return 'EMBEDDED';
-      case InputTimecodeSource.zerobased:
-        return 'ZEROBASED';
-      case InputTimecodeSource.specifiedstart:
-        return 'SPECIFIEDSTART';
-    }
-  }
-}
+  final String value;
 
-extension InputTimecodeSourceFromString on String {
-  InputTimecodeSource toInputTimecodeSource() {
-    switch (this) {
-      case 'EMBEDDED':
-        return InputTimecodeSource.embedded;
-      case 'ZEROBASED':
-        return InputTimecodeSource.zerobased;
-      case 'SPECIFIEDSTART':
-        return InputTimecodeSource.specifiedstart;
-    }
-    throw Exception('$this is not known in enum InputTimecodeSource');
-  }
+  const InputTimecodeSource(this.value);
+
+  static InputTimecodeSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputTimecodeSource'));
 }
 
 /// When you include Video generator, MediaConvert creates a video input with
@@ -21217,14 +16630,14 @@ class Job {
           ? AccelerationSettings.fromJson(
               json['accelerationSettings'] as Map<String, dynamic>)
           : null,
-      accelerationStatus:
-          (json['accelerationStatus'] as String?)?.toAccelerationStatus(),
+      accelerationStatus: (json['accelerationStatus'] as String?)
+          ?.let(AccelerationStatus.fromString),
       arn: json['arn'] as String?,
-      billingTagsSource:
-          (json['billingTagsSource'] as String?)?.toBillingTagsSource(),
+      billingTagsSource: (json['billingTagsSource'] as String?)
+          ?.let(BillingTagsSource.fromString),
       clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
-      currentPhase: (json['currentPhase'] as String?)?.toJobPhase(),
+      currentPhase: (json['currentPhase'] as String?)?.let(JobPhase.fromString),
       errorCode: json['errorCode'] as int?,
       errorMessage: json['errorMessage'] as String?,
       hopDestinations: (json['hopDestinations'] as List?)
@@ -21248,11 +16661,11 @@ class Job {
           .map((e) => QueueTransition.fromJson(e as Map<String, dynamic>))
           .toList(),
       retryCount: json['retryCount'] as int?,
-      simulateReservedQueue:
-          (json['simulateReservedQueue'] as String?)?.toSimulateReservedQueue(),
-      status: (json['status'] as String?)?.toJobStatus(),
-      statusUpdateInterval:
-          (json['statusUpdateInterval'] as String?)?.toStatusUpdateInterval(),
+      simulateReservedQueue: (json['simulateReservedQueue'] as String?)
+          ?.let(SimulateReservedQueue.fromString),
+      status: (json['status'] as String?)?.let(JobStatus.fromString),
+      statusUpdateInterval: (json['statusUpdateInterval'] as String?)
+          ?.let(StatusUpdateInterval.fromString),
       timing: json['timing'] != null
           ? Timing.fromJson(json['timing'] as Map<String, dynamic>)
           : null,
@@ -21298,36 +16711,18 @@ class JobMessages {
 
 /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
 enum JobPhase {
-  probing,
-  transcoding,
-  uploading,
-}
+  probing('PROBING'),
+  transcoding('TRANSCODING'),
+  uploading('UPLOADING'),
+  ;
 
-extension JobPhaseValueExtension on JobPhase {
-  String toValue() {
-    switch (this) {
-      case JobPhase.probing:
-        return 'PROBING';
-      case JobPhase.transcoding:
-        return 'TRANSCODING';
-      case JobPhase.uploading:
-        return 'UPLOADING';
-    }
-  }
-}
+  final String value;
 
-extension JobPhaseFromString on String {
-  JobPhase toJobPhase() {
-    switch (this) {
-      case 'PROBING':
-        return JobPhase.probing;
-      case 'TRANSCODING':
-        return JobPhase.transcoding;
-      case 'UPLOADING':
-        return JobPhase.uploading;
-    }
-    throw Exception('$this is not known in enum JobPhase');
-  }
+  const JobPhase(this.value);
+
+  static JobPhase fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobPhase'));
 }
 
 /// JobSettings contains all the transcode settings for a job.
@@ -21536,46 +16931,20 @@ class JobSettings {
 
 /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
 enum JobStatus {
-  submitted,
-  progressing,
-  complete,
-  canceled,
-  error,
-}
+  submitted('SUBMITTED'),
+  progressing('PROGRESSING'),
+  complete('COMPLETE'),
+  canceled('CANCELED'),
+  error('ERROR'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.progressing:
-        return 'PROGRESSING';
-      case JobStatus.complete:
-        return 'COMPLETE';
-      case JobStatus.canceled:
-        return 'CANCELED';
-      case JobStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'PROGRESSING':
-        return JobStatus.progressing;
-      case 'COMPLETE':
-        return JobStatus.complete;
-      case 'CANCELED':
-        return JobStatus.canceled;
-      case 'ERROR':
-        return JobStatus.error;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// A job template is a pre-made set of encoding instructions that you can use
@@ -21665,9 +17034,9 @@ class JobTemplate {
       lastUpdated: timeStampFromJson(json['lastUpdated']),
       priority: json['priority'] as int?,
       queue: json['queue'] as String?,
-      statusUpdateInterval:
-          (json['statusUpdateInterval'] as String?)?.toStatusUpdateInterval(),
-      type: (json['type'] as String?)?.toType(),
+      statusUpdateInterval: (json['statusUpdateInterval'] as String?)
+          ?.let(StatusUpdateInterval.fromString),
+      type: (json['type'] as String?)?.let(Type.fromString),
     );
   }
 }
@@ -21676,36 +17045,19 @@ class JobTemplate {
 /// them alphabetically by NAME or chronologically by CREATION_DATE. If you
 /// don't specify, the service will list them by name.
 enum JobTemplateListBy {
-  name,
-  creationDate,
-  system,
-}
+  name('NAME'),
+  creationDate('CREATION_DATE'),
+  system('SYSTEM'),
+  ;
 
-extension JobTemplateListByValueExtension on JobTemplateListBy {
-  String toValue() {
-    switch (this) {
-      case JobTemplateListBy.name:
-        return 'NAME';
-      case JobTemplateListBy.creationDate:
-        return 'CREATION_DATE';
-      case JobTemplateListBy.system:
-        return 'SYSTEM';
-    }
-  }
-}
+  final String value;
 
-extension JobTemplateListByFromString on String {
-  JobTemplateListBy toJobTemplateListBy() {
-    switch (this) {
-      case 'NAME':
-        return JobTemplateListBy.name;
-      case 'CREATION_DATE':
-        return JobTemplateListBy.creationDate;
-      case 'SYSTEM':
-        return JobTemplateListBy.system;
-    }
-    throw Exception('$this is not known in enum JobTemplateListBy');
-  }
+  const JobTemplateListBy(this.value);
+
+  static JobTemplateListBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobTemplateListBy'));
 }
 
 /// JobTemplateSettings contains all the transcode settings saved in the
@@ -22053,981 +17405,208 @@ class KantarWatermarkSettings {
 /// Specify the language, using the ISO 639-2 three-letter code listed at
 /// https://www.loc.gov/standards/iso639-2/php/code_list.php.
 enum LanguageCode {
-  eng,
-  spa,
-  fra,
-  deu,
-  ger,
-  zho,
-  ara,
-  hin,
-  jpn,
-  rus,
-  por,
-  ita,
-  urd,
-  vie,
-  kor,
-  pan,
-  abk,
-  aar,
-  afr,
-  aka,
-  sqi,
-  amh,
-  arg,
-  hye,
-  asm,
-  ava,
-  ave,
-  aym,
-  aze,
-  bam,
-  bak,
-  eus,
-  bel,
-  ben,
-  bih,
-  bis,
-  bos,
-  bre,
-  bul,
-  mya,
-  cat,
-  khm,
-  cha,
-  che,
-  nya,
-  chu,
-  chv,
-  cor,
-  cos,
-  cre,
-  hrv,
-  ces,
-  dan,
-  div,
-  nld,
-  dzo,
-  enm,
-  epo,
-  est,
-  ewe,
-  fao,
-  fij,
-  fin,
-  frm,
-  ful,
-  gla,
-  glg,
-  lug,
-  kat,
-  ell,
-  grn,
-  guj,
-  hat,
-  hau,
-  heb,
-  her,
-  hmo,
-  hun,
-  isl,
-  ido,
-  ibo,
-  ind,
-  ina,
-  ile,
-  iku,
-  ipk,
-  gle,
-  jav,
-  kal,
-  kan,
-  kau,
-  kas,
-  kaz,
-  kik,
-  kin,
-  kir,
-  kom,
-  kon,
-  kua,
-  kur,
-  lao,
-  lat,
-  lav,
-  lim,
-  lin,
-  lit,
-  lub,
-  ltz,
-  mkd,
-  mlg,
-  msa,
-  mal,
-  mlt,
-  glv,
-  mri,
-  mar,
-  mah,
-  mon,
-  nau,
-  nav,
-  nde,
-  nbl,
-  ndo,
-  nep,
-  sme,
-  nor,
-  nob,
-  nno,
-  oci,
-  oji,
-  ori,
-  orm,
-  oss,
-  pli,
-  fas,
-  pol,
-  pus,
-  que,
-  qaa,
-  ron,
-  roh,
-  run,
-  smo,
-  sag,
-  san,
-  srd,
-  srb,
-  sna,
-  iii,
-  snd,
-  sin,
-  slk,
-  slv,
-  som,
-  sot,
-  sun,
-  swa,
-  ssw,
-  swe,
-  tgl,
-  tah,
-  tgk,
-  tam,
-  tat,
-  tel,
-  tha,
-  bod,
-  tir,
-  ton,
-  tso,
-  tsn,
-  tur,
-  tuk,
-  twi,
-  uig,
-  ukr,
-  uzb,
-  ven,
-  vol,
-  wln,
-  cym,
-  fry,
-  wol,
-  xho,
-  yid,
-  yor,
-  zha,
-  zul,
-  orj,
-  qpc,
-  tng,
-  srp,
-}
+  eng('ENG'),
+  spa('SPA'),
+  fra('FRA'),
+  deu('DEU'),
+  ger('GER'),
+  zho('ZHO'),
+  ara('ARA'),
+  hin('HIN'),
+  jpn('JPN'),
+  rus('RUS'),
+  por('POR'),
+  ita('ITA'),
+  urd('URD'),
+  vie('VIE'),
+  kor('KOR'),
+  pan('PAN'),
+  abk('ABK'),
+  aar('AAR'),
+  afr('AFR'),
+  aka('AKA'),
+  sqi('SQI'),
+  amh('AMH'),
+  arg('ARG'),
+  hye('HYE'),
+  asm('ASM'),
+  ava('AVA'),
+  ave('AVE'),
+  aym('AYM'),
+  aze('AZE'),
+  bam('BAM'),
+  bak('BAK'),
+  eus('EUS'),
+  bel('BEL'),
+  ben('BEN'),
+  bih('BIH'),
+  bis('BIS'),
+  bos('BOS'),
+  bre('BRE'),
+  bul('BUL'),
+  mya('MYA'),
+  cat('CAT'),
+  khm('KHM'),
+  cha('CHA'),
+  che('CHE'),
+  nya('NYA'),
+  chu('CHU'),
+  chv('CHV'),
+  cor('COR'),
+  cos('COS'),
+  cre('CRE'),
+  hrv('HRV'),
+  ces('CES'),
+  dan('DAN'),
+  div('DIV'),
+  nld('NLD'),
+  dzo('DZO'),
+  enm('ENM'),
+  epo('EPO'),
+  est('EST'),
+  ewe('EWE'),
+  fao('FAO'),
+  fij('FIJ'),
+  fin('FIN'),
+  frm('FRM'),
+  ful('FUL'),
+  gla('GLA'),
+  glg('GLG'),
+  lug('LUG'),
+  kat('KAT'),
+  ell('ELL'),
+  grn('GRN'),
+  guj('GUJ'),
+  hat('HAT'),
+  hau('HAU'),
+  heb('HEB'),
+  her('HER'),
+  hmo('HMO'),
+  hun('HUN'),
+  isl('ISL'),
+  ido('IDO'),
+  ibo('IBO'),
+  ind('IND'),
+  ina('INA'),
+  ile('ILE'),
+  iku('IKU'),
+  ipk('IPK'),
+  gle('GLE'),
+  jav('JAV'),
+  kal('KAL'),
+  kan('KAN'),
+  kau('KAU'),
+  kas('KAS'),
+  kaz('KAZ'),
+  kik('KIK'),
+  kin('KIN'),
+  kir('KIR'),
+  kom('KOM'),
+  kon('KON'),
+  kua('KUA'),
+  kur('KUR'),
+  lao('LAO'),
+  lat('LAT'),
+  lav('LAV'),
+  lim('LIM'),
+  lin('LIN'),
+  lit('LIT'),
+  lub('LUB'),
+  ltz('LTZ'),
+  mkd('MKD'),
+  mlg('MLG'),
+  msa('MSA'),
+  mal('MAL'),
+  mlt('MLT'),
+  glv('GLV'),
+  mri('MRI'),
+  mar('MAR'),
+  mah('MAH'),
+  mon('MON'),
+  nau('NAU'),
+  nav('NAV'),
+  nde('NDE'),
+  nbl('NBL'),
+  ndo('NDO'),
+  nep('NEP'),
+  sme('SME'),
+  nor('NOR'),
+  nob('NOB'),
+  nno('NNO'),
+  oci('OCI'),
+  oji('OJI'),
+  ori('ORI'),
+  orm('ORM'),
+  oss('OSS'),
+  pli('PLI'),
+  fas('FAS'),
+  pol('POL'),
+  pus('PUS'),
+  que('QUE'),
+  qaa('QAA'),
+  ron('RON'),
+  roh('ROH'),
+  run('RUN'),
+  smo('SMO'),
+  sag('SAG'),
+  san('SAN'),
+  srd('SRD'),
+  srb('SRB'),
+  sna('SNA'),
+  iii('III'),
+  snd('SND'),
+  sin('SIN'),
+  slk('SLK'),
+  slv('SLV'),
+  som('SOM'),
+  sot('SOT'),
+  sun('SUN'),
+  swa('SWA'),
+  ssw('SSW'),
+  swe('SWE'),
+  tgl('TGL'),
+  tah('TAH'),
+  tgk('TGK'),
+  tam('TAM'),
+  tat('TAT'),
+  tel('TEL'),
+  tha('THA'),
+  bod('BOD'),
+  tir('TIR'),
+  ton('TON'),
+  tso('TSO'),
+  tsn('TSN'),
+  tur('TUR'),
+  tuk('TUK'),
+  twi('TWI'),
+  uig('UIG'),
+  ukr('UKR'),
+  uzb('UZB'),
+  ven('VEN'),
+  vol('VOL'),
+  wln('WLN'),
+  cym('CYM'),
+  fry('FRY'),
+  wol('WOL'),
+  xho('XHO'),
+  yid('YID'),
+  yor('YOR'),
+  zha('ZHA'),
+  zul('ZUL'),
+  orj('ORJ'),
+  qpc('QPC'),
+  tng('TNG'),
+  srp('SRP'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.eng:
-        return 'ENG';
-      case LanguageCode.spa:
-        return 'SPA';
-      case LanguageCode.fra:
-        return 'FRA';
-      case LanguageCode.deu:
-        return 'DEU';
-      case LanguageCode.ger:
-        return 'GER';
-      case LanguageCode.zho:
-        return 'ZHO';
-      case LanguageCode.ara:
-        return 'ARA';
-      case LanguageCode.hin:
-        return 'HIN';
-      case LanguageCode.jpn:
-        return 'JPN';
-      case LanguageCode.rus:
-        return 'RUS';
-      case LanguageCode.por:
-        return 'POR';
-      case LanguageCode.ita:
-        return 'ITA';
-      case LanguageCode.urd:
-        return 'URD';
-      case LanguageCode.vie:
-        return 'VIE';
-      case LanguageCode.kor:
-        return 'KOR';
-      case LanguageCode.pan:
-        return 'PAN';
-      case LanguageCode.abk:
-        return 'ABK';
-      case LanguageCode.aar:
-        return 'AAR';
-      case LanguageCode.afr:
-        return 'AFR';
-      case LanguageCode.aka:
-        return 'AKA';
-      case LanguageCode.sqi:
-        return 'SQI';
-      case LanguageCode.amh:
-        return 'AMH';
-      case LanguageCode.arg:
-        return 'ARG';
-      case LanguageCode.hye:
-        return 'HYE';
-      case LanguageCode.asm:
-        return 'ASM';
-      case LanguageCode.ava:
-        return 'AVA';
-      case LanguageCode.ave:
-        return 'AVE';
-      case LanguageCode.aym:
-        return 'AYM';
-      case LanguageCode.aze:
-        return 'AZE';
-      case LanguageCode.bam:
-        return 'BAM';
-      case LanguageCode.bak:
-        return 'BAK';
-      case LanguageCode.eus:
-        return 'EUS';
-      case LanguageCode.bel:
-        return 'BEL';
-      case LanguageCode.ben:
-        return 'BEN';
-      case LanguageCode.bih:
-        return 'BIH';
-      case LanguageCode.bis:
-        return 'BIS';
-      case LanguageCode.bos:
-        return 'BOS';
-      case LanguageCode.bre:
-        return 'BRE';
-      case LanguageCode.bul:
-        return 'BUL';
-      case LanguageCode.mya:
-        return 'MYA';
-      case LanguageCode.cat:
-        return 'CAT';
-      case LanguageCode.khm:
-        return 'KHM';
-      case LanguageCode.cha:
-        return 'CHA';
-      case LanguageCode.che:
-        return 'CHE';
-      case LanguageCode.nya:
-        return 'NYA';
-      case LanguageCode.chu:
-        return 'CHU';
-      case LanguageCode.chv:
-        return 'CHV';
-      case LanguageCode.cor:
-        return 'COR';
-      case LanguageCode.cos:
-        return 'COS';
-      case LanguageCode.cre:
-        return 'CRE';
-      case LanguageCode.hrv:
-        return 'HRV';
-      case LanguageCode.ces:
-        return 'CES';
-      case LanguageCode.dan:
-        return 'DAN';
-      case LanguageCode.div:
-        return 'DIV';
-      case LanguageCode.nld:
-        return 'NLD';
-      case LanguageCode.dzo:
-        return 'DZO';
-      case LanguageCode.enm:
-        return 'ENM';
-      case LanguageCode.epo:
-        return 'EPO';
-      case LanguageCode.est:
-        return 'EST';
-      case LanguageCode.ewe:
-        return 'EWE';
-      case LanguageCode.fao:
-        return 'FAO';
-      case LanguageCode.fij:
-        return 'FIJ';
-      case LanguageCode.fin:
-        return 'FIN';
-      case LanguageCode.frm:
-        return 'FRM';
-      case LanguageCode.ful:
-        return 'FUL';
-      case LanguageCode.gla:
-        return 'GLA';
-      case LanguageCode.glg:
-        return 'GLG';
-      case LanguageCode.lug:
-        return 'LUG';
-      case LanguageCode.kat:
-        return 'KAT';
-      case LanguageCode.ell:
-        return 'ELL';
-      case LanguageCode.grn:
-        return 'GRN';
-      case LanguageCode.guj:
-        return 'GUJ';
-      case LanguageCode.hat:
-        return 'HAT';
-      case LanguageCode.hau:
-        return 'HAU';
-      case LanguageCode.heb:
-        return 'HEB';
-      case LanguageCode.her:
-        return 'HER';
-      case LanguageCode.hmo:
-        return 'HMO';
-      case LanguageCode.hun:
-        return 'HUN';
-      case LanguageCode.isl:
-        return 'ISL';
-      case LanguageCode.ido:
-        return 'IDO';
-      case LanguageCode.ibo:
-        return 'IBO';
-      case LanguageCode.ind:
-        return 'IND';
-      case LanguageCode.ina:
-        return 'INA';
-      case LanguageCode.ile:
-        return 'ILE';
-      case LanguageCode.iku:
-        return 'IKU';
-      case LanguageCode.ipk:
-        return 'IPK';
-      case LanguageCode.gle:
-        return 'GLE';
-      case LanguageCode.jav:
-        return 'JAV';
-      case LanguageCode.kal:
-        return 'KAL';
-      case LanguageCode.kan:
-        return 'KAN';
-      case LanguageCode.kau:
-        return 'KAU';
-      case LanguageCode.kas:
-        return 'KAS';
-      case LanguageCode.kaz:
-        return 'KAZ';
-      case LanguageCode.kik:
-        return 'KIK';
-      case LanguageCode.kin:
-        return 'KIN';
-      case LanguageCode.kir:
-        return 'KIR';
-      case LanguageCode.kom:
-        return 'KOM';
-      case LanguageCode.kon:
-        return 'KON';
-      case LanguageCode.kua:
-        return 'KUA';
-      case LanguageCode.kur:
-        return 'KUR';
-      case LanguageCode.lao:
-        return 'LAO';
-      case LanguageCode.lat:
-        return 'LAT';
-      case LanguageCode.lav:
-        return 'LAV';
-      case LanguageCode.lim:
-        return 'LIM';
-      case LanguageCode.lin:
-        return 'LIN';
-      case LanguageCode.lit:
-        return 'LIT';
-      case LanguageCode.lub:
-        return 'LUB';
-      case LanguageCode.ltz:
-        return 'LTZ';
-      case LanguageCode.mkd:
-        return 'MKD';
-      case LanguageCode.mlg:
-        return 'MLG';
-      case LanguageCode.msa:
-        return 'MSA';
-      case LanguageCode.mal:
-        return 'MAL';
-      case LanguageCode.mlt:
-        return 'MLT';
-      case LanguageCode.glv:
-        return 'GLV';
-      case LanguageCode.mri:
-        return 'MRI';
-      case LanguageCode.mar:
-        return 'MAR';
-      case LanguageCode.mah:
-        return 'MAH';
-      case LanguageCode.mon:
-        return 'MON';
-      case LanguageCode.nau:
-        return 'NAU';
-      case LanguageCode.nav:
-        return 'NAV';
-      case LanguageCode.nde:
-        return 'NDE';
-      case LanguageCode.nbl:
-        return 'NBL';
-      case LanguageCode.ndo:
-        return 'NDO';
-      case LanguageCode.nep:
-        return 'NEP';
-      case LanguageCode.sme:
-        return 'SME';
-      case LanguageCode.nor:
-        return 'NOR';
-      case LanguageCode.nob:
-        return 'NOB';
-      case LanguageCode.nno:
-        return 'NNO';
-      case LanguageCode.oci:
-        return 'OCI';
-      case LanguageCode.oji:
-        return 'OJI';
-      case LanguageCode.ori:
-        return 'ORI';
-      case LanguageCode.orm:
-        return 'ORM';
-      case LanguageCode.oss:
-        return 'OSS';
-      case LanguageCode.pli:
-        return 'PLI';
-      case LanguageCode.fas:
-        return 'FAS';
-      case LanguageCode.pol:
-        return 'POL';
-      case LanguageCode.pus:
-        return 'PUS';
-      case LanguageCode.que:
-        return 'QUE';
-      case LanguageCode.qaa:
-        return 'QAA';
-      case LanguageCode.ron:
-        return 'RON';
-      case LanguageCode.roh:
-        return 'ROH';
-      case LanguageCode.run:
-        return 'RUN';
-      case LanguageCode.smo:
-        return 'SMO';
-      case LanguageCode.sag:
-        return 'SAG';
-      case LanguageCode.san:
-        return 'SAN';
-      case LanguageCode.srd:
-        return 'SRD';
-      case LanguageCode.srb:
-        return 'SRB';
-      case LanguageCode.sna:
-        return 'SNA';
-      case LanguageCode.iii:
-        return 'III';
-      case LanguageCode.snd:
-        return 'SND';
-      case LanguageCode.sin:
-        return 'SIN';
-      case LanguageCode.slk:
-        return 'SLK';
-      case LanguageCode.slv:
-        return 'SLV';
-      case LanguageCode.som:
-        return 'SOM';
-      case LanguageCode.sot:
-        return 'SOT';
-      case LanguageCode.sun:
-        return 'SUN';
-      case LanguageCode.swa:
-        return 'SWA';
-      case LanguageCode.ssw:
-        return 'SSW';
-      case LanguageCode.swe:
-        return 'SWE';
-      case LanguageCode.tgl:
-        return 'TGL';
-      case LanguageCode.tah:
-        return 'TAH';
-      case LanguageCode.tgk:
-        return 'TGK';
-      case LanguageCode.tam:
-        return 'TAM';
-      case LanguageCode.tat:
-        return 'TAT';
-      case LanguageCode.tel:
-        return 'TEL';
-      case LanguageCode.tha:
-        return 'THA';
-      case LanguageCode.bod:
-        return 'BOD';
-      case LanguageCode.tir:
-        return 'TIR';
-      case LanguageCode.ton:
-        return 'TON';
-      case LanguageCode.tso:
-        return 'TSO';
-      case LanguageCode.tsn:
-        return 'TSN';
-      case LanguageCode.tur:
-        return 'TUR';
-      case LanguageCode.tuk:
-        return 'TUK';
-      case LanguageCode.twi:
-        return 'TWI';
-      case LanguageCode.uig:
-        return 'UIG';
-      case LanguageCode.ukr:
-        return 'UKR';
-      case LanguageCode.uzb:
-        return 'UZB';
-      case LanguageCode.ven:
-        return 'VEN';
-      case LanguageCode.vol:
-        return 'VOL';
-      case LanguageCode.wln:
-        return 'WLN';
-      case LanguageCode.cym:
-        return 'CYM';
-      case LanguageCode.fry:
-        return 'FRY';
-      case LanguageCode.wol:
-        return 'WOL';
-      case LanguageCode.xho:
-        return 'XHO';
-      case LanguageCode.yid:
-        return 'YID';
-      case LanguageCode.yor:
-        return 'YOR';
-      case LanguageCode.zha:
-        return 'ZHA';
-      case LanguageCode.zul:
-        return 'ZUL';
-      case LanguageCode.orj:
-        return 'ORJ';
-      case LanguageCode.qpc:
-        return 'QPC';
-      case LanguageCode.tng:
-        return 'TNG';
-      case LanguageCode.srp:
-        return 'SRP';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'ENG':
-        return LanguageCode.eng;
-      case 'SPA':
-        return LanguageCode.spa;
-      case 'FRA':
-        return LanguageCode.fra;
-      case 'DEU':
-        return LanguageCode.deu;
-      case 'GER':
-        return LanguageCode.ger;
-      case 'ZHO':
-        return LanguageCode.zho;
-      case 'ARA':
-        return LanguageCode.ara;
-      case 'HIN':
-        return LanguageCode.hin;
-      case 'JPN':
-        return LanguageCode.jpn;
-      case 'RUS':
-        return LanguageCode.rus;
-      case 'POR':
-        return LanguageCode.por;
-      case 'ITA':
-        return LanguageCode.ita;
-      case 'URD':
-        return LanguageCode.urd;
-      case 'VIE':
-        return LanguageCode.vie;
-      case 'KOR':
-        return LanguageCode.kor;
-      case 'PAN':
-        return LanguageCode.pan;
-      case 'ABK':
-        return LanguageCode.abk;
-      case 'AAR':
-        return LanguageCode.aar;
-      case 'AFR':
-        return LanguageCode.afr;
-      case 'AKA':
-        return LanguageCode.aka;
-      case 'SQI':
-        return LanguageCode.sqi;
-      case 'AMH':
-        return LanguageCode.amh;
-      case 'ARG':
-        return LanguageCode.arg;
-      case 'HYE':
-        return LanguageCode.hye;
-      case 'ASM':
-        return LanguageCode.asm;
-      case 'AVA':
-        return LanguageCode.ava;
-      case 'AVE':
-        return LanguageCode.ave;
-      case 'AYM':
-        return LanguageCode.aym;
-      case 'AZE':
-        return LanguageCode.aze;
-      case 'BAM':
-        return LanguageCode.bam;
-      case 'BAK':
-        return LanguageCode.bak;
-      case 'EUS':
-        return LanguageCode.eus;
-      case 'BEL':
-        return LanguageCode.bel;
-      case 'BEN':
-        return LanguageCode.ben;
-      case 'BIH':
-        return LanguageCode.bih;
-      case 'BIS':
-        return LanguageCode.bis;
-      case 'BOS':
-        return LanguageCode.bos;
-      case 'BRE':
-        return LanguageCode.bre;
-      case 'BUL':
-        return LanguageCode.bul;
-      case 'MYA':
-        return LanguageCode.mya;
-      case 'CAT':
-        return LanguageCode.cat;
-      case 'KHM':
-        return LanguageCode.khm;
-      case 'CHA':
-        return LanguageCode.cha;
-      case 'CHE':
-        return LanguageCode.che;
-      case 'NYA':
-        return LanguageCode.nya;
-      case 'CHU':
-        return LanguageCode.chu;
-      case 'CHV':
-        return LanguageCode.chv;
-      case 'COR':
-        return LanguageCode.cor;
-      case 'COS':
-        return LanguageCode.cos;
-      case 'CRE':
-        return LanguageCode.cre;
-      case 'HRV':
-        return LanguageCode.hrv;
-      case 'CES':
-        return LanguageCode.ces;
-      case 'DAN':
-        return LanguageCode.dan;
-      case 'DIV':
-        return LanguageCode.div;
-      case 'NLD':
-        return LanguageCode.nld;
-      case 'DZO':
-        return LanguageCode.dzo;
-      case 'ENM':
-        return LanguageCode.enm;
-      case 'EPO':
-        return LanguageCode.epo;
-      case 'EST':
-        return LanguageCode.est;
-      case 'EWE':
-        return LanguageCode.ewe;
-      case 'FAO':
-        return LanguageCode.fao;
-      case 'FIJ':
-        return LanguageCode.fij;
-      case 'FIN':
-        return LanguageCode.fin;
-      case 'FRM':
-        return LanguageCode.frm;
-      case 'FUL':
-        return LanguageCode.ful;
-      case 'GLA':
-        return LanguageCode.gla;
-      case 'GLG':
-        return LanguageCode.glg;
-      case 'LUG':
-        return LanguageCode.lug;
-      case 'KAT':
-        return LanguageCode.kat;
-      case 'ELL':
-        return LanguageCode.ell;
-      case 'GRN':
-        return LanguageCode.grn;
-      case 'GUJ':
-        return LanguageCode.guj;
-      case 'HAT':
-        return LanguageCode.hat;
-      case 'HAU':
-        return LanguageCode.hau;
-      case 'HEB':
-        return LanguageCode.heb;
-      case 'HER':
-        return LanguageCode.her;
-      case 'HMO':
-        return LanguageCode.hmo;
-      case 'HUN':
-        return LanguageCode.hun;
-      case 'ISL':
-        return LanguageCode.isl;
-      case 'IDO':
-        return LanguageCode.ido;
-      case 'IBO':
-        return LanguageCode.ibo;
-      case 'IND':
-        return LanguageCode.ind;
-      case 'INA':
-        return LanguageCode.ina;
-      case 'ILE':
-        return LanguageCode.ile;
-      case 'IKU':
-        return LanguageCode.iku;
-      case 'IPK':
-        return LanguageCode.ipk;
-      case 'GLE':
-        return LanguageCode.gle;
-      case 'JAV':
-        return LanguageCode.jav;
-      case 'KAL':
-        return LanguageCode.kal;
-      case 'KAN':
-        return LanguageCode.kan;
-      case 'KAU':
-        return LanguageCode.kau;
-      case 'KAS':
-        return LanguageCode.kas;
-      case 'KAZ':
-        return LanguageCode.kaz;
-      case 'KIK':
-        return LanguageCode.kik;
-      case 'KIN':
-        return LanguageCode.kin;
-      case 'KIR':
-        return LanguageCode.kir;
-      case 'KOM':
-        return LanguageCode.kom;
-      case 'KON':
-        return LanguageCode.kon;
-      case 'KUA':
-        return LanguageCode.kua;
-      case 'KUR':
-        return LanguageCode.kur;
-      case 'LAO':
-        return LanguageCode.lao;
-      case 'LAT':
-        return LanguageCode.lat;
-      case 'LAV':
-        return LanguageCode.lav;
-      case 'LIM':
-        return LanguageCode.lim;
-      case 'LIN':
-        return LanguageCode.lin;
-      case 'LIT':
-        return LanguageCode.lit;
-      case 'LUB':
-        return LanguageCode.lub;
-      case 'LTZ':
-        return LanguageCode.ltz;
-      case 'MKD':
-        return LanguageCode.mkd;
-      case 'MLG':
-        return LanguageCode.mlg;
-      case 'MSA':
-        return LanguageCode.msa;
-      case 'MAL':
-        return LanguageCode.mal;
-      case 'MLT':
-        return LanguageCode.mlt;
-      case 'GLV':
-        return LanguageCode.glv;
-      case 'MRI':
-        return LanguageCode.mri;
-      case 'MAR':
-        return LanguageCode.mar;
-      case 'MAH':
-        return LanguageCode.mah;
-      case 'MON':
-        return LanguageCode.mon;
-      case 'NAU':
-        return LanguageCode.nau;
-      case 'NAV':
-        return LanguageCode.nav;
-      case 'NDE':
-        return LanguageCode.nde;
-      case 'NBL':
-        return LanguageCode.nbl;
-      case 'NDO':
-        return LanguageCode.ndo;
-      case 'NEP':
-        return LanguageCode.nep;
-      case 'SME':
-        return LanguageCode.sme;
-      case 'NOR':
-        return LanguageCode.nor;
-      case 'NOB':
-        return LanguageCode.nob;
-      case 'NNO':
-        return LanguageCode.nno;
-      case 'OCI':
-        return LanguageCode.oci;
-      case 'OJI':
-        return LanguageCode.oji;
-      case 'ORI':
-        return LanguageCode.ori;
-      case 'ORM':
-        return LanguageCode.orm;
-      case 'OSS':
-        return LanguageCode.oss;
-      case 'PLI':
-        return LanguageCode.pli;
-      case 'FAS':
-        return LanguageCode.fas;
-      case 'POL':
-        return LanguageCode.pol;
-      case 'PUS':
-        return LanguageCode.pus;
-      case 'QUE':
-        return LanguageCode.que;
-      case 'QAA':
-        return LanguageCode.qaa;
-      case 'RON':
-        return LanguageCode.ron;
-      case 'ROH':
-        return LanguageCode.roh;
-      case 'RUN':
-        return LanguageCode.run;
-      case 'SMO':
-        return LanguageCode.smo;
-      case 'SAG':
-        return LanguageCode.sag;
-      case 'SAN':
-        return LanguageCode.san;
-      case 'SRD':
-        return LanguageCode.srd;
-      case 'SRB':
-        return LanguageCode.srb;
-      case 'SNA':
-        return LanguageCode.sna;
-      case 'III':
-        return LanguageCode.iii;
-      case 'SND':
-        return LanguageCode.snd;
-      case 'SIN':
-        return LanguageCode.sin;
-      case 'SLK':
-        return LanguageCode.slk;
-      case 'SLV':
-        return LanguageCode.slv;
-      case 'SOM':
-        return LanguageCode.som;
-      case 'SOT':
-        return LanguageCode.sot;
-      case 'SUN':
-        return LanguageCode.sun;
-      case 'SWA':
-        return LanguageCode.swa;
-      case 'SSW':
-        return LanguageCode.ssw;
-      case 'SWE':
-        return LanguageCode.swe;
-      case 'TGL':
-        return LanguageCode.tgl;
-      case 'TAH':
-        return LanguageCode.tah;
-      case 'TGK':
-        return LanguageCode.tgk;
-      case 'TAM':
-        return LanguageCode.tam;
-      case 'TAT':
-        return LanguageCode.tat;
-      case 'TEL':
-        return LanguageCode.tel;
-      case 'THA':
-        return LanguageCode.tha;
-      case 'BOD':
-        return LanguageCode.bod;
-      case 'TIR':
-        return LanguageCode.tir;
-      case 'TON':
-        return LanguageCode.ton;
-      case 'TSO':
-        return LanguageCode.tso;
-      case 'TSN':
-        return LanguageCode.tsn;
-      case 'TUR':
-        return LanguageCode.tur;
-      case 'TUK':
-        return LanguageCode.tuk;
-      case 'TWI':
-        return LanguageCode.twi;
-      case 'UIG':
-        return LanguageCode.uig;
-      case 'UKR':
-        return LanguageCode.ukr;
-      case 'UZB':
-        return LanguageCode.uzb;
-      case 'VEN':
-        return LanguageCode.ven;
-      case 'VOL':
-        return LanguageCode.vol;
-      case 'WLN':
-        return LanguageCode.wln;
-      case 'CYM':
-        return LanguageCode.cym;
-      case 'FRY':
-        return LanguageCode.fry;
-      case 'WOL':
-        return LanguageCode.wol;
-      case 'XHO':
-        return LanguageCode.xho;
-      case 'YID':
-        return LanguageCode.yid;
-      case 'YOR':
-        return LanguageCode.yor;
-      case 'ZHA':
-        return LanguageCode.zha;
-      case 'ZUL':
-        return LanguageCode.zul;
-      case 'ORJ':
-        return LanguageCode.orj;
-      case 'QPC':
-        return LanguageCode.qpc;
-      case 'TNG':
-        return LanguageCode.tng;
-      case 'SRP':
-        return LanguageCode.srp;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 class ListJobTemplatesResponse {
@@ -23142,31 +17721,18 @@ class ListTagsForResourceResponse {
 
 /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
 enum M2tsAudioBufferModel {
-  dvb,
-  atsc,
-}
+  dvb('DVB'),
+  atsc('ATSC'),
+  ;
 
-extension M2tsAudioBufferModelValueExtension on M2tsAudioBufferModel {
-  String toValue() {
-    switch (this) {
-      case M2tsAudioBufferModel.dvb:
-        return 'DVB';
-      case M2tsAudioBufferModel.atsc:
-        return 'ATSC';
-    }
-  }
-}
+  final String value;
 
-extension M2tsAudioBufferModelFromString on String {
-  M2tsAudioBufferModel toM2tsAudioBufferModel() {
-    switch (this) {
-      case 'DVB':
-        return M2tsAudioBufferModel.dvb;
-      case 'ATSC':
-        return M2tsAudioBufferModel.atsc;
-    }
-    throw Exception('$this is not known in enum M2tsAudioBufferModel');
-  }
+  const M2tsAudioBufferModel(this.value);
+
+  static M2tsAudioBufferModel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum M2tsAudioBufferModel'));
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -23183,31 +17749,18 @@ extension M2tsAudioBufferModelFromString on String {
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
 enum M2tsAudioDuration {
-  defaultCodecDuration,
-  matchVideoDuration,
-}
+  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
+  matchVideoDuration('MATCH_VIDEO_DURATION'),
+  ;
 
-extension M2tsAudioDurationValueExtension on M2tsAudioDuration {
-  String toValue() {
-    switch (this) {
-      case M2tsAudioDuration.defaultCodecDuration:
-        return 'DEFAULT_CODEC_DURATION';
-      case M2tsAudioDuration.matchVideoDuration:
-        return 'MATCH_VIDEO_DURATION';
-    }
-  }
-}
+  final String value;
 
-extension M2tsAudioDurationFromString on String {
-  M2tsAudioDuration toM2tsAudioDuration() {
-    switch (this) {
-      case 'DEFAULT_CODEC_DURATION':
-        return M2tsAudioDuration.defaultCodecDuration;
-      case 'MATCH_VIDEO_DURATION':
-        return M2tsAudioDuration.matchVideoDuration;
-    }
-    throw Exception('$this is not known in enum M2tsAudioDuration');
-  }
+  const M2tsAudioDuration(this.value);
+
+  static M2tsAudioDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsAudioDuration'));
 }
 
 /// Controls what buffer model to use for accurate interleaving. If set to
@@ -23215,31 +17768,18 @@ extension M2tsAudioDurationFromString on String {
 /// lower latency, but low-memory devices may not be able to play back the
 /// stream without interruptions.
 enum M2tsBufferModel {
-  multiplex,
-  none,
-}
+  multiplex('MULTIPLEX'),
+  none('NONE'),
+  ;
 
-extension M2tsBufferModelValueExtension on M2tsBufferModel {
-  String toValue() {
-    switch (this) {
-      case M2tsBufferModel.multiplex:
-        return 'MULTIPLEX';
-      case M2tsBufferModel.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsBufferModelFromString on String {
-  M2tsBufferModel toM2tsBufferModel() {
-    switch (this) {
-      case 'MULTIPLEX':
-        return M2tsBufferModel.multiplex;
-      case 'NONE':
-        return M2tsBufferModel.none;
-    }
-    throw Exception('$this is not known in enum M2tsBufferModel');
-  }
+  const M2tsBufferModel(this.value);
+
+  static M2tsBufferModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsBufferModel'));
 }
 
 /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
@@ -23247,31 +17787,18 @@ extension M2tsBufferModelFromString on String {
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value to allow all PTS values.
 enum M2tsDataPtsControl {
-  auto,
-  alignToVideo,
-}
+  auto('AUTO'),
+  alignToVideo('ALIGN_TO_VIDEO'),
+  ;
 
-extension M2tsDataPtsControlValueExtension on M2tsDataPtsControl {
-  String toValue() {
-    switch (this) {
-      case M2tsDataPtsControl.auto:
-        return 'AUTO';
-      case M2tsDataPtsControl.alignToVideo:
-        return 'ALIGN_TO_VIDEO';
-    }
-  }
-}
+  final String value;
 
-extension M2tsDataPtsControlFromString on String {
-  M2tsDataPtsControl toM2tsDataPtsControl() {
-    switch (this) {
-      case 'AUTO':
-        return M2tsDataPtsControl.auto;
-      case 'ALIGN_TO_VIDEO':
-        return M2tsDataPtsControl.alignToVideo;
-    }
-    throw Exception('$this is not known in enum M2tsDataPtsControl');
-  }
+  const M2tsDataPtsControl(this.value);
+
+  static M2tsDataPtsControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum M2tsDataPtsControl'));
 }
 
 /// When set to VIDEO_AND_FIXED_INTERVALS, audio EBP markers will be added to
@@ -23281,31 +17808,18 @@ extension M2tsDataPtsControlFromString on String {
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
 enum M2tsEbpAudioInterval {
-  videoAndFixedIntervals,
-  videoInterval,
-}
+  videoAndFixedIntervals('VIDEO_AND_FIXED_INTERVALS'),
+  videoInterval('VIDEO_INTERVAL'),
+  ;
 
-extension M2tsEbpAudioIntervalValueExtension on M2tsEbpAudioInterval {
-  String toValue() {
-    switch (this) {
-      case M2tsEbpAudioInterval.videoAndFixedIntervals:
-        return 'VIDEO_AND_FIXED_INTERVALS';
-      case M2tsEbpAudioInterval.videoInterval:
-        return 'VIDEO_INTERVAL';
-    }
-  }
-}
+  final String value;
 
-extension M2tsEbpAudioIntervalFromString on String {
-  M2tsEbpAudioInterval toM2tsEbpAudioInterval() {
-    switch (this) {
-      case 'VIDEO_AND_FIXED_INTERVALS':
-        return M2tsEbpAudioInterval.videoAndFixedIntervals;
-      case 'VIDEO_INTERVAL':
-        return M2tsEbpAudioInterval.videoInterval;
-    }
-    throw Exception('$this is not known in enum M2tsEbpAudioInterval');
-  }
+  const M2tsEbpAudioInterval(this.value);
+
+  static M2tsEbpAudioInterval fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum M2tsEbpAudioInterval'));
 }
 
 /// Selects which PIDs to place EBP markers on. They can either be placed only
@@ -23313,91 +17827,52 @@ extension M2tsEbpAudioIntervalFromString on String {
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
 enum M2tsEbpPlacement {
-  videoAndAudioPids,
-  videoPid,
-}
+  videoAndAudioPids('VIDEO_AND_AUDIO_PIDS'),
+  videoPid('VIDEO_PID'),
+  ;
 
-extension M2tsEbpPlacementValueExtension on M2tsEbpPlacement {
-  String toValue() {
-    switch (this) {
-      case M2tsEbpPlacement.videoAndAudioPids:
-        return 'VIDEO_AND_AUDIO_PIDS';
-      case M2tsEbpPlacement.videoPid:
-        return 'VIDEO_PID';
-    }
-  }
-}
+  final String value;
 
-extension M2tsEbpPlacementFromString on String {
-  M2tsEbpPlacement toM2tsEbpPlacement() {
-    switch (this) {
-      case 'VIDEO_AND_AUDIO_PIDS':
-        return M2tsEbpPlacement.videoAndAudioPids;
-      case 'VIDEO_PID':
-        return M2tsEbpPlacement.videoPid;
-    }
-    throw Exception('$this is not known in enum M2tsEbpPlacement');
-  }
+  const M2tsEbpPlacement(this.value);
+
+  static M2tsEbpPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsEbpPlacement'));
 }
 
 /// Controls whether to include the ES Rate field in the PES header.
 enum M2tsEsRateInPes {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension M2tsEsRateInPesValueExtension on M2tsEsRateInPes {
-  String toValue() {
-    switch (this) {
-      case M2tsEsRateInPes.include:
-        return 'INCLUDE';
-      case M2tsEsRateInPes.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsEsRateInPesFromString on String {
-  M2tsEsRateInPes toM2tsEsRateInPes() {
-    switch (this) {
-      case 'INCLUDE':
-        return M2tsEsRateInPes.include;
-      case 'EXCLUDE':
-        return M2tsEsRateInPes.exclude;
-    }
-    throw Exception('$this is not known in enum M2tsEsRateInPes');
-  }
+  const M2tsEsRateInPes(this.value);
+
+  static M2tsEsRateInPes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsEsRateInPes'));
 }
 
 /// Keep the default value unless you know that your audio EBP markers are
 /// incorrectly appearing before your video EBP markers. To correct this
 /// problem, set this value to Force.
 enum M2tsForceTsVideoEbpOrder {
-  force,
-  $default,
-}
+  force('FORCE'),
+  $default('DEFAULT'),
+  ;
 
-extension M2tsForceTsVideoEbpOrderValueExtension on M2tsForceTsVideoEbpOrder {
-  String toValue() {
-    switch (this) {
-      case M2tsForceTsVideoEbpOrder.force:
-        return 'FORCE';
-      case M2tsForceTsVideoEbpOrder.$default:
-        return 'DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension M2tsForceTsVideoEbpOrderFromString on String {
-  M2tsForceTsVideoEbpOrder toM2tsForceTsVideoEbpOrder() {
-    switch (this) {
-      case 'FORCE':
-        return M2tsForceTsVideoEbpOrder.force;
-      case 'DEFAULT':
-        return M2tsForceTsVideoEbpOrder.$default;
-    }
-    throw Exception('$this is not known in enum M2tsForceTsVideoEbpOrder');
-  }
+  const M2tsForceTsVideoEbpOrder(this.value);
+
+  static M2tsForceTsVideoEbpOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum M2tsForceTsVideoEbpOrder'));
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
@@ -23405,61 +17880,35 @@ extension M2tsForceTsVideoEbpOrderFromString on String {
 /// input and passes it through to the output transport stream. To exclude this
 /// KLV metadata: Set KLV metadata insertion to None or leave blank.
 enum M2tsKlvMetadata {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension M2tsKlvMetadataValueExtension on M2tsKlvMetadata {
-  String toValue() {
-    switch (this) {
-      case M2tsKlvMetadata.passthrough:
-        return 'PASSTHROUGH';
-      case M2tsKlvMetadata.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsKlvMetadataFromString on String {
-  M2tsKlvMetadata toM2tsKlvMetadata() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return M2tsKlvMetadata.passthrough;
-      case 'NONE':
-        return M2tsKlvMetadata.none;
-    }
-    throw Exception('$this is not known in enum M2tsKlvMetadata');
-  }
+  const M2tsKlvMetadata(this.value);
+
+  static M2tsKlvMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsKlvMetadata'));
 }
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
 enum M2tsNielsenId3 {
-  insert,
-  none,
-}
+  insert('INSERT'),
+  none('NONE'),
+  ;
 
-extension M2tsNielsenId3ValueExtension on M2tsNielsenId3 {
-  String toValue() {
-    switch (this) {
-      case M2tsNielsenId3.insert:
-        return 'INSERT';
-      case M2tsNielsenId3.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsNielsenId3FromString on String {
-  M2tsNielsenId3 toM2tsNielsenId3() {
-    switch (this) {
-      case 'INSERT':
-        return M2tsNielsenId3.insert;
-      case 'NONE':
-        return M2tsNielsenId3.none;
-    }
-    throw Exception('$this is not known in enum M2tsNielsenId3');
-  }
+  const M2tsNielsenId3(this.value);
+
+  static M2tsNielsenId3 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsNielsenId3'));
 }
 
 /// When set to PCR_EVERY_PES_PACKET, a Program Clock Reference value is
@@ -23467,31 +17916,18 @@ extension M2tsNielsenId3FromString on String {
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
 enum M2tsPcrControl {
-  pcrEveryPesPacket,
-  configuredPcrPeriod,
-}
+  pcrEveryPesPacket('PCR_EVERY_PES_PACKET'),
+  configuredPcrPeriod('CONFIGURED_PCR_PERIOD'),
+  ;
 
-extension M2tsPcrControlValueExtension on M2tsPcrControl {
-  String toValue() {
-    switch (this) {
-      case M2tsPcrControl.pcrEveryPesPacket:
-        return 'PCR_EVERY_PES_PACKET';
-      case M2tsPcrControl.configuredPcrPeriod:
-        return 'CONFIGURED_PCR_PERIOD';
-    }
-  }
-}
+  final String value;
 
-extension M2tsPcrControlFromString on String {
-  M2tsPcrControl toM2tsPcrControl() {
-    switch (this) {
-      case 'PCR_EVERY_PES_PACKET':
-        return M2tsPcrControl.pcrEveryPesPacket;
-      case 'CONFIGURED_PCR_PERIOD':
-        return M2tsPcrControl.configuredPcrPeriod;
-    }
-    throw Exception('$this is not known in enum M2tsPcrControl');
-  }
+  const M2tsPcrControl(this.value);
+
+  static M2tsPcrControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsPcrControl'));
 }
 
 /// Specify whether MediaConvert automatically attempts to prevent decoder
@@ -23503,63 +17939,36 @@ extension M2tsPcrControlFromString on String {
 /// decoder buffer underflow in your output, output video quality is reduced and
 /// your job will take longer to complete.
 enum M2tsPreventBufferUnderflow {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension M2tsPreventBufferUnderflowValueExtension
-    on M2tsPreventBufferUnderflow {
-  String toValue() {
-    switch (this) {
-      case M2tsPreventBufferUnderflow.disabled:
-        return 'DISABLED';
-      case M2tsPreventBufferUnderflow.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension M2tsPreventBufferUnderflowFromString on String {
-  M2tsPreventBufferUnderflow toM2tsPreventBufferUnderflow() {
-    switch (this) {
-      case 'DISABLED':
-        return M2tsPreventBufferUnderflow.disabled;
-      case 'ENABLED':
-        return M2tsPreventBufferUnderflow.enabled;
-    }
-    throw Exception('$this is not known in enum M2tsPreventBufferUnderflow');
-  }
+  const M2tsPreventBufferUnderflow(this.value);
+
+  static M2tsPreventBufferUnderflow fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum M2tsPreventBufferUnderflow'));
 }
 
 /// When set to CBR, inserts null packets into transport stream to fill
 /// specified bitrate. When set to VBR, the bitrate setting acts as the maximum
 /// bitrate, but the output will not be padded up to that bitrate.
 enum M2tsRateMode {
-  vbr,
-  cbr,
-}
+  vbr('VBR'),
+  cbr('CBR'),
+  ;
 
-extension M2tsRateModeValueExtension on M2tsRateMode {
-  String toValue() {
-    switch (this) {
-      case M2tsRateMode.vbr:
-        return 'VBR';
-      case M2tsRateMode.cbr:
-        return 'CBR';
-    }
-  }
-}
+  final String value;
 
-extension M2tsRateModeFromString on String {
-  M2tsRateMode toM2tsRateMode() {
-    switch (this) {
-      case 'VBR':
-        return M2tsRateMode.vbr;
-      case 'CBR':
-        return M2tsRateMode.cbr;
-    }
-    throw Exception('$this is not known in enum M2tsRateMode');
-  }
+  const M2tsRateMode(this.value);
+
+  static M2tsRateMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsRateMode'));
 }
 
 /// Settings for SCTE-35 signals from ESAM. Include this in your job settings to
@@ -23596,31 +18005,18 @@ class M2tsScte35Esam {
 /// the setting Signal processing notification XML. Also enable ESAM SCTE-35
 /// (include the property scte35Esam).
 enum M2tsScte35Source {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension M2tsScte35SourceValueExtension on M2tsScte35Source {
-  String toValue() {
-    switch (this) {
-      case M2tsScte35Source.passthrough:
-        return 'PASSTHROUGH';
-      case M2tsScte35Source.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsScte35SourceFromString on String {
-  M2tsScte35Source toM2tsScte35Source() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return M2tsScte35Source.passthrough;
-      case 'NONE':
-        return M2tsScte35Source.none;
-    }
-    throw Exception('$this is not known in enum M2tsScte35Source');
-  }
+  const M2tsScte35Source(this.value);
+
+  static M2tsScte35Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M2tsScte35Source'));
 }
 
 /// Inserts segmentation markers at each segmentation_time period. rai_segstart
@@ -23631,51 +18027,22 @@ extension M2tsScte35SourceFromString on String {
 /// specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point
 /// information to the adaptation field using a legacy proprietary format.
 enum M2tsSegmentationMarkers {
-  none,
-  raiSegstart,
-  raiAdapt,
-  psiSegstart,
-  ebp,
-  ebpLegacy,
-}
+  none('NONE'),
+  raiSegstart('RAI_SEGSTART'),
+  raiAdapt('RAI_ADAPT'),
+  psiSegstart('PSI_SEGSTART'),
+  ebp('EBP'),
+  ebpLegacy('EBP_LEGACY'),
+  ;
 
-extension M2tsSegmentationMarkersValueExtension on M2tsSegmentationMarkers {
-  String toValue() {
-    switch (this) {
-      case M2tsSegmentationMarkers.none:
-        return 'NONE';
-      case M2tsSegmentationMarkers.raiSegstart:
-        return 'RAI_SEGSTART';
-      case M2tsSegmentationMarkers.raiAdapt:
-        return 'RAI_ADAPT';
-      case M2tsSegmentationMarkers.psiSegstart:
-        return 'PSI_SEGSTART';
-      case M2tsSegmentationMarkers.ebp:
-        return 'EBP';
-      case M2tsSegmentationMarkers.ebpLegacy:
-        return 'EBP_LEGACY';
-    }
-  }
-}
+  final String value;
 
-extension M2tsSegmentationMarkersFromString on String {
-  M2tsSegmentationMarkers toM2tsSegmentationMarkers() {
-    switch (this) {
-      case 'NONE':
-        return M2tsSegmentationMarkers.none;
-      case 'RAI_SEGSTART':
-        return M2tsSegmentationMarkers.raiSegstart;
-      case 'RAI_ADAPT':
-        return M2tsSegmentationMarkers.raiAdapt;
-      case 'PSI_SEGSTART':
-        return M2tsSegmentationMarkers.psiSegstart;
-      case 'EBP':
-        return M2tsSegmentationMarkers.ebp;
-      case 'EBP_LEGACY':
-        return M2tsSegmentationMarkers.ebpLegacy;
-    }
-    throw Exception('$this is not known in enum M2tsSegmentationMarkers');
-  }
+  const M2tsSegmentationMarkers(this.value);
+
+  static M2tsSegmentationMarkers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum M2tsSegmentationMarkers'));
 }
 
 /// The segmentation style parameter controls how segmentation markers are
@@ -23691,31 +18058,18 @@ extension M2tsSegmentationMarkersFromString on String {
 /// will have a duration of $segmentation_time seconds. Note that EBP lookahead
 /// is a slight exception to this rule.
 enum M2tsSegmentationStyle {
-  maintainCadence,
-  resetCadence,
-}
+  maintainCadence('MAINTAIN_CADENCE'),
+  resetCadence('RESET_CADENCE'),
+  ;
 
-extension M2tsSegmentationStyleValueExtension on M2tsSegmentationStyle {
-  String toValue() {
-    switch (this) {
-      case M2tsSegmentationStyle.maintainCadence:
-        return 'MAINTAIN_CADENCE';
-      case M2tsSegmentationStyle.resetCadence:
-        return 'RESET_CADENCE';
-    }
-  }
-}
+  final String value;
 
-extension M2tsSegmentationStyleFromString on String {
-  M2tsSegmentationStyle toM2tsSegmentationStyle() {
-    switch (this) {
-      case 'MAINTAIN_CADENCE':
-        return M2tsSegmentationStyle.maintainCadence;
-      case 'RESET_CADENCE':
-        return M2tsSegmentationStyle.resetCadence;
-    }
-    throw Exception('$this is not known in enum M2tsSegmentationStyle');
-  }
+  const M2tsSegmentationStyle(this.value);
+
+  static M2tsSegmentationStyle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum M2tsSegmentationStyle'));
 }
 
 /// MPEG-2 TS container settings. These apply to outputs in a File output group
@@ -24010,18 +18364,20 @@ class M2tsSettings {
 
   factory M2tsSettings.fromJson(Map<String, dynamic> json) {
     return M2tsSettings(
-      audioBufferModel:
-          (json['audioBufferModel'] as String?)?.toM2tsAudioBufferModel(),
-      audioDuration: (json['audioDuration'] as String?)?.toM2tsAudioDuration(),
+      audioBufferModel: (json['audioBufferModel'] as String?)
+          ?.let(M2tsAudioBufferModel.fromString),
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(M2tsAudioDuration.fromString),
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
       audioPids: (json['audioPids'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
       bitrate: json['bitrate'] as int?,
-      bufferModel: (json['bufferModel'] as String?)?.toM2tsBufferModel(),
-      dataPTSControl:
-          (json['dataPTSControl'] as String?)?.toM2tsDataPtsControl(),
+      bufferModel:
+          (json['bufferModel'] as String?)?.let(M2tsBufferModel.fromString),
+      dataPTSControl: (json['dataPTSControl'] as String?)
+          ?.let(M2tsDataPtsControl.fromString),
       dvbNitSettings: json['dvbNitSettings'] != null
           ? DvbNitSettings.fromJson(
               json['dvbNitSettings'] as Map<String, dynamic>)
@@ -24039,39 +18395,46 @@ class M2tsSettings {
               json['dvbTdtSettings'] as Map<String, dynamic>)
           : null,
       dvbTeletextPid: json['dvbTeletextPid'] as int?,
-      ebpAudioInterval:
-          (json['ebpAudioInterval'] as String?)?.toM2tsEbpAudioInterval(),
-      ebpPlacement: (json['ebpPlacement'] as String?)?.toM2tsEbpPlacement(),
-      esRateInPes: (json['esRateInPes'] as String?)?.toM2tsEsRateInPes(),
+      ebpAudioInterval: (json['ebpAudioInterval'] as String?)
+          ?.let(M2tsEbpAudioInterval.fromString),
+      ebpPlacement:
+          (json['ebpPlacement'] as String?)?.let(M2tsEbpPlacement.fromString),
+      esRateInPes:
+          (json['esRateInPes'] as String?)?.let(M2tsEsRateInPes.fromString),
       forceTsVideoEbpOrder: (json['forceTsVideoEbpOrder'] as String?)
-          ?.toM2tsForceTsVideoEbpOrder(),
+          ?.let(M2tsForceTsVideoEbpOrder.fromString),
       fragmentTime: json['fragmentTime'] as double?,
-      klvMetadata: (json['klvMetadata'] as String?)?.toM2tsKlvMetadata(),
+      klvMetadata:
+          (json['klvMetadata'] as String?)?.let(M2tsKlvMetadata.fromString),
       maxPcrInterval: json['maxPcrInterval'] as int?,
       minEbpInterval: json['minEbpInterval'] as int?,
-      nielsenId3: (json['nielsenId3'] as String?)?.toM2tsNielsenId3(),
+      nielsenId3:
+          (json['nielsenId3'] as String?)?.let(M2tsNielsenId3.fromString),
       nullPacketBitrate: json['nullPacketBitrate'] as double?,
       patInterval: json['patInterval'] as int?,
-      pcrControl: (json['pcrControl'] as String?)?.toM2tsPcrControl(),
+      pcrControl:
+          (json['pcrControl'] as String?)?.let(M2tsPcrControl.fromString),
       pcrPid: json['pcrPid'] as int?,
       pmtInterval: json['pmtInterval'] as int?,
       pmtPid: json['pmtPid'] as int?,
       preventBufferUnderflow: (json['preventBufferUnderflow'] as String?)
-          ?.toM2tsPreventBufferUnderflow(),
+          ?.let(M2tsPreventBufferUnderflow.fromString),
       privateMetadataPid: json['privateMetadataPid'] as int?,
       programNumber: json['programNumber'] as int?,
       ptsOffset: json['ptsOffset'] as int?,
-      ptsOffsetMode: (json['ptsOffsetMode'] as String?)?.toTsPtsOffset(),
-      rateMode: (json['rateMode'] as String?)?.toM2tsRateMode(),
+      ptsOffsetMode:
+          (json['ptsOffsetMode'] as String?)?.let(TsPtsOffset.fromString),
+      rateMode: (json['rateMode'] as String?)?.let(M2tsRateMode.fromString),
       scte35Esam: json['scte35Esam'] != null
           ? M2tsScte35Esam.fromJson(json['scte35Esam'] as Map<String, dynamic>)
           : null,
       scte35Pid: json['scte35Pid'] as int?,
-      scte35Source: (json['scte35Source'] as String?)?.toM2tsScte35Source(),
-      segmentationMarkers:
-          (json['segmentationMarkers'] as String?)?.toM2tsSegmentationMarkers(),
-      segmentationStyle:
-          (json['segmentationStyle'] as String?)?.toM2tsSegmentationStyle(),
+      scte35Source:
+          (json['scte35Source'] as String?)?.let(M2tsScte35Source.fromString),
+      segmentationMarkers: (json['segmentationMarkers'] as String?)
+          ?.let(M2tsSegmentationMarkers.fromString),
+      segmentationStyle: (json['segmentationStyle'] as String?)
+          ?.let(M2tsSegmentationStyle.fromString),
       segmentationTime: json['segmentationTime'] as double?,
       timedMetadataPid: json['timedMetadataPid'] as int?,
       transportStreamId: json['transportStreamId'] as int?,
@@ -24123,50 +18486,48 @@ class M2tsSettings {
     final transportStreamId = this.transportStreamId;
     final videoPid = this.videoPid;
     return {
-      if (audioBufferModel != null)
-        'audioBufferModel': audioBufferModel.toValue(),
-      if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
+      if (audioBufferModel != null) 'audioBufferModel': audioBufferModel.value,
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
       if (audioFramesPerPes != null) 'audioFramesPerPes': audioFramesPerPes,
       if (audioPids != null) 'audioPids': audioPids,
       if (bitrate != null) 'bitrate': bitrate,
-      if (bufferModel != null) 'bufferModel': bufferModel.toValue(),
-      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
+      if (bufferModel != null) 'bufferModel': bufferModel.value,
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.value,
       if (dvbNitSettings != null) 'dvbNitSettings': dvbNitSettings,
       if (dvbSdtSettings != null) 'dvbSdtSettings': dvbSdtSettings,
       if (dvbSubPids != null) 'dvbSubPids': dvbSubPids,
       if (dvbTdtSettings != null) 'dvbTdtSettings': dvbTdtSettings,
       if (dvbTeletextPid != null) 'dvbTeletextPid': dvbTeletextPid,
-      if (ebpAudioInterval != null)
-        'ebpAudioInterval': ebpAudioInterval.toValue(),
-      if (ebpPlacement != null) 'ebpPlacement': ebpPlacement.toValue(),
-      if (esRateInPes != null) 'esRateInPes': esRateInPes.toValue(),
+      if (ebpAudioInterval != null) 'ebpAudioInterval': ebpAudioInterval.value,
+      if (ebpPlacement != null) 'ebpPlacement': ebpPlacement.value,
+      if (esRateInPes != null) 'esRateInPes': esRateInPes.value,
       if (forceTsVideoEbpOrder != null)
-        'forceTsVideoEbpOrder': forceTsVideoEbpOrder.toValue(),
+        'forceTsVideoEbpOrder': forceTsVideoEbpOrder.value,
       if (fragmentTime != null) 'fragmentTime': fragmentTime,
-      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.value,
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (minEbpInterval != null) 'minEbpInterval': minEbpInterval,
-      if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
+      if (nielsenId3 != null) 'nielsenId3': nielsenId3.value,
       if (nullPacketBitrate != null) 'nullPacketBitrate': nullPacketBitrate,
       if (patInterval != null) 'patInterval': patInterval,
-      if (pcrControl != null) 'pcrControl': pcrControl.toValue(),
+      if (pcrControl != null) 'pcrControl': pcrControl.value,
       if (pcrPid != null) 'pcrPid': pcrPid,
       if (pmtInterval != null) 'pmtInterval': pmtInterval,
       if (pmtPid != null) 'pmtPid': pmtPid,
       if (preventBufferUnderflow != null)
-        'preventBufferUnderflow': preventBufferUnderflow.toValue(),
+        'preventBufferUnderflow': preventBufferUnderflow.value,
       if (privateMetadataPid != null) 'privateMetadataPid': privateMetadataPid,
       if (programNumber != null) 'programNumber': programNumber,
       if (ptsOffset != null) 'ptsOffset': ptsOffset,
-      if (ptsOffsetMode != null) 'ptsOffsetMode': ptsOffsetMode.toValue(),
-      if (rateMode != null) 'rateMode': rateMode.toValue(),
+      if (ptsOffsetMode != null) 'ptsOffsetMode': ptsOffsetMode.value,
+      if (rateMode != null) 'rateMode': rateMode.value,
       if (scte35Esam != null) 'scte35Esam': scte35Esam,
       if (scte35Pid != null) 'scte35Pid': scte35Pid,
-      if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
+      if (scte35Source != null) 'scte35Source': scte35Source.value,
       if (segmentationMarkers != null)
-        'segmentationMarkers': segmentationMarkers.toValue(),
+        'segmentationMarkers': segmentationMarkers.value,
       if (segmentationStyle != null)
-        'segmentationStyle': segmentationStyle.toValue(),
+        'segmentationStyle': segmentationStyle.value,
       if (segmentationTime != null) 'segmentationTime': segmentationTime,
       if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
       if (transportStreamId != null) 'transportStreamId': transportStreamId,
@@ -24189,31 +18550,18 @@ class M2tsSettings {
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
 enum M3u8AudioDuration {
-  defaultCodecDuration,
-  matchVideoDuration,
-}
+  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
+  matchVideoDuration('MATCH_VIDEO_DURATION'),
+  ;
 
-extension M3u8AudioDurationValueExtension on M3u8AudioDuration {
-  String toValue() {
-    switch (this) {
-      case M3u8AudioDuration.defaultCodecDuration:
-        return 'DEFAULT_CODEC_DURATION';
-      case M3u8AudioDuration.matchVideoDuration:
-        return 'MATCH_VIDEO_DURATION';
-    }
-  }
-}
+  final String value;
 
-extension M3u8AudioDurationFromString on String {
-  M3u8AudioDuration toM3u8AudioDuration() {
-    switch (this) {
-      case 'DEFAULT_CODEC_DURATION':
-        return M3u8AudioDuration.defaultCodecDuration;
-      case 'MATCH_VIDEO_DURATION':
-        return M3u8AudioDuration.matchVideoDuration;
-    }
-    throw Exception('$this is not known in enum M3u8AudioDuration');
-  }
+  const M3u8AudioDuration(this.value);
+
+  static M3u8AudioDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M3u8AudioDuration'));
 }
 
 /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
@@ -24221,61 +18569,35 @@ extension M3u8AudioDurationFromString on String {
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value AUTO to allow all PTS values.
 enum M3u8DataPtsControl {
-  auto,
-  alignToVideo,
-}
+  auto('AUTO'),
+  alignToVideo('ALIGN_TO_VIDEO'),
+  ;
 
-extension M3u8DataPtsControlValueExtension on M3u8DataPtsControl {
-  String toValue() {
-    switch (this) {
-      case M3u8DataPtsControl.auto:
-        return 'AUTO';
-      case M3u8DataPtsControl.alignToVideo:
-        return 'ALIGN_TO_VIDEO';
-    }
-  }
-}
+  final String value;
 
-extension M3u8DataPtsControlFromString on String {
-  M3u8DataPtsControl toM3u8DataPtsControl() {
-    switch (this) {
-      case 'AUTO':
-        return M3u8DataPtsControl.auto;
-      case 'ALIGN_TO_VIDEO':
-        return M3u8DataPtsControl.alignToVideo;
-    }
-    throw Exception('$this is not known in enum M3u8DataPtsControl');
-  }
+  const M3u8DataPtsControl(this.value);
+
+  static M3u8DataPtsControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum M3u8DataPtsControl'));
 }
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
 enum M3u8NielsenId3 {
-  insert,
-  none,
-}
+  insert('INSERT'),
+  none('NONE'),
+  ;
 
-extension M3u8NielsenId3ValueExtension on M3u8NielsenId3 {
-  String toValue() {
-    switch (this) {
-      case M3u8NielsenId3.insert:
-        return 'INSERT';
-      case M3u8NielsenId3.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M3u8NielsenId3FromString on String {
-  M3u8NielsenId3 toM3u8NielsenId3() {
-    switch (this) {
-      case 'INSERT':
-        return M3u8NielsenId3.insert;
-      case 'NONE':
-        return M3u8NielsenId3.none;
-    }
-    throw Exception('$this is not known in enum M3u8NielsenId3');
-  }
+  const M3u8NielsenId3(this.value);
+
+  static M3u8NielsenId3 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M3u8NielsenId3'));
 }
 
 /// When set to PCR_EVERY_PES_PACKET a Program Clock Reference value is inserted
@@ -24283,31 +18605,18 @@ extension M3u8NielsenId3FromString on String {
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
 enum M3u8PcrControl {
-  pcrEveryPesPacket,
-  configuredPcrPeriod,
-}
+  pcrEveryPesPacket('PCR_EVERY_PES_PACKET'),
+  configuredPcrPeriod('CONFIGURED_PCR_PERIOD'),
+  ;
 
-extension M3u8PcrControlValueExtension on M3u8PcrControl {
-  String toValue() {
-    switch (this) {
-      case M3u8PcrControl.pcrEveryPesPacket:
-        return 'PCR_EVERY_PES_PACKET';
-      case M3u8PcrControl.configuredPcrPeriod:
-        return 'CONFIGURED_PCR_PERIOD';
-    }
-  }
-}
+  final String value;
 
-extension M3u8PcrControlFromString on String {
-  M3u8PcrControl toM3u8PcrControl() {
-    switch (this) {
-      case 'PCR_EVERY_PES_PACKET':
-        return M3u8PcrControl.pcrEveryPesPacket;
-      case 'CONFIGURED_PCR_PERIOD':
-        return M3u8PcrControl.configuredPcrPeriod;
-    }
-    throw Exception('$this is not known in enum M3u8PcrControl');
-  }
+  const M3u8PcrControl(this.value);
+
+  static M3u8PcrControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M3u8PcrControl'));
 }
 
 /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35
@@ -24318,31 +18627,18 @@ extension M3u8PcrControlFromString on String {
 /// conditioning. In both cases, also provide the ESAM XML as a string in the
 /// setting Signal processing notification XML.
 enum M3u8Scte35Source {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension M3u8Scte35SourceValueExtension on M3u8Scte35Source {
-  String toValue() {
-    switch (this) {
-      case M3u8Scte35Source.passthrough:
-        return 'PASSTHROUGH';
-      case M3u8Scte35Source.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension M3u8Scte35SourceFromString on String {
-  M3u8Scte35Source toM3u8Scte35Source() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return M3u8Scte35Source.passthrough;
-      case 'NONE':
-        return M3u8Scte35Source.none;
-    }
-    throw Exception('$this is not known in enum M3u8Scte35Source');
-  }
+  const M3u8Scte35Source(this.value);
+
+  static M3u8Scte35Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum M3u8Scte35Source'));
 }
 
 /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container
@@ -24483,28 +18779,34 @@ class M3u8Settings {
 
   factory M3u8Settings.fromJson(Map<String, dynamic> json) {
     return M3u8Settings(
-      audioDuration: (json['audioDuration'] as String?)?.toM3u8AudioDuration(),
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(M3u8AudioDuration.fromString),
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
       audioPids: (json['audioPids'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
-      dataPTSControl:
-          (json['dataPTSControl'] as String?)?.toM3u8DataPtsControl(),
+      dataPTSControl: (json['dataPTSControl'] as String?)
+          ?.let(M3u8DataPtsControl.fromString),
       maxPcrInterval: json['maxPcrInterval'] as int?,
-      nielsenId3: (json['nielsenId3'] as String?)?.toM3u8NielsenId3(),
+      nielsenId3:
+          (json['nielsenId3'] as String?)?.let(M3u8NielsenId3.fromString),
       patInterval: json['patInterval'] as int?,
-      pcrControl: (json['pcrControl'] as String?)?.toM3u8PcrControl(),
+      pcrControl:
+          (json['pcrControl'] as String?)?.let(M3u8PcrControl.fromString),
       pcrPid: json['pcrPid'] as int?,
       pmtInterval: json['pmtInterval'] as int?,
       pmtPid: json['pmtPid'] as int?,
       privateMetadataPid: json['privateMetadataPid'] as int?,
       programNumber: json['programNumber'] as int?,
       ptsOffset: json['ptsOffset'] as int?,
-      ptsOffsetMode: (json['ptsOffsetMode'] as String?)?.toTsPtsOffset(),
+      ptsOffsetMode:
+          (json['ptsOffsetMode'] as String?)?.let(TsPtsOffset.fromString),
       scte35Pid: json['scte35Pid'] as int?,
-      scte35Source: (json['scte35Source'] as String?)?.toM3u8Scte35Source(),
-      timedMetadata: (json['timedMetadata'] as String?)?.toTimedMetadata(),
+      scte35Source:
+          (json['scte35Source'] as String?)?.let(M3u8Scte35Source.fromString),
+      timedMetadata:
+          (json['timedMetadata'] as String?)?.let(TimedMetadata.fromString),
       timedMetadataPid: json['timedMetadataPid'] as int?,
       transportStreamId: json['transportStreamId'] as int?,
       videoPid: json['videoPid'] as int?,
@@ -24534,24 +18836,24 @@ class M3u8Settings {
     final transportStreamId = this.transportStreamId;
     final videoPid = this.videoPid;
     return {
-      if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
       if (audioFramesPerPes != null) 'audioFramesPerPes': audioFramesPerPes,
       if (audioPids != null) 'audioPids': audioPids,
-      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.value,
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
-      if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
+      if (nielsenId3 != null) 'nielsenId3': nielsenId3.value,
       if (patInterval != null) 'patInterval': patInterval,
-      if (pcrControl != null) 'pcrControl': pcrControl.toValue(),
+      if (pcrControl != null) 'pcrControl': pcrControl.value,
       if (pcrPid != null) 'pcrPid': pcrPid,
       if (pmtInterval != null) 'pmtInterval': pmtInterval,
       if (pmtPid != null) 'pmtPid': pmtPid,
       if (privateMetadataPid != null) 'privateMetadataPid': privateMetadataPid,
       if (programNumber != null) 'programNumber': programNumber,
       if (ptsOffset != null) 'ptsOffset': ptsOffset,
-      if (ptsOffsetMode != null) 'ptsOffsetMode': ptsOffsetMode.toValue(),
+      if (ptsOffsetMode != null) 'ptsOffsetMode': ptsOffsetMode.value,
       if (scte35Pid != null) 'scte35Pid': scte35Pid,
-      if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
-      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
+      if (scte35Source != null) 'scte35Source': scte35Source.value,
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.value,
       if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
       if (transportStreamId != null) 'transportStreamId': transportStreamId,
       if (videoPid != null) 'videoPid': videoPid,
@@ -24700,13 +19002,14 @@ class MotionImageInserter {
               json['framerate'] as Map<String, dynamic>)
           : null,
       input: json['input'] as String?,
-      insertionMode:
-          (json['insertionMode'] as String?)?.toMotionImageInsertionMode(),
+      insertionMode: (json['insertionMode'] as String?)
+          ?.let(MotionImageInsertionMode.fromString),
       offset: json['offset'] != null
           ? MotionImageInsertionOffset.fromJson(
               json['offset'] as Map<String, dynamic>)
           : null,
-      playback: (json['playback'] as String?)?.toMotionImagePlayback(),
+      playback:
+          (json['playback'] as String?)?.let(MotionImagePlayback.fromString),
       startTime: json['startTime'] as String?,
     );
   }
@@ -24721,9 +19024,9 @@ class MotionImageInserter {
     return {
       if (framerate != null) 'framerate': framerate,
       if (input != null) 'input': input,
-      if (insertionMode != null) 'insertionMode': insertionMode.toValue(),
+      if (insertionMode != null) 'insertionMode': insertionMode.value,
       if (offset != null) 'offset': offset,
-      if (playback != null) 'playback': playback.toValue(),
+      if (playback != null) 'playback': playback.value,
       if (startTime != null) 'startTime': startTime,
     };
   }
@@ -24768,31 +19071,18 @@ class MotionImageInsertionFramerate {
 /// Choose the type of motion graphic asset that you are providing for your
 /// overlay. You can choose either a .mov file or a series of .png files.
 enum MotionImageInsertionMode {
-  mov,
-  png,
-}
+  mov('MOV'),
+  png('PNG'),
+  ;
 
-extension MotionImageInsertionModeValueExtension on MotionImageInsertionMode {
-  String toValue() {
-    switch (this) {
-      case MotionImageInsertionMode.mov:
-        return 'MOV';
-      case MotionImageInsertionMode.png:
-        return 'PNG';
-    }
-  }
-}
+  final String value;
 
-extension MotionImageInsertionModeFromString on String {
-  MotionImageInsertionMode toMotionImageInsertionMode() {
-    switch (this) {
-      case 'MOV':
-        return MotionImageInsertionMode.mov;
-      case 'PNG':
-        return MotionImageInsertionMode.png;
-    }
-    throw Exception('$this is not known in enum MotionImageInsertionMode');
-  }
+  const MotionImageInsertionMode(this.value);
+
+  static MotionImageInsertionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MotionImageInsertionMode'));
 }
 
 /// Specify the offset between the upper-left corner of the video frame and the
@@ -24831,61 +19121,34 @@ class MotionImageInsertionOffset {
 /// Specify whether your motion graphic overlay repeats on a loop or plays only
 /// once.
 enum MotionImagePlayback {
-  once,
-  repeat,
-}
+  once('ONCE'),
+  repeat('REPEAT'),
+  ;
 
-extension MotionImagePlaybackValueExtension on MotionImagePlayback {
-  String toValue() {
-    switch (this) {
-      case MotionImagePlayback.once:
-        return 'ONCE';
-      case MotionImagePlayback.repeat:
-        return 'REPEAT';
-    }
-  }
-}
+  final String value;
 
-extension MotionImagePlaybackFromString on String {
-  MotionImagePlayback toMotionImagePlayback() {
-    switch (this) {
-      case 'ONCE':
-        return MotionImagePlayback.once;
-      case 'REPEAT':
-        return MotionImagePlayback.repeat;
-    }
-    throw Exception('$this is not known in enum MotionImagePlayback');
-  }
+  const MotionImagePlayback(this.value);
+
+  static MotionImagePlayback fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MotionImagePlayback'));
 }
 
 /// When enabled, include 'clap' atom if appropriate for the video output
 /// settings.
 enum MovClapAtom {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension MovClapAtomValueExtension on MovClapAtom {
-  String toValue() {
-    switch (this) {
-      case MovClapAtom.include:
-        return 'INCLUDE';
-      case MovClapAtom.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension MovClapAtomFromString on String {
-  MovClapAtom toMovClapAtom() {
-    switch (this) {
-      case 'INCLUDE':
-        return MovClapAtom.include;
-      case 'EXCLUDE':
-        return MovClapAtom.exclude;
-    }
-    throw Exception('$this is not known in enum MovClapAtom');
-  }
+  const MovClapAtom(this.value);
+
+  static MovClapAtom fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MovClapAtom'));
 }
 
 /// When enabled, file composition times will start at zero, composition times
@@ -24894,31 +19157,17 @@ extension MovClapAtomFromString on String {
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
 enum MovCslgAtom {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension MovCslgAtomValueExtension on MovCslgAtom {
-  String toValue() {
-    switch (this) {
-      case MovCslgAtom.include:
-        return 'INCLUDE';
-      case MovCslgAtom.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension MovCslgAtomFromString on String {
-  MovCslgAtom toMovCslgAtom() {
-    switch (this) {
-      case 'INCLUDE':
-        return MovCslgAtom.include;
-      case 'EXCLUDE':
-        return MovCslgAtom.exclude;
-    }
-    throw Exception('$this is not known in enum MovCslgAtom');
-  }
+  const MovCslgAtom(this.value);
+
+  static MovCslgAtom fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MovCslgAtom'));
 }
 
 /// When set to XDCAM, writes MPEG2 video streams into the QuickTime file using
@@ -24926,31 +19175,18 @@ extension MovCslgAtomFromString on String {
 /// players, but may decrease compatibility with other players. Only applicable
 /// when the video codec is MPEG2.
 enum MovMpeg2FourCCControl {
-  xdcam,
-  mpeg,
-}
+  xdcam('XDCAM'),
+  mpeg('MPEG'),
+  ;
 
-extension MovMpeg2FourCCControlValueExtension on MovMpeg2FourCCControl {
-  String toValue() {
-    switch (this) {
-      case MovMpeg2FourCCControl.xdcam:
-        return 'XDCAM';
-      case MovMpeg2FourCCControl.mpeg:
-        return 'MPEG';
-    }
-  }
-}
+  final String value;
 
-extension MovMpeg2FourCCControlFromString on String {
-  MovMpeg2FourCCControl toMovMpeg2FourCCControl() {
-    switch (this) {
-      case 'XDCAM':
-        return MovMpeg2FourCCControl.xdcam;
-      case 'MPEG':
-        return MovMpeg2FourCCControl.mpeg;
-    }
-    throw Exception('$this is not known in enum MovMpeg2FourCCControl');
-  }
+  const MovMpeg2FourCCControl(this.value);
+
+  static MovMpeg2FourCCControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MovMpeg2FourCCControl'));
 }
 
 /// Unless you need Omneon compatibility: Keep the default value, None. To make
@@ -24959,60 +19195,34 @@ extension MovMpeg2FourCCControlFromString on String {
 /// cause file rejections when a recipient of the output file doesn't expect
 /// this extra padding.
 enum MovPaddingControl {
-  omneon,
-  none,
-}
+  omneon('OMNEON'),
+  none('NONE'),
+  ;
 
-extension MovPaddingControlValueExtension on MovPaddingControl {
-  String toValue() {
-    switch (this) {
-      case MovPaddingControl.omneon:
-        return 'OMNEON';
-      case MovPaddingControl.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension MovPaddingControlFromString on String {
-  MovPaddingControl toMovPaddingControl() {
-    switch (this) {
-      case 'OMNEON':
-        return MovPaddingControl.omneon;
-      case 'NONE':
-        return MovPaddingControl.none;
-    }
-    throw Exception('$this is not known in enum MovPaddingControl');
-  }
+  const MovPaddingControl(this.value);
+
+  static MovPaddingControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MovPaddingControl'));
 }
 
 /// Always keep the default value (SELF_CONTAINED) for this setting.
 enum MovReference {
-  selfContained,
-  external,
-}
+  selfContained('SELF_CONTAINED'),
+  external('EXTERNAL'),
+  ;
 
-extension MovReferenceValueExtension on MovReference {
-  String toValue() {
-    switch (this) {
-      case MovReference.selfContained:
-        return 'SELF_CONTAINED';
-      case MovReference.external:
-        return 'EXTERNAL';
-    }
-  }
-}
+  final String value;
 
-extension MovReferenceFromString on String {
-  MovReference toMovReference() {
-    switch (this) {
-      case 'SELF_CONTAINED':
-        return MovReference.selfContained;
-      case 'EXTERNAL':
-        return MovReference.external;
-    }
-    throw Exception('$this is not known in enum MovReference');
-  }
+  const MovReference(this.value);
+
+  static MovReference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MovReference'));
 }
 
 /// These settings relate to your QuickTime MOV output container.
@@ -25054,13 +19264,13 @@ class MovSettings {
 
   factory MovSettings.fromJson(Map<String, dynamic> json) {
     return MovSettings(
-      clapAtom: (json['clapAtom'] as String?)?.toMovClapAtom(),
-      cslgAtom: (json['cslgAtom'] as String?)?.toMovCslgAtom(),
-      mpeg2FourCCControl:
-          (json['mpeg2FourCCControl'] as String?)?.toMovMpeg2FourCCControl(),
-      paddingControl:
-          (json['paddingControl'] as String?)?.toMovPaddingControl(),
-      reference: (json['reference'] as String?)?.toMovReference(),
+      clapAtom: (json['clapAtom'] as String?)?.let(MovClapAtom.fromString),
+      cslgAtom: (json['cslgAtom'] as String?)?.let(MovCslgAtom.fromString),
+      mpeg2FourCCControl: (json['mpeg2FourCCControl'] as String?)
+          ?.let(MovMpeg2FourCCControl.fromString),
+      paddingControl: (json['paddingControl'] as String?)
+          ?.let(MovPaddingControl.fromString),
+      reference: (json['reference'] as String?)?.let(MovReference.fromString),
     );
   }
 
@@ -25071,12 +19281,12 @@ class MovSettings {
     final paddingControl = this.paddingControl;
     final reference = this.reference;
     return {
-      if (clapAtom != null) 'clapAtom': clapAtom.toValue(),
-      if (cslgAtom != null) 'cslgAtom': cslgAtom.toValue(),
+      if (clapAtom != null) 'clapAtom': clapAtom.value,
+      if (cslgAtom != null) 'cslgAtom': cslgAtom.value,
       if (mpeg2FourCCControl != null)
-        'mpeg2FourCCControl': mpeg2FourCCControl.toValue(),
-      if (paddingControl != null) 'paddingControl': paddingControl.toValue(),
-      if (reference != null) 'reference': reference.toValue(),
+        'mpeg2FourCCControl': mpeg2FourCCControl.value,
+      if (paddingControl != null) 'paddingControl': paddingControl.value,
+      if (reference != null) 'reference': reference.value,
     };
   }
 }
@@ -25123,31 +19333,18 @@ class Mp2Settings {
 /// Specify whether the service encodes this MP3 audio output with a constant
 /// bitrate (CBR) or a variable bitrate (VBR).
 enum Mp3RateControlMode {
-  cbr,
-  vbr,
-}
+  cbr('CBR'),
+  vbr('VBR'),
+  ;
 
-extension Mp3RateControlModeValueExtension on Mp3RateControlMode {
-  String toValue() {
-    switch (this) {
-      case Mp3RateControlMode.cbr:
-        return 'CBR';
-      case Mp3RateControlMode.vbr:
-        return 'VBR';
-    }
-  }
-}
+  final String value;
 
-extension Mp3RateControlModeFromString on String {
-  Mp3RateControlMode toMp3RateControlMode() {
-    switch (this) {
-      case 'CBR':
-        return Mp3RateControlMode.cbr;
-      case 'VBR':
-        return Mp3RateControlMode.vbr;
-    }
-    throw Exception('$this is not known in enum Mp3RateControlMode');
-  }
+  const Mp3RateControlMode(this.value);
+
+  static Mp3RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mp3RateControlMode'));
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -25184,8 +19381,8 @@ class Mp3Settings {
     return Mp3Settings(
       bitrate: json['bitrate'] as int?,
       channels: json['channels'] as int?,
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toMp3RateControlMode(),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(Mp3RateControlMode.fromString),
       sampleRate: json['sampleRate'] as int?,
       vbrQuality: json['vbrQuality'] as int?,
     );
@@ -25200,7 +19397,7 @@ class Mp3Settings {
     return {
       if (bitrate != null) 'bitrate': bitrate,
       if (channels != null) 'channels': channels,
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
       if (vbrQuality != null) 'vbrQuality': vbrQuality,
     };
@@ -25213,91 +19410,51 @@ class Mp3Settings {
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
 enum Mp4CslgAtom {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension Mp4CslgAtomValueExtension on Mp4CslgAtom {
-  String toValue() {
-    switch (this) {
-      case Mp4CslgAtom.include:
-        return 'INCLUDE';
-      case Mp4CslgAtom.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension Mp4CslgAtomFromString on String {
-  Mp4CslgAtom toMp4CslgAtom() {
-    switch (this) {
-      case 'INCLUDE':
-        return Mp4CslgAtom.include;
-      case 'EXCLUDE':
-        return Mp4CslgAtom.exclude;
-    }
-    throw Exception('$this is not known in enum Mp4CslgAtom');
-  }
+  const Mp4CslgAtom(this.value);
+
+  static Mp4CslgAtom fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Mp4CslgAtom'));
 }
 
 /// Inserts a free-space box immediately after the moov box.
 enum Mp4FreeSpaceBox {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension Mp4FreeSpaceBoxValueExtension on Mp4FreeSpaceBox {
-  String toValue() {
-    switch (this) {
-      case Mp4FreeSpaceBox.include:
-        return 'INCLUDE';
-      case Mp4FreeSpaceBox.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension Mp4FreeSpaceBoxFromString on String {
-  Mp4FreeSpaceBox toMp4FreeSpaceBox() {
-    switch (this) {
-      case 'INCLUDE':
-        return Mp4FreeSpaceBox.include;
-      case 'EXCLUDE':
-        return Mp4FreeSpaceBox.exclude;
-    }
-    throw Exception('$this is not known in enum Mp4FreeSpaceBox');
-  }
+  const Mp4FreeSpaceBox(this.value);
+
+  static Mp4FreeSpaceBox fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mp4FreeSpaceBox'));
 }
 
 /// To place the MOOV atom at the beginning of your output, which is useful for
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
 enum Mp4MoovPlacement {
-  progressiveDownload,
-  normal,
-}
+  progressiveDownload('PROGRESSIVE_DOWNLOAD'),
+  normal('NORMAL'),
+  ;
 
-extension Mp4MoovPlacementValueExtension on Mp4MoovPlacement {
-  String toValue() {
-    switch (this) {
-      case Mp4MoovPlacement.progressiveDownload:
-        return 'PROGRESSIVE_DOWNLOAD';
-      case Mp4MoovPlacement.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension Mp4MoovPlacementFromString on String {
-  Mp4MoovPlacement toMp4MoovPlacement() {
-    switch (this) {
-      case 'PROGRESSIVE_DOWNLOAD':
-        return Mp4MoovPlacement.progressiveDownload;
-      case 'NORMAL':
-        return Mp4MoovPlacement.normal;
-    }
-    throw Exception('$this is not known in enum Mp4MoovPlacement');
-  }
+  const Mp4MoovPlacement(this.value);
+
+  static Mp4MoovPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mp4MoovPlacement'));
 }
 
 /// These settings relate to your MP4 output container. You can create audio
@@ -25357,11 +19514,14 @@ class Mp4Settings {
 
   factory Mp4Settings.fromJson(Map<String, dynamic> json) {
     return Mp4Settings(
-      audioDuration: (json['audioDuration'] as String?)?.toCmfcAudioDuration(),
-      cslgAtom: (json['cslgAtom'] as String?)?.toMp4CslgAtom(),
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(CmfcAudioDuration.fromString),
+      cslgAtom: (json['cslgAtom'] as String?)?.let(Mp4CslgAtom.fromString),
       cttsVersion: json['cttsVersion'] as int?,
-      freeSpaceBox: (json['freeSpaceBox'] as String?)?.toMp4FreeSpaceBox(),
-      moovPlacement: (json['moovPlacement'] as String?)?.toMp4MoovPlacement(),
+      freeSpaceBox:
+          (json['freeSpaceBox'] as String?)?.let(Mp4FreeSpaceBox.fromString),
+      moovPlacement:
+          (json['moovPlacement'] as String?)?.let(Mp4MoovPlacement.fromString),
       mp4MajorBrand: json['mp4MajorBrand'] as String?,
     );
   }
@@ -25374,11 +19534,11 @@ class Mp4Settings {
     final moovPlacement = this.moovPlacement;
     final mp4MajorBrand = this.mp4MajorBrand;
     return {
-      if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
-      if (cslgAtom != null) 'cslgAtom': cslgAtom.toValue(),
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
+      if (cslgAtom != null) 'cslgAtom': cslgAtom.value,
       if (cttsVersion != null) 'cttsVersion': cttsVersion,
-      if (freeSpaceBox != null) 'freeSpaceBox': freeSpaceBox.toValue(),
-      if (moovPlacement != null) 'moovPlacement': moovPlacement.toValue(),
+      if (freeSpaceBox != null) 'freeSpaceBox': freeSpaceBox.value,
+      if (moovPlacement != null) 'moovPlacement': moovPlacement.value,
       if (mp4MajorBrand != null) 'mp4MajorBrand': mp4MajorBrand,
     };
   }
@@ -25392,32 +19552,18 @@ class Mp4Settings {
 /// MediaConvert includes in your manifest: <Accessibility
 /// schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng"/>
 enum MpdAccessibilityCaptionHints {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension MpdAccessibilityCaptionHintsValueExtension
-    on MpdAccessibilityCaptionHints {
-  String toValue() {
-    switch (this) {
-      case MpdAccessibilityCaptionHints.include:
-        return 'INCLUDE';
-      case MpdAccessibilityCaptionHints.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension MpdAccessibilityCaptionHintsFromString on String {
-  MpdAccessibilityCaptionHints toMpdAccessibilityCaptionHints() {
-    switch (this) {
-      case 'INCLUDE':
-        return MpdAccessibilityCaptionHints.include;
-      case 'EXCLUDE':
-        return MpdAccessibilityCaptionHints.exclude;
-    }
-    throw Exception('$this is not known in enum MpdAccessibilityCaptionHints');
-  }
+  const MpdAccessibilityCaptionHints(this.value);
+
+  static MpdAccessibilityCaptionHints fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MpdAccessibilityCaptionHints'));
 }
 
 /// Specify this setting only when your output will be consumed by a downstream
@@ -25434,31 +19580,18 @@ extension MpdAccessibilityCaptionHintsFromString on String {
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
 enum MpdAudioDuration {
-  defaultCodecDuration,
-  matchVideoDuration,
-}
+  defaultCodecDuration('DEFAULT_CODEC_DURATION'),
+  matchVideoDuration('MATCH_VIDEO_DURATION'),
+  ;
 
-extension MpdAudioDurationValueExtension on MpdAudioDuration {
-  String toValue() {
-    switch (this) {
-      case MpdAudioDuration.defaultCodecDuration:
-        return 'DEFAULT_CODEC_DURATION';
-      case MpdAudioDuration.matchVideoDuration:
-        return 'MATCH_VIDEO_DURATION';
-    }
-  }
-}
+  final String value;
 
-extension MpdAudioDurationFromString on String {
-  MpdAudioDuration toMpdAudioDuration() {
-    switch (this) {
-      case 'DEFAULT_CODEC_DURATION':
-        return MpdAudioDuration.defaultCodecDuration;
-      case 'MATCH_VIDEO_DURATION':
-        return MpdAudioDuration.matchVideoDuration;
-    }
-    throw Exception('$this is not known in enum MpdAudioDuration');
-  }
+  const MpdAudioDuration(this.value);
+
+  static MpdAudioDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MpdAudioDuration'));
 }
 
 /// Use this setting only in DASH output groups that include sidecar TTML or
@@ -25468,31 +19601,18 @@ extension MpdAudioDurationFromString on String {
 /// within fragmented MP4 files. This set of fragmented MP4 files is separate
 /// from your video and audio fragmented MP4 files.
 enum MpdCaptionContainerType {
-  raw,
-  fragmentedMp4,
-}
+  raw('RAW'),
+  fragmentedMp4('FRAGMENTED_MP4'),
+  ;
 
-extension MpdCaptionContainerTypeValueExtension on MpdCaptionContainerType {
-  String toValue() {
-    switch (this) {
-      case MpdCaptionContainerType.raw:
-        return 'RAW';
-      case MpdCaptionContainerType.fragmentedMp4:
-        return 'FRAGMENTED_MP4';
-    }
-  }
-}
+  final String value;
 
-extension MpdCaptionContainerTypeFromString on String {
-  MpdCaptionContainerType toMpdCaptionContainerType() {
-    switch (this) {
-      case 'RAW':
-        return MpdCaptionContainerType.raw;
-      case 'FRAGMENTED_MP4':
-        return MpdCaptionContainerType.fragmentedMp4;
-    }
-    throw Exception('$this is not known in enum MpdCaptionContainerType');
-  }
+  const MpdCaptionContainerType(this.value);
+
+  static MpdCaptionContainerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MpdCaptionContainerType'));
 }
 
 /// To include key-length-value metadata in this output: Set KLV metadata
@@ -25501,31 +19621,18 @@ extension MpdCaptionContainerTypeFromString on String {
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
 enum MpdKlvMetadata {
-  none,
-  passthrough,
-}
+  none('NONE'),
+  passthrough('PASSTHROUGH'),
+  ;
 
-extension MpdKlvMetadataValueExtension on MpdKlvMetadata {
-  String toValue() {
-    switch (this) {
-      case MpdKlvMetadata.none:
-        return 'NONE';
-      case MpdKlvMetadata.passthrough:
-        return 'PASSTHROUGH';
-    }
-  }
-}
+  final String value;
 
-extension MpdKlvMetadataFromString on String {
-  MpdKlvMetadata toMpdKlvMetadata() {
-    switch (this) {
-      case 'NONE':
-        return MpdKlvMetadata.none;
-      case 'PASSTHROUGH':
-        return MpdKlvMetadata.passthrough;
-    }
-    throw Exception('$this is not known in enum MpdKlvMetadata');
-  }
+  const MpdKlvMetadata(this.value);
+
+  static MpdKlvMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MpdKlvMetadata'));
 }
 
 /// To add an InbandEventStream element in your output MPD manifest for each
@@ -25538,32 +19645,18 @@ extension MpdKlvMetadataFromString on String {
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
 enum MpdManifestMetadataSignaling {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension MpdManifestMetadataSignalingValueExtension
-    on MpdManifestMetadataSignaling {
-  String toValue() {
-    switch (this) {
-      case MpdManifestMetadataSignaling.enabled:
-        return 'ENABLED';
-      case MpdManifestMetadataSignaling.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension MpdManifestMetadataSignalingFromString on String {
-  MpdManifestMetadataSignaling toMpdManifestMetadataSignaling() {
-    switch (this) {
-      case 'ENABLED':
-        return MpdManifestMetadataSignaling.enabled;
-      case 'DISABLED':
-        return MpdManifestMetadataSignaling.disabled;
-    }
-    throw Exception('$this is not known in enum MpdManifestMetadataSignaling');
-  }
+  const MpdManifestMetadataSignaling(this.value);
+
+  static MpdManifestMetadataSignaling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MpdManifestMetadataSignaling'));
 }
 
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
@@ -25571,31 +19664,18 @@ extension MpdManifestMetadataSignalingFromString on String {
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
 enum MpdScte35Esam {
-  insert,
-  none,
-}
+  insert('INSERT'),
+  none('NONE'),
+  ;
 
-extension MpdScte35EsamValueExtension on MpdScte35Esam {
-  String toValue() {
-    switch (this) {
-      case MpdScte35Esam.insert:
-        return 'INSERT';
-      case MpdScte35Esam.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension MpdScte35EsamFromString on String {
-  MpdScte35Esam toMpdScte35Esam() {
-    switch (this) {
-      case 'INSERT':
-        return MpdScte35Esam.insert;
-      case 'NONE':
-        return MpdScte35Esam.none;
-    }
-    throw Exception('$this is not known in enum MpdScte35Esam');
-  }
+  const MpdScte35Esam(this.value);
+
+  static MpdScte35Esam fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MpdScte35Esam'));
 }
 
 /// Ignore this setting unless you have SCTE-35 markers in your input video
@@ -25603,31 +19683,18 @@ extension MpdScte35EsamFromString on String {
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
 enum MpdScte35Source {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension MpdScte35SourceValueExtension on MpdScte35Source {
-  String toValue() {
-    switch (this) {
-      case MpdScte35Source.passthrough:
-        return 'PASSTHROUGH';
-      case MpdScte35Source.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension MpdScte35SourceFromString on String {
-  MpdScte35Source toMpdScte35Source() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return MpdScte35Source.passthrough;
-      case 'NONE':
-        return MpdScte35Source.none;
-    }
-    throw Exception('$this is not known in enum MpdScte35Source');
-  }
+  const MpdScte35Source(this.value);
+
+  static MpdScte35Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MpdScte35Source'));
 }
 
 /// These settings relate to the fragmented MP4 container for the segments in
@@ -25738,18 +19805,23 @@ class MpdSettings {
   factory MpdSettings.fromJson(Map<String, dynamic> json) {
     return MpdSettings(
       accessibilityCaptionHints: (json['accessibilityCaptionHints'] as String?)
-          ?.toMpdAccessibilityCaptionHints(),
-      audioDuration: (json['audioDuration'] as String?)?.toMpdAudioDuration(),
+          ?.let(MpdAccessibilityCaptionHints.fromString),
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(MpdAudioDuration.fromString),
       captionContainerType: (json['captionContainerType'] as String?)
-          ?.toMpdCaptionContainerType(),
-      klvMetadata: (json['klvMetadata'] as String?)?.toMpdKlvMetadata(),
+          ?.let(MpdCaptionContainerType.fromString),
+      klvMetadata:
+          (json['klvMetadata'] as String?)?.let(MpdKlvMetadata.fromString),
       manifestMetadataSignaling: (json['manifestMetadataSignaling'] as String?)
-          ?.toMpdManifestMetadataSignaling(),
-      scte35Esam: (json['scte35Esam'] as String?)?.toMpdScte35Esam(),
-      scte35Source: (json['scte35Source'] as String?)?.toMpdScte35Source(),
-      timedMetadata: (json['timedMetadata'] as String?)?.toMpdTimedMetadata(),
+          ?.let(MpdManifestMetadataSignaling.fromString),
+      scte35Esam:
+          (json['scte35Esam'] as String?)?.let(MpdScte35Esam.fromString),
+      scte35Source:
+          (json['scte35Source'] as String?)?.let(MpdScte35Source.fromString),
+      timedMetadata:
+          (json['timedMetadata'] as String?)?.let(MpdTimedMetadata.fromString),
       timedMetadataBoxVersion: (json['timedMetadataBoxVersion'] as String?)
-          ?.toMpdTimedMetadataBoxVersion(),
+          ?.let(MpdTimedMetadataBoxVersion.fromString),
       timedMetadataSchemeIdUri: json['timedMetadataSchemeIdUri'] as String?,
       timedMetadataValue: json['timedMetadataValue'] as String?,
     );
@@ -25769,18 +19841,18 @@ class MpdSettings {
     final timedMetadataValue = this.timedMetadataValue;
     return {
       if (accessibilityCaptionHints != null)
-        'accessibilityCaptionHints': accessibilityCaptionHints.toValue(),
-      if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
+        'accessibilityCaptionHints': accessibilityCaptionHints.value,
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
       if (captionContainerType != null)
-        'captionContainerType': captionContainerType.toValue(),
-      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
+        'captionContainerType': captionContainerType.value,
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.value,
       if (manifestMetadataSignaling != null)
-        'manifestMetadataSignaling': manifestMetadataSignaling.toValue(),
-      if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
-      if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
-      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
+        'manifestMetadataSignaling': manifestMetadataSignaling.value,
+      if (scte35Esam != null) 'scte35Esam': scte35Esam.value,
+      if (scte35Source != null) 'scte35Source': scte35Source.value,
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.value,
       if (timedMetadataBoxVersion != null)
-        'timedMetadataBoxVersion': timedMetadataBoxVersion.toValue(),
+        'timedMetadataBoxVersion': timedMetadataBoxVersion.value,
       if (timedMetadataSchemeIdUri != null)
         'timedMetadataSchemeIdUri': timedMetadataSchemeIdUri,
       if (timedMetadataValue != null) 'timedMetadataValue': timedMetadataValue,
@@ -25793,31 +19865,18 @@ class MpdSettings {
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
 enum MpdTimedMetadata {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension MpdTimedMetadataValueExtension on MpdTimedMetadata {
-  String toValue() {
-    switch (this) {
-      case MpdTimedMetadata.passthrough:
-        return 'PASSTHROUGH';
-      case MpdTimedMetadata.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension MpdTimedMetadataFromString on String {
-  MpdTimedMetadata toMpdTimedMetadata() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return MpdTimedMetadata.passthrough;
-      case 'NONE':
-        return MpdTimedMetadata.none;
-    }
-    throw Exception('$this is not known in enum MpdTimedMetadata');
-  }
+  const MpdTimedMetadata(this.value);
+
+  static MpdTimedMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MpdTimedMetadata'));
 }
 
 /// Specify the event message box (eMSG) version for ID3 timed metadata in your
@@ -25826,146 +19885,73 @@ extension MpdTimedMetadataFromString on String {
 /// Leave blank to use the default value Version 0.
 /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
 enum MpdTimedMetadataBoxVersion {
-  version_0,
-  version_1,
-}
+  version_0('VERSION_0'),
+  version_1('VERSION_1'),
+  ;
 
-extension MpdTimedMetadataBoxVersionValueExtension
-    on MpdTimedMetadataBoxVersion {
-  String toValue() {
-    switch (this) {
-      case MpdTimedMetadataBoxVersion.version_0:
-        return 'VERSION_0';
-      case MpdTimedMetadataBoxVersion.version_1:
-        return 'VERSION_1';
-    }
-  }
-}
+  final String value;
 
-extension MpdTimedMetadataBoxVersionFromString on String {
-  MpdTimedMetadataBoxVersion toMpdTimedMetadataBoxVersion() {
-    switch (this) {
-      case 'VERSION_0':
-        return MpdTimedMetadataBoxVersion.version_0;
-      case 'VERSION_1':
-        return MpdTimedMetadataBoxVersion.version_1;
-    }
-    throw Exception('$this is not known in enum MpdTimedMetadataBoxVersion');
-  }
+  const MpdTimedMetadataBoxVersion(this.value);
+
+  static MpdTimedMetadataBoxVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MpdTimedMetadataBoxVersion'));
 }
 
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to the following settings: Spatial
 /// adaptive quantization, and Temporal adaptive quantization.
 enum Mpeg2AdaptiveQuantization {
-  off,
-  low,
-  medium,
-  high,
-}
+  off('OFF'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension Mpeg2AdaptiveQuantizationValueExtension on Mpeg2AdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case Mpeg2AdaptiveQuantization.off:
-        return 'OFF';
-      case Mpeg2AdaptiveQuantization.low:
-        return 'LOW';
-      case Mpeg2AdaptiveQuantization.medium:
-        return 'MEDIUM';
-      case Mpeg2AdaptiveQuantization.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2AdaptiveQuantizationFromString on String {
-  Mpeg2AdaptiveQuantization toMpeg2AdaptiveQuantization() {
-    switch (this) {
-      case 'OFF':
-        return Mpeg2AdaptiveQuantization.off;
-      case 'LOW':
-        return Mpeg2AdaptiveQuantization.low;
-      case 'MEDIUM':
-        return Mpeg2AdaptiveQuantization.medium;
-      case 'HIGH':
-        return Mpeg2AdaptiveQuantization.high;
-    }
-    throw Exception('$this is not known in enum Mpeg2AdaptiveQuantization');
-  }
+  const Mpeg2AdaptiveQuantization(this.value);
+
+  static Mpeg2AdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2AdaptiveQuantization'));
 }
 
 /// Use Level to set the MPEG-2 level for the video output.
 enum Mpeg2CodecLevel {
-  auto,
-  low,
-  main,
-  high1440,
-  high,
-}
+  auto('AUTO'),
+  low('LOW'),
+  main('MAIN'),
+  high1440('HIGH1440'),
+  high('HIGH'),
+  ;
 
-extension Mpeg2CodecLevelValueExtension on Mpeg2CodecLevel {
-  String toValue() {
-    switch (this) {
-      case Mpeg2CodecLevel.auto:
-        return 'AUTO';
-      case Mpeg2CodecLevel.low:
-        return 'LOW';
-      case Mpeg2CodecLevel.main:
-        return 'MAIN';
-      case Mpeg2CodecLevel.high1440:
-        return 'HIGH1440';
-      case Mpeg2CodecLevel.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2CodecLevelFromString on String {
-  Mpeg2CodecLevel toMpeg2CodecLevel() {
-    switch (this) {
-      case 'AUTO':
-        return Mpeg2CodecLevel.auto;
-      case 'LOW':
-        return Mpeg2CodecLevel.low;
-      case 'MAIN':
-        return Mpeg2CodecLevel.main;
-      case 'HIGH1440':
-        return Mpeg2CodecLevel.high1440;
-      case 'HIGH':
-        return Mpeg2CodecLevel.high;
-    }
-    throw Exception('$this is not known in enum Mpeg2CodecLevel');
-  }
+  const Mpeg2CodecLevel(this.value);
+
+  static Mpeg2CodecLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2CodecLevel'));
 }
 
 /// Use Profile to set the MPEG-2 profile for the video output.
 enum Mpeg2CodecProfile {
-  main,
-  profile_422,
-}
+  main('MAIN'),
+  profile_422('PROFILE_422'),
+  ;
 
-extension Mpeg2CodecProfileValueExtension on Mpeg2CodecProfile {
-  String toValue() {
-    switch (this) {
-      case Mpeg2CodecProfile.main:
-        return 'MAIN';
-      case Mpeg2CodecProfile.profile_422:
-        return 'PROFILE_422';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2CodecProfileFromString on String {
-  Mpeg2CodecProfile toMpeg2CodecProfile() {
-    switch (this) {
-      case 'MAIN':
-        return Mpeg2CodecProfile.main;
-      case 'PROFILE_422':
-        return Mpeg2CodecProfile.profile_422;
-    }
-    throw Exception('$this is not known in enum Mpeg2CodecProfile');
-  }
+  const Mpeg2CodecProfile(this.value);
+
+  static Mpeg2CodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2CodecProfile'));
 }
 
 /// Choose Adaptive to improve subjective video quality for high-motion content.
@@ -25974,31 +19960,18 @@ extension Mpeg2CodecProfileFromString on String {
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
 enum Mpeg2DynamicSubGop {
-  adaptive,
-  static,
-}
+  adaptive('ADAPTIVE'),
+  static('STATIC'),
+  ;
 
-extension Mpeg2DynamicSubGopValueExtension on Mpeg2DynamicSubGop {
-  String toValue() {
-    switch (this) {
-      case Mpeg2DynamicSubGop.adaptive:
-        return 'ADAPTIVE';
-      case Mpeg2DynamicSubGop.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2DynamicSubGopFromString on String {
-  Mpeg2DynamicSubGop toMpeg2DynamicSubGop() {
-    switch (this) {
-      case 'ADAPTIVE':
-        return Mpeg2DynamicSubGop.adaptive;
-      case 'STATIC':
-        return Mpeg2DynamicSubGop.static;
-    }
-    throw Exception('$this is not known in enum Mpeg2DynamicSubGop');
-  }
+  const Mpeg2DynamicSubGop(this.value);
+
+  static Mpeg2DynamicSubGop fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mpeg2DynamicSubGop'));
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -26008,31 +19981,18 @@ extension Mpeg2DynamicSubGopFromString on String {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum Mpeg2FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Mpeg2FramerateControlValueExtension on Mpeg2FramerateControl {
-  String toValue() {
-    switch (this) {
-      case Mpeg2FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Mpeg2FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2FramerateControlFromString on String {
-  Mpeg2FramerateControl toMpeg2FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Mpeg2FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Mpeg2FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum Mpeg2FramerateControl');
-  }
+  const Mpeg2FramerateControl(this.value);
+
+  static Mpeg2FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mpeg2FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -26047,68 +20007,36 @@ extension Mpeg2FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum Mpeg2FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension Mpeg2FramerateConversionAlgorithmValueExtension
-    on Mpeg2FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case Mpeg2FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case Mpeg2FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case Mpeg2FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2FramerateConversionAlgorithmFromString on String {
-  Mpeg2FramerateConversionAlgorithm toMpeg2FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return Mpeg2FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return Mpeg2FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return Mpeg2FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum Mpeg2FramerateConversionAlgorithm');
-  }
+  const Mpeg2FramerateConversionAlgorithm(this.value);
+
+  static Mpeg2FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2FramerateConversionAlgorithm'));
 }
 
 /// Specify the units for GOP size. If you don't specify a value here, by
 /// default the encoder measures GOP size in frames.
 enum Mpeg2GopSizeUnits {
-  frames,
-  seconds,
-}
+  frames('FRAMES'),
+  seconds('SECONDS'),
+  ;
 
-extension Mpeg2GopSizeUnitsValueExtension on Mpeg2GopSizeUnits {
-  String toValue() {
-    switch (this) {
-      case Mpeg2GopSizeUnits.frames:
-        return 'FRAMES';
-      case Mpeg2GopSizeUnits.seconds:
-        return 'SECONDS';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2GopSizeUnitsFromString on String {
-  Mpeg2GopSizeUnits toMpeg2GopSizeUnits() {
-    switch (this) {
-      case 'FRAMES':
-        return Mpeg2GopSizeUnits.frames;
-      case 'SECONDS':
-        return Mpeg2GopSizeUnits.seconds;
-    }
-    throw Exception('$this is not known in enum Mpeg2GopSizeUnits');
-  }
+  const Mpeg2GopSizeUnits(this.value);
+
+  static Mpeg2GopSizeUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2GopSizeUnits'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -26123,92 +20051,42 @@ extension Mpeg2GopSizeUnitsFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum Mpeg2InterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension Mpeg2InterlaceModeValueExtension on Mpeg2InterlaceMode {
-  String toValue() {
-    switch (this) {
-      case Mpeg2InterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case Mpeg2InterlaceMode.topField:
-        return 'TOP_FIELD';
-      case Mpeg2InterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case Mpeg2InterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case Mpeg2InterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2InterlaceModeFromString on String {
-  Mpeg2InterlaceMode toMpeg2InterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return Mpeg2InterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return Mpeg2InterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return Mpeg2InterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return Mpeg2InterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return Mpeg2InterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum Mpeg2InterlaceMode');
-  }
+  const Mpeg2InterlaceMode(this.value);
+
+  static Mpeg2InterlaceMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mpeg2InterlaceMode'));
 }
 
 /// Use Intra DC precision to set quantization precision for intra-block DC
 /// coefficients. If you choose the value auto, the service will automatically
 /// select the precision based on the per-frame compression ratio.
 enum Mpeg2IntraDcPrecision {
-  auto,
-  intraDcPrecision_8,
-  intraDcPrecision_9,
-  intraDcPrecision_10,
-  intraDcPrecision_11,
-}
+  auto('AUTO'),
+  intraDcPrecision_8('INTRA_DC_PRECISION_8'),
+  intraDcPrecision_9('INTRA_DC_PRECISION_9'),
+  intraDcPrecision_10('INTRA_DC_PRECISION_10'),
+  intraDcPrecision_11('INTRA_DC_PRECISION_11'),
+  ;
 
-extension Mpeg2IntraDcPrecisionValueExtension on Mpeg2IntraDcPrecision {
-  String toValue() {
-    switch (this) {
-      case Mpeg2IntraDcPrecision.auto:
-        return 'AUTO';
-      case Mpeg2IntraDcPrecision.intraDcPrecision_8:
-        return 'INTRA_DC_PRECISION_8';
-      case Mpeg2IntraDcPrecision.intraDcPrecision_9:
-        return 'INTRA_DC_PRECISION_9';
-      case Mpeg2IntraDcPrecision.intraDcPrecision_10:
-        return 'INTRA_DC_PRECISION_10';
-      case Mpeg2IntraDcPrecision.intraDcPrecision_11:
-        return 'INTRA_DC_PRECISION_11';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2IntraDcPrecisionFromString on String {
-  Mpeg2IntraDcPrecision toMpeg2IntraDcPrecision() {
-    switch (this) {
-      case 'AUTO':
-        return Mpeg2IntraDcPrecision.auto;
-      case 'INTRA_DC_PRECISION_8':
-        return Mpeg2IntraDcPrecision.intraDcPrecision_8;
-      case 'INTRA_DC_PRECISION_9':
-        return Mpeg2IntraDcPrecision.intraDcPrecision_9;
-      case 'INTRA_DC_PRECISION_10':
-        return Mpeg2IntraDcPrecision.intraDcPrecision_10;
-      case 'INTRA_DC_PRECISION_11':
-        return Mpeg2IntraDcPrecision.intraDcPrecision_11;
-    }
-    throw Exception('$this is not known in enum Mpeg2IntraDcPrecision');
-  }
+  const Mpeg2IntraDcPrecision(this.value);
+
+  static Mpeg2IntraDcPrecision fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mpeg2IntraDcPrecision'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -26218,92 +20096,53 @@ extension Mpeg2IntraDcPrecisionFromString on String {
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
 enum Mpeg2ParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Mpeg2ParControlValueExtension on Mpeg2ParControl {
-  String toValue() {
-    switch (this) {
-      case Mpeg2ParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Mpeg2ParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2ParControlFromString on String {
-  Mpeg2ParControl toMpeg2ParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Mpeg2ParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Mpeg2ParControl.specified;
-    }
-    throw Exception('$this is not known in enum Mpeg2ParControl');
-  }
+  const Mpeg2ParControl(this.value);
+
+  static Mpeg2ParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2ParControl'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
 enum Mpeg2QualityTuningLevel {
-  singlePass,
-  multiPass,
-}
+  singlePass('SINGLE_PASS'),
+  multiPass('MULTI_PASS'),
+  ;
 
-extension Mpeg2QualityTuningLevelValueExtension on Mpeg2QualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case Mpeg2QualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case Mpeg2QualityTuningLevel.multiPass:
-        return 'MULTI_PASS';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2QualityTuningLevelFromString on String {
-  Mpeg2QualityTuningLevel toMpeg2QualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return Mpeg2QualityTuningLevel.singlePass;
-      case 'MULTI_PASS':
-        return Mpeg2QualityTuningLevel.multiPass;
-    }
-    throw Exception('$this is not known in enum Mpeg2QualityTuningLevel');
-  }
+  const Mpeg2QualityTuningLevel(this.value);
+
+  static Mpeg2QualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2QualityTuningLevel'));
 }
 
 /// Use Rate control mode to specify whether the bitrate is variable (vbr) or
 /// constant (cbr).
 enum Mpeg2RateControlMode {
-  vbr,
-  cbr,
-}
+  vbr('VBR'),
+  cbr('CBR'),
+  ;
 
-extension Mpeg2RateControlModeValueExtension on Mpeg2RateControlMode {
-  String toValue() {
-    switch (this) {
-      case Mpeg2RateControlMode.vbr:
-        return 'VBR';
-      case Mpeg2RateControlMode.cbr:
-        return 'CBR';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2RateControlModeFromString on String {
-  Mpeg2RateControlMode toMpeg2RateControlMode() {
-    switch (this) {
-      case 'VBR':
-        return Mpeg2RateControlMode.vbr;
-      case 'CBR':
-        return Mpeg2RateControlMode.cbr;
-    }
-    throw Exception('$this is not known in enum Mpeg2RateControlMode');
-  }
+  const Mpeg2RateControlMode(this.value);
+
+  static Mpeg2RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Mpeg2RateControlMode'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -26319,63 +20158,36 @@ extension Mpeg2RateControlModeFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum Mpeg2ScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension Mpeg2ScanTypeConversionModeValueExtension
-    on Mpeg2ScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case Mpeg2ScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case Mpeg2ScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2ScanTypeConversionModeFromString on String {
-  Mpeg2ScanTypeConversionMode toMpeg2ScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return Mpeg2ScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return Mpeg2ScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception('$this is not known in enum Mpeg2ScanTypeConversionMode');
-  }
+  const Mpeg2ScanTypeConversionMode(this.value);
+
+  static Mpeg2ScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2ScanTypeConversionMode'));
 }
 
 /// Enable this setting to insert I-frames at scene changes that the service
 /// automatically detects. This improves video quality and is enabled by
 /// default.
 enum Mpeg2SceneChangeDetect {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Mpeg2SceneChangeDetectValueExtension on Mpeg2SceneChangeDetect {
-  String toValue() {
-    switch (this) {
-      case Mpeg2SceneChangeDetect.disabled:
-        return 'DISABLED';
-      case Mpeg2SceneChangeDetect.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2SceneChangeDetectFromString on String {
-  Mpeg2SceneChangeDetect toMpeg2SceneChangeDetect() {
-    switch (this) {
-      case 'DISABLED':
-        return Mpeg2SceneChangeDetect.disabled;
-      case 'ENABLED':
-        return Mpeg2SceneChangeDetect.enabled;
-    }
-    throw Exception('$this is not known in enum Mpeg2SceneChangeDetect');
-  }
+  const Mpeg2SceneChangeDetect(this.value);
+
+  static Mpeg2SceneChangeDetect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2SceneChangeDetect'));
 }
 
 /// Required when you set Codec to the value MPEG2.
@@ -26670,54 +20482,60 @@ class Mpeg2Settings {
   factory Mpeg2Settings.fromJson(Map<String, dynamic> json) {
     return Mpeg2Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
-          ?.toMpeg2AdaptiveQuantization(),
+          ?.let(Mpeg2AdaptiveQuantization.fromString),
       bitrate: json['bitrate'] as int?,
-      codecLevel: (json['codecLevel'] as String?)?.toMpeg2CodecLevel(),
-      codecProfile: (json['codecProfile'] as String?)?.toMpeg2CodecProfile(),
-      dynamicSubGop: (json['dynamicSubGop'] as String?)?.toMpeg2DynamicSubGop(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toMpeg2FramerateControl(),
+      codecLevel:
+          (json['codecLevel'] as String?)?.let(Mpeg2CodecLevel.fromString),
+      codecProfile:
+          (json['codecProfile'] as String?)?.let(Mpeg2CodecProfile.fromString),
+      dynamicSubGop: (json['dynamicSubGop'] as String?)
+          ?.let(Mpeg2DynamicSubGop.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(Mpeg2FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toMpeg2FramerateConversionAlgorithm(),
+              ?.let(Mpeg2FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
-      gopSizeUnits: (json['gopSizeUnits'] as String?)?.toMpeg2GopSizeUnits(),
+      gopSizeUnits:
+          (json['gopSizeUnits'] as String?)?.let(Mpeg2GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
           json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
-      interlaceMode: (json['interlaceMode'] as String?)?.toMpeg2InterlaceMode(),
-      intraDcPrecision:
-          (json['intraDcPrecision'] as String?)?.toMpeg2IntraDcPrecision(),
+      interlaceMode: (json['interlaceMode'] as String?)
+          ?.let(Mpeg2InterlaceMode.fromString),
+      intraDcPrecision: (json['intraDcPrecision'] as String?)
+          ?.let(Mpeg2IntraDcPrecision.fromString),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
       numberBFramesBetweenReferenceFrames:
           json['numberBFramesBetweenReferenceFrames'] as int?,
-      parControl: (json['parControl'] as String?)?.toMpeg2ParControl(),
+      parControl:
+          (json['parControl'] as String?)?.let(Mpeg2ParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
-      qualityTuningLevel:
-          (json['qualityTuningLevel'] as String?)?.toMpeg2QualityTuningLevel(),
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toMpeg2RateControlMode(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.let(Mpeg2QualityTuningLevel.fromString),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(Mpeg2RateControlMode.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toMpeg2ScanTypeConversionMode(),
-      sceneChangeDetect:
-          (json['sceneChangeDetect'] as String?)?.toMpeg2SceneChangeDetect(),
-      slowPal: (json['slowPal'] as String?)?.toMpeg2SlowPal(),
+          ?.let(Mpeg2ScanTypeConversionMode.fromString),
+      sceneChangeDetect: (json['sceneChangeDetect'] as String?)
+          ?.let(Mpeg2SceneChangeDetect.fromString),
+      slowPal: (json['slowPal'] as String?)?.let(Mpeg2SlowPal.fromString),
       softness: json['softness'] as int?,
       spatialAdaptiveQuantization:
           (json['spatialAdaptiveQuantization'] as String?)
-              ?.toMpeg2SpatialAdaptiveQuantization(),
-      syntax: (json['syntax'] as String?)?.toMpeg2Syntax(),
-      telecine: (json['telecine'] as String?)?.toMpeg2Telecine(),
+              ?.let(Mpeg2SpatialAdaptiveQuantization.fromString),
+      syntax: (json['syntax'] as String?)?.let(Mpeg2Syntax.fromString),
+      telecine: (json['telecine'] as String?)?.let(Mpeg2Telecine.fromString),
       temporalAdaptiveQuantization:
           (json['temporalAdaptiveQuantization'] as String?)
-              ?.toMpeg2TemporalAdaptiveQuantization(),
+              ?.let(Mpeg2TemporalAdaptiveQuantization.fromString),
     );
   }
 
@@ -26758,52 +20576,50 @@ class Mpeg2Settings {
     final temporalAdaptiveQuantization = this.temporalAdaptiveQuantization;
     return {
       if (adaptiveQuantization != null)
-        'adaptiveQuantization': adaptiveQuantization.toValue(),
+        'adaptiveQuantization': adaptiveQuantization.value,
       if (bitrate != null) 'bitrate': bitrate,
-      if (codecLevel != null) 'codecLevel': codecLevel.toValue(),
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
-      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (codecLevel != null) 'codecLevel': codecLevel.value,
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
+      if (dynamicSubGop != null) 'dynamicSubGop': dynamicSubGop.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
-      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
-      if (intraDcPrecision != null)
-        'intraDcPrecision': intraDcPrecision.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
+      if (intraDcPrecision != null) 'intraDcPrecision': intraDcPrecision.value,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
       if (numberBFramesBetweenReferenceFrames != null)
         'numberBFramesBetweenReferenceFrames':
             numberBFramesBetweenReferenceFrames,
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
       if (sceneChangeDetect != null)
-        'sceneChangeDetect': sceneChangeDetect.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
+        'sceneChangeDetect': sceneChangeDetect.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
       if (softness != null) 'softness': softness,
       if (spatialAdaptiveQuantization != null)
-        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
-      if (syntax != null) 'syntax': syntax.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.value,
+      if (syntax != null) 'syntax': syntax.value,
+      if (telecine != null) 'telecine': telecine.value,
       if (temporalAdaptiveQuantization != null)
-        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.toValue(),
+        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.value,
     };
   }
 }
@@ -26815,31 +20631,18 @@ class Mpeg2Settings {
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
 enum Mpeg2SlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Mpeg2SlowPalValueExtension on Mpeg2SlowPal {
-  String toValue() {
-    switch (this) {
-      case Mpeg2SlowPal.disabled:
-        return 'DISABLED';
-      case Mpeg2SlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2SlowPalFromString on String {
-  Mpeg2SlowPal toMpeg2SlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return Mpeg2SlowPal.disabled;
-      case 'ENABLED':
-        return Mpeg2SlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum Mpeg2SlowPal');
-  }
+  const Mpeg2SlowPal(this.value);
+
+  static Mpeg2SlowPal fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2SlowPal'));
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -26858,64 +20661,35 @@ extension Mpeg2SlowPalFromString on String {
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
 enum Mpeg2SpatialAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Mpeg2SpatialAdaptiveQuantizationValueExtension
-    on Mpeg2SpatialAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case Mpeg2SpatialAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case Mpeg2SpatialAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2SpatialAdaptiveQuantizationFromString on String {
-  Mpeg2SpatialAdaptiveQuantization toMpeg2SpatialAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return Mpeg2SpatialAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return Mpeg2SpatialAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum Mpeg2SpatialAdaptiveQuantization');
-  }
+  const Mpeg2SpatialAdaptiveQuantization(this.value);
+
+  static Mpeg2SpatialAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2SpatialAdaptiveQuantization'));
 }
 
 /// Specify whether this output's video uses the D10 syntax. Keep the default
 /// value to not use the syntax. Related settings: When you choose D10 for your
 /// MXF profile, you must also set this value to D10.
 enum Mpeg2Syntax {
-  $default,
-  d_10,
-}
+  $default('DEFAULT'),
+  d_10('D_10'),
+  ;
 
-extension Mpeg2SyntaxValueExtension on Mpeg2Syntax {
-  String toValue() {
-    switch (this) {
-      case Mpeg2Syntax.$default:
-        return 'DEFAULT';
-      case Mpeg2Syntax.d_10:
-        return 'D_10';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2SyntaxFromString on String {
-  Mpeg2Syntax toMpeg2Syntax() {
-    switch (this) {
-      case 'DEFAULT':
-        return Mpeg2Syntax.$default;
-      case 'D_10':
-        return Mpeg2Syntax.d_10;
-    }
-    throw Exception('$this is not known in enum Mpeg2Syntax');
-  }
+  const Mpeg2Syntax(this.value);
+
+  static Mpeg2Syntax fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Mpeg2Syntax'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -26927,36 +20701,19 @@ extension Mpeg2SyntaxFromString on String {
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
 enum Mpeg2Telecine {
-  none,
-  soft,
-  hard,
-}
+  none('NONE'),
+  soft('SOFT'),
+  hard('HARD'),
+  ;
 
-extension Mpeg2TelecineValueExtension on Mpeg2Telecine {
-  String toValue() {
-    switch (this) {
-      case Mpeg2Telecine.none:
-        return 'NONE';
-      case Mpeg2Telecine.soft:
-        return 'SOFT';
-      case Mpeg2Telecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2TelecineFromString on String {
-  Mpeg2Telecine toMpeg2Telecine() {
-    switch (this) {
-      case 'NONE':
-        return Mpeg2Telecine.none;
-      case 'SOFT':
-        return Mpeg2Telecine.soft;
-      case 'HARD':
-        return Mpeg2Telecine.hard;
-    }
-    throw Exception('$this is not known in enum Mpeg2Telecine');
-  }
+  const Mpeg2Telecine(this.value);
+
+  static Mpeg2Telecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Mpeg2Telecine'));
 }
 
 /// Keep the default value, Enabled, to adjust quantization within each frame
@@ -26973,33 +20730,18 @@ extension Mpeg2TelecineFromString on String {
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
 enum Mpeg2TemporalAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Mpeg2TemporalAdaptiveQuantizationValueExtension
-    on Mpeg2TemporalAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case Mpeg2TemporalAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case Mpeg2TemporalAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Mpeg2TemporalAdaptiveQuantizationFromString on String {
-  Mpeg2TemporalAdaptiveQuantization toMpeg2TemporalAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return Mpeg2TemporalAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return Mpeg2TemporalAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum Mpeg2TemporalAdaptiveQuantization');
-  }
+  const Mpeg2TemporalAdaptiveQuantization(this.value);
+
+  static Mpeg2TemporalAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Mpeg2TemporalAdaptiveQuantization'));
 }
 
 /// Specify the details for each additional Microsoft Smooth Streaming manifest
@@ -27047,32 +20789,18 @@ class MsSmoothAdditionalManifest {
 /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across
 /// a Microsoft Smooth output group into a single audio stream.
 enum MsSmoothAudioDeduplication {
-  combineDuplicateStreams,
-  none,
-}
+  combineDuplicateStreams('COMBINE_DUPLICATE_STREAMS'),
+  none('NONE'),
+  ;
 
-extension MsSmoothAudioDeduplicationValueExtension
-    on MsSmoothAudioDeduplication {
-  String toValue() {
-    switch (this) {
-      case MsSmoothAudioDeduplication.combineDuplicateStreams:
-        return 'COMBINE_DUPLICATE_STREAMS';
-      case MsSmoothAudioDeduplication.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension MsSmoothAudioDeduplicationFromString on String {
-  MsSmoothAudioDeduplication toMsSmoothAudioDeduplication() {
-    switch (this) {
-      case 'COMBINE_DUPLICATE_STREAMS':
-        return MsSmoothAudioDeduplication.combineDuplicateStreams;
-      case 'NONE':
-        return MsSmoothAudioDeduplication.none;
-    }
-    throw Exception('$this is not known in enum MsSmoothAudioDeduplication');
-  }
+  const MsSmoothAudioDeduplication(this.value);
+
+  static MsSmoothAudioDeduplication fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MsSmoothAudioDeduplication'));
 }
 
 /// If you are using DRM, set DRM System to specify the value SpekeKeyProvider.
@@ -27110,32 +20838,18 @@ class MsSmoothEncryptionSettings {
 /// Multiple of GOP to have the encoder round up the segment lengths to match
 /// the next GOP boundary.
 enum MsSmoothFragmentLengthControl {
-  exact,
-  gopMultiple,
-}
+  exact('EXACT'),
+  gopMultiple('GOP_MULTIPLE'),
+  ;
 
-extension MsSmoothFragmentLengthControlValueExtension
-    on MsSmoothFragmentLengthControl {
-  String toValue() {
-    switch (this) {
-      case MsSmoothFragmentLengthControl.exact:
-        return 'EXACT';
-      case MsSmoothFragmentLengthControl.gopMultiple:
-        return 'GOP_MULTIPLE';
-    }
-  }
-}
+  final String value;
 
-extension MsSmoothFragmentLengthControlFromString on String {
-  MsSmoothFragmentLengthControl toMsSmoothFragmentLengthControl() {
-    switch (this) {
-      case 'EXACT':
-        return MsSmoothFragmentLengthControl.exact;
-      case 'GOP_MULTIPLE':
-        return MsSmoothFragmentLengthControl.gopMultiple;
-    }
-    throw Exception('$this is not known in enum MsSmoothFragmentLengthControl');
-  }
+  const MsSmoothFragmentLengthControl(this.value);
+
+  static MsSmoothFragmentLengthControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MsSmoothFragmentLengthControl'));
 }
 
 /// Settings related to your Microsoft Smooth Streaming output package. For more
@@ -27204,7 +20918,7 @@ class MsSmoothGroupSettings {
               MsSmoothAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       audioDeduplication: (json['audioDeduplication'] as String?)
-          ?.toMsSmoothAudioDeduplication(),
+          ?.let(MsSmoothAudioDeduplication.fromString),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
@@ -27216,9 +20930,9 @@ class MsSmoothGroupSettings {
           : null,
       fragmentLength: json['fragmentLength'] as int?,
       fragmentLengthControl: (json['fragmentLengthControl'] as String?)
-          ?.toMsSmoothFragmentLengthControl(),
-      manifestEncoding:
-          (json['manifestEncoding'] as String?)?.toMsSmoothManifestEncoding(),
+          ?.let(MsSmoothFragmentLengthControl.fromString),
+      manifestEncoding: (json['manifestEncoding'] as String?)
+          ?.let(MsSmoothManifestEncoding.fromString),
     );
   }
 
@@ -27235,16 +20949,15 @@ class MsSmoothGroupSettings {
       if (additionalManifests != null)
         'additionalManifests': additionalManifests,
       if (audioDeduplication != null)
-        'audioDeduplication': audioDeduplication.toValue(),
+        'audioDeduplication': audioDeduplication.value,
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
       if (fragmentLengthControl != null)
-        'fragmentLengthControl': fragmentLengthControl.toValue(),
-      if (manifestEncoding != null)
-        'manifestEncoding': manifestEncoding.toValue(),
+        'fragmentLengthControl': fragmentLengthControl.value,
+      if (manifestEncoding != null) 'manifestEncoding': manifestEncoding.value,
     };
   }
 }
@@ -27252,31 +20965,18 @@ class MsSmoothGroupSettings {
 /// Use Manifest encoding to specify the encoding format for the server and
 /// client manifest. Valid options are utf8 and utf16.
 enum MsSmoothManifestEncoding {
-  utf8,
-  utf16,
-}
+  utf8('UTF8'),
+  utf16('UTF16'),
+  ;
 
-extension MsSmoothManifestEncodingValueExtension on MsSmoothManifestEncoding {
-  String toValue() {
-    switch (this) {
-      case MsSmoothManifestEncoding.utf8:
-        return 'UTF8';
-      case MsSmoothManifestEncoding.utf16:
-        return 'UTF16';
-    }
-  }
-}
+  final String value;
 
-extension MsSmoothManifestEncodingFromString on String {
-  MsSmoothManifestEncoding toMsSmoothManifestEncoding() {
-    switch (this) {
-      case 'UTF8':
-        return MsSmoothManifestEncoding.utf8;
-      case 'UTF16':
-        return MsSmoothManifestEncoding.utf16;
-    }
-    throw Exception('$this is not known in enum MsSmoothManifestEncoding');
-  }
+  const MsSmoothManifestEncoding(this.value);
+
+  static MsSmoothManifestEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MsSmoothManifestEncoding'));
 }
 
 /// Optional. When you have AFD signaling set up in your output video stream,
@@ -27289,31 +20989,18 @@ extension MsSmoothManifestEncodingFromString on String {
 /// On the console, find AFD signaling under the output's video encoding
 /// settings.
 enum MxfAfdSignaling {
-  noCopy,
-  copyFromVideo,
-}
+  noCopy('NO_COPY'),
+  copyFromVideo('COPY_FROM_VIDEO'),
+  ;
 
-extension MxfAfdSignalingValueExtension on MxfAfdSignaling {
-  String toValue() {
-    switch (this) {
-      case MxfAfdSignaling.noCopy:
-        return 'NO_COPY';
-      case MxfAfdSignaling.copyFromVideo:
-        return 'COPY_FROM_VIDEO';
-    }
-  }
-}
+  final String value;
 
-extension MxfAfdSignalingFromString on String {
-  MxfAfdSignaling toMxfAfdSignaling() {
-    switch (this) {
-      case 'NO_COPY':
-        return MxfAfdSignaling.noCopy;
-      case 'COPY_FROM_VIDEO':
-        return MxfAfdSignaling.copyFromVideo;
-    }
-    throw Exception('$this is not known in enum MxfAfdSignaling');
-  }
+  const MxfAfdSignaling(this.value);
+
+  static MxfAfdSignaling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MxfAfdSignaling'));
 }
 
 /// Specify the MXF profile, also called shim, for this output. To automatically
@@ -27323,46 +21010,20 @@ extension MxfAfdSignalingFromString on String {
 /// For more information about the automatic selection behavior, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
 enum MxfProfile {
-  d_10,
-  xdcam,
-  op1a,
-  xavc,
-  xdcamRdd9,
-}
+  d_10('D_10'),
+  xdcam('XDCAM'),
+  op1a('OP1A'),
+  xavc('XAVC'),
+  xdcamRdd9('XDCAM_RDD9'),
+  ;
 
-extension MxfProfileValueExtension on MxfProfile {
-  String toValue() {
-    switch (this) {
-      case MxfProfile.d_10:
-        return 'D_10';
-      case MxfProfile.xdcam:
-        return 'XDCAM';
-      case MxfProfile.op1a:
-        return 'OP1A';
-      case MxfProfile.xavc:
-        return 'XAVC';
-      case MxfProfile.xdcamRdd9:
-        return 'XDCAM_RDD9';
-    }
-  }
-}
+  final String value;
 
-extension MxfProfileFromString on String {
-  MxfProfile toMxfProfile() {
-    switch (this) {
-      case 'D_10':
-        return MxfProfile.d_10;
-      case 'XDCAM':
-        return MxfProfile.xdcam;
-      case 'OP1A':
-        return MxfProfile.op1a;
-      case 'XAVC':
-        return MxfProfile.xavc;
-      case 'XDCAM_RDD9':
-        return MxfProfile.xdcamRdd9;
-    }
-    throw Exception('$this is not known in enum MxfProfile');
-  }
+  const MxfProfile(this.value);
+
+  static MxfProfile fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MxfProfile'));
 }
 
 /// These settings relate to your MXF output container.
@@ -27398,8 +21059,9 @@ class MxfSettings {
 
   factory MxfSettings.fromJson(Map<String, dynamic> json) {
     return MxfSettings(
-      afdSignaling: (json['afdSignaling'] as String?)?.toMxfAfdSignaling(),
-      profile: (json['profile'] as String?)?.toMxfProfile(),
+      afdSignaling:
+          (json['afdSignaling'] as String?)?.let(MxfAfdSignaling.fromString),
+      profile: (json['profile'] as String?)?.let(MxfProfile.fromString),
       xavcProfileSettings: json['xavcProfileSettings'] != null
           ? MxfXavcProfileSettings.fromJson(
               json['xavcProfileSettings'] as Map<String, dynamic>)
@@ -27412,8 +21074,8 @@ class MxfSettings {
     final profile = this.profile;
     final xavcProfileSettings = this.xavcProfileSettings;
     return {
-      if (afdSignaling != null) 'afdSignaling': afdSignaling.toValue(),
-      if (profile != null) 'profile': profile.toValue(),
+      if (afdSignaling != null) 'afdSignaling': afdSignaling.value,
+      if (profile != null) 'profile': profile.value,
       if (xavcProfileSettings != null)
         'xavcProfileSettings': xavcProfileSettings,
     };
@@ -27427,31 +21089,18 @@ class MxfSettings {
 /// set this to Drop frames for compliance depends on the output frame rate and
 /// duration.
 enum MxfXavcDurationMode {
-  allowAnyDuration,
-  dropFramesForCompliance,
-}
+  allowAnyDuration('ALLOW_ANY_DURATION'),
+  dropFramesForCompliance('DROP_FRAMES_FOR_COMPLIANCE'),
+  ;
 
-extension MxfXavcDurationModeValueExtension on MxfXavcDurationMode {
-  String toValue() {
-    switch (this) {
-      case MxfXavcDurationMode.allowAnyDuration:
-        return 'ALLOW_ANY_DURATION';
-      case MxfXavcDurationMode.dropFramesForCompliance:
-        return 'DROP_FRAMES_FOR_COMPLIANCE';
-    }
-  }
-}
+  final String value;
 
-extension MxfXavcDurationModeFromString on String {
-  MxfXavcDurationMode toMxfXavcDurationMode() {
-    switch (this) {
-      case 'ALLOW_ANY_DURATION':
-        return MxfXavcDurationMode.allowAnyDuration;
-      case 'DROP_FRAMES_FOR_COMPLIANCE':
-        return MxfXavcDurationMode.dropFramesForCompliance;
-    }
-    throw Exception('$this is not known in enum MxfXavcDurationMode');
-  }
+  const MxfXavcDurationMode(this.value);
+
+  static MxfXavcDurationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MxfXavcDurationMode'));
 }
 
 /// Specify the XAVC profile settings for MXF outputs when you set your MXF
@@ -27481,7 +21130,8 @@ class MxfXavcProfileSettings {
 
   factory MxfXavcProfileSettings.fromJson(Map<String, dynamic> json) {
     return MxfXavcProfileSettings(
-      durationMode: (json['durationMode'] as String?)?.toMxfXavcDurationMode(),
+      durationMode: (json['durationMode'] as String?)
+          ?.let(MxfXavcDurationMode.fromString),
       maxAncDataSize: json['maxAncDataSize'] as int?,
     );
   }
@@ -27490,7 +21140,7 @@ class MxfXavcProfileSettings {
     final durationMode = this.durationMode;
     final maxAncDataSize = this.maxAncDataSize;
     return {
-      if (durationMode != null) 'durationMode': durationMode.toValue(),
+      if (durationMode != null) 'durationMode': durationMode.value,
       if (maxAncDataSize != null) 'maxAncDataSize': maxAncDataSize,
     };
   }
@@ -27540,7 +21190,8 @@ class NexGuardFileMarkerSettings {
       license: json['license'] as String?,
       payload: json['payload'] as int?,
       preset: json['preset'] as String?,
-      strength: (json['strength'] as String?)?.toWatermarkingStrength(),
+      strength:
+          (json['strength'] as String?)?.let(WatermarkingStrength.fromString),
     );
   }
 
@@ -27553,7 +21204,7 @@ class NexGuardFileMarkerSettings {
       if (license != null) 'license': license,
       if (payload != null) 'payload': payload,
       if (preset != null) 'preset': preset,
-      if (strength != null) 'strength': strength.toValue(),
+      if (strength != null) 'strength': strength.value,
     };
   }
 }
@@ -27564,38 +21215,19 @@ class NexGuardFileMarkerSettings {
 /// choose NAES 2, NW, and CBET, you must provide values for both of these
 /// settings.
 enum NielsenActiveWatermarkProcessType {
-  naes2AndNw,
-  cbet,
-  naes2AndNwAndCbet,
-}
+  naes2AndNw('NAES2_AND_NW'),
+  cbet('CBET'),
+  naes2AndNwAndCbet('NAES2_AND_NW_AND_CBET'),
+  ;
 
-extension NielsenActiveWatermarkProcessTypeValueExtension
-    on NielsenActiveWatermarkProcessType {
-  String toValue() {
-    switch (this) {
-      case NielsenActiveWatermarkProcessType.naes2AndNw:
-        return 'NAES2_AND_NW';
-      case NielsenActiveWatermarkProcessType.cbet:
-        return 'CBET';
-      case NielsenActiveWatermarkProcessType.naes2AndNwAndCbet:
-        return 'NAES2_AND_NW_AND_CBET';
-    }
-  }
-}
+  final String value;
 
-extension NielsenActiveWatermarkProcessTypeFromString on String {
-  NielsenActiveWatermarkProcessType toNielsenActiveWatermarkProcessType() {
-    switch (this) {
-      case 'NAES2_AND_NW':
-        return NielsenActiveWatermarkProcessType.naes2AndNw;
-      case 'CBET':
-        return NielsenActiveWatermarkProcessType.cbet;
-      case 'NAES2_AND_NW_AND_CBET':
-        return NielsenActiveWatermarkProcessType.naes2AndNwAndCbet;
-    }
-    throw Exception(
-        '$this is not known in enum NielsenActiveWatermarkProcessType');
-  }
+  const NielsenActiveWatermarkProcessType(this.value);
+
+  static NielsenActiveWatermarkProcessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NielsenActiveWatermarkProcessType'));
 }
 
 /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
@@ -27727,7 +21359,7 @@ class NielsenNonLinearWatermarkSettings {
       Map<String, dynamic> json) {
     return NielsenNonLinearWatermarkSettings(
       activeWatermarkProcess: (json['activeWatermarkProcess'] as String?)
-          ?.toNielsenActiveWatermarkProcessType(),
+          ?.let(NielsenActiveWatermarkProcessType.fromString),
       adiFilename: json['adiFilename'] as String?,
       assetId: json['assetId'] as String?,
       assetName: json['assetName'] as String?,
@@ -27736,10 +21368,10 @@ class NielsenNonLinearWatermarkSettings {
       metadataDestination: json['metadataDestination'] as String?,
       sourceId: json['sourceId'] as int?,
       sourceWatermarkStatus: (json['sourceWatermarkStatus'] as String?)
-          ?.toNielsenSourceWatermarkStatusType(),
+          ?.let(NielsenSourceWatermarkStatusType.fromString),
       ticServerUrl: json['ticServerUrl'] as String?,
       uniqueTicPerAudioTrack: (json['uniqueTicPerAudioTrack'] as String?)
-          ?.toNielsenUniqueTicPerAudioTrackType(),
+          ?.let(NielsenUniqueTicPerAudioTrackType.fromString),
     );
   }
 
@@ -27757,7 +21389,7 @@ class NielsenNonLinearWatermarkSettings {
     final uniqueTicPerAudioTrack = this.uniqueTicPerAudioTrack;
     return {
       if (activeWatermarkProcess != null)
-        'activeWatermarkProcess': activeWatermarkProcess.toValue(),
+        'activeWatermarkProcess': activeWatermarkProcess.value,
       if (adiFilename != null) 'adiFilename': adiFilename,
       if (assetId != null) 'assetId': assetId,
       if (assetName != null) 'assetName': assetName,
@@ -27767,10 +21399,10 @@ class NielsenNonLinearWatermarkSettings {
         'metadataDestination': metadataDestination,
       if (sourceId != null) 'sourceId': sourceId,
       if (sourceWatermarkStatus != null)
-        'sourceWatermarkStatus': sourceWatermarkStatus.toValue(),
+        'sourceWatermarkStatus': sourceWatermarkStatus.value,
       if (ticServerUrl != null) 'ticServerUrl': ticServerUrl,
       if (uniqueTicPerAudioTrack != null)
-        'uniqueTicPerAudioTrack': uniqueTicPerAudioTrack.toValue(),
+        'uniqueTicPerAudioTrack': uniqueTicPerAudioTrack.value,
     };
   }
 }
@@ -27780,66 +21412,36 @@ class NielsenNonLinearWatermarkSettings {
 /// fails the job. Nielsen requires that you add non-linear watermarking to only
 /// clean content that doesn't already have non-linear Nielsen watermarks.
 enum NielsenSourceWatermarkStatusType {
-  clean,
-  watermarked,
-}
+  clean('CLEAN'),
+  watermarked('WATERMARKED'),
+  ;
 
-extension NielsenSourceWatermarkStatusTypeValueExtension
-    on NielsenSourceWatermarkStatusType {
-  String toValue() {
-    switch (this) {
-      case NielsenSourceWatermarkStatusType.clean:
-        return 'CLEAN';
-      case NielsenSourceWatermarkStatusType.watermarked:
-        return 'WATERMARKED';
-    }
-  }
-}
+  final String value;
 
-extension NielsenSourceWatermarkStatusTypeFromString on String {
-  NielsenSourceWatermarkStatusType toNielsenSourceWatermarkStatusType() {
-    switch (this) {
-      case 'CLEAN':
-        return NielsenSourceWatermarkStatusType.clean;
-      case 'WATERMARKED':
-        return NielsenSourceWatermarkStatusType.watermarked;
-    }
-    throw Exception(
-        '$this is not known in enum NielsenSourceWatermarkStatusType');
-  }
+  const NielsenSourceWatermarkStatusType(this.value);
+
+  static NielsenSourceWatermarkStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NielsenSourceWatermarkStatusType'));
 }
 
 /// To create assets that have the same TIC values in each audio track, keep the
 /// default value Share TICs. To create assets that have unique TIC values for
 /// each audio track, choose Use unique TICs.
 enum NielsenUniqueTicPerAudioTrackType {
-  reserveUniqueTicsPerTrack,
-  sameTicsPerTrack,
-}
+  reserveUniqueTicsPerTrack('RESERVE_UNIQUE_TICS_PER_TRACK'),
+  sameTicsPerTrack('SAME_TICS_PER_TRACK'),
+  ;
 
-extension NielsenUniqueTicPerAudioTrackTypeValueExtension
-    on NielsenUniqueTicPerAudioTrackType {
-  String toValue() {
-    switch (this) {
-      case NielsenUniqueTicPerAudioTrackType.reserveUniqueTicsPerTrack:
-        return 'RESERVE_UNIQUE_TICS_PER_TRACK';
-      case NielsenUniqueTicPerAudioTrackType.sameTicsPerTrack:
-        return 'SAME_TICS_PER_TRACK';
-    }
-  }
-}
+  final String value;
 
-extension NielsenUniqueTicPerAudioTrackTypeFromString on String {
-  NielsenUniqueTicPerAudioTrackType toNielsenUniqueTicPerAudioTrackType() {
-    switch (this) {
-      case 'RESERVE_UNIQUE_TICS_PER_TRACK':
-        return NielsenUniqueTicPerAudioTrackType.reserveUniqueTicsPerTrack;
-      case 'SAME_TICS_PER_TRACK':
-        return NielsenUniqueTicPerAudioTrackType.sameTicsPerTrack;
-    }
-    throw Exception(
-        '$this is not known in enum NielsenUniqueTicPerAudioTrackType');
-  }
+  const NielsenUniqueTicPerAudioTrackType(this.value);
+
+  static NielsenUniqueTicPerAudioTrackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NielsenUniqueTicPerAudioTrackType'));
 }
 
 /// When you set Noise reducer to Temporal, the bandwidth and sharpness of your
@@ -27852,77 +21454,38 @@ extension NielsenUniqueTicPerAudioTrackTypeFromString on String {
 /// Post temporal sharpening strength. Set Post temporal sharpening to Disabled
 /// to not apply sharpening.
 enum NoiseFilterPostTemporalSharpening {
-  disabled,
-  enabled,
-  auto,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  auto('AUTO'),
+  ;
 
-extension NoiseFilterPostTemporalSharpeningValueExtension
-    on NoiseFilterPostTemporalSharpening {
-  String toValue() {
-    switch (this) {
-      case NoiseFilterPostTemporalSharpening.disabled:
-        return 'DISABLED';
-      case NoiseFilterPostTemporalSharpening.enabled:
-        return 'ENABLED';
-      case NoiseFilterPostTemporalSharpening.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension NoiseFilterPostTemporalSharpeningFromString on String {
-  NoiseFilterPostTemporalSharpening toNoiseFilterPostTemporalSharpening() {
-    switch (this) {
-      case 'DISABLED':
-        return NoiseFilterPostTemporalSharpening.disabled;
-      case 'ENABLED':
-        return NoiseFilterPostTemporalSharpening.enabled;
-      case 'AUTO':
-        return NoiseFilterPostTemporalSharpening.auto;
-    }
-    throw Exception(
-        '$this is not known in enum NoiseFilterPostTemporalSharpening');
-  }
+  const NoiseFilterPostTemporalSharpening(this.value);
+
+  static NoiseFilterPostTemporalSharpening fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NoiseFilterPostTemporalSharpening'));
 }
 
 /// Use Post temporal sharpening strength to define the amount of sharpening the
 /// transcoder applies to your output. Set Post temporal sharpening strength to
 /// Low, Medium, or High to indicate the amount of sharpening.
 enum NoiseFilterPostTemporalSharpeningStrength {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension NoiseFilterPostTemporalSharpeningStrengthValueExtension
-    on NoiseFilterPostTemporalSharpeningStrength {
-  String toValue() {
-    switch (this) {
-      case NoiseFilterPostTemporalSharpeningStrength.low:
-        return 'LOW';
-      case NoiseFilterPostTemporalSharpeningStrength.medium:
-        return 'MEDIUM';
-      case NoiseFilterPostTemporalSharpeningStrength.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension NoiseFilterPostTemporalSharpeningStrengthFromString on String {
-  NoiseFilterPostTemporalSharpeningStrength
-      toNoiseFilterPostTemporalSharpeningStrength() {
-    switch (this) {
-      case 'LOW':
-        return NoiseFilterPostTemporalSharpeningStrength.low;
-      case 'MEDIUM':
-        return NoiseFilterPostTemporalSharpeningStrength.medium;
-      case 'HIGH':
-        return NoiseFilterPostTemporalSharpeningStrength.high;
-    }
-    throw Exception(
-        '$this is not known in enum NoiseFilterPostTemporalSharpeningStrength');
-  }
+  const NoiseFilterPostTemporalSharpeningStrength(this.value);
+
+  static NoiseFilterPostTemporalSharpeningStrength fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NoiseFilterPostTemporalSharpeningStrength'));
 }
 
 /// Enable the Noise reducer feature to remove noise from your video output if
@@ -27958,7 +21521,7 @@ class NoiseReducer {
 
   factory NoiseReducer.fromJson(Map<String, dynamic> json) {
     return NoiseReducer(
-      filter: (json['filter'] as String?)?.toNoiseReducerFilter(),
+      filter: (json['filter'] as String?)?.let(NoiseReducerFilter.fromString),
       filterSettings: json['filterSettings'] != null
           ? NoiseReducerFilterSettings.fromJson(
               json['filterSettings'] as Map<String, dynamic>)
@@ -27980,7 +21543,7 @@ class NoiseReducer {
     final spatialFilterSettings = this.spatialFilterSettings;
     final temporalFilterSettings = this.temporalFilterSettings;
     return {
-      if (filter != null) 'filter': filter.toValue(),
+      if (filter != null) 'filter': filter.value,
       if (filterSettings != null) 'filterSettings': filterSettings,
       if (spatialFilterSettings != null)
         'spatialFilterSettings': spatialFilterSettings,
@@ -27998,61 +21561,24 @@ class NoiseReducer {
 /// filtering based on JND principles. * Temporal optimizes video quality for
 /// complex motion.
 enum NoiseReducerFilter {
-  bilateral,
-  mean,
-  gaussian,
-  lanczos,
-  sharpen,
-  conserve,
-  spatial,
-  temporal,
-}
+  bilateral('BILATERAL'),
+  mean('MEAN'),
+  gaussian('GAUSSIAN'),
+  lanczos('LANCZOS'),
+  sharpen('SHARPEN'),
+  conserve('CONSERVE'),
+  spatial('SPATIAL'),
+  temporal('TEMPORAL'),
+  ;
 
-extension NoiseReducerFilterValueExtension on NoiseReducerFilter {
-  String toValue() {
-    switch (this) {
-      case NoiseReducerFilter.bilateral:
-        return 'BILATERAL';
-      case NoiseReducerFilter.mean:
-        return 'MEAN';
-      case NoiseReducerFilter.gaussian:
-        return 'GAUSSIAN';
-      case NoiseReducerFilter.lanczos:
-        return 'LANCZOS';
-      case NoiseReducerFilter.sharpen:
-        return 'SHARPEN';
-      case NoiseReducerFilter.conserve:
-        return 'CONSERVE';
-      case NoiseReducerFilter.spatial:
-        return 'SPATIAL';
-      case NoiseReducerFilter.temporal:
-        return 'TEMPORAL';
-    }
-  }
-}
+  final String value;
 
-extension NoiseReducerFilterFromString on String {
-  NoiseReducerFilter toNoiseReducerFilter() {
-    switch (this) {
-      case 'BILATERAL':
-        return NoiseReducerFilter.bilateral;
-      case 'MEAN':
-        return NoiseReducerFilter.mean;
-      case 'GAUSSIAN':
-        return NoiseReducerFilter.gaussian;
-      case 'LANCZOS':
-        return NoiseReducerFilter.lanczos;
-      case 'SHARPEN':
-        return NoiseReducerFilter.sharpen;
-      case 'CONSERVE':
-        return NoiseReducerFilter.conserve;
-      case 'SPATIAL':
-        return NoiseReducerFilter.spatial;
-      case 'TEMPORAL':
-        return NoiseReducerFilter.temporal;
-    }
-    throw Exception('$this is not known in enum NoiseReducerFilter');
-  }
+  const NoiseReducerFilter(this.value);
+
+  static NoiseReducerFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NoiseReducerFilter'));
 }
 
 /// Settings for a noise reducer filter
@@ -28170,10 +21696,10 @@ class NoiseReducerTemporalFilterSettings {
     return NoiseReducerTemporalFilterSettings(
       aggressiveMode: json['aggressiveMode'] as int?,
       postTemporalSharpening: (json['postTemporalSharpening'] as String?)
-          ?.toNoiseFilterPostTemporalSharpening(),
+          ?.let(NoiseFilterPostTemporalSharpening.fromString),
       postTemporalSharpeningStrength:
           (json['postTemporalSharpeningStrength'] as String?)
-              ?.toNoiseFilterPostTemporalSharpeningStrength(),
+              ?.let(NoiseFilterPostTemporalSharpeningStrength.fromString),
       speed: json['speed'] as int?,
       strength: json['strength'] as int?,
     );
@@ -28188,10 +21714,9 @@ class NoiseReducerTemporalFilterSettings {
     return {
       if (aggressiveMode != null) 'aggressiveMode': aggressiveMode,
       if (postTemporalSharpening != null)
-        'postTemporalSharpening': postTemporalSharpening.toValue(),
+        'postTemporalSharpening': postTemporalSharpening.value,
       if (postTemporalSharpeningStrength != null)
-        'postTemporalSharpeningStrength':
-            postTemporalSharpeningStrength.toValue(),
+        'postTemporalSharpeningStrength': postTemporalSharpeningStrength.value,
       if (speed != null) 'speed': speed,
       if (strength != null) 'strength': strength,
     };
@@ -28244,31 +21769,17 @@ class OpusSettings {
 /// Optional. When you request lists of resources, you can specify whether they
 /// are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 enum Order {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension OrderValueExtension on Order {
-  String toValue() {
-    switch (this) {
-      case Order.ascending:
-        return 'ASCENDING';
-      case Order.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension OrderFromString on String {
-  Order toOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return Order.ascending;
-      case 'DESCENDING':
-        return Order.descending;
-    }
-    throw Exception('$this is not known in enum Order');
-  }
+  const Order(this.value);
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Order'));
 }
 
 /// Each output in your job is a collection of settings that describes how you
@@ -28588,7 +22099,7 @@ class OutputGroupSettings {
           ? MsSmoothGroupSettings.fromJson(
               json['msSmoothGroupSettings'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toOutputGroupType(),
+      type: (json['type'] as String?)?.let(OutputGroupType.fromString),
     );
   }
 
@@ -28607,7 +22118,7 @@ class OutputGroupSettings {
       if (hlsGroupSettings != null) 'hlsGroupSettings': hlsGroupSettings,
       if (msSmoothGroupSettings != null)
         'msSmoothGroupSettings': msSmoothGroupSettings,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -28615,46 +22126,21 @@ class OutputGroupSettings {
 /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth
 /// Streaming, CMAF)
 enum OutputGroupType {
-  hlsGroupSettings,
-  dashIsoGroupSettings,
-  fileGroupSettings,
-  msSmoothGroupSettings,
-  cmafGroupSettings,
-}
+  hlsGroupSettings('HLS_GROUP_SETTINGS'),
+  dashIsoGroupSettings('DASH_ISO_GROUP_SETTINGS'),
+  fileGroupSettings('FILE_GROUP_SETTINGS'),
+  msSmoothGroupSettings('MS_SMOOTH_GROUP_SETTINGS'),
+  cmafGroupSettings('CMAF_GROUP_SETTINGS'),
+  ;
 
-extension OutputGroupTypeValueExtension on OutputGroupType {
-  String toValue() {
-    switch (this) {
-      case OutputGroupType.hlsGroupSettings:
-        return 'HLS_GROUP_SETTINGS';
-      case OutputGroupType.dashIsoGroupSettings:
-        return 'DASH_ISO_GROUP_SETTINGS';
-      case OutputGroupType.fileGroupSettings:
-        return 'FILE_GROUP_SETTINGS';
-      case OutputGroupType.msSmoothGroupSettings:
-        return 'MS_SMOOTH_GROUP_SETTINGS';
-      case OutputGroupType.cmafGroupSettings:
-        return 'CMAF_GROUP_SETTINGS';
-    }
-  }
-}
+  final String value;
 
-extension OutputGroupTypeFromString on String {
-  OutputGroupType toOutputGroupType() {
-    switch (this) {
-      case 'HLS_GROUP_SETTINGS':
-        return OutputGroupType.hlsGroupSettings;
-      case 'DASH_ISO_GROUP_SETTINGS':
-        return OutputGroupType.dashIsoGroupSettings;
-      case 'FILE_GROUP_SETTINGS':
-        return OutputGroupType.fileGroupSettings;
-      case 'MS_SMOOTH_GROUP_SETTINGS':
-        return OutputGroupType.msSmoothGroupSettings;
-      case 'CMAF_GROUP_SETTINGS':
-        return OutputGroupType.cmafGroupSettings;
-    }
-    throw Exception('$this is not known in enum OutputGroupType');
-  }
+  const OutputGroupType(this.value);
+
+  static OutputGroupType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputGroupType'));
 }
 
 /// Selects method of inserting SDT information into output stream. "Follow
@@ -28665,41 +22151,19 @@ extension OutputGroupTypeFromString on String {
 /// enter the SDT information. "No SDT" means output stream will not contain SDT
 /// information.
 enum OutputSdt {
-  sdtFollow,
-  sdtFollowIfPresent,
-  sdtManual,
-  sdtNone,
-}
+  sdtFollow('SDT_FOLLOW'),
+  sdtFollowIfPresent('SDT_FOLLOW_IF_PRESENT'),
+  sdtManual('SDT_MANUAL'),
+  sdtNone('SDT_NONE'),
+  ;
 
-extension OutputSdtValueExtension on OutputSdt {
-  String toValue() {
-    switch (this) {
-      case OutputSdt.sdtFollow:
-        return 'SDT_FOLLOW';
-      case OutputSdt.sdtFollowIfPresent:
-        return 'SDT_FOLLOW_IF_PRESENT';
-      case OutputSdt.sdtManual:
-        return 'SDT_MANUAL';
-      case OutputSdt.sdtNone:
-        return 'SDT_NONE';
-    }
-  }
-}
+  final String value;
 
-extension OutputSdtFromString on String {
-  OutputSdt toOutputSdt() {
-    switch (this) {
-      case 'SDT_FOLLOW':
-        return OutputSdt.sdtFollow;
-      case 'SDT_FOLLOW_IF_PRESENT':
-        return OutputSdt.sdtFollowIfPresent;
-      case 'SDT_MANUAL':
-        return OutputSdt.sdtManual;
-      case 'SDT_NONE':
-        return OutputSdt.sdtNone;
-    }
-    throw Exception('$this is not known in enum OutputSdt');
-  }
+  const OutputSdt(this.value);
+
+  static OutputSdt fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OutputSdt'));
 }
 
 /// Specific settings for this type of output.
@@ -28736,31 +22200,17 @@ class OutputSettings {
 /// keep the default behavior and not generate black video, set Pad video to
 /// Disabled or leave blank.
 enum PadVideo {
-  disabled,
-  black,
-}
+  disabled('DISABLED'),
+  black('BLACK'),
+  ;
 
-extension PadVideoValueExtension on PadVideo {
-  String toValue() {
-    switch (this) {
-      case PadVideo.disabled:
-        return 'DISABLED';
-      case PadVideo.black:
-        return 'BLACK';
-    }
-  }
-}
+  final String value;
 
-extension PadVideoFromString on String {
-  PadVideo toPadVideo() {
-    switch (this) {
-      case 'DISABLED':
-        return PadVideo.disabled;
-      case 'BLACK':
-        return PadVideo.black;
-    }
-    throw Exception('$this is not known in enum PadVideo');
-  }
+  const PadVideo(this.value);
+
+  static PadVideo fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PadVideo'));
 }
 
 /// If you work with a third party video watermarking partner, use the group of
@@ -28815,9 +22265,10 @@ class Policy {
 
   factory Policy.fromJson(Map<String, dynamic> json) {
     return Policy(
-      httpInputs: (json['httpInputs'] as String?)?.toInputPolicy(),
-      httpsInputs: (json['httpsInputs'] as String?)?.toInputPolicy(),
-      s3Inputs: (json['s3Inputs'] as String?)?.toInputPolicy(),
+      httpInputs: (json['httpInputs'] as String?)?.let(InputPolicy.fromString),
+      httpsInputs:
+          (json['httpsInputs'] as String?)?.let(InputPolicy.fromString),
+      s3Inputs: (json['s3Inputs'] as String?)?.let(InputPolicy.fromString),
     );
   }
 
@@ -28826,9 +22277,9 @@ class Policy {
     final httpsInputs = this.httpsInputs;
     final s3Inputs = this.s3Inputs;
     return {
-      if (httpInputs != null) 'httpInputs': httpInputs.toValue(),
-      if (httpsInputs != null) 'httpsInputs': httpsInputs.toValue(),
-      if (s3Inputs != null) 's3Inputs': s3Inputs.toValue(),
+      if (httpInputs != null) 'httpInputs': httpInputs.value,
+      if (httpsInputs != null) 'httpsInputs': httpsInputs.value,
+      if (s3Inputs != null) 's3Inputs': s3Inputs.value,
     };
   }
 }
@@ -28883,7 +22334,7 @@ class Preset {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       lastUpdated: timeStampFromJson(json['lastUpdated']),
-      type: (json['type'] as String?)?.toType(),
+      type: (json['type'] as String?)?.let(Type.fromString),
     );
   }
 }
@@ -28892,36 +22343,19 @@ class Preset {
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by name.
 enum PresetListBy {
-  name,
-  creationDate,
-  system,
-}
+  name('NAME'),
+  creationDate('CREATION_DATE'),
+  system('SYSTEM'),
+  ;
 
-extension PresetListByValueExtension on PresetListBy {
-  String toValue() {
-    switch (this) {
-      case PresetListBy.name:
-        return 'NAME';
-      case PresetListBy.creationDate:
-        return 'CREATION_DATE';
-      case PresetListBy.system:
-        return 'SYSTEM';
-    }
-  }
-}
+  final String value;
 
-extension PresetListByFromString on String {
-  PresetListBy toPresetListBy() {
-    switch (this) {
-      case 'NAME':
-        return PresetListBy.name;
-      case 'CREATION_DATE':
-        return PresetListBy.creationDate;
-      case 'SYSTEM':
-        return PresetListBy.system;
-    }
-    throw Exception('$this is not known in enum PresetListBy');
-  }
+  const PresetListBy(this.value);
+
+  static PresetListBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PresetListBy'));
 }
 
 /// Settings for preset
@@ -28993,31 +22427,17 @@ class PresetSettings {
 /// regardless of how much or how little you use it. Reserved pricing requires a
 /// 12-month commitment.
 enum PricingPlan {
-  onDemand,
-  reserved,
-}
+  onDemand('ON_DEMAND'),
+  reserved('RESERVED'),
+  ;
 
-extension PricingPlanValueExtension on PricingPlan {
-  String toValue() {
-    switch (this) {
-      case PricingPlan.onDemand:
-        return 'ON_DEMAND';
-      case PricingPlan.reserved:
-        return 'RESERVED';
-    }
-  }
-}
+  final String value;
 
-extension PricingPlanFromString on String {
-  PricingPlan toPricingPlan() {
-    switch (this) {
-      case 'ON_DEMAND':
-        return PricingPlan.onDemand;
-      case 'RESERVED':
-        return PricingPlan.reserved;
-    }
-    throw Exception('$this is not known in enum PricingPlan');
-  }
+  const PricingPlan(this.value);
+
+  static PricingPlan fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PricingPlan'));
 }
 
 /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you
@@ -29031,81 +22451,39 @@ extension PricingPlanFromString on String {
 /// include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise
 /// reducer.
 enum ProresChromaSampling {
-  preserve_444Sampling,
-  subsampleTo_422,
-}
+  preserve_444Sampling('PRESERVE_444_SAMPLING'),
+  subsampleTo_422('SUBSAMPLE_TO_422'),
+  ;
 
-extension ProresChromaSamplingValueExtension on ProresChromaSampling {
-  String toValue() {
-    switch (this) {
-      case ProresChromaSampling.preserve_444Sampling:
-        return 'PRESERVE_444_SAMPLING';
-      case ProresChromaSampling.subsampleTo_422:
-        return 'SUBSAMPLE_TO_422';
-    }
-  }
-}
+  final String value;
 
-extension ProresChromaSamplingFromString on String {
-  ProresChromaSampling toProresChromaSampling() {
-    switch (this) {
-      case 'PRESERVE_444_SAMPLING':
-        return ProresChromaSampling.preserve_444Sampling;
-      case 'SUBSAMPLE_TO_422':
-        return ProresChromaSampling.subsampleTo_422;
-    }
-    throw Exception('$this is not known in enum ProresChromaSampling');
-  }
+  const ProresChromaSampling(this.value);
+
+  static ProresChromaSampling fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProresChromaSampling'));
 }
 
 /// Use Profile to specify the type of Apple ProRes codec to use for this
 /// output.
 enum ProresCodecProfile {
-  appleProres_422,
-  appleProres_422Hq,
-  appleProres_422Lt,
-  appleProres_422Proxy,
-  appleProres_4444,
-  appleProres_4444Xq,
-}
+  appleProres_422('APPLE_PRORES_422'),
+  appleProres_422Hq('APPLE_PRORES_422_HQ'),
+  appleProres_422Lt('APPLE_PRORES_422_LT'),
+  appleProres_422Proxy('APPLE_PRORES_422_PROXY'),
+  appleProres_4444('APPLE_PRORES_4444'),
+  appleProres_4444Xq('APPLE_PRORES_4444_XQ'),
+  ;
 
-extension ProresCodecProfileValueExtension on ProresCodecProfile {
-  String toValue() {
-    switch (this) {
-      case ProresCodecProfile.appleProres_422:
-        return 'APPLE_PRORES_422';
-      case ProresCodecProfile.appleProres_422Hq:
-        return 'APPLE_PRORES_422_HQ';
-      case ProresCodecProfile.appleProres_422Lt:
-        return 'APPLE_PRORES_422_LT';
-      case ProresCodecProfile.appleProres_422Proxy:
-        return 'APPLE_PRORES_422_PROXY';
-      case ProresCodecProfile.appleProres_4444:
-        return 'APPLE_PRORES_4444';
-      case ProresCodecProfile.appleProres_4444Xq:
-        return 'APPLE_PRORES_4444_XQ';
-    }
-  }
-}
+  final String value;
 
-extension ProresCodecProfileFromString on String {
-  ProresCodecProfile toProresCodecProfile() {
-    switch (this) {
-      case 'APPLE_PRORES_422':
-        return ProresCodecProfile.appleProres_422;
-      case 'APPLE_PRORES_422_HQ':
-        return ProresCodecProfile.appleProres_422Hq;
-      case 'APPLE_PRORES_422_LT':
-        return ProresCodecProfile.appleProres_422Lt;
-      case 'APPLE_PRORES_422_PROXY':
-        return ProresCodecProfile.appleProres_422Proxy;
-      case 'APPLE_PRORES_4444':
-        return ProresCodecProfile.appleProres_4444;
-      case 'APPLE_PRORES_4444_XQ':
-        return ProresCodecProfile.appleProres_4444Xq;
-    }
-    throw Exception('$this is not known in enum ProresCodecProfile');
-  }
+  const ProresCodecProfile(this.value);
+
+  static ProresCodecProfile fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProresCodecProfile'));
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -29115,31 +22493,18 @@ extension ProresCodecProfileFromString on String {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum ProresFramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension ProresFramerateControlValueExtension on ProresFramerateControl {
-  String toValue() {
-    switch (this) {
-      case ProresFramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case ProresFramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension ProresFramerateControlFromString on String {
-  ProresFramerateControl toProresFramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return ProresFramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return ProresFramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum ProresFramerateControl');
-  }
+  const ProresFramerateControl(this.value);
+
+  static ProresFramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProresFramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -29154,38 +22519,19 @@ extension ProresFramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum ProresFramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension ProresFramerateConversionAlgorithmValueExtension
-    on ProresFramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case ProresFramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case ProresFramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case ProresFramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension ProresFramerateConversionAlgorithmFromString on String {
-  ProresFramerateConversionAlgorithm toProresFramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return ProresFramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return ProresFramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return ProresFramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum ProresFramerateConversionAlgorithm');
-  }
+  const ProresFramerateConversionAlgorithm(this.value);
+
+  static ProresFramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProresFramerateConversionAlgorithm'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -29200,46 +22546,21 @@ extension ProresFramerateConversionAlgorithmFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum ProresInterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension ProresInterlaceModeValueExtension on ProresInterlaceMode {
-  String toValue() {
-    switch (this) {
-      case ProresInterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case ProresInterlaceMode.topField:
-        return 'TOP_FIELD';
-      case ProresInterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case ProresInterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case ProresInterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension ProresInterlaceModeFromString on String {
-  ProresInterlaceMode toProresInterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return ProresInterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return ProresInterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return ProresInterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return ProresInterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return ProresInterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum ProresInterlaceMode');
-  }
+  const ProresInterlaceMode(this.value);
+
+  static ProresInterlaceMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProresInterlaceMode'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -29248,31 +22569,18 @@ extension ProresInterlaceModeFromString on String {
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
 enum ProresParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension ProresParControlValueExtension on ProresParControl {
-  String toValue() {
-    switch (this) {
-      case ProresParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case ProresParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension ProresParControlFromString on String {
-  ProresParControl toProresParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return ProresParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return ProresParControl.specified;
-    }
-    throw Exception('$this is not known in enum ProresParControl');
-  }
+  const ProresParControl(this.value);
+
+  static ProresParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProresParControl'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -29288,32 +22596,18 @@ extension ProresParControlFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum ProresScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension ProresScanTypeConversionModeValueExtension
-    on ProresScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case ProresScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case ProresScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension ProresScanTypeConversionModeFromString on String {
-  ProresScanTypeConversionMode toProresScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return ProresScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return ProresScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception('$this is not known in enum ProresScanTypeConversionMode');
-  }
+  const ProresScanTypeConversionMode(this.value);
+
+  static ProresScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProresScanTypeConversionMode'));
 }
 
 /// Required when you set Codec to the value PRORES.
@@ -29455,25 +22749,27 @@ class ProresSettings {
 
   factory ProresSettings.fromJson(Map<String, dynamic> json) {
     return ProresSettings(
-      chromaSampling:
-          (json['chromaSampling'] as String?)?.toProresChromaSampling(),
-      codecProfile: (json['codecProfile'] as String?)?.toProresCodecProfile(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toProresFramerateControl(),
+      chromaSampling: (json['chromaSampling'] as String?)
+          ?.let(ProresChromaSampling.fromString),
+      codecProfile:
+          (json['codecProfile'] as String?)?.let(ProresCodecProfile.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(ProresFramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toProresFramerateConversionAlgorithm(),
+              ?.let(ProresFramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      interlaceMode:
-          (json['interlaceMode'] as String?)?.toProresInterlaceMode(),
-      parControl: (json['parControl'] as String?)?.toProresParControl(),
+      interlaceMode: (json['interlaceMode'] as String?)
+          ?.let(ProresInterlaceMode.fromString),
+      parControl:
+          (json['parControl'] as String?)?.let(ProresParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toProresScanTypeConversionMode(),
-      slowPal: (json['slowPal'] as String?)?.toProresSlowPal(),
-      telecine: (json['telecine'] as String?)?.toProresTelecine(),
+          ?.let(ProresScanTypeConversionMode.fromString),
+      slowPal: (json['slowPal'] as String?)?.let(ProresSlowPal.fromString),
+      telecine: (json['telecine'] as String?)?.let(ProresTelecine.fromString),
     );
   }
 
@@ -29492,23 +22788,22 @@ class ProresSettings {
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     return {
-      if (chromaSampling != null) 'chromaSampling': chromaSampling.toValue(),
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (chromaSampling != null) 'chromaSampling': chromaSampling.value,
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
+      if (telecine != null) 'telecine': telecine.value,
     };
   }
 }
@@ -29520,31 +22815,18 @@ class ProresSettings {
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
 enum ProresSlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension ProresSlowPalValueExtension on ProresSlowPal {
-  String toValue() {
-    switch (this) {
-      case ProresSlowPal.disabled:
-        return 'DISABLED';
-      case ProresSlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension ProresSlowPalFromString on String {
-  ProresSlowPal toProresSlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return ProresSlowPal.disabled;
-      case 'ENABLED':
-        return ProresSlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum ProresSlowPal');
-  }
+  const ProresSlowPal(this.value);
+
+  static ProresSlowPal fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProresSlowPal'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -29553,31 +22835,18 @@ extension ProresSlowPalFromString on String {
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
 enum ProresTelecine {
-  none,
-  hard,
-}
+  none('NONE'),
+  hard('HARD'),
+  ;
 
-extension ProresTelecineValueExtension on ProresTelecine {
-  String toValue() {
-    switch (this) {
-      case ProresTelecine.none:
-        return 'NONE';
-      case ProresTelecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension ProresTelecineFromString on String {
-  ProresTelecine toProresTelecine() {
-    switch (this) {
-      case 'NONE':
-        return ProresTelecine.none;
-      case 'HARD':
-        return ProresTelecine.hard;
-    }
-    throw Exception('$this is not known in enum ProresTelecine');
-  }
+  const ProresTelecine(this.value);
+
+  static ProresTelecine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProresTelecine'));
 }
 
 class PutPolicyResponse {
@@ -29669,15 +22938,16 @@ class Queue {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       lastUpdated: timeStampFromJson(json['lastUpdated']),
-      pricingPlan: (json['pricingPlan'] as String?)?.toPricingPlan(),
+      pricingPlan:
+          (json['pricingPlan'] as String?)?.let(PricingPlan.fromString),
       progressingJobsCount: json['progressingJobsCount'] as int?,
       reservationPlan: json['reservationPlan'] != null
           ? ReservationPlan.fromJson(
               json['reservationPlan'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toQueueStatus(),
+      status: (json['status'] as String?)?.let(QueueStatus.fromString),
       submittedJobsCount: json['submittedJobsCount'] as int?,
-      type: (json['type'] as String?)?.toType(),
+      type: (json['type'] as String?)?.let(Type.fromString),
     );
   }
 }
@@ -29686,62 +22956,34 @@ class Queue {
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by creation date.
 enum QueueListBy {
-  name,
-  creationDate,
-}
+  name('NAME'),
+  creationDate('CREATION_DATE'),
+  ;
 
-extension QueueListByValueExtension on QueueListBy {
-  String toValue() {
-    switch (this) {
-      case QueueListBy.name:
-        return 'NAME';
-      case QueueListBy.creationDate:
-        return 'CREATION_DATE';
-    }
-  }
-}
+  final String value;
 
-extension QueueListByFromString on String {
-  QueueListBy toQueueListBy() {
-    switch (this) {
-      case 'NAME':
-        return QueueListBy.name;
-      case 'CREATION_DATE':
-        return QueueListBy.creationDate;
-    }
-    throw Exception('$this is not known in enum QueueListBy');
-  }
+  const QueueListBy(this.value);
+
+  static QueueListBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueueListBy'));
 }
 
 /// Queues can be ACTIVE or PAUSED. If you pause a queue, jobs in that queue
 /// won't begin. Jobs that are running when you pause a queue continue to run
 /// until they finish or result in an error.
 enum QueueStatus {
-  active,
-  paused,
-}
+  active('ACTIVE'),
+  paused('PAUSED'),
+  ;
 
-extension QueueStatusValueExtension on QueueStatus {
-  String toValue() {
-    switch (this) {
-      case QueueStatus.active:
-        return 'ACTIVE';
-      case QueueStatus.paused:
-        return 'PAUSED';
-    }
-  }
-}
+  final String value;
 
-extension QueueStatusFromString on String {
-  QueueStatus toQueueStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return QueueStatus.active;
-      case 'PAUSED':
-        return QueueStatus.paused;
-    }
-    throw Exception('$this is not known in enum QueueStatus');
-  }
+  const QueueStatus(this.value);
+
+  static QueueStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueueStatus'));
 }
 
 /// Description of the source and destination queues between which the job has
@@ -29911,60 +23153,33 @@ class RemixSettings {
 /// automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the
 /// term.
 enum RenewalType {
-  autoRenew,
-  expire,
-}
+  autoRenew('AUTO_RENEW'),
+  expire('EXPIRE'),
+  ;
 
-extension RenewalTypeValueExtension on RenewalType {
-  String toValue() {
-    switch (this) {
-      case RenewalType.autoRenew:
-        return 'AUTO_RENEW';
-      case RenewalType.expire:
-        return 'EXPIRE';
-    }
-  }
-}
+  final String value;
 
-extension RenewalTypeFromString on String {
-  RenewalType toRenewalType() {
-    switch (this) {
-      case 'AUTO_RENEW':
-        return RenewalType.autoRenew;
-      case 'EXPIRE':
-        return RenewalType.expire;
-    }
-    throw Exception('$this is not known in enum RenewalType');
-  }
+  const RenewalType(this.value);
+
+  static RenewalType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RenewalType'));
 }
 
 /// Set to ENABLED to force a rendition to be included.
 enum RequiredFlag {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension RequiredFlagValueExtension on RequiredFlag {
-  String toValue() {
-    switch (this) {
-      case RequiredFlag.enabled:
-        return 'ENABLED';
-      case RequiredFlag.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension RequiredFlagFromString on String {
-  RequiredFlag toRequiredFlag() {
-    switch (this) {
-      case 'ENABLED':
-        return RequiredFlag.enabled;
-      case 'DISABLED':
-        return RequiredFlag.disabled;
-    }
-    throw Exception('$this is not known in enum RequiredFlag');
-  }
+  const RequiredFlag(this.value);
+
+  static RequiredFlag fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RequiredFlag'));
 }
 
 /// Details about the pricing plan for your reserved queue. Required for
@@ -30009,12 +23224,14 @@ class ReservationPlan {
 
   factory ReservationPlan.fromJson(Map<String, dynamic> json) {
     return ReservationPlan(
-      commitment: (json['commitment'] as String?)?.toCommitment(),
+      commitment: (json['commitment'] as String?)?.let(Commitment.fromString),
       expiresAt: timeStampFromJson(json['expiresAt']),
       purchasedAt: timeStampFromJson(json['purchasedAt']),
-      renewalType: (json['renewalType'] as String?)?.toRenewalType(),
+      renewalType:
+          (json['renewalType'] as String?)?.let(RenewalType.fromString),
       reservedSlots: json['reservedSlots'] as int?,
-      status: (json['status'] as String?)?.toReservationPlanStatus(),
+      status:
+          (json['status'] as String?)?.let(ReservationPlanStatus.fromString),
     );
   }
 }
@@ -30052,8 +23269,8 @@ class ReservationPlanSettings {
     final renewalType = this.renewalType;
     final reservedSlots = this.reservedSlots;
     return {
-      'commitment': commitment.toValue(),
-      'renewalType': renewalType.toValue(),
+      'commitment': commitment.value,
+      'renewalType': renewalType.value,
       'reservedSlots': reservedSlots,
     };
   }
@@ -30062,31 +23279,18 @@ class ReservationPlanSettings {
 /// Specifies whether the pricing plan for your reserved queue is ACTIVE or
 /// EXPIRED.
 enum ReservationPlanStatus {
-  active,
-  expired,
-}
+  active('ACTIVE'),
+  expired('EXPIRED'),
+  ;
 
-extension ReservationPlanStatusValueExtension on ReservationPlanStatus {
-  String toValue() {
-    switch (this) {
-      case ReservationPlanStatus.active:
-        return 'ACTIVE';
-      case ReservationPlanStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension ReservationPlanStatusFromString on String {
-  ReservationPlanStatus toReservationPlanStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ReservationPlanStatus.active;
-      case 'EXPIRED':
-        return ReservationPlanStatus.expired;
-    }
-    throw Exception('$this is not known in enum ReservationPlanStatus');
-  }
+  const ReservationPlanStatus(this.value);
+
+  static ReservationPlanStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReservationPlanStatus'));
 }
 
 /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert
@@ -30121,36 +23325,19 @@ class ResourceTags {
 /// AfdSignaling to AUTO. * Choose None to remove all input AFD values from this
 /// output.
 enum RespondToAfd {
-  none,
-  respond,
-  passthrough,
-}
+  none('NONE'),
+  respond('RESPOND'),
+  passthrough('PASSTHROUGH'),
+  ;
 
-extension RespondToAfdValueExtension on RespondToAfd {
-  String toValue() {
-    switch (this) {
-      case RespondToAfd.none:
-        return 'NONE';
-      case RespondToAfd.respond:
-        return 'RESPOND';
-      case RespondToAfd.passthrough:
-        return 'PASSTHROUGH';
-    }
-  }
-}
+  final String value;
 
-extension RespondToAfdFromString on String {
-  RespondToAfd toRespondToAfd() {
-    switch (this) {
-      case 'NONE':
-        return RespondToAfd.none;
-      case 'RESPOND':
-        return RespondToAfd.respond;
-      case 'PASSTHROUGH':
-        return RespondToAfd.passthrough;
-    }
-    throw Exception('$this is not known in enum RespondToAfd');
-  }
+  const RespondToAfd(this.value);
+
+  static RespondToAfd fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RespondToAfd'));
 }
 
 /// Use Min top rendition size to specify a minimum size for the highest
@@ -30188,41 +23375,19 @@ extension RespondToAfdFromString on String {
 /// Allowed renditions, you must not specify a separate rule for Force include
 /// renditions.
 enum RuleType {
-  minTopRenditionSize,
-  minBottomRenditionSize,
-  forceIncludeRenditions,
-  allowedRenditions,
-}
+  minTopRenditionSize('MIN_TOP_RENDITION_SIZE'),
+  minBottomRenditionSize('MIN_BOTTOM_RENDITION_SIZE'),
+  forceIncludeRenditions('FORCE_INCLUDE_RENDITIONS'),
+  allowedRenditions('ALLOWED_RENDITIONS'),
+  ;
 
-extension RuleTypeValueExtension on RuleType {
-  String toValue() {
-    switch (this) {
-      case RuleType.minTopRenditionSize:
-        return 'MIN_TOP_RENDITION_SIZE';
-      case RuleType.minBottomRenditionSize:
-        return 'MIN_BOTTOM_RENDITION_SIZE';
-      case RuleType.forceIncludeRenditions:
-        return 'FORCE_INCLUDE_RENDITIONS';
-      case RuleType.allowedRenditions:
-        return 'ALLOWED_RENDITIONS';
-    }
-  }
-}
+  final String value;
 
-extension RuleTypeFromString on String {
-  RuleType toRuleType() {
-    switch (this) {
-      case 'MIN_TOP_RENDITION_SIZE':
-        return RuleType.minTopRenditionSize;
-      case 'MIN_BOTTOM_RENDITION_SIZE':
-        return RuleType.minBottomRenditionSize;
-      case 'FORCE_INCLUDE_RENDITIONS':
-        return RuleType.forceIncludeRenditions;
-      case 'ALLOWED_RENDITIONS':
-        return RuleType.allowedRenditions;
-    }
-    throw Exception('$this is not known in enum RuleType');
-  }
+  const RuleType(this.value);
+
+  static RuleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleType'));
 }
 
 /// Optional. Have MediaConvert automatically apply Amazon S3 access control for
@@ -30238,14 +23403,15 @@ class S3DestinationAccessControl {
 
   factory S3DestinationAccessControl.fromJson(Map<String, dynamic> json) {
     return S3DestinationAccessControl(
-      cannedAcl: (json['cannedAcl'] as String?)?.toS3ObjectCannedAcl(),
+      cannedAcl:
+          (json['cannedAcl'] as String?)?.let(S3ObjectCannedAcl.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final cannedAcl = this.cannedAcl;
     return {
-      if (cannedAcl != null) 'cannedAcl': cannedAcl.toValue(),
+      if (cannedAcl != null) 'cannedAcl': cannedAcl.value,
     };
   }
 }
@@ -30283,7 +23449,8 @@ class S3DestinationSettings {
           ? S3EncryptionSettings.fromJson(
               json['encryption'] as Map<String, dynamic>)
           : null,
-      storageClass: (json['storageClass'] as String?)?.toS3StorageClass(),
+      storageClass:
+          (json['storageClass'] as String?)?.let(S3StorageClass.fromString),
     );
   }
 
@@ -30294,7 +23461,7 @@ class S3DestinationSettings {
     return {
       if (accessControl != null) 'accessControl': accessControl,
       if (encryption != null) 'encryption': encryption,
-      if (storageClass != null) 'storageClass': storageClass.toValue(),
+      if (storageClass != null) 'storageClass': storageClass.value,
     };
   }
 }
@@ -30339,8 +23506,8 @@ class S3EncryptionSettings {
 
   factory S3EncryptionSettings.fromJson(Map<String, dynamic> json) {
     return S3EncryptionSettings(
-      encryptionType:
-          (json['encryptionType'] as String?)?.toS3ServerSideEncryptionType(),
+      encryptionType: (json['encryptionType'] as String?)
+          ?.let(S3ServerSideEncryptionType.fromString),
       kmsEncryptionContext: json['kmsEncryptionContext'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
@@ -30351,7 +23518,7 @@ class S3EncryptionSettings {
     final kmsEncryptionContext = this.kmsEncryptionContext;
     final kmsKeyArn = this.kmsKeyArn;
     return {
-      if (encryptionType != null) 'encryptionType': encryptionType.toValue(),
+      if (encryptionType != null) 'encryptionType': encryptionType.value,
       if (kmsEncryptionContext != null)
         'kmsEncryptionContext': kmsEncryptionContext,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
@@ -30361,41 +23528,20 @@ class S3EncryptionSettings {
 
 /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
 enum S3ObjectCannedAcl {
-  publicRead,
-  authenticatedRead,
-  bucketOwnerRead,
-  bucketOwnerFullControl,
-}
+  publicRead('PUBLIC_READ'),
+  authenticatedRead('AUTHENTICATED_READ'),
+  bucketOwnerRead('BUCKET_OWNER_READ'),
+  bucketOwnerFullControl('BUCKET_OWNER_FULL_CONTROL'),
+  ;
 
-extension S3ObjectCannedAclValueExtension on S3ObjectCannedAcl {
-  String toValue() {
-    switch (this) {
-      case S3ObjectCannedAcl.publicRead:
-        return 'PUBLIC_READ';
-      case S3ObjectCannedAcl.authenticatedRead:
-        return 'AUTHENTICATED_READ';
-      case S3ObjectCannedAcl.bucketOwnerRead:
-        return 'BUCKET_OWNER_READ';
-      case S3ObjectCannedAcl.bucketOwnerFullControl:
-        return 'BUCKET_OWNER_FULL_CONTROL';
-    }
-  }
-}
+  final String value;
 
-extension S3ObjectCannedAclFromString on String {
-  S3ObjectCannedAcl toS3ObjectCannedAcl() {
-    switch (this) {
-      case 'PUBLIC_READ':
-        return S3ObjectCannedAcl.publicRead;
-      case 'AUTHENTICATED_READ':
-        return S3ObjectCannedAcl.authenticatedRead;
-      case 'BUCKET_OWNER_READ':
-        return S3ObjectCannedAcl.bucketOwnerRead;
-      case 'BUCKET_OWNER_FULL_CONTROL':
-        return S3ObjectCannedAcl.bucketOwnerFullControl;
-    }
-    throw Exception('$this is not known in enum S3ObjectCannedAcl');
-  }
+  const S3ObjectCannedAcl(this.value);
+
+  static S3ObjectCannedAcl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3ObjectCannedAcl'));
 }
 
 /// Specify how you want your data keys managed. AWS uses data keys to encrypt
@@ -30409,32 +23555,18 @@ extension S3ObjectCannedAclFromString on String {
 /// choose to specify a different, customer managed CMK. Do so by specifying the
 /// Amazon Resource Name (ARN) of the key for the setting KMS ARN.
 enum S3ServerSideEncryptionType {
-  serverSideEncryptionS3,
-  serverSideEncryptionKms,
-}
+  serverSideEncryptionS3('SERVER_SIDE_ENCRYPTION_S3'),
+  serverSideEncryptionKms('SERVER_SIDE_ENCRYPTION_KMS'),
+  ;
 
-extension S3ServerSideEncryptionTypeValueExtension
-    on S3ServerSideEncryptionType {
-  String toValue() {
-    switch (this) {
-      case S3ServerSideEncryptionType.serverSideEncryptionS3:
-        return 'SERVER_SIDE_ENCRYPTION_S3';
-      case S3ServerSideEncryptionType.serverSideEncryptionKms:
-        return 'SERVER_SIDE_ENCRYPTION_KMS';
-    }
-  }
-}
+  final String value;
 
-extension S3ServerSideEncryptionTypeFromString on String {
-  S3ServerSideEncryptionType toS3ServerSideEncryptionType() {
-    switch (this) {
-      case 'SERVER_SIDE_ENCRYPTION_S3':
-        return S3ServerSideEncryptionType.serverSideEncryptionS3;
-      case 'SERVER_SIDE_ENCRYPTION_KMS':
-        return S3ServerSideEncryptionType.serverSideEncryptionKms;
-    }
-    throw Exception('$this is not known in enum S3ServerSideEncryptionType');
-  }
+  const S3ServerSideEncryptionType(this.value);
+
+  static S3ServerSideEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum S3ServerSideEncryptionType'));
 }
 
 /// Specify the S3 storage class to use for this output. To use your
@@ -30442,56 +23574,23 @@ extension S3ServerSideEncryptionTypeFromString on String {
 /// more information about S3 storage classes, see
 /// https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
 enum S3StorageClass {
-  standard,
-  reducedRedundancy,
-  standardIa,
-  onezoneIa,
-  intelligentTiering,
-  glacier,
-  deepArchive,
-}
+  standard('STANDARD'),
+  reducedRedundancy('REDUCED_REDUNDANCY'),
+  standardIa('STANDARD_IA'),
+  onezoneIa('ONEZONE_IA'),
+  intelligentTiering('INTELLIGENT_TIERING'),
+  glacier('GLACIER'),
+  deepArchive('DEEP_ARCHIVE'),
+  ;
 
-extension S3StorageClassValueExtension on S3StorageClass {
-  String toValue() {
-    switch (this) {
-      case S3StorageClass.standard:
-        return 'STANDARD';
-      case S3StorageClass.reducedRedundancy:
-        return 'REDUCED_REDUNDANCY';
-      case S3StorageClass.standardIa:
-        return 'STANDARD_IA';
-      case S3StorageClass.onezoneIa:
-        return 'ONEZONE_IA';
-      case S3StorageClass.intelligentTiering:
-        return 'INTELLIGENT_TIERING';
-      case S3StorageClass.glacier:
-        return 'GLACIER';
-      case S3StorageClass.deepArchive:
-        return 'DEEP_ARCHIVE';
-    }
-  }
-}
+  final String value;
 
-extension S3StorageClassFromString on String {
-  S3StorageClass toS3StorageClass() {
-    switch (this) {
-      case 'STANDARD':
-        return S3StorageClass.standard;
-      case 'REDUCED_REDUNDANCY':
-        return S3StorageClass.reducedRedundancy;
-      case 'STANDARD_IA':
-        return S3StorageClass.standardIa;
-      case 'ONEZONE_IA':
-        return S3StorageClass.onezoneIa;
-      case 'INTELLIGENT_TIERING':
-        return S3StorageClass.intelligentTiering;
-      case 'GLACIER':
-        return S3StorageClass.glacier;
-      case 'DEEP_ARCHIVE':
-        return S3StorageClass.deepArchive;
-    }
-    throw Exception('$this is not known in enum S3StorageClass');
-  }
+  const S3StorageClass(this.value);
+
+  static S3StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3StorageClass'));
 }
 
 /// Specify how MediaConvert limits the color sample range for this output. To
@@ -30510,82 +23609,40 @@ extension S3StorageClassFromString on String {
 /// With either limited range conversion, MediaConvert writes the sample range
 /// metadata in the output.
 enum SampleRangeConversion {
-  limitedRangeSqueeze,
-  none,
-  limitedRangeClip,
-}
+  limitedRangeSqueeze('LIMITED_RANGE_SQUEEZE'),
+  none('NONE'),
+  limitedRangeClip('LIMITED_RANGE_CLIP'),
+  ;
 
-extension SampleRangeConversionValueExtension on SampleRangeConversion {
-  String toValue() {
-    switch (this) {
-      case SampleRangeConversion.limitedRangeSqueeze:
-        return 'LIMITED_RANGE_SQUEEZE';
-      case SampleRangeConversion.none:
-        return 'NONE';
-      case SampleRangeConversion.limitedRangeClip:
-        return 'LIMITED_RANGE_CLIP';
-    }
-  }
-}
+  final String value;
 
-extension SampleRangeConversionFromString on String {
-  SampleRangeConversion toSampleRangeConversion() {
-    switch (this) {
-      case 'LIMITED_RANGE_SQUEEZE':
-        return SampleRangeConversion.limitedRangeSqueeze;
-      case 'NONE':
-        return SampleRangeConversion.none;
-      case 'LIMITED_RANGE_CLIP':
-        return SampleRangeConversion.limitedRangeClip;
-    }
-    throw Exception('$this is not known in enum SampleRangeConversion');
-  }
+  const SampleRangeConversion(this.value);
+
+  static SampleRangeConversion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SampleRangeConversion'));
 }
 
 /// Specify the video Scaling behavior when your output has a different
 /// resolution than your input. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
 enum ScalingBehavior {
-  $default,
-  stretchToOutput,
-  fit,
-  fitNoUpscale,
-  fill,
-}
+  $default('DEFAULT'),
+  stretchToOutput('STRETCH_TO_OUTPUT'),
+  fit('FIT'),
+  fitNoUpscale('FIT_NO_UPSCALE'),
+  fill('FILL'),
+  ;
 
-extension ScalingBehaviorValueExtension on ScalingBehavior {
-  String toValue() {
-    switch (this) {
-      case ScalingBehavior.$default:
-        return 'DEFAULT';
-      case ScalingBehavior.stretchToOutput:
-        return 'STRETCH_TO_OUTPUT';
-      case ScalingBehavior.fit:
-        return 'FIT';
-      case ScalingBehavior.fitNoUpscale:
-        return 'FIT_NO_UPSCALE';
-      case ScalingBehavior.fill:
-        return 'FILL';
-    }
-  }
-}
+  final String value;
 
-extension ScalingBehaviorFromString on String {
-  ScalingBehavior toScalingBehavior() {
-    switch (this) {
-      case 'DEFAULT':
-        return ScalingBehavior.$default;
-      case 'STRETCH_TO_OUTPUT':
-        return ScalingBehavior.stretchToOutput;
-      case 'FIT':
-        return ScalingBehavior.fit;
-      case 'FIT_NO_UPSCALE':
-        return ScalingBehavior.fitNoUpscale;
-      case 'FILL':
-        return ScalingBehavior.fill;
-    }
-    throw Exception('$this is not known in enum ScalingBehavior');
-  }
+  const ScalingBehavior(this.value);
+
+  static ScalingBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScalingBehavior'));
 }
 
 /// Set Framerate to make sure that the captions and the video are synchronized
@@ -30594,46 +23651,21 @@ extension ScalingBehaviorFromString on String {
 /// only if the video has video_insertion=true and drop_frame_timecode=true;
 /// otherwise, choose 29.97 non-dropframe.
 enum SccDestinationFramerate {
-  framerate_23_97,
-  framerate_24,
-  framerate_25,
-  framerate_29_97Dropframe,
-  framerate_29_97NonDropframe,
-}
+  framerate_23_97('FRAMERATE_23_97'),
+  framerate_24('FRAMERATE_24'),
+  framerate_25('FRAMERATE_25'),
+  framerate_29_97Dropframe('FRAMERATE_29_97_DROPFRAME'),
+  framerate_29_97NonDropframe('FRAMERATE_29_97_NON_DROPFRAME'),
+  ;
 
-extension SccDestinationFramerateValueExtension on SccDestinationFramerate {
-  String toValue() {
-    switch (this) {
-      case SccDestinationFramerate.framerate_23_97:
-        return 'FRAMERATE_23_97';
-      case SccDestinationFramerate.framerate_24:
-        return 'FRAMERATE_24';
-      case SccDestinationFramerate.framerate_25:
-        return 'FRAMERATE_25';
-      case SccDestinationFramerate.framerate_29_97Dropframe:
-        return 'FRAMERATE_29_97_DROPFRAME';
-      case SccDestinationFramerate.framerate_29_97NonDropframe:
-        return 'FRAMERATE_29_97_NON_DROPFRAME';
-    }
-  }
-}
+  final String value;
 
-extension SccDestinationFramerateFromString on String {
-  SccDestinationFramerate toSccDestinationFramerate() {
-    switch (this) {
-      case 'FRAMERATE_23_97':
-        return SccDestinationFramerate.framerate_23_97;
-      case 'FRAMERATE_24':
-        return SccDestinationFramerate.framerate_24;
-      case 'FRAMERATE_25':
-        return SccDestinationFramerate.framerate_25;
-      case 'FRAMERATE_29_97_DROPFRAME':
-        return SccDestinationFramerate.framerate_29_97Dropframe;
-      case 'FRAMERATE_29_97_NON_DROPFRAME':
-        return SccDestinationFramerate.framerate_29_97NonDropframe;
-    }
-    throw Exception('$this is not known in enum SccDestinationFramerate');
-  }
+  const SccDestinationFramerate(this.value);
+
+  static SccDestinationFramerate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SccDestinationFramerate'));
 }
 
 /// Settings related to SCC captions. SCC is a sidecar format that holds
@@ -30655,14 +23687,15 @@ class SccDestinationSettings {
 
   factory SccDestinationSettings.fromJson(Map<String, dynamic> json) {
     return SccDestinationSettings(
-      framerate: (json['framerate'] as String?)?.toSccDestinationFramerate(),
+      framerate: (json['framerate'] as String?)
+          ?.let(SccDestinationFramerate.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final framerate = this.framerate;
     return {
-      if (framerate != null) 'framerate': framerate.toValue(),
+      if (framerate != null) 'framerate': framerate.value,
     };
   }
 }
@@ -30672,31 +23705,18 @@ class SccDestinationSettings {
 /// your job from an on-demand queue with similar performance to what you will
 /// see with one RTS in a reserved queue. This setting is disabled by default.
 enum SimulateReservedQueue {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension SimulateReservedQueueValueExtension on SimulateReservedQueue {
-  String toValue() {
-    switch (this) {
-      case SimulateReservedQueue.disabled:
-        return 'DISABLED';
-      case SimulateReservedQueue.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension SimulateReservedQueueFromString on String {
-  SimulateReservedQueue toSimulateReservedQueue() {
-    switch (this) {
-      case 'DISABLED':
-        return SimulateReservedQueue.disabled;
-      case 'ENABLED':
-        return SimulateReservedQueue.enabled;
-    }
-    throw Exception('$this is not known in enum SimulateReservedQueue');
-  }
+  const SimulateReservedQueue(this.value);
+
+  static SimulateReservedQueue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SimulateReservedQueue'));
 }
 
 /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
@@ -30847,16 +23867,15 @@ class SrtDestinationSettings {
 
   factory SrtDestinationSettings.fromJson(Map<String, dynamic> json) {
     return SrtDestinationSettings(
-      stylePassthrough:
-          (json['stylePassthrough'] as String?)?.toSrtStylePassthrough(),
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.let(SrtStylePassthrough.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final stylePassthrough = this.stylePassthrough;
     return {
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
     };
   }
 }
@@ -30868,31 +23887,18 @@ class SrtDestinationSettings {
 /// style and position information from your input captions and use simplified
 /// output captions.
 enum SrtStylePassthrough {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension SrtStylePassthroughValueExtension on SrtStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case SrtStylePassthrough.enabled:
-        return 'ENABLED';
-      case SrtStylePassthrough.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension SrtStylePassthroughFromString on String {
-  SrtStylePassthrough toSrtStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return SrtStylePassthrough.enabled;
-      case 'DISABLED':
-        return SrtStylePassthrough.disabled;
-    }
-    throw Exception('$this is not known in enum SrtStylePassthrough');
-  }
+  const SrtStylePassthrough(this.value);
+
+  static SrtStylePassthrough fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SrtStylePassthrough'));
 }
 
 /// Use these settings to set up encryption with a static key provider.
@@ -30950,96 +23956,31 @@ class StaticKeyProvider {
 /// begins processing your job to the time it completes the transcode or
 /// encounters an error.
 enum StatusUpdateInterval {
-  seconds_10,
-  seconds_12,
-  seconds_15,
-  seconds_20,
-  seconds_30,
-  seconds_60,
-  seconds_120,
-  seconds_180,
-  seconds_240,
-  seconds_300,
-  seconds_360,
-  seconds_420,
-  seconds_480,
-  seconds_540,
-  seconds_600,
-}
+  seconds_10('SECONDS_10'),
+  seconds_12('SECONDS_12'),
+  seconds_15('SECONDS_15'),
+  seconds_20('SECONDS_20'),
+  seconds_30('SECONDS_30'),
+  seconds_60('SECONDS_60'),
+  seconds_120('SECONDS_120'),
+  seconds_180('SECONDS_180'),
+  seconds_240('SECONDS_240'),
+  seconds_300('SECONDS_300'),
+  seconds_360('SECONDS_360'),
+  seconds_420('SECONDS_420'),
+  seconds_480('SECONDS_480'),
+  seconds_540('SECONDS_540'),
+  seconds_600('SECONDS_600'),
+  ;
 
-extension StatusUpdateIntervalValueExtension on StatusUpdateInterval {
-  String toValue() {
-    switch (this) {
-      case StatusUpdateInterval.seconds_10:
-        return 'SECONDS_10';
-      case StatusUpdateInterval.seconds_12:
-        return 'SECONDS_12';
-      case StatusUpdateInterval.seconds_15:
-        return 'SECONDS_15';
-      case StatusUpdateInterval.seconds_20:
-        return 'SECONDS_20';
-      case StatusUpdateInterval.seconds_30:
-        return 'SECONDS_30';
-      case StatusUpdateInterval.seconds_60:
-        return 'SECONDS_60';
-      case StatusUpdateInterval.seconds_120:
-        return 'SECONDS_120';
-      case StatusUpdateInterval.seconds_180:
-        return 'SECONDS_180';
-      case StatusUpdateInterval.seconds_240:
-        return 'SECONDS_240';
-      case StatusUpdateInterval.seconds_300:
-        return 'SECONDS_300';
-      case StatusUpdateInterval.seconds_360:
-        return 'SECONDS_360';
-      case StatusUpdateInterval.seconds_420:
-        return 'SECONDS_420';
-      case StatusUpdateInterval.seconds_480:
-        return 'SECONDS_480';
-      case StatusUpdateInterval.seconds_540:
-        return 'SECONDS_540';
-      case StatusUpdateInterval.seconds_600:
-        return 'SECONDS_600';
-    }
-  }
-}
+  final String value;
 
-extension StatusUpdateIntervalFromString on String {
-  StatusUpdateInterval toStatusUpdateInterval() {
-    switch (this) {
-      case 'SECONDS_10':
-        return StatusUpdateInterval.seconds_10;
-      case 'SECONDS_12':
-        return StatusUpdateInterval.seconds_12;
-      case 'SECONDS_15':
-        return StatusUpdateInterval.seconds_15;
-      case 'SECONDS_20':
-        return StatusUpdateInterval.seconds_20;
-      case 'SECONDS_30':
-        return StatusUpdateInterval.seconds_30;
-      case 'SECONDS_60':
-        return StatusUpdateInterval.seconds_60;
-      case 'SECONDS_120':
-        return StatusUpdateInterval.seconds_120;
-      case 'SECONDS_180':
-        return StatusUpdateInterval.seconds_180;
-      case 'SECONDS_240':
-        return StatusUpdateInterval.seconds_240;
-      case 'SECONDS_300':
-        return StatusUpdateInterval.seconds_300;
-      case 'SECONDS_360':
-        return StatusUpdateInterval.seconds_360;
-      case 'SECONDS_420':
-        return StatusUpdateInterval.seconds_420;
-      case 'SECONDS_480':
-        return StatusUpdateInterval.seconds_480;
-      case 'SECONDS_540':
-        return StatusUpdateInterval.seconds_540;
-      case 'SECONDS_600':
-        return StatusUpdateInterval.seconds_600;
-    }
-    throw Exception('$this is not known in enum StatusUpdateInterval');
-  }
+  const StatusUpdateInterval(this.value);
+
+  static StatusUpdateInterval fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StatusUpdateInterval'));
 }
 
 class TagResourceResponse {
@@ -31077,7 +24018,7 @@ class TeletextDestinationSettings {
       pageNumber: json['pageNumber'] as String?,
       pageTypes: (json['pageTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toTeletextPageType())
+          .map((e) => TeletextPageType.fromString((e as String)))
           .toList(),
     );
   }
@@ -31088,53 +24029,28 @@ class TeletextDestinationSettings {
     return {
       if (pageNumber != null) 'pageNumber': pageNumber,
       if (pageTypes != null)
-        'pageTypes': pageTypes.map((e) => e.toValue()).toList(),
+        'pageTypes': pageTypes.map((e) => e.value).toList(),
     };
   }
 }
 
 /// A page type as defined in the standard ETSI EN 300 468, Table 94
 enum TeletextPageType {
-  pageTypeInitial,
-  pageTypeSubtitle,
-  pageTypeAddlInfo,
-  pageTypeProgramSchedule,
-  pageTypeHearingImpairedSubtitle,
-}
+  pageTypeInitial('PAGE_TYPE_INITIAL'),
+  pageTypeSubtitle('PAGE_TYPE_SUBTITLE'),
+  pageTypeAddlInfo('PAGE_TYPE_ADDL_INFO'),
+  pageTypeProgramSchedule('PAGE_TYPE_PROGRAM_SCHEDULE'),
+  pageTypeHearingImpairedSubtitle('PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE'),
+  ;
 
-extension TeletextPageTypeValueExtension on TeletextPageType {
-  String toValue() {
-    switch (this) {
-      case TeletextPageType.pageTypeInitial:
-        return 'PAGE_TYPE_INITIAL';
-      case TeletextPageType.pageTypeSubtitle:
-        return 'PAGE_TYPE_SUBTITLE';
-      case TeletextPageType.pageTypeAddlInfo:
-        return 'PAGE_TYPE_ADDL_INFO';
-      case TeletextPageType.pageTypeProgramSchedule:
-        return 'PAGE_TYPE_PROGRAM_SCHEDULE';
-      case TeletextPageType.pageTypeHearingImpairedSubtitle:
-        return 'PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE';
-    }
-  }
-}
+  final String value;
 
-extension TeletextPageTypeFromString on String {
-  TeletextPageType toTeletextPageType() {
-    switch (this) {
-      case 'PAGE_TYPE_INITIAL':
-        return TeletextPageType.pageTypeInitial;
-      case 'PAGE_TYPE_SUBTITLE':
-        return TeletextPageType.pageTypeSubtitle;
-      case 'PAGE_TYPE_ADDL_INFO':
-        return TeletextPageType.pageTypeAddlInfo;
-      case 'PAGE_TYPE_PROGRAM_SCHEDULE':
-        return TeletextPageType.pageTypeProgramSchedule;
-      case 'PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE':
-        return TeletextPageType.pageTypeHearingImpairedSubtitle;
-    }
-    throw Exception('$this is not known in enum TeletextPageType');
-  }
+  const TeletextPageType(this.value);
+
+  static TeletextPageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TeletextPageType'));
 }
 
 /// Settings specific to Teletext caption sources, including Page number.
@@ -31190,7 +24106,8 @@ class TimecodeBurnin {
   factory TimecodeBurnin.fromJson(Map<String, dynamic> json) {
     return TimecodeBurnin(
       fontSize: json['fontSize'] as int?,
-      position: (json['position'] as String?)?.toTimecodeBurninPosition(),
+      position:
+          (json['position'] as String?)?.let(TimecodeBurninPosition.fromString),
       prefix: json['prefix'] as String?,
     );
   }
@@ -31201,7 +24118,7 @@ class TimecodeBurnin {
     final prefix = this.prefix;
     return {
       if (fontSize != null) 'fontSize': fontSize,
-      if (position != null) 'position': position.toValue(),
+      if (position != null) 'position': position.value,
       if (prefix != null) 'prefix': prefix,
     };
   }
@@ -31210,66 +24127,25 @@ class TimecodeBurnin {
 /// Use Position under Timecode burn-in to specify the location the burned-in
 /// timecode on output video.
 enum TimecodeBurninPosition {
-  topCenter,
-  topLeft,
-  topRight,
-  middleLeft,
-  middleCenter,
-  middleRight,
-  bottomLeft,
-  bottomCenter,
-  bottomRight,
-}
+  topCenter('TOP_CENTER'),
+  topLeft('TOP_LEFT'),
+  topRight('TOP_RIGHT'),
+  middleLeft('MIDDLE_LEFT'),
+  middleCenter('MIDDLE_CENTER'),
+  middleRight('MIDDLE_RIGHT'),
+  bottomLeft('BOTTOM_LEFT'),
+  bottomCenter('BOTTOM_CENTER'),
+  bottomRight('BOTTOM_RIGHT'),
+  ;
 
-extension TimecodeBurninPositionValueExtension on TimecodeBurninPosition {
-  String toValue() {
-    switch (this) {
-      case TimecodeBurninPosition.topCenter:
-        return 'TOP_CENTER';
-      case TimecodeBurninPosition.topLeft:
-        return 'TOP_LEFT';
-      case TimecodeBurninPosition.topRight:
-        return 'TOP_RIGHT';
-      case TimecodeBurninPosition.middleLeft:
-        return 'MIDDLE_LEFT';
-      case TimecodeBurninPosition.middleCenter:
-        return 'MIDDLE_CENTER';
-      case TimecodeBurninPosition.middleRight:
-        return 'MIDDLE_RIGHT';
-      case TimecodeBurninPosition.bottomLeft:
-        return 'BOTTOM_LEFT';
-      case TimecodeBurninPosition.bottomCenter:
-        return 'BOTTOM_CENTER';
-      case TimecodeBurninPosition.bottomRight:
-        return 'BOTTOM_RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension TimecodeBurninPositionFromString on String {
-  TimecodeBurninPosition toTimecodeBurninPosition() {
-    switch (this) {
-      case 'TOP_CENTER':
-        return TimecodeBurninPosition.topCenter;
-      case 'TOP_LEFT':
-        return TimecodeBurninPosition.topLeft;
-      case 'TOP_RIGHT':
-        return TimecodeBurninPosition.topRight;
-      case 'MIDDLE_LEFT':
-        return TimecodeBurninPosition.middleLeft;
-      case 'MIDDLE_CENTER':
-        return TimecodeBurninPosition.middleCenter;
-      case 'MIDDLE_RIGHT':
-        return TimecodeBurninPosition.middleRight;
-      case 'BOTTOM_LEFT':
-        return TimecodeBurninPosition.bottomLeft;
-      case 'BOTTOM_CENTER':
-        return TimecodeBurninPosition.bottomCenter;
-      case 'BOTTOM_RIGHT':
-        return TimecodeBurninPosition.bottomRight;
-    }
-    throw Exception('$this is not known in enum TimecodeBurninPosition');
-  }
+  const TimecodeBurninPosition(this.value);
+
+  static TimecodeBurninPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TimecodeBurninPosition'));
 }
 
 /// These settings control how the service handles timecodes throughout the job.
@@ -31323,7 +24199,7 @@ class TimecodeConfig {
   factory TimecodeConfig.fromJson(Map<String, dynamic> json) {
     return TimecodeConfig(
       anchor: json['anchor'] as String?,
-      source: (json['source'] as String?)?.toTimecodeSource(),
+      source: (json['source'] as String?)?.let(TimecodeSource.fromString),
       start: json['start'] as String?,
       timestampOffset: json['timestampOffset'] as String?,
     );
@@ -31336,7 +24212,7 @@ class TimecodeConfig {
     final timestampOffset = this.timestampOffset;
     return {
       if (anchor != null) 'anchor': anchor,
-      if (source != null) 'source': source.toValue(),
+      if (source != null) 'source': source.value,
       if (start != null) 'start': start,
       if (timestampOffset != null) 'timestampOffset': timestampOffset,
     };
@@ -31354,36 +24230,19 @@ class TimecodeConfig {
 /// timecode of the initial frame to a value other than zero. You use Start
 /// timecode to provide this value.
 enum TimecodeSource {
-  embedded,
-  zerobased,
-  specifiedstart,
-}
+  embedded('EMBEDDED'),
+  zerobased('ZEROBASED'),
+  specifiedstart('SPECIFIEDSTART'),
+  ;
 
-extension TimecodeSourceValueExtension on TimecodeSource {
-  String toValue() {
-    switch (this) {
-      case TimecodeSource.embedded:
-        return 'EMBEDDED';
-      case TimecodeSource.zerobased:
-        return 'ZEROBASED';
-      case TimecodeSource.specifiedstart:
-        return 'SPECIFIEDSTART';
-    }
-  }
-}
+  final String value;
 
-extension TimecodeSourceFromString on String {
-  TimecodeSource toTimecodeSource() {
-    switch (this) {
-      case 'EMBEDDED':
-        return TimecodeSource.embedded;
-      case 'ZEROBASED':
-        return TimecodeSource.zerobased;
-      case 'SPECIFIEDSTART':
-        return TimecodeSource.specifiedstart;
-    }
-    throw Exception('$this is not known in enum TimecodeSource');
-  }
+  const TimecodeSource(this.value);
+
+  static TimecodeSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimecodeSource'));
 }
 
 /// Set ID3 metadata to Passthrough to include ID3 metadata in this output. This
@@ -31391,31 +24250,18 @@ extension TimecodeSourceFromString on String {
 /// Custom ID3 metadata inserter. To exclude this ID3 metadata in this output:
 /// set ID3 metadata to None or leave blank.
 enum TimedMetadata {
-  passthrough,
-  none,
-}
+  passthrough('PASSTHROUGH'),
+  none('NONE'),
+  ;
 
-extension TimedMetadataValueExtension on TimedMetadata {
-  String toValue() {
-    switch (this) {
-      case TimedMetadata.passthrough:
-        return 'PASSTHROUGH';
-      case TimedMetadata.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TimedMetadataFromString on String {
-  TimedMetadata toTimedMetadata() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return TimedMetadata.passthrough;
-      case 'NONE':
-        return TimedMetadata.none;
-    }
-    throw Exception('$this is not known in enum TimedMetadata');
-  }
+  const TimedMetadata(this.value);
+
+  static TimedMetadata fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimedMetadata'));
 }
 
 /// Insert user-defined custom ID3 metadata at timecodes that you specify. In
@@ -31513,31 +24359,17 @@ class TrackSourceSettings {
 /// buffer initial fill percentage. To manually specify an initial PTS offset:
 /// Choose Seconds. Then specify the number of seconds with PTS offset.
 enum TsPtsOffset {
-  auto,
-  seconds,
-}
+  auto('AUTO'),
+  seconds('SECONDS'),
+  ;
 
-extension TsPtsOffsetValueExtension on TsPtsOffset {
-  String toValue() {
-    switch (this) {
-      case TsPtsOffset.auto:
-        return 'AUTO';
-      case TsPtsOffset.seconds:
-        return 'SECONDS';
-    }
-  }
-}
+  final String value;
 
-extension TsPtsOffsetFromString on String {
-  TsPtsOffset toTsPtsOffset() {
-    switch (this) {
-      case 'AUTO':
-        return TsPtsOffset.auto;
-      case 'SECONDS':
-        return TsPtsOffset.seconds;
-    }
-    throw Exception('$this is not known in enum TsPtsOffset');
-  }
+  const TsPtsOffset(this.value);
+
+  static TsPtsOffset fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TsPtsOffset'));
 }
 
 /// Settings related to TTML captions. TTML is a sidecar format that holds
@@ -31556,16 +24388,15 @@ class TtmlDestinationSettings {
 
   factory TtmlDestinationSettings.fromJson(Map<String, dynamic> json) {
     return TtmlDestinationSettings(
-      stylePassthrough:
-          (json['stylePassthrough'] as String?)?.toTtmlStylePassthrough(),
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.let(TtmlStylePassthrough.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final stylePassthrough = this.stylePassthrough;
     return {
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
     };
   }
 }
@@ -31573,93 +24404,49 @@ class TtmlDestinationSettings {
 /// Pass through style and position information from a TTML-like input source
 /// (TTML, IMSC, SMPTE-TT) to the TTML output.
 enum TtmlStylePassthrough {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension TtmlStylePassthroughValueExtension on TtmlStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case TtmlStylePassthrough.enabled:
-        return 'ENABLED';
-      case TtmlStylePassthrough.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension TtmlStylePassthroughFromString on String {
-  TtmlStylePassthrough toTtmlStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return TtmlStylePassthrough.enabled;
-      case 'DISABLED':
-        return TtmlStylePassthrough.disabled;
-    }
-    throw Exception('$this is not known in enum TtmlStylePassthrough');
-  }
+  const TtmlStylePassthrough(this.value);
+
+  static TtmlStylePassthrough fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TtmlStylePassthrough'));
 }
 
 enum Type {
-  system,
-  custom,
-}
+  system('SYSTEM'),
+  custom('CUSTOM'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.system:
-        return 'SYSTEM';
-      case Type.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'SYSTEM':
-        return Type.system;
-      case 'CUSTOM':
-        return Type.custom;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 /// The four character code for the uncompressed video.
 enum UncompressedFourcc {
-  i420,
-  i422,
-  i444,
-}
+  i420('I420'),
+  i422('I422'),
+  i444('I444'),
+  ;
 
-extension UncompressedFourccValueExtension on UncompressedFourcc {
-  String toValue() {
-    switch (this) {
-      case UncompressedFourcc.i420:
-        return 'I420';
-      case UncompressedFourcc.i422:
-        return 'I422';
-      case UncompressedFourcc.i444:
-        return 'I444';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedFourccFromString on String {
-  UncompressedFourcc toUncompressedFourcc() {
-    switch (this) {
-      case 'I420':
-        return UncompressedFourcc.i420;
-      case 'I422':
-        return UncompressedFourcc.i422;
-      case 'I444':
-        return UncompressedFourcc.i444;
-    }
-    throw Exception('$this is not known in enum UncompressedFourcc');
-  }
+  const UncompressedFourcc(this.value);
+
+  static UncompressedFourcc fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UncompressedFourcc'));
 }
 
 /// Use the Framerate setting to specify the frame rate for this output. If you
@@ -31669,32 +24456,18 @@ extension UncompressedFourccFromString on String {
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
 enum UncompressedFramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension UncompressedFramerateControlValueExtension
-    on UncompressedFramerateControl {
-  String toValue() {
-    switch (this) {
-      case UncompressedFramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case UncompressedFramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedFramerateControlFromString on String {
-  UncompressedFramerateControl toUncompressedFramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return UncompressedFramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return UncompressedFramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum UncompressedFramerateControl');
-  }
+  const UncompressedFramerateControl(this.value);
+
+  static UncompressedFramerateControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UncompressedFramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -31709,69 +24482,36 @@ extension UncompressedFramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum UncompressedFramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension UncompressedFramerateConversionAlgorithmValueExtension
-    on UncompressedFramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case UncompressedFramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case UncompressedFramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case UncompressedFramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedFramerateConversionAlgorithmFromString on String {
-  UncompressedFramerateConversionAlgorithm
-      toUncompressedFramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return UncompressedFramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return UncompressedFramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return UncompressedFramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum UncompressedFramerateConversionAlgorithm');
-  }
+  const UncompressedFramerateConversionAlgorithm(this.value);
+
+  static UncompressedFramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UncompressedFramerateConversionAlgorithm'));
 }
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
 enum UncompressedInterlaceMode {
-  interlaced,
-  progressive,
-}
+  interlaced('INTERLACED'),
+  progressive('PROGRESSIVE'),
+  ;
 
-extension UncompressedInterlaceModeValueExtension on UncompressedInterlaceMode {
-  String toValue() {
-    switch (this) {
-      case UncompressedInterlaceMode.interlaced:
-        return 'INTERLACED';
-      case UncompressedInterlaceMode.progressive:
-        return 'PROGRESSIVE';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedInterlaceModeFromString on String {
-  UncompressedInterlaceMode toUncompressedInterlaceMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return UncompressedInterlaceMode.interlaced;
-      case 'PROGRESSIVE':
-        return UncompressedInterlaceMode.progressive;
-    }
-    throw Exception('$this is not known in enum UncompressedInterlaceMode');
-  }
+  const UncompressedInterlaceMode(this.value);
+
+  static UncompressedInterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UncompressedInterlaceMode'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -31787,33 +24527,18 @@ extension UncompressedInterlaceModeFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum UncompressedScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension UncompressedScanTypeConversionModeValueExtension
-    on UncompressedScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case UncompressedScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case UncompressedScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedScanTypeConversionModeFromString on String {
-  UncompressedScanTypeConversionMode toUncompressedScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return UncompressedScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return UncompressedScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception(
-        '$this is not known in enum UncompressedScanTypeConversionMode');
-  }
+  const UncompressedScanTypeConversionMode(this.value);
+
+  static UncompressedScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UncompressedScanTypeConversionMode'));
 }
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
@@ -31906,20 +24631,22 @@ class UncompressedSettings {
 
   factory UncompressedSettings.fromJson(Map<String, dynamic> json) {
     return UncompressedSettings(
-      fourcc: (json['fourcc'] as String?)?.toUncompressedFourcc(),
+      fourcc: (json['fourcc'] as String?)?.let(UncompressedFourcc.fromString),
       framerateControl: (json['framerateControl'] as String?)
-          ?.toUncompressedFramerateControl(),
+          ?.let(UncompressedFramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toUncompressedFramerateConversionAlgorithm(),
+              ?.let(UncompressedFramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      interlaceMode:
-          (json['interlaceMode'] as String?)?.toUncompressedInterlaceMode(),
+      interlaceMode: (json['interlaceMode'] as String?)
+          ?.let(UncompressedInterlaceMode.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toUncompressedScanTypeConversionMode(),
-      slowPal: (json['slowPal'] as String?)?.toUncompressedSlowPal(),
-      telecine: (json['telecine'] as String?)?.toUncompressedTelecine(),
+          ?.let(UncompressedScanTypeConversionMode.fromString),
+      slowPal:
+          (json['slowPal'] as String?)?.let(UncompressedSlowPal.fromString),
+      telecine:
+          (json['telecine'] as String?)?.let(UncompressedTelecine.fromString),
     );
   }
 
@@ -31934,19 +24661,18 @@ class UncompressedSettings {
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     return {
-      if (fourcc != null) 'fourcc': fourcc.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (fourcc != null) 'fourcc': fourcc.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
+      if (telecine != null) 'telecine': telecine.value,
     };
   }
 }
@@ -31957,31 +24683,18 @@ class UncompressedSettings {
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
 enum UncompressedSlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension UncompressedSlowPalValueExtension on UncompressedSlowPal {
-  String toValue() {
-    switch (this) {
-      case UncompressedSlowPal.disabled:
-        return 'DISABLED';
-      case UncompressedSlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedSlowPalFromString on String {
-  UncompressedSlowPal toUncompressedSlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return UncompressedSlowPal.disabled;
-      case 'ENABLED':
-        return UncompressedSlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum UncompressedSlowPal');
-  }
+  const UncompressedSlowPal(this.value);
+
+  static UncompressedSlowPal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UncompressedSlowPal'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -31990,31 +24703,18 @@ extension UncompressedSlowPalFromString on String {
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
 enum UncompressedTelecine {
-  none,
-  hard,
-}
+  none('NONE'),
+  hard('HARD'),
+  ;
 
-extension UncompressedTelecineValueExtension on UncompressedTelecine {
-  String toValue() {
-    switch (this) {
-      case UncompressedTelecine.none:
-        return 'NONE';
-      case UncompressedTelecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension UncompressedTelecineFromString on String {
-  UncompressedTelecine toUncompressedTelecine() {
-    switch (this) {
-      case 'NONE':
-        return UncompressedTelecine.none;
-      case 'HARD':
-        return UncompressedTelecine.hard;
-    }
-    throw Exception('$this is not known in enum UncompressedTelecine');
-  }
+  const UncompressedTelecine(this.value);
+
+  static UncompressedTelecine fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UncompressedTelecine'));
 }
 
 class UntagResourceResponse {
@@ -32091,36 +24791,18 @@ class UpdateQueueResponse {
 /// of approximately 220 Mbps. VC3 class also specifies the color bit depth of
 /// your output.
 enum Vc3Class {
-  class_145_8bit,
-  class_220_8bit,
-  class_220_10bit,
-}
+  class_145_8bit('CLASS_145_8BIT'),
+  class_220_8bit('CLASS_220_8BIT'),
+  class_220_10bit('CLASS_220_10BIT'),
+  ;
 
-extension Vc3ClassValueExtension on Vc3Class {
-  String toValue() {
-    switch (this) {
-      case Vc3Class.class_145_8bit:
-        return 'CLASS_145_8BIT';
-      case Vc3Class.class_220_8bit:
-        return 'CLASS_220_8BIT';
-      case Vc3Class.class_220_10bit:
-        return 'CLASS_220_10BIT';
-    }
-  }
-}
+  final String value;
 
-extension Vc3ClassFromString on String {
-  Vc3Class toVc3Class() {
-    switch (this) {
-      case 'CLASS_145_8BIT':
-        return Vc3Class.class_145_8bit;
-      case 'CLASS_220_8BIT':
-        return Vc3Class.class_220_8bit;
-      case 'CLASS_220_10BIT':
-        return Vc3Class.class_220_10bit;
-    }
-    throw Exception('$this is not known in enum Vc3Class');
-  }
+  const Vc3Class(this.value);
+
+  static Vc3Class fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Vc3Class'));
 }
 
 /// If you are using the console, use the Framerate setting to specify the frame
@@ -32130,31 +24812,18 @@ extension Vc3ClassFromString on String {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum Vc3FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Vc3FramerateControlValueExtension on Vc3FramerateControl {
-  String toValue() {
-    switch (this) {
-      case Vc3FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Vc3FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Vc3FramerateControlFromString on String {
-  Vc3FramerateControl toVc3FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Vc3FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Vc3FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum Vc3FramerateControl');
-  }
+  const Vc3FramerateControl(this.value);
+
+  static Vc3FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vc3FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -32169,68 +24838,36 @@ extension Vc3FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum Vc3FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension Vc3FramerateConversionAlgorithmValueExtension
-    on Vc3FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case Vc3FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case Vc3FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case Vc3FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension Vc3FramerateConversionAlgorithmFromString on String {
-  Vc3FramerateConversionAlgorithm toVc3FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return Vc3FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return Vc3FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return Vc3FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum Vc3FramerateConversionAlgorithm');
-  }
+  const Vc3FramerateConversionAlgorithm(this.value);
+
+  static Vc3FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Vc3FramerateConversionAlgorithm'));
 }
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
 enum Vc3InterlaceMode {
-  interlaced,
-  progressive,
-}
+  interlaced('INTERLACED'),
+  progressive('PROGRESSIVE'),
+  ;
 
-extension Vc3InterlaceModeValueExtension on Vc3InterlaceMode {
-  String toValue() {
-    switch (this) {
-      case Vc3InterlaceMode.interlaced:
-        return 'INTERLACED';
-      case Vc3InterlaceMode.progressive:
-        return 'PROGRESSIVE';
-    }
-  }
-}
+  final String value;
 
-extension Vc3InterlaceModeFromString on String {
-  Vc3InterlaceMode toVc3InterlaceMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return Vc3InterlaceMode.interlaced;
-      case 'PROGRESSIVE':
-        return Vc3InterlaceMode.progressive;
-    }
-    throw Exception('$this is not known in enum Vc3InterlaceMode');
-  }
+  const Vc3InterlaceMode(this.value);
+
+  static Vc3InterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Vc3InterlaceMode'));
 }
 
 /// Use this setting for interlaced outputs, when your output frame rate is half
@@ -32246,31 +24883,18 @@ extension Vc3InterlaceModeFromString on String {
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
 enum Vc3ScanTypeConversionMode {
-  interlaced,
-  interlacedOptimize,
-}
+  interlaced('INTERLACED'),
+  interlacedOptimize('INTERLACED_OPTIMIZE'),
+  ;
 
-extension Vc3ScanTypeConversionModeValueExtension on Vc3ScanTypeConversionMode {
-  String toValue() {
-    switch (this) {
-      case Vc3ScanTypeConversionMode.interlaced:
-        return 'INTERLACED';
-      case Vc3ScanTypeConversionMode.interlacedOptimize:
-        return 'INTERLACED_OPTIMIZE';
-    }
-  }
-}
+  final String value;
 
-extension Vc3ScanTypeConversionModeFromString on String {
-  Vc3ScanTypeConversionMode toVc3ScanTypeConversionMode() {
-    switch (this) {
-      case 'INTERLACED':
-        return Vc3ScanTypeConversionMode.interlaced;
-      case 'INTERLACED_OPTIMIZE':
-        return Vc3ScanTypeConversionMode.interlacedOptimize;
-    }
-    throw Exception('$this is not known in enum Vc3ScanTypeConversionMode');
-  }
+  const Vc3ScanTypeConversionMode(this.value);
+
+  static Vc3ScanTypeConversionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Vc3ScanTypeConversionMode'));
 }
 
 /// Required when you set Codec to the value VC3
@@ -32369,19 +24993,20 @@ class Vc3Settings {
 
   factory Vc3Settings.fromJson(Map<String, dynamic> json) {
     return Vc3Settings(
-      framerateControl:
-          (json['framerateControl'] as String?)?.toVc3FramerateControl(),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(Vc3FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toVc3FramerateConversionAlgorithm(),
+              ?.let(Vc3FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      interlaceMode: (json['interlaceMode'] as String?)?.toVc3InterlaceMode(),
+      interlaceMode:
+          (json['interlaceMode'] as String?)?.let(Vc3InterlaceMode.fromString),
       scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
-          ?.toVc3ScanTypeConversionMode(),
-      slowPal: (json['slowPal'] as String?)?.toVc3SlowPal(),
-      telecine: (json['telecine'] as String?)?.toVc3Telecine(),
-      vc3Class: (json['vc3Class'] as String?)?.toVc3Class(),
+          ?.let(Vc3ScanTypeConversionMode.fromString),
+      slowPal: (json['slowPal'] as String?)?.let(Vc3SlowPal.fromString),
+      telecine: (json['telecine'] as String?)?.let(Vc3Telecine.fromString),
+      vc3Class: (json['vc3Class'] as String?)?.let(Vc3Class.fromString),
     );
   }
 
@@ -32396,19 +25021,18 @@ class Vc3Settings {
     final telecine = this.telecine;
     final vc3Class = this.vc3Class;
     return {
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (scanTypeConversionMode != null)
-        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
-      if (telecine != null) 'telecine': telecine.toValue(),
-      if (vc3Class != null) 'vc3Class': vc3Class.toValue(),
+        'scanTypeConversionMode': scanTypeConversionMode.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
+      if (telecine != null) 'telecine': telecine.value,
+      if (vc3Class != null) 'vc3Class': vc3Class.value,
     };
   }
 }
@@ -32419,31 +25043,17 @@ class Vc3Settings {
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
 enum Vc3SlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension Vc3SlowPalValueExtension on Vc3SlowPal {
-  String toValue() {
-    switch (this) {
-      case Vc3SlowPal.disabled:
-        return 'DISABLED';
-      case Vc3SlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension Vc3SlowPalFromString on String {
-  Vc3SlowPal toVc3SlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return Vc3SlowPal.disabled;
-      case 'ENABLED':
-        return Vc3SlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum Vc3SlowPal');
-  }
+  const Vc3SlowPal(this.value);
+
+  static Vc3SlowPal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Vc3SlowPal'));
 }
 
 /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -32452,146 +25062,60 @@ extension Vc3SlowPalFromString on String {
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
 enum Vc3Telecine {
-  none,
-  hard,
-}
+  none('NONE'),
+  hard('HARD'),
+  ;
 
-extension Vc3TelecineValueExtension on Vc3Telecine {
-  String toValue() {
-    switch (this) {
-      case Vc3Telecine.none:
-        return 'NONE';
-      case Vc3Telecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension Vc3TelecineFromString on String {
-  Vc3Telecine toVc3Telecine() {
-    switch (this) {
-      case 'NONE':
-        return Vc3Telecine.none;
-      case 'HARD':
-        return Vc3Telecine.hard;
-    }
-    throw Exception('$this is not known in enum Vc3Telecine');
-  }
+  const Vc3Telecine(this.value);
+
+  static Vc3Telecine fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Vc3Telecine'));
 }
 
 /// The action to take on content advisory XDS packets. If you select
 /// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
 /// will be removed in output captions.
 enum VchipAction {
-  passthrough,
-  strip,
-}
+  passthrough('PASSTHROUGH'),
+  strip('STRIP'),
+  ;
 
-extension VchipActionValueExtension on VchipAction {
-  String toValue() {
-    switch (this) {
-      case VchipAction.passthrough:
-        return 'PASSTHROUGH';
-      case VchipAction.strip:
-        return 'STRIP';
-    }
-  }
-}
+  final String value;
 
-extension VchipActionFromString on String {
-  VchipAction toVchipAction() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return VchipAction.passthrough;
-      case 'STRIP':
-        return VchipAction.strip;
-    }
-    throw Exception('$this is not known in enum VchipAction');
-  }
+  const VchipAction(this.value);
+
+  static VchipAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VchipAction'));
 }
 
 /// Type of video codec
 enum VideoCodec {
-  av1,
-  avcIntra,
-  frameCapture,
-  h_264,
-  h_265,
-  mpeg2,
-  passthrough,
-  prores,
-  uncompressed,
-  vc3,
-  vp8,
-  vp9,
-  xavc,
-}
+  av1('AV1'),
+  avcIntra('AVC_INTRA'),
+  frameCapture('FRAME_CAPTURE'),
+  h_264('H_264'),
+  h_265('H_265'),
+  mpeg2('MPEG2'),
+  passthrough('PASSTHROUGH'),
+  prores('PRORES'),
+  uncompressed('UNCOMPRESSED'),
+  vc3('VC3'),
+  vp8('VP8'),
+  vp9('VP9'),
+  xavc('XAVC'),
+  ;
 
-extension VideoCodecValueExtension on VideoCodec {
-  String toValue() {
-    switch (this) {
-      case VideoCodec.av1:
-        return 'AV1';
-      case VideoCodec.avcIntra:
-        return 'AVC_INTRA';
-      case VideoCodec.frameCapture:
-        return 'FRAME_CAPTURE';
-      case VideoCodec.h_264:
-        return 'H_264';
-      case VideoCodec.h_265:
-        return 'H_265';
-      case VideoCodec.mpeg2:
-        return 'MPEG2';
-      case VideoCodec.passthrough:
-        return 'PASSTHROUGH';
-      case VideoCodec.prores:
-        return 'PRORES';
-      case VideoCodec.uncompressed:
-        return 'UNCOMPRESSED';
-      case VideoCodec.vc3:
-        return 'VC3';
-      case VideoCodec.vp8:
-        return 'VP8';
-      case VideoCodec.vp9:
-        return 'VP9';
-      case VideoCodec.xavc:
-        return 'XAVC';
-    }
-  }
-}
+  final String value;
 
-extension VideoCodecFromString on String {
-  VideoCodec toVideoCodec() {
-    switch (this) {
-      case 'AV1':
-        return VideoCodec.av1;
-      case 'AVC_INTRA':
-        return VideoCodec.avcIntra;
-      case 'FRAME_CAPTURE':
-        return VideoCodec.frameCapture;
-      case 'H_264':
-        return VideoCodec.h_264;
-      case 'H_265':
-        return VideoCodec.h_265;
-      case 'MPEG2':
-        return VideoCodec.mpeg2;
-      case 'PASSTHROUGH':
-        return VideoCodec.passthrough;
-      case 'PRORES':
-        return VideoCodec.prores;
-      case 'UNCOMPRESSED':
-        return VideoCodec.uncompressed;
-      case 'VC3':
-        return VideoCodec.vc3;
-      case 'VP8':
-        return VideoCodec.vp8;
-      case 'VP9':
-        return VideoCodec.vp9;
-      case 'XAVC':
-        return VideoCodec.xavc;
-    }
-    throw Exception('$this is not known in enum VideoCodec');
-  }
+  const VideoCodec(this.value);
+
+  static VideoCodec fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VideoCodec'));
 }
 
 /// Video codec settings contains the group of settings related to video
@@ -32680,7 +25204,7 @@ class VideoCodecSettings {
           ? AvcIntraSettings.fromJson(
               json['avcIntraSettings'] as Map<String, dynamic>)
           : null,
-      codec: (json['codec'] as String?)?.toVideoCodec(),
+      codec: (json['codec'] as String?)?.let(VideoCodec.fromString),
       frameCaptureSettings: json['frameCaptureSettings'] != null
           ? FrameCaptureSettings.fromJson(
               json['frameCaptureSettings'] as Map<String, dynamic>)
@@ -32735,7 +25259,7 @@ class VideoCodecSettings {
     return {
       if (av1Settings != null) 'av1Settings': av1Settings,
       if (avcIntraSettings != null) 'avcIntraSettings': avcIntraSettings,
-      if (codec != null) 'codec': codec.toValue(),
+      if (codec != null) 'codec': codec.value,
       if (frameCaptureSettings != null)
         'frameCaptureSettings': frameCaptureSettings,
       if (h264Settings != null) 'h264Settings': h264Settings,
@@ -32878,29 +25402,32 @@ class VideoDescription {
 
   factory VideoDescription.fromJson(Map<String, dynamic> json) {
     return VideoDescription(
-      afdSignaling: (json['afdSignaling'] as String?)?.toAfdSignaling(),
-      antiAlias: (json['antiAlias'] as String?)?.toAntiAlias(),
+      afdSignaling:
+          (json['afdSignaling'] as String?)?.let(AfdSignaling.fromString),
+      antiAlias: (json['antiAlias'] as String?)?.let(AntiAlias.fromString),
       codecSettings: json['codecSettings'] != null
           ? VideoCodecSettings.fromJson(
               json['codecSettings'] as Map<String, dynamic>)
           : null,
-      colorMetadata: (json['colorMetadata'] as String?)?.toColorMetadata(),
+      colorMetadata:
+          (json['colorMetadata'] as String?)?.let(ColorMetadata.fromString),
       crop: json['crop'] != null
           ? Rectangle.fromJson(json['crop'] as Map<String, dynamic>)
           : null,
-      dropFrameTimecode:
-          (json['dropFrameTimecode'] as String?)?.toDropFrameTimecode(),
+      dropFrameTimecode: (json['dropFrameTimecode'] as String?)
+          ?.let(DropFrameTimecode.fromString),
       fixedAfd: json['fixedAfd'] as int?,
       height: json['height'] as int?,
       position: json['position'] != null
           ? Rectangle.fromJson(json['position'] as Map<String, dynamic>)
           : null,
-      respondToAfd: (json['respondToAfd'] as String?)?.toRespondToAfd(),
+      respondToAfd:
+          (json['respondToAfd'] as String?)?.let(RespondToAfd.fromString),
       scalingBehavior:
-          (json['scalingBehavior'] as String?)?.toScalingBehavior(),
+          (json['scalingBehavior'] as String?)?.let(ScalingBehavior.fromString),
       sharpness: json['sharpness'] as int?,
-      timecodeInsertion:
-          (json['timecodeInsertion'] as String?)?.toVideoTimecodeInsertion(),
+      timecodeInsertion: (json['timecodeInsertion'] as String?)
+          ?.let(VideoTimecodeInsertion.fromString),
       videoPreprocessors: json['videoPreprocessors'] != null
           ? VideoPreprocessor.fromJson(
               json['videoPreprocessors'] as Map<String, dynamic>)
@@ -32926,21 +25453,21 @@ class VideoDescription {
     final videoPreprocessors = this.videoPreprocessors;
     final width = this.width;
     return {
-      if (afdSignaling != null) 'afdSignaling': afdSignaling.toValue(),
-      if (antiAlias != null) 'antiAlias': antiAlias.toValue(),
+      if (afdSignaling != null) 'afdSignaling': afdSignaling.value,
+      if (antiAlias != null) 'antiAlias': antiAlias.value,
       if (codecSettings != null) 'codecSettings': codecSettings,
-      if (colorMetadata != null) 'colorMetadata': colorMetadata.toValue(),
+      if (colorMetadata != null) 'colorMetadata': colorMetadata.value,
       if (crop != null) 'crop': crop,
       if (dropFrameTimecode != null)
-        'dropFrameTimecode': dropFrameTimecode.toValue(),
+        'dropFrameTimecode': dropFrameTimecode.value,
       if (fixedAfd != null) 'fixedAfd': fixedAfd,
       if (height != null) 'height': height,
       if (position != null) 'position': position,
-      if (respondToAfd != null) 'respondToAfd': respondToAfd.toValue(),
-      if (scalingBehavior != null) 'scalingBehavior': scalingBehavior.toValue(),
+      if (respondToAfd != null) 'respondToAfd': respondToAfd.value,
+      if (scalingBehavior != null) 'scalingBehavior': scalingBehavior.value,
       if (sharpness != null) 'sharpness': sharpness,
       if (timecodeInsertion != null)
-        'timecodeInsertion': timecodeInsertion.toValue(),
+        'timecodeInsertion': timecodeInsertion.value,
       if (videoPreprocessors != null) 'videoPreprocessors': videoPreprocessors,
       if (width != null) 'width': width,
     };
@@ -33064,8 +25591,8 @@ class VideoOverlayInput {
           .map((e) =>
               VideoOverlayInputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timecodeSource:
-          (json['timecodeSource'] as String?)?.toInputTimecodeSource(),
+      timecodeSource: (json['timecodeSource'] as String?)
+          ?.let(InputTimecodeSource.fromString),
       timecodeStart: json['timecodeStart'] as String?,
     );
   }
@@ -33078,7 +25605,7 @@ class VideoOverlayInput {
     return {
       if (fileInput != null) 'fileInput': fileInput,
       if (inputClippings != null) 'inputClippings': inputClippings,
-      if (timecodeSource != null) 'timecodeSource': timecodeSource.toValue(),
+      if (timecodeSource != null) 'timecodeSource': timecodeSource.value,
       if (timecodeStart != null) 'timecodeStart': timecodeStart,
     };
   }
@@ -33354,22 +25881,24 @@ class VideoSelector {
 
   factory VideoSelector.fromJson(Map<String, dynamic> json) {
     return VideoSelector(
-      alphaBehavior: (json['alphaBehavior'] as String?)?.toAlphaBehavior(),
-      colorSpace: (json['colorSpace'] as String?)?.toColorSpace(),
+      alphaBehavior:
+          (json['alphaBehavior'] as String?)?.let(AlphaBehavior.fromString),
+      colorSpace: (json['colorSpace'] as String?)?.let(ColorSpace.fromString),
       colorSpaceUsage:
-          (json['colorSpaceUsage'] as String?)?.toColorSpaceUsage(),
+          (json['colorSpaceUsage'] as String?)?.let(ColorSpaceUsage.fromString),
       embeddedTimecodeOverride: (json['embeddedTimecodeOverride'] as String?)
-          ?.toEmbeddedTimecodeOverride(),
+          ?.let(EmbeddedTimecodeOverride.fromString),
       hdr10Metadata: json['hdr10Metadata'] != null
           ? Hdr10Metadata.fromJson(
               json['hdr10Metadata'] as Map<String, dynamic>)
           : null,
       maxLuminance: json['maxLuminance'] as int?,
-      padVideo: (json['padVideo'] as String?)?.toPadVideo(),
+      padVideo: (json['padVideo'] as String?)?.let(PadVideo.fromString),
       pid: json['pid'] as int?,
       programNumber: json['programNumber'] as int?,
-      rotate: (json['rotate'] as String?)?.toInputRotate(),
-      sampleRange: (json['sampleRange'] as String?)?.toInputSampleRange(),
+      rotate: (json['rotate'] as String?)?.let(InputRotate.fromString),
+      sampleRange:
+          (json['sampleRange'] as String?)?.let(InputSampleRange.fromString),
     );
   }
 
@@ -33386,18 +25915,18 @@ class VideoSelector {
     final rotate = this.rotate;
     final sampleRange = this.sampleRange;
     return {
-      if (alphaBehavior != null) 'alphaBehavior': alphaBehavior.toValue(),
-      if (colorSpace != null) 'colorSpace': colorSpace.toValue(),
-      if (colorSpaceUsage != null) 'colorSpaceUsage': colorSpaceUsage.toValue(),
+      if (alphaBehavior != null) 'alphaBehavior': alphaBehavior.value,
+      if (colorSpace != null) 'colorSpace': colorSpace.value,
+      if (colorSpaceUsage != null) 'colorSpaceUsage': colorSpaceUsage.value,
       if (embeddedTimecodeOverride != null)
-        'embeddedTimecodeOverride': embeddedTimecodeOverride.toValue(),
+        'embeddedTimecodeOverride': embeddedTimecodeOverride.value,
       if (hdr10Metadata != null) 'hdr10Metadata': hdr10Metadata,
       if (maxLuminance != null) 'maxLuminance': maxLuminance,
-      if (padVideo != null) 'padVideo': padVideo.toValue(),
+      if (padVideo != null) 'padVideo': padVideo.value,
       if (pid != null) 'pid': pid,
       if (programNumber != null) 'programNumber': programNumber,
-      if (rotate != null) 'rotate': rotate.toValue(),
-      if (sampleRange != null) 'sampleRange': sampleRange.toValue(),
+      if (rotate != null) 'rotate': rotate.value,
+      if (sampleRange != null) 'sampleRange': sampleRange.value,
     };
   }
 }
@@ -33415,31 +25944,18 @@ class VideoSelector {
 /// the timecodes that are inserted in the output. Source under Job settings >
 /// Timecode configuration does.
 enum VideoTimecodeInsertion {
-  disabled,
-  picTimingSei,
-}
+  disabled('DISABLED'),
+  picTimingSei('PIC_TIMING_SEI'),
+  ;
 
-extension VideoTimecodeInsertionValueExtension on VideoTimecodeInsertion {
-  String toValue() {
-    switch (this) {
-      case VideoTimecodeInsertion.disabled:
-        return 'DISABLED';
-      case VideoTimecodeInsertion.picTimingSei:
-        return 'PIC_TIMING_SEI';
-    }
-  }
-}
+  final String value;
 
-extension VideoTimecodeInsertionFromString on String {
-  VideoTimecodeInsertion toVideoTimecodeInsertion() {
-    switch (this) {
-      case 'DISABLED':
-        return VideoTimecodeInsertion.disabled;
-      case 'PIC_TIMING_SEI':
-        return VideoTimecodeInsertion.picTimingSei;
-    }
-    throw Exception('$this is not known in enum VideoTimecodeInsertion');
-  }
+  const VideoTimecodeInsertion(this.value);
+
+  static VideoTimecodeInsertion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VideoTimecodeInsertion'));
 }
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
@@ -33493,31 +26009,18 @@ class VorbisSettings {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum Vp8FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Vp8FramerateControlValueExtension on Vp8FramerateControl {
-  String toValue() {
-    switch (this) {
-      case Vp8FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Vp8FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Vp8FramerateControlFromString on String {
-  Vp8FramerateControl toVp8FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Vp8FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Vp8FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum Vp8FramerateControl');
-  }
+  const Vp8FramerateControl(this.value);
+
+  static Vp8FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp8FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -33532,38 +26035,19 @@ extension Vp8FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum Vp8FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension Vp8FramerateConversionAlgorithmValueExtension
-    on Vp8FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case Vp8FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case Vp8FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case Vp8FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension Vp8FramerateConversionAlgorithmFromString on String {
-  Vp8FramerateConversionAlgorithm toVp8FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return Vp8FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return Vp8FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return Vp8FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum Vp8FramerateConversionAlgorithm');
-  }
+  const Vp8FramerateConversionAlgorithm(this.value);
+
+  static Vp8FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Vp8FramerateConversionAlgorithm'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -33573,87 +26057,52 @@ extension Vp8FramerateConversionAlgorithmFromString on String {
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
 enum Vp8ParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Vp8ParControlValueExtension on Vp8ParControl {
-  String toValue() {
-    switch (this) {
-      case Vp8ParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Vp8ParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Vp8ParControlFromString on String {
-  Vp8ParControl toVp8ParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Vp8ParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Vp8ParControl.specified;
-    }
-    throw Exception('$this is not known in enum Vp8ParControl');
-  }
+  const Vp8ParControl(this.value);
+
+  static Vp8ParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Vp8ParControl'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
 enum Vp8QualityTuningLevel {
-  multiPass,
-  multiPassHq,
-}
+  multiPass('MULTI_PASS'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension Vp8QualityTuningLevelValueExtension on Vp8QualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case Vp8QualityTuningLevel.multiPass:
-        return 'MULTI_PASS';
-      case Vp8QualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension Vp8QualityTuningLevelFromString on String {
-  Vp8QualityTuningLevel toVp8QualityTuningLevel() {
-    switch (this) {
-      case 'MULTI_PASS':
-        return Vp8QualityTuningLevel.multiPass;
-      case 'MULTI_PASS_HQ':
-        return Vp8QualityTuningLevel.multiPassHq;
-    }
-    throw Exception('$this is not known in enum Vp8QualityTuningLevel');
-  }
+  const Vp8QualityTuningLevel(this.value);
+
+  static Vp8QualityTuningLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp8QualityTuningLevel'));
 }
 
 /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
 enum Vp8RateControlMode {
-  vbr,
-}
+  vbr('VBR'),
+  ;
 
-extension Vp8RateControlModeValueExtension on Vp8RateControlMode {
-  String toValue() {
-    switch (this) {
-      case Vp8RateControlMode.vbr:
-        return 'VBR';
-    }
-  }
-}
+  final String value;
 
-extension Vp8RateControlModeFromString on String {
-  Vp8RateControlMode toVp8RateControlMode() {
-    switch (this) {
-      case 'VBR':
-        return Vp8RateControlMode.vbr;
-    }
-    throw Exception('$this is not known in enum Vp8RateControlMode');
-  }
+  const Vp8RateControlMode(this.value);
+
+  static Vp8RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp8RateControlMode'));
 }
 
 /// Required when you set Codec to the value VP8.
@@ -33765,23 +26214,24 @@ class Vp8Settings {
   factory Vp8Settings.fromJson(Map<String, dynamic> json) {
     return Vp8Settings(
       bitrate: json['bitrate'] as int?,
-      framerateControl:
-          (json['framerateControl'] as String?)?.toVp8FramerateControl(),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(Vp8FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toVp8FramerateConversionAlgorithm(),
+              ?.let(Vp8FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       gopSize: json['gopSize'] as double?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
-      parControl: (json['parControl'] as String?)?.toVp8ParControl(),
+      parControl:
+          (json['parControl'] as String?)?.let(Vp8ParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
-      qualityTuningLevel:
-          (json['qualityTuningLevel'] as String?)?.toVp8QualityTuningLevel(),
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toVp8RateControlMode(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.let(Vp8QualityTuningLevel.fromString),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(Vp8RateControlMode.fromString),
     );
   }
 
@@ -33801,22 +26251,21 @@ class Vp8Settings {
     final rateControlMode = this.rateControlMode;
     return {
       if (bitrate != null) 'bitrate': bitrate,
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopSize != null) 'gopSize': gopSize,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
     };
   }
 }
@@ -33828,31 +26277,18 @@ class Vp8Settings {
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
 enum Vp9FramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Vp9FramerateControlValueExtension on Vp9FramerateControl {
-  String toValue() {
-    switch (this) {
-      case Vp9FramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Vp9FramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Vp9FramerateControlFromString on String {
-  Vp9FramerateControl toVp9FramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Vp9FramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Vp9FramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum Vp9FramerateControl');
-  }
+  const Vp9FramerateControl(this.value);
+
+  static Vp9FramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp9FramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -33867,38 +26303,19 @@ extension Vp9FramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum Vp9FramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension Vp9FramerateConversionAlgorithmValueExtension
-    on Vp9FramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case Vp9FramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case Vp9FramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case Vp9FramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension Vp9FramerateConversionAlgorithmFromString on String {
-  Vp9FramerateConversionAlgorithm toVp9FramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return Vp9FramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return Vp9FramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return Vp9FramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum Vp9FramerateConversionAlgorithm');
-  }
+  const Vp9FramerateConversionAlgorithm(this.value);
+
+  static Vp9FramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Vp9FramerateConversionAlgorithm'));
 }
 
 /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -33908,87 +26325,52 @@ extension Vp9FramerateConversionAlgorithmFromString on String {
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
 enum Vp9ParControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension Vp9ParControlValueExtension on Vp9ParControl {
-  String toValue() {
-    switch (this) {
-      case Vp9ParControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case Vp9ParControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension Vp9ParControlFromString on String {
-  Vp9ParControl toVp9ParControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return Vp9ParControl.initializeFromSource;
-      case 'SPECIFIED':
-        return Vp9ParControl.specified;
-    }
-    throw Exception('$this is not known in enum Vp9ParControl');
-  }
+  const Vp9ParControl(this.value);
+
+  static Vp9ParControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Vp9ParControl'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
 enum Vp9QualityTuningLevel {
-  multiPass,
-  multiPassHq,
-}
+  multiPass('MULTI_PASS'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension Vp9QualityTuningLevelValueExtension on Vp9QualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case Vp9QualityTuningLevel.multiPass:
-        return 'MULTI_PASS';
-      case Vp9QualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension Vp9QualityTuningLevelFromString on String {
-  Vp9QualityTuningLevel toVp9QualityTuningLevel() {
-    switch (this) {
-      case 'MULTI_PASS':
-        return Vp9QualityTuningLevel.multiPass;
-      case 'MULTI_PASS_HQ':
-        return Vp9QualityTuningLevel.multiPassHq;
-    }
-    throw Exception('$this is not known in enum Vp9QualityTuningLevel');
-  }
+  const Vp9QualityTuningLevel(this.value);
+
+  static Vp9QualityTuningLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp9QualityTuningLevel'));
 }
 
 /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
 enum Vp9RateControlMode {
-  vbr,
-}
+  vbr('VBR'),
+  ;
 
-extension Vp9RateControlModeValueExtension on Vp9RateControlMode {
-  String toValue() {
-    switch (this) {
-      case Vp9RateControlMode.vbr:
-        return 'VBR';
-    }
-  }
-}
+  final String value;
 
-extension Vp9RateControlModeFromString on String {
-  Vp9RateControlMode toVp9RateControlMode() {
-    switch (this) {
-      case 'VBR':
-        return Vp9RateControlMode.vbr;
-    }
-    throw Exception('$this is not known in enum Vp9RateControlMode');
-  }
+  const Vp9RateControlMode(this.value);
+
+  static Vp9RateControlMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Vp9RateControlMode'));
 }
 
 /// Required when you set Codec to the value VP9.
@@ -34097,23 +26479,24 @@ class Vp9Settings {
   factory Vp9Settings.fromJson(Map<String, dynamic> json) {
     return Vp9Settings(
       bitrate: json['bitrate'] as int?,
-      framerateControl:
-          (json['framerateControl'] as String?)?.toVp9FramerateControl(),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(Vp9FramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toVp9FramerateConversionAlgorithm(),
+              ?.let(Vp9FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       gopSize: json['gopSize'] as double?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
-      parControl: (json['parControl'] as String?)?.toVp9ParControl(),
+      parControl:
+          (json['parControl'] as String?)?.let(Vp9ParControl.fromString),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
-      qualityTuningLevel:
-          (json['qualityTuningLevel'] as String?)?.toVp9QualityTuningLevel(),
-      rateControlMode:
-          (json['rateControlMode'] as String?)?.toVp9RateControlMode(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.let(Vp9QualityTuningLevel.fromString),
+      rateControlMode: (json['rateControlMode'] as String?)
+          ?.let(Vp9RateControlMode.fromString),
     );
   }
 
@@ -34133,22 +26516,21 @@ class Vp9Settings {
     final rateControlMode = this.rateControlMode;
     return {
       if (bitrate != null) 'bitrate': bitrate,
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopSize != null) 'gopSize': gopSize,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
-      if (parControl != null) 'parControl': parControl.toValue(),
+      if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
-      if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
+      if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
     };
   }
 }
@@ -34180,77 +26562,38 @@ class WarningGroup {
 /// value. When you don't specify a value here, the Nagra NexGuard library uses
 /// its default value.
 enum WatermarkingStrength {
-  lightest,
-  lighter,
-  $default,
-  stronger,
-  strongest,
-}
+  lightest('LIGHTEST'),
+  lighter('LIGHTER'),
+  $default('DEFAULT'),
+  stronger('STRONGER'),
+  strongest('STRONGEST'),
+  ;
 
-extension WatermarkingStrengthValueExtension on WatermarkingStrength {
-  String toValue() {
-    switch (this) {
-      case WatermarkingStrength.lightest:
-        return 'LIGHTEST';
-      case WatermarkingStrength.lighter:
-        return 'LIGHTER';
-      case WatermarkingStrength.$default:
-        return 'DEFAULT';
-      case WatermarkingStrength.stronger:
-        return 'STRONGER';
-      case WatermarkingStrength.strongest:
-        return 'STRONGEST';
-    }
-  }
-}
+  final String value;
 
-extension WatermarkingStrengthFromString on String {
-  WatermarkingStrength toWatermarkingStrength() {
-    switch (this) {
-      case 'LIGHTEST':
-        return WatermarkingStrength.lightest;
-      case 'LIGHTER':
-        return WatermarkingStrength.lighter;
-      case 'DEFAULT':
-        return WatermarkingStrength.$default;
-      case 'STRONGER':
-        return WatermarkingStrength.stronger;
-      case 'STRONGEST':
-        return WatermarkingStrength.strongest;
-    }
-    throw Exception('$this is not known in enum WatermarkingStrength');
-  }
+  const WatermarkingStrength(this.value);
+
+  static WatermarkingStrength fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WatermarkingStrength'));
 }
 
 /// The service defaults to using RIFF for WAV outputs. If your output audio is
 /// likely to exceed 4 GB in file size, or if you otherwise need the extended
 /// support of the RF64 format, set your output WAV file format to RF64.
 enum WavFormat {
-  riff,
-  rf64,
-}
+  riff('RIFF'),
+  rf64('RF64'),
+  ;
 
-extension WavFormatValueExtension on WavFormat {
-  String toValue() {
-    switch (this) {
-      case WavFormat.riff:
-        return 'RIFF';
-      case WavFormat.rf64:
-        return 'RF64';
-    }
-  }
-}
+  final String value;
 
-extension WavFormatFromString on String {
-  WavFormat toWavFormat() {
-    switch (this) {
-      case 'RIFF':
-        return WavFormat.riff;
-      case 'RF64':
-        return WavFormat.rf64;
-    }
-    throw Exception('$this is not known in enum WavFormat');
-  }
+  const WavFormat(this.value);
+
+  static WavFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum WavFormat'));
 }
 
 /// Required when you set Codec to the value WAV.
@@ -34282,7 +26625,7 @@ class WavSettings {
     return WavSettings(
       bitDepth: json['bitDepth'] as int?,
       channels: json['channels'] as int?,
-      format: (json['format'] as String?)?.toWavFormat(),
+      format: (json['format'] as String?)?.let(WavFormat.fromString),
       sampleRate: json['sampleRate'] as int?,
     );
   }
@@ -34295,7 +26638,7 @@ class WavSettings {
     return {
       if (bitDepth != null) 'bitDepth': bitDepth,
       if (channels != null) 'channels': channels,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
     };
   }
@@ -34315,31 +26658,18 @@ class WavSettings {
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
 enum WebvttAccessibilitySubs {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension WebvttAccessibilitySubsValueExtension on WebvttAccessibilitySubs {
-  String toValue() {
-    switch (this) {
-      case WebvttAccessibilitySubs.disabled:
-        return 'DISABLED';
-      case WebvttAccessibilitySubs.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension WebvttAccessibilitySubsFromString on String {
-  WebvttAccessibilitySubs toWebvttAccessibilitySubs() {
-    switch (this) {
-      case 'DISABLED':
-        return WebvttAccessibilitySubs.disabled;
-      case 'ENABLED':
-        return WebvttAccessibilitySubs.enabled;
-    }
-    throw Exception('$this is not known in enum WebvttAccessibilitySubs');
-  }
+  const WebvttAccessibilitySubs(this.value);
+
+  static WebvttAccessibilitySubs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WebvttAccessibilitySubs'));
 }
 
 /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
@@ -34381,10 +26711,10 @@ class WebvttDestinationSettings {
 
   factory WebvttDestinationSettings.fromJson(Map<String, dynamic> json) {
     return WebvttDestinationSettings(
-      accessibility:
-          (json['accessibility'] as String?)?.toWebvttAccessibilitySubs(),
-      stylePassthrough:
-          (json['stylePassthrough'] as String?)?.toWebvttStylePassthrough(),
+      accessibility: (json['accessibility'] as String?)
+          ?.let(WebvttAccessibilitySubs.fromString),
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.let(WebvttStylePassthrough.fromString),
     );
   }
 
@@ -34392,9 +26722,8 @@ class WebvttDestinationSettings {
     final accessibility = this.accessibility;
     final stylePassthrough = this.stylePassthrough;
     return {
-      if (accessibility != null) 'accessibility': accessibility.toValue(),
-      if (stylePassthrough != null)
-        'stylePassthrough': stylePassthrough.toValue(),
+      if (accessibility != null) 'accessibility': accessibility.value,
+      if (stylePassthrough != null) 'stylePassthrough': stylePassthrough.value,
     };
   }
 }
@@ -34427,8 +26756,8 @@ class WebvttHlsSourceSettings {
   factory WebvttHlsSourceSettings.fromJson(Map<String, dynamic> json) {
     return WebvttHlsSourceSettings(
       renditionGroupId: json['renditionGroupId'] as String?,
-      renditionLanguageCode:
-          (json['renditionLanguageCode'] as String?)?.toLanguageCode(),
+      renditionLanguageCode: (json['renditionLanguageCode'] as String?)
+          ?.let(LanguageCode.fromString),
       renditionName: json['renditionName'] as String?,
     );
   }
@@ -34440,7 +26769,7 @@ class WebvttHlsSourceSettings {
     return {
       if (renditionGroupId != null) 'renditionGroupId': renditionGroupId,
       if (renditionLanguageCode != null)
-        'renditionLanguageCode': renditionLanguageCode.toValue(),
+        'renditionLanguageCode': renditionLanguageCode.value,
       if (renditionName != null) 'renditionName': renditionName,
     };
   }
@@ -34456,73 +26785,38 @@ class WebvttHlsSourceSettings {
 /// information from your input captions and use simplified output captions: Set
 /// Style passthrough to Disabled, or leave blank.
 enum WebvttStylePassthrough {
-  enabled,
-  disabled,
-  strict,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  strict('STRICT'),
+  ;
 
-extension WebvttStylePassthroughValueExtension on WebvttStylePassthrough {
-  String toValue() {
-    switch (this) {
-      case WebvttStylePassthrough.enabled:
-        return 'ENABLED';
-      case WebvttStylePassthrough.disabled:
-        return 'DISABLED';
-      case WebvttStylePassthrough.strict:
-        return 'STRICT';
-    }
-  }
-}
+  final String value;
 
-extension WebvttStylePassthroughFromString on String {
-  WebvttStylePassthrough toWebvttStylePassthrough() {
-    switch (this) {
-      case 'ENABLED':
-        return WebvttStylePassthrough.enabled;
-      case 'DISABLED':
-        return WebvttStylePassthrough.disabled;
-      case 'STRICT':
-        return WebvttStylePassthrough.strict;
-    }
-    throw Exception('$this is not known in enum WebvttStylePassthrough');
-  }
+  const WebvttStylePassthrough(this.value);
+
+  static WebvttStylePassthrough fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WebvttStylePassthrough'));
 }
 
 /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
 enum Xavc4kIntraCbgProfileClass {
-  class_100,
-  class_300,
-  class_480,
-}
+  class_100('CLASS_100'),
+  class_300('CLASS_300'),
+  class_480('CLASS_480'),
+  ;
 
-extension Xavc4kIntraCbgProfileClassValueExtension
-    on Xavc4kIntraCbgProfileClass {
-  String toValue() {
-    switch (this) {
-      case Xavc4kIntraCbgProfileClass.class_100:
-        return 'CLASS_100';
-      case Xavc4kIntraCbgProfileClass.class_300:
-        return 'CLASS_300';
-      case Xavc4kIntraCbgProfileClass.class_480:
-        return 'CLASS_480';
-    }
-  }
-}
+  final String value;
 
-extension Xavc4kIntraCbgProfileClassFromString on String {
-  Xavc4kIntraCbgProfileClass toXavc4kIntraCbgProfileClass() {
-    switch (this) {
-      case 'CLASS_100':
-        return Xavc4kIntraCbgProfileClass.class_100;
-      case 'CLASS_300':
-        return Xavc4kIntraCbgProfileClass.class_300;
-      case 'CLASS_480':
-        return Xavc4kIntraCbgProfileClass.class_480;
-    }
-    throw Exception('$this is not known in enum Xavc4kIntraCbgProfileClass');
-  }
+  const Xavc4kIntraCbgProfileClass(this.value);
+
+  static Xavc4kIntraCbgProfileClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Xavc4kIntraCbgProfileClass'));
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_CBG.
@@ -34538,14 +26832,15 @@ class Xavc4kIntraCbgProfileSettings {
 
   factory Xavc4kIntraCbgProfileSettings.fromJson(Map<String, dynamic> json) {
     return Xavc4kIntraCbgProfileSettings(
-      xavcClass: (json['xavcClass'] as String?)?.toXavc4kIntraCbgProfileClass(),
+      xavcClass: (json['xavcClass'] as String?)
+          ?.let(Xavc4kIntraCbgProfileClass.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final xavcClass = this.xavcClass;
     return {
-      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+      if (xavcClass != null) 'xavcClass': xavcClass.value,
     };
   }
 }
@@ -34554,37 +26849,19 @@ class Xavc4kIntraCbgProfileSettings {
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
 enum Xavc4kIntraVbrProfileClass {
-  class_100,
-  class_300,
-  class_480,
-}
+  class_100('CLASS_100'),
+  class_300('CLASS_300'),
+  class_480('CLASS_480'),
+  ;
 
-extension Xavc4kIntraVbrProfileClassValueExtension
-    on Xavc4kIntraVbrProfileClass {
-  String toValue() {
-    switch (this) {
-      case Xavc4kIntraVbrProfileClass.class_100:
-        return 'CLASS_100';
-      case Xavc4kIntraVbrProfileClass.class_300:
-        return 'CLASS_300';
-      case Xavc4kIntraVbrProfileClass.class_480:
-        return 'CLASS_480';
-    }
-  }
-}
+  final String value;
 
-extension Xavc4kIntraVbrProfileClassFromString on String {
-  Xavc4kIntraVbrProfileClass toXavc4kIntraVbrProfileClass() {
-    switch (this) {
-      case 'CLASS_100':
-        return Xavc4kIntraVbrProfileClass.class_100;
-      case 'CLASS_300':
-        return Xavc4kIntraVbrProfileClass.class_300;
-      case 'CLASS_480':
-        return Xavc4kIntraVbrProfileClass.class_480;
-    }
-    throw Exception('$this is not known in enum Xavc4kIntraVbrProfileClass');
-  }
+  const Xavc4kIntraVbrProfileClass(this.value);
+
+  static Xavc4kIntraVbrProfileClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Xavc4kIntraVbrProfileClass'));
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_VBR.
@@ -34600,14 +26877,15 @@ class Xavc4kIntraVbrProfileSettings {
 
   factory Xavc4kIntraVbrProfileSettings.fromJson(Map<String, dynamic> json) {
     return Xavc4kIntraVbrProfileSettings(
-      xavcClass: (json['xavcClass'] as String?)?.toXavc4kIntraVbrProfileClass(),
+      xavcClass: (json['xavcClass'] as String?)
+          ?.let(Xavc4kIntraVbrProfileClass.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final xavcClass = this.xavcClass;
     return {
-      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+      if (xavcClass != null) 'xavcClass': xavcClass.value,
     };
   }
 }
@@ -34616,105 +26894,56 @@ class Xavc4kIntraVbrProfileSettings {
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
 enum Xavc4kProfileBitrateClass {
-  bitrateClass_100,
-  bitrateClass_140,
-  bitrateClass_200,
-}
+  bitrateClass_100('BITRATE_CLASS_100'),
+  bitrateClass_140('BITRATE_CLASS_140'),
+  bitrateClass_200('BITRATE_CLASS_200'),
+  ;
 
-extension Xavc4kProfileBitrateClassValueExtension on Xavc4kProfileBitrateClass {
-  String toValue() {
-    switch (this) {
-      case Xavc4kProfileBitrateClass.bitrateClass_100:
-        return 'BITRATE_CLASS_100';
-      case Xavc4kProfileBitrateClass.bitrateClass_140:
-        return 'BITRATE_CLASS_140';
-      case Xavc4kProfileBitrateClass.bitrateClass_200:
-        return 'BITRATE_CLASS_200';
-    }
-  }
-}
+  final String value;
 
-extension Xavc4kProfileBitrateClassFromString on String {
-  Xavc4kProfileBitrateClass toXavc4kProfileBitrateClass() {
-    switch (this) {
-      case 'BITRATE_CLASS_100':
-        return Xavc4kProfileBitrateClass.bitrateClass_100;
-      case 'BITRATE_CLASS_140':
-        return Xavc4kProfileBitrateClass.bitrateClass_140;
-      case 'BITRATE_CLASS_200':
-        return Xavc4kProfileBitrateClass.bitrateClass_200;
-    }
-    throw Exception('$this is not known in enum Xavc4kProfileBitrateClass');
-  }
+  const Xavc4kProfileBitrateClass(this.value);
+
+  static Xavc4kProfileBitrateClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Xavc4kProfileBitrateClass'));
 }
 
 /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH)
 /// or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T
 /// H.264.
 enum Xavc4kProfileCodecProfile {
-  high,
-  high_422,
-}
+  high('HIGH'),
+  high_422('HIGH_422'),
+  ;
 
-extension Xavc4kProfileCodecProfileValueExtension on Xavc4kProfileCodecProfile {
-  String toValue() {
-    switch (this) {
-      case Xavc4kProfileCodecProfile.high:
-        return 'HIGH';
-      case Xavc4kProfileCodecProfile.high_422:
-        return 'HIGH_422';
-    }
-  }
-}
+  final String value;
 
-extension Xavc4kProfileCodecProfileFromString on String {
-  Xavc4kProfileCodecProfile toXavc4kProfileCodecProfile() {
-    switch (this) {
-      case 'HIGH':
-        return Xavc4kProfileCodecProfile.high;
-      case 'HIGH_422':
-        return Xavc4kProfileCodecProfile.high_422;
-    }
-    throw Exception('$this is not known in enum Xavc4kProfileCodecProfile');
-  }
+  const Xavc4kProfileCodecProfile(this.value);
+
+  static Xavc4kProfileCodecProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Xavc4kProfileCodecProfile'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
 enum Xavc4kProfileQualityTuningLevel {
-  singlePass,
-  singlePassHq,
-  multiPassHq,
-}
+  singlePass('SINGLE_PASS'),
+  singlePassHq('SINGLE_PASS_HQ'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension Xavc4kProfileQualityTuningLevelValueExtension
-    on Xavc4kProfileQualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case Xavc4kProfileQualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case Xavc4kProfileQualityTuningLevel.singlePassHq:
-        return 'SINGLE_PASS_HQ';
-      case Xavc4kProfileQualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension Xavc4kProfileQualityTuningLevelFromString on String {
-  Xavc4kProfileQualityTuningLevel toXavc4kProfileQualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return Xavc4kProfileQualityTuningLevel.singlePass;
-      case 'SINGLE_PASS_HQ':
-        return Xavc4kProfileQualityTuningLevel.singlePassHq;
-      case 'MULTI_PASS_HQ':
-        return Xavc4kProfileQualityTuningLevel.multiPassHq;
-    }
-    throw Exception(
-        '$this is not known in enum Xavc4kProfileQualityTuningLevel');
-  }
+  const Xavc4kProfileQualityTuningLevel(this.value);
+
+  static Xavc4kProfileQualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum Xavc4kProfileQualityTuningLevel'));
 }
 
 /// Required when you set Profile to the value XAVC_4K.
@@ -34787,18 +27016,19 @@ class Xavc4kProfileSettings {
 
   factory Xavc4kProfileSettings.fromJson(Map<String, dynamic> json) {
     return Xavc4kProfileSettings(
-      bitrateClass:
-          (json['bitrateClass'] as String?)?.toXavc4kProfileBitrateClass(),
-      codecProfile:
-          (json['codecProfile'] as String?)?.toXavc4kProfileCodecProfile(),
+      bitrateClass: (json['bitrateClass'] as String?)
+          ?.let(Xavc4kProfileBitrateClass.fromString),
+      codecProfile: (json['codecProfile'] as String?)
+          ?.let(Xavc4kProfileCodecProfile.fromString),
       flickerAdaptiveQuantization:
           (json['flickerAdaptiveQuantization'] as String?)
-              ?.toXavcFlickerAdaptiveQuantization(),
-      gopBReference: (json['gopBReference'] as String?)?.toXavcGopBReference(),
+              ?.let(XavcFlickerAdaptiveQuantization.fromString),
+      gopBReference:
+          (json['gopBReference'] as String?)?.let(XavcGopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
       qualityTuningLevel: (json['qualityTuningLevel'] as String?)
-          ?.toXavc4kProfileQualityTuningLevel(),
+          ?.let(Xavc4kProfileQualityTuningLevel.fromString),
       slices: json['slices'] as int?,
     );
   }
@@ -34813,15 +27043,15 @@ class Xavc4kProfileSettings {
     final qualityTuningLevel = this.qualityTuningLevel;
     final slices = this.slices;
     return {
-      if (bitrateClass != null) 'bitrateClass': bitrateClass.toValue(),
-      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
+      if (bitrateClass != null) 'bitrateClass': bitrateClass.value,
+      if (codecProfile != null) 'codecProfile': codecProfile.value,
       if (flickerAdaptiveQuantization != null)
-        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
-      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.value,
+      if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
       if (slices != null) 'slices': slices,
     };
   }
@@ -34838,56 +27068,23 @@ class Xavc4kProfileSettings {
 /// quantization (flickerAdaptiveQuantization), Spatial adaptive quantization,
 /// and Temporal adaptive quantization.
 enum XavcAdaptiveQuantization {
-  off,
-  auto,
-  low,
-  medium,
-  high,
-  higher,
-  max,
-}
+  off('OFF'),
+  auto('AUTO'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  higher('HIGHER'),
+  max('MAX'),
+  ;
 
-extension XavcAdaptiveQuantizationValueExtension on XavcAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case XavcAdaptiveQuantization.off:
-        return 'OFF';
-      case XavcAdaptiveQuantization.auto:
-        return 'AUTO';
-      case XavcAdaptiveQuantization.low:
-        return 'LOW';
-      case XavcAdaptiveQuantization.medium:
-        return 'MEDIUM';
-      case XavcAdaptiveQuantization.high:
-        return 'HIGH';
-      case XavcAdaptiveQuantization.higher:
-        return 'HIGHER';
-      case XavcAdaptiveQuantization.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension XavcAdaptiveQuantizationFromString on String {
-  XavcAdaptiveQuantization toXavcAdaptiveQuantization() {
-    switch (this) {
-      case 'OFF':
-        return XavcAdaptiveQuantization.off;
-      case 'AUTO':
-        return XavcAdaptiveQuantization.auto;
-      case 'LOW':
-        return XavcAdaptiveQuantization.low;
-      case 'MEDIUM':
-        return XavcAdaptiveQuantization.medium;
-      case 'HIGH':
-        return XavcAdaptiveQuantization.high;
-      case 'HIGHER':
-        return XavcAdaptiveQuantization.higher;
-      case 'MAX':
-        return XavcAdaptiveQuantization.max;
-    }
-    throw Exception('$this is not known in enum XavcAdaptiveQuantization');
-  }
+  const XavcAdaptiveQuantization(this.value);
+
+  static XavcAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcAdaptiveQuantization'));
 }
 
 /// Optional. Choose a specific entropy encoding mode only when you want to
@@ -34895,36 +27092,19 @@ extension XavcAdaptiveQuantizationFromString on String {
 /// uses the mode that the XAVC file format specifies given this output's
 /// operating point.
 enum XavcEntropyEncoding {
-  auto,
-  cabac,
-  cavlc,
-}
+  auto('AUTO'),
+  cabac('CABAC'),
+  cavlc('CAVLC'),
+  ;
 
-extension XavcEntropyEncodingValueExtension on XavcEntropyEncoding {
-  String toValue() {
-    switch (this) {
-      case XavcEntropyEncoding.auto:
-        return 'AUTO';
-      case XavcEntropyEncoding.cabac:
-        return 'CABAC';
-      case XavcEntropyEncoding.cavlc:
-        return 'CAVLC';
-    }
-  }
-}
+  final String value;
 
-extension XavcEntropyEncodingFromString on String {
-  XavcEntropyEncoding toXavcEntropyEncoding() {
-    switch (this) {
-      case 'AUTO':
-        return XavcEntropyEncoding.auto;
-      case 'CABAC':
-        return XavcEntropyEncoding.cabac;
-      case 'CAVLC':
-        return XavcEntropyEncoding.cavlc;
-    }
-    throw Exception('$this is not known in enum XavcEntropyEncoding');
-  }
+  const XavcEntropyEncoding(this.value);
+
+  static XavcEntropyEncoding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum XavcEntropyEncoding'));
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -34942,33 +27122,18 @@ extension XavcEntropyEncodingFromString on String {
 /// quantization to adjust the degree of smoothing that Flicker adaptive
 /// quantization provides.
 enum XavcFlickerAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension XavcFlickerAdaptiveQuantizationValueExtension
-    on XavcFlickerAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case XavcFlickerAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case XavcFlickerAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension XavcFlickerAdaptiveQuantizationFromString on String {
-  XavcFlickerAdaptiveQuantization toXavcFlickerAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return XavcFlickerAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return XavcFlickerAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum XavcFlickerAdaptiveQuantization');
-  }
+  const XavcFlickerAdaptiveQuantization(this.value);
+
+  static XavcFlickerAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcFlickerAdaptiveQuantization'));
 }
 
 /// If you are using the console, use the Frame rate setting to specify the
@@ -34977,31 +27142,18 @@ extension XavcFlickerAdaptiveQuantizationFromString on String {
 /// choose a frame rate from the dropdown list. The framerates shown in the
 /// dropdown list are decimal approximations of fractions.
 enum XavcFramerateControl {
-  initializeFromSource,
-  specified,
-}
+  initializeFromSource('INITIALIZE_FROM_SOURCE'),
+  specified('SPECIFIED'),
+  ;
 
-extension XavcFramerateControlValueExtension on XavcFramerateControl {
-  String toValue() {
-    switch (this) {
-      case XavcFramerateControl.initializeFromSource:
-        return 'INITIALIZE_FROM_SOURCE';
-      case XavcFramerateControl.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension XavcFramerateControlFromString on String {
-  XavcFramerateControl toXavcFramerateControl() {
-    switch (this) {
-      case 'INITIALIZE_FROM_SOURCE':
-        return XavcFramerateControl.initializeFromSource;
-      case 'SPECIFIED':
-        return XavcFramerateControl.specified;
-    }
-    throw Exception('$this is not known in enum XavcFramerateControl');
-  }
+  const XavcFramerateControl(this.value);
+
+  static XavcFramerateControl fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum XavcFramerateControl'));
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
@@ -35016,38 +27168,19 @@ extension XavcFramerateControlFromString on String {
 /// the transcoding time and incurs a significant add-on cost. When you choose
 /// FrameFormer, your input video resolution must be at least 128x96.
 enum XavcFramerateConversionAlgorithm {
-  duplicateDrop,
-  interpolate,
-  frameformer,
-}
+  duplicateDrop('DUPLICATE_DROP'),
+  interpolate('INTERPOLATE'),
+  frameformer('FRAMEFORMER'),
+  ;
 
-extension XavcFramerateConversionAlgorithmValueExtension
-    on XavcFramerateConversionAlgorithm {
-  String toValue() {
-    switch (this) {
-      case XavcFramerateConversionAlgorithm.duplicateDrop:
-        return 'DUPLICATE_DROP';
-      case XavcFramerateConversionAlgorithm.interpolate:
-        return 'INTERPOLATE';
-      case XavcFramerateConversionAlgorithm.frameformer:
-        return 'FRAMEFORMER';
-    }
-  }
-}
+  final String value;
 
-extension XavcFramerateConversionAlgorithmFromString on String {
-  XavcFramerateConversionAlgorithm toXavcFramerateConversionAlgorithm() {
-    switch (this) {
-      case 'DUPLICATE_DROP':
-        return XavcFramerateConversionAlgorithm.duplicateDrop;
-      case 'INTERPOLATE':
-        return XavcFramerateConversionAlgorithm.interpolate;
-      case 'FRAMEFORMER':
-        return XavcFramerateConversionAlgorithm.frameformer;
-    }
-    throw Exception(
-        '$this is not known in enum XavcFramerateConversionAlgorithm');
-  }
+  const XavcFramerateConversionAlgorithm(this.value);
+
+  static XavcFramerateConversionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcFramerateConversionAlgorithm'));
 }
 
 /// Specify whether the encoder uses B-frames as reference frames for other
@@ -35055,68 +27188,37 @@ extension XavcFramerateConversionAlgorithmFromString on String {
 /// as reference frames. Choose Don't allow to prevent the encoder from using
 /// B-frames as reference frames.
 enum XavcGopBReference {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension XavcGopBReferenceValueExtension on XavcGopBReference {
-  String toValue() {
-    switch (this) {
-      case XavcGopBReference.disabled:
-        return 'DISABLED';
-      case XavcGopBReference.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension XavcGopBReferenceFromString on String {
-  XavcGopBReference toXavcGopBReference() {
-    switch (this) {
-      case 'DISABLED':
-        return XavcGopBReference.disabled;
-      case 'ENABLED':
-        return XavcGopBReference.enabled;
-    }
-    throw Exception('$this is not known in enum XavcGopBReference');
-  }
+  const XavcGopBReference(this.value);
+
+  static XavcGopBReference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum XavcGopBReference'));
 }
 
 /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
 enum XavcHdIntraCbgProfileClass {
-  class_50,
-  class_100,
-  class_200,
-}
+  class_50('CLASS_50'),
+  class_100('CLASS_100'),
+  class_200('CLASS_200'),
+  ;
 
-extension XavcHdIntraCbgProfileClassValueExtension
-    on XavcHdIntraCbgProfileClass {
-  String toValue() {
-    switch (this) {
-      case XavcHdIntraCbgProfileClass.class_50:
-        return 'CLASS_50';
-      case XavcHdIntraCbgProfileClass.class_100:
-        return 'CLASS_100';
-      case XavcHdIntraCbgProfileClass.class_200:
-        return 'CLASS_200';
-    }
-  }
-}
+  final String value;
 
-extension XavcHdIntraCbgProfileClassFromString on String {
-  XavcHdIntraCbgProfileClass toXavcHdIntraCbgProfileClass() {
-    switch (this) {
-      case 'CLASS_50':
-        return XavcHdIntraCbgProfileClass.class_50;
-      case 'CLASS_100':
-        return XavcHdIntraCbgProfileClass.class_100;
-      case 'CLASS_200':
-        return XavcHdIntraCbgProfileClass.class_200;
-    }
-    throw Exception('$this is not known in enum XavcHdIntraCbgProfileClass');
-  }
+  const XavcHdIntraCbgProfileClass(this.value);
+
+  static XavcHdIntraCbgProfileClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcHdIntraCbgProfileClass'));
 }
 
 /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
@@ -35132,14 +27234,15 @@ class XavcHdIntraCbgProfileSettings {
 
   factory XavcHdIntraCbgProfileSettings.fromJson(Map<String, dynamic> json) {
     return XavcHdIntraCbgProfileSettings(
-      xavcClass: (json['xavcClass'] as String?)?.toXavcHdIntraCbgProfileClass(),
+      xavcClass: (json['xavcClass'] as String?)
+          ?.let(XavcHdIntraCbgProfileClass.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final xavcClass = this.xavcClass;
     return {
-      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+      if (xavcClass != null) 'xavcClass': xavcClass.value,
     };
   }
 }
@@ -35148,74 +27251,38 @@ class XavcHdIntraCbgProfileSettings {
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
 enum XavcHdProfileBitrateClass {
-  bitrateClass_25,
-  bitrateClass_35,
-  bitrateClass_50,
-}
+  bitrateClass_25('BITRATE_CLASS_25'),
+  bitrateClass_35('BITRATE_CLASS_35'),
+  bitrateClass_50('BITRATE_CLASS_50'),
+  ;
 
-extension XavcHdProfileBitrateClassValueExtension on XavcHdProfileBitrateClass {
-  String toValue() {
-    switch (this) {
-      case XavcHdProfileBitrateClass.bitrateClass_25:
-        return 'BITRATE_CLASS_25';
-      case XavcHdProfileBitrateClass.bitrateClass_35:
-        return 'BITRATE_CLASS_35';
-      case XavcHdProfileBitrateClass.bitrateClass_50:
-        return 'BITRATE_CLASS_50';
-    }
-  }
-}
+  final String value;
 
-extension XavcHdProfileBitrateClassFromString on String {
-  XavcHdProfileBitrateClass toXavcHdProfileBitrateClass() {
-    switch (this) {
-      case 'BITRATE_CLASS_25':
-        return XavcHdProfileBitrateClass.bitrateClass_25;
-      case 'BITRATE_CLASS_35':
-        return XavcHdProfileBitrateClass.bitrateClass_35;
-      case 'BITRATE_CLASS_50':
-        return XavcHdProfileBitrateClass.bitrateClass_50;
-    }
-    throw Exception('$this is not known in enum XavcHdProfileBitrateClass');
-  }
+  const XavcHdProfileBitrateClass(this.value);
+
+  static XavcHdProfileBitrateClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcHdProfileBitrateClass'));
 }
 
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
 enum XavcHdProfileQualityTuningLevel {
-  singlePass,
-  singlePassHq,
-  multiPassHq,
-}
+  singlePass('SINGLE_PASS'),
+  singlePassHq('SINGLE_PASS_HQ'),
+  multiPassHq('MULTI_PASS_HQ'),
+  ;
 
-extension XavcHdProfileQualityTuningLevelValueExtension
-    on XavcHdProfileQualityTuningLevel {
-  String toValue() {
-    switch (this) {
-      case XavcHdProfileQualityTuningLevel.singlePass:
-        return 'SINGLE_PASS';
-      case XavcHdProfileQualityTuningLevel.singlePassHq:
-        return 'SINGLE_PASS_HQ';
-      case XavcHdProfileQualityTuningLevel.multiPassHq:
-        return 'MULTI_PASS_HQ';
-    }
-  }
-}
+  final String value;
 
-extension XavcHdProfileQualityTuningLevelFromString on String {
-  XavcHdProfileQualityTuningLevel toXavcHdProfileQualityTuningLevel() {
-    switch (this) {
-      case 'SINGLE_PASS':
-        return XavcHdProfileQualityTuningLevel.singlePass;
-      case 'SINGLE_PASS_HQ':
-        return XavcHdProfileQualityTuningLevel.singlePassHq;
-      case 'MULTI_PASS_HQ':
-        return XavcHdProfileQualityTuningLevel.multiPassHq;
-    }
-    throw Exception(
-        '$this is not known in enum XavcHdProfileQualityTuningLevel');
-  }
+  const XavcHdProfileQualityTuningLevel(this.value);
+
+  static XavcHdProfileQualityTuningLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcHdProfileQualityTuningLevel'));
 }
 
 /// Required when you set Profile to the value XAVC_HD.
@@ -35303,19 +27370,22 @@ class XavcHdProfileSettings {
 
   factory XavcHdProfileSettings.fromJson(Map<String, dynamic> json) {
     return XavcHdProfileSettings(
-      bitrateClass:
-          (json['bitrateClass'] as String?)?.toXavcHdProfileBitrateClass(),
+      bitrateClass: (json['bitrateClass'] as String?)
+          ?.let(XavcHdProfileBitrateClass.fromString),
       flickerAdaptiveQuantization:
           (json['flickerAdaptiveQuantization'] as String?)
-              ?.toXavcFlickerAdaptiveQuantization(),
-      gopBReference: (json['gopBReference'] as String?)?.toXavcGopBReference(),
+              ?.let(XavcFlickerAdaptiveQuantization.fromString),
+      gopBReference:
+          (json['gopBReference'] as String?)?.let(XavcGopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
-      interlaceMode: (json['interlaceMode'] as String?)?.toXavcInterlaceMode(),
+      interlaceMode:
+          (json['interlaceMode'] as String?)?.let(XavcInterlaceMode.fromString),
       qualityTuningLevel: (json['qualityTuningLevel'] as String?)
-          ?.toXavcHdProfileQualityTuningLevel(),
+          ?.let(XavcHdProfileQualityTuningLevel.fromString),
       slices: json['slices'] as int?,
-      telecine: (json['telecine'] as String?)?.toXavcHdProfileTelecine(),
+      telecine:
+          (json['telecine'] as String?)?.let(XavcHdProfileTelecine.fromString),
     );
   }
 
@@ -35330,17 +27400,17 @@ class XavcHdProfileSettings {
     final slices = this.slices;
     final telecine = this.telecine;
     return {
-      if (bitrateClass != null) 'bitrateClass': bitrateClass.toValue(),
+      if (bitrateClass != null) 'bitrateClass': bitrateClass.value,
       if (flickerAdaptiveQuantization != null)
-        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
-      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.value,
+      if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
-      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.value,
       if (qualityTuningLevel != null)
-        'qualityTuningLevel': qualityTuningLevel.toValue(),
+        'qualityTuningLevel': qualityTuningLevel.value,
       if (slices != null) 'slices': slices,
-      if (telecine != null) 'telecine': telecine.toValue(),
+      if (telecine != null) 'telecine': telecine.value,
     };
   }
 }
@@ -35350,31 +27420,18 @@ class XavcHdProfileSettings {
 /// Hard. Otherwise, keep the default value None. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
 enum XavcHdProfileTelecine {
-  none,
-  hard,
-}
+  none('NONE'),
+  hard('HARD'),
+  ;
 
-extension XavcHdProfileTelecineValueExtension on XavcHdProfileTelecine {
-  String toValue() {
-    switch (this) {
-      case XavcHdProfileTelecine.none:
-        return 'NONE';
-      case XavcHdProfileTelecine.hard:
-        return 'HARD';
-    }
-  }
-}
+  final String value;
 
-extension XavcHdProfileTelecineFromString on String {
-  XavcHdProfileTelecine toXavcHdProfileTelecine() {
-    switch (this) {
-      case 'NONE':
-        return XavcHdProfileTelecine.none;
-      case 'HARD':
-        return XavcHdProfileTelecine.hard;
-    }
-    throw Exception('$this is not known in enum XavcHdProfileTelecine');
-  }
+  const XavcHdProfileTelecine(this.value);
+
+  static XavcHdProfileTelecine fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum XavcHdProfileTelecine'));
 }
 
 /// Choose the scan line type for the output. Keep the default value,
@@ -35389,46 +27446,21 @@ extension XavcHdProfileTelecineFromString on String {
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
 enum XavcInterlaceMode {
-  progressive,
-  topField,
-  bottomField,
-  followTopField,
-  followBottomField,
-}
+  progressive('PROGRESSIVE'),
+  topField('TOP_FIELD'),
+  bottomField('BOTTOM_FIELD'),
+  followTopField('FOLLOW_TOP_FIELD'),
+  followBottomField('FOLLOW_BOTTOM_FIELD'),
+  ;
 
-extension XavcInterlaceModeValueExtension on XavcInterlaceMode {
-  String toValue() {
-    switch (this) {
-      case XavcInterlaceMode.progressive:
-        return 'PROGRESSIVE';
-      case XavcInterlaceMode.topField:
-        return 'TOP_FIELD';
-      case XavcInterlaceMode.bottomField:
-        return 'BOTTOM_FIELD';
-      case XavcInterlaceMode.followTopField:
-        return 'FOLLOW_TOP_FIELD';
-      case XavcInterlaceMode.followBottomField:
-        return 'FOLLOW_BOTTOM_FIELD';
-    }
-  }
-}
+  final String value;
 
-extension XavcInterlaceModeFromString on String {
-  XavcInterlaceMode toXavcInterlaceMode() {
-    switch (this) {
-      case 'PROGRESSIVE':
-        return XavcInterlaceMode.progressive;
-      case 'TOP_FIELD':
-        return XavcInterlaceMode.topField;
-      case 'BOTTOM_FIELD':
-        return XavcInterlaceMode.bottomField;
-      case 'FOLLOW_TOP_FIELD':
-        return XavcInterlaceMode.followTopField;
-      case 'FOLLOW_BOTTOM_FIELD':
-        return XavcInterlaceMode.followBottomField;
-    }
-    throw Exception('$this is not known in enum XavcInterlaceMode');
-  }
+  const XavcInterlaceMode(this.value);
+
+  static XavcInterlaceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum XavcInterlaceMode'));
 }
 
 /// Specify the XAVC profile for this output. For more information, see the Sony
@@ -35436,46 +27468,20 @@ extension XavcInterlaceModeFromString on String {
 /// support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To
 /// create an interlaced XAVC output, choose the profile XAVC_HD.
 enum XavcProfile {
-  xavcHdIntraCbg,
-  xavc_4kIntraCbg,
-  xavc_4kIntraVbr,
-  xavcHd,
-  xavc_4k,
-}
+  xavcHdIntraCbg('XAVC_HD_INTRA_CBG'),
+  xavc_4kIntraCbg('XAVC_4K_INTRA_CBG'),
+  xavc_4kIntraVbr('XAVC_4K_INTRA_VBR'),
+  xavcHd('XAVC_HD'),
+  xavc_4k('XAVC_4K'),
+  ;
 
-extension XavcProfileValueExtension on XavcProfile {
-  String toValue() {
-    switch (this) {
-      case XavcProfile.xavcHdIntraCbg:
-        return 'XAVC_HD_INTRA_CBG';
-      case XavcProfile.xavc_4kIntraCbg:
-        return 'XAVC_4K_INTRA_CBG';
-      case XavcProfile.xavc_4kIntraVbr:
-        return 'XAVC_4K_INTRA_VBR';
-      case XavcProfile.xavcHd:
-        return 'XAVC_HD';
-      case XavcProfile.xavc_4k:
-        return 'XAVC_4K';
-    }
-  }
-}
+  final String value;
 
-extension XavcProfileFromString on String {
-  XavcProfile toXavcProfile() {
-    switch (this) {
-      case 'XAVC_HD_INTRA_CBG':
-        return XavcProfile.xavcHdIntraCbg;
-      case 'XAVC_4K_INTRA_CBG':
-        return XavcProfile.xavc_4kIntraCbg;
-      case 'XAVC_4K_INTRA_VBR':
-        return XavcProfile.xavc_4kIntraVbr;
-      case 'XAVC_HD':
-        return XavcProfile.xavcHd;
-      case 'XAVC_4K':
-        return XavcProfile.xavc_4k;
-    }
-    throw Exception('$this is not known in enum XavcProfile');
-  }
+  const XavcProfile(this.value);
+
+  static XavcProfile fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum XavcProfile'));
 }
 
 /// Required when you set Codec to the value XAVC.
@@ -35639,25 +27645,25 @@ class XavcSettings {
   factory XavcSettings.fromJson(Map<String, dynamic> json) {
     return XavcSettings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
-          ?.toXavcAdaptiveQuantization(),
-      entropyEncoding:
-          (json['entropyEncoding'] as String?)?.toXavcEntropyEncoding(),
-      framerateControl:
-          (json['framerateControl'] as String?)?.toXavcFramerateControl(),
+          ?.let(XavcAdaptiveQuantization.fromString),
+      entropyEncoding: (json['entropyEncoding'] as String?)
+          ?.let(XavcEntropyEncoding.fromString),
+      framerateControl: (json['framerateControl'] as String?)
+          ?.let(XavcFramerateControl.fromString),
       framerateConversionAlgorithm:
           (json['framerateConversionAlgorithm'] as String?)
-              ?.toXavcFramerateConversionAlgorithm(),
+              ?.let(XavcFramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      profile: (json['profile'] as String?)?.toXavcProfile(),
-      slowPal: (json['slowPal'] as String?)?.toXavcSlowPal(),
+      profile: (json['profile'] as String?)?.let(XavcProfile.fromString),
+      slowPal: (json['slowPal'] as String?)?.let(XavcSlowPal.fromString),
       softness: json['softness'] as int?,
       spatialAdaptiveQuantization:
           (json['spatialAdaptiveQuantization'] as String?)
-              ?.toXavcSpatialAdaptiveQuantization(),
+              ?.let(XavcSpatialAdaptiveQuantization.fromString),
       temporalAdaptiveQuantization:
           (json['temporalAdaptiveQuantization'] as String?)
-              ?.toXavcTemporalAdaptiveQuantization(),
+              ?.let(XavcTemporalAdaptiveQuantization.fromString),
       xavc4kIntraCbgProfileSettings:
           json['xavc4kIntraCbgProfileSettings'] != null
               ? Xavc4kIntraCbgProfileSettings.fromJson(
@@ -35703,22 +27709,21 @@ class XavcSettings {
     final xavcHdProfileSettings = this.xavcHdProfileSettings;
     return {
       if (adaptiveQuantization != null)
-        'adaptiveQuantization': adaptiveQuantization.toValue(),
-      if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.toValue(),
-      if (framerateControl != null)
-        'framerateControl': framerateControl.toValue(),
+        'adaptiveQuantization': adaptiveQuantization.value,
+      if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.value,
+      if (framerateControl != null) 'framerateControl': framerateControl.value,
       if (framerateConversionAlgorithm != null)
-        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.value,
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (profile != null) 'profile': profile.toValue(),
-      if (slowPal != null) 'slowPal': slowPal.toValue(),
+      if (profile != null) 'profile': profile.value,
+      if (slowPal != null) 'slowPal': slowPal.value,
       if (softness != null) 'softness': softness,
       if (spatialAdaptiveQuantization != null)
-        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.value,
       if (temporalAdaptiveQuantization != null)
-        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.toValue(),
+        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.value,
       if (xavc4kIntraCbgProfileSettings != null)
         'xavc4kIntraCbgProfileSettings': xavc4kIntraCbgProfileSettings,
       if (xavc4kIntraVbrProfileSettings != null)
@@ -35739,31 +27744,17 @@ class XavcSettings {
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Frame rate to 25.
 enum XavcSlowPal {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension XavcSlowPalValueExtension on XavcSlowPal {
-  String toValue() {
-    switch (this) {
-      case XavcSlowPal.disabled:
-        return 'DISABLED';
-      case XavcSlowPal.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension XavcSlowPalFromString on String {
-  XavcSlowPal toXavcSlowPal() {
-    switch (this) {
-      case 'DISABLED':
-        return XavcSlowPal.disabled;
-      case 'ENABLED':
-        return XavcSlowPal.enabled;
-    }
-    throw Exception('$this is not known in enum XavcSlowPal');
-  }
+  const XavcSlowPal(this.value);
+
+  static XavcSlowPal fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum XavcSlowPal'));
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -35787,33 +27778,18 @@ extension XavcSlowPalFromString on String {
 /// it to Low. For content with a wider variety of textures, set it to High or
 /// Higher.
 enum XavcSpatialAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension XavcSpatialAdaptiveQuantizationValueExtension
-    on XavcSpatialAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case XavcSpatialAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case XavcSpatialAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension XavcSpatialAdaptiveQuantizationFromString on String {
-  XavcSpatialAdaptiveQuantization toXavcSpatialAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return XavcSpatialAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return XavcSpatialAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum XavcSpatialAdaptiveQuantization');
-  }
+  const XavcSpatialAdaptiveQuantization(this.value);
+
+  static XavcSpatialAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcSpatialAdaptiveQuantization'));
 }
 
 /// The best way to set up adaptive quantization is to keep the default value,
@@ -35835,33 +27811,18 @@ extension XavcSpatialAdaptiveQuantizationFromString on String {
 /// temporal adaptive quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
 enum XavcTemporalAdaptiveQuantization {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension XavcTemporalAdaptiveQuantizationValueExtension
-    on XavcTemporalAdaptiveQuantization {
-  String toValue() {
-    switch (this) {
-      case XavcTemporalAdaptiveQuantization.disabled:
-        return 'DISABLED';
-      case XavcTemporalAdaptiveQuantization.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension XavcTemporalAdaptiveQuantizationFromString on String {
-  XavcTemporalAdaptiveQuantization toXavcTemporalAdaptiveQuantization() {
-    switch (this) {
-      case 'DISABLED':
-        return XavcTemporalAdaptiveQuantization.disabled;
-      case 'ENABLED':
-        return XavcTemporalAdaptiveQuantization.enabled;
-    }
-    throw Exception(
-        '$this is not known in enum XavcTemporalAdaptiveQuantization');
-  }
+  const XavcTemporalAdaptiveQuantization(this.value);
+
+  static XavcTemporalAdaptiveQuantization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XavcTemporalAdaptiveQuantization'));
 }
 
 class BadRequestException extends _s.GenericAwsException {

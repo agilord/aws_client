@@ -288,7 +288,7 @@ class NimbleStudio {
     };
     final $payload = <String, dynamic>{
       'launchProfileId': launchProfileId,
-      if (ec2InstanceType != null) 'ec2InstanceType': ec2InstanceType.toValue(),
+      if (ec2InstanceType != null) 'ec2InstanceType': ec2InstanceType.value,
       if (ownedBy != null) 'ownedBy': ownedBy,
       if (streamingImageId != null) 'streamingImageId': streamingImageId,
       if (tags != null) 'tags': tags,
@@ -536,7 +536,7 @@ class NimbleStudio {
     };
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (configuration != null) 'configuration': configuration,
       if (description != null) 'description': description,
       if (ec2SecurityGroupIds != null)
@@ -547,7 +547,7 @@ class NimbleStudio {
       if (scriptParameters != null) 'scriptParameters': scriptParameters,
       if (secureInitializationRoleArn != null)
         'secureInitializationRoleArn': secureInitializationRoleArn,
-      if (subtype != null) 'subtype': subtype.toValue(),
+      if (subtype != null) 'subtype': subtype.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1397,7 +1397,7 @@ class NimbleStudio {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (principalId != null) 'principalId': [principalId],
-      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
+      if (states != null) 'states': states.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -1582,8 +1582,8 @@ class NimbleStudio {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
-      if (types != null) 'types': types.map((e) => e.toValue()).toList(),
+      if (states != null) 'states': states.map((e) => e.value).toList(),
+      if (types != null) 'types': types.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -1943,7 +1943,7 @@ class NimbleStudio {
     };
     final $payload = <String, dynamic>{
       if (volumeRetentionMode != null)
-        'volumeRetentionMode': volumeRetentionMode.toValue(),
+        'volumeRetentionMode': volumeRetentionMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2130,7 +2130,7 @@ class NimbleStudio {
       if (clientToken != null) 'X-Amz-Client-Token': clientToken.toString(),
     };
     final $payload = <String, dynamic>{
-      'persona': persona.toValue(),
+      'persona': persona.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2337,8 +2337,8 @@ class NimbleStudio {
       if (scriptParameters != null) 'scriptParameters': scriptParameters,
       if (secureInitializationRoleArn != null)
         'secureInitializationRoleArn': secureInitializationRoleArn,
-      if (subtype != null) 'subtype': subtype.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (subtype != null) 'subtype': subtype.value,
+      if (type != null) 'type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2457,31 +2457,18 @@ class ActiveDirectoryConfiguration {
 }
 
 enum AutomaticTerminationMode {
-  deactivated,
-  activated,
-}
+  deactivated('DEACTIVATED'),
+  activated('ACTIVATED'),
+  ;
 
-extension AutomaticTerminationModeValueExtension on AutomaticTerminationMode {
-  String toValue() {
-    switch (this) {
-      case AutomaticTerminationMode.deactivated:
-        return 'DEACTIVATED';
-      case AutomaticTerminationMode.activated:
-        return 'ACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension AutomaticTerminationModeFromString on String {
-  AutomaticTerminationMode toAutomaticTerminationMode() {
-    switch (this) {
-      case 'DEACTIVATED':
-        return AutomaticTerminationMode.deactivated;
-      case 'ACTIVATED':
-        return AutomaticTerminationMode.activated;
-    }
-    throw Exception('$this is not known in enum AutomaticTerminationMode');
-  }
+  const AutomaticTerminationMode(this.value);
+
+  static AutomaticTerminationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomaticTerminationMode'));
 }
 
 /// The configuration for a render farm that is associated with a studio
@@ -3338,8 +3325,9 @@ class LaunchProfile {
               .map((e) => e as String)
               .toList(),
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toLaunchProfileState(),
-      statusCode: (json['statusCode'] as String?)?.toLaunchProfileStatusCode(),
+      state: (json['state'] as String?)?.let(LaunchProfileState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(LaunchProfileStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       streamConfiguration: json['streamConfiguration'] != null
           ? StreamConfiguration.fromJson(
@@ -3388,8 +3376,8 @@ class LaunchProfile {
       if (launchProfileProtocolVersions != null)
         'launchProfileProtocolVersions': launchProfileProtocolVersions,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (streamConfiguration != null)
         'streamConfiguration': streamConfiguration,
@@ -3464,7 +3452,8 @@ class LaunchProfileInitialization {
           json['launchProfileProtocolVersion'] as String?,
       launchPurpose: json['launchPurpose'] as String?,
       name: json['name'] as String?,
-      platform: (json['platform'] as String?)?.toLaunchProfilePlatform(),
+      platform:
+          (json['platform'] as String?)?.let(LaunchProfilePlatform.fromString),
       systemInitializationScripts:
           (json['systemInitializationScripts'] as List?)
               ?.whereNotNull()
@@ -3498,7 +3487,7 @@ class LaunchProfileInitialization {
         'launchProfileProtocolVersion': launchProfileProtocolVersion,
       if (launchPurpose != null) 'launchPurpose': launchPurpose,
       if (name != null) 'name': name,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (systemInitializationScripts != null)
         'systemInitializationScripts': systemInitializationScripts,
       if (userInitializationScripts != null)
@@ -3699,7 +3688,8 @@ class LaunchProfileMembership {
   factory LaunchProfileMembership.fromJson(Map<String, dynamic> json) {
     return LaunchProfileMembership(
       identityStoreId: json['identityStoreId'] as String?,
-      persona: (json['persona'] as String?)?.toLaunchProfilePersona(),
+      persona:
+          (json['persona'] as String?)?.let(LaunchProfilePersona.fromString),
       principalId: json['principalId'] as String?,
       sid: json['sid'] as String?,
     );
@@ -3712,7 +3702,7 @@ class LaunchProfileMembership {
     final sid = this.sid;
     return {
       if (identityStoreId != null) 'identityStoreId': identityStoreId,
-      if (persona != null) 'persona': persona.toValue(),
+      if (persona != null) 'persona': persona.value,
       if (principalId != null) 'principalId': principalId,
       if (sid != null) 'sid': sid,
     };
@@ -3720,363 +3710,145 @@ class LaunchProfileMembership {
 }
 
 enum LaunchProfilePersona {
-  user,
-}
+  user('USER'),
+  ;
 
-extension LaunchProfilePersonaValueExtension on LaunchProfilePersona {
-  String toValue() {
-    switch (this) {
-      case LaunchProfilePersona.user:
-        return 'USER';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfilePersonaFromString on String {
-  LaunchProfilePersona toLaunchProfilePersona() {
-    switch (this) {
-      case 'USER':
-        return LaunchProfilePersona.user;
-    }
-    throw Exception('$this is not known in enum LaunchProfilePersona');
-  }
+  const LaunchProfilePersona(this.value);
+
+  static LaunchProfilePersona fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LaunchProfilePersona'));
 }
 
 enum LaunchProfilePlatform {
-  linux,
-  windows,
-}
+  linux('LINUX'),
+  windows('WINDOWS'),
+  ;
 
-extension LaunchProfilePlatformValueExtension on LaunchProfilePlatform {
-  String toValue() {
-    switch (this) {
-      case LaunchProfilePlatform.linux:
-        return 'LINUX';
-      case LaunchProfilePlatform.windows:
-        return 'WINDOWS';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfilePlatformFromString on String {
-  LaunchProfilePlatform toLaunchProfilePlatform() {
-    switch (this) {
-      case 'LINUX':
-        return LaunchProfilePlatform.linux;
-      case 'WINDOWS':
-        return LaunchProfilePlatform.windows;
-    }
-    throw Exception('$this is not known in enum LaunchProfilePlatform');
-  }
+  const LaunchProfilePlatform(this.value);
+
+  static LaunchProfilePlatform fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LaunchProfilePlatform'));
 }
 
 enum LaunchProfileState {
-  createInProgress,
-  ready,
-  updateInProgress,
-  deleteInProgress,
-  deleted,
-  deleteFailed,
-  createFailed,
-  updateFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  ready('READY'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension LaunchProfileStateValueExtension on LaunchProfileState {
-  String toValue() {
-    switch (this) {
-      case LaunchProfileState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case LaunchProfileState.ready:
-        return 'READY';
-      case LaunchProfileState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case LaunchProfileState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case LaunchProfileState.deleted:
-        return 'DELETED';
-      case LaunchProfileState.deleteFailed:
-        return 'DELETE_FAILED';
-      case LaunchProfileState.createFailed:
-        return 'CREATE_FAILED';
-      case LaunchProfileState.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfileStateFromString on String {
-  LaunchProfileState toLaunchProfileState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return LaunchProfileState.createInProgress;
-      case 'READY':
-        return LaunchProfileState.ready;
-      case 'UPDATE_IN_PROGRESS':
-        return LaunchProfileState.updateInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return LaunchProfileState.deleteInProgress;
-      case 'DELETED':
-        return LaunchProfileState.deleted;
-      case 'DELETE_FAILED':
-        return LaunchProfileState.deleteFailed;
-      case 'CREATE_FAILED':
-        return LaunchProfileState.createFailed;
-      case 'UPDATE_FAILED':
-        return LaunchProfileState.updateFailed;
-    }
-    throw Exception('$this is not known in enum LaunchProfileState');
-  }
+  const LaunchProfileState(this.value);
+
+  static LaunchProfileState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LaunchProfileState'));
 }
 
 enum LaunchProfileStatusCode {
-  launchProfileCreated,
-  launchProfileUpdated,
-  launchProfileDeleted,
-  launchProfileCreateInProgress,
-  launchProfileUpdateInProgress,
-  launchProfileDeleteInProgress,
-  internalError,
-  streamingImageNotFound,
-  streamingImageNotReady,
-  launchProfileWithStreamSessionsNotDeleted,
-  encryptionKeyAccessDenied,
-  encryptionKeyNotFound,
-  invalidSubnetsProvided,
-  invalidInstanceTypesProvided,
-  invalidSubnetsCombination,
-}
+  launchProfileCreated('LAUNCH_PROFILE_CREATED'),
+  launchProfileUpdated('LAUNCH_PROFILE_UPDATED'),
+  launchProfileDeleted('LAUNCH_PROFILE_DELETED'),
+  launchProfileCreateInProgress('LAUNCH_PROFILE_CREATE_IN_PROGRESS'),
+  launchProfileUpdateInProgress('LAUNCH_PROFILE_UPDATE_IN_PROGRESS'),
+  launchProfileDeleteInProgress('LAUNCH_PROFILE_DELETE_IN_PROGRESS'),
+  internalError('INTERNAL_ERROR'),
+  streamingImageNotFound('STREAMING_IMAGE_NOT_FOUND'),
+  streamingImageNotReady('STREAMING_IMAGE_NOT_READY'),
+  launchProfileWithStreamSessionsNotDeleted(
+      'LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED'),
+  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
+  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
+  invalidSubnetsProvided('INVALID_SUBNETS_PROVIDED'),
+  invalidInstanceTypesProvided('INVALID_INSTANCE_TYPES_PROVIDED'),
+  invalidSubnetsCombination('INVALID_SUBNETS_COMBINATION'),
+  ;
 
-extension LaunchProfileStatusCodeValueExtension on LaunchProfileStatusCode {
-  String toValue() {
-    switch (this) {
-      case LaunchProfileStatusCode.launchProfileCreated:
-        return 'LAUNCH_PROFILE_CREATED';
-      case LaunchProfileStatusCode.launchProfileUpdated:
-        return 'LAUNCH_PROFILE_UPDATED';
-      case LaunchProfileStatusCode.launchProfileDeleted:
-        return 'LAUNCH_PROFILE_DELETED';
-      case LaunchProfileStatusCode.launchProfileCreateInProgress:
-        return 'LAUNCH_PROFILE_CREATE_IN_PROGRESS';
-      case LaunchProfileStatusCode.launchProfileUpdateInProgress:
-        return 'LAUNCH_PROFILE_UPDATE_IN_PROGRESS';
-      case LaunchProfileStatusCode.launchProfileDeleteInProgress:
-        return 'LAUNCH_PROFILE_DELETE_IN_PROGRESS';
-      case LaunchProfileStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-      case LaunchProfileStatusCode.streamingImageNotFound:
-        return 'STREAMING_IMAGE_NOT_FOUND';
-      case LaunchProfileStatusCode.streamingImageNotReady:
-        return 'STREAMING_IMAGE_NOT_READY';
-      case LaunchProfileStatusCode.launchProfileWithStreamSessionsNotDeleted:
-        return 'LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED';
-      case LaunchProfileStatusCode.encryptionKeyAccessDenied:
-        return 'ENCRYPTION_KEY_ACCESS_DENIED';
-      case LaunchProfileStatusCode.encryptionKeyNotFound:
-        return 'ENCRYPTION_KEY_NOT_FOUND';
-      case LaunchProfileStatusCode.invalidSubnetsProvided:
-        return 'INVALID_SUBNETS_PROVIDED';
-      case LaunchProfileStatusCode.invalidInstanceTypesProvided:
-        return 'INVALID_INSTANCE_TYPES_PROVIDED';
-      case LaunchProfileStatusCode.invalidSubnetsCombination:
-        return 'INVALID_SUBNETS_COMBINATION';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfileStatusCodeFromString on String {
-  LaunchProfileStatusCode toLaunchProfileStatusCode() {
-    switch (this) {
-      case 'LAUNCH_PROFILE_CREATED':
-        return LaunchProfileStatusCode.launchProfileCreated;
-      case 'LAUNCH_PROFILE_UPDATED':
-        return LaunchProfileStatusCode.launchProfileUpdated;
-      case 'LAUNCH_PROFILE_DELETED':
-        return LaunchProfileStatusCode.launchProfileDeleted;
-      case 'LAUNCH_PROFILE_CREATE_IN_PROGRESS':
-        return LaunchProfileStatusCode.launchProfileCreateInProgress;
-      case 'LAUNCH_PROFILE_UPDATE_IN_PROGRESS':
-        return LaunchProfileStatusCode.launchProfileUpdateInProgress;
-      case 'LAUNCH_PROFILE_DELETE_IN_PROGRESS':
-        return LaunchProfileStatusCode.launchProfileDeleteInProgress;
-      case 'INTERNAL_ERROR':
-        return LaunchProfileStatusCode.internalError;
-      case 'STREAMING_IMAGE_NOT_FOUND':
-        return LaunchProfileStatusCode.streamingImageNotFound;
-      case 'STREAMING_IMAGE_NOT_READY':
-        return LaunchProfileStatusCode.streamingImageNotReady;
-      case 'LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED':
-        return LaunchProfileStatusCode
-            .launchProfileWithStreamSessionsNotDeleted;
-      case 'ENCRYPTION_KEY_ACCESS_DENIED':
-        return LaunchProfileStatusCode.encryptionKeyAccessDenied;
-      case 'ENCRYPTION_KEY_NOT_FOUND':
-        return LaunchProfileStatusCode.encryptionKeyNotFound;
-      case 'INVALID_SUBNETS_PROVIDED':
-        return LaunchProfileStatusCode.invalidSubnetsProvided;
-      case 'INVALID_INSTANCE_TYPES_PROVIDED':
-        return LaunchProfileStatusCode.invalidInstanceTypesProvided;
-      case 'INVALID_SUBNETS_COMBINATION':
-        return LaunchProfileStatusCode.invalidSubnetsCombination;
-    }
-    throw Exception('$this is not known in enum LaunchProfileStatusCode');
-  }
+  const LaunchProfileStatusCode(this.value);
+
+  static LaunchProfileStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LaunchProfileStatusCode'));
 }
 
 enum LaunchProfileValidationState {
-  validationNotStarted,
-  validationInProgress,
-  validationSuccess,
-  validationFailed,
-  validationFailedInternalServerError,
-}
+  validationNotStarted('VALIDATION_NOT_STARTED'),
+  validationInProgress('VALIDATION_IN_PROGRESS'),
+  validationSuccess('VALIDATION_SUCCESS'),
+  validationFailed('VALIDATION_FAILED'),
+  validationFailedInternalServerError(
+      'VALIDATION_FAILED_INTERNAL_SERVER_ERROR'),
+  ;
 
-extension LaunchProfileValidationStateValueExtension
-    on LaunchProfileValidationState {
-  String toValue() {
-    switch (this) {
-      case LaunchProfileValidationState.validationNotStarted:
-        return 'VALIDATION_NOT_STARTED';
-      case LaunchProfileValidationState.validationInProgress:
-        return 'VALIDATION_IN_PROGRESS';
-      case LaunchProfileValidationState.validationSuccess:
-        return 'VALIDATION_SUCCESS';
-      case LaunchProfileValidationState.validationFailed:
-        return 'VALIDATION_FAILED';
-      case LaunchProfileValidationState.validationFailedInternalServerError:
-        return 'VALIDATION_FAILED_INTERNAL_SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfileValidationStateFromString on String {
-  LaunchProfileValidationState toLaunchProfileValidationState() {
-    switch (this) {
-      case 'VALIDATION_NOT_STARTED':
-        return LaunchProfileValidationState.validationNotStarted;
-      case 'VALIDATION_IN_PROGRESS':
-        return LaunchProfileValidationState.validationInProgress;
-      case 'VALIDATION_SUCCESS':
-        return LaunchProfileValidationState.validationSuccess;
-      case 'VALIDATION_FAILED':
-        return LaunchProfileValidationState.validationFailed;
-      case 'VALIDATION_FAILED_INTERNAL_SERVER_ERROR':
-        return LaunchProfileValidationState.validationFailedInternalServerError;
-    }
-    throw Exception('$this is not known in enum LaunchProfileValidationState');
-  }
+  const LaunchProfileValidationState(this.value);
+
+  static LaunchProfileValidationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LaunchProfileValidationState'));
 }
 
 enum LaunchProfileValidationStatusCode {
-  validationNotStarted,
-  validationInProgress,
-  validationSuccess,
-  validationFailedInvalidSubnetRouteTableAssociation,
-  validationFailedSubnetNotFound,
-  validationFailedInvalidSecurityGroupAssociation,
-  validationFailedInvalidActiveDirectory,
-  validationFailedUnauthorized,
-  validationFailedInternalServerError,
-}
+  validationNotStarted('VALIDATION_NOT_STARTED'),
+  validationInProgress('VALIDATION_IN_PROGRESS'),
+  validationSuccess('VALIDATION_SUCCESS'),
+  validationFailedInvalidSubnetRouteTableAssociation(
+      'VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION'),
+  validationFailedSubnetNotFound('VALIDATION_FAILED_SUBNET_NOT_FOUND'),
+  validationFailedInvalidSecurityGroupAssociation(
+      'VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION'),
+  validationFailedInvalidActiveDirectory(
+      'VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY'),
+  validationFailedUnauthorized('VALIDATION_FAILED_UNAUTHORIZED'),
+  validationFailedInternalServerError(
+      'VALIDATION_FAILED_INTERNAL_SERVER_ERROR'),
+  ;
 
-extension LaunchProfileValidationStatusCodeValueExtension
-    on LaunchProfileValidationStatusCode {
-  String toValue() {
-    switch (this) {
-      case LaunchProfileValidationStatusCode.validationNotStarted:
-        return 'VALIDATION_NOT_STARTED';
-      case LaunchProfileValidationStatusCode.validationInProgress:
-        return 'VALIDATION_IN_PROGRESS';
-      case LaunchProfileValidationStatusCode.validationSuccess:
-        return 'VALIDATION_SUCCESS';
-      case LaunchProfileValidationStatusCode
-            .validationFailedInvalidSubnetRouteTableAssociation:
-        return 'VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION';
-      case LaunchProfileValidationStatusCode.validationFailedSubnetNotFound:
-        return 'VALIDATION_FAILED_SUBNET_NOT_FOUND';
-      case LaunchProfileValidationStatusCode
-            .validationFailedInvalidSecurityGroupAssociation:
-        return 'VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION';
-      case LaunchProfileValidationStatusCode
-            .validationFailedInvalidActiveDirectory:
-        return 'VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY';
-      case LaunchProfileValidationStatusCode.validationFailedUnauthorized:
-        return 'VALIDATION_FAILED_UNAUTHORIZED';
-      case LaunchProfileValidationStatusCode
-            .validationFailedInternalServerError:
-        return 'VALIDATION_FAILED_INTERNAL_SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfileValidationStatusCodeFromString on String {
-  LaunchProfileValidationStatusCode toLaunchProfileValidationStatusCode() {
-    switch (this) {
-      case 'VALIDATION_NOT_STARTED':
-        return LaunchProfileValidationStatusCode.validationNotStarted;
-      case 'VALIDATION_IN_PROGRESS':
-        return LaunchProfileValidationStatusCode.validationInProgress;
-      case 'VALIDATION_SUCCESS':
-        return LaunchProfileValidationStatusCode.validationSuccess;
-      case 'VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION':
-        return LaunchProfileValidationStatusCode
-            .validationFailedInvalidSubnetRouteTableAssociation;
-      case 'VALIDATION_FAILED_SUBNET_NOT_FOUND':
-        return LaunchProfileValidationStatusCode.validationFailedSubnetNotFound;
-      case 'VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION':
-        return LaunchProfileValidationStatusCode
-            .validationFailedInvalidSecurityGroupAssociation;
-      case 'VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY':
-        return LaunchProfileValidationStatusCode
-            .validationFailedInvalidActiveDirectory;
-      case 'VALIDATION_FAILED_UNAUTHORIZED':
-        return LaunchProfileValidationStatusCode.validationFailedUnauthorized;
-      case 'VALIDATION_FAILED_INTERNAL_SERVER_ERROR':
-        return LaunchProfileValidationStatusCode
-            .validationFailedInternalServerError;
-    }
-    throw Exception(
-        '$this is not known in enum LaunchProfileValidationStatusCode');
-  }
+  const LaunchProfileValidationStatusCode(this.value);
+
+  static LaunchProfileValidationStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LaunchProfileValidationStatusCode'));
 }
 
 enum LaunchProfileValidationType {
-  validateActiveDirectoryStudioComponent,
-  validateSubnetAssociation,
-  validateNetworkAclAssociation,
-  validateSecurityGroupAssociation,
-}
+  validateActiveDirectoryStudioComponent(
+      'VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT'),
+  validateSubnetAssociation('VALIDATE_SUBNET_ASSOCIATION'),
+  validateNetworkAclAssociation('VALIDATE_NETWORK_ACL_ASSOCIATION'),
+  validateSecurityGroupAssociation('VALIDATE_SECURITY_GROUP_ASSOCIATION'),
+  ;
 
-extension LaunchProfileValidationTypeValueExtension
-    on LaunchProfileValidationType {
-  String toValue() {
-    switch (this) {
-      case LaunchProfileValidationType.validateActiveDirectoryStudioComponent:
-        return 'VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT';
-      case LaunchProfileValidationType.validateSubnetAssociation:
-        return 'VALIDATE_SUBNET_ASSOCIATION';
-      case LaunchProfileValidationType.validateNetworkAclAssociation:
-        return 'VALIDATE_NETWORK_ACL_ASSOCIATION';
-      case LaunchProfileValidationType.validateSecurityGroupAssociation:
-        return 'VALIDATE_SECURITY_GROUP_ASSOCIATION';
-    }
-  }
-}
+  final String value;
 
-extension LaunchProfileValidationTypeFromString on String {
-  LaunchProfileValidationType toLaunchProfileValidationType() {
-    switch (this) {
-      case 'VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT':
-        return LaunchProfileValidationType
-            .validateActiveDirectoryStudioComponent;
-      case 'VALIDATE_SUBNET_ASSOCIATION':
-        return LaunchProfileValidationType.validateSubnetAssociation;
-      case 'VALIDATE_NETWORK_ACL_ASSOCIATION':
-        return LaunchProfileValidationType.validateNetworkAclAssociation;
-      case 'VALIDATE_SECURITY_GROUP_ASSOCIATION':
-        return LaunchProfileValidationType.validateSecurityGroupAssociation;
-    }
-    throw Exception('$this is not known in enum LaunchProfileValidationType');
-  }
+  const LaunchProfileValidationType(this.value);
+
+  static LaunchProfileValidationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LaunchProfileValidationType'));
 }
 
 /// The configuration for a license service that is associated with a studio
@@ -4469,7 +4241,7 @@ class NewLaunchProfileMember {
     final persona = this.persona;
     final principalId = this.principalId;
     return {
-      'persona': persona.toValue(),
+      'persona': persona.value,
       'principalId': principalId,
     };
   }
@@ -4492,7 +4264,7 @@ class NewStudioMember {
     final persona = this.persona;
     final principalId = this.principalId;
     return {
-      'persona': persona.toValue(),
+      'persona': persona.value,
       'principalId': principalId,
     };
   }
@@ -4553,59 +4325,33 @@ class ScriptParameterKeyValue {
 }
 
 enum SessionBackupMode {
-  automatic,
-  deactivated,
-}
+  automatic('AUTOMATIC'),
+  deactivated('DEACTIVATED'),
+  ;
 
-extension SessionBackupModeValueExtension on SessionBackupMode {
-  String toValue() {
-    switch (this) {
-      case SessionBackupMode.automatic:
-        return 'AUTOMATIC';
-      case SessionBackupMode.deactivated:
-        return 'DEACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension SessionBackupModeFromString on String {
-  SessionBackupMode toSessionBackupMode() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return SessionBackupMode.automatic;
-      case 'DEACTIVATED':
-        return SessionBackupMode.deactivated;
-    }
-    throw Exception('$this is not known in enum SessionBackupMode');
-  }
+  const SessionBackupMode(this.value);
+
+  static SessionBackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SessionBackupMode'));
 }
 
 enum SessionPersistenceMode {
-  deactivated,
-  activated,
-}
+  deactivated('DEACTIVATED'),
+  activated('ACTIVATED'),
+  ;
 
-extension SessionPersistenceModeValueExtension on SessionPersistenceMode {
-  String toValue() {
-    switch (this) {
-      case SessionPersistenceMode.deactivated:
-        return 'DEACTIVATED';
-      case SessionPersistenceMode.activated:
-        return 'ACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension SessionPersistenceModeFromString on String {
-  SessionPersistenceMode toSessionPersistenceMode() {
-    switch (this) {
-      case 'DEACTIVATED':
-        return SessionPersistenceMode.deactivated;
-      case 'ACTIVATED':
-        return SessionPersistenceMode.activated;
-    }
-    throw Exception('$this is not known in enum SessionPersistenceMode');
-  }
+  const SessionPersistenceMode(this.value);
+
+  static SessionPersistenceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SessionPersistenceMode'));
 }
 
 /// The configuration for a shared file storage system that is associated with a
@@ -4827,17 +4573,17 @@ class StreamConfiguration {
   factory StreamConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamConfiguration(
       clipboardMode:
-          (json['clipboardMode'] as String).toStreamingClipboardMode(),
+          StreamingClipboardMode.fromString((json['clipboardMode'] as String)),
       ec2InstanceTypes: (json['ec2InstanceTypes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toStreamingInstanceType())
+          .map((e) => StreamingInstanceType.fromString((e as String)))
           .toList(),
       streamingImageIds: (json['streamingImageIds'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
       automaticTerminationMode: (json['automaticTerminationMode'] as String?)
-          ?.toAutomaticTerminationMode(),
+          ?.let(AutomaticTerminationMode.fromString),
       maxSessionLengthInMinutes: json['maxSessionLengthInMinutes'] as int?,
       maxStoppedSessionLengthInMinutes:
           json['maxStoppedSessionLengthInMinutes'] as int?,
@@ -4846,7 +4592,7 @@ class StreamConfiguration {
               json['sessionBackup'] as Map<String, dynamic>)
           : null,
       sessionPersistenceMode: (json['sessionPersistenceMode'] as String?)
-          ?.toSessionPersistenceMode(),
+          ?.let(SessionPersistenceMode.fromString),
       sessionStorage: json['sessionStorage'] != null
           ? StreamConfigurationSessionStorage.fromJson(
               json['sessionStorage'] as Map<String, dynamic>)
@@ -4871,18 +4617,18 @@ class StreamConfiguration {
     final sessionStorage = this.sessionStorage;
     final volumeConfiguration = this.volumeConfiguration;
     return {
-      'clipboardMode': clipboardMode.toValue(),
-      'ec2InstanceTypes': ec2InstanceTypes.map((e) => e.toValue()).toList(),
+      'clipboardMode': clipboardMode.value,
+      'ec2InstanceTypes': ec2InstanceTypes.map((e) => e.value).toList(),
       'streamingImageIds': streamingImageIds,
       if (automaticTerminationMode != null)
-        'automaticTerminationMode': automaticTerminationMode.toValue(),
+        'automaticTerminationMode': automaticTerminationMode.value,
       if (maxSessionLengthInMinutes != null)
         'maxSessionLengthInMinutes': maxSessionLengthInMinutes,
       if (maxStoppedSessionLengthInMinutes != null)
         'maxStoppedSessionLengthInMinutes': maxStoppedSessionLengthInMinutes,
       if (sessionBackup != null) 'sessionBackup': sessionBackup,
       if (sessionPersistenceMode != null)
-        'sessionPersistenceMode': sessionPersistenceMode.toValue(),
+        'sessionPersistenceMode': sessionPersistenceMode.value,
       if (sessionStorage != null) 'sessionStorage': sessionStorage,
       if (volumeConfiguration != null)
         'volumeConfiguration': volumeConfiguration,
@@ -4998,18 +4744,18 @@ class StreamConfigurationCreate {
     final sessionStorage = this.sessionStorage;
     final volumeConfiguration = this.volumeConfiguration;
     return {
-      'clipboardMode': clipboardMode.toValue(),
-      'ec2InstanceTypes': ec2InstanceTypes.map((e) => e.toValue()).toList(),
+      'clipboardMode': clipboardMode.value,
+      'ec2InstanceTypes': ec2InstanceTypes.map((e) => e.value).toList(),
       'streamingImageIds': streamingImageIds,
       if (automaticTerminationMode != null)
-        'automaticTerminationMode': automaticTerminationMode.toValue(),
+        'automaticTerminationMode': automaticTerminationMode.value,
       if (maxSessionLengthInMinutes != null)
         'maxSessionLengthInMinutes': maxSessionLengthInMinutes,
       if (maxStoppedSessionLengthInMinutes != null)
         'maxStoppedSessionLengthInMinutes': maxStoppedSessionLengthInMinutes,
       if (sessionBackup != null) 'sessionBackup': sessionBackup,
       if (sessionPersistenceMode != null)
-        'sessionPersistenceMode': sessionPersistenceMode.toValue(),
+        'sessionPersistenceMode': sessionPersistenceMode.value,
       if (sessionStorage != null) 'sessionStorage': sessionStorage,
       if (volumeConfiguration != null)
         'volumeConfiguration': volumeConfiguration,
@@ -5039,7 +4785,7 @@ class StreamConfigurationSessionBackup {
   factory StreamConfigurationSessionBackup.fromJson(Map<String, dynamic> json) {
     return StreamConfigurationSessionBackup(
       maxBackupsToRetain: json['maxBackupsToRetain'] as int?,
-      mode: (json['mode'] as String?)?.toSessionBackupMode(),
+      mode: (json['mode'] as String?)?.let(SessionBackupMode.fromString),
     );
   }
 
@@ -5048,7 +4794,7 @@ class StreamConfigurationSessionBackup {
     final mode = this.mode;
     return {
       if (maxBackupsToRetain != null) 'maxBackupsToRetain': maxBackupsToRetain,
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
     };
   }
 }
@@ -5072,7 +4818,7 @@ class StreamConfigurationSessionStorage {
     return StreamConfigurationSessionStorage(
       mode: (json['mode'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toStreamingSessionStorageMode())
+          .map((e) => StreamingSessionStorageMode.fromString((e as String)))
           .toList(),
       root: json['root'] != null
           ? StreamingSessionStorageRoot.fromJson(
@@ -5085,38 +4831,25 @@ class StreamConfigurationSessionStorage {
     final mode = this.mode;
     final root = this.root;
     return {
-      'mode': mode.map((e) => e.toValue()).toList(),
+      'mode': mode.map((e) => e.value).toList(),
       if (root != null) 'root': root,
     };
   }
 }
 
 enum StreamingClipboardMode {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StreamingClipboardModeValueExtension on StreamingClipboardMode {
-  String toValue() {
-    switch (this) {
-      case StreamingClipboardMode.enabled:
-        return 'ENABLED';
-      case StreamingClipboardMode.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingClipboardModeFromString on String {
-  StreamingClipboardMode toStreamingClipboardMode() {
-    switch (this) {
-      case 'ENABLED':
-        return StreamingClipboardMode.enabled;
-      case 'DISABLED':
-        return StreamingClipboardMode.disabled;
-    }
-    throw Exception('$this is not known in enum StreamingClipboardMode');
-  }
+  const StreamingClipboardMode(this.value);
+
+  static StreamingClipboardMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingClipboardMode'));
 }
 
 /// Represents a streaming image resource.
@@ -5207,8 +4940,9 @@ class StreamingImage {
       name: json['name'] as String?,
       owner: json['owner'] as String?,
       platform: json['platform'] as String?,
-      state: (json['state'] as String?)?.toStreamingImageState(),
-      statusCode: (json['statusCode'] as String?)?.toStreamingImageStatusCode(),
+      state: (json['state'] as String?)?.let(StreamingImageState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(StreamingImageStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       streamingImageId: json['streamingImageId'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -5240,8 +4974,8 @@ class StreamingImage {
       if (name != null) 'name': name,
       if (owner != null) 'owner': owner,
       if (platform != null) 'platform': platform,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (streamingImageId != null) 'streamingImageId': streamingImageId,
       if (tags != null) 'tags': tags,
@@ -5265,8 +4999,8 @@ class StreamingImageEncryptionConfiguration {
   factory StreamingImageEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return StreamingImageEncryptionConfiguration(
-      keyType: (json['keyType'] as String)
-          .toStreamingImageEncryptionConfigurationKeyType(),
+      keyType: StreamingImageEncryptionConfigurationKeyType.fromString(
+          (json['keyType'] as String)),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -5275,231 +5009,93 @@ class StreamingImageEncryptionConfiguration {
     final keyType = this.keyType;
     final keyArn = this.keyArn;
     return {
-      'keyType': keyType.toValue(),
+      'keyType': keyType.value,
       if (keyArn != null) 'keyArn': keyArn,
     };
   }
 }
 
 enum StreamingImageEncryptionConfigurationKeyType {
-  customerManagedKey,
-}
+  customerManagedKey('CUSTOMER_MANAGED_KEY'),
+  ;
 
-extension StreamingImageEncryptionConfigurationKeyTypeValueExtension
-    on StreamingImageEncryptionConfigurationKeyType {
-  String toValue() {
-    switch (this) {
-      case StreamingImageEncryptionConfigurationKeyType.customerManagedKey:
-        return 'CUSTOMER_MANAGED_KEY';
-    }
-  }
-}
+  final String value;
 
-extension StreamingImageEncryptionConfigurationKeyTypeFromString on String {
-  StreamingImageEncryptionConfigurationKeyType
-      toStreamingImageEncryptionConfigurationKeyType() {
-    switch (this) {
-      case 'CUSTOMER_MANAGED_KEY':
-        return StreamingImageEncryptionConfigurationKeyType.customerManagedKey;
-    }
-    throw Exception(
-        '$this is not known in enum StreamingImageEncryptionConfigurationKeyType');
-  }
+  const StreamingImageEncryptionConfigurationKeyType(this.value);
+
+  static StreamingImageEncryptionConfigurationKeyType fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingImageEncryptionConfigurationKeyType'));
 }
 
 enum StreamingImageState {
-  createInProgress,
-  ready,
-  deleteInProgress,
-  deleted,
-  updateInProgress,
-  updateFailed,
-  createFailed,
-  deleteFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  ready('READY'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension StreamingImageStateValueExtension on StreamingImageState {
-  String toValue() {
-    switch (this) {
-      case StreamingImageState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StreamingImageState.ready:
-        return 'READY';
-      case StreamingImageState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StreamingImageState.deleted:
-        return 'DELETED';
-      case StreamingImageState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case StreamingImageState.updateFailed:
-        return 'UPDATE_FAILED';
-      case StreamingImageState.createFailed:
-        return 'CREATE_FAILED';
-      case StreamingImageState.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingImageStateFromString on String {
-  StreamingImageState toStreamingImageState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return StreamingImageState.createInProgress;
-      case 'READY':
-        return StreamingImageState.ready;
-      case 'DELETE_IN_PROGRESS':
-        return StreamingImageState.deleteInProgress;
-      case 'DELETED':
-        return StreamingImageState.deleted;
-      case 'UPDATE_IN_PROGRESS':
-        return StreamingImageState.updateInProgress;
-      case 'UPDATE_FAILED':
-        return StreamingImageState.updateFailed;
-      case 'CREATE_FAILED':
-        return StreamingImageState.createFailed;
-      case 'DELETE_FAILED':
-        return StreamingImageState.deleteFailed;
-    }
-    throw Exception('$this is not known in enum StreamingImageState');
-  }
+  const StreamingImageState(this.value);
+
+  static StreamingImageState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StreamingImageState'));
 }
 
 /// The status code.
 enum StreamingImageStatusCode {
-  streamingImageCreateInProgress,
-  streamingImageReady,
-  streamingImageDeleteInProgress,
-  streamingImageDeleted,
-  streamingImageUpdateInProgress,
-  internalError,
-  accessDenied,
-}
+  streamingImageCreateInProgress('STREAMING_IMAGE_CREATE_IN_PROGRESS'),
+  streamingImageReady('STREAMING_IMAGE_READY'),
+  streamingImageDeleteInProgress('STREAMING_IMAGE_DELETE_IN_PROGRESS'),
+  streamingImageDeleted('STREAMING_IMAGE_DELETED'),
+  streamingImageUpdateInProgress('STREAMING_IMAGE_UPDATE_IN_PROGRESS'),
+  internalError('INTERNAL_ERROR'),
+  accessDenied('ACCESS_DENIED'),
+  ;
 
-extension StreamingImageStatusCodeValueExtension on StreamingImageStatusCode {
-  String toValue() {
-    switch (this) {
-      case StreamingImageStatusCode.streamingImageCreateInProgress:
-        return 'STREAMING_IMAGE_CREATE_IN_PROGRESS';
-      case StreamingImageStatusCode.streamingImageReady:
-        return 'STREAMING_IMAGE_READY';
-      case StreamingImageStatusCode.streamingImageDeleteInProgress:
-        return 'STREAMING_IMAGE_DELETE_IN_PROGRESS';
-      case StreamingImageStatusCode.streamingImageDeleted:
-        return 'STREAMING_IMAGE_DELETED';
-      case StreamingImageStatusCode.streamingImageUpdateInProgress:
-        return 'STREAMING_IMAGE_UPDATE_IN_PROGRESS';
-      case StreamingImageStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-      case StreamingImageStatusCode.accessDenied:
-        return 'ACCESS_DENIED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingImageStatusCodeFromString on String {
-  StreamingImageStatusCode toStreamingImageStatusCode() {
-    switch (this) {
-      case 'STREAMING_IMAGE_CREATE_IN_PROGRESS':
-        return StreamingImageStatusCode.streamingImageCreateInProgress;
-      case 'STREAMING_IMAGE_READY':
-        return StreamingImageStatusCode.streamingImageReady;
-      case 'STREAMING_IMAGE_DELETE_IN_PROGRESS':
-        return StreamingImageStatusCode.streamingImageDeleteInProgress;
-      case 'STREAMING_IMAGE_DELETED':
-        return StreamingImageStatusCode.streamingImageDeleted;
-      case 'STREAMING_IMAGE_UPDATE_IN_PROGRESS':
-        return StreamingImageStatusCode.streamingImageUpdateInProgress;
-      case 'INTERNAL_ERROR':
-        return StreamingImageStatusCode.internalError;
-      case 'ACCESS_DENIED':
-        return StreamingImageStatusCode.accessDenied;
-    }
-    throw Exception('$this is not known in enum StreamingImageStatusCode');
-  }
+  const StreamingImageStatusCode(this.value);
+
+  static StreamingImageStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingImageStatusCode'));
 }
 
 enum StreamingInstanceType {
-  g4dnXlarge,
-  g4dn_2xlarge,
-  g4dn_4xlarge,
-  g4dn_8xlarge,
-  g4dn_12xlarge,
-  g4dn_16xlarge,
-  g3_4xlarge,
-  g3sXlarge,
-  g5Xlarge,
-  g5_2xlarge,
-  g5_4xlarge,
-  g5_8xlarge,
-  g5_16xlarge,
-}
+  g4dnXlarge('g4dn.xlarge'),
+  g4dn_2xlarge('g4dn.2xlarge'),
+  g4dn_4xlarge('g4dn.4xlarge'),
+  g4dn_8xlarge('g4dn.8xlarge'),
+  g4dn_12xlarge('g4dn.12xlarge'),
+  g4dn_16xlarge('g4dn.16xlarge'),
+  g3_4xlarge('g3.4xlarge'),
+  g3sXlarge('g3s.xlarge'),
+  g5Xlarge('g5.xlarge'),
+  g5_2xlarge('g5.2xlarge'),
+  g5_4xlarge('g5.4xlarge'),
+  g5_8xlarge('g5.8xlarge'),
+  g5_16xlarge('g5.16xlarge'),
+  ;
 
-extension StreamingInstanceTypeValueExtension on StreamingInstanceType {
-  String toValue() {
-    switch (this) {
-      case StreamingInstanceType.g4dnXlarge:
-        return 'g4dn.xlarge';
-      case StreamingInstanceType.g4dn_2xlarge:
-        return 'g4dn.2xlarge';
-      case StreamingInstanceType.g4dn_4xlarge:
-        return 'g4dn.4xlarge';
-      case StreamingInstanceType.g4dn_8xlarge:
-        return 'g4dn.8xlarge';
-      case StreamingInstanceType.g4dn_12xlarge:
-        return 'g4dn.12xlarge';
-      case StreamingInstanceType.g4dn_16xlarge:
-        return 'g4dn.16xlarge';
-      case StreamingInstanceType.g3_4xlarge:
-        return 'g3.4xlarge';
-      case StreamingInstanceType.g3sXlarge:
-        return 'g3s.xlarge';
-      case StreamingInstanceType.g5Xlarge:
-        return 'g5.xlarge';
-      case StreamingInstanceType.g5_2xlarge:
-        return 'g5.2xlarge';
-      case StreamingInstanceType.g5_4xlarge:
-        return 'g5.4xlarge';
-      case StreamingInstanceType.g5_8xlarge:
-        return 'g5.8xlarge';
-      case StreamingInstanceType.g5_16xlarge:
-        return 'g5.16xlarge';
-    }
-  }
-}
+  final String value;
 
-extension StreamingInstanceTypeFromString on String {
-  StreamingInstanceType toStreamingInstanceType() {
-    switch (this) {
-      case 'g4dn.xlarge':
-        return StreamingInstanceType.g4dnXlarge;
-      case 'g4dn.2xlarge':
-        return StreamingInstanceType.g4dn_2xlarge;
-      case 'g4dn.4xlarge':
-        return StreamingInstanceType.g4dn_4xlarge;
-      case 'g4dn.8xlarge':
-        return StreamingInstanceType.g4dn_8xlarge;
-      case 'g4dn.12xlarge':
-        return StreamingInstanceType.g4dn_12xlarge;
-      case 'g4dn.16xlarge':
-        return StreamingInstanceType.g4dn_16xlarge;
-      case 'g3.4xlarge':
-        return StreamingInstanceType.g3_4xlarge;
-      case 'g3s.xlarge':
-        return StreamingInstanceType.g3sXlarge;
-      case 'g5.xlarge':
-        return StreamingInstanceType.g5Xlarge;
-      case 'g5.2xlarge':
-        return StreamingInstanceType.g5_2xlarge;
-      case 'g5.4xlarge':
-        return StreamingInstanceType.g5_4xlarge;
-      case 'g5.8xlarge':
-        return StreamingInstanceType.g5_8xlarge;
-      case 'g5.16xlarge':
-        return StreamingInstanceType.g5_16xlarge;
-    }
-    throw Exception('$this is not known in enum StreamingInstanceType');
-  }
+  const StreamingInstanceType(this.value);
+
+  static StreamingInstanceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StreamingInstanceType'));
 }
 
 /// A streaming session is a virtual workstation created using a particular
@@ -5653,8 +5249,9 @@ class StreamingSession {
     return StreamingSession(
       arn: json['arn'] as String?,
       automaticTerminationMode: (json['automaticTerminationMode'] as String?)
-          ?.toAutomaticTerminationMode(),
-      backupMode: (json['backupMode'] as String?)?.toSessionBackupMode(),
+          ?.let(AutomaticTerminationMode.fromString),
+      backupMode:
+          (json['backupMode'] as String?)?.let(SessionBackupMode.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       ec2InstanceType: json['ec2InstanceType'] as String?,
@@ -5663,13 +5260,13 @@ class StreamingSession {
       ownedBy: json['ownedBy'] as String?,
       sessionId: json['sessionId'] as String?,
       sessionPersistenceMode: (json['sessionPersistenceMode'] as String?)
-          ?.toSessionPersistenceMode(),
+          ?.let(SessionPersistenceMode.fromString),
       startedAt: timeStampFromJson(json['startedAt']),
       startedBy: json['startedBy'] as String?,
       startedFromBackupId: json['startedFromBackupId'] as String?,
-      state: (json['state'] as String?)?.toStreamingSessionState(),
-      statusCode:
-          (json['statusCode'] as String?)?.toStreamingSessionStatusCode(),
+      state: (json['state'] as String?)?.let(StreamingSessionState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(StreamingSessionStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       stopAt: timeStampFromJson(json['stopAt']),
       stoppedAt: timeStampFromJson(json['stoppedAt']),
@@ -5684,8 +5281,8 @@ class StreamingSession {
           ? VolumeConfiguration.fromJson(
               json['volumeConfiguration'] as Map<String, dynamic>)
           : null,
-      volumeRetentionMode:
-          (json['volumeRetentionMode'] as String?)?.toVolumeRetentionMode(),
+      volumeRetentionMode: (json['volumeRetentionMode'] as String?)
+          ?.let(VolumeRetentionMode.fromString),
     );
   }
 
@@ -5720,8 +5317,8 @@ class StreamingSession {
     return {
       if (arn != null) 'arn': arn,
       if (automaticTerminationMode != null)
-        'automaticTerminationMode': automaticTerminationMode.toValue(),
-      if (backupMode != null) 'backupMode': backupMode.toValue(),
+        'automaticTerminationMode': automaticTerminationMode.value,
+      if (backupMode != null) 'backupMode': backupMode.value,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (ec2InstanceType != null) 'ec2InstanceType': ec2InstanceType,
@@ -5730,13 +5327,13 @@ class StreamingSession {
       if (ownedBy != null) 'ownedBy': ownedBy,
       if (sessionId != null) 'sessionId': sessionId,
       if (sessionPersistenceMode != null)
-        'sessionPersistenceMode': sessionPersistenceMode.toValue(),
+        'sessionPersistenceMode': sessionPersistenceMode.value,
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (startedBy != null) 'startedBy': startedBy,
       if (startedFromBackupId != null)
         'startedFromBackupId': startedFromBackupId,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (stopAt != null) 'stopAt': iso8601ToJson(stopAt),
       if (stoppedAt != null) 'stoppedAt': iso8601ToJson(stoppedAt),
@@ -5749,7 +5346,7 @@ class StreamingSession {
       if (volumeConfiguration != null)
         'volumeConfiguration': volumeConfiguration,
       if (volumeRetentionMode != null)
-        'volumeRetentionMode': volumeRetentionMode.toValue(),
+        'volumeRetentionMode': volumeRetentionMode.value,
     };
   }
 }
@@ -5808,9 +5405,9 @@ class StreamingSessionBackup {
       launchProfileId: json['launchProfileId'] as String?,
       ownedBy: json['ownedBy'] as String?,
       sessionId: json['sessionId'] as String?,
-      state: (json['state'] as String?)?.toStreamingSessionState(),
-      statusCode:
-          (json['statusCode'] as String?)?.toStreamingSessionStatusCode(),
+      state: (json['state'] as String?)?.let(StreamingSessionState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(StreamingSessionStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5835,8 +5432,8 @@ class StreamingSessionBackup {
       if (launchProfileId != null) 'launchProfileId': launchProfileId,
       if (ownedBy != null) 'ownedBy': ownedBy,
       if (sessionId != null) 'sessionId': sessionId,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
     };
@@ -5845,199 +5442,70 @@ class StreamingSessionBackup {
 
 /// The streaming session state.
 enum StreamingSessionState {
-  createInProgress,
-  deleteInProgress,
-  ready,
-  deleted,
-  createFailed,
-  deleteFailed,
-  stopInProgress,
-  startInProgress,
-  stopped,
-  stopFailed,
-  startFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  ready('READY'),
+  deleted('DELETED'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  stopInProgress('STOP_IN_PROGRESS'),
+  startInProgress('START_IN_PROGRESS'),
+  stopped('STOPPED'),
+  stopFailed('STOP_FAILED'),
+  startFailed('START_FAILED'),
+  ;
 
-extension StreamingSessionStateValueExtension on StreamingSessionState {
-  String toValue() {
-    switch (this) {
-      case StreamingSessionState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StreamingSessionState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StreamingSessionState.ready:
-        return 'READY';
-      case StreamingSessionState.deleted:
-        return 'DELETED';
-      case StreamingSessionState.createFailed:
-        return 'CREATE_FAILED';
-      case StreamingSessionState.deleteFailed:
-        return 'DELETE_FAILED';
-      case StreamingSessionState.stopInProgress:
-        return 'STOP_IN_PROGRESS';
-      case StreamingSessionState.startInProgress:
-        return 'START_IN_PROGRESS';
-      case StreamingSessionState.stopped:
-        return 'STOPPED';
-      case StreamingSessionState.stopFailed:
-        return 'STOP_FAILED';
-      case StreamingSessionState.startFailed:
-        return 'START_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingSessionStateFromString on String {
-  StreamingSessionState toStreamingSessionState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return StreamingSessionState.createInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return StreamingSessionState.deleteInProgress;
-      case 'READY':
-        return StreamingSessionState.ready;
-      case 'DELETED':
-        return StreamingSessionState.deleted;
-      case 'CREATE_FAILED':
-        return StreamingSessionState.createFailed;
-      case 'DELETE_FAILED':
-        return StreamingSessionState.deleteFailed;
-      case 'STOP_IN_PROGRESS':
-        return StreamingSessionState.stopInProgress;
-      case 'START_IN_PROGRESS':
-        return StreamingSessionState.startInProgress;
-      case 'STOPPED':
-        return StreamingSessionState.stopped;
-      case 'STOP_FAILED':
-        return StreamingSessionState.stopFailed;
-      case 'START_FAILED':
-        return StreamingSessionState.startFailed;
-    }
-    throw Exception('$this is not known in enum StreamingSessionState');
-  }
+  const StreamingSessionState(this.value);
+
+  static StreamingSessionState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StreamingSessionState'));
 }
 
 enum StreamingSessionStatusCode {
-  streamingSessionReady,
-  streamingSessionDeleted,
-  streamingSessionCreateInProgress,
-  streamingSessionDeleteInProgress,
-  internalError,
-  insufficientCapacity,
-  activeDirectoryDomainJoinError,
-  networkConnectionError,
-  initializationScriptError,
-  decryptStreamingImageError,
-  networkInterfaceError,
-  streamingSessionStopped,
-  streamingSessionStarted,
-  streamingSessionStopInProgress,
-  streamingSessionStartInProgress,
-  amiValidationError,
-}
+  streamingSessionReady('STREAMING_SESSION_READY'),
+  streamingSessionDeleted('STREAMING_SESSION_DELETED'),
+  streamingSessionCreateInProgress('STREAMING_SESSION_CREATE_IN_PROGRESS'),
+  streamingSessionDeleteInProgress('STREAMING_SESSION_DELETE_IN_PROGRESS'),
+  internalError('INTERNAL_ERROR'),
+  insufficientCapacity('INSUFFICIENT_CAPACITY'),
+  activeDirectoryDomainJoinError('ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR'),
+  networkConnectionError('NETWORK_CONNECTION_ERROR'),
+  initializationScriptError('INITIALIZATION_SCRIPT_ERROR'),
+  decryptStreamingImageError('DECRYPT_STREAMING_IMAGE_ERROR'),
+  networkInterfaceError('NETWORK_INTERFACE_ERROR'),
+  streamingSessionStopped('STREAMING_SESSION_STOPPED'),
+  streamingSessionStarted('STREAMING_SESSION_STARTED'),
+  streamingSessionStopInProgress('STREAMING_SESSION_STOP_IN_PROGRESS'),
+  streamingSessionStartInProgress('STREAMING_SESSION_START_IN_PROGRESS'),
+  amiValidationError('AMI_VALIDATION_ERROR'),
+  ;
 
-extension StreamingSessionStatusCodeValueExtension
-    on StreamingSessionStatusCode {
-  String toValue() {
-    switch (this) {
-      case StreamingSessionStatusCode.streamingSessionReady:
-        return 'STREAMING_SESSION_READY';
-      case StreamingSessionStatusCode.streamingSessionDeleted:
-        return 'STREAMING_SESSION_DELETED';
-      case StreamingSessionStatusCode.streamingSessionCreateInProgress:
-        return 'STREAMING_SESSION_CREATE_IN_PROGRESS';
-      case StreamingSessionStatusCode.streamingSessionDeleteInProgress:
-        return 'STREAMING_SESSION_DELETE_IN_PROGRESS';
-      case StreamingSessionStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-      case StreamingSessionStatusCode.insufficientCapacity:
-        return 'INSUFFICIENT_CAPACITY';
-      case StreamingSessionStatusCode.activeDirectoryDomainJoinError:
-        return 'ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR';
-      case StreamingSessionStatusCode.networkConnectionError:
-        return 'NETWORK_CONNECTION_ERROR';
-      case StreamingSessionStatusCode.initializationScriptError:
-        return 'INITIALIZATION_SCRIPT_ERROR';
-      case StreamingSessionStatusCode.decryptStreamingImageError:
-        return 'DECRYPT_STREAMING_IMAGE_ERROR';
-      case StreamingSessionStatusCode.networkInterfaceError:
-        return 'NETWORK_INTERFACE_ERROR';
-      case StreamingSessionStatusCode.streamingSessionStopped:
-        return 'STREAMING_SESSION_STOPPED';
-      case StreamingSessionStatusCode.streamingSessionStarted:
-        return 'STREAMING_SESSION_STARTED';
-      case StreamingSessionStatusCode.streamingSessionStopInProgress:
-        return 'STREAMING_SESSION_STOP_IN_PROGRESS';
-      case StreamingSessionStatusCode.streamingSessionStartInProgress:
-        return 'STREAMING_SESSION_START_IN_PROGRESS';
-      case StreamingSessionStatusCode.amiValidationError:
-        return 'AMI_VALIDATION_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension StreamingSessionStatusCodeFromString on String {
-  StreamingSessionStatusCode toStreamingSessionStatusCode() {
-    switch (this) {
-      case 'STREAMING_SESSION_READY':
-        return StreamingSessionStatusCode.streamingSessionReady;
-      case 'STREAMING_SESSION_DELETED':
-        return StreamingSessionStatusCode.streamingSessionDeleted;
-      case 'STREAMING_SESSION_CREATE_IN_PROGRESS':
-        return StreamingSessionStatusCode.streamingSessionCreateInProgress;
-      case 'STREAMING_SESSION_DELETE_IN_PROGRESS':
-        return StreamingSessionStatusCode.streamingSessionDeleteInProgress;
-      case 'INTERNAL_ERROR':
-        return StreamingSessionStatusCode.internalError;
-      case 'INSUFFICIENT_CAPACITY':
-        return StreamingSessionStatusCode.insufficientCapacity;
-      case 'ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR':
-        return StreamingSessionStatusCode.activeDirectoryDomainJoinError;
-      case 'NETWORK_CONNECTION_ERROR':
-        return StreamingSessionStatusCode.networkConnectionError;
-      case 'INITIALIZATION_SCRIPT_ERROR':
-        return StreamingSessionStatusCode.initializationScriptError;
-      case 'DECRYPT_STREAMING_IMAGE_ERROR':
-        return StreamingSessionStatusCode.decryptStreamingImageError;
-      case 'NETWORK_INTERFACE_ERROR':
-        return StreamingSessionStatusCode.networkInterfaceError;
-      case 'STREAMING_SESSION_STOPPED':
-        return StreamingSessionStatusCode.streamingSessionStopped;
-      case 'STREAMING_SESSION_STARTED':
-        return StreamingSessionStatusCode.streamingSessionStarted;
-      case 'STREAMING_SESSION_STOP_IN_PROGRESS':
-        return StreamingSessionStatusCode.streamingSessionStopInProgress;
-      case 'STREAMING_SESSION_START_IN_PROGRESS':
-        return StreamingSessionStatusCode.streamingSessionStartInProgress;
-      case 'AMI_VALIDATION_ERROR':
-        return StreamingSessionStatusCode.amiValidationError;
-    }
-    throw Exception('$this is not known in enum StreamingSessionStatusCode');
-  }
+  const StreamingSessionStatusCode(this.value);
+
+  static StreamingSessionStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingSessionStatusCode'));
 }
 
 enum StreamingSessionStorageMode {
-  upload,
-}
+  upload('UPLOAD'),
+  ;
 
-extension StreamingSessionStorageModeValueExtension
-    on StreamingSessionStorageMode {
-  String toValue() {
-    switch (this) {
-      case StreamingSessionStorageMode.upload:
-        return 'UPLOAD';
-    }
-  }
-}
+  final String value;
 
-extension StreamingSessionStorageModeFromString on String {
-  StreamingSessionStorageMode toStreamingSessionStorageMode() {
-    switch (this) {
-      case 'UPLOAD':
-        return StreamingSessionStorageMode.upload;
-    }
-    throw Exception('$this is not known in enum StreamingSessionStorageMode');
-  }
+  const StreamingSessionStorageMode(this.value);
+
+  static StreamingSessionStorageMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingSessionStorageMode'));
 }
 
 /// The upload storage root location (folder) on streaming workstations where
@@ -6119,9 +5587,10 @@ class StreamingSessionStream {
       createdBy: json['createdBy'] as String?,
       expiresAt: timeStampFromJson(json['expiresAt']),
       ownedBy: json['ownedBy'] as String?,
-      state: (json['state'] as String?)?.toStreamingSessionStreamState(),
-      statusCode:
-          (json['statusCode'] as String?)?.toStreamingSessionStreamStatusCode(),
+      state: (json['state'] as String?)
+          ?.let(StreamingSessionStreamState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(StreamingSessionStreamStatusCode.fromString),
       streamId: json['streamId'] as String?,
       url: json['url'] as String?,
     );
@@ -6141,8 +5610,8 @@ class StreamingSessionStream {
       if (createdBy != null) 'createdBy': createdBy,
       if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
       if (ownedBy != null) 'ownedBy': ownedBy,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (streamId != null) 'streamId': streamId,
       if (url != null) 'url': url,
     };
@@ -6150,102 +5619,41 @@ class StreamingSessionStream {
 }
 
 enum StreamingSessionStreamState {
-  ready,
-  createInProgress,
-  deleteInProgress,
-  deleted,
-  createFailed,
-  deleteFailed,
-}
+  ready('READY'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension StreamingSessionStreamStateValueExtension
-    on StreamingSessionStreamState {
-  String toValue() {
-    switch (this) {
-      case StreamingSessionStreamState.ready:
-        return 'READY';
-      case StreamingSessionStreamState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StreamingSessionStreamState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StreamingSessionStreamState.deleted:
-        return 'DELETED';
-      case StreamingSessionStreamState.createFailed:
-        return 'CREATE_FAILED';
-      case StreamingSessionStreamState.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StreamingSessionStreamStateFromString on String {
-  StreamingSessionStreamState toStreamingSessionStreamState() {
-    switch (this) {
-      case 'READY':
-        return StreamingSessionStreamState.ready;
-      case 'CREATE_IN_PROGRESS':
-        return StreamingSessionStreamState.createInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return StreamingSessionStreamState.deleteInProgress;
-      case 'DELETED':
-        return StreamingSessionStreamState.deleted;
-      case 'CREATE_FAILED':
-        return StreamingSessionStreamState.createFailed;
-      case 'DELETE_FAILED':
-        return StreamingSessionStreamState.deleteFailed;
-    }
-    throw Exception('$this is not known in enum StreamingSessionStreamState');
-  }
+  const StreamingSessionStreamState(this.value);
+
+  static StreamingSessionStreamState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingSessionStreamState'));
 }
 
 enum StreamingSessionStreamStatusCode {
-  streamCreateInProgress,
-  streamReady,
-  streamDeleteInProgress,
-  streamDeleted,
-  internalError,
-  networkConnectionError,
-}
+  streamCreateInProgress('STREAM_CREATE_IN_PROGRESS'),
+  streamReady('STREAM_READY'),
+  streamDeleteInProgress('STREAM_DELETE_IN_PROGRESS'),
+  streamDeleted('STREAM_DELETED'),
+  internalError('INTERNAL_ERROR'),
+  networkConnectionError('NETWORK_CONNECTION_ERROR'),
+  ;
 
-extension StreamingSessionStreamStatusCodeValueExtension
-    on StreamingSessionStreamStatusCode {
-  String toValue() {
-    switch (this) {
-      case StreamingSessionStreamStatusCode.streamCreateInProgress:
-        return 'STREAM_CREATE_IN_PROGRESS';
-      case StreamingSessionStreamStatusCode.streamReady:
-        return 'STREAM_READY';
-      case StreamingSessionStreamStatusCode.streamDeleteInProgress:
-        return 'STREAM_DELETE_IN_PROGRESS';
-      case StreamingSessionStreamStatusCode.streamDeleted:
-        return 'STREAM_DELETED';
-      case StreamingSessionStreamStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-      case StreamingSessionStreamStatusCode.networkConnectionError:
-        return 'NETWORK_CONNECTION_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension StreamingSessionStreamStatusCodeFromString on String {
-  StreamingSessionStreamStatusCode toStreamingSessionStreamStatusCode() {
-    switch (this) {
-      case 'STREAM_CREATE_IN_PROGRESS':
-        return StreamingSessionStreamStatusCode.streamCreateInProgress;
-      case 'STREAM_READY':
-        return StreamingSessionStreamStatusCode.streamReady;
-      case 'STREAM_DELETE_IN_PROGRESS':
-        return StreamingSessionStreamStatusCode.streamDeleteInProgress;
-      case 'STREAM_DELETED':
-        return StreamingSessionStreamStatusCode.streamDeleted;
-      case 'INTERNAL_ERROR':
-        return StreamingSessionStreamStatusCode.internalError;
-      case 'NETWORK_CONNECTION_ERROR':
-        return StreamingSessionStreamStatusCode.networkConnectionError;
-    }
-    throw Exception(
-        '$this is not known in enum StreamingSessionStreamStatusCode');
-  }
+  const StreamingSessionStreamStatusCode(this.value);
+
+  static StreamingSessionStreamStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingSessionStreamStatusCode'));
 }
 
 /// Represents a studio resource.
@@ -6352,8 +5760,9 @@ class Studio {
       displayName: json['displayName'] as String?,
       homeRegion: json['homeRegion'] as String?,
       ssoClientId: json['ssoClientId'] as String?,
-      state: (json['state'] as String?)?.toStudioState(),
-      statusCode: (json['statusCode'] as String?)?.toStudioStatusCode(),
+      state: (json['state'] as String?)?.let(StudioState.fromString),
+      statusCode:
+          (json['statusCode'] as String?)?.let(StudioStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       studioEncryptionConfiguration:
           json['studioEncryptionConfiguration'] != null
@@ -6394,8 +5803,8 @@ class Studio {
       if (displayName != null) 'displayName': displayName,
       if (homeRegion != null) 'homeRegion': homeRegion,
       if (ssoClientId != null) 'ssoClientId': ssoClientId,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (studioEncryptionConfiguration != null)
         'studioEncryptionConfiguration': studioEncryptionConfiguration,
@@ -6539,15 +5948,16 @@ class StudioComponent {
           .toList(),
       secureInitializationRoleArn:
           json['secureInitializationRoleArn'] as String?,
-      state: (json['state'] as String?)?.toStudioComponentState(),
-      statusCode:
-          (json['statusCode'] as String?)?.toStudioComponentStatusCode(),
+      state: (json['state'] as String?)?.let(StudioComponentState.fromString),
+      statusCode: (json['statusCode'] as String?)
+          ?.let(StudioComponentStatusCode.fromString),
       statusMessage: json['statusMessage'] as String?,
       studioComponentId: json['studioComponentId'] as String?,
-      subtype: (json['subtype'] as String?)?.toStudioComponentSubtype(),
+      subtype:
+          (json['subtype'] as String?)?.let(StudioComponentSubtype.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toStudioComponentType(),
+      type: (json['type'] as String?)?.let(StudioComponentType.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -6589,13 +5999,13 @@ class StudioComponent {
       if (scriptParameters != null) 'scriptParameters': scriptParameters,
       if (secureInitializationRoleArn != null)
         'secureInitializationRoleArn': secureInitializationRoleArn,
-      if (state != null) 'state': state.toValue(),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (state != null) 'state': state.value,
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (studioComponentId != null) 'studioComponentId': studioComponentId,
-      if (subtype != null) 'subtype': subtype.toValue(),
+      if (subtype != null) 'subtype': subtype.value,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
       if (updatedBy != null) 'updatedBy': updatedBy,
     };
@@ -6694,9 +6104,10 @@ class StudioComponentInitializationScript {
     return StudioComponentInitializationScript(
       launchProfileProtocolVersion:
           json['launchProfileProtocolVersion'] as String?,
-      platform: (json['platform'] as String?)?.toLaunchProfilePlatform(),
+      platform:
+          (json['platform'] as String?)?.let(LaunchProfilePlatform.fromString),
       runContext: (json['runContext'] as String?)
-          ?.toStudioComponentInitializationScriptRunContext(),
+          ?.let(StudioComponentInitializationScriptRunContext.fromString),
       script: json['script'] as String?,
     );
   }
@@ -6709,43 +6120,27 @@ class StudioComponentInitializationScript {
     return {
       if (launchProfileProtocolVersion != null)
         'launchProfileProtocolVersion': launchProfileProtocolVersion,
-      if (platform != null) 'platform': platform.toValue(),
-      if (runContext != null) 'runContext': runContext.toValue(),
+      if (platform != null) 'platform': platform.value,
+      if (runContext != null) 'runContext': runContext.value,
       if (script != null) 'script': script,
     };
   }
 }
 
 enum StudioComponentInitializationScriptRunContext {
-  systemInitialization,
-  userInitialization,
-}
+  systemInitialization('SYSTEM_INITIALIZATION'),
+  userInitialization('USER_INITIALIZATION'),
+  ;
 
-extension StudioComponentInitializationScriptRunContextValueExtension
-    on StudioComponentInitializationScriptRunContext {
-  String toValue() {
-    switch (this) {
-      case StudioComponentInitializationScriptRunContext.systemInitialization:
-        return 'SYSTEM_INITIALIZATION';
-      case StudioComponentInitializationScriptRunContext.userInitialization:
-        return 'USER_INITIALIZATION';
-    }
-  }
-}
+  final String value;
 
-extension StudioComponentInitializationScriptRunContextFromString on String {
-  StudioComponentInitializationScriptRunContext
-      toStudioComponentInitializationScriptRunContext() {
-    switch (this) {
-      case 'SYSTEM_INITIALIZATION':
-        return StudioComponentInitializationScriptRunContext
-            .systemInitialization;
-      case 'USER_INITIALIZATION':
-        return StudioComponentInitializationScriptRunContext.userInitialization;
-    }
-    throw Exception(
-        '$this is not known in enum StudioComponentInitializationScriptRunContext');
-  }
+  const StudioComponentInitializationScriptRunContext(this.value);
+
+  static StudioComponentInitializationScriptRunContext fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioComponentInitializationScriptRunContext'));
 }
 
 /// The current state of the studio component resource.
@@ -6780,61 +6175,24 @@ extension StudioComponentInitializationScriptRunContextFromString on String {
 /// against service quotas and cannot be used or acted upon any futher. It will
 /// be removed from your account after a period of time.
 enum StudioComponentState {
-  createInProgress,
-  ready,
-  updateInProgress,
-  deleteInProgress,
-  deleted,
-  deleteFailed,
-  createFailed,
-  updateFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  ready('READY'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension StudioComponentStateValueExtension on StudioComponentState {
-  String toValue() {
-    switch (this) {
-      case StudioComponentState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StudioComponentState.ready:
-        return 'READY';
-      case StudioComponentState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case StudioComponentState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StudioComponentState.deleted:
-        return 'DELETED';
-      case StudioComponentState.deleteFailed:
-        return 'DELETE_FAILED';
-      case StudioComponentState.createFailed:
-        return 'CREATE_FAILED';
-      case StudioComponentState.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StudioComponentStateFromString on String {
-  StudioComponentState toStudioComponentState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return StudioComponentState.createInProgress;
-      case 'READY':
-        return StudioComponentState.ready;
-      case 'UPDATE_IN_PROGRESS':
-        return StudioComponentState.updateInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return StudioComponentState.deleteInProgress;
-      case 'DELETED':
-        return StudioComponentState.deleted;
-      case 'DELETE_FAILED':
-        return StudioComponentState.deleteFailed;
-      case 'CREATE_FAILED':
-        return StudioComponentState.createFailed;
-      case 'UPDATE_FAILED':
-        return StudioComponentState.updateFailed;
-    }
-    throw Exception('$this is not known in enum StudioComponentState');
-  }
+  const StudioComponentState(this.value);
+
+  static StudioComponentState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StudioComponentState'));
 }
 
 /// The current status of the studio component resource.
@@ -6846,109 +6204,43 @@ extension StudioComponentStateFromString on String {
 /// <code>UPDATE_FAILED</code>, or <code>DELETE_FAILED</code> state, the status
 /// code signals what went wrong and why the mutation failed.
 enum StudioComponentStatusCode {
-  activeDirectoryAlreadyExists,
-  studioComponentCreated,
-  studioComponentUpdated,
-  studioComponentDeleted,
-  encryptionKeyAccessDenied,
-  encryptionKeyNotFound,
-  studioComponentCreateInProgress,
-  studioComponentUpdateInProgress,
-  studioComponentDeleteInProgress,
-  internalError,
-}
+  activeDirectoryAlreadyExists('ACTIVE_DIRECTORY_ALREADY_EXISTS'),
+  studioComponentCreated('STUDIO_COMPONENT_CREATED'),
+  studioComponentUpdated('STUDIO_COMPONENT_UPDATED'),
+  studioComponentDeleted('STUDIO_COMPONENT_DELETED'),
+  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
+  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
+  studioComponentCreateInProgress('STUDIO_COMPONENT_CREATE_IN_PROGRESS'),
+  studioComponentUpdateInProgress('STUDIO_COMPONENT_UPDATE_IN_PROGRESS'),
+  studioComponentDeleteInProgress('STUDIO_COMPONENT_DELETE_IN_PROGRESS'),
+  internalError('INTERNAL_ERROR'),
+  ;
 
-extension StudioComponentStatusCodeValueExtension on StudioComponentStatusCode {
-  String toValue() {
-    switch (this) {
-      case StudioComponentStatusCode.activeDirectoryAlreadyExists:
-        return 'ACTIVE_DIRECTORY_ALREADY_EXISTS';
-      case StudioComponentStatusCode.studioComponentCreated:
-        return 'STUDIO_COMPONENT_CREATED';
-      case StudioComponentStatusCode.studioComponentUpdated:
-        return 'STUDIO_COMPONENT_UPDATED';
-      case StudioComponentStatusCode.studioComponentDeleted:
-        return 'STUDIO_COMPONENT_DELETED';
-      case StudioComponentStatusCode.encryptionKeyAccessDenied:
-        return 'ENCRYPTION_KEY_ACCESS_DENIED';
-      case StudioComponentStatusCode.encryptionKeyNotFound:
-        return 'ENCRYPTION_KEY_NOT_FOUND';
-      case StudioComponentStatusCode.studioComponentCreateInProgress:
-        return 'STUDIO_COMPONENT_CREATE_IN_PROGRESS';
-      case StudioComponentStatusCode.studioComponentUpdateInProgress:
-        return 'STUDIO_COMPONENT_UPDATE_IN_PROGRESS';
-      case StudioComponentStatusCode.studioComponentDeleteInProgress:
-        return 'STUDIO_COMPONENT_DELETE_IN_PROGRESS';
-      case StudioComponentStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension StudioComponentStatusCodeFromString on String {
-  StudioComponentStatusCode toStudioComponentStatusCode() {
-    switch (this) {
-      case 'ACTIVE_DIRECTORY_ALREADY_EXISTS':
-        return StudioComponentStatusCode.activeDirectoryAlreadyExists;
-      case 'STUDIO_COMPONENT_CREATED':
-        return StudioComponentStatusCode.studioComponentCreated;
-      case 'STUDIO_COMPONENT_UPDATED':
-        return StudioComponentStatusCode.studioComponentUpdated;
-      case 'STUDIO_COMPONENT_DELETED':
-        return StudioComponentStatusCode.studioComponentDeleted;
-      case 'ENCRYPTION_KEY_ACCESS_DENIED':
-        return StudioComponentStatusCode.encryptionKeyAccessDenied;
-      case 'ENCRYPTION_KEY_NOT_FOUND':
-        return StudioComponentStatusCode.encryptionKeyNotFound;
-      case 'STUDIO_COMPONENT_CREATE_IN_PROGRESS':
-        return StudioComponentStatusCode.studioComponentCreateInProgress;
-      case 'STUDIO_COMPONENT_UPDATE_IN_PROGRESS':
-        return StudioComponentStatusCode.studioComponentUpdateInProgress;
-      case 'STUDIO_COMPONENT_DELETE_IN_PROGRESS':
-        return StudioComponentStatusCode.studioComponentDeleteInProgress;
-      case 'INTERNAL_ERROR':
-        return StudioComponentStatusCode.internalError;
-    }
-    throw Exception('$this is not known in enum StudioComponentStatusCode');
-  }
+  const StudioComponentStatusCode(this.value);
+
+  static StudioComponentStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioComponentStatusCode'));
 }
 
 enum StudioComponentSubtype {
-  awsManagedMicrosoftAd,
-  amazonFsxForWindows,
-  amazonFsxForLustre,
-  custom,
-}
+  awsManagedMicrosoftAd('AWS_MANAGED_MICROSOFT_AD'),
+  amazonFsxForWindows('AMAZON_FSX_FOR_WINDOWS'),
+  amazonFsxForLustre('AMAZON_FSX_FOR_LUSTRE'),
+  custom('CUSTOM'),
+  ;
 
-extension StudioComponentSubtypeValueExtension on StudioComponentSubtype {
-  String toValue() {
-    switch (this) {
-      case StudioComponentSubtype.awsManagedMicrosoftAd:
-        return 'AWS_MANAGED_MICROSOFT_AD';
-      case StudioComponentSubtype.amazonFsxForWindows:
-        return 'AMAZON_FSX_FOR_WINDOWS';
-      case StudioComponentSubtype.amazonFsxForLustre:
-        return 'AMAZON_FSX_FOR_LUSTRE';
-      case StudioComponentSubtype.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension StudioComponentSubtypeFromString on String {
-  StudioComponentSubtype toStudioComponentSubtype() {
-    switch (this) {
-      case 'AWS_MANAGED_MICROSOFT_AD':
-        return StudioComponentSubtype.awsManagedMicrosoftAd;
-      case 'AMAZON_FSX_FOR_WINDOWS':
-        return StudioComponentSubtype.amazonFsxForWindows;
-      case 'AMAZON_FSX_FOR_LUSTRE':
-        return StudioComponentSubtype.amazonFsxForLustre;
-      case 'CUSTOM':
-        return StudioComponentSubtype.custom;
-    }
-    throw Exception('$this is not known in enum StudioComponentSubtype');
-  }
+  const StudioComponentSubtype(this.value);
+
+  static StudioComponentSubtype fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioComponentSubtype'));
 }
 
 /// The studio component's summary.
@@ -6999,8 +6291,9 @@ class StudioComponentSummary {
       description: json['description'] as String?,
       name: json['name'] as String?,
       studioComponentId: json['studioComponentId'] as String?,
-      subtype: (json['subtype'] as String?)?.toStudioComponentSubtype(),
-      type: (json['type'] as String?)?.toStudioComponentType(),
+      subtype:
+          (json['subtype'] as String?)?.let(StudioComponentSubtype.fromString),
+      type: (json['type'] as String?)?.let(StudioComponentType.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -7022,8 +6315,8 @@ class StudioComponentSummary {
       if (description != null) 'description': description,
       if (name != null) 'name': name,
       if (studioComponentId != null) 'studioComponentId': studioComponentId,
-      if (subtype != null) 'subtype': subtype.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (subtype != null) 'subtype': subtype.value,
+      if (type != null) 'type': type.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
       if (updatedBy != null) 'updatedBy': updatedBy,
     };
@@ -7031,46 +6324,21 @@ class StudioComponentSummary {
 }
 
 enum StudioComponentType {
-  activeDirectory,
-  sharedFileSystem,
-  computeFarm,
-  licenseService,
-  custom,
-}
+  activeDirectory('ACTIVE_DIRECTORY'),
+  sharedFileSystem('SHARED_FILE_SYSTEM'),
+  computeFarm('COMPUTE_FARM'),
+  licenseService('LICENSE_SERVICE'),
+  custom('CUSTOM'),
+  ;
 
-extension StudioComponentTypeValueExtension on StudioComponentType {
-  String toValue() {
-    switch (this) {
-      case StudioComponentType.activeDirectory:
-        return 'ACTIVE_DIRECTORY';
-      case StudioComponentType.sharedFileSystem:
-        return 'SHARED_FILE_SYSTEM';
-      case StudioComponentType.computeFarm:
-        return 'COMPUTE_FARM';
-      case StudioComponentType.licenseService:
-        return 'LICENSE_SERVICE';
-      case StudioComponentType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension StudioComponentTypeFromString on String {
-  StudioComponentType toStudioComponentType() {
-    switch (this) {
-      case 'ACTIVE_DIRECTORY':
-        return StudioComponentType.activeDirectory;
-      case 'SHARED_FILE_SYSTEM':
-        return StudioComponentType.sharedFileSystem;
-      case 'COMPUTE_FARM':
-        return StudioComponentType.computeFarm;
-      case 'LICENSE_SERVICE':
-        return StudioComponentType.licenseService;
-      case 'CUSTOM':
-        return StudioComponentType.custom;
-    }
-    throw Exception('$this is not known in enum StudioComponentType');
-  }
+  const StudioComponentType(this.value);
+
+  static StudioComponentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StudioComponentType'));
 }
 
 /// Configuration of the encryption method that is used for the studio.
@@ -7088,8 +6356,8 @@ class StudioEncryptionConfiguration {
 
   factory StudioEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return StudioEncryptionConfiguration(
-      keyType:
-          (json['keyType'] as String).toStudioEncryptionConfigurationKeyType(),
+      keyType: StudioEncryptionConfigurationKeyType.fromString(
+          (json['keyType'] as String)),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -7098,7 +6366,7 @@ class StudioEncryptionConfiguration {
     final keyType = this.keyType;
     final keyArn = this.keyArn;
     return {
-      'keyType': keyType.toValue(),
+      'keyType': keyType.value,
       if (keyArn != null) 'keyArn': keyArn,
     };
   }
@@ -7106,34 +6374,18 @@ class StudioEncryptionConfiguration {
 
 /// The type of KMS key that is used to encrypt studio data.
 enum StudioEncryptionConfigurationKeyType {
-  awsOwnedKey,
-  customerManagedKey,
-}
+  awsOwnedKey('AWS_OWNED_KEY'),
+  customerManagedKey('CUSTOMER_MANAGED_KEY'),
+  ;
 
-extension StudioEncryptionConfigurationKeyTypeValueExtension
-    on StudioEncryptionConfigurationKeyType {
-  String toValue() {
-    switch (this) {
-      case StudioEncryptionConfigurationKeyType.awsOwnedKey:
-        return 'AWS_OWNED_KEY';
-      case StudioEncryptionConfigurationKeyType.customerManagedKey:
-        return 'CUSTOMER_MANAGED_KEY';
-    }
-  }
-}
+  final String value;
 
-extension StudioEncryptionConfigurationKeyTypeFromString on String {
-  StudioEncryptionConfigurationKeyType
-      toStudioEncryptionConfigurationKeyType() {
-    switch (this) {
-      case 'AWS_OWNED_KEY':
-        return StudioEncryptionConfigurationKeyType.awsOwnedKey;
-      case 'CUSTOMER_MANAGED_KEY':
-        return StudioEncryptionConfigurationKeyType.customerManagedKey;
-    }
-    throw Exception(
-        '$this is not known in enum StudioEncryptionConfigurationKeyType');
-  }
+  const StudioEncryptionConfigurationKeyType(this.value);
+
+  static StudioEncryptionConfigurationKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioEncryptionConfigurationKeyType'));
 }
 
 /// A studio member is an association of a user from your studio identity source
@@ -7172,7 +6424,7 @@ class StudioMembership {
   factory StudioMembership.fromJson(Map<String, dynamic> json) {
     return StudioMembership(
       identityStoreId: json['identityStoreId'] as String?,
-      persona: (json['persona'] as String?)?.toStudioPersona(),
+      persona: (json['persona'] as String?)?.let(StudioPersona.fromString),
       principalId: json['principalId'] as String?,
       sid: json['sid'] as String?,
     );
@@ -7185,7 +6437,7 @@ class StudioMembership {
     final sid = this.sid;
     return {
       if (identityStoreId != null) 'identityStoreId': identityStoreId,
-      if (persona != null) 'persona': persona.toValue(),
+      if (persona != null) 'persona': persona.value,
       if (principalId != null) 'principalId': principalId,
       if (sid != null) 'sid': sid,
     };
@@ -7193,198 +6445,73 @@ class StudioMembership {
 }
 
 enum StudioPersona {
-  administrator,
-}
+  administrator('ADMINISTRATOR'),
+  ;
 
-extension StudioPersonaValueExtension on StudioPersona {
-  String toValue() {
-    switch (this) {
-      case StudioPersona.administrator:
-        return 'ADMINISTRATOR';
-    }
-  }
-}
+  final String value;
 
-extension StudioPersonaFromString on String {
-  StudioPersona toStudioPersona() {
-    switch (this) {
-      case 'ADMINISTRATOR':
-        return StudioPersona.administrator;
-    }
-    throw Exception('$this is not known in enum StudioPersona');
-  }
+  const StudioPersona(this.value);
+
+  static StudioPersona fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StudioPersona'));
 }
 
 enum StudioState {
-  createInProgress,
-  ready,
-  updateInProgress,
-  deleteInProgress,
-  deleted,
-  deleteFailed,
-  createFailed,
-  updateFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  ready('READY'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension StudioStateValueExtension on StudioState {
-  String toValue() {
-    switch (this) {
-      case StudioState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StudioState.ready:
-        return 'READY';
-      case StudioState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case StudioState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StudioState.deleted:
-        return 'DELETED';
-      case StudioState.deleteFailed:
-        return 'DELETE_FAILED';
-      case StudioState.createFailed:
-        return 'CREATE_FAILED';
-      case StudioState.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StudioStateFromString on String {
-  StudioState toStudioState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return StudioState.createInProgress;
-      case 'READY':
-        return StudioState.ready;
-      case 'UPDATE_IN_PROGRESS':
-        return StudioState.updateInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return StudioState.deleteInProgress;
-      case 'DELETED':
-        return StudioState.deleted;
-      case 'DELETE_FAILED':
-        return StudioState.deleteFailed;
-      case 'CREATE_FAILED':
-        return StudioState.createFailed;
-      case 'UPDATE_FAILED':
-        return StudioState.updateFailed;
-    }
-    throw Exception('$this is not known in enum StudioState');
-  }
+  const StudioState(this.value);
+
+  static StudioState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StudioState'));
 }
 
 /// The status code.
 enum StudioStatusCode {
-  studioCreated,
-  studioDeleted,
-  studioUpdated,
-  studioCreateInProgress,
-  studioUpdateInProgress,
-  studioDeleteInProgress,
-  studioWithLaunchProfilesNotDeleted,
-  studioWithStudioComponentsNotDeleted,
-  studioWithStreamingImagesNotDeleted,
-  awsSsoNotEnabled,
-  awsSsoAccessDenied,
-  roleNotOwnedByStudioOwner,
-  roleCouldNotBeAssumed,
-  internalError,
-  encryptionKeyNotFound,
-  encryptionKeyAccessDenied,
-  awsSsoConfigurationRepaired,
-  awsSsoConfigurationRepairInProgress,
-  awsStsRegionDisabled,
-}
+  studioCreated('STUDIO_CREATED'),
+  studioDeleted('STUDIO_DELETED'),
+  studioUpdated('STUDIO_UPDATED'),
+  studioCreateInProgress('STUDIO_CREATE_IN_PROGRESS'),
+  studioUpdateInProgress('STUDIO_UPDATE_IN_PROGRESS'),
+  studioDeleteInProgress('STUDIO_DELETE_IN_PROGRESS'),
+  studioWithLaunchProfilesNotDeleted('STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED'),
+  studioWithStudioComponentsNotDeleted(
+      'STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED'),
+  studioWithStreamingImagesNotDeleted(
+      'STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED'),
+  awsSsoNotEnabled('AWS_SSO_NOT_ENABLED'),
+  awsSsoAccessDenied('AWS_SSO_ACCESS_DENIED'),
+  roleNotOwnedByStudioOwner('ROLE_NOT_OWNED_BY_STUDIO_OWNER'),
+  roleCouldNotBeAssumed('ROLE_COULD_NOT_BE_ASSUMED'),
+  internalError('INTERNAL_ERROR'),
+  encryptionKeyNotFound('ENCRYPTION_KEY_NOT_FOUND'),
+  encryptionKeyAccessDenied('ENCRYPTION_KEY_ACCESS_DENIED'),
+  awsSsoConfigurationRepaired('AWS_SSO_CONFIGURATION_REPAIRED'),
+  awsSsoConfigurationRepairInProgress(
+      'AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS'),
+  awsStsRegionDisabled('AWS_STS_REGION_DISABLED'),
+  ;
 
-extension StudioStatusCodeValueExtension on StudioStatusCode {
-  String toValue() {
-    switch (this) {
-      case StudioStatusCode.studioCreated:
-        return 'STUDIO_CREATED';
-      case StudioStatusCode.studioDeleted:
-        return 'STUDIO_DELETED';
-      case StudioStatusCode.studioUpdated:
-        return 'STUDIO_UPDATED';
-      case StudioStatusCode.studioCreateInProgress:
-        return 'STUDIO_CREATE_IN_PROGRESS';
-      case StudioStatusCode.studioUpdateInProgress:
-        return 'STUDIO_UPDATE_IN_PROGRESS';
-      case StudioStatusCode.studioDeleteInProgress:
-        return 'STUDIO_DELETE_IN_PROGRESS';
-      case StudioStatusCode.studioWithLaunchProfilesNotDeleted:
-        return 'STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED';
-      case StudioStatusCode.studioWithStudioComponentsNotDeleted:
-        return 'STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED';
-      case StudioStatusCode.studioWithStreamingImagesNotDeleted:
-        return 'STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED';
-      case StudioStatusCode.awsSsoNotEnabled:
-        return 'AWS_SSO_NOT_ENABLED';
-      case StudioStatusCode.awsSsoAccessDenied:
-        return 'AWS_SSO_ACCESS_DENIED';
-      case StudioStatusCode.roleNotOwnedByStudioOwner:
-        return 'ROLE_NOT_OWNED_BY_STUDIO_OWNER';
-      case StudioStatusCode.roleCouldNotBeAssumed:
-        return 'ROLE_COULD_NOT_BE_ASSUMED';
-      case StudioStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-      case StudioStatusCode.encryptionKeyNotFound:
-        return 'ENCRYPTION_KEY_NOT_FOUND';
-      case StudioStatusCode.encryptionKeyAccessDenied:
-        return 'ENCRYPTION_KEY_ACCESS_DENIED';
-      case StudioStatusCode.awsSsoConfigurationRepaired:
-        return 'AWS_SSO_CONFIGURATION_REPAIRED';
-      case StudioStatusCode.awsSsoConfigurationRepairInProgress:
-        return 'AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS';
-      case StudioStatusCode.awsStsRegionDisabled:
-        return 'AWS_STS_REGION_DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StudioStatusCodeFromString on String {
-  StudioStatusCode toStudioStatusCode() {
-    switch (this) {
-      case 'STUDIO_CREATED':
-        return StudioStatusCode.studioCreated;
-      case 'STUDIO_DELETED':
-        return StudioStatusCode.studioDeleted;
-      case 'STUDIO_UPDATED':
-        return StudioStatusCode.studioUpdated;
-      case 'STUDIO_CREATE_IN_PROGRESS':
-        return StudioStatusCode.studioCreateInProgress;
-      case 'STUDIO_UPDATE_IN_PROGRESS':
-        return StudioStatusCode.studioUpdateInProgress;
-      case 'STUDIO_DELETE_IN_PROGRESS':
-        return StudioStatusCode.studioDeleteInProgress;
-      case 'STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED':
-        return StudioStatusCode.studioWithLaunchProfilesNotDeleted;
-      case 'STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED':
-        return StudioStatusCode.studioWithStudioComponentsNotDeleted;
-      case 'STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED':
-        return StudioStatusCode.studioWithStreamingImagesNotDeleted;
-      case 'AWS_SSO_NOT_ENABLED':
-        return StudioStatusCode.awsSsoNotEnabled;
-      case 'AWS_SSO_ACCESS_DENIED':
-        return StudioStatusCode.awsSsoAccessDenied;
-      case 'ROLE_NOT_OWNED_BY_STUDIO_OWNER':
-        return StudioStatusCode.roleNotOwnedByStudioOwner;
-      case 'ROLE_COULD_NOT_BE_ASSUMED':
-        return StudioStatusCode.roleCouldNotBeAssumed;
-      case 'INTERNAL_ERROR':
-        return StudioStatusCode.internalError;
-      case 'ENCRYPTION_KEY_NOT_FOUND':
-        return StudioStatusCode.encryptionKeyNotFound;
-      case 'ENCRYPTION_KEY_ACCESS_DENIED':
-        return StudioStatusCode.encryptionKeyAccessDenied;
-      case 'AWS_SSO_CONFIGURATION_REPAIRED':
-        return StudioStatusCode.awsSsoConfigurationRepaired;
-      case 'AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS':
-        return StudioStatusCode.awsSsoConfigurationRepairInProgress;
-      case 'AWS_STS_REGION_DISABLED':
-        return StudioStatusCode.awsStsRegionDisabled;
-    }
-    throw Exception('$this is not known in enum StudioStatusCode');
-  }
+  const StudioStatusCode(this.value);
+
+  static StudioStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StudioStatusCode'));
 }
 
 class TagResourceResponse {
@@ -7557,11 +6684,11 @@ class ValidationResult {
 
   factory ValidationResult.fromJson(Map<String, dynamic> json) {
     return ValidationResult(
-      state: (json['state'] as String).toLaunchProfileValidationState(),
-      statusCode:
-          (json['statusCode'] as String).toLaunchProfileValidationStatusCode(),
+      state: LaunchProfileValidationState.fromString((json['state'] as String)),
+      statusCode: LaunchProfileValidationStatusCode.fromString(
+          (json['statusCode'] as String)),
       statusMessage: json['statusMessage'] as String,
-      type: (json['type'] as String).toLaunchProfileValidationType(),
+      type: LaunchProfileValidationType.fromString((json['type'] as String)),
     );
   }
 
@@ -7571,10 +6698,10 @@ class ValidationResult {
     final statusMessage = this.statusMessage;
     final type = this.type;
     return {
-      'state': state.toValue(),
-      'statusCode': statusCode.toValue(),
+      'state': state.value,
+      'statusCode': statusCode.value,
       'statusMessage': statusMessage,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -7624,31 +6751,18 @@ class VolumeConfiguration {
 }
 
 enum VolumeRetentionMode {
-  retain,
-  delete,
-}
+  retain('RETAIN'),
+  delete('DELETE'),
+  ;
 
-extension VolumeRetentionModeValueExtension on VolumeRetentionMode {
-  String toValue() {
-    switch (this) {
-      case VolumeRetentionMode.retain:
-        return 'RETAIN';
-      case VolumeRetentionMode.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension VolumeRetentionModeFromString on String {
-  VolumeRetentionMode toVolumeRetentionMode() {
-    switch (this) {
-      case 'RETAIN':
-        return VolumeRetentionMode.retain;
-      case 'DELETE':
-        return VolumeRetentionMode.delete;
-    }
-    throw Exception('$this is not known in enum VolumeRetentionMode');
-  }
+  const VolumeRetentionMode(this.value);
+
+  static VolumeRetentionMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VolumeRetentionMode'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

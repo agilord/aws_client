@@ -457,8 +457,7 @@ class Eks {
         'configurationValues': configurationValues,
       if (podIdentityAssociations != null)
         'podIdentityAssociations': podIdentityAssociations,
-      if (resolveConflicts != null)
-        'resolveConflicts': resolveConflicts.toValue(),
+      if (resolveConflicts != null) 'resolveConflicts': resolveConflicts.value,
       if (serviceAccountRoleArn != null)
         'serviceAccountRoleArn': serviceAccountRoleArn,
       if (tags != null) 'tags': tags,
@@ -698,7 +697,7 @@ class Eks {
       if (autoRenew != null) 'autoRenew': autoRenew,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (licenseQuantity != null) 'licenseQuantity': licenseQuantity,
-      if (licenseType != null) 'licenseType': licenseType.toValue(),
+      if (licenseType != null) 'licenseType': licenseType.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1028,8 +1027,8 @@ class Eks {
       'nodeRole': nodeRole,
       'nodegroupName': nodegroupName,
       'subnets': subnets,
-      if (amiType != null) 'amiType': amiType.toValue(),
-      if (capacityType != null) 'capacityType': capacityType.toValue(),
+      if (amiType != null) 'amiType': amiType.value,
+      if (capacityType != null) 'capacityType': capacityType.value,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (diskSize != null) 'diskSize': diskSize,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
@@ -2229,7 +2228,7 @@ class Eks {
     );
     final $query = <String, List<String>>{
       if (includeStatus != null)
-        'includeStatus': includeStatus.map((e) => e.toValue()).toList(),
+        'includeStatus': includeStatus.map((e) => e.value).toList(),
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2922,8 +2921,7 @@ class Eks {
         'configurationValues': configurationValues,
       if (podIdentityAssociations != null)
         'podIdentityAssociations': podIdentityAssociations,
-      if (resolveConflicts != null)
-        'resolveConflicts': resolveConflicts.toValue(),
+      if (resolveConflicts != null) 'resolveConflicts': resolveConflicts.value,
       if (serviceAccountRoleArn != null)
         'serviceAccountRoleArn': serviceAccountRoleArn,
     };
@@ -3344,91 +3342,29 @@ class Eks {
 }
 
 enum AMITypes {
-  al2X86_64,
-  al2X86_64Gpu,
-  al2Arm_64,
-  custom,
-  bottlerocketArm_64,
-  bottlerocketX86_64,
-  bottlerocketArm_64Nvidia,
-  bottlerocketX86_64Nvidia,
-  windowsCore_2019X86_64,
-  windowsFull_2019X86_64,
-  windowsCore_2022X86_64,
-  windowsFull_2022X86_64,
-  al2023X86_64Standard,
-  al2023Arm_64Standard,
-}
+  al2X86_64('AL2_x86_64'),
+  al2X86_64Gpu('AL2_x86_64_GPU'),
+  al2Arm_64('AL2_ARM_64'),
+  custom('CUSTOM'),
+  bottlerocketArm_64('BOTTLEROCKET_ARM_64'),
+  bottlerocketX86_64('BOTTLEROCKET_x86_64'),
+  bottlerocketArm_64Nvidia('BOTTLEROCKET_ARM_64_NVIDIA'),
+  bottlerocketX86_64Nvidia('BOTTLEROCKET_x86_64_NVIDIA'),
+  windowsCore_2019X86_64('WINDOWS_CORE_2019_x86_64'),
+  windowsFull_2019X86_64('WINDOWS_FULL_2019_x86_64'),
+  windowsCore_2022X86_64('WINDOWS_CORE_2022_x86_64'),
+  windowsFull_2022X86_64('WINDOWS_FULL_2022_x86_64'),
+  al2023X86_64Standard('AL2023_x86_64_STANDARD'),
+  al2023Arm_64Standard('AL2023_ARM_64_STANDARD'),
+  ;
 
-extension AMITypesValueExtension on AMITypes {
-  String toValue() {
-    switch (this) {
-      case AMITypes.al2X86_64:
-        return 'AL2_x86_64';
-      case AMITypes.al2X86_64Gpu:
-        return 'AL2_x86_64_GPU';
-      case AMITypes.al2Arm_64:
-        return 'AL2_ARM_64';
-      case AMITypes.custom:
-        return 'CUSTOM';
-      case AMITypes.bottlerocketArm_64:
-        return 'BOTTLEROCKET_ARM_64';
-      case AMITypes.bottlerocketX86_64:
-        return 'BOTTLEROCKET_x86_64';
-      case AMITypes.bottlerocketArm_64Nvidia:
-        return 'BOTTLEROCKET_ARM_64_NVIDIA';
-      case AMITypes.bottlerocketX86_64Nvidia:
-        return 'BOTTLEROCKET_x86_64_NVIDIA';
-      case AMITypes.windowsCore_2019X86_64:
-        return 'WINDOWS_CORE_2019_x86_64';
-      case AMITypes.windowsFull_2019X86_64:
-        return 'WINDOWS_FULL_2019_x86_64';
-      case AMITypes.windowsCore_2022X86_64:
-        return 'WINDOWS_CORE_2022_x86_64';
-      case AMITypes.windowsFull_2022X86_64:
-        return 'WINDOWS_FULL_2022_x86_64';
-      case AMITypes.al2023X86_64Standard:
-        return 'AL2023_x86_64_STANDARD';
-      case AMITypes.al2023Arm_64Standard:
-        return 'AL2023_ARM_64_STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension AMITypesFromString on String {
-  AMITypes toAMITypes() {
-    switch (this) {
-      case 'AL2_x86_64':
-        return AMITypes.al2X86_64;
-      case 'AL2_x86_64_GPU':
-        return AMITypes.al2X86_64Gpu;
-      case 'AL2_ARM_64':
-        return AMITypes.al2Arm_64;
-      case 'CUSTOM':
-        return AMITypes.custom;
-      case 'BOTTLEROCKET_ARM_64':
-        return AMITypes.bottlerocketArm_64;
-      case 'BOTTLEROCKET_x86_64':
-        return AMITypes.bottlerocketX86_64;
-      case 'BOTTLEROCKET_ARM_64_NVIDIA':
-        return AMITypes.bottlerocketArm_64Nvidia;
-      case 'BOTTLEROCKET_x86_64_NVIDIA':
-        return AMITypes.bottlerocketX86_64Nvidia;
-      case 'WINDOWS_CORE_2019_x86_64':
-        return AMITypes.windowsCore_2019X86_64;
-      case 'WINDOWS_FULL_2019_x86_64':
-        return AMITypes.windowsFull_2019X86_64;
-      case 'WINDOWS_CORE_2022_x86_64':
-        return AMITypes.windowsCore_2022X86_64;
-      case 'WINDOWS_FULL_2022_x86_64':
-        return AMITypes.windowsFull_2022X86_64;
-      case 'AL2023_x86_64_STANDARD':
-        return AMITypes.al2023X86_64Standard;
-      case 'AL2023_ARM_64_STANDARD':
-        return AMITypes.al2023Arm_64Standard;
-    }
-    throw Exception('$this is not known in enum AMITypes');
-  }
+  const AMITypes(this.value);
+
+  static AMITypes fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AMITypes'));
 }
 
 /// The access configuration for the cluster.
@@ -3447,8 +3383,8 @@ class AccessConfigResponse {
 
   factory AccessConfigResponse.fromJson(Map<String, dynamic> json) {
     return AccessConfigResponse(
-      authenticationMode:
-          (json['authenticationMode'] as String?)?.toAuthenticationMode(),
+      authenticationMode: (json['authenticationMode'] as String?)
+          ?.let(AuthenticationMode.fromString),
       bootstrapClusterCreatorAdminPermissions:
           json['bootstrapClusterCreatorAdminPermissions'] as bool?,
     );
@@ -3460,7 +3396,7 @@ class AccessConfigResponse {
         this.bootstrapClusterCreatorAdminPermissions;
     return {
       if (authenticationMode != null)
-        'authenticationMode': authenticationMode.toValue(),
+        'authenticationMode': authenticationMode.value,
       if (bootstrapClusterCreatorAdminPermissions != null)
         'bootstrapClusterCreatorAdminPermissions':
             bootstrapClusterCreatorAdminPermissions,
@@ -3635,7 +3571,7 @@ class AccessScope {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String?)?.toAccessScopeType(),
+      type: (json['type'] as String?)?.let(AccessScopeType.fromString),
     );
   }
 
@@ -3644,37 +3580,24 @@ class AccessScope {
     final type = this.type;
     return {
       if (namespaces != null) 'namespaces': namespaces,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum AccessScopeType {
-  cluster,
-  namespace,
-}
+  cluster('cluster'),
+  namespace('namespace'),
+  ;
 
-extension AccessScopeTypeValueExtension on AccessScopeType {
-  String toValue() {
-    switch (this) {
-      case AccessScopeType.cluster:
-        return 'cluster';
-      case AccessScopeType.namespace:
-        return 'namespace';
-    }
-  }
-}
+  final String value;
 
-extension AccessScopeTypeFromString on String {
-  AccessScopeType toAccessScopeType() {
-    switch (this) {
-      case 'cluster':
-        return AccessScopeType.cluster;
-      case 'namespace':
-        return AccessScopeType.namespace;
-    }
-    throw Exception('$this is not known in enum AccessScopeType');
-  }
+  const AccessScopeType(this.value);
+
+  static AccessScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccessScopeType'));
 }
 
 /// An Amazon EKS add-on. For more information, see <a
@@ -3778,7 +3701,7 @@ class Addon {
           .toList(),
       publisher: json['publisher'] as String?,
       serviceAccountRoleArn: json['serviceAccountRoleArn'] as String?,
-      status: (json['status'] as String?)?.toAddonStatus(),
+      status: (json['status'] as String?)?.let(AddonStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3818,7 +3741,7 @@ class Addon {
       if (publisher != null) 'publisher': publisher,
       if (serviceAccountRoleArn != null)
         'serviceAccountRoleArn': serviceAccountRoleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -3935,7 +3858,7 @@ class AddonIssue {
 
   factory AddonIssue.fromJson(Map<String, dynamic> json) {
     return AddonIssue(
-      code: (json['code'] as String?)?.toAddonIssueCode(),
+      code: (json['code'] as String?)?.let(AddonIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
           ?.whereNotNull()
@@ -3949,7 +3872,7 @@ class AddonIssue {
     final message = this.message;
     final resourceIds = this.resourceIds;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
       if (resourceIds != null) 'resourceIds': resourceIds,
     };
@@ -3957,71 +3880,26 @@ class AddonIssue {
 }
 
 enum AddonIssueCode {
-  accessDenied,
-  internalFailure,
-  clusterUnreachable,
-  insufficientNumberOfReplicas,
-  configurationConflict,
-  admissionRequestDenied,
-  unsupportedAddonModification,
-  k8sResourceNotFound,
-  addonSubscriptionNeeded,
-  addonPermissionFailure,
-}
+  accessDenied('AccessDenied'),
+  internalFailure('InternalFailure'),
+  clusterUnreachable('ClusterUnreachable'),
+  insufficientNumberOfReplicas('InsufficientNumberOfReplicas'),
+  configurationConflict('ConfigurationConflict'),
+  admissionRequestDenied('AdmissionRequestDenied'),
+  unsupportedAddonModification('UnsupportedAddonModification'),
+  k8sResourceNotFound('K8sResourceNotFound'),
+  addonSubscriptionNeeded('AddonSubscriptionNeeded'),
+  addonPermissionFailure('AddonPermissionFailure'),
+  ;
 
-extension AddonIssueCodeValueExtension on AddonIssueCode {
-  String toValue() {
-    switch (this) {
-      case AddonIssueCode.accessDenied:
-        return 'AccessDenied';
-      case AddonIssueCode.internalFailure:
-        return 'InternalFailure';
-      case AddonIssueCode.clusterUnreachable:
-        return 'ClusterUnreachable';
-      case AddonIssueCode.insufficientNumberOfReplicas:
-        return 'InsufficientNumberOfReplicas';
-      case AddonIssueCode.configurationConflict:
-        return 'ConfigurationConflict';
-      case AddonIssueCode.admissionRequestDenied:
-        return 'AdmissionRequestDenied';
-      case AddonIssueCode.unsupportedAddonModification:
-        return 'UnsupportedAddonModification';
-      case AddonIssueCode.k8sResourceNotFound:
-        return 'K8sResourceNotFound';
-      case AddonIssueCode.addonSubscriptionNeeded:
-        return 'AddonSubscriptionNeeded';
-      case AddonIssueCode.addonPermissionFailure:
-        return 'AddonPermissionFailure';
-    }
-  }
-}
+  final String value;
 
-extension AddonIssueCodeFromString on String {
-  AddonIssueCode toAddonIssueCode() {
-    switch (this) {
-      case 'AccessDenied':
-        return AddonIssueCode.accessDenied;
-      case 'InternalFailure':
-        return AddonIssueCode.internalFailure;
-      case 'ClusterUnreachable':
-        return AddonIssueCode.clusterUnreachable;
-      case 'InsufficientNumberOfReplicas':
-        return AddonIssueCode.insufficientNumberOfReplicas;
-      case 'ConfigurationConflict':
-        return AddonIssueCode.configurationConflict;
-      case 'AdmissionRequestDenied':
-        return AddonIssueCode.admissionRequestDenied;
-      case 'UnsupportedAddonModification':
-        return AddonIssueCode.unsupportedAddonModification;
-      case 'K8sResourceNotFound':
-        return AddonIssueCode.k8sResourceNotFound;
-      case 'AddonSubscriptionNeeded':
-        return AddonIssueCode.addonSubscriptionNeeded;
-      case 'AddonPermissionFailure':
-        return AddonIssueCode.addonPermissionFailure;
-    }
-    throw Exception('$this is not known in enum AddonIssueCode');
-  }
+  const AddonIssueCode(this.value);
+
+  static AddonIssueCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AddonIssueCode'));
 }
 
 /// A type of Pod Identity Association owned by an Amazon EKS Add-on.
@@ -4090,61 +3968,23 @@ class AddonPodIdentityConfiguration {
 }
 
 enum AddonStatus {
-  creating,
-  active,
-  createFailed,
-  updating,
-  deleting,
-  deleteFailed,
-  degraded,
-  updateFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  createFailed('CREATE_FAILED'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  degraded('DEGRADED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension AddonStatusValueExtension on AddonStatus {
-  String toValue() {
-    switch (this) {
-      case AddonStatus.creating:
-        return 'CREATING';
-      case AddonStatus.active:
-        return 'ACTIVE';
-      case AddonStatus.createFailed:
-        return 'CREATE_FAILED';
-      case AddonStatus.updating:
-        return 'UPDATING';
-      case AddonStatus.deleting:
-        return 'DELETING';
-      case AddonStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case AddonStatus.degraded:
-        return 'DEGRADED';
-      case AddonStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AddonStatusFromString on String {
-  AddonStatus toAddonStatus() {
-    switch (this) {
-      case 'CREATING':
-        return AddonStatus.creating;
-      case 'ACTIVE':
-        return AddonStatus.active;
-      case 'CREATE_FAILED':
-        return AddonStatus.createFailed;
-      case 'UPDATING':
-        return AddonStatus.updating;
-      case 'DELETING':
-        return AddonStatus.deleting;
-      case 'DELETE_FAILED':
-        return AddonStatus.deleteFailed;
-      case 'DEGRADED':
-        return AddonStatus.degraded;
-      case 'UPDATE_FAILED':
-        return AddonStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum AddonStatus');
-  }
+  const AddonStatus(this.value);
+
+  static AddonStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AddonStatus'));
 }
 
 /// Information about an add-on version.
@@ -4352,36 +4192,19 @@ class AssociatedAccessPolicy {
 }
 
 enum AuthenticationMode {
-  api,
-  apiAndConfigMap,
-  configMap,
-}
+  api('API'),
+  apiAndConfigMap('API_AND_CONFIG_MAP'),
+  configMap('CONFIG_MAP'),
+  ;
 
-extension AuthenticationModeValueExtension on AuthenticationMode {
-  String toValue() {
-    switch (this) {
-      case AuthenticationMode.api:
-        return 'API';
-      case AuthenticationMode.apiAndConfigMap:
-        return 'API_AND_CONFIG_MAP';
-      case AuthenticationMode.configMap:
-        return 'CONFIG_MAP';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationModeFromString on String {
-  AuthenticationMode toAuthenticationMode() {
-    switch (this) {
-      case 'API':
-        return AuthenticationMode.api;
-      case 'API_AND_CONFIG_MAP':
-        return AuthenticationMode.apiAndConfigMap;
-      case 'CONFIG_MAP':
-        return AuthenticationMode.configMap;
-    }
-    throw Exception('$this is not known in enum AuthenticationMode');
-  }
+  const AuthenticationMode(this.value);
+
+  static AuthenticationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationMode'));
 }
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
@@ -4410,54 +4233,31 @@ class AutoScalingGroup {
 }
 
 enum CapacityTypes {
-  onDemand,
-  spot,
-}
+  onDemand('ON_DEMAND'),
+  spot('SPOT'),
+  ;
 
-extension CapacityTypesValueExtension on CapacityTypes {
-  String toValue() {
-    switch (this) {
-      case CapacityTypes.onDemand:
-        return 'ON_DEMAND';
-      case CapacityTypes.spot:
-        return 'SPOT';
-    }
-  }
-}
+  final String value;
 
-extension CapacityTypesFromString on String {
-  CapacityTypes toCapacityTypes() {
-    switch (this) {
-      case 'ON_DEMAND':
-        return CapacityTypes.onDemand;
-      case 'SPOT':
-        return CapacityTypes.spot;
-    }
-    throw Exception('$this is not known in enum CapacityTypes');
-  }
+  const CapacityTypes(this.value);
+
+  static CapacityTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CapacityTypes'));
 }
 
 enum Category {
-  upgradeReadiness,
-}
+  upgradeReadiness('UPGRADE_READINESS'),
+  ;
 
-extension CategoryValueExtension on Category {
-  String toValue() {
-    switch (this) {
-      case Category.upgradeReadiness:
-        return 'UPGRADE_READINESS';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFromString on String {
-  Category toCategory() {
-    switch (this) {
-      case 'UPGRADE_READINESS':
-        return Category.upgradeReadiness;
-    }
-    throw Exception('$this is not known in enum Category');
-  }
+  const Category(this.value);
+
+  static Category fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Category'));
 }
 
 /// An object representing the <code>certificate-authority-data</code> for your
@@ -4684,7 +4484,7 @@ class Cluster {
               json['resourcesVpcConfig'] as Map<String, dynamic>)
           : null,
       roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.toClusterStatus(),
+      status: (json['status'] as String?)?.let(ClusterStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
@@ -4734,7 +4534,7 @@ class Cluster {
       if (platformVersion != null) 'platformVersion': platformVersion,
       if (resourcesVpcConfig != null) 'resourcesVpcConfig': resourcesVpcConfig,
       if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (version != null) 'version': version,
     };
@@ -4786,7 +4586,7 @@ class ClusterIssue {
 
   factory ClusterIssue.fromJson(Map<String, dynamic> json) {
     return ClusterIssue(
-      code: (json['code'] as String?)?.toClusterIssueCode(),
+      code: (json['code'] as String?)?.let(ClusterIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
           ?.whereNotNull()
@@ -4800,7 +4600,7 @@ class ClusterIssue {
     final message = this.message;
     final resourceIds = this.resourceIds;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
       if (resourceIds != null) 'resourceIds': resourceIds,
     };
@@ -4808,164 +4608,54 @@ class ClusterIssue {
 }
 
 enum ClusterIssueCode {
-  accessDenied,
-  clusterUnreachable,
-  configurationConflict,
-  internalFailure,
-  resourceLimitExceeded,
-  resourceNotFound,
-  iamRoleNotFound,
-  vpcNotFound,
-  insufficientFreeAddresses,
-  ec2ServiceNotSubscribed,
-  ec2SubnetNotFound,
-  ec2SecurityGroupNotFound,
-  kmsGrantRevoked,
-  kmsKeyNotFound,
-  kmsKeyMarkedForDeletion,
-  kmsKeyDisabled,
-  stsRegionalEndpointDisabled,
-  unsupportedVersion,
-  other,
-}
+  accessDenied('AccessDenied'),
+  clusterUnreachable('ClusterUnreachable'),
+  configurationConflict('ConfigurationConflict'),
+  internalFailure('InternalFailure'),
+  resourceLimitExceeded('ResourceLimitExceeded'),
+  resourceNotFound('ResourceNotFound'),
+  iamRoleNotFound('IamRoleNotFound'),
+  vpcNotFound('VpcNotFound'),
+  insufficientFreeAddresses('InsufficientFreeAddresses'),
+  ec2ServiceNotSubscribed('Ec2ServiceNotSubscribed'),
+  ec2SubnetNotFound('Ec2SubnetNotFound'),
+  ec2SecurityGroupNotFound('Ec2SecurityGroupNotFound'),
+  kmsGrantRevoked('KmsGrantRevoked'),
+  kmsKeyNotFound('KmsKeyNotFound'),
+  kmsKeyMarkedForDeletion('KmsKeyMarkedForDeletion'),
+  kmsKeyDisabled('KmsKeyDisabled'),
+  stsRegionalEndpointDisabled('StsRegionalEndpointDisabled'),
+  unsupportedVersion('UnsupportedVersion'),
+  other('Other'),
+  ;
 
-extension ClusterIssueCodeValueExtension on ClusterIssueCode {
-  String toValue() {
-    switch (this) {
-      case ClusterIssueCode.accessDenied:
-        return 'AccessDenied';
-      case ClusterIssueCode.clusterUnreachable:
-        return 'ClusterUnreachable';
-      case ClusterIssueCode.configurationConflict:
-        return 'ConfigurationConflict';
-      case ClusterIssueCode.internalFailure:
-        return 'InternalFailure';
-      case ClusterIssueCode.resourceLimitExceeded:
-        return 'ResourceLimitExceeded';
-      case ClusterIssueCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case ClusterIssueCode.iamRoleNotFound:
-        return 'IamRoleNotFound';
-      case ClusterIssueCode.vpcNotFound:
-        return 'VpcNotFound';
-      case ClusterIssueCode.insufficientFreeAddresses:
-        return 'InsufficientFreeAddresses';
-      case ClusterIssueCode.ec2ServiceNotSubscribed:
-        return 'Ec2ServiceNotSubscribed';
-      case ClusterIssueCode.ec2SubnetNotFound:
-        return 'Ec2SubnetNotFound';
-      case ClusterIssueCode.ec2SecurityGroupNotFound:
-        return 'Ec2SecurityGroupNotFound';
-      case ClusterIssueCode.kmsGrantRevoked:
-        return 'KmsGrantRevoked';
-      case ClusterIssueCode.kmsKeyNotFound:
-        return 'KmsKeyNotFound';
-      case ClusterIssueCode.kmsKeyMarkedForDeletion:
-        return 'KmsKeyMarkedForDeletion';
-      case ClusterIssueCode.kmsKeyDisabled:
-        return 'KmsKeyDisabled';
-      case ClusterIssueCode.stsRegionalEndpointDisabled:
-        return 'StsRegionalEndpointDisabled';
-      case ClusterIssueCode.unsupportedVersion:
-        return 'UnsupportedVersion';
-      case ClusterIssueCode.other:
-        return 'Other';
-    }
-  }
-}
+  final String value;
 
-extension ClusterIssueCodeFromString on String {
-  ClusterIssueCode toClusterIssueCode() {
-    switch (this) {
-      case 'AccessDenied':
-        return ClusterIssueCode.accessDenied;
-      case 'ClusterUnreachable':
-        return ClusterIssueCode.clusterUnreachable;
-      case 'ConfigurationConflict':
-        return ClusterIssueCode.configurationConflict;
-      case 'InternalFailure':
-        return ClusterIssueCode.internalFailure;
-      case 'ResourceLimitExceeded':
-        return ClusterIssueCode.resourceLimitExceeded;
-      case 'ResourceNotFound':
-        return ClusterIssueCode.resourceNotFound;
-      case 'IamRoleNotFound':
-        return ClusterIssueCode.iamRoleNotFound;
-      case 'VpcNotFound':
-        return ClusterIssueCode.vpcNotFound;
-      case 'InsufficientFreeAddresses':
-        return ClusterIssueCode.insufficientFreeAddresses;
-      case 'Ec2ServiceNotSubscribed':
-        return ClusterIssueCode.ec2ServiceNotSubscribed;
-      case 'Ec2SubnetNotFound':
-        return ClusterIssueCode.ec2SubnetNotFound;
-      case 'Ec2SecurityGroupNotFound':
-        return ClusterIssueCode.ec2SecurityGroupNotFound;
-      case 'KmsGrantRevoked':
-        return ClusterIssueCode.kmsGrantRevoked;
-      case 'KmsKeyNotFound':
-        return ClusterIssueCode.kmsKeyNotFound;
-      case 'KmsKeyMarkedForDeletion':
-        return ClusterIssueCode.kmsKeyMarkedForDeletion;
-      case 'KmsKeyDisabled':
-        return ClusterIssueCode.kmsKeyDisabled;
-      case 'StsRegionalEndpointDisabled':
-        return ClusterIssueCode.stsRegionalEndpointDisabled;
-      case 'UnsupportedVersion':
-        return ClusterIssueCode.unsupportedVersion;
-      case 'Other':
-        return ClusterIssueCode.other;
-    }
-    throw Exception('$this is not known in enum ClusterIssueCode');
-  }
+  const ClusterIssueCode(this.value);
+
+  static ClusterIssueCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterIssueCode'));
 }
 
 enum ClusterStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-  updating,
-  pending,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  pending('PENDING'),
+  ;
 
-extension ClusterStatusValueExtension on ClusterStatus {
-  String toValue() {
-    switch (this) {
-      case ClusterStatus.creating:
-        return 'CREATING';
-      case ClusterStatus.active:
-        return 'ACTIVE';
-      case ClusterStatus.deleting:
-        return 'DELETING';
-      case ClusterStatus.failed:
-        return 'FAILED';
-      case ClusterStatus.updating:
-        return 'UPDATING';
-      case ClusterStatus.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStatusFromString on String {
-  ClusterStatus toClusterStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ClusterStatus.creating;
-      case 'ACTIVE':
-        return ClusterStatus.active;
-      case 'DELETING':
-        return ClusterStatus.deleting;
-      case 'FAILED':
-        return ClusterStatus.failed;
-      case 'UPDATING':
-        return ClusterStatus.updating;
-      case 'PENDING':
-        return ClusterStatus.pending;
-    }
-    throw Exception('$this is not known in enum ClusterStatus');
-  }
+  const ClusterStatus(this.value);
+
+  static ClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterStatus'));
 }
 
 /// Compatibility information.
@@ -5009,66 +4699,25 @@ class Compatibility {
 }
 
 enum ConnectorConfigProvider {
-  eksAnywhere,
-  anthos,
-  gke,
-  aks,
-  openshift,
-  tanzu,
-  rancher,
-  ec2,
-  other,
-}
+  eksAnywhere('EKS_ANYWHERE'),
+  anthos('ANTHOS'),
+  gke('GKE'),
+  aks('AKS'),
+  openshift('OPENSHIFT'),
+  tanzu('TANZU'),
+  rancher('RANCHER'),
+  ec2('EC2'),
+  other('OTHER'),
+  ;
 
-extension ConnectorConfigProviderValueExtension on ConnectorConfigProvider {
-  String toValue() {
-    switch (this) {
-      case ConnectorConfigProvider.eksAnywhere:
-        return 'EKS_ANYWHERE';
-      case ConnectorConfigProvider.anthos:
-        return 'ANTHOS';
-      case ConnectorConfigProvider.gke:
-        return 'GKE';
-      case ConnectorConfigProvider.aks:
-        return 'AKS';
-      case ConnectorConfigProvider.openshift:
-        return 'OPENSHIFT';
-      case ConnectorConfigProvider.tanzu:
-        return 'TANZU';
-      case ConnectorConfigProvider.rancher:
-        return 'RANCHER';
-      case ConnectorConfigProvider.ec2:
-        return 'EC2';
-      case ConnectorConfigProvider.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension ConnectorConfigProviderFromString on String {
-  ConnectorConfigProvider toConnectorConfigProvider() {
-    switch (this) {
-      case 'EKS_ANYWHERE':
-        return ConnectorConfigProvider.eksAnywhere;
-      case 'ANTHOS':
-        return ConnectorConfigProvider.anthos;
-      case 'GKE':
-        return ConnectorConfigProvider.gke;
-      case 'AKS':
-        return ConnectorConfigProvider.aks;
-      case 'OPENSHIFT':
-        return ConnectorConfigProvider.openshift;
-      case 'TANZU':
-        return ConnectorConfigProvider.tanzu;
-      case 'RANCHER':
-        return ConnectorConfigProvider.rancher;
-      case 'EC2':
-        return ConnectorConfigProvider.ec2;
-      case 'OTHER':
-        return ConnectorConfigProvider.other;
-    }
-    throw Exception('$this is not known in enum ConnectorConfigProvider');
-  }
+  const ConnectorConfigProvider(this.value);
+
+  static ConnectorConfigProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConnectorConfigProvider'));
 }
 
 /// The configuration sent to a cluster for configuration.
@@ -5089,7 +4738,7 @@ class ConnectorConfigRequest {
     final provider = this.provider;
     final roleArn = this.roleArn;
     return {
-      'provider': provider.toValue(),
+      'provider': provider.value,
       'roleArn': roleArn,
     };
   }
@@ -5223,7 +4872,7 @@ class CreateAccessConfigRequest {
         this.bootstrapClusterCreatorAdminPermissions;
     return {
       if (authenticationMode != null)
-        'authenticationMode': authenticationMode.toValue(),
+        'authenticationMode': authenticationMode.value,
       if (bootstrapClusterCreatorAdminPermissions != null)
         'bootstrapClusterCreatorAdminPermissions':
             bootstrapClusterCreatorAdminPermissions,
@@ -6103,7 +5752,7 @@ class EksAnywhereSubscription {
           .toList(),
       licenseQuantity: json['licenseQuantity'] as int?,
       licenseType: (json['licenseType'] as String?)
-          ?.toEksAnywhereSubscriptionLicenseType(),
+          ?.let(EksAnywhereSubscriptionLicenseType.fromString),
       status: json['status'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -6138,7 +5787,7 @@ class EksAnywhereSubscription {
       if (id != null) 'id': id,
       if (licenseArns != null) 'licenseArns': licenseArns,
       if (licenseQuantity != null) 'licenseQuantity': licenseQuantity,
-      if (licenseType != null) 'licenseType': licenseType.toValue(),
+      if (licenseType != null) 'licenseType': licenseType.value,
       if (status != null) 'status': status,
       if (tags != null) 'tags': tags,
       if (term != null) 'term': term,
@@ -6147,77 +5796,36 @@ class EksAnywhereSubscription {
 }
 
 enum EksAnywhereSubscriptionLicenseType {
-  cluster,
-}
+  cluster('Cluster'),
+  ;
 
-extension EksAnywhereSubscriptionLicenseTypeValueExtension
-    on EksAnywhereSubscriptionLicenseType {
-  String toValue() {
-    switch (this) {
-      case EksAnywhereSubscriptionLicenseType.cluster:
-        return 'Cluster';
-    }
-  }
-}
+  final String value;
 
-extension EksAnywhereSubscriptionLicenseTypeFromString on String {
-  EksAnywhereSubscriptionLicenseType toEksAnywhereSubscriptionLicenseType() {
-    switch (this) {
-      case 'Cluster':
-        return EksAnywhereSubscriptionLicenseType.cluster;
-    }
-    throw Exception(
-        '$this is not known in enum EksAnywhereSubscriptionLicenseType');
-  }
+  const EksAnywhereSubscriptionLicenseType(this.value);
+
+  static EksAnywhereSubscriptionLicenseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EksAnywhereSubscriptionLicenseType'));
 }
 
 enum EksAnywhereSubscriptionStatus {
-  creating,
-  active,
-  updating,
-  expiring,
-  expired,
-  deleting,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  expiring('EXPIRING'),
+  expired('EXPIRED'),
+  deleting('DELETING'),
+  ;
 
-extension EksAnywhereSubscriptionStatusValueExtension
-    on EksAnywhereSubscriptionStatus {
-  String toValue() {
-    switch (this) {
-      case EksAnywhereSubscriptionStatus.creating:
-        return 'CREATING';
-      case EksAnywhereSubscriptionStatus.active:
-        return 'ACTIVE';
-      case EksAnywhereSubscriptionStatus.updating:
-        return 'UPDATING';
-      case EksAnywhereSubscriptionStatus.expiring:
-        return 'EXPIRING';
-      case EksAnywhereSubscriptionStatus.expired:
-        return 'EXPIRED';
-      case EksAnywhereSubscriptionStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension EksAnywhereSubscriptionStatusFromString on String {
-  EksAnywhereSubscriptionStatus toEksAnywhereSubscriptionStatus() {
-    switch (this) {
-      case 'CREATING':
-        return EksAnywhereSubscriptionStatus.creating;
-      case 'ACTIVE':
-        return EksAnywhereSubscriptionStatus.active;
-      case 'UPDATING':
-        return EksAnywhereSubscriptionStatus.updating;
-      case 'EXPIRING':
-        return EksAnywhereSubscriptionStatus.expiring;
-      case 'EXPIRED':
-        return EksAnywhereSubscriptionStatus.expired;
-      case 'DELETING':
-        return EksAnywhereSubscriptionStatus.deleting;
-    }
-    throw Exception('$this is not known in enum EksAnywhereSubscriptionStatus');
-  }
+  const EksAnywhereSubscriptionStatus(this.value);
+
+  static EksAnywhereSubscriptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EksAnywhereSubscriptionStatus'));
 }
 
 /// An object representing the term duration and term unit type of your
@@ -6240,7 +5848,8 @@ class EksAnywhereSubscriptionTerm {
   factory EksAnywhereSubscriptionTerm.fromJson(Map<String, dynamic> json) {
     return EksAnywhereSubscriptionTerm(
       duration: json['duration'] as int?,
-      unit: (json['unit'] as String?)?.toEksAnywhereSubscriptionTermUnit(),
+      unit: (json['unit'] as String?)
+          ?.let(EksAnywhereSubscriptionTermUnit.fromString),
     );
   }
 
@@ -6249,34 +5858,23 @@ class EksAnywhereSubscriptionTerm {
     final unit = this.unit;
     return {
       if (duration != null) 'duration': duration,
-      if (unit != null) 'unit': unit.toValue(),
+      if (unit != null) 'unit': unit.value,
     };
   }
 }
 
 enum EksAnywhereSubscriptionTermUnit {
-  months,
-}
+  months('MONTHS'),
+  ;
 
-extension EksAnywhereSubscriptionTermUnitValueExtension
-    on EksAnywhereSubscriptionTermUnit {
-  String toValue() {
-    switch (this) {
-      case EksAnywhereSubscriptionTermUnit.months:
-        return 'MONTHS';
-    }
-  }
-}
+  final String value;
 
-extension EksAnywhereSubscriptionTermUnitFromString on String {
-  EksAnywhereSubscriptionTermUnit toEksAnywhereSubscriptionTermUnit() {
-    switch (this) {
-      case 'MONTHS':
-        return EksAnywhereSubscriptionTermUnit.months;
-    }
-    throw Exception(
-        '$this is not known in enum EksAnywhereSubscriptionTermUnit');
-  }
+  const EksAnywhereSubscriptionTermUnit(this.value);
+
+  static EksAnywhereSubscriptionTermUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EksAnywhereSubscriptionTermUnit'));
 }
 
 /// The encryption configuration for the cluster.
@@ -6316,106 +5914,32 @@ class EncryptionConfig {
 }
 
 enum ErrorCode {
-  subnetNotFound,
-  securityGroupNotFound,
-  eniLimitReached,
-  ipNotAvailable,
-  accessDenied,
-  operationNotPermitted,
-  vpcIdNotFound,
-  unknown,
-  nodeCreationFailure,
-  podEvictionFailure,
-  insufficientFreeAddresses,
-  clusterUnreachable,
-  insufficientNumberOfReplicas,
-  configurationConflict,
-  admissionRequestDenied,
-  unsupportedAddonModification,
-  k8sResourceNotFound,
-}
+  subnetNotFound('SubnetNotFound'),
+  securityGroupNotFound('SecurityGroupNotFound'),
+  eniLimitReached('EniLimitReached'),
+  ipNotAvailable('IpNotAvailable'),
+  accessDenied('AccessDenied'),
+  operationNotPermitted('OperationNotPermitted'),
+  vpcIdNotFound('VpcIdNotFound'),
+  unknown('Unknown'),
+  nodeCreationFailure('NodeCreationFailure'),
+  podEvictionFailure('PodEvictionFailure'),
+  insufficientFreeAddresses('InsufficientFreeAddresses'),
+  clusterUnreachable('ClusterUnreachable'),
+  insufficientNumberOfReplicas('InsufficientNumberOfReplicas'),
+  configurationConflict('ConfigurationConflict'),
+  admissionRequestDenied('AdmissionRequestDenied'),
+  unsupportedAddonModification('UnsupportedAddonModification'),
+  k8sResourceNotFound('K8sResourceNotFound'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.subnetNotFound:
-        return 'SubnetNotFound';
-      case ErrorCode.securityGroupNotFound:
-        return 'SecurityGroupNotFound';
-      case ErrorCode.eniLimitReached:
-        return 'EniLimitReached';
-      case ErrorCode.ipNotAvailable:
-        return 'IpNotAvailable';
-      case ErrorCode.accessDenied:
-        return 'AccessDenied';
-      case ErrorCode.operationNotPermitted:
-        return 'OperationNotPermitted';
-      case ErrorCode.vpcIdNotFound:
-        return 'VpcIdNotFound';
-      case ErrorCode.unknown:
-        return 'Unknown';
-      case ErrorCode.nodeCreationFailure:
-        return 'NodeCreationFailure';
-      case ErrorCode.podEvictionFailure:
-        return 'PodEvictionFailure';
-      case ErrorCode.insufficientFreeAddresses:
-        return 'InsufficientFreeAddresses';
-      case ErrorCode.clusterUnreachable:
-        return 'ClusterUnreachable';
-      case ErrorCode.insufficientNumberOfReplicas:
-        return 'InsufficientNumberOfReplicas';
-      case ErrorCode.configurationConflict:
-        return 'ConfigurationConflict';
-      case ErrorCode.admissionRequestDenied:
-        return 'AdmissionRequestDenied';
-      case ErrorCode.unsupportedAddonModification:
-        return 'UnsupportedAddonModification';
-      case ErrorCode.k8sResourceNotFound:
-        return 'K8sResourceNotFound';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'SubnetNotFound':
-        return ErrorCode.subnetNotFound;
-      case 'SecurityGroupNotFound':
-        return ErrorCode.securityGroupNotFound;
-      case 'EniLimitReached':
-        return ErrorCode.eniLimitReached;
-      case 'IpNotAvailable':
-        return ErrorCode.ipNotAvailable;
-      case 'AccessDenied':
-        return ErrorCode.accessDenied;
-      case 'OperationNotPermitted':
-        return ErrorCode.operationNotPermitted;
-      case 'VpcIdNotFound':
-        return ErrorCode.vpcIdNotFound;
-      case 'Unknown':
-        return ErrorCode.unknown;
-      case 'NodeCreationFailure':
-        return ErrorCode.nodeCreationFailure;
-      case 'PodEvictionFailure':
-        return ErrorCode.podEvictionFailure;
-      case 'InsufficientFreeAddresses':
-        return ErrorCode.insufficientFreeAddresses;
-      case 'ClusterUnreachable':
-        return ErrorCode.clusterUnreachable;
-      case 'InsufficientNumberOfReplicas':
-        return ErrorCode.insufficientNumberOfReplicas;
-      case 'ConfigurationConflict':
-        return ErrorCode.configurationConflict;
-      case 'AdmissionRequestDenied':
-        return ErrorCode.admissionRequestDenied;
-      case 'UnsupportedAddonModification':
-        return ErrorCode.unsupportedAddonModification;
-      case 'K8sResourceNotFound':
-        return ErrorCode.k8sResourceNotFound;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// An object representing an error when an asynchronous operation fails.
@@ -6467,7 +5991,7 @@ class ErrorDetail {
 
   factory ErrorDetail.fromJson(Map<String, dynamic> json) {
     return ErrorDetail(
-      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['errorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
       resourceIds: (json['resourceIds'] as List?)
           ?.whereNotNull()
@@ -6481,7 +6005,7 @@ class ErrorDetail {
     final errorMessage = this.errorMessage;
     final resourceIds = this.resourceIds;
     return {
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (resourceIds != null) 'resourceIds': resourceIds,
     };
@@ -6547,7 +6071,7 @@ class FargateProfile {
           .map(
               (e) => FargateProfileSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toFargateProfileStatus(),
+      status: (json['status'] as String?)?.let(FargateProfileStatus.fromString),
       subnets: (json['subnets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6575,7 +6099,7 @@ class FargateProfile {
       if (podExecutionRoleArn != null)
         'podExecutionRoleArn': podExecutionRoleArn,
       if (selectors != null) 'selectors': selectors,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subnets != null) 'subnets': subnets,
       if (tags != null) 'tags': tags,
     };
@@ -6616,46 +6140,21 @@ class FargateProfileSelector {
 }
 
 enum FargateProfileStatus {
-  creating,
-  active,
-  deleting,
-  createFailed,
-  deleteFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension FargateProfileStatusValueExtension on FargateProfileStatus {
-  String toValue() {
-    switch (this) {
-      case FargateProfileStatus.creating:
-        return 'CREATING';
-      case FargateProfileStatus.active:
-        return 'ACTIVE';
-      case FargateProfileStatus.deleting:
-        return 'DELETING';
-      case FargateProfileStatus.createFailed:
-        return 'CREATE_FAILED';
-      case FargateProfileStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FargateProfileStatusFromString on String {
-  FargateProfileStatus toFargateProfileStatus() {
-    switch (this) {
-      case 'CREATING':
-        return FargateProfileStatus.creating;
-      case 'ACTIVE':
-        return FargateProfileStatus.active;
-      case 'DELETING':
-        return FargateProfileStatus.deleting;
-      case 'CREATE_FAILED':
-        return FargateProfileStatus.createFailed;
-      case 'DELETE_FAILED':
-        return FargateProfileStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum FargateProfileStatus');
-  }
+  const FargateProfileStatus(this.value);
+
+  static FargateProfileStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FargateProfileStatus'));
 }
 
 /// An object representing an identity provider.
@@ -6804,7 +6303,7 @@ class Insight {
     return Insight(
       additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      category: (json['category'] as String?)?.toCategory(),
+      category: (json['category'] as String?)?.let(Category.fromString),
       categorySpecificSummary: json['categorySpecificSummary'] != null
           ? InsightCategorySpecificSummary.fromJson(
               json['categorySpecificSummary'] as Map<String, dynamic>)
@@ -6842,7 +6341,7 @@ class Insight {
     final resources = this.resources;
     return {
       if (additionalInfo != null) 'additionalInfo': additionalInfo,
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (categorySpecificSummary != null)
         'categorySpecificSummary': categorySpecificSummary,
       if (description != null) 'description': description,
@@ -6946,7 +6445,7 @@ class InsightStatus {
   factory InsightStatus.fromJson(Map<String, dynamic> json) {
     return InsightStatus(
       reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.toInsightStatusValue(),
+      status: (json['status'] as String?)?.let(InsightStatusValue.fromString),
     );
   }
 
@@ -6955,47 +6454,26 @@ class InsightStatus {
     final status = this.status;
     return {
       if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum InsightStatusValue {
-  passing,
-  warning,
-  error,
-  unknown,
-}
+  passing('PASSING'),
+  warning('WARNING'),
+  error('ERROR'),
+  unknown('UNKNOWN'),
+  ;
 
-extension InsightStatusValueValueExtension on InsightStatusValue {
-  String toValue() {
-    switch (this) {
-      case InsightStatusValue.passing:
-        return 'PASSING';
-      case InsightStatusValue.warning:
-        return 'WARNING';
-      case InsightStatusValue.error:
-        return 'ERROR';
-      case InsightStatusValue.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension InsightStatusValueFromString on String {
-  InsightStatusValue toInsightStatusValue() {
-    switch (this) {
-      case 'PASSING':
-        return InsightStatusValue.passing;
-      case 'WARNING':
-        return InsightStatusValue.warning;
-      case 'ERROR':
-        return InsightStatusValue.error;
-      case 'UNKNOWN':
-        return InsightStatusValue.unknown;
-    }
-    throw Exception('$this is not known in enum InsightStatusValue');
-  }
+  const InsightStatusValue(this.value);
+
+  static InsightStatusValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InsightStatusValue'));
 }
 
 /// The summarized description of the insight.
@@ -7039,7 +6517,7 @@ class InsightSummary {
 
   factory InsightSummary.fromJson(Map<String, dynamic> json) {
     return InsightSummary(
-      category: (json['category'] as String?)?.toCategory(),
+      category: (json['category'] as String?)?.let(Category.fromString),
       description: json['description'] as String?,
       id: json['id'] as String?,
       insightStatus: json['insightStatus'] != null
@@ -7063,7 +6541,7 @@ class InsightSummary {
     final lastTransitionTime = this.lastTransitionTime;
     final name = this.name;
     return {
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (insightStatus != null) 'insightStatus': insightStatus,
@@ -7100,40 +6578,25 @@ class InsightsFilter {
     final statuses = this.statuses;
     return {
       if (categories != null)
-        'categories': categories.map((e) => e.toValue()).toList(),
+        'categories': categories.map((e) => e.value).toList(),
       if (kubernetesVersions != null) 'kubernetesVersions': kubernetesVersions,
-      if (statuses != null)
-        'statuses': statuses.map((e) => e.toValue()).toList(),
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
     };
   }
 }
 
 enum IpFamily {
-  ipv4,
-  ipv6,
-}
+  ipv4('ipv4'),
+  ipv6('ipv6'),
+  ;
 
-extension IpFamilyValueExtension on IpFamily {
-  String toValue() {
-    switch (this) {
-      case IpFamily.ipv4:
-        return 'ipv4';
-      case IpFamily.ipv6:
-        return 'ipv6';
-    }
-  }
-}
+  final String value;
 
-extension IpFamilyFromString on String {
-  IpFamily toIpFamily() {
-    switch (this) {
-      case 'ipv4':
-        return IpFamily.ipv4;
-      case 'ipv6':
-        return IpFamily.ipv6;
-    }
-    throw Exception('$this is not known in enum IpFamily');
-  }
+  const IpFamily(this.value);
+
+  static IpFamily fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IpFamily'));
 }
 
 /// An object representing an issue with an Amazon EKS resource.
@@ -7239,7 +6702,7 @@ class Issue {
 
   factory Issue.fromJson(Map<String, dynamic> json) {
     return Issue(
-      code: (json['code'] as String?)?.toNodegroupIssueCode(),
+      code: (json['code'] as String?)?.let(NodegroupIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
           ?.whereNotNull()
@@ -7253,7 +6716,7 @@ class Issue {
     final message = this.message;
     final resourceIds = this.resourceIds;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
       if (resourceIds != null) 'resourceIds': resourceIds,
     };
@@ -7318,7 +6781,7 @@ class KubernetesNetworkConfigRequest {
     final ipFamily = this.ipFamily;
     final serviceIpv4Cidr = this.serviceIpv4Cidr;
     return {
-      if (ipFamily != null) 'ipFamily': ipFamily.toValue(),
+      if (ipFamily != null) 'ipFamily': ipFamily.value,
       if (serviceIpv4Cidr != null) 'serviceIpv4Cidr': serviceIpv4Cidr,
     };
   }
@@ -7360,7 +6823,7 @@ class KubernetesNetworkConfigResponse {
 
   factory KubernetesNetworkConfigResponse.fromJson(Map<String, dynamic> json) {
     return KubernetesNetworkConfigResponse(
-      ipFamily: (json['ipFamily'] as String?)?.toIpFamily(),
+      ipFamily: (json['ipFamily'] as String?)?.let(IpFamily.fromString),
       serviceIpv4Cidr: json['serviceIpv4Cidr'] as String?,
       serviceIpv6Cidr: json['serviceIpv6Cidr'] as String?,
     );
@@ -7371,7 +6834,7 @@ class KubernetesNetworkConfigResponse {
     final serviceIpv4Cidr = this.serviceIpv4Cidr;
     final serviceIpv6Cidr = this.serviceIpv6Cidr;
     return {
-      if (ipFamily != null) 'ipFamily': ipFamily.toValue(),
+      if (ipFamily != null) 'ipFamily': ipFamily.value,
       if (serviceIpv4Cidr != null) 'serviceIpv4Cidr': serviceIpv4Cidr,
       if (serviceIpv6Cidr != null) 'serviceIpv6Cidr': serviceIpv6Cidr,
     };
@@ -8010,7 +7473,7 @@ class LogSetup {
       enabled: json['enabled'] as bool?,
       types: (json['types'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLogType())
+          .map((e) => LogType.fromString((e as String)))
           .toList(),
     );
   }
@@ -8020,52 +7483,26 @@ class LogSetup {
     final types = this.types;
     return {
       if (enabled != null) 'enabled': enabled,
-      if (types != null) 'types': types.map((e) => e.toValue()).toList(),
+      if (types != null) 'types': types.map((e) => e.value).toList(),
     };
   }
 }
 
 enum LogType {
-  api,
-  audit,
-  authenticator,
-  controllerManager,
-  scheduler,
-}
+  api('api'),
+  audit('audit'),
+  authenticator('authenticator'),
+  controllerManager('controllerManager'),
+  scheduler('scheduler'),
+  ;
 
-extension LogTypeValueExtension on LogType {
-  String toValue() {
-    switch (this) {
-      case LogType.api:
-        return 'api';
-      case LogType.audit:
-        return 'audit';
-      case LogType.authenticator:
-        return 'authenticator';
-      case LogType.controllerManager:
-        return 'controllerManager';
-      case LogType.scheduler:
-        return 'scheduler';
-    }
-  }
-}
+  final String value;
 
-extension LogTypeFromString on String {
-  LogType toLogType() {
-    switch (this) {
-      case 'api':
-        return LogType.api;
-      case 'audit':
-        return LogType.audit;
-      case 'authenticator':
-        return LogType.authenticator;
-      case 'controllerManager':
-        return LogType.controllerManager;
-      case 'scheduler':
-        return LogType.scheduler;
-    }
-    throw Exception('$this is not known in enum LogType');
-  }
+  const LogType(this.value);
+
+  static LogType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum LogType'));
 }
 
 /// An object representing the logging configuration for resources in your
@@ -8259,8 +7696,9 @@ class Nodegroup {
 
   factory Nodegroup.fromJson(Map<String, dynamic> json) {
     return Nodegroup(
-      amiType: (json['amiType'] as String?)?.toAMITypes(),
-      capacityType: (json['capacityType'] as String?)?.toCapacityTypes(),
+      amiType: (json['amiType'] as String?)?.let(AMITypes.fromString),
+      capacityType:
+          (json['capacityType'] as String?)?.let(CapacityTypes.fromString),
       clusterName: json['clusterName'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       diskSize: json['diskSize'] as int?,
@@ -8294,7 +7732,7 @@ class Nodegroup {
           ? NodegroupScalingConfig.fromJson(
               json['scalingConfig'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toNodegroupStatus(),
+      status: (json['status'] as String?)?.let(NodegroupStatus.fromString),
       subnets: (json['subnets'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -8338,8 +7776,8 @@ class Nodegroup {
     final updateConfig = this.updateConfig;
     final version = this.version;
     return {
-      if (amiType != null) 'amiType': amiType.toValue(),
-      if (capacityType != null) 'capacityType': capacityType.toValue(),
+      if (amiType != null) 'amiType': amiType.value,
+      if (capacityType != null) 'capacityType': capacityType.value,
       if (clusterName != null) 'clusterName': clusterName,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (diskSize != null) 'diskSize': diskSize,
@@ -8355,7 +7793,7 @@ class Nodegroup {
       if (remoteAccess != null) 'remoteAccess': remoteAccess,
       if (resources != null) 'resources': resources,
       if (scalingConfig != null) 'scalingConfig': scalingConfig,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subnets != null) 'subnets': subnets,
       if (tags != null) 'tags': tags,
       if (taints != null) 'taints': taints,
@@ -8392,196 +7830,54 @@ class NodegroupHealth {
 }
 
 enum NodegroupIssueCode {
-  autoScalingGroupNotFound,
-  autoScalingGroupInvalidConfiguration,
-  ec2SecurityGroupNotFound,
-  ec2SecurityGroupDeletionFailure,
-  ec2LaunchTemplateNotFound,
-  ec2LaunchTemplateVersionMismatch,
-  ec2SubnetNotFound,
-  ec2SubnetInvalidConfiguration,
-  iamInstanceProfileNotFound,
-  ec2SubnetMissingIpv6Assignment,
-  iamLimitExceeded,
-  iamNodeRoleNotFound,
-  nodeCreationFailure,
-  asgInstanceLaunchFailures,
-  instanceLimitExceeded,
-  insufficientFreeAddresses,
-  accessDenied,
-  internalFailure,
-  clusterUnreachable,
-  amiIdNotFound,
-  autoScalingGroupOptInRequired,
-  autoScalingGroupRateLimitExceeded,
-  ec2LaunchTemplateDeletionFailure,
-  ec2LaunchTemplateInvalidConfiguration,
-  ec2LaunchTemplateMaxLimitExceeded,
-  ec2SubnetListTooLong,
-  iamThrottling,
-  nodeTerminationFailure,
-  podEvictionFailure,
-  sourceEc2LaunchTemplateNotFound,
-  limitExceeded,
-  unknown,
-  autoScalingGroupInstanceRefreshActive,
-  kubernetesLabelInvalid,
-  ec2LaunchTemplateVersionMaxLimitExceeded,
-}
+  autoScalingGroupNotFound('AutoScalingGroupNotFound'),
+  autoScalingGroupInvalidConfiguration('AutoScalingGroupInvalidConfiguration'),
+  ec2SecurityGroupNotFound('Ec2SecurityGroupNotFound'),
+  ec2SecurityGroupDeletionFailure('Ec2SecurityGroupDeletionFailure'),
+  ec2LaunchTemplateNotFound('Ec2LaunchTemplateNotFound'),
+  ec2LaunchTemplateVersionMismatch('Ec2LaunchTemplateVersionMismatch'),
+  ec2SubnetNotFound('Ec2SubnetNotFound'),
+  ec2SubnetInvalidConfiguration('Ec2SubnetInvalidConfiguration'),
+  iamInstanceProfileNotFound('IamInstanceProfileNotFound'),
+  ec2SubnetMissingIpv6Assignment('Ec2SubnetMissingIpv6Assignment'),
+  iamLimitExceeded('IamLimitExceeded'),
+  iamNodeRoleNotFound('IamNodeRoleNotFound'),
+  nodeCreationFailure('NodeCreationFailure'),
+  asgInstanceLaunchFailures('AsgInstanceLaunchFailures'),
+  instanceLimitExceeded('InstanceLimitExceeded'),
+  insufficientFreeAddresses('InsufficientFreeAddresses'),
+  accessDenied('AccessDenied'),
+  internalFailure('InternalFailure'),
+  clusterUnreachable('ClusterUnreachable'),
+  amiIdNotFound('AmiIdNotFound'),
+  autoScalingGroupOptInRequired('AutoScalingGroupOptInRequired'),
+  autoScalingGroupRateLimitExceeded('AutoScalingGroupRateLimitExceeded'),
+  ec2LaunchTemplateDeletionFailure('Ec2LaunchTemplateDeletionFailure'),
+  ec2LaunchTemplateInvalidConfiguration(
+      'Ec2LaunchTemplateInvalidConfiguration'),
+  ec2LaunchTemplateMaxLimitExceeded('Ec2LaunchTemplateMaxLimitExceeded'),
+  ec2SubnetListTooLong('Ec2SubnetListTooLong'),
+  iamThrottling('IamThrottling'),
+  nodeTerminationFailure('NodeTerminationFailure'),
+  podEvictionFailure('PodEvictionFailure'),
+  sourceEc2LaunchTemplateNotFound('SourceEc2LaunchTemplateNotFound'),
+  limitExceeded('LimitExceeded'),
+  unknown('Unknown'),
+  autoScalingGroupInstanceRefreshActive(
+      'AutoScalingGroupInstanceRefreshActive'),
+  kubernetesLabelInvalid('KubernetesLabelInvalid'),
+  ec2LaunchTemplateVersionMaxLimitExceeded(
+      'Ec2LaunchTemplateVersionMaxLimitExceeded'),
+  ;
 
-extension NodegroupIssueCodeValueExtension on NodegroupIssueCode {
-  String toValue() {
-    switch (this) {
-      case NodegroupIssueCode.autoScalingGroupNotFound:
-        return 'AutoScalingGroupNotFound';
-      case NodegroupIssueCode.autoScalingGroupInvalidConfiguration:
-        return 'AutoScalingGroupInvalidConfiguration';
-      case NodegroupIssueCode.ec2SecurityGroupNotFound:
-        return 'Ec2SecurityGroupNotFound';
-      case NodegroupIssueCode.ec2SecurityGroupDeletionFailure:
-        return 'Ec2SecurityGroupDeletionFailure';
-      case NodegroupIssueCode.ec2LaunchTemplateNotFound:
-        return 'Ec2LaunchTemplateNotFound';
-      case NodegroupIssueCode.ec2LaunchTemplateVersionMismatch:
-        return 'Ec2LaunchTemplateVersionMismatch';
-      case NodegroupIssueCode.ec2SubnetNotFound:
-        return 'Ec2SubnetNotFound';
-      case NodegroupIssueCode.ec2SubnetInvalidConfiguration:
-        return 'Ec2SubnetInvalidConfiguration';
-      case NodegroupIssueCode.iamInstanceProfileNotFound:
-        return 'IamInstanceProfileNotFound';
-      case NodegroupIssueCode.ec2SubnetMissingIpv6Assignment:
-        return 'Ec2SubnetMissingIpv6Assignment';
-      case NodegroupIssueCode.iamLimitExceeded:
-        return 'IamLimitExceeded';
-      case NodegroupIssueCode.iamNodeRoleNotFound:
-        return 'IamNodeRoleNotFound';
-      case NodegroupIssueCode.nodeCreationFailure:
-        return 'NodeCreationFailure';
-      case NodegroupIssueCode.asgInstanceLaunchFailures:
-        return 'AsgInstanceLaunchFailures';
-      case NodegroupIssueCode.instanceLimitExceeded:
-        return 'InstanceLimitExceeded';
-      case NodegroupIssueCode.insufficientFreeAddresses:
-        return 'InsufficientFreeAddresses';
-      case NodegroupIssueCode.accessDenied:
-        return 'AccessDenied';
-      case NodegroupIssueCode.internalFailure:
-        return 'InternalFailure';
-      case NodegroupIssueCode.clusterUnreachable:
-        return 'ClusterUnreachable';
-      case NodegroupIssueCode.amiIdNotFound:
-        return 'AmiIdNotFound';
-      case NodegroupIssueCode.autoScalingGroupOptInRequired:
-        return 'AutoScalingGroupOptInRequired';
-      case NodegroupIssueCode.autoScalingGroupRateLimitExceeded:
-        return 'AutoScalingGroupRateLimitExceeded';
-      case NodegroupIssueCode.ec2LaunchTemplateDeletionFailure:
-        return 'Ec2LaunchTemplateDeletionFailure';
-      case NodegroupIssueCode.ec2LaunchTemplateInvalidConfiguration:
-        return 'Ec2LaunchTemplateInvalidConfiguration';
-      case NodegroupIssueCode.ec2LaunchTemplateMaxLimitExceeded:
-        return 'Ec2LaunchTemplateMaxLimitExceeded';
-      case NodegroupIssueCode.ec2SubnetListTooLong:
-        return 'Ec2SubnetListTooLong';
-      case NodegroupIssueCode.iamThrottling:
-        return 'IamThrottling';
-      case NodegroupIssueCode.nodeTerminationFailure:
-        return 'NodeTerminationFailure';
-      case NodegroupIssueCode.podEvictionFailure:
-        return 'PodEvictionFailure';
-      case NodegroupIssueCode.sourceEc2LaunchTemplateNotFound:
-        return 'SourceEc2LaunchTemplateNotFound';
-      case NodegroupIssueCode.limitExceeded:
-        return 'LimitExceeded';
-      case NodegroupIssueCode.unknown:
-        return 'Unknown';
-      case NodegroupIssueCode.autoScalingGroupInstanceRefreshActive:
-        return 'AutoScalingGroupInstanceRefreshActive';
-      case NodegroupIssueCode.kubernetesLabelInvalid:
-        return 'KubernetesLabelInvalid';
-      case NodegroupIssueCode.ec2LaunchTemplateVersionMaxLimitExceeded:
-        return 'Ec2LaunchTemplateVersionMaxLimitExceeded';
-    }
-  }
-}
+  final String value;
 
-extension NodegroupIssueCodeFromString on String {
-  NodegroupIssueCode toNodegroupIssueCode() {
-    switch (this) {
-      case 'AutoScalingGroupNotFound':
-        return NodegroupIssueCode.autoScalingGroupNotFound;
-      case 'AutoScalingGroupInvalidConfiguration':
-        return NodegroupIssueCode.autoScalingGroupInvalidConfiguration;
-      case 'Ec2SecurityGroupNotFound':
-        return NodegroupIssueCode.ec2SecurityGroupNotFound;
-      case 'Ec2SecurityGroupDeletionFailure':
-        return NodegroupIssueCode.ec2SecurityGroupDeletionFailure;
-      case 'Ec2LaunchTemplateNotFound':
-        return NodegroupIssueCode.ec2LaunchTemplateNotFound;
-      case 'Ec2LaunchTemplateVersionMismatch':
-        return NodegroupIssueCode.ec2LaunchTemplateVersionMismatch;
-      case 'Ec2SubnetNotFound':
-        return NodegroupIssueCode.ec2SubnetNotFound;
-      case 'Ec2SubnetInvalidConfiguration':
-        return NodegroupIssueCode.ec2SubnetInvalidConfiguration;
-      case 'IamInstanceProfileNotFound':
-        return NodegroupIssueCode.iamInstanceProfileNotFound;
-      case 'Ec2SubnetMissingIpv6Assignment':
-        return NodegroupIssueCode.ec2SubnetMissingIpv6Assignment;
-      case 'IamLimitExceeded':
-        return NodegroupIssueCode.iamLimitExceeded;
-      case 'IamNodeRoleNotFound':
-        return NodegroupIssueCode.iamNodeRoleNotFound;
-      case 'NodeCreationFailure':
-        return NodegroupIssueCode.nodeCreationFailure;
-      case 'AsgInstanceLaunchFailures':
-        return NodegroupIssueCode.asgInstanceLaunchFailures;
-      case 'InstanceLimitExceeded':
-        return NodegroupIssueCode.instanceLimitExceeded;
-      case 'InsufficientFreeAddresses':
-        return NodegroupIssueCode.insufficientFreeAddresses;
-      case 'AccessDenied':
-        return NodegroupIssueCode.accessDenied;
-      case 'InternalFailure':
-        return NodegroupIssueCode.internalFailure;
-      case 'ClusterUnreachable':
-        return NodegroupIssueCode.clusterUnreachable;
-      case 'AmiIdNotFound':
-        return NodegroupIssueCode.amiIdNotFound;
-      case 'AutoScalingGroupOptInRequired':
-        return NodegroupIssueCode.autoScalingGroupOptInRequired;
-      case 'AutoScalingGroupRateLimitExceeded':
-        return NodegroupIssueCode.autoScalingGroupRateLimitExceeded;
-      case 'Ec2LaunchTemplateDeletionFailure':
-        return NodegroupIssueCode.ec2LaunchTemplateDeletionFailure;
-      case 'Ec2LaunchTemplateInvalidConfiguration':
-        return NodegroupIssueCode.ec2LaunchTemplateInvalidConfiguration;
-      case 'Ec2LaunchTemplateMaxLimitExceeded':
-        return NodegroupIssueCode.ec2LaunchTemplateMaxLimitExceeded;
-      case 'Ec2SubnetListTooLong':
-        return NodegroupIssueCode.ec2SubnetListTooLong;
-      case 'IamThrottling':
-        return NodegroupIssueCode.iamThrottling;
-      case 'NodeTerminationFailure':
-        return NodegroupIssueCode.nodeTerminationFailure;
-      case 'PodEvictionFailure':
-        return NodegroupIssueCode.podEvictionFailure;
-      case 'SourceEc2LaunchTemplateNotFound':
-        return NodegroupIssueCode.sourceEc2LaunchTemplateNotFound;
-      case 'LimitExceeded':
-        return NodegroupIssueCode.limitExceeded;
-      case 'Unknown':
-        return NodegroupIssueCode.unknown;
-      case 'AutoScalingGroupInstanceRefreshActive':
-        return NodegroupIssueCode.autoScalingGroupInstanceRefreshActive;
-      case 'KubernetesLabelInvalid':
-        return NodegroupIssueCode.kubernetesLabelInvalid;
-      case 'Ec2LaunchTemplateVersionMaxLimitExceeded':
-        return NodegroupIssueCode.ec2LaunchTemplateVersionMaxLimitExceeded;
-    }
-    throw Exception('$this is not known in enum NodegroupIssueCode');
-  }
+  const NodegroupIssueCode(this.value);
+
+  static NodegroupIssueCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NodegroupIssueCode'));
 }
 
 /// An object representing the resources associated with the node group, such as
@@ -8686,56 +7982,23 @@ class NodegroupScalingConfig {
 }
 
 enum NodegroupStatus {
-  creating,
-  active,
-  updating,
-  deleting,
-  createFailed,
-  deleteFailed,
-  degraded,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  createFailed('CREATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  degraded('DEGRADED'),
+  ;
 
-extension NodegroupStatusValueExtension on NodegroupStatus {
-  String toValue() {
-    switch (this) {
-      case NodegroupStatus.creating:
-        return 'CREATING';
-      case NodegroupStatus.active:
-        return 'ACTIVE';
-      case NodegroupStatus.updating:
-        return 'UPDATING';
-      case NodegroupStatus.deleting:
-        return 'DELETING';
-      case NodegroupStatus.createFailed:
-        return 'CREATE_FAILED';
-      case NodegroupStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case NodegroupStatus.degraded:
-        return 'DEGRADED';
-    }
-  }
-}
+  final String value;
 
-extension NodegroupStatusFromString on String {
-  NodegroupStatus toNodegroupStatus() {
-    switch (this) {
-      case 'CREATING':
-        return NodegroupStatus.creating;
-      case 'ACTIVE':
-        return NodegroupStatus.active;
-      case 'UPDATING':
-        return NodegroupStatus.updating;
-      case 'DELETING':
-        return NodegroupStatus.deleting;
-      case 'CREATE_FAILED':
-        return NodegroupStatus.createFailed;
-      case 'DELETE_FAILED':
-        return NodegroupStatus.deleteFailed;
-      case 'DEGRADED':
-        return NodegroupStatus.degraded;
-    }
-    throw Exception('$this is not known in enum NodegroupStatus');
-  }
+  const NodegroupStatus(this.value);
+
+  static NodegroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NodegroupStatus'));
 }
 
 /// The node group update configuration.
@@ -8874,7 +8137,7 @@ class OidcIdentityProviderConfig {
       issuerUrl: json['issuerUrl'] as String?,
       requiredClaims: (json['requiredClaims'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.toConfigStatus(),
+      status: (json['status'] as String?)?.let(ConfigStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       usernameClaim: json['usernameClaim'] as String?,
@@ -8906,7 +8169,7 @@ class OidcIdentityProviderConfig {
         'identityProviderConfigName': identityProviderConfigName,
       if (issuerUrl != null) 'issuerUrl': issuerUrl,
       if (requiredClaims != null) 'requiredClaims': requiredClaims,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (usernameClaim != null) 'usernameClaim': usernameClaim,
       if (usernamePrefix != null) 'usernamePrefix': usernamePrefix,
@@ -9420,36 +8683,19 @@ class RemoteAccessConfig {
 }
 
 enum ResolveConflicts {
-  overwrite,
-  none,
-  preserve,
-}
+  overwrite('OVERWRITE'),
+  none('NONE'),
+  preserve('PRESERVE'),
+  ;
 
-extension ResolveConflictsValueExtension on ResolveConflicts {
-  String toValue() {
-    switch (this) {
-      case ResolveConflicts.overwrite:
-        return 'OVERWRITE';
-      case ResolveConflicts.none:
-        return 'NONE';
-      case ResolveConflicts.preserve:
-        return 'PRESERVE';
-    }
-  }
-}
+  final String value;
 
-extension ResolveConflictsFromString on String {
-  ResolveConflicts toResolveConflicts() {
-    switch (this) {
-      case 'OVERWRITE':
-        return ResolveConflicts.overwrite;
-      case 'NONE':
-        return ResolveConflicts.none;
-      case 'PRESERVE':
-        return ResolveConflicts.preserve;
-    }
-    throw Exception('$this is not known in enum ResolveConflicts');
-  }
+  const ResolveConflicts(this.value);
+
+  static ResolveConflicts fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResolveConflicts'));
 }
 
 class TagResourceResponse {
@@ -9486,7 +8732,7 @@ class Taint {
 
   factory Taint.fromJson(Map<String, dynamic> json) {
     return Taint(
-      effect: (json['effect'] as String?)?.toTaintEffect(),
+      effect: (json['effect'] as String?)?.let(TaintEffect.fromString),
       key: json['key'] as String?,
       value: json['value'] as String?,
     );
@@ -9497,7 +8743,7 @@ class Taint {
     final key = this.key;
     final value = this.value;
     return {
-      if (effect != null) 'effect': effect.toValue(),
+      if (effect != null) 'effect': effect.value,
       if (key != null) 'key': key,
       if (value != null) 'value': value,
     };
@@ -9505,36 +8751,18 @@ class Taint {
 }
 
 enum TaintEffect {
-  noSchedule,
-  noExecute,
-  preferNoSchedule,
-}
+  noSchedule('NO_SCHEDULE'),
+  noExecute('NO_EXECUTE'),
+  preferNoSchedule('PREFER_NO_SCHEDULE'),
+  ;
 
-extension TaintEffectValueExtension on TaintEffect {
-  String toValue() {
-    switch (this) {
-      case TaintEffect.noSchedule:
-        return 'NO_SCHEDULE';
-      case TaintEffect.noExecute:
-        return 'NO_EXECUTE';
-      case TaintEffect.preferNoSchedule:
-        return 'PREFER_NO_SCHEDULE';
-    }
-  }
-}
+  final String value;
 
-extension TaintEffectFromString on String {
-  TaintEffect toTaintEffect() {
-    switch (this) {
-      case 'NO_SCHEDULE':
-        return TaintEffect.noSchedule;
-      case 'NO_EXECUTE':
-        return TaintEffect.noExecute;
-      case 'PREFER_NO_SCHEDULE':
-        return TaintEffect.preferNoSchedule;
-    }
-    throw Exception('$this is not known in enum TaintEffect');
-  }
+  const TaintEffect(this.value);
+
+  static TaintEffect fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaintEffect'));
 }
 
 class UntagResourceResponse {
@@ -9590,8 +8818,8 @@ class Update {
           ?.whereNotNull()
           .map((e) => UpdateParam.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toUpdateStatus(),
-      type: (json['type'] as String?)?.toUpdateType(),
+      status: (json['status'] as String?)?.let(UpdateStatus.fromString),
+      type: (json['type'] as String?)?.let(UpdateType.fromString),
     );
   }
 
@@ -9607,8 +8835,8 @@ class Update {
       if (errors != null) 'errors': errors,
       if (id != null) 'id': id,
       if (params != null) 'params': params,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -9626,7 +8854,7 @@ class UpdateAccessConfigRequest {
     final authenticationMode = this.authenticationMode;
     return {
       if (authenticationMode != null)
-        'authenticationMode': authenticationMode.toValue(),
+        'authenticationMode': authenticationMode.value,
     };
   }
 }
@@ -9836,7 +9064,7 @@ class UpdateParam {
 
   factory UpdateParam.fromJson(Map<String, dynamic> json) {
     return UpdateParam(
-      type: (json['type'] as String?)?.toUpdateParamType(),
+      type: (json['type'] as String?)?.let(UpdateParamType.fromString),
       value: json['value'] as String?,
     );
   }
@@ -9845,168 +9073,51 @@ class UpdateParam {
     final type = this.type;
     final value = this.value;
     return {
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum UpdateParamType {
-  version,
-  platformVersion,
-  endpointPrivateAccess,
-  endpointPublicAccess,
-  clusterLogging,
-  desiredSize,
-  labelsToAdd,
-  labelsToRemove,
-  taintsToAdd,
-  taintsToRemove,
-  maxSize,
-  minSize,
-  releaseVersion,
-  publicAccessCidrs,
-  launchTemplateName,
-  launchTemplateVersion,
-  identityProviderConfig,
-  encryptionConfig,
-  addonVersion,
-  serviceAccountRoleArn,
-  resolveConflicts,
-  maxUnavailable,
-  maxUnavailablePercentage,
-  configurationValues,
-  securityGroups,
-  subnets,
-  authenticationMode,
-  podIdentityAssociations,
-}
+  version('Version'),
+  platformVersion('PlatformVersion'),
+  endpointPrivateAccess('EndpointPrivateAccess'),
+  endpointPublicAccess('EndpointPublicAccess'),
+  clusterLogging('ClusterLogging'),
+  desiredSize('DesiredSize'),
+  labelsToAdd('LabelsToAdd'),
+  labelsToRemove('LabelsToRemove'),
+  taintsToAdd('TaintsToAdd'),
+  taintsToRemove('TaintsToRemove'),
+  maxSize('MaxSize'),
+  minSize('MinSize'),
+  releaseVersion('ReleaseVersion'),
+  publicAccessCidrs('PublicAccessCidrs'),
+  launchTemplateName('LaunchTemplateName'),
+  launchTemplateVersion('LaunchTemplateVersion'),
+  identityProviderConfig('IdentityProviderConfig'),
+  encryptionConfig('EncryptionConfig'),
+  addonVersion('AddonVersion'),
+  serviceAccountRoleArn('ServiceAccountRoleArn'),
+  resolveConflicts('ResolveConflicts'),
+  maxUnavailable('MaxUnavailable'),
+  maxUnavailablePercentage('MaxUnavailablePercentage'),
+  configurationValues('ConfigurationValues'),
+  securityGroups('SecurityGroups'),
+  subnets('Subnets'),
+  authenticationMode('AuthenticationMode'),
+  podIdentityAssociations('PodIdentityAssociations'),
+  ;
 
-extension UpdateParamTypeValueExtension on UpdateParamType {
-  String toValue() {
-    switch (this) {
-      case UpdateParamType.version:
-        return 'Version';
-      case UpdateParamType.platformVersion:
-        return 'PlatformVersion';
-      case UpdateParamType.endpointPrivateAccess:
-        return 'EndpointPrivateAccess';
-      case UpdateParamType.endpointPublicAccess:
-        return 'EndpointPublicAccess';
-      case UpdateParamType.clusterLogging:
-        return 'ClusterLogging';
-      case UpdateParamType.desiredSize:
-        return 'DesiredSize';
-      case UpdateParamType.labelsToAdd:
-        return 'LabelsToAdd';
-      case UpdateParamType.labelsToRemove:
-        return 'LabelsToRemove';
-      case UpdateParamType.taintsToAdd:
-        return 'TaintsToAdd';
-      case UpdateParamType.taintsToRemove:
-        return 'TaintsToRemove';
-      case UpdateParamType.maxSize:
-        return 'MaxSize';
-      case UpdateParamType.minSize:
-        return 'MinSize';
-      case UpdateParamType.releaseVersion:
-        return 'ReleaseVersion';
-      case UpdateParamType.publicAccessCidrs:
-        return 'PublicAccessCidrs';
-      case UpdateParamType.launchTemplateName:
-        return 'LaunchTemplateName';
-      case UpdateParamType.launchTemplateVersion:
-        return 'LaunchTemplateVersion';
-      case UpdateParamType.identityProviderConfig:
-        return 'IdentityProviderConfig';
-      case UpdateParamType.encryptionConfig:
-        return 'EncryptionConfig';
-      case UpdateParamType.addonVersion:
-        return 'AddonVersion';
-      case UpdateParamType.serviceAccountRoleArn:
-        return 'ServiceAccountRoleArn';
-      case UpdateParamType.resolveConflicts:
-        return 'ResolveConflicts';
-      case UpdateParamType.maxUnavailable:
-        return 'MaxUnavailable';
-      case UpdateParamType.maxUnavailablePercentage:
-        return 'MaxUnavailablePercentage';
-      case UpdateParamType.configurationValues:
-        return 'ConfigurationValues';
-      case UpdateParamType.securityGroups:
-        return 'SecurityGroups';
-      case UpdateParamType.subnets:
-        return 'Subnets';
-      case UpdateParamType.authenticationMode:
-        return 'AuthenticationMode';
-      case UpdateParamType.podIdentityAssociations:
-        return 'PodIdentityAssociations';
-    }
-  }
-}
+  final String value;
 
-extension UpdateParamTypeFromString on String {
-  UpdateParamType toUpdateParamType() {
-    switch (this) {
-      case 'Version':
-        return UpdateParamType.version;
-      case 'PlatformVersion':
-        return UpdateParamType.platformVersion;
-      case 'EndpointPrivateAccess':
-        return UpdateParamType.endpointPrivateAccess;
-      case 'EndpointPublicAccess':
-        return UpdateParamType.endpointPublicAccess;
-      case 'ClusterLogging':
-        return UpdateParamType.clusterLogging;
-      case 'DesiredSize':
-        return UpdateParamType.desiredSize;
-      case 'LabelsToAdd':
-        return UpdateParamType.labelsToAdd;
-      case 'LabelsToRemove':
-        return UpdateParamType.labelsToRemove;
-      case 'TaintsToAdd':
-        return UpdateParamType.taintsToAdd;
-      case 'TaintsToRemove':
-        return UpdateParamType.taintsToRemove;
-      case 'MaxSize':
-        return UpdateParamType.maxSize;
-      case 'MinSize':
-        return UpdateParamType.minSize;
-      case 'ReleaseVersion':
-        return UpdateParamType.releaseVersion;
-      case 'PublicAccessCidrs':
-        return UpdateParamType.publicAccessCidrs;
-      case 'LaunchTemplateName':
-        return UpdateParamType.launchTemplateName;
-      case 'LaunchTemplateVersion':
-        return UpdateParamType.launchTemplateVersion;
-      case 'IdentityProviderConfig':
-        return UpdateParamType.identityProviderConfig;
-      case 'EncryptionConfig':
-        return UpdateParamType.encryptionConfig;
-      case 'AddonVersion':
-        return UpdateParamType.addonVersion;
-      case 'ServiceAccountRoleArn':
-        return UpdateParamType.serviceAccountRoleArn;
-      case 'ResolveConflicts':
-        return UpdateParamType.resolveConflicts;
-      case 'MaxUnavailable':
-        return UpdateParamType.maxUnavailable;
-      case 'MaxUnavailablePercentage':
-        return UpdateParamType.maxUnavailablePercentage;
-      case 'ConfigurationValues':
-        return UpdateParamType.configurationValues;
-      case 'SecurityGroups':
-        return UpdateParamType.securityGroups;
-      case 'Subnets':
-        return UpdateParamType.subnets;
-      case 'AuthenticationMode':
-        return UpdateParamType.authenticationMode;
-      case 'PodIdentityAssociations':
-        return UpdateParamType.podIdentityAssociations;
-    }
-    throw Exception('$this is not known in enum UpdateParamType');
-  }
+  const UpdateParamType(this.value);
+
+  static UpdateParamType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateParamType'));
 }
 
 class UpdatePodIdentityAssociationResponse {
@@ -10036,41 +9147,20 @@ class UpdatePodIdentityAssociationResponse {
 }
 
 enum UpdateStatus {
-  inProgress,
-  failed,
-  cancelled,
-  successful,
-}
+  inProgress('InProgress'),
+  failed('Failed'),
+  cancelled('Cancelled'),
+  successful('Successful'),
+  ;
 
-extension UpdateStatusValueExtension on UpdateStatus {
-  String toValue() {
-    switch (this) {
-      case UpdateStatus.inProgress:
-        return 'InProgress';
-      case UpdateStatus.failed:
-        return 'Failed';
-      case UpdateStatus.cancelled:
-        return 'Cancelled';
-      case UpdateStatus.successful:
-        return 'Successful';
-    }
-  }
-}
+  final String value;
 
-extension UpdateStatusFromString on String {
-  UpdateStatus toUpdateStatus() {
-    switch (this) {
-      case 'InProgress':
-        return UpdateStatus.inProgress;
-      case 'Failed':
-        return UpdateStatus.failed;
-      case 'Cancelled':
-        return UpdateStatus.cancelled;
-      case 'Successful':
-        return UpdateStatus.successful;
-    }
-    throw Exception('$this is not known in enum UpdateStatus');
-  }
+  const UpdateStatus(this.value);
+
+  static UpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateStatus'));
 }
 
 /// An object representing the details of an update to a taints payload. For
@@ -10100,71 +9190,25 @@ class UpdateTaintsPayload {
 }
 
 enum UpdateType {
-  versionUpdate,
-  endpointAccessUpdate,
-  loggingUpdate,
-  configUpdate,
-  associateIdentityProviderConfig,
-  disassociateIdentityProviderConfig,
-  associateEncryptionConfig,
-  addonUpdate,
-  vpcConfigUpdate,
-  accessConfigUpdate,
-}
+  versionUpdate('VersionUpdate'),
+  endpointAccessUpdate('EndpointAccessUpdate'),
+  loggingUpdate('LoggingUpdate'),
+  configUpdate('ConfigUpdate'),
+  associateIdentityProviderConfig('AssociateIdentityProviderConfig'),
+  disassociateIdentityProviderConfig('DisassociateIdentityProviderConfig'),
+  associateEncryptionConfig('AssociateEncryptionConfig'),
+  addonUpdate('AddonUpdate'),
+  vpcConfigUpdate('VpcConfigUpdate'),
+  accessConfigUpdate('AccessConfigUpdate'),
+  ;
 
-extension UpdateTypeValueExtension on UpdateType {
-  String toValue() {
-    switch (this) {
-      case UpdateType.versionUpdate:
-        return 'VersionUpdate';
-      case UpdateType.endpointAccessUpdate:
-        return 'EndpointAccessUpdate';
-      case UpdateType.loggingUpdate:
-        return 'LoggingUpdate';
-      case UpdateType.configUpdate:
-        return 'ConfigUpdate';
-      case UpdateType.associateIdentityProviderConfig:
-        return 'AssociateIdentityProviderConfig';
-      case UpdateType.disassociateIdentityProviderConfig:
-        return 'DisassociateIdentityProviderConfig';
-      case UpdateType.associateEncryptionConfig:
-        return 'AssociateEncryptionConfig';
-      case UpdateType.addonUpdate:
-        return 'AddonUpdate';
-      case UpdateType.vpcConfigUpdate:
-        return 'VpcConfigUpdate';
-      case UpdateType.accessConfigUpdate:
-        return 'AccessConfigUpdate';
-    }
-  }
-}
+  final String value;
 
-extension UpdateTypeFromString on String {
-  UpdateType toUpdateType() {
-    switch (this) {
-      case 'VersionUpdate':
-        return UpdateType.versionUpdate;
-      case 'EndpointAccessUpdate':
-        return UpdateType.endpointAccessUpdate;
-      case 'LoggingUpdate':
-        return UpdateType.loggingUpdate;
-      case 'ConfigUpdate':
-        return UpdateType.configUpdate;
-      case 'AssociateIdentityProviderConfig':
-        return UpdateType.associateIdentityProviderConfig;
-      case 'DisassociateIdentityProviderConfig':
-        return UpdateType.disassociateIdentityProviderConfig;
-      case 'AssociateEncryptionConfig':
-        return UpdateType.associateEncryptionConfig;
-      case 'AddonUpdate':
-        return UpdateType.addonUpdate;
-      case 'VpcConfigUpdate':
-        return UpdateType.vpcConfigUpdate;
-      case 'AccessConfigUpdate':
-        return UpdateType.accessConfigUpdate;
-    }
-    throw Exception('$this is not known in enum UpdateType');
-  }
+  const UpdateType(this.value);
+
+  static UpdateType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UpdateType'));
 }
 
 /// An object representing the VPC configuration to use for an Amazon EKS
@@ -10340,36 +9384,19 @@ class VpcConfigResponse {
 }
 
 enum ConfigStatus {
-  creating,
-  deleting,
-  active,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  ;
 
-extension ConfigStatusValueExtension on ConfigStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigStatus.creating:
-        return 'CREATING';
-      case ConfigStatus.deleting:
-        return 'DELETING';
-      case ConfigStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ConfigStatusFromString on String {
-  ConfigStatus toConfigStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ConfigStatus.creating;
-      case 'DELETING':
-        return ConfigStatus.deleting;
-      case 'ACTIVE':
-        return ConfigStatus.active;
-    }
-    throw Exception('$this is not known in enum ConfigStatus');
-  }
+  const ConfigStatus(this.value);
+
+  static ConfigStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfigStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

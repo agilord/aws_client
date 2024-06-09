@@ -325,7 +325,7 @@ class CostOptimizationHub {
       // TODO queryParams
       headers: headers,
       payload: {
-        'status': status.toValue(),
+        'status': status.value,
         if (includeMemberAccounts != null)
           'includeMemberAccounts': includeMemberAccounts,
       },
@@ -365,9 +365,9 @@ class CostOptimizationHub {
       payload: {
         if (memberAccountDiscountVisibility != null)
           'memberAccountDiscountVisibility':
-              memberAccountDiscountVisibility.toValue(),
+              memberAccountDiscountVisibility.value,
         if (savingsEstimationMode != null)
-          'savingsEstimationMode': savingsEstimationMode.toValue(),
+          'savingsEstimationMode': savingsEstimationMode.value,
       },
     );
 
@@ -402,7 +402,7 @@ class AccountEnrollmentStatus {
       accountId: json['accountId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       lastUpdatedTimestamp: timeStampFromJson(json['lastUpdatedTimestamp']),
-      status: (json['status'] as String?)?.toEnrollmentStatus(),
+      status: (json['status'] as String?)?.let(EnrollmentStatus.fromString),
     );
   }
 
@@ -417,57 +417,27 @@ class AccountEnrollmentStatus {
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (lastUpdatedTimestamp != null)
         'lastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ActionType {
-  rightsize,
-  stop,
-  upgrade,
-  purchaseSavingsPlans,
-  purchaseReservedInstances,
-  migrateToGraviton,
-}
+  rightsize('Rightsize'),
+  stop('Stop'),
+  upgrade('Upgrade'),
+  purchaseSavingsPlans('PurchaseSavingsPlans'),
+  purchaseReservedInstances('PurchaseReservedInstances'),
+  migrateToGraviton('MigrateToGraviton'),
+  ;
 
-extension ActionTypeValueExtension on ActionType {
-  String toValue() {
-    switch (this) {
-      case ActionType.rightsize:
-        return 'Rightsize';
-      case ActionType.stop:
-        return 'Stop';
-      case ActionType.upgrade:
-        return 'Upgrade';
-      case ActionType.purchaseSavingsPlans:
-        return 'PurchaseSavingsPlans';
-      case ActionType.purchaseReservedInstances:
-        return 'PurchaseReservedInstances';
-      case ActionType.migrateToGraviton:
-        return 'MigrateToGraviton';
-    }
-  }
-}
+  final String value;
 
-extension ActionTypeFromString on String {
-  ActionType toActionType() {
-    switch (this) {
-      case 'Rightsize':
-        return ActionType.rightsize;
-      case 'Stop':
-        return ActionType.stop;
-      case 'Upgrade':
-        return ActionType.upgrade;
-      case 'PurchaseSavingsPlans':
-        return ActionType.purchaseSavingsPlans;
-      case 'PurchaseReservedInstances':
-        return ActionType.purchaseReservedInstances;
-      case 'MigrateToGraviton':
-        return ActionType.migrateToGraviton;
-    }
-    throw Exception('$this is not known in enum ActionType');
-  }
+  const ActionType(this.value);
+
+  static ActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionType'));
 }
 
 /// Describes the Amazon Elastic Block Store performance configuration of the
@@ -1322,31 +1292,18 @@ class ElastiCacheReservedInstancesConfiguration {
 }
 
 enum EnrollmentStatus {
-  active,
-  inactive,
-}
+  active('Active'),
+  inactive('Inactive'),
+  ;
 
-extension EnrollmentStatusValueExtension on EnrollmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnrollmentStatus.active:
-        return 'Active';
-      case EnrollmentStatus.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension EnrollmentStatusFromString on String {
-  EnrollmentStatus toEnrollmentStatus() {
-    switch (this) {
-      case 'Active':
-        return EnrollmentStatus.active;
-      case 'Inactive':
-        return EnrollmentStatus.inactive;
-    }
-    throw Exception('$this is not known in enum EnrollmentStatus');
-  }
+  const EnrollmentStatus(this.value);
+
+  static EnrollmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnrollmentStatus'));
 }
 
 /// Estimated discount details of the current and recommended resource
@@ -1456,16 +1413,16 @@ class Filter {
     return {
       if (accountIds != null) 'accountIds': accountIds,
       if (actionTypes != null)
-        'actionTypes': actionTypes.map((e) => e.toValue()).toList(),
+        'actionTypes': actionTypes.map((e) => e.value).toList(),
       if (implementationEfforts != null)
         'implementationEfforts':
-            implementationEfforts.map((e) => e.toValue()).toList(),
+            implementationEfforts.map((e) => e.value).toList(),
       if (recommendationIds != null) 'recommendationIds': recommendationIds,
       if (regions != null) 'regions': regions,
       if (resourceArns != null) 'resourceArns': resourceArns,
       if (resourceIds != null) 'resourceIds': resourceIds,
       if (resourceTypes != null)
-        'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
       if (restartNeeded != null) 'restartNeeded': restartNeeded,
       if (rollbackPossible != null) 'rollbackPossible': rollbackPossible,
       if (tags != null) 'tags': tags,
@@ -1489,9 +1446,9 @@ class GetPreferencesResponse {
     return GetPreferencesResponse(
       memberAccountDiscountVisibility:
           (json['memberAccountDiscountVisibility'] as String?)
-              ?.toMemberAccountDiscountVisibility(),
-      savingsEstimationMode:
-          (json['savingsEstimationMode'] as String?)?.toSavingsEstimationMode(),
+              ?.let(MemberAccountDiscountVisibility.fromString),
+      savingsEstimationMode: (json['savingsEstimationMode'] as String?)
+          ?.let(SavingsEstimationMode.fromString),
     );
   }
 
@@ -1502,9 +1459,9 @@ class GetPreferencesResponse {
     return {
       if (memberAccountDiscountVisibility != null)
         'memberAccountDiscountVisibility':
-            memberAccountDiscountVisibility.toValue(),
+            memberAccountDiscountVisibility.value,
       if (savingsEstimationMode != null)
-        'savingsEstimationMode': savingsEstimationMode.toValue(),
+        'savingsEstimationMode': savingsEstimationMode.value,
     };
   }
 }
@@ -1612,7 +1569,7 @@ class GetRecommendationResponse {
   factory GetRecommendationResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationResponse(
       accountId: json['accountId'] as String?,
-      actionType: (json['actionType'] as String?)?.toActionType(),
+      actionType: (json['actionType'] as String?)?.let(ActionType.fromString),
       costCalculationLookbackPeriodInDays:
           json['costCalculationLookbackPeriodInDays'] as int?,
       currencyCode: json['currencyCode'] as String?,
@@ -1620,15 +1577,15 @@ class GetRecommendationResponse {
           ? ResourceDetails.fromJson(
               json['currentResourceDetails'] as Map<String, dynamic>)
           : null,
-      currentResourceType:
-          (json['currentResourceType'] as String?)?.toResourceType(),
+      currentResourceType: (json['currentResourceType'] as String?)
+          ?.let(ResourceType.fromString),
       estimatedMonthlyCost: json['estimatedMonthlyCost'] as double?,
       estimatedMonthlySavings: json['estimatedMonthlySavings'] as double?,
       estimatedSavingsOverCostCalculationLookbackPeriod:
           json['estimatedSavingsOverCostCalculationLookbackPeriod'] as double?,
       estimatedSavingsPercentage: json['estimatedSavingsPercentage'] as double?,
-      implementationEffort:
-          (json['implementationEffort'] as String?)?.toImplementationEffort(),
+      implementationEffort: (json['implementationEffort'] as String?)
+          ?.let(ImplementationEffort.fromString),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       recommendationId: json['recommendationId'] as String?,
       recommendationLookbackPeriodInDays:
@@ -1637,14 +1594,14 @@ class GetRecommendationResponse {
           ? ResourceDetails.fromJson(
               json['recommendedResourceDetails'] as Map<String, dynamic>)
           : null,
-      recommendedResourceType:
-          (json['recommendedResourceType'] as String?)?.toResourceType(),
+      recommendedResourceType: (json['recommendedResourceType'] as String?)
+          ?.let(ResourceType.fromString),
       region: json['region'] as String?,
       resourceArn: json['resourceArn'] as String?,
       resourceId: json['resourceId'] as String?,
       restartNeeded: json['restartNeeded'] as bool?,
       rollbackPossible: json['rollbackPossible'] as bool?,
-      source: (json['source'] as String?)?.toSource(),
+      source: (json['source'] as String?)?.let(Source.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -1681,7 +1638,7 @@ class GetRecommendationResponse {
     final tags = this.tags;
     return {
       if (accountId != null) 'accountId': accountId,
-      if (actionType != null) 'actionType': actionType.toValue(),
+      if (actionType != null) 'actionType': actionType.value,
       if (costCalculationLookbackPeriodInDays != null)
         'costCalculationLookbackPeriodInDays':
             costCalculationLookbackPeriodInDays,
@@ -1689,7 +1646,7 @@ class GetRecommendationResponse {
       if (currentResourceDetails != null)
         'currentResourceDetails': currentResourceDetails,
       if (currentResourceType != null)
-        'currentResourceType': currentResourceType.toValue(),
+        'currentResourceType': currentResourceType.value,
       if (estimatedMonthlyCost != null)
         'estimatedMonthlyCost': estimatedMonthlyCost,
       if (estimatedMonthlySavings != null)
@@ -1700,7 +1657,7 @@ class GetRecommendationResponse {
       if (estimatedSavingsPercentage != null)
         'estimatedSavingsPercentage': estimatedSavingsPercentage,
       if (implementationEffort != null)
-        'implementationEffort': implementationEffort.toValue(),
+        'implementationEffort': implementationEffort.value,
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (recommendationId != null) 'recommendationId': recommendationId,
@@ -1710,59 +1667,34 @@ class GetRecommendationResponse {
       if (recommendedResourceDetails != null)
         'recommendedResourceDetails': recommendedResourceDetails,
       if (recommendedResourceType != null)
-        'recommendedResourceType': recommendedResourceType.toValue(),
+        'recommendedResourceType': recommendedResourceType.value,
       if (region != null) 'region': region,
       if (resourceArn != null) 'resourceArn': resourceArn,
       if (resourceId != null) 'resourceId': resourceId,
       if (restartNeeded != null) 'restartNeeded': restartNeeded,
       if (rollbackPossible != null) 'rollbackPossible': rollbackPossible,
-      if (source != null) 'source': source.toValue(),
+      if (source != null) 'source': source.value,
       if (tags != null) 'tags': tags,
     };
   }
 }
 
 enum ImplementationEffort {
-  veryLow,
-  low,
-  medium,
-  high,
-  veryHigh,
-}
+  veryLow('VeryLow'),
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  veryHigh('VeryHigh'),
+  ;
 
-extension ImplementationEffortValueExtension on ImplementationEffort {
-  String toValue() {
-    switch (this) {
-      case ImplementationEffort.veryLow:
-        return 'VeryLow';
-      case ImplementationEffort.low:
-        return 'Low';
-      case ImplementationEffort.medium:
-        return 'Medium';
-      case ImplementationEffort.high:
-        return 'High';
-      case ImplementationEffort.veryHigh:
-        return 'VeryHigh';
-    }
-  }
-}
+  final String value;
 
-extension ImplementationEffortFromString on String {
-  ImplementationEffort toImplementationEffort() {
-    switch (this) {
-      case 'VeryLow':
-        return ImplementationEffort.veryLow;
-      case 'Low':
-        return ImplementationEffort.low;
-      case 'Medium':
-        return ImplementationEffort.medium;
-      case 'High':
-        return ImplementationEffort.high;
-      case 'VeryHigh':
-        return ImplementationEffort.veryHigh;
-    }
-    throw Exception('$this is not known in enum ImplementationEffort');
-  }
+  const ImplementationEffort(this.value);
+
+  static ImplementationEffort fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImplementationEffort'));
 }
 
 /// The Instance configuration used for recommendations.
@@ -1982,33 +1914,18 @@ class ListRecommendationsResponse {
 }
 
 enum MemberAccountDiscountVisibility {
-  all,
-  none,
-}
+  all('All'),
+  none('None'),
+  ;
 
-extension MemberAccountDiscountVisibilityValueExtension
-    on MemberAccountDiscountVisibility {
-  String toValue() {
-    switch (this) {
-      case MemberAccountDiscountVisibility.all:
-        return 'All';
-      case MemberAccountDiscountVisibility.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension MemberAccountDiscountVisibilityFromString on String {
-  MemberAccountDiscountVisibility toMemberAccountDiscountVisibility() {
-    switch (this) {
-      case 'All':
-        return MemberAccountDiscountVisibility.all;
-      case 'None':
-        return MemberAccountDiscountVisibility.none;
-    }
-    throw Exception(
-        '$this is not known in enum MemberAccountDiscountVisibility');
-  }
+  const MemberAccountDiscountVisibility(this.value);
+
+  static MemberAccountDiscountVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MemberAccountDiscountVisibility'));
 }
 
 /// The OpenSearch reserved instances recommendation details.
@@ -2156,31 +2073,17 @@ class OpenSearchReservedInstancesConfiguration {
 }
 
 enum Order {
-  asc,
-  desc,
-}
+  asc('Asc'),
+  desc('Desc'),
+  ;
 
-extension OrderValueExtension on Order {
-  String toValue() {
-    switch (this) {
-      case Order.asc:
-        return 'Asc';
-      case Order.desc:
-        return 'Desc';
-    }
-  }
-}
+  final String value;
 
-extension OrderFromString on String {
-  Order toOrder() {
-    switch (this) {
-      case 'Asc':
-        return Order.asc;
-      case 'Desc':
-        return Order.desc;
-    }
-    throw Exception('$this is not known in enum Order');
-  }
+  const Order(this.value);
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Order'));
 }
 
 /// Defines how rows will be sorted in the response.
@@ -2201,7 +2104,7 @@ class OrderBy {
     final order = this.order;
     return {
       if (dimension != null) 'dimension': dimension,
-      if (order != null) 'order': order.toValue(),
+      if (order != null) 'order': order.value,
     };
   }
 }
@@ -2499,7 +2402,7 @@ class Recommendation {
       resourceId: json['resourceId'] as String?,
       restartNeeded: json['restartNeeded'] as bool?,
       rollbackPossible: json['rollbackPossible'] as bool?,
-      source: (json['source'] as String?)?.toSource(),
+      source: (json['source'] as String?)?.let(Source.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -2561,7 +2464,7 @@ class Recommendation {
       if (resourceId != null) 'resourceId': resourceId,
       if (restartNeeded != null) 'restartNeeded': restartNeeded,
       if (rollbackPossible != null) 'rollbackPossible': rollbackPossible,
-      if (source != null) 'source': source.toValue(),
+      if (source != null) 'source': source.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -3084,86 +2987,29 @@ class ResourcePricing {
 }
 
 enum ResourceType {
-  ec2Instance,
-  lambdaFunction,
-  ebsVolume,
-  ecsService,
-  ec2AutoScalingGroup,
-  ec2InstanceSavingsPlans,
-  computeSavingsPlans,
-  sageMakerSavingsPlans,
-  ec2ReservedInstances,
-  rdsReservedInstances,
-  openSearchReservedInstances,
-  redshiftReservedInstances,
-  elastiCacheReservedInstances,
-}
+  ec2Instance('Ec2Instance'),
+  lambdaFunction('LambdaFunction'),
+  ebsVolume('EbsVolume'),
+  ecsService('EcsService'),
+  ec2AutoScalingGroup('Ec2AutoScalingGroup'),
+  ec2InstanceSavingsPlans('Ec2InstanceSavingsPlans'),
+  computeSavingsPlans('ComputeSavingsPlans'),
+  sageMakerSavingsPlans('SageMakerSavingsPlans'),
+  ec2ReservedInstances('Ec2ReservedInstances'),
+  rdsReservedInstances('RdsReservedInstances'),
+  openSearchReservedInstances('OpenSearchReservedInstances'),
+  redshiftReservedInstances('RedshiftReservedInstances'),
+  elastiCacheReservedInstances('ElastiCacheReservedInstances'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.ec2Instance:
-        return 'Ec2Instance';
-      case ResourceType.lambdaFunction:
-        return 'LambdaFunction';
-      case ResourceType.ebsVolume:
-        return 'EbsVolume';
-      case ResourceType.ecsService:
-        return 'EcsService';
-      case ResourceType.ec2AutoScalingGroup:
-        return 'Ec2AutoScalingGroup';
-      case ResourceType.ec2InstanceSavingsPlans:
-        return 'Ec2InstanceSavingsPlans';
-      case ResourceType.computeSavingsPlans:
-        return 'ComputeSavingsPlans';
-      case ResourceType.sageMakerSavingsPlans:
-        return 'SageMakerSavingsPlans';
-      case ResourceType.ec2ReservedInstances:
-        return 'Ec2ReservedInstances';
-      case ResourceType.rdsReservedInstances:
-        return 'RdsReservedInstances';
-      case ResourceType.openSearchReservedInstances:
-        return 'OpenSearchReservedInstances';
-      case ResourceType.redshiftReservedInstances:
-        return 'RedshiftReservedInstances';
-      case ResourceType.elastiCacheReservedInstances:
-        return 'ElastiCacheReservedInstances';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'Ec2Instance':
-        return ResourceType.ec2Instance;
-      case 'LambdaFunction':
-        return ResourceType.lambdaFunction;
-      case 'EbsVolume':
-        return ResourceType.ebsVolume;
-      case 'EcsService':
-        return ResourceType.ecsService;
-      case 'Ec2AutoScalingGroup':
-        return ResourceType.ec2AutoScalingGroup;
-      case 'Ec2InstanceSavingsPlans':
-        return ResourceType.ec2InstanceSavingsPlans;
-      case 'ComputeSavingsPlans':
-        return ResourceType.computeSavingsPlans;
-      case 'SageMakerSavingsPlans':
-        return ResourceType.sageMakerSavingsPlans;
-      case 'Ec2ReservedInstances':
-        return ResourceType.ec2ReservedInstances;
-      case 'RdsReservedInstances':
-        return ResourceType.rdsReservedInstances;
-      case 'OpenSearchReservedInstances':
-        return ResourceType.openSearchReservedInstances;
-      case 'RedshiftReservedInstances':
-        return ResourceType.redshiftReservedInstances;
-      case 'ElastiCacheReservedInstances':
-        return ResourceType.elastiCacheReservedInstances;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// The SageMaker Savings Plans recommendation details.
@@ -3248,31 +3094,18 @@ class SageMakerSavingsPlansConfiguration {
 }
 
 enum SavingsEstimationMode {
-  beforeDiscounts,
-  afterDiscounts,
-}
+  beforeDiscounts('BeforeDiscounts'),
+  afterDiscounts('AfterDiscounts'),
+  ;
 
-extension SavingsEstimationModeValueExtension on SavingsEstimationMode {
-  String toValue() {
-    switch (this) {
-      case SavingsEstimationMode.beforeDiscounts:
-        return 'BeforeDiscounts';
-      case SavingsEstimationMode.afterDiscounts:
-        return 'AfterDiscounts';
-    }
-  }
-}
+  final String value;
 
-extension SavingsEstimationModeFromString on String {
-  SavingsEstimationMode toSavingsEstimationMode() {
-    switch (this) {
-      case 'BeforeDiscounts':
-        return SavingsEstimationMode.beforeDiscounts;
-      case 'AfterDiscounts':
-        return SavingsEstimationMode.afterDiscounts;
-    }
-    throw Exception('$this is not known in enum SavingsEstimationMode');
-  }
+  const SavingsEstimationMode(this.value);
+
+  static SavingsEstimationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SavingsEstimationMode'));
 }
 
 /// Cost impact of the purchase recommendation.
@@ -3352,31 +3185,17 @@ class SavingsPlansPricing {
 }
 
 enum Source {
-  computeOptimizer,
-  costExplorer,
-}
+  computeOptimizer('ComputeOptimizer'),
+  costExplorer('CostExplorer'),
+  ;
 
-extension SourceValueExtension on Source {
-  String toValue() {
-    switch (this) {
-      case Source.computeOptimizer:
-        return 'ComputeOptimizer';
-      case Source.costExplorer:
-        return 'CostExplorer';
-    }
-  }
-}
+  final String value;
 
-extension SourceFromString on String {
-  Source toSource() {
-    switch (this) {
-      case 'ComputeOptimizer':
-        return Source.computeOptimizer;
-      case 'CostExplorer':
-        return Source.costExplorer;
-    }
-    throw Exception('$this is not known in enum Source');
-  }
+  const Source(this.value);
+
+  static Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Source'));
 }
 
 /// The storage configuration used for recommendations.
@@ -3477,9 +3296,9 @@ class UpdatePreferencesResponse {
     return UpdatePreferencesResponse(
       memberAccountDiscountVisibility:
           (json['memberAccountDiscountVisibility'] as String?)
-              ?.toMemberAccountDiscountVisibility(),
-      savingsEstimationMode:
-          (json['savingsEstimationMode'] as String?)?.toSavingsEstimationMode(),
+              ?.let(MemberAccountDiscountVisibility.fromString),
+      savingsEstimationMode: (json['savingsEstimationMode'] as String?)
+          ?.let(SavingsEstimationMode.fromString),
     );
   }
 
@@ -3490,9 +3309,9 @@ class UpdatePreferencesResponse {
     return {
       if (memberAccountDiscountVisibility != null)
         'memberAccountDiscountVisibility':
-            memberAccountDiscountVisibility.toValue(),
+            memberAccountDiscountVisibility.value,
       if (savingsEstimationMode != null)
-        'savingsEstimationMode': savingsEstimationMode.toValue(),
+        'savingsEstimationMode': savingsEstimationMode.value,
     };
   }
 }

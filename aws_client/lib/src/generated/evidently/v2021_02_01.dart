@@ -318,7 +318,7 @@ class CloudWatchEvidently {
       if (description != null) 'description': description,
       if (entityOverrides != null) 'entityOverrides': entityOverrides,
       if (evaluationStrategy != null)
-        'evaluationStrategy': evaluationStrategy.toValue(),
+        'evaluationStrategy': evaluationStrategy.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -924,13 +924,13 @@ class CloudWatchEvidently {
     final $payload = <String, dynamic>{
       'metricNames': metricNames,
       'treatmentNames': treatmentNames,
-      if (baseStat != null) 'baseStat': baseStat.toValue(),
+      if (baseStat != null) 'baseStat': baseStat.value,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (period != null) 'period': period,
       if (reportNames != null)
-        'reportNames': reportNames.map((e) => e.toValue()).toList(),
+        'reportNames': reportNames.map((e) => e.value).toList(),
       if (resultStats != null)
-        'resultStats': resultStats.map((e) => e.toValue()).toList(),
+        'resultStats': resultStats.map((e) => e.value).toList(),
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
     };
     final response = await _protocol.send(
@@ -1079,7 +1079,7 @@ class CloudWatchEvidently {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1168,7 +1168,7 @@ class CloudWatchEvidently {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1252,7 +1252,7 @@ class CloudWatchEvidently {
       100,
     );
     final $query = <String, List<String>>{
-      'type': [type.toValue()],
+      'type': [type.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1449,7 +1449,7 @@ class CloudWatchEvidently {
     String? reason,
   }) async {
     final $payload = <String, dynamic>{
-      if (desiredState != null) 'desiredState': desiredState.toValue(),
+      if (desiredState != null) 'desiredState': desiredState.value,
       if (reason != null) 'reason': reason,
     };
     final response = await _protocol.send(
@@ -1494,7 +1494,7 @@ class CloudWatchEvidently {
     String? reason,
   }) async {
     final $payload = <String, dynamic>{
-      if (desiredState != null) 'desiredState': desiredState.toValue(),
+      if (desiredState != null) 'desiredState': desiredState.value,
       if (reason != null) 'reason': reason,
     };
     final response = await _protocol.send(
@@ -1783,7 +1783,7 @@ class CloudWatchEvidently {
       if (description != null) 'description': description,
       if (entityOverrides != null) 'entityOverrides': entityOverrides,
       if (evaluationStrategy != null)
-        'evaluationStrategy': evaluationStrategy.toValue(),
+        'evaluationStrategy': evaluationStrategy.value,
       if (removeVariations != null) 'removeVariations': removeVariations,
     };
     final response = await _protocol.send(
@@ -1986,31 +1986,18 @@ class BatchEvaluateFeatureResponse {
 }
 
 enum ChangeDirectionEnum {
-  increase,
-  decrease,
-}
+  increase('INCREASE'),
+  decrease('DECREASE'),
+  ;
 
-extension ChangeDirectionEnumValueExtension on ChangeDirectionEnum {
-  String toValue() {
-    switch (this) {
-      case ChangeDirectionEnum.increase:
-        return 'INCREASE';
-      case ChangeDirectionEnum.decrease:
-        return 'DECREASE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeDirectionEnumFromString on String {
-  ChangeDirectionEnum toChangeDirectionEnum() {
-    switch (this) {
-      case 'INCREASE':
-        return ChangeDirectionEnum.increase;
-      case 'DECREASE':
-        return ChangeDirectionEnum.decrease;
-    }
-    throw Exception('$this is not known in enum ChangeDirectionEnum');
-  }
+  const ChangeDirectionEnum(this.value);
+
+  static ChangeDirectionEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ChangeDirectionEnum'));
 }
 
 /// A structure containing the CloudWatch Logs log group where the project
@@ -2458,37 +2445,23 @@ class Event {
     return {
       'data': jsonEncode(data),
       'timestamp': unixTimestampToJson(timestamp),
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum EventType {
-  awsEvidentlyEvaluation,
-  awsEvidentlyCustom,
-}
+  awsEvidentlyEvaluation('aws.evidently.evaluation'),
+  awsEvidentlyCustom('aws.evidently.custom'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.awsEvidentlyEvaluation:
-        return 'aws.evidently.evaluation';
-      case EventType.awsEvidentlyCustom:
-        return 'aws.evidently.custom';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'aws.evidently.evaluation':
-        return EventType.awsEvidentlyEvaluation;
-      case 'aws.evidently.custom':
-        return EventType.awsEvidentlyCustom;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// A structure containing the configuration details of an experiment.
@@ -2594,8 +2567,8 @@ class Experiment {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toExperimentStatus(),
-      type: (json['type'] as String).toExperimentType(),
+      status: ExperimentStatus.fromString((json['status'] as String)),
+      type: ExperimentType.fromString((json['type'] as String)),
       description: json['description'] as String?,
       execution: json['execution'] != null
           ? ExperimentExecution.fromJson(
@@ -2651,8 +2624,8 @@ class Experiment {
       'createdTime': unixTimestampToJson(createdTime),
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'status': status.value,
+      'type': type.value,
       if (description != null) 'description': description,
       if (execution != null) 'execution': execution,
       if (metricGoals != null) 'metricGoals': metricGoals,
@@ -2670,26 +2643,17 @@ class Experiment {
 }
 
 enum ExperimentBaseStat {
-  mean,
-}
+  mean('Mean'),
+  ;
 
-extension ExperimentBaseStatValueExtension on ExperimentBaseStat {
-  String toValue() {
-    switch (this) {
-      case ExperimentBaseStat.mean:
-        return 'Mean';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentBaseStatFromString on String {
-  ExperimentBaseStat toExperimentBaseStat() {
-    switch (this) {
-      case 'Mean':
-        return ExperimentBaseStat.mean;
-    }
-    throw Exception('$this is not known in enum ExperimentBaseStat');
-  }
+  const ExperimentBaseStat(this.value);
+
+  static ExperimentBaseStat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExperimentBaseStat'));
 }
 
 /// This structure contains the date and time that the experiment started and
@@ -2750,7 +2714,8 @@ class ExperimentReport {
           ? null
           : jsonDecode(json['content'] as String),
       metricName: json['metricName'] as String?,
-      reportName: (json['reportName'] as String?)?.toExperimentReportName(),
+      reportName:
+          (json['reportName'] as String?)?.let(ExperimentReportName.fromString),
       treatmentName: json['treatmentName'] as String?,
     );
   }
@@ -2763,116 +2728,59 @@ class ExperimentReport {
     return {
       if (content != null) 'content': jsonEncode(content),
       if (metricName != null) 'metricName': metricName,
-      if (reportName != null) 'reportName': reportName.toValue(),
+      if (reportName != null) 'reportName': reportName.value,
       if (treatmentName != null) 'treatmentName': treatmentName,
     };
   }
 }
 
 enum ExperimentReportName {
-  bayesianInference,
-}
+  bayesianInference('BayesianInference'),
+  ;
 
-extension ExperimentReportNameValueExtension on ExperimentReportName {
-  String toValue() {
-    switch (this) {
-      case ExperimentReportName.bayesianInference:
-        return 'BayesianInference';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentReportNameFromString on String {
-  ExperimentReportName toExperimentReportName() {
-    switch (this) {
-      case 'BayesianInference':
-        return ExperimentReportName.bayesianInference;
-    }
-    throw Exception('$this is not known in enum ExperimentReportName');
-  }
+  const ExperimentReportName(this.value);
+
+  static ExperimentReportName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExperimentReportName'));
 }
 
 enum ExperimentResultRequestType {
-  baseStat,
-  treatmentEffect,
-  confidenceInterval,
-  pValue,
-}
+  baseStat('BaseStat'),
+  treatmentEffect('TreatmentEffect'),
+  confidenceInterval('ConfidenceInterval'),
+  pValue('PValue'),
+  ;
 
-extension ExperimentResultRequestTypeValueExtension
-    on ExperimentResultRequestType {
-  String toValue() {
-    switch (this) {
-      case ExperimentResultRequestType.baseStat:
-        return 'BaseStat';
-      case ExperimentResultRequestType.treatmentEffect:
-        return 'TreatmentEffect';
-      case ExperimentResultRequestType.confidenceInterval:
-        return 'ConfidenceInterval';
-      case ExperimentResultRequestType.pValue:
-        return 'PValue';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentResultRequestTypeFromString on String {
-  ExperimentResultRequestType toExperimentResultRequestType() {
-    switch (this) {
-      case 'BaseStat':
-        return ExperimentResultRequestType.baseStat;
-      case 'TreatmentEffect':
-        return ExperimentResultRequestType.treatmentEffect;
-      case 'ConfidenceInterval':
-        return ExperimentResultRequestType.confidenceInterval;
-      case 'PValue':
-        return ExperimentResultRequestType.pValue;
-    }
-    throw Exception('$this is not known in enum ExperimentResultRequestType');
-  }
+  const ExperimentResultRequestType(this.value);
+
+  static ExperimentResultRequestType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExperimentResultRequestType'));
 }
 
 enum ExperimentResultResponseType {
-  mean,
-  treatmentEffect,
-  confidenceIntervalUpperBound,
-  confidenceIntervalLowerBound,
-  pValue,
-}
+  mean('Mean'),
+  treatmentEffect('TreatmentEffect'),
+  confidenceIntervalUpperBound('ConfidenceIntervalUpperBound'),
+  confidenceIntervalLowerBound('ConfidenceIntervalLowerBound'),
+  pValue('PValue'),
+  ;
 
-extension ExperimentResultResponseTypeValueExtension
-    on ExperimentResultResponseType {
-  String toValue() {
-    switch (this) {
-      case ExperimentResultResponseType.mean:
-        return 'Mean';
-      case ExperimentResultResponseType.treatmentEffect:
-        return 'TreatmentEffect';
-      case ExperimentResultResponseType.confidenceIntervalUpperBound:
-        return 'ConfidenceIntervalUpperBound';
-      case ExperimentResultResponseType.confidenceIntervalLowerBound:
-        return 'ConfidenceIntervalLowerBound';
-      case ExperimentResultResponseType.pValue:
-        return 'PValue';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentResultResponseTypeFromString on String {
-  ExperimentResultResponseType toExperimentResultResponseType() {
-    switch (this) {
-      case 'Mean':
-        return ExperimentResultResponseType.mean;
-      case 'TreatmentEffect':
-        return ExperimentResultResponseType.treatmentEffect;
-      case 'ConfidenceIntervalUpperBound':
-        return ExperimentResultResponseType.confidenceIntervalUpperBound;
-      case 'ConfidenceIntervalLowerBound':
-        return ExperimentResultResponseType.confidenceIntervalLowerBound;
-      case 'PValue':
-        return ExperimentResultResponseType.pValue;
-    }
-    throw Exception('$this is not known in enum ExperimentResultResponseType');
-  }
+  const ExperimentResultResponseType(this.value);
+
+  static ExperimentResultResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExperimentResultResponseType'));
 }
 
 /// A structure that contains experiment results for one metric that is
@@ -2902,8 +2810,8 @@ class ExperimentResultsData {
   factory ExperimentResultsData.fromJson(Map<String, dynamic> json) {
     return ExperimentResultsData(
       metricName: json['metricName'] as String?,
-      resultStat:
-          (json['resultStat'] as String?)?.toExperimentResultResponseType(),
+      resultStat: (json['resultStat'] as String?)
+          ?.let(ExperimentResultResponseType.fromString),
       treatmentName: json['treatmentName'] as String?,
       values: (json['values'] as List?)
           ?.whereNotNull()
@@ -2919,7 +2827,7 @@ class ExperimentResultsData {
     final values = this.values;
     return {
       if (metricName != null) 'metricName': metricName,
-      if (resultStat != null) 'resultStat': resultStat.toValue(),
+      if (resultStat != null) 'resultStat': resultStat.value,
       if (treatmentName != null) 'treatmentName': treatmentName,
       if (values != null) 'values': values,
     };
@@ -2952,98 +2860,50 @@ class ExperimentSchedule {
 }
 
 enum ExperimentStatus {
-  created,
-  updating,
-  running,
-  completed,
-  cancelled,
-}
+  created('CREATED'),
+  updating('UPDATING'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension ExperimentStatusValueExtension on ExperimentStatus {
-  String toValue() {
-    switch (this) {
-      case ExperimentStatus.created:
-        return 'CREATED';
-      case ExperimentStatus.updating:
-        return 'UPDATING';
-      case ExperimentStatus.running:
-        return 'RUNNING';
-      case ExperimentStatus.completed:
-        return 'COMPLETED';
-      case ExperimentStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentStatusFromString on String {
-  ExperimentStatus toExperimentStatus() {
-    switch (this) {
-      case 'CREATED':
-        return ExperimentStatus.created;
-      case 'UPDATING':
-        return ExperimentStatus.updating;
-      case 'RUNNING':
-        return ExperimentStatus.running;
-      case 'COMPLETED':
-        return ExperimentStatus.completed;
-      case 'CANCELLED':
-        return ExperimentStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum ExperimentStatus');
-  }
+  const ExperimentStatus(this.value);
+
+  static ExperimentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExperimentStatus'));
 }
 
 enum ExperimentStopDesiredState {
-  completed,
-  cancelled,
-}
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension ExperimentStopDesiredStateValueExtension
-    on ExperimentStopDesiredState {
-  String toValue() {
-    switch (this) {
-      case ExperimentStopDesiredState.completed:
-        return 'COMPLETED';
-      case ExperimentStopDesiredState.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentStopDesiredStateFromString on String {
-  ExperimentStopDesiredState toExperimentStopDesiredState() {
-    switch (this) {
-      case 'COMPLETED':
-        return ExperimentStopDesiredState.completed;
-      case 'CANCELLED':
-        return ExperimentStopDesiredState.cancelled;
-    }
-    throw Exception('$this is not known in enum ExperimentStopDesiredState');
-  }
+  const ExperimentStopDesiredState(this.value);
+
+  static ExperimentStopDesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExperimentStopDesiredState'));
 }
 
 enum ExperimentType {
-  awsEvidentlyOnlineab,
-}
+  awsEvidentlyOnlineab('aws.evidently.onlineab'),
+  ;
 
-extension ExperimentTypeValueExtension on ExperimentType {
-  String toValue() {
-    switch (this) {
-      case ExperimentType.awsEvidentlyOnlineab:
-        return 'aws.evidently.onlineab';
-    }
-  }
-}
+  final String value;
 
-extension ExperimentTypeFromString on String {
-  ExperimentType toExperimentType() {
-    switch (this) {
-      case 'aws.evidently.onlineab':
-        return ExperimentType.awsEvidentlyOnlineab;
-    }
-    throw Exception('$this is not known in enum ExperimentType');
-  }
+  const ExperimentType(this.value);
+
+  static ExperimentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExperimentType'));
 }
 
 /// This structure contains information about one Evidently feature in your
@@ -3134,13 +2994,13 @@ class Feature {
     return Feature(
       arn: json['arn'] as String,
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      evaluationStrategy:
-          (json['evaluationStrategy'] as String).toFeatureEvaluationStrategy(),
+      evaluationStrategy: FeatureEvaluationStrategy.fromString(
+          (json['evaluationStrategy'] as String)),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toFeatureStatus(),
-      valueType: (json['valueType'] as String).toVariationValueType(),
+      status: FeatureStatus.fromString((json['status'] as String)),
+      valueType: VariationValueType.fromString((json['valueType'] as String)),
       variations: (json['variations'] as List)
           .whereNotNull()
           .map((e) => Variation.fromJson(e as Map<String, dynamic>))
@@ -3177,11 +3037,11 @@ class Feature {
     return {
       'arn': arn,
       'createdTime': unixTimestampToJson(createdTime),
-      'evaluationStrategy': evaluationStrategy.toValue(),
+      'evaluationStrategy': evaluationStrategy.value,
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
-      'valueType': valueType.toValue(),
+      'status': status.value,
+      'valueType': valueType.value,
       'variations': variations,
       if (defaultVariation != null) 'defaultVariation': defaultVariation,
       if (description != null) 'description': description,
@@ -3194,59 +3054,33 @@ class Feature {
 }
 
 enum FeatureEvaluationStrategy {
-  allRules,
-  defaultVariation,
-}
+  allRules('ALL_RULES'),
+  defaultVariation('DEFAULT_VARIATION'),
+  ;
 
-extension FeatureEvaluationStrategyValueExtension on FeatureEvaluationStrategy {
-  String toValue() {
-    switch (this) {
-      case FeatureEvaluationStrategy.allRules:
-        return 'ALL_RULES';
-      case FeatureEvaluationStrategy.defaultVariation:
-        return 'DEFAULT_VARIATION';
-    }
-  }
-}
+  final String value;
 
-extension FeatureEvaluationStrategyFromString on String {
-  FeatureEvaluationStrategy toFeatureEvaluationStrategy() {
-    switch (this) {
-      case 'ALL_RULES':
-        return FeatureEvaluationStrategy.allRules;
-      case 'DEFAULT_VARIATION':
-        return FeatureEvaluationStrategy.defaultVariation;
-    }
-    throw Exception('$this is not known in enum FeatureEvaluationStrategy');
-  }
+  const FeatureEvaluationStrategy(this.value);
+
+  static FeatureEvaluationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FeatureEvaluationStrategy'));
 }
 
 enum FeatureStatus {
-  available,
-  updating,
-}
+  available('AVAILABLE'),
+  updating('UPDATING'),
+  ;
 
-extension FeatureStatusValueExtension on FeatureStatus {
-  String toValue() {
-    switch (this) {
-      case FeatureStatus.available:
-        return 'AVAILABLE';
-      case FeatureStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension FeatureStatusFromString on String {
-  FeatureStatus toFeatureStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return FeatureStatus.available;
-      case 'UPDATING':
-        return FeatureStatus.updating;
-    }
-    throw Exception('$this is not known in enum FeatureStatus');
-  }
+  const FeatureStatus(this.value);
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeatureStatus'));
 }
 
 /// This structure contains information about one Evidently feature in your
@@ -3304,12 +3138,12 @@ class FeatureSummary {
     return FeatureSummary(
       arn: json['arn'] as String,
       createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      evaluationStrategy:
-          (json['evaluationStrategy'] as String).toFeatureEvaluationStrategy(),
+      evaluationStrategy: FeatureEvaluationStrategy.fromString(
+          (json['evaluationStrategy'] as String)),
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toFeatureStatus(),
+      status: FeatureStatus.fromString((json['status'] as String)),
       defaultVariation: json['defaultVariation'] as String?,
       evaluationRules: (json['evaluationRules'] as List?)
           ?.whereNotNull()
@@ -3335,10 +3169,10 @@ class FeatureSummary {
     return {
       'arn': arn,
       'createdTime': unixTimestampToJson(createdTime),
-      'evaluationStrategy': evaluationStrategy.toValue(),
+      'evaluationStrategy': evaluationStrategy.value,
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (defaultVariation != null) 'defaultVariation': defaultVariation,
       if (evaluationRules != null) 'evaluationRules': evaluationRules,
       if (project != null) 'project': project,
@@ -3598,8 +3432,8 @@ class Launch {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toLaunchStatus(),
-      type: (json['type'] as String).toLaunchType(),
+      status: LaunchStatus.fromString((json['status'] as String)),
+      type: LaunchType.fromString((json['type'] as String)),
       description: json['description'] as String?,
       execution: json['execution'] != null
           ? LaunchExecution.fromJson(json['execution'] as Map<String, dynamic>)
@@ -3645,8 +3479,8 @@ class Launch {
       'createdTime': unixTimestampToJson(createdTime),
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'status': status.value,
+      'type': type.value,
       if (description != null) 'description': description,
       if (execution != null) 'execution': execution,
       if (groups != null) 'groups': groups,
@@ -3768,97 +3602,49 @@ class LaunchGroupConfig {
 }
 
 enum LaunchStatus {
-  created,
-  updating,
-  running,
-  completed,
-  cancelled,
-}
+  created('CREATED'),
+  updating('UPDATING'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension LaunchStatusValueExtension on LaunchStatus {
-  String toValue() {
-    switch (this) {
-      case LaunchStatus.created:
-        return 'CREATED';
-      case LaunchStatus.updating:
-        return 'UPDATING';
-      case LaunchStatus.running:
-        return 'RUNNING';
-      case LaunchStatus.completed:
-        return 'COMPLETED';
-      case LaunchStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension LaunchStatusFromString on String {
-  LaunchStatus toLaunchStatus() {
-    switch (this) {
-      case 'CREATED':
-        return LaunchStatus.created;
-      case 'UPDATING':
-        return LaunchStatus.updating;
-      case 'RUNNING':
-        return LaunchStatus.running;
-      case 'COMPLETED':
-        return LaunchStatus.completed;
-      case 'CANCELLED':
-        return LaunchStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum LaunchStatus');
-  }
+  const LaunchStatus(this.value);
+
+  static LaunchStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LaunchStatus'));
 }
 
 enum LaunchStopDesiredState {
-  completed,
-  cancelled,
-}
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension LaunchStopDesiredStateValueExtension on LaunchStopDesiredState {
-  String toValue() {
-    switch (this) {
-      case LaunchStopDesiredState.completed:
-        return 'COMPLETED';
-      case LaunchStopDesiredState.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension LaunchStopDesiredStateFromString on String {
-  LaunchStopDesiredState toLaunchStopDesiredState() {
-    switch (this) {
-      case 'COMPLETED':
-        return LaunchStopDesiredState.completed;
-      case 'CANCELLED':
-        return LaunchStopDesiredState.cancelled;
-    }
-    throw Exception('$this is not known in enum LaunchStopDesiredState');
-  }
+  const LaunchStopDesiredState(this.value);
+
+  static LaunchStopDesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LaunchStopDesiredState'));
 }
 
 enum LaunchType {
-  awsEvidentlySplits,
-}
+  awsEvidentlySplits('aws.evidently.splits'),
+  ;
 
-extension LaunchTypeValueExtension on LaunchType {
-  String toValue() {
-    switch (this) {
-      case LaunchType.awsEvidentlySplits:
-        return 'aws.evidently.splits';
-    }
-  }
-}
+  final String value;
 
-extension LaunchTypeFromString on String {
-  LaunchType toLaunchType() {
-    switch (this) {
-      case 'aws.evidently.splits':
-        return LaunchType.awsEvidentlySplits;
-    }
-    throw Exception('$this is not known in enum LaunchType');
-  }
+  const LaunchType(this.value);
+
+  static LaunchType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LaunchType'));
 }
 
 class ListExperimentsResponse {
@@ -4216,8 +4002,8 @@ class MetricGoal {
     return MetricGoal(
       metricDefinition: MetricDefinition.fromJson(
           json['metricDefinition'] as Map<String, dynamic>),
-      desiredChange:
-          (json['desiredChange'] as String?)?.toChangeDirectionEnum(),
+      desiredChange: (json['desiredChange'] as String?)
+          ?.let(ChangeDirectionEnum.fromString),
     );
   }
 
@@ -4226,7 +4012,7 @@ class MetricGoal {
     final desiredChange = this.desiredChange;
     return {
       'metricDefinition': metricDefinition,
-      if (desiredChange != null) 'desiredChange': desiredChange.toValue(),
+      if (desiredChange != null) 'desiredChange': desiredChange.value,
     };
   }
 }
@@ -4254,7 +4040,7 @@ class MetricGoalConfig {
     final desiredChange = this.desiredChange;
     return {
       'metricDefinition': metricDefinition,
-      if (desiredChange != null) 'desiredChange': desiredChange.toValue(),
+      if (desiredChange != null) 'desiredChange': desiredChange.value,
     };
   }
 }
@@ -4447,7 +4233,7 @@ class Project {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toProjectStatus(),
+      status: ProjectStatus.fromString((json['status'] as String)),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
       appConfigResource: json['appConfigResource'] != null
@@ -4487,7 +4273,7 @@ class Project {
       'createdTime': unixTimestampToJson(createdTime),
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (activeExperimentCount != null)
         'activeExperimentCount': activeExperimentCount,
       if (activeLaunchCount != null) 'activeLaunchCount': activeLaunchCount,
@@ -4642,31 +4428,18 @@ class ProjectDataDeliveryConfig {
 }
 
 enum ProjectStatus {
-  available,
-  updating,
-}
+  available('AVAILABLE'),
+  updating('UPDATING'),
+  ;
 
-extension ProjectStatusValueExtension on ProjectStatus {
-  String toValue() {
-    switch (this) {
-      case ProjectStatus.available:
-        return 'AVAILABLE';
-      case ProjectStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ProjectStatusFromString on String {
-  ProjectStatus toProjectStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return ProjectStatus.available;
-      case 'UPDATING':
-        return ProjectStatus.updating;
-    }
-    throw Exception('$this is not known in enum ProjectStatus');
-  }
+  const ProjectStatus(this.value);
+
+  static ProjectStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectStatus'));
 }
 
 /// A structure that contains configuration information about an Evidently
@@ -4731,7 +4504,7 @@ class ProjectSummary {
       lastUpdatedTime:
           nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
       name: json['name'] as String,
-      status: (json['status'] as String).toProjectStatus(),
+      status: ProjectStatus.fromString((json['status'] as String)),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
       description: json['description'] as String?,
@@ -4761,7 +4534,7 @@ class ProjectSummary {
       'createdTime': unixTimestampToJson(createdTime),
       'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (activeExperimentCount != null)
         'activeExperimentCount': activeExperimentCount,
       if (activeLaunchCount != null) 'activeLaunchCount': activeLaunchCount,
@@ -5266,32 +5039,18 @@ class SegmentOverride {
 }
 
 enum SegmentReferenceResourceType {
-  experiment,
-  launch,
-}
+  experiment('EXPERIMENT'),
+  launch('LAUNCH'),
+  ;
 
-extension SegmentReferenceResourceTypeValueExtension
-    on SegmentReferenceResourceType {
-  String toValue() {
-    switch (this) {
-      case SegmentReferenceResourceType.experiment:
-        return 'EXPERIMENT';
-      case SegmentReferenceResourceType.launch:
-        return 'LAUNCH';
-    }
-  }
-}
+  final String value;
 
-extension SegmentReferenceResourceTypeFromString on String {
-  SegmentReferenceResourceType toSegmentReferenceResourceType() {
-    switch (this) {
-      case 'EXPERIMENT':
-        return SegmentReferenceResourceType.experiment;
-      case 'LAUNCH':
-        return SegmentReferenceResourceType.launch;
-    }
-    throw Exception('$this is not known in enum SegmentReferenceResourceType');
-  }
+  const SegmentReferenceResourceType(this.value);
+
+  static SegmentReferenceResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SegmentReferenceResourceType'));
 }
 
 class StartExperimentResponse {
@@ -5727,41 +5486,20 @@ class VariationConfig {
 }
 
 enum VariationValueType {
-  string,
-  long,
-  double,
-  boolean,
-}
+  string('STRING'),
+  long('LONG'),
+  double('DOUBLE'),
+  boolean('BOOLEAN'),
+  ;
 
-extension VariationValueTypeValueExtension on VariationValueType {
-  String toValue() {
-    switch (this) {
-      case VariationValueType.string:
-        return 'STRING';
-      case VariationValueType.long:
-        return 'LONG';
-      case VariationValueType.double:
-        return 'DOUBLE';
-      case VariationValueType.boolean:
-        return 'BOOLEAN';
-    }
-  }
-}
+  final String value;
 
-extension VariationValueTypeFromString on String {
-  VariationValueType toVariationValueType() {
-    switch (this) {
-      case 'STRING':
-        return VariationValueType.string;
-      case 'LONG':
-        return VariationValueType.long;
-      case 'DOUBLE':
-        return VariationValueType.double;
-      case 'BOOLEAN':
-        return VariationValueType.boolean;
-    }
-    throw Exception('$this is not known in enum VariationValueType');
-  }
+  const VariationValueType(this.value);
+
+  static VariationValueType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VariationValueType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

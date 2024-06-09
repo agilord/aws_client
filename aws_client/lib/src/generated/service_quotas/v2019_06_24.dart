@@ -495,9 +495,9 @@ class ServiceQuotas {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (quotaRequestedAtLevel != null)
-          'QuotaRequestedAtLevel': quotaRequestedAtLevel.toValue(),
+          'QuotaRequestedAtLevel': quotaRequestedAtLevel.value,
         if (serviceCode != null) 'ServiceCode': serviceCode,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -584,8 +584,8 @@ class ServiceQuotas {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (quotaRequestedAtLevel != null)
-          'QuotaRequestedAtLevel': quotaRequestedAtLevel.toValue(),
-        if (status != null) 'Status': status.toValue(),
+          'QuotaRequestedAtLevel': quotaRequestedAtLevel.value,
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -740,7 +740,7 @@ class ServiceQuotas {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (quotaAppliedAtLevel != null)
-          'QuotaAppliedAtLevel': quotaAppliedAtLevel.toValue(),
+          'QuotaAppliedAtLevel': quotaAppliedAtLevel.value,
         if (quotaCode != null) 'QuotaCode': quotaCode,
       },
     );
@@ -1056,36 +1056,19 @@ class ServiceQuotas {
 }
 
 enum AppliedLevelEnum {
-  account,
-  resource,
-  all,
-}
+  account('ACCOUNT'),
+  resource('RESOURCE'),
+  all('ALL'),
+  ;
 
-extension AppliedLevelEnumValueExtension on AppliedLevelEnum {
-  String toValue() {
-    switch (this) {
-      case AppliedLevelEnum.account:
-        return 'ACCOUNT';
-      case AppliedLevelEnum.resource:
-        return 'RESOURCE';
-      case AppliedLevelEnum.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension AppliedLevelEnumFromString on String {
-  AppliedLevelEnum toAppliedLevelEnum() {
-    switch (this) {
-      case 'ACCOUNT':
-        return AppliedLevelEnum.account;
-      case 'RESOURCE':
-        return AppliedLevelEnum.resource;
-      case 'ALL':
-        return AppliedLevelEnum.all;
-    }
-    throw Exception('$this is not known in enum AppliedLevelEnum');
-  }
+  const AppliedLevelEnum(this.value);
+
+  static AppliedLevelEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AppliedLevelEnum'));
 }
 
 class AssociateServiceQuotaTemplateResponse {
@@ -1128,41 +1111,19 @@ class DisassociateServiceQuotaTemplateResponse {
 }
 
 enum ErrorCode {
-  dependencyAccessDeniedError,
-  dependencyThrottlingError,
-  dependencyServiceError,
-  serviceQuotaNotAvailableError,
-}
+  dependencyAccessDeniedError('DEPENDENCY_ACCESS_DENIED_ERROR'),
+  dependencyThrottlingError('DEPENDENCY_THROTTLING_ERROR'),
+  dependencyServiceError('DEPENDENCY_SERVICE_ERROR'),
+  serviceQuotaNotAvailableError('SERVICE_QUOTA_NOT_AVAILABLE_ERROR'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.dependencyAccessDeniedError:
-        return 'DEPENDENCY_ACCESS_DENIED_ERROR';
-      case ErrorCode.dependencyThrottlingError:
-        return 'DEPENDENCY_THROTTLING_ERROR';
-      case ErrorCode.dependencyServiceError:
-        return 'DEPENDENCY_SERVICE_ERROR';
-      case ErrorCode.serviceQuotaNotAvailableError:
-        return 'SERVICE_QUOTA_NOT_AVAILABLE_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'DEPENDENCY_ACCESS_DENIED_ERROR':
-        return ErrorCode.dependencyAccessDeniedError;
-      case 'DEPENDENCY_THROTTLING_ERROR':
-        return ErrorCode.dependencyThrottlingError;
-      case 'DEPENDENCY_SERVICE_ERROR':
-        return ErrorCode.dependencyServiceError;
-      case 'SERVICE_QUOTA_NOT_AVAILABLE_ERROR':
-        return ErrorCode.serviceQuotaNotAvailableError;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// An error that explains why an action did not succeed.
@@ -1200,7 +1161,7 @@ class ErrorReason {
 
   factory ErrorReason.fromJson(Map<String, dynamic> json) {
     return ErrorReason(
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
@@ -1209,7 +1170,7 @@ class ErrorReason {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
@@ -1256,7 +1217,7 @@ class GetAssociationForServiceQuotaTemplateResponse {
     return GetAssociationForServiceQuotaTemplateResponse(
       serviceQuotaTemplateAssociationStatus:
           (json['ServiceQuotaTemplateAssociationStatus'] as String?)
-              ?.toServiceQuotaTemplateAssociationStatus(),
+              ?.let(ServiceQuotaTemplateAssociationStatus.fromString),
     );
   }
 
@@ -1266,7 +1227,7 @@ class GetAssociationForServiceQuotaTemplateResponse {
     return {
       if (serviceQuotaTemplateAssociationStatus != null)
         'ServiceQuotaTemplateAssociationStatus':
-            serviceQuotaTemplateAssociationStatus.toValue(),
+            serviceQuotaTemplateAssociationStatus.value,
     };
   }
 }
@@ -1655,56 +1616,22 @@ class MetricInfo {
 }
 
 enum PeriodUnit {
-  microsecond,
-  millisecond,
-  second,
-  minute,
-  hour,
-  day,
-  week,
-}
+  microsecond('MICROSECOND'),
+  millisecond('MILLISECOND'),
+  second('SECOND'),
+  minute('MINUTE'),
+  hour('HOUR'),
+  day('DAY'),
+  week('WEEK'),
+  ;
 
-extension PeriodUnitValueExtension on PeriodUnit {
-  String toValue() {
-    switch (this) {
-      case PeriodUnit.microsecond:
-        return 'MICROSECOND';
-      case PeriodUnit.millisecond:
-        return 'MILLISECOND';
-      case PeriodUnit.second:
-        return 'SECOND';
-      case PeriodUnit.minute:
-        return 'MINUTE';
-      case PeriodUnit.hour:
-        return 'HOUR';
-      case PeriodUnit.day:
-        return 'DAY';
-      case PeriodUnit.week:
-        return 'WEEK';
-    }
-  }
-}
+  final String value;
 
-extension PeriodUnitFromString on String {
-  PeriodUnit toPeriodUnit() {
-    switch (this) {
-      case 'MICROSECOND':
-        return PeriodUnit.microsecond;
-      case 'MILLISECOND':
-        return PeriodUnit.millisecond;
-      case 'SECOND':
-        return PeriodUnit.second;
-      case 'MINUTE':
-        return PeriodUnit.minute;
-      case 'HOUR':
-        return PeriodUnit.hour;
-      case 'DAY':
-        return PeriodUnit.day;
-      case 'WEEK':
-        return PeriodUnit.week;
-    }
-    throw Exception('$this is not known in enum PeriodUnit');
-  }
+  const PeriodUnit(this.value);
+
+  static PeriodUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PeriodUnit'));
 }
 
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
@@ -1764,7 +1691,8 @@ class QuotaContextInfo {
   factory QuotaContextInfo.fromJson(Map<String, dynamic> json) {
     return QuotaContextInfo(
       contextId: json['ContextId'] as String?,
-      contextScope: (json['ContextScope'] as String?)?.toQuotaContextScope(),
+      contextScope:
+          (json['ContextScope'] as String?)?.let(QuotaContextScope.fromString),
       contextScopeType: json['ContextScopeType'] as String?,
     );
   }
@@ -1775,38 +1703,25 @@ class QuotaContextInfo {
     final contextScopeType = this.contextScopeType;
     return {
       if (contextId != null) 'ContextId': contextId,
-      if (contextScope != null) 'ContextScope': contextScope.toValue(),
+      if (contextScope != null) 'ContextScope': contextScope.value,
       if (contextScopeType != null) 'ContextScopeType': contextScopeType,
     };
   }
 }
 
 enum QuotaContextScope {
-  resource,
-  account,
-}
+  resource('RESOURCE'),
+  account('ACCOUNT'),
+  ;
 
-extension QuotaContextScopeValueExtension on QuotaContextScope {
-  String toValue() {
-    switch (this) {
-      case QuotaContextScope.resource:
-        return 'RESOURCE';
-      case QuotaContextScope.account:
-        return 'ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension QuotaContextScopeFromString on String {
-  QuotaContextScope toQuotaContextScope() {
-    switch (this) {
-      case 'RESOURCE':
-        return QuotaContextScope.resource;
-      case 'ACCOUNT':
-        return QuotaContextScope.account;
-    }
-    throw Exception('$this is not known in enum QuotaContextScope');
-  }
+  const QuotaContextScope(this.value);
+
+  static QuotaContextScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QuotaContextScope'));
 }
 
 /// Information about the quota period.
@@ -1824,7 +1739,7 @@ class QuotaPeriod {
 
   factory QuotaPeriod.fromJson(Map<String, dynamic> json) {
     return QuotaPeriod(
-      periodUnit: (json['PeriodUnit'] as String?)?.toPeriodUnit(),
+      periodUnit: (json['PeriodUnit'] as String?)?.let(PeriodUnit.fromString),
       periodValue: json['PeriodValue'] as int?,
     );
   }
@@ -1833,7 +1748,7 @@ class QuotaPeriod {
     final periodUnit = this.periodUnit;
     final periodValue = this.periodValue;
     return {
-      if (periodUnit != null) 'PeriodUnit': periodUnit.toValue(),
+      if (periodUnit != null) 'PeriodUnit': periodUnit.value,
       if (periodValue != null) 'PeriodValue': periodValue,
     };
   }
@@ -1866,56 +1781,23 @@ class RequestServiceQuotaIncreaseResponse {
 }
 
 enum RequestStatus {
-  pending,
-  caseOpened,
-  approved,
-  denied,
-  caseClosed,
-  notApproved,
-  invalidRequest,
-}
+  pending('PENDING'),
+  caseOpened('CASE_OPENED'),
+  approved('APPROVED'),
+  denied('DENIED'),
+  caseClosed('CASE_CLOSED'),
+  notApproved('NOT_APPROVED'),
+  invalidRequest('INVALID_REQUEST'),
+  ;
 
-extension RequestStatusValueExtension on RequestStatus {
-  String toValue() {
-    switch (this) {
-      case RequestStatus.pending:
-        return 'PENDING';
-      case RequestStatus.caseOpened:
-        return 'CASE_OPENED';
-      case RequestStatus.approved:
-        return 'APPROVED';
-      case RequestStatus.denied:
-        return 'DENIED';
-      case RequestStatus.caseClosed:
-        return 'CASE_CLOSED';
-      case RequestStatus.notApproved:
-        return 'NOT_APPROVED';
-      case RequestStatus.invalidRequest:
-        return 'INVALID_REQUEST';
-    }
-  }
-}
+  final String value;
 
-extension RequestStatusFromString on String {
-  RequestStatus toRequestStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RequestStatus.pending;
-      case 'CASE_OPENED':
-        return RequestStatus.caseOpened;
-      case 'APPROVED':
-        return RequestStatus.approved;
-      case 'DENIED':
-        return RequestStatus.denied;
-      case 'CASE_CLOSED':
-        return RequestStatus.caseClosed;
-      case 'NOT_APPROVED':
-        return RequestStatus.notApproved;
-      case 'INVALID_REQUEST':
-        return RequestStatus.invalidRequest;
-    }
-    throw Exception('$this is not known in enum RequestStatus');
-  }
+  const RequestStatus(this.value);
+
+  static RequestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RequestStatus'));
 }
 
 /// Information about a quota increase request.
@@ -2007,12 +1889,12 @@ class RequestedServiceQuotaChange {
               json['QuotaContext'] as Map<String, dynamic>)
           : null,
       quotaName: json['QuotaName'] as String?,
-      quotaRequestedAtLevel:
-          (json['QuotaRequestedAtLevel'] as String?)?.toAppliedLevelEnum(),
+      quotaRequestedAtLevel: (json['QuotaRequestedAtLevel'] as String?)
+          ?.let(AppliedLevelEnum.fromString),
       requester: json['Requester'] as String?,
       serviceCode: json['ServiceCode'] as String?,
       serviceName: json['ServiceName'] as String?,
-      status: (json['Status'] as String?)?.toRequestStatus(),
+      status: (json['Status'] as String?)?.let(RequestStatus.fromString),
       unit: json['Unit'] as String?,
     );
   }
@@ -2046,11 +1928,11 @@ class RequestedServiceQuotaChange {
       if (quotaContext != null) 'QuotaContext': quotaContext,
       if (quotaName != null) 'QuotaName': quotaName,
       if (quotaRequestedAtLevel != null)
-        'QuotaRequestedAtLevel': quotaRequestedAtLevel.toValue(),
+        'QuotaRequestedAtLevel': quotaRequestedAtLevel.value,
       if (requester != null) 'Requester': requester,
       if (serviceCode != null) 'ServiceCode': serviceCode,
       if (serviceName != null) 'ServiceName': serviceName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (unit != null) 'Unit': unit,
     };
   }
@@ -2161,8 +2043,8 @@ class ServiceQuota {
       period: json['Period'] != null
           ? QuotaPeriod.fromJson(json['Period'] as Map<String, dynamic>)
           : null,
-      quotaAppliedAtLevel:
-          (json['QuotaAppliedAtLevel'] as String?)?.toAppliedLevelEnum(),
+      quotaAppliedAtLevel: (json['QuotaAppliedAtLevel'] as String?)
+          ?.let(AppliedLevelEnum.fromString),
       quotaArn: json['QuotaArn'] as String?,
       quotaCode: json['QuotaCode'] as String?,
       quotaContext: json['QuotaContext'] != null
@@ -2201,7 +2083,7 @@ class ServiceQuota {
       if (globalQuota != null) 'GlobalQuota': globalQuota,
       if (period != null) 'Period': period,
       if (quotaAppliedAtLevel != null)
-        'QuotaAppliedAtLevel': quotaAppliedAtLevel.toValue(),
+        'QuotaAppliedAtLevel': quotaAppliedAtLevel.value,
       if (quotaArn != null) 'QuotaArn': quotaArn,
       if (quotaCode != null) 'QuotaCode': quotaCode,
       if (quotaContext != null) 'QuotaContext': quotaContext,
@@ -2292,34 +2174,18 @@ class ServiceQuotaIncreaseRequestInTemplate {
 }
 
 enum ServiceQuotaTemplateAssociationStatus {
-  associated,
-  disassociated,
-}
+  associated('ASSOCIATED'),
+  disassociated('DISASSOCIATED'),
+  ;
 
-extension ServiceQuotaTemplateAssociationStatusValueExtension
-    on ServiceQuotaTemplateAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case ServiceQuotaTemplateAssociationStatus.associated:
-        return 'ASSOCIATED';
-      case ServiceQuotaTemplateAssociationStatus.disassociated:
-        return 'DISASSOCIATED';
-    }
-  }
-}
+  final String value;
 
-extension ServiceQuotaTemplateAssociationStatusFromString on String {
-  ServiceQuotaTemplateAssociationStatus
-      toServiceQuotaTemplateAssociationStatus() {
-    switch (this) {
-      case 'ASSOCIATED':
-        return ServiceQuotaTemplateAssociationStatus.associated;
-      case 'DISASSOCIATED':
-        return ServiceQuotaTemplateAssociationStatus.disassociated;
-    }
-    throw Exception(
-        '$this is not known in enum ServiceQuotaTemplateAssociationStatus');
-  }
+  const ServiceQuotaTemplateAssociationStatus(this.value);
+
+  static ServiceQuotaTemplateAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceQuotaTemplateAssociationStatus'));
 }
 
 /// A complex data type that contains a tag key and tag value.

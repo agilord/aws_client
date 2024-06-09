@@ -1017,7 +1017,7 @@ class PinpointEmail {
   }) async {
     final $payload = <String, dynamic>{
       if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1363,7 +1363,7 @@ class PinpointEmail {
   }) async {
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
-        'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
+        'BehaviorOnMxFailure': behaviorOnMxFailure.value,
       if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
     };
     final response = await _protocol.send(
@@ -1587,31 +1587,18 @@ class PinpointEmail {
 /// in the <code>Pending</code>, <code>Failed</code>, and
 /// <code>TemporaryFailure</code> states.
 enum BehaviorOnMxFailure {
-  useDefaultValue,
-  rejectMessage,
-}
+  useDefaultValue('USE_DEFAULT_VALUE'),
+  rejectMessage('REJECT_MESSAGE'),
+  ;
 
-extension BehaviorOnMxFailureValueExtension on BehaviorOnMxFailure {
-  String toValue() {
-    switch (this) {
-      case BehaviorOnMxFailure.useDefaultValue:
-        return 'USE_DEFAULT_VALUE';
-      case BehaviorOnMxFailure.rejectMessage:
-        return 'REJECT_MESSAGE';
-    }
-  }
-}
+  final String value;
 
-extension BehaviorOnMxFailureFromString on String {
-  BehaviorOnMxFailure toBehaviorOnMxFailure() {
-    switch (this) {
-      case 'USE_DEFAULT_VALUE':
-        return BehaviorOnMxFailure.useDefaultValue;
-      case 'REJECT_MESSAGE':
-        return BehaviorOnMxFailure.rejectMessage;
-    }
-    throw Exception('$this is not known in enum BehaviorOnMxFailure');
-  }
+  const BehaviorOnMxFailure(this.value);
+
+  static BehaviorOnMxFailure fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BehaviorOnMxFailure'));
 }
 
 /// An object that contains information about a blacklisting event that impacts
@@ -1761,8 +1748,8 @@ class CloudWatchDimensionConfiguration {
     return CloudWatchDimensionConfiguration(
       defaultDimensionValue: json['DefaultDimensionValue'] as String,
       dimensionName: json['DimensionName'] as String,
-      dimensionValueSource:
-          (json['DimensionValueSource'] as String).toDimensionValueSource(),
+      dimensionValueSource: DimensionValueSource.fromString(
+          (json['DimensionValueSource'] as String)),
     );
   }
 
@@ -1773,7 +1760,7 @@ class CloudWatchDimensionConfiguration {
     return {
       'DefaultDimensionValue': defaultDimensionValue,
       'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.toValue(),
+      'DimensionValueSource': dimensionValueSource.value,
     };
   }
 }
@@ -1870,8 +1857,8 @@ class CreateDeliverabilityTestReportResponse {
   factory CreateDeliverabilityTestReportResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateDeliverabilityTestReportResponse(
-      deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String)
-          .toDeliverabilityTestStatus(),
+      deliverabilityTestStatus: DeliverabilityTestStatus.fromString(
+          (json['DeliverabilityTestStatus'] as String)),
       reportId: json['ReportId'] as String,
     );
   }
@@ -1880,7 +1867,7 @@ class CreateDeliverabilityTestReportResponse {
     final deliverabilityTestStatus = this.deliverabilityTestStatus;
     final reportId = this.reportId;
     return {
-      'DeliverabilityTestStatus': deliverabilityTestStatus.toValue(),
+      'DeliverabilityTestStatus': deliverabilityTestStatus.value,
       'ReportId': reportId,
     };
   }
@@ -1919,7 +1906,8 @@ class CreateEmailIdentityResponse {
           ? DkimAttributes.fromJson(
               json['DkimAttributes'] as Map<String, dynamic>)
           : null,
-      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      identityType:
+          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
       verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool?,
     );
   }
@@ -1930,7 +1918,7 @@ class CreateEmailIdentityResponse {
     final verifiedForSendingStatus = this.verifiedForSendingStatus;
     return {
       if (dkimAttributes != null) 'DkimAttributes': dkimAttributes,
-      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (identityType != null) 'IdentityType': identityType.value,
       if (verifiedForSendingStatus != null)
         'VerifiedForSendingStatus': verifiedForSendingStatus,
     };
@@ -2025,7 +2013,7 @@ class DedicatedIp {
     return DedicatedIp(
       ip: json['Ip'] as String,
       warmupPercentage: json['WarmupPercentage'] as int,
-      warmupStatus: (json['WarmupStatus'] as String).toWarmupStatus(),
+      warmupStatus: WarmupStatus.fromString((json['WarmupStatus'] as String)),
       poolName: json['PoolName'] as String?,
     );
   }
@@ -2038,7 +2026,7 @@ class DedicatedIp {
     return {
       'Ip': ip,
       'WarmupPercentage': warmupPercentage,
-      'WarmupStatus': warmupStatus.toValue(),
+      'WarmupStatus': warmupStatus.value,
       if (poolName != null) 'PoolName': poolName,
     };
   }
@@ -2105,39 +2093,19 @@ class DeleteEmailIdentityResponse {
 /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
 /// expire at the end of the current calendar month.
 enum DeliverabilityDashboardAccountStatus {
-  active,
-  pendingExpiration,
-  disabled,
-}
+  active('ACTIVE'),
+  pendingExpiration('PENDING_EXPIRATION'),
+  disabled('DISABLED'),
+  ;
 
-extension DeliverabilityDashboardAccountStatusValueExtension
-    on DeliverabilityDashboardAccountStatus {
-  String toValue() {
-    switch (this) {
-      case DeliverabilityDashboardAccountStatus.active:
-        return 'ACTIVE';
-      case DeliverabilityDashboardAccountStatus.pendingExpiration:
-        return 'PENDING_EXPIRATION';
-      case DeliverabilityDashboardAccountStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DeliverabilityDashboardAccountStatusFromString on String {
-  DeliverabilityDashboardAccountStatus
-      toDeliverabilityDashboardAccountStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DeliverabilityDashboardAccountStatus.active;
-      case 'PENDING_EXPIRATION':
-        return DeliverabilityDashboardAccountStatus.pendingExpiration;
-      case 'DISABLED':
-        return DeliverabilityDashboardAccountStatus.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum DeliverabilityDashboardAccountStatus');
-  }
+  const DeliverabilityDashboardAccountStatus(this.value);
+
+  static DeliverabilityDashboardAccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeliverabilityDashboardAccountStatus'));
 }
 
 /// An object that contains metadata related to a predictive inbox placement
@@ -2182,7 +2150,7 @@ class DeliverabilityTestReport {
     return DeliverabilityTestReport(
       createDate: timeStampFromJson(json['CreateDate']),
       deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String?)
-          ?.toDeliverabilityTestStatus(),
+          ?.let(DeliverabilityTestStatus.fromString),
       fromEmailAddress: json['FromEmailAddress'] as String?,
       reportId: json['ReportId'] as String?,
       reportName: json['ReportName'] as String?,
@@ -2200,7 +2168,7 @@ class DeliverabilityTestReport {
     return {
       if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
       if (deliverabilityTestStatus != null)
-        'DeliverabilityTestStatus': deliverabilityTestStatus.toValue(),
+        'DeliverabilityTestStatus': deliverabilityTestStatus.value,
       if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
       if (reportId != null) 'ReportId': reportId,
       if (reportName != null) 'ReportName': reportName,
@@ -2217,31 +2185,18 @@ class DeliverabilityTestReport {
 /// <code>GetDeliverabilityTestReport</code> operation to view the results of
 /// the test.
 enum DeliverabilityTestStatus {
-  inProgress,
-  completed,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  ;
 
-extension DeliverabilityTestStatusValueExtension on DeliverabilityTestStatus {
-  String toValue() {
-    switch (this) {
-      case DeliverabilityTestStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DeliverabilityTestStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension DeliverabilityTestStatusFromString on String {
-  DeliverabilityTestStatus toDeliverabilityTestStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return DeliverabilityTestStatus.inProgress;
-      case 'COMPLETED':
-        return DeliverabilityTestStatus.completed;
-    }
-    throw Exception('$this is not known in enum DeliverabilityTestStatus');
-  }
+  const DeliverabilityTestStatus(this.value);
+
+  static DeliverabilityTestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeliverabilityTestStatus'));
 }
 
 /// Used to associate a configuration set with a dedicated IP pool.
@@ -2265,7 +2220,7 @@ class DeliveryOptions {
   factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
     return DeliveryOptions(
       sendingPoolName: json['SendingPoolName'] as String?,
-      tlsPolicy: (json['TlsPolicy'] as String?)?.toTlsPolicy(),
+      tlsPolicy: (json['TlsPolicy'] as String?)?.let(TlsPolicy.fromString),
     );
   }
 
@@ -2274,7 +2229,7 @@ class DeliveryOptions {
     final tlsPolicy = this.tlsPolicy;
     return {
       if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
   }
 }
@@ -2319,36 +2274,19 @@ class Destination {
 /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
 /// choose <code>linkTags</code>.
 enum DimensionValueSource {
-  messageTag,
-  emailHeader,
-  linkTag,
-}
+  messageTag('MESSAGE_TAG'),
+  emailHeader('EMAIL_HEADER'),
+  linkTag('LINK_TAG'),
+  ;
 
-extension DimensionValueSourceValueExtension on DimensionValueSource {
-  String toValue() {
-    switch (this) {
-      case DimensionValueSource.messageTag:
-        return 'MESSAGE_TAG';
-      case DimensionValueSource.emailHeader:
-        return 'EMAIL_HEADER';
-      case DimensionValueSource.linkTag:
-        return 'LINK_TAG';
-    }
-  }
-}
+  final String value;
 
-extension DimensionValueSourceFromString on String {
-  DimensionValueSource toDimensionValueSource() {
-    switch (this) {
-      case 'MESSAGE_TAG':
-        return DimensionValueSource.messageTag;
-      case 'EMAIL_HEADER':
-        return DimensionValueSource.emailHeader;
-      case 'LINK_TAG':
-        return DimensionValueSource.linkTag;
-    }
-    throw Exception('$this is not known in enum DimensionValueSource');
-  }
+  const DimensionValueSource(this.value);
+
+  static DimensionValueSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DimensionValueSource'));
 }
 
 /// An object that contains information about the DKIM configuration for an
@@ -2407,7 +2345,7 @@ class DkimAttributes {
   factory DkimAttributes.fromJson(Map<String, dynamic> json) {
     return DkimAttributes(
       signingEnabled: json['SigningEnabled'] as bool?,
-      status: (json['Status'] as String?)?.toDkimStatus(),
+      status: (json['Status'] as String?)?.let(DkimStatus.fromString),
       tokens: (json['Tokens'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2421,7 +2359,7 @@ class DkimAttributes {
     final tokens = this.tokens;
     return {
       if (signingEnabled != null) 'SigningEnabled': signingEnabled,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tokens != null) 'Tokens': tokens,
     };
   }
@@ -2455,46 +2393,20 @@ class DkimAttributes {
 /// </li>
 /// </ul>
 enum DkimStatus {
-  pending,
-  success,
-  failed,
-  temporaryFailure,
-  notStarted,
-}
+  pending('PENDING'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  temporaryFailure('TEMPORARY_FAILURE'),
+  notStarted('NOT_STARTED'),
+  ;
 
-extension DkimStatusValueExtension on DkimStatus {
-  String toValue() {
-    switch (this) {
-      case DkimStatus.pending:
-        return 'PENDING';
-      case DkimStatus.success:
-        return 'SUCCESS';
-      case DkimStatus.failed:
-        return 'FAILED';
-      case DkimStatus.temporaryFailure:
-        return 'TEMPORARY_FAILURE';
-      case DkimStatus.notStarted:
-        return 'NOT_STARTED';
-    }
-  }
-}
+  final String value;
 
-extension DkimStatusFromString on String {
-  DkimStatus toDkimStatus() {
-    switch (this) {
-      case 'PENDING':
-        return DkimStatus.pending;
-      case 'SUCCESS':
-        return DkimStatus.success;
-      case 'FAILED':
-        return DkimStatus.failed;
-      case 'TEMPORARY_FAILURE':
-        return DkimStatus.temporaryFailure;
-      case 'NOT_STARTED':
-        return DkimStatus.notStarted;
-    }
-    throw Exception('$this is not known in enum DkimStatus');
-  }
+  const DkimStatus(this.value);
+
+  static DkimStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DkimStatus'));
 }
 
 /// An object that contains the deliverability data for a specific campaign.
@@ -2868,7 +2780,7 @@ class EventDestination {
     return EventDestination(
       matchingEventTypes: (json['MatchingEventTypes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toEventType())
+          .map((e) => EventType.fromString((e as String)))
           .toList(),
       name: json['Name'] as String,
       cloudWatchDestination: json['CloudWatchDestination'] != null
@@ -2900,7 +2812,7 @@ class EventDestination {
     final pinpointDestination = this.pinpointDestination;
     final snsDestination = this.snsDestination;
     return {
-      'MatchingEventTypes': matchingEventTypes.map((e) => e.toValue()).toList(),
+      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
       'Name': name,
       if (cloudWatchDestination != null)
         'CloudWatchDestination': cloudWatchDestination,
@@ -2974,8 +2886,7 @@ class EventDestinationDefinition {
       if (kinesisFirehoseDestination != null)
         'KinesisFirehoseDestination': kinesisFirehoseDestination,
       if (matchingEventTypes != null)
-        'MatchingEventTypes':
-            matchingEventTypes.map((e) => e.toValue()).toList(),
+        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
       if (pinpointDestination != null)
         'PinpointDestination': pinpointDestination,
       if (snsDestination != null) 'SnsDestination': snsDestination,
@@ -2986,61 +2897,23 @@ class EventDestinationDefinition {
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
 enum EventType {
-  send,
-  reject,
-  bounce,
-  complaint,
-  delivery,
-  open,
-  click,
-  renderingFailure,
-}
+  send('SEND'),
+  reject('REJECT'),
+  bounce('BOUNCE'),
+  complaint('COMPLAINT'),
+  delivery('DELIVERY'),
+  open('OPEN'),
+  click('CLICK'),
+  renderingFailure('RENDERING_FAILURE'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.send:
-        return 'SEND';
-      case EventType.reject:
-        return 'REJECT';
-      case EventType.bounce:
-        return 'BOUNCE';
-      case EventType.complaint:
-        return 'COMPLAINT';
-      case EventType.delivery:
-        return 'DELIVERY';
-      case EventType.open:
-        return 'OPEN';
-      case EventType.click:
-        return 'CLICK';
-      case EventType.renderingFailure:
-        return 'RENDERING_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'SEND':
-        return EventType.send;
-      case 'REJECT':
-        return EventType.reject;
-      case 'BOUNCE':
-        return EventType.bounce;
-      case 'COMPLAINT':
-        return EventType.complaint;
-      case 'DELIVERY':
-        return EventType.delivery;
-      case 'OPEN':
-        return EventType.open;
-      case 'CLICK':
-        return EventType.click;
-      case 'RENDERING_FAILURE':
-        return EventType.renderingFailure;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// A list of details about the email-sending capabilities of your Amazon
@@ -3379,7 +3252,7 @@ class GetDeliverabilityDashboardOptionsResponse {
     return GetDeliverabilityDashboardOptionsResponse(
       dashboardEnabled: json['DashboardEnabled'] as bool,
       accountStatus: (json['AccountStatus'] as String?)
-          ?.toDeliverabilityDashboardAccountStatus(),
+          ?.let(DeliverabilityDashboardAccountStatus.fromString),
       activeSubscribedDomains: (json['ActiveSubscribedDomains'] as List?)
           ?.whereNotNull()
           .map((e) => DomainDeliverabilityTrackingOption.fromJson(
@@ -3404,7 +3277,7 @@ class GetDeliverabilityDashboardOptionsResponse {
     final subscriptionExpiryDate = this.subscriptionExpiryDate;
     return {
       'DashboardEnabled': dashboardEnabled,
-      if (accountStatus != null) 'AccountStatus': accountStatus.toValue(),
+      if (accountStatus != null) 'AccountStatus': accountStatus.value,
       if (activeSubscribedDomains != null)
         'ActiveSubscribedDomains': activeSubscribedDomains,
       if (pendingExpirationSubscribedDomains != null)
@@ -3605,7 +3478,8 @@ class GetEmailIdentityResponse {
               json['DkimAttributes'] as Map<String, dynamic>)
           : null,
       feedbackForwardingStatus: json['FeedbackForwardingStatus'] as bool?,
-      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      identityType:
+          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
       mailFromAttributes: json['MailFromAttributes'] != null
           ? MailFromAttributes.fromJson(
               json['MailFromAttributes'] as Map<String, dynamic>)
@@ -3629,7 +3503,7 @@ class GetEmailIdentityResponse {
       if (dkimAttributes != null) 'DkimAttributes': dkimAttributes,
       if (feedbackForwardingStatus != null)
         'FeedbackForwardingStatus': feedbackForwardingStatus,
-      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (identityType != null) 'IdentityType': identityType.value,
       if (mailFromAttributes != null) 'MailFromAttributes': mailFromAttributes,
       if (tags != null) 'Tags': tags,
       if (verifiedForSendingStatus != null)
@@ -3676,7 +3550,8 @@ class IdentityInfo {
   factory IdentityInfo.fromJson(Map<String, dynamic> json) {
     return IdentityInfo(
       identityName: json['IdentityName'] as String?,
-      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      identityType:
+          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
       sendingEnabled: json['SendingEnabled'] as bool?,
     );
   }
@@ -3687,7 +3562,7 @@ class IdentityInfo {
     final sendingEnabled = this.sendingEnabled;
     return {
       if (identityName != null) 'IdentityName': identityName,
-      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (identityType != null) 'IdentityType': identityType.value,
       if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
     };
   }
@@ -3704,36 +3579,19 @@ class IdentityInfo {
 /// </li>
 /// </ul>
 enum IdentityType {
-  emailAddress,
-  domain,
-  managedDomain,
-}
+  emailAddress('EMAIL_ADDRESS'),
+  domain('DOMAIN'),
+  managedDomain('MANAGED_DOMAIN'),
+  ;
 
-extension IdentityTypeValueExtension on IdentityType {
-  String toValue() {
-    switch (this) {
-      case IdentityType.emailAddress:
-        return 'EMAIL_ADDRESS';
-      case IdentityType.domain:
-        return 'DOMAIN';
-      case IdentityType.managedDomain:
-        return 'MANAGED_DOMAIN';
-    }
-  }
-}
+  final String value;
 
-extension IdentityTypeFromString on String {
-  IdentityType toIdentityType() {
-    switch (this) {
-      case 'EMAIL_ADDRESS':
-        return IdentityType.emailAddress;
-      case 'DOMAIN':
-        return IdentityType.domain;
-      case 'MANAGED_DOMAIN':
-        return IdentityType.managedDomain;
-    }
-    throw Exception('$this is not known in enum IdentityType');
-  }
+  const IdentityType(this.value);
+
+  static IdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityType'));
 }
 
 /// An object that contains information about the inbox placement data settings
@@ -4116,11 +3974,11 @@ class MailFromAttributes {
 
   factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
     return MailFromAttributes(
-      behaviorOnMxFailure:
-          (json['BehaviorOnMxFailure'] as String).toBehaviorOnMxFailure(),
+      behaviorOnMxFailure: BehaviorOnMxFailure.fromString(
+          (json['BehaviorOnMxFailure'] as String)),
       mailFromDomain: json['MailFromDomain'] as String,
-      mailFromDomainStatus:
-          (json['MailFromDomainStatus'] as String).toMailFromDomainStatus(),
+      mailFromDomainStatus: MailFromDomainStatus.fromString(
+          (json['MailFromDomainStatus'] as String)),
     );
   }
 
@@ -4129,9 +3987,9 @@ class MailFromAttributes {
     final mailFromDomain = this.mailFromDomain;
     final mailFromDomainStatus = this.mailFromDomainStatus;
     return {
-      'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
+      'BehaviorOnMxFailure': behaviorOnMxFailure.value,
       'MailFromDomain': mailFromDomain,
-      'MailFromDomainStatus': mailFromDomainStatus.toValue(),
+      'MailFromDomainStatus': mailFromDomainStatus.value,
     };
   }
 }
@@ -4158,41 +4016,20 @@ class MailFromAttributes {
 /// </li>
 /// </ul>
 enum MailFromDomainStatus {
-  pending,
-  success,
-  failed,
-  temporaryFailure,
-}
+  pending('PENDING'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  temporaryFailure('TEMPORARY_FAILURE'),
+  ;
 
-extension MailFromDomainStatusValueExtension on MailFromDomainStatus {
-  String toValue() {
-    switch (this) {
-      case MailFromDomainStatus.pending:
-        return 'PENDING';
-      case MailFromDomainStatus.success:
-        return 'SUCCESS';
-      case MailFromDomainStatus.failed:
-        return 'FAILED';
-      case MailFromDomainStatus.temporaryFailure:
-        return 'TEMPORARY_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension MailFromDomainStatusFromString on String {
-  MailFromDomainStatus toMailFromDomainStatus() {
-    switch (this) {
-      case 'PENDING':
-        return MailFromDomainStatus.pending;
-      case 'SUCCESS':
-        return MailFromDomainStatus.success;
-      case 'FAILED':
-        return MailFromDomainStatus.failed;
-      case 'TEMPORARY_FAILURE':
-        return MailFromDomainStatus.temporaryFailure;
-    }
-    throw Exception('$this is not known in enum MailFromDomainStatus');
-  }
+  const MailFromDomainStatus(this.value);
+
+  static MailFromDomainStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MailFromDomainStatus'));
 }
 
 /// Represents the email message that you're sending. The <code>Message</code>
@@ -4898,31 +4735,17 @@ class Template {
 /// value is <code>Optional</code>, messages can be delivered in plain text if a
 /// TLS connection can't be established.
 enum TlsPolicy {
-  require,
-  optional,
-}
+  require('REQUIRE'),
+  optional('OPTIONAL'),
+  ;
 
-extension TlsPolicyValueExtension on TlsPolicy {
-  String toValue() {
-    switch (this) {
-      case TlsPolicy.require:
-        return 'REQUIRE';
-      case TlsPolicy.optional:
-        return 'OPTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension TlsPolicyFromString on String {
-  TlsPolicy toTlsPolicy() {
-    switch (this) {
-      case 'REQUIRE':
-        return TlsPolicy.require;
-      case 'OPTIONAL':
-        return TlsPolicy.optional;
-    }
-    throw Exception('$this is not known in enum TlsPolicy');
-  }
+  const TlsPolicy(this.value);
+
+  static TlsPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TlsPolicy'));
 }
 
 /// An object that defines the tracking options for a configuration set. When
@@ -5033,31 +4856,18 @@ class VolumeStatistics {
 
 /// The warmup status of a dedicated IP.
 enum WarmupStatus {
-  inProgress,
-  done,
-}
+  inProgress('IN_PROGRESS'),
+  done('DONE'),
+  ;
 
-extension WarmupStatusValueExtension on WarmupStatus {
-  String toValue() {
-    switch (this) {
-      case WarmupStatus.inProgress:
-        return 'IN_PROGRESS';
-      case WarmupStatus.done:
-        return 'DONE';
-    }
-  }
-}
+  final String value;
 
-extension WarmupStatusFromString on String {
-  WarmupStatus toWarmupStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return WarmupStatus.inProgress;
-      case 'DONE':
-        return WarmupStatus.done;
-    }
-    throw Exception('$this is not known in enum WarmupStatus');
-  }
+  const WarmupStatus(this.value);
+
+  static WarmupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WarmupStatus'));
 }
 
 class AccountSuspendedException extends _s.GenericAwsException {

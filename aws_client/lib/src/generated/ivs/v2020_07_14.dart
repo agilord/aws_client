@@ -517,15 +517,15 @@ class Ivs {
     final $payload = <String, dynamic>{
       if (authorized != null) 'authorized': authorized,
       if (insecureIngest != null) 'insecureIngest': insecureIngest,
-      if (latencyMode != null) 'latencyMode': latencyMode.toValue(),
+      if (latencyMode != null) 'latencyMode': latencyMode.value,
       if (name != null) 'name': name,
       if (playbackRestrictionPolicyArn != null)
         'playbackRestrictionPolicyArn': playbackRestrictionPolicyArn,
-      if (preset != null) 'preset': preset.toValue(),
+      if (preset != null) 'preset': preset.value,
       if (recordingConfigurationArn != null)
         'recordingConfigurationArn': recordingConfigurationArn,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1652,14 +1652,14 @@ class Ivs {
       'arn': arn,
       if (authorized != null) 'authorized': authorized,
       if (insecureIngest != null) 'insecureIngest': insecureIngest,
-      if (latencyMode != null) 'latencyMode': latencyMode.toValue(),
+      if (latencyMode != null) 'latencyMode': latencyMode.value,
       if (name != null) 'name': name,
       if (playbackRestrictionPolicyArn != null)
         'playbackRestrictionPolicyArn': playbackRestrictionPolicyArn,
-      if (preset != null) 'preset': preset.toValue(),
+      if (preset != null) 'preset': preset.value,
       if (recordingConfigurationArn != null)
         'recordingConfigurationArn': recordingConfigurationArn,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2078,19 +2078,20 @@ class Channel {
       authorized: json['authorized'] as bool?,
       ingestEndpoint: json['ingestEndpoint'] as String?,
       insecureIngest: json['insecureIngest'] as bool?,
-      latencyMode: (json['latencyMode'] as String?)?.toChannelLatencyMode(),
+      latencyMode:
+          (json['latencyMode'] as String?)?.let(ChannelLatencyMode.fromString),
       name: json['name'] as String?,
       playbackRestrictionPolicyArn:
           json['playbackRestrictionPolicyArn'] as String?,
       playbackUrl: json['playbackUrl'] as String?,
-      preset: (json['preset'] as String?)?.toTranscodePreset(),
+      preset: (json['preset'] as String?)?.let(TranscodePreset.fromString),
       recordingConfigurationArn: json['recordingConfigurationArn'] as String?,
       srt: json['srt'] != null
           ? Srt.fromJson(json['srt'] as Map<String, dynamic>)
           : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toChannelType(),
+      type: (json['type'] as String?)?.let(ChannelType.fromString),
     );
   }
 
@@ -2113,47 +2114,34 @@ class Channel {
       if (authorized != null) 'authorized': authorized,
       if (ingestEndpoint != null) 'ingestEndpoint': ingestEndpoint,
       if (insecureIngest != null) 'insecureIngest': insecureIngest,
-      if (latencyMode != null) 'latencyMode': latencyMode.toValue(),
+      if (latencyMode != null) 'latencyMode': latencyMode.value,
       if (name != null) 'name': name,
       if (playbackRestrictionPolicyArn != null)
         'playbackRestrictionPolicyArn': playbackRestrictionPolicyArn,
       if (playbackUrl != null) 'playbackUrl': playbackUrl,
-      if (preset != null) 'preset': preset.toValue(),
+      if (preset != null) 'preset': preset.value,
       if (recordingConfigurationArn != null)
         'recordingConfigurationArn': recordingConfigurationArn,
       if (srt != null) 'srt': srt,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum ChannelLatencyMode {
-  normal,
-  low,
-}
+  normal('NORMAL'),
+  low('LOW'),
+  ;
 
-extension ChannelLatencyModeValueExtension on ChannelLatencyMode {
-  String toValue() {
-    switch (this) {
-      case ChannelLatencyMode.normal:
-        return 'NORMAL';
-      case ChannelLatencyMode.low:
-        return 'LOW';
-    }
-  }
-}
+  final String value;
 
-extension ChannelLatencyModeFromString on String {
-  ChannelLatencyMode toChannelLatencyMode() {
-    switch (this) {
-      case 'NORMAL':
-        return ChannelLatencyMode.normal;
-      case 'LOW':
-        return ChannelLatencyMode.low;
-    }
-    throw Exception('$this is not known in enum ChannelLatencyMode');
-  }
+  const ChannelLatencyMode(this.value);
+
+  static ChannelLatencyMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ChannelLatencyMode'));
 }
 
 /// Summary information about a channel.
@@ -2229,15 +2217,16 @@ class ChannelSummary {
       arn: json['arn'] as String?,
       authorized: json['authorized'] as bool?,
       insecureIngest: json['insecureIngest'] as bool?,
-      latencyMode: (json['latencyMode'] as String?)?.toChannelLatencyMode(),
+      latencyMode:
+          (json['latencyMode'] as String?)?.let(ChannelLatencyMode.fromString),
       name: json['name'] as String?,
       playbackRestrictionPolicyArn:
           json['playbackRestrictionPolicyArn'] as String?,
-      preset: (json['preset'] as String?)?.toTranscodePreset(),
+      preset: (json['preset'] as String?)?.let(TranscodePreset.fromString),
       recordingConfigurationArn: json['recordingConfigurationArn'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toChannelType(),
+      type: (json['type'] as String?)?.let(ChannelType.fromString),
     );
   }
 
@@ -2256,55 +2245,33 @@ class ChannelSummary {
       if (arn != null) 'arn': arn,
       if (authorized != null) 'authorized': authorized,
       if (insecureIngest != null) 'insecureIngest': insecureIngest,
-      if (latencyMode != null) 'latencyMode': latencyMode.toValue(),
+      if (latencyMode != null) 'latencyMode': latencyMode.value,
       if (name != null) 'name': name,
       if (playbackRestrictionPolicyArn != null)
         'playbackRestrictionPolicyArn': playbackRestrictionPolicyArn,
-      if (preset != null) 'preset': preset.toValue(),
+      if (preset != null) 'preset': preset.value,
       if (recordingConfigurationArn != null)
         'recordingConfigurationArn': recordingConfigurationArn,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum ChannelType {
-  basic,
-  standard,
-  advancedSd,
-  advancedHd,
-}
+  basic('BASIC'),
+  standard('STANDARD'),
+  advancedSd('ADVANCED_SD'),
+  advancedHd('ADVANCED_HD'),
+  ;
 
-extension ChannelTypeValueExtension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.basic:
-        return 'BASIC';
-      case ChannelType.standard:
-        return 'STANDARD';
-      case ChannelType.advancedSd:
-        return 'ADVANCED_SD';
-      case ChannelType.advancedHd:
-        return 'ADVANCED_HD';
-    }
-  }
-}
+  final String value;
 
-extension ChannelTypeFromString on String {
-  ChannelType toChannelType() {
-    switch (this) {
-      case 'BASIC':
-        return ChannelType.basic;
-      case 'STANDARD':
-        return ChannelType.standard;
-      case 'ADVANCED_SD':
-        return ChannelType.advancedSd;
-      case 'ADVANCED_HD':
-        return ChannelType.advancedHd;
-    }
-    throw Exception('$this is not known in enum ChannelType');
-  }
+  const ChannelType(this.value);
+
+  static ChannelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelType'));
 }
 
 class CreateChannelResponse {
@@ -3263,7 +3230,7 @@ class RecordingConfiguration {
       arn: json['arn'] as String,
       destinationConfiguration: DestinationConfiguration.fromJson(
           json['destinationConfiguration'] as Map<String, dynamic>),
-      state: (json['state'] as String).toRecordingConfigurationState(),
+      state: RecordingConfigurationState.fromString((json['state'] as String)),
       name: json['name'] as String?,
       recordingReconnectWindowSeconds:
           json['recordingReconnectWindowSeconds'] as int?,
@@ -3293,7 +3260,7 @@ class RecordingConfiguration {
     return {
       'arn': arn,
       'destinationConfiguration': destinationConfiguration,
-      'state': state.toValue(),
+      'state': state.value,
       if (name != null) 'name': name,
       if (recordingReconnectWindowSeconds != null)
         'recordingReconnectWindowSeconds': recordingReconnectWindowSeconds,
@@ -3307,37 +3274,19 @@ class RecordingConfiguration {
 }
 
 enum RecordingConfigurationState {
-  creating,
-  createFailed,
-  active,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  ;
 
-extension RecordingConfigurationStateValueExtension
-    on RecordingConfigurationState {
-  String toValue() {
-    switch (this) {
-      case RecordingConfigurationState.creating:
-        return 'CREATING';
-      case RecordingConfigurationState.createFailed:
-        return 'CREATE_FAILED';
-      case RecordingConfigurationState.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RecordingConfigurationStateFromString on String {
-  RecordingConfigurationState toRecordingConfigurationState() {
-    switch (this) {
-      case 'CREATING':
-        return RecordingConfigurationState.creating;
-      case 'CREATE_FAILED':
-        return RecordingConfigurationState.createFailed;
-      case 'ACTIVE':
-        return RecordingConfigurationState.active;
-    }
-    throw Exception('$this is not known in enum RecordingConfigurationState');
-  }
+  const RecordingConfigurationState(this.value);
+
+  static RecordingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecordingConfigurationState'));
 }
 
 /// Summary information about a RecordingConfiguration.
@@ -3379,7 +3328,7 @@ class RecordingConfigurationSummary {
       arn: json['arn'] as String,
       destinationConfiguration: DestinationConfiguration.fromJson(
           json['destinationConfiguration'] as Map<String, dynamic>),
-      state: (json['state'] as String).toRecordingConfigurationState(),
+      state: RecordingConfigurationState.fromString((json['state'] as String)),
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3395,7 +3344,7 @@ class RecordingConfigurationSummary {
     return {
       'arn': arn,
       'destinationConfiguration': destinationConfiguration,
-      'state': state.toValue(),
+      'state': state.value,
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
     };
@@ -3403,31 +3352,18 @@ class RecordingConfigurationSummary {
 }
 
 enum RecordingMode {
-  disabled,
-  interval,
-}
+  disabled('DISABLED'),
+  interval('INTERVAL'),
+  ;
 
-extension RecordingModeValueExtension on RecordingMode {
-  String toValue() {
-    switch (this) {
-      case RecordingMode.disabled:
-        return 'DISABLED';
-      case RecordingMode.interval:
-        return 'INTERVAL';
-    }
-  }
-}
+  final String value;
 
-extension RecordingModeFromString on String {
-  RecordingMode toRecordingMode() {
-    switch (this) {
-      case 'DISABLED':
-        return RecordingMode.disabled;
-      case 'INTERVAL':
-        return RecordingMode.interval;
-    }
-    throw Exception('$this is not known in enum RecordingMode');
-  }
+  const RecordingMode(this.value);
+
+  static RecordingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordingMode'));
 }
 
 /// Object that describes which renditions should be recorded for a stream.
@@ -3456,10 +3392,10 @@ class RenditionConfiguration {
   factory RenditionConfiguration.fromJson(Map<String, dynamic> json) {
     return RenditionConfiguration(
       renditionSelection: (json['renditionSelection'] as String?)
-          ?.toRenditionConfigurationRenditionSelection(),
+          ?.let(RenditionConfigurationRenditionSelection.fromString),
       renditions: (json['renditions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toRenditionConfigurationRendition())
+          .map((e) => RenditionConfigurationRendition.fromString((e as String)))
           .toList(),
     );
   }
@@ -3469,87 +3405,44 @@ class RenditionConfiguration {
     final renditions = this.renditions;
     return {
       if (renditionSelection != null)
-        'renditionSelection': renditionSelection.toValue(),
+        'renditionSelection': renditionSelection.value,
       if (renditions != null)
-        'renditions': renditions.map((e) => e.toValue()).toList(),
+        'renditions': renditions.map((e) => e.value).toList(),
     };
   }
 }
 
 enum RenditionConfigurationRendition {
-  fullHd,
-  hd,
-  sd,
-  lowestResolution,
-}
+  fullHd('FULL_HD'),
+  hd('HD'),
+  sd('SD'),
+  lowestResolution('LOWEST_RESOLUTION'),
+  ;
 
-extension RenditionConfigurationRenditionValueExtension
-    on RenditionConfigurationRendition {
-  String toValue() {
-    switch (this) {
-      case RenditionConfigurationRendition.fullHd:
-        return 'FULL_HD';
-      case RenditionConfigurationRendition.hd:
-        return 'HD';
-      case RenditionConfigurationRendition.sd:
-        return 'SD';
-      case RenditionConfigurationRendition.lowestResolution:
-        return 'LOWEST_RESOLUTION';
-    }
-  }
-}
+  final String value;
 
-extension RenditionConfigurationRenditionFromString on String {
-  RenditionConfigurationRendition toRenditionConfigurationRendition() {
-    switch (this) {
-      case 'FULL_HD':
-        return RenditionConfigurationRendition.fullHd;
-      case 'HD':
-        return RenditionConfigurationRendition.hd;
-      case 'SD':
-        return RenditionConfigurationRendition.sd;
-      case 'LOWEST_RESOLUTION':
-        return RenditionConfigurationRendition.lowestResolution;
-    }
-    throw Exception(
-        '$this is not known in enum RenditionConfigurationRendition');
-  }
+  const RenditionConfigurationRendition(this.value);
+
+  static RenditionConfigurationRendition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RenditionConfigurationRendition'));
 }
 
 enum RenditionConfigurationRenditionSelection {
-  all,
-  none,
-  custom,
-}
+  all('ALL'),
+  none('NONE'),
+  custom('CUSTOM'),
+  ;
 
-extension RenditionConfigurationRenditionSelectionValueExtension
-    on RenditionConfigurationRenditionSelection {
-  String toValue() {
-    switch (this) {
-      case RenditionConfigurationRenditionSelection.all:
-        return 'ALL';
-      case RenditionConfigurationRenditionSelection.none:
-        return 'NONE';
-      case RenditionConfigurationRenditionSelection.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension RenditionConfigurationRenditionSelectionFromString on String {
-  RenditionConfigurationRenditionSelection
-      toRenditionConfigurationRenditionSelection() {
-    switch (this) {
-      case 'ALL':
-        return RenditionConfigurationRenditionSelection.all;
-      case 'NONE':
-        return RenditionConfigurationRenditionSelection.none;
-      case 'CUSTOM':
-        return RenditionConfigurationRenditionSelection.custom;
-    }
-    throw Exception(
-        '$this is not known in enum RenditionConfigurationRenditionSelection');
-  }
+  const RenditionConfigurationRenditionSelection(this.value);
+
+  static RenditionConfigurationRenditionSelection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RenditionConfigurationRenditionSelection'));
 }
 
 /// A complex type that describes an S3 location where recorded videos will be
@@ -3678,10 +3571,10 @@ class Stream {
   factory Stream.fromJson(Map<String, dynamic> json) {
     return Stream(
       channelArn: json['channelArn'] as String?,
-      health: (json['health'] as String?)?.toStreamHealth(),
+      health: (json['health'] as String?)?.let(StreamHealth.fromString),
       playbackUrl: json['playbackUrl'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      state: (json['state'] as String?)?.toStreamState(),
+      state: (json['state'] as String?)?.let(StreamState.fromString),
       streamId: json['streamId'] as String?,
       viewerCount: json['viewerCount'] as int?,
     );
@@ -3697,10 +3590,10 @@ class Stream {
     final viewerCount = this.viewerCount;
     return {
       if (channelArn != null) 'channelArn': channelArn,
-      if (health != null) 'health': health.toValue(),
+      if (health != null) 'health': health.value,
       if (playbackUrl != null) 'playbackUrl': playbackUrl,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (streamId != null) 'streamId': streamId,
       if (viewerCount != null) 'viewerCount': viewerCount,
     };
@@ -3759,42 +3652,25 @@ class StreamFilters {
   Map<String, dynamic> toJson() {
     final health = this.health;
     return {
-      if (health != null) 'health': health.toValue(),
+      if (health != null) 'health': health.value,
     };
   }
 }
 
 enum StreamHealth {
-  healthy,
-  starving,
-  unknown,
-}
+  healthy('HEALTHY'),
+  starving('STARVING'),
+  unknown('UNKNOWN'),
+  ;
 
-extension StreamHealthValueExtension on StreamHealth {
-  String toValue() {
-    switch (this) {
-      case StreamHealth.healthy:
-        return 'HEALTHY';
-      case StreamHealth.starving:
-        return 'STARVING';
-      case StreamHealth.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension StreamHealthFromString on String {
-  StreamHealth toStreamHealth() {
-    switch (this) {
-      case 'HEALTHY':
-        return StreamHealth.healthy;
-      case 'STARVING':
-        return StreamHealth.starving;
-      case 'UNKNOWN':
-        return StreamHealth.unknown;
-    }
-    throw Exception('$this is not known in enum StreamHealth');
-  }
+  const StreamHealth(this.value);
+
+  static StreamHealth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StreamHealth'));
 }
 
 /// Object specifying a stream key.
@@ -4029,31 +3905,17 @@ class StreamSessionSummary {
 }
 
 enum StreamState {
-  live,
-  offline,
-}
+  live('LIVE'),
+  offline('OFFLINE'),
+  ;
 
-extension StreamStateValueExtension on StreamState {
-  String toValue() {
-    switch (this) {
-      case StreamState.live:
-        return 'LIVE';
-      case StreamState.offline:
-        return 'OFFLINE';
-    }
-  }
-}
+  final String value;
 
-extension StreamStateFromString on String {
-  StreamState toStreamState() {
-    switch (this) {
-      case 'LIVE':
-        return StreamState.live;
-      case 'OFFLINE':
-        return StreamState.offline;
-    }
-    throw Exception('$this is not known in enum StreamState');
-  }
+  const StreamState(this.value);
+
+  static StreamState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StreamState'));
 }
 
 /// Summary information about a stream.
@@ -4096,9 +3958,9 @@ class StreamSummary {
   factory StreamSummary.fromJson(Map<String, dynamic> json) {
     return StreamSummary(
       channelArn: json['channelArn'] as String?,
-      health: (json['health'] as String?)?.toStreamHealth(),
+      health: (json['health'] as String?)?.let(StreamHealth.fromString),
       startTime: timeStampFromJson(json['startTime']),
-      state: (json['state'] as String?)?.toStreamState(),
+      state: (json['state'] as String?)?.let(StreamState.fromString),
       streamId: json['streamId'] as String?,
       viewerCount: json['viewerCount'] as int?,
     );
@@ -4113,9 +3975,9 @@ class StreamSummary {
     final viewerCount = this.viewerCount;
     return {
       if (channelArn != null) 'channelArn': channelArn,
-      if (health != null) 'health': health.toValue(),
+      if (health != null) 'health': health.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (streamId != null) 'streamId': streamId,
       if (viewerCount != null) 'viewerCount': viewerCount,
     };
@@ -4182,12 +4044,13 @@ class ThumbnailConfiguration {
 
   factory ThumbnailConfiguration.fromJson(Map<String, dynamic> json) {
     return ThumbnailConfiguration(
-      recordingMode: (json['recordingMode'] as String?)?.toRecordingMode(),
-      resolution:
-          (json['resolution'] as String?)?.toThumbnailConfigurationResolution(),
+      recordingMode:
+          (json['recordingMode'] as String?)?.let(RecordingMode.fromString),
+      resolution: (json['resolution'] as String?)
+          ?.let(ThumbnailConfigurationResolution.fromString),
       storage: (json['storage'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toThumbnailConfigurationStorage())
+          .map((e) => ThumbnailConfigurationStorage.fromString((e as String)))
           .toList(),
       targetIntervalSeconds: json['targetIntervalSeconds'] as int?,
     );
@@ -4199,9 +4062,9 @@ class ThumbnailConfiguration {
     final storage = this.storage;
     final targetIntervalSeconds = this.targetIntervalSeconds;
     return {
-      if (recordingMode != null) 'recordingMode': recordingMode.toValue(),
-      if (resolution != null) 'resolution': resolution.toValue(),
-      if (storage != null) 'storage': storage.map((e) => e.toValue()).toList(),
+      if (recordingMode != null) 'recordingMode': recordingMode.value,
+      if (resolution != null) 'resolution': resolution.value,
+      if (storage != null) 'storage': storage.map((e) => e.value).toList(),
       if (targetIntervalSeconds != null)
         'targetIntervalSeconds': targetIntervalSeconds,
     };
@@ -4209,100 +4072,50 @@ class ThumbnailConfiguration {
 }
 
 enum ThumbnailConfigurationResolution {
-  fullHd,
-  hd,
-  sd,
-  lowestResolution,
-}
+  fullHd('FULL_HD'),
+  hd('HD'),
+  sd('SD'),
+  lowestResolution('LOWEST_RESOLUTION'),
+  ;
 
-extension ThumbnailConfigurationResolutionValueExtension
-    on ThumbnailConfigurationResolution {
-  String toValue() {
-    switch (this) {
-      case ThumbnailConfigurationResolution.fullHd:
-        return 'FULL_HD';
-      case ThumbnailConfigurationResolution.hd:
-        return 'HD';
-      case ThumbnailConfigurationResolution.sd:
-        return 'SD';
-      case ThumbnailConfigurationResolution.lowestResolution:
-        return 'LOWEST_RESOLUTION';
-    }
-  }
-}
+  final String value;
 
-extension ThumbnailConfigurationResolutionFromString on String {
-  ThumbnailConfigurationResolution toThumbnailConfigurationResolution() {
-    switch (this) {
-      case 'FULL_HD':
-        return ThumbnailConfigurationResolution.fullHd;
-      case 'HD':
-        return ThumbnailConfigurationResolution.hd;
-      case 'SD':
-        return ThumbnailConfigurationResolution.sd;
-      case 'LOWEST_RESOLUTION':
-        return ThumbnailConfigurationResolution.lowestResolution;
-    }
-    throw Exception(
-        '$this is not known in enum ThumbnailConfigurationResolution');
-  }
+  const ThumbnailConfigurationResolution(this.value);
+
+  static ThumbnailConfigurationResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ThumbnailConfigurationResolution'));
 }
 
 enum ThumbnailConfigurationStorage {
-  sequential,
-  latest,
-}
+  sequential('SEQUENTIAL'),
+  latest('LATEST'),
+  ;
 
-extension ThumbnailConfigurationStorageValueExtension
-    on ThumbnailConfigurationStorage {
-  String toValue() {
-    switch (this) {
-      case ThumbnailConfigurationStorage.sequential:
-        return 'SEQUENTIAL';
-      case ThumbnailConfigurationStorage.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension ThumbnailConfigurationStorageFromString on String {
-  ThumbnailConfigurationStorage toThumbnailConfigurationStorage() {
-    switch (this) {
-      case 'SEQUENTIAL':
-        return ThumbnailConfigurationStorage.sequential;
-      case 'LATEST':
-        return ThumbnailConfigurationStorage.latest;
-    }
-    throw Exception('$this is not known in enum ThumbnailConfigurationStorage');
-  }
+  const ThumbnailConfigurationStorage(this.value);
+
+  static ThumbnailConfigurationStorage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ThumbnailConfigurationStorage'));
 }
 
 enum TranscodePreset {
-  higherBandwidthDelivery,
-  constrainedBandwidthDelivery,
-}
+  higherBandwidthDelivery('HIGHER_BANDWIDTH_DELIVERY'),
+  constrainedBandwidthDelivery('CONSTRAINED_BANDWIDTH_DELIVERY'),
+  ;
 
-extension TranscodePresetValueExtension on TranscodePreset {
-  String toValue() {
-    switch (this) {
-      case TranscodePreset.higherBandwidthDelivery:
-        return 'HIGHER_BANDWIDTH_DELIVERY';
-      case TranscodePreset.constrainedBandwidthDelivery:
-        return 'CONSTRAINED_BANDWIDTH_DELIVERY';
-    }
-  }
-}
+  final String value;
 
-extension TranscodePresetFromString on String {
-  TranscodePreset toTranscodePreset() {
-    switch (this) {
-      case 'HIGHER_BANDWIDTH_DELIVERY':
-        return TranscodePreset.higherBandwidthDelivery;
-      case 'CONSTRAINED_BANDWIDTH_DELIVERY':
-        return TranscodePreset.constrainedBandwidthDelivery;
-    }
-    throw Exception('$this is not known in enum TranscodePreset');
-  }
+  const TranscodePreset(this.value);
+
+  static TranscodePreset fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TranscodePreset'));
 }
 
 class UntagResourceResponse {

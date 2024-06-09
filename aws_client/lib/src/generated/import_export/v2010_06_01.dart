@@ -114,7 +114,7 @@ class ImportExport {
     String? manifestAddendum,
   }) async {
     final $request = <String, String>{
-      'JobType': jobType.toValue(),
+      'JobType': jobType.value,
       'Manifest': manifest,
       'ValidateOnly': validateOnly.toString(),
       if (aPIVersion != null) 'APIVersion': aPIVersion,
@@ -280,7 +280,7 @@ class ImportExport {
   }) async {
     final $request = <String, String>{
       'JobId': jobId,
-      'JobType': jobType.toValue(),
+      'JobType': jobType.value,
       'Manifest': manifest,
       'ValidateOnly': validateOnly.toString(),
       if (aPIVersion != null) 'APIVersion': aPIVersion,
@@ -410,7 +410,9 @@ class CreateJobOutput {
       artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let(
           (elem) => elem.findElements('member').map(Artifact.fromXml).toList()),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s.extractXmlStringValue(elem, 'JobType')?.toJobType(),
+      jobType: _s
+          .extractXmlStringValue(elem, 'JobType')
+          ?.let(JobType.fromString) /* Nullability(true, true) */,
       signature: _s.extractXmlStringValue(elem, 'Signature'),
       signatureFileContents:
           _s.extractXmlStringValue(elem, 'SignatureFileContents'),
@@ -428,7 +430,7 @@ class CreateJobOutput {
     return {
       if (artifactList != null) 'ArtifactList': artifactList,
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
       if (signature != null) 'Signature': signature,
       if (signatureFileContents != null)
         'SignatureFileContents': signatureFileContents,
@@ -552,7 +554,9 @@ class GetStatusOutput {
       currentManifest: _s.extractXmlStringValue(elem, 'CurrentManifest'),
       errorCount: _s.extractXmlIntValue(elem, 'ErrorCount'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s.extractXmlStringValue(elem, 'JobType')?.toJobType(),
+      jobType: _s
+          .extractXmlStringValue(elem, 'JobType')
+          ?.let(JobType.fromString) /* Nullability(true, true) */,
       locationCode: _s.extractXmlStringValue(elem, 'LocationCode'),
       locationMessage: _s.extractXmlStringValue(elem, 'LocationMessage'),
       logBucket: _s.extractXmlStringValue(elem, 'LogBucket'),
@@ -590,7 +594,7 @@ class GetStatusOutput {
       if (currentManifest != null) 'CurrentManifest': currentManifest,
       if (errorCount != null) 'ErrorCount': errorCount,
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
       if (locationCode != null) 'LocationCode': locationCode,
       if (locationMessage != null) 'LocationMessage': locationMessage,
       if (logBucket != null) 'LogBucket': logBucket,
@@ -793,7 +797,9 @@ class Job {
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       isCanceled: _s.extractXmlBoolValue(elem, 'IsCanceled'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s.extractXmlStringValue(elem, 'JobType')?.toJobType(),
+      jobType: _s
+          .extractXmlStringValue(elem, 'JobType')
+          ?.let(JobType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -806,38 +812,24 @@ class Job {
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
       if (isCanceled != null) 'IsCanceled': isCanceled,
       if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.toValue(),
+      if (jobType != null) 'JobType': jobType.value,
     };
   }
 }
 
 /// Specifies whether the job to initiate is an import or export job.
 enum JobType {
-  import,
-  export,
-}
+  import('Import'),
+  export('Export'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.import:
-        return 'Import';
-      case JobType.export:
-        return 'Export';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'Import':
-        return JobType.import;
-      case 'Export':
-        return JobType.export;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// Output structure for the ListJobs operation.

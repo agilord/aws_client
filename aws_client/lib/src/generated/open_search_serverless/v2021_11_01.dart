@@ -244,7 +244,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policy': policy,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
       },
@@ -304,10 +304,9 @@ class OpenSearchServiceServerless {
         'name': name,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
-        if (standbyReplicas != null)
-          'standbyReplicas': standbyReplicas.toValue(),
+        if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.value,
         if (tags != null) 'tags': tags,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -359,7 +358,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policy': policy,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
       },
@@ -413,7 +412,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
         if (samlOptions != null) 'samlOptions': samlOptions,
@@ -473,7 +472,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policy': policy,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
       },
@@ -573,7 +572,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       },
     );
@@ -655,7 +654,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       },
     );
@@ -731,7 +730,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       },
     );
@@ -806,7 +805,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
       },
     );
 
@@ -917,7 +916,7 @@ class OpenSearchServiceServerless {
       headers: headers,
       payload: {
         'name': name,
-        'type': type.toValue(),
+        'type': type.value,
       },
     );
 
@@ -969,7 +968,7 @@ class OpenSearchServiceServerless {
       // TODO queryParams
       headers: headers,
       payload: {
-        'type': type.toValue(),
+        'type': type.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (resource != null) 'resource': resource,
@@ -1081,7 +1080,7 @@ class OpenSearchServiceServerless {
       // TODO queryParams
       headers: headers,
       payload: {
-        'type': type.toValue(),
+        'type': type.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (resources != null) 'resources': resources,
@@ -1134,7 +1133,7 @@ class OpenSearchServiceServerless {
       // TODO queryParams
       headers: headers,
       payload: {
-        'type': type.toValue(),
+        'type': type.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1189,7 +1188,7 @@ class OpenSearchServiceServerless {
       // TODO queryParams
       headers: headers,
       payload: {
-        'type': type.toValue(),
+        'type': type.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (resource != null) 'resource': resource,
@@ -1416,7 +1415,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policyVersion': policyVersion,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
         if (policy != null) 'policy': policy,
@@ -1542,7 +1541,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policyVersion': policyVersion,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
         if (policy != null) 'policy': policy,
@@ -1661,7 +1660,7 @@ class OpenSearchServiceServerless {
       payload: {
         'name': name,
         'policyVersion': policyVersion,
-        'type': type.toValue(),
+        'type': type.value,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
         if (policy != null) 'policy': policy,
@@ -1776,7 +1775,7 @@ class AccessPolicyDetail {
           ? Document.fromJson(json['policy'] as Map<String, dynamic>)
           : null,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toAccessPolicyType(),
+      type: (json['type'] as String?)?.let(AccessPolicyType.fromString),
     );
   }
 
@@ -1795,7 +1794,7 @@ class AccessPolicyDetail {
       if (name != null) 'name': name,
       if (policy != null) 'policy': policy,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -1860,7 +1859,7 @@ class AccessPolicySummary {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toAccessPolicyType(),
+      type: (json['type'] as String?)?.let(AccessPolicyType.fromString),
     );
   }
 
@@ -1877,32 +1876,23 @@ class AccessPolicySummary {
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum AccessPolicyType {
-  data,
-}
+  data('data'),
+  ;
 
-extension AccessPolicyTypeValueExtension on AccessPolicyType {
-  String toValue() {
-    switch (this) {
-      case AccessPolicyType.data:
-        return 'data';
-    }
-  }
-}
+  final String value;
 
-extension AccessPolicyTypeFromString on String {
-  AccessPolicyType toAccessPolicyType() {
-    switch (this) {
-      case 'data':
-        return AccessPolicyType.data;
-    }
-    throw Exception('$this is not known in enum AccessPolicyType');
-  }
+  const AccessPolicyType(this.value);
+
+  static AccessPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccessPolicyType'));
 }
 
 /// OpenSearch Serverless-related information for the current account.
@@ -2193,9 +2183,9 @@ class CollectionDetail {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       standbyReplicas:
-          (json['standbyReplicas'] as String?)?.toStandbyReplicas(),
-      status: (json['status'] as String?)?.toCollectionStatus(),
-      type: (json['type'] as String?)?.toCollectionType(),
+          (json['standbyReplicas'] as String?)?.let(StandbyReplicas.fromString),
+      status: (json['status'] as String?)?.let(CollectionStatus.fromString),
+      type: (json['type'] as String?)?.let(CollectionType.fromString),
     );
   }
 
@@ -2222,9 +2212,9 @@ class CollectionDetail {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
-      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.toValue(),
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.value,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -2295,47 +2285,26 @@ class CollectionFilters {
     final status = this.status;
     return {
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum CollectionStatus {
-  creating,
-  deleting,
-  active,
-  failed,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension CollectionStatusValueExtension on CollectionStatus {
-  String toValue() {
-    switch (this) {
-      case CollectionStatus.creating:
-        return 'CREATING';
-      case CollectionStatus.deleting:
-        return 'DELETING';
-      case CollectionStatus.active:
-        return 'ACTIVE';
-      case CollectionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CollectionStatusFromString on String {
-  CollectionStatus toCollectionStatus() {
-    switch (this) {
-      case 'CREATING':
-        return CollectionStatus.creating;
-      case 'DELETING':
-        return CollectionStatus.deleting;
-      case 'ACTIVE':
-        return CollectionStatus.active;
-      case 'FAILED':
-        return CollectionStatus.failed;
-    }
-    throw Exception('$this is not known in enum CollectionStatus');
-  }
+  const CollectionStatus(this.value);
+
+  static CollectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CollectionStatus'));
 }
 
 /// Details about each OpenSearch Serverless collection.
@@ -2364,7 +2333,7 @@ class CollectionSummary {
       arn: json['arn'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toCollectionStatus(),
+      status: (json['status'] as String?)?.let(CollectionStatus.fromString),
     );
   }
 
@@ -2377,42 +2346,25 @@ class CollectionSummary {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum CollectionType {
-  search,
-  timeseries,
-  vectorsearch,
-}
+  search('SEARCH'),
+  timeseries('TIMESERIES'),
+  vectorsearch('VECTORSEARCH'),
+  ;
 
-extension CollectionTypeValueExtension on CollectionType {
-  String toValue() {
-    switch (this) {
-      case CollectionType.search:
-        return 'SEARCH';
-      case CollectionType.timeseries:
-        return 'TIMESERIES';
-      case CollectionType.vectorsearch:
-        return 'VECTORSEARCH';
-    }
-  }
-}
+  final String value;
 
-extension CollectionTypeFromString on String {
-  CollectionType toCollectionType() {
-    switch (this) {
-      case 'SEARCH':
-        return CollectionType.search;
-      case 'TIMESERIES':
-        return CollectionType.timeseries;
-      case 'VECTORSEARCH':
-        return CollectionType.vectorsearch;
-    }
-    throw Exception('$this is not known in enum CollectionType');
-  }
+  const CollectionType(this.value);
+
+  static CollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CollectionType'));
 }
 
 class CreateAccessPolicyResponse {
@@ -2496,9 +2448,9 @@ class CreateCollectionDetail {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       standbyReplicas:
-          (json['standbyReplicas'] as String?)?.toStandbyReplicas(),
-      status: (json['status'] as String?)?.toCollectionStatus(),
-      type: (json['type'] as String?)?.toCollectionType(),
+          (json['standbyReplicas'] as String?)?.let(StandbyReplicas.fromString),
+      status: (json['status'] as String?)?.let(CollectionStatus.fromString),
+      type: (json['type'] as String?)?.let(CollectionType.fromString),
     );
   }
 
@@ -2521,9 +2473,9 @@ class CreateCollectionDetail {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
-      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.toValue(),
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (standbyReplicas != null) 'standbyReplicas': standbyReplicas.value,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -2656,7 +2608,7 @@ class CreateVpcEndpointDetail {
     return CreateVpcEndpointDetail(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
     );
   }
 
@@ -2667,7 +2619,7 @@ class CreateVpcEndpointDetail {
     return {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2731,7 +2683,7 @@ class DeleteCollectionDetail {
     return DeleteCollectionDetail(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toCollectionStatus(),
+      status: (json['status'] as String?)?.let(CollectionStatus.fromString),
     );
   }
 
@@ -2742,7 +2694,7 @@ class DeleteCollectionDetail {
     return {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2830,7 +2782,7 @@ class DeleteVpcEndpointDetail {
     return DeleteVpcEndpointDetail(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
     );
   }
 
@@ -2841,7 +2793,7 @@ class DeleteVpcEndpointDetail {
     return {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2922,9 +2874,10 @@ class EffectiveLifecyclePolicyDetail {
       noMinRetentionPeriod: json['noMinRetentionPeriod'] as bool?,
       policyName: json['policyName'] as String?,
       resource: json['resource'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       retentionPeriod: json['retentionPeriod'] as String?,
-      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+      type: (json['type'] as String?)?.let(LifecyclePolicyType.fromString),
     );
   }
 
@@ -2940,9 +2893,9 @@ class EffectiveLifecyclePolicyDetail {
         'noMinRetentionPeriod': noMinRetentionPeriod,
       if (policyName != null) 'policyName': policyName,
       if (resource != null) 'resource': resource,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -2975,7 +2928,7 @@ class EffectiveLifecyclePolicyErrorDetail {
       errorCode: json['errorCode'] as String?,
       errorMessage: json['errorMessage'] as String?,
       resource: json['resource'] as String?,
-      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+      type: (json['type'] as String?)?.let(LifecyclePolicyType.fromString),
     );
   }
 
@@ -2988,7 +2941,7 @@ class EffectiveLifecyclePolicyErrorDetail {
       if (errorCode != null) 'errorCode': errorCode,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (resource != null) 'resource': resource,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3205,7 +3158,7 @@ class LifecyclePolicyDetail {
           ? Document.fromJson(json['policy'] as Map<String, dynamic>)
           : null,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+      type: (json['type'] as String?)?.let(LifecyclePolicyType.fromString),
     );
   }
 
@@ -3224,7 +3177,7 @@ class LifecyclePolicyDetail {
       if (name != null) 'name': name,
       if (policy != null) 'policy': policy,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3256,7 +3209,7 @@ class LifecyclePolicyErrorDetail {
       errorCode: json['errorCode'] as String?,
       errorMessage: json['errorMessage'] as String?,
       name: json['name'] as String?,
-      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+      type: (json['type'] as String?)?.let(LifecyclePolicyType.fromString),
     );
   }
 
@@ -3269,7 +3222,7 @@ class LifecyclePolicyErrorDetail {
       if (errorCode != null) 'errorCode': errorCode,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (name != null) 'name': name,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3292,7 +3245,7 @@ class LifecyclePolicyIdentifier {
     final type = this.type;
     return {
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -3315,7 +3268,7 @@ class LifecyclePolicyResourceIdentifier {
     final type = this.type;
     return {
       'resource': resource,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -3380,7 +3333,7 @@ class LifecyclePolicySummary {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toLifecyclePolicyType(),
+      type: (json['type'] as String?)?.let(LifecyclePolicyType.fromString),
     );
   }
 
@@ -3397,32 +3350,23 @@ class LifecyclePolicySummary {
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum LifecyclePolicyType {
-  retention,
-}
+  retention('retention'),
+  ;
 
-extension LifecyclePolicyTypeValueExtension on LifecyclePolicyType {
-  String toValue() {
-    switch (this) {
-      case LifecyclePolicyType.retention:
-        return 'retention';
-    }
-  }
-}
+  final String value;
 
-extension LifecyclePolicyTypeFromString on String {
-  LifecyclePolicyType toLifecyclePolicyType() {
-    switch (this) {
-      case 'retention':
-        return LifecyclePolicyType.retention;
-    }
-    throw Exception('$this is not known in enum LifecyclePolicyType');
-  }
+  const LifecyclePolicyType(this.value);
+
+  static LifecyclePolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LifecyclePolicyType'));
 }
 
 class ListAccessPoliciesResponse {
@@ -3668,26 +3612,17 @@ class ListVpcEndpointsResponse {
 }
 
 enum ResourceType {
-  $index,
-}
+  $index('index'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.$index:
-        return 'index';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'index':
-        return ResourceType.$index;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// Describes SAML options for an OpenSearch Serverless security configuration
@@ -3779,7 +3714,7 @@ class SecurityConfigDetail {
           ? SamlConfigOptions.fromJson(
               json['samlOptions'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toSecurityConfigType(),
+      type: (json['type'] as String?)?.let(SecurityConfigType.fromString),
     );
   }
 
@@ -3798,7 +3733,7 @@ class SecurityConfigDetail {
       if (id != null) 'id': id,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (samlOptions != null) 'samlOptions': samlOptions,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3862,7 +3797,7 @@ class SecurityConfigSummary {
       description: json['description'] as String?,
       id: json['id'] as String?,
       lastModifiedDate: json['lastModifiedDate'] as int?,
-      type: (json['type'] as String?)?.toSecurityConfigType(),
+      type: (json['type'] as String?)?.let(SecurityConfigType.fromString),
     );
   }
 
@@ -3879,32 +3814,23 @@ class SecurityConfigSummary {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum SecurityConfigType {
-  saml,
-}
+  saml('saml'),
+  ;
 
-extension SecurityConfigTypeValueExtension on SecurityConfigType {
-  String toValue() {
-    switch (this) {
-      case SecurityConfigType.saml:
-        return 'saml';
-    }
-  }
-}
+  final String value;
 
-extension SecurityConfigTypeFromString on String {
-  SecurityConfigType toSecurityConfigType() {
-    switch (this) {
-      case 'saml':
-        return SecurityConfigType.saml;
-    }
-    throw Exception('$this is not known in enum SecurityConfigType');
-  }
+  const SecurityConfigType(this.value);
+
+  static SecurityConfigType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SecurityConfigType'));
 }
 
 /// Details about an OpenSearch Serverless security policy.
@@ -3950,7 +3876,7 @@ class SecurityPolicyDetail {
           ? Document.fromJson(json['policy'] as Map<String, dynamic>)
           : null,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toSecurityPolicyType(),
+      type: (json['type'] as String?)?.let(SecurityPolicyType.fromString),
     );
   }
 
@@ -3969,7 +3895,7 @@ class SecurityPolicyDetail {
       if (name != null) 'name': name,
       if (policy != null) 'policy': policy,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4041,7 +3967,7 @@ class SecurityPolicySummary {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       policyVersion: json['policyVersion'] as String?,
-      type: (json['type'] as String?)?.toSecurityPolicyType(),
+      type: (json['type'] as String?)?.let(SecurityPolicyType.fromString),
     );
   }
 
@@ -4058,65 +3984,39 @@ class SecurityPolicySummary {
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
       if (policyVersion != null) 'policyVersion': policyVersion,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum SecurityPolicyType {
-  encryption,
-  network,
-}
+  encryption('encryption'),
+  network('network'),
+  ;
 
-extension SecurityPolicyTypeValueExtension on SecurityPolicyType {
-  String toValue() {
-    switch (this) {
-      case SecurityPolicyType.encryption:
-        return 'encryption';
-      case SecurityPolicyType.network:
-        return 'network';
-    }
-  }
-}
+  final String value;
 
-extension SecurityPolicyTypeFromString on String {
-  SecurityPolicyType toSecurityPolicyType() {
-    switch (this) {
-      case 'encryption':
-        return SecurityPolicyType.encryption;
-      case 'network':
-        return SecurityPolicyType.network;
-    }
-    throw Exception('$this is not known in enum SecurityPolicyType');
-  }
+  const SecurityPolicyType(this.value);
+
+  static SecurityPolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SecurityPolicyType'));
 }
 
 enum StandbyReplicas {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StandbyReplicasValueExtension on StandbyReplicas {
-  String toValue() {
-    switch (this) {
-      case StandbyReplicas.enabled:
-        return 'ENABLED';
-      case StandbyReplicas.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StandbyReplicasFromString on String {
-  StandbyReplicas toStandbyReplicas() {
-    switch (this) {
-      case 'ENABLED':
-        return StandbyReplicas.enabled;
-      case 'DISABLED':
-        return StandbyReplicas.disabled;
-    }
-    throw Exception('$this is not known in enum StandbyReplicas');
-  }
+  const StandbyReplicas(this.value);
+
+  static StandbyReplicas fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StandbyReplicas'));
 }
 
 /// A map of key-value pairs associated to an OpenSearch Serverless resource.
@@ -4270,8 +4170,8 @@ class UpdateCollectionDetail {
       id: json['id'] as String?,
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toCollectionStatus(),
-      type: (json['type'] as String?)?.toCollectionType(),
+      status: (json['status'] as String?)?.let(CollectionStatus.fromString),
+      type: (json['type'] as String?)?.let(CollectionType.fromString),
     );
   }
 
@@ -4291,8 +4191,8 @@ class UpdateCollectionDetail {
       if (id != null) 'id': id,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4441,7 +4341,7 @@ class UpdateVpcEndpointDetail {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4461,7 +4361,7 @@ class UpdateVpcEndpointDetail {
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
       if (name != null) 'name': name,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
     };
   }
@@ -4537,7 +4437,7 @@ class VpcEndpointDetail {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4559,7 +4459,7 @@ class VpcEndpointDetail {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (vpcId != null) 'vpcId': vpcId,
     };
@@ -4615,47 +4515,26 @@ class VpcEndpointFilters {
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum VpcEndpointStatus {
-  pending,
-  deleting,
-  active,
-  failed,
-}
+  pending('PENDING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension VpcEndpointStatusValueExtension on VpcEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case VpcEndpointStatus.pending:
-        return 'PENDING';
-      case VpcEndpointStatus.deleting:
-        return 'DELETING';
-      case VpcEndpointStatus.active:
-        return 'ACTIVE';
-      case VpcEndpointStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VpcEndpointStatusFromString on String {
-  VpcEndpointStatus toVpcEndpointStatus() {
-    switch (this) {
-      case 'PENDING':
-        return VpcEndpointStatus.pending;
-      case 'DELETING':
-        return VpcEndpointStatus.deleting;
-      case 'ACTIVE':
-        return VpcEndpointStatus.active;
-      case 'FAILED':
-        return VpcEndpointStatus.failed;
-    }
-    throw Exception('$this is not known in enum VpcEndpointStatus');
-  }
+  const VpcEndpointStatus(this.value);
+
+  static VpcEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VpcEndpointStatus'));
 }
 
 /// The VPC endpoint object.
@@ -4679,7 +4558,7 @@ class VpcEndpointSummary {
     return VpcEndpointSummary(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
     );
   }
 
@@ -4690,7 +4569,7 @@ class VpcEndpointSummary {
     return {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }

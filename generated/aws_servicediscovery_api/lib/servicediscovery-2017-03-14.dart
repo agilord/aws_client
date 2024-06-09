@@ -422,7 +422,7 @@ class ServiceDiscovery {
           'HealthCheckCustomConfig': healthCheckCustomConfig,
         if (namespaceId != null) 'NamespaceId': namespaceId,
         if (tags != null) 'Tags': tags,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -611,7 +611,7 @@ class ServiceDiscovery {
       payload: {
         'NamespaceName': namespaceName,
         'ServiceName': serviceName,
-        if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
+        if (healthStatus != null) 'HealthStatus': healthStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (optionalParameters != null)
           'OptionalParameters': optionalParameters,
@@ -1520,7 +1520,7 @@ class ServiceDiscovery {
       payload: {
         'InstanceId': instanceId,
         'ServiceId': serviceId,
-        'Status': status.toValue(),
+        'Status': status.value,
       },
     );
   }
@@ -1747,31 +1747,18 @@ class CreateServiceResponse {
 }
 
 enum CustomHealthStatus {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension CustomHealthStatusValueExtension on CustomHealthStatus {
-  String toValue() {
-    switch (this) {
-      case CustomHealthStatus.healthy:
-        return 'HEALTHY';
-      case CustomHealthStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension CustomHealthStatusFromString on String {
-  CustomHealthStatus toCustomHealthStatus() {
-    switch (this) {
-      case 'HEALTHY':
-        return CustomHealthStatus.healthy;
-      case 'UNHEALTHY':
-        return CustomHealthStatus.unhealthy;
-    }
-    throw Exception('$this is not known in enum CustomHealthStatus');
-  }
+  const CustomHealthStatus(this.value);
+
+  static CustomHealthStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomHealthStatus'));
 }
 
 class DeleteNamespaceResponse {
@@ -1940,7 +1927,8 @@ class DnsConfig {
           .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespaceId: json['NamespaceId'] as String?,
-      routingPolicy: (json['RoutingPolicy'] as String?)?.toRoutingPolicy(),
+      routingPolicy:
+          (json['RoutingPolicy'] as String?)?.let(RoutingPolicy.fromString),
     );
   }
 
@@ -1951,7 +1939,7 @@ class DnsConfig {
     return {
       'DnsRecords': dnsRecords,
       if (namespaceId != null) 'NamespaceId': namespaceId,
-      if (routingPolicy != null) 'RoutingPolicy': routingPolicy.toValue(),
+      if (routingPolicy != null) 'RoutingPolicy': routingPolicy.value,
     };
   }
 }
@@ -2145,7 +2133,7 @@ class DnsRecord {
   factory DnsRecord.fromJson(Map<String, dynamic> json) {
     return DnsRecord(
       ttl: json['TTL'] as int,
-      type: (json['Type'] as String).toRecordType(),
+      type: RecordType.fromString((json['Type'] as String)),
     );
   }
 
@@ -2154,47 +2142,26 @@ class DnsRecord {
     final type = this.type;
     return {
       'TTL': ttl,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum FilterCondition {
-  eq,
-  $in,
-  between,
-  beginsWith,
-}
+  eq('EQ'),
+  $in('IN'),
+  between('BETWEEN'),
+  beginsWith('BEGINS_WITH'),
+  ;
 
-extension FilterConditionValueExtension on FilterCondition {
-  String toValue() {
-    switch (this) {
-      case FilterCondition.eq:
-        return 'EQ';
-      case FilterCondition.$in:
-        return 'IN';
-      case FilterCondition.between:
-        return 'BETWEEN';
-      case FilterCondition.beginsWith:
-        return 'BEGINS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension FilterConditionFromString on String {
-  FilterCondition toFilterCondition() {
-    switch (this) {
-      case 'EQ':
-        return FilterCondition.eq;
-      case 'IN':
-        return FilterCondition.$in;
-      case 'BETWEEN':
-        return FilterCondition.between;
-      case 'BEGINS_WITH':
-        return FilterCondition.beginsWith;
-    }
-    throw Exception('$this is not known in enum FilterCondition');
-  }
+  const FilterCondition(this.value);
+
+  static FilterCondition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterCondition'));
 }
 
 class GetInstanceResponse {
@@ -2234,7 +2201,7 @@ class GetInstancesHealthStatusResponse {
     return GetInstancesHealthStatusResponse(
       nextToken: json['NextToken'] as String?,
       status: (json['Status'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, (e as String).toHealthStatus())),
+          ?.map((k, e) => MapEntry(k, HealthStatus.fromString((e as String)))),
     );
   }
 }
@@ -2412,7 +2379,7 @@ class HealthCheckConfig {
 
   factory HealthCheckConfig.fromJson(Map<String, dynamic> json) {
     return HealthCheckConfig(
-      type: (json['Type'] as String).toHealthCheckType(),
+      type: HealthCheckType.fromString((json['Type'] as String)),
       failureThreshold: json['FailureThreshold'] as int?,
       resourcePath: json['ResourcePath'] as String?,
     );
@@ -2423,7 +2390,7 @@ class HealthCheckConfig {
     final failureThreshold = this.failureThreshold;
     final resourcePath = this.resourcePath;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (failureThreshold != null) 'FailureThreshold': failureThreshold,
       if (resourcePath != null) 'ResourcePath': resourcePath,
     };
@@ -2524,107 +2491,52 @@ class HealthCheckCustomConfig {
 }
 
 enum HealthCheckType {
-  http,
-  https,
-  tcp,
-}
+  http('HTTP'),
+  https('HTTPS'),
+  tcp('TCP'),
+  ;
 
-extension HealthCheckTypeValueExtension on HealthCheckType {
-  String toValue() {
-    switch (this) {
-      case HealthCheckType.http:
-        return 'HTTP';
-      case HealthCheckType.https:
-        return 'HTTPS';
-      case HealthCheckType.tcp:
-        return 'TCP';
-    }
-  }
-}
+  final String value;
 
-extension HealthCheckTypeFromString on String {
-  HealthCheckType toHealthCheckType() {
-    switch (this) {
-      case 'HTTP':
-        return HealthCheckType.http;
-      case 'HTTPS':
-        return HealthCheckType.https;
-      case 'TCP':
-        return HealthCheckType.tcp;
-    }
-    throw Exception('$this is not known in enum HealthCheckType');
-  }
+  const HealthCheckType(this.value);
+
+  static HealthCheckType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HealthCheckType'));
 }
 
 enum HealthStatus {
-  healthy,
-  unhealthy,
-  unknown,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  unknown('UNKNOWN'),
+  ;
 
-extension HealthStatusValueExtension on HealthStatus {
-  String toValue() {
-    switch (this) {
-      case HealthStatus.healthy:
-        return 'HEALTHY';
-      case HealthStatus.unhealthy:
-        return 'UNHEALTHY';
-      case HealthStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension HealthStatusFromString on String {
-  HealthStatus toHealthStatus() {
-    switch (this) {
-      case 'HEALTHY':
-        return HealthStatus.healthy;
-      case 'UNHEALTHY':
-        return HealthStatus.unhealthy;
-      case 'UNKNOWN':
-        return HealthStatus.unknown;
-    }
-    throw Exception('$this is not known in enum HealthStatus');
-  }
+  const HealthStatus(this.value);
+
+  static HealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HealthStatus'));
 }
 
 enum HealthStatusFilter {
-  healthy,
-  unhealthy,
-  all,
-  healthyOrElseAll,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  all('ALL'),
+  healthyOrElseAll('HEALTHY_OR_ELSE_ALL'),
+  ;
 
-extension HealthStatusFilterValueExtension on HealthStatusFilter {
-  String toValue() {
-    switch (this) {
-      case HealthStatusFilter.healthy:
-        return 'HEALTHY';
-      case HealthStatusFilter.unhealthy:
-        return 'UNHEALTHY';
-      case HealthStatusFilter.all:
-        return 'ALL';
-      case HealthStatusFilter.healthyOrElseAll:
-        return 'HEALTHY_OR_ELSE_ALL';
-    }
-  }
-}
+  final String value;
 
-extension HealthStatusFilterFromString on String {
-  HealthStatusFilter toHealthStatusFilter() {
-    switch (this) {
-      case 'HEALTHY':
-        return HealthStatusFilter.healthy;
-      case 'UNHEALTHY':
-        return HealthStatusFilter.unhealthy;
-      case 'ALL':
-        return HealthStatusFilter.all;
-      case 'HEALTHY_OR_ELSE_ALL':
-        return HealthStatusFilter.healthyOrElseAll;
-    }
-    throw Exception('$this is not known in enum HealthStatusFilter');
-  }
+  const HealthStatusFilter(this.value);
+
+  static HealthStatusFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HealthStatusFilter'));
 }
 
 /// In a response to a <a
@@ -2666,7 +2578,8 @@ class HttpInstanceSummary {
     return HttpInstanceSummary(
       attributes: (json['Attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      healthStatus: (json['HealthStatus'] as String?)?.toHealthStatus(),
+      healthStatus:
+          (json['HealthStatus'] as String?)?.let(HealthStatus.fromString),
       instanceId: json['InstanceId'] as String?,
       namespaceName: json['NamespaceName'] as String?,
       serviceName: json['ServiceName'] as String?,
@@ -3142,7 +3055,7 @@ class Namespace {
               json['Properties'] as Map<String, dynamic>)
           : null,
       serviceCount: json['ServiceCount'] as int?,
-      type: (json['Type'] as String?)?.toNamespaceType(),
+      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
     );
   }
 }
@@ -3216,44 +3129,27 @@ class NamespaceFilter {
     final values = this.values;
     final condition = this.condition;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Values': values,
-      if (condition != null) 'Condition': condition.toValue(),
+      if (condition != null) 'Condition': condition.value,
     };
   }
 }
 
 enum NamespaceFilterName {
-  type,
-  name,
-  httpName,
-}
+  type('TYPE'),
+  name('NAME'),
+  httpName('HTTP_NAME'),
+  ;
 
-extension NamespaceFilterNameValueExtension on NamespaceFilterName {
-  String toValue() {
-    switch (this) {
-      case NamespaceFilterName.type:
-        return 'TYPE';
-      case NamespaceFilterName.name:
-        return 'NAME';
-      case NamespaceFilterName.httpName:
-        return 'HTTP_NAME';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceFilterNameFromString on String {
-  NamespaceFilterName toNamespaceFilterName() {
-    switch (this) {
-      case 'TYPE':
-        return NamespaceFilterName.type;
-      case 'NAME':
-        return NamespaceFilterName.name;
-      case 'HTTP_NAME':
-        return NamespaceFilterName.httpName;
-    }
-    throw Exception('$this is not known in enum NamespaceFilterName');
-  }
+  const NamespaceFilterName(this.value);
+
+  static NamespaceFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NamespaceFilterName'));
 }
 
 /// A complex type that contains information that's specific to the namespace
@@ -3337,42 +3233,25 @@ class NamespaceSummary {
               json['Properties'] as Map<String, dynamic>)
           : null,
       serviceCount: json['ServiceCount'] as int?,
-      type: (json['Type'] as String?)?.toNamespaceType(),
+      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
     );
   }
 }
 
 enum NamespaceType {
-  dnsPublic,
-  dnsPrivate,
-  http,
-}
+  dnsPublic('DNS_PUBLIC'),
+  dnsPrivate('DNS_PRIVATE'),
+  http('HTTP'),
+  ;
 
-extension NamespaceTypeValueExtension on NamespaceType {
-  String toValue() {
-    switch (this) {
-      case NamespaceType.dnsPublic:
-        return 'DNS_PUBLIC';
-      case NamespaceType.dnsPrivate:
-        return 'DNS_PRIVATE';
-      case NamespaceType.http:
-        return 'HTTP';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceTypeFromString on String {
-  NamespaceType toNamespaceType() {
-    switch (this) {
-      case 'DNS_PUBLIC':
-        return NamespaceType.dnsPublic;
-      case 'DNS_PRIVATE':
-        return NamespaceType.dnsPrivate;
-      case 'HTTP':
-        return NamespaceType.http;
-    }
-    throw Exception('$this is not known in enum NamespaceType');
-  }
+  const NamespaceType(this.value);
+
+  static NamespaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NamespaceType'));
 }
 
 /// A complex type that contains information about a specified operation.
@@ -3469,10 +3348,10 @@ class Operation {
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
-      status: (json['Status'] as String?)?.toOperationStatus(),
-      targets: (json['Targets'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toOperationTargetType(), e as String)),
-      type: (json['Type'] as String?)?.toOperationType(),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      targets: (json['Targets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(OperationTargetType.fromString(k), e as String)),
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
       updateDate: timeStampFromJson(json['UpdateDate']),
     );
   }
@@ -3568,92 +3447,46 @@ class OperationFilter {
     final values = this.values;
     final condition = this.condition;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Values': values,
-      if (condition != null) 'Condition': condition.toValue(),
+      if (condition != null) 'Condition': condition.value,
     };
   }
 }
 
 enum OperationFilterName {
-  namespaceId,
-  serviceId,
-  status,
-  type,
-  updateDate,
-}
+  namespaceId('NAMESPACE_ID'),
+  serviceId('SERVICE_ID'),
+  status('STATUS'),
+  type('TYPE'),
+  updateDate('UPDATE_DATE'),
+  ;
 
-extension OperationFilterNameValueExtension on OperationFilterName {
-  String toValue() {
-    switch (this) {
-      case OperationFilterName.namespaceId:
-        return 'NAMESPACE_ID';
-      case OperationFilterName.serviceId:
-        return 'SERVICE_ID';
-      case OperationFilterName.status:
-        return 'STATUS';
-      case OperationFilterName.type:
-        return 'TYPE';
-      case OperationFilterName.updateDate:
-        return 'UPDATE_DATE';
-    }
-  }
-}
+  final String value;
 
-extension OperationFilterNameFromString on String {
-  OperationFilterName toOperationFilterName() {
-    switch (this) {
-      case 'NAMESPACE_ID':
-        return OperationFilterName.namespaceId;
-      case 'SERVICE_ID':
-        return OperationFilterName.serviceId;
-      case 'STATUS':
-        return OperationFilterName.status;
-      case 'TYPE':
-        return OperationFilterName.type;
-      case 'UPDATE_DATE':
-        return OperationFilterName.updateDate;
-    }
-    throw Exception('$this is not known in enum OperationFilterName');
-  }
+  const OperationFilterName(this.value);
+
+  static OperationFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OperationFilterName'));
 }
 
 enum OperationStatus {
-  submitted,
-  pending,
-  success,
-  fail,
-}
+  submitted('SUBMITTED'),
+  pending('PENDING'),
+  success('SUCCESS'),
+  fail('FAIL'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.submitted:
-        return 'SUBMITTED';
-      case OperationStatus.pending:
-        return 'PENDING';
-      case OperationStatus.success:
-        return 'SUCCESS';
-      case OperationStatus.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return OperationStatus.submitted;
-      case 'PENDING':
-        return OperationStatus.pending;
-      case 'SUCCESS':
-        return OperationStatus.success;
-      case 'FAIL':
-        return OperationStatus.fail;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 /// A complex type that contains information about an operation that matches the
@@ -3692,90 +3525,44 @@ class OperationSummary {
   factory OperationSummary.fromJson(Map<String, dynamic> json) {
     return OperationSummary(
       id: json['Id'] as String?,
-      status: (json['Status'] as String?)?.toOperationStatus(),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
     );
   }
 }
 
 enum OperationTargetType {
-  namespace,
-  service,
-  instance,
-}
+  namespace('NAMESPACE'),
+  service('SERVICE'),
+  instance('INSTANCE'),
+  ;
 
-extension OperationTargetTypeValueExtension on OperationTargetType {
-  String toValue() {
-    switch (this) {
-      case OperationTargetType.namespace:
-        return 'NAMESPACE';
-      case OperationTargetType.service:
-        return 'SERVICE';
-      case OperationTargetType.instance:
-        return 'INSTANCE';
-    }
-  }
-}
+  final String value;
 
-extension OperationTargetTypeFromString on String {
-  OperationTargetType toOperationTargetType() {
-    switch (this) {
-      case 'NAMESPACE':
-        return OperationTargetType.namespace;
-      case 'SERVICE':
-        return OperationTargetType.service;
-      case 'INSTANCE':
-        return OperationTargetType.instance;
-    }
-    throw Exception('$this is not known in enum OperationTargetType');
-  }
+  const OperationTargetType(this.value);
+
+  static OperationTargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OperationTargetType'));
 }
 
 enum OperationType {
-  createNamespace,
-  deleteNamespace,
-  updateNamespace,
-  updateService,
-  registerInstance,
-  deregisterInstance,
-}
+  createNamespace('CREATE_NAMESPACE'),
+  deleteNamespace('DELETE_NAMESPACE'),
+  updateNamespace('UPDATE_NAMESPACE'),
+  updateService('UPDATE_SERVICE'),
+  registerInstance('REGISTER_INSTANCE'),
+  deregisterInstance('DEREGISTER_INSTANCE'),
+  ;
 
-extension OperationTypeValueExtension on OperationType {
-  String toValue() {
-    switch (this) {
-      case OperationType.createNamespace:
-        return 'CREATE_NAMESPACE';
-      case OperationType.deleteNamespace:
-        return 'DELETE_NAMESPACE';
-      case OperationType.updateNamespace:
-        return 'UPDATE_NAMESPACE';
-      case OperationType.updateService:
-        return 'UPDATE_SERVICE';
-      case OperationType.registerInstance:
-        return 'REGISTER_INSTANCE';
-      case OperationType.deregisterInstance:
-        return 'DEREGISTER_INSTANCE';
-    }
-  }
-}
+  final String value;
 
-extension OperationTypeFromString on String {
-  OperationType toOperationType() {
-    switch (this) {
-      case 'CREATE_NAMESPACE':
-        return OperationType.createNamespace;
-      case 'DELETE_NAMESPACE':
-        return OperationType.deleteNamespace;
-      case 'UPDATE_NAMESPACE':
-        return OperationType.updateNamespace;
-      case 'UPDATE_SERVICE':
-        return OperationType.updateService;
-      case 'REGISTER_INSTANCE':
-        return OperationType.registerInstance;
-      case 'DEREGISTER_INSTANCE':
-        return OperationType.deregisterInstance;
-    }
-    throw Exception('$this is not known in enum OperationType');
-  }
+  const OperationType(this.value);
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationType'));
 }
 
 /// Updated properties for the private DNS namespace.
@@ -3965,41 +3752,19 @@ class PublicDnsPropertiesMutableChange {
 }
 
 enum RecordType {
-  srv,
-  a,
-  aaaa,
-  cname,
-}
+  srv('SRV'),
+  a('A'),
+  aaaa('AAAA'),
+  cname('CNAME'),
+  ;
 
-extension RecordTypeValueExtension on RecordType {
-  String toValue() {
-    switch (this) {
-      case RecordType.srv:
-        return 'SRV';
-      case RecordType.a:
-        return 'A';
-      case RecordType.aaaa:
-        return 'AAAA';
-      case RecordType.cname:
-        return 'CNAME';
-    }
-  }
-}
+  final String value;
 
-extension RecordTypeFromString on String {
-  RecordType toRecordType() {
-    switch (this) {
-      case 'SRV':
-        return RecordType.srv;
-      case 'A':
-        return RecordType.a;
-      case 'AAAA':
-        return RecordType.aaaa;
-      case 'CNAME':
-        return RecordType.cname;
-    }
-    throw Exception('$this is not known in enum RecordType');
-  }
+  const RecordType(this.value);
+
+  static RecordType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RecordType'));
 }
 
 class RegisterInstanceResponse {
@@ -4020,31 +3785,18 @@ class RegisterInstanceResponse {
 }
 
 enum RoutingPolicy {
-  multivalue,
-  weighted,
-}
+  multivalue('MULTIVALUE'),
+  weighted('WEIGHTED'),
+  ;
 
-extension RoutingPolicyValueExtension on RoutingPolicy {
-  String toValue() {
-    switch (this) {
-      case RoutingPolicy.multivalue:
-        return 'MULTIVALUE';
-      case RoutingPolicy.weighted:
-        return 'WEIGHTED';
-    }
-  }
-}
+  final String value;
 
-extension RoutingPolicyFromString on String {
-  RoutingPolicy toRoutingPolicy() {
-    switch (this) {
-      case 'MULTIVALUE':
-        return RoutingPolicy.multivalue;
-      case 'WEIGHTED':
-        return RoutingPolicy.weighted;
-    }
-    throw Exception('$this is not known in enum RoutingPolicy');
-  }
+  const RoutingPolicy(this.value);
+
+  static RoutingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RoutingPolicy'));
 }
 
 /// Start of Authority (SOA) properties for a public or private DNS namespace.
@@ -4198,7 +3950,7 @@ class Service {
       instanceCount: json['InstanceCount'] as int?,
       name: json['Name'] as String?,
       namespaceId: json['NamespaceId'] as String?,
-      type: (json['Type'] as String?)?.toServiceType(),
+      type: (json['Type'] as String?)?.let(ServiceType.fromString),
     );
   }
 }
@@ -4269,34 +4021,25 @@ class ServiceFilter {
     final values = this.values;
     final condition = this.condition;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Values': values,
-      if (condition != null) 'Condition': condition.toValue(),
+      if (condition != null) 'Condition': condition.value,
     };
   }
 }
 
 enum ServiceFilterName {
-  namespaceId,
-}
+  namespaceId('NAMESPACE_ID'),
+  ;
 
-extension ServiceFilterNameValueExtension on ServiceFilterName {
-  String toValue() {
-    switch (this) {
-      case ServiceFilterName.namespaceId:
-        return 'NAMESPACE_ID';
-    }
-  }
-}
+  final String value;
 
-extension ServiceFilterNameFromString on String {
-  ServiceFilterName toServiceFilterName() {
-    switch (this) {
-      case 'NAMESPACE_ID':
-        return ServiceFilterName.namespaceId;
-    }
-    throw Exception('$this is not known in enum ServiceFilterName');
-  }
+  const ServiceFilterName(this.value);
+
+  static ServiceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServiceFilterName'));
 }
 
 /// A complex type that contains information about a specified service.
@@ -4399,65 +4142,38 @@ class ServiceSummary {
       id: json['Id'] as String?,
       instanceCount: json['InstanceCount'] as int?,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toServiceType(),
+      type: (json['Type'] as String?)?.let(ServiceType.fromString),
     );
   }
 }
 
 enum ServiceType {
-  http,
-  dnsHttp,
-  dns,
-}
+  http('HTTP'),
+  dnsHttp('DNS_HTTP'),
+  dns('DNS'),
+  ;
 
-extension ServiceTypeValueExtension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.http:
-        return 'HTTP';
-      case ServiceType.dnsHttp:
-        return 'DNS_HTTP';
-      case ServiceType.dns:
-        return 'DNS';
-    }
-  }
-}
+  final String value;
 
-extension ServiceTypeFromString on String {
-  ServiceType toServiceType() {
-    switch (this) {
-      case 'HTTP':
-        return ServiceType.http;
-      case 'DNS_HTTP':
-        return ServiceType.dnsHttp;
-      case 'DNS':
-        return ServiceType.dns;
-    }
-    throw Exception('$this is not known in enum ServiceType');
-  }
+  const ServiceType(this.value);
+
+  static ServiceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceType'));
 }
 
 enum ServiceTypeOption {
-  http,
-}
+  http('HTTP'),
+  ;
 
-extension ServiceTypeOptionValueExtension on ServiceTypeOption {
-  String toValue() {
-    switch (this) {
-      case ServiceTypeOption.http:
-        return 'HTTP';
-    }
-  }
-}
+  final String value;
 
-extension ServiceTypeOptionFromString on String {
-  ServiceTypeOption toServiceTypeOption() {
-    switch (this) {
-      case 'HTTP':
-        return ServiceTypeOption.http;
-    }
-    throw Exception('$this is not known in enum ServiceTypeOption');
-  }
+  const ServiceTypeOption(this.value);
+
+  static ServiceTypeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServiceTypeOption'));
 }
 
 /// A custom key-value pair that's associated with a resource.

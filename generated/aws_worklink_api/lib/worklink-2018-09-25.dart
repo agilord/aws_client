@@ -129,7 +129,7 @@ class WorkLink {
     String? domainName,
   }) async {
     final $payload = <String, dynamic>{
-      'AuthorizationProviderType': authorizationProviderType.toValue(),
+      'AuthorizationProviderType': authorizationProviderType.value,
       'FleetArn': fleetArn,
       if (domainName != null) 'DomainName': domainName,
     };
@@ -1186,7 +1186,7 @@ class WorkLink {
   }) async {
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'IdentityProviderType': identityProviderType.toValue(),
+      'IdentityProviderType': identityProviderType.value,
       if (identityProviderSamlMetadata != null)
         'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
     };
@@ -1240,26 +1240,17 @@ class AssociateWebsiteCertificateAuthorityResponse {
 }
 
 enum AuthorizationProviderType {
-  saml,
-}
+  saml('SAML'),
+  ;
 
-extension AuthorizationProviderTypeValueExtension on AuthorizationProviderType {
-  String toValue() {
-    switch (this) {
-      case AuthorizationProviderType.saml:
-        return 'SAML';
-    }
-  }
-}
+  final String value;
 
-extension AuthorizationProviderTypeFromString on String {
-  AuthorizationProviderType toAuthorizationProviderType() {
-    switch (this) {
-      case 'SAML':
-        return AuthorizationProviderType.saml;
-    }
-    throw Exception('$this is not known in enum AuthorizationProviderType');
-  }
+  const AuthorizationProviderType(this.value);
+
+  static AuthorizationProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthorizationProviderType'));
 }
 
 class CreateFleetResponse {
@@ -1401,7 +1392,7 @@ class DescribeDeviceResponse {
       operatingSystem: json['OperatingSystem'] as String?,
       operatingSystemVersion: json['OperatingSystemVersion'] as String?,
       patchLevel: json['PatchLevel'] as String?,
-      status: (json['Status'] as String?)?.toDeviceStatus(),
+      status: (json['Status'] as String?)?.let(DeviceStatus.fromString),
       username: json['Username'] as String?,
     );
   }
@@ -1438,7 +1429,8 @@ class DescribeDomainResponse {
       createdTime: timeStampFromJson(json['CreatedTime']),
       displayName: json['DisplayName'] as String?,
       domainName: json['DomainName'] as String?,
-      domainStatus: (json['DomainStatus'] as String?)?.toDomainStatus(),
+      domainStatus:
+          (json['DomainStatus'] as String?)?.let(DomainStatus.fromString),
     );
   }
 }
@@ -1486,7 +1478,8 @@ class DescribeFleetMetadataResponse {
       createdTime: timeStampFromJson(json['CreatedTime']),
       displayName: json['DisplayName'] as String?,
       fleetName: json['FleetName'] as String?,
-      fleetStatus: (json['FleetStatus'] as String?)?.toFleetStatus(),
+      fleetStatus:
+          (json['FleetStatus'] as String?)?.let(FleetStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       optimizeForEndUserLocation: json['OptimizeForEndUserLocation'] as bool?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1516,8 +1509,8 @@ class DescribeIdentityProviderConfigurationResponse {
     return DescribeIdentityProviderConfigurationResponse(
       identityProviderSamlMetadata:
           json['IdentityProviderSamlMetadata'] as String?,
-      identityProviderType:
-          (json['IdentityProviderType'] as String?)?.toIdentityProviderType(),
+      identityProviderType: (json['IdentityProviderType'] as String?)
+          ?.let(IdentityProviderType.fromString),
       serviceProviderSamlMetadata:
           json['ServiceProviderSamlMetadata'] as String?,
     );
@@ -1551,31 +1544,18 @@ class DescribeWebsiteCertificateAuthorityResponse {
 }
 
 enum DeviceStatus {
-  active,
-  signedOut,
-}
+  active('ACTIVE'),
+  signedOut('SIGNED_OUT'),
+  ;
 
-extension DeviceStatusValueExtension on DeviceStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceStatus.active:
-        return 'ACTIVE';
-      case DeviceStatus.signedOut:
-        return 'SIGNED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStatusFromString on String {
-  DeviceStatus toDeviceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DeviceStatus.active;
-      case 'SIGNED_OUT':
-        return DeviceStatus.signedOut;
-    }
-    throw Exception('$this is not known in enum DeviceStatus');
-  }
+  const DeviceStatus(this.value);
+
+  static DeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceStatus'));
 }
 
 /// The summary of devices.
@@ -1594,7 +1574,8 @@ class DeviceSummary {
   factory DeviceSummary.fromJson(Map<String, dynamic> json) {
     return DeviceSummary(
       deviceId: json['DeviceId'] as String?,
-      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+      deviceStatus:
+          (json['DeviceStatus'] as String?)?.let(DeviceStatus.fromString),
     );
   }
 }
@@ -1626,61 +1607,24 @@ class DisassociateWebsiteCertificateAuthorityResponse {
 }
 
 enum DomainStatus {
-  pendingValidation,
-  associating,
-  active,
-  inactive,
-  disassociating,
-  disassociated,
-  failedToAssociate,
-  failedToDisassociate,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  associating('ASSOCIATING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  disassociating('DISASSOCIATING'),
+  disassociated('DISASSOCIATED'),
+  failedToAssociate('FAILED_TO_ASSOCIATE'),
+  failedToDisassociate('FAILED_TO_DISASSOCIATE'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case DomainStatus.associating:
-        return 'ASSOCIATING';
-      case DomainStatus.active:
-        return 'ACTIVE';
-      case DomainStatus.inactive:
-        return 'INACTIVE';
-      case DomainStatus.disassociating:
-        return 'DISASSOCIATING';
-      case DomainStatus.disassociated:
-        return 'DISASSOCIATED';
-      case DomainStatus.failedToAssociate:
-        return 'FAILED_TO_ASSOCIATE';
-      case DomainStatus.failedToDisassociate:
-        return 'FAILED_TO_DISASSOCIATE';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return DomainStatus.pendingValidation;
-      case 'ASSOCIATING':
-        return DomainStatus.associating;
-      case 'ACTIVE':
-        return DomainStatus.active;
-      case 'INACTIVE':
-        return DomainStatus.inactive;
-      case 'DISASSOCIATING':
-        return DomainStatus.disassociating;
-      case 'DISASSOCIATED':
-        return DomainStatus.disassociated;
-      case 'FAILED_TO_ASSOCIATE':
-        return DomainStatus.failedToAssociate;
-      case 'FAILED_TO_DISASSOCIATE':
-        return DomainStatus.failedToDisassociate;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// The summary of the domain.
@@ -1708,58 +1652,28 @@ class DomainSummary {
     return DomainSummary(
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
       domainName: json['DomainName'] as String,
-      domainStatus: (json['DomainStatus'] as String).toDomainStatus(),
+      domainStatus: DomainStatus.fromString((json['DomainStatus'] as String)),
       displayName: json['DisplayName'] as String?,
     );
   }
 }
 
 enum FleetStatus {
-  creating,
-  active,
-  deleting,
-  deleted,
-  failedToCreate,
-  failedToDelete,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  failedToCreate('FAILED_TO_CREATE'),
+  failedToDelete('FAILED_TO_DELETE'),
+  ;
 
-extension FleetStatusValueExtension on FleetStatus {
-  String toValue() {
-    switch (this) {
-      case FleetStatus.creating:
-        return 'CREATING';
-      case FleetStatus.active:
-        return 'ACTIVE';
-      case FleetStatus.deleting:
-        return 'DELETING';
-      case FleetStatus.deleted:
-        return 'DELETED';
-      case FleetStatus.failedToCreate:
-        return 'FAILED_TO_CREATE';
-      case FleetStatus.failedToDelete:
-        return 'FAILED_TO_DELETE';
-    }
-  }
-}
+  final String value;
 
-extension FleetStatusFromString on String {
-  FleetStatus toFleetStatus() {
-    switch (this) {
-      case 'CREATING':
-        return FleetStatus.creating;
-      case 'ACTIVE':
-        return FleetStatus.active;
-      case 'DELETING':
-        return FleetStatus.deleting;
-      case 'DELETED':
-        return FleetStatus.deleted;
-      case 'FAILED_TO_CREATE':
-        return FleetStatus.failedToCreate;
-      case 'FAILED_TO_DELETE':
-        return FleetStatus.failedToDelete;
-    }
-    throw Exception('$this is not known in enum FleetStatus');
-  }
+  const FleetStatus(this.value);
+
+  static FleetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FleetStatus'));
 }
 
 /// The summary of the fleet.
@@ -1806,7 +1720,8 @@ class FleetSummary {
       displayName: json['DisplayName'] as String?,
       fleetArn: json['FleetArn'] as String?,
       fleetName: json['FleetName'] as String?,
-      fleetStatus: (json['FleetStatus'] as String?)?.toFleetStatus(),
+      fleetStatus:
+          (json['FleetStatus'] as String?)?.let(FleetStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1815,26 +1730,17 @@ class FleetSummary {
 }
 
 enum IdentityProviderType {
-  saml,
-}
+  saml('SAML'),
+  ;
 
-extension IdentityProviderTypeValueExtension on IdentityProviderType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderType.saml:
-        return 'SAML';
-    }
-  }
-}
+  final String value;
 
-extension IdentityProviderTypeFromString on String {
-  IdentityProviderType toIdentityProviderType() {
-    switch (this) {
-      case 'SAML':
-        return IdentityProviderType.saml;
-    }
-    throw Exception('$this is not known in enum IdentityProviderType');
-  }
+  const IdentityProviderType(this.value);
+
+  static IdentityProviderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IdentityProviderType'));
 }
 
 class ListDevicesResponse {
@@ -2096,8 +2002,8 @@ class WebsiteAuthorizationProviderSummary {
   factory WebsiteAuthorizationProviderSummary.fromJson(
       Map<String, dynamic> json) {
     return WebsiteAuthorizationProviderSummary(
-      authorizationProviderType: (json['AuthorizationProviderType'] as String)
-          .toAuthorizationProviderType(),
+      authorizationProviderType: AuthorizationProviderType.fromString(
+          (json['AuthorizationProviderType'] as String)),
       authorizationProviderId: json['AuthorizationProviderId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       domainName: json['DomainName'] as String?,

@@ -310,7 +310,7 @@ class MigrationHubStrategyRecommendations {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (sort != null) 'sort': sort.toValue(),
+      if (sort != null) 'sort': sort.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -365,12 +365,12 @@ class MigrationHubStrategyRecommendations {
   }) async {
     final $payload = <String, dynamic>{
       if (applicationComponentCriteria != null)
-        'applicationComponentCriteria': applicationComponentCriteria.toValue(),
+        'applicationComponentCriteria': applicationComponentCriteria.value,
       if (filterValue != null) 'filterValue': filterValue,
       if (groupIdFilter != null) 'groupIdFilter': groupIdFilter,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (sort != null) 'sort': sort.toValue(),
+      if (sort != null) 'sort': sort.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -497,8 +497,8 @@ class MigrationHubStrategyRecommendations {
       if (groupIdFilter != null) 'groupIdFilter': groupIdFilter,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (serverCriteria != null) 'serverCriteria': serverCriteria.toValue(),
-      if (sort != null) 'sort': sort.toValue(),
+      if (serverCriteria != null) 'serverCriteria': serverCriteria.value,
+      if (sort != null) 'sort': sort.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -535,7 +535,7 @@ class MigrationHubStrategyRecommendations {
     PrioritizeBusinessGoals? prioritizeBusinessGoals,
   }) async {
     final $payload = <String, dynamic>{
-      if (applicationMode != null) 'applicationMode': applicationMode.toValue(),
+      if (applicationMode != null) 'applicationMode': applicationMode.value,
       if (applicationPreferences != null)
         'applicationPreferences': applicationPreferences,
       if (databasePreferences != null)
@@ -579,7 +579,7 @@ class MigrationHubStrategyRecommendations {
   }) async {
     final $payload = <String, dynamic>{
       if (assessmentDataSourceType != null)
-        'assessmentDataSourceType': assessmentDataSourceType.toValue(),
+        'assessmentDataSourceType': assessmentDataSourceType.value,
       if (assessmentTargets != null) 'assessmentTargets': assessmentTargets,
       if (s3bucketForAnalysisData != null)
         's3bucketForAnalysisData': s3bucketForAnalysisData,
@@ -638,7 +638,7 @@ class MigrationHubStrategyRecommendations {
       'S3Bucket': s3Bucket,
       'name': name,
       's3key': s3key,
-      if (dataSourceType != null) 'dataSourceType': dataSourceType.toValue(),
+      if (dataSourceType != null) 'dataSourceType': dataSourceType.value,
       if (groupId != null) 'groupId': groupId,
       if (s3bucketForReportData != null)
         's3bucketForReportData': s3bucketForReportData,
@@ -673,7 +673,7 @@ class MigrationHubStrategyRecommendations {
   }) async {
     final $payload = <String, dynamic>{
       if (groupIdFilter != null) 'groupIdFilter': groupIdFilter,
-      if (outputFormat != null) 'outputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'outputFormat': outputFormat.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -752,9 +752,9 @@ class MigrationHubStrategyRecommendations {
   }) async {
     final $payload = <String, dynamic>{
       'applicationComponentId': applicationComponentId,
-      if (appType != null) 'appType': appType.toValue(),
+      if (appType != null) 'appType': appType.value,
       if (configureOnly != null) 'configureOnly': configureOnly,
-      if (inclusionStatus != null) 'inclusionStatus': inclusionStatus.toValue(),
+      if (inclusionStatus != null) 'inclusionStatus': inclusionStatus.value,
       if (secretsManagerKey != null) 'secretsManagerKey': secretsManagerKey,
       if (sourceCodeList != null) 'sourceCodeList': sourceCodeList,
       if (strategyOption != null) 'strategyOption': strategyOption,
@@ -812,10 +812,10 @@ class AnalysisStatusUnion {
 
   factory AnalysisStatusUnion.fromJson(Map<String, dynamic> json) {
     return AnalysisStatusUnion(
-      runtimeAnalysisStatus:
-          (json['runtimeAnalysisStatus'] as String?)?.toRuntimeAnalysisStatus(),
+      runtimeAnalysisStatus: (json['runtimeAnalysisStatus'] as String?)
+          ?.let(RuntimeAnalysisStatus.fromString),
       srcCodeOrDbAnalysisStatus: (json['srcCodeOrDbAnalysisStatus'] as String?)
-          ?.toSrcCodeOrDbAnalysisStatus(),
+          ?.let(SrcCodeOrDbAnalysisStatus.fromString),
     );
   }
 
@@ -824,49 +824,28 @@ class AnalysisStatusUnion {
     final srcCodeOrDbAnalysisStatus = this.srcCodeOrDbAnalysisStatus;
     return {
       if (runtimeAnalysisStatus != null)
-        'runtimeAnalysisStatus': runtimeAnalysisStatus.toValue(),
+        'runtimeAnalysisStatus': runtimeAnalysisStatus.value,
       if (srcCodeOrDbAnalysisStatus != null)
-        'srcCodeOrDbAnalysisStatus': srcCodeOrDbAnalysisStatus.toValue(),
+        'srcCodeOrDbAnalysisStatus': srcCodeOrDbAnalysisStatus.value,
     };
   }
 }
 
 enum AnalysisType {
-  sourceCodeAnalysis,
-  databaseAnalysis,
-  runtimeAnalysis,
-  binaryAnalysis,
-}
+  sourceCodeAnalysis('SOURCE_CODE_ANALYSIS'),
+  databaseAnalysis('DATABASE_ANALYSIS'),
+  runtimeAnalysis('RUNTIME_ANALYSIS'),
+  binaryAnalysis('BINARY_ANALYSIS'),
+  ;
 
-extension AnalysisTypeValueExtension on AnalysisType {
-  String toValue() {
-    switch (this) {
-      case AnalysisType.sourceCodeAnalysis:
-        return 'SOURCE_CODE_ANALYSIS';
-      case AnalysisType.databaseAnalysis:
-        return 'DATABASE_ANALYSIS';
-      case AnalysisType.runtimeAnalysis:
-        return 'RUNTIME_ANALYSIS';
-      case AnalysisType.binaryAnalysis:
-        return 'BINARY_ANALYSIS';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisTypeFromString on String {
-  AnalysisType toAnalysisType() {
-    switch (this) {
-      case 'SOURCE_CODE_ANALYSIS':
-        return AnalysisType.sourceCodeAnalysis;
-      case 'DATABASE_ANALYSIS':
-        return AnalysisType.databaseAnalysis;
-      case 'RUNTIME_ANALYSIS':
-        return AnalysisType.runtimeAnalysis;
-      case 'BINARY_ANALYSIS':
-        return AnalysisType.binaryAnalysis;
-    }
-    throw Exception('$this is not known in enum AnalysisType');
-  }
+  const AnalysisType(this.value);
+
+  static AnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisType'));
 }
 
 /// Summary information about an analyzable server.
@@ -932,12 +911,12 @@ class AnalyzerNameUnion {
 
   factory AnalyzerNameUnion.fromJson(Map<String, dynamic> json) {
     return AnalyzerNameUnion(
-      binaryAnalyzerName:
-          (json['binaryAnalyzerName'] as String?)?.toBinaryAnalyzerName(),
-      runTimeAnalyzerName:
-          (json['runTimeAnalyzerName'] as String?)?.toRunTimeAnalyzerName(),
+      binaryAnalyzerName: (json['binaryAnalyzerName'] as String?)
+          ?.let(BinaryAnalyzerName.fromString),
+      runTimeAnalyzerName: (json['runTimeAnalyzerName'] as String?)
+          ?.let(RunTimeAnalyzerName.fromString),
       sourceCodeAnalyzerName: (json['sourceCodeAnalyzerName'] as String?)
-          ?.toSourceCodeAnalyzerName(),
+          ?.let(SourceCodeAnalyzerName.fromString),
     );
   }
 
@@ -947,11 +926,11 @@ class AnalyzerNameUnion {
     final sourceCodeAnalyzerName = this.sourceCodeAnalyzerName;
     return {
       if (binaryAnalyzerName != null)
-        'binaryAnalyzerName': binaryAnalyzerName.toValue(),
+        'binaryAnalyzerName': binaryAnalyzerName.value,
       if (runTimeAnalyzerName != null)
-        'runTimeAnalyzerName': runTimeAnalyzerName.toValue(),
+        'runTimeAnalyzerName': runTimeAnalyzerName.value,
       if (sourceCodeAnalyzerName != null)
-        'sourceCodeAnalyzerName': sourceCodeAnalyzerName.toValue(),
+        'sourceCodeAnalyzerName': sourceCodeAnalyzerName.value,
     };
   }
 }
@@ -986,7 +965,7 @@ class AntipatternReportResult {
               json['antiPatternReportS3Object'] as Map<String, dynamic>)
           : null,
       antipatternReportStatus: (json['antipatternReportStatus'] as String?)
-          ?.toAntipatternReportStatus(),
+          ?.let(AntipatternReportStatus.fromString),
       antipatternReportStatusMessage:
           json['antipatternReportStatusMessage'] as String?,
     );
@@ -1002,7 +981,7 @@ class AntipatternReportResult {
       if (antiPatternReportS3Object != null)
         'antiPatternReportS3Object': antiPatternReportS3Object,
       if (antipatternReportStatus != null)
-        'antipatternReportStatus': antipatternReportStatus.toValue(),
+        'antipatternReportStatus': antipatternReportStatus.value,
       if (antipatternReportStatusMessage != null)
         'antipatternReportStatusMessage': antipatternReportStatusMessage,
     };
@@ -1010,36 +989,19 @@ class AntipatternReportResult {
 }
 
 enum AntipatternReportStatus {
-  failed,
-  inProgress,
-  success,
-}
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  ;
 
-extension AntipatternReportStatusValueExtension on AntipatternReportStatus {
-  String toValue() {
-    switch (this) {
-      case AntipatternReportStatus.failed:
-        return 'FAILED';
-      case AntipatternReportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AntipatternReportStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension AntipatternReportStatusFromString on String {
-  AntipatternReportStatus toAntipatternReportStatus() {
-    switch (this) {
-      case 'FAILED':
-        return AntipatternReportStatus.failed;
-      case 'IN_PROGRESS':
-        return AntipatternReportStatus.inProgress;
-      case 'SUCCESS':
-        return AntipatternReportStatus.success;
-    }
-    throw Exception('$this is not known in enum AntipatternReportStatus');
-  }
+  const AntipatternReportStatus(this.value);
+
+  static AntipatternReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AntipatternReportStatus'));
 }
 
 /// Contains the summary of anti-patterns and their severity.
@@ -1058,7 +1020,7 @@ class AntipatternSeveritySummary {
   factory AntipatternSeveritySummary.fromJson(Map<String, dynamic> json) {
     return AntipatternSeveritySummary(
       count: json['count'] as int?,
-      severity: (json['severity'] as String?)?.toSeverity(),
+      severity: (json['severity'] as String?)?.let(Severity.fromString),
     );
   }
 
@@ -1067,137 +1029,43 @@ class AntipatternSeveritySummary {
     final severity = this.severity;
     return {
       if (count != null) 'count': count,
-      if (severity != null) 'severity': severity.toValue(),
+      if (severity != null) 'severity': severity.value,
     };
   }
 }
 
 enum AppType {
-  dotNetFramework,
-  java,
-  sQLServer,
-  iis,
-  oracle,
-  other,
-  tomcat,
-  jBoss,
-  spring,
-  mongoDb,
-  db2,
-  mariaDb,
-  mySQL,
-  sybase,
-  postgreSQLServer,
-  cassandra,
-  ibmWebSphere,
-  oracleWebLogic,
-  visualBasic,
-  unknown,
-  dotnetCore,
-  dotnet,
-}
+  dotNetFramework('DotNetFramework'),
+  java('Java'),
+  sQLServer('SQLServer'),
+  iis('IIS'),
+  oracle('Oracle'),
+  other('Other'),
+  tomcat('Tomcat'),
+  jBoss('JBoss'),
+  spring('Spring'),
+  mongoDb('Mongo DB'),
+  db2('DB2'),
+  mariaDb('Maria DB'),
+  mySQL('MySQL'),
+  sybase('Sybase'),
+  postgreSQLServer('PostgreSQLServer'),
+  cassandra('Cassandra'),
+  ibmWebSphere('IBM WebSphere'),
+  oracleWebLogic('Oracle WebLogic'),
+  visualBasic('Visual Basic'),
+  unknown('Unknown'),
+  dotnetCore('DotnetCore'),
+  dotnet('Dotnet'),
+  ;
 
-extension AppTypeValueExtension on AppType {
-  String toValue() {
-    switch (this) {
-      case AppType.dotNetFramework:
-        return 'DotNetFramework';
-      case AppType.java:
-        return 'Java';
-      case AppType.sQLServer:
-        return 'SQLServer';
-      case AppType.iis:
-        return 'IIS';
-      case AppType.oracle:
-        return 'Oracle';
-      case AppType.other:
-        return 'Other';
-      case AppType.tomcat:
-        return 'Tomcat';
-      case AppType.jBoss:
-        return 'JBoss';
-      case AppType.spring:
-        return 'Spring';
-      case AppType.mongoDb:
-        return 'Mongo DB';
-      case AppType.db2:
-        return 'DB2';
-      case AppType.mariaDb:
-        return 'Maria DB';
-      case AppType.mySQL:
-        return 'MySQL';
-      case AppType.sybase:
-        return 'Sybase';
-      case AppType.postgreSQLServer:
-        return 'PostgreSQLServer';
-      case AppType.cassandra:
-        return 'Cassandra';
-      case AppType.ibmWebSphere:
-        return 'IBM WebSphere';
-      case AppType.oracleWebLogic:
-        return 'Oracle WebLogic';
-      case AppType.visualBasic:
-        return 'Visual Basic';
-      case AppType.unknown:
-        return 'Unknown';
-      case AppType.dotnetCore:
-        return 'DotnetCore';
-      case AppType.dotnet:
-        return 'Dotnet';
-    }
-  }
-}
+  final String value;
 
-extension AppTypeFromString on String {
-  AppType toAppType() {
-    switch (this) {
-      case 'DotNetFramework':
-        return AppType.dotNetFramework;
-      case 'Java':
-        return AppType.java;
-      case 'SQLServer':
-        return AppType.sQLServer;
-      case 'IIS':
-        return AppType.iis;
-      case 'Oracle':
-        return AppType.oracle;
-      case 'Other':
-        return AppType.other;
-      case 'Tomcat':
-        return AppType.tomcat;
-      case 'JBoss':
-        return AppType.jBoss;
-      case 'Spring':
-        return AppType.spring;
-      case 'Mongo DB':
-        return AppType.mongoDb;
-      case 'DB2':
-        return AppType.db2;
-      case 'Maria DB':
-        return AppType.mariaDb;
-      case 'MySQL':
-        return AppType.mySQL;
-      case 'Sybase':
-        return AppType.sybase;
-      case 'PostgreSQLServer':
-        return AppType.postgreSQLServer;
-      case 'Cassandra':
-        return AppType.cassandra;
-      case 'IBM WebSphere':
-        return AppType.ibmWebSphere;
-      case 'Oracle WebLogic':
-        return AppType.oracleWebLogic;
-      case 'Visual Basic':
-        return AppType.visualBasic;
-      case 'Unknown':
-        return AppType.unknown;
-      case 'DotnetCore':
-        return AppType.dotnetCore;
-      case 'Dotnet':
-        return AppType.dotnet;
-    }
-    throw Exception('$this is not known in enum AppType');
-  }
+  const AppType(this.value);
+
+  static AppType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum AppType'));
 }
 
 /// Error in the analysis of the application unit.
@@ -1211,8 +1079,8 @@ class AppUnitError {
 
   factory AppUnitError.fromJson(Map<String, dynamic> json) {
     return AppUnitError(
-      appUnitErrorCategory:
-          (json['appUnitErrorCategory'] as String?)?.toAppUnitErrorCategory(),
+      appUnitErrorCategory: (json['appUnitErrorCategory'] as String?)
+          ?.let(AppUnitErrorCategory.fromString),
     );
   }
 
@@ -1220,111 +1088,48 @@ class AppUnitError {
     final appUnitErrorCategory = this.appUnitErrorCategory;
     return {
       if (appUnitErrorCategory != null)
-        'appUnitErrorCategory': appUnitErrorCategory.toValue(),
+        'appUnitErrorCategory': appUnitErrorCategory.value,
     };
   }
 }
 
 enum AppUnitErrorCategory {
-  credentialError,
-  connectivityError,
-  permissionError,
-  unsupportedError,
-  otherError,
-}
+  credentialError('CREDENTIAL_ERROR'),
+  connectivityError('CONNECTIVITY_ERROR'),
+  permissionError('PERMISSION_ERROR'),
+  unsupportedError('UNSUPPORTED_ERROR'),
+  otherError('OTHER_ERROR'),
+  ;
 
-extension AppUnitErrorCategoryValueExtension on AppUnitErrorCategory {
-  String toValue() {
-    switch (this) {
-      case AppUnitErrorCategory.credentialError:
-        return 'CREDENTIAL_ERROR';
-      case AppUnitErrorCategory.connectivityError:
-        return 'CONNECTIVITY_ERROR';
-      case AppUnitErrorCategory.permissionError:
-        return 'PERMISSION_ERROR';
-      case AppUnitErrorCategory.unsupportedError:
-        return 'UNSUPPORTED_ERROR';
-      case AppUnitErrorCategory.otherError:
-        return 'OTHER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension AppUnitErrorCategoryFromString on String {
-  AppUnitErrorCategory toAppUnitErrorCategory() {
-    switch (this) {
-      case 'CREDENTIAL_ERROR':
-        return AppUnitErrorCategory.credentialError;
-      case 'CONNECTIVITY_ERROR':
-        return AppUnitErrorCategory.connectivityError;
-      case 'PERMISSION_ERROR':
-        return AppUnitErrorCategory.permissionError;
-      case 'UNSUPPORTED_ERROR':
-        return AppUnitErrorCategory.unsupportedError;
-      case 'OTHER_ERROR':
-        return AppUnitErrorCategory.otherError;
-    }
-    throw Exception('$this is not known in enum AppUnitErrorCategory');
-  }
+  const AppUnitErrorCategory(this.value);
+
+  static AppUnitErrorCategory fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AppUnitErrorCategory'));
 }
 
 enum ApplicationComponentCriteria {
-  notDefined,
-  appName,
-  serverId,
-  appType,
-  strategy,
-  destination,
-  analysisStatus,
-  errorCategory,
-}
+  notDefined('NOT_DEFINED'),
+  appName('APP_NAME'),
+  serverId('SERVER_ID'),
+  appType('APP_TYPE'),
+  strategy('STRATEGY'),
+  destination('DESTINATION'),
+  analysisStatus('ANALYSIS_STATUS'),
+  errorCategory('ERROR_CATEGORY'),
+  ;
 
-extension ApplicationComponentCriteriaValueExtension
-    on ApplicationComponentCriteria {
-  String toValue() {
-    switch (this) {
-      case ApplicationComponentCriteria.notDefined:
-        return 'NOT_DEFINED';
-      case ApplicationComponentCriteria.appName:
-        return 'APP_NAME';
-      case ApplicationComponentCriteria.serverId:
-        return 'SERVER_ID';
-      case ApplicationComponentCriteria.appType:
-        return 'APP_TYPE';
-      case ApplicationComponentCriteria.strategy:
-        return 'STRATEGY';
-      case ApplicationComponentCriteria.destination:
-        return 'DESTINATION';
-      case ApplicationComponentCriteria.analysisStatus:
-        return 'ANALYSIS_STATUS';
-      case ApplicationComponentCriteria.errorCategory:
-        return 'ERROR_CATEGORY';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationComponentCriteriaFromString on String {
-  ApplicationComponentCriteria toApplicationComponentCriteria() {
-    switch (this) {
-      case 'NOT_DEFINED':
-        return ApplicationComponentCriteria.notDefined;
-      case 'APP_NAME':
-        return ApplicationComponentCriteria.appName;
-      case 'SERVER_ID':
-        return ApplicationComponentCriteria.serverId;
-      case 'APP_TYPE':
-        return ApplicationComponentCriteria.appType;
-      case 'STRATEGY':
-        return ApplicationComponentCriteria.strategy;
-      case 'DESTINATION':
-        return ApplicationComponentCriteria.destination;
-      case 'ANALYSIS_STATUS':
-        return ApplicationComponentCriteria.analysisStatus;
-      case 'ERROR_CATEGORY':
-        return ApplicationComponentCriteria.errorCategory;
-    }
-    throw Exception('$this is not known in enum ApplicationComponentCriteria');
-  }
+  const ApplicationComponentCriteria(this.value);
+
+  static ApplicationComponentCriteria fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationComponentCriteria'));
 }
 
 /// Contains detailed information about an application component.
@@ -1430,17 +1235,17 @@ class ApplicationComponentDetail {
 
   factory ApplicationComponentDetail.fromJson(Map<String, dynamic> json) {
     return ApplicationComponentDetail(
-      analysisStatus:
-          (json['analysisStatus'] as String?)?.toSrcCodeOrDbAnalysisStatus(),
+      analysisStatus: (json['analysisStatus'] as String?)
+          ?.let(SrcCodeOrDbAnalysisStatus.fromString),
       antipatternReportS3Object: json['antipatternReportS3Object'] != null
           ? S3Object.fromJson(
               json['antipatternReportS3Object'] as Map<String, dynamic>)
           : null,
       antipatternReportStatus: (json['antipatternReportStatus'] as String?)
-          ?.toAntipatternReportStatus(),
+          ?.let(AntipatternReportStatus.fromString),
       antipatternReportStatusMessage:
           json['antipatternReportStatusMessage'] as String?,
-      appType: (json['appType'] as String?)?.toAppType(),
+      appType: (json['appType'] as String?)?.let(AppType.fromString),
       appUnitError: json['appUnitError'] != null
           ? AppUnitError.fromJson(json['appUnitError'] as Map<String, dynamic>)
           : null,
@@ -1451,7 +1256,7 @@ class ApplicationComponentDetail {
           : null,
       id: json['id'] as String?,
       inclusionStatus:
-          (json['inclusionStatus'] as String?)?.toInclusionStatus(),
+          (json['inclusionStatus'] as String?)?.let(InclusionStatus.fromString),
       lastAnalyzedTimestamp: timeStampFromJson(json['lastAnalyzedTimestamp']),
       listAntipatternSeveritySummary: (json['listAntipatternSeveritySummary']
               as List?)
@@ -1468,13 +1273,13 @@ class ApplicationComponentDetail {
               json['recommendationSet'] as Map<String, dynamic>)
           : null,
       resourceSubType:
-          (json['resourceSubType'] as String?)?.toResourceSubType(),
+          (json['resourceSubType'] as String?)?.let(ResourceSubType.fromString),
       resultList: (json['resultList'] as List?)
           ?.whereNotNull()
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
-      runtimeStatus:
-          (json['runtimeStatus'] as String?)?.toRuntimeAnalysisStatus(),
+      runtimeStatus: (json['runtimeStatus'] as String?)
+          ?.let(RuntimeAnalysisStatus.fromString),
       runtimeStatusMessage: json['runtimeStatusMessage'] as String?,
       sourceCodeRepositories: (json['sourceCodeRepositories'] as List?)
           ?.whereNotNull()
@@ -1509,20 +1314,20 @@ class ApplicationComponentDetail {
     final sourceCodeRepositories = this.sourceCodeRepositories;
     final statusMessage = this.statusMessage;
     return {
-      if (analysisStatus != null) 'analysisStatus': analysisStatus.toValue(),
+      if (analysisStatus != null) 'analysisStatus': analysisStatus.value,
       if (antipatternReportS3Object != null)
         'antipatternReportS3Object': antipatternReportS3Object,
       if (antipatternReportStatus != null)
-        'antipatternReportStatus': antipatternReportStatus.toValue(),
+        'antipatternReportStatus': antipatternReportStatus.value,
       if (antipatternReportStatusMessage != null)
         'antipatternReportStatusMessage': antipatternReportStatusMessage,
-      if (appType != null) 'appType': appType.toValue(),
+      if (appType != null) 'appType': appType.value,
       if (appUnitError != null) 'appUnitError': appUnitError,
       if (associatedServerId != null) 'associatedServerId': associatedServerId,
       if (databaseConfigDetail != null)
         'databaseConfigDetail': databaseConfigDetail,
       if (id != null) 'id': id,
-      if (inclusionStatus != null) 'inclusionStatus': inclusionStatus.toValue(),
+      if (inclusionStatus != null) 'inclusionStatus': inclusionStatus.value,
       if (lastAnalyzedTimestamp != null)
         'lastAnalyzedTimestamp': unixTimestampToJson(lastAnalyzedTimestamp),
       if (listAntipatternSeveritySummary != null)
@@ -1533,9 +1338,9 @@ class ApplicationComponentDetail {
       if (osDriver != null) 'osDriver': osDriver,
       if (osVersion != null) 'osVersion': osVersion,
       if (recommendationSet != null) 'recommendationSet': recommendationSet,
-      if (resourceSubType != null) 'resourceSubType': resourceSubType.toValue(),
+      if (resourceSubType != null) 'resourceSubType': resourceSubType.value,
       if (resultList != null) 'resultList': resultList,
-      if (runtimeStatus != null) 'runtimeStatus': runtimeStatus.toValue(),
+      if (runtimeStatus != null) 'runtimeStatus': runtimeStatus.value,
       if (runtimeStatusMessage != null)
         'runtimeStatusMessage': runtimeStatusMessage,
       if (sourceCodeRepositories != null)
@@ -1564,7 +1369,7 @@ class ApplicationComponentStatusSummary {
     return ApplicationComponentStatusSummary(
       count: json['count'] as int?,
       srcCodeOrDbAnalysisStatus: (json['srcCodeOrDbAnalysisStatus'] as String?)
-          ?.toSrcCodeOrDbAnalysisStatus(),
+          ?.let(SrcCodeOrDbAnalysisStatus.fromString),
     );
   }
 
@@ -1574,7 +1379,7 @@ class ApplicationComponentStatusSummary {
     return {
       if (count != null) 'count': count,
       if (srcCodeOrDbAnalysisStatus != null)
-        'srcCodeOrDbAnalysisStatus': srcCodeOrDbAnalysisStatus.toValue(),
+        'srcCodeOrDbAnalysisStatus': srcCodeOrDbAnalysisStatus.value,
     };
   }
 }
@@ -1604,7 +1409,8 @@ class ApplicationComponentStrategy {
           ? RecommendationSet.fromJson(
               json['recommendation'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toStrategyRecommendation(),
+      status:
+          (json['status'] as String?)?.let(StrategyRecommendation.fromString),
     );
   }
 
@@ -1615,7 +1421,7 @@ class ApplicationComponentStrategy {
     return {
       if (isPreferred != null) 'isPreferred': isPreferred,
       if (recommendation != null) 'recommendation': recommendation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1635,7 +1441,7 @@ class ApplicationComponentSummary {
 
   factory ApplicationComponentSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationComponentSummary(
-      appType: (json['appType'] as String?)?.toAppType(),
+      appType: (json['appType'] as String?)?.let(AppType.fromString),
       count: json['count'] as int?,
     );
   }
@@ -1644,43 +1450,26 @@ class ApplicationComponentSummary {
     final appType = this.appType;
     final count = this.count;
     return {
-      if (appType != null) 'appType': appType.toValue(),
+      if (appType != null) 'appType': appType.value,
       if (count != null) 'count': count,
     };
   }
 }
 
 enum ApplicationMode {
-  all,
-  known,
-  unknown,
-}
+  all('ALL'),
+  known('KNOWN'),
+  unknown('UNKNOWN'),
+  ;
 
-extension ApplicationModeValueExtension on ApplicationMode {
-  String toValue() {
-    switch (this) {
-      case ApplicationMode.all:
-        return 'ALL';
-      case ApplicationMode.known:
-        return 'KNOWN';
-      case ApplicationMode.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationModeFromString on String {
-  ApplicationMode toApplicationMode() {
-    switch (this) {
-      case 'ALL':
-        return ApplicationMode.all;
-      case 'KNOWN':
-        return ApplicationMode.known;
-      case 'UNKNOWN':
-        return ApplicationMode.unknown;
-    }
-    throw Exception('$this is not known in enum ApplicationMode');
-  }
+  const ApplicationMode(this.value);
+
+  static ApplicationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationMode'));
 }
 
 /// Application preferences that you specify.
@@ -1711,76 +1500,37 @@ class ApplicationPreferences {
 }
 
 enum AssessmentDataSourceType {
-  strategyRecommendationsApplicationDataCollector,
-  manualImport,
-  applicationDiscoveryService,
-}
+  strategyRecommendationsApplicationDataCollector(
+      'StrategyRecommendationsApplicationDataCollector'),
+  manualImport('ManualImport'),
+  applicationDiscoveryService('ApplicationDiscoveryService'),
+  ;
 
-extension AssessmentDataSourceTypeValueExtension on AssessmentDataSourceType {
-  String toValue() {
-    switch (this) {
-      case AssessmentDataSourceType
-            .strategyRecommendationsApplicationDataCollector:
-        return 'StrategyRecommendationsApplicationDataCollector';
-      case AssessmentDataSourceType.manualImport:
-        return 'ManualImport';
-      case AssessmentDataSourceType.applicationDiscoveryService:
-        return 'ApplicationDiscoveryService';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentDataSourceTypeFromString on String {
-  AssessmentDataSourceType toAssessmentDataSourceType() {
-    switch (this) {
-      case 'StrategyRecommendationsApplicationDataCollector':
-        return AssessmentDataSourceType
-            .strategyRecommendationsApplicationDataCollector;
-      case 'ManualImport':
-        return AssessmentDataSourceType.manualImport;
-      case 'ApplicationDiscoveryService':
-        return AssessmentDataSourceType.applicationDiscoveryService;
-    }
-    throw Exception('$this is not known in enum AssessmentDataSourceType');
-  }
+  const AssessmentDataSourceType(this.value);
+
+  static AssessmentDataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssessmentDataSourceType'));
 }
 
 enum AssessmentStatus {
-  inProgress,
-  complete,
-  failed,
-  stopped,
-}
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  stopped('STOPPED'),
+  ;
 
-extension AssessmentStatusValueExtension on AssessmentStatus {
-  String toValue() {
-    switch (this) {
-      case AssessmentStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AssessmentStatus.complete:
-        return 'COMPLETE';
-      case AssessmentStatus.failed:
-        return 'FAILED';
-      case AssessmentStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentStatusFromString on String {
-  AssessmentStatus toAssessmentStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return AssessmentStatus.inProgress;
-      case 'COMPLETE':
-        return AssessmentStatus.complete;
-      case 'FAILED':
-        return AssessmentStatus.failed;
-      case 'STOPPED':
-        return AssessmentStatus.stopped;
-    }
-    throw Exception('$this is not known in enum AssessmentStatus');
-  }
+  const AssessmentStatus(this.value);
+
+  static AssessmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssessmentStatus'));
 }
 
 /// Contains the summary of the assessment results.
@@ -1840,7 +1590,7 @@ class AssessmentSummary {
               json['antipatternReportS3Object'] as Map<String, dynamic>)
           : null,
       antipatternReportStatus: (json['antipatternReportStatus'] as String?)
-          ?.toAntipatternReportStatus(),
+          ?.let(AntipatternReportStatus.fromString),
       antipatternReportStatusMessage:
           json['antipatternReportStatusMessage'] as String?,
       lastAnalyzedTimestamp: timeStampFromJson(json['lastAnalyzedTimestamp']),
@@ -1901,7 +1651,7 @@ class AssessmentSummary {
       if (antipatternReportS3Object != null)
         'antipatternReportS3Object': antipatternReportS3Object,
       if (antipatternReportStatus != null)
-        'antipatternReportStatus': antipatternReportStatus.toValue(),
+        'antipatternReportStatus': antipatternReportStatus.value,
       if (antipatternReportStatusMessage != null)
         'antipatternReportStatusMessage': antipatternReportStatusMessage,
       if (lastAnalyzedTimestamp != null)
@@ -1944,7 +1694,7 @@ class AssessmentTarget {
 
   factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
     return AssessmentTarget(
-      condition: (json['condition'] as String).toCondition(),
+      condition: Condition.fromString((json['condition'] as String)),
       name: json['name'] as String,
       values: (json['values'] as List)
           .whereNotNull()
@@ -1958,7 +1708,7 @@ class AssessmentTarget {
     final name = this.name;
     final values = this.values;
     return {
-      'condition': condition.toValue(),
+      'condition': condition.value,
       'name': name,
       'values': values,
     };
@@ -1997,36 +1747,18 @@ class AssociatedApplication {
 }
 
 enum AuthType {
-  ntlm,
-  ssh,
-  cert,
-}
+  ntlm('NTLM'),
+  ssh('SSH'),
+  cert('CERT'),
+  ;
 
-extension AuthTypeValueExtension on AuthType {
-  String toValue() {
-    switch (this) {
-      case AuthType.ntlm:
-        return 'NTLM';
-      case AuthType.ssh:
-        return 'SSH';
-      case AuthType.cert:
-        return 'CERT';
-    }
-  }
-}
+  final String value;
 
-extension AuthTypeFromString on String {
-  AuthType toAuthType() {
-    switch (this) {
-      case 'NTLM':
-        return AuthType.ntlm;
-      case 'SSH':
-        return AuthType.ssh;
-      case 'CERT':
-        return AuthType.cert;
-    }
-    throw Exception('$this is not known in enum AuthType');
-  }
+  const AuthType(this.value);
+
+  static AuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AuthType'));
 }
 
 /// Object containing the choice of application destination that you specify.
@@ -2042,7 +1774,7 @@ class AwsManagedResources {
     return AwsManagedResources(
       targetDestination: (json['targetDestination'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAwsManagedTargetDestination())
+          .map((e) => AwsManagedTargetDestination.fromString((e as String)))
           .toList(),
     );
   }
@@ -2050,71 +1782,40 @@ class AwsManagedResources {
   Map<String, dynamic> toJson() {
     final targetDestination = this.targetDestination;
     return {
-      'targetDestination': targetDestination.map((e) => e.toValue()).toList(),
+      'targetDestination': targetDestination.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AwsManagedTargetDestination {
-  noneSpecified,
-  awsElasticBeanStalk,
-  awsFargate,
-}
+  noneSpecified('None specified'),
+  awsElasticBeanStalk('AWS Elastic BeanStalk'),
+  awsFargate('AWS Fargate'),
+  ;
 
-extension AwsManagedTargetDestinationValueExtension
-    on AwsManagedTargetDestination {
-  String toValue() {
-    switch (this) {
-      case AwsManagedTargetDestination.noneSpecified:
-        return 'None specified';
-      case AwsManagedTargetDestination.awsElasticBeanStalk:
-        return 'AWS Elastic BeanStalk';
-      case AwsManagedTargetDestination.awsFargate:
-        return 'AWS Fargate';
-    }
-  }
-}
+  final String value;
 
-extension AwsManagedTargetDestinationFromString on String {
-  AwsManagedTargetDestination toAwsManagedTargetDestination() {
-    switch (this) {
-      case 'None specified':
-        return AwsManagedTargetDestination.noneSpecified;
-      case 'AWS Elastic BeanStalk':
-        return AwsManagedTargetDestination.awsElasticBeanStalk;
-      case 'AWS Fargate':
-        return AwsManagedTargetDestination.awsFargate;
-    }
-    throw Exception('$this is not known in enum AwsManagedTargetDestination');
-  }
+  const AwsManagedTargetDestination(this.value);
+
+  static AwsManagedTargetDestination fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AwsManagedTargetDestination'));
 }
 
 enum BinaryAnalyzerName {
-  dllAnalyzer,
-  bytecodeAnalyzer,
-}
+  dllAnalyzer('DLL_ANALYZER'),
+  bytecodeAnalyzer('BYTECODE_ANALYZER'),
+  ;
 
-extension BinaryAnalyzerNameValueExtension on BinaryAnalyzerName {
-  String toValue() {
-    switch (this) {
-      case BinaryAnalyzerName.dllAnalyzer:
-        return 'DLL_ANALYZER';
-      case BinaryAnalyzerName.bytecodeAnalyzer:
-        return 'BYTECODE_ANALYZER';
-    }
-  }
-}
+  final String value;
 
-extension BinaryAnalyzerNameFromString on String {
-  BinaryAnalyzerName toBinaryAnalyzerName() {
-    switch (this) {
-      case 'DLL_ANALYZER':
-        return BinaryAnalyzerName.dllAnalyzer;
-      case 'BYTECODE_ANALYZER':
-        return BinaryAnalyzerName.bytecodeAnalyzer;
-    }
-    throw Exception('$this is not known in enum BinaryAnalyzerName');
-  }
+  const BinaryAnalyzerName(this.value);
+
+  static BinaryAnalyzerName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BinaryAnalyzerName'));
 }
 
 /// Business goals that you specify.
@@ -2213,7 +1914,7 @@ class Collector {
   factory Collector.fromJson(Map<String, dynamic> json) {
     return Collector(
       collectorHealth:
-          (json['collectorHealth'] as String?)?.toCollectorHealth(),
+          (json['collectorHealth'] as String?)?.let(CollectorHealth.fromString),
       collectorId: json['collectorId'] as String?,
       collectorVersion: json['collectorVersion'] as String?,
       configurationSummary: json['configurationSummary'] != null
@@ -2237,7 +1938,7 @@ class Collector {
     final lastActivityTimeStamp = this.lastActivityTimeStamp;
     final registeredTimeStamp = this.registeredTimeStamp;
     return {
-      if (collectorHealth != null) 'collectorHealth': collectorHealth.toValue(),
+      if (collectorHealth != null) 'collectorHealth': collectorHealth.value,
       if (collectorId != null) 'collectorId': collectorId,
       if (collectorVersion != null) 'collectorVersion': collectorVersion,
       if (configurationSummary != null)
@@ -2253,69 +1954,34 @@ class Collector {
 }
 
 enum CollectorHealth {
-  collectorHealthy,
-  collectorUnhealthy,
-}
+  collectorHealthy('COLLECTOR_HEALTHY'),
+  collectorUnhealthy('COLLECTOR_UNHEALTHY'),
+  ;
 
-extension CollectorHealthValueExtension on CollectorHealth {
-  String toValue() {
-    switch (this) {
-      case CollectorHealth.collectorHealthy:
-        return 'COLLECTOR_HEALTHY';
-      case CollectorHealth.collectorUnhealthy:
-        return 'COLLECTOR_UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension CollectorHealthFromString on String {
-  CollectorHealth toCollectorHealth() {
-    switch (this) {
-      case 'COLLECTOR_HEALTHY':
-        return CollectorHealth.collectorHealthy;
-      case 'COLLECTOR_UNHEALTHY':
-        return CollectorHealth.collectorUnhealthy;
-    }
-    throw Exception('$this is not known in enum CollectorHealth');
-  }
+  const CollectorHealth(this.value);
+
+  static CollectorHealth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CollectorHealth'));
 }
 
 enum Condition {
-  equals,
-  notEquals,
-  contains,
-  notContains,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  contains('CONTAINS'),
+  notContains('NOT_CONTAINS'),
+  ;
 
-extension ConditionValueExtension on Condition {
-  String toValue() {
-    switch (this) {
-      case Condition.equals:
-        return 'EQUALS';
-      case Condition.notEquals:
-        return 'NOT_EQUALS';
-      case Condition.contains:
-        return 'CONTAINS';
-      case Condition.notContains:
-        return 'NOT_CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension ConditionFromString on String {
-  Condition toCondition() {
-    switch (this) {
-      case 'EQUALS':
-        return Condition.equals;
-      case 'NOT_EQUALS':
-        return Condition.notEquals;
-      case 'CONTAINS':
-        return Condition.contains;
-      case 'NOT_CONTAINS':
-        return Condition.notContains;
-    }
-    throw Exception('$this is not known in enum Condition');
-  }
+  const Condition(this.value);
+
+  static Condition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Condition'));
 }
 
 /// Summary of the collector configuration.
@@ -2439,7 +2105,7 @@ class DataCollectionDetails {
       inProgress: json['inProgress'] as int?,
       servers: json['servers'] as int?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toAssessmentStatus(),
+      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       success: json['success'] as int?,
     );
@@ -2461,7 +2127,7 @@ class DataCollectionDetails {
       if (inProgress != null) 'inProgress': inProgress,
       if (servers != null) 'servers': servers,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (success != null) 'success': success,
     };
@@ -2469,41 +2135,21 @@ class DataCollectionDetails {
 }
 
 enum DataSourceType {
-  applicationDiscoveryService,
-  mpa,
-  import,
-  strategyRecommendationsApplicationDataCollector,
-}
+  applicationDiscoveryService('ApplicationDiscoveryService'),
+  mpa('MPA'),
+  import('Import'),
+  strategyRecommendationsApplicationDataCollector(
+      'StrategyRecommendationsApplicationDataCollector'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.applicationDiscoveryService:
-        return 'ApplicationDiscoveryService';
-      case DataSourceType.mpa:
-        return 'MPA';
-      case DataSourceType.import:
-        return 'Import';
-      case DataSourceType.strategyRecommendationsApplicationDataCollector:
-        return 'StrategyRecommendationsApplicationDataCollector';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'ApplicationDiscoveryService':
-        return DataSourceType.applicationDiscoveryService;
-      case 'MPA':
-        return DataSourceType.mpa;
-      case 'Import':
-        return DataSourceType.import;
-      case 'StrategyRecommendationsApplicationDataCollector':
-        return DataSourceType.strategyRecommendationsApplicationDataCollector;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 /// Configuration information used for assessing databases.
@@ -2531,37 +2177,19 @@ class DatabaseConfigDetail {
 }
 
 enum DatabaseManagementPreference {
-  awsManaged,
-  selfManage,
-  noPreference,
-}
+  awsManaged('AWS-managed'),
+  selfManage('Self-manage'),
+  noPreference('No preference'),
+  ;
 
-extension DatabaseManagementPreferenceValueExtension
-    on DatabaseManagementPreference {
-  String toValue() {
-    switch (this) {
-      case DatabaseManagementPreference.awsManaged:
-        return 'AWS-managed';
-      case DatabaseManagementPreference.selfManage:
-        return 'Self-manage';
-      case DatabaseManagementPreference.noPreference:
-        return 'No preference';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseManagementPreferenceFromString on String {
-  DatabaseManagementPreference toDatabaseManagementPreference() {
-    switch (this) {
-      case 'AWS-managed':
-        return DatabaseManagementPreference.awsManaged;
-      case 'Self-manage':
-        return DatabaseManagementPreference.selfManage;
-      case 'No preference':
-        return DatabaseManagementPreference.noPreference;
-    }
-    throw Exception('$this is not known in enum DatabaseManagementPreference');
-  }
+  const DatabaseManagementPreference(this.value);
+
+  static DatabaseManagementPreference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatabaseManagementPreference'));
 }
 
 /// Preferences for migrating a database to AWS.
@@ -2631,7 +2259,7 @@ class DatabasePreferences {
     return DatabasePreferences(
       databaseManagementPreference:
           (json['databaseManagementPreference'] as String?)
-              ?.toDatabaseManagementPreference(),
+              ?.let(DatabaseManagementPreference.fromString),
       databaseMigrationPreference: json['databaseMigrationPreference'] != null
           ? DatabaseMigrationPreference.fromJson(
               json['databaseMigrationPreference'] as Map<String, dynamic>)
@@ -2644,7 +2272,7 @@ class DatabasePreferences {
     final databaseMigrationPreference = this.databaseMigrationPreference;
     return {
       if (databaseManagementPreference != null)
-        'databaseManagementPreference': databaseManagementPreference.toValue(),
+        'databaseManagementPreference': databaseManagementPreference.value,
       if (databaseMigrationPreference != null)
         'databaseMigrationPreference': databaseMigrationPreference,
     };
@@ -2843,7 +2471,7 @@ class GetImportFileTaskResponse {
       numberOfRecordsFailed: json['numberOfRecordsFailed'] as int?,
       numberOfRecordsSuccess: json['numberOfRecordsSuccess'] as int?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toImportFileTaskStatus(),
+      status: (json['status'] as String?)?.let(ImportFileTaskStatus.fromString),
       statusReportS3Bucket: json['statusReportS3Bucket'] as String?,
       statusReportS3Key: json['statusReportS3Key'] as String?,
     );
@@ -2873,7 +2501,7 @@ class GetImportFileTaskResponse {
       if (numberOfRecordsSuccess != null)
         'numberOfRecordsSuccess': numberOfRecordsSuccess,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReportS3Bucket != null)
         'statusReportS3Bucket': statusReportS3Bucket,
       if (statusReportS3Key != null) 'statusReportS3Key': statusReportS3Key,
@@ -2926,7 +2554,7 @@ class GetPortfolioPreferencesResponse {
   factory GetPortfolioPreferencesResponse.fromJson(Map<String, dynamic> json) {
     return GetPortfolioPreferencesResponse(
       applicationMode:
-          (json['applicationMode'] as String?)?.toApplicationMode(),
+          (json['applicationMode'] as String?)?.let(ApplicationMode.fromString),
       applicationPreferences: json['applicationPreferences'] != null
           ? ApplicationPreferences.fromJson(
               json['applicationPreferences'] as Map<String, dynamic>)
@@ -2948,7 +2576,7 @@ class GetPortfolioPreferencesResponse {
     final databasePreferences = this.databasePreferences;
     final prioritizeBusinessGoals = this.prioritizeBusinessGoals;
     return {
-      if (applicationMode != null) 'applicationMode': applicationMode.toValue(),
+      if (applicationMode != null) 'applicationMode': applicationMode.value,
       if (applicationPreferences != null)
         'applicationPreferences': applicationPreferences,
       if (databasePreferences != null)
@@ -3107,38 +2735,24 @@ class Group {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum GroupName {
-  externalId,
-  externalSourceType,
-}
+  externalId('ExternalId'),
+  externalSourceType('ExternalSourceType'),
+  ;
 
-extension GroupNameValueExtension on GroupName {
-  String toValue() {
-    switch (this) {
-      case GroupName.externalId:
-        return 'ExternalId';
-      case GroupName.externalSourceType:
-        return 'ExternalSourceType';
-    }
-  }
-}
+  final String value;
 
-extension GroupNameFromString on String {
-  GroupName toGroupName() {
-    switch (this) {
-      case 'ExternalId':
-        return GroupName.externalId;
-      case 'ExternalSourceType':
-        return GroupName.externalSourceType;
-    }
-    throw Exception('$this is not known in enum GroupName');
-  }
+  const GroupName(this.value);
+
+  static GroupName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GroupName'));
 }
 
 /// The object containing details about heterogeneous database preferences.
@@ -3154,7 +2768,8 @@ class Heterogeneous {
     return Heterogeneous(
       targetDatabaseEngine: (json['targetDatabaseEngine'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toHeterogeneousTargetDatabaseEngine())
+          .map((e) =>
+              HeterogeneousTargetDatabaseEngine.fromString((e as String)))
           .toList(),
     );
   }
@@ -3162,80 +2777,32 @@ class Heterogeneous {
   Map<String, dynamic> toJson() {
     final targetDatabaseEngine = this.targetDatabaseEngine;
     return {
-      'targetDatabaseEngine':
-          targetDatabaseEngine.map((e) => e.toValue()).toList(),
+      'targetDatabaseEngine': targetDatabaseEngine.map((e) => e.value).toList(),
     };
   }
 }
 
 enum HeterogeneousTargetDatabaseEngine {
-  noneSpecified,
-  amazonAurora,
-  awsPostgreSQL,
-  mySQL,
-  microsoftSqlServer,
-  oracleDatabase,
-  mariaDB,
-  sap,
-  db2Luw,
-  mongoDB,
-}
+  noneSpecified('None specified'),
+  amazonAurora('Amazon Aurora'),
+  awsPostgreSQL('AWS PostgreSQL'),
+  mySQL('MySQL'),
+  microsoftSqlServer('Microsoft SQL Server'),
+  oracleDatabase('Oracle Database'),
+  mariaDB('MariaDB'),
+  sap('SAP'),
+  db2Luw('Db2 LUW'),
+  mongoDB('MongoDB'),
+  ;
 
-extension HeterogeneousTargetDatabaseEngineValueExtension
-    on HeterogeneousTargetDatabaseEngine {
-  String toValue() {
-    switch (this) {
-      case HeterogeneousTargetDatabaseEngine.noneSpecified:
-        return 'None specified';
-      case HeterogeneousTargetDatabaseEngine.amazonAurora:
-        return 'Amazon Aurora';
-      case HeterogeneousTargetDatabaseEngine.awsPostgreSQL:
-        return 'AWS PostgreSQL';
-      case HeterogeneousTargetDatabaseEngine.mySQL:
-        return 'MySQL';
-      case HeterogeneousTargetDatabaseEngine.microsoftSqlServer:
-        return 'Microsoft SQL Server';
-      case HeterogeneousTargetDatabaseEngine.oracleDatabase:
-        return 'Oracle Database';
-      case HeterogeneousTargetDatabaseEngine.mariaDB:
-        return 'MariaDB';
-      case HeterogeneousTargetDatabaseEngine.sap:
-        return 'SAP';
-      case HeterogeneousTargetDatabaseEngine.db2Luw:
-        return 'Db2 LUW';
-      case HeterogeneousTargetDatabaseEngine.mongoDB:
-        return 'MongoDB';
-    }
-  }
-}
+  final String value;
 
-extension HeterogeneousTargetDatabaseEngineFromString on String {
-  HeterogeneousTargetDatabaseEngine toHeterogeneousTargetDatabaseEngine() {
-    switch (this) {
-      case 'None specified':
-        return HeterogeneousTargetDatabaseEngine.noneSpecified;
-      case 'Amazon Aurora':
-        return HeterogeneousTargetDatabaseEngine.amazonAurora;
-      case 'AWS PostgreSQL':
-        return HeterogeneousTargetDatabaseEngine.awsPostgreSQL;
-      case 'MySQL':
-        return HeterogeneousTargetDatabaseEngine.mySQL;
-      case 'Microsoft SQL Server':
-        return HeterogeneousTargetDatabaseEngine.microsoftSqlServer;
-      case 'Oracle Database':
-        return HeterogeneousTargetDatabaseEngine.oracleDatabase;
-      case 'MariaDB':
-        return HeterogeneousTargetDatabaseEngine.mariaDB;
-      case 'SAP':
-        return HeterogeneousTargetDatabaseEngine.sap;
-      case 'Db2 LUW':
-        return HeterogeneousTargetDatabaseEngine.db2Luw;
-      case 'MongoDB':
-        return HeterogeneousTargetDatabaseEngine.mongoDB;
-    }
-    throw Exception(
-        '$this is not known in enum HeterogeneousTargetDatabaseEngine');
-  }
+  const HeterogeneousTargetDatabaseEngine(this.value);
+
+  static HeterogeneousTargetDatabaseEngine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HeterogeneousTargetDatabaseEngine'));
 }
 
 /// The object containing details about homogeneous database preferences.
@@ -3251,7 +2818,7 @@ class Homogeneous {
     return Homogeneous(
       targetDatabaseEngine: (json['targetDatabaseEngine'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHomogeneousTargetDatabaseEngine())
+          .map((e) => HomogeneousTargetDatabaseEngine.fromString((e as String)))
           .toList(),
     );
   }
@@ -3261,34 +2828,23 @@ class Homogeneous {
     return {
       if (targetDatabaseEngine != null)
         'targetDatabaseEngine':
-            targetDatabaseEngine.map((e) => e.toValue()).toList(),
+            targetDatabaseEngine.map((e) => e.value).toList(),
     };
   }
 }
 
 enum HomogeneousTargetDatabaseEngine {
-  noneSpecified,
-}
+  noneSpecified('None specified'),
+  ;
 
-extension HomogeneousTargetDatabaseEngineValueExtension
-    on HomogeneousTargetDatabaseEngine {
-  String toValue() {
-    switch (this) {
-      case HomogeneousTargetDatabaseEngine.noneSpecified:
-        return 'None specified';
-    }
-  }
-}
+  final String value;
 
-extension HomogeneousTargetDatabaseEngineFromString on String {
-  HomogeneousTargetDatabaseEngine toHomogeneousTargetDatabaseEngine() {
-    switch (this) {
-      case 'None specified':
-        return HomogeneousTargetDatabaseEngine.noneSpecified;
-    }
-    throw Exception(
-        '$this is not known in enum HomogeneousTargetDatabaseEngine');
-  }
+  const HomogeneousTargetDatabaseEngine(this.value);
+
+  static HomogeneousTargetDatabaseEngine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HomogeneousTargetDatabaseEngine'));
 }
 
 /// IP address based configurations.
@@ -3310,10 +2866,10 @@ class IPAddressBasedRemoteInfo {
 
   factory IPAddressBasedRemoteInfo.fromJson(Map<String, dynamic> json) {
     return IPAddressBasedRemoteInfo(
-      authType: (json['authType'] as String?)?.toAuthType(),
+      authType: (json['authType'] as String?)?.let(AuthType.fromString),
       ipAddressConfigurationTimeStamp:
           json['ipAddressConfigurationTimeStamp'] as String?,
-      osType: (json['osType'] as String?)?.toOSType(),
+      osType: (json['osType'] as String?)?.let(OSType.fromString),
     );
   }
 
@@ -3323,10 +2879,10 @@ class IPAddressBasedRemoteInfo {
         this.ipAddressConfigurationTimeStamp;
     final osType = this.osType;
     return {
-      if (authType != null) 'authType': authType.toValue(),
+      if (authType != null) 'authType': authType.value,
       if (ipAddressConfigurationTimeStamp != null)
         'ipAddressConfigurationTimeStamp': ipAddressConfigurationTimeStamp,
-      if (osType != null) 'osType': osType.toValue(),
+      if (osType != null) 'osType': osType.value,
     };
   }
 }
@@ -3391,7 +2947,7 @@ class ImportFileTaskInformation {
       numberOfRecordsFailed: json['numberOfRecordsFailed'] as int?,
       numberOfRecordsSuccess: json['numberOfRecordsSuccess'] as int?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toImportFileTaskStatus(),
+      status: (json['status'] as String?)?.let(ImportFileTaskStatus.fromString),
       statusReportS3Bucket: json['statusReportS3Bucket'] as String?,
       statusReportS3Key: json['statusReportS3Key'] as String?,
     );
@@ -3421,7 +2977,7 @@ class ImportFileTaskInformation {
       if (numberOfRecordsSuccess != null)
         'numberOfRecordsSuccess': numberOfRecordsSuccess,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReportS3Bucket != null)
         'statusReportS3Bucket': statusReportS3Bucket,
       if (statusReportS3Key != null) 'statusReportS3Key': statusReportS3Key,
@@ -3430,89 +2986,39 @@ class ImportFileTaskInformation {
 }
 
 enum ImportFileTaskStatus {
-  importInProgress,
-  importFailed,
-  importPartialSuccess,
-  importSuccess,
-  deleteInProgress,
-  deleteFailed,
-  deletePartialSuccess,
-  deleteSuccess,
-}
+  importInProgress('ImportInProgress'),
+  importFailed('ImportFailed'),
+  importPartialSuccess('ImportPartialSuccess'),
+  importSuccess('ImportSuccess'),
+  deleteInProgress('DeleteInProgress'),
+  deleteFailed('DeleteFailed'),
+  deletePartialSuccess('DeletePartialSuccess'),
+  deleteSuccess('DeleteSuccess'),
+  ;
 
-extension ImportFileTaskStatusValueExtension on ImportFileTaskStatus {
-  String toValue() {
-    switch (this) {
-      case ImportFileTaskStatus.importInProgress:
-        return 'ImportInProgress';
-      case ImportFileTaskStatus.importFailed:
-        return 'ImportFailed';
-      case ImportFileTaskStatus.importPartialSuccess:
-        return 'ImportPartialSuccess';
-      case ImportFileTaskStatus.importSuccess:
-        return 'ImportSuccess';
-      case ImportFileTaskStatus.deleteInProgress:
-        return 'DeleteInProgress';
-      case ImportFileTaskStatus.deleteFailed:
-        return 'DeleteFailed';
-      case ImportFileTaskStatus.deletePartialSuccess:
-        return 'DeletePartialSuccess';
-      case ImportFileTaskStatus.deleteSuccess:
-        return 'DeleteSuccess';
-    }
-  }
-}
+  final String value;
 
-extension ImportFileTaskStatusFromString on String {
-  ImportFileTaskStatus toImportFileTaskStatus() {
-    switch (this) {
-      case 'ImportInProgress':
-        return ImportFileTaskStatus.importInProgress;
-      case 'ImportFailed':
-        return ImportFileTaskStatus.importFailed;
-      case 'ImportPartialSuccess':
-        return ImportFileTaskStatus.importPartialSuccess;
-      case 'ImportSuccess':
-        return ImportFileTaskStatus.importSuccess;
-      case 'DeleteInProgress':
-        return ImportFileTaskStatus.deleteInProgress;
-      case 'DeleteFailed':
-        return ImportFileTaskStatus.deleteFailed;
-      case 'DeletePartialSuccess':
-        return ImportFileTaskStatus.deletePartialSuccess;
-      case 'DeleteSuccess':
-        return ImportFileTaskStatus.deleteSuccess;
-    }
-    throw Exception('$this is not known in enum ImportFileTaskStatus');
-  }
+  const ImportFileTaskStatus(this.value);
+
+  static ImportFileTaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImportFileTaskStatus'));
 }
 
 enum InclusionStatus {
-  excludeFromAssessment,
-  includeInAssessment,
-}
+  excludeFromAssessment('excludeFromAssessment'),
+  includeInAssessment('includeInAssessment'),
+  ;
 
-extension InclusionStatusValueExtension on InclusionStatus {
-  String toValue() {
-    switch (this) {
-      case InclusionStatus.excludeFromAssessment:
-        return 'excludeFromAssessment';
-      case InclusionStatus.includeInAssessment:
-        return 'includeInAssessment';
-    }
-  }
-}
+  final String value;
 
-extension InclusionStatusFromString on String {
-  InclusionStatus toInclusionStatus() {
-    switch (this) {
-      case 'excludeFromAssessment':
-        return InclusionStatus.excludeFromAssessment;
-      case 'includeInAssessment':
-        return InclusionStatus.includeInAssessment;
-    }
-    throw Exception('$this is not known in enum InclusionStatus');
-  }
+  const InclusionStatus(this.value);
+
+  static InclusionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InclusionStatus'));
 }
 
 /// Represents output for ListAnalyzableServers operation.
@@ -3798,7 +3304,7 @@ class NoDatabaseMigrationPreference {
     return NoDatabaseMigrationPreference(
       targetDatabaseEngine: (json['targetDatabaseEngine'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toTargetDatabaseEngine())
+          .map((e) => TargetDatabaseEngine.fromString((e as String)))
           .toList(),
     );
   }
@@ -3806,8 +3312,7 @@ class NoDatabaseMigrationPreference {
   Map<String, dynamic> toJson() {
     final targetDatabaseEngine = this.targetDatabaseEngine;
     return {
-      'targetDatabaseEngine':
-          targetDatabaseEngine.map((e) => e.toValue()).toList(),
+      'targetDatabaseEngine': targetDatabaseEngine.map((e) => e.value).toList(),
     };
   }
 }
@@ -3825,7 +3330,7 @@ class NoManagementPreference {
     return NoManagementPreference(
       targetDestination: (json['targetDestination'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toNoPreferenceTargetDestination())
+          .map((e) => NoPreferenceTargetDestination.fromString((e as String)))
           .toList(),
     );
   }
@@ -3833,58 +3338,28 @@ class NoManagementPreference {
   Map<String, dynamic> toJson() {
     final targetDestination = this.targetDestination;
     return {
-      'targetDestination': targetDestination.map((e) => e.toValue()).toList(),
+      'targetDestination': targetDestination.map((e) => e.value).toList(),
     };
   }
 }
 
 enum NoPreferenceTargetDestination {
-  noneSpecified,
-  awsElasticBeanStalk,
-  awsFargate,
-  amazonElasticCloudComputeEc2,
-  amazonElasticContainerServiceEcs,
-  amazonElasticKubernetesServiceEks,
-}
+  noneSpecified('None specified'),
+  awsElasticBeanStalk('AWS Elastic BeanStalk'),
+  awsFargate('AWS Fargate'),
+  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
+  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
+  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
+  ;
 
-extension NoPreferenceTargetDestinationValueExtension
-    on NoPreferenceTargetDestination {
-  String toValue() {
-    switch (this) {
-      case NoPreferenceTargetDestination.noneSpecified:
-        return 'None specified';
-      case NoPreferenceTargetDestination.awsElasticBeanStalk:
-        return 'AWS Elastic BeanStalk';
-      case NoPreferenceTargetDestination.awsFargate:
-        return 'AWS Fargate';
-      case NoPreferenceTargetDestination.amazonElasticCloudComputeEc2:
-        return 'Amazon Elastic Cloud Compute (EC2)';
-      case NoPreferenceTargetDestination.amazonElasticContainerServiceEcs:
-        return 'Amazon Elastic Container Service (ECS)';
-      case NoPreferenceTargetDestination.amazonElasticKubernetesServiceEks:
-        return 'Amazon Elastic Kubernetes Service (EKS)';
-    }
-  }
-}
+  final String value;
 
-extension NoPreferenceTargetDestinationFromString on String {
-  NoPreferenceTargetDestination toNoPreferenceTargetDestination() {
-    switch (this) {
-      case 'None specified':
-        return NoPreferenceTargetDestination.noneSpecified;
-      case 'AWS Elastic BeanStalk':
-        return NoPreferenceTargetDestination.awsElasticBeanStalk;
-      case 'AWS Fargate':
-        return NoPreferenceTargetDestination.awsFargate;
-      case 'Amazon Elastic Cloud Compute (EC2)':
-        return NoPreferenceTargetDestination.amazonElasticCloudComputeEc2;
-      case 'Amazon Elastic Container Service (ECS)':
-        return NoPreferenceTargetDestination.amazonElasticContainerServiceEcs;
-      case 'Amazon Elastic Kubernetes Service (EKS)':
-        return NoPreferenceTargetDestination.amazonElasticKubernetesServiceEks;
-    }
-    throw Exception('$this is not known in enum NoPreferenceTargetDestination');
-  }
+  const NoPreferenceTargetDestination(this.value);
+
+  static NoPreferenceTargetDestination fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NoPreferenceTargetDestination'));
 }
 
 /// Information about the operating system.
@@ -3902,7 +3377,7 @@ class OSInfo {
 
   factory OSInfo.fromJson(Map<String, dynamic> json) {
     return OSInfo(
-      type: (json['type'] as String?)?.toOSType(),
+      type: (json['type'] as String?)?.let(OSType.fromString),
       version: json['version'] as String?,
     );
   }
@@ -3911,66 +3386,39 @@ class OSInfo {
     final type = this.type;
     final version = this.version;
     return {
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (version != null) 'version': version,
     };
   }
 }
 
 enum OSType {
-  linux,
-  windows,
-}
+  linux('LINUX'),
+  windows('WINDOWS'),
+  ;
 
-extension OSTypeValueExtension on OSType {
-  String toValue() {
-    switch (this) {
-      case OSType.linux:
-        return 'LINUX';
-      case OSType.windows:
-        return 'WINDOWS';
-    }
-  }
-}
+  final String value;
 
-extension OSTypeFromString on String {
-  OSType toOSType() {
-    switch (this) {
-      case 'LINUX':
-        return OSType.linux;
-      case 'WINDOWS':
-        return OSType.windows;
-    }
-    throw Exception('$this is not known in enum OSType');
-  }
+  const OSType(this.value);
+
+  static OSType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OSType'));
 }
 
 enum OutputFormat {
-  excel,
-  json,
-}
+  excel('Excel'),
+  json('Json'),
+  ;
 
-extension OutputFormatValueExtension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.excel:
-        return 'Excel';
-      case OutputFormat.json:
-        return 'Json';
-    }
-  }
-}
+  final String value;
 
-extension OutputFormatFromString on String {
-  OutputFormat toOutputFormat() {
-    switch (this) {
-      case 'Excel':
-        return OutputFormat.excel;
-      case 'Json':
-        return OutputFormat.json;
-    }
-    throw Exception('$this is not known in enum OutputFormat');
-  }
+  const OutputFormat(this.value);
+
+  static OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputFormat'));
 }
 
 /// Detailed information of the pipeline.
@@ -3990,7 +3438,8 @@ class PipelineInfo {
     return PipelineInfo(
       pipelineConfigurationTimeStamp:
           json['pipelineConfigurationTimeStamp'] as String?,
-      pipelineType: (json['pipelineType'] as String?)?.toPipelineType(),
+      pipelineType:
+          (json['pipelineType'] as String?)?.let(PipelineType.fromString),
     );
   }
 
@@ -4000,32 +3449,23 @@ class PipelineInfo {
     return {
       if (pipelineConfigurationTimeStamp != null)
         'pipelineConfigurationTimeStamp': pipelineConfigurationTimeStamp,
-      if (pipelineType != null) 'pipelineType': pipelineType.toValue(),
+      if (pipelineType != null) 'pipelineType': pipelineType.value,
     };
   }
 }
 
 enum PipelineType {
-  azureDevops,
-}
+  azureDevops('AZURE_DEVOPS'),
+  ;
 
-extension PipelineTypeValueExtension on PipelineType {
-  String toValue() {
-    switch (this) {
-      case PipelineType.azureDevops:
-        return 'AZURE_DEVOPS';
-    }
-  }
-}
+  final String value;
 
-extension PipelineTypeFromString on String {
-  PipelineType toPipelineType() {
-    switch (this) {
-      case 'AZURE_DEVOPS':
-        return PipelineType.azureDevops;
-    }
-    throw Exception('$this is not known in enum PipelineType');
-  }
+  const PipelineType(this.value);
+
+  static PipelineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PipelineType'));
 }
 
 /// Rank of business goals based on priority.
@@ -4104,7 +3544,8 @@ class RecommendationReportDetails {
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toRecommendationReportStatus(),
+      status: (json['status'] as String?)
+          ?.let(RecommendationReportStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -4122,44 +3563,26 @@ class RecommendationReportDetails {
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3Keys != null) 's3Keys': s3Keys,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
 }
 
 enum RecommendationReportStatus {
-  failed,
-  inProgress,
-  success,
-}
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  ;
 
-extension RecommendationReportStatusValueExtension
-    on RecommendationReportStatus {
-  String toValue() {
-    switch (this) {
-      case RecommendationReportStatus.failed:
-        return 'FAILED';
-      case RecommendationReportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RecommendationReportStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationReportStatusFromString on String {
-  RecommendationReportStatus toRecommendationReportStatus() {
-    switch (this) {
-      case 'FAILED':
-        return RecommendationReportStatus.failed;
-      case 'IN_PROGRESS':
-        return RecommendationReportStatus.inProgress;
-      case 'SUCCESS':
-        return RecommendationReportStatus.success;
-    }
-    throw Exception('$this is not known in enum RecommendationReportStatus');
-  }
+  const RecommendationReportStatus(this.value);
+
+  static RecommendationReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationReportStatus'));
 }
 
 /// Contains a recommendation set.
@@ -4181,9 +3604,9 @@ class RecommendationSet {
 
   factory RecommendationSet.fromJson(Map<String, dynamic> json) {
     return RecommendationSet(
-      strategy: (json['strategy'] as String?)?.toStrategy(),
-      targetDestination:
-          (json['targetDestination'] as String?)?.toTargetDestination(),
+      strategy: (json['strategy'] as String?)?.let(Strategy.fromString),
+      targetDestination: (json['targetDestination'] as String?)
+          ?.let(TargetDestination.fromString),
       transformationTool: json['transformationTool'] != null
           ? TransformationTool.fromJson(
               json['transformationTool'] as Map<String, dynamic>)
@@ -4196,9 +3619,9 @@ class RecommendationSet {
     final targetDestination = this.targetDestination;
     final transformationTool = this.transformationTool;
     return {
-      if (strategy != null) 'strategy': strategy.toValue(),
+      if (strategy != null) 'strategy': strategy.value,
       if (targetDestination != null)
-        'targetDestination': targetDestination.toValue(),
+        'targetDestination': targetDestination.value,
       if (transformationTool != null) 'transformationTool': transformationTool,
     };
   }
@@ -4234,36 +3657,19 @@ class RemoteSourceCodeAnalysisServerInfo {
 }
 
 enum ResourceSubType {
-  database,
-  process,
-  databaseProcess,
-}
+  database('Database'),
+  process('Process'),
+  databaseProcess('DatabaseProcess'),
+  ;
 
-extension ResourceSubTypeValueExtension on ResourceSubType {
-  String toValue() {
-    switch (this) {
-      case ResourceSubType.database:
-        return 'Database';
-      case ResourceSubType.process:
-        return 'Process';
-      case ResourceSubType.databaseProcess:
-        return 'DatabaseProcess';
-    }
-  }
-}
+  final String value;
 
-extension ResourceSubTypeFromString on String {
-  ResourceSubType toResourceSubType() {
-    switch (this) {
-      case 'Database':
-        return ResourceSubType.database;
-      case 'Process':
-        return ResourceSubType.process;
-      case 'DatabaseProcess':
-        return ResourceSubType.databaseProcess;
-    }
-    throw Exception('$this is not known in enum ResourceSubType');
-  }
+  const ResourceSubType(this.value);
+
+  static ResourceSubType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceSubType'));
 }
 
 /// The error in server analysis.
@@ -4293,7 +3699,8 @@ class Result {
           ? AnalysisStatusUnion.fromJson(
               json['analysisStatus'] as Map<String, dynamic>)
           : null,
-      analysisType: (json['analysisType'] as String?)?.toAnalysisType(),
+      analysisType:
+          (json['analysisType'] as String?)?.let(AnalysisType.fromString),
       antipatternReportResultList:
           (json['antipatternReportResultList'] as List?)
               ?.whereNotNull()
@@ -4311,7 +3718,7 @@ class Result {
     final statusMessage = this.statusMessage;
     return {
       if (analysisStatus != null) 'analysisStatus': analysisStatus,
-      if (analysisType != null) 'analysisType': analysisType.toValue(),
+      if (analysisType != null) 'analysisType': analysisType.value,
       if (antipatternReportResultList != null)
         'antipatternReportResultList': antipatternReportResultList,
       if (statusMessage != null) 'statusMessage': statusMessage,
@@ -4320,137 +3727,58 @@ class Result {
 }
 
 enum RunTimeAnalyzerName {
-  a2cAnalyzer,
-  rehostAnalyzer,
-  empPaAnalyzer,
-  databaseAnalyzer,
-  sctAnalyzer,
-}
+  a2cAnalyzer('A2C_ANALYZER'),
+  rehostAnalyzer('REHOST_ANALYZER'),
+  empPaAnalyzer('EMP_PA_ANALYZER'),
+  databaseAnalyzer('DATABASE_ANALYZER'),
+  sctAnalyzer('SCT_ANALYZER'),
+  ;
 
-extension RunTimeAnalyzerNameValueExtension on RunTimeAnalyzerName {
-  String toValue() {
-    switch (this) {
-      case RunTimeAnalyzerName.a2cAnalyzer:
-        return 'A2C_ANALYZER';
-      case RunTimeAnalyzerName.rehostAnalyzer:
-        return 'REHOST_ANALYZER';
-      case RunTimeAnalyzerName.empPaAnalyzer:
-        return 'EMP_PA_ANALYZER';
-      case RunTimeAnalyzerName.databaseAnalyzer:
-        return 'DATABASE_ANALYZER';
-      case RunTimeAnalyzerName.sctAnalyzer:
-        return 'SCT_ANALYZER';
-    }
-  }
-}
+  final String value;
 
-extension RunTimeAnalyzerNameFromString on String {
-  RunTimeAnalyzerName toRunTimeAnalyzerName() {
-    switch (this) {
-      case 'A2C_ANALYZER':
-        return RunTimeAnalyzerName.a2cAnalyzer;
-      case 'REHOST_ANALYZER':
-        return RunTimeAnalyzerName.rehostAnalyzer;
-      case 'EMP_PA_ANALYZER':
-        return RunTimeAnalyzerName.empPaAnalyzer;
-      case 'DATABASE_ANALYZER':
-        return RunTimeAnalyzerName.databaseAnalyzer;
-      case 'SCT_ANALYZER':
-        return RunTimeAnalyzerName.sctAnalyzer;
-    }
-    throw Exception('$this is not known in enum RunTimeAnalyzerName');
-  }
+  const RunTimeAnalyzerName(this.value);
+
+  static RunTimeAnalyzerName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RunTimeAnalyzerName'));
 }
 
 enum RunTimeAssessmentStatus {
-  dataCollectionTaskToBeScheduled,
-  dataCollectionTaskScheduled,
-  dataCollectionTaskStarted,
-  dataCollectionTaskStopped,
-  dataCollectionTaskSuccess,
-  dataCollectionTaskFailed,
-  dataCollectionTaskPartialSuccess,
-}
+  dataCollectionTaskToBeScheduled('dataCollectionTaskToBeScheduled'),
+  dataCollectionTaskScheduled('dataCollectionTaskScheduled'),
+  dataCollectionTaskStarted('dataCollectionTaskStarted'),
+  dataCollectionTaskStopped('dataCollectionTaskStopped'),
+  dataCollectionTaskSuccess('dataCollectionTaskSuccess'),
+  dataCollectionTaskFailed('dataCollectionTaskFailed'),
+  dataCollectionTaskPartialSuccess('dataCollectionTaskPartialSuccess'),
+  ;
 
-extension RunTimeAssessmentStatusValueExtension on RunTimeAssessmentStatus {
-  String toValue() {
-    switch (this) {
-      case RunTimeAssessmentStatus.dataCollectionTaskToBeScheduled:
-        return 'dataCollectionTaskToBeScheduled';
-      case RunTimeAssessmentStatus.dataCollectionTaskScheduled:
-        return 'dataCollectionTaskScheduled';
-      case RunTimeAssessmentStatus.dataCollectionTaskStarted:
-        return 'dataCollectionTaskStarted';
-      case RunTimeAssessmentStatus.dataCollectionTaskStopped:
-        return 'dataCollectionTaskStopped';
-      case RunTimeAssessmentStatus.dataCollectionTaskSuccess:
-        return 'dataCollectionTaskSuccess';
-      case RunTimeAssessmentStatus.dataCollectionTaskFailed:
-        return 'dataCollectionTaskFailed';
-      case RunTimeAssessmentStatus.dataCollectionTaskPartialSuccess:
-        return 'dataCollectionTaskPartialSuccess';
-    }
-  }
-}
+  final String value;
 
-extension RunTimeAssessmentStatusFromString on String {
-  RunTimeAssessmentStatus toRunTimeAssessmentStatus() {
-    switch (this) {
-      case 'dataCollectionTaskToBeScheduled':
-        return RunTimeAssessmentStatus.dataCollectionTaskToBeScheduled;
-      case 'dataCollectionTaskScheduled':
-        return RunTimeAssessmentStatus.dataCollectionTaskScheduled;
-      case 'dataCollectionTaskStarted':
-        return RunTimeAssessmentStatus.dataCollectionTaskStarted;
-      case 'dataCollectionTaskStopped':
-        return RunTimeAssessmentStatus.dataCollectionTaskStopped;
-      case 'dataCollectionTaskSuccess':
-        return RunTimeAssessmentStatus.dataCollectionTaskSuccess;
-      case 'dataCollectionTaskFailed':
-        return RunTimeAssessmentStatus.dataCollectionTaskFailed;
-      case 'dataCollectionTaskPartialSuccess':
-        return RunTimeAssessmentStatus.dataCollectionTaskPartialSuccess;
-    }
-    throw Exception('$this is not known in enum RunTimeAssessmentStatus');
-  }
+  const RunTimeAssessmentStatus(this.value);
+
+  static RunTimeAssessmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RunTimeAssessmentStatus'));
 }
 
 enum RuntimeAnalysisStatus {
-  analysisToBeScheduled,
-  analysisStarted,
-  analysisSuccess,
-  analysisFailed,
-}
+  analysisToBeScheduled('ANALYSIS_TO_BE_SCHEDULED'),
+  analysisStarted('ANALYSIS_STARTED'),
+  analysisSuccess('ANALYSIS_SUCCESS'),
+  analysisFailed('ANALYSIS_FAILED'),
+  ;
 
-extension RuntimeAnalysisStatusValueExtension on RuntimeAnalysisStatus {
-  String toValue() {
-    switch (this) {
-      case RuntimeAnalysisStatus.analysisToBeScheduled:
-        return 'ANALYSIS_TO_BE_SCHEDULED';
-      case RuntimeAnalysisStatus.analysisStarted:
-        return 'ANALYSIS_STARTED';
-      case RuntimeAnalysisStatus.analysisSuccess:
-        return 'ANALYSIS_SUCCESS';
-      case RuntimeAnalysisStatus.analysisFailed:
-        return 'ANALYSIS_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RuntimeAnalysisStatusFromString on String {
-  RuntimeAnalysisStatus toRuntimeAnalysisStatus() {
-    switch (this) {
-      case 'ANALYSIS_TO_BE_SCHEDULED':
-        return RuntimeAnalysisStatus.analysisToBeScheduled;
-      case 'ANALYSIS_STARTED':
-        return RuntimeAnalysisStatus.analysisStarted;
-      case 'ANALYSIS_SUCCESS':
-        return RuntimeAnalysisStatus.analysisSuccess;
-      case 'ANALYSIS_FAILED':
-        return RuntimeAnalysisStatus.analysisFailed;
-    }
-    throw Exception('$this is not known in enum RuntimeAnalysisStatus');
-  }
+  const RuntimeAnalysisStatus(this.value);
+
+  static RuntimeAnalysisStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuntimeAnalysisStatus'));
 }
 
 /// Contains the S3 bucket name and the Amazon S3 key name.
@@ -4496,7 +3824,7 @@ class SelfManageResources {
     return SelfManageResources(
       targetDestination: (json['targetDestination'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toSelfManageTargetDestination())
+          .map((e) => SelfManageTargetDestination.fromString((e as String)))
           .toList(),
     );
   }
@@ -4504,101 +3832,46 @@ class SelfManageResources {
   Map<String, dynamic> toJson() {
     final targetDestination = this.targetDestination;
     return {
-      'targetDestination': targetDestination.map((e) => e.toValue()).toList(),
+      'targetDestination': targetDestination.map((e) => e.value).toList(),
     };
   }
 }
 
 enum SelfManageTargetDestination {
-  noneSpecified,
-  amazonElasticCloudComputeEc2,
-  amazonElasticContainerServiceEcs,
-  amazonElasticKubernetesServiceEks,
-}
+  noneSpecified('None specified'),
+  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
+  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
+  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
+  ;
 
-extension SelfManageTargetDestinationValueExtension
-    on SelfManageTargetDestination {
-  String toValue() {
-    switch (this) {
-      case SelfManageTargetDestination.noneSpecified:
-        return 'None specified';
-      case SelfManageTargetDestination.amazonElasticCloudComputeEc2:
-        return 'Amazon Elastic Cloud Compute (EC2)';
-      case SelfManageTargetDestination.amazonElasticContainerServiceEcs:
-        return 'Amazon Elastic Container Service (ECS)';
-      case SelfManageTargetDestination.amazonElasticKubernetesServiceEks:
-        return 'Amazon Elastic Kubernetes Service (EKS)';
-    }
-  }
-}
+  final String value;
 
-extension SelfManageTargetDestinationFromString on String {
-  SelfManageTargetDestination toSelfManageTargetDestination() {
-    switch (this) {
-      case 'None specified':
-        return SelfManageTargetDestination.noneSpecified;
-      case 'Amazon Elastic Cloud Compute (EC2)':
-        return SelfManageTargetDestination.amazonElasticCloudComputeEc2;
-      case 'Amazon Elastic Container Service (ECS)':
-        return SelfManageTargetDestination.amazonElasticContainerServiceEcs;
-      case 'Amazon Elastic Kubernetes Service (EKS)':
-        return SelfManageTargetDestination.amazonElasticKubernetesServiceEks;
-    }
-    throw Exception('$this is not known in enum SelfManageTargetDestination');
-  }
+  const SelfManageTargetDestination(this.value);
+
+  static SelfManageTargetDestination fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SelfManageTargetDestination'));
 }
 
 enum ServerCriteria {
-  notDefined,
-  osName,
-  strategy,
-  destination,
-  serverId,
-  analysisStatus,
-  errorCategory,
-}
+  notDefined('NOT_DEFINED'),
+  osName('OS_NAME'),
+  strategy('STRATEGY'),
+  destination('DESTINATION'),
+  serverId('SERVER_ID'),
+  analysisStatus('ANALYSIS_STATUS'),
+  errorCategory('ERROR_CATEGORY'),
+  ;
 
-extension ServerCriteriaValueExtension on ServerCriteria {
-  String toValue() {
-    switch (this) {
-      case ServerCriteria.notDefined:
-        return 'NOT_DEFINED';
-      case ServerCriteria.osName:
-        return 'OS_NAME';
-      case ServerCriteria.strategy:
-        return 'STRATEGY';
-      case ServerCriteria.destination:
-        return 'DESTINATION';
-      case ServerCriteria.serverId:
-        return 'SERVER_ID';
-      case ServerCriteria.analysisStatus:
-        return 'ANALYSIS_STATUS';
-      case ServerCriteria.errorCategory:
-        return 'ERROR_CATEGORY';
-    }
-  }
-}
+  final String value;
 
-extension ServerCriteriaFromString on String {
-  ServerCriteria toServerCriteria() {
-    switch (this) {
-      case 'NOT_DEFINED':
-        return ServerCriteria.notDefined;
-      case 'OS_NAME':
-        return ServerCriteria.osName;
-      case 'STRATEGY':
-        return ServerCriteria.strategy;
-      case 'DESTINATION':
-        return ServerCriteria.destination;
-      case 'SERVER_ID':
-        return ServerCriteria.serverId;
-      case 'ANALYSIS_STATUS':
-        return ServerCriteria.analysisStatus;
-      case 'ERROR_CATEGORY':
-        return ServerCriteria.errorCategory;
-    }
-    throw Exception('$this is not known in enum ServerCriteria');
-  }
+  const ServerCriteria(this.value);
+
+  static ServerCriteria fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServerCriteria'));
 }
 
 /// Detailed information about a server.
@@ -4670,7 +3943,7 @@ class ServerDetail {
               json['antipatternReportS3Object'] as Map<String, dynamic>)
           : null,
       antipatternReportStatus: (json['antipatternReportStatus'] as String?)
-          ?.toAntipatternReportStatus(),
+          ?.let(AntipatternReportStatus.fromString),
       antipatternReportStatusMessage:
           json['antipatternReportStatusMessage'] as String?,
       applicationComponentStrategySummary:
@@ -4679,7 +3952,7 @@ class ServerDetail {
               .map((e) => StrategySummary.fromJson(e as Map<String, dynamic>))
               .toList(),
       dataCollectionStatus: (json['dataCollectionStatus'] as String?)
-          ?.toRunTimeAssessmentStatus(),
+          ?.let(RunTimeAssessmentStatus.fromString),
       id: json['id'] as String?,
       lastAnalyzedTimestamp: timeStampFromJson(json['lastAnalyzedTimestamp']),
       listAntipatternSeveritySummary: (json['listAntipatternSeveritySummary']
@@ -4724,14 +3997,14 @@ class ServerDetail {
       if (antipatternReportS3Object != null)
         'antipatternReportS3Object': antipatternReportS3Object,
       if (antipatternReportStatus != null)
-        'antipatternReportStatus': antipatternReportStatus.toValue(),
+        'antipatternReportStatus': antipatternReportStatus.value,
       if (antipatternReportStatusMessage != null)
         'antipatternReportStatusMessage': antipatternReportStatusMessage,
       if (applicationComponentStrategySummary != null)
         'applicationComponentStrategySummary':
             applicationComponentStrategySummary,
       if (dataCollectionStatus != null)
-        'dataCollectionStatus': dataCollectionStatus.toValue(),
+        'dataCollectionStatus': dataCollectionStatus.value,
       if (id != null) 'id': id,
       if (lastAnalyzedTimestamp != null)
         'lastAnalyzedTimestamp': unixTimestampToJson(lastAnalyzedTimestamp),
@@ -4758,8 +4031,8 @@ class ServerError {
 
   factory ServerError.fromJson(Map<String, dynamic> json) {
     return ServerError(
-      serverErrorCategory:
-          (json['serverErrorCategory'] as String?)?.toServerErrorCategory(),
+      serverErrorCategory: (json['serverErrorCategory'] as String?)
+          ?.let(ServerErrorCategory.fromString),
     );
   }
 
@@ -4767,95 +4040,45 @@ class ServerError {
     final serverErrorCategory = this.serverErrorCategory;
     return {
       if (serverErrorCategory != null)
-        'serverErrorCategory': serverErrorCategory.toValue(),
+        'serverErrorCategory': serverErrorCategory.value,
     };
   }
 }
 
 enum ServerErrorCategory {
-  connectivityError,
-  credentialError,
-  permissionError,
-  architectureError,
-  otherError,
-}
+  connectivityError('CONNECTIVITY_ERROR'),
+  credentialError('CREDENTIAL_ERROR'),
+  permissionError('PERMISSION_ERROR'),
+  architectureError('ARCHITECTURE_ERROR'),
+  otherError('OTHER_ERROR'),
+  ;
 
-extension ServerErrorCategoryValueExtension on ServerErrorCategory {
-  String toValue() {
-    switch (this) {
-      case ServerErrorCategory.connectivityError:
-        return 'CONNECTIVITY_ERROR';
-      case ServerErrorCategory.credentialError:
-        return 'CREDENTIAL_ERROR';
-      case ServerErrorCategory.permissionError:
-        return 'PERMISSION_ERROR';
-      case ServerErrorCategory.architectureError:
-        return 'ARCHITECTURE_ERROR';
-      case ServerErrorCategory.otherError:
-        return 'OTHER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ServerErrorCategoryFromString on String {
-  ServerErrorCategory toServerErrorCategory() {
-    switch (this) {
-      case 'CONNECTIVITY_ERROR':
-        return ServerErrorCategory.connectivityError;
-      case 'CREDENTIAL_ERROR':
-        return ServerErrorCategory.credentialError;
-      case 'PERMISSION_ERROR':
-        return ServerErrorCategory.permissionError;
-      case 'ARCHITECTURE_ERROR':
-        return ServerErrorCategory.architectureError;
-      case 'OTHER_ERROR':
-        return ServerErrorCategory.otherError;
-    }
-    throw Exception('$this is not known in enum ServerErrorCategory');
-  }
+  const ServerErrorCategory(this.value);
+
+  static ServerErrorCategory fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ServerErrorCategory'));
 }
 
 enum ServerOsType {
-  windowsServer,
-  amazonLinux,
-  endOfSupportWindowsServer,
-  redhat,
-  other,
-}
+  windowsServer('WindowsServer'),
+  amazonLinux('AmazonLinux'),
+  endOfSupportWindowsServer('EndOfSupportWindowsServer'),
+  redhat('Redhat'),
+  other('Other'),
+  ;
 
-extension ServerOsTypeValueExtension on ServerOsType {
-  String toValue() {
-    switch (this) {
-      case ServerOsType.windowsServer:
-        return 'WindowsServer';
-      case ServerOsType.amazonLinux:
-        return 'AmazonLinux';
-      case ServerOsType.endOfSupportWindowsServer:
-        return 'EndOfSupportWindowsServer';
-      case ServerOsType.redhat:
-        return 'Redhat';
-      case ServerOsType.other:
-        return 'Other';
-    }
-  }
-}
+  final String value;
 
-extension ServerOsTypeFromString on String {
-  ServerOsType toServerOsType() {
-    switch (this) {
-      case 'WindowsServer':
-        return ServerOsType.windowsServer;
-      case 'AmazonLinux':
-        return ServerOsType.amazonLinux;
-      case 'EndOfSupportWindowsServer':
-        return ServerOsType.endOfSupportWindowsServer;
-      case 'Redhat':
-        return ServerOsType.redhat;
-      case 'Other':
-        return ServerOsType.other;
-    }
-    throw Exception('$this is not known in enum ServerOsType');
-  }
+  const ServerOsType(this.value);
+
+  static ServerOsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ServerOsType'));
 }
 
 /// The status summary of the server analysis.
@@ -4876,7 +4099,7 @@ class ServerStatusSummary {
     return ServerStatusSummary(
       count: json['count'] as int?,
       runTimeAssessmentStatus: (json['runTimeAssessmentStatus'] as String?)
-          ?.toRunTimeAssessmentStatus(),
+          ?.let(RunTimeAssessmentStatus.fromString),
     );
   }
 
@@ -4886,7 +4109,7 @@ class ServerStatusSummary {
     return {
       if (count != null) 'count': count,
       if (runTimeAssessmentStatus != null)
-        'runTimeAssessmentStatus': runTimeAssessmentStatus.toValue(),
+        'runTimeAssessmentStatus': runTimeAssessmentStatus.value,
     };
   }
 }
@@ -4922,7 +4145,8 @@ class ServerStrategy {
           ? RecommendationSet.fromJson(
               json['recommendation'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toStrategyRecommendation(),
+      status:
+          (json['status'] as String?)?.let(StrategyRecommendation.fromString),
     );
   }
 
@@ -4936,7 +4160,7 @@ class ServerStrategy {
       if (numberOfApplicationComponents != null)
         'numberOfApplicationComponents': numberOfApplicationComponents,
       if (recommendation != null) 'recommendation': recommendation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4957,7 +4181,8 @@ class ServerSummary {
 
   factory ServerSummary.fromJson(Map<String, dynamic> json) {
     return ServerSummary(
-      serverOsType: (json['ServerOsType'] as String?)?.toServerOsType(),
+      serverOsType:
+          (json['ServerOsType'] as String?)?.let(ServerOsType.fromString),
       count: json['count'] as int?,
     );
   }
@@ -4966,71 +4191,39 @@ class ServerSummary {
     final serverOsType = this.serverOsType;
     final count = this.count;
     return {
-      if (serverOsType != null) 'ServerOsType': serverOsType.toValue(),
+      if (serverOsType != null) 'ServerOsType': serverOsType.value,
       if (count != null) 'count': count,
     };
   }
 }
 
 enum Severity {
-  high,
-  medium,
-  low,
-}
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.high:
-        return 'HIGH';
-      case Severity.medium:
-        return 'MEDIUM';
-      case Severity.low:
-        return 'LOW';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'HIGH':
-        return Severity.high;
-      case 'MEDIUM':
-        return Severity.medium;
-      case 'LOW':
-        return Severity.low;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 enum SortOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortOrder.asc;
-      case 'DESC':
-        return SortOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Object containing source code information that is linked to an application
@@ -5064,47 +4257,26 @@ class SourceCode {
       if (location != null) 'location': location,
       if (projectName != null) 'projectName': projectName,
       if (sourceVersion != null) 'sourceVersion': sourceVersion,
-      if (versionControl != null) 'versionControl': versionControl.toValue(),
+      if (versionControl != null) 'versionControl': versionControl.value,
     };
   }
 }
 
 enum SourceCodeAnalyzerName {
-  csharpAnalyzer,
-  javaAnalyzer,
-  bytecodeAnalyzer,
-  portingAssistant,
-}
+  csharpAnalyzer('CSHARP_ANALYZER'),
+  javaAnalyzer('JAVA_ANALYZER'),
+  bytecodeAnalyzer('BYTECODE_ANALYZER'),
+  portingAssistant('PORTING_ASSISTANT'),
+  ;
 
-extension SourceCodeAnalyzerNameValueExtension on SourceCodeAnalyzerName {
-  String toValue() {
-    switch (this) {
-      case SourceCodeAnalyzerName.csharpAnalyzer:
-        return 'CSHARP_ANALYZER';
-      case SourceCodeAnalyzerName.javaAnalyzer:
-        return 'JAVA_ANALYZER';
-      case SourceCodeAnalyzerName.bytecodeAnalyzer:
-        return 'BYTECODE_ANALYZER';
-      case SourceCodeAnalyzerName.portingAssistant:
-        return 'PORTING_ASSISTANT';
-    }
-  }
-}
+  final String value;
 
-extension SourceCodeAnalyzerNameFromString on String {
-  SourceCodeAnalyzerName toSourceCodeAnalyzerName() {
-    switch (this) {
-      case 'CSHARP_ANALYZER':
-        return SourceCodeAnalyzerName.csharpAnalyzer;
-      case 'JAVA_ANALYZER':
-        return SourceCodeAnalyzerName.javaAnalyzer;
-      case 'BYTECODE_ANALYZER':
-        return SourceCodeAnalyzerName.bytecodeAnalyzer;
-      case 'PORTING_ASSISTANT':
-        return SourceCodeAnalyzerName.portingAssistant;
-    }
-    throw Exception('$this is not known in enum SourceCodeAnalyzerName');
-  }
+  const SourceCodeAnalyzerName(this.value);
+
+  static SourceCodeAnalyzerName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SourceCodeAnalyzerName'));
 }
 
 /// Object containing source code information that is linked to an application
@@ -5153,56 +4325,23 @@ class SourceCodeRepository {
 }
 
 enum SrcCodeOrDbAnalysisStatus {
-  analysisToBeScheduled,
-  analysisStarted,
-  analysisSuccess,
-  analysisFailed,
-  analysisPartialSuccess,
-  unconfigured,
-  configured,
-}
+  analysisToBeScheduled('ANALYSIS_TO_BE_SCHEDULED'),
+  analysisStarted('ANALYSIS_STARTED'),
+  analysisSuccess('ANALYSIS_SUCCESS'),
+  analysisFailed('ANALYSIS_FAILED'),
+  analysisPartialSuccess('ANALYSIS_PARTIAL_SUCCESS'),
+  unconfigured('UNCONFIGURED'),
+  configured('CONFIGURED'),
+  ;
 
-extension SrcCodeOrDbAnalysisStatusValueExtension on SrcCodeOrDbAnalysisStatus {
-  String toValue() {
-    switch (this) {
-      case SrcCodeOrDbAnalysisStatus.analysisToBeScheduled:
-        return 'ANALYSIS_TO_BE_SCHEDULED';
-      case SrcCodeOrDbAnalysisStatus.analysisStarted:
-        return 'ANALYSIS_STARTED';
-      case SrcCodeOrDbAnalysisStatus.analysisSuccess:
-        return 'ANALYSIS_SUCCESS';
-      case SrcCodeOrDbAnalysisStatus.analysisFailed:
-        return 'ANALYSIS_FAILED';
-      case SrcCodeOrDbAnalysisStatus.analysisPartialSuccess:
-        return 'ANALYSIS_PARTIAL_SUCCESS';
-      case SrcCodeOrDbAnalysisStatus.unconfigured:
-        return 'UNCONFIGURED';
-      case SrcCodeOrDbAnalysisStatus.configured:
-        return 'CONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension SrcCodeOrDbAnalysisStatusFromString on String {
-  SrcCodeOrDbAnalysisStatus toSrcCodeOrDbAnalysisStatus() {
-    switch (this) {
-      case 'ANALYSIS_TO_BE_SCHEDULED':
-        return SrcCodeOrDbAnalysisStatus.analysisToBeScheduled;
-      case 'ANALYSIS_STARTED':
-        return SrcCodeOrDbAnalysisStatus.analysisStarted;
-      case 'ANALYSIS_SUCCESS':
-        return SrcCodeOrDbAnalysisStatus.analysisSuccess;
-      case 'ANALYSIS_FAILED':
-        return SrcCodeOrDbAnalysisStatus.analysisFailed;
-      case 'ANALYSIS_PARTIAL_SUCCESS':
-        return SrcCodeOrDbAnalysisStatus.analysisPartialSuccess;
-      case 'UNCONFIGURED':
-        return SrcCodeOrDbAnalysisStatus.unconfigured;
-      case 'CONFIGURED':
-        return SrcCodeOrDbAnalysisStatus.configured;
-    }
-    throw Exception('$this is not known in enum SrcCodeOrDbAnalysisStatus');
-  }
+  const SrcCodeOrDbAnalysisStatus(this.value);
+
+  static SrcCodeOrDbAnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SrcCodeOrDbAnalysisStatus'));
 }
 
 class StartAssessmentResponse {
@@ -5285,56 +4424,22 @@ class StopAssessmentResponse {
 }
 
 enum Strategy {
-  rehost,
-  retirement,
-  refactor,
-  replatform,
-  retain,
-  relocate,
-  repurchase,
-}
+  rehost('Rehost'),
+  retirement('Retirement'),
+  refactor('Refactor'),
+  replatform('Replatform'),
+  retain('Retain'),
+  relocate('Relocate'),
+  repurchase('Repurchase'),
+  ;
 
-extension StrategyValueExtension on Strategy {
-  String toValue() {
-    switch (this) {
-      case Strategy.rehost:
-        return 'Rehost';
-      case Strategy.retirement:
-        return 'Retirement';
-      case Strategy.refactor:
-        return 'Refactor';
-      case Strategy.replatform:
-        return 'Replatform';
-      case Strategy.retain:
-        return 'Retain';
-      case Strategy.relocate:
-        return 'Relocate';
-      case Strategy.repurchase:
-        return 'Repurchase';
-    }
-  }
-}
+  final String value;
 
-extension StrategyFromString on String {
-  Strategy toStrategy() {
-    switch (this) {
-      case 'Rehost':
-        return Strategy.rehost;
-      case 'Retirement':
-        return Strategy.retirement;
-      case 'Refactor':
-        return Strategy.refactor;
-      case 'Replatform':
-        return Strategy.replatform;
-      case 'Retain':
-        return Strategy.retain;
-      case 'Relocate':
-        return Strategy.relocate;
-      case 'Repurchase':
-        return Strategy.repurchase;
-    }
-    throw Exception('$this is not known in enum Strategy');
-  }
+  const Strategy(this.value);
+
+  static Strategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Strategy'));
 }
 
 /// Information about all the available strategy options for migrating and
@@ -5368,50 +4473,29 @@ class StrategyOption {
     final toolName = this.toolName;
     return {
       if (isPreferred != null) 'isPreferred': isPreferred,
-      if (strategy != null) 'strategy': strategy.toValue(),
+      if (strategy != null) 'strategy': strategy.value,
       if (targetDestination != null)
-        'targetDestination': targetDestination.toValue(),
-      if (toolName != null) 'toolName': toolName.toValue(),
+        'targetDestination': targetDestination.value,
+      if (toolName != null) 'toolName': toolName.value,
     };
   }
 }
 
 enum StrategyRecommendation {
-  recommended,
-  viableOption,
-  notRecommended,
-  potential,
-}
+  recommended('recommended'),
+  viableOption('viableOption'),
+  notRecommended('notRecommended'),
+  potential('potential'),
+  ;
 
-extension StrategyRecommendationValueExtension on StrategyRecommendation {
-  String toValue() {
-    switch (this) {
-      case StrategyRecommendation.recommended:
-        return 'recommended';
-      case StrategyRecommendation.viableOption:
-        return 'viableOption';
-      case StrategyRecommendation.notRecommended:
-        return 'notRecommended';
-      case StrategyRecommendation.potential:
-        return 'potential';
-    }
-  }
-}
+  final String value;
 
-extension StrategyRecommendationFromString on String {
-  StrategyRecommendation toStrategyRecommendation() {
-    switch (this) {
-      case 'recommended':
-        return StrategyRecommendation.recommended;
-      case 'viableOption':
-        return StrategyRecommendation.viableOption;
-      case 'notRecommended':
-        return StrategyRecommendation.notRecommended;
-      case 'potential':
-        return StrategyRecommendation.potential;
-    }
-    throw Exception('$this is not known in enum StrategyRecommendation');
-  }
+  const StrategyRecommendation(this.value);
+
+  static StrategyRecommendation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StrategyRecommendation'));
 }
 
 /// Object containing the summary of the strategy recommendations.
@@ -5430,7 +4514,7 @@ class StrategySummary {
   factory StrategySummary.fromJson(Map<String, dynamic> json) {
     return StrategySummary(
       count: json['count'] as int?,
-      strategy: (json['strategy'] as String?)?.toStrategy(),
+      strategy: (json['strategy'] as String?)?.let(Strategy.fromString),
     );
   }
 
@@ -5439,7 +4523,7 @@ class StrategySummary {
     final strategy = this.strategy;
     return {
       if (count != null) 'count': count,
-      if (strategy != null) 'strategy': strategy.toValue(),
+      if (strategy != null) 'strategy': strategy.value,
     };
   }
 }
@@ -5494,159 +4578,55 @@ class SystemInfo {
 }
 
 enum TargetDatabaseEngine {
-  noneSpecified,
-  amazonAurora,
-  awsPostgreSQL,
-  mySQL,
-  microsoftSqlServer,
-  oracleDatabase,
-  mariaDB,
-  sap,
-  db2Luw,
-  mongoDB,
-}
+  noneSpecified('None specified'),
+  amazonAurora('Amazon Aurora'),
+  awsPostgreSQL('AWS PostgreSQL'),
+  mySQL('MySQL'),
+  microsoftSqlServer('Microsoft SQL Server'),
+  oracleDatabase('Oracle Database'),
+  mariaDB('MariaDB'),
+  sap('SAP'),
+  db2Luw('Db2 LUW'),
+  mongoDB('MongoDB'),
+  ;
 
-extension TargetDatabaseEngineValueExtension on TargetDatabaseEngine {
-  String toValue() {
-    switch (this) {
-      case TargetDatabaseEngine.noneSpecified:
-        return 'None specified';
-      case TargetDatabaseEngine.amazonAurora:
-        return 'Amazon Aurora';
-      case TargetDatabaseEngine.awsPostgreSQL:
-        return 'AWS PostgreSQL';
-      case TargetDatabaseEngine.mySQL:
-        return 'MySQL';
-      case TargetDatabaseEngine.microsoftSqlServer:
-        return 'Microsoft SQL Server';
-      case TargetDatabaseEngine.oracleDatabase:
-        return 'Oracle Database';
-      case TargetDatabaseEngine.mariaDB:
-        return 'MariaDB';
-      case TargetDatabaseEngine.sap:
-        return 'SAP';
-      case TargetDatabaseEngine.db2Luw:
-        return 'Db2 LUW';
-      case TargetDatabaseEngine.mongoDB:
-        return 'MongoDB';
-    }
-  }
-}
+  final String value;
 
-extension TargetDatabaseEngineFromString on String {
-  TargetDatabaseEngine toTargetDatabaseEngine() {
-    switch (this) {
-      case 'None specified':
-        return TargetDatabaseEngine.noneSpecified;
-      case 'Amazon Aurora':
-        return TargetDatabaseEngine.amazonAurora;
-      case 'AWS PostgreSQL':
-        return TargetDatabaseEngine.awsPostgreSQL;
-      case 'MySQL':
-        return TargetDatabaseEngine.mySQL;
-      case 'Microsoft SQL Server':
-        return TargetDatabaseEngine.microsoftSqlServer;
-      case 'Oracle Database':
-        return TargetDatabaseEngine.oracleDatabase;
-      case 'MariaDB':
-        return TargetDatabaseEngine.mariaDB;
-      case 'SAP':
-        return TargetDatabaseEngine.sap;
-      case 'Db2 LUW':
-        return TargetDatabaseEngine.db2Luw;
-      case 'MongoDB':
-        return TargetDatabaseEngine.mongoDB;
-    }
-    throw Exception('$this is not known in enum TargetDatabaseEngine');
-  }
+  const TargetDatabaseEngine(this.value);
+
+  static TargetDatabaseEngine fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetDatabaseEngine'));
 }
 
 enum TargetDestination {
-  noneSpecified,
-  awsElasticBeanStalk,
-  awsFargate,
-  amazonElasticCloudComputeEc2,
-  amazonElasticContainerServiceEcs,
-  amazonElasticKubernetesServiceEks,
-  auroraMySQL,
-  auroraPostgreSQL,
-  amazonRelationalDatabaseServiceOnMySQL,
-  amazonRelationalDatabaseServiceOnPostgreSQL,
-  amazonDocumentDB,
-  amazonDynamoDB,
-  amazonRelationalDatabaseService,
-  babelfishForAuroraPostgreSQL,
-}
+  noneSpecified('None specified'),
+  awsElasticBeanStalk('AWS Elastic BeanStalk'),
+  awsFargate('AWS Fargate'),
+  amazonElasticCloudComputeEc2('Amazon Elastic Cloud Compute (EC2)'),
+  amazonElasticContainerServiceEcs('Amazon Elastic Container Service (ECS)'),
+  amazonElasticKubernetesServiceEks('Amazon Elastic Kubernetes Service (EKS)'),
+  auroraMySQL('Aurora MySQL'),
+  auroraPostgreSQL('Aurora PostgreSQL'),
+  amazonRelationalDatabaseServiceOnMySQL(
+      'Amazon Relational Database Service on MySQL'),
+  amazonRelationalDatabaseServiceOnPostgreSQL(
+      'Amazon Relational Database Service on PostgreSQL'),
+  amazonDocumentDB('Amazon DocumentDB'),
+  amazonDynamoDB('Amazon DynamoDB'),
+  amazonRelationalDatabaseService('Amazon Relational Database Service'),
+  babelfishForAuroraPostgreSQL('Babelfish for Aurora PostgreSQL'),
+  ;
 
-extension TargetDestinationValueExtension on TargetDestination {
-  String toValue() {
-    switch (this) {
-      case TargetDestination.noneSpecified:
-        return 'None specified';
-      case TargetDestination.awsElasticBeanStalk:
-        return 'AWS Elastic BeanStalk';
-      case TargetDestination.awsFargate:
-        return 'AWS Fargate';
-      case TargetDestination.amazonElasticCloudComputeEc2:
-        return 'Amazon Elastic Cloud Compute (EC2)';
-      case TargetDestination.amazonElasticContainerServiceEcs:
-        return 'Amazon Elastic Container Service (ECS)';
-      case TargetDestination.amazonElasticKubernetesServiceEks:
-        return 'Amazon Elastic Kubernetes Service (EKS)';
-      case TargetDestination.auroraMySQL:
-        return 'Aurora MySQL';
-      case TargetDestination.auroraPostgreSQL:
-        return 'Aurora PostgreSQL';
-      case TargetDestination.amazonRelationalDatabaseServiceOnMySQL:
-        return 'Amazon Relational Database Service on MySQL';
-      case TargetDestination.amazonRelationalDatabaseServiceOnPostgreSQL:
-        return 'Amazon Relational Database Service on PostgreSQL';
-      case TargetDestination.amazonDocumentDB:
-        return 'Amazon DocumentDB';
-      case TargetDestination.amazonDynamoDB:
-        return 'Amazon DynamoDB';
-      case TargetDestination.amazonRelationalDatabaseService:
-        return 'Amazon Relational Database Service';
-      case TargetDestination.babelfishForAuroraPostgreSQL:
-        return 'Babelfish for Aurora PostgreSQL';
-    }
-  }
-}
+  final String value;
 
-extension TargetDestinationFromString on String {
-  TargetDestination toTargetDestination() {
-    switch (this) {
-      case 'None specified':
-        return TargetDestination.noneSpecified;
-      case 'AWS Elastic BeanStalk':
-        return TargetDestination.awsElasticBeanStalk;
-      case 'AWS Fargate':
-        return TargetDestination.awsFargate;
-      case 'Amazon Elastic Cloud Compute (EC2)':
-        return TargetDestination.amazonElasticCloudComputeEc2;
-      case 'Amazon Elastic Container Service (ECS)':
-        return TargetDestination.amazonElasticContainerServiceEcs;
-      case 'Amazon Elastic Kubernetes Service (EKS)':
-        return TargetDestination.amazonElasticKubernetesServiceEks;
-      case 'Aurora MySQL':
-        return TargetDestination.auroraMySQL;
-      case 'Aurora PostgreSQL':
-        return TargetDestination.auroraPostgreSQL;
-      case 'Amazon Relational Database Service on MySQL':
-        return TargetDestination.amazonRelationalDatabaseServiceOnMySQL;
-      case 'Amazon Relational Database Service on PostgreSQL':
-        return TargetDestination.amazonRelationalDatabaseServiceOnPostgreSQL;
-      case 'Amazon DocumentDB':
-        return TargetDestination.amazonDocumentDB;
-      case 'Amazon DynamoDB':
-        return TargetDestination.amazonDynamoDB;
-      case 'Amazon Relational Database Service':
-        return TargetDestination.amazonRelationalDatabaseService;
-      case 'Babelfish for Aurora PostgreSQL':
-        return TargetDestination.babelfishForAuroraPostgreSQL;
-    }
-    throw Exception('$this is not known in enum TargetDestination');
-  }
+  const TargetDestination(this.value);
+
+  static TargetDestination fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetDestination'));
 }
 
 /// Information of the transformation tool that can be used to migrate and
@@ -5670,7 +4650,7 @@ class TransformationTool {
   factory TransformationTool.fromJson(Map<String, dynamic> json) {
     return TransformationTool(
       description: json['description'] as String?,
-      name: (json['name'] as String?)?.toTransformationToolName(),
+      name: (json['name'] as String?)?.let(TransformationToolName.fromString),
       tranformationToolInstallationLink:
           json['tranformationToolInstallationLink'] as String?,
     );
@@ -5683,7 +4663,7 @@ class TransformationTool {
         this.tranformationToolInstallationLink;
     return {
       if (description != null) 'description': description,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (tranformationToolInstallationLink != null)
         'tranformationToolInstallationLink': tranformationToolInstallationLink,
     };
@@ -5691,71 +4671,27 @@ class TransformationTool {
 }
 
 enum TransformationToolName {
-  app2Container,
-  portingAssistantForNet,
-  endOfSupportMigration,
-  windowsWebApplicationMigrationAssistant,
-  applicationMigrationService,
-  strategyRecommendationSupport,
-  inPlaceOperatingSystemUpgrade,
-  schemaConversionTool,
-  databaseMigrationService,
-  nativeSqlServerBackupRestore,
-}
+  app2Container('App2Container'),
+  portingAssistantForNet('Porting Assistant For .NET'),
+  endOfSupportMigration('End of Support Migration'),
+  windowsWebApplicationMigrationAssistant(
+      'Windows Web Application Migration Assistant'),
+  applicationMigrationService('Application Migration Service'),
+  strategyRecommendationSupport('Strategy Recommendation Support'),
+  inPlaceOperatingSystemUpgrade('In Place Operating System Upgrade'),
+  schemaConversionTool('Schema Conversion Tool'),
+  databaseMigrationService('Database Migration Service'),
+  nativeSqlServerBackupRestore('Native SQL Server Backup/Restore'),
+  ;
 
-extension TransformationToolNameValueExtension on TransformationToolName {
-  String toValue() {
-    switch (this) {
-      case TransformationToolName.app2Container:
-        return 'App2Container';
-      case TransformationToolName.portingAssistantForNet:
-        return 'Porting Assistant For .NET';
-      case TransformationToolName.endOfSupportMigration:
-        return 'End of Support Migration';
-      case TransformationToolName.windowsWebApplicationMigrationAssistant:
-        return 'Windows Web Application Migration Assistant';
-      case TransformationToolName.applicationMigrationService:
-        return 'Application Migration Service';
-      case TransformationToolName.strategyRecommendationSupport:
-        return 'Strategy Recommendation Support';
-      case TransformationToolName.inPlaceOperatingSystemUpgrade:
-        return 'In Place Operating System Upgrade';
-      case TransformationToolName.schemaConversionTool:
-        return 'Schema Conversion Tool';
-      case TransformationToolName.databaseMigrationService:
-        return 'Database Migration Service';
-      case TransformationToolName.nativeSqlServerBackupRestore:
-        return 'Native SQL Server Backup/Restore';
-    }
-  }
-}
+  final String value;
 
-extension TransformationToolNameFromString on String {
-  TransformationToolName toTransformationToolName() {
-    switch (this) {
-      case 'App2Container':
-        return TransformationToolName.app2Container;
-      case 'Porting Assistant For .NET':
-        return TransformationToolName.portingAssistantForNet;
-      case 'End of Support Migration':
-        return TransformationToolName.endOfSupportMigration;
-      case 'Windows Web Application Migration Assistant':
-        return TransformationToolName.windowsWebApplicationMigrationAssistant;
-      case 'Application Migration Service':
-        return TransformationToolName.applicationMigrationService;
-      case 'Strategy Recommendation Support':
-        return TransformationToolName.strategyRecommendationSupport;
-      case 'In Place Operating System Upgrade':
-        return TransformationToolName.inPlaceOperatingSystemUpgrade;
-      case 'Schema Conversion Tool':
-        return TransformationToolName.schemaConversionTool;
-      case 'Database Migration Service':
-        return TransformationToolName.databaseMigrationService;
-      case 'Native SQL Server Backup/Restore':
-        return TransformationToolName.nativeSqlServerBackupRestore;
-    }
-    throw Exception('$this is not known in enum TransformationToolName');
-  }
+  const TransformationToolName(this.value);
+
+  static TransformationToolName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransformationToolName'));
 }
 
 class UpdateApplicationComponentConfigResponse {
@@ -5798,7 +4734,7 @@ class VcenterBasedRemoteInfo {
 
   factory VcenterBasedRemoteInfo.fromJson(Map<String, dynamic> json) {
     return VcenterBasedRemoteInfo(
-      osType: (json['osType'] as String?)?.toOSType(),
+      osType: (json['osType'] as String?)?.let(OSType.fromString),
       vcenterConfigurationTimeStamp:
           json['vcenterConfigurationTimeStamp'] as String?,
     );
@@ -5808,7 +4744,7 @@ class VcenterBasedRemoteInfo {
     final osType = this.osType;
     final vcenterConfigurationTimeStamp = this.vcenterConfigurationTimeStamp;
     return {
-      if (osType != null) 'osType': osType.toValue(),
+      if (osType != null) 'osType': osType.value,
       if (vcenterConfigurationTimeStamp != null)
         'vcenterConfigurationTimeStamp': vcenterConfigurationTimeStamp,
     };
@@ -5816,36 +4752,19 @@ class VcenterBasedRemoteInfo {
 }
 
 enum VersionControl {
-  github,
-  githubEnterprise,
-  azureDevopsGit,
-}
+  github('GITHUB'),
+  githubEnterprise('GITHUB_ENTERPRISE'),
+  azureDevopsGit('AZURE_DEVOPS_GIT'),
+  ;
 
-extension VersionControlValueExtension on VersionControl {
-  String toValue() {
-    switch (this) {
-      case VersionControl.github:
-        return 'GITHUB';
-      case VersionControl.githubEnterprise:
-        return 'GITHUB_ENTERPRISE';
-      case VersionControl.azureDevopsGit:
-        return 'AZURE_DEVOPS_GIT';
-    }
-  }
-}
+  final String value;
 
-extension VersionControlFromString on String {
-  VersionControl toVersionControl() {
-    switch (this) {
-      case 'GITHUB':
-        return VersionControl.github;
-      case 'GITHUB_ENTERPRISE':
-        return VersionControl.githubEnterprise;
-      case 'AZURE_DEVOPS_GIT':
-        return VersionControl.azureDevopsGit;
-    }
-    throw Exception('$this is not known in enum VersionControl');
-  }
+  const VersionControl(this.value);
+
+  static VersionControl fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VersionControl'));
 }
 
 /// Details about the version control configuration.
@@ -5865,8 +4784,8 @@ class VersionControlInfo {
     return VersionControlInfo(
       versionControlConfigurationTimeStamp:
           json['versionControlConfigurationTimeStamp'] as String?,
-      versionControlType:
-          (json['versionControlType'] as String?)?.toVersionControlType(),
+      versionControlType: (json['versionControlType'] as String?)
+          ?.let(VersionControlType.fromString),
     );
   }
 
@@ -5879,42 +4798,25 @@ class VersionControlInfo {
         'versionControlConfigurationTimeStamp':
             versionControlConfigurationTimeStamp,
       if (versionControlType != null)
-        'versionControlType': versionControlType.toValue(),
+        'versionControlType': versionControlType.value,
     };
   }
 }
 
 enum VersionControlType {
-  github,
-  githubEnterprise,
-  azureDevopsGit,
-}
+  github('GITHUB'),
+  githubEnterprise('GITHUB_ENTERPRISE'),
+  azureDevopsGit('AZURE_DEVOPS_GIT'),
+  ;
 
-extension VersionControlTypeValueExtension on VersionControlType {
-  String toValue() {
-    switch (this) {
-      case VersionControlType.github:
-        return 'GITHUB';
-      case VersionControlType.githubEnterprise:
-        return 'GITHUB_ENTERPRISE';
-      case VersionControlType.azureDevopsGit:
-        return 'AZURE_DEVOPS_GIT';
-    }
-  }
-}
+  final String value;
 
-extension VersionControlTypeFromString on String {
-  VersionControlType toVersionControlType() {
-    switch (this) {
-      case 'GITHUB':
-        return VersionControlType.github;
-      case 'GITHUB_ENTERPRISE':
-        return VersionControlType.githubEnterprise;
-      case 'AZURE_DEVOPS_GIT':
-        return VersionControlType.azureDevopsGit;
-    }
-    throw Exception('$this is not known in enum VersionControlType');
-  }
+  const VersionControlType(this.value);
+
+  static VersionControlType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VersionControlType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

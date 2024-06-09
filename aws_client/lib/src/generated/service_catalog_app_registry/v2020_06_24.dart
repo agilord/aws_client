@@ -149,13 +149,13 @@ class AppRegistry {
     List<AssociationOption>? options,
   }) async {
     final $payload = <String, dynamic>{
-      if (options != null) 'options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'options': options.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resource)}',
+          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.value)}/${Uri.encodeComponent(resource)}',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateResourceResponse.fromJson(response);
@@ -395,7 +395,7 @@ class AppRegistry {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resource)}',
+          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.value)}/${Uri.encodeComponent(resource)}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateResourceResponse.fromJson(response);
@@ -471,13 +471,13 @@ class AppRegistry {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (resourceTagStatus != null)
-        'resourceTagStatus': resourceTagStatus.map((e) => e.toValue()).toList(),
+        'resourceTagStatus': resourceTagStatus.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resource)}',
+          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.value)}/${Uri.encodeComponent(resource)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -798,7 +798,7 @@ class AppRegistry {
       payload: null,
       method: 'POST',
       requestUri:
-          '/sync/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resource)}',
+          '/sync/${Uri.encodeComponent(resourceType.value)}/${Uri.encodeComponent(resource)}',
       exceptionFnMap: _exceptionFns,
     );
     return SyncResourceResponse.fromJson(response);
@@ -1140,8 +1140,8 @@ class ApplicationTagResult {
 
   factory ApplicationTagResult.fromJson(Map<String, dynamic> json) {
     return ApplicationTagResult(
-      applicationTagStatus:
-          (json['applicationTagStatus'] as String?)?.toApplicationTagStatus(),
+      applicationTagStatus: (json['applicationTagStatus'] as String?)
+          ?.let(ApplicationTagStatus.fromString),
       errorMessage: json['errorMessage'] as String?,
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
@@ -1158,7 +1158,7 @@ class ApplicationTagResult {
     final resources = this.resources;
     return {
       if (applicationTagStatus != null)
-        'applicationTagStatus': applicationTagStatus.toValue(),
+        'applicationTagStatus': applicationTagStatus.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (nextToken != null) 'nextToken': nextToken,
       if (resources != null) 'resources': resources,
@@ -1167,36 +1167,19 @@ class ApplicationTagResult {
 }
 
 enum ApplicationTagStatus {
-  inProgress,
-  success,
-  failure,
-}
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failure('FAILURE'),
+  ;
 
-extension ApplicationTagStatusValueExtension on ApplicationTagStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationTagStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ApplicationTagStatus.success:
-        return 'SUCCESS';
-      case ApplicationTagStatus.failure:
-        return 'FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationTagStatusFromString on String {
-  ApplicationTagStatus toApplicationTagStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ApplicationTagStatus.inProgress;
-      case 'SUCCESS':
-        return ApplicationTagStatus.success;
-      case 'FAILURE':
-        return ApplicationTagStatus.failure;
-    }
-    throw Exception('$this is not known in enum ApplicationTagStatus');
-  }
+  const ApplicationTagStatus(this.value);
+
+  static ApplicationTagStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApplicationTagStatus'));
 }
 
 class AssociateAttributeGroupResponse {
@@ -1252,7 +1235,7 @@ class AssociateResourceResponse {
       applicationArn: json['applicationArn'] as String?,
       options: (json['options'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAssociationOption())
+          .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resourceArn: json['resourceArn'] as String?,
     );
@@ -1264,38 +1247,25 @@ class AssociateResourceResponse {
     final resourceArn = this.resourceArn;
     return {
       if (applicationArn != null) 'applicationArn': applicationArn,
-      if (options != null) 'options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'options': options.map((e) => e.value).toList(),
       if (resourceArn != null) 'resourceArn': resourceArn,
     };
   }
 }
 
 enum AssociationOption {
-  applyApplicationTag,
-  skipApplicationTag,
-}
+  applyApplicationTag('APPLY_APPLICATION_TAG'),
+  skipApplicationTag('SKIP_APPLICATION_TAG'),
+  ;
 
-extension AssociationOptionValueExtension on AssociationOption {
-  String toValue() {
-    switch (this) {
-      case AssociationOption.applyApplicationTag:
-        return 'APPLY_APPLICATION_TAG';
-      case AssociationOption.skipApplicationTag:
-        return 'SKIP_APPLICATION_TAG';
-    }
-  }
-}
+  final String value;
 
-extension AssociationOptionFromString on String {
-  AssociationOption toAssociationOption() {
-    switch (this) {
-      case 'APPLY_APPLICATION_TAG':
-        return AssociationOption.applyApplicationTag;
-      case 'SKIP_APPLICATION_TAG':
-        return AssociationOption.skipApplicationTag;
-    }
-    throw Exception('$this is not known in enum AssociationOption');
-  }
+  const AssociationOption(this.value);
+
+  static AssociationOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssociationOption'));
 }
 
 /// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
@@ -1768,7 +1738,7 @@ class GetAssociatedResourceResponse {
           : null,
       options: (json['options'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAssociationOption())
+          .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resource: json['resource'] != null
           ? Resource.fromJson(json['resource'] as Map<String, dynamic>)
@@ -1783,7 +1753,7 @@ class GetAssociatedResourceResponse {
     return {
       if (applicationTagResult != null)
         'applicationTagResult': applicationTagResult,
-      if (options != null) 'options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'options': options.map((e) => e.value).toList(),
       if (resource != null) 'resource': resource,
     };
   }
@@ -2230,7 +2200,7 @@ class ResourceGroup {
     return ResourceGroup(
       arn: json['arn'] as String?,
       errorMessage: json['errorMessage'] as String?,
-      state: (json['state'] as String?)?.toResourceGroupState(),
+      state: (json['state'] as String?)?.let(ResourceGroupState.fromString),
     );
   }
 
@@ -2241,57 +2211,28 @@ class ResourceGroup {
     return {
       if (arn != null) 'arn': arn,
       if (errorMessage != null) 'errorMessage': errorMessage,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
 
 enum ResourceGroupState {
-  creating,
-  createComplete,
-  createFailed,
-  updating,
-  updateComplete,
-  updateFailed,
-}
+  creating('CREATING'),
+  createComplete('CREATE_COMPLETE'),
+  createFailed('CREATE_FAILED'),
+  updating('UPDATING'),
+  updateComplete('UPDATE_COMPLETE'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension ResourceGroupStateValueExtension on ResourceGroupState {
-  String toValue() {
-    switch (this) {
-      case ResourceGroupState.creating:
-        return 'CREATING';
-      case ResourceGroupState.createComplete:
-        return 'CREATE_COMPLETE';
-      case ResourceGroupState.createFailed:
-        return 'CREATE_FAILED';
-      case ResourceGroupState.updating:
-        return 'UPDATING';
-      case ResourceGroupState.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case ResourceGroupState.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceGroupStateFromString on String {
-  ResourceGroupState toResourceGroupState() {
-    switch (this) {
-      case 'CREATING':
-        return ResourceGroupState.creating;
-      case 'CREATE_COMPLETE':
-        return ResourceGroupState.createComplete;
-      case 'CREATE_FAILED':
-        return ResourceGroupState.createFailed;
-      case 'UPDATING':
-        return ResourceGroupState.updating;
-      case 'UPDATE_COMPLETE':
-        return ResourceGroupState.updateComplete;
-      case 'UPDATE_FAILED':
-        return ResourceGroupState.updateFailed;
-    }
-    throw Exception('$this is not known in enum ResourceGroupState');
-  }
+  const ResourceGroupState(this.value);
+
+  static ResourceGroupState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceGroupState'));
 }
 
 /// The information about the resource.
@@ -2325,13 +2266,14 @@ class ResourceInfo {
       name: json['name'] as String?,
       options: (json['options'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAssociationOption())
+          .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resourceDetails: json['resourceDetails'] != null
           ? ResourceDetails.fromJson(
               json['resourceDetails'] as Map<String, dynamic>)
           : null,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -2344,9 +2286,9 @@ class ResourceInfo {
     return {
       if (arn != null) 'arn': arn,
       if (name != null) 'name': name,
-      if (options != null) 'options': options.map((e) => e.toValue()).toList(),
+      if (options != null) 'options': options.map((e) => e.value).toList(),
       if (resourceDetails != null) 'resourceDetails': resourceDetails,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -2378,69 +2320,35 @@ class ResourceIntegrations {
 }
 
 enum ResourceItemStatus {
-  success,
-  failed,
-  inProgress,
-  skipped,
-}
+  success('SUCCESS'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  skipped('SKIPPED'),
+  ;
 
-extension ResourceItemStatusValueExtension on ResourceItemStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceItemStatus.success:
-        return 'SUCCESS';
-      case ResourceItemStatus.failed:
-        return 'FAILED';
-      case ResourceItemStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ResourceItemStatus.skipped:
-        return 'SKIPPED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceItemStatusFromString on String {
-  ResourceItemStatus toResourceItemStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return ResourceItemStatus.success;
-      case 'FAILED':
-        return ResourceItemStatus.failed;
-      case 'IN_PROGRESS':
-        return ResourceItemStatus.inProgress;
-      case 'SKIPPED':
-        return ResourceItemStatus.skipped;
-    }
-    throw Exception('$this is not known in enum ResourceItemStatus');
-  }
+  const ResourceItemStatus(this.value);
+
+  static ResourceItemStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceItemStatus'));
 }
 
 enum ResourceType {
-  cfnStack,
-  resourceTagValue,
-}
+  cfnStack('CFN_STACK'),
+  resourceTagValue('RESOURCE_TAG_VALUE'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.cfnStack:
-        return 'CFN_STACK';
-      case ResourceType.resourceTagValue:
-        return 'RESOURCE_TAG_VALUE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'CFN_STACK':
-        return ResourceType.cfnStack;
-      case 'RESOURCE_TAG_VALUE':
-        return ResourceType.resourceTagValue;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// The resource in a list of resources.
@@ -2488,31 +2396,17 @@ class ResourcesListItem {
 }
 
 enum SyncAction {
-  startSync,
-  noAction,
-}
+  startSync('START_SYNC'),
+  noAction('NO_ACTION'),
+  ;
 
-extension SyncActionValueExtension on SyncAction {
-  String toValue() {
-    switch (this) {
-      case SyncAction.startSync:
-        return 'START_SYNC';
-      case SyncAction.noAction:
-        return 'NO_ACTION';
-    }
-  }
-}
+  final String value;
 
-extension SyncActionFromString on String {
-  SyncAction toSyncAction() {
-    switch (this) {
-      case 'START_SYNC':
-        return SyncAction.startSync;
-      case 'NO_ACTION':
-        return SyncAction.noAction;
-    }
-    throw Exception('$this is not known in enum SyncAction');
-  }
+  const SyncAction(this.value);
+
+  static SyncAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SyncAction'));
 }
 
 class SyncResourceResponse {
@@ -2534,7 +2428,7 @@ class SyncResourceResponse {
 
   factory SyncResourceResponse.fromJson(Map<String, dynamic> json) {
     return SyncResourceResponse(
-      actionTaken: (json['actionTaken'] as String?)?.toSyncAction(),
+      actionTaken: (json['actionTaken'] as String?)?.let(SyncAction.fromString),
       applicationArn: json['applicationArn'] as String?,
       resourceArn: json['resourceArn'] as String?,
     );
@@ -2545,7 +2439,7 @@ class SyncResourceResponse {
     final applicationArn = this.applicationArn;
     final resourceArn = this.resourceArn;
     return {
-      if (actionTaken != null) 'actionTaken': actionTaken.toValue(),
+      if (actionTaken != null) 'actionTaken': actionTaken.value,
       if (applicationArn != null) 'applicationArn': applicationArn,
       if (resourceArn != null) 'resourceArn': resourceArn,
     };

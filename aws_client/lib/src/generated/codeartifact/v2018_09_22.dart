@@ -560,7 +560,7 @@ class CodeArtifact {
     final $query = <String, List<String>>{
       'destination-repository': [destinationRepository],
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'source-repository': [sourceRepository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -919,7 +919,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1064,7 +1064,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1072,7 +1072,7 @@ class CodeArtifact {
     };
     final $payload = <String, dynamic>{
       'versions': versions,
-      if (expectedStatus != null) 'expectedStatus': expectedStatus.toValue(),
+      if (expectedStatus != null) 'expectedStatus': expectedStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1284,7 +1284,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1416,7 +1416,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -1610,7 +1610,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1618,7 +1618,7 @@ class CodeArtifact {
     };
     final $payload = <String, dynamic>{
       'versions': versions,
-      if (expectedStatus != null) 'expectedStatus': expectedStatus.toValue(),
+      if (expectedStatus != null) 'expectedStatus': expectedStatus.value,
       if (versionRevisions != null) 'versionRevisions': versionRevisions,
     };
     final response = await _protocol.send(
@@ -1706,7 +1706,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
@@ -1924,7 +1924,7 @@ class CodeArtifact {
     final $query = <String, List<String>>{
       'asset': [asset],
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -2028,7 +2028,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -2100,7 +2100,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
@@ -2204,7 +2204,7 @@ class CodeArtifact {
     );
     final $query = <String, List<String>>{
       'domain': [domain],
-      'originRestrictionType': [originRestrictionType.toValue()],
+      'originRestrictionType': [originRestrictionType.value],
       'package-group': [packageGroup],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -2476,7 +2476,7 @@ class CodeArtifact {
     );
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -2582,7 +2582,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -2703,16 +2703,16 @@ class CodeArtifact {
     );
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (namespace != null) 'namespace': [namespace],
       if (nextToken != null) 'next-token': [nextToken],
-      if (originType != null) 'originType': [originType.toValue()],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (status != null) 'status': [status.toValue()],
+      if (originType != null) 'originType': [originType.value],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2818,13 +2818,13 @@ class CodeArtifact {
       'domain': [domain],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
-      if (format != null) 'format': [format.toValue()],
+      if (format != null) 'format': [format.value],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (namespace != null) 'namespace': [namespace],
       if (nextToken != null) 'next-token': [nextToken],
       if (packagePrefix != null) 'package-prefix': [packagePrefix],
-      if (publish != null) 'publish': [publish.toValue()],
-      if (upstream != null) 'upstream': [upstream.toValue()],
+      if (publish != null) 'publish': [publish.value],
+      if (upstream != null) 'upstream': [upstream.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3132,7 +3132,7 @@ class CodeArtifact {
     final $query = <String, List<String>>{
       'asset': [assetName],
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'version': [packageVersion],
       'repository': [repository],
@@ -3289,7 +3289,7 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -3551,8 +3551,7 @@ class CodeArtifact {
       if (removeAllowedRepositories != null)
         'removeAllowedRepositories': removeAllowedRepositories,
       if (restrictions != null)
-        'restrictions':
-            restrictions.map((k, e) => MapEntry(k.toValue(), e.toValue())),
+        'restrictions': restrictions.map((k, e) => MapEntry(k.value, e.value)),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3650,16 +3649,16 @@ class CodeArtifact {
   }) async {
     final $query = <String, List<String>>{
       'domain': [domain],
-      'format': [format.toValue()],
+      'format': [format.value],
       'package': [package],
       'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
     final $payload = <String, dynamic>{
-      'targetStatus': targetStatus.toValue(),
+      'targetStatus': targetStatus.value,
       'versions': versions,
-      if (expectedStatus != null) 'expectedStatus': expectedStatus.toValue(),
+      if (expectedStatus != null) 'expectedStatus': expectedStatus.value,
       if (versionRevisions != null) 'versionRevisions': versionRevisions,
     };
     final response = await _protocol.send(
@@ -3730,59 +3729,33 @@ class CodeArtifact {
 }
 
 enum AllowPublish {
-  allow,
-  block,
-}
+  allow('ALLOW'),
+  block('BLOCK'),
+  ;
 
-extension AllowPublishValueExtension on AllowPublish {
-  String toValue() {
-    switch (this) {
-      case AllowPublish.allow:
-        return 'ALLOW';
-      case AllowPublish.block:
-        return 'BLOCK';
-    }
-  }
-}
+  final String value;
 
-extension AllowPublishFromString on String {
-  AllowPublish toAllowPublish() {
-    switch (this) {
-      case 'ALLOW':
-        return AllowPublish.allow;
-      case 'BLOCK':
-        return AllowPublish.block;
-    }
-    throw Exception('$this is not known in enum AllowPublish');
-  }
+  const AllowPublish(this.value);
+
+  static AllowPublish fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AllowPublish'));
 }
 
 enum AllowUpstream {
-  allow,
-  block,
-}
+  allow('ALLOW'),
+  block('BLOCK'),
+  ;
 
-extension AllowUpstreamValueExtension on AllowUpstream {
-  String toValue() {
-    switch (this) {
-      case AllowUpstream.allow:
-        return 'ALLOW';
-      case AllowUpstream.block:
-        return 'BLOCK';
-    }
-  }
-}
+  final String value;
 
-extension AllowUpstreamFromString on String {
-  AllowUpstream toAllowUpstream() {
-    switch (this) {
-      case 'ALLOW':
-        return AllowUpstream.allow;
-      case 'BLOCK':
-        return AllowUpstream.block;
-    }
-    throw Exception('$this is not known in enum AllowUpstream');
-  }
+  const AllowUpstream(this.value);
+
+  static AllowUpstream fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AllowUpstream'));
 }
 
 /// Contains details about a package version asset.
@@ -3806,7 +3779,7 @@ class AssetSummary {
     return AssetSummary(
       name: json['name'] as String,
       hashes: (json['hashes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toHashAlgorithm(), e as String)),
+          ?.map((k, e) => MapEntry(HashAlgorithm.fromString(k), e as String)),
       size: json['size'] as int?,
     );
   }
@@ -3817,8 +3790,7 @@ class AssetSummary {
     final size = this.size;
     return {
       'name': name,
-      if (hashes != null)
-        'hashes': hashes.map((k, e) => MapEntry(k.toValue(), e)),
+      if (hashes != null) 'hashes': hashes.map((k, e) => MapEntry(k.value, e)),
       if (size != null) 'size': size,
     };
   }
@@ -3897,9 +3869,9 @@ class AssociatedPackage {
 
   factory AssociatedPackage.fromJson(Map<String, dynamic> json) {
     return AssociatedPackage(
-      associationType:
-          (json['associationType'] as String?)?.toPackageGroupAssociationType(),
-      format: (json['format'] as String?)?.toPackageFormat(),
+      associationType: (json['associationType'] as String?)
+          ?.let(PackageGroupAssociationType.fromString),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       package: json['package'] as String?,
     );
@@ -3911,8 +3883,8 @@ class AssociatedPackage {
     final namespace = this.namespace;
     final package = this.package;
     return {
-      if (associationType != null) 'associationType': associationType.toValue(),
-      if (format != null) 'format': format.toValue(),
+      if (associationType != null) 'associationType': associationType.value,
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (package != null) 'package': package,
     };
@@ -4521,7 +4493,7 @@ class DomainDescription {
       owner: json['owner'] as String?,
       repositoryCount: json['repositoryCount'] as int?,
       s3BucketArn: json['s3BucketArn'] as String?,
-      status: (json['status'] as String?)?.toDomainStatus(),
+      status: (json['status'] as String?)?.let(DomainStatus.fromString),
     );
   }
 
@@ -4544,7 +4516,7 @@ class DomainDescription {
       if (owner != null) 'owner': owner,
       if (repositoryCount != null) 'repositoryCount': repositoryCount,
       if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4592,31 +4564,18 @@ class DomainEntryPoint {
 }
 
 enum DomainStatus {
-  active,
-  deleted,
-}
+  active('Active'),
+  deleted('Deleted'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.active:
-        return 'Active';
-      case DomainStatus.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'Active':
-        return DomainStatus.active;
-      case 'Deleted':
-        return DomainStatus.deleted;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// Information about a domain, including its name, Amazon Resource Name (ARN),
@@ -4659,7 +4618,7 @@ class DomainSummary {
       encryptionKey: json['encryptionKey'] as String?,
       name: json['name'] as String?,
       owner: json['owner'] as String?,
-      status: (json['status'] as String?)?.toDomainStatus(),
+      status: (json['status'] as String?)?.let(DomainStatus.fromString),
     );
   }
 
@@ -4676,32 +4635,23 @@ class DomainSummary {
       if (encryptionKey != null) 'encryptionKey': encryptionKey,
       if (name != null) 'name': name,
       if (owner != null) 'owner': owner,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ExternalConnectionStatus {
-  available,
-}
+  available('Available'),
+  ;
 
-extension ExternalConnectionStatusValueExtension on ExternalConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ExternalConnectionStatus.available:
-        return 'Available';
-    }
-  }
-}
+  final String value;
 
-extension ExternalConnectionStatusFromString on String {
-  ExternalConnectionStatus toExternalConnectionStatus() {
-    switch (this) {
-      case 'Available':
-        return ExternalConnectionStatus.available;
-    }
-    throw Exception('$this is not known in enum ExternalConnectionStatus');
-  }
+  const ExternalConnectionStatus(this.value);
+
+  static ExternalConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExternalConnectionStatus'));
 }
 
 class GetAssociatedPackageGroupResult {
@@ -4720,8 +4670,8 @@ class GetAssociatedPackageGroupResult {
 
   factory GetAssociatedPackageGroupResult.fromJson(Map<String, dynamic> json) {
     return GetAssociatedPackageGroupResult(
-      associationType:
-          (json['associationType'] as String?)?.toPackageGroupAssociationType(),
+      associationType: (json['associationType'] as String?)
+          ?.let(PackageGroupAssociationType.fromString),
       packageGroup: json['packageGroup'] != null
           ? PackageGroupDescription.fromJson(
               json['packageGroup'] as Map<String, dynamic>)
@@ -4733,7 +4683,7 @@ class GetAssociatedPackageGroupResult {
     final associationType = this.associationType;
     final packageGroup = this.packageGroup;
     return {
-      if (associationType != null) 'associationType': associationType.toValue(),
+      if (associationType != null) 'associationType': associationType.value,
       if (packageGroup != null) 'packageGroup': packageGroup,
     };
   }
@@ -4873,7 +4823,7 @@ class GetPackageVersionReadmeResult {
 
   factory GetPackageVersionReadmeResult.fromJson(Map<String, dynamic> json) {
     return GetPackageVersionReadmeResult(
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       package: json['package'] as String?,
       readme: json['readme'] as String?,
@@ -4890,7 +4840,7 @@ class GetPackageVersionReadmeResult {
     final version = this.version;
     final versionRevision = this.versionRevision;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (package != null) 'package': package,
       if (readme != null) 'readme': readme,
@@ -4948,41 +4898,20 @@ class GetRepositoryPermissionsPolicyResult {
 }
 
 enum HashAlgorithm {
-  md5,
-  sha_1,
-  sha_256,
-  sha_512,
-}
+  md5('MD5'),
+  sha_1('SHA-1'),
+  sha_256('SHA-256'),
+  sha_512('SHA-512'),
+  ;
 
-extension HashAlgorithmValueExtension on HashAlgorithm {
-  String toValue() {
-    switch (this) {
-      case HashAlgorithm.md5:
-        return 'MD5';
-      case HashAlgorithm.sha_1:
-        return 'SHA-1';
-      case HashAlgorithm.sha_256:
-        return 'SHA-256';
-      case HashAlgorithm.sha_512:
-        return 'SHA-512';
-    }
-  }
-}
+  final String value;
 
-extension HashAlgorithmFromString on String {
-  HashAlgorithm toHashAlgorithm() {
-    switch (this) {
-      case 'MD5':
-        return HashAlgorithm.md5;
-      case 'SHA-1':
-        return HashAlgorithm.sha_1;
-      case 'SHA-256':
-        return HashAlgorithm.sha_256;
-      case 'SHA-512':
-        return HashAlgorithm.sha_512;
-    }
-    throw Exception('$this is not known in enum HashAlgorithm');
-  }
+  const HashAlgorithm(this.value);
+
+  static HashAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HashAlgorithm'));
 }
 
 /// Details of the license data.
@@ -5212,7 +5141,7 @@ class ListPackageVersionAssetsResult {
           ?.whereNotNull()
           .map((e) => AssetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       nextToken: json['nextToken'] as String?,
       package: json['package'] as String?,
@@ -5231,7 +5160,7 @@ class ListPackageVersionAssetsResult {
     final versionRevision = this.versionRevision;
     return {
       if (assets != null) 'assets': assets,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (nextToken != null) 'nextToken': nextToken,
       if (package != null) 'package': package,
@@ -5303,7 +5232,7 @@ class ListPackageVersionDependenciesResult {
           ?.whereNotNull()
           .map((e) => PackageDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       nextToken: json['nextToken'] as String?,
       package: json['package'] as String?,
@@ -5322,7 +5251,7 @@ class ListPackageVersionDependenciesResult {
     final versionRevision = this.versionRevision;
     return {
       if (dependencies != null) 'dependencies': dependencies,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (nextToken != null) 'nextToken': nextToken,
       if (package != null) 'package': package,
@@ -5396,7 +5325,7 @@ class ListPackageVersionsResult {
   factory ListPackageVersionsResult.fromJson(Map<String, dynamic> json) {
     return ListPackageVersionsResult(
       defaultDisplayVersion: json['defaultDisplayVersion'] as String?,
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       nextToken: json['nextToken'] as String?,
       package: json['package'] as String?,
@@ -5417,7 +5346,7 @@ class ListPackageVersionsResult {
     return {
       if (defaultDisplayVersion != null)
         'defaultDisplayVersion': defaultDisplayVersion,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (nextToken != null) 'nextToken': nextToken,
       if (package != null) 'package': package,
@@ -5715,7 +5644,7 @@ class PackageDescription {
 
   factory PackageDescription.fromJson(Map<String, dynamic> json) {
     return PackageDescription(
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       name: json['name'] as String?,
       namespace: json['namespace'] as String?,
       originConfiguration: json['originConfiguration'] != null
@@ -5731,7 +5660,7 @@ class PackageDescription {
     final namespace = this.namespace;
     final originConfiguration = this.originConfiguration;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (name != null) 'name': name,
       if (namespace != null) 'namespace': namespace,
       if (originConfiguration != null)
@@ -5741,56 +5670,23 @@ class PackageDescription {
 }
 
 enum PackageFormat {
-  npm,
-  pypi,
-  maven,
-  nuget,
-  generic,
-  ruby,
-  swift,
-}
+  npm('npm'),
+  pypi('pypi'),
+  maven('maven'),
+  nuget('nuget'),
+  generic('generic'),
+  ruby('ruby'),
+  swift('swift'),
+  ;
 
-extension PackageFormatValueExtension on PackageFormat {
-  String toValue() {
-    switch (this) {
-      case PackageFormat.npm:
-        return 'npm';
-      case PackageFormat.pypi:
-        return 'pypi';
-      case PackageFormat.maven:
-        return 'maven';
-      case PackageFormat.nuget:
-        return 'nuget';
-      case PackageFormat.generic:
-        return 'generic';
-      case PackageFormat.ruby:
-        return 'ruby';
-      case PackageFormat.swift:
-        return 'swift';
-    }
-  }
-}
+  final String value;
 
-extension PackageFormatFromString on String {
-  PackageFormat toPackageFormat() {
-    switch (this) {
-      case 'npm':
-        return PackageFormat.npm;
-      case 'pypi':
-        return PackageFormat.pypi;
-      case 'maven':
-        return PackageFormat.maven;
-      case 'nuget':
-        return PackageFormat.nuget;
-      case 'generic':
-        return PackageFormat.generic;
-      case 'ruby':
-        return PackageFormat.ruby;
-      case 'swift':
-        return PackageFormat.swift;
-    }
-    throw Exception('$this is not known in enum PackageFormat');
-  }
+  const PackageFormat(this.value);
+
+  static PackageFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PackageFormat'));
 }
 
 /// Details about an allowed repository for a package group, including its name
@@ -5812,70 +5708,40 @@ class PackageGroupAllowedRepository {
     final repositoryName = this.repositoryName;
     return {
       if (originRestrictionType != null)
-        'originRestrictionType': originRestrictionType.toValue(),
+        'originRestrictionType': originRestrictionType.value,
       if (repositoryName != null) 'repositoryName': repositoryName,
     };
   }
 }
 
 enum PackageGroupAllowedRepositoryUpdateType {
-  added,
-  removed,
-}
+  added('ADDED'),
+  removed('REMOVED'),
+  ;
 
-extension PackageGroupAllowedRepositoryUpdateTypeValueExtension
-    on PackageGroupAllowedRepositoryUpdateType {
-  String toValue() {
-    switch (this) {
-      case PackageGroupAllowedRepositoryUpdateType.added:
-        return 'ADDED';
-      case PackageGroupAllowedRepositoryUpdateType.removed:
-        return 'REMOVED';
-    }
-  }
-}
+  final String value;
 
-extension PackageGroupAllowedRepositoryUpdateTypeFromString on String {
-  PackageGroupAllowedRepositoryUpdateType
-      toPackageGroupAllowedRepositoryUpdateType() {
-    switch (this) {
-      case 'ADDED':
-        return PackageGroupAllowedRepositoryUpdateType.added;
-      case 'REMOVED':
-        return PackageGroupAllowedRepositoryUpdateType.removed;
-    }
-    throw Exception(
-        '$this is not known in enum PackageGroupAllowedRepositoryUpdateType');
-  }
+  const PackageGroupAllowedRepositoryUpdateType(this.value);
+
+  static PackageGroupAllowedRepositoryUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageGroupAllowedRepositoryUpdateType'));
 }
 
 enum PackageGroupAssociationType {
-  strong,
-  weak,
-}
+  strong('STRONG'),
+  weak('WEAK'),
+  ;
 
-extension PackageGroupAssociationTypeValueExtension
-    on PackageGroupAssociationType {
-  String toValue() {
-    switch (this) {
-      case PackageGroupAssociationType.strong:
-        return 'STRONG';
-      case PackageGroupAssociationType.weak:
-        return 'WEAK';
-    }
-  }
-}
+  final String value;
 
-extension PackageGroupAssociationTypeFromString on String {
-  PackageGroupAssociationType toPackageGroupAssociationType() {
-    switch (this) {
-      case 'STRONG':
-        return PackageGroupAssociationType.strong;
-      case 'WEAK':
-        return PackageGroupAssociationType.weak;
-    }
-    throw Exception('$this is not known in enum PackageGroupAssociationType');
-  }
+  const PackageGroupAssociationType(this.value);
+
+  static PackageGroupAssociationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageGroupAssociationType'));
 }
 
 /// The description of the package group.
@@ -5983,7 +5849,7 @@ class PackageGroupOriginConfiguration {
     return PackageGroupOriginConfiguration(
       restrictions: (json['restrictions'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
-              k.toPackageGroupOriginRestrictionType(),
+              PackageGroupOriginRestrictionType.fromString(k),
               PackageGroupOriginRestriction.fromJson(
                   e as Map<String, dynamic>))),
     );
@@ -5993,7 +5859,7 @@ class PackageGroupOriginConfiguration {
     final restrictions = this.restrictions;
     return {
       if (restrictions != null)
-        'restrictions': restrictions.map((k, e) => MapEntry(k.toValue(), e)),
+        'restrictions': restrictions.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -6036,12 +5902,13 @@ class PackageGroupOriginRestriction {
   factory PackageGroupOriginRestriction.fromJson(Map<String, dynamic> json) {
     return PackageGroupOriginRestriction(
       effectiveMode: (json['effectiveMode'] as String?)
-          ?.toPackageGroupOriginRestrictionMode(),
+          ?.let(PackageGroupOriginRestrictionMode.fromString),
       inheritedFrom: json['inheritedFrom'] != null
           ? PackageGroupReference.fromJson(
               json['inheritedFrom'] as Map<String, dynamic>)
           : null,
-      mode: (json['mode'] as String?)?.toPackageGroupOriginRestrictionMode(),
+      mode: (json['mode'] as String?)
+          ?.let(PackageGroupOriginRestrictionMode.fromString),
       repositoriesCount: json['repositoriesCount'] as int?,
     );
   }
@@ -6052,87 +5919,45 @@ class PackageGroupOriginRestriction {
     final mode = this.mode;
     final repositoriesCount = this.repositoriesCount;
     return {
-      if (effectiveMode != null) 'effectiveMode': effectiveMode.toValue(),
+      if (effectiveMode != null) 'effectiveMode': effectiveMode.value,
       if (inheritedFrom != null) 'inheritedFrom': inheritedFrom,
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
       if (repositoriesCount != null) 'repositoriesCount': repositoriesCount,
     };
   }
 }
 
 enum PackageGroupOriginRestrictionMode {
-  allow,
-  allowSpecificRepositories,
-  block,
-  inherit,
-}
+  allow('ALLOW'),
+  allowSpecificRepositories('ALLOW_SPECIFIC_REPOSITORIES'),
+  block('BLOCK'),
+  inherit('INHERIT'),
+  ;
 
-extension PackageGroupOriginRestrictionModeValueExtension
-    on PackageGroupOriginRestrictionMode {
-  String toValue() {
-    switch (this) {
-      case PackageGroupOriginRestrictionMode.allow:
-        return 'ALLOW';
-      case PackageGroupOriginRestrictionMode.allowSpecificRepositories:
-        return 'ALLOW_SPECIFIC_REPOSITORIES';
-      case PackageGroupOriginRestrictionMode.block:
-        return 'BLOCK';
-      case PackageGroupOriginRestrictionMode.inherit:
-        return 'INHERIT';
-    }
-  }
-}
+  final String value;
 
-extension PackageGroupOriginRestrictionModeFromString on String {
-  PackageGroupOriginRestrictionMode toPackageGroupOriginRestrictionMode() {
-    switch (this) {
-      case 'ALLOW':
-        return PackageGroupOriginRestrictionMode.allow;
-      case 'ALLOW_SPECIFIC_REPOSITORIES':
-        return PackageGroupOriginRestrictionMode.allowSpecificRepositories;
-      case 'BLOCK':
-        return PackageGroupOriginRestrictionMode.block;
-      case 'INHERIT':
-        return PackageGroupOriginRestrictionMode.inherit;
-    }
-    throw Exception(
-        '$this is not known in enum PackageGroupOriginRestrictionMode');
-  }
+  const PackageGroupOriginRestrictionMode(this.value);
+
+  static PackageGroupOriginRestrictionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageGroupOriginRestrictionMode'));
 }
 
 enum PackageGroupOriginRestrictionType {
-  externalUpstream,
-  internalUpstream,
-  publish,
-}
+  externalUpstream('EXTERNAL_UPSTREAM'),
+  internalUpstream('INTERNAL_UPSTREAM'),
+  publish('PUBLISH'),
+  ;
 
-extension PackageGroupOriginRestrictionTypeValueExtension
-    on PackageGroupOriginRestrictionType {
-  String toValue() {
-    switch (this) {
-      case PackageGroupOriginRestrictionType.externalUpstream:
-        return 'EXTERNAL_UPSTREAM';
-      case PackageGroupOriginRestrictionType.internalUpstream:
-        return 'INTERNAL_UPSTREAM';
-      case PackageGroupOriginRestrictionType.publish:
-        return 'PUBLISH';
-    }
-  }
-}
+  final String value;
 
-extension PackageGroupOriginRestrictionTypeFromString on String {
-  PackageGroupOriginRestrictionType toPackageGroupOriginRestrictionType() {
-    switch (this) {
-      case 'EXTERNAL_UPSTREAM':
-        return PackageGroupOriginRestrictionType.externalUpstream;
-      case 'INTERNAL_UPSTREAM':
-        return PackageGroupOriginRestrictionType.internalUpstream;
-      case 'PUBLISH':
-        return PackageGroupOriginRestrictionType.publish;
-    }
-    throw Exception(
-        '$this is not known in enum PackageGroupOriginRestrictionType');
-  }
+  const PackageGroupOriginRestrictionType(this.value);
+
+  static PackageGroupOriginRestrictionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageGroupOriginRestrictionType'));
 }
 
 /// Information about the identifiers of a package group.
@@ -6302,8 +6127,8 @@ class PackageOriginRestrictions {
 
   factory PackageOriginRestrictions.fromJson(Map<String, dynamic> json) {
     return PackageOriginRestrictions(
-      publish: (json['publish'] as String).toAllowPublish(),
-      upstream: (json['upstream'] as String).toAllowUpstream(),
+      publish: AllowPublish.fromString((json['publish'] as String)),
+      upstream: AllowUpstream.fromString((json['upstream'] as String)),
     );
   }
 
@@ -6311,8 +6136,8 @@ class PackageOriginRestrictions {
     final publish = this.publish;
     final upstream = this.upstream;
     return {
-      'publish': publish.toValue(),
-      'upstream': upstream.toValue(),
+      'publish': publish.value,
+      'upstream': upstream.value,
     };
   }
 }
@@ -6362,7 +6187,7 @@ class PackageSummary {
 
   factory PackageSummary.fromJson(Map<String, dynamic> json) {
     return PackageSummary(
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       originConfiguration: json['originConfiguration'] != null
           ? PackageOriginConfiguration.fromJson(
@@ -6378,7 +6203,7 @@ class PackageSummary {
     final originConfiguration = this.originConfiguration;
     final package = this.package;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (originConfiguration != null)
         'originConfiguration': originConfiguration,
@@ -6475,7 +6300,7 @@ class PackageVersionDescription {
   factory PackageVersionDescription.fromJson(Map<String, dynamic> json) {
     return PackageVersionDescription(
       displayName: json['displayName'] as String?,
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       homePage: json['homePage'] as String?,
       licenses: (json['licenses'] as List?)
           ?.whereNotNull()
@@ -6490,7 +6315,7 @@ class PackageVersionDescription {
       publishedTime: timeStampFromJson(json['publishedTime']),
       revision: json['revision'] as String?,
       sourceCodeRepository: json['sourceCodeRepository'] as String?,
-      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      status: (json['status'] as String?)?.let(PackageVersionStatus.fromString),
       summary: json['summary'] as String?,
       version: json['version'] as String?,
     );
@@ -6512,7 +6337,7 @@ class PackageVersionDescription {
     final version = this.version;
     return {
       if (displayName != null) 'displayName': displayName,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (homePage != null) 'homePage': homePage,
       if (licenses != null) 'licenses': licenses,
       if (namespace != null) 'namespace': namespace,
@@ -6523,7 +6348,7 @@ class PackageVersionDescription {
       if (revision != null) 'revision': revision,
       if (sourceCodeRepository != null)
         'sourceCodeRepository': sourceCodeRepository,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (summary != null) 'summary': summary,
       if (version != null) 'version': version,
     };
@@ -6566,7 +6391,8 @@ class PackageVersionError {
 
   factory PackageVersionError.fromJson(Map<String, dynamic> json) {
     return PackageVersionError(
-      errorCode: (json['errorCode'] as String?)?.toPackageVersionErrorCode(),
+      errorCode: (json['errorCode'] as String?)
+          ?.let(PackageVersionErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -6575,58 +6401,29 @@ class PackageVersionError {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
 }
 
 enum PackageVersionErrorCode {
-  alreadyExists,
-  mismatchedRevision,
-  mismatchedStatus,
-  notAllowed,
-  notFound,
-  skipped,
-}
+  alreadyExists('ALREADY_EXISTS'),
+  mismatchedRevision('MISMATCHED_REVISION'),
+  mismatchedStatus('MISMATCHED_STATUS'),
+  notAllowed('NOT_ALLOWED'),
+  notFound('NOT_FOUND'),
+  skipped('SKIPPED'),
+  ;
 
-extension PackageVersionErrorCodeValueExtension on PackageVersionErrorCode {
-  String toValue() {
-    switch (this) {
-      case PackageVersionErrorCode.alreadyExists:
-        return 'ALREADY_EXISTS';
-      case PackageVersionErrorCode.mismatchedRevision:
-        return 'MISMATCHED_REVISION';
-      case PackageVersionErrorCode.mismatchedStatus:
-        return 'MISMATCHED_STATUS';
-      case PackageVersionErrorCode.notAllowed:
-        return 'NOT_ALLOWED';
-      case PackageVersionErrorCode.notFound:
-        return 'NOT_FOUND';
-      case PackageVersionErrorCode.skipped:
-        return 'SKIPPED';
-    }
-  }
-}
+  final String value;
 
-extension PackageVersionErrorCodeFromString on String {
-  PackageVersionErrorCode toPackageVersionErrorCode() {
-    switch (this) {
-      case 'ALREADY_EXISTS':
-        return PackageVersionErrorCode.alreadyExists;
-      case 'MISMATCHED_REVISION':
-        return PackageVersionErrorCode.mismatchedRevision;
-      case 'MISMATCHED_STATUS':
-        return PackageVersionErrorCode.mismatchedStatus;
-      case 'NOT_ALLOWED':
-        return PackageVersionErrorCode.notAllowed;
-      case 'NOT_FOUND':
-        return PackageVersionErrorCode.notFound;
-      case 'SKIPPED':
-        return PackageVersionErrorCode.skipped;
-    }
-    throw Exception('$this is not known in enum PackageVersionErrorCode');
-  }
+  const PackageVersionErrorCode(this.value);
+
+  static PackageVersionErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageVersionErrorCode'));
 }
 
 /// Information about how a package version was added to a repository.
@@ -6654,7 +6451,8 @@ class PackageVersionOrigin {
           ? DomainEntryPoint.fromJson(
               json['domainEntryPoint'] as Map<String, dynamic>)
           : null,
-      originType: (json['originType'] as String?)?.toPackageVersionOriginType(),
+      originType: (json['originType'] as String?)
+          ?.let(PackageVersionOriginType.fromString),
     );
   }
 
@@ -6663,113 +6461,58 @@ class PackageVersionOrigin {
     final originType = this.originType;
     return {
       if (domainEntryPoint != null) 'domainEntryPoint': domainEntryPoint,
-      if (originType != null) 'originType': originType.toValue(),
+      if (originType != null) 'originType': originType.value,
     };
   }
 }
 
 enum PackageVersionOriginType {
-  internal,
-  external,
-  unknown,
-}
+  internal('INTERNAL'),
+  external('EXTERNAL'),
+  unknown('UNKNOWN'),
+  ;
 
-extension PackageVersionOriginTypeValueExtension on PackageVersionOriginType {
-  String toValue() {
-    switch (this) {
-      case PackageVersionOriginType.internal:
-        return 'INTERNAL';
-      case PackageVersionOriginType.external:
-        return 'EXTERNAL';
-      case PackageVersionOriginType.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension PackageVersionOriginTypeFromString on String {
-  PackageVersionOriginType toPackageVersionOriginType() {
-    switch (this) {
-      case 'INTERNAL':
-        return PackageVersionOriginType.internal;
-      case 'EXTERNAL':
-        return PackageVersionOriginType.external;
-      case 'UNKNOWN':
-        return PackageVersionOriginType.unknown;
-    }
-    throw Exception('$this is not known in enum PackageVersionOriginType');
-  }
+  const PackageVersionOriginType(this.value);
+
+  static PackageVersionOriginType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageVersionOriginType'));
 }
 
 enum PackageVersionSortType {
-  publishedTime,
-}
+  publishedTime('PUBLISHED_TIME'),
+  ;
 
-extension PackageVersionSortTypeValueExtension on PackageVersionSortType {
-  String toValue() {
-    switch (this) {
-      case PackageVersionSortType.publishedTime:
-        return 'PUBLISHED_TIME';
-    }
-  }
-}
+  final String value;
 
-extension PackageVersionSortTypeFromString on String {
-  PackageVersionSortType toPackageVersionSortType() {
-    switch (this) {
-      case 'PUBLISHED_TIME':
-        return PackageVersionSortType.publishedTime;
-    }
-    throw Exception('$this is not known in enum PackageVersionSortType');
-  }
+  const PackageVersionSortType(this.value);
+
+  static PackageVersionSortType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PackageVersionSortType'));
 }
 
 enum PackageVersionStatus {
-  published,
-  unfinished,
-  unlisted,
-  archived,
-  disposed,
-  deleted,
-}
+  published('Published'),
+  unfinished('Unfinished'),
+  unlisted('Unlisted'),
+  archived('Archived'),
+  disposed('Disposed'),
+  deleted('Deleted'),
+  ;
 
-extension PackageVersionStatusValueExtension on PackageVersionStatus {
-  String toValue() {
-    switch (this) {
-      case PackageVersionStatus.published:
-        return 'Published';
-      case PackageVersionStatus.unfinished:
-        return 'Unfinished';
-      case PackageVersionStatus.unlisted:
-        return 'Unlisted';
-      case PackageVersionStatus.archived:
-        return 'Archived';
-      case PackageVersionStatus.disposed:
-        return 'Disposed';
-      case PackageVersionStatus.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension PackageVersionStatusFromString on String {
-  PackageVersionStatus toPackageVersionStatus() {
-    switch (this) {
-      case 'Published':
-        return PackageVersionStatus.published;
-      case 'Unfinished':
-        return PackageVersionStatus.unfinished;
-      case 'Unlisted':
-        return PackageVersionStatus.unlisted;
-      case 'Archived':
-        return PackageVersionStatus.archived;
-      case 'Disposed':
-        return PackageVersionStatus.disposed;
-      case 'Deleted':
-        return PackageVersionStatus.deleted;
-    }
-    throw Exception('$this is not known in enum PackageVersionStatus');
-  }
+  const PackageVersionStatus(this.value);
+
+  static PackageVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PackageVersionStatus'));
 }
 
 /// Details about a package version, including its status, version, and
@@ -6802,7 +6545,7 @@ class PackageVersionSummary {
 
   factory PackageVersionSummary.fromJson(Map<String, dynamic> json) {
     return PackageVersionSummary(
-      status: (json['status'] as String).toPackageVersionStatus(),
+      status: PackageVersionStatus.fromString((json['status'] as String)),
       version: json['version'] as String,
       origin: json['origin'] != null
           ? PackageVersionOrigin.fromJson(
@@ -6818,7 +6561,7 @@ class PackageVersionSummary {
     final origin = this.origin;
     final revision = this.revision;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       'version': version,
       if (origin != null) 'origin': origin,
       if (revision != null) 'revision': revision,
@@ -6868,10 +6611,10 @@ class PublishPackageVersionResult {
       asset: json['asset'] != null
           ? AssetSummary.fromJson(json['asset'] as Map<String, dynamic>)
           : null,
-      format: (json['format'] as String?)?.toPackageFormat(),
+      format: (json['format'] as String?)?.let(PackageFormat.fromString),
       namespace: json['namespace'] as String?,
       package: json['package'] as String?,
-      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      status: (json['status'] as String?)?.let(PackageVersionStatus.fromString),
       version: json['version'] as String?,
       versionRevision: json['versionRevision'] as String?,
     );
@@ -6887,10 +6630,10 @@ class PublishPackageVersionResult {
     final versionRevision = this.versionRevision;
     return {
       if (asset != null) 'asset': asset,
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (namespace != null) 'namespace': namespace,
       if (package != null) 'package': package,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (version != null) 'version': version,
       if (versionRevision != null) 'versionRevision': versionRevision,
     };
@@ -7119,8 +6862,10 @@ class RepositoryExternalConnectionInfo {
   factory RepositoryExternalConnectionInfo.fromJson(Map<String, dynamic> json) {
     return RepositoryExternalConnectionInfo(
       externalConnectionName: json['externalConnectionName'] as String?,
-      packageFormat: (json['packageFormat'] as String?)?.toPackageFormat(),
-      status: (json['status'] as String?)?.toExternalConnectionStatus(),
+      packageFormat:
+          (json['packageFormat'] as String?)?.let(PackageFormat.fromString),
+      status:
+          (json['status'] as String?)?.let(ExternalConnectionStatus.fromString),
     );
   }
 
@@ -7131,8 +6876,8 @@ class RepositoryExternalConnectionInfo {
     return {
       if (externalConnectionName != null)
         'externalConnectionName': externalConnectionName,
-      if (packageFormat != null) 'packageFormat': packageFormat.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (packageFormat != null) 'packageFormat': packageFormat.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7261,7 +7006,7 @@ class SuccessfulPackageVersionInfo {
   factory SuccessfulPackageVersionInfo.fromJson(Map<String, dynamic> json) {
     return SuccessfulPackageVersionInfo(
       revision: json['revision'] as String?,
-      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      status: (json['status'] as String?)?.let(PackageVersionStatus.fromString),
     );
   }
 
@@ -7270,7 +7015,7 @@ class SuccessfulPackageVersionInfo {
     final status = this.status;
     return {
       if (revision != null) 'revision': revision,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7351,9 +7096,9 @@ class UpdatePackageGroupOriginConfigurationResult {
       allowedRepositoryUpdates:
           (json['allowedRepositoryUpdates'] as Map<String, dynamic>?)?.map(
               (k, e) => MapEntry(
-                  k.toPackageGroupOriginRestrictionType(),
+                  PackageGroupOriginRestrictionType.fromString(k),
                   (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                      k.toPackageGroupAllowedRepositoryUpdateType(),
+                      PackageGroupAllowedRepositoryUpdateType.fromString(k),
                       (e as List)
                           .whereNotNull()
                           .map((e) => e as String)
@@ -7370,8 +7115,8 @@ class UpdatePackageGroupOriginConfigurationResult {
     final packageGroup = this.packageGroup;
     return {
       if (allowedRepositoryUpdates != null)
-        'allowedRepositoryUpdates': allowedRepositoryUpdates.map((k, e) =>
-            MapEntry(k.toValue(), e.map((k, e) => MapEntry(k.toValue(), e)))),
+        'allowedRepositoryUpdates': allowedRepositoryUpdates.map(
+            (k, e) => MapEntry(k.value, e.map((k, e) => MapEntry(k.value, e)))),
       if (packageGroup != null) 'packageGroup': packageGroup,
     };
   }

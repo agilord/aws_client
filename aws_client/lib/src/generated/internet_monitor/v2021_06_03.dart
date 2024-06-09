@@ -525,7 +525,7 @@ class CloudWatchInternetMonitor {
     );
     final $query = <String, List<String>>{
       if (endTime != null) 'EndTime': [_s.iso8601ToJson(endTime).toString()],
-      if (eventStatus != null) 'EventStatus': [eventStatus.toValue()],
+      if (eventStatus != null) 'EventStatus': [eventStatus.value],
       if (linkedAccountId != null) 'LinkedAccountId': [linkedAccountId],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -788,7 +788,7 @@ class CloudWatchInternetMonitor {
   }) async {
     final $payload = <String, dynamic>{
       'EndTime': iso8601ToJson(endTime),
-      'QueryType': queryType.toValue(),
+      'QueryType': queryType.value,
       'StartTime': iso8601ToJson(startTime),
       if (filterParameters != null) 'FilterParameters': filterParameters,
       if (linkedAccountId != null) 'LinkedAccountId': linkedAccountId,
@@ -1009,7 +1009,7 @@ class CloudWatchInternetMonitor {
         'MaxCityNetworksToMonitor': maxCityNetworksToMonitor,
       if (resourcesToAdd != null) 'ResourcesToAdd': resourcesToAdd,
       if (resourcesToRemove != null) 'ResourcesToRemove': resourcesToRemove,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (trafficPercentageToMonitor != null)
         'TrafficPercentageToMonitor': trafficPercentageToMonitor,
     };
@@ -1210,7 +1210,7 @@ class CreateMonitorOutput {
   factory CreateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return CreateMonitorOutput(
       arn: json['Arn'] as String,
-      status: (json['Status'] as String).toMonitorConfigState(),
+      status: MonitorConfigState.fromString((json['Status'] as String)),
     );
   }
 
@@ -1219,7 +1219,7 @@ class CreateMonitorOutput {
     final status = this.status;
     return {
       'Arn': arn,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -1285,7 +1285,7 @@ class FilterParameter {
     final values = this.values;
     return {
       if (field != null) 'Field': field,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
       if (values != null) 'Values': values,
     };
   }
@@ -1351,7 +1351,8 @@ class GetHealthEventOutput {
     return GetHealthEventOutput(
       eventArn: json['EventArn'] as String,
       eventId: json['EventId'] as String,
-      impactType: (json['ImpactType'] as String).toHealthEventImpactType(),
+      impactType:
+          HealthEventImpactType.fromString((json['ImpactType'] as String)),
       impactedLocations: (json['ImpactedLocations'] as List)
           .whereNotNull()
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
@@ -1359,7 +1360,7 @@ class GetHealthEventOutput {
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
-      status: (json['Status'] as String).toHealthEventStatus(),
+      status: HealthEventStatus.fromString((json['Status'] as String)),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
       healthScoreThreshold: json['HealthScoreThreshold'] as double?,
@@ -1383,11 +1384,11 @@ class GetHealthEventOutput {
     return {
       'EventArn': eventArn,
       'EventId': eventId,
-      'ImpactType': impactType.toValue(),
+      'ImpactType': impactType.value,
       'ImpactedLocations': impactedLocations,
       'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       'StartedAt': iso8601ToJson(startedAt),
-      'Status': status.toValue(),
+      'Status': status.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
       if (healthScoreThreshold != null)
@@ -1438,8 +1439,9 @@ class GetInternetEventOutput {
           json['ClientLocation'] as Map<String, dynamic>),
       eventArn: json['EventArn'] as String,
       eventId: json['EventId'] as String,
-      eventStatus: (json['EventStatus'] as String).toInternetEventStatus(),
-      eventType: (json['EventType'] as String).toInternetEventType(),
+      eventStatus:
+          InternetEventStatus.fromString((json['EventStatus'] as String)),
+      eventType: InternetEventType.fromString((json['EventType'] as String)),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
@@ -1457,8 +1459,8 @@ class GetInternetEventOutput {
       'ClientLocation': clientLocation,
       'EventArn': eventArn,
       'EventId': eventId,
-      'EventStatus': eventStatus.toValue(),
-      'EventType': eventType.toValue(),
+      'EventStatus': eventStatus.value,
+      'EventType': eventType.value,
       'StartedAt': iso8601ToJson(startedAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
     };
@@ -1559,7 +1561,7 @@ class GetMonitorOutput {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String).toMonitorConfigState(),
+      status: MonitorConfigState.fromString((json['Status'] as String)),
       healthEventsConfig: json['HealthEventsConfig'] != null
           ? HealthEventsConfig.fromJson(
               json['HealthEventsConfig'] as Map<String, dynamic>)
@@ -1572,7 +1574,7 @@ class GetMonitorOutput {
               : null,
       maxCityNetworksToMonitor: json['MaxCityNetworksToMonitor'] as int?,
       processingStatus: (json['ProcessingStatus'] as String?)
-          ?.toMonitorProcessingStatusCode(),
+          ?.let(MonitorProcessingStatusCode.fromString),
       processingStatusInfo: json['ProcessingStatusInfo'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1601,14 +1603,13 @@ class GetMonitorOutput {
       'MonitorArn': monitorArn,
       'MonitorName': monitorName,
       'Resources': resources,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (healthEventsConfig != null) 'HealthEventsConfig': healthEventsConfig,
       if (internetMeasurementsLogDelivery != null)
         'InternetMeasurementsLogDelivery': internetMeasurementsLogDelivery,
       if (maxCityNetworksToMonitor != null)
         'MaxCityNetworksToMonitor': maxCityNetworksToMonitor,
-      if (processingStatus != null)
-        'ProcessingStatus': processingStatus.toValue(),
+      if (processingStatus != null) 'ProcessingStatus': processingStatus.value,
       if (processingStatusInfo != null)
         'ProcessingStatusInfo': processingStatusInfo,
       if (tags != null) 'Tags': tags,
@@ -1677,14 +1678,14 @@ class GetQueryStatusOutput {
 
   factory GetQueryStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetQueryStatusOutput(
-      status: (json['Status'] as String).toQueryStatus(),
+      status: QueryStatus.fromString((json['Status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -1751,7 +1752,8 @@ class HealthEvent {
     return HealthEvent(
       eventArn: json['EventArn'] as String,
       eventId: json['EventId'] as String,
-      impactType: (json['ImpactType'] as String).toHealthEventImpactType(),
+      impactType:
+          HealthEventImpactType.fromString((json['ImpactType'] as String)),
       impactedLocations: (json['ImpactedLocations'] as List)
           .whereNotNull()
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
@@ -1759,7 +1761,7 @@ class HealthEvent {
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
-      status: (json['Status'] as String).toHealthEventStatus(),
+      status: HealthEventStatus.fromString((json['Status'] as String)),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
       healthScoreThreshold: json['HealthScoreThreshold'] as double?,
@@ -1783,11 +1785,11 @@ class HealthEvent {
     return {
       'EventArn': eventArn,
       'EventId': eventId,
-      'ImpactType': impactType.toValue(),
+      'ImpactType': impactType.value,
       'ImpactedLocations': impactedLocations,
       'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       'StartedAt': iso8601ToJson(startedAt),
-      'Status': status.toValue(),
+      'Status': status.value,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
       if (healthScoreThreshold != null)
@@ -1799,69 +1801,35 @@ class HealthEvent {
 }
 
 enum HealthEventImpactType {
-  availability,
-  performance,
-  localAvailability,
-  localPerformance,
-}
+  availability('AVAILABILITY'),
+  performance('PERFORMANCE'),
+  localAvailability('LOCAL_AVAILABILITY'),
+  localPerformance('LOCAL_PERFORMANCE'),
+  ;
 
-extension HealthEventImpactTypeValueExtension on HealthEventImpactType {
-  String toValue() {
-    switch (this) {
-      case HealthEventImpactType.availability:
-        return 'AVAILABILITY';
-      case HealthEventImpactType.performance:
-        return 'PERFORMANCE';
-      case HealthEventImpactType.localAvailability:
-        return 'LOCAL_AVAILABILITY';
-      case HealthEventImpactType.localPerformance:
-        return 'LOCAL_PERFORMANCE';
-    }
-  }
-}
+  final String value;
 
-extension HealthEventImpactTypeFromString on String {
-  HealthEventImpactType toHealthEventImpactType() {
-    switch (this) {
-      case 'AVAILABILITY':
-        return HealthEventImpactType.availability;
-      case 'PERFORMANCE':
-        return HealthEventImpactType.performance;
-      case 'LOCAL_AVAILABILITY':
-        return HealthEventImpactType.localAvailability;
-      case 'LOCAL_PERFORMANCE':
-        return HealthEventImpactType.localPerformance;
-    }
-    throw Exception('$this is not known in enum HealthEventImpactType');
-  }
+  const HealthEventImpactType(this.value);
+
+  static HealthEventImpactType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HealthEventImpactType'));
 }
 
 enum HealthEventStatus {
-  active,
-  resolved,
-}
+  active('ACTIVE'),
+  resolved('RESOLVED'),
+  ;
 
-extension HealthEventStatusValueExtension on HealthEventStatus {
-  String toValue() {
-    switch (this) {
-      case HealthEventStatus.active:
-        return 'ACTIVE';
-      case HealthEventStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension HealthEventStatusFromString on String {
-  HealthEventStatus toHealthEventStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return HealthEventStatus.active;
-      case 'RESOLVED':
-        return HealthEventStatus.resolved;
-    }
-    throw Exception('$this is not known in enum HealthEventStatus');
-  }
+  const HealthEventStatus(this.value);
+
+  static HealthEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HealthEventStatus'));
 }
 
 /// A complex type with the configuration information that determines the
@@ -2043,7 +2011,7 @@ class ImpactedLocation {
       aSName: json['ASName'] as String,
       aSNumber: json['ASNumber'] as int,
       country: json['Country'] as String,
-      status: (json['Status'] as String).toHealthEventStatus(),
+      status: HealthEventStatus.fromString((json['Status'] as String)),
       causedBy: json['CausedBy'] != null
           ? NetworkImpairment.fromJson(json['CausedBy'] as Map<String, dynamic>)
           : null,
@@ -2086,7 +2054,7 @@ class ImpactedLocation {
       'ASName': aSName,
       'ASNumber': aSNumber,
       'Country': country,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (causedBy != null) 'CausedBy': causedBy,
       if (city != null) 'City': city,
       if (countryCode != null) 'CountryCode': countryCode,
@@ -2103,31 +2071,18 @@ class ImpactedLocation {
 }
 
 enum InternetEventStatus {
-  active,
-  resolved,
-}
+  active('ACTIVE'),
+  resolved('RESOLVED'),
+  ;
 
-extension InternetEventStatusValueExtension on InternetEventStatus {
-  String toValue() {
-    switch (this) {
-      case InternetEventStatus.active:
-        return 'ACTIVE';
-      case InternetEventStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension InternetEventStatusFromString on String {
-  InternetEventStatus toInternetEventStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return InternetEventStatus.active;
-      case 'RESOLVED':
-        return InternetEventStatus.resolved;
-    }
-    throw Exception('$this is not known in enum InternetEventStatus');
-  }
+  const InternetEventStatus(this.value);
+
+  static InternetEventStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InternetEventStatus'));
 }
 
 /// A summary of information about an internet event in Amazon CloudWatch
@@ -2176,8 +2131,9 @@ class InternetEventSummary {
           json['ClientLocation'] as Map<String, dynamic>),
       eventArn: json['EventArn'] as String,
       eventId: json['EventId'] as String,
-      eventStatus: (json['EventStatus'] as String).toInternetEventStatus(),
-      eventType: (json['EventType'] as String).toInternetEventType(),
+      eventStatus:
+          InternetEventStatus.fromString((json['EventStatus'] as String)),
+      eventType: InternetEventType.fromString((json['EventType'] as String)),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
@@ -2195,8 +2151,8 @@ class InternetEventSummary {
       'ClientLocation': clientLocation,
       'EventArn': eventArn,
       'EventId': eventId,
-      'EventStatus': eventStatus.toValue(),
-      'EventType': eventType.toValue(),
+      'EventStatus': eventStatus.value,
+      'EventType': eventType.value,
       'StartedAt': iso8601ToJson(startedAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
     };
@@ -2204,31 +2160,18 @@ class InternetEventSummary {
 }
 
 enum InternetEventType {
-  availability,
-  performance,
-}
+  availability('AVAILABILITY'),
+  performance('PERFORMANCE'),
+  ;
 
-extension InternetEventTypeValueExtension on InternetEventType {
-  String toValue() {
-    switch (this) {
-      case InternetEventType.availability:
-        return 'AVAILABILITY';
-      case InternetEventType.performance:
-        return 'PERFORMANCE';
-    }
-  }
-}
+  final String value;
 
-extension InternetEventTypeFromString on String {
-  InternetEventType toInternetEventType() {
-    switch (this) {
-      case 'AVAILABILITY':
-        return InternetEventType.availability;
-      case 'PERFORMANCE':
-        return InternetEventType.performance;
-    }
-    throw Exception('$this is not known in enum InternetEventType');
-  }
+  const InternetEventType(this.value);
+
+  static InternetEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InternetEventType'));
 }
 
 /// Internet health includes measurements calculated by Amazon CloudWatch
@@ -2493,7 +2436,8 @@ class LocalHealthEventsConfig {
     return LocalHealthEventsConfig(
       healthScoreThreshold: json['HealthScoreThreshold'] as double?,
       minTrafficImpact: json['MinTrafficImpact'] as double?,
-      status: (json['Status'] as String?)?.toLocalHealthEventsConfigStatus(),
+      status: (json['Status'] as String?)
+          ?.let(LocalHealthEventsConfigStatus.fromString),
     );
   }
 
@@ -2505,66 +2449,39 @@ class LocalHealthEventsConfig {
       if (healthScoreThreshold != null)
         'HealthScoreThreshold': healthScoreThreshold,
       if (minTrafficImpact != null) 'MinTrafficImpact': minTrafficImpact,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum LocalHealthEventsConfigStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension LocalHealthEventsConfigStatusValueExtension
-    on LocalHealthEventsConfigStatus {
-  String toValue() {
-    switch (this) {
-      case LocalHealthEventsConfigStatus.enabled:
-        return 'ENABLED';
-      case LocalHealthEventsConfigStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LocalHealthEventsConfigStatusFromString on String {
-  LocalHealthEventsConfigStatus toLocalHealthEventsConfigStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return LocalHealthEventsConfigStatus.enabled;
-      case 'DISABLED':
-        return LocalHealthEventsConfigStatus.disabled;
-    }
-    throw Exception('$this is not known in enum LocalHealthEventsConfigStatus');
-  }
+  const LocalHealthEventsConfigStatus(this.value);
+
+  static LocalHealthEventsConfigStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LocalHealthEventsConfigStatus'));
 }
 
 enum LogDeliveryStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension LogDeliveryStatusValueExtension on LogDeliveryStatus {
-  String toValue() {
-    switch (this) {
-      case LogDeliveryStatus.enabled:
-        return 'ENABLED';
-      case LogDeliveryStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LogDeliveryStatusFromString on String {
-  LogDeliveryStatus toLogDeliveryStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return LogDeliveryStatus.enabled;
-      case 'DISABLED':
-        return LogDeliveryStatus.disabled;
-    }
-    throw Exception('$this is not known in enum LogDeliveryStatus');
-  }
+  const LogDeliveryStatus(this.value);
+
+  static LogDeliveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogDeliveryStatus'));
 }
 
 /// The description of and information about a monitor in Amazon CloudWatch
@@ -2593,9 +2510,9 @@ class Monitor {
     return Monitor(
       monitorArn: json['MonitorArn'] as String,
       monitorName: json['MonitorName'] as String,
-      status: (json['Status'] as String).toMonitorConfigState(),
+      status: MonitorConfigState.fromString((json['Status'] as String)),
       processingStatus: (json['ProcessingStatus'] as String?)
-          ?.toMonitorProcessingStatusCode(),
+          ?.let(MonitorProcessingStatusCode.fromString),
     );
   }
 
@@ -2607,98 +2524,46 @@ class Monitor {
     return {
       'MonitorArn': monitorArn,
       'MonitorName': monitorName,
-      'Status': status.toValue(),
-      if (processingStatus != null)
-        'ProcessingStatus': processingStatus.toValue(),
+      'Status': status.value,
+      if (processingStatus != null) 'ProcessingStatus': processingStatus.value,
     };
   }
 }
 
 enum MonitorConfigState {
-  pending,
-  active,
-  inactive,
-  error,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  error('ERROR'),
+  ;
 
-extension MonitorConfigStateValueExtension on MonitorConfigState {
-  String toValue() {
-    switch (this) {
-      case MonitorConfigState.pending:
-        return 'PENDING';
-      case MonitorConfigState.active:
-        return 'ACTIVE';
-      case MonitorConfigState.inactive:
-        return 'INACTIVE';
-      case MonitorConfigState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension MonitorConfigStateFromString on String {
-  MonitorConfigState toMonitorConfigState() {
-    switch (this) {
-      case 'PENDING':
-        return MonitorConfigState.pending;
-      case 'ACTIVE':
-        return MonitorConfigState.active;
-      case 'INACTIVE':
-        return MonitorConfigState.inactive;
-      case 'ERROR':
-        return MonitorConfigState.error;
-    }
-    throw Exception('$this is not known in enum MonitorConfigState');
-  }
+  const MonitorConfigState(this.value);
+
+  static MonitorConfigState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MonitorConfigState'));
 }
 
 enum MonitorProcessingStatusCode {
-  ok,
-  inactive,
-  collectingData,
-  insufficientData,
-  faultService,
-  faultAccessCloudwatch,
-}
+  ok('OK'),
+  inactive('INACTIVE'),
+  collectingData('COLLECTING_DATA'),
+  insufficientData('INSUFFICIENT_DATA'),
+  faultService('FAULT_SERVICE'),
+  faultAccessCloudwatch('FAULT_ACCESS_CLOUDWATCH'),
+  ;
 
-extension MonitorProcessingStatusCodeValueExtension
-    on MonitorProcessingStatusCode {
-  String toValue() {
-    switch (this) {
-      case MonitorProcessingStatusCode.ok:
-        return 'OK';
-      case MonitorProcessingStatusCode.inactive:
-        return 'INACTIVE';
-      case MonitorProcessingStatusCode.collectingData:
-        return 'COLLECTING_DATA';
-      case MonitorProcessingStatusCode.insufficientData:
-        return 'INSUFFICIENT_DATA';
-      case MonitorProcessingStatusCode.faultService:
-        return 'FAULT_SERVICE';
-      case MonitorProcessingStatusCode.faultAccessCloudwatch:
-        return 'FAULT_ACCESS_CLOUDWATCH';
-    }
-  }
-}
+  final String value;
 
-extension MonitorProcessingStatusCodeFromString on String {
-  MonitorProcessingStatusCode toMonitorProcessingStatusCode() {
-    switch (this) {
-      case 'OK':
-        return MonitorProcessingStatusCode.ok;
-      case 'INACTIVE':
-        return MonitorProcessingStatusCode.inactive;
-      case 'COLLECTING_DATA':
-        return MonitorProcessingStatusCode.collectingData;
-      case 'INSUFFICIENT_DATA':
-        return MonitorProcessingStatusCode.insufficientData;
-      case 'FAULT_SERVICE':
-        return MonitorProcessingStatusCode.faultService;
-      case 'FAULT_ACCESS_CLOUDWATCH':
-        return MonitorProcessingStatusCode.faultAccessCloudwatch;
-    }
-    throw Exception('$this is not known in enum MonitorProcessingStatusCode');
-  }
+  const MonitorProcessingStatusCode(this.value);
+
+  static MonitorProcessingStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MonitorProcessingStatusCode'));
 }
 
 /// An internet service provider (ISP) or network (ASN) in Amazon CloudWatch
@@ -2757,8 +2622,8 @@ class NetworkImpairment {
           .whereNotNull()
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
-      networkEventType:
-          (json['NetworkEventType'] as String).toTriangulationEventType(),
+      networkEventType: TriangulationEventType.fromString(
+          (json['NetworkEventType'] as String)),
       networks: (json['Networks'] as List)
           .whereNotNull()
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
@@ -2772,38 +2637,24 @@ class NetworkImpairment {
     final networks = this.networks;
     return {
       'AsPath': asPath,
-      'NetworkEventType': networkEventType.toValue(),
+      'NetworkEventType': networkEventType.value,
       'Networks': networks,
     };
   }
 }
 
 enum Operator {
-  equals,
-  notEquals,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equals:
-        return 'EQUALS';
-      case Operator.notEquals:
-        return 'NOT_EQUALS';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return Operator.equals;
-      case 'NOT_EQUALS':
-        return Operator.notEquals;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 /// Amazon CloudWatch Internet Monitor calculates measurements about the
@@ -2952,79 +2803,35 @@ class QueryField {
 }
 
 enum QueryStatus {
-  queued,
-  running,
-  succeeded,
-  failed,
-  canceled,
-}
+  queued('QUEUED'),
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  canceled('CANCELED'),
+  ;
 
-extension QueryStatusValueExtension on QueryStatus {
-  String toValue() {
-    switch (this) {
-      case QueryStatus.queued:
-        return 'QUEUED';
-      case QueryStatus.running:
-        return 'RUNNING';
-      case QueryStatus.succeeded:
-        return 'SUCCEEDED';
-      case QueryStatus.failed:
-        return 'FAILED';
-      case QueryStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension QueryStatusFromString on String {
-  QueryStatus toQueryStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return QueryStatus.queued;
-      case 'RUNNING':
-        return QueryStatus.running;
-      case 'SUCCEEDED':
-        return QueryStatus.succeeded;
-      case 'FAILED':
-        return QueryStatus.failed;
-      case 'CANCELED':
-        return QueryStatus.canceled;
-    }
-    throw Exception('$this is not known in enum QueryStatus');
-  }
+  const QueryStatus(this.value);
+
+  static QueryStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueryStatus'));
 }
 
 enum QueryType {
-  measurements,
-  topLocations,
-  topLocationDetails,
-}
+  measurements('MEASUREMENTS'),
+  topLocations('TOP_LOCATIONS'),
+  topLocationDetails('TOP_LOCATION_DETAILS'),
+  ;
 
-extension QueryTypeValueExtension on QueryType {
-  String toValue() {
-    switch (this) {
-      case QueryType.measurements:
-        return 'MEASUREMENTS';
-      case QueryType.topLocations:
-        return 'TOP_LOCATIONS';
-      case QueryType.topLocationDetails:
-        return 'TOP_LOCATION_DETAILS';
-    }
-  }
-}
+  final String value;
 
-extension QueryTypeFromString on String {
-  QueryType toQueryType() {
-    switch (this) {
-      case 'MEASUREMENTS':
-        return QueryType.measurements;
-      case 'TOP_LOCATIONS':
-        return QueryType.topLocations;
-      case 'TOP_LOCATION_DETAILS':
-        return QueryType.topLocationDetails;
-    }
-    throw Exception('$this is not known in enum QueryType');
-  }
+  const QueryType(this.value);
+
+  static QueryType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueryType'));
 }
 
 /// Round-trip time (RTT) is how long it takes for a request from the user to
@@ -3093,8 +2900,8 @@ class S3Config {
     return S3Config(
       bucketName: json['BucketName'] as String?,
       bucketPrefix: json['BucketPrefix'] as String?,
-      logDeliveryStatus:
-          (json['LogDeliveryStatus'] as String?)?.toLogDeliveryStatus(),
+      logDeliveryStatus: (json['LogDeliveryStatus'] as String?)
+          ?.let(LogDeliveryStatus.fromString),
     );
   }
 
@@ -3106,7 +2913,7 @@ class S3Config {
       if (bucketName != null) 'BucketName': bucketName,
       if (bucketPrefix != null) 'BucketPrefix': bucketPrefix,
       if (logDeliveryStatus != null)
-        'LogDeliveryStatus': logDeliveryStatus.toValue(),
+        'LogDeliveryStatus': logDeliveryStatus.value,
     };
   }
 }
@@ -3158,31 +2965,18 @@ class TagResourceOutput {
 }
 
 enum TriangulationEventType {
-  aws,
-  internet,
-}
+  aws('AWS'),
+  internet('Internet'),
+  ;
 
-extension TriangulationEventTypeValueExtension on TriangulationEventType {
-  String toValue() {
-    switch (this) {
-      case TriangulationEventType.aws:
-        return 'AWS';
-      case TriangulationEventType.internet:
-        return 'Internet';
-    }
-  }
-}
+  final String value;
 
-extension TriangulationEventTypeFromString on String {
-  TriangulationEventType toTriangulationEventType() {
-    switch (this) {
-      case 'AWS':
-        return TriangulationEventType.aws;
-      case 'Internet':
-        return TriangulationEventType.internet;
-    }
-    throw Exception('$this is not known in enum TriangulationEventType');
-  }
+  const TriangulationEventType(this.value);
+
+  static TriangulationEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TriangulationEventType'));
 }
 
 class UntagResourceOutput {
@@ -3212,7 +3006,7 @@ class UpdateMonitorOutput {
   factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMonitorOutput(
       monitorArn: json['MonitorArn'] as String,
-      status: (json['Status'] as String).toMonitorConfigState(),
+      status: MonitorConfigState.fromString((json['Status'] as String)),
     );
   }
 
@@ -3221,7 +3015,7 @@ class UpdateMonitorOutput {
     final status = this.status;
     return {
       'MonitorArn': monitorArn,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }

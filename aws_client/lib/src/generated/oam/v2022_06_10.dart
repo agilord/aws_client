@@ -150,7 +150,7 @@ class CloudWatchObservabilityAccessManager {
   }) async {
     final $payload = <String, dynamic>{
       'LabelTemplate': labelTemplate,
-      'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
       'SinkIdentifier': sinkIdentifier,
       if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (tags != null) 'Tags': tags,
@@ -705,7 +705,7 @@ class CloudWatchObservabilityAccessManager {
   }) async {
     final $payload = <String, dynamic>{
       'Identifier': identifier,
-      'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
       if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
     };
     final response = await _protocol.send(
@@ -1520,46 +1520,21 @@ class PutSinkPolicyOutput {
 }
 
 enum ResourceType {
-  awsCloudWatchMetric,
-  awsLogsLogGroup,
-  awsXRayTrace,
-  awsApplicationInsightsApplication,
-  awsInternetMonitorMonitor,
-}
+  awsCloudWatchMetric('AWS::CloudWatch::Metric'),
+  awsLogsLogGroup('AWS::Logs::LogGroup'),
+  awsXRayTrace('AWS::XRay::Trace'),
+  awsApplicationInsightsApplication('AWS::ApplicationInsights::Application'),
+  awsInternetMonitorMonitor('AWS::InternetMonitor::Monitor'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.awsCloudWatchMetric:
-        return 'AWS::CloudWatch::Metric';
-      case ResourceType.awsLogsLogGroup:
-        return 'AWS::Logs::LogGroup';
-      case ResourceType.awsXRayTrace:
-        return 'AWS::XRay::Trace';
-      case ResourceType.awsApplicationInsightsApplication:
-        return 'AWS::ApplicationInsights::Application';
-      case ResourceType.awsInternetMonitorMonitor:
-        return 'AWS::InternetMonitor::Monitor';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'AWS::CloudWatch::Metric':
-        return ResourceType.awsCloudWatchMetric;
-      case 'AWS::Logs::LogGroup':
-        return ResourceType.awsLogsLogGroup;
-      case 'AWS::XRay::Trace':
-        return ResourceType.awsXRayTrace;
-      case 'AWS::ApplicationInsights::Application':
-        return ResourceType.awsApplicationInsightsApplication;
-      case 'AWS::InternetMonitor::Monitor':
-        return ResourceType.awsInternetMonitorMonitor;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 class TagResourceOutput {

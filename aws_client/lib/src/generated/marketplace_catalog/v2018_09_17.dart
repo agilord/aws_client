@@ -382,7 +382,7 @@ class MarketplaceCatalog {
       if (filterList != null) 'FilterList': filterList,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (ownershipType != null) 'OwnershipType': ownershipType.toValue(),
+      if (ownershipType != null) 'OwnershipType': ownershipType.value,
       if (sort != null) 'Sort': sort,
     };
     final response = await _protocol.send(
@@ -528,7 +528,7 @@ class MarketplaceCatalog {
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (changeSetTags != null) 'ChangeSetTags': changeSetTags,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
-      if (intent != null) 'Intent': intent.toValue(),
+      if (intent != null) 'Intent': intent.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -726,48 +726,27 @@ class AmiProductSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum AmiProductSortBy {
-  entityId,
-  lastModifiedDate,
-  productTitle,
-  visibility,
-}
+  entityId('EntityId'),
+  lastModifiedDate('LastModifiedDate'),
+  productTitle('ProductTitle'),
+  visibility('Visibility'),
+  ;
 
-extension AmiProductSortByValueExtension on AmiProductSortBy {
-  String toValue() {
-    switch (this) {
-      case AmiProductSortBy.entityId:
-        return 'EntityId';
-      case AmiProductSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-      case AmiProductSortBy.productTitle:
-        return 'ProductTitle';
-      case AmiProductSortBy.visibility:
-        return 'Visibility';
-    }
-  }
-}
+  final String value;
 
-extension AmiProductSortByFromString on String {
-  AmiProductSortBy toAmiProductSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return AmiProductSortBy.entityId;
-      case 'LastModifiedDate':
-        return AmiProductSortBy.lastModifiedDate;
-      case 'ProductTitle':
-        return AmiProductSortBy.productTitle;
-      case 'Visibility':
-        return AmiProductSortBy.visibility;
-    }
-    throw Exception('$this is not known in enum AmiProductSortBy');
-  }
+  const AmiProductSortBy(this.value);
+
+  static AmiProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AmiProductSortBy'));
 }
 
 /// Object that contains summarized information about an AMI product.
@@ -786,8 +765,8 @@ class AmiProductSummary {
   factory AmiProductSummary.fromJson(Map<String, dynamic> json) {
     return AmiProductSummary(
       productTitle: json['ProductTitle'] as String?,
-      visibility:
-          (json['Visibility'] as String?)?.toAmiProductVisibilityString(),
+      visibility: (json['Visibility'] as String?)
+          ?.let(AmiProductVisibilityString.fromString),
     );
   }
 
@@ -796,7 +775,7 @@ class AmiProductSummary {
     final visibility = this.visibility;
     return {
       if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -839,48 +818,26 @@ class AmiProductVisibilityFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AmiProductVisibilityString {
-  limited,
-  public,
-  restricted,
-  draft,
-}
+  limited('Limited'),
+  public('Public'),
+  restricted('Restricted'),
+  draft('Draft'),
+  ;
 
-extension AmiProductVisibilityStringValueExtension
-    on AmiProductVisibilityString {
-  String toValue() {
-    switch (this) {
-      case AmiProductVisibilityString.limited:
-        return 'Limited';
-      case AmiProductVisibilityString.public:
-        return 'Public';
-      case AmiProductVisibilityString.restricted:
-        return 'Restricted';
-      case AmiProductVisibilityString.draft:
-        return 'Draft';
-    }
-  }
-}
+  final String value;
 
-extension AmiProductVisibilityStringFromString on String {
-  AmiProductVisibilityString toAmiProductVisibilityString() {
-    switch (this) {
-      case 'Limited':
-        return AmiProductVisibilityString.limited;
-      case 'Public':
-        return AmiProductVisibilityString.public;
-      case 'Restricted':
-        return AmiProductVisibilityString.restricted;
-      case 'Draft':
-        return AmiProductVisibilityString.draft;
-    }
-    throw Exception('$this is not known in enum AmiProductVisibilityString');
-  }
+  const AmiProductVisibilityString(this.value);
+
+  static AmiProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AmiProductVisibilityString'));
 }
 
 class BatchDescribeEntitiesResponse {
@@ -1097,9 +1054,10 @@ class ChangeSetSummaryListItem {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      failureCode: (json['FailureCode'] as String?)?.toFailureCode(),
+      failureCode:
+          (json['FailureCode'] as String?)?.let(FailureCode.fromString),
       startTime: json['StartTime'] as String?,
-      status: (json['Status'] as String?)?.toChangeStatus(),
+      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
     );
   }
 
@@ -1118,54 +1076,29 @@ class ChangeSetSummaryListItem {
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (endTime != null) 'EndTime': endTime,
       if (entityIdList != null) 'EntityIdList': entityIdList,
-      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (failureCode != null) 'FailureCode': failureCode.value,
       if (startTime != null) 'StartTime': startTime,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ChangeStatus {
-  preparing,
-  applying,
-  succeeded,
-  cancelled,
-  failed,
-}
+  preparing('PREPARING'),
+  applying('APPLYING'),
+  succeeded('SUCCEEDED'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  ;
 
-extension ChangeStatusValueExtension on ChangeStatus {
-  String toValue() {
-    switch (this) {
-      case ChangeStatus.preparing:
-        return 'PREPARING';
-      case ChangeStatus.applying:
-        return 'APPLYING';
-      case ChangeStatus.succeeded:
-        return 'SUCCEEDED';
-      case ChangeStatus.cancelled:
-        return 'CANCELLED';
-      case ChangeStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChangeStatusFromString on String {
-  ChangeStatus toChangeStatus() {
-    switch (this) {
-      case 'PREPARING':
-        return ChangeStatus.preparing;
-      case 'APPLYING':
-        return ChangeStatus.applying;
-      case 'SUCCEEDED':
-        return ChangeStatus.succeeded;
-      case 'CANCELLED':
-        return ChangeStatus.cancelled;
-      case 'FAILED':
-        return ChangeStatus.failed;
-    }
-    throw Exception('$this is not known in enum ChangeStatus');
-  }
+  const ChangeStatus(this.value);
+
+  static ChangeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeStatus'));
 }
 
 /// This object is a container for common summary information about the change.
@@ -1353,48 +1286,27 @@ class ContainerProductSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum ContainerProductSortBy {
-  entityId,
-  lastModifiedDate,
-  productTitle,
-  visibility,
-}
+  entityId('EntityId'),
+  lastModifiedDate('LastModifiedDate'),
+  productTitle('ProductTitle'),
+  visibility('Visibility'),
+  ;
 
-extension ContainerProductSortByValueExtension on ContainerProductSortBy {
-  String toValue() {
-    switch (this) {
-      case ContainerProductSortBy.entityId:
-        return 'EntityId';
-      case ContainerProductSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-      case ContainerProductSortBy.productTitle:
-        return 'ProductTitle';
-      case ContainerProductSortBy.visibility:
-        return 'Visibility';
-    }
-  }
-}
+  final String value;
 
-extension ContainerProductSortByFromString on String {
-  ContainerProductSortBy toContainerProductSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return ContainerProductSortBy.entityId;
-      case 'LastModifiedDate':
-        return ContainerProductSortBy.lastModifiedDate;
-      case 'ProductTitle':
-        return ContainerProductSortBy.productTitle;
-      case 'Visibility':
-        return ContainerProductSortBy.visibility;
-    }
-    throw Exception('$this is not known in enum ContainerProductSortBy');
-  }
+  const ContainerProductSortBy(this.value);
+
+  static ContainerProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerProductSortBy'));
 }
 
 /// Object that contains summarized information about a container product.
@@ -1413,8 +1325,8 @@ class ContainerProductSummary {
   factory ContainerProductSummary.fromJson(Map<String, dynamic> json) {
     return ContainerProductSummary(
       productTitle: json['ProductTitle'] as String?,
-      visibility:
-          (json['Visibility'] as String?)?.toContainerProductVisibilityString(),
+      visibility: (json['Visibility'] as String?)
+          ?.let(ContainerProductVisibilityString.fromString),
     );
   }
 
@@ -1423,7 +1335,7 @@ class ContainerProductSummary {
     final visibility = this.visibility;
     return {
       if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -1466,49 +1378,26 @@ class ContainerProductVisibilityFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum ContainerProductVisibilityString {
-  limited,
-  public,
-  restricted,
-  draft,
-}
+  limited('Limited'),
+  public('Public'),
+  restricted('Restricted'),
+  draft('Draft'),
+  ;
 
-extension ContainerProductVisibilityStringValueExtension
-    on ContainerProductVisibilityString {
-  String toValue() {
-    switch (this) {
-      case ContainerProductVisibilityString.limited:
-        return 'Limited';
-      case ContainerProductVisibilityString.public:
-        return 'Public';
-      case ContainerProductVisibilityString.restricted:
-        return 'Restricted';
-      case ContainerProductVisibilityString.draft:
-        return 'Draft';
-    }
-  }
-}
+  final String value;
 
-extension ContainerProductVisibilityStringFromString on String {
-  ContainerProductVisibilityString toContainerProductVisibilityString() {
-    switch (this) {
-      case 'Limited':
-        return ContainerProductVisibilityString.limited;
-      case 'Public':
-        return ContainerProductVisibilityString.public;
-      case 'Restricted':
-        return ContainerProductVisibilityString.restricted;
-      case 'Draft':
-        return ContainerProductVisibilityString.draft;
-    }
-    throw Exception(
-        '$this is not known in enum ContainerProductVisibilityString');
-  }
+  const ContainerProductVisibilityString(this.value);
+
+  static ContainerProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerProductVisibilityString'));
 }
 
 /// Object that allows filtering on entity id of a data product.
@@ -1627,48 +1516,27 @@ class DataProductSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum DataProductSortBy {
-  entityId,
-  productTitle,
-  visibility,
-  lastModifiedDate,
-}
+  entityId('EntityId'),
+  productTitle('ProductTitle'),
+  visibility('Visibility'),
+  lastModifiedDate('LastModifiedDate'),
+  ;
 
-extension DataProductSortByValueExtension on DataProductSortBy {
-  String toValue() {
-    switch (this) {
-      case DataProductSortBy.entityId:
-        return 'EntityId';
-      case DataProductSortBy.productTitle:
-        return 'ProductTitle';
-      case DataProductSortBy.visibility:
-        return 'Visibility';
-      case DataProductSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-    }
-  }
-}
+  final String value;
 
-extension DataProductSortByFromString on String {
-  DataProductSortBy toDataProductSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return DataProductSortBy.entityId;
-      case 'ProductTitle':
-        return DataProductSortBy.productTitle;
-      case 'Visibility':
-        return DataProductSortBy.visibility;
-      case 'LastModifiedDate':
-        return DataProductSortBy.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum DataProductSortBy');
-  }
+  const DataProductSortBy(this.value);
+
+  static DataProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataProductSortBy'));
 }
 
 /// Object that contains summarized information about a data product.
@@ -1687,8 +1555,8 @@ class DataProductSummary {
   factory DataProductSummary.fromJson(Map<String, dynamic> json) {
     return DataProductSummary(
       productTitle: json['ProductTitle'] as String?,
-      visibility:
-          (json['Visibility'] as String?)?.toDataProductVisibilityString(),
+      visibility: (json['Visibility'] as String?)
+          ?.let(DataProductVisibilityString.fromString),
     );
   }
 
@@ -1697,7 +1565,7 @@ class DataProductSummary {
     final visibility = this.visibility;
     return {
       if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -1740,53 +1608,27 @@ class DataProductVisibilityFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum DataProductVisibilityString {
-  limited,
-  public,
-  restricted,
-  unavailable,
-  draft,
-}
+  limited('Limited'),
+  public('Public'),
+  restricted('Restricted'),
+  unavailable('Unavailable'),
+  draft('Draft'),
+  ;
 
-extension DataProductVisibilityStringValueExtension
-    on DataProductVisibilityString {
-  String toValue() {
-    switch (this) {
-      case DataProductVisibilityString.limited:
-        return 'Limited';
-      case DataProductVisibilityString.public:
-        return 'Public';
-      case DataProductVisibilityString.restricted:
-        return 'Restricted';
-      case DataProductVisibilityString.unavailable:
-        return 'Unavailable';
-      case DataProductVisibilityString.draft:
-        return 'Draft';
-    }
-  }
-}
+  final String value;
 
-extension DataProductVisibilityStringFromString on String {
-  DataProductVisibilityString toDataProductVisibilityString() {
-    switch (this) {
-      case 'Limited':
-        return DataProductVisibilityString.limited;
-      case 'Public':
-        return DataProductVisibilityString.public;
-      case 'Restricted':
-        return DataProductVisibilityString.restricted;
-      case 'Unavailable':
-        return DataProductVisibilityString.unavailable;
-      case 'Draft':
-        return DataProductVisibilityString.draft;
-    }
-    throw Exception('$this is not known in enum DataProductVisibilityString');
-  }
+  const DataProductVisibilityString(this.value);
+
+  static DataProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataProductVisibilityString'));
 }
 
 class DeleteResourcePolicyResponse {
@@ -1867,11 +1709,12 @@ class DescribeChangeSetResponse {
       changeSetId: json['ChangeSetId'] as String?,
       changeSetName: json['ChangeSetName'] as String?,
       endTime: json['EndTime'] as String?,
-      failureCode: (json['FailureCode'] as String?)?.toFailureCode(),
+      failureCode:
+          (json['FailureCode'] as String?)?.let(FailureCode.fromString),
       failureDescription: json['FailureDescription'] as String?,
-      intent: (json['Intent'] as String?)?.toIntent(),
+      intent: (json['Intent'] as String?)?.let(Intent.fromString),
       startTime: json['StartTime'] as String?,
-      status: (json['Status'] as String?)?.toChangeStatus(),
+      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
     );
   }
 
@@ -1892,11 +1735,11 @@ class DescribeChangeSetResponse {
       if (changeSetId != null) 'ChangeSetId': changeSetId,
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (endTime != null) 'EndTime': endTime,
-      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (failureCode != null) 'FailureCode': failureCode.value,
       if (failureDescription != null) 'FailureDescription': failureDescription,
-      if (intent != null) 'Intent': intent.toValue(),
+      if (intent != null) 'Intent': intent.value,
       if (startTime != null) 'StartTime': startTime,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2332,31 +2175,17 @@ class ErrorDetail {
 }
 
 enum FailureCode {
-  clientError,
-  serverFault,
-}
+  clientError('CLIENT_ERROR'),
+  serverFault('SERVER_FAULT'),
+  ;
 
-extension FailureCodeValueExtension on FailureCode {
-  String toValue() {
-    switch (this) {
-      case FailureCode.clientError:
-        return 'CLIENT_ERROR';
-      case FailureCode.serverFault:
-        return 'SERVER_FAULT';
-    }
-  }
-}
+  final String value;
 
-extension FailureCodeFromString on String {
-  FailureCode toFailureCode() {
-    switch (this) {
-      case 'CLIENT_ERROR':
-        return FailureCode.clientError;
-      case 'SERVER_FAULT':
-        return FailureCode.serverFault;
-    }
-    throw Exception('$this is not known in enum FailureCode');
-  }
+  const FailureCode(this.value);
+
+  static FailureCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FailureCode'));
 }
 
 /// A filter object, used to optionally filter results from calls to the
@@ -2444,31 +2273,17 @@ class GetResourcePolicyResponse {
 }
 
 enum Intent {
-  validate,
-  apply,
-}
+  validate('VALIDATE'),
+  apply('APPLY'),
+  ;
 
-extension IntentValueExtension on Intent {
-  String toValue() {
-    switch (this) {
-      case Intent.validate:
-        return 'VALIDATE';
-      case Intent.apply:
-        return 'APPLY';
-    }
-  }
-}
+  final String value;
 
-extension IntentFromString on String {
-  Intent toIntent() {
-    switch (this) {
-      case 'VALIDATE':
-        return Intent.validate;
-      case 'APPLY':
-        return Intent.apply;
-    }
-    throw Exception('$this is not known in enum Intent');
-  }
+  const Intent(this.value);
+
+  static Intent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Intent'));
 }
 
 class JsonDocumentType {
@@ -2906,78 +2721,32 @@ class OfferSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum OfferSortBy {
-  entityId,
-  name,
-  productId,
-  resaleAuthorizationId,
-  releaseDate,
-  availabilityEndDate,
-  buyerAccounts,
-  state,
-  targeting,
-  lastModifiedDate,
-}
+  entityId('EntityId'),
+  name('Name'),
+  productId('ProductId'),
+  resaleAuthorizationId('ResaleAuthorizationId'),
+  releaseDate('ReleaseDate'),
+  availabilityEndDate('AvailabilityEndDate'),
+  buyerAccounts('BuyerAccounts'),
+  state('State'),
+  targeting('Targeting'),
+  lastModifiedDate('LastModifiedDate'),
+  ;
 
-extension OfferSortByValueExtension on OfferSortBy {
-  String toValue() {
-    switch (this) {
-      case OfferSortBy.entityId:
-        return 'EntityId';
-      case OfferSortBy.name:
-        return 'Name';
-      case OfferSortBy.productId:
-        return 'ProductId';
-      case OfferSortBy.resaleAuthorizationId:
-        return 'ResaleAuthorizationId';
-      case OfferSortBy.releaseDate:
-        return 'ReleaseDate';
-      case OfferSortBy.availabilityEndDate:
-        return 'AvailabilityEndDate';
-      case OfferSortBy.buyerAccounts:
-        return 'BuyerAccounts';
-      case OfferSortBy.state:
-        return 'State';
-      case OfferSortBy.targeting:
-        return 'Targeting';
-      case OfferSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-    }
-  }
-}
+  final String value;
 
-extension OfferSortByFromString on String {
-  OfferSortBy toOfferSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return OfferSortBy.entityId;
-      case 'Name':
-        return OfferSortBy.name;
-      case 'ProductId':
-        return OfferSortBy.productId;
-      case 'ResaleAuthorizationId':
-        return OfferSortBy.resaleAuthorizationId;
-      case 'ReleaseDate':
-        return OfferSortBy.releaseDate;
-      case 'AvailabilityEndDate':
-        return OfferSortBy.availabilityEndDate;
-      case 'BuyerAccounts':
-        return OfferSortBy.buyerAccounts;
-      case 'State':
-        return OfferSortBy.state;
-      case 'Targeting':
-        return OfferSortBy.targeting;
-      case 'LastModifiedDate':
-        return OfferSortBy.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum OfferSortBy');
-  }
+  const OfferSortBy(this.value);
+
+  static OfferSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OfferSortBy'));
 }
 
 /// Allows filtering on the <code>State</code> of an offer.
@@ -2993,37 +2762,24 @@ class OfferStateFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum OfferStateString {
-  draft,
-  released,
-}
+  draft('Draft'),
+  released('Released'),
+  ;
 
-extension OfferStateStringValueExtension on OfferStateString {
-  String toValue() {
-    switch (this) {
-      case OfferStateString.draft:
-        return 'Draft';
-      case OfferStateString.released:
-        return 'Released';
-    }
-  }
-}
+  final String value;
 
-extension OfferStateStringFromString on String {
-  OfferStateString toOfferStateString() {
-    switch (this) {
-      case 'Draft':
-        return OfferStateString.draft;
-      case 'Released':
-        return OfferStateString.released;
-    }
-    throw Exception('$this is not known in enum OfferStateString');
-  }
+  const OfferStateString(this.value);
+
+  static OfferStateString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OfferStateString'));
 }
 
 /// Summarized information about an offer.
@@ -3074,10 +2830,10 @@ class OfferSummary {
       productId: json['ProductId'] as String?,
       releaseDate: json['ReleaseDate'] as String?,
       resaleAuthorizationId: json['ResaleAuthorizationId'] as String?,
-      state: (json['State'] as String?)?.toOfferStateString(),
+      state: (json['State'] as String?)?.let(OfferStateString.fromString),
       targeting: (json['Targeting'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toOfferTargetingString())
+          .map((e) => OfferTargetingString.fromString((e as String)))
           .toList(),
     );
   }
@@ -3100,9 +2856,9 @@ class OfferSummary {
       if (releaseDate != null) 'ReleaseDate': releaseDate,
       if (resaleAuthorizationId != null)
         'ResaleAuthorizationId': resaleAuthorizationId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (targeting != null)
-        'Targeting': targeting.map((e) => e.toValue()).toList(),
+        'Targeting': targeting.map((e) => e.value).toList(),
     };
   }
 }
@@ -3120,75 +2876,41 @@ class OfferTargetingFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum OfferTargetingString {
-  buyerAccounts,
-  participatingPrograms,
-  countryCodes,
-  none,
-}
+  buyerAccounts('BuyerAccounts'),
+  participatingPrograms('ParticipatingPrograms'),
+  countryCodes('CountryCodes'),
+  none('None'),
+  ;
 
-extension OfferTargetingStringValueExtension on OfferTargetingString {
-  String toValue() {
-    switch (this) {
-      case OfferTargetingString.buyerAccounts:
-        return 'BuyerAccounts';
-      case OfferTargetingString.participatingPrograms:
-        return 'ParticipatingPrograms';
-      case OfferTargetingString.countryCodes:
-        return 'CountryCodes';
-      case OfferTargetingString.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension OfferTargetingStringFromString on String {
-  OfferTargetingString toOfferTargetingString() {
-    switch (this) {
-      case 'BuyerAccounts':
-        return OfferTargetingString.buyerAccounts;
-      case 'ParticipatingPrograms':
-        return OfferTargetingString.participatingPrograms;
-      case 'CountryCodes':
-        return OfferTargetingString.countryCodes;
-      case 'None':
-        return OfferTargetingString.none;
-    }
-    throw Exception('$this is not known in enum OfferTargetingString');
-  }
+  const OfferTargetingString(this.value);
+
+  static OfferTargetingString fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OfferTargetingString'));
 }
 
 enum OwnershipType {
-  self,
-  shared,
-}
+  self('SELF'),
+  shared('SHARED'),
+  ;
 
-extension OwnershipTypeValueExtension on OwnershipType {
-  String toValue() {
-    switch (this) {
-      case OwnershipType.self:
-        return 'SELF';
-      case OwnershipType.shared:
-        return 'SHARED';
-    }
-  }
-}
+  final String value;
 
-extension OwnershipTypeFromString on String {
-  OwnershipType toOwnershipType() {
-    switch (this) {
-      case 'SELF':
-        return OwnershipType.self;
-      case 'SHARED':
-        return OwnershipType.shared;
-    }
-    throw Exception('$this is not known in enum OwnershipType');
-  }
+  const OwnershipType(this.value);
+
+  static OwnershipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OwnershipType'));
 }
 
 class PutResourcePolicyResponse {
@@ -3685,93 +3407,36 @@ class ResaleAuthorizationSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum ResaleAuthorizationSortBy {
-  entityId,
-  name,
-  productId,
-  productName,
-  manufacturerAccountId,
-  manufacturerLegalName,
-  resellerAccountID,
-  resellerLegalName,
-  status,
-  offerExtendedStatus,
-  createdDate,
-  availabilityEndDate,
-  lastModifiedDate,
-}
+  entityId('EntityId'),
+  name('Name'),
+  productId('ProductId'),
+  productName('ProductName'),
+  manufacturerAccountId('ManufacturerAccountId'),
+  manufacturerLegalName('ManufacturerLegalName'),
+  resellerAccountID('ResellerAccountID'),
+  resellerLegalName('ResellerLegalName'),
+  status('Status'),
+  offerExtendedStatus('OfferExtendedStatus'),
+  createdDate('CreatedDate'),
+  availabilityEndDate('AvailabilityEndDate'),
+  lastModifiedDate('LastModifiedDate'),
+  ;
 
-extension ResaleAuthorizationSortByValueExtension on ResaleAuthorizationSortBy {
-  String toValue() {
-    switch (this) {
-      case ResaleAuthorizationSortBy.entityId:
-        return 'EntityId';
-      case ResaleAuthorizationSortBy.name:
-        return 'Name';
-      case ResaleAuthorizationSortBy.productId:
-        return 'ProductId';
-      case ResaleAuthorizationSortBy.productName:
-        return 'ProductName';
-      case ResaleAuthorizationSortBy.manufacturerAccountId:
-        return 'ManufacturerAccountId';
-      case ResaleAuthorizationSortBy.manufacturerLegalName:
-        return 'ManufacturerLegalName';
-      case ResaleAuthorizationSortBy.resellerAccountID:
-        return 'ResellerAccountID';
-      case ResaleAuthorizationSortBy.resellerLegalName:
-        return 'ResellerLegalName';
-      case ResaleAuthorizationSortBy.status:
-        return 'Status';
-      case ResaleAuthorizationSortBy.offerExtendedStatus:
-        return 'OfferExtendedStatus';
-      case ResaleAuthorizationSortBy.createdDate:
-        return 'CreatedDate';
-      case ResaleAuthorizationSortBy.availabilityEndDate:
-        return 'AvailabilityEndDate';
-      case ResaleAuthorizationSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-    }
-  }
-}
+  final String value;
 
-extension ResaleAuthorizationSortByFromString on String {
-  ResaleAuthorizationSortBy toResaleAuthorizationSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return ResaleAuthorizationSortBy.entityId;
-      case 'Name':
-        return ResaleAuthorizationSortBy.name;
-      case 'ProductId':
-        return ResaleAuthorizationSortBy.productId;
-      case 'ProductName':
-        return ResaleAuthorizationSortBy.productName;
-      case 'ManufacturerAccountId':
-        return ResaleAuthorizationSortBy.manufacturerAccountId;
-      case 'ManufacturerLegalName':
-        return ResaleAuthorizationSortBy.manufacturerLegalName;
-      case 'ResellerAccountID':
-        return ResaleAuthorizationSortBy.resellerAccountID;
-      case 'ResellerLegalName':
-        return ResaleAuthorizationSortBy.resellerLegalName;
-      case 'Status':
-        return ResaleAuthorizationSortBy.status;
-      case 'OfferExtendedStatus':
-        return ResaleAuthorizationSortBy.offerExtendedStatus;
-      case 'CreatedDate':
-        return ResaleAuthorizationSortBy.createdDate;
-      case 'AvailabilityEndDate':
-        return ResaleAuthorizationSortBy.availabilityEndDate;
-      case 'LastModifiedDate':
-        return ResaleAuthorizationSortBy.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum ResaleAuthorizationSortBy');
-  }
+  const ResaleAuthorizationSortBy(this.value);
+
+  static ResaleAuthorizationSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResaleAuthorizationSortBy'));
 }
 
 /// Allows filtering on the <code>Status</code> of a ResaleAuthorization.
@@ -3788,44 +3453,25 @@ class ResaleAuthorizationStatusFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum ResaleAuthorizationStatusString {
-  draft,
-  active,
-  restricted,
-}
+  draft('Draft'),
+  active('Active'),
+  restricted('Restricted'),
+  ;
 
-extension ResaleAuthorizationStatusStringValueExtension
-    on ResaleAuthorizationStatusString {
-  String toValue() {
-    switch (this) {
-      case ResaleAuthorizationStatusString.draft:
-        return 'Draft';
-      case ResaleAuthorizationStatusString.active:
-        return 'Active';
-      case ResaleAuthorizationStatusString.restricted:
-        return 'Restricted';
-    }
-  }
-}
+  final String value;
 
-extension ResaleAuthorizationStatusStringFromString on String {
-  ResaleAuthorizationStatusString toResaleAuthorizationStatusString() {
-    switch (this) {
-      case 'Draft':
-        return ResaleAuthorizationStatusString.draft;
-      case 'Active':
-        return ResaleAuthorizationStatusString.active;
-      case 'Restricted':
-        return ResaleAuthorizationStatusString.restricted;
-    }
-    throw Exception(
-        '$this is not known in enum ResaleAuthorizationStatusString');
-  }
+  const ResaleAuthorizationStatusString(this.value);
+
+  static ResaleAuthorizationStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResaleAuthorizationStatusString'));
 }
 
 /// Summarized information about a Resale Authorization.
@@ -3889,7 +3535,8 @@ class ResaleAuthorizationSummary {
       productName: json['ProductName'] as String?,
       resellerAccountID: json['ResellerAccountID'] as String?,
       resellerLegalName: json['ResellerLegalName'] as String?,
-      status: (json['Status'] as String?)?.toResaleAuthorizationStatusString(),
+      status: (json['Status'] as String?)
+          ?.let(ResaleAuthorizationStatusString.fromString),
     );
   }
 
@@ -3920,7 +3567,7 @@ class ResaleAuthorizationSummary {
       if (productName != null) 'ProductName': productName,
       if (resellerAccountID != null) 'ResellerAccountID': resellerAccountID,
       if (resellerLegalName != null) 'ResellerLegalName': resellerLegalName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4041,48 +3688,27 @@ class SaaSProductSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'SortBy': sortBy.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum SaaSProductSortBy {
-  entityId,
-  productTitle,
-  visibility,
-  lastModifiedDate,
-}
+  entityId('EntityId'),
+  productTitle('ProductTitle'),
+  visibility('Visibility'),
+  lastModifiedDate('LastModifiedDate'),
+  ;
 
-extension SaaSProductSortByValueExtension on SaaSProductSortBy {
-  String toValue() {
-    switch (this) {
-      case SaaSProductSortBy.entityId:
-        return 'EntityId';
-      case SaaSProductSortBy.productTitle:
-        return 'ProductTitle';
-      case SaaSProductSortBy.visibility:
-        return 'Visibility';
-      case SaaSProductSortBy.lastModifiedDate:
-        return 'LastModifiedDate';
-    }
-  }
-}
+  final String value;
 
-extension SaaSProductSortByFromString on String {
-  SaaSProductSortBy toSaaSProductSortBy() {
-    switch (this) {
-      case 'EntityId':
-        return SaaSProductSortBy.entityId;
-      case 'ProductTitle':
-        return SaaSProductSortBy.productTitle;
-      case 'Visibility':
-        return SaaSProductSortBy.visibility;
-      case 'LastModifiedDate':
-        return SaaSProductSortBy.lastModifiedDate;
-    }
-    throw Exception('$this is not known in enum SaaSProductSortBy');
-  }
+  const SaaSProductSortBy(this.value);
+
+  static SaaSProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SaaSProductSortBy'));
 }
 
 /// Object that contains summarized information about a SaaS product.
@@ -4101,8 +3727,8 @@ class SaaSProductSummary {
   factory SaaSProductSummary.fromJson(Map<String, dynamic> json) {
     return SaaSProductSummary(
       productTitle: json['ProductTitle'] as String?,
-      visibility:
-          (json['Visibility'] as String?)?.toSaaSProductVisibilityString(),
+      visibility: (json['Visibility'] as String?)
+          ?.let(SaaSProductVisibilityString.fromString),
     );
   }
 
@@ -4111,7 +3737,7 @@ class SaaSProductSummary {
     final visibility = this.visibility;
     return {
       if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -4154,48 +3780,26 @@ class SaaSProductVisibilityFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null)
-        'ValueList': valueList.map((e) => e.toValue()).toList(),
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }
 
 enum SaaSProductVisibilityString {
-  limited,
-  public,
-  restricted,
-  draft,
-}
+  limited('Limited'),
+  public('Public'),
+  restricted('Restricted'),
+  draft('Draft'),
+  ;
 
-extension SaaSProductVisibilityStringValueExtension
-    on SaaSProductVisibilityString {
-  String toValue() {
-    switch (this) {
-      case SaaSProductVisibilityString.limited:
-        return 'Limited';
-      case SaaSProductVisibilityString.public:
-        return 'Public';
-      case SaaSProductVisibilityString.restricted:
-        return 'Restricted';
-      case SaaSProductVisibilityString.draft:
-        return 'Draft';
-    }
-  }
-}
+  final String value;
 
-extension SaaSProductVisibilityStringFromString on String {
-  SaaSProductVisibilityString toSaaSProductVisibilityString() {
-    switch (this) {
-      case 'Limited':
-        return SaaSProductVisibilityString.limited;
-      case 'Public':
-        return SaaSProductVisibilityString.public;
-      case 'Restricted':
-        return SaaSProductVisibilityString.restricted;
-      case 'Draft':
-        return SaaSProductVisibilityString.draft;
-    }
-    throw Exception('$this is not known in enum SaaSProductVisibilityString');
-  }
+  const SaaSProductVisibilityString(this.value);
+
+  static SaaSProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SaaSProductVisibilityString'));
 }
 
 /// An object that contains two attributes, <code>SortBy</code> and
@@ -4224,37 +3828,23 @@ class Sort {
     final sortOrder = this.sortOrder;
     return {
       if (sortBy != null) 'SortBy': sortBy,
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartChangeSetResponse {

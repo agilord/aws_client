@@ -663,7 +663,7 @@ class Kendra {
       payload: {
         'IndexId': indexId,
         'Name': name,
-        'Type': type.toValue(),
+        'Type': type.value,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (configuration != null) 'Configuration': configuration,
         if (customDocumentEnrichmentConfiguration != null)
@@ -848,7 +848,7 @@ class Kendra {
         'S3Path': s3Path,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
-        if (fileFormat != null) 'FileFormat': fileFormat.toValue(),
+        if (fileFormat != null) 'FileFormat': fileFormat.value,
         if (languageCode != null) 'LanguageCode': languageCode,
         if (tags != null) 'Tags': tags,
       },
@@ -944,7 +944,7 @@ class Kendra {
         if (description != null) 'Description': description,
         if (featuredDocuments != null) 'FeaturedDocuments': featuredDocuments,
         if (queryTexts != null) 'QueryTexts': queryTexts,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1069,13 +1069,13 @@ class Kendra {
         'RoleArn': roleArn,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
-        if (edition != null) 'Edition': edition.toValue(),
+        if (edition != null) 'Edition': edition.value,
         if (serverSideEncryptionConfiguration != null)
           'ServerSideEncryptionConfiguration':
               serverSideEncryptionConfiguration,
         if (tags != null) 'Tags': tags,
         if (userContextPolicy != null)
-          'UserContextPolicy': userContextPolicy.toValue(),
+          'UserContextPolicy': userContextPolicy.value,
         if (userGroupResolutionConfiguration != null)
           'UserGroupResolutionConfiguration': userGroupResolutionConfiguration,
         if (userTokenConfigurations != null)
@@ -2196,7 +2196,7 @@ class Kendra {
         if (maxSuggestionsCount != null)
           'MaxSuggestionsCount': maxSuggestionsCount,
         if (suggestionTypes != null)
-          'SuggestionTypes': suggestionTypes.map((e) => e.toValue()).toList(),
+          'SuggestionTypes': suggestionTypes.map((e) => e.value).toList(),
       },
     );
 
@@ -2281,8 +2281,8 @@ class Kendra {
       headers: headers,
       payload: {
         'IndexId': indexId,
-        'Interval': interval.toValue(),
-        'MetricType': metricType.toValue(),
+        'Interval': interval.value,
+        'MetricType': metricType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2407,7 +2407,7 @@ class Kendra {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (startTimeFilter != null) 'StartTimeFilter': startTimeFilter,
-        if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
+        if (statusFilter != null) 'StatusFilter': statusFilter.value,
       },
     );
 
@@ -3287,7 +3287,7 @@ class Kendra {
         if (pageNumber != null) 'PageNumber': pageNumber,
         if (pageSize != null) 'PageSize': pageSize,
         if (queryResultTypeFilter != null)
-          'QueryResultTypeFilter': queryResultTypeFilter.toValue(),
+          'QueryResultTypeFilter': queryResultTypeFilter.value,
         if (queryText != null) 'QueryText': queryText,
         if (requestedDocumentAttributes != null)
           'RequestedDocumentAttributes': requestedDocumentAttributes,
@@ -3978,7 +3978,7 @@ class Kendra {
         if (featuredResultsSetName != null)
           'FeaturedResultsSetName': featuredResultsSetName,
         if (queryTexts != null) 'QueryTexts': queryTexts,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -4064,7 +4064,7 @@ class Kendra {
         if (name != null) 'Name': name,
         if (roleArn != null) 'RoleArn': roleArn,
         if (userContextPolicy != null)
-          'UserContextPolicy': userContextPolicy.toValue(),
+          'UserContextPolicy': userContextPolicy.value,
         if (userGroupResolutionConfiguration != null)
           'UserGroupResolutionConfiguration': userGroupResolutionConfiguration,
         if (userTokenConfigurations != null)
@@ -4277,7 +4277,7 @@ class Kendra {
         if (minimumNumberOfQueryingUsers != null)
           'MinimumNumberOfQueryingUsers': minimumNumberOfQueryingUsers,
         if (minimumQueryCount != null) 'MinimumQueryCount': minimumQueryCount,
-        if (mode != null) 'Mode': mode.toValue(),
+        if (mode != null) 'Mode': mode.value,
         if (queryLogLookBackWindowInDays != null)
           'QueryLogLookBackWindowInDays': queryLogLookBackWindowInDays,
       },
@@ -4431,8 +4431,8 @@ class AdditionalResultAttribute {
       key: json['Key'] as String,
       value: AdditionalResultAttributeValue.fromJson(
           json['Value'] as Map<String, dynamic>),
-      valueType:
-          (json['ValueType'] as String).toAdditionalResultAttributeValueType(),
+      valueType: AdditionalResultAttributeValueType.fromString(
+          (json['ValueType'] as String)),
     );
   }
 }
@@ -4458,28 +4458,17 @@ class AdditionalResultAttributeValue {
 }
 
 enum AdditionalResultAttributeValueType {
-  textWithHighlightsValue,
-}
+  textWithHighlightsValue('TEXT_WITH_HIGHLIGHTS_VALUE'),
+  ;
 
-extension AdditionalResultAttributeValueTypeValueExtension
-    on AdditionalResultAttributeValueType {
-  String toValue() {
-    switch (this) {
-      case AdditionalResultAttributeValueType.textWithHighlightsValue:
-        return 'TEXT_WITH_HIGHLIGHTS_VALUE';
-    }
-  }
-}
+  final String value;
 
-extension AdditionalResultAttributeValueTypeFromString on String {
-  AdditionalResultAttributeValueType toAdditionalResultAttributeValueType() {
-    switch (this) {
-      case 'TEXT_WITH_HIGHLIGHTS_VALUE':
-        return AdditionalResultAttributeValueType.textWithHighlightsValue;
-    }
-    throw Exception(
-        '$this is not known in enum AdditionalResultAttributeValueType');
-  }
+  const AdditionalResultAttributeValueType(this.value);
+
+  static AdditionalResultAttributeValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdditionalResultAttributeValueType'));
 }
 
 /// Provides the configuration information to connect to Alfresco as your data
@@ -4616,7 +4605,7 @@ class AlfrescoConfiguration {
           .toList(),
       entityFilter: (json['EntityFilter'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAlfrescoEntity())
+          .map((e) => AlfrescoEntity.fromString((e as String)))
           .toList(),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
           ?.whereNotNull()
@@ -4663,7 +4652,7 @@ class AlfrescoConfiguration {
       if (documentLibraryFieldMappings != null)
         'DocumentLibraryFieldMappings': documentLibraryFieldMappings,
       if (entityFilter != null)
-        'EntityFilter': entityFilter.map((e) => e.toValue()).toList(),
+        'EntityFilter': entityFilter.map((e) => e.value).toList(),
       if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
       if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
@@ -4673,36 +4662,19 @@ class AlfrescoConfiguration {
 }
 
 enum AlfrescoEntity {
-  wiki,
-  blog,
-  documentLibrary,
-}
+  wiki('wiki'),
+  blog('blog'),
+  documentLibrary('documentLibrary'),
+  ;
 
-extension AlfrescoEntityValueExtension on AlfrescoEntity {
-  String toValue() {
-    switch (this) {
-      case AlfrescoEntity.wiki:
-        return 'wiki';
-      case AlfrescoEntity.blog:
-        return 'blog';
-      case AlfrescoEntity.documentLibrary:
-        return 'documentLibrary';
-    }
-  }
-}
+  final String value;
 
-extension AlfrescoEntityFromString on String {
-  AlfrescoEntity toAlfrescoEntity() {
-    switch (this) {
-      case 'wiki':
-        return AlfrescoEntity.wiki;
-      case 'blog':
-        return AlfrescoEntity.blog;
-      case 'documentLibrary':
-        return AlfrescoEntity.documentLibrary;
-    }
-    throw Exception('$this is not known in enum AlfrescoEntity');
-  }
+  const AlfrescoEntity(this.value);
+
+  static AlfrescoEntity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlfrescoEntity'));
 }
 
 class AssociateEntitiesToExperienceResponse {
@@ -4906,7 +4878,7 @@ class AttributeSuggestionsDescribeConfig {
       Map<String, dynamic> json) {
     return AttributeSuggestionsDescribeConfig(
       attributeSuggestionsMode: (json['AttributeSuggestionsMode'] as String?)
-          ?.toAttributeSuggestionsMode(),
+          ?.let(AttributeSuggestionsMode.fromString),
       suggestableConfigList: (json['SuggestableConfigList'] as List?)
           ?.whereNotNull()
           .map((e) => SuggestableConfig.fromJson(e as Map<String, dynamic>))
@@ -4961,31 +4933,18 @@ class AttributeSuggestionsGetConfig {
 }
 
 enum AttributeSuggestionsMode {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension AttributeSuggestionsModeValueExtension on AttributeSuggestionsMode {
-  String toValue() {
-    switch (this) {
-      case AttributeSuggestionsMode.active:
-        return 'ACTIVE';
-      case AttributeSuggestionsMode.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension AttributeSuggestionsModeFromString on String {
-  AttributeSuggestionsMode toAttributeSuggestionsMode() {
-    switch (this) {
-      case 'ACTIVE':
-        return AttributeSuggestionsMode.active;
-      case 'INACTIVE':
-        return AttributeSuggestionsMode.inactive;
-    }
-    throw Exception('$this is not known in enum AttributeSuggestionsMode');
-  }
+  const AttributeSuggestionsMode(this.value);
+
+  static AttributeSuggestionsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AttributeSuggestionsMode'));
 }
 
 /// Updates the configuration information for the document fields/attributes
@@ -5027,7 +4986,7 @@ class AttributeSuggestionsUpdateConfig {
     final suggestableConfigList = this.suggestableConfigList;
     return {
       if (attributeSuggestionsMode != null)
-        'AttributeSuggestionsMode': attributeSuggestionsMode.toValue(),
+        'AttributeSuggestionsMode': attributeSuggestionsMode.value,
       if (suggestableConfigList != null)
         'SuggestableConfigList': suggestableConfigList,
     };
@@ -5159,7 +5118,7 @@ class BatchDeleteDocumentResponseFailedDocument {
   factory BatchDeleteDocumentResponseFailedDocument.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteDocumentResponseFailedDocument(
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
     );
@@ -5192,7 +5151,7 @@ class BatchDeleteFeaturedResultsSetError {
   factory BatchDeleteFeaturedResultsSetError.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteFeaturedResultsSetError(
-      errorCode: (json['ErrorCode'] as String).toErrorCode(),
+      errorCode: ErrorCode.fromString((json['ErrorCode'] as String)),
       errorMessage: json['ErrorMessage'] as String,
       id: json['Id'] as String,
     );
@@ -5273,7 +5232,7 @@ class BatchGetDocumentStatusResponseError {
       Map<String, dynamic> json) {
     return BatchGetDocumentStatusResponseError(
       documentId: json['DocumentId'] as String?,
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
@@ -5325,7 +5284,7 @@ class BatchPutDocumentResponseFailedDocument {
   factory BatchPutDocumentResponseFailedDocument.fromJson(
       Map<String, dynamic> json) {
     return BatchPutDocumentResponseFailedDocument(
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
     );
@@ -5671,7 +5630,7 @@ class CollapseConfiguration {
       if (expandConfiguration != null)
         'ExpandConfiguration': expandConfiguration,
       if (missingAttributeKeyStrategy != null)
-        'MissingAttributeKeyStrategy': missingAttributeKeyStrategy.toValue(),
+        'MissingAttributeKeyStrategy': missingAttributeKeyStrategy.value,
       if (sortingConfigurations != null)
         'SortingConfigurations': sortingConfigurations,
     };
@@ -5767,76 +5726,27 @@ class ColumnConfiguration {
 }
 
 enum ConditionOperator {
-  greaterThan,
-  greaterThanOrEquals,
-  lessThan,
-  lessThanOrEquals,
-  equals,
-  notEquals,
-  contains,
-  notContains,
-  exists,
-  notExists,
-  beginsWith,
-}
+  greaterThan('GreaterThan'),
+  greaterThanOrEquals('GreaterThanOrEquals'),
+  lessThan('LessThan'),
+  lessThanOrEquals('LessThanOrEquals'),
+  equals('Equals'),
+  notEquals('NotEquals'),
+  contains('Contains'),
+  notContains('NotContains'),
+  exists('Exists'),
+  notExists('NotExists'),
+  beginsWith('BeginsWith'),
+  ;
 
-extension ConditionOperatorValueExtension on ConditionOperator {
-  String toValue() {
-    switch (this) {
-      case ConditionOperator.greaterThan:
-        return 'GreaterThan';
-      case ConditionOperator.greaterThanOrEquals:
-        return 'GreaterThanOrEquals';
-      case ConditionOperator.lessThan:
-        return 'LessThan';
-      case ConditionOperator.lessThanOrEquals:
-        return 'LessThanOrEquals';
-      case ConditionOperator.equals:
-        return 'Equals';
-      case ConditionOperator.notEquals:
-        return 'NotEquals';
-      case ConditionOperator.contains:
-        return 'Contains';
-      case ConditionOperator.notContains:
-        return 'NotContains';
-      case ConditionOperator.exists:
-        return 'Exists';
-      case ConditionOperator.notExists:
-        return 'NotExists';
-      case ConditionOperator.beginsWith:
-        return 'BeginsWith';
-    }
-  }
-}
+  final String value;
 
-extension ConditionOperatorFromString on String {
-  ConditionOperator toConditionOperator() {
-    switch (this) {
-      case 'GreaterThan':
-        return ConditionOperator.greaterThan;
-      case 'GreaterThanOrEquals':
-        return ConditionOperator.greaterThanOrEquals;
-      case 'LessThan':
-        return ConditionOperator.lessThan;
-      case 'LessThanOrEquals':
-        return ConditionOperator.lessThanOrEquals;
-      case 'Equals':
-        return ConditionOperator.equals;
-      case 'NotEquals':
-        return ConditionOperator.notEquals;
-      case 'Contains':
-        return ConditionOperator.contains;
-      case 'NotContains':
-        return ConditionOperator.notContains;
-      case 'Exists':
-        return ConditionOperator.exists;
-      case 'NotExists':
-        return ConditionOperator.notExists;
-      case 'BeginsWith':
-        return ConditionOperator.beginsWith;
-    }
-    throw Exception('$this is not known in enum ConditionOperator');
-  }
+  const ConditionOperator(this.value);
+
+  static ConditionOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConditionOperator'));
 }
 
 /// Configuration of attachment settings for the Confluence data source.
@@ -5886,77 +5796,27 @@ class ConfluenceAttachmentConfiguration {
 }
 
 enum ConfluenceAttachmentFieldName {
-  author,
-  contentType,
-  createdDate,
-  displayUrl,
-  fileSize,
-  itemType,
-  parentId,
-  spaceKey,
-  spaceName,
-  url,
-  version,
-}
+  author('AUTHOR'),
+  contentType('CONTENT_TYPE'),
+  createdDate('CREATED_DATE'),
+  displayUrl('DISPLAY_URL'),
+  fileSize('FILE_SIZE'),
+  itemType('ITEM_TYPE'),
+  parentId('PARENT_ID'),
+  spaceKey('SPACE_KEY'),
+  spaceName('SPACE_NAME'),
+  url('URL'),
+  version('VERSION'),
+  ;
 
-extension ConfluenceAttachmentFieldNameValueExtension
-    on ConfluenceAttachmentFieldName {
-  String toValue() {
-    switch (this) {
-      case ConfluenceAttachmentFieldName.author:
-        return 'AUTHOR';
-      case ConfluenceAttachmentFieldName.contentType:
-        return 'CONTENT_TYPE';
-      case ConfluenceAttachmentFieldName.createdDate:
-        return 'CREATED_DATE';
-      case ConfluenceAttachmentFieldName.displayUrl:
-        return 'DISPLAY_URL';
-      case ConfluenceAttachmentFieldName.fileSize:
-        return 'FILE_SIZE';
-      case ConfluenceAttachmentFieldName.itemType:
-        return 'ITEM_TYPE';
-      case ConfluenceAttachmentFieldName.parentId:
-        return 'PARENT_ID';
-      case ConfluenceAttachmentFieldName.spaceKey:
-        return 'SPACE_KEY';
-      case ConfluenceAttachmentFieldName.spaceName:
-        return 'SPACE_NAME';
-      case ConfluenceAttachmentFieldName.url:
-        return 'URL';
-      case ConfluenceAttachmentFieldName.version:
-        return 'VERSION';
-    }
-  }
-}
+  final String value;
 
-extension ConfluenceAttachmentFieldNameFromString on String {
-  ConfluenceAttachmentFieldName toConfluenceAttachmentFieldName() {
-    switch (this) {
-      case 'AUTHOR':
-        return ConfluenceAttachmentFieldName.author;
-      case 'CONTENT_TYPE':
-        return ConfluenceAttachmentFieldName.contentType;
-      case 'CREATED_DATE':
-        return ConfluenceAttachmentFieldName.createdDate;
-      case 'DISPLAY_URL':
-        return ConfluenceAttachmentFieldName.displayUrl;
-      case 'FILE_SIZE':
-        return ConfluenceAttachmentFieldName.fileSize;
-      case 'ITEM_TYPE':
-        return ConfluenceAttachmentFieldName.itemType;
-      case 'PARENT_ID':
-        return ConfluenceAttachmentFieldName.parentId;
-      case 'SPACE_KEY':
-        return ConfluenceAttachmentFieldName.spaceKey;
-      case 'SPACE_NAME':
-        return ConfluenceAttachmentFieldName.spaceName;
-      case 'URL':
-        return ConfluenceAttachmentFieldName.url;
-      case 'VERSION':
-        return ConfluenceAttachmentFieldName.version;
-    }
-    throw Exception('$this is not known in enum ConfluenceAttachmentFieldName');
-  }
+  const ConfluenceAttachmentFieldName(this.value);
+
+  static ConfluenceAttachmentFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfluenceAttachmentFieldName'));
 }
 
 /// Maps attributes or field names of Confluence attachments to Amazon Kendra
@@ -5991,7 +5851,7 @@ class ConfluenceAttachmentToIndexFieldMapping {
       Map<String, dynamic> json) {
     return ConfluenceAttachmentToIndexFieldMapping(
       dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.toConfluenceAttachmentFieldName(),
+          ?.let(ConfluenceAttachmentFieldName.fromString),
       dateFieldFormat: json['DateFieldFormat'] as String?,
       indexFieldName: json['IndexFieldName'] as String?,
     );
@@ -6003,7 +5863,7 @@ class ConfluenceAttachmentToIndexFieldMapping {
     final indexFieldName = this.indexFieldName;
     return {
       if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.toValue(),
+        'DataSourceFieldName': dataSourceFieldName.value,
       if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
       if (indexFieldName != null) 'IndexFieldName': indexFieldName,
     };
@@ -6011,32 +5871,18 @@ class ConfluenceAttachmentToIndexFieldMapping {
 }
 
 enum ConfluenceAuthenticationType {
-  httpBasic,
-  pat,
-}
+  httpBasic('HTTP_BASIC'),
+  pat('PAT'),
+  ;
 
-extension ConfluenceAuthenticationTypeValueExtension
-    on ConfluenceAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case ConfluenceAuthenticationType.httpBasic:
-        return 'HTTP_BASIC';
-      case ConfluenceAuthenticationType.pat:
-        return 'PAT';
-    }
-  }
-}
+  final String value;
 
-extension ConfluenceAuthenticationTypeFromString on String {
-  ConfluenceAuthenticationType toConfluenceAuthenticationType() {
-    switch (this) {
-      case 'HTTP_BASIC':
-        return ConfluenceAuthenticationType.httpBasic;
-      case 'PAT':
-        return ConfluenceAuthenticationType.pat;
-    }
-    throw Exception('$this is not known in enum ConfluenceAuthenticationType');
-  }
+  const ConfluenceAuthenticationType(this.value);
+
+  static ConfluenceAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfluenceAuthenticationType'));
 }
 
 /// Configuration of blog settings for the Confluence data source. Blogs are
@@ -6078,66 +5924,25 @@ class ConfluenceBlogConfiguration {
 }
 
 enum ConfluenceBlogFieldName {
-  author,
-  displayUrl,
-  itemType,
-  labels,
-  publishDate,
-  spaceKey,
-  spaceName,
-  url,
-  version,
-}
+  author('AUTHOR'),
+  displayUrl('DISPLAY_URL'),
+  itemType('ITEM_TYPE'),
+  labels('LABELS'),
+  publishDate('PUBLISH_DATE'),
+  spaceKey('SPACE_KEY'),
+  spaceName('SPACE_NAME'),
+  url('URL'),
+  version('VERSION'),
+  ;
 
-extension ConfluenceBlogFieldNameValueExtension on ConfluenceBlogFieldName {
-  String toValue() {
-    switch (this) {
-      case ConfluenceBlogFieldName.author:
-        return 'AUTHOR';
-      case ConfluenceBlogFieldName.displayUrl:
-        return 'DISPLAY_URL';
-      case ConfluenceBlogFieldName.itemType:
-        return 'ITEM_TYPE';
-      case ConfluenceBlogFieldName.labels:
-        return 'LABELS';
-      case ConfluenceBlogFieldName.publishDate:
-        return 'PUBLISH_DATE';
-      case ConfluenceBlogFieldName.spaceKey:
-        return 'SPACE_KEY';
-      case ConfluenceBlogFieldName.spaceName:
-        return 'SPACE_NAME';
-      case ConfluenceBlogFieldName.url:
-        return 'URL';
-      case ConfluenceBlogFieldName.version:
-        return 'VERSION';
-    }
-  }
-}
+  final String value;
 
-extension ConfluenceBlogFieldNameFromString on String {
-  ConfluenceBlogFieldName toConfluenceBlogFieldName() {
-    switch (this) {
-      case 'AUTHOR':
-        return ConfluenceBlogFieldName.author;
-      case 'DISPLAY_URL':
-        return ConfluenceBlogFieldName.displayUrl;
-      case 'ITEM_TYPE':
-        return ConfluenceBlogFieldName.itemType;
-      case 'LABELS':
-        return ConfluenceBlogFieldName.labels;
-      case 'PUBLISH_DATE':
-        return ConfluenceBlogFieldName.publishDate;
-      case 'SPACE_KEY':
-        return ConfluenceBlogFieldName.spaceKey;
-      case 'SPACE_NAME':
-        return ConfluenceBlogFieldName.spaceName;
-      case 'URL':
-        return ConfluenceBlogFieldName.url;
-      case 'VERSION':
-        return ConfluenceBlogFieldName.version;
-    }
-    throw Exception('$this is not known in enum ConfluenceBlogFieldName');
-  }
+  const ConfluenceBlogFieldName(this.value);
+
+  static ConfluenceBlogFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfluenceBlogFieldName'));
 }
 
 /// Maps attributes or field names of Confluence blog to Amazon Kendra index
@@ -6168,8 +5973,8 @@ class ConfluenceBlogToIndexFieldMapping {
   factory ConfluenceBlogToIndexFieldMapping.fromJson(
       Map<String, dynamic> json) {
     return ConfluenceBlogToIndexFieldMapping(
-      dataSourceFieldName:
-          (json['DataSourceFieldName'] as String?)?.toConfluenceBlogFieldName(),
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluenceBlogFieldName.fromString),
       dateFieldFormat: json['DateFieldFormat'] as String?,
       indexFieldName: json['IndexFieldName'] as String?,
     );
@@ -6181,7 +5986,7 @@ class ConfluenceBlogToIndexFieldMapping {
     final indexFieldName = this.indexFieldName;
     return {
       if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.toValue(),
+        'DataSourceFieldName': dataSourceFieldName.value,
       if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
       if (indexFieldName != null) 'IndexFieldName': indexFieldName,
     };
@@ -6287,13 +6092,13 @@ class ConfluenceConfiguration {
     return ConfluenceConfiguration(
       secretArn: json['SecretArn'] as String,
       serverUrl: json['ServerUrl'] as String,
-      version: (json['Version'] as String).toConfluenceVersion(),
+      version: ConfluenceVersion.fromString((json['Version'] as String)),
       attachmentConfiguration: json['AttachmentConfiguration'] != null
           ? ConfluenceAttachmentConfiguration.fromJson(
               json['AttachmentConfiguration'] as Map<String, dynamic>)
           : null,
       authenticationType: (json['AuthenticationType'] as String?)
-          ?.toConfluenceAuthenticationType(),
+          ?.let(ConfluenceAuthenticationType.fromString),
       blogConfiguration: json['BlogConfiguration'] != null
           ? ConfluenceBlogConfiguration.fromJson(
               json['BlogConfiguration'] as Map<String, dynamic>)
@@ -6341,11 +6146,11 @@ class ConfluenceConfiguration {
     return {
       'SecretArn': secretArn,
       'ServerUrl': serverUrl,
-      'Version': version.toValue(),
+      'Version': version.value,
       if (attachmentConfiguration != null)
         'AttachmentConfiguration': attachmentConfiguration,
       if (authenticationType != null)
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType.value,
       if (blogConfiguration != null) 'BlogConfiguration': blogConfiguration,
       if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
       if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
@@ -6393,81 +6198,28 @@ class ConfluencePageConfiguration {
 }
 
 enum ConfluencePageFieldName {
-  author,
-  contentStatus,
-  createdDate,
-  displayUrl,
-  itemType,
-  labels,
-  modifiedDate,
-  parentId,
-  spaceKey,
-  spaceName,
-  url,
-  version,
-}
+  author('AUTHOR'),
+  contentStatus('CONTENT_STATUS'),
+  createdDate('CREATED_DATE'),
+  displayUrl('DISPLAY_URL'),
+  itemType('ITEM_TYPE'),
+  labels('LABELS'),
+  modifiedDate('MODIFIED_DATE'),
+  parentId('PARENT_ID'),
+  spaceKey('SPACE_KEY'),
+  spaceName('SPACE_NAME'),
+  url('URL'),
+  version('VERSION'),
+  ;
 
-extension ConfluencePageFieldNameValueExtension on ConfluencePageFieldName {
-  String toValue() {
-    switch (this) {
-      case ConfluencePageFieldName.author:
-        return 'AUTHOR';
-      case ConfluencePageFieldName.contentStatus:
-        return 'CONTENT_STATUS';
-      case ConfluencePageFieldName.createdDate:
-        return 'CREATED_DATE';
-      case ConfluencePageFieldName.displayUrl:
-        return 'DISPLAY_URL';
-      case ConfluencePageFieldName.itemType:
-        return 'ITEM_TYPE';
-      case ConfluencePageFieldName.labels:
-        return 'LABELS';
-      case ConfluencePageFieldName.modifiedDate:
-        return 'MODIFIED_DATE';
-      case ConfluencePageFieldName.parentId:
-        return 'PARENT_ID';
-      case ConfluencePageFieldName.spaceKey:
-        return 'SPACE_KEY';
-      case ConfluencePageFieldName.spaceName:
-        return 'SPACE_NAME';
-      case ConfluencePageFieldName.url:
-        return 'URL';
-      case ConfluencePageFieldName.version:
-        return 'VERSION';
-    }
-  }
-}
+  final String value;
 
-extension ConfluencePageFieldNameFromString on String {
-  ConfluencePageFieldName toConfluencePageFieldName() {
-    switch (this) {
-      case 'AUTHOR':
-        return ConfluencePageFieldName.author;
-      case 'CONTENT_STATUS':
-        return ConfluencePageFieldName.contentStatus;
-      case 'CREATED_DATE':
-        return ConfluencePageFieldName.createdDate;
-      case 'DISPLAY_URL':
-        return ConfluencePageFieldName.displayUrl;
-      case 'ITEM_TYPE':
-        return ConfluencePageFieldName.itemType;
-      case 'LABELS':
-        return ConfluencePageFieldName.labels;
-      case 'MODIFIED_DATE':
-        return ConfluencePageFieldName.modifiedDate;
-      case 'PARENT_ID':
-        return ConfluencePageFieldName.parentId;
-      case 'SPACE_KEY':
-        return ConfluencePageFieldName.spaceKey;
-      case 'SPACE_NAME':
-        return ConfluencePageFieldName.spaceName;
-      case 'URL':
-        return ConfluencePageFieldName.url;
-      case 'VERSION':
-        return ConfluencePageFieldName.version;
-    }
-    throw Exception('$this is not known in enum ConfluencePageFieldName');
-  }
+  const ConfluencePageFieldName(this.value);
+
+  static ConfluencePageFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfluencePageFieldName'));
 }
 
 /// Maps attributes or field names of Confluence pages to Amazon Kendra index
@@ -6498,8 +6250,8 @@ class ConfluencePageToIndexFieldMapping {
   factory ConfluencePageToIndexFieldMapping.fromJson(
       Map<String, dynamic> json) {
     return ConfluencePageToIndexFieldMapping(
-      dataSourceFieldName:
-          (json['DataSourceFieldName'] as String?)?.toConfluencePageFieldName(),
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluencePageFieldName.fromString),
       dateFieldFormat: json['DateFieldFormat'] as String?,
       indexFieldName: json['IndexFieldName'] as String?,
     );
@@ -6511,7 +6263,7 @@ class ConfluencePageToIndexFieldMapping {
     final indexFieldName = this.indexFieldName;
     return {
       if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.toValue(),
+        'DataSourceFieldName': dataSourceFieldName.value,
       if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
       if (indexFieldName != null) 'IndexFieldName': indexFieldName,
     };
@@ -6603,41 +6355,20 @@ class ConfluenceSpaceConfiguration {
 }
 
 enum ConfluenceSpaceFieldName {
-  displayUrl,
-  itemType,
-  spaceKey,
-  url,
-}
+  displayUrl('DISPLAY_URL'),
+  itemType('ITEM_TYPE'),
+  spaceKey('SPACE_KEY'),
+  url('URL'),
+  ;
 
-extension ConfluenceSpaceFieldNameValueExtension on ConfluenceSpaceFieldName {
-  String toValue() {
-    switch (this) {
-      case ConfluenceSpaceFieldName.displayUrl:
-        return 'DISPLAY_URL';
-      case ConfluenceSpaceFieldName.itemType:
-        return 'ITEM_TYPE';
-      case ConfluenceSpaceFieldName.spaceKey:
-        return 'SPACE_KEY';
-      case ConfluenceSpaceFieldName.url:
-        return 'URL';
-    }
-  }
-}
+  final String value;
 
-extension ConfluenceSpaceFieldNameFromString on String {
-  ConfluenceSpaceFieldName toConfluenceSpaceFieldName() {
-    switch (this) {
-      case 'DISPLAY_URL':
-        return ConfluenceSpaceFieldName.displayUrl;
-      case 'ITEM_TYPE':
-        return ConfluenceSpaceFieldName.itemType;
-      case 'SPACE_KEY':
-        return ConfluenceSpaceFieldName.spaceKey;
-      case 'URL':
-        return ConfluenceSpaceFieldName.url;
-    }
-    throw Exception('$this is not known in enum ConfluenceSpaceFieldName');
-  }
+  const ConfluenceSpaceFieldName(this.value);
+
+  static ConfluenceSpaceFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfluenceSpaceFieldName'));
 }
 
 /// Maps attributes or field names of Confluence spaces to Amazon Kendra index
@@ -6669,7 +6400,7 @@ class ConfluenceSpaceToIndexFieldMapping {
       Map<String, dynamic> json) {
     return ConfluenceSpaceToIndexFieldMapping(
       dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.toConfluenceSpaceFieldName(),
+          ?.let(ConfluenceSpaceFieldName.fromString),
       dateFieldFormat: json['DateFieldFormat'] as String?,
       indexFieldName: json['IndexFieldName'] as String?,
     );
@@ -6681,7 +6412,7 @@ class ConfluenceSpaceToIndexFieldMapping {
     final indexFieldName = this.indexFieldName;
     return {
       if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.toValue(),
+        'DataSourceFieldName': dataSourceFieldName.value,
       if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
       if (indexFieldName != null) 'IndexFieldName': indexFieldName,
     };
@@ -6689,31 +6420,18 @@ class ConfluenceSpaceToIndexFieldMapping {
 }
 
 enum ConfluenceVersion {
-  cloud,
-  server,
-}
+  cloud('CLOUD'),
+  server('SERVER'),
+  ;
 
-extension ConfluenceVersionValueExtension on ConfluenceVersion {
-  String toValue() {
-    switch (this) {
-      case ConfluenceVersion.cloud:
-        return 'CLOUD';
-      case ConfluenceVersion.server:
-        return 'SERVER';
-    }
-  }
-}
+  final String value;
 
-extension ConfluenceVersionFromString on String {
-  ConfluenceVersion toConfluenceVersion() {
-    switch (this) {
-      case 'CLOUD':
-        return ConfluenceVersion.cloud;
-      case 'SERVER':
-        return ConfluenceVersion.server;
-    }
-    throw Exception('$this is not known in enum ConfluenceVersion');
-  }
+  const ConfluenceVersion(this.value);
+
+  static ConfluenceVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfluenceVersion'));
 }
 
 /// Provides the configuration information that's required to connect to a
@@ -6824,81 +6542,27 @@ class ContentSourceConfiguration {
 }
 
 enum ContentType {
-  pdf,
-  html,
-  msWord,
-  plainText,
-  ppt,
-  rtf,
-  xml,
-  xslt,
-  msExcel,
-  csv,
-  json,
-  md,
-}
+  pdf('PDF'),
+  html('HTML'),
+  msWord('MS_WORD'),
+  plainText('PLAIN_TEXT'),
+  ppt('PPT'),
+  rtf('RTF'),
+  xml('XML'),
+  xslt('XSLT'),
+  msExcel('MS_EXCEL'),
+  csv('CSV'),
+  json('JSON'),
+  md('MD'),
+  ;
 
-extension ContentTypeValueExtension on ContentType {
-  String toValue() {
-    switch (this) {
-      case ContentType.pdf:
-        return 'PDF';
-      case ContentType.html:
-        return 'HTML';
-      case ContentType.msWord:
-        return 'MS_WORD';
-      case ContentType.plainText:
-        return 'PLAIN_TEXT';
-      case ContentType.ppt:
-        return 'PPT';
-      case ContentType.rtf:
-        return 'RTF';
-      case ContentType.xml:
-        return 'XML';
-      case ContentType.xslt:
-        return 'XSLT';
-      case ContentType.msExcel:
-        return 'MS_EXCEL';
-      case ContentType.csv:
-        return 'CSV';
-      case ContentType.json:
-        return 'JSON';
-      case ContentType.md:
-        return 'MD';
-    }
-  }
-}
+  final String value;
 
-extension ContentTypeFromString on String {
-  ContentType toContentType() {
-    switch (this) {
-      case 'PDF':
-        return ContentType.pdf;
-      case 'HTML':
-        return ContentType.html;
-      case 'MS_WORD':
-        return ContentType.msWord;
-      case 'PLAIN_TEXT':
-        return ContentType.plainText;
-      case 'PPT':
-        return ContentType.ppt;
-      case 'RTF':
-        return ContentType.rtf;
-      case 'XML':
-        return ContentType.xml;
-      case 'XSLT':
-        return ContentType.xslt;
-      case 'MS_EXCEL':
-        return ContentType.msExcel;
-      case 'CSV':
-        return ContentType.csv;
-      case 'JSON':
-        return ContentType.json;
-      case 'MD':
-        return ContentType.md;
-    }
-    throw Exception('$this is not known in enum ContentType');
-  }
+  const ContentType(this.value);
+
+  static ContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContentType'));
 }
 
 /// A corrected misspelled word in a query.
@@ -7470,46 +7134,21 @@ class DataSourceGroup {
 }
 
 enum DataSourceStatus {
-  creating,
-  deleting,
-  failed,
-  updating,
-  active,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  active('ACTIVE'),
+  ;
 
-extension DataSourceStatusValueExtension on DataSourceStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceStatus.creating:
-        return 'CREATING';
-      case DataSourceStatus.deleting:
-        return 'DELETING';
-      case DataSourceStatus.failed:
-        return 'FAILED';
-      case DataSourceStatus.updating:
-        return 'UPDATING';
-      case DataSourceStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceStatusFromString on String {
-  DataSourceStatus toDataSourceStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DataSourceStatus.creating;
-      case 'DELETING':
-        return DataSourceStatus.deleting;
-      case 'FAILED':
-        return DataSourceStatus.failed;
-      case 'UPDATING':
-        return DataSourceStatus.updating;
-      case 'ACTIVE':
-        return DataSourceStatus.active;
-    }
-    throw Exception('$this is not known in enum DataSourceStatus');
-  }
+  const DataSourceStatus(this.value);
+
+  static DataSourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceStatus'));
 }
 
 /// Summary information for a Amazon Kendra data source.
@@ -7556,8 +7195,8 @@ class DataSourceSummary {
       id: json['Id'] as String?,
       languageCode: json['LanguageCode'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toDataSourceStatus(),
-      type: (json['Type'] as String?)?.toDataSourceType(),
+      status: (json['Status'] as String?)?.let(DataSourceStatus.fromString),
+      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -7616,7 +7255,7 @@ class DataSourceSyncJob {
     return DataSourceSyncJob(
       dataSourceErrorCode: json['DataSourceErrorCode'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
-      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       executionId: json['ExecutionId'] as String?,
       metrics: json['Metrics'] != null
@@ -7624,7 +7263,8 @@ class DataSourceSyncJob {
               json['Metrics'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toDataSourceSyncJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(DataSourceSyncJobStatus.fromString),
     );
   }
 }
@@ -7705,56 +7345,23 @@ class DataSourceSyncJobMetrics {
 }
 
 enum DataSourceSyncJobStatus {
-  failed,
-  succeeded,
-  syncing,
-  incomplete,
-  stopping,
-  aborted,
-  syncingIndexing,
-}
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  syncing('SYNCING'),
+  incomplete('INCOMPLETE'),
+  stopping('STOPPING'),
+  aborted('ABORTED'),
+  syncingIndexing('SYNCING_INDEXING'),
+  ;
 
-extension DataSourceSyncJobStatusValueExtension on DataSourceSyncJobStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceSyncJobStatus.failed:
-        return 'FAILED';
-      case DataSourceSyncJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case DataSourceSyncJobStatus.syncing:
-        return 'SYNCING';
-      case DataSourceSyncJobStatus.incomplete:
-        return 'INCOMPLETE';
-      case DataSourceSyncJobStatus.stopping:
-        return 'STOPPING';
-      case DataSourceSyncJobStatus.aborted:
-        return 'ABORTED';
-      case DataSourceSyncJobStatus.syncingIndexing:
-        return 'SYNCING_INDEXING';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceSyncJobStatusFromString on String {
-  DataSourceSyncJobStatus toDataSourceSyncJobStatus() {
-    switch (this) {
-      case 'FAILED':
-        return DataSourceSyncJobStatus.failed;
-      case 'SUCCEEDED':
-        return DataSourceSyncJobStatus.succeeded;
-      case 'SYNCING':
-        return DataSourceSyncJobStatus.syncing;
-      case 'INCOMPLETE':
-        return DataSourceSyncJobStatus.incomplete;
-      case 'STOPPING':
-        return DataSourceSyncJobStatus.stopping;
-      case 'ABORTED':
-        return DataSourceSyncJobStatus.aborted;
-      case 'SYNCING_INDEXING':
-        return DataSourceSyncJobStatus.syncingIndexing;
-    }
-    throw Exception('$this is not known in enum DataSourceSyncJobStatus');
-  }
+  const DataSourceSyncJobStatus(this.value);
+
+  static DataSourceSyncJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceSyncJobStatus'));
 }
 
 /// Maps attributes or field names of the documents synced from the data source
@@ -7809,116 +7416,35 @@ class DataSourceToIndexFieldMapping {
 }
 
 enum DataSourceType {
-  s3,
-  sharepoint,
-  database,
-  salesforce,
-  onedrive,
-  servicenow,
-  custom,
-  confluence,
-  googledrive,
-  webcrawler,
-  workdocs,
-  fsx,
-  slack,
-  box,
-  quip,
-  jira,
-  github,
-  alfresco,
-  template,
-}
+  s3('S3'),
+  sharepoint('SHAREPOINT'),
+  database('DATABASE'),
+  salesforce('SALESFORCE'),
+  onedrive('ONEDRIVE'),
+  servicenow('SERVICENOW'),
+  custom('CUSTOM'),
+  confluence('CONFLUENCE'),
+  googledrive('GOOGLEDRIVE'),
+  webcrawler('WEBCRAWLER'),
+  workdocs('WORKDOCS'),
+  fsx('FSX'),
+  slack('SLACK'),
+  box('BOX'),
+  quip('QUIP'),
+  jira('JIRA'),
+  github('GITHUB'),
+  alfresco('ALFRESCO'),
+  template('TEMPLATE'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.s3:
-        return 'S3';
-      case DataSourceType.sharepoint:
-        return 'SHAREPOINT';
-      case DataSourceType.database:
-        return 'DATABASE';
-      case DataSourceType.salesforce:
-        return 'SALESFORCE';
-      case DataSourceType.onedrive:
-        return 'ONEDRIVE';
-      case DataSourceType.servicenow:
-        return 'SERVICENOW';
-      case DataSourceType.custom:
-        return 'CUSTOM';
-      case DataSourceType.confluence:
-        return 'CONFLUENCE';
-      case DataSourceType.googledrive:
-        return 'GOOGLEDRIVE';
-      case DataSourceType.webcrawler:
-        return 'WEBCRAWLER';
-      case DataSourceType.workdocs:
-        return 'WORKDOCS';
-      case DataSourceType.fsx:
-        return 'FSX';
-      case DataSourceType.slack:
-        return 'SLACK';
-      case DataSourceType.box:
-        return 'BOX';
-      case DataSourceType.quip:
-        return 'QUIP';
-      case DataSourceType.jira:
-        return 'JIRA';
-      case DataSourceType.github:
-        return 'GITHUB';
-      case DataSourceType.alfresco:
-        return 'ALFRESCO';
-      case DataSourceType.template:
-        return 'TEMPLATE';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'S3':
-        return DataSourceType.s3;
-      case 'SHAREPOINT':
-        return DataSourceType.sharepoint;
-      case 'DATABASE':
-        return DataSourceType.database;
-      case 'SALESFORCE':
-        return DataSourceType.salesforce;
-      case 'ONEDRIVE':
-        return DataSourceType.onedrive;
-      case 'SERVICENOW':
-        return DataSourceType.servicenow;
-      case 'CUSTOM':
-        return DataSourceType.custom;
-      case 'CONFLUENCE':
-        return DataSourceType.confluence;
-      case 'GOOGLEDRIVE':
-        return DataSourceType.googledrive;
-      case 'WEBCRAWLER':
-        return DataSourceType.webcrawler;
-      case 'WORKDOCS':
-        return DataSourceType.workdocs;
-      case 'FSX':
-        return DataSourceType.fsx;
-      case 'SLACK':
-        return DataSourceType.slack;
-      case 'BOX':
-        return DataSourceType.box;
-      case 'QUIP':
-        return DataSourceType.quip;
-      case 'JIRA':
-        return DataSourceType.jira;
-      case 'GITHUB':
-        return DataSourceType.github;
-      case 'ALFRESCO':
-        return DataSourceType.alfresco;
-      case 'TEMPLATE':
-        return DataSourceType.template;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 /// Provides the configuration information to connect to an Amazon VPC.
@@ -7999,7 +7525,7 @@ class DatabaseConfiguration {
       connectionConfiguration: ConnectionConfiguration.fromJson(
           json['ConnectionConfiguration'] as Map<String, dynamic>),
       databaseEngineType:
-          (json['DatabaseEngineType'] as String).toDatabaseEngineType(),
+          DatabaseEngineType.fromString((json['DatabaseEngineType'] as String)),
       aclConfiguration: json['AclConfiguration'] != null
           ? AclConfiguration.fromJson(
               json['AclConfiguration'] as Map<String, dynamic>)
@@ -8025,7 +7551,7 @@ class DatabaseConfiguration {
     return {
       'ColumnConfiguration': columnConfiguration,
       'ConnectionConfiguration': connectionConfiguration,
-      'DatabaseEngineType': databaseEngineType.toValue(),
+      'DatabaseEngineType': databaseEngineType.value,
       if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
       if (sqlConfiguration != null) 'SqlConfiguration': sqlConfiguration,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
@@ -8034,41 +7560,20 @@ class DatabaseConfiguration {
 }
 
 enum DatabaseEngineType {
-  rdsAuroraMysql,
-  rdsAuroraPostgresql,
-  rdsMysql,
-  rdsPostgresql,
-}
+  rdsAuroraMysql('RDS_AURORA_MYSQL'),
+  rdsAuroraPostgresql('RDS_AURORA_POSTGRESQL'),
+  rdsMysql('RDS_MYSQL'),
+  rdsPostgresql('RDS_POSTGRESQL'),
+  ;
 
-extension DatabaseEngineTypeValueExtension on DatabaseEngineType {
-  String toValue() {
-    switch (this) {
-      case DatabaseEngineType.rdsAuroraMysql:
-        return 'RDS_AURORA_MYSQL';
-      case DatabaseEngineType.rdsAuroraPostgresql:
-        return 'RDS_AURORA_POSTGRESQL';
-      case DatabaseEngineType.rdsMysql:
-        return 'RDS_MYSQL';
-      case DatabaseEngineType.rdsPostgresql:
-        return 'RDS_POSTGRESQL';
-    }
-  }
-}
+  final String value;
 
-extension DatabaseEngineTypeFromString on String {
-  DatabaseEngineType toDatabaseEngineType() {
-    switch (this) {
-      case 'RDS_AURORA_MYSQL':
-        return DatabaseEngineType.rdsAuroraMysql;
-      case 'RDS_AURORA_POSTGRESQL':
-        return DatabaseEngineType.rdsAuroraPostgresql;
-      case 'RDS_MYSQL':
-        return DatabaseEngineType.rdsMysql;
-      case 'RDS_POSTGRESQL':
-        return DatabaseEngineType.rdsPostgresql;
-    }
-    throw Exception('$this is not known in enum DatabaseEngineType');
-  }
+  const DatabaseEngineType(this.value);
+
+  static DatabaseEngineType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DatabaseEngineType'));
 }
 
 class DeleteAccessControlConfigurationResponse {
@@ -8246,8 +7751,8 @@ class DescribeDataSourceResponse {
       name: json['Name'] as String?,
       roleArn: json['RoleArn'] as String?,
       schedule: json['Schedule'] as String?,
-      status: (json['Status'] as String?)?.toDataSourceStatus(),
-      type: (json['Type'] as String?)?.toDataSourceType(),
+      status: (json['Status'] as String?)?.let(DataSourceStatus.fromString),
+      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
       vpcConfiguration: json['VpcConfiguration'] != null
           ? DataSourceVpcConfiguration.fromJson(
@@ -8333,7 +7838,7 @@ class DescribeExperienceResponse {
       indexId: json['IndexId'] as String?,
       name: json['Name'] as String?,
       roleArn: json['RoleArn'] as String?,
-      status: (json['Status'] as String?)?.toExperienceStatus(),
+      status: (json['Status'] as String?)?.let(ExperienceStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -8401,7 +7906,8 @@ class DescribeFaqResponse {
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
-      fileFormat: (json['FileFormat'] as String?)?.toFaqFileFormat(),
+      fileFormat:
+          (json['FileFormat'] as String?)?.let(FaqFileFormat.fromString),
       id: json['Id'] as String?,
       indexId: json['IndexId'] as String?,
       languageCode: json['LanguageCode'] as String?,
@@ -8410,7 +7916,7 @@ class DescribeFaqResponse {
       s3Path: json['S3Path'] != null
           ? S3Path.fromJson(json['S3Path'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toFaqStatus(),
+      status: (json['Status'] as String?)?.let(FaqStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -8497,7 +8003,8 @@ class DescribeFeaturedResultsSetResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toFeaturedResultsSetStatus(),
+      status:
+          (json['Status'] as String?)?.let(FeaturedResultsSetStatus.fromString),
     );
   }
 }
@@ -8602,7 +8109,7 @@ class DescribeIndexResponse {
           .map((e) =>
               DocumentMetadataConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
-      edition: (json['Edition'] as String?)?.toIndexEdition(),
+      edition: (json['Edition'] as String?)?.let(IndexEdition.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
       indexStatistics: json['IndexStatistics'] != null
@@ -8617,10 +8124,10 @@ class DescribeIndexResponse {
                   json['ServerSideEncryptionConfiguration']
                       as Map<String, dynamic>)
               : null,
-      status: (json['Status'] as String?)?.toIndexStatus(),
+      status: (json['Status'] as String?)?.let(IndexStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
-      userContextPolicy:
-          (json['UserContextPolicy'] as String?)?.toUserContextPolicy(),
+      userContextPolicy: (json['UserContextPolicy'] as String?)
+          ?.let(UserContextPolicy.fromString),
       userGroupResolutionConfiguration:
           json['UserGroupResolutionConfiguration'] != null
               ? UserGroupResolutionConfiguration.fromJson(
@@ -8778,7 +8285,8 @@ class DescribeQuerySuggestionsBlockListResponse {
       sourceS3Path: json['SourceS3Path'] != null
           ? S3Path.fromJson(json['SourceS3Path'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toQuerySuggestionsBlockListStatus(),
+      status: (json['Status'] as String?)
+          ?.let(QuerySuggestionsBlockListStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -8876,10 +8384,11 @@ class DescribeQuerySuggestionsConfigResponse {
       minimumNumberOfQueryingUsers:
           json['MinimumNumberOfQueryingUsers'] as int?,
       minimumQueryCount: json['MinimumQueryCount'] as int?,
-      mode: (json['Mode'] as String?)?.toMode(),
+      mode: (json['Mode'] as String?)?.let(Mode.fromString),
       queryLogLookBackWindowInDays:
           json['QueryLogLookBackWindowInDays'] as int?,
-      status: (json['Status'] as String?)?.toQuerySuggestionsStatus(),
+      status:
+          (json['Status'] as String?)?.let(QuerySuggestionsStatus.fromString),
       totalSuggestionsCount: json['TotalSuggestionsCount'] as int?,
     );
   }
@@ -8962,7 +8471,7 @@ class DescribeThesaurusResponse {
       sourceS3Path: json['SourceS3Path'] != null
           ? S3Path.fromJson(json['SourceS3Path'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toThesaurusStatus(),
+      status: (json['Status'] as String?)?.let(ThesaurusStatus.fromString),
       synonymRuleCount: json['SynonymRuleCount'] as int?,
       termCount: json['TermCount'] as int?,
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -9098,7 +8607,7 @@ class Document {
       if (accessControlList != null) 'AccessControlList': accessControlList,
       if (attributes != null) 'Attributes': attributes,
       if (blob != null) 'Blob': base64Encode(blob),
-      if (contentType != null) 'ContentType': contentType.toValue(),
+      if (contentType != null) 'ContentType': contentType.value,
       if (hierarchicalAccessControlList != null)
         'HierarchicalAccessControlList': hierarchicalAccessControlList,
       if (s3Path != null) 'S3Path': s3Path,
@@ -9187,7 +8696,7 @@ class DocumentAttributeCondition {
     return DocumentAttributeCondition(
       conditionDocumentAttributeKey:
           json['ConditionDocumentAttributeKey'] as String,
-      operator: (json['Operator'] as String).toConditionOperator(),
+      operator: ConditionOperator.fromString((json['Operator'] as String)),
       conditionOnValue: json['ConditionOnValue'] != null
           ? DocumentAttributeValue.fromJson(
               json['ConditionOnValue'] as Map<String, dynamic>)
@@ -9201,7 +8710,7 @@ class DocumentAttributeCondition {
     final conditionOnValue = this.conditionOnValue;
     return {
       'ConditionDocumentAttributeKey': conditionDocumentAttributeKey,
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       if (conditionOnValue != null) 'ConditionOnValue': conditionOnValue,
     };
   }
@@ -9378,42 +8887,20 @@ class DocumentAttributeValueCountPair {
 }
 
 enum DocumentAttributeValueType {
-  stringValue,
-  stringListValue,
-  longValue,
-  dateValue,
-}
+  stringValue('STRING_VALUE'),
+  stringListValue('STRING_LIST_VALUE'),
+  longValue('LONG_VALUE'),
+  dateValue('DATE_VALUE'),
+  ;
 
-extension DocumentAttributeValueTypeValueExtension
-    on DocumentAttributeValueType {
-  String toValue() {
-    switch (this) {
-      case DocumentAttributeValueType.stringValue:
-        return 'STRING_VALUE';
-      case DocumentAttributeValueType.stringListValue:
-        return 'STRING_LIST_VALUE';
-      case DocumentAttributeValueType.longValue:
-        return 'LONG_VALUE';
-      case DocumentAttributeValueType.dateValue:
-        return 'DATE_VALUE';
-    }
-  }
-}
+  final String value;
 
-extension DocumentAttributeValueTypeFromString on String {
-  DocumentAttributeValueType toDocumentAttributeValueType() {
-    switch (this) {
-      case 'STRING_VALUE':
-        return DocumentAttributeValueType.stringValue;
-      case 'STRING_LIST_VALUE':
-        return DocumentAttributeValueType.stringListValue;
-      case 'LONG_VALUE':
-        return DocumentAttributeValueType.longValue;
-      case 'DATE_VALUE':
-        return DocumentAttributeValueType.dateValue;
-    }
-    throw Exception('$this is not known in enum DocumentAttributeValueType');
-  }
+  const DocumentAttributeValueType(this.value);
+
+  static DocumentAttributeValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentAttributeValueType'));
 }
 
 /// Identifies a document for which to retrieve status information
@@ -9495,7 +8982,7 @@ class DocumentMetadataConfiguration {
   factory DocumentMetadataConfiguration.fromJson(Map<String, dynamic> json) {
     return DocumentMetadataConfiguration(
       name: json['Name'] as String,
-      type: (json['Type'] as String).toDocumentAttributeValueType(),
+      type: DocumentAttributeValueType.fromString((json['Type'] as String)),
       relevance: json['Relevance'] != null
           ? Relevance.fromJson(json['Relevance'] as Map<String, dynamic>)
           : null,
@@ -9512,7 +8999,7 @@ class DocumentMetadataConfiguration {
     final search = this.search;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (relevance != null) 'Relevance': relevance,
       if (search != null) 'Search': search,
     };
@@ -9545,51 +9032,22 @@ class DocumentRelevanceConfiguration {
 }
 
 enum DocumentStatus {
-  notFound,
-  processing,
-  indexed,
-  updated,
-  failed,
-  updateFailed,
-}
+  notFound('NOT_FOUND'),
+  processing('PROCESSING'),
+  indexed('INDEXED'),
+  updated('UPDATED'),
+  failed('FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension DocumentStatusValueExtension on DocumentStatus {
-  String toValue() {
-    switch (this) {
-      case DocumentStatus.notFound:
-        return 'NOT_FOUND';
-      case DocumentStatus.processing:
-        return 'PROCESSING';
-      case DocumentStatus.indexed:
-        return 'INDEXED';
-      case DocumentStatus.updated:
-        return 'UPDATED';
-      case DocumentStatus.failed:
-        return 'FAILED';
-      case DocumentStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DocumentStatusFromString on String {
-  DocumentStatus toDocumentStatus() {
-    switch (this) {
-      case 'NOT_FOUND':
-        return DocumentStatus.notFound;
-      case 'PROCESSING':
-        return DocumentStatus.processing;
-      case 'INDEXED':
-        return DocumentStatus.indexed;
-      case 'UPDATED':
-        return DocumentStatus.updated;
-      case 'FAILED':
-        return DocumentStatus.failed;
-      case 'UPDATE_FAILED':
-        return DocumentStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum DocumentStatus');
-  }
+  const DocumentStatus(this.value);
+
+  static DocumentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentStatus'));
 }
 
 /// Document metadata files that contain information such as the document access
@@ -9620,26 +9078,17 @@ class DocumentsMetadataConfiguration {
 }
 
 enum EndpointType {
-  home,
-}
+  home('HOME'),
+  ;
 
-extension EndpointTypeValueExtension on EndpointType {
-  String toValue() {
-    switch (this) {
-      case EndpointType.home:
-        return 'HOME';
-    }
-  }
-}
+  final String value;
 
-extension EndpointTypeFromString on String {
-  EndpointType toEndpointType() {
-    switch (this) {
-      case 'HOME':
-        return EndpointType.home;
-    }
-    throw Exception('$this is not known in enum EndpointType');
-  }
+  const EndpointType(this.value);
+
+  static EndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointType'));
 }
 
 /// Provides the configuration information for users or groups in your IAM
@@ -9664,7 +9113,7 @@ class EntityConfiguration {
     final entityType = this.entityType;
     return {
       'EntityId': entityId,
-      'EntityType': entityType.toValue(),
+      'EntityType': entityType.value,
     };
   }
 }
@@ -9732,65 +9181,37 @@ class EntityPersonaConfiguration {
     final persona = this.persona;
     return {
       'EntityId': entityId,
-      'Persona': persona.toValue(),
+      'Persona': persona.value,
     };
   }
 }
 
 enum EntityType {
-  user,
-  group,
-}
+  user('USER'),
+  group('GROUP'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.user:
-        return 'USER';
-      case EntityType.group:
-        return 'GROUP';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'USER':
-        return EntityType.user;
-      case 'GROUP':
-        return EntityType.group;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 enum ErrorCode {
-  internalError,
-  invalidRequest,
-}
+  internalError('InternalError'),
+  invalidRequest('InvalidRequest'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.internalError:
-        return 'InternalError';
-      case ErrorCode.invalidRequest:
-        return 'InvalidRequest';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'InternalError':
-        return ErrorCode.internalError;
-      case 'InvalidRequest':
-        return ErrorCode.invalidRequest;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// Specifies the configuration information needed to customize how collapsed
@@ -9938,7 +9359,8 @@ class ExperienceEndpoint {
   factory ExperienceEndpoint.fromJson(Map<String, dynamic> json) {
     return ExperienceEndpoint(
       endpoint: json['Endpoint'] as String?,
-      endpointType: (json['EndpointType'] as String?)?.toEndpointType(),
+      endpointType:
+          (json['EndpointType'] as String?)?.let(EndpointType.fromString),
     );
   }
 }
@@ -9973,47 +9395,26 @@ class ExperienceEntitiesSummary {
               json['DisplayData'] as Map<String, dynamic>)
           : null,
       entityId: json['EntityId'] as String?,
-      entityType: (json['EntityType'] as String?)?.toEntityType(),
+      entityType: (json['EntityType'] as String?)?.let(EntityType.fromString),
     );
   }
 }
 
 enum ExperienceStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ExperienceStatusValueExtension on ExperienceStatus {
-  String toValue() {
-    switch (this) {
-      case ExperienceStatus.creating:
-        return 'CREATING';
-      case ExperienceStatus.active:
-        return 'ACTIVE';
-      case ExperienceStatus.deleting:
-        return 'DELETING';
-      case ExperienceStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ExperienceStatusFromString on String {
-  ExperienceStatus toExperienceStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ExperienceStatus.creating;
-      case 'ACTIVE':
-        return ExperienceStatus.active;
-      case 'DELETING':
-        return ExperienceStatus.deleting;
-      case 'FAILED':
-        return ExperienceStatus.failed;
-    }
-    throw Exception('$this is not known in enum ExperienceStatus');
-  }
+  const ExperienceStatus(this.value);
+
+  static ExperienceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExperienceStatus'));
 }
 
 /// Summary information for your Amazon Kendra experience. You can create an
@@ -10055,7 +9456,7 @@ class ExperiencesSummary {
           .toList(),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toExperienceStatus(),
+      status: (json['Status'] as String?)?.let(ExperienceStatus.fromString),
     );
   }
 }
@@ -10144,7 +9545,7 @@ class FacetResult {
               .toList(),
       documentAttributeValueType:
           (json['DocumentAttributeValueType'] as String?)
-              ?.toDocumentAttributeValueType(),
+              ?.let(DocumentAttributeValueType.fromString),
     );
   }
 }
@@ -10174,36 +9575,19 @@ class FailedEntity {
 }
 
 enum FaqFileFormat {
-  csv,
-  csvWithHeader,
-  json,
-}
+  csv('CSV'),
+  csvWithHeader('CSV_WITH_HEADER'),
+  json('JSON'),
+  ;
 
-extension FaqFileFormatValueExtension on FaqFileFormat {
-  String toValue() {
-    switch (this) {
-      case FaqFileFormat.csv:
-        return 'CSV';
-      case FaqFileFormat.csvWithHeader:
-        return 'CSV_WITH_HEADER';
-      case FaqFileFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension FaqFileFormatFromString on String {
-  FaqFileFormat toFaqFileFormat() {
-    switch (this) {
-      case 'CSV':
-        return FaqFileFormat.csv;
-      case 'CSV_WITH_HEADER':
-        return FaqFileFormat.csvWithHeader;
-      case 'JSON':
-        return FaqFileFormat.json;
-    }
-    throw Exception('$this is not known in enum FaqFileFormat');
-  }
+  const FaqFileFormat(this.value);
+
+  static FaqFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FaqFileFormat'));
 }
 
 /// Provides statistical information about the FAQ questions and answers
@@ -10224,46 +9608,20 @@ class FaqStatistics {
 }
 
 enum FaqStatus {
-  creating,
-  updating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension FaqStatusValueExtension on FaqStatus {
-  String toValue() {
-    switch (this) {
-      case FaqStatus.creating:
-        return 'CREATING';
-      case FaqStatus.updating:
-        return 'UPDATING';
-      case FaqStatus.active:
-        return 'ACTIVE';
-      case FaqStatus.deleting:
-        return 'DELETING';
-      case FaqStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FaqStatusFromString on String {
-  FaqStatus toFaqStatus() {
-    switch (this) {
-      case 'CREATING':
-        return FaqStatus.creating;
-      case 'UPDATING':
-        return FaqStatus.updating;
-      case 'ACTIVE':
-        return FaqStatus.active;
-      case 'DELETING':
-        return FaqStatus.deleting;
-      case 'FAILED':
-        return FaqStatus.failed;
-    }
-    throw Exception('$this is not known in enum FaqStatus');
-  }
+  const FaqStatus(this.value);
+
+  static FaqStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FaqStatus'));
 }
 
 /// Summary information for frequently asked questions and answers included in
@@ -10309,11 +9667,12 @@ class FaqSummary {
   factory FaqSummary.fromJson(Map<String, dynamic> json) {
     return FaqSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
-      fileFormat: (json['FileFormat'] as String?)?.toFaqFileFormat(),
+      fileFormat:
+          (json['FileFormat'] as String?)?.let(FaqFileFormat.fromString),
       id: json['Id'] as String?,
       languageCode: json['LanguageCode'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toFaqStatus(),
+      status: (json['Status'] as String?)?.let(FaqStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -10474,7 +9833,7 @@ class FeaturedResultsItem {
       documentURI: json['DocumentURI'] as String?,
       feedbackToken: json['FeedbackToken'] as String?,
       id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.toQueryResultType(),
+      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
     );
   }
 }
@@ -10565,37 +9924,25 @@ class FeaturedResultsSet {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toFeaturedResultsSetStatus(),
+      status:
+          (json['Status'] as String?)?.let(FeaturedResultsSetStatus.fromString),
     );
   }
 }
 
 enum FeaturedResultsSetStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension FeaturedResultsSetStatusValueExtension on FeaturedResultsSetStatus {
-  String toValue() {
-    switch (this) {
-      case FeaturedResultsSetStatus.active:
-        return 'ACTIVE';
-      case FeaturedResultsSetStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension FeaturedResultsSetStatusFromString on String {
-  FeaturedResultsSetStatus toFeaturedResultsSetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return FeaturedResultsSetStatus.active;
-      case 'INACTIVE':
-        return FeaturedResultsSetStatus.inactive;
-    }
-    throw Exception('$this is not known in enum FeaturedResultsSetStatus');
-  }
+  const FeaturedResultsSetStatus(this.value);
+
+  static FeaturedResultsSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FeaturedResultsSetStatus'));
 }
 
 /// Summary information for a set of featured results. Featured results are
@@ -10640,7 +9987,8 @@ class FeaturedResultsSetSummary {
       featuredResultsSetId: json['FeaturedResultsSetId'] as String?,
       featuredResultsSetName: json['FeaturedResultsSetName'] as String?,
       lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as int?,
-      status: (json['Status'] as String?)?.toFeaturedResultsSetStatus(),
+      status:
+          (json['Status'] as String?)?.let(FeaturedResultsSetStatus.fromString),
     );
   }
 }
@@ -10737,7 +10085,8 @@ class FsxConfiguration {
   factory FsxConfiguration.fromJson(Map<String, dynamic> json) {
     return FsxConfiguration(
       fileSystemId: json['FileSystemId'] as String,
-      fileSystemType: (json['FileSystemType'] as String).toFsxFileSystemType(),
+      fileSystemType:
+          FsxFileSystemType.fromString((json['FileSystemType'] as String)),
       vpcConfiguration: DataSourceVpcConfiguration.fromJson(
           json['VpcConfiguration'] as Map<String, dynamic>),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
@@ -10767,7 +10116,7 @@ class FsxConfiguration {
     final secretArn = this.secretArn;
     return {
       'FileSystemId': fileSystemId,
-      'FileSystemType': fileSystemType.toValue(),
+      'FileSystemType': fileSystemType.value,
       'VpcConfiguration': vpcConfiguration,
       if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
       if (fieldMappings != null) 'FieldMappings': fieldMappings,
@@ -10778,26 +10127,17 @@ class FsxConfiguration {
 }
 
 enum FsxFileSystemType {
-  windows,
-}
+  windows('WINDOWS'),
+  ;
 
-extension FsxFileSystemTypeValueExtension on FsxFileSystemType {
-  String toValue() {
-    switch (this) {
-      case FsxFileSystemType.windows:
-        return 'WINDOWS';
-    }
-  }
-}
+  final String value;
 
-extension FsxFileSystemTypeFromString on String {
-  FsxFileSystemType toFsxFileSystemType() {
-    switch (this) {
-      case 'WINDOWS':
-        return FsxFileSystemType.windows;
-    }
-    throw Exception('$this is not known in enum FsxFileSystemType');
-  }
+  const FsxFileSystemType(this.value);
+
+  static FsxFileSystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FsxFileSystemType'));
 }
 
 class GetQuerySuggestionsResponse {
@@ -11180,7 +10520,7 @@ class GitHubConfiguration {
           ? SaaSConfiguration.fromJson(
               json['SaaSConfiguration'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toType(),
+      type: (json['Type'] as String?)?.let(Type.fromString),
       useChangeLog: json['UseChangeLog'] as bool?,
       vpcConfiguration: json['VpcConfiguration'] != null
           ? DataSourceVpcConfiguration.fromJson(
@@ -11264,7 +10604,7 @@ class GitHubConfiguration {
         'OnPremiseConfiguration': onPremiseConfiguration,
       if (repositoryFilter != null) 'RepositoryFilter': repositoryFilter,
       if (saaSConfiguration != null) 'SaaSConfiguration': saaSConfiguration,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (useChangeLog != null) 'UseChangeLog': useChangeLog,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
@@ -11546,7 +10886,8 @@ class GroupOrderingIdSummary {
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       orderingId: json['OrderingId'] as int?,
       receivedAt: timeStampFromJson(json['ReceivedAt']),
-      status: (json['Status'] as String?)?.toPrincipalMappingStatus(),
+      status:
+          (json['Status'] as String?)?.let(PrincipalMappingStatus.fromString),
     );
   }
 }
@@ -11632,37 +10973,24 @@ class Highlight {
       beginOffset: json['BeginOffset'] as int,
       endOffset: json['EndOffset'] as int,
       topAnswer: json['TopAnswer'] as bool?,
-      type: (json['Type'] as String?)?.toHighlightType(),
+      type: (json['Type'] as String?)?.let(HighlightType.fromString),
     );
   }
 }
 
 enum HighlightType {
-  standard,
-  thesaurusSynonym,
-}
+  standard('STANDARD'),
+  thesaurusSynonym('THESAURUS_SYNONYM'),
+  ;
 
-extension HighlightTypeValueExtension on HighlightType {
-  String toValue() {
-    switch (this) {
-      case HighlightType.standard:
-        return 'STANDARD';
-      case HighlightType.thesaurusSynonym:
-        return 'THESAURUS_SYNONYM';
-    }
-  }
-}
+  final String value;
 
-extension HighlightTypeFromString on String {
-  HighlightType toHighlightType() {
-    switch (this) {
-      case 'STANDARD':
-        return HighlightType.standard;
-      case 'THESAURUS_SYNONYM':
-        return HighlightType.thesaurusSynonym;
-    }
-    throw Exception('$this is not known in enum HighlightType');
-  }
+  const HighlightType(this.value);
+
+  static HighlightType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HighlightType'));
 }
 
 /// Provides the configuration information for invoking a Lambda function in
@@ -11765,9 +11093,9 @@ class IndexConfigurationSummary {
   factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return IndexConfigurationSummary(
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      status: (json['Status'] as String).toIndexStatus(),
+      status: IndexStatus.fromString((json['Status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
-      edition: (json['Edition'] as String?)?.toIndexEdition(),
+      edition: (json['Edition'] as String?)?.let(IndexEdition.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
     );
@@ -11775,31 +11103,18 @@ class IndexConfigurationSummary {
 }
 
 enum IndexEdition {
-  developerEdition,
-  enterpriseEdition,
-}
+  developerEdition('DEVELOPER_EDITION'),
+  enterpriseEdition('ENTERPRISE_EDITION'),
+  ;
 
-extension IndexEditionValueExtension on IndexEdition {
-  String toValue() {
-    switch (this) {
-      case IndexEdition.developerEdition:
-        return 'DEVELOPER_EDITION';
-      case IndexEdition.enterpriseEdition:
-        return 'ENTERPRISE_EDITION';
-    }
-  }
-}
+  final String value;
 
-extension IndexEditionFromString on String {
-  IndexEdition toIndexEdition() {
-    switch (this) {
-      case 'DEVELOPER_EDITION':
-        return IndexEdition.developerEdition;
-      case 'ENTERPRISE_EDITION':
-        return IndexEdition.enterpriseEdition;
-    }
-    throw Exception('$this is not known in enum IndexEdition');
-  }
+  const IndexEdition(this.value);
+
+  static IndexEdition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IndexEdition'));
 }
 
 /// Provides information about the number of documents and the number of
@@ -11827,51 +11142,21 @@ class IndexStatistics {
 }
 
 enum IndexStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-  updating,
-  systemUpdating,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  updating('UPDATING'),
+  systemUpdating('SYSTEM_UPDATING'),
+  ;
 
-extension IndexStatusValueExtension on IndexStatus {
-  String toValue() {
-    switch (this) {
-      case IndexStatus.creating:
-        return 'CREATING';
-      case IndexStatus.active:
-        return 'ACTIVE';
-      case IndexStatus.deleting:
-        return 'DELETING';
-      case IndexStatus.failed:
-        return 'FAILED';
-      case IndexStatus.updating:
-        return 'UPDATING';
-      case IndexStatus.systemUpdating:
-        return 'SYSTEM_UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension IndexStatusFromString on String {
-  IndexStatus toIndexStatus() {
-    switch (this) {
-      case 'CREATING':
-        return IndexStatus.creating;
-      case 'ACTIVE':
-        return IndexStatus.active;
-      case 'DELETING':
-        return IndexStatus.deleting;
-      case 'FAILED':
-        return IndexStatus.failed;
-      case 'UPDATING':
-        return IndexStatus.updating;
-      case 'SYSTEM_UPDATING':
-        return IndexStatus.systemUpdating;
-    }
-    throw Exception('$this is not known in enum IndexStatus');
-  }
+  const IndexStatus(this.value);
+
+  static IndexStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IndexStatus'));
 }
 
 /// Provides the configuration information for applying basic logic to alter
@@ -11931,84 +11216,37 @@ class InlineCustomDocumentEnrichmentConfiguration {
 }
 
 enum Interval {
-  thisMonth,
-  thisWeek,
-  oneWeekAgo,
-  twoWeeksAgo,
-  oneMonthAgo,
-  twoMonthsAgo,
-}
+  thisMonth('THIS_MONTH'),
+  thisWeek('THIS_WEEK'),
+  oneWeekAgo('ONE_WEEK_AGO'),
+  twoWeeksAgo('TWO_WEEKS_AGO'),
+  oneMonthAgo('ONE_MONTH_AGO'),
+  twoMonthsAgo('TWO_MONTHS_AGO'),
+  ;
 
-extension IntervalValueExtension on Interval {
-  String toValue() {
-    switch (this) {
-      case Interval.thisMonth:
-        return 'THIS_MONTH';
-      case Interval.thisWeek:
-        return 'THIS_WEEK';
-      case Interval.oneWeekAgo:
-        return 'ONE_WEEK_AGO';
-      case Interval.twoWeeksAgo:
-        return 'TWO_WEEKS_AGO';
-      case Interval.oneMonthAgo:
-        return 'ONE_MONTH_AGO';
-      case Interval.twoMonthsAgo:
-        return 'TWO_MONTHS_AGO';
-    }
-  }
-}
+  final String value;
 
-extension IntervalFromString on String {
-  Interval toInterval() {
-    switch (this) {
-      case 'THIS_MONTH':
-        return Interval.thisMonth;
-      case 'THIS_WEEK':
-        return Interval.thisWeek;
-      case 'ONE_WEEK_AGO':
-        return Interval.oneWeekAgo;
-      case 'TWO_WEEKS_AGO':
-        return Interval.twoWeeksAgo;
-      case 'ONE_MONTH_AGO':
-        return Interval.oneMonthAgo;
-      case 'TWO_MONTHS_AGO':
-        return Interval.twoMonthsAgo;
-    }
-    throw Exception('$this is not known in enum Interval');
-  }
+  const Interval(this.value);
+
+  static Interval fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Interval'));
 }
 
 enum IssueSubEntity {
-  comments,
-  attachments,
-  worklogs,
-}
+  comments('COMMENTS'),
+  attachments('ATTACHMENTS'),
+  worklogs('WORKLOGS'),
+  ;
 
-extension IssueSubEntityValueExtension on IssueSubEntity {
-  String toValue() {
-    switch (this) {
-      case IssueSubEntity.comments:
-        return 'COMMENTS';
-      case IssueSubEntity.attachments:
-        return 'ATTACHMENTS';
-      case IssueSubEntity.worklogs:
-        return 'WORKLOGS';
-    }
-  }
-}
+  final String value;
 
-extension IssueSubEntityFromString on String {
-  IssueSubEntity toIssueSubEntity() {
-    switch (this) {
-      case 'COMMENTS':
-        return IssueSubEntity.comments;
-      case 'ATTACHMENTS':
-        return IssueSubEntity.attachments;
-      case 'WORKLOGS':
-        return IssueSubEntity.worklogs;
-    }
-    throw Exception('$this is not known in enum IssueSubEntity');
-  }
+  const IssueSubEntity(this.value);
+
+  static IssueSubEntity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IssueSubEntity'));
 }
 
 /// Provides the configuration information to connect to Jira as your data
@@ -12169,7 +11407,7 @@ class JiraConfiguration {
           .toList(),
       issueSubEntityFilter: (json['IssueSubEntityFilter'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toIssueSubEntity())
+          .map((e) => IssueSubEntity.fromString((e as String)))
           .toList(),
       issueType: (json['IssueType'] as List?)
           ?.whereNotNull()
@@ -12229,7 +11467,7 @@ class JiraConfiguration {
       if (issueFieldMappings != null) 'IssueFieldMappings': issueFieldMappings,
       if (issueSubEntityFilter != null)
         'IssueSubEntityFilter':
-            issueSubEntityFilter.map((e) => e.toValue()).toList(),
+            issueSubEntityFilter.map((e) => e.value).toList(),
       if (issueType != null) 'IssueType': issueType,
       if (project != null) 'Project': project,
       if (projectFieldMappings != null)
@@ -12308,7 +11546,7 @@ class JwtTokenTypeConfiguration {
 
   factory JwtTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
     return JwtTokenTypeConfiguration(
-      keyLocation: (json['KeyLocation'] as String).toKeyLocation(),
+      keyLocation: KeyLocation.fromString((json['KeyLocation'] as String)),
       claimRegex: json['ClaimRegex'] as String?,
       groupAttributeField: json['GroupAttributeField'] as String?,
       issuer: json['Issuer'] as String?,
@@ -12327,7 +11565,7 @@ class JwtTokenTypeConfiguration {
     final url = this.url;
     final userNameAttributeField = this.userNameAttributeField;
     return {
-      'KeyLocation': keyLocation.toValue(),
+      'KeyLocation': keyLocation.value,
       if (claimRegex != null) 'ClaimRegex': claimRegex,
       if (groupAttributeField != null)
         'GroupAttributeField': groupAttributeField,
@@ -12341,31 +11579,17 @@ class JwtTokenTypeConfiguration {
 }
 
 enum KeyLocation {
-  url,
-  secretManager,
-}
+  url('URL'),
+  secretManager('SECRET_MANAGER'),
+  ;
 
-extension KeyLocationValueExtension on KeyLocation {
-  String toValue() {
-    switch (this) {
-      case KeyLocation.url:
-        return 'URL';
-      case KeyLocation.secretManager:
-        return 'SECRET_MANAGER';
-    }
-  }
-}
+  final String value;
 
-extension KeyLocationFromString on String {
-  KeyLocation toKeyLocation() {
-    switch (this) {
-      case 'URL':
-        return KeyLocation.url;
-      case 'SECRET_MANAGER':
-        return KeyLocation.secretManager;
-    }
-    throw Exception('$this is not known in enum KeyLocation');
-  }
+  const KeyLocation(this.value);
+
+  static KeyLocation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyLocation'));
 }
 
 class ListAccessControlConfigurationsResponse {
@@ -12739,113 +11963,51 @@ class MemberUser {
 }
 
 enum MetricType {
-  queriesByCount,
-  queriesByZeroClickRate,
-  queriesByZeroResultRate,
-  docsByClickCount,
-  aggQueryDocMetrics,
-  trendQueryDocMetrics,
-}
+  queriesByCount('QUERIES_BY_COUNT'),
+  queriesByZeroClickRate('QUERIES_BY_ZERO_CLICK_RATE'),
+  queriesByZeroResultRate('QUERIES_BY_ZERO_RESULT_RATE'),
+  docsByClickCount('DOCS_BY_CLICK_COUNT'),
+  aggQueryDocMetrics('AGG_QUERY_DOC_METRICS'),
+  trendQueryDocMetrics('TREND_QUERY_DOC_METRICS'),
+  ;
 
-extension MetricTypeValueExtension on MetricType {
-  String toValue() {
-    switch (this) {
-      case MetricType.queriesByCount:
-        return 'QUERIES_BY_COUNT';
-      case MetricType.queriesByZeroClickRate:
-        return 'QUERIES_BY_ZERO_CLICK_RATE';
-      case MetricType.queriesByZeroResultRate:
-        return 'QUERIES_BY_ZERO_RESULT_RATE';
-      case MetricType.docsByClickCount:
-        return 'DOCS_BY_CLICK_COUNT';
-      case MetricType.aggQueryDocMetrics:
-        return 'AGG_QUERY_DOC_METRICS';
-      case MetricType.trendQueryDocMetrics:
-        return 'TREND_QUERY_DOC_METRICS';
-    }
-  }
-}
+  final String value;
 
-extension MetricTypeFromString on String {
-  MetricType toMetricType() {
-    switch (this) {
-      case 'QUERIES_BY_COUNT':
-        return MetricType.queriesByCount;
-      case 'QUERIES_BY_ZERO_CLICK_RATE':
-        return MetricType.queriesByZeroClickRate;
-      case 'QUERIES_BY_ZERO_RESULT_RATE':
-        return MetricType.queriesByZeroResultRate;
-      case 'DOCS_BY_CLICK_COUNT':
-        return MetricType.docsByClickCount;
-      case 'AGG_QUERY_DOC_METRICS':
-        return MetricType.aggQueryDocMetrics;
-      case 'TREND_QUERY_DOC_METRICS':
-        return MetricType.trendQueryDocMetrics;
-    }
-    throw Exception('$this is not known in enum MetricType');
-  }
+  const MetricType(this.value);
+
+  static MetricType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricType'));
 }
 
 enum MissingAttributeKeyStrategy {
-  ignore,
-  collapse,
-  expand,
-}
+  ignore('IGNORE'),
+  collapse('COLLAPSE'),
+  expand('EXPAND'),
+  ;
 
-extension MissingAttributeKeyStrategyValueExtension
-    on MissingAttributeKeyStrategy {
-  String toValue() {
-    switch (this) {
-      case MissingAttributeKeyStrategy.ignore:
-        return 'IGNORE';
-      case MissingAttributeKeyStrategy.collapse:
-        return 'COLLAPSE';
-      case MissingAttributeKeyStrategy.expand:
-        return 'EXPAND';
-    }
-  }
-}
+  final String value;
 
-extension MissingAttributeKeyStrategyFromString on String {
-  MissingAttributeKeyStrategy toMissingAttributeKeyStrategy() {
-    switch (this) {
-      case 'IGNORE':
-        return MissingAttributeKeyStrategy.ignore;
-      case 'COLLAPSE':
-        return MissingAttributeKeyStrategy.collapse;
-      case 'EXPAND':
-        return MissingAttributeKeyStrategy.expand;
-    }
-    throw Exception('$this is not known in enum MissingAttributeKeyStrategy');
-  }
+  const MissingAttributeKeyStrategy(this.value);
+
+  static MissingAttributeKeyStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MissingAttributeKeyStrategy'));
 }
 
 enum Mode {
-  enabled,
-  learnOnly,
-}
+  enabled('ENABLED'),
+  learnOnly('LEARN_ONLY'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.enabled:
-        return 'ENABLED';
-      case Mode.learnOnly:
-        return 'LEARN_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'ENABLED':
-        return Mode.enabled;
-      case 'LEARN_ONLY':
-        return Mode.learnOnly;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 /// Provides the configuration information to connect to GitHub Enterprise
@@ -13037,59 +12199,31 @@ class OneDriveUsers {
 }
 
 enum Order {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension OrderValueExtension on Order {
-  String toValue() {
-    switch (this) {
-      case Order.ascending:
-        return 'ASCENDING';
-      case Order.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension OrderFromString on String {
-  Order toOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return Order.ascending;
-      case 'DESCENDING':
-        return Order.descending;
-    }
-    throw Exception('$this is not known in enum Order');
-  }
+  const Order(this.value);
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Order'));
 }
 
 enum Persona {
-  owner,
-  viewer,
-}
+  owner('OWNER'),
+  viewer('VIEWER'),
+  ;
 
-extension PersonaValueExtension on Persona {
-  String toValue() {
-    switch (this) {
-      case Persona.owner:
-        return 'OWNER';
-      case Persona.viewer:
-        return 'VIEWER';
-    }
-  }
-}
+  final String value;
 
-extension PersonaFromString on String {
-  Persona toPersona() {
-    switch (this) {
-      case 'OWNER':
-        return Persona.owner;
-      case 'VIEWER':
-        return Persona.viewer;
-    }
-    throw Exception('$this is not known in enum Persona');
-  }
+  const Persona(this.value);
+
+  static Persona fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Persona'));
 }
 
 /// Summary information for users or groups in your IAM Identity Center identity
@@ -13129,7 +12263,7 @@ class PersonasSummary {
     return PersonasSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
       entityId: json['EntityId'] as String?,
-      persona: (json['Persona'] as String?)?.toPersona(),
+      persona: (json['Persona'] as String?)?.let(Persona.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -13161,9 +12295,9 @@ class Principal {
 
   factory Principal.fromJson(Map<String, dynamic> json) {
     return Principal(
-      access: (json['Access'] as String).toReadAccessType(),
+      access: ReadAccessType.fromString((json['Access'] as String)),
       name: json['Name'] as String,
-      type: (json['Type'] as String).toPrincipalType(),
+      type: PrincipalType.fromString((json['Type'] as String)),
       dataSourceId: json['DataSourceId'] as String?,
     );
   }
@@ -13174,83 +12308,45 @@ class Principal {
     final type = this.type;
     final dataSourceId = this.dataSourceId;
     return {
-      'Access': access.toValue(),
+      'Access': access.value,
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (dataSourceId != null) 'DataSourceId': dataSourceId,
     };
   }
 }
 
 enum PrincipalMappingStatus {
-  failed,
-  succeeded,
-  processing,
-  deleting,
-  deleted,
-}
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  processing('PROCESSING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension PrincipalMappingStatusValueExtension on PrincipalMappingStatus {
-  String toValue() {
-    switch (this) {
-      case PrincipalMappingStatus.failed:
-        return 'FAILED';
-      case PrincipalMappingStatus.succeeded:
-        return 'SUCCEEDED';
-      case PrincipalMappingStatus.processing:
-        return 'PROCESSING';
-      case PrincipalMappingStatus.deleting:
-        return 'DELETING';
-      case PrincipalMappingStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalMappingStatusFromString on String {
-  PrincipalMappingStatus toPrincipalMappingStatus() {
-    switch (this) {
-      case 'FAILED':
-        return PrincipalMappingStatus.failed;
-      case 'SUCCEEDED':
-        return PrincipalMappingStatus.succeeded;
-      case 'PROCESSING':
-        return PrincipalMappingStatus.processing;
-      case 'DELETING':
-        return PrincipalMappingStatus.deleting;
-      case 'DELETED':
-        return PrincipalMappingStatus.deleted;
-    }
-    throw Exception('$this is not known in enum PrincipalMappingStatus');
-  }
+  const PrincipalMappingStatus(this.value);
+
+  static PrincipalMappingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PrincipalMappingStatus'));
 }
 
 enum PrincipalType {
-  user,
-  group,
-}
+  user('USER'),
+  group('GROUP'),
+  ;
 
-extension PrincipalTypeValueExtension on PrincipalType {
-  String toValue() {
-    switch (this) {
-      case PrincipalType.user:
-        return 'USER';
-      case PrincipalType.group:
-        return 'GROUP';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalTypeFromString on String {
-  PrincipalType toPrincipalType() {
-    switch (this) {
-      case 'USER':
-        return PrincipalType.user;
-      case 'GROUP':
-        return PrincipalType.group;
-    }
-    throw Exception('$this is not known in enum PrincipalType');
-  }
+  const PrincipalType(this.value);
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrincipalType'));
 }
 
 /// Provides the configuration information for a web proxy to connect to website
@@ -13306,33 +12402,18 @@ class ProxyConfiguration {
 }
 
 enum QueryIdentifiersEnclosingOption {
-  doubleQuotes,
-  none,
-}
+  doubleQuotes('DOUBLE_QUOTES'),
+  none('NONE'),
+  ;
 
-extension QueryIdentifiersEnclosingOptionValueExtension
-    on QueryIdentifiersEnclosingOption {
-  String toValue() {
-    switch (this) {
-      case QueryIdentifiersEnclosingOption.doubleQuotes:
-        return 'DOUBLE_QUOTES';
-      case QueryIdentifiersEnclosingOption.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension QueryIdentifiersEnclosingOptionFromString on String {
-  QueryIdentifiersEnclosingOption toQueryIdentifiersEnclosingOption() {
-    switch (this) {
-      case 'DOUBLE_QUOTES':
-        return QueryIdentifiersEnclosingOption.doubleQuotes;
-      case 'NONE':
-        return QueryIdentifiersEnclosingOption.none;
-    }
-    throw Exception(
-        '$this is not known in enum QueryIdentifiersEnclosingOption');
-  }
+  const QueryIdentifiersEnclosingOption(this.value);
+
+  static QueryIdentifiersEnclosingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QueryIdentifiersEnclosingOption'));
 }
 
 class QueryResult {
@@ -13412,31 +12493,18 @@ class QueryResult {
 }
 
 enum QueryResultFormat {
-  table,
-  text,
-}
+  table('TABLE'),
+  text('TEXT'),
+  ;
 
-extension QueryResultFormatValueExtension on QueryResultFormat {
-  String toValue() {
-    switch (this) {
-      case QueryResultFormat.table:
-        return 'TABLE';
-      case QueryResultFormat.text:
-        return 'TEXT';
-    }
-  }
-}
+  final String value;
 
-extension QueryResultFormatFromString on String {
-  QueryResultFormat toQueryResultFormat() {
-    switch (this) {
-      case 'TABLE':
-        return QueryResultFormat.table;
-      case 'TEXT':
-        return QueryResultFormat.text;
-    }
-    throw Exception('$this is not known in enum QueryResultFormat');
-  }
+  const QueryResultFormat(this.value);
+
+  static QueryResultFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QueryResultFormat'));
 }
 
 /// A single query result.
@@ -13551,7 +12619,7 @@ class QueryResultItem {
           : null,
       documentURI: json['DocumentURI'] as String?,
       feedbackToken: json['FeedbackToken'] as String?,
-      format: (json['Format'] as String?)?.toQueryResultFormat(),
+      format: (json['Format'] as String?)?.let(QueryResultFormat.fromString),
       id: json['Id'] as String?,
       scoreAttributes: json['ScoreAttributes'] != null
           ? ScoreAttributes.fromJson(
@@ -13560,92 +12628,44 @@ class QueryResultItem {
       tableExcerpt: json['TableExcerpt'] != null
           ? TableExcerpt.fromJson(json['TableExcerpt'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toQueryResultType(),
+      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
     );
   }
 }
 
 enum QueryResultType {
-  document,
-  questionAnswer,
-  answer,
-}
+  document('DOCUMENT'),
+  questionAnswer('QUESTION_ANSWER'),
+  answer('ANSWER'),
+  ;
 
-extension QueryResultTypeValueExtension on QueryResultType {
-  String toValue() {
-    switch (this) {
-      case QueryResultType.document:
-        return 'DOCUMENT';
-      case QueryResultType.questionAnswer:
-        return 'QUESTION_ANSWER';
-      case QueryResultType.answer:
-        return 'ANSWER';
-    }
-  }
-}
+  final String value;
 
-extension QueryResultTypeFromString on String {
-  QueryResultType toQueryResultType() {
-    switch (this) {
-      case 'DOCUMENT':
-        return QueryResultType.document;
-      case 'QUESTION_ANSWER':
-        return QueryResultType.questionAnswer;
-      case 'ANSWER':
-        return QueryResultType.answer;
-    }
-    throw Exception('$this is not known in enum QueryResultType');
-  }
+  const QueryResultType(this.value);
+
+  static QueryResultType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QueryResultType'));
 }
 
 enum QuerySuggestionsBlockListStatus {
-  active,
-  creating,
-  deleting,
-  updating,
-  activeButUpdateFailed,
-  failed,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  activeButUpdateFailed('ACTIVE_BUT_UPDATE_FAILED'),
+  failed('FAILED'),
+  ;
 
-extension QuerySuggestionsBlockListStatusValueExtension
-    on QuerySuggestionsBlockListStatus {
-  String toValue() {
-    switch (this) {
-      case QuerySuggestionsBlockListStatus.active:
-        return 'ACTIVE';
-      case QuerySuggestionsBlockListStatus.creating:
-        return 'CREATING';
-      case QuerySuggestionsBlockListStatus.deleting:
-        return 'DELETING';
-      case QuerySuggestionsBlockListStatus.updating:
-        return 'UPDATING';
-      case QuerySuggestionsBlockListStatus.activeButUpdateFailed:
-        return 'ACTIVE_BUT_UPDATE_FAILED';
-      case QuerySuggestionsBlockListStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension QuerySuggestionsBlockListStatusFromString on String {
-  QuerySuggestionsBlockListStatus toQuerySuggestionsBlockListStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return QuerySuggestionsBlockListStatus.active;
-      case 'CREATING':
-        return QuerySuggestionsBlockListStatus.creating;
-      case 'DELETING':
-        return QuerySuggestionsBlockListStatus.deleting;
-      case 'UPDATING':
-        return QuerySuggestionsBlockListStatus.updating;
-      case 'ACTIVE_BUT_UPDATE_FAILED':
-        return QuerySuggestionsBlockListStatus.activeButUpdateFailed;
-      case 'FAILED':
-        return QuerySuggestionsBlockListStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum QuerySuggestionsBlockListStatus');
-  }
+  const QuerySuggestionsBlockListStatus(this.value);
+
+  static QuerySuggestionsBlockListStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QuerySuggestionsBlockListStatus'));
 }
 
 /// Summary information on a query suggestions block list.
@@ -13691,38 +12711,26 @@ class QuerySuggestionsBlockListSummary {
       id: json['Id'] as String?,
       itemCount: json['ItemCount'] as int?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toQuerySuggestionsBlockListStatus(),
+      status: (json['Status'] as String?)
+          ?.let(QuerySuggestionsBlockListStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
 }
 
 enum QuerySuggestionsStatus {
-  active,
-  updating,
-}
+  active('ACTIVE'),
+  updating('UPDATING'),
+  ;
 
-extension QuerySuggestionsStatusValueExtension on QuerySuggestionsStatus {
-  String toValue() {
-    switch (this) {
-      case QuerySuggestionsStatus.active:
-        return 'ACTIVE';
-      case QuerySuggestionsStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension QuerySuggestionsStatusFromString on String {
-  QuerySuggestionsStatus toQuerySuggestionsStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return QuerySuggestionsStatus.active;
-      case 'UPDATING':
-        return QuerySuggestionsStatus.updating;
-    }
-    throw Exception('$this is not known in enum QuerySuggestionsStatus');
-  }
+  const QuerySuggestionsStatus(this.value);
+
+  static QuerySuggestionsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QuerySuggestionsStatus'));
 }
 
 /// Provides the configuration information to connect to Quip as your data
@@ -13899,31 +12907,18 @@ class QuipConfiguration {
 }
 
 enum ReadAccessType {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension ReadAccessTypeValueExtension on ReadAccessType {
-  String toValue() {
-    switch (this) {
-      case ReadAccessType.allow:
-        return 'ALLOW';
-      case ReadAccessType.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension ReadAccessTypeFromString on String {
-  ReadAccessType toReadAccessType() {
-    switch (this) {
-      case 'ALLOW':
-        return ReadAccessType.allow;
-      case 'DENY':
-        return ReadAccessType.deny;
-    }
-    throw Exception('$this is not known in enum ReadAccessType');
-  }
+  const ReadAccessType(this.value);
+
+  static ReadAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReadAccessType'));
 }
 
 /// Provides information for tuning the relevance of a field in a search. When a
@@ -13990,7 +12985,7 @@ class Relevance {
       duration: json['Duration'] as String?,
       freshness: json['Freshness'] as bool?,
       importance: json['Importance'] as int?,
-      rankOrder: (json['RankOrder'] as String?)?.toOrder(),
+      rankOrder: (json['RankOrder'] as String?)?.let(Order.fromString),
       valueImportanceMap: (json['ValueImportanceMap'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as int)),
     );
@@ -14006,7 +13001,7 @@ class Relevance {
       if (duration != null) 'Duration': duration,
       if (freshness != null) 'Freshness': freshness,
       if (importance != null) 'Importance': importance,
-      if (rankOrder != null) 'RankOrder': rankOrder.toValue(),
+      if (rankOrder != null) 'RankOrder': rankOrder.value,
       if (valueImportanceMap != null) 'ValueImportanceMap': valueImportanceMap,
     };
   }
@@ -14032,38 +13027,25 @@ class RelevanceFeedback {
     final relevanceValue = this.relevanceValue;
     final resultId = this.resultId;
     return {
-      'RelevanceValue': relevanceValue.toValue(),
+      'RelevanceValue': relevanceValue.value,
       'ResultId': resultId,
     };
   }
 }
 
 enum RelevanceType {
-  relevant,
-  notRelevant,
-}
+  relevant('RELEVANT'),
+  notRelevant('NOT_RELEVANT'),
+  ;
 
-extension RelevanceTypeValueExtension on RelevanceType {
-  String toValue() {
-    switch (this) {
-      case RelevanceType.relevant:
-        return 'RELEVANT';
-      case RelevanceType.notRelevant:
-        return 'NOT_RELEVANT';
-    }
-  }
-}
+  final String value;
 
-extension RelevanceTypeFromString on String {
-  RelevanceType toRelevanceType() {
-    switch (this) {
-      case 'RELEVANT':
-        return RelevanceType.relevant;
-      case 'NOT_RELEVANT':
-        return RelevanceType.notRelevant;
-    }
-    throw Exception('$this is not known in enum RelevanceType');
-  }
+  const RelevanceType(this.value);
+
+  static RelevanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelevanceType'));
 }
 
 class RetrieveResult {
@@ -14428,7 +13410,8 @@ class SalesforceChatterFeedConfiguration {
           .toList(),
       includeFilterTypes: (json['IncludeFilterTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSalesforceChatterFeedIncludeFilterType())
+          .map((e) =>
+              SalesforceChatterFeedIncludeFilterType.fromString((e as String)))
           .toList(),
     );
   }
@@ -14444,41 +13427,24 @@ class SalesforceChatterFeedConfiguration {
         'DocumentTitleFieldName': documentTitleFieldName,
       if (fieldMappings != null) 'FieldMappings': fieldMappings,
       if (includeFilterTypes != null)
-        'IncludeFilterTypes':
-            includeFilterTypes.map((e) => e.toValue()).toList(),
+        'IncludeFilterTypes': includeFilterTypes.map((e) => e.value).toList(),
     };
   }
 }
 
 enum SalesforceChatterFeedIncludeFilterType {
-  activeUser,
-  standardUser,
-}
+  activeUser('ACTIVE_USER'),
+  standardUser('STANDARD_USER'),
+  ;
 
-extension SalesforceChatterFeedIncludeFilterTypeValueExtension
-    on SalesforceChatterFeedIncludeFilterType {
-  String toValue() {
-    switch (this) {
-      case SalesforceChatterFeedIncludeFilterType.activeUser:
-        return 'ACTIVE_USER';
-      case SalesforceChatterFeedIncludeFilterType.standardUser:
-        return 'STANDARD_USER';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceChatterFeedIncludeFilterTypeFromString on String {
-  SalesforceChatterFeedIncludeFilterType
-      toSalesforceChatterFeedIncludeFilterType() {
-    switch (this) {
-      case 'ACTIVE_USER':
-        return SalesforceChatterFeedIncludeFilterType.activeUser;
-      case 'STANDARD_USER':
-        return SalesforceChatterFeedIncludeFilterType.standardUser;
-    }
-    throw Exception(
-        '$this is not known in enum SalesforceChatterFeedIncludeFilterType');
-  }
+  const SalesforceChatterFeedIncludeFilterType(this.value);
+
+  static SalesforceChatterFeedIncludeFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceChatterFeedIncludeFilterType'));
 }
 
 /// Provides the configuration information to connect to Salesforce as your data
@@ -14728,7 +13694,7 @@ class SalesforceKnowledgeArticleConfiguration {
     return SalesforceKnowledgeArticleConfiguration(
       includedStates: (json['IncludedStates'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toSalesforceKnowledgeArticleState())
+          .map((e) => SalesforceKnowledgeArticleState.fromString((e as String)))
           .toList(),
       customKnowledgeArticleTypeConfigurations:
           (json['CustomKnowledgeArticleTypeConfigurations'] as List?)
@@ -14753,7 +13719,7 @@ class SalesforceKnowledgeArticleConfiguration {
     final standardKnowledgeArticleTypeConfiguration =
         this.standardKnowledgeArticleTypeConfiguration;
     return {
-      'IncludedStates': includedStates.map((e) => e.toValue()).toList(),
+      'IncludedStates': includedStates.map((e) => e.value).toList(),
       if (customKnowledgeArticleTypeConfigurations != null)
         'CustomKnowledgeArticleTypeConfigurations':
             customKnowledgeArticleTypeConfigurations,
@@ -14765,38 +13731,19 @@ class SalesforceKnowledgeArticleConfiguration {
 }
 
 enum SalesforceKnowledgeArticleState {
-  draft,
-  published,
-  archived,
-}
+  draft('DRAFT'),
+  published('PUBLISHED'),
+  archived('ARCHIVED'),
+  ;
 
-extension SalesforceKnowledgeArticleStateValueExtension
-    on SalesforceKnowledgeArticleState {
-  String toValue() {
-    switch (this) {
-      case SalesforceKnowledgeArticleState.draft:
-        return 'DRAFT';
-      case SalesforceKnowledgeArticleState.published:
-        return 'PUBLISHED';
-      case SalesforceKnowledgeArticleState.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceKnowledgeArticleStateFromString on String {
-  SalesforceKnowledgeArticleState toSalesforceKnowledgeArticleState() {
-    switch (this) {
-      case 'DRAFT':
-        return SalesforceKnowledgeArticleState.draft;
-      case 'PUBLISHED':
-        return SalesforceKnowledgeArticleState.published;
-      case 'ARCHIVED':
-        return SalesforceKnowledgeArticleState.archived;
-    }
-    throw Exception(
-        '$this is not known in enum SalesforceKnowledgeArticleState');
-  }
+  const SalesforceKnowledgeArticleState(this.value);
+
+  static SalesforceKnowledgeArticleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceKnowledgeArticleState'));
 }
 
 /// Provides the configuration information for standard Salesforce knowledge
@@ -14919,7 +13866,7 @@ class SalesforceStandardObjectConfiguration {
       Map<String, dynamic> json) {
     return SalesforceStandardObjectConfiguration(
       documentDataFieldName: json['DocumentDataFieldName'] as String,
-      name: (json['Name'] as String).toSalesforceStandardObjectName(),
+      name: SalesforceStandardObjectName.fromString((json['Name'] as String)),
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
           ?.whereNotNull()
@@ -14936,7 +13883,7 @@ class SalesforceStandardObjectConfiguration {
     final fieldMappings = this.fieldMappings;
     return {
       'DocumentDataFieldName': documentDataFieldName,
-      'Name': name.toValue(),
+      'Name': name.value,
       if (documentTitleFieldName != null)
         'DocumentTitleFieldName': documentTitleFieldName,
       if (fieldMappings != null) 'FieldMappings': fieldMappings,
@@ -14945,107 +13892,33 @@ class SalesforceStandardObjectConfiguration {
 }
 
 enum SalesforceStandardObjectName {
-  account,
-  campaign,
-  $case,
-  contact,
-  contract,
-  document,
-  group,
-  idea,
-  lead,
-  opportunity,
-  partner,
-  pricebook,
-  product,
-  profile,
-  solution,
-  task,
-  user,
-}
+  account('ACCOUNT'),
+  campaign('CAMPAIGN'),
+  $case('CASE'),
+  contact('CONTACT'),
+  contract('CONTRACT'),
+  document('DOCUMENT'),
+  group('GROUP'),
+  idea('IDEA'),
+  lead('LEAD'),
+  opportunity('OPPORTUNITY'),
+  partner('PARTNER'),
+  pricebook('PRICEBOOK'),
+  product('PRODUCT'),
+  profile('PROFILE'),
+  solution('SOLUTION'),
+  task('TASK'),
+  user('USER'),
+  ;
 
-extension SalesforceStandardObjectNameValueExtension
-    on SalesforceStandardObjectName {
-  String toValue() {
-    switch (this) {
-      case SalesforceStandardObjectName.account:
-        return 'ACCOUNT';
-      case SalesforceStandardObjectName.campaign:
-        return 'CAMPAIGN';
-      case SalesforceStandardObjectName.$case:
-        return 'CASE';
-      case SalesforceStandardObjectName.contact:
-        return 'CONTACT';
-      case SalesforceStandardObjectName.contract:
-        return 'CONTRACT';
-      case SalesforceStandardObjectName.document:
-        return 'DOCUMENT';
-      case SalesforceStandardObjectName.group:
-        return 'GROUP';
-      case SalesforceStandardObjectName.idea:
-        return 'IDEA';
-      case SalesforceStandardObjectName.lead:
-        return 'LEAD';
-      case SalesforceStandardObjectName.opportunity:
-        return 'OPPORTUNITY';
-      case SalesforceStandardObjectName.partner:
-        return 'PARTNER';
-      case SalesforceStandardObjectName.pricebook:
-        return 'PRICEBOOK';
-      case SalesforceStandardObjectName.product:
-        return 'PRODUCT';
-      case SalesforceStandardObjectName.profile:
-        return 'PROFILE';
-      case SalesforceStandardObjectName.solution:
-        return 'SOLUTION';
-      case SalesforceStandardObjectName.task:
-        return 'TASK';
-      case SalesforceStandardObjectName.user:
-        return 'USER';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceStandardObjectNameFromString on String {
-  SalesforceStandardObjectName toSalesforceStandardObjectName() {
-    switch (this) {
-      case 'ACCOUNT':
-        return SalesforceStandardObjectName.account;
-      case 'CAMPAIGN':
-        return SalesforceStandardObjectName.campaign;
-      case 'CASE':
-        return SalesforceStandardObjectName.$case;
-      case 'CONTACT':
-        return SalesforceStandardObjectName.contact;
-      case 'CONTRACT':
-        return SalesforceStandardObjectName.contract;
-      case 'DOCUMENT':
-        return SalesforceStandardObjectName.document;
-      case 'GROUP':
-        return SalesforceStandardObjectName.group;
-      case 'IDEA':
-        return SalesforceStandardObjectName.idea;
-      case 'LEAD':
-        return SalesforceStandardObjectName.lead;
-      case 'OPPORTUNITY':
-        return SalesforceStandardObjectName.opportunity;
-      case 'PARTNER':
-        return SalesforceStandardObjectName.partner;
-      case 'PRICEBOOK':
-        return SalesforceStandardObjectName.pricebook;
-      case 'PRODUCT':
-        return SalesforceStandardObjectName.product;
-      case 'PROFILE':
-        return SalesforceStandardObjectName.profile;
-      case 'SOLUTION':
-        return SalesforceStandardObjectName.solution;
-      case 'TASK':
-        return SalesforceStandardObjectName.task;
-      case 'USER':
-        return SalesforceStandardObjectName.user;
-    }
-    throw Exception('$this is not known in enum SalesforceStandardObjectName');
-  }
+  const SalesforceStandardObjectName(this.value);
+
+  static SalesforceStandardObjectName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceStandardObjectName'));
 }
 
 /// Provides a relative ranking that indicates how confident Amazon Kendra is
@@ -15061,53 +13934,28 @@ class ScoreAttributes {
   factory ScoreAttributes.fromJson(Map<String, dynamic> json) {
     return ScoreAttributes(
       scoreConfidence:
-          (json['ScoreConfidence'] as String?)?.toScoreConfidence(),
+          (json['ScoreConfidence'] as String?)?.let(ScoreConfidence.fromString),
     );
   }
 }
 
 /// Enumeration for query score confidence.
 enum ScoreConfidence {
-  veryHigh,
-  high,
-  medium,
-  low,
-  notAvailable,
-}
+  veryHigh('VERY_HIGH'),
+  high('HIGH'),
+  medium('MEDIUM'),
+  low('LOW'),
+  notAvailable('NOT_AVAILABLE'),
+  ;
 
-extension ScoreConfidenceValueExtension on ScoreConfidence {
-  String toValue() {
-    switch (this) {
-      case ScoreConfidence.veryHigh:
-        return 'VERY_HIGH';
-      case ScoreConfidence.high:
-        return 'HIGH';
-      case ScoreConfidence.medium:
-        return 'MEDIUM';
-      case ScoreConfidence.low:
-        return 'LOW';
-      case ScoreConfidence.notAvailable:
-        return 'NOT_AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension ScoreConfidenceFromString on String {
-  ScoreConfidence toScoreConfidence() {
-    switch (this) {
-      case 'VERY_HIGH':
-        return ScoreConfidence.veryHigh;
-      case 'HIGH':
-        return ScoreConfidence.high;
-      case 'MEDIUM':
-        return ScoreConfidence.medium;
-      case 'LOW':
-        return ScoreConfidence.low;
-      case 'NOT_AVAILABLE':
-        return ScoreConfidence.notAvailable;
-    }
-    throw Exception('$this is not known in enum ScoreConfidence');
-  }
+  const ScoreConfidence(this.value);
+
+  static ScoreConfidence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScoreConfidence'));
 }
 
 /// Provides information about how a custom index field is used during a search.
@@ -15209,7 +14057,8 @@ class SeedUrlConfiguration {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      webCrawlerMode: (json['WebCrawlerMode'] as String?)?.toWebCrawlerMode(),
+      webCrawlerMode:
+          (json['WebCrawlerMode'] as String?)?.let(WebCrawlerMode.fromString),
     );
   }
 
@@ -15218,7 +14067,7 @@ class SeedUrlConfiguration {
     final webCrawlerMode = this.webCrawlerMode;
     return {
       'SeedUrls': seedUrls,
-      if (webCrawlerMode != null) 'WebCrawlerMode': webCrawlerMode.toValue(),
+      if (webCrawlerMode != null) 'WebCrawlerMode': webCrawlerMode.value,
     };
   }
 }
@@ -15250,61 +14099,33 @@ class ServerSideEncryptionConfiguration {
 }
 
 enum ServiceNowAuthenticationType {
-  httpBasic,
-  oauth2,
-}
+  httpBasic('HTTP_BASIC'),
+  oauth2('OAUTH2'),
+  ;
 
-extension ServiceNowAuthenticationTypeValueExtension
-    on ServiceNowAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case ServiceNowAuthenticationType.httpBasic:
-        return 'HTTP_BASIC';
-      case ServiceNowAuthenticationType.oauth2:
-        return 'OAUTH2';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNowAuthenticationTypeFromString on String {
-  ServiceNowAuthenticationType toServiceNowAuthenticationType() {
-    switch (this) {
-      case 'HTTP_BASIC':
-        return ServiceNowAuthenticationType.httpBasic;
-      case 'OAUTH2':
-        return ServiceNowAuthenticationType.oauth2;
-    }
-    throw Exception('$this is not known in enum ServiceNowAuthenticationType');
-  }
+  const ServiceNowAuthenticationType(this.value);
+
+  static ServiceNowAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceNowAuthenticationType'));
 }
 
 enum ServiceNowBuildVersionType {
-  london,
-  others,
-}
+  london('LONDON'),
+  others('OTHERS'),
+  ;
 
-extension ServiceNowBuildVersionTypeValueExtension
-    on ServiceNowBuildVersionType {
-  String toValue() {
-    switch (this) {
-      case ServiceNowBuildVersionType.london:
-        return 'LONDON';
-      case ServiceNowBuildVersionType.others:
-        return 'OTHERS';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNowBuildVersionTypeFromString on String {
-  ServiceNowBuildVersionType toServiceNowBuildVersionType() {
-    switch (this) {
-      case 'LONDON':
-        return ServiceNowBuildVersionType.london;
-      case 'OTHERS':
-        return ServiceNowBuildVersionType.others;
-    }
-    throw Exception('$this is not known in enum ServiceNowBuildVersionType');
-  }
+  const ServiceNowBuildVersionType(this.value);
+
+  static ServiceNowBuildVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceNowBuildVersionType'));
 }
 
 /// Provides the configuration information to connect to ServiceNow as your data
@@ -15362,10 +14183,10 @@ class ServiceNowConfiguration {
     return ServiceNowConfiguration(
       hostUrl: json['HostUrl'] as String,
       secretArn: json['SecretArn'] as String,
-      serviceNowBuildVersion: (json['ServiceNowBuildVersion'] as String)
-          .toServiceNowBuildVersionType(),
+      serviceNowBuildVersion: ServiceNowBuildVersionType.fromString(
+          (json['ServiceNowBuildVersion'] as String)),
       authenticationType: (json['AuthenticationType'] as String?)
-          ?.toServiceNowAuthenticationType(),
+          ?.let(ServiceNowAuthenticationType.fromString),
       knowledgeArticleConfiguration:
           json['KnowledgeArticleConfiguration'] != null
               ? ServiceNowKnowledgeArticleConfiguration.fromJson(
@@ -15388,9 +14209,9 @@ class ServiceNowConfiguration {
     return {
       'HostUrl': hostUrl,
       'SecretArn': secretArn,
-      'ServiceNowBuildVersion': serviceNowBuildVersion.toValue(),
+      'ServiceNowBuildVersion': serviceNowBuildVersion.value,
       if (authenticationType != null)
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType.value,
       if (knowledgeArticleConfiguration != null)
         'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
       if (serviceCatalogConfiguration != null)
@@ -15718,13 +14539,13 @@ class SharePointConfiguration {
     return SharePointConfiguration(
       secretArn: json['SecretArn'] as String,
       sharePointVersion:
-          (json['SharePointVersion'] as String).toSharePointVersion(),
+          SharePointVersion.fromString((json['SharePointVersion'] as String)),
       urls: (json['Urls'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
       authenticationType: (json['AuthenticationType'] as String?)
-          ?.toSharePointOnlineAuthenticationType(),
+          ?.let(SharePointOnlineAuthenticationType.fromString),
       crawlAttachments: json['CrawlAttachments'] as bool?,
       disableLocalGroups: json['DisableLocalGroups'] as bool?,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
@@ -15774,10 +14595,10 @@ class SharePointConfiguration {
     final vpcConfiguration = this.vpcConfiguration;
     return {
       'SecretArn': secretArn,
-      'SharePointVersion': sharePointVersion.toValue(),
+      'SharePointVersion': sharePointVersion.value,
       'Urls': urls,
       if (authenticationType != null)
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType.value,
       if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
       if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
       if (documentTitleFieldName != null)
@@ -15795,71 +14616,35 @@ class SharePointConfiguration {
 }
 
 enum SharePointOnlineAuthenticationType {
-  httpBasic,
-  oauth2,
-}
+  httpBasic('HTTP_BASIC'),
+  oauth2('OAUTH2'),
+  ;
 
-extension SharePointOnlineAuthenticationTypeValueExtension
-    on SharePointOnlineAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case SharePointOnlineAuthenticationType.httpBasic:
-        return 'HTTP_BASIC';
-      case SharePointOnlineAuthenticationType.oauth2:
-        return 'OAUTH2';
-    }
-  }
-}
+  final String value;
 
-extension SharePointOnlineAuthenticationTypeFromString on String {
-  SharePointOnlineAuthenticationType toSharePointOnlineAuthenticationType() {
-    switch (this) {
-      case 'HTTP_BASIC':
-        return SharePointOnlineAuthenticationType.httpBasic;
-      case 'OAUTH2':
-        return SharePointOnlineAuthenticationType.oauth2;
-    }
-    throw Exception(
-        '$this is not known in enum SharePointOnlineAuthenticationType');
-  }
+  const SharePointOnlineAuthenticationType(this.value);
+
+  static SharePointOnlineAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SharePointOnlineAuthenticationType'));
 }
 
 enum SharePointVersion {
-  sharepoint_2013,
-  sharepoint_2016,
-  sharepointOnline,
-  sharepoint_2019,
-}
+  sharepoint_2013('SHAREPOINT_2013'),
+  sharepoint_2016('SHAREPOINT_2016'),
+  sharepointOnline('SHAREPOINT_ONLINE'),
+  sharepoint_2019('SHAREPOINT_2019'),
+  ;
 
-extension SharePointVersionValueExtension on SharePointVersion {
-  String toValue() {
-    switch (this) {
-      case SharePointVersion.sharepoint_2013:
-        return 'SHAREPOINT_2013';
-      case SharePointVersion.sharepoint_2016:
-        return 'SHAREPOINT_2016';
-      case SharePointVersion.sharepointOnline:
-        return 'SHAREPOINT_ONLINE';
-      case SharePointVersion.sharepoint_2019:
-        return 'SHAREPOINT_2019';
-    }
-  }
-}
+  final String value;
 
-extension SharePointVersionFromString on String {
-  SharePointVersion toSharePointVersion() {
-    switch (this) {
-      case 'SHAREPOINT_2013':
-        return SharePointVersion.sharepoint_2013;
-      case 'SHAREPOINT_2016':
-        return SharePointVersion.sharepoint_2016;
-      case 'SHAREPOINT_ONLINE':
-        return SharePointVersion.sharepointOnline;
-      case 'SHAREPOINT_2019':
-        return SharePointVersion.sharepoint_2019;
-    }
-    throw Exception('$this is not known in enum SharePointVersion');
-  }
+  const SharePointVersion(this.value);
+
+  static SharePointVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SharePointVersion'));
 }
 
 /// Provides the configuration information for the sitemap URLs to crawl.
@@ -16034,7 +14819,7 @@ class SlackConfiguration {
       sinceCrawlDate: json['SinceCrawlDate'] as String,
       slackEntityList: (json['SlackEntityList'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toSlackEntity())
+          .map((e) => SlackEntity.fromString((e as String)))
           .toList(),
       teamId: json['TeamId'] as String,
       crawlBotMessage: json['CrawlBotMessage'] as bool?,
@@ -16087,7 +14872,7 @@ class SlackConfiguration {
     return {
       'SecretArn': secretArn,
       'SinceCrawlDate': sinceCrawlDate,
-      'SlackEntityList': slackEntityList.map((e) => e.toValue()).toList(),
+      'SlackEntityList': slackEntityList.map((e) => e.value).toList(),
       'TeamId': teamId,
       if (crawlBotMessage != null) 'CrawlBotMessage': crawlBotMessage,
       if (excludeArchived != null) 'ExcludeArchived': excludeArchived,
@@ -16106,69 +14891,33 @@ class SlackConfiguration {
 }
 
 enum SlackEntity {
-  publicChannel,
-  privateChannel,
-  groupMessage,
-  directMessage,
-}
+  publicChannel('PUBLIC_CHANNEL'),
+  privateChannel('PRIVATE_CHANNEL'),
+  groupMessage('GROUP_MESSAGE'),
+  directMessage('DIRECT_MESSAGE'),
+  ;
 
-extension SlackEntityValueExtension on SlackEntity {
-  String toValue() {
-    switch (this) {
-      case SlackEntity.publicChannel:
-        return 'PUBLIC_CHANNEL';
-      case SlackEntity.privateChannel:
-        return 'PRIVATE_CHANNEL';
-      case SlackEntity.groupMessage:
-        return 'GROUP_MESSAGE';
-      case SlackEntity.directMessage:
-        return 'DIRECT_MESSAGE';
-    }
-  }
-}
+  final String value;
 
-extension SlackEntityFromString on String {
-  SlackEntity toSlackEntity() {
-    switch (this) {
-      case 'PUBLIC_CHANNEL':
-        return SlackEntity.publicChannel;
-      case 'PRIVATE_CHANNEL':
-        return SlackEntity.privateChannel;
-      case 'GROUP_MESSAGE':
-        return SlackEntity.groupMessage;
-      case 'DIRECT_MESSAGE':
-        return SlackEntity.directMessage;
-    }
-    throw Exception('$this is not known in enum SlackEntity');
-  }
+  const SlackEntity(this.value);
+
+  static SlackEntity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SlackEntity'));
 }
 
 enum SortOrder {
-  desc,
-  asc,
-}
+  desc('DESC'),
+  asc('ASC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.desc:
-        return 'DESC';
-      case SortOrder.asc:
-        return 'ASC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'DESC':
-        return SortOrder.desc;
-      case 'ASC':
-        return SortOrder.asc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Specifies the document attribute to use to sort the response to a Amazon
@@ -16236,7 +14985,7 @@ class SortingConfiguration {
     final sortOrder = this.sortOrder;
     return {
       'DocumentAttributeKey': documentAttributeKey,
-      'SortOrder': sortOrder.toValue(),
+      'SortOrder': sortOrder.value,
     };
   }
 }
@@ -16354,7 +15103,7 @@ class SqlConfiguration {
     return SqlConfiguration(
       queryIdentifiersEnclosingOption:
           (json['QueryIdentifiersEnclosingOption'] as String?)
-              ?.toQueryIdentifiersEnclosingOption(),
+              ?.let(QueryIdentifiersEnclosingOption.fromString),
     );
   }
 
@@ -16364,7 +15113,7 @@ class SqlConfiguration {
     return {
       if (queryIdentifiersEnclosingOption != null)
         'QueryIdentifiersEnclosingOption':
-            queryIdentifiersEnclosingOption.toValue(),
+            queryIdentifiersEnclosingOption.value,
     };
   }
 }
@@ -16413,7 +15162,8 @@ class Status {
   factory Status.fromJson(Map<String, dynamic> json) {
     return Status(
       documentId: json['DocumentId'] as String?,
-      documentStatus: (json['DocumentStatus'] as String?)?.toDocumentStatus(),
+      documentStatus:
+          (json['DocumentStatus'] as String?)?.let(DocumentStatus.fromString),
       failureCode: json['FailureCode'] as String?,
       failureReason: json['FailureReason'] as String?,
     );
@@ -16536,31 +15286,18 @@ class SuggestionTextWithHighlights {
 }
 
 enum SuggestionType {
-  query,
-  documentAttributes,
-}
+  query('QUERY'),
+  documentAttributes('DOCUMENT_ATTRIBUTES'),
+  ;
 
-extension SuggestionTypeValueExtension on SuggestionType {
-  String toValue() {
-    switch (this) {
-      case SuggestionType.query:
-        return 'QUERY';
-      case SuggestionType.documentAttributes:
-        return 'DOCUMENT_ATTRIBUTES';
-    }
-  }
-}
+  final String value;
 
-extension SuggestionTypeFromString on String {
-  SuggestionType toSuggestionType() {
-    switch (this) {
-      case 'QUERY':
-        return SuggestionType.query;
-      case 'DOCUMENT_ATTRIBUTES':
-        return SuggestionType.documentAttributes;
-    }
-    throw Exception('$this is not known in enum SuggestionType');
-  }
+  const SuggestionType(this.value);
+
+  static SuggestionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SuggestionType'));
 }
 
 /// The <code>SuggestionTextWithHighlights</code> structure information.
@@ -16802,51 +15539,22 @@ class TextWithHighlights {
 }
 
 enum ThesaurusStatus {
-  creating,
-  active,
-  deleting,
-  updating,
-  activeButUpdateFailed,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  activeButUpdateFailed('ACTIVE_BUT_UPDATE_FAILED'),
+  failed('FAILED'),
+  ;
 
-extension ThesaurusStatusValueExtension on ThesaurusStatus {
-  String toValue() {
-    switch (this) {
-      case ThesaurusStatus.creating:
-        return 'CREATING';
-      case ThesaurusStatus.active:
-        return 'ACTIVE';
-      case ThesaurusStatus.deleting:
-        return 'DELETING';
-      case ThesaurusStatus.updating:
-        return 'UPDATING';
-      case ThesaurusStatus.activeButUpdateFailed:
-        return 'ACTIVE_BUT_UPDATE_FAILED';
-      case ThesaurusStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ThesaurusStatusFromString on String {
-  ThesaurusStatus toThesaurusStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ThesaurusStatus.creating;
-      case 'ACTIVE':
-        return ThesaurusStatus.active;
-      case 'DELETING':
-        return ThesaurusStatus.deleting;
-      case 'UPDATING':
-        return ThesaurusStatus.updating;
-      case 'ACTIVE_BUT_UPDATE_FAILED':
-        return ThesaurusStatus.activeButUpdateFailed;
-      case 'FAILED':
-        return ThesaurusStatus.failed;
-    }
-    throw Exception('$this is not known in enum ThesaurusStatus');
-  }
+  const ThesaurusStatus(this.value);
+
+  static ThesaurusStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThesaurusStatus'));
 }
 
 /// An array of summary information for a thesaurus or multiple thesauri.
@@ -16879,7 +15587,7 @@ class ThesaurusSummary {
       createdAt: timeStampFromJson(json['CreatedAt']),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toThesaurusStatus(),
+      status: (json['Status'] as String?)?.let(ThesaurusStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -16916,31 +15624,17 @@ class TimeRange {
 }
 
 enum Type {
-  saas,
-  onPremise,
-}
+  saas('SAAS'),
+  onPremise('ON_PREMISE'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.saas:
-        return 'SAAS';
-      case Type.onPremise:
-        return 'ON_PREMISE';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'SAAS':
-        return Type.saas;
-      case 'ON_PREMISE':
-        return Type.onPremise;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UntagResourceResponse {
@@ -17098,31 +15792,18 @@ class UserContext {
 }
 
 enum UserContextPolicy {
-  attributeFilter,
-  userToken,
-}
+  attributeFilter('ATTRIBUTE_FILTER'),
+  userToken('USER_TOKEN'),
+  ;
 
-extension UserContextPolicyValueExtension on UserContextPolicy {
-  String toValue() {
-    switch (this) {
-      case UserContextPolicy.attributeFilter:
-        return 'ATTRIBUTE_FILTER';
-      case UserContextPolicy.userToken:
-        return 'USER_TOKEN';
-    }
-  }
-}
+  final String value;
 
-extension UserContextPolicyFromString on String {
-  UserContextPolicy toUserContextPolicy() {
-    switch (this) {
-      case 'ATTRIBUTE_FILTER':
-        return UserContextPolicy.attributeFilter;
-      case 'USER_TOKEN':
-        return UserContextPolicy.userToken;
-    }
-    throw Exception('$this is not known in enum UserContextPolicy');
-  }
+  const UserContextPolicy(this.value);
+
+  static UserContextPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserContextPolicy'));
 }
 
 /// Provides the configuration information to get users and groups from an IAM
@@ -17160,45 +15841,32 @@ class UserGroupResolutionConfiguration {
 
   factory UserGroupResolutionConfiguration.fromJson(Map<String, dynamic> json) {
     return UserGroupResolutionConfiguration(
-      userGroupResolutionMode: (json['UserGroupResolutionMode'] as String)
-          .toUserGroupResolutionMode(),
+      userGroupResolutionMode: UserGroupResolutionMode.fromString(
+          (json['UserGroupResolutionMode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final userGroupResolutionMode = this.userGroupResolutionMode;
     return {
-      'UserGroupResolutionMode': userGroupResolutionMode.toValue(),
+      'UserGroupResolutionMode': userGroupResolutionMode.value,
     };
   }
 }
 
 enum UserGroupResolutionMode {
-  awsSso,
-  none,
-}
+  awsSso('AWS_SSO'),
+  none('NONE'),
+  ;
 
-extension UserGroupResolutionModeValueExtension on UserGroupResolutionMode {
-  String toValue() {
-    switch (this) {
-      case UserGroupResolutionMode.awsSso:
-        return 'AWS_SSO';
-      case UserGroupResolutionMode.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension UserGroupResolutionModeFromString on String {
-  UserGroupResolutionMode toUserGroupResolutionMode() {
-    switch (this) {
-      case 'AWS_SSO':
-        return UserGroupResolutionMode.awsSso;
-      case 'NONE':
-        return UserGroupResolutionMode.none;
-    }
-    throw Exception('$this is not known in enum UserGroupResolutionMode');
-  }
+  const UserGroupResolutionMode(this.value);
+
+  static UserGroupResolutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UserGroupResolutionMode'));
 }
 
 /// Provides the configuration information for the identifiers of your users.
@@ -17286,33 +15954,23 @@ class Warning {
 
   factory Warning.fromJson(Map<String, dynamic> json) {
     return Warning(
-      code: (json['Code'] as String?)?.toWarningCode(),
+      code: (json['Code'] as String?)?.let(WarningCode.fromString),
       message: json['Message'] as String?,
     );
   }
 }
 
 enum WarningCode {
-  queryLanguageInvalidSyntax,
-}
+  queryLanguageInvalidSyntax('QUERY_LANGUAGE_INVALID_SYNTAX'),
+  ;
 
-extension WarningCodeValueExtension on WarningCode {
-  String toValue() {
-    switch (this) {
-      case WarningCode.queryLanguageInvalidSyntax:
-        return 'QUERY_LANGUAGE_INVALID_SYNTAX';
-    }
-  }
-}
+  final String value;
 
-extension WarningCodeFromString on String {
-  WarningCode toWarningCode() {
-    switch (this) {
-      case 'QUERY_LANGUAGE_INVALID_SYNTAX':
-        return WarningCode.queryLanguageInvalidSyntax;
-    }
-    throw Exception('$this is not known in enum WarningCode');
-  }
+  const WarningCode(this.value);
+
+  static WarningCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum WarningCode'));
 }
 
 /// Provides the configuration information required for Amazon Kendra Web
@@ -17475,36 +16133,19 @@ class WebCrawlerConfiguration {
 }
 
 enum WebCrawlerMode {
-  hostOnly,
-  subdomains,
-  everything,
-}
+  hostOnly('HOST_ONLY'),
+  subdomains('SUBDOMAINS'),
+  everything('EVERYTHING'),
+  ;
 
-extension WebCrawlerModeValueExtension on WebCrawlerMode {
-  String toValue() {
-    switch (this) {
-      case WebCrawlerMode.hostOnly:
-        return 'HOST_ONLY';
-      case WebCrawlerMode.subdomains:
-        return 'SUBDOMAINS';
-      case WebCrawlerMode.everything:
-        return 'EVERYTHING';
-    }
-  }
-}
+  final String value;
 
-extension WebCrawlerModeFromString on String {
-  WebCrawlerMode toWebCrawlerMode() {
-    switch (this) {
-      case 'HOST_ONLY':
-        return WebCrawlerMode.hostOnly;
-      case 'SUBDOMAINS':
-        return WebCrawlerMode.subdomains;
-      case 'EVERYTHING':
-        return WebCrawlerMode.everything;
-    }
-    throw Exception('$this is not known in enum WebCrawlerMode');
-  }
+  const WebCrawlerMode(this.value);
+
+  static WebCrawlerMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WebCrawlerMode'));
 }
 
 /// Provides the configuration information to connect to Amazon WorkDocs as your
