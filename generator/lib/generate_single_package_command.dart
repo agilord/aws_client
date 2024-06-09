@@ -12,7 +12,6 @@ import 'builders/library_builder.dart';
 import 'generate_command.dart';
 import 'model/api.dart';
 import 'model/region_config.dart';
-import 'model_thin/api.dart' as thin;
 import 'utils/fix_absolute_import.dart';
 
 class GenerateSinglePackageCommand extends Command {
@@ -73,7 +72,6 @@ class GenerateSinglePackageCommand extends Command {
 
       try {
         final api = Api.fromJson(defJson);
-        final thinApi = thin.Api.fromJson(defJson);
 
         final percentage = i * 100 ~/ services.length;
 
@@ -92,23 +90,13 @@ class GenerateSinglePackageCommand extends Command {
         serviceFile.parent.createSync(recursive: true);
         entryFile.parent.createSync(recursive: true);
 
-        var metaContents = '''
-// ignore_for_file: prefer_single_quotes
-const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
-
         var entryContent = '''
 export '../src/generated/${api.directoryName}/${api.fileBasename}.dart';
 ''';
 
         var serviceText = buildService(api, sharedLibraryPath: '../../shared');
         serviceText = _formatter.format(serviceText, uri: serviceFile.uri);
-        metaContents = _formatter.format(metaContents);
         entryContent = _formatter.format(entryContent);
-
-        if (api.usesQueryProtocol) {
-          File('$baseDir/${api.fileBasename}.meta.dart')
-              .writeAsStringSync(metaContents);
-        }
 
         serviceFile.writeAsStringSync(serviceText);
         entryFile.writeAsStringSync(entryContent);
@@ -127,6 +115,10 @@ export '../src/generated/${api.directoryName}/${api.fileBasename}.dart';
     File(p.join(libDir, 'dynamo_document.dart')).writeAsStringSync('''
 export 'src/dynamo_document/document_client.dart';
 export 'src/dynamo_document/src/translator.dart';
+''');
+
+    File(p.join(libDir, 'credential_providers.dart')).writeAsStringSync('''
+export 'src/credential_providers/aws_credential_providers.dart';
 ''');
 
     var readmeTemplate =

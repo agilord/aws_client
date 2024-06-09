@@ -17,7 +17,6 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'v2012_06_01.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// A load balancer can distribute incoming traffic across your EC2 instances.
@@ -30,7 +29,6 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// from the load balancer to the instances.
 class ElasticLoadBalancing {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   ElasticLoadBalancing({
     required String region,
@@ -38,7 +36,7 @@ class ElasticLoadBalancing {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'elasticloadbalancing',
@@ -47,9 +45,7 @@ class ElasticLoadBalancing {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -84,9 +80,19 @@ class ElasticLoadBalancing {
     required List<String> loadBalancerNames,
     required List<Tag> tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerNames'] = loadBalancerNames;
-    $request['Tags'] = tags;
+    final $request = <String, String>{
+      if (loadBalancerNames.isEmpty)
+        'LoadBalancerNames': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+      if (tags.isEmpty)
+        'Tags': ''
+      else
+        for (var i1 = 0; i1 < tags.length; i1++)
+          for (var e3 in tags[i1].toQueryMap().entries)
+            'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     await _protocol.send(
       $request,
       action: 'AddTags',
@@ -94,8 +100,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AddTagsInput'],
-      shapes: shapes,
       resultWrapper: 'AddTagsResult',
     );
   }
@@ -124,9 +128,14 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> securityGroups,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['SecurityGroups'] = securityGroups;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      if (securityGroups.isEmpty)
+        'SecurityGroups': ''
+      else
+        for (var i1 = 0; i1 < securityGroups.length; i1++)
+          'SecurityGroups.member.${i1 + 1}': securityGroups[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ApplySecurityGroupsToLoadBalancer',
@@ -134,8 +143,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ApplySecurityGroupsToLoadBalancerInput'],
-      shapes: shapes,
       resultWrapper: 'ApplySecurityGroupsToLoadBalancerResult',
     );
     return ApplySecurityGroupsToLoadBalancerOutput.fromXml($result);
@@ -165,9 +172,14 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> subnets,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['Subnets'] = subnets;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      if (subnets.isEmpty)
+        'Subnets': ''
+      else
+        for (var i1 = 0; i1 < subnets.length; i1++)
+          'Subnets.member.${i1 + 1}': subnets[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'AttachLoadBalancerToSubnets',
@@ -175,8 +187,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AttachLoadBalancerToSubnetsInput'],
-      shapes: shapes,
       resultWrapper: 'AttachLoadBalancerToSubnetsResult',
     );
     return AttachLoadBalancerToSubnetsOutput.fromXml($result);
@@ -201,9 +211,11 @@ class ElasticLoadBalancing {
     required HealthCheck healthCheck,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['HealthCheck'] = healthCheck;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      for (var e1 in healthCheck.toQueryMap().entries)
+        'HealthCheck.${e1.key}': e1.value,
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ConfigureHealthCheck',
@@ -211,8 +223,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ConfigureHealthCheckInput'],
-      shapes: shapes,
       resultWrapper: 'ConfigureHealthCheckResult',
     );
     return ConfigureHealthCheckOutput.fromXml($result);
@@ -256,10 +266,11 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required String policyName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['CookieName'] = cookieName;
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['PolicyName'] = policyName;
+    final $request = <String, String>{
+      'CookieName': cookieName,
+      'LoadBalancerName': loadBalancerName,
+      'PolicyName': policyName,
+    };
     await _protocol.send(
       $request,
       action: 'CreateAppCookieStickinessPolicy',
@@ -267,8 +278,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateAppCookieStickinessPolicyInput'],
-      shapes: shapes,
       resultWrapper: 'CreateAppCookieStickinessPolicyResult',
     );
   }
@@ -317,11 +326,12 @@ class ElasticLoadBalancing {
     required String policyName,
     int? cookieExpirationPeriod,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['PolicyName'] = policyName;
-    cookieExpirationPeriod
-        ?.also((arg) => $request['CookieExpirationPeriod'] = arg);
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      'PolicyName': policyName,
+      if (cookieExpirationPeriod != null)
+        'CookieExpirationPeriod': cookieExpirationPeriod.toString(),
+    };
     await _protocol.send(
       $request,
       action: 'CreateLBCookieStickinessPolicy',
@@ -329,8 +339,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateLBCookieStickinessPolicyInput'],
-      shapes: shapes,
       resultWrapper: 'CreateLBCookieStickinessPolicyResult',
     );
   }
@@ -425,14 +433,41 @@ class ElasticLoadBalancing {
     List<String>? subnets,
     List<Tag>? tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Listeners'] = listeners;
-    $request['LoadBalancerName'] = loadBalancerName;
-    availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
-    scheme?.also((arg) => $request['Scheme'] = arg);
-    securityGroups?.also((arg) => $request['SecurityGroups'] = arg);
-    subnets?.also((arg) => $request['Subnets'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
+    final $request = <String, String>{
+      if (listeners.isEmpty)
+        'Listeners': ''
+      else
+        for (var i1 = 0; i1 < listeners.length; i1++)
+          for (var e3 in listeners[i1].toQueryMap().entries)
+            'Listeners.member.${i1 + 1}.${e3.key}': e3.value,
+      'LoadBalancerName': loadBalancerName,
+      if (availabilityZones != null)
+        if (availabilityZones.isEmpty)
+          'AvailabilityZones': ''
+        else
+          for (var i1 = 0; i1 < availabilityZones.length; i1++)
+            'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
+      if (scheme != null) 'Scheme': scheme,
+      if (securityGroups != null)
+        if (securityGroups.isEmpty)
+          'SecurityGroups': ''
+        else
+          for (var i1 = 0; i1 < securityGroups.length; i1++)
+            'SecurityGroups.member.${i1 + 1}': securityGroups[i1],
+      if (subnets != null)
+        if (subnets.isEmpty)
+          'Subnets': ''
+        else
+          for (var i1 = 0; i1 < subnets.length; i1++)
+            'Subnets.member.${i1 + 1}': subnets[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateLoadBalancer',
@@ -440,8 +475,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateAccessPointInput'],
-      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerResult',
     );
     return CreateAccessPointOutput.fromXml($result);
@@ -472,9 +505,15 @@ class ElasticLoadBalancing {
     required List<Listener> listeners,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Listeners'] = listeners;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      if (listeners.isEmpty)
+        'Listeners': ''
+      else
+        for (var i1 = 0; i1 < listeners.length; i1++)
+          for (var e3 in listeners[i1].toQueryMap().entries)
+            'Listeners.member.${i1 + 1}.${e3.key}': e3.value,
+      'LoadBalancerName': loadBalancerName,
+    };
     await _protocol.send(
       $request,
       action: 'CreateLoadBalancerListeners',
@@ -482,8 +521,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateLoadBalancerListenerInput'],
-      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerListenersResult',
     );
   }
@@ -520,11 +557,18 @@ class ElasticLoadBalancing {
     required String policyTypeName,
     List<PolicyAttribute>? policyAttributes,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['PolicyName'] = policyName;
-    $request['PolicyTypeName'] = policyTypeName;
-    policyAttributes?.also((arg) => $request['PolicyAttributes'] = arg);
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      'PolicyName': policyName,
+      'PolicyTypeName': policyTypeName,
+      if (policyAttributes != null)
+        if (policyAttributes.isEmpty)
+          'PolicyAttributes': ''
+        else
+          for (var i1 = 0; i1 < policyAttributes.length; i1++)
+            for (var e3 in policyAttributes[i1].toQueryMap().entries)
+              'PolicyAttributes.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     await _protocol.send(
       $request,
       action: 'CreateLoadBalancerPolicy',
@@ -532,8 +576,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateLoadBalancerPolicyInput'],
-      shapes: shapes,
       resultWrapper: 'CreateLoadBalancerPolicyResult',
     );
   }
@@ -554,8 +596,9 @@ class ElasticLoadBalancing {
   Future<void> deleteLoadBalancer({
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteLoadBalancer',
@@ -563,8 +606,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteAccessPointInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerResult',
     );
   }
@@ -582,9 +623,15 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<int> loadBalancerPorts,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['LoadBalancerPorts'] = loadBalancerPorts;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      if (loadBalancerPorts.isEmpty)
+        'LoadBalancerPorts': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerPorts.length; i1++)
+          'LoadBalancerPorts.member.${i1 + 1}':
+              loadBalancerPorts[i1].toString(),
+    };
     await _protocol.send(
       $request,
       action: 'DeleteLoadBalancerListeners',
@@ -592,8 +639,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteLoadBalancerListenerInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerListenersResult',
     );
   }
@@ -613,9 +658,10 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required String policyName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['PolicyName'] = policyName;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      'PolicyName': policyName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteLoadBalancerPolicy',
@@ -623,8 +669,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteLoadBalancerPolicyInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteLoadBalancerPolicyResult',
     );
   }
@@ -653,9 +697,15 @@ class ElasticLoadBalancing {
     required List<Instance> instances,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Instances'] = instances;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      if (instances.isEmpty)
+        'Instances': ''
+      else
+        for (var i1 = 0; i1 < instances.length; i1++)
+          for (var e3 in instances[i1].toQueryMap().entries)
+            'Instances.member.${i1 + 1}.${e3.key}': e3.value,
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeregisterInstancesFromLoadBalancer',
@@ -663,8 +713,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeregisterEndPointsInput'],
-      shapes: shapes,
       resultWrapper: 'DeregisterInstancesFromLoadBalancerResult',
     );
     return DeregisterEndPointsOutput.fromXml($result);
@@ -694,9 +742,10 @@ class ElasticLoadBalancing {
       1,
       400,
     );
-    final $request = <String, dynamic>{};
-    marker?.also((arg) => $request['Marker'] = arg);
-    pageSize?.also((arg) => $request['PageSize'] = arg);
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (pageSize != null) 'PageSize': pageSize.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeAccountLimits',
@@ -704,8 +753,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeAccountLimitsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsOutput.fromXml($result);
@@ -730,9 +777,16 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     List<Instance>? instances,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    instances?.also((arg) => $request['Instances'] = arg);
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      if (instances != null)
+        if (instances.isEmpty)
+          'Instances': ''
+        else
+          for (var i1 = 0; i1 < instances.length; i1++)
+            for (var e3 in instances[i1].toQueryMap().entries)
+              'Instances.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeInstanceHealth',
@@ -740,8 +794,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeEndPointStateInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeInstanceHealthResult',
     );
     return DescribeEndPointStateOutput.fromXml($result);
@@ -757,8 +809,9 @@ class ElasticLoadBalancing {
   Future<DescribeLoadBalancerAttributesOutput> describeLoadBalancerAttributes({
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeLoadBalancerAttributes',
@@ -766,8 +819,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeLoadBalancerAttributesInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerAttributesResult',
     );
     return DescribeLoadBalancerAttributesOutput.fromXml($result);
@@ -795,9 +846,15 @@ class ElasticLoadBalancing {
     String? loadBalancerName,
     List<String>? policyNames,
   }) async {
-    final $request = <String, dynamic>{};
-    loadBalancerName?.also((arg) => $request['LoadBalancerName'] = arg);
-    policyNames?.also((arg) => $request['PolicyNames'] = arg);
+    final $request = <String, String>{
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (policyNames != null)
+        if (policyNames.isEmpty)
+          'PolicyNames': ''
+        else
+          for (var i1 = 0; i1 < policyNames.length; i1++)
+            'PolicyNames.member.${i1 + 1}': policyNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeLoadBalancerPolicies',
@@ -805,8 +862,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeLoadBalancerPoliciesInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerPoliciesResult',
     );
     return DescribeLoadBalancerPoliciesOutput.fromXml($result);
@@ -834,8 +889,14 @@ class ElasticLoadBalancing {
       describeLoadBalancerPolicyTypes({
     List<String>? policyTypeNames,
   }) async {
-    final $request = <String, dynamic>{};
-    policyTypeNames?.also((arg) => $request['PolicyTypeNames'] = arg);
+    final $request = <String, String>{
+      if (policyTypeNames != null)
+        if (policyTypeNames.isEmpty)
+          'PolicyTypeNames': ''
+        else
+          for (var i1 = 0; i1 < policyTypeNames.length; i1++)
+            'PolicyTypeNames.member.${i1 + 1}': policyTypeNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeLoadBalancerPolicyTypes',
@@ -843,8 +904,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeLoadBalancerPolicyTypesInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancerPolicyTypesResult',
     );
     return DescribeLoadBalancerPolicyTypesOutput.fromXml($result);
@@ -877,10 +936,16 @@ class ElasticLoadBalancing {
       1,
       400,
     );
-    final $request = <String, dynamic>{};
-    loadBalancerNames?.also((arg) => $request['LoadBalancerNames'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    pageSize?.also((arg) => $request['PageSize'] = arg);
+    final $request = <String, String>{
+      if (loadBalancerNames != null)
+        if (loadBalancerNames.isEmpty)
+          'LoadBalancerNames': ''
+        else
+          for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+            'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+      if (marker != null) 'Marker': marker,
+      if (pageSize != null) 'PageSize': pageSize.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeLoadBalancers',
@@ -888,8 +953,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeAccessPointsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeLoadBalancersResult',
     );
     return DescribeAccessPointsOutput.fromXml($result);
@@ -904,8 +967,13 @@ class ElasticLoadBalancing {
   Future<DescribeTagsOutput> describeTags({
     required List<String> loadBalancerNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerNames'] = loadBalancerNames;
+    final $request = <String, String>{
+      if (loadBalancerNames.isEmpty)
+        'LoadBalancerNames': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeTags',
@@ -913,8 +981,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeTagsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeTagsResult',
     );
     return DescribeTagsOutput.fromXml($result);
@@ -940,9 +1006,14 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> subnets,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['Subnets'] = subnets;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      if (subnets.isEmpty)
+        'Subnets': ''
+      else
+        for (var i1 = 0; i1 < subnets.length; i1++)
+          'Subnets.member.${i1 + 1}': subnets[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DetachLoadBalancerFromSubnets',
@@ -950,8 +1021,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DetachLoadBalancerFromSubnetsInput'],
-      shapes: shapes,
       resultWrapper: 'DetachLoadBalancerFromSubnetsResult',
     );
     return DetachLoadBalancerFromSubnetsOutput.fromXml($result);
@@ -988,9 +1057,14 @@ class ElasticLoadBalancing {
     required List<String> availabilityZones,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AvailabilityZones'] = availabilityZones;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      if (availabilityZones.isEmpty)
+        'AvailabilityZones': ''
+      else
+        for (var i1 = 0; i1 < availabilityZones.length; i1++)
+          'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DisableAvailabilityZonesForLoadBalancer',
@@ -998,8 +1072,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RemoveAvailabilityZonesInput'],
-      shapes: shapes,
       resultWrapper: 'DisableAvailabilityZonesForLoadBalancerResult',
     );
     return RemoveAvailabilityZonesOutput.fromXml($result);
@@ -1029,9 +1101,14 @@ class ElasticLoadBalancing {
     required List<String> availabilityZones,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AvailabilityZones'] = availabilityZones;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      if (availabilityZones.isEmpty)
+        'AvailabilityZones': ''
+      else
+        for (var i1 = 0; i1 < availabilityZones.length; i1++)
+          'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'EnableAvailabilityZonesForLoadBalancer',
@@ -1039,8 +1116,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['AddAvailabilityZonesInput'],
-      shapes: shapes,
       resultWrapper: 'EnableAvailabilityZonesForLoadBalancerResult',
     );
     return AddAvailabilityZonesOutput.fromXml($result);
@@ -1094,9 +1169,11 @@ class ElasticLoadBalancing {
     required LoadBalancerAttributes loadBalancerAttributes,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerAttributes'] = loadBalancerAttributes;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      for (var e1 in loadBalancerAttributes.toQueryMap().entries)
+        'LoadBalancerAttributes.${e1.key}': e1.value,
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ModifyLoadBalancerAttributes',
@@ -1104,8 +1181,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ModifyLoadBalancerAttributesInput'],
-      shapes: shapes,
       resultWrapper: 'ModifyLoadBalancerAttributesResult',
     );
     return ModifyLoadBalancerAttributesOutput.fromXml($result);
@@ -1151,9 +1226,15 @@ class ElasticLoadBalancing {
     required List<Instance> instances,
     required String loadBalancerName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Instances'] = instances;
-    $request['LoadBalancerName'] = loadBalancerName;
+    final $request = <String, String>{
+      if (instances.isEmpty)
+        'Instances': ''
+      else
+        for (var i1 = 0; i1 < instances.length; i1++)
+          for (var e3 in instances[i1].toQueryMap().entries)
+            'Instances.member.${i1 + 1}.${e3.key}': e3.value,
+      'LoadBalancerName': loadBalancerName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RegisterInstancesWithLoadBalancer',
@@ -1161,8 +1242,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RegisterEndPointsInput'],
-      shapes: shapes,
       resultWrapper: 'RegisterInstancesWithLoadBalancerResult',
     );
     return RegisterEndPointsOutput.fromXml($result);
@@ -1182,9 +1261,19 @@ class ElasticLoadBalancing {
     required List<String> loadBalancerNames,
     required List<TagKeyOnly> tags,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerNames'] = loadBalancerNames;
-    $request['Tags'] = tags;
+    final $request = <String, String>{
+      if (loadBalancerNames.isEmpty)
+        'LoadBalancerNames': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+      if (tags.isEmpty)
+        'Tags': ''
+      else
+        for (var i1 = 0; i1 < tags.length; i1++)
+          for (var e3 in tags[i1].toQueryMap().entries)
+            'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     await _protocol.send(
       $request,
       action: 'RemoveTags',
@@ -1192,8 +1281,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RemoveTagsInput'],
-      shapes: shapes,
       resultWrapper: 'RemoveTagsResult',
     );
   }
@@ -1226,10 +1313,11 @@ class ElasticLoadBalancing {
     required int loadBalancerPort,
     required String sSLCertificateId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['LoadBalancerPort'] = loadBalancerPort;
-    $request['SSLCertificateId'] = sSLCertificateId;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      'LoadBalancerPort': loadBalancerPort.toString(),
+      'SSLCertificateId': sSLCertificateId,
+    };
     await _protocol.send(
       $request,
       action: 'SetLoadBalancerListenerSSLCertificate',
@@ -1237,8 +1325,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetLoadBalancerListenerSSLCertificateInput'],
-      shapes: shapes,
       resultWrapper: 'SetLoadBalancerListenerSSLCertificateResult',
     );
   }
@@ -1283,10 +1369,15 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> policyNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['InstancePort'] = instancePort;
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['PolicyNames'] = policyNames;
+    final $request = <String, String>{
+      'InstancePort': instancePort.toString(),
+      'LoadBalancerName': loadBalancerName,
+      if (policyNames.isEmpty)
+        'PolicyNames': ''
+      else
+        for (var i1 = 0; i1 < policyNames.length; i1++)
+          'PolicyNames.member.${i1 + 1}': policyNames[i1],
+    };
     await _protocol.send(
       $request,
       action: 'SetLoadBalancerPoliciesForBackendServer',
@@ -1294,8 +1385,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetLoadBalancerPoliciesForBackendServerInput'],
-      shapes: shapes,
       resultWrapper: 'SetLoadBalancerPoliciesForBackendServerResult',
     );
   }
@@ -1334,10 +1423,15 @@ class ElasticLoadBalancing {
     required int loadBalancerPort,
     required List<String> policyNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LoadBalancerName'] = loadBalancerName;
-    $request['LoadBalancerPort'] = loadBalancerPort;
-    $request['PolicyNames'] = policyNames;
+    final $request = <String, String>{
+      'LoadBalancerName': loadBalancerName,
+      'LoadBalancerPort': loadBalancerPort.toString(),
+      if (policyNames.isEmpty)
+        'PolicyNames': ''
+      else
+        for (var i1 = 0; i1 < policyNames.length; i1++)
+          'PolicyNames.member.${i1 + 1}': policyNames[i1],
+    };
     await _protocol.send(
       $request,
       action: 'SetLoadBalancerPoliciesOfListener',
@@ -1345,8 +1439,6 @@ class ElasticLoadBalancing {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetLoadBalancerPoliciesOfListenerInput'],
-      shapes: shapes,
       resultWrapper: 'SetLoadBalancerPoliciesOfListenerResult',
     );
   }
@@ -1394,6 +1486,19 @@ class AccessLog {
     return {
       'Enabled': enabled,
       if (emitInterval != null) 'EmitInterval': emitInterval,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3BucketPrefix != null) 'S3BucketPrefix': s3BucketPrefix,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final enabled = this.enabled;
+    final emitInterval = this.emitInterval;
+    final s3BucketName = this.s3BucketName;
+    final s3BucketPrefix = this.s3BucketPrefix;
+    return {
+      'Enabled': enabled.toString(),
+      if (emitInterval != null) 'EmitInterval': emitInterval.toString(),
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
       if (s3BucketPrefix != null) 'S3BucketPrefix': s3BucketPrefix,
     };
@@ -1470,6 +1575,15 @@ class AdditionalAttribute {
   }
 
   Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final key = this.key;
     final value = this.value;
     return {
@@ -1639,6 +1753,15 @@ class ConnectionDraining {
       if (timeout != null) 'Timeout': timeout,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final enabled = this.enabled;
+    final timeout = this.timeout;
+    return {
+      'Enabled': enabled.toString(),
+      if (timeout != null) 'Timeout': timeout.toString(),
+    };
+  }
 }
 
 /// Information about the <code>ConnectionSettings</code> attribute.
@@ -1660,6 +1783,13 @@ class ConnectionSettings {
     final idleTimeout = this.idleTimeout;
     return {
       'IdleTimeout': idleTimeout,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final idleTimeout = this.idleTimeout;
+    return {
+      'IdleTimeout': idleTimeout.toString(),
     };
   }
 }
@@ -1761,6 +1891,13 @@ class CrossZoneLoadBalancing {
     final enabled = this.enabled;
     return {
       'Enabled': enabled,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled.toString(),
     };
   }
 }
@@ -2117,6 +2254,21 @@ class HealthCheck {
       'UnhealthyThreshold': unhealthyThreshold,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final healthyThreshold = this.healthyThreshold;
+    final interval = this.interval;
+    final target = this.target;
+    final timeout = this.timeout;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    return {
+      'HealthyThreshold': healthyThreshold.toString(),
+      'Interval': interval.toString(),
+      'Target': target,
+      'Timeout': timeout.toString(),
+      'UnhealthyThreshold': unhealthyThreshold.toString(),
+    };
+  }
 }
 
 /// The ID of an EC2 instance.
@@ -2134,6 +2286,13 @@ class Instance {
   }
 
   Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
+    return {
+      if (instanceId != null) 'InstanceId': instanceId,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final instanceId = this.instanceId;
     return {
       if (instanceId != null) 'InstanceId': instanceId,
@@ -2379,6 +2538,21 @@ class Listener {
       if (sSLCertificateId != null) 'SSLCertificateId': sSLCertificateId,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final instancePort = this.instancePort;
+    final loadBalancerPort = this.loadBalancerPort;
+    final protocol = this.protocol;
+    final instanceProtocol = this.instanceProtocol;
+    final sSLCertificateId = this.sSLCertificateId;
+    return {
+      'InstancePort': instancePort.toString(),
+      'LoadBalancerPort': loadBalancerPort.toString(),
+      'Protocol': protocol,
+      if (instanceProtocol != null) 'InstanceProtocol': instanceProtocol,
+      if (sSLCertificateId != null) 'SSLCertificateId': sSLCertificateId,
+    };
+  }
 }
 
 /// The policies enabled for a listener.
@@ -2494,6 +2668,35 @@ class LoadBalancerAttributes {
       if (connectionSettings != null) 'ConnectionSettings': connectionSettings,
       if (crossZoneLoadBalancing != null)
         'CrossZoneLoadBalancing': crossZoneLoadBalancing,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final accessLog = this.accessLog;
+    final additionalAttributes = this.additionalAttributes;
+    final connectionDraining = this.connectionDraining;
+    final connectionSettings = this.connectionSettings;
+    final crossZoneLoadBalancing = this.crossZoneLoadBalancing;
+    return {
+      if (accessLog != null)
+        for (var e1 in accessLog.toQueryMap().entries)
+          'AccessLog.${e1.key}': e1.value,
+      if (additionalAttributes != null)
+        if (additionalAttributes.isEmpty)
+          'AdditionalAttributes': ''
+        else
+          for (var i1 = 0; i1 < additionalAttributes.length; i1++)
+            for (var e3 in additionalAttributes[i1].toQueryMap().entries)
+              'AdditionalAttributes.member.${i1 + 1}.${e3.key}': e3.value,
+      if (connectionDraining != null)
+        for (var e1 in connectionDraining.toQueryMap().entries)
+          'ConnectionDraining.${e1.key}': e1.value,
+      if (connectionSettings != null)
+        for (var e1 in connectionSettings.toQueryMap().entries)
+          'ConnectionSettings.${e1.key}': e1.value,
+      if (crossZoneLoadBalancing != null)
+        for (var e1 in crossZoneLoadBalancing.toQueryMap().entries)
+          'CrossZoneLoadBalancing.${e1.key}': e1.value,
     };
   }
 }
@@ -2763,6 +2966,15 @@ class PolicyAttribute {
   });
 
   Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeValue != null) 'AttributeValue': attributeValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final attributeName = this.attributeName;
     final attributeValue = this.attributeValue;
     return {
@@ -3114,6 +3326,15 @@ class Tag {
       if (value != null) 'Value': value,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The tags associated with a load balancer.
@@ -3156,6 +3377,13 @@ class TagKeyOnly {
   });
 
   Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      if (key != null) 'Key': key,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final key = this.key;
     return {
       if (key != null) 'Key': key,

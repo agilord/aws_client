@@ -336,6 +336,26 @@ ${builder.constructor()}
         writeln('}');
       }
 
+      if (shape.isUsedInInput && shape.api.usesQueryProtocol) {
+        writeln('\n\n  Map<String, String> toQueryMap() {');
+        for (var member in shape.members) {
+          writeln('final ${member.fieldName} = this.${member.fieldName};');
+        }
+        writeln('return {');
+        for (var member in shape.members.where((m) => m.isBody)) {
+          final lastName = member.locationName ??
+              member.shapeClass?.locationName ??
+              member.shapeClass?.member?.locationName ??
+              member.name;
+          for (var line in queryLines(member.fieldName,
+              member: member, prefixes: [lastName])) {
+            writeln(line);
+          }
+        }
+        writeln('};');
+        writeln('}');
+      }
+
       if (shape.generateToXml) {
         writeln(
             '\n  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {');

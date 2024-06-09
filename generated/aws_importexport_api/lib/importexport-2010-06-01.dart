@@ -17,7 +17,6 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'importexport-2010-06-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// transferring large amounts of data between the AWS cloud and portable
@@ -28,7 +27,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// than upgrading your connectivity.
 class ImportExport {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   ImportExport({
     String? region,
@@ -36,7 +34,7 @@ class ImportExport {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'importexport',
@@ -45,9 +43,7 @@ class ImportExport {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -71,9 +67,10 @@ class ImportExport {
     required String jobId,
     String? aPIVersion,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['JobId'] = jobId;
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
+    final $request = <String, String>{
+      'JobId': jobId,
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CancelJob',
@@ -81,8 +78,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=CancelJob',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CancelJobInput'],
-      shapes: shapes,
       resultWrapper: 'CancelJobResult',
     );
     return CancelJobOutput.fromXml($result);
@@ -118,12 +113,13 @@ class ImportExport {
     String? aPIVersion,
     String? manifestAddendum,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['JobType'] = jobType.toValue();
-    $request['Manifest'] = manifest;
-    $request['ValidateOnly'] = validateOnly;
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
-    manifestAddendum?.also((arg) => $request['ManifestAddendum'] = arg);
+    final $request = <String, String>{
+      'JobType': jobType.toValue(),
+      'Manifest': manifest,
+      'ValidateOnly': validateOnly.toString(),
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+      if (manifestAddendum != null) 'ManifestAddendum': manifestAddendum,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateJob',
@@ -131,8 +127,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=CreateJob',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateJobInput'],
-      shapes: shapes,
       resultWrapper: 'CreateJobResult',
     );
     return CreateJobOutput.fromXml($result);
@@ -162,19 +156,24 @@ class ImportExport {
     String? street2,
     String? street3,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['jobIds'] = jobIds;
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
-    city?.also((arg) => $request['city'] = arg);
-    company?.also((arg) => $request['company'] = arg);
-    country?.also((arg) => $request['country'] = arg);
-    name?.also((arg) => $request['name'] = arg);
-    phoneNumber?.also((arg) => $request['phoneNumber'] = arg);
-    postalCode?.also((arg) => $request['postalCode'] = arg);
-    stateOrProvince?.also((arg) => $request['stateOrProvince'] = arg);
-    street1?.also((arg) => $request['street1'] = arg);
-    street2?.also((arg) => $request['street2'] = arg);
-    street3?.also((arg) => $request['street3'] = arg);
+    final $request = <String, String>{
+      if (jobIds.isEmpty)
+        'jobIds': ''
+      else
+        for (var i1 = 0; i1 < jobIds.length; i1++)
+          'jobIds.member.${i1 + 1}': jobIds[i1],
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+      if (city != null) 'city': city,
+      if (company != null) 'company': company,
+      if (country != null) 'country': country,
+      if (name != null) 'name': name,
+      if (phoneNumber != null) 'phoneNumber': phoneNumber,
+      if (postalCode != null) 'postalCode': postalCode,
+      if (stateOrProvince != null) 'stateOrProvince': stateOrProvince,
+      if (street1 != null) 'street1': street1,
+      if (street2 != null) 'street2': street2,
+      if (street3 != null) 'street3': street3,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetShippingLabel',
@@ -182,8 +181,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=GetShippingLabel',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetShippingLabelInput'],
-      shapes: shapes,
       resultWrapper: 'GetShippingLabelResult',
     );
     return GetShippingLabelOutput.fromXml($result);
@@ -203,9 +200,10 @@ class ImportExport {
     required String jobId,
     String? aPIVersion,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['JobId'] = jobId;
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
+    final $request = <String, String>{
+      'JobId': jobId,
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetStatus',
@@ -213,8 +211,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=GetStatus',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetStatusInput'],
-      shapes: shapes,
       resultWrapper: 'GetStatusResult',
     );
     return GetStatusOutput.fromXml($result);
@@ -234,10 +230,11 @@ class ImportExport {
     String? marker,
     int? maxJobs,
   }) async {
-    final $request = <String, dynamic>{};
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxJobs?.also((arg) => $request['MaxJobs'] = arg);
+    final $request = <String, String>{
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+      if (marker != null) 'Marker': marker,
+      if (maxJobs != null) 'MaxJobs': maxJobs.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListJobs',
@@ -245,8 +242,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=ListJobs',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListJobsInput'],
-      shapes: shapes,
       resultWrapper: 'ListJobsResult',
     );
     return ListJobsOutput.fromXml($result);
@@ -283,12 +278,13 @@ class ImportExport {
     required bool validateOnly,
     String? aPIVersion,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['JobId'] = jobId;
-    $request['JobType'] = jobType.toValue();
-    $request['Manifest'] = manifest;
-    $request['ValidateOnly'] = validateOnly;
-    aPIVersion?.also((arg) => $request['APIVersion'] = arg);
+    final $request = <String, String>{
+      'JobId': jobId,
+      'JobType': jobType.toValue(),
+      'Manifest': manifest,
+      'ValidateOnly': validateOnly.toString(),
+      if (aPIVersion != null) 'APIVersion': aPIVersion,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateJob',
@@ -296,8 +292,6 @@ class ImportExport {
       method: 'POST',
       requestUri: '/?Operation=UpdateJob',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateJobInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateJobResult',
     );
     return UpdateJobOutput.fromXml($result);

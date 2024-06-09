@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'recursive_shapes.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Recursive shapes
 class RecursiveShapes {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   RecursiveShapes({
     required String region,
@@ -31,7 +29,7 @@ class RecursiveShapes {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'RecursiveShapes',
@@ -40,9 +38,7 @@ class RecursiveShapes {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -56,8 +52,11 @@ class RecursiveShapes {
   Future<void> operationName0({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -65,16 +64,17 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 
   Future<void> operationName1({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -82,16 +82,17 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 
   Future<void> operationName2({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -99,16 +100,17 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 
   Future<void> operationName3({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -116,16 +118,17 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 
   Future<void> operationName4({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -133,16 +136,17 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 
   Future<void> operationName5({
     RecursiveStructType? recursiveStruct,
   }) async {
-    final $request = <String, dynamic>{};
-    recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
+    final $request = <String, String>{
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -150,8 +154,6 @@ class RecursiveShapes {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 }
@@ -179,6 +181,32 @@ class RecursiveStructType {
       if (recursiveList != null) 'RecursiveList': recursiveList,
       if (recursiveMap != null) 'RecursiveMap': recursiveMap,
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final noRecurse = this.noRecurse;
+    final recursiveList = this.recursiveList;
+    final recursiveMap = this.recursiveMap;
+    final recursiveStruct = this.recursiveStruct;
+    return {
+      if (noRecurse != null) 'NoRecurse': noRecurse,
+      if (recursiveList != null)
+        if (recursiveList.isEmpty)
+          'RecursiveList': ''
+        else
+          for (var i1 = 0; i1 < recursiveList.length; i1++)
+            for (var e3 in recursiveList[i1].toQueryMap().entries)
+              'RecursiveList.member.${i1 + 1}.${e3.key}': e3.value,
+      if (recursiveMap != null)
+        for (var e1 in recursiveMap.entries.toList().asMap().entries) ...{
+          'RecursiveMap.entry.${e1.key + 1}.key': e1.value.key,
+          for (var e4 in e1.value.value.toQueryMap().entries)
+            'RecursiveMap.entry.${e1.key + 1}.value.${e4.key}': e4.value,
+        },
+      if (recursiveStruct != null)
+        for (var e1 in recursiveStruct.toQueryMap().entries)
+          'RecursiveStruct.${e1.key}': e1.value,
     };
   }
 }

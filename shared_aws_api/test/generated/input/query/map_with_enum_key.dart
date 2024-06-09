@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'map_with_enum_key.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Map with enum key
 class MapWithEnumKey {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   MapWithEnumKey({
     required String region,
@@ -31,7 +29,7 @@ class MapWithEnumKey {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'MapWithEnumKey',
@@ -40,9 +38,7 @@ class MapWithEnumKey {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -57,10 +53,14 @@ class MapWithEnumKey {
     required String queueName,
     Map<QueueAttributeName, String>? attributes,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['QueueName'] = queueName;
-    attributes?.also((arg) =>
-        $request['Attributes'] = arg.map((k, v) => MapEntry(k.toValue(), v)));
+    final $request = <String, String>{
+      'QueueName': queueName,
+      if (attributes != null)
+        for (var e1 in attributes.entries.toList().asMap().entries) ...{
+          'Attributes.${e1.key + 1}.Name': e1.value.key.toValue(),
+          'Attributes.${e1.key + 1}.Value': e1.value.value,
+        },
+    };
     await _protocol.send(
       $request,
       action: 'CreateQueue',
@@ -68,8 +68,6 @@ class MapWithEnumKey {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateQueueRequest'],
-      shapes: shapes,
     );
   }
 }

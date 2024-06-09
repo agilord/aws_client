@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'base64_encoded_blobs_nested.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Base64 encoded Blobs nested
 class Base64EncodedBlobsNested {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   Base64EncodedBlobsNested({
     required String region,
@@ -31,7 +29,7 @@ class Base64EncodedBlobsNested {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'Base64EncodedBlobsNested',
@@ -40,9 +38,7 @@ class Base64EncodedBlobsNested {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -56,8 +52,14 @@ class Base64EncodedBlobsNested {
   Future<void> operationName0({
     List<Uint8List>? blobArgs,
   }) async {
-    final $request = <String, dynamic>{};
-    blobArgs?.also((arg) => $request['BlobArgs'] = arg);
+    final $request = <String, String>{
+      if (blobArgs != null)
+        if (blobArgs.isEmpty)
+          'BlobArgs': ''
+        else
+          for (var i1 = 0; i1 < blobArgs.length; i1++)
+            'BlobArgs.${i1 + 1}': base64Encode(blobArgs[i1]),
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -65,8 +67,6 @@ class Base64EncodedBlobsNested {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 }

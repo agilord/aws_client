@@ -17,7 +17,6 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'sdb-2009-04-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon SimpleDB is a web service providing the core database functions of
@@ -39,7 +38,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// for more information.
 class SimpleDB {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   SimpleDB({
     required String region,
@@ -47,7 +45,7 @@ class SimpleDB {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'sdb',
@@ -56,9 +54,7 @@ class SimpleDB {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -106,9 +102,15 @@ class SimpleDB {
     required String domainName,
     required List<DeletableItem> items,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['Items'] = items;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (items.isEmpty)
+        'Items': ''
+      else
+        for (var i1 = 0; i1 < items.length; i1++)
+          for (var e2 in items[i1].toQueryMap().entries)
+            'Item.${i1 + 1}.${e2.key}': e2.value,
+    };
     await _protocol.send(
       $request,
       action: 'BatchDeleteAttributes',
@@ -116,8 +118,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BatchDeleteAttributesRequest'],
-      shapes: shapes,
     );
   }
 
@@ -194,9 +194,15 @@ class SimpleDB {
     required String domainName,
     required List<ReplaceableItem> items,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['Items'] = items;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (items.isEmpty)
+        'Items': ''
+      else
+        for (var i1 = 0; i1 < items.length; i1++)
+          for (var e2 in items[i1].toQueryMap().entries)
+            'Item.${i1 + 1}.${e2.key}': e2.value,
+    };
     await _protocol.send(
       $request,
       action: 'BatchPutAttributes',
@@ -204,8 +210,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BatchPutAttributesRequest'],
-      shapes: shapes,
     );
   }
 
@@ -232,8 +236,9 @@ class SimpleDB {
   Future<void> createDomain({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     await _protocol.send(
       $request,
       action: 'CreateDomain',
@@ -241,8 +246,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateDomainRequest'],
-      shapes: shapes,
     );
   }
 
@@ -288,11 +291,20 @@ class SimpleDB {
     List<DeletableAttribute>? attributes,
     UpdateCondition? expected,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['ItemName'] = itemName;
-    attributes?.also((arg) => $request['Attributes'] = arg);
-    expected?.also((arg) => $request['Expected'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'ItemName': itemName,
+      if (attributes != null)
+        if (attributes.isEmpty)
+          'Attributes': ''
+        else
+          for (var i1 = 0; i1 < attributes.length; i1++)
+            for (var e2 in attributes[i1].toQueryMap().entries)
+              'Attribute.${i1 + 1}.${e2.key}': e2.value,
+      if (expected != null)
+        for (var e1 in expected.toQueryMap().entries)
+          'Expected.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteAttributes',
@@ -300,8 +312,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteAttributesRequest'],
-      shapes: shapes,
     );
   }
 
@@ -320,8 +330,9 @@ class SimpleDB {
   Future<void> deleteDomain({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteDomain',
@@ -329,8 +340,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteDomainRequest'],
-      shapes: shapes,
     );
   }
 
@@ -346,8 +355,9 @@ class SimpleDB {
   Future<DomainMetadataResult> domainMetadata({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DomainMetadata',
@@ -355,8 +365,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DomainMetadataRequest'],
-      shapes: shapes,
       resultWrapper: 'DomainMetadataResult',
     );
     return DomainMetadataResult.fromXml($result);
@@ -397,11 +405,17 @@ class SimpleDB {
     List<String>? attributeNames,
     bool? consistentRead,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['ItemName'] = itemName;
-    attributeNames?.also((arg) => $request['AttributeNames'] = arg);
-    consistentRead?.also((arg) => $request['ConsistentRead'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'ItemName': itemName,
+      if (attributeNames != null)
+        if (attributeNames.isEmpty)
+          'AttributeNames': ''
+        else
+          for (var i1 = 0; i1 < attributeNames.length; i1++)
+            'AttributeName.${i1 + 1}': attributeNames[i1],
+      if (consistentRead != null) 'ConsistentRead': consistentRead.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetAttributes',
@@ -409,8 +423,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetAttributesRequest'],
-      shapes: shapes,
       resultWrapper: 'GetAttributesResult',
     );
     return GetAttributesResult.fromXml($result);
@@ -439,9 +451,11 @@ class SimpleDB {
     int? maxNumberOfDomains,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    maxNumberOfDomains?.also((arg) => $request['MaxNumberOfDomains'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxNumberOfDomains != null)
+        'MaxNumberOfDomains': maxNumberOfDomains.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListDomains',
@@ -449,8 +463,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListDomainsRequest'],
-      shapes: shapes,
       resultWrapper: 'ListDomainsResult',
     );
     return ListDomainsResult.fromXml($result);
@@ -526,11 +538,19 @@ class SimpleDB {
     required String itemName,
     UpdateCondition? expected,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Attributes'] = attributes;
-    $request['DomainName'] = domainName;
-    $request['ItemName'] = itemName;
-    expected?.also((arg) => $request['Expected'] = arg);
+    final $request = <String, String>{
+      if (attributes.isEmpty)
+        'Attributes': ''
+      else
+        for (var i1 = 0; i1 < attributes.length; i1++)
+          for (var e2 in attributes[i1].toQueryMap().entries)
+            'Attribute.${i1 + 1}.${e2.key}': e2.value,
+      'DomainName': domainName,
+      'ItemName': itemName,
+      if (expected != null)
+        for (var e1 in expected.toQueryMap().entries)
+          'Expected.${e1.key}': e1.value,
+    };
     await _protocol.send(
       $request,
       action: 'PutAttributes',
@@ -538,8 +558,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PutAttributesRequest'],
-      shapes: shapes,
     );
   }
 
@@ -585,10 +603,11 @@ class SimpleDB {
     bool? consistentRead,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SelectExpression'] = selectExpression;
-    consistentRead?.also((arg) => $request['ConsistentRead'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'SelectExpression': selectExpression,
+      if (consistentRead != null) 'ConsistentRead': consistentRead.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'Select',
@@ -596,8 +615,6 @@ class SimpleDB {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SelectRequest'],
-      shapes: shapes,
       resultWrapper: 'SelectResult',
     );
     return SelectResult.fromXml($result);
@@ -671,6 +688,15 @@ class DeletableAttribute {
       if (value != null) 'Value': value,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class DeletableItem {
@@ -688,6 +714,21 @@ class DeletableItem {
     return {
       'ItemName': name,
       if (attributes != null) 'Attributes': attributes,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final attributes = this.attributes;
+    return {
+      'ItemName': name,
+      if (attributes != null)
+        if (attributes.isEmpty)
+          'Attribute': ''
+        else
+          for (var i1 = 0; i1 < attributes.length; i1++)
+            for (var e2 in attributes[i1].toQueryMap().entries)
+              'Attribute.${i1 + 1}.${e2.key}': e2.value,
     };
   }
 }
@@ -1024,6 +1065,17 @@ class ReplaceableAttribute {
       if (replace != null) 'Replace': replace,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final value = this.value;
+    final replace = this.replace;
+    return {
+      'Name': name,
+      'Value': value,
+      if (replace != null) 'Replace': replace.toString(),
+    };
+  }
 }
 
 ///
@@ -1044,6 +1096,20 @@ class ReplaceableItem {
     final name = this.name;
     return {
       'Attributes': attributes,
+      'ItemName': name,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final attributes = this.attributes;
+    final name = this.name;
+    return {
+      if (attributes.isEmpty)
+        'Attribute': ''
+      else
+        for (var i1 = 0; i1 < attributes.length; i1++)
+          for (var e2 in attributes[i1].toQueryMap().entries)
+            'Attribute.${i1 + 1}.${e2.key}': e2.value,
       'ItemName': name,
     };
   }
@@ -1130,6 +1196,17 @@ class UpdateCondition {
     final value = this.value;
     return {
       if (exists != null) 'Exists': exists,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final exists = this.exists;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (exists != null) 'Exists': exists.toString(),
       if (name != null) 'Name': name,
       if (value != null) 'Value': value,
     };

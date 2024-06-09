@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'scalar_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Scalar members
 class ScalarMembers {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   ScalarMembers({
     required String region,
@@ -31,7 +29,7 @@ class ScalarMembers {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ScalarMembers',
@@ -40,9 +38,7 @@ class ScalarMembers {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -54,7 +50,7 @@ class ScalarMembers {
   }
 
   Future<OutputShape> operationName0() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'OperationName',
@@ -62,7 +58,6 @@ class ScalarMembers {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'OperationNameResult',
     );
     return OutputShape.fromXml($result);

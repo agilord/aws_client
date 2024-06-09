@@ -17,7 +17,6 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'cloudformation-2010-05-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// CloudFormation allows you to create and manage Amazon Web Services
@@ -29,7 +28,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// creating or configuring the underlying Amazon Web Services infrastructure.
 class CloudFormation {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   CloudFormation({
     required String region,
@@ -37,7 +35,7 @@ class CloudFormation {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'cloudformation',
@@ -46,9 +44,7 @@ class CloudFormation {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -66,7 +62,7 @@ class CloudFormation {
   /// May throw [InvalidOperationException].
   /// May throw [OperationNotFoundException].
   Future<void> activateOrganizationsAccess() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     await _protocol.send(
       $request,
       action: 'ActivateOrganizationsAccess',
@@ -74,8 +70,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ActivateOrganizationsAccessInput'],
-      shapes: shapes,
       resultWrapper: 'ActivateOrganizationsAccessResult',
     );
   }
@@ -187,17 +181,20 @@ class CloudFormation {
       1,
       100000,
     );
-    final $request = <String, dynamic>{};
-    autoUpdate?.also((arg) => $request['AutoUpdate'] = arg);
-    executionRoleArn?.also((arg) => $request['ExecutionRoleArn'] = arg);
-    loggingConfig?.also((arg) => $request['LoggingConfig'] = arg);
-    majorVersion?.also((arg) => $request['MajorVersion'] = arg);
-    publicTypeArn?.also((arg) => $request['PublicTypeArn'] = arg);
-    publisherId?.also((arg) => $request['PublisherId'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
-    typeNameAlias?.also((arg) => $request['TypeNameAlias'] = arg);
-    versionBump?.also((arg) => $request['VersionBump'] = arg.toValue());
+    final $request = <String, String>{
+      if (autoUpdate != null) 'AutoUpdate': autoUpdate.toString(),
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
+      if (loggingConfig != null)
+        for (var e1 in loggingConfig.toQueryMap().entries)
+          'LoggingConfig.${e1.key}': e1.value,
+      if (majorVersion != null) 'MajorVersion': majorVersion.toString(),
+      if (publicTypeArn != null) 'PublicTypeArn': publicTypeArn,
+      if (publisherId != null) 'PublisherId': publisherId,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (typeNameAlias != null) 'TypeNameAlias': typeNameAlias,
+      if (versionBump != null) 'VersionBump': versionBump.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ActivateType',
@@ -205,8 +202,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ActivateTypeInput'],
-      shapes: shapes,
       resultWrapper: 'ActivateTypeResult',
     );
     return ActivateTypeOutput.fromXml($result);
@@ -229,8 +224,14 @@ class CloudFormation {
       batchDescribeTypeConfigurations({
     required List<TypeConfigurationIdentifier> typeConfigurationIdentifiers,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['TypeConfigurationIdentifiers'] = typeConfigurationIdentifiers;
+    final $request = <String, String>{
+      if (typeConfigurationIdentifiers.isEmpty)
+        'TypeConfigurationIdentifiers': ''
+      else
+        for (var i1 = 0; i1 < typeConfigurationIdentifiers.length; i1++)
+          for (var e3 in typeConfigurationIdentifiers[i1].toQueryMap().entries)
+            'TypeConfigurationIdentifiers.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'BatchDescribeTypeConfigurations',
@@ -238,8 +239,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BatchDescribeTypeConfigurationsInput'],
-      shapes: shapes,
       resultWrapper: 'BatchDescribeTypeConfigurationsResult',
     );
     return BatchDescribeTypeConfigurationsOutput.fromXml($result);
@@ -280,9 +279,10 @@ class CloudFormation {
     required String stackName,
     String? clientRequestToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+    };
     await _protocol.send(
       $request,
       action: 'CancelUpdateStack',
@@ -290,8 +290,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CancelUpdateStackInput'],
-      shapes: shapes,
     );
   }
 
@@ -392,11 +390,17 @@ class CloudFormation {
     List<String>? resourcesToSkip,
     String? roleARN,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    resourcesToSkip?.also((arg) => $request['ResourcesToSkip'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (resourcesToSkip != null)
+        if (resourcesToSkip.isEmpty)
+          'ResourcesToSkip': ''
+        else
+          for (var i1 = 0; i1 < resourcesToSkip.length; i1++)
+            'ResourcesToSkip.member.${i1 + 1}': resourcesToSkip[i1],
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
     await _protocol.send(
       $request,
       action: 'ContinueUpdateRollback',
@@ -404,8 +408,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ContinueUpdateRollbackInput'],
-      shapes: shapes,
       resultWrapper: 'ContinueUpdateRollbackResult',
     );
   }
@@ -742,29 +744,65 @@ class CloudFormation {
     String? templateURL,
     bool? usePreviousTemplate,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ChangeSetName'] = changeSetName;
-    $request['StackName'] = stackName;
-    capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
-    changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
-    clientToken?.also((arg) => $request['ClientToken'] = arg);
-    description?.also((arg) => $request['Description'] = arg);
-    importExistingResources
-        ?.also((arg) => $request['ImportExistingResources'] = arg);
-    includeNestedStacks?.also((arg) => $request['IncludeNestedStacks'] = arg);
-    notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
-    onStackFailure?.also((arg) => $request['OnStackFailure'] = arg.toValue());
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
-    resourcesToImport?.also((arg) => $request['ResourcesToImport'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
-    rollbackConfiguration
-        ?.also((arg) => $request['RollbackConfiguration'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
-    usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
+    final $request = <String, String>{
+      'ChangeSetName': changeSetName,
+      'StackName': stackName,
+      if (capabilities != null)
+        if (capabilities.isEmpty)
+          'Capabilities': ''
+        else
+          for (var i1 = 0; i1 < capabilities.length; i1++)
+            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+      if (changeSetType != null) 'ChangeSetType': changeSetType.toValue(),
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (description != null) 'Description': description,
+      if (importExistingResources != null)
+        'ImportExistingResources': importExistingResources.toString(),
+      if (includeNestedStacks != null)
+        'IncludeNestedStacks': includeNestedStacks.toString(),
+      if (notificationARNs != null)
+        if (notificationARNs.isEmpty)
+          'NotificationARNs': ''
+        else
+          for (var i1 = 0; i1 < notificationARNs.length; i1++)
+            'NotificationARNs.member.${i1 + 1}': notificationARNs[i1],
+      if (onStackFailure != null) 'OnStackFailure': onStackFailure.toValue(),
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (resourceTypes != null)
+        if (resourceTypes.isEmpty)
+          'ResourceTypes': ''
+        else
+          for (var i1 = 0; i1 < resourceTypes.length; i1++)
+            'ResourceTypes.member.${i1 + 1}': resourceTypes[i1],
+      if (resourcesToImport != null)
+        if (resourcesToImport.isEmpty)
+          'ResourcesToImport': ''
+        else
+          for (var i1 = 0; i1 < resourcesToImport.length; i1++)
+            for (var e3 in resourcesToImport[i1].toQueryMap().entries)
+              'ResourcesToImport.member.${i1 + 1}.${e3.key}': e3.value,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (rollbackConfiguration != null)
+        for (var e1 in rollbackConfiguration.toQueryMap().entries)
+          'RollbackConfiguration.${e1.key}': e1.value,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+      if (usePreviousTemplate != null)
+        'UsePreviousTemplate': usePreviousTemplate.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateChangeSet',
@@ -772,8 +810,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateChangeSetInput'],
-      shapes: shapes,
       resultWrapper: 'CreateChangeSetResult',
     );
     return CreateChangeSetOutput.fromXml($result);
@@ -810,12 +846,20 @@ class CloudFormation {
     String? stackName,
     TemplateConfiguration? templateConfiguration,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GeneratedTemplateName'] = generatedTemplateName;
-    resources?.also((arg) => $request['Resources'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
-    templateConfiguration
-        ?.also((arg) => $request['TemplateConfiguration'] = arg);
+    final $request = <String, String>{
+      'GeneratedTemplateName': generatedTemplateName,
+      if (resources != null)
+        if (resources.isEmpty)
+          'Resources': ''
+        else
+          for (var i1 = 0; i1 < resources.length; i1++)
+            for (var e3 in resources[i1].toQueryMap().entries)
+              'Resources.member.${i1 + 1}.${e3.key}': e3.value,
+      if (stackName != null) 'StackName': stackName,
+      if (templateConfiguration != null)
+        for (var e1 in templateConfiguration.toQueryMap().entries)
+          'TemplateConfiguration.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateGeneratedTemplate',
@@ -823,8 +867,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateGeneratedTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'CreateGeneratedTemplateResult',
     );
     return CreateGeneratedTemplateOutput.fromXml($result);
@@ -1137,28 +1179,59 @@ class CloudFormation {
       1,
       1152921504606846976,
     );
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    disableRollback?.also((arg) => $request['DisableRollback'] = arg);
-    enableTerminationProtection
-        ?.also((arg) => $request['EnableTerminationProtection'] = arg);
-    notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
-    onFailure?.also((arg) => $request['OnFailure'] = arg.toValue());
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
-    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
-    rollbackConfiguration
-        ?.also((arg) => $request['RollbackConfiguration'] = arg);
-    stackPolicyBody?.also((arg) => $request['StackPolicyBody'] = arg);
-    stackPolicyURL?.also((arg) => $request['StackPolicyURL'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
-    timeoutInMinutes?.also((arg) => $request['TimeoutInMinutes'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (capabilities != null)
+        if (capabilities.isEmpty)
+          'Capabilities': ''
+        else
+          for (var i1 = 0; i1 < capabilities.length; i1++)
+            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (disableRollback != null)
+        'DisableRollback': disableRollback.toString(),
+      if (enableTerminationProtection != null)
+        'EnableTerminationProtection': enableTerminationProtection.toString(),
+      if (notificationARNs != null)
+        if (notificationARNs.isEmpty)
+          'NotificationARNs': ''
+        else
+          for (var i1 = 0; i1 < notificationARNs.length; i1++)
+            'NotificationARNs.member.${i1 + 1}': notificationARNs[i1],
+      if (onFailure != null) 'OnFailure': onFailure.toValue(),
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (resourceTypes != null)
+        if (resourceTypes.isEmpty)
+          'ResourceTypes': ''
+        else
+          for (var i1 = 0; i1 < resourceTypes.length; i1++)
+            'ResourceTypes.member.${i1 + 1}': resourceTypes[i1],
+      if (retainExceptOnCreate != null)
+        'RetainExceptOnCreate': retainExceptOnCreate.toString(),
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (rollbackConfiguration != null)
+        for (var e1 in rollbackConfiguration.toQueryMap().entries)
+          'RollbackConfiguration.${e1.key}': e1.value,
+      if (stackPolicyBody != null) 'StackPolicyBody': stackPolicyBody,
+      if (stackPolicyURL != null) 'StackPolicyURL': stackPolicyURL,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+      if (timeoutInMinutes != null)
+        'TimeoutInMinutes': timeoutInMinutes.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateStack',
@@ -1166,8 +1239,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateStackInput'],
-      shapes: shapes,
       resultWrapper: 'CreateStackResult',
     );
     return CreateStackOutput.fromXml($result);
@@ -1294,15 +1365,35 @@ class CloudFormation {
     StackSetOperationPreferences? operationPreferences,
     List<Parameter>? parameterOverrides,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Regions'] = regions;
-    $request['StackSetName'] = stackSetName;
-    accounts?.also((arg) => $request['Accounts'] = arg);
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
-    parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
+    final $request = <String, String>{
+      if (regions.isEmpty)
+        'Regions': ''
+      else
+        for (var i1 = 0; i1 < regions.length; i1++)
+          'Regions.member.${i1 + 1}': regions[i1],
+      'StackSetName': stackSetName,
+      if (accounts != null)
+        if (accounts.isEmpty)
+          'Accounts': ''
+        else
+          for (var i1 = 0; i1 < accounts.length; i1++)
+            'Accounts.member.${i1 + 1}': accounts[i1],
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (deploymentTargets != null)
+        for (var e1 in deploymentTargets.toQueryMap().entries)
+          'DeploymentTargets.${e1.key}': e1.value,
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+      if (parameterOverrides != null)
+        if (parameterOverrides.isEmpty)
+          'ParameterOverrides': ''
+        else
+          for (var i1 = 0; i1 < parameterOverrides.length; i1++)
+            for (var e3 in parameterOverrides[i1].toQueryMap().entries)
+              'ParameterOverrides.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateStackInstances',
@@ -1310,8 +1401,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateStackInstancesInput'],
-      shapes: shapes,
       resultWrapper: 'CreateStackInstancesResult',
     );
     return CreateStackInstancesOutput.fromXml($result);
@@ -1571,25 +1660,45 @@ class CloudFormation {
     String? templateBody,
     String? templateURL,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    administrationRoleARN
-        ?.also((arg) => $request['AdministrationRoleARN'] = arg);
-    autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
-    $request['ClientRequestToken'] =
-        clientRequestToken ?? _s.generateIdempotencyToken();
-    description?.also((arg) => $request['Description'] = arg);
-    executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
-    managedExecution?.also((arg) => $request['ManagedExecution'] = arg);
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    permissionModel?.also((arg) => $request['PermissionModel'] = arg.toValue());
-    stackId?.also((arg) => $request['StackId'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (administrationRoleARN != null)
+        'AdministrationRoleARN': administrationRoleARN,
+      if (autoDeployment != null)
+        for (var e1 in autoDeployment.toQueryMap().entries)
+          'AutoDeployment.${e1.key}': e1.value,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (capabilities != null)
+        if (capabilities.isEmpty)
+          'Capabilities': ''
+        else
+          for (var i1 = 0; i1 < capabilities.length; i1++)
+            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (executionRoleName != null) 'ExecutionRoleName': executionRoleName,
+      if (managedExecution != null)
+        for (var e1 in managedExecution.toQueryMap().entries)
+          'ManagedExecution.${e1.key}': e1.value,
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (stackId != null) 'StackId': stackId,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateStackSet',
@@ -1597,8 +1706,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateStackSetInput'],
-      shapes: shapes,
       resultWrapper: 'CreateStackSetResult',
     );
     return CreateStackSetOutput.fromXml($result);
@@ -1611,7 +1718,7 @@ class CloudFormation {
   /// May throw [InvalidOperationException].
   /// May throw [OperationNotFoundException].
   Future<void> deactivateOrganizationsAccess() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     await _protocol.send(
       $request,
       action: 'DeactivateOrganizationsAccess',
@@ -1619,8 +1726,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeactivateOrganizationsAccessInput'],
-      shapes: shapes,
       resultWrapper: 'DeactivateOrganizationsAccessResult',
     );
   }
@@ -1662,10 +1767,11 @@ class CloudFormation {
     ThirdPartyType? type,
     String? typeName,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+    };
     await _protocol.send(
       $request,
       action: 'DeactivateType',
@@ -1673,8 +1779,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeactivateTypeInput'],
-      shapes: shapes,
       resultWrapper: 'DeactivateTypeResult',
     );
   }
@@ -1704,9 +1808,10 @@ class CloudFormation {
     required String changeSetName,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ChangeSetName'] = changeSetName;
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      'ChangeSetName': changeSetName,
+      if (stackName != null) 'StackName': stackName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteChangeSet',
@@ -1714,8 +1819,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteChangeSetInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteChangeSetResult',
     );
   }
@@ -1730,8 +1833,9 @@ class CloudFormation {
   Future<void> deleteGeneratedTemplate({
     required String generatedTemplateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GeneratedTemplateName'] = generatedTemplateName;
+    final $request = <String, String>{
+      'GeneratedTemplateName': generatedTemplateName,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteGeneratedTemplate',
@@ -1739,8 +1843,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteGeneratedTemplateInput'],
-      shapes: shapes,
     );
   }
 
@@ -1814,12 +1916,18 @@ class CloudFormation {
     List<String>? retainResources,
     String? roleARN,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    deletionMode?.also((arg) => $request['DeletionMode'] = arg.toValue());
-    retainResources?.also((arg) => $request['RetainResources'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (deletionMode != null) 'DeletionMode': deletionMode.toValue(),
+      if (retainResources != null)
+        if (retainResources.isEmpty)
+          'RetainResources': ''
+        else
+          for (var i1 = 0; i1 < retainResources.length; i1++)
+            'RetainResources.member.${i1 + 1}': retainResources[i1],
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
     await _protocol.send(
       $request,
       action: 'DeleteStack',
@@ -1827,8 +1935,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteStackInput'],
-      shapes: shapes,
     );
   }
 
@@ -1920,15 +2026,29 @@ class CloudFormation {
     String? operationId,
     StackSetOperationPreferences? operationPreferences,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Regions'] = regions;
-    $request['RetainStacks'] = retainStacks;
-    $request['StackSetName'] = stackSetName;
-    accounts?.also((arg) => $request['Accounts'] = arg);
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
+    final $request = <String, String>{
+      if (regions.isEmpty)
+        'Regions': ''
+      else
+        for (var i1 = 0; i1 < regions.length; i1++)
+          'Regions.member.${i1 + 1}': regions[i1],
+      'RetainStacks': retainStacks.toString(),
+      'StackSetName': stackSetName,
+      if (accounts != null)
+        if (accounts.isEmpty)
+          'Accounts': ''
+        else
+          for (var i1 = 0; i1 < accounts.length; i1++)
+            'Accounts.member.${i1 + 1}': accounts[i1],
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (deploymentTargets != null)
+        for (var e1 in deploymentTargets.toQueryMap().entries)
+          'DeploymentTargets.${e1.key}': e1.value,
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteStackInstances',
@@ -1936,8 +2056,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteStackInstancesInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteStackInstancesResult',
     );
     return DeleteStackInstancesOutput.fromXml($result);
@@ -1980,9 +2098,10 @@ class CloudFormation {
     required String stackSetName,
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     await _protocol.send(
       $request,
       action: 'DeleteStackSet',
@@ -1990,8 +2109,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteStackSetInput'],
-      shapes: shapes,
       resultWrapper: 'DeleteStackSetResult',
     );
   }
@@ -2046,11 +2163,12 @@ class CloudFormation {
     String? typeName,
     String? versionId,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
-    versionId?.also((arg) => $request['VersionId'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (versionId != null) 'VersionId': versionId,
+    };
     await _protocol.send(
       $request,
       action: 'DeregisterType',
@@ -2058,8 +2176,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeregisterTypeInput'],
-      shapes: shapes,
       resultWrapper: 'DeregisterTypeResult',
     );
   }
@@ -2076,8 +2192,9 @@ class CloudFormation {
   Future<DescribeAccountLimitsOutput> describeAccountLimits({
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeAccountLimits',
@@ -2085,8 +2202,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeAccountLimitsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsOutput.fromXml($result);
@@ -2121,12 +2236,13 @@ class CloudFormation {
     String? nextToken,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ChangeSetName'] = changeSetName;
-    includePropertyValues
-        ?.also((arg) => $request['IncludePropertyValues'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      'ChangeSetName': changeSetName,
+      if (includePropertyValues != null)
+        'IncludePropertyValues': includePropertyValues.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackName != null) 'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeChangeSet',
@@ -2134,8 +2250,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeChangeSetInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeChangeSetResult',
     );
     return DescribeChangeSetOutput.fromXml($result);
@@ -2168,11 +2282,12 @@ class CloudFormation {
     String? nextToken,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ChangeSetName'] = changeSetName;
-    logicalResourceId?.also((arg) => $request['LogicalResourceId'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      'ChangeSetName': changeSetName,
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackName != null) 'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeChangeSetHooks',
@@ -2180,8 +2295,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeChangeSetHooksInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeChangeSetHooksResult',
     );
     return DescribeChangeSetHooksOutput.fromXml($result);
@@ -2200,8 +2313,9 @@ class CloudFormation {
   Future<DescribeGeneratedTemplateOutput> describeGeneratedTemplate({
     required String generatedTemplateName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GeneratedTemplateName'] = generatedTemplateName;
+    final $request = <String, String>{
+      'GeneratedTemplateName': generatedTemplateName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeGeneratedTemplate',
@@ -2209,8 +2323,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeGeneratedTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeGeneratedTemplateResult',
     );
     return DescribeGeneratedTemplateOutput.fromXml($result);
@@ -2249,8 +2361,9 @@ class CloudFormation {
   Future<DescribeOrganizationsAccessOutput> describeOrganizationsAccess({
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeOrganizationsAccess',
@@ -2258,8 +2371,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeOrganizationsAccessInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeOrganizationsAccessResult',
     );
     return DescribeOrganizationsAccessOutput.fromXml($result);
@@ -2297,8 +2408,9 @@ class CloudFormation {
   Future<DescribePublisherOutput> describePublisher({
     String? publisherId,
   }) async {
-    final $request = <String, dynamic>{};
-    publisherId?.also((arg) => $request['PublisherId'] = arg);
+    final $request = <String, String>{
+      if (publisherId != null) 'PublisherId': publisherId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribePublisher',
@@ -2306,8 +2418,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribePublisherInput'],
-      shapes: shapes,
       resultWrapper: 'DescribePublisherResult',
     );
     return DescribePublisherOutput.fromXml($result);
@@ -2322,8 +2432,9 @@ class CloudFormation {
   Future<DescribeResourceScanOutput> describeResourceScan({
     required String resourceScanId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ResourceScanId'] = resourceScanId;
+    final $request = <String, String>{
+      'ResourceScanId': resourceScanId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeResourceScan',
@@ -2331,8 +2442,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeResourceScanInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeResourceScanResult',
     );
     return DescribeResourceScanOutput.fromXml($result);
@@ -2365,8 +2474,9 @@ class CloudFormation {
       describeStackDriftDetectionStatus({
     required String stackDriftDetectionId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackDriftDetectionId'] = stackDriftDetectionId;
+    final $request = <String, String>{
+      'StackDriftDetectionId': stackDriftDetectionId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackDriftDetectionStatus',
@@ -2374,8 +2484,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackDriftDetectionStatusInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackDriftDetectionStatusResult',
     );
     return DescribeStackDriftDetectionStatusOutput.fromXml($result);
@@ -2413,9 +2521,10 @@ class CloudFormation {
     String? nextToken,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackName != null) 'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackEvents',
@@ -2423,8 +2532,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackEventsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackEventsResult',
     );
     return DescribeStackEventsOutput.fromXml($result);
@@ -2478,11 +2585,12 @@ class CloudFormation {
     required String stackSetName,
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackInstanceAccount'] = stackInstanceAccount;
-    $request['StackInstanceRegion'] = stackInstanceRegion;
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      'StackInstanceAccount': stackInstanceAccount,
+      'StackInstanceRegion': stackInstanceRegion,
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackInstance',
@@ -2490,8 +2598,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackInstanceInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackInstanceResult',
     );
     return DescribeStackInstanceOutput.fromXml($result);
@@ -2525,9 +2631,10 @@ class CloudFormation {
     required String logicalResourceId,
     required String stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LogicalResourceId'] = logicalResourceId;
-    $request['StackName'] = stackName;
+    final $request = <String, String>{
+      'LogicalResourceId': logicalResourceId,
+      'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackResource',
@@ -2535,8 +2642,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackResourceInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackResourceResult',
     );
     return DescribeStackResourceOutput.fromXml($result);
@@ -2605,13 +2710,18 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackResourceDriftStatusFilters?.also((arg) =>
-        $request['StackResourceDriftStatusFilters'] =
-            arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackResourceDriftStatusFilters != null)
+        if (stackResourceDriftStatusFilters.isEmpty)
+          'StackResourceDriftStatusFilters': ''
+        else
+          for (var i1 = 0; i1 < stackResourceDriftStatusFilters.length; i1++)
+            'StackResourceDriftStatusFilters.member.${i1 + 1}':
+                stackResourceDriftStatusFilters[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackResourceDrifts',
@@ -2619,8 +2729,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackResourceDriftsInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackResourceDriftsResult',
     );
     return DescribeStackResourceDriftsOutput.fromXml($result);
@@ -2694,10 +2802,11 @@ class CloudFormation {
     String? physicalResourceId,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    logicalResourceId?.also((arg) => $request['LogicalResourceId'] = arg);
-    physicalResourceId?.also((arg) => $request['PhysicalResourceId'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+      if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
+      if (stackName != null) 'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackResources',
@@ -2705,8 +2814,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackResourcesInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackResourcesResult',
     );
     return DescribeStackResourcesOutput.fromXml($result);
@@ -2745,9 +2852,10 @@ class CloudFormation {
     required String stackSetName,
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackSet',
@@ -2755,8 +2863,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackSetInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackSetResult',
     );
     return DescribeStackSetOutput.fromXml($result);
@@ -2800,10 +2906,11 @@ class CloudFormation {
     required String stackSetName,
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['OperationId'] = operationId;
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      'OperationId': operationId,
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackSetOperation',
@@ -2811,8 +2918,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStackSetOperationInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStackSetOperationResult',
     );
     return DescribeStackSetOperationOutput.fromXml($result);
@@ -2866,9 +2971,10 @@ class CloudFormation {
     String? nextToken,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackName != null) 'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStacks',
@@ -2876,8 +2982,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeStacksInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeStacksResult',
     );
     return DescribeStacksOutput.fromXml($result);
@@ -2935,13 +3039,15 @@ class CloudFormation {
     String? typeName,
     String? versionId,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    publicVersionNumber?.also((arg) => $request['PublicVersionNumber'] = arg);
-    publisherId?.also((arg) => $request['PublisherId'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
-    versionId?.also((arg) => $request['VersionId'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (publicVersionNumber != null)
+        'PublicVersionNumber': publicVersionNumber,
+      if (publisherId != null) 'PublisherId': publisherId,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (versionId != null) 'VersionId': versionId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeType',
@@ -2949,8 +3055,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeTypeInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeTypeResult',
     );
     return DescribeTypeOutput.fromXml($result);
@@ -2976,8 +3080,9 @@ class CloudFormation {
   Future<DescribeTypeRegistrationOutput> describeTypeRegistration({
     required String registrationToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['RegistrationToken'] = registrationToken;
+    final $request = <String, String>{
+      'RegistrationToken': registrationToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeTypeRegistration',
@@ -2985,8 +3090,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeTypeRegistrationInput'],
-      shapes: shapes,
       resultWrapper: 'DescribeTypeRegistrationResult',
     );
     return DescribeTypeRegistrationOutput.fromXml($result);
@@ -3033,9 +3136,15 @@ class CloudFormation {
     required String stackName,
     List<String>? logicalResourceIds,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    logicalResourceIds?.also((arg) => $request['LogicalResourceIds'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (logicalResourceIds != null)
+        if (logicalResourceIds.isEmpty)
+          'LogicalResourceIds': ''
+        else
+          for (var i1 = 0; i1 < logicalResourceIds.length; i1++)
+            'LogicalResourceIds.member.${i1 + 1}': logicalResourceIds[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DetectStackDrift',
@@ -3043,8 +3152,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DetectStackDriftInput'],
-      shapes: shapes,
       resultWrapper: 'DetectStackDriftResult',
     );
     return DetectStackDriftOutput.fromXml($result);
@@ -3078,9 +3185,10 @@ class CloudFormation {
     required String logicalResourceId,
     required String stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LogicalResourceId'] = logicalResourceId;
-    $request['StackName'] = stackName;
+    final $request = <String, String>{
+      'LogicalResourceId': logicalResourceId,
+      'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DetectStackResourceDrift',
@@ -3088,8 +3196,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DetectStackResourceDriftInput'],
-      shapes: shapes,
       resultWrapper: 'DetectStackResourceDriftResult',
     );
     return DetectStackResourceDriftOutput.fromXml($result);
@@ -3188,11 +3294,14 @@ class CloudFormation {
     String? operationId,
     StackSetOperationPreferences? operationPreferences,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DetectStackSetDrift',
@@ -3200,8 +3309,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DetectStackSetDriftInput'],
-      shapes: shapes,
       resultWrapper: 'DetectStackSetDriftResult',
     );
     return DetectStackSetDriftOutput.fromXml($result);
@@ -3240,10 +3347,17 @@ class CloudFormation {
     String? templateBody,
     String? templateURL,
   }) async {
-    final $request = <String, dynamic>{};
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
+    final $request = <String, String>{
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'EstimateTemplateCost',
@@ -3251,8 +3365,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['EstimateTemplateCostInput'],
-      shapes: shapes,
       resultWrapper: 'EstimateTemplateCostResult',
     );
     return EstimateTemplateCostOutput.fromXml($result);
@@ -3333,12 +3445,15 @@ class CloudFormation {
     bool? retainExceptOnCreate,
     String? stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ChangeSetName'] = changeSetName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    disableRollback?.also((arg) => $request['DisableRollback'] = arg);
-    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
+    final $request = <String, String>{
+      'ChangeSetName': changeSetName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (disableRollback != null)
+        'DisableRollback': disableRollback.toString(),
+      if (retainExceptOnCreate != null)
+        'RetainExceptOnCreate': retainExceptOnCreate.toString(),
+      if (stackName != null) 'StackName': stackName,
+    };
     await _protocol.send(
       $request,
       action: 'ExecuteChangeSet',
@@ -3346,8 +3461,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ExecuteChangeSetInput'],
-      shapes: shapes,
       resultWrapper: 'ExecuteChangeSetResult',
     );
   }
@@ -3384,9 +3497,10 @@ class CloudFormation {
     required String generatedTemplateName,
     TemplateFormat? format,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GeneratedTemplateName'] = generatedTemplateName;
-    format?.also((arg) => $request['Format'] = arg.toValue());
+    final $request = <String, String>{
+      'GeneratedTemplateName': generatedTemplateName,
+      if (format != null) 'Format': format.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetGeneratedTemplate',
@@ -3394,8 +3508,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetGeneratedTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'GetGeneratedTemplateResult',
     );
     return GetGeneratedTemplateOutput.fromXml($result);
@@ -3410,8 +3522,9 @@ class CloudFormation {
   Future<GetStackPolicyOutput> getStackPolicy({
     required String stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
+    final $request = <String, String>{
+      'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetStackPolicy',
@@ -3419,8 +3532,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetStackPolicyInput'],
-      shapes: shapes,
       resultWrapper: 'GetStackPolicyResult',
     );
     return GetStackPolicyOutput.fromXml($result);
@@ -3471,10 +3582,11 @@ class CloudFormation {
     String? stackName,
     TemplateStage? templateStage,
   }) async {
-    final $request = <String, dynamic>{};
-    changeSetName?.also((arg) => $request['ChangeSetName'] = arg);
-    stackName?.also((arg) => $request['StackName'] = arg);
-    templateStage?.also((arg) => $request['TemplateStage'] = arg.toValue());
+    final $request = <String, String>{
+      if (changeSetName != null) 'ChangeSetName': changeSetName,
+      if (stackName != null) 'StackName': stackName,
+      if (templateStage != null) 'TemplateStage': templateStage.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetTemplate',
@@ -3482,8 +3594,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'GetTemplateResult',
     );
     return GetTemplateOutput.fromXml($result);
@@ -3578,14 +3688,16 @@ class CloudFormation {
     TemplateSummaryConfig? templateSummaryConfig,
     String? templateURL,
   }) async {
-    final $request = <String, dynamic>{};
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    stackName?.also((arg) => $request['StackName'] = arg);
-    stackSetName?.also((arg) => $request['StackSetName'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateSummaryConfig
-        ?.also((arg) => $request['TemplateSummaryConfig'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
+    final $request = <String, String>{
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (stackName != null) 'StackName': stackName,
+      if (stackSetName != null) 'StackSetName': stackSetName,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateSummaryConfig != null)
+        for (var e1 in templateSummaryConfig.toQueryMap().entries)
+          'TemplateSummaryConfig.${e1.key}': e1.value,
+      if (templateURL != null) 'TemplateURL': templateURL,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'GetTemplateSummary',
@@ -3593,8 +3705,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['GetTemplateSummaryInput'],
-      shapes: shapes,
       resultWrapper: 'GetTemplateSummaryResult',
     );
     return GetTemplateSummaryOutput.fromXml($result);
@@ -3665,15 +3775,27 @@ class CloudFormation {
     List<String>? stackIds,
     String? stackIdsUrl,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
-    organizationalUnitIds
-        ?.also((arg) => $request['OrganizationalUnitIds'] = arg);
-    stackIds?.also((arg) => $request['StackIds'] = arg);
-    stackIdsUrl?.also((arg) => $request['StackIdsUrl'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+      if (organizationalUnitIds != null)
+        if (organizationalUnitIds.isEmpty)
+          'OrganizationalUnitIds': ''
+        else
+          for (var i1 = 0; i1 < organizationalUnitIds.length; i1++)
+            'OrganizationalUnitIds.member.${i1 + 1}': organizationalUnitIds[i1],
+      if (stackIds != null)
+        if (stackIds.isEmpty)
+          'StackIds': ''
+        else
+          for (var i1 = 0; i1 < stackIds.length; i1++)
+            'StackIds.member.${i1 + 1}': stackIds[i1],
+      if (stackIdsUrl != null) 'StackIdsUrl': stackIdsUrl,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ImportStacksToStackSet',
@@ -3681,8 +3803,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ImportStacksToStackSetInput'],
-      shapes: shapes,
       resultWrapper: 'ImportStacksToStackSetResult',
     );
     return ImportStacksToStackSetOutput.fromXml($result);
@@ -3703,9 +3823,10 @@ class CloudFormation {
     required String stackName,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListChangeSets',
@@ -3713,8 +3834,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListChangeSetsInput'],
-      shapes: shapes,
       resultWrapper: 'ListChangeSetsResult',
     );
     return ListChangeSetsOutput.fromXml($result);
@@ -3737,8 +3856,9 @@ class CloudFormation {
   Future<ListExportsOutput> listExports({
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListExports',
@@ -3746,8 +3866,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListExportsInput'],
-      shapes: shapes,
       resultWrapper: 'ListExportsResult',
     );
     return ListExportsOutput.fromXml($result);
@@ -3774,9 +3892,10 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListGeneratedTemplates',
@@ -3784,8 +3903,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListGeneratedTemplatesInput'],
-      shapes: shapes,
       resultWrapper: 'ListGeneratedTemplatesResult',
     );
     return ListGeneratedTemplatesOutput.fromXml($result);
@@ -3812,9 +3929,10 @@ class CloudFormation {
     required String exportName,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ExportName'] = exportName;
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'ExportName': exportName,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListImports',
@@ -3822,8 +3940,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListImportsInput'],
-      shapes: shapes,
       resultWrapper: 'ListImportsResult',
     );
     return ListImportsOutput.fromXml($result);
@@ -3865,11 +3981,17 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['ResourceScanId'] = resourceScanId;
-    $request['Resources'] = resources;
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'ResourceScanId': resourceScanId,
+      if (resources.isEmpty)
+        'Resources': ''
+      else
+        for (var i1 = 0; i1 < resources.length; i1++)
+          for (var e3 in resources[i1].toQueryMap().entries)
+            'Resources.member.${i1 + 1}.${e3.key}': e3.value,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListResourceScanRelatedResources',
@@ -3877,8 +3999,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListResourceScanRelatedResourcesInput'],
-      shapes: shapes,
       resultWrapper: 'ListResourceScanRelatedResourcesResult',
     );
     return ListResourceScanRelatedResourcesOutput.fromXml($result);
@@ -3929,14 +4049,15 @@ class CloudFormation {
     String? tagKey,
     String? tagValue,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['ResourceScanId'] = resourceScanId;
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    resourceIdentifier?.also((arg) => $request['ResourceIdentifier'] = arg);
-    resourceTypePrefix?.also((arg) => $request['ResourceTypePrefix'] = arg);
-    tagKey?.also((arg) => $request['TagKey'] = arg);
-    tagValue?.also((arg) => $request['TagValue'] = arg);
+    final $request = <String, String>{
+      'ResourceScanId': resourceScanId,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+      if (resourceTypePrefix != null) 'ResourceTypePrefix': resourceTypePrefix,
+      if (tagKey != null) 'TagKey': tagKey,
+      if (tagValue != null) 'TagValue': tagValue,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListResourceScanResources',
@@ -3944,8 +4065,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListResourceScanResourcesInput'],
-      shapes: shapes,
       resultWrapper: 'ListResourceScanResourcesResult',
     );
     return ListResourceScanResourcesOutput.fromXml($result);
@@ -3966,9 +4085,10 @@ class CloudFormation {
     int? maxResults,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListResourceScans',
@@ -3976,8 +4096,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListResourceScansInput'],
-      shapes: shapes,
       resultWrapper: 'ListResourceScansResult',
     );
     return ListResourceScansOutput.fromXml($result);
@@ -4083,17 +4201,22 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['OperationId'] = operationId;
-    $request['StackInstanceAccount'] = stackInstanceAccount;
-    $request['StackInstanceRegion'] = stackInstanceRegion;
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackInstanceResourceDriftStatuses?.also((arg) =>
-        $request['StackInstanceResourceDriftStatuses'] =
-            arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      'OperationId': operationId,
+      'StackInstanceAccount': stackInstanceAccount,
+      'StackInstanceRegion': stackInstanceRegion,
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackInstanceResourceDriftStatuses != null)
+        if (stackInstanceResourceDriftStatuses.isEmpty)
+          'StackInstanceResourceDriftStatuses': ''
+        else
+          for (var i1 = 0; i1 < stackInstanceResourceDriftStatuses.length; i1++)
+            'StackInstanceResourceDriftStatuses.member.${i1 + 1}':
+                stackInstanceResourceDriftStatuses[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackInstanceResourceDrifts',
@@ -4101,8 +4224,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackInstanceResourceDriftsInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackInstanceResourceDriftsResult',
     );
     return ListStackInstanceResourceDriftsOutput.fromXml($result);
@@ -4180,14 +4301,23 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    filters?.also((arg) => $request['Filters'] = arg);
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackInstanceAccount?.also((arg) => $request['StackInstanceAccount'] = arg);
-    stackInstanceRegion?.also((arg) => $request['StackInstanceRegion'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackInstanceAccount != null)
+        'StackInstanceAccount': stackInstanceAccount,
+      if (stackInstanceRegion != null)
+        'StackInstanceRegion': stackInstanceRegion,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackInstances',
@@ -4195,8 +4325,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackInstancesInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackInstancesResult',
     );
     return ListStackInstancesOutput.fromXml($result);
@@ -4229,9 +4357,10 @@ class CloudFormation {
     required String stackName,
     String? nextToken,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackResources',
@@ -4239,8 +4368,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackResourcesInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackResourcesResult',
     );
     return ListStackResourcesOutput.fromXml($result);
@@ -4299,11 +4426,12 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackSetAutoDeploymentTargets',
@@ -4311,8 +4439,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackSetAutoDeploymentTargetsInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackSetAutoDeploymentTargetsResult',
     );
     return ListStackSetAutoDeploymentTargetsOutput.fromXml($result);
@@ -4384,13 +4510,20 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['OperationId'] = operationId;
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    filters?.also((arg) => $request['Filters'] = arg);
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'OperationId': operationId,
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackSetOperationResults',
@@ -4398,8 +4531,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackSetOperationResultsInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackSetOperationResultsResult',
     );
     return ListStackSetOperationResultsOutput.fromXml($result);
@@ -4462,11 +4593,12 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackSetOperations',
@@ -4474,8 +4606,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackSetOperationsInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackSetOperationsResult',
     );
     return ListStackSetOperationsOutput.fromXml($result);
@@ -4558,11 +4688,12 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    status?.also((arg) => $request['Status'] = arg.toValue());
+    final $request = <String, String>{
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (status != null) 'Status': status.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStackSets',
@@ -4570,8 +4701,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStackSetsInput'],
-      shapes: shapes,
       resultWrapper: 'ListStackSetsResult',
     );
     return ListStackSetsOutput.fromXml($result);
@@ -4596,10 +4725,16 @@ class CloudFormation {
     String? nextToken,
     List<StackStatus>? stackStatusFilter,
   }) async {
-    final $request = <String, dynamic>{};
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackStatusFilter?.also((arg) =>
-        $request['StackStatusFilter'] = arg.map((e) => e.toValue()).toList());
+    final $request = <String, String>{
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stackStatusFilter != null)
+        if (stackStatusFilter.isEmpty)
+          'StackStatusFilter': ''
+        else
+          for (var i1 = 0; i1 < stackStatusFilter.length; i1++)
+            'StackStatusFilter.member.${i1 + 1}':
+                stackStatusFilter[i1].toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListStacks',
@@ -4607,8 +4742,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListStacksInput'],
-      shapes: shapes,
       resultWrapper: 'ListStacksResult',
     );
     return ListStacksOutput.fromXml($result);
@@ -4668,14 +4801,15 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    registrationStatusFilter
-        ?.also((arg) => $request['RegistrationStatusFilter'] = arg.toValue());
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeArn?.also((arg) => $request['TypeArn'] = arg);
-    typeName?.also((arg) => $request['TypeName'] = arg);
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (registrationStatusFilter != null)
+        'RegistrationStatusFilter': registrationStatusFilter.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (typeArn != null) 'TypeArn': typeArn,
+      if (typeName != null) 'TypeName': typeName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListTypeRegistrations',
@@ -4683,8 +4817,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListTypeRegistrationsInput'],
-      shapes: shapes,
       resultWrapper: 'ListTypeRegistrationsResult',
     );
     return ListTypeRegistrationsOutput.fromXml($result);
@@ -4765,15 +4897,16 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    deprecatedStatus
-        ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    publisherId?.also((arg) => $request['PublisherId'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (deprecatedStatus != null)
+        'DeprecatedStatus': deprecatedStatus.toValue(),
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (publisherId != null) 'PublisherId': publisherId,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListTypeVersions',
@@ -4781,8 +4914,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListTypeVersionsInput'],
-      shapes: shapes,
       resultWrapper: 'ListTypeVersionsResult',
     );
     return ListTypeVersionsOutput.fromXml($result);
@@ -4902,16 +5033,19 @@ class CloudFormation {
       1,
       100,
     );
-    final $request = <String, dynamic>{};
-    deprecatedStatus
-        ?.also((arg) => $request['DeprecatedStatus'] = arg.toValue());
-    filters?.also((arg) => $request['Filters'] = arg);
-    maxResults?.also((arg) => $request['MaxResults'] = arg);
-    nextToken?.also((arg) => $request['NextToken'] = arg);
-    provisioningType
-        ?.also((arg) => $request['ProvisioningType'] = arg.toValue());
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    visibility?.also((arg) => $request['Visibility'] = arg.toValue());
+    final $request = <String, String>{
+      if (deprecatedStatus != null)
+        'DeprecatedStatus': deprecatedStatus.toValue(),
+      if (filters != null)
+        for (var e1 in filters.toQueryMap().entries)
+          'Filters.${e1.key}': e1.value,
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (provisioningType != null)
+        'ProvisioningType': provisioningType.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (visibility != null) 'Visibility': visibility.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ListTypes',
@@ -4919,8 +5053,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ListTypesInput'],
-      shapes: shapes,
       resultWrapper: 'ListTypesResult',
     );
     return ListTypesOutput.fromXml($result);
@@ -4982,11 +5114,13 @@ class CloudFormation {
     ThirdPartyType? type,
     String? typeName,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    publicVersionNumber?.also((arg) => $request['PublicVersionNumber'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (publicVersionNumber != null)
+        'PublicVersionNumber': publicVersionNumber,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'PublishType',
@@ -4994,8 +5128,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['PublishTypeInput'],
-      shapes: shapes,
       resultWrapper: 'PublishTypeResult',
     );
     return PublishTypeOutput.fromXml($result);
@@ -5053,15 +5185,16 @@ class CloudFormation {
     String? resourceModel,
     String? statusMessage,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['BearerToken'] = bearerToken;
-    $request['OperationStatus'] = operationStatus.toValue();
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    currentOperationStatus
-        ?.also((arg) => $request['CurrentOperationStatus'] = arg.toValue());
-    errorCode?.also((arg) => $request['ErrorCode'] = arg.toValue());
-    resourceModel?.also((arg) => $request['ResourceModel'] = arg);
-    statusMessage?.also((arg) => $request['StatusMessage'] = arg);
+    final $request = <String, String>{
+      'BearerToken': bearerToken,
+      'OperationStatus': operationStatus.toValue(),
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (currentOperationStatus != null)
+        'CurrentOperationStatus': currentOperationStatus.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (resourceModel != null) 'ResourceModel': resourceModel,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
     await _protocol.send(
       $request,
       action: 'RecordHandlerProgress',
@@ -5069,8 +5202,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RecordHandlerProgressInput'],
-      shapes: shapes,
       resultWrapper: 'RecordHandlerProgressResult',
     );
   }
@@ -5110,10 +5241,11 @@ class CloudFormation {
     bool? acceptTermsAndConditions,
     String? connectionArn,
   }) async {
-    final $request = <String, dynamic>{};
-    acceptTermsAndConditions
-        ?.also((arg) => $request['AcceptTermsAndConditions'] = arg);
-    connectionArn?.also((arg) => $request['ConnectionArn'] = arg);
+    final $request = <String, String>{
+      if (acceptTermsAndConditions != null)
+        'AcceptTermsAndConditions': acceptTermsAndConditions.toString(),
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RegisterPublisher',
@@ -5121,8 +5253,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RegisterPublisherInput'],
-      shapes: shapes,
       resultWrapper: 'RegisterPublisherResult',
     );
     return RegisterPublisherOutput.fromXml($result);
@@ -5269,13 +5399,16 @@ class CloudFormation {
     LoggingConfig? loggingConfig,
     RegistryType? type,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['SchemaHandlerPackage'] = schemaHandlerPackage;
-    $request['TypeName'] = typeName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    executionRoleArn?.also((arg) => $request['ExecutionRoleArn'] = arg);
-    loggingConfig?.also((arg) => $request['LoggingConfig'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
+    final $request = <String, String>{
+      'SchemaHandlerPackage': schemaHandlerPackage,
+      'TypeName': typeName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
+      if (loggingConfig != null)
+        for (var e1 in loggingConfig.toQueryMap().entries)
+          'LoggingConfig.${e1.key}': e1.value,
+      if (type != null) 'Type': type.toValue(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RegisterType',
@@ -5283,8 +5416,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RegisterTypeInput'],
-      shapes: shapes,
       resultWrapper: 'RegisterTypeResult',
     );
     return RegisterTypeOutput.fromXml($result);
@@ -5343,11 +5474,13 @@ class CloudFormation {
     bool? retainExceptOnCreate,
     String? roleARN,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (retainExceptOnCreate != null)
+        'RetainExceptOnCreate': retainExceptOnCreate.toString(),
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'RollbackStack',
@@ -5355,8 +5488,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['RollbackStackInput'],
-      shapes: shapes,
       resultWrapper: 'RollbackStackResult',
     );
     return RollbackStackOutput.fromXml($result);
@@ -5386,10 +5517,11 @@ class CloudFormation {
     String? stackPolicyBody,
     String? stackPolicyURL,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    stackPolicyBody?.also((arg) => $request['StackPolicyBody'] = arg);
-    stackPolicyURL?.also((arg) => $request['StackPolicyURL'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (stackPolicyBody != null) 'StackPolicyBody': stackPolicyBody,
+      if (stackPolicyURL != null) 'StackPolicyURL': stackPolicyURL,
+    };
     await _protocol.send(
       $request,
       action: 'SetStackPolicy',
@@ -5397,8 +5529,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetStackPolicyInput'],
-      shapes: shapes,
     );
   }
 
@@ -5474,12 +5604,13 @@ class CloudFormation {
     String? typeArn,
     String? typeName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Configuration'] = configuration;
-    configurationAlias?.also((arg) => $request['ConfigurationAlias'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeArn?.also((arg) => $request['TypeArn'] = arg);
-    typeName?.also((arg) => $request['TypeName'] = arg);
+    final $request = <String, String>{
+      'Configuration': configuration,
+      if (configurationAlias != null) 'ConfigurationAlias': configurationAlias,
+      if (type != null) 'Type': type.toValue(),
+      if (typeArn != null) 'TypeArn': typeArn,
+      if (typeName != null) 'TypeName': typeName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'SetTypeConfiguration',
@@ -5487,8 +5618,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetTypeConfigurationInput'],
-      shapes: shapes,
       resultWrapper: 'SetTypeConfigurationResult',
     );
     return SetTypeConfigurationOutput.fromXml($result);
@@ -5529,11 +5658,12 @@ class CloudFormation {
     String? typeName,
     String? versionId,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
-    versionId?.also((arg) => $request['VersionId'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (versionId != null) 'VersionId': versionId,
+    };
     await _protocol.send(
       $request,
       action: 'SetTypeDefaultVersion',
@@ -5541,8 +5671,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SetTypeDefaultVersionInput'],
-      shapes: shapes,
       resultWrapper: 'SetTypeDefaultVersionResult',
     );
   }
@@ -5579,11 +5707,12 @@ class CloudFormation {
     required ResourceSignalStatus status,
     required String uniqueId,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['LogicalResourceId'] = logicalResourceId;
-    $request['StackName'] = stackName;
-    $request['Status'] = status.toValue();
-    $request['UniqueId'] = uniqueId;
+    final $request = <String, String>{
+      'LogicalResourceId': logicalResourceId,
+      'StackName': stackName,
+      'Status': status.toValue(),
+      'UniqueId': uniqueId,
+    };
     await _protocol.send(
       $request,
       action: 'SignalResource',
@@ -5591,8 +5720,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['SignalResourceInput'],
-      shapes: shapes,
     );
   }
 
@@ -5609,8 +5736,9 @@ class CloudFormation {
   Future<StartResourceScanOutput> startResourceScan({
     String? clientRequestToken,
   }) async {
-    final $request = <String, dynamic>{};
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    final $request = <String, String>{
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'StartResourceScan',
@@ -5618,8 +5746,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['StartResourceScanInput'],
-      shapes: shapes,
       resultWrapper: 'StartResourceScanResult',
     );
     return StartResourceScanOutput.fromXml($result);
@@ -5667,10 +5793,11 @@ class CloudFormation {
     required String stackSetName,
     CallAs? callAs,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['OperationId'] = operationId;
-    $request['StackSetName'] = stackSetName;
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
+    final $request = <String, String>{
+      'OperationId': operationId,
+      'StackSetName': stackSetName,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+    };
     await _protocol.send(
       $request,
       action: 'StopStackSetOperation',
@@ -5678,8 +5805,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['StopStackSetOperationInput'],
-      shapes: shapes,
       resultWrapper: 'StopStackSetOperationResult',
     );
   }
@@ -5782,12 +5907,13 @@ class CloudFormation {
     String? typeName,
     String? versionId,
   }) async {
-    final $request = <String, dynamic>{};
-    arn?.also((arg) => $request['Arn'] = arg);
-    logDeliveryBucket?.also((arg) => $request['LogDeliveryBucket'] = arg);
-    type?.also((arg) => $request['Type'] = arg.toValue());
-    typeName?.also((arg) => $request['TypeName'] = arg);
-    versionId?.also((arg) => $request['VersionId'] = arg);
+    final $request = <String, String>{
+      if (arn != null) 'Arn': arn,
+      if (logDeliveryBucket != null) 'LogDeliveryBucket': logDeliveryBucket,
+      if (type != null) 'Type': type.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (versionId != null) 'VersionId': versionId,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'TestType',
@@ -5795,8 +5921,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['TestTypeInput'],
-      shapes: shapes,
       resultWrapper: 'TestTypeResult',
     );
     return TestTypeOutput.fromXml($result);
@@ -5842,15 +5966,29 @@ class CloudFormation {
     List<String>? removeResources,
     TemplateConfiguration? templateConfiguration,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['GeneratedTemplateName'] = generatedTemplateName;
-    addResources?.also((arg) => $request['AddResources'] = arg);
-    newGeneratedTemplateName
-        ?.also((arg) => $request['NewGeneratedTemplateName'] = arg);
-    refreshAllResources?.also((arg) => $request['RefreshAllResources'] = arg);
-    removeResources?.also((arg) => $request['RemoveResources'] = arg);
-    templateConfiguration
-        ?.also((arg) => $request['TemplateConfiguration'] = arg);
+    final $request = <String, String>{
+      'GeneratedTemplateName': generatedTemplateName,
+      if (addResources != null)
+        if (addResources.isEmpty)
+          'AddResources': ''
+        else
+          for (var i1 = 0; i1 < addResources.length; i1++)
+            for (var e3 in addResources[i1].toQueryMap().entries)
+              'AddResources.member.${i1 + 1}.${e3.key}': e3.value,
+      if (newGeneratedTemplateName != null)
+        'NewGeneratedTemplateName': newGeneratedTemplateName,
+      if (refreshAllResources != null)
+        'RefreshAllResources': refreshAllResources.toString(),
+      if (removeResources != null)
+        if (removeResources.isEmpty)
+          'RemoveResources': ''
+        else
+          for (var i1 = 0; i1 < removeResources.length; i1++)
+            'RemoveResources.member.${i1 + 1}': removeResources[i1],
+      if (templateConfiguration != null)
+        for (var e1 in templateConfiguration.toQueryMap().entries)
+          'TemplateConfiguration.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateGeneratedTemplate',
@@ -5858,8 +5996,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateGeneratedTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateGeneratedTemplateResult',
     );
     return UpdateGeneratedTemplateOutput.fromXml($result);
@@ -6177,29 +6313,60 @@ class CloudFormation {
     String? templateURL,
     bool? usePreviousTemplate,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackName'] = stackName;
-    capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
-    disableRollback?.also((arg) => $request['DisableRollback'] = arg);
-    notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
-    retainExceptOnCreate?.also((arg) => $request['RetainExceptOnCreate'] = arg);
-    roleARN?.also((arg) => $request['RoleARN'] = arg);
-    rollbackConfiguration
-        ?.also((arg) => $request['RollbackConfiguration'] = arg);
-    stackPolicyBody?.also((arg) => $request['StackPolicyBody'] = arg);
-    stackPolicyDuringUpdateBody
-        ?.also((arg) => $request['StackPolicyDuringUpdateBody'] = arg);
-    stackPolicyDuringUpdateURL
-        ?.also((arg) => $request['StackPolicyDuringUpdateURL'] = arg);
-    stackPolicyURL?.also((arg) => $request['StackPolicyURL'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
-    usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
+    final $request = <String, String>{
+      'StackName': stackName,
+      if (capabilities != null)
+        if (capabilities.isEmpty)
+          'Capabilities': ''
+        else
+          for (var i1 = 0; i1 < capabilities.length; i1++)
+            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (disableRollback != null)
+        'DisableRollback': disableRollback.toString(),
+      if (notificationARNs != null)
+        if (notificationARNs.isEmpty)
+          'NotificationARNs': ''
+        else
+          for (var i1 = 0; i1 < notificationARNs.length; i1++)
+            'NotificationARNs.member.${i1 + 1}': notificationARNs[i1],
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (resourceTypes != null)
+        if (resourceTypes.isEmpty)
+          'ResourceTypes': ''
+        else
+          for (var i1 = 0; i1 < resourceTypes.length; i1++)
+            'ResourceTypes.member.${i1 + 1}': resourceTypes[i1],
+      if (retainExceptOnCreate != null)
+        'RetainExceptOnCreate': retainExceptOnCreate.toString(),
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (rollbackConfiguration != null)
+        for (var e1 in rollbackConfiguration.toQueryMap().entries)
+          'RollbackConfiguration.${e1.key}': e1.value,
+      if (stackPolicyBody != null) 'StackPolicyBody': stackPolicyBody,
+      if (stackPolicyDuringUpdateBody != null)
+        'StackPolicyDuringUpdateBody': stackPolicyDuringUpdateBody,
+      if (stackPolicyDuringUpdateURL != null)
+        'StackPolicyDuringUpdateURL': stackPolicyDuringUpdateURL,
+      if (stackPolicyURL != null) 'StackPolicyURL': stackPolicyURL,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+      if (usePreviousTemplate != null)
+        'UsePreviousTemplate': usePreviousTemplate.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateStack',
@@ -6207,8 +6374,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateStackInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateStackResult',
     );
     return UpdateStackOutput.fromXml($result);
@@ -6363,15 +6528,35 @@ class CloudFormation {
     StackSetOperationPreferences? operationPreferences,
     List<Parameter>? parameterOverrides,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['Regions'] = regions;
-    $request['StackSetName'] = stackSetName;
-    accounts?.also((arg) => $request['Accounts'] = arg);
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
-    parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
+    final $request = <String, String>{
+      if (regions.isEmpty)
+        'Regions': ''
+      else
+        for (var i1 = 0; i1 < regions.length; i1++)
+          'Regions.member.${i1 + 1}': regions[i1],
+      'StackSetName': stackSetName,
+      if (accounts != null)
+        if (accounts.isEmpty)
+          'Accounts': ''
+        else
+          for (var i1 = 0; i1 < accounts.length; i1++)
+            'Accounts.member.${i1 + 1}': accounts[i1],
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (deploymentTargets != null)
+        for (var e1 in deploymentTargets.toQueryMap().entries)
+          'DeploymentTargets.${e1.key}': e1.value,
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+      if (parameterOverrides != null)
+        if (parameterOverrides.isEmpty)
+          'ParameterOverrides': ''
+        else
+          for (var i1 = 0; i1 < parameterOverrides.length; i1++)
+            for (var e3 in parameterOverrides[i1].toQueryMap().entries)
+              'ParameterOverrides.member.${i1 + 1}.${e3.key}': e3.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateStackInstances',
@@ -6379,8 +6564,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateStackInstancesInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateStackInstancesResult',
     );
     return UpdateStackInstancesOutput.fromXml($result);
@@ -6750,28 +6933,64 @@ class CloudFormation {
     String? templateURL,
     bool? usePreviousTemplate,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['StackSetName'] = stackSetName;
-    accounts?.also((arg) => $request['Accounts'] = arg);
-    administrationRoleARN
-        ?.also((arg) => $request['AdministrationRoleARN'] = arg);
-    autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
-    callAs?.also((arg) => $request['CallAs'] = arg.toValue());
-    capabilities?.also((arg) =>
-        $request['Capabilities'] = arg.map((e) => e.toValue()).toList());
-    deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    description?.also((arg) => $request['Description'] = arg);
-    executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
-    managedExecution?.also((arg) => $request['ManagedExecution'] = arg);
-    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
-    operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
-    parameters?.also((arg) => $request['Parameters'] = arg);
-    permissionModel?.also((arg) => $request['PermissionModel'] = arg.toValue());
-    regions?.also((arg) => $request['Regions'] = arg);
-    tags?.also((arg) => $request['Tags'] = arg);
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
-    usePreviousTemplate?.also((arg) => $request['UsePreviousTemplate'] = arg);
+    final $request = <String, String>{
+      'StackSetName': stackSetName,
+      if (accounts != null)
+        if (accounts.isEmpty)
+          'Accounts': ''
+        else
+          for (var i1 = 0; i1 < accounts.length; i1++)
+            'Accounts.member.${i1 + 1}': accounts[i1],
+      if (administrationRoleARN != null)
+        'AdministrationRoleARN': administrationRoleARN,
+      if (autoDeployment != null)
+        for (var e1 in autoDeployment.toQueryMap().entries)
+          'AutoDeployment.${e1.key}': e1.value,
+      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (capabilities != null)
+        if (capabilities.isEmpty)
+          'Capabilities': ''
+        else
+          for (var i1 = 0; i1 < capabilities.length; i1++)
+            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+      if (deploymentTargets != null)
+        for (var e1 in deploymentTargets.toQueryMap().entries)
+          'DeploymentTargets.${e1.key}': e1.value,
+      if (description != null) 'Description': description,
+      if (executionRoleName != null) 'ExecutionRoleName': executionRoleName,
+      if (managedExecution != null)
+        for (var e1 in managedExecution.toQueryMap().entries)
+          'ManagedExecution.${e1.key}': e1.value,
+      'OperationId': operationId ?? _s.generateIdempotencyToken(),
+      if (operationPreferences != null)
+        for (var e1 in operationPreferences.toQueryMap().entries)
+          'OperationPreferences.${e1.key}': e1.value,
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (regions != null)
+        if (regions.isEmpty)
+          'Regions': ''
+        else
+          for (var i1 = 0; i1 < regions.length; i1++)
+            'Regions.member.${i1 + 1}': regions[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+      if (usePreviousTemplate != null)
+        'UsePreviousTemplate': usePreviousTemplate.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateStackSet',
@@ -6779,8 +6998,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateStackSetInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateStackSetResult',
     );
     return UpdateStackSetOutput.fromXml($result);
@@ -6807,9 +7024,10 @@ class CloudFormation {
     required bool enableTerminationProtection,
     required String stackName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['EnableTerminationProtection'] = enableTerminationProtection;
-    $request['StackName'] = stackName;
+    final $request = <String, String>{
+      'EnableTerminationProtection': enableTerminationProtection.toString(),
+      'StackName': stackName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateTerminationProtection',
@@ -6817,8 +7035,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateTerminationProtectionInput'],
-      shapes: shapes,
       resultWrapper: 'UpdateTerminationProtectionResult',
     );
     return UpdateTerminationProtectionOutput.fromXml($result);
@@ -6854,9 +7070,10 @@ class CloudFormation {
     String? templateBody,
     String? templateURL,
   }) async {
-    final $request = <String, dynamic>{};
-    templateBody?.also((arg) => $request['TemplateBody'] = arg);
-    templateURL?.also((arg) => $request['TemplateURL'] = arg);
+    final $request = <String, String>{
+      if (templateBody != null) 'TemplateBody': templateBody,
+      if (templateURL != null) 'TemplateURL': templateURL,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'ValidateTemplate',
@@ -6864,8 +7081,6 @@ class CloudFormation {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['ValidateTemplateInput'],
-      shapes: shapes,
       resultWrapper: 'ValidateTemplateResult',
     );
     return ValidateTemplateOutput.fromXml($result);
@@ -7150,6 +7365,16 @@ class AutoDeployment {
       if (enabled != null) 'Enabled': enabled,
       if (retainStacksOnAccountRemoval != null)
         'RetainStacksOnAccountRemoval': retainStacksOnAccountRemoval,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final enabled = this.enabled;
+    final retainStacksOnAccountRemoval = this.retainStacksOnAccountRemoval;
+    return {
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (retainStacksOnAccountRemoval != null)
+        'RetainStacksOnAccountRemoval': retainStacksOnAccountRemoval.toString(),
     };
   }
 }
@@ -8088,6 +8313,30 @@ class DeploymentTargets {
       if (accountsUrl != null) 'AccountsUrl': accountsUrl,
       if (organizationalUnitIds != null)
         'OrganizationalUnitIds': organizationalUnitIds,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final accountFilterType = this.accountFilterType;
+    final accounts = this.accounts;
+    final accountsUrl = this.accountsUrl;
+    final organizationalUnitIds = this.organizationalUnitIds;
+    return {
+      if (accountFilterType != null)
+        'AccountFilterType': accountFilterType.toValue(),
+      if (accounts != null)
+        if (accounts.isEmpty)
+          'Accounts': ''
+        else
+          for (var i1 = 0; i1 < accounts.length; i1++)
+            'Accounts.member.${i1 + 1}': accounts[i1],
+      if (accountsUrl != null) 'AccountsUrl': accountsUrl,
+      if (organizationalUnitIds != null)
+        if (organizationalUnitIds.isEmpty)
+          'OrganizationalUnitIds': ''
+        else
+          for (var i1 = 0; i1 < organizationalUnitIds.length; i1++)
+            'OrganizationalUnitIds.member.${i1 + 1}': organizationalUnitIds[i1],
     };
   }
 }
@@ -10630,6 +10879,15 @@ class LoggingConfig {
       'LogRoleArn': logRoleArn,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final logGroupName = this.logGroupName;
+    final logRoleArn = this.logRoleArn;
+    return {
+      'LogGroupName': logGroupName,
+      'LogRoleArn': logRoleArn,
+    };
+  }
 }
 
 /// Describes whether StackSets performs non-conflicting operations concurrently
@@ -10662,6 +10920,13 @@ class ManagedExecution {
     final active = this.active;
     return {
       if (active != null) 'Active': active,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final active = this.active;
+    return {
+      if (active != null) 'Active': active.toString(),
     };
   }
 }
@@ -10792,6 +11057,15 @@ class OperationResultFilter {
   });
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final name = this.name;
     final values = this.values;
     return {
@@ -10971,6 +11245,20 @@ class Parameter {
       if (parameterValue != null) 'ParameterValue': parameterValue,
       if (resolvedValue != null) 'ResolvedValue': resolvedValue,
       if (usePreviousValue != null) 'UsePreviousValue': usePreviousValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final parameterKey = this.parameterKey;
+    final parameterValue = this.parameterValue;
+    final resolvedValue = this.resolvedValue;
+    final usePreviousValue = this.usePreviousValue;
+    return {
+      if (parameterKey != null) 'ParameterKey': parameterKey,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (resolvedValue != null) 'ResolvedValue': resolvedValue,
+      if (usePreviousValue != null)
+        'UsePreviousValue': usePreviousValue.toString(),
     };
   }
 }
@@ -11838,6 +12126,20 @@ class ResourceDefinition {
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    final logicalResourceId = this.logicalResourceId;
+    return {
+      for (var e1 in resourceIdentifier.entries.toList().asMap().entries) ...{
+        'ResourceIdentifier.entry.${e1.key + 1}.key': e1.value.key,
+        'ResourceIdentifier.entry.${e1.key + 1}.value': e1.value.value,
+      },
+      'ResourceType': resourceType,
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+    };
+  }
 }
 
 /// Details about a resource in a generated template
@@ -12304,6 +12606,20 @@ class ResourceToImport {
       'ResourceType': resourceType,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final logicalResourceId = this.logicalResourceId;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      'LogicalResourceId': logicalResourceId,
+      for (var e1 in resourceIdentifier.entries.toList().asMap().entries) ...{
+        'ResourceIdentifier.entry.${e1.key + 1}.key': e1.value.key,
+        'ResourceIdentifier.entry.${e1.key + 1}.value': e1.value.value,
+      },
+      'ResourceType': resourceType,
+    };
+  }
 }
 
 /// Structure containing the rollback triggers for CloudFormation to monitor
@@ -12391,6 +12707,22 @@ class RollbackConfiguration {
       if (rollbackTriggers != null) 'RollbackTriggers': rollbackTriggers,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
+    final rollbackTriggers = this.rollbackTriggers;
+    return {
+      if (monitoringTimeInMinutes != null)
+        'MonitoringTimeInMinutes': monitoringTimeInMinutes.toString(),
+      if (rollbackTriggers != null)
+        if (rollbackTriggers.isEmpty)
+          'RollbackTriggers': ''
+        else
+          for (var i1 = 0; i1 < rollbackTriggers.length; i1++)
+            for (var e3 in rollbackTriggers[i1].toQueryMap().entries)
+              'RollbackTriggers.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
 }
 
 class RollbackStackOutput {
@@ -12437,6 +12769,15 @@ class RollbackTrigger {
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      'Arn': arn,
+      'Type': type,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final arn = this.arn;
     final type = this.type;
     return {
@@ -12526,6 +12867,18 @@ class ScannedResourceIdentifier {
     final resourceType = this.resourceType;
     return {
       'ResourceIdentifier': resourceIdentifier,
+      'ResourceType': resourceType,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      for (var e1 in resourceIdentifier.entries.toList().asMap().entries) ...{
+        'ResourceIdentifier.entry.${e1.key + 1}.key': e1.value.key,
+        'ResourceIdentifier.entry.${e1.key + 1}.value': e1.value.value,
+      },
       'ResourceType': resourceType,
     };
   }
@@ -13367,6 +13720,15 @@ class StackInstanceFilter {
   });
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final name = this.name;
     final values = this.values;
     return {
@@ -14932,6 +15294,35 @@ class StackSetOperationPreferences {
       if (regionOrder != null) 'RegionOrder': regionOrder,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final concurrencyMode = this.concurrencyMode;
+    final failureToleranceCount = this.failureToleranceCount;
+    final failureTolerancePercentage = this.failureTolerancePercentage;
+    final maxConcurrentCount = this.maxConcurrentCount;
+    final maxConcurrentPercentage = this.maxConcurrentPercentage;
+    final regionConcurrencyType = this.regionConcurrencyType;
+    final regionOrder = this.regionOrder;
+    return {
+      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.toValue(),
+      if (failureToleranceCount != null)
+        'FailureToleranceCount': failureToleranceCount.toString(),
+      if (failureTolerancePercentage != null)
+        'FailureTolerancePercentage': failureTolerancePercentage.toString(),
+      if (maxConcurrentCount != null)
+        'MaxConcurrentCount': maxConcurrentCount.toString(),
+      if (maxConcurrentPercentage != null)
+        'MaxConcurrentPercentage': maxConcurrentPercentage.toString(),
+      if (regionConcurrencyType != null)
+        'RegionConcurrencyType': regionConcurrencyType.toValue(),
+      if (regionOrder != null)
+        if (regionOrder.isEmpty)
+          'RegionOrder': ''
+        else
+          for (var i1 = 0; i1 < regionOrder.length; i1++)
+            'RegionOrder.member.${i1 + 1}': regionOrder[i1],
+    };
+  }
 }
 
 enum StackSetOperationResultStatus {
@@ -15642,6 +16033,15 @@ class Tag {
       'Value': value,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The configuration details of a generated template.
@@ -15696,6 +16096,16 @@ class TemplateConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final deletionPolicy = this.deletionPolicy;
+    final updateReplacePolicy = this.updateReplacePolicy;
+    return {
+      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.toValue(),
+      if (updateReplacePolicy != null)
+        'UpdateReplacePolicy': updateReplacePolicy.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final deletionPolicy = this.deletionPolicy;
     final updateReplacePolicy = this.updateReplacePolicy;
     return {
@@ -15924,6 +16334,16 @@ class TemplateSummaryConfig {
             treatUnrecognizedResourceTypesAsWarnings,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final treatUnrecognizedResourceTypesAsWarnings =
+        this.treatUnrecognizedResourceTypesAsWarnings;
+    return {
+      if (treatUnrecognizedResourceTypesAsWarnings != null)
+        'TreatUnrecognizedResourceTypesAsWarnings':
+            treatUnrecognizedResourceTypesAsWarnings.toString(),
+    };
+  }
 }
 
 class TestTypeOutput {
@@ -16104,6 +16524,23 @@ class TypeConfigurationIdentifier {
       if (typeName != null) 'TypeName': typeName,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final type = this.type;
+    final typeArn = this.typeArn;
+    final typeConfigurationAlias = this.typeConfigurationAlias;
+    final typeConfigurationArn = this.typeConfigurationArn;
+    final typeName = this.typeName;
+    return {
+      if (type != null) 'Type': type.toValue(),
+      if (typeArn != null) 'TypeArn': typeArn,
+      if (typeConfigurationAlias != null)
+        'TypeConfigurationAlias': typeConfigurationAlias,
+      if (typeConfigurationArn != null)
+        'TypeConfigurationArn': typeConfigurationArn,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
 }
 
 /// Filter criteria to use in determining which extensions to return.
@@ -16155,6 +16592,17 @@ class TypeFilters {
   });
 
   Map<String, dynamic> toJson() {
+    final category = this.category;
+    final publisherId = this.publisherId;
+    final typeNamePrefix = this.typeNamePrefix;
+    return {
+      if (category != null) 'Category': category.toValue(),
+      if (publisherId != null) 'PublisherId': publisherId,
+      if (typeNamePrefix != null) 'TypeNamePrefix': typeNamePrefix,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final category = this.category;
     final publisherId = this.publisherId;
     final typeNamePrefix = this.typeNamePrefix;

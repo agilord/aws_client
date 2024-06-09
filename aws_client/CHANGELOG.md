@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1
+
+- Expose `package:aws_client/credential_providers.dart` for advanced options to resolve the `AwsClientCredentials`
+- Internal refactoring of the query protocol
+
 ## 0.5.0
 
 - Generate all the APIs with version v2.1635.0 of the AWS SDK

@@ -61,27 +61,34 @@ class QueryProtocol {
   }
 
   Future<XmlElement> send(
-    Map<String, dynamic> data, {
+    Map<String, String> data, {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
     bool signed = true,
-    Shape? shape,
-    required Map<String, Shape> shapes,
     required String version,
     required String action,
     String? resultWrapper,
   }) async {
-    final rq = await _buildRequest(
-      data,
-      method,
-      requestUri,
-      signed,
-      shape,
-      shapes,
-      version,
-      action,
-    );
+    final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
+    rq.body = canonicalQueryParameters(
+        {'Action': action, 'Version': version, ...data});
+    rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+    if (signed) {
+      final credentials = await _credentialsProvider?.call(client: _client);
+
+      if (credentials == null) {
+        throw Exception('credentials for signing request is null');
+      }
+
+      _requestSigner(
+        rq: rq,
+        service: _endpoint.service,
+        region: _endpoint.signingRegion,
+        credentials: credentials,
+      );
+    }
 
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
@@ -105,38 +112,6 @@ class QueryProtocol {
     }
 
     return elem;
-  }
-
-  Future<Request> _buildRequest(
-    Map<String, dynamic> data,
-    String method,
-    String requestUri,
-    bool signed,
-    Shape? shape,
-    Map<String, Shape> shapes,
-    String version,
-    String action,
-  ) async {
-    final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
-    rq.body = canonicalQueryParameters(
-        flatQueryParams(data, shape, shapes, version, action));
-    rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-    if (signed) {
-      final credentials = await _credentialsProvider?.call(client: _client);
-
-      if (credentials == null) {
-        throw Exception('credentials for signing request is null');
-      }
-
-      _requestSigner(
-        rq: rq,
-        service: _endpoint.service,
-        region: _endpoint.signingRegion,
-        credentials: credentials,
-      );
-    }
-    return rq;
   }
 
   void close() {

@@ -17,7 +17,6 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'cloudsearch-2013-01-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// You use the Amazon CloudSearch configuration service to create, configure,
@@ -26,7 +25,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// submitted via HTTP GET or POST with a query parameter named Action.
 class CloudSearch {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   CloudSearch({
     required String region,
@@ -34,7 +32,7 @@ class CloudSearch {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'cloudsearch',
@@ -43,9 +41,7 @@ class CloudSearch {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -67,8 +63,9 @@ class CloudSearch {
   Future<BuildSuggestersResponse> buildSuggesters({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'BuildSuggesters',
@@ -76,8 +73,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['BuildSuggestersRequest'],
-      shapes: shapes,
       resultWrapper: 'BuildSuggestersResult',
     );
     return BuildSuggestersResponse.fromXml($result);
@@ -101,8 +96,9 @@ class CloudSearch {
   Future<CreateDomainResponse> createDomain({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'CreateDomain',
@@ -110,8 +106,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateDomainRequest'],
-      shapes: shapes,
       resultWrapper: 'CreateDomainResult',
     );
     return CreateDomainResponse.fromXml($result);
@@ -134,9 +128,11 @@ class CloudSearch {
     required AnalysisScheme analysisScheme,
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AnalysisScheme'] = analysisScheme;
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      for (var e1 in analysisScheme.toQueryMap().entries)
+        'AnalysisScheme.${e1.key}': e1.value,
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DefineAnalysisScheme',
@@ -144,8 +140,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DefineAnalysisSchemeRequest'],
-      shapes: shapes,
       resultWrapper: 'DefineAnalysisSchemeResult',
     );
     return DefineAnalysisSchemeResponse.fromXml($result);
@@ -169,9 +163,11 @@ class CloudSearch {
     required String domainName,
     required Expression expression,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['Expression'] = expression;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      for (var e1 in expression.toQueryMap().entries)
+        'Expression.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DefineExpression',
@@ -179,8 +175,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DefineExpressionRequest'],
-      shapes: shapes,
       resultWrapper: 'DefineExpressionResult',
     );
     return DefineExpressionResponse.fromXml($result);
@@ -211,9 +205,11 @@ class CloudSearch {
     required String domainName,
     required IndexField indexField,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['IndexField'] = indexField;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      for (var e1 in indexField.toQueryMap().entries)
+        'IndexField.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DefineIndexField',
@@ -221,8 +217,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DefineIndexFieldRequest'],
-      shapes: shapes,
       resultWrapper: 'DefineIndexFieldResult',
     );
     return DefineIndexFieldResponse.fromXml($result);
@@ -247,9 +241,11 @@ class CloudSearch {
     required String domainName,
     required Suggester suggester,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['Suggester'] = suggester;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      for (var e1 in suggester.toQueryMap().entries)
+        'Suggester.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DefineSuggester',
@@ -257,8 +253,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DefineSuggesterRequest'],
-      shapes: shapes,
       resultWrapper: 'DefineSuggesterResult',
     );
     return DefineSuggesterResponse.fromXml($result);
@@ -281,9 +275,10 @@ class CloudSearch {
     required String analysisSchemeName,
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AnalysisSchemeName'] = analysisSchemeName;
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'AnalysisSchemeName': analysisSchemeName,
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteAnalysisScheme',
@@ -291,8 +286,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteAnalysisSchemeRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteAnalysisSchemeResult',
     );
     return DeleteAnalysisSchemeResponse.fromXml($result);
@@ -312,8 +305,9 @@ class CloudSearch {
   Future<DeleteDomainResponse> deleteDomain({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteDomain',
@@ -321,8 +315,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteDomainRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteDomainResult',
     );
     return DeleteDomainResponse.fromXml($result);
@@ -346,9 +338,10 @@ class CloudSearch {
     required String domainName,
     required String expressionName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['ExpressionName'] = expressionName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'ExpressionName': expressionName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteExpression',
@@ -356,8 +349,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteExpressionRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteExpressionResult',
     );
     return DeleteExpressionResponse.fromXml($result);
@@ -382,9 +373,10 @@ class CloudSearch {
     required String domainName,
     required String indexFieldName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['IndexFieldName'] = indexFieldName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'IndexFieldName': indexFieldName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteIndexField',
@@ -392,8 +384,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteIndexFieldRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteIndexFieldResult',
     );
     return DeleteIndexFieldResponse.fromXml($result);
@@ -416,9 +406,10 @@ class CloudSearch {
     required String domainName,
     required String suggesterName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['SuggesterName'] = suggesterName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'SuggesterName': suggesterName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DeleteSuggester',
@@ -426,8 +417,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteSuggesterRequest'],
-      shapes: shapes,
       resultWrapper: 'DeleteSuggesterResult',
     );
     return DeleteSuggesterResponse.fromXml($result);
@@ -463,10 +452,16 @@ class CloudSearch {
     List<String>? analysisSchemeNames,
     bool? deployed,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    analysisSchemeNames?.also((arg) => $request['AnalysisSchemeNames'] = arg);
-    deployed?.also((arg) => $request['Deployed'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (analysisSchemeNames != null)
+        if (analysisSchemeNames.isEmpty)
+          'AnalysisSchemeNames': ''
+        else
+          for (var i1 = 0; i1 < analysisSchemeNames.length; i1++)
+            'AnalysisSchemeNames.member.${i1 + 1}': analysisSchemeNames[i1],
+      if (deployed != null) 'Deployed': deployed.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeAnalysisSchemes',
@@ -474,8 +469,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeAnalysisSchemesRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeAnalysisSchemesResult',
     );
     return DescribeAnalysisSchemesResponse.fromXml($result);
@@ -507,9 +500,10 @@ class CloudSearch {
     required String domainName,
     bool? deployed,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeAvailabilityOptions',
@@ -517,8 +511,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeAvailabilityOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeAvailabilityOptionsResult',
     );
     return DescribeAvailabilityOptionsResponse.fromXml($result);
@@ -547,9 +539,10 @@ class CloudSearch {
     required String domainName,
     bool? deployed,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeDomainEndpointOptions',
@@ -557,8 +550,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeDomainEndpointOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeDomainEndpointOptionsResult',
     );
     return DescribeDomainEndpointOptionsResponse.fromXml($result);
@@ -582,8 +573,14 @@ class CloudSearch {
   Future<DescribeDomainsResponse> describeDomains({
     List<String>? domainNames,
   }) async {
-    final $request = <String, dynamic>{};
-    domainNames?.also((arg) => $request['DomainNames'] = arg);
+    final $request = <String, String>{
+      if (domainNames != null)
+        if (domainNames.isEmpty)
+          'DomainNames': ''
+        else
+          for (var i1 = 0; i1 < domainNames.length; i1++)
+            'DomainNames.member.${i1 + 1}': domainNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeDomains',
@@ -591,8 +588,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeDomainsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeDomainsResult',
     );
     return DescribeDomainsResponse.fromXml($result);
@@ -627,10 +622,16 @@ class CloudSearch {
     bool? deployed,
     List<String>? expressionNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
-    expressionNames?.also((arg) => $request['ExpressionNames'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+      if (expressionNames != null)
+        if (expressionNames.isEmpty)
+          'ExpressionNames': ''
+        else
+          for (var i1 = 0; i1 < expressionNames.length; i1++)
+            'ExpressionNames.member.${i1 + 1}': expressionNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeExpressions',
@@ -638,8 +639,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeExpressionsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeExpressionsResult',
     );
     return DescribeExpressionsResponse.fromXml($result);
@@ -674,10 +673,16 @@ class CloudSearch {
     bool? deployed,
     List<String>? fieldNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
-    fieldNames?.also((arg) => $request['FieldNames'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+      if (fieldNames != null)
+        if (fieldNames.isEmpty)
+          'FieldNames': ''
+        else
+          for (var i1 = 0; i1 < fieldNames.length; i1++)
+            'FieldNames.member.${i1 + 1}': fieldNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeIndexFields',
@@ -685,8 +690,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeIndexFieldsRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeIndexFieldsResult',
     );
     return DescribeIndexFieldsResponse.fromXml($result);
@@ -705,8 +708,9 @@ class CloudSearch {
   Future<DescribeScalingParametersResponse> describeScalingParameters({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeScalingParameters',
@@ -714,8 +718,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeScalingParametersRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeScalingParametersResult',
     );
     return DescribeScalingParametersResponse.fromXml($result);
@@ -745,9 +747,10 @@ class CloudSearch {
     required String domainName,
     bool? deployed,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeServiceAccessPolicies',
@@ -755,8 +758,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeServiceAccessPoliciesRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeServiceAccessPoliciesResult',
     );
     return DescribeServiceAccessPoliciesResponse.fromXml($result);
@@ -791,10 +792,16 @@ class CloudSearch {
     bool? deployed,
     List<String>? suggesterNames,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    deployed?.also((arg) => $request['Deployed'] = arg);
-    suggesterNames?.also((arg) => $request['SuggesterNames'] = arg);
+    final $request = <String, String>{
+      'DomainName': domainName,
+      if (deployed != null) 'Deployed': deployed.toString(),
+      if (suggesterNames != null)
+        if (suggesterNames.isEmpty)
+          'SuggesterNames': ''
+        else
+          for (var i1 = 0; i1 < suggesterNames.length; i1++)
+            'SuggesterNames.member.${i1 + 1}': suggesterNames[i1],
+    };
     final $result = await _protocol.send(
       $request,
       action: 'DescribeSuggesters',
@@ -802,8 +809,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeSuggestersRequest'],
-      shapes: shapes,
       resultWrapper: 'DescribeSuggestersResult',
     );
     return DescribeSuggestersResponse.fromXml($result);
@@ -820,8 +825,9 @@ class CloudSearch {
   Future<IndexDocumentsResponse> indexDocuments({
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'IndexDocuments',
@@ -829,8 +835,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['IndexDocumentsRequest'],
-      shapes: shapes,
       resultWrapper: 'IndexDocumentsResult',
     );
     return IndexDocumentsResponse.fromXml($result);
@@ -840,7 +844,7 @@ class CloudSearch {
   ///
   /// May throw [BaseException].
   Future<ListDomainNamesResponse> listDomainNames() async {
-    final $request = <String, dynamic>{};
+    final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
       action: 'ListDomainNames',
@@ -848,7 +852,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shapes: shapes,
       resultWrapper: 'ListDomainNamesResult',
     );
     return ListDomainNamesResponse.fromXml($result);
@@ -880,9 +883,10 @@ class CloudSearch {
     required String domainName,
     required bool multiAZ,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['MultiAZ'] = multiAZ;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      'MultiAZ': multiAZ.toString(),
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateAvailabilityOptions',
@@ -890,8 +894,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateAvailabilityOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateAvailabilityOptionsResult',
     );
     return UpdateAvailabilityOptionsResponse.fromXml($result);
@@ -923,9 +925,11 @@ class CloudSearch {
     required DomainEndpointOptions domainEndpointOptions,
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainEndpointOptions'] = domainEndpointOptions;
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      for (var e1 in domainEndpointOptions.toQueryMap().entries)
+        'DomainEndpointOptions.${e1.key}': e1.value,
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateDomainEndpointOptions',
@@ -933,8 +937,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateDomainEndpointOptionsRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateDomainEndpointOptionsResult',
     );
     return UpdateDomainEndpointOptionsResponse.fromXml($result);
@@ -960,9 +962,11 @@ class CloudSearch {
     required String domainName,
     required ScalingParameters scalingParameters,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['DomainName'] = domainName;
-    $request['ScalingParameters'] = scalingParameters;
+    final $request = <String, String>{
+      'DomainName': domainName,
+      for (var e1 in scalingParameters.toQueryMap().entries)
+        'ScalingParameters.${e1.key}': e1.value,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateScalingParameters',
@@ -970,8 +974,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateScalingParametersRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateScalingParametersResult',
     );
     return UpdateScalingParametersResponse.fromXml($result);
@@ -996,9 +998,10 @@ class CloudSearch {
     required String accessPolicies,
     required String domainName,
   }) async {
-    final $request = <String, dynamic>{};
-    $request['AccessPolicies'] = accessPolicies;
-    $request['DomainName'] = domainName;
+    final $request = <String, String>{
+      'AccessPolicies': accessPolicies,
+      'DomainName': domainName,
+    };
     final $result = await _protocol.send(
       $request,
       action: 'UpdateServiceAccessPolicies',
@@ -1006,8 +1009,6 @@ class CloudSearch {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['UpdateServiceAccessPoliciesRequest'],
-      shapes: shapes,
       resultWrapper: 'UpdateServiceAccessPoliciesResult',
     );
     return UpdateServiceAccessPoliciesResponse.fromXml($result);
@@ -1150,6 +1151,23 @@ class AnalysisOptions {
       if (synonyms != null) 'Synonyms': synonyms,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final algorithmicStemming = this.algorithmicStemming;
+    final japaneseTokenizationDictionary = this.japaneseTokenizationDictionary;
+    final stemmingDictionary = this.stemmingDictionary;
+    final stopwords = this.stopwords;
+    final synonyms = this.synonyms;
+    return {
+      if (algorithmicStemming != null)
+        'AlgorithmicStemming': algorithmicStemming.toValue(),
+      if (japaneseTokenizationDictionary != null)
+        'JapaneseTokenizationDictionary': japaneseTokenizationDictionary,
+      if (stemmingDictionary != null) 'StemmingDictionary': stemmingDictionary,
+      if (stopwords != null) 'Stopwords': stopwords,
+      if (synonyms != null) 'Synonyms': synonyms,
+    };
+  }
 }
 
 /// Configuration information for an analysis scheme. Each analysis scheme has a
@@ -1188,6 +1206,19 @@ class AnalysisScheme {
       'AnalysisSchemeLanguage': analysisSchemeLanguage.toValue(),
       'AnalysisSchemeName': analysisSchemeName,
       if (analysisOptions != null) 'AnalysisOptions': analysisOptions,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final analysisSchemeLanguage = this.analysisSchemeLanguage;
+    final analysisSchemeName = this.analysisSchemeName;
+    final analysisOptions = this.analysisOptions;
+    return {
+      'AnalysisSchemeLanguage': analysisSchemeLanguage.toValue(),
+      'AnalysisSchemeName': analysisSchemeName,
+      if (analysisOptions != null)
+        for (var e1 in analysisOptions.toQueryMap().entries)
+          'AnalysisOptions.${e1.key}': e1.value,
     };
   }
 }
@@ -1505,6 +1536,21 @@ class DateArrayOptions {
       if (sourceFields != null) 'SourceFields': sourceFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a date field. Dates and times are specified in UTC (Coordinated
@@ -1560,6 +1606,23 @@ class DateOptions {
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (searchEnabled != null) 'SearchEnabled': searchEnabled,
       if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
       if (sourceField != null) 'SourceField': sourceField,
     };
   }
@@ -1928,6 +1991,17 @@ class DocumentSuggesterOptions {
       if (sortExpression != null) 'SortExpression': sortExpression,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final sourceField = this.sourceField;
+    final fuzzyMatching = this.fuzzyMatching;
+    final sortExpression = this.sortExpression;
+    return {
+      'SourceField': sourceField,
+      if (fuzzyMatching != null) 'FuzzyMatching': fuzzyMatching.toValue(),
+      if (sortExpression != null) 'SortExpression': sortExpression,
+    };
+  }
 }
 
 /// The domain's endpoint options.
@@ -1956,6 +2030,16 @@ class DomainEndpointOptions {
     final tLSSecurityPolicy = this.tLSSecurityPolicy;
     return {
       if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS,
+      if (tLSSecurityPolicy != null)
+        'TLSSecurityPolicy': tLSSecurityPolicy.toValue(),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final enforceHTTPS = this.enforceHTTPS;
+    final tLSSecurityPolicy = this.tLSSecurityPolicy;
+    return {
+      if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS.toString(),
       if (tLSSecurityPolicy != null)
         'TLSSecurityPolicy': tLSSecurityPolicy.toValue(),
     };
@@ -2116,6 +2200,21 @@ class DoubleArrayOptions {
       if (sourceFields != null) 'SourceFields': sourceFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue.toString(),
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a double-precision 64-bit floating point field. Present if
@@ -2177,6 +2276,23 @@ class DoubleOptions {
       if (sourceField != null) 'SourceField': sourceField,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue.toString(),
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// A named expression that can be evaluated at search time. Can be used to sort
@@ -2198,6 +2314,15 @@ class Expression {
   }
 
   Map<String, dynamic> toJson() {
+    final expressionName = this.expressionName;
+    final expressionValue = this.expressionValue;
+    return {
+      'ExpressionName': expressionName,
+      'ExpressionValue': expressionValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
     final expressionName = this.expressionName;
     final expressionValue = this.expressionValue;
     return {
@@ -2358,6 +2483,59 @@ class IndexField {
       if (textOptions != null) 'TextOptions': textOptions,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final indexFieldName = this.indexFieldName;
+    final indexFieldType = this.indexFieldType;
+    final dateArrayOptions = this.dateArrayOptions;
+    final dateOptions = this.dateOptions;
+    final doubleArrayOptions = this.doubleArrayOptions;
+    final doubleOptions = this.doubleOptions;
+    final intArrayOptions = this.intArrayOptions;
+    final intOptions = this.intOptions;
+    final latLonOptions = this.latLonOptions;
+    final literalArrayOptions = this.literalArrayOptions;
+    final literalOptions = this.literalOptions;
+    final textArrayOptions = this.textArrayOptions;
+    final textOptions = this.textOptions;
+    return {
+      'IndexFieldName': indexFieldName,
+      'IndexFieldType': indexFieldType.toValue(),
+      if (dateArrayOptions != null)
+        for (var e1 in dateArrayOptions.toQueryMap().entries)
+          'DateArrayOptions.${e1.key}': e1.value,
+      if (dateOptions != null)
+        for (var e1 in dateOptions.toQueryMap().entries)
+          'DateOptions.${e1.key}': e1.value,
+      if (doubleArrayOptions != null)
+        for (var e1 in doubleArrayOptions.toQueryMap().entries)
+          'DoubleArrayOptions.${e1.key}': e1.value,
+      if (doubleOptions != null)
+        for (var e1 in doubleOptions.toQueryMap().entries)
+          'DoubleOptions.${e1.key}': e1.value,
+      if (intArrayOptions != null)
+        for (var e1 in intArrayOptions.toQueryMap().entries)
+          'IntArrayOptions.${e1.key}': e1.value,
+      if (intOptions != null)
+        for (var e1 in intOptions.toQueryMap().entries)
+          'IntOptions.${e1.key}': e1.value,
+      if (latLonOptions != null)
+        for (var e1 in latLonOptions.toQueryMap().entries)
+          'LatLonOptions.${e1.key}': e1.value,
+      if (literalArrayOptions != null)
+        for (var e1 in literalArrayOptions.toQueryMap().entries)
+          'LiteralArrayOptions.${e1.key}': e1.value,
+      if (literalOptions != null)
+        for (var e1 in literalOptions.toQueryMap().entries)
+          'LiteralOptions.${e1.key}': e1.value,
+      if (textArrayOptions != null)
+        for (var e1 in textArrayOptions.toQueryMap().entries)
+          'TextArrayOptions.${e1.key}': e1.value,
+      if (textOptions != null)
+        for (var e1 in textOptions.toQueryMap().entries)
+          'TextOptions.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// The value of an <code>IndexField</code> and its current status.
@@ -2505,6 +2683,21 @@ class IntArrayOptions {
       if (sourceFields != null) 'SourceFields': sourceFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue.toString(),
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for a 64-bit signed integer field. Present if
@@ -2566,6 +2759,23 @@ class IntOptions {
       if (sourceField != null) 'SourceField': sourceField,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue.toString(),
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
 }
 
 /// Options for a latlon field. A latlon field contains a location stored as a
@@ -2621,6 +2831,23 @@ class LatLonOptions {
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (searchEnabled != null) 'SearchEnabled': searchEnabled,
       if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
       if (sourceField != null) 'SourceField': sourceField,
     };
   }
@@ -2718,6 +2945,21 @@ class LiteralArrayOptions {
       if (sourceFields != null) 'SourceFields': sourceFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for literal field. Present if <code>IndexFieldType</code> specifies
@@ -2772,6 +3014,23 @@ class LiteralOptions {
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (searchEnabled != null) 'SearchEnabled': searchEnabled,
       if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final returnEnabled = this.returnEnabled;
+    final searchEnabled = this.searchEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
       if (sourceField != null) 'SourceField': sourceField,
     };
   }
@@ -3024,6 +3283,20 @@ class ScalingParameters {
         'DesiredReplicationCount': desiredReplicationCount,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final desiredInstanceType = this.desiredInstanceType;
+    final desiredPartitionCount = this.desiredPartitionCount;
+    final desiredReplicationCount = this.desiredReplicationCount;
+    return {
+      if (desiredInstanceType != null)
+        'DesiredInstanceType': desiredInstanceType.toValue(),
+      if (desiredPartitionCount != null)
+        'DesiredPartitionCount': desiredPartitionCount.toString(),
+      if (desiredReplicationCount != null)
+        'DesiredReplicationCount': desiredReplicationCount.toString(),
+    };
+  }
 }
 
 /// The status and configuration of a search domain's scaling parameters.
@@ -3082,6 +3355,16 @@ class Suggester {
     final suggesterName = this.suggesterName;
     return {
       'DocumentSuggesterOptions': documentSuggesterOptions,
+      'SuggesterName': suggesterName,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final documentSuggesterOptions = this.documentSuggesterOptions;
+    final suggesterName = this.suggesterName;
+    return {
+      for (var e1 in documentSuggesterOptions.toQueryMap().entries)
+        'DocumentSuggesterOptions.${e1.key}': e1.value,
       'SuggesterName': suggesterName,
     };
   }
@@ -3217,6 +3500,22 @@ class TextArrayOptions {
       if (sourceFields != null) 'SourceFields': sourceFields,
     };
   }
+
+  Map<String, String> toQueryMap() {
+    final analysisScheme = this.analysisScheme;
+    final defaultValue = this.defaultValue;
+    final highlightEnabled = this.highlightEnabled;
+    final returnEnabled = this.returnEnabled;
+    final sourceFields = this.sourceFields;
+    return {
+      if (analysisScheme != null) 'AnalysisScheme': analysisScheme,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (highlightEnabled != null)
+        'HighlightEnabled': highlightEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (sourceFields != null) 'SourceFields': sourceFields,
+    };
+  }
 }
 
 /// Options for text field. Present if <code>IndexFieldType</code> specifies the
@@ -3271,6 +3570,24 @@ class TextOptions {
       if (highlightEnabled != null) 'HighlightEnabled': highlightEnabled,
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (sortEnabled != null) 'SortEnabled': sortEnabled,
+      if (sourceField != null) 'SourceField': sourceField,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final analysisScheme = this.analysisScheme;
+    final defaultValue = this.defaultValue;
+    final highlightEnabled = this.highlightEnabled;
+    final returnEnabled = this.returnEnabled;
+    final sortEnabled = this.sortEnabled;
+    final sourceField = this.sourceField;
+    return {
+      if (analysisScheme != null) 'AnalysisScheme': analysisScheme,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (highlightEnabled != null)
+        'HighlightEnabled': highlightEnabled.toString(),
+      if (returnEnabled != null) 'ReturnEnabled': returnEnabled.toString(),
+      if (sortEnabled != null) 'SortEnabled': sortEnabled.toString(),
       if (sourceField != null) 'SourceField': sourceField,
     };
   }

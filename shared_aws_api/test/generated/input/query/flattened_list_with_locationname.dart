@@ -17,13 +17,11 @@ import 'package:shared_aws_api/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-import 'flattened_list_with_locationname.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Flattened list with LocationName
 class FlattenedListWithLocationName {
   final _s.QueryProtocol _protocol;
-  final Map<String, _s.Shape> shapes;
 
   FlattenedListWithLocationName({
     required String region,
@@ -31,7 +29,7 @@ class FlattenedListWithLocationName {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  })  : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'FlattenedListWithLocationName',
@@ -40,9 +38,7 @@ class FlattenedListWithLocationName {
           credentials: credentials,
           credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
-        ),
-        shapes = shapesJson
-            .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
+        );
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -57,9 +53,15 @@ class FlattenedListWithLocationName {
     List<String>? listArg,
     String? scalarArg,
   }) async {
-    final $request = <String, dynamic>{};
-    listArg?.also((arg) => $request['ListArg'] = arg);
-    scalarArg?.also((arg) => $request['ScalarArg'] = arg);
+    final $request = <String, String>{
+      if (listArg != null)
+        if (listArg.isEmpty)
+          'ListArg': ''
+        else
+          for (var i1 = 0; i1 < listArg.length; i1++)
+            'ListArgLocation.${i1 + 1}': listArg[i1],
+      if (scalarArg != null) 'ScalarArg': scalarArg,
+    };
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -67,8 +69,6 @@ class FlattenedListWithLocationName {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      shape: shapes['InputShape'],
-      shapes: shapes,
     );
   }
 }
