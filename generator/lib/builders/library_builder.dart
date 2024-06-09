@@ -170,7 +170,7 @@ ${builder.constructor()}
         var variable = name;
         if (member.enumeration != null ||
             member.shapeClass.enumeration != null) {
-          variable = '$name${member.isRequired ? '' : '?'}.toValue()';
+          variable = '$name${member.isRequired ? '' : '?'}.value';
         }
         final isRequired = member.isRequired ? 'isRequired: true,' : '';
         writeln(
@@ -204,36 +204,21 @@ ${builder.constructor()}
       }
       writeln('enum $name {');
 
-      final enumFieldNames =
-          shape.enumeration!.where((s) => s.isNotEmpty).map((value) {
+      for (var value in shape.enumeration!.where((s) => s.isNotEmpty)) {
         final fieldName = toEnumerationFieldName(value);
-        writeln('  $fieldName,');
-        return fieldName;
-      }).toList();
+        writeln('  $fieldName(${escapeDartString(value)}),');
+      }
+      writeln('''
+;
+final String value;
+
+const $name(this.value);
+
+static $name fromString(String value) => values.firstWhere((e) => e.value == value,
+    orElse: () => throw Exception('\$value is not known in enum ${shape.className}'));
+''');
+
       writeln('}');
-
-      writeln("""extension ${name}ValueExtension on $name {
-  String toValue() {
-    switch (this) {
-    ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
-    return '$value';
-    ''').join()}
-    }
-  }
-}
-        """);
-
-      writeln("""extension ${name}FromString on String {
-  $name to$name() {
-    switch (this) {
-    ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case '$value':
-    return $name.${enumFieldNames[index]};
-    ''').join()}
-    }
-    throw Exception('\$this is not known in enum ${shape.className}');
-  }
-}
-        """);
     } else if (shape.type == 'structure') {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
@@ -396,7 +381,7 @@ ${builder.constructor()}
             writeln('if (${member.fieldName} != null)');
           }
           writeln(
-              "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.toValue()' : ''}),");
+              "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.value' : ''}),");
         }
         writeln('];');
         writeln(
@@ -498,8 +483,8 @@ String extractXmlCode(Shape shapeRef,
       code = '$code!';
     }
     if (enumeration) {
-      code =
-          '$code${enumeration ? '${nullability.inputNullable && nullability.outputNullable ? '?' : ''}.to${shapeRef.className}()' : ''}';
+      final enumFactory = '${shapeRef.className}.fromString';
+      code = '$code${nullability.outputNullable ? '?' : ''}.let($enumFactory)';
     }
     return code;
   } else if (type == 'list') {
@@ -520,7 +505,7 @@ String extractXmlCode(Shape shapeRef,
       fn =
           '_s.extractXml${uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
       if (memberShape.enumeration != null) {
-        fn += '.map((s) => s.to${uppercaseName(memberShape.name)}()).toList()';
+        fn += '.map(${uppercaseName(memberShape.name)}.fromString).toList()';
       }
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
@@ -598,7 +583,7 @@ String extractHeaderCode(Member member, String variable) {
     return '_s.extractHeaderMapValues($variable, \'${member.locationName ?? member.name}\')';
   } else if (member.shapeClass?.enumeration?.isNotEmpty ?? false) {
     member.shapeClass?.isTopLevelOutputEnum = true;
-    return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.to${uppercaseName(member.dartType)}()';
+    return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.let(${uppercaseName(member.dartType)}.fromString)';
   } else if (member.jsonvalue) {
     return '_s.extractHeaderJsonValue($variable, \'${member.locationName ?? member.name}\')';
   } else {

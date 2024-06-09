@@ -152,7 +152,7 @@ String _encodeQueryCode(Shape shape, String variable,
     return 'jsonEncode($variable)';
   } else if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
-    return '$variable.toValue()';
+    return '$variable.value';
   } else if (shape.type == 'blob') {
     return 'base64Encode($variable)';
   } else if (shape.type == 'timestamp') {

@@ -40,7 +40,7 @@ abstract class ServiceBuilder {
         }
         if (m.shapeClass?.enumeration != null) {
           m.shapeClass?.isTopLevelInputEnum = true;
-          converter = '$variable.toValue()';
+          converter = '$variable.value';
         }
 
         out.writeln("'$headerName': $converter,");
@@ -140,7 +140,7 @@ String _encodeQueryCode(Shape shape, String variable,
     return 'jsonEncode($variable)';
   } else if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
-    return '$variable.toValue()';
+    return '$variable.value';
   } else if (shape.type == 'list') {
     final code = _encodeQueryCode(shape.member!.shapeClass!, 'e',
         descriptor: shape.member!);
@@ -160,7 +160,7 @@ String _encodeQueryCode(Shape shape, String variable,
 String _encodePath(Shape shape, String variable) {
   if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
-    return '$variable.toValue()';
+    return '$variable.value';
   } else if (const ['integer', 'long'].contains(shape.type)) {
     return '$variable.toString()';
   }
