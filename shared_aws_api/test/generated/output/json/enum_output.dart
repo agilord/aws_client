@@ -78,7 +78,7 @@ class OutputShape {
     return OutputShape(
       fooEnum: (json['FooEnum'] as String?)?.let(JSONEnumType.fromString),
       listEnums: (json['ListEnums'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JSONEnumType.fromString((e as String)))
           .toList(),
     );

@@ -586,7 +586,7 @@ class DescribeVoicesOutput {
     return DescribeVoicesOutput(
       nextToken: json['NextToken'] as String?,
       voices: (json['Voices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Voice.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -835,7 +835,7 @@ class ListLexiconsOutput {
   factory ListLexiconsOutput.fromJson(Map<String, dynamic> json) {
     return ListLexiconsOutput(
       lexicons: (json['Lexicons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LexiconDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -862,7 +862,7 @@ class ListSpeechSynthesisTasksOutput {
     return ListSpeechSynthesisTasksOutput(
       nextToken: json['NextToken'] as String?,
       synthesisTasks: (json['SynthesisTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SynthesisTask.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1028,7 +1028,7 @@ class SynthesisTask {
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lexiconNames: (json['LexiconNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       outputFormat:
@@ -1038,7 +1038,7 @@ class SynthesisTask {
       sampleRate: json['SampleRate'] as String?,
       snsTopicArn: json['SnsTopicArn'] as String?,
       speechMarkTypes: (json['SpeechMarkTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpeechMarkType.fromString((e as String)))
           .toList(),
       taskId: json['TaskId'] as String?,
@@ -1165,7 +1165,7 @@ class Voice {
   factory Voice.fromJson(Map<String, dynamic> json) {
     return Voice(
       additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
       gender: (json['Gender'] as String?)?.let(Gender.fromString),
@@ -1175,7 +1175,7 @@ class Voice {
       languageName: json['LanguageName'] as String?,
       name: json['Name'] as String?,
       supportedEngines: (json['SupportedEngines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Engine.fromString((e as String)))
           .toList(),
     );

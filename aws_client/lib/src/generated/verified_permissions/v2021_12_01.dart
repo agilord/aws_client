@@ -1961,7 +1961,7 @@ class AttributeValue {
       record: (json['record'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       set: (json['set'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       string: json['string'] as String?,
@@ -2054,7 +2054,7 @@ class BatchIsAuthorizedOutput {
   factory BatchIsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedOutput(
       results: (json['results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchIsAuthorizedOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2103,11 +2103,11 @@ class BatchIsAuthorizedOutputItem {
     return BatchIsAuthorizedOutputItem(
       decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       request: BatchIsAuthorizedInputItem.fromJson(
@@ -2193,7 +2193,7 @@ class BatchIsAuthorizedWithTokenOutput {
   factory BatchIsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedWithTokenOutput(
       results: (json['results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchIsAuthorizedWithTokenOutputItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2248,11 +2248,11 @@ class BatchIsAuthorizedWithTokenOutputItem {
     return BatchIsAuthorizedWithTokenOutputItem(
       decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       request: BatchIsAuthorizedWithTokenInputItem.fromJson(
@@ -2457,10 +2457,8 @@ class CognitoUserPoolConfigurationDetail {
   factory CognitoUserPoolConfigurationDetail.fromJson(
       Map<String, dynamic> json) {
     return CognitoUserPoolConfigurationDetail(
-      clientIds: (json['clientIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      clientIds:
+          (json['clientIds'] as List).nonNulls.map((e) => e as String).toList(),
       issuer: json['issuer'] as String,
       userPoolArn: json['userPoolArn'] as String,
       groupConfiguration: json['groupConfiguration'] != null
@@ -2532,10 +2530,8 @@ class CognitoUserPoolConfigurationItem {
 
   factory CognitoUserPoolConfigurationItem.fromJson(Map<String, dynamic> json) {
     return CognitoUserPoolConfigurationItem(
-      clientIds: (json['clientIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      clientIds:
+          (json['clientIds'] as List).nonNulls.map((e) => e as String).toList(),
       issuer: json['issuer'] as String,
       userPoolArn: json['userPoolArn'] as String,
       groupConfiguration: json['groupConfiguration'] != null
@@ -2823,7 +2819,7 @@ class CreatePolicyOutput {
       policyStoreId: json['policyStoreId'] as String,
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
@@ -3358,7 +3354,7 @@ class GetPolicyOutput {
       policyStoreId: json['policyStoreId'] as String,
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
@@ -3548,7 +3544,7 @@ class GetSchemaOutput {
       policyStoreId: json['policyStoreId'] as String,
       schema: json['schema'] as String,
       namespaces: (json['namespaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3612,7 +3608,7 @@ class IdentitySourceDetails {
   factory IdentitySourceDetails.fromJson(Map<String, dynamic> json) {
     return IdentitySourceDetails(
       clientIds: (json['clientIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       discoveryUrl: json['discoveryUrl'] as String?,
@@ -3778,7 +3774,7 @@ class IdentitySourceItemDetails {
   factory IdentitySourceItemDetails.fromJson(Map<String, dynamic> json) {
     return IdentitySourceItemDetails(
       clientIds: (json['clientIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       discoveryUrl: json['discoveryUrl'] as String?,
@@ -3830,11 +3826,11 @@ class IsAuthorizedOutput {
     return IsAuthorizedOutput(
       decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3885,11 +3881,11 @@ class IsAuthorizedWithTokenOutput {
     return IsAuthorizedWithTokenOutput(
       decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       principal: json['principal'] != null
@@ -3932,7 +3928,7 @@ class ListIdentitySourcesOutput {
   factory ListIdentitySourcesOutput.fromJson(Map<String, dynamic> json) {
     return ListIdentitySourcesOutput(
       identitySources: (json['identitySources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IdentitySourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3969,7 +3965,7 @@ class ListPoliciesOutput {
   factory ListPoliciesOutput.fromJson(Map<String, dynamic> json) {
     return ListPoliciesOutput(
       policies: (json['policies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4006,7 +4002,7 @@ class ListPolicyStoresOutput {
   factory ListPolicyStoresOutput.fromJson(Map<String, dynamic> json) {
     return ListPolicyStoresOutput(
       policyStores: (json['policyStores'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PolicyStoreItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4043,7 +4039,7 @@ class ListPolicyTemplatesOutput {
   factory ListPolicyTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListPolicyTemplatesOutput(
       policyTemplates: (json['policyTemplates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PolicyTemplateItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4328,7 +4324,7 @@ class PolicyItem {
       policyStoreId: json['policyStoreId'] as String,
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
@@ -4520,7 +4516,7 @@ class PutSchemaOutput {
       lastUpdatedDate:
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
       namespaces: (json['namespaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       policyStoreId: json['policyStoreId'] as String,
@@ -4995,7 +4991,7 @@ class UpdatePolicyOutput {
       policyStoreId: json['policyStoreId'] as String,
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),

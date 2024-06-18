@@ -415,7 +415,7 @@ class ListReportsResponse {
     return ListReportsResponse(
       nextToken: json['nextToken'] as String?,
       reports: (json['reports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

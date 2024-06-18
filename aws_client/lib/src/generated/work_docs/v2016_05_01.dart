@@ -2631,7 +2631,7 @@ class AddResourcePermissionsResponse {
   factory AddResourcePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return AddResourcePermissionsResponse(
       shareResults: (json['ShareResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ShareResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3060,7 +3060,7 @@ class DescribeActivitiesResponse {
     return DescribeActivitiesResponse(
       marker: json['Marker'] as String?,
       userActivities: (json['UserActivities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Activity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3092,7 +3092,7 @@ class DescribeCommentsResponse {
   factory DescribeCommentsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCommentsResponse(
       comments: (json['Comments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -3125,7 +3125,7 @@ class DescribeDocumentVersionsResponse {
   factory DescribeDocumentVersionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDocumentVersionsResponse(
       documentVersions: (json['DocumentVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DocumentVersionMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3163,11 +3163,11 @@ class DescribeFolderContentsResponse {
   factory DescribeFolderContentsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFolderContentsResponse(
       documents: (json['Documents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       folders: (json['Folders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -3202,7 +3202,7 @@ class DescribeGroupsResponse {
   factory DescribeGroupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -3237,7 +3237,7 @@ class DescribeNotificationSubscriptionsResponse {
     return DescribeNotificationSubscriptionsResponse(
       marker: json['Marker'] as String?,
       subscriptions: (json['Subscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3271,7 +3271,7 @@ class DescribeResourcePermissionsResponse {
     return DescribeResourcePermissionsResponse(
       marker: json['Marker'] as String?,
       principals: (json['Principals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3302,7 +3302,7 @@ class DescribeRootFoldersResponse {
   factory DescribeRootFoldersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRootFoldersResponse(
       folders: (json['Folders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -3341,7 +3341,7 @@ class DescribeUsersResponse {
       marker: json['Marker'] as String?,
       totalNumberOfUsers: json['TotalNumberOfUsers'] as int?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3401,10 +3401,8 @@ class DocumentMetadata {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       creatorId: json['CreatorId'] as String?,
       id: json['Id'] as String?,
-      labels: (json['Labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       latestVersionMetadata: json['LatestVersionMetadata'] != null
           ? DocumentVersionMetadata.fromJson(
               json['LatestVersionMetadata'] as Map<String, dynamic>)
@@ -3765,10 +3763,8 @@ class FolderMetadata {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       creatorId: json['CreatorId'] as String?,
       id: json['Id'] as String?,
-      labels: (json['Labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       latestVersionSize: json['LatestVersionSize'] as int?,
       modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
       name: json['Name'] as String?,
@@ -3999,11 +3995,11 @@ class GetResourcesResponse {
   factory GetResourcesResponse.fromJson(Map<String, dynamic> json) {
     return GetResourcesResponse(
       documents: (json['Documents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       folders: (json['Folders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -4249,11 +4245,11 @@ class Participants {
   factory Participants.fromJson(Map<String, dynamic> json) {
     return Participants(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4320,7 +4316,7 @@ class Principal {
     return Principal(
       id: json['Id'] as String?,
       roles: (json['Roles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(PrincipalType.fromString),
@@ -4468,7 +4464,7 @@ class ResourcePath {
   factory ResourcePath.fromJson(Map<String, dynamic> json) {
     return ResourcePath(
       components: (json['Components'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourcePathComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4767,7 +4763,7 @@ class SearchResourcesResponse {
   factory SearchResourcesResponse.fromJson(Map<String, dynamic> json) {
     return SearchResourcesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResponseItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,

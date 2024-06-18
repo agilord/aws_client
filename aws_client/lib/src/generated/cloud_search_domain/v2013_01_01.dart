@@ -650,7 +650,7 @@ class BucketInfo {
   factory BucketInfo.fromJson(Map<String, dynamic> json) {
     return BucketInfo(
       buckets: (json['buckets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -859,8 +859,8 @@ class Hit {
     return Hit(
       exprs: (json['exprs'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      fields: (json['fields'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      fields: (json['fields'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       highlights: (json['highlights'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       id: json['id'] as String?,
@@ -908,7 +908,7 @@ class Hits {
       cursor: json['cursor'] as String?,
       found: json['found'] as int?,
       hit: (json['hit'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Hit.fromJson(e as Map<String, dynamic>))
           .toList(),
       start: json['start'] as int?,
@@ -1075,7 +1075,7 @@ class SuggestModel {
       found: json['found'] as int?,
       query: json['query'] as String?,
       suggestions: (json['suggestions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuggestionMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1227,7 +1227,7 @@ class UploadDocumentsResponse {
       deletes: json['deletes'] as int?,
       status: json['status'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DocumentServiceWarning.fromJson(e as Map<String, dynamic>))
           .toList(),

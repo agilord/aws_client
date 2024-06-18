@@ -396,7 +396,7 @@ class BundleDetails {
   factory BundleDetails.fromJson(Map<String, dynamic> json) {
     return BundleDetails(
       availablePlatforms: (json['availablePlatforms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Platform.fromString((e as String)))
           .toList(),
       bundleId: json['bundleId'] as String?,
@@ -443,11 +443,11 @@ class DeleteProjectResult {
   factory DeleteProjectResult.fromJson(Map<String, dynamic> json) {
     return DeleteProjectResult(
       deletedResources: (json['deletedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       orphanedResources: (json['orphanedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -595,7 +595,7 @@ class ListBundlesResult {
   factory ListBundlesResult.fromJson(Map<String, dynamic> json) {
     return ListBundlesResult(
       bundleList: (json['bundleList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BundleDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -617,7 +617,7 @@ class ListProjectsResult {
     return ListProjectsResult(
       nextToken: json['nextToken'] as String?,
       projects: (json['projects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -695,7 +695,7 @@ class ProjectDetails {
       projectId: json['projectId'] as String?,
       region: json['region'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['state'] as String?)?.let(ProjectState.fromString),

@@ -1355,7 +1355,7 @@ class IndexField {
       indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName')!,
       indexFieldType: _s
           .extractXmlStringValue(elem, 'IndexFieldType')!
-          .let(IndexFieldType.fromString) /* Nullability(true, false) */,
+          .let(IndexFieldType.fromString),
       literalOptions: _s
           .extractXmlChild(elem, 'LiteralOptions')
           ?.let(LiteralOptions.fromXml),
@@ -1699,9 +1699,8 @@ class OptionStatus {
   factory OptionStatus.fromXml(_s.XmlElement elem) {
     return OptionStatus(
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
-      state: _s
-          .extractXmlStringValue(elem, 'State')!
-          .let(OptionState.fromString) /* Nullability(true, false) */,
+      state:
+          _s.extractXmlStringValue(elem, 'State')!.let(OptionState.fromString),
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate')!,
       pendingDeletion: _s.extractXmlBoolValue(elem, 'PendingDeletion'),
       updateVersion: _s.extractXmlIntValue(elem, 'UpdateVersion'),
@@ -1828,7 +1827,7 @@ class SourceAttribute {
     return SourceAttribute(
       sourceDataFunction: _s
           .extractXmlStringValue(elem, 'SourceDataFunction')!
-          .let(SourceDataFunction.fromString) /* Nullability(true, false) */,
+          .let(SourceDataFunction.fromString),
       sourceDataCopy:
           _s.extractXmlChild(elem, 'SourceDataCopy')?.let(SourceData.fromXml),
       sourceDataMap:

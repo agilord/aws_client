@@ -2232,7 +2232,7 @@ class ConversionProperties {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => ProductCode.fromJson(e as Map<String, dynamic>))
                   .toList())),
       volumeToVolumeSize: (json['volumeToVolumeSize'] as Map<String, dynamic>?)
@@ -2447,7 +2447,7 @@ class DataReplicationInfo {
       etaDateTime: json['etaDateTime'] as String?,
       lagDuration: json['lagDuration'] as String?,
       replicatedDisks: (json['replicatedDisks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataReplicationInfoReplicatedDisk.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2567,7 +2567,7 @@ class DataReplicationInitiation {
       nextAttemptDateTime: json['nextAttemptDateTime'] as String?,
       startDateTime: json['startDateTime'] as String?,
       steps: (json['steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataReplicationInitiationStep.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2773,7 +2773,7 @@ class DescribeJobLogItemsResponse {
   factory DescribeJobLogItemsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobLogItemsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobLog.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2834,7 +2834,7 @@ class DescribeJobsResponse {
   factory DescribeJobsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2867,7 +2867,7 @@ class DescribeLaunchConfigurationTemplatesResponse {
       Map<String, dynamic> json) {
     return DescribeLaunchConfigurationTemplatesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LaunchConfigurationTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2927,7 +2927,7 @@ class DescribeRecoveryInstancesResponse {
       Map<String, dynamic> json) {
     return DescribeRecoveryInstancesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2983,7 +2983,7 @@ class DescribeRecoverySnapshotsResponse {
       Map<String, dynamic> json) {
     return DescribeRecoverySnapshotsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoverySnapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3016,7 +3016,7 @@ class DescribeReplicationConfigurationTemplatesResponse {
       Map<String, dynamic> json) {
     return DescribeReplicationConfigurationTemplatesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationConfigurationTemplate.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3079,7 +3079,7 @@ class DescribeSourceNetworksResponse {
   factory DescribeSourceNetworksResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSourceNetworksResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3143,7 +3143,7 @@ class DescribeSourceServersResponse {
   factory DescribeSourceServersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSourceServersResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3531,11 +3531,11 @@ class Job {
       initiatedBy:
           (json['initiatedBy'] as String?)?.let(InitiatedBy.fromString),
       participatingResources: (json['participatingResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParticipatingResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       participatingServers: (json['participatingServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParticipatingServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['status'] as String?)?.let(JobStatus.fromString),
@@ -4037,7 +4037,7 @@ class LaunchActionsStatus {
   factory LaunchActionsStatus.fromJson(Map<String, dynamic> json) {
     return LaunchActionsStatus(
       runs: (json['runs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchActionRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       ssmAgentDiscoveryDatetime: json['ssmAgentDiscoveryDatetime'] as String?,
@@ -4496,7 +4496,7 @@ class ListExtensibleSourceServersResponse {
       Map<String, dynamic> json) {
     return ListExtensibleSourceServersResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StagingSourceServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4528,7 +4528,7 @@ class ListLaunchActionsResponse {
   factory ListLaunchActionsResponse.fromJson(Map<String, dynamic> json) {
     return ListLaunchActionsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4560,7 +4560,7 @@ class ListStagingAccountsResponse {
   factory ListStagingAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListStagingAccountsResponse(
       accounts: (json['accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4619,10 +4619,7 @@ class NetworkInterface {
 
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
-      ips: (json['ips'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ips: (json['ips'] as List?)?.nonNulls.map((e) => e as String).toList(),
       isPrimary: json['isPrimary'] as bool?,
       macAddress: json['macAddress'] as String?,
     );
@@ -5221,7 +5218,7 @@ class RecoveryInstanceDataReplicationInfo {
       etaDateTime: json['etaDateTime'] as String?,
       lagDuration: json['lagDuration'] as String?,
       replicatedDisks: (json['replicatedDisks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecoveryInstanceDataReplicationInfoReplicatedDisk.fromJson(
                   e as Map<String, dynamic>))
@@ -5330,7 +5327,7 @@ class RecoveryInstanceDataReplicationInitiation {
     return RecoveryInstanceDataReplicationInitiation(
       startDateTime: json['startDateTime'] as String?,
       steps: (json['steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryInstanceDataReplicationInitiationStep.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5637,11 +5634,11 @@ class RecoveryInstanceProperties {
   factory RecoveryInstanceProperties.fromJson(Map<String, dynamic> json) {
     return RecoveryInstanceProperties(
       cpus: (json['cpus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CPU.fromJson(e as Map<String, dynamic>))
           .toList(),
       disks: (json['disks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryInstanceDisk.fromJson(e as Map<String, dynamic>))
           .toList(),
       identificationHints: json['identificationHints'] != null
@@ -5650,7 +5647,7 @@ class RecoveryInstanceProperties {
           : null,
       lastUpdatedDateTime: json['lastUpdatedDateTime'] as String?,
       networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       os: json['os'] != null
@@ -5773,7 +5770,7 @@ class RecoverySnapshot {
       snapshotID: json['snapshotID'] as String,
       sourceServerID: json['sourceServerID'] as String,
       ebsSnapshots: (json['ebsSnapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       timestamp: json['timestamp'] as String?,
@@ -5906,11 +5903,11 @@ class ReplicationConfiguration {
       ebsEncryptionKeyArn: json['ebsEncryptionKeyArn'] as String?,
       name: json['name'] as String?,
       pitPolicy: (json['pitPolicy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PITPolicyRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       replicatedDisks: (json['replicatedDisks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationConfigurationReplicatedDisk.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5918,7 +5915,7 @@ class ReplicationConfiguration {
           json['replicationServerInstanceType'] as String?,
       replicationServersSecurityGroupsIDs:
           (json['replicationServersSecurityGroupsIDs'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       sourceServerID: json['sourceServerID'] as String?,
@@ -6215,14 +6212,14 @@ class ReplicationConfigurationTemplate {
           ?.let(ReplicationConfigurationEbsEncryption.fromString),
       ebsEncryptionKeyArn: json['ebsEncryptionKeyArn'] as String?,
       pitPolicy: (json['pitPolicy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PITPolicyRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       replicationServerInstanceType:
           json['replicationServerInstanceType'] as String?,
       replicationServersSecurityGroupsIDs:
           (json['replicationServersSecurityGroupsIDs'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       stagingAreaSubnetId: json['stagingAreaSubnetId'] as String?,
@@ -6592,11 +6589,11 @@ class SourceProperties {
   factory SourceProperties.fromJson(Map<String, dynamic> json) {
     return SourceProperties(
       cpus: (json['cpus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CPU.fromJson(e as Map<String, dynamic>))
           .toList(),
       disks: (json['disks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Disk.fromJson(e as Map<String, dynamic>))
           .toList(),
       identificationHints: json['identificationHints'] != null
@@ -6605,7 +6602,7 @@ class SourceProperties {
           : null,
       lastUpdatedDateTime: json['lastUpdatedDateTime'] as String?,
       networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       os: json['os'] != null

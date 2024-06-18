@@ -1460,10 +1460,8 @@ class CreateAwsLogSourceResponse {
 
   factory CreateAwsLogSourceResponse.fromJson(Map<String, dynamic> json) {
     return CreateAwsLogSourceResponse(
-      failed: (json['failed'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      failed:
+          (json['failed'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1537,7 +1535,7 @@ class CreateDataLakeResponse {
   factory CreateDataLakeResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataLakeResponse(
       dataLakes: (json['dataLakes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1797,7 +1795,7 @@ class DataLakeAutoEnableNewAccountConfiguration {
     return DataLakeAutoEnableNewAccountConfiguration(
       region: json['region'] as String,
       sources: (json['sources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AwsLogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1941,7 +1939,7 @@ class DataLakeLifecycleConfiguration {
               json['expiration'] as Map<String, dynamic>)
           : null,
       transitions: (json['transitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataLakeLifecycleTransition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2044,10 +2042,8 @@ class DataLakeReplicationConfiguration {
 
   factory DataLakeReplicationConfiguration.fromJson(Map<String, dynamic> json) {
     return DataLakeReplicationConfiguration(
-      regions: (json['regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
       roleArn: json['roleArn'] as String?,
     );
   }
@@ -2278,12 +2274,12 @@ class DataLakeSource {
     return DataLakeSource(
       account: json['account'] as String?,
       eventClasses: (json['eventClasses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sourceName: json['sourceName'] as String?,
       sourceStatuses: (json['sourceStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeSourceStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2442,10 +2438,8 @@ class DeleteAwsLogSourceResponse {
 
   factory DeleteAwsLogSourceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAwsLogSourceResponse(
-      failed: (json['failed'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      failed:
+          (json['failed'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2597,7 +2591,7 @@ class GetDataLakeOrganizationConfigurationResponse {
       Map<String, dynamic> json) {
     return GetDataLakeOrganizationConfigurationResponse(
       autoEnableNewAccount: (json['autoEnableNewAccount'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeAutoEnableNewAccountConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2641,7 +2635,7 @@ class GetDataLakeSourcesResponse {
     return GetDataLakeSourcesResponse(
       dataLakeArn: json['dataLakeArn'] as String?,
       dataLakeSources: (json['dataLakeSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2770,7 +2764,7 @@ class ListDataLakeExceptionsResponse {
   factory ListDataLakeExceptionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataLakeExceptionsResponse(
       exceptions: (json['exceptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeException.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2798,7 +2792,7 @@ class ListDataLakesResponse {
   factory ListDataLakesResponse.fromJson(Map<String, dynamic> json) {
     return ListDataLakesResponse(
       dataLakes: (json['dataLakes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2830,7 +2824,7 @@ class ListLogSourcesResponse {
     return ListLogSourcesResponse(
       nextToken: json['nextToken'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2863,7 +2857,7 @@ class ListSubscribersResponse {
     return ListSubscribersResponse(
       nextToken: json['nextToken'] as String?,
       subscribers: (json['subscribers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscriberResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2891,7 +2885,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2928,7 +2922,7 @@ class LogSource {
       account: json['account'] as String?,
       region: json['region'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3143,7 +3137,7 @@ class SubscriberResource {
   factory SubscriberResource.fromJson(Map<String, dynamic> json) {
     return SubscriberResource(
       sources: (json['sources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriberArn: json['subscriberArn'] as String,
@@ -3152,7 +3146,7 @@ class SubscriberResource {
           json['subscriberIdentity'] as Map<String, dynamic>),
       subscriberName: json['subscriberName'] as String,
       accessTypes: (json['accessTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessType.fromString((e as String)))
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -3323,7 +3317,7 @@ class UpdateDataLakeResponse {
   factory UpdateDataLakeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDataLakeResponse(
       dataLakes: (json['dataLakes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

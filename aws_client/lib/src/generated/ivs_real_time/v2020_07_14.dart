@@ -1345,7 +1345,7 @@ class Composition {
     return Composition(
       arn: json['arn'] as String,
       destinations: (json['destinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       layout:
@@ -1443,7 +1443,7 @@ class CompositionSummary {
     return CompositionSummary(
       arn: json['arn'] as String,
       destinations: (json['destinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       stageArn: json['stageArn'] as String,
@@ -1543,7 +1543,7 @@ class CreateStageResponse {
   factory CreateStageResponse.fromJson(Map<String, dynamic> json) {
     return CreateStageResponse(
       participantTokens: (json['participantTokens'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParticipantToken.fromJson(e as Map<String, dynamic>))
           .toList(),
       stage: json['stage'] != null
@@ -2297,7 +2297,7 @@ class ListCompositionsResponse {
   factory ListCompositionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCompositionsResponse(
       compositions: (json['compositions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CompositionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2331,7 +2331,7 @@ class ListEncoderConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListEncoderConfigurationsResponse(
       encoderConfigurations: (json['encoderConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               EncoderConfigurationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2365,7 +2365,7 @@ class ListParticipantEventsResponse {
   factory ListParticipantEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListParticipantEventsResponse(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2398,7 +2398,7 @@ class ListParticipantsResponse {
   factory ListParticipantsResponse.fromJson(Map<String, dynamic> json) {
     return ListParticipantsResponse(
       participants: (json['participants'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ParticipantSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2431,7 +2431,7 @@ class ListStageSessionsResponse {
   factory ListStageSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListStageSessionsResponse(
       stageSessions: (json['stageSessions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StageSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2464,7 +2464,7 @@ class ListStagesResponse {
   factory ListStagesResponse.fromJson(Map<String, dynamic> json) {
     return ListStagesResponse(
       stages: (json['stages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2498,7 +2498,7 @@ class ListStorageConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListStorageConfigurationsResponse(
       storageConfigurations: (json['storageConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               StorageConfigurationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2769,7 +2769,7 @@ class ParticipantToken {
       attributes: (json['attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParticipantTokenCapability.fromString((e as String)))
           .toList(),
       duration: json['duration'] as int?,
@@ -3063,7 +3063,7 @@ class S3DestinationConfiguration {
   factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DestinationConfiguration(
       encoderConfigurationArns: (json['encoderConfigurationArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       storageConfigurationArn: json['storageConfigurationArn'] as String,

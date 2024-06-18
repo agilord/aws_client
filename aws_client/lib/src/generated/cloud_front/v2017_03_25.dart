@@ -1656,7 +1656,7 @@ class CacheBehavior {
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(ViewerProtocolPolicy.fromString),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -2255,7 +2255,7 @@ class CookiePreference {
     return CookiePreference(
       forward: _s
           .extractXmlStringValue(elem, 'Forward')!
-          .let(ItemSelection.fromString) /* Nullability(true, false) */,
+          .let(ItemSelection.fromString),
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
           ?.let(CookieNames.fromXml),
@@ -2774,7 +2774,7 @@ class CustomOriginConfig {
       hTTPSPort: _s.extractXmlIntValue(elem, 'HTTPSPort')!,
       originProtocolPolicy: _s
           .extractXmlStringValue(elem, 'OriginProtocolPolicy')!
-          .let(OriginProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(OriginProtocolPolicy.fromString),
       originKeepaliveTimeout:
           _s.extractXmlIntValue(elem, 'OriginKeepaliveTimeout'),
       originReadTimeout: _s.extractXmlIntValue(elem, 'OriginReadTimeout'),
@@ -2976,7 +2976,7 @@ class DefaultCacheBehavior {
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(ViewerProtocolPolicy.fromString),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -3404,12 +3404,12 @@ class DistributionConfig {
       defaultRootObject: _s.extractXmlStringValue(elem, 'DefaultRootObject'),
       httpVersion: _s
           .extractXmlStringValue(elem, 'HttpVersion')
-          ?.let(HttpVersion.fromString) /* Nullability(true, true) */,
+          ?.let(HttpVersion.fromString),
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
       logging: _s.extractXmlChild(elem, 'Logging')?.let(LoggingConfig.fromXml),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')
-          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
+          ?.let(PriceClass.fromString),
       restrictions:
           _s.extractXmlChild(elem, 'Restrictions')?.let(Restrictions.fromXml),
       viewerCertificate: _s
@@ -3738,14 +3738,14 @@ class DistributionSummary {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       httpVersion: _s
           .extractXmlStringValue(elem, 'HttpVersion')!
-          .let(HttpVersion.fromString) /* Nullability(true, false) */,
+          .let(HttpVersion.fromString),
       id: _s.extractXmlStringValue(elem, 'Id')!,
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled')!,
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')!
-          .let(PriceClass.fromString) /* Nullability(true, false) */,
+          .let(PriceClass.fromString),
       restrictions:
           Restrictions.fromXml(_s.extractXmlChild(elem, 'Restrictions')!),
       status: _s.extractXmlStringValue(elem, 'Status')!,
@@ -3970,7 +3970,7 @@ class GeoRestriction {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       restrictionType: _s
           .extractXmlStringValue(elem, 'RestrictionType')!
-          .let(GeoRestrictionType.fromString) /* Nullability(true, false) */,
+          .let(GeoRestrictionType.fromString),
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Location')),
@@ -5154,7 +5154,7 @@ class LambdaFunctionAssociation {
     return LambdaFunctionAssociation(
       eventType: _s
           .extractXmlStringValue(elem, 'EventType')
-          ?.let(EventType.fromString) /* Nullability(true, true) */,
+          ?.let(EventType.fromString),
       lambdaFunctionARN: _s.extractXmlStringValue(elem, 'LambdaFunctionARN'),
     );
   }
@@ -6556,7 +6556,7 @@ class StreamingDistributionConfig {
           ?.let(StreamingLoggingConfig.fromXml),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')
-          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
+          ?.let(PriceClass.fromString),
     );
   }
 
@@ -6818,7 +6818,7 @@ class StreamingDistributionSummary {
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')!
-          .let(PriceClass.fromString) /* Nullability(true, false) */,
+          .let(PriceClass.fromString),
       s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
       status: _s.extractXmlStringValue(elem, 'Status')!,
       trustedSigners:
@@ -7849,17 +7849,16 @@ class ViewerCertificate {
       certificate: _s.extractXmlStringValue(elem, 'Certificate'),
       certificateSource: _s
           .extractXmlStringValue(elem, 'CertificateSource')
-          ?.let(CertificateSource.fromString) /* Nullability(true, true) */,
+          ?.let(CertificateSource.fromString),
       cloudFrontDefaultCertificate:
           _s.extractXmlBoolValue(elem, 'CloudFrontDefaultCertificate'),
       iAMCertificateId: _s.extractXmlStringValue(elem, 'IAMCertificateId'),
       minimumProtocolVersion: _s
           .extractXmlStringValue(elem, 'MinimumProtocolVersion')
-          ?.let(
-              MinimumProtocolVersion.fromString) /* Nullability(true, true) */,
+          ?.let(MinimumProtocolVersion.fromString),
       sSLSupportMethod: _s
           .extractXmlStringValue(elem, 'SSLSupportMethod')
-          ?.let(SSLSupportMethod.fromString) /* Nullability(true, true) */,
+          ?.let(SSLSupportMethod.fromString),
     );
   }
 

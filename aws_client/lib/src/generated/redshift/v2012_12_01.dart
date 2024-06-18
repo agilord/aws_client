@@ -9248,11 +9248,10 @@ class AquaConfiguration {
     return AquaConfiguration(
       aquaConfigurationStatus: _s
           .extractXmlStringValue(elem, 'AquaConfigurationStatus')
-          ?.let(
-              AquaConfigurationStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AquaConfigurationStatus.fromString),
       aquaStatus: _s
           .extractXmlStringValue(elem, 'AquaStatus')
-          ?.let(AquaStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AquaStatus.fromString),
     );
   }
 
@@ -10161,7 +10160,7 @@ class Cluster {
           _s.extractXmlStringValue(elem, 'SnapshotScheduleIdentifier'),
       snapshotScheduleState: _s
           .extractXmlStringValue(elem, 'SnapshotScheduleState')
-          ?.let(ScheduleState.fromString) /* Nullability(true, true) */,
+          ?.let(ScheduleState.fromString),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -10359,7 +10358,7 @@ class ClusterAssociatedToSchedule {
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
       scheduleAssociationState: _s
           .extractXmlStringValue(elem, 'ScheduleAssociationState')
-          ?.let(ScheduleState.fromString) /* Nullability(true, true) */,
+          ?.let(ScheduleState.fromString),
     );
   }
 
@@ -11816,7 +11815,7 @@ class DataShareAssociation {
           _s.extractXmlBoolValue(elem, 'ProducerAllowedWrites'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(DataShareStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DataShareStatus.fromString),
       statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
     );
   }
@@ -12786,7 +12785,7 @@ class EndpointAuthorization {
       grantor: _s.extractXmlStringValue(elem, 'Grantor'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(AuthorizationStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AuthorizationStatus.fromString),
     );
   }
 
@@ -12899,7 +12898,7 @@ class Event {
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString) /* Nullability(true, true) */,
+          ?.let(SourceType.fromString),
     );
   }
 
@@ -13676,8 +13675,9 @@ class InboundIntegration {
           .toList()),
       integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          ZeroETLIntegrationStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ZeroETLIntegrationStatus.fromString),
       targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
     );
   }
@@ -13779,7 +13779,7 @@ class LakeFormationQuery {
     return LakeFormationQuery(
       authorization: _s
           .extractXmlStringValue(elem, 'Authorization')!
-          .let(ServiceAuthorization.fromString) /* Nullability(true, false) */,
+          .let(ServiceAuthorization.fromString),
     );
   }
 
@@ -13930,7 +13930,7 @@ class LoggingStatus {
           _s.extractXmlDateTimeValue(elem, 'LastSuccessfulDeliveryTime'),
       logDestinationType: _s
           .extractXmlStringValue(elem, 'LogDestinationType')
-          ?.let(LogDestinationType.fromString) /* Nullability(true, true) */,
+          ?.let(LogDestinationType.fromString),
       logExports: _s
           .extractXmlChild(elem, 'LogExports')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -14391,9 +14391,7 @@ class NodeConfigurationOption {
     return NodeConfigurationOption(
       estimatedDiskUtilizationPercent:
           _s.extractXmlDoubleValue(elem, 'EstimatedDiskUtilizationPercent'),
-      mode: _s
-          .extractXmlStringValue(elem, 'Mode')
-          ?.let(Mode.fromString) /* Nullability(true, true) */,
+      mode: _s.extractXmlStringValue(elem, 'Mode')?.let(Mode.fromString),
       nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
       numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
     );
@@ -14684,7 +14682,7 @@ class Parameter {
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
       applyType: _s
           .extractXmlStringValue(elem, 'ApplyType')
-          ?.let(ParameterApplyType.fromString) /* Nullability(true, true) */,
+          ?.let(ParameterApplyType.fromString),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
@@ -14794,8 +14792,9 @@ class PartnerIntegrationInfo {
       createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
       databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
       partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          PartnerIntegrationStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(PartnerIntegrationStatus.fromString),
       statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
       updatedAt: _s.extractXmlDateTimeValue(elem, 'UpdatedAt'),
     );
@@ -15152,7 +15151,7 @@ class Recommendation {
       id: _s.extractXmlStringValue(elem, 'Id'),
       impactRanking: _s
           .extractXmlStringValue(elem, 'ImpactRanking')
-          ?.let(ImpactRankingType.fromString) /* Nullability(true, true) */,
+          ?.let(ImpactRankingType.fromString),
       namespaceArn: _s.extractXmlStringValue(elem, 'NamespaceArn'),
       observation: _s.extractXmlStringValue(elem, 'Observation'),
       recommendationText: _s.extractXmlStringValue(elem, 'RecommendationText'),
@@ -15229,7 +15228,7 @@ class RecommendedAction {
       text: _s.extractXmlStringValue(elem, 'Text'),
       type: _s
           .extractXmlStringValue(elem, 'Type')
-          ?.let(RecommendedActionType.fromString) /* Nullability(true, true) */,
+          ?.let(RecommendedActionType.fromString),
     );
   }
 
@@ -15536,8 +15535,7 @@ class ReservedNode {
           _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
       reservedNodeOfferingType: _s
           .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.let(ReservedNodeOfferingType
-              .fromString) /* Nullability(true, true) */,
+          ?.let(ReservedNodeOfferingType.fromString),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       state: _s.extractXmlStringValue(elem, 'State'),
       usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
@@ -15688,9 +15686,9 @@ class ReservedNodeExchangeStatus {
           _s.extractXmlStringValue(elem, 'SourceReservedNodeId'),
       sourceReservedNodeType:
           _s.extractXmlStringValue(elem, 'SourceReservedNodeType'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          ReservedNodeExchangeStatusType
-              .fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ReservedNodeExchangeStatusType.fromString),
       targetReservedNodeCount:
           _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
       targetReservedNodeOfferingId:
@@ -15811,8 +15809,7 @@ class ReservedNodeOffering {
           _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
       reservedNodeOfferingType: _s
           .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.let(ReservedNodeOfferingType
-              .fromString) /* Nullability(true, true) */,
+          ?.let(ReservedNodeOfferingType.fromString),
       usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
     );
   }
@@ -16655,7 +16652,7 @@ class ScheduledAction {
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       state: _s
           .extractXmlStringValue(elem, 'State')
-          ?.let(ScheduledActionState.fromString) /* Nullability(true, true) */,
+          ?.let(ScheduledActionState.fromString),
       targetAction: _s
           .extractXmlChild(elem, 'TargetAction')
           ?.let(ScheduledActionType.fromXml),
@@ -17803,8 +17800,9 @@ class TableRestoreStatus {
       sourceDatabaseName: _s.extractXmlStringValue(elem, 'SourceDatabaseName'),
       sourceSchemaName: _s.extractXmlStringValue(elem, 'SourceSchemaName'),
       sourceTableName: _s.extractXmlStringValue(elem, 'SourceTableName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          TableRestoreStatusType.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(TableRestoreStatusType.fromString),
       tableRestoreRequestId:
           _s.extractXmlStringValue(elem, 'TableRestoreRequestId'),
       targetDatabaseName: _s.extractXmlStringValue(elem, 'TargetDatabaseName'),
@@ -18186,18 +18184,19 @@ class UsageLimit {
   factory UsageLimit.fromXml(_s.XmlElement elem) {
     return UsageLimit(
       amount: _s.extractXmlIntValue(elem, 'Amount'),
-      breachAction: _s.extractXmlStringValue(elem, 'BreachAction')?.let(
-          UsageLimitBreachAction.fromString) /* Nullability(true, true) */,
+      breachAction: _s
+          .extractXmlStringValue(elem, 'BreachAction')
+          ?.let(UsageLimitBreachAction.fromString),
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
       featureType: _s
           .extractXmlStringValue(elem, 'FeatureType')
-          ?.let(UsageLimitFeatureType.fromString) /* Nullability(true, true) */,
+          ?.let(UsageLimitFeatureType.fromString),
       limitType: _s
           .extractXmlStringValue(elem, 'LimitType')
-          ?.let(UsageLimitLimitType.fromString) /* Nullability(true, true) */,
+          ?.let(UsageLimitLimitType.fromString),
       period: _s
           .extractXmlStringValue(elem, 'Period')
-          ?.let(UsageLimitPeriod.fromString) /* Nullability(true, true) */,
+          ?.let(UsageLimitPeriod.fromString),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),

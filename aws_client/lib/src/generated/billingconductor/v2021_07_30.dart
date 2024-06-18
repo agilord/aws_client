@@ -1763,13 +1763,13 @@ class BatchAssociateResourcesToCustomLineItemOutput {
       Map<String, dynamic> json) {
     return BatchAssociateResourcesToCustomLineItemOutput(
       failedAssociatedResources: (json['FailedAssociatedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociateResourceResponseElement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successfullyAssociatedResources:
           (json['SuccessfullyAssociatedResources'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AssociateResourceResponseElement.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1809,13 +1809,13 @@ class BatchDisassociateResourcesFromCustomLineItemOutput {
     return BatchDisassociateResourcesFromCustomLineItemOutput(
       failedDisassociatedResources:
           (json['FailedDisassociatedResources'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DisassociateResourceResponseElement.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       successfullyDisassociatedResources:
           (json['SuccessfullyDisassociatedResources'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DisassociateResourceResponseElement.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1944,7 +1944,7 @@ class BillingGroupCostReportResultElement {
       awsCost: json['AWSCost'] as String?,
       arn: json['Arn'] as String?,
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       currency: json['Currency'] as String?,
@@ -2848,7 +2848,7 @@ class GetBillingGroupCostReportOutput {
     return GetBillingGroupCostReportOutput(
       billingGroupCostReportResults:
           (json['BillingGroupCostReportResults'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => BillingGroupCostReportResultElement.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2912,7 +2912,7 @@ class LineItemFilter {
           LineItemFilterAttributeName.fromString((json['Attribute'] as String)),
       matchOption: MatchOption.fromString((json['MatchOption'] as String)),
       values: (json['Values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LineItemFilterValue.fromString((e as String)))
           .toList(),
     );
@@ -3019,7 +3019,7 @@ class ListAccountAssociationsOutput {
   factory ListAccountAssociationsOutput.fromJson(Map<String, dynamic> json) {
     return ListAccountAssociationsOutput(
       linkedAccounts: (json['LinkedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountAssociationsListElement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3096,7 +3096,7 @@ class ListBillingGroupCostReportsOutput {
       Map<String, dynamic> json) {
     return ListBillingGroupCostReportsOutput(
       billingGroupCostReports: (json['BillingGroupCostReports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BillingGroupCostReportElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3169,7 +3169,7 @@ class ListBillingGroupsOutput {
   factory ListBillingGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListBillingGroupsOutput(
       billingGroups: (json['BillingGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BillingGroupListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3219,7 +3219,7 @@ class ListCustomLineItemChargeDetails {
               json['Flat'] as Map<String, dynamic>)
           : null,
       lineItemFilters: (json['LineItemFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LineItemFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       percentage: json['Percentage'] != null
@@ -3354,7 +3354,7 @@ class ListCustomLineItemVersionsOutput {
   factory ListCustomLineItemVersionsOutput.fromJson(Map<String, dynamic> json) {
     return ListCustomLineItemVersionsOutput(
       customLineItemVersions: (json['CustomLineItemVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomLineItemVersionListElement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3426,7 +3426,7 @@ class ListCustomLineItemsOutput {
   factory ListCustomLineItemsOutput.fromJson(Map<String, dynamic> json) {
     return ListCustomLineItemsOutput(
       customLineItems: (json['CustomLineItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CustomLineItemListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3472,7 +3472,7 @@ class ListPricingPlansAssociatedWithPricingRuleOutput {
       billingPeriod: json['BillingPeriod'] as String?,
       nextToken: json['NextToken'] as String?,
       pricingPlanArns: (json['PricingPlanArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       pricingRuleArn: json['PricingRuleArn'] as String?,
@@ -3532,7 +3532,7 @@ class ListPricingPlansOutput {
       billingPeriod: json['BillingPeriod'] as String?,
       nextToken: json['NextToken'] as String?,
       pricingPlans: (json['PricingPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PricingPlanListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3580,7 +3580,7 @@ class ListPricingRulesAssociatedToPricingPlanOutput {
       nextToken: json['NextToken'] as String?,
       pricingPlanArn: json['PricingPlanArn'] as String?,
       pricingRuleArns: (json['PricingRuleArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3640,7 +3640,7 @@ class ListPricingRulesOutput {
       billingPeriod: json['BillingPeriod'] as String?,
       nextToken: json['NextToken'] as String?,
       pricingRules: (json['PricingRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PricingRuleListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3703,7 +3703,7 @@ class ListResourcesAssociatedToCustomLineItemOutput {
     return ListResourcesAssociatedToCustomLineItemOutput(
       arn: json['Arn'] as String?,
       associatedResources: (json['AssociatedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListResourcesAssociatedToCustomLineItemResponseElement.fromJson(
                   e as Map<String, dynamic>))

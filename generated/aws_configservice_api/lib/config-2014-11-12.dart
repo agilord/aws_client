@@ -5133,12 +5133,12 @@ class AccountAggregationSource {
   factory AccountAggregationSource.fromJson(Map<String, dynamic> json) {
     return AccountAggregationSource(
       accountIds: (json['AccountIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allAwsRegions: json['AllAwsRegions'] as bool?,
       awsRegions: (json['AwsRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5824,12 +5824,12 @@ class BatchGetAggregateResourceConfigResponse {
       Map<String, dynamic> json) {
     return BatchGetAggregateResourceConfigResponse(
       baseConfigurationItems: (json['BaseConfigurationItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedResourceIdentifiers: (json['UnprocessedResourceIdentifiers']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5856,11 +5856,11 @@ class BatchGetResourceConfigResponse {
   factory BatchGetResourceConfigResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetResourceConfigResponse(
       baseConfigurationItems: (json['baseConfigurationItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedResourceKeys: (json['unprocessedResourceKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6266,7 +6266,7 @@ class ConfigRule {
       createdBy: json['CreatedBy'] as String?,
       description: json['Description'] as String?,
       evaluationModes: (json['EvaluationModes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EvaluationModeConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6667,7 +6667,7 @@ class ConfigurationAggregator {
   factory ConfigurationAggregator.fromJson(Map<String, dynamic> json) {
     return ConfigurationAggregator(
       accountAggregationSources: (json['AccountAggregationSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AccountAggregationSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6840,11 +6840,11 @@ class ConfigurationItem {
       recordingFrequency: (json['recordingFrequency'] as String?)
           ?.let(RecordingFrequency.fromString),
       relatedEvents: (json['relatedEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       relationships: (json['relationships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
@@ -7236,7 +7236,7 @@ class ConformancePackDetail {
       conformancePackName: json['ConformancePackName'] as String,
       conformancePackInputParameters: (json['ConformancePackInputParameters']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7398,7 +7398,7 @@ class ConformancePackRuleCompliance {
           ?.let(ConformancePackComplianceType.fromString),
       configRuleName: json['ConfigRuleName'] as String?,
       controls: (json['Controls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7578,7 +7578,7 @@ class DeleteRemediationExceptionsResponse {
       Map<String, dynamic> json) {
     return DeleteRemediationExceptionsResponse(
       failedBatches: (json['FailedBatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedDeleteRemediationExceptionsBatch.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7775,7 +7775,7 @@ class DescribeAggregateComplianceByConfigRulesResponse {
     return DescribeAggregateComplianceByConfigRulesResponse(
       aggregateComplianceByConfigRules:
           (json['AggregateComplianceByConfigRules'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AggregateComplianceByConfigRule.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7803,7 +7803,7 @@ class DescribeAggregateComplianceByConformancePacksResponse {
     return DescribeAggregateComplianceByConformancePacksResponse(
       aggregateComplianceByConformancePacks:
           (json['AggregateComplianceByConformancePacks'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AggregateComplianceByConformancePack.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7830,7 +7830,7 @@ class DescribeAggregationAuthorizationsResponse {
       Map<String, dynamic> json) {
     return DescribeAggregationAuthorizationsResponse(
       aggregationAuthorizations: (json['AggregationAuthorizations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregationAuthorization.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7857,7 +7857,7 @@ class DescribeComplianceByConfigRuleResponse {
       Map<String, dynamic> json) {
     return DescribeComplianceByConfigRuleResponse(
       complianceByConfigRules: (json['ComplianceByConfigRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ComplianceByConfigRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7885,7 +7885,7 @@ class DescribeComplianceByResourceResponse {
       Map<String, dynamic> json) {
     return DescribeComplianceByResourceResponse(
       complianceByResources: (json['ComplianceByResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComplianceByResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7912,7 +7912,7 @@ class DescribeConfigRuleEvaluationStatusResponse {
     return DescribeConfigRuleEvaluationStatusResponse(
       configRulesEvaluationStatus: (json['ConfigRulesEvaluationStatus']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigRuleEvaluationStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7959,7 +7959,7 @@ class DescribeConfigRulesResponse {
   factory DescribeConfigRulesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConfigRulesResponse(
       configRules: (json['ConfigRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7984,7 +7984,7 @@ class DescribeConfigurationAggregatorSourcesStatusResponse {
       Map<String, dynamic> json) {
     return DescribeConfigurationAggregatorSourcesStatusResponse(
       aggregatedSourceStatusList: (json['AggregatedSourceStatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AggregatedSourceStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8010,7 +8010,7 @@ class DescribeConfigurationAggregatorsResponse {
       Map<String, dynamic> json) {
     return DescribeConfigurationAggregatorsResponse(
       configurationAggregators: (json['ConfigurationAggregators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurationAggregator.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8034,7 +8034,7 @@ class DescribeConfigurationRecorderStatusResponse {
     return DescribeConfigurationRecorderStatusResponse(
       configurationRecordersStatus: (json['ConfigurationRecordersStatus']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurationRecorderStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8056,7 +8056,7 @@ class DescribeConfigurationRecordersResponse {
       Map<String, dynamic> json) {
     return DescribeConfigurationRecordersResponse(
       configurationRecorders: (json['ConfigurationRecorders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationRecorder.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8086,7 +8086,7 @@ class DescribeConformancePackComplianceResponse {
       conformancePackName: json['ConformancePackName'] as String,
       conformancePackRuleComplianceList:
           (json['ConformancePackRuleComplianceList'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ConformancePackRuleCompliance.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -8113,7 +8113,7 @@ class DescribeConformancePackStatusResponse {
     return DescribeConformancePackStatusResponse(
       conformancePackStatusDetails: (json['ConformancePackStatusDetails']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConformancePackStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8138,7 +8138,7 @@ class DescribeConformancePacksResponse {
   factory DescribeConformancePacksResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConformancePacksResponse(
       conformancePackDetails: (json['ConformancePackDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConformancePackDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8159,7 +8159,7 @@ class DescribeDeliveryChannelStatusResponse {
       Map<String, dynamic> json) {
     return DescribeDeliveryChannelStatusResponse(
       deliveryChannelsStatus: (json['DeliveryChannelsStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeliveryChannelStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8178,7 +8178,7 @@ class DescribeDeliveryChannelsResponse {
   factory DescribeDeliveryChannelsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDeliveryChannelsResponse(
       deliveryChannels: (json['DeliveryChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeliveryChannel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8204,7 +8204,7 @@ class DescribeOrganizationConfigRuleStatusesResponse {
       nextToken: json['NextToken'] as String?,
       organizationConfigRuleStatuses: (json['OrganizationConfigRuleStatuses']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OrganizationConfigRuleStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8230,7 +8230,7 @@ class DescribeOrganizationConfigRulesResponse {
     return DescribeOrganizationConfigRulesResponse(
       nextToken: json['NextToken'] as String?,
       organizationConfigRules: (json['OrganizationConfigRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8258,7 +8258,7 @@ class DescribeOrganizationConformancePackStatusesResponse {
       nextToken: json['NextToken'] as String?,
       organizationConformancePackStatuses:
           (json['OrganizationConformancePackStatuses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => OrganizationConformancePackStatus.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -8285,7 +8285,7 @@ class DescribeOrganizationConformancePacksResponse {
       nextToken: json['NextToken'] as String?,
       organizationConformancePacks: (json['OrganizationConformancePacks']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8311,7 +8311,7 @@ class DescribePendingAggregationRequestsResponse {
     return DescribePendingAggregationRequestsResponse(
       nextToken: json['NextToken'] as String?,
       pendingAggregationRequests: (json['PendingAggregationRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PendingAggregationRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8331,7 +8331,7 @@ class DescribeRemediationConfigurationsResponse {
       Map<String, dynamic> json) {
     return DescribeRemediationConfigurationsResponse(
       remediationConfigurations: (json['RemediationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RemediationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8357,7 +8357,7 @@ class DescribeRemediationExceptionsResponse {
     return DescribeRemediationExceptionsResponse(
       nextToken: json['NextToken'] as String?,
       remediationExceptions: (json['RemediationExceptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8383,7 +8383,7 @@ class DescribeRemediationExecutionStatusResponse {
       nextToken: json['NextToken'] as String?,
       remediationExecutionStatuses: (json['RemediationExecutionStatuses']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RemediationExecutionStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8409,7 +8409,7 @@ class DescribeRetentionConfigurationsResponse {
     return DescribeRetentionConfigurationsResponse(
       nextToken: json['NextToken'] as String?,
       retentionConfigurations: (json['RetentionConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => RetentionConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8778,7 +8778,7 @@ class ExclusionByResourceTypes {
   factory ExclusionByResourceTypes.fromJson(Map<String, dynamic> json) {
     return ExclusionByResourceTypes(
       resourceTypes: (json['resourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceType.fromString((e as String)))
           .toList(),
     );
@@ -8883,7 +8883,7 @@ class FailedDeleteRemediationExceptionsBatch {
       Map<String, dynamic> json) {
     return FailedDeleteRemediationExceptionsBatch(
       failedItems: (json['FailedItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RemediationExceptionResourceKey.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8908,7 +8908,7 @@ class FailedRemediationBatch {
   factory FailedRemediationBatch.fromJson(Map<String, dynamic> json) {
     return FailedRemediationBatch(
       failedItems: (json['FailedItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RemediationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8933,7 +8933,7 @@ class FailedRemediationExceptionBatch {
   factory FailedRemediationExceptionBatch.fromJson(Map<String, dynamic> json) {
     return FailedRemediationExceptionBatch(
       failedItems: (json['FailedItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureMessage: json['FailureMessage'] as String?,
@@ -8974,7 +8974,7 @@ class GetAggregateComplianceDetailsByConfigRuleResponse {
       Map<String, dynamic> json) {
     return GetAggregateComplianceDetailsByConfigRuleResponse(
       aggregateEvaluationResults: (json['AggregateEvaluationResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregateEvaluationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9004,7 +9004,7 @@ class GetAggregateConfigRuleComplianceSummaryResponse {
       Map<String, dynamic> json) {
     return GetAggregateConfigRuleComplianceSummaryResponse(
       aggregateComplianceCounts: (json['AggregateComplianceCounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregateComplianceCount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9039,7 +9039,7 @@ class GetAggregateConformancePackComplianceSummaryResponse {
     return GetAggregateConformancePackComplianceSummaryResponse(
       aggregateConformancePackComplianceSummaries:
           (json['AggregateConformancePackComplianceSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AggregateConformancePackComplianceSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9078,7 +9078,7 @@ class GetAggregateDiscoveredResourceCountsResponse {
       totalDiscoveredResources: json['TotalDiscoveredResources'] as int,
       groupByKey: json['GroupByKey'] as String?,
       groupedResourceCounts: (json['GroupedResourceCounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupedResourceCount.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9124,7 +9124,7 @@ class GetComplianceDetailsByConfigRuleResponse {
       Map<String, dynamic> json) {
     return GetComplianceDetailsByConfigRuleResponse(
       evaluationResults: (json['EvaluationResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9151,7 +9151,7 @@ class GetComplianceDetailsByResourceResponse {
       Map<String, dynamic> json) {
     return GetComplianceDetailsByResourceResponse(
       evaluationResults: (json['EvaluationResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9198,7 +9198,7 @@ class GetComplianceSummaryByResourceTypeResponse {
     return GetComplianceSummaryByResourceTypeResponse(
       complianceSummariesByResourceType:
           (json['ComplianceSummariesByResourceType'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComplianceSummaryByResourceType.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9230,7 +9230,7 @@ class GetConformancePackComplianceDetailsResponse {
       conformancePackName: json['ConformancePackName'] as String,
       conformancePackRuleEvaluationResults:
           (json['ConformancePackRuleEvaluationResults'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ConformancePackEvaluationResult.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9258,7 +9258,7 @@ class GetConformancePackComplianceSummaryResponse {
     return GetConformancePackComplianceSummaryResponse(
       conformancePackComplianceSummaryList:
           (json['ConformancePackComplianceSummaryList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ConformancePackComplianceSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9323,7 +9323,7 @@ class GetDiscoveredResourceCountsResponse {
     return GetDiscoveredResourceCountsResponse(
       nextToken: json['nextToken'] as String?,
       resourceCounts: (json['resourceCounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceCount.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalDiscoveredResources: json['totalDiscoveredResources'] as int?,
@@ -9350,7 +9350,7 @@ class GetOrganizationConfigRuleDetailedStatusResponse {
       nextToken: json['NextToken'] as String?,
       organizationConfigRuleDetailedStatus: (json[
               'OrganizationConfigRuleDetailedStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberAccountStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9377,7 +9377,7 @@ class GetOrganizationConformancePackDetailedStatusResponse {
       nextToken: json['NextToken'] as String?,
       organizationConformancePackDetailedStatuses:
           (json['OrganizationConformancePackDetailedStatuses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => OrganizationConformancePackDetailedStatus.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9419,7 +9419,7 @@ class GetResourceConfigHistoryResponse {
   factory GetResourceConfigHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetResourceConfigHistoryResponse(
       configurationItems: (json['configurationItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -9546,7 +9546,7 @@ class ListAggregateDiscoveredResourcesResponse {
     return ListAggregateDiscoveredResourcesResponse(
       nextToken: json['NextToken'] as String?,
       resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9572,7 +9572,7 @@ class ListConformancePackComplianceScoresResponse {
     return ListConformancePackComplianceScoresResponse(
       conformancePackComplianceScores:
           (json['ConformancePackComplianceScores'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ConformancePackComplianceScore.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9600,7 +9600,7 @@ class ListDiscoveredResourcesResponse {
     return ListDiscoveredResourcesResponse(
       nextToken: json['nextToken'] as String?,
       resourceIdentifiers: (json['resourceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9624,7 +9624,7 @@ class ListResourceEvaluationsResponse {
     return ListResourceEvaluationsResponse(
       nextToken: json['NextToken'] as String?,
       resourceEvaluations: (json['ResourceEvaluations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceEvaluation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9652,7 +9652,7 @@ class ListStoredQueriesResponse {
     return ListStoredQueriesResponse(
       nextToken: json['NextToken'] as String?,
       storedQueryMetadata: (json['StoredQueryMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StoredQueryMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9676,7 +9676,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9859,7 +9859,7 @@ class OrganizationAggregationSource {
       roleArn: json['RoleArn'] as String,
       allAwsRegions: json['AllAwsRegions'] as bool?,
       awsRegions: (json['AwsRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9922,7 +9922,7 @@ class OrganizationConfigRule {
       organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String,
       organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
       excludedAccounts: (json['ExcludedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -10120,14 +10120,14 @@ class OrganizationConformancePack {
           json['OrganizationConformancePackName'] as String,
       conformancePackInputParameters: (json['ConformancePackInputParameters']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
       deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
       excludedAccounts: (json['ExcludedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10522,7 +10522,7 @@ class OrganizationCustomPolicyRuleMetadataNoPolicy {
       Map<String, dynamic> json) {
     return OrganizationCustomPolicyRuleMetadataNoPolicy(
       debugLogDeliveryAccounts: (json['DebugLogDeliveryAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['Description'] as String?,
@@ -10531,14 +10531,14 @@ class OrganizationCustomPolicyRuleMetadataNoPolicy {
           ?.let(MaximumExecutionFrequency.fromString),
       organizationConfigRuleTriggerTypes:
           (json['OrganizationConfigRuleTriggerTypes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => OrganizationConfigRuleTriggerTypeNoSN.fromString(
                   (e as String)))
               .toList(),
       policyRuntime: json['PolicyRuntime'] as String?,
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tagKeyScope: json['TagKeyScope'] as String?,
@@ -10627,7 +10627,7 @@ class OrganizationCustomRuleMetadata {
       lambdaFunctionArn: json['LambdaFunctionArn'] as String,
       organizationConfigRuleTriggerTypes:
           (json['OrganizationConfigRuleTriggerTypes'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) =>
                   OrganizationConfigRuleTriggerType.fromString((e as String)))
               .toList(),
@@ -10637,7 +10637,7 @@ class OrganizationCustomRuleMetadata {
           ?.let(MaximumExecutionFrequency.fromString),
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tagKeyScope: json['TagKeyScope'] as String?,
@@ -10734,7 +10734,7 @@ class OrganizationManagedRuleMetadata {
           ?.let(MaximumExecutionFrequency.fromString),
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tagKeyScope: json['TagKeyScope'] as String?,
@@ -11006,7 +11006,7 @@ class PutEvaluationsResponse {
   factory PutEvaluationsResponse.fromJson(Map<String, dynamic> json) {
     return PutEvaluationsResponse(
       failedEvaluations: (json['FailedEvaluations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Evaluation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11066,7 +11066,7 @@ class PutRemediationConfigurationsResponse {
       Map<String, dynamic> json) {
     return PutRemediationConfigurationsResponse(
       failedBatches: (json['FailedBatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => FailedRemediationBatch.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11086,7 +11086,7 @@ class PutRemediationExceptionsResponse {
   factory PutRemediationExceptionsResponse.fromJson(Map<String, dynamic> json) {
     return PutRemediationExceptionsResponse(
       failedBatches: (json['FailedBatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedRemediationExceptionBatch.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11141,7 +11141,7 @@ class QueryInfo {
   factory QueryInfo.fromJson(Map<String, dynamic> json) {
     return QueryInfo(
       selectFields: (json['SelectFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FieldInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11515,7 +11515,7 @@ class RecordingGroup {
               json['recordingStrategy'] as Map<String, dynamic>)
           : null,
       resourceTypes: (json['resourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceType.fromString((e as String)))
           .toList(),
     );
@@ -11601,7 +11601,7 @@ class RecordingMode {
       recordingFrequency:
           RecordingFrequency.fromString((json['recordingFrequency'] as String)),
       recordingModeOverrides: (json['recordingModeOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11672,7 +11672,7 @@ class RecordingModeOverride {
       recordingFrequency:
           RecordingFrequency.fromString((json['recordingFrequency'] as String)),
       resourceTypes: (json['resourceTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceType.fromString((e as String)))
           .toList(),
       description: json['description'] as String?,
@@ -12112,7 +12112,7 @@ class RemediationExecutionStatus {
       state:
           (json['State'] as String?)?.let(RemediationExecutionState.fromString),
       stepDetails: (json['StepDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RemediationExecutionStep.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13101,7 +13101,7 @@ class Scope {
     return Scope(
       complianceResourceId: json['ComplianceResourceId'] as String?,
       complianceResourceTypes: (json['ComplianceResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tagKey: json['TagKey'] as String?,
@@ -13147,10 +13147,8 @@ class SelectAggregateResourceConfigResponse {
       queryInfo: json['QueryInfo'] != null
           ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
           : null,
-      results: (json['Results'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      results:
+          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -13178,10 +13176,8 @@ class SelectResourceConfigResponse {
       queryInfo: json['QueryInfo'] != null
           ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
           : null,
-      results: (json['Results'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      results:
+          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -13277,7 +13273,7 @@ class Source {
               json['CustomPolicyDetails'] as Map<String, dynamic>)
           : null,
       sourceDetails: (json['SourceDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceIdentifier: json['SourceIdentifier'] as String?,
@@ -13450,7 +13446,7 @@ class StartRemediationExecutionResponse {
       Map<String, dynamic> json) {
     return StartRemediationExecutionResponse(
       failedItems: (json['FailedItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureMessage: json['FailureMessage'] as String?,
@@ -13484,10 +13480,8 @@ class StaticValue {
 
   factory StaticValue.fromJson(Map<String, dynamic> json) {
     return StaticValue(
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 

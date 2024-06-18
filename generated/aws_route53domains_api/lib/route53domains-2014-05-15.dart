@@ -2398,7 +2398,7 @@ class ContactDetail {
           (json['CountryCode'] as String?)?.let(CountryCode.fromString),
       email: json['Email'] as String?,
       extraParams: (json['ExtraParams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExtraParam.fromJson(e as Map<String, dynamic>))
           .toList(),
       fax: json['Fax'] as String?,
@@ -3970,13 +3970,13 @@ class GetDomainDetailResponse {
       creationDate: timeStampFromJson(json['CreationDate']),
       dnsSec: json['DnsSec'] as String?,
       dnssecKeys: (json['DnssecKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DnssecKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       domainName: json['DomainName'] as String?,
       expirationDate: timeStampFromJson(json['ExpirationDate']),
       nameservers: (json['Nameservers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Nameserver.fromJson(e as Map<String, dynamic>))
           .toList(),
       registrantContact: json['RegistrantContact'] != null
@@ -3989,7 +3989,7 @@ class GetDomainDetailResponse {
       registryDomainId: json['RegistryDomainId'] as String?,
       reseller: json['Reseller'] as String?,
       statusList: (json['StatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       techContact: json['TechContact'] != null
@@ -4015,7 +4015,7 @@ class GetDomainSuggestionsResponse {
   factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainSuggestionsResponse(
       suggestionsList: (json['SuggestionsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainSuggestion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4131,7 +4131,7 @@ class ListDomainsResponse {
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
       domains: (json['Domains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageMarker: json['NextPageMarker'] as String?,
@@ -4158,7 +4158,7 @@ class ListOperationsResponse {
     return ListOperationsResponse(
       nextPageMarker: json['NextPageMarker'] as String?,
       operations: (json['Operations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4201,7 +4201,7 @@ class ListPricesResponse {
     return ListPricesResponse(
       nextPageMarker: json['NextPageMarker'] as String?,
       prices: (json['Prices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainPrice.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4220,7 +4220,7 @@ class ListTagsForDomainResponse {
   factory ListTagsForDomainResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForDomainResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4250,10 +4250,8 @@ class Nameserver {
   factory Nameserver.fromJson(Map<String, dynamic> json) {
     return Nameserver(
       name: json['Name'] as String,
-      glueIps: (json['GlueIps'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      glueIps:
+          (json['GlueIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4814,7 +4812,7 @@ class ViewBillingResponse {
   factory ViewBillingResponse.fromJson(Map<String, dynamic> json) {
     return ViewBillingResponse(
       billingRecords: (json['BillingRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BillingRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageMarker: json['NextPageMarker'] as String?,

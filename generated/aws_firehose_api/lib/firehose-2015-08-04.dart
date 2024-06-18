@@ -2245,7 +2245,7 @@ class DeliveryStreamDescription {
       deliveryStreamType:
           DeliveryStreamType.fromString((json['DeliveryStreamType'] as String)),
       destinations: (json['Destinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => DestinationDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3660,7 +3660,7 @@ class HiveJsonSerDe {
   factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) {
     return HiveJsonSerDe(
       timestampFormats: (json['TimestampFormats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4058,7 +4058,7 @@ class HttpEndpointRequestConfiguration {
   factory HttpEndpointRequestConfiguration.fromJson(Map<String, dynamic> json) {
     return HttpEndpointRequestConfiguration(
       commonAttributes: (json['CommonAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4268,7 +4268,7 @@ class ListDeliveryStreamsOutput {
   factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeliveryStreamsOutput(
       deliveryStreamNames: (json['DeliveryStreamNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       hasMoreDeliveryStreams: json['HasMoreDeliveryStreams'] as bool,
@@ -4296,7 +4296,7 @@ class ListTagsForDeliveryStreamOutput {
     return ListTagsForDeliveryStreamOutput(
       hasMoreTags: json['HasMoreTags'] as bool,
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4551,7 +4551,7 @@ class OrcSerDe {
     return OrcSerDe(
       blockSizeBytes: json['BlockSizeBytes'] as int?,
       bloomFilterColumns: (json['BloomFilterColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       bloomFilterFalsePositiveProbability:
@@ -4748,7 +4748,7 @@ class ProcessingConfiguration {
     return ProcessingConfiguration(
       enabled: json['Enabled'] as bool?,
       processors: (json['Processors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Processor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4787,7 +4787,7 @@ class Processor {
     return Processor(
       type: ProcessorType.fromString((json['Type'] as String)),
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4907,7 +4907,7 @@ class PutRecordBatchOutput {
     return PutRecordBatchOutput(
       failedPutCount: json['FailedPutCount'] as int,
       requestResponses: (json['RequestResponses'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6842,13 +6842,11 @@ class VpcConfigurationDescription {
     return VpcConfigurationDescription(
       roleARN: json['RoleARN'] as String,
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcId: json['VpcId'] as String,
     );
   }

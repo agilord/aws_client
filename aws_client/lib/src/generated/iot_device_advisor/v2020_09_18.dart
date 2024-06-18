@@ -881,7 +881,7 @@ class GroupResult {
       groupId: json['groupId'] as String?,
       groupName: json['groupName'] as String?,
       tests: (json['tests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TestCaseRun.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -917,7 +917,7 @@ class ListSuiteDefinitionsResponse {
       nextToken: json['nextToken'] as String?,
       suiteDefinitionInformationList: (json['suiteDefinitionInformationList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SuiteDefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -952,7 +952,7 @@ class ListSuiteRunsResponse {
     return ListSuiteRunsResponse(
       nextToken: json['nextToken'] as String?,
       suiteRunsList: (json['suiteRunsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuiteRunInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1132,7 +1132,7 @@ class SuiteDefinitionConfiguration {
       rootGroup: json['rootGroup'] as String,
       suiteDefinitionName: json['suiteDefinitionName'] as String,
       devices: (json['devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
@@ -1199,7 +1199,7 @@ class SuiteDefinitionInformation {
     return SuiteDefinitionInformation(
       createdAt: timeStampFromJson(json['createdAt']),
       defaultDevices: (json['defaultDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
@@ -1256,7 +1256,7 @@ class SuiteRunConfiguration {
           json['primaryDevice'] as Map<String, dynamic>),
       parallelRun: json['parallelRun'] as bool?,
       selectedTestList: (json['selectedTestList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1486,7 +1486,7 @@ class TestCaseRun {
       testCaseDefinitionName: json['testCaseDefinitionName'] as String?,
       testCaseRunId: json['testCaseRunId'] as String?,
       testScenarios: (json['testScenarios'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TestCaseScenario.fromJson(e as Map<String, dynamic>))
           .toList(),
       warnings: json['warnings'] as String?,
@@ -1663,7 +1663,7 @@ class TestResult {
   factory TestResult.fromJson(Map<String, dynamic> json) {
     return TestResult(
       groups: (json['groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -5430,12 +5430,12 @@ class Handshake {
       expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
       id: json['Id'] as String?,
       parties: (json['Parties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HandshakeParty.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['State'] as String?)?.let(HandshakeState.fromString),
@@ -5577,7 +5577,7 @@ class HandshakeResource {
   factory HandshakeResource.fromJson(Map<String, dynamic> json) {
     return HandshakeResource(
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(HandshakeResourceType.fromString),
@@ -5683,7 +5683,7 @@ class ListAWSServiceAccessForOrganizationResponse {
       Map<String, dynamic> json) {
     return ListAWSServiceAccessForOrganizationResponse(
       enabledServicePrincipals: (json['EnabledServicePrincipals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EnabledServicePrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5711,7 +5711,7 @@ class ListAccountsForParentResponse {
   factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsForParentResponse(
       accounts: (json['Accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5738,7 +5738,7 @@ class ListAccountsResponse {
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsResponse(
       accounts: (json['Accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5765,7 +5765,7 @@ class ListChildrenResponse {
   factory ListChildrenResponse.fromJson(Map<String, dynamic> json) {
     return ListChildrenResponse(
       children: (json['Children'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Child.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5794,7 +5794,7 @@ class ListCreateAccountStatusResponse {
   factory ListCreateAccountStatusResponse.fromJson(Map<String, dynamic> json) {
     return ListCreateAccountStatusResponse(
       createAccountStatuses: (json['CreateAccountStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CreateAccountStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5822,7 +5822,7 @@ class ListDelegatedAdministratorsResponse {
       Map<String, dynamic> json) {
     return ListDelegatedAdministratorsResponse(
       delegatedAdministrators: (json['DelegatedAdministrators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DelegatedAdministrator.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5851,7 +5851,7 @@ class ListDelegatedServicesForAccountResponse {
       Map<String, dynamic> json) {
     return ListDelegatedServicesForAccountResponse(
       delegatedServices: (json['DelegatedServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DelegatedService.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5879,7 +5879,7 @@ class ListHandshakesForAccountResponse {
   factory ListHandshakesForAccountResponse.fromJson(Map<String, dynamic> json) {
     return ListHandshakesForAccountResponse(
       handshakes: (json['Handshakes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Handshake.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5908,7 +5908,7 @@ class ListHandshakesForOrganizationResponse {
       Map<String, dynamic> json) {
     return ListHandshakesForOrganizationResponse(
       handshakes: (json['Handshakes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Handshake.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5937,7 +5937,7 @@ class ListOrganizationalUnitsForParentResponse {
     return ListOrganizationalUnitsForParentResponse(
       nextToken: json['NextToken'] as String?,
       organizationalUnits: (json['OrganizationalUnits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationalUnit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5964,7 +5964,7 @@ class ListParentsResponse {
     return ListParentsResponse(
       nextToken: json['NextToken'] as String?,
       parents: (json['Parents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5991,7 +5991,7 @@ class ListPoliciesForTargetResponse {
     return ListPoliciesForTargetResponse(
       nextToken: json['NextToken'] as String?,
       policies: (json['Policies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6020,7 +6020,7 @@ class ListPoliciesResponse {
     return ListPoliciesResponse(
       nextToken: json['NextToken'] as String?,
       policies: (json['Policies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6047,7 +6047,7 @@ class ListRootsResponse {
     return ListRootsResponse(
       nextToken: json['NextToken'] as String?,
       roots: (json['Roots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Root.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6074,7 +6074,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6102,7 +6102,7 @@ class ListTargetsForPolicyResponse {
     return ListTargetsForPolicyResponse(
       nextToken: json['NextToken'] as String?,
       targets: (json['Targets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyTargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6180,7 +6180,7 @@ class Organization {
     return Organization(
       arn: json['Arn'] as String?,
       availablePolicyTypes: (json['AvailablePolicyTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       featureSet: (json['FeatureSet'] as String?)
@@ -6620,7 +6620,7 @@ class Root {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       policyTypes: (json['PolicyTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

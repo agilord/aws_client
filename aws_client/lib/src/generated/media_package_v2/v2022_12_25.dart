@@ -1466,7 +1466,7 @@ class CreateChannelResponse {
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IngestEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1822,19 +1822,19 @@ class CreateOriginEndpointResponse {
       originEndpointName: json['OriginEndpointName'] as String,
       segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
       dashManifests: (json['DashManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetDashManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       hlsManifests: (json['HlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetHlsManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       lowLatencyHlsManifests: (json['LowLatencyHlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GetLowLatencyHlsManifestConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2487,7 +2487,7 @@ class GetChannelResponse {
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IngestEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -2609,7 +2609,7 @@ class GetDashManifestConfiguration {
       minBufferTimeSeconds: json['MinBufferTimeSeconds'] as int?,
       minUpdatePeriodSeconds: json['MinUpdatePeriodSeconds'] as int?,
       periodTriggers: (json['PeriodTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DashPeriodTrigger.fromString((e as String)))
           .toList(),
       scteDash: json['ScteDash'] != null
@@ -2973,19 +2973,19 @@ class GetOriginEndpointResponse {
       originEndpointName: json['OriginEndpointName'] as String,
       segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
       dashManifests: (json['DashManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetDashManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       hlsManifests: (json['HlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetHlsManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       lowLatencyHlsManifests: (json['LowLatencyHlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GetLowLatencyHlsManifestConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3079,7 +3079,7 @@ class ListChannelGroupsResponse {
   factory ListChannelGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelGroupsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChannelGroupListConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3112,7 +3112,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChannelListConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3273,7 +3273,7 @@ class ListOriginEndpointsResponse {
   factory ListOriginEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return ListOriginEndpointsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OriginEndpointListConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3383,18 +3383,18 @@ class OriginEndpointListConfiguration {
       originEndpointName: json['OriginEndpointName'] as String,
       createdAt: timeStampFromJson(json['CreatedAt']),
       dashManifests: (json['DashManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListDashManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
       hlsManifests: (json['HlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListHlsManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       lowLatencyHlsManifests: (json['LowLatencyHlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListLowLatencyHlsManifestConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3509,7 +3509,7 @@ class Scte {
   factory Scte.fromJson(Map<String, dynamic> json) {
     return Scte(
       scteFilter: (json['ScteFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScteFilter.fromString((e as String)))
           .toList(),
     );
@@ -3765,7 +3765,7 @@ class SpekeKeyProvider {
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
       drmSystems: (json['DrmSystems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DrmSystem.fromString((e as String)))
           .toList(),
       encryptionContractConfiguration: EncryptionContractConfiguration.fromJson(
@@ -3938,7 +3938,7 @@ class UpdateChannelResponse {
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IngestEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -4057,19 +4057,19 @@ class UpdateOriginEndpointResponse {
       originEndpointName: json['OriginEndpointName'] as String,
       segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
       dashManifests: (json['DashManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetDashManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       hlsManifests: (json['HlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GetHlsManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       lowLatencyHlsManifests: (json['LowLatencyHlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GetLowLatencyHlsManifestConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),

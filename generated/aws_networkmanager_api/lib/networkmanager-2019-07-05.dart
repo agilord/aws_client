@@ -4006,7 +4006,7 @@ class Attachment {
       segmentName: json['SegmentName'] as String?,
       state: (json['State'] as String?)?.let(AttachmentState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -4282,7 +4282,7 @@ class ConnectPeer {
       state: (json['State'] as String?)?.let(ConnectPeerState.fromString),
       subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4402,13 +4402,13 @@ class ConnectPeerConfiguration {
   factory ConnectPeerConfiguration.fromJson(Map<String, dynamic> json) {
     return ConnectPeerConfiguration(
       bgpConfigurations: (json['BgpConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConnectPeerBgpConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       coreNetworkAddress: json['CoreNetworkAddress'] as String?,
       insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       peerAddress: json['PeerAddress'] as String?,
@@ -4482,7 +4482,7 @@ class ConnectPeerSummary {
       edgeLocation: json['EdgeLocation'] as String?,
       subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4551,7 +4551,7 @@ class Connection {
       linkId: json['LinkId'] as String?,
       state: (json['State'] as String?)?.let(ConnectionState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4679,17 +4679,17 @@ class CoreNetwork {
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       edges: (json['Edges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CoreNetworkEdge.fromJson(e as Map<String, dynamic>))
           .toList(),
       globalNetworkId: json['GlobalNetworkId'] as String?,
       segments: (json['Segments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CoreNetworkSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4863,16 +4863,16 @@ class CoreNetworkChangeValues {
       cidr: json['Cidr'] as String?,
       destinationIdentifier: json['DestinationIdentifier'] as String?,
       edgeLocations: (json['EdgeLocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       segmentName: json['SegmentName'] as String?,
       sharedSegments: (json['SharedSegments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4901,7 +4901,7 @@ class CoreNetworkEdge {
       asn: json['Asn'] as int?,
       edgeLocation: json['EdgeLocation'] as String?,
       insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4958,7 +4958,7 @@ class CoreNetworkPolicy {
           ? null
           : jsonDecode(json['PolicyDocument'] as String),
       policyErrors: (json['PolicyErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CoreNetworkPolicyError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5072,12 +5072,12 @@ class CoreNetworkSegment {
   factory CoreNetworkSegment.fromJson(Map<String, dynamic> json) {
     return CoreNetworkSegment(
       edgeLocations: (json['EdgeLocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
       sharedSegments: (json['SharedSegments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5180,7 +5180,7 @@ class CoreNetworkSummary {
       ownerAccountId: json['OwnerAccountId'] as String?,
       state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5671,7 +5671,7 @@ class DescribeGlobalNetworksResponse {
   factory DescribeGlobalNetworksResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGlobalNetworksResponse(
       globalNetworks: (json['GlobalNetworks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GlobalNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5758,7 +5758,7 @@ class Device {
       siteId: json['SiteId'] as String?,
       state: (json['State'] as String?)?.let(DeviceState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['Type'] as String?,
@@ -5902,7 +5902,7 @@ class GetConnectPeerAssociationsResponse {
       Map<String, dynamic> json) {
     return GetConnectPeerAssociationsResponse(
       connectPeerAssociations: (json['ConnectPeerAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ConnectPeerAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5943,7 +5943,7 @@ class GetConnectionsResponse {
   factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectionsResponse(
       connections: (json['Connections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connection.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5967,7 +5967,7 @@ class GetCoreNetworkChangeEventsResponse {
       Map<String, dynamic> json) {
     return GetCoreNetworkChangeEventsResponse(
       coreNetworkChangeEvents: (json['CoreNetworkChangeEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CoreNetworkChangeEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5991,7 +5991,7 @@ class GetCoreNetworkChangeSetResponse {
   factory GetCoreNetworkChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return GetCoreNetworkChangeSetResponse(
       coreNetworkChanges: (json['CoreNetworkChanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CoreNetworkChange.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6051,7 +6051,7 @@ class GetCustomerGatewayAssociationsResponse {
     return GetCustomerGatewayAssociationsResponse(
       customerGatewayAssociations: (json['CustomerGatewayAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CustomerGatewayAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6075,7 +6075,7 @@ class GetDevicesResponse {
   factory GetDevicesResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicesResponse(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Device.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6098,7 +6098,7 @@ class GetLinkAssociationsResponse {
   factory GetLinkAssociationsResponse.fromJson(Map<String, dynamic> json) {
     return GetLinkAssociationsResponse(
       linkAssociations: (json['LinkAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LinkAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6121,7 +6121,7 @@ class GetLinksResponse {
   factory GetLinksResponse.fromJson(Map<String, dynamic> json) {
     return GetLinksResponse(
       links: (json['Links'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Link.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6144,7 +6144,7 @@ class GetNetworkResourceCountsResponse {
   factory GetNetworkResourceCountsResponse.fromJson(Map<String, dynamic> json) {
     return GetNetworkResourceCountsResponse(
       networkResourceCounts: (json['NetworkResourceCounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkResourceCount.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6169,7 +6169,7 @@ class GetNetworkResourceRelationshipsResponse {
     return GetNetworkResourceRelationshipsResponse(
       nextToken: json['NextToken'] as String?,
       relationships: (json['Relationships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6191,7 +6191,7 @@ class GetNetworkResourcesResponse {
   factory GetNetworkResourcesResponse.fromJson(Map<String, dynamic> json) {
     return GetNetworkResourcesResponse(
       networkResources: (json['NetworkResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6230,7 +6230,7 @@ class GetNetworkRoutesResponse {
               json['CoreNetworkSegmentEdge'] as Map<String, dynamic>)
           : null,
       networkRoutes: (json['NetworkRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkRoute.fromJson(e as Map<String, dynamic>))
           .toList(),
       routeTableArn: json['RouteTableArn'] as String?,
@@ -6256,7 +6256,7 @@ class GetNetworkTelemetryResponse {
   factory GetNetworkTelemetryResponse.fromJson(Map<String, dynamic> json) {
     return GetNetworkTelemetryResponse(
       networkTelemetry: (json['NetworkTelemetry'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkTelemetry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6334,7 +6334,7 @@ class GetSitesResponse {
     return GetSitesResponse(
       nextToken: json['NextToken'] as String?,
       sites: (json['Sites'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Site.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6360,7 +6360,7 @@ class GetTransitGatewayConnectPeerAssociationsResponse {
       nextToken: json['NextToken'] as String?,
       transitGatewayConnectPeerAssociations:
           (json['TransitGatewayConnectPeerAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TransitGatewayConnectPeerAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6404,7 +6404,7 @@ class GetTransitGatewayRegistrationsResponse {
       nextToken: json['NextToken'] as String?,
       transitGatewayRegistrations: (json['TransitGatewayRegistrations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TransitGatewayRegistration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6490,7 +6490,7 @@ class GlobalNetwork {
       globalNetworkId: json['GlobalNetworkId'] as String?,
       state: (json['State'] as String?)?.let(GlobalNetworkState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6577,7 +6577,7 @@ class Link {
       siteId: json['SiteId'] as String?,
       state: (json['State'] as String?)?.let(LinkState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['Type'] as String?,
@@ -6665,7 +6665,7 @@ class ListAttachmentsResponse {
   factory ListAttachmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAttachmentsResponse(
       attachments: (json['Attachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6688,7 +6688,7 @@ class ListConnectPeersResponse {
   factory ListConnectPeersResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectPeersResponse(
       connectPeers: (json['ConnectPeers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectPeerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6712,7 +6712,7 @@ class ListCoreNetworkPolicyVersionsResponse {
       Map<String, dynamic> json) {
     return ListCoreNetworkPolicyVersionsResponse(
       coreNetworkPolicyVersions: (json['CoreNetworkPolicyVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CoreNetworkPolicyVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6736,7 +6736,7 @@ class ListCoreNetworksResponse {
   factory ListCoreNetworksResponse.fromJson(Map<String, dynamic> json) {
     return ListCoreNetworksResponse(
       coreNetworks: (json['CoreNetworks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CoreNetworkSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6785,7 +6785,7 @@ class ListPeeringsResponse {
     return ListPeeringsResponse(
       nextToken: json['NextToken'] as String?,
       peerings: (json['Peerings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Peering.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6803,7 +6803,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6963,7 +6963,7 @@ class NetworkResource {
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7064,7 +7064,7 @@ class NetworkRoute {
     return NetworkRoute(
       destinationCidrBlock: json['DestinationCidrBlock'] as String?,
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               NetworkRouteDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7203,7 +7203,7 @@ class OrganizationStatus {
   factory OrganizationStatus.fromJson(Map<String, dynamic> json) {
     return OrganizationStatus(
       accountStatusList: (json['AccountStatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       organizationAwsServiceAccessStatus:
@@ -7301,7 +7301,7 @@ class Peering {
       resourceArn: json['ResourceArn'] as String?,
       state: (json['State'] as String?)?.let(PeeringState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7361,7 +7361,7 @@ class ProposedSegmentChange {
       attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
       segmentName: json['SegmentName'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7731,7 +7731,7 @@ class RouteAnalysisPath {
               json['CompletionStatus'] as Map<String, dynamic>)
           : null,
       path: (json['Path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PathComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7873,7 +7873,7 @@ class Site {
       siteId: json['SiteId'] as String?,
       state: (json['State'] as String?)?.let(SiteState.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8377,7 +8377,7 @@ class VpcAttachment {
           ? VpcOptions.fromJson(json['Options'] as Map<String, dynamic>)
           : null,
       subnetArns: (json['SubnetArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

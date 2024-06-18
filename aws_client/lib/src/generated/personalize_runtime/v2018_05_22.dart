@@ -379,7 +379,7 @@ class GetActionRecommendationsResponse {
   factory GetActionRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetActionRecommendationsResponse(
       actionList: (json['actionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PredictedAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationId: json['recommendationId'] as String?,
@@ -412,7 +412,7 @@ class GetPersonalizedRankingResponse {
   factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) {
     return GetPersonalizedRankingResponse(
       personalizedRanking: (json['personalizedRanking'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationId: json['recommendationId'] as String?,
@@ -446,7 +446,7 @@ class GetRecommendationsResponse {
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
       itemList: (json['itemList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationId: json['recommendationId'] as String?,
@@ -555,10 +555,8 @@ class PredictedItem {
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       promotionName: json['promotionName'] as String?,
-      reason: (json['reason'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      reason:
+          (json['reason'] as List?)?.nonNulls.map((e) => e as String).toList(),
       score: json['score'] as double?,
     );
   }

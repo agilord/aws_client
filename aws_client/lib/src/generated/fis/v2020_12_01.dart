@@ -1452,7 +1452,7 @@ class Experiment {
           ? ExperimentState.fromJson(json['state'] as Map<String, dynamic>)
           : null,
       stopConditions: (json['stopConditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ExperimentStopCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1550,7 +1550,7 @@ class ExperimentAction {
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       startAfter: (json['startAfter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
@@ -1965,14 +1965,14 @@ class ExperimentTarget {
   factory ExperimentTarget.fromJson(Map<String, dynamic> json) {
     return ExperimentTarget(
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ExperimentTargetFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       resourceArns: (json['resourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
@@ -2092,10 +2092,8 @@ class ExperimentTargetFilter {
   factory ExperimentTargetFilter.fromJson(Map<String, dynamic> json) {
     return ExperimentTargetFilter(
       path: json['path'] as String?,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2186,7 +2184,7 @@ class ExperimentTemplate {
           : null,
       roleArn: json['roleArn'] as String?,
       stopConditions: (json['stopConditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperimentTemplateStopCondition.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2269,7 +2267,7 @@ class ExperimentTemplateAction {
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       startAfter: (json['startAfter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       targets: (json['targets'] as Map<String, dynamic>?)
@@ -2595,14 +2593,14 @@ class ExperimentTemplateTarget {
   factory ExperimentTemplateTarget.fromJson(Map<String, dynamic> json) {
     return ExperimentTemplateTarget(
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperimentTemplateTargetFilter.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       resourceArns: (json['resourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
@@ -2646,10 +2644,8 @@ class ExperimentTemplateTargetFilter {
   factory ExperimentTemplateTargetFilter.fromJson(Map<String, dynamic> json) {
     return ExperimentTemplateTargetFilter(
       path: json['path'] as String?,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2859,7 +2855,7 @@ class ListActionsResponse {
   factory ListActionsResponse.fromJson(Map<String, dynamic> json) {
     return ListActionsResponse(
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2894,7 +2890,7 @@ class ListExperimentResolvedTargetsResponse {
     return ListExperimentResolvedTargetsResponse(
       nextToken: json['nextToken'] as String?,
       resolvedTargets: (json['resolvedTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResolvedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2930,7 +2926,7 @@ class ListExperimentTargetAccountConfigurationsResponse {
       nextToken: json['nextToken'] as String?,
       targetAccountConfigurations:
           (json['targetAccountConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ExperimentTargetAccountConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2964,7 +2960,7 @@ class ListExperimentTemplatesResponse {
   factory ListExperimentTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListExperimentTemplatesResponse(
       experimentTemplates: (json['experimentTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ExperimentTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2999,7 +2995,7 @@ class ListExperimentsResponse {
   factory ListExperimentsResponse.fromJson(Map<String, dynamic> json) {
     return ListExperimentsResponse(
       experiments: (json['experiments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperimentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3058,7 +3054,7 @@ class ListTargetAccountConfigurationsResponse {
       nextToken: json['nextToken'] as String?,
       targetAccountConfigurations:
           (json['targetAccountConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TargetAccountConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3093,7 +3089,7 @@ class ListTargetResourceTypesResponse {
     return ListTargetResourceTypesResponse(
       nextToken: json['nextToken'] as String?,
       targetResourceTypes: (json['targetResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetResourceTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

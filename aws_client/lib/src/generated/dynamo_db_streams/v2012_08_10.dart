@@ -386,26 +386,20 @@ class AttributeValue {
       b: _s.decodeNullableUint8List(json['B'] as String?),
       boolValue: json['BOOL'] as bool?,
       bs: (json['BS'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
       l: (json['L'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       n: json['N'] as String?,
-      ns: (json['NS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nullValue: json['NULL'] as bool?,
       s: json['S'] as String?,
-      ss: (json['SS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -484,7 +478,7 @@ class GetRecordsOutput {
     return GetRecordsOutput(
       nextShardIterator: json['NextShardIterator'] as String?,
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -659,7 +653,7 @@ class ListStreamsOutput {
     return ListStreamsOutput(
       lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String?,
       streams: (json['Streams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Stream.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1054,12 +1048,12 @@ class StreamDescription {
       creationRequestDateTime:
           timeStampFromJson(json['CreationRequestDateTime']),
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastEvaluatedShardId: json['LastEvaluatedShardId'] as String?,
       shards: (json['Shards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
       streamArn: json['StreamArn'] as String?,

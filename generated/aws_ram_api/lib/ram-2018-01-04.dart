@@ -2776,7 +2776,7 @@ class AssociateResourceShareResponse {
     return AssociateResourceShareResponse(
       clientToken: json['clientToken'] as String?,
       resourceShareAssociations: (json['resourceShareAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3103,7 +3103,7 @@ class DisassociateResourceShareResponse {
     return DisassociateResourceShareResponse(
       clientToken: json['clientToken'] as String?,
       resourceShareAssociations: (json['resourceShareAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3167,7 +3167,7 @@ class GetResourcePoliciesResponse {
     return GetResourcePoliciesResponse(
       nextToken: json['nextToken'] as String?,
       policies: (json['policies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3196,7 +3196,7 @@ class GetResourceShareAssociationsResponse {
     return GetResourceShareAssociationsResponse(
       nextToken: json['nextToken'] as String?,
       resourceShareAssociations: (json['resourceShareAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3226,7 +3226,7 @@ class GetResourceShareInvitationsResponse {
     return GetResourceShareInvitationsResponse(
       nextToken: json['nextToken'] as String?,
       resourceShareInvitations: (json['resourceShareInvitations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceShareInvitation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3255,7 +3255,7 @@ class GetResourceSharesResponse {
     return GetResourceSharesResponse(
       nextToken: json['nextToken'] as String?,
       resourceShares: (json['resourceShares'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceShare.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3285,7 +3285,7 @@ class ListPendingInvitationResourcesResponse {
     return ListPendingInvitationResourcesResponse(
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3314,7 +3314,7 @@ class ListPermissionAssociationsResponse {
     return ListPermissionAssociationsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociatedPermission.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3342,7 +3342,7 @@ class ListPermissionVersionsResponse {
     return ListPermissionVersionsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceSharePermissionSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3371,7 +3371,7 @@ class ListPermissionsResponse {
     return ListPermissionsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceSharePermissionSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3400,7 +3400,7 @@ class ListPrincipalsResponse {
     return ListPrincipalsResponse(
       nextToken: json['nextToken'] as String?,
       principals: (json['principals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3431,7 +3431,7 @@ class ListReplacePermissionAssociationsWorkResponse {
       nextToken: json['nextToken'] as String?,
       replacePermissionAssociationsWorks:
           (json['replacePermissionAssociationsWorks'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ReplacePermissionAssociationsWork.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3462,7 +3462,7 @@ class ListResourceSharePermissionsResponse {
     return ListResourceSharePermissionsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceSharePermissionSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3492,7 +3492,7 @@ class ListResourceTypesResponse {
     return ListResourceTypesResponse(
       nextToken: json['nextToken'] as String?,
       resourceTypes: (json['resourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ServiceNameAndResourceType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3521,7 +3521,7 @@ class ListResourcesResponse {
     return ListResourcesResponse(
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4071,7 +4071,7 @@ class ResourceShare {
       status: (json['status'] as String?)?.let(ResourceShareStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4277,7 +4277,7 @@ class ResourceShareInvitation {
       receiverArn: json['receiverArn'] as String?,
       resourceShareArn: json['resourceShareArn'] as String?,
       resourceShareAssociations: (json['resourceShareAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4446,7 +4446,7 @@ class ResourceSharePermissionDetail {
       resourceType: json['resourceType'] as String?,
       status: (json['status'] as String?)?.let(PermissionStatus.fromString),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       version: json['version'] as String?,
@@ -4569,7 +4569,7 @@ class ResourceSharePermissionSummary {
       resourceType: json['resourceType'] as String?,
       status: json['status'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       version: json['version'] as String?,

@@ -1139,7 +1139,7 @@ class ConnectorSummary {
               json['logDelivery'] as Map<String, dynamic>)
           : null,
       plugins: (json['plugins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PluginDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       serviceExecutionRoleArn: json['serviceExecutionRoleArn'] as String?,
@@ -1840,7 +1840,7 @@ class DescribeConnectorResponse {
               json['logDelivery'] as Map<String, dynamic>)
           : null,
       plugins: (json['plugins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PluginDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       serviceExecutionRoleArn: json['serviceExecutionRoleArn'] as String?,
@@ -2278,7 +2278,7 @@ class ListConnectorsResponse {
   factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorsResponse(
       connectors: (json['connectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2312,7 +2312,7 @@ class ListCustomPluginsResponse {
   factory ListCustomPluginsResponse.fromJson(Map<String, dynamic> json) {
     return ListCustomPluginsResponse(
       customPlugins: (json['customPlugins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomPluginSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2371,7 +2371,7 @@ class ListWorkerConfigurationsResponse {
     return ListWorkerConfigurationsResponse(
       nextToken: json['nextToken'] as String?,
       workerConfigurations: (json['workerConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkerConfigurationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2936,13 +2936,11 @@ class VpcDescription {
   factory VpcDescription.fromJson(Map<String, dynamic> json) {
     return VpcDescription(
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets: (json['subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 

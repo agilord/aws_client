@@ -2336,7 +2336,7 @@ class EnvironmentVpc {
     return EnvironmentVpc(
       accountId: json['AccountId'] as String?,
       cidrBlocks: (json['CidrBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -2841,7 +2841,7 @@ class GetRouteResponse {
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       methods: (json['Methods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
       ownerAccountId: json['OwnerAccountId'] as String?,
@@ -3156,7 +3156,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationSummaryList: (json['ApplicationSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3189,7 +3189,7 @@ class ListEnvironmentVpcsResponse {
   factory ListEnvironmentVpcsResponse.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentVpcsResponse(
       environmentVpcList: (json['EnvironmentVpcList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnvironmentVpc.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3221,7 +3221,7 @@ class ListEnvironmentsResponse {
   factory ListEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsResponse(
       environmentSummaryList: (json['EnvironmentSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3255,7 +3255,7 @@ class ListRoutesResponse {
     return ListRoutesResponse(
       nextToken: json['NextToken'] as String?,
       routeSummaryList: (json['RouteSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RouteSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3287,7 +3287,7 @@ class ListServicesResponse {
     return ListServicesResponse(
       nextToken: json['NextToken'] as String?,
       serviceSummaryList: (json['ServiceSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3500,7 +3500,7 @@ class RouteSummary {
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       methods: (json['Methods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
       ownerAccountId: json['OwnerAccountId'] as String?,
@@ -3882,7 +3882,7 @@ class UriPathRouteInput {
       appendSourcePath: json['AppendSourcePath'] as bool?,
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       methods: (json['Methods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpMethod.fromString((e as String)))
           .toList(),
     );

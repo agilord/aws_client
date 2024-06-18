@@ -760,10 +760,8 @@ class InstanceSummary {
   factory InstanceSummary.fromJson(Map<String, dynamic> json) {
     return InstanceSummary(
       instanceId: json['InstanceId'] as String,
-      products: (json['Products'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      products:
+          (json['Products'] as List).nonNulls.map((e) => e as String).toList(),
       status: json['Status'] as String,
       lastStatusCheckDate: json['LastStatusCheckDate'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -875,7 +873,7 @@ class ListIdentityProvidersResponse {
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityProvidersResponse(
       identityProviderSummaries: (json['IdentityProviderSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               IdentityProviderSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -908,7 +906,7 @@ class ListInstancesResponse {
   factory ListInstancesResponse.fromJson(Map<String, dynamic> json) {
     return ListInstancesResponse(
       instanceSummaries: (json['InstanceSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -941,7 +939,7 @@ class ListProductSubscriptionsResponse {
     return ListProductSubscriptionsResponse(
       nextToken: json['NextToken'] as String?,
       productUserSummaries: (json['ProductUserSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProductUserSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -973,7 +971,7 @@ class ListUserAssociationsResponse {
   factory ListUserAssociationsResponse.fromJson(Map<String, dynamic> json) {
     return ListUserAssociationsResponse(
       instanceUserSummaries: (json['InstanceUserSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceUserSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1109,10 +1107,8 @@ class Settings {
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
       securityGroupId: json['SecurityGroupId'] as String,
-      subnets: (json['Subnets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 

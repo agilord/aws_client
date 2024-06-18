@@ -406,7 +406,7 @@ class DescribeReportDefinitionsResponse {
     return DescribeReportDefinitionsResponse(
       nextToken: json['NextToken'] as String?,
       reportDefinitions: (json['ReportDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -448,7 +448,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -546,7 +546,7 @@ class ReportDefinition {
   factory ReportDefinition.fromJson(Map<String, dynamic> json) {
     return ReportDefinition(
       additionalSchemaElements: (json['AdditionalSchemaElements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaElement.fromString((e as String)))
           .toList(),
       compression:
@@ -558,7 +558,7 @@ class ReportDefinition {
       s3Region: AWSRegion.fromString((json['S3Region'] as String)),
       timeUnit: TimeUnit.fromString((json['TimeUnit'] as String)),
       additionalArtifacts: (json['AdditionalArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdditionalArtifact.fromString((e as String)))
           .toList(),
       billingViewArn: json['BillingViewArn'] as String?,

@@ -1472,7 +1472,7 @@ class BatchPutMessageResponse {
     return BatchPutMessageResponse(
       batchPutMessageErrorEntries:
           (json['batchPutMessageErrorEntries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -1854,7 +1854,7 @@ class ContainerDatasetAction {
       resourceConfiguration: ResourceConfiguration.fromJson(
           json['resourceConfiguration'] as Map<String, dynamic>),
       variables: (json['variables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2208,19 +2208,19 @@ class Dataset {
   factory Dataset.fromJson(Map<String, dynamic> json) {
     return Dataset(
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['arn'] as String?,
       contentDeliveryRules: (json['contentDeliveryRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DatasetContentDeliveryRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['creationTime']),
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       lateDataRules: (json['lateDataRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LateDataRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -2230,7 +2230,7 @@ class Dataset {
           : null,
       status: (json['status'] as String?)?.let(DatasetStatus.fromString),
       triggers: (json['triggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
           .toList(),
       versioningConfiguration: json['versioningConfiguration'] != null
@@ -2576,7 +2576,7 @@ class DatasetSummary {
   factory DatasetSummary.fromJson(Map<String, dynamic> json) {
     return DatasetSummary(
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['creationTime']),
@@ -2584,7 +2584,7 @@ class DatasetSummary {
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       status: (json['status'] as String?)?.let(DatasetStatus.fromString),
       triggers: (json['triggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2855,7 +2855,7 @@ class DatastorePartitions {
   factory DatastorePartitions.fromJson(Map<String, dynamic> json) {
     return DatastorePartitions(
       partitions: (json['partitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatastorePartition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3488,7 +3488,7 @@ class GetDatasetContentResponse {
   factory GetDatasetContentResponse.fromJson(Map<String, dynamic> json) {
     return GetDatasetContentResponse(
       entries: (json['entries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] != null
@@ -3768,7 +3768,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channelSummaries: (json['channelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3792,7 +3792,7 @@ class ListDatasetContentsResponse {
   factory ListDatasetContentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetContentsResponse(
       datasetContentSummaries: (json['datasetContentSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetContentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3816,7 +3816,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasetSummaries: (json['datasetSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3840,7 +3840,7 @@ class ListDatastoresResponse {
   factory ListDatastoresResponse.fromJson(Map<String, dynamic> json) {
     return ListDatastoresResponse(
       datastoreSummaries: (json['datastoreSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatastoreSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3865,7 +3865,7 @@ class ListPipelinesResponse {
     return ListPipelinesResponse(
       nextToken: json['nextToken'] as String?,
       pipelineSummaries: (json['pipelineSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3883,7 +3883,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4119,7 +4119,7 @@ class Pipeline {
   factory Pipeline.fromJson(Map<String, dynamic> json) {
     return Pipeline(
       activities: (json['activities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineActivity.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['arn'] as String?,
@@ -4127,7 +4127,7 @@ class Pipeline {
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       name: json['name'] as String?,
       reprocessingSummaries: (json['reprocessingSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4276,7 +4276,7 @@ class PipelineSummary {
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       pipelineName: json['pipelineName'] as String?,
       reprocessingSummaries: (json['reprocessingSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4330,7 +4330,7 @@ class RemoveAttributesActivity {
   factory RemoveAttributesActivity.fromJson(Map<String, dynamic> json) {
     return RemoveAttributesActivity(
       attributes: (json['attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String,
@@ -4477,7 +4477,7 @@ class RunPipelineActivityResponse {
     return RunPipelineActivityResponse(
       logResult: json['logResult'] as String?,
       payloads: (json['payloads'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
     );
@@ -4573,7 +4573,7 @@ class SampleChannelDataResponse {
   factory SampleChannelDataResponse.fromJson(Map<String, dynamic> json) {
     return SampleChannelDataResponse(
       payloads: (json['payloads'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
     );
@@ -4621,7 +4621,7 @@ class SchemaDefinition {
   factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
     return SchemaDefinition(
       columns: (json['columns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4656,7 +4656,7 @@ class SelectAttributesActivity {
   factory SelectAttributesActivity.fromJson(Map<String, dynamic> json) {
     return SelectAttributesActivity(
       attributes: (json['attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String,
@@ -4742,7 +4742,7 @@ class SqlQueryDatasetAction {
     return SqlQueryDatasetAction(
       sqlQuery: json['sqlQuery'] as String,
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -1862,7 +1862,7 @@ class AddApplicationCloudWatchLoggingOptionResponse {
       applicationVersionId: json['ApplicationVersionId'] as int?,
       cloudWatchLoggingOptionDescriptions:
           (json['CloudWatchLoggingOptionDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1963,7 +1963,7 @@ class AddApplicationInputResponse {
       applicationARN: json['ApplicationARN'] as String?,
       applicationVersionId: json['ApplicationVersionId'] as int?,
       inputDescriptions: (json['InputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2006,7 +2006,7 @@ class AddApplicationOutputResponse {
       applicationARN: json['ApplicationARN'] as String?,
       applicationVersionId: json['ApplicationVersionId'] as int?,
       outputDescriptions: (json['OutputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2049,7 +2049,7 @@ class AddApplicationReferenceDataSourceResponse {
       applicationVersionId: json['ApplicationVersionId'] as int?,
       referenceDataSourceDescriptions:
           (json['ReferenceDataSourceDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ReferenceDataSourceDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2357,7 +2357,7 @@ class ApplicationConfigurationDescription {
               : null,
       vpcConfigurationDescriptions: (json['VpcConfigurationDescriptions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VpcConfigurationDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2606,7 +2606,7 @@ class ApplicationDetail {
           json['ApplicationVersionUpdatedFrom'] as int?,
       cloudWatchLoggingOptionDescriptions:
           (json['CloudWatchLoggingOptionDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3768,7 +3768,7 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
       applicationVersionId: json['ApplicationVersionId'] as int?,
       cloudWatchLoggingOptionDescriptions:
           (json['CloudWatchLoggingOptionDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4135,16 +4135,15 @@ class DiscoverInputSchemaResponse {
           ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
           : null,
       parsedInputRecords: (json['ParsedInputRecords'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       processedInputRecords: (json['ProcessedInputRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       rawInputRecords: (json['RawInputRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4195,7 +4194,7 @@ class EnvironmentPropertyDescriptions {
   factory EnvironmentPropertyDescriptions.fromJson(Map<String, dynamic> json) {
     return EnvironmentPropertyDescriptions(
       propertyGroupDescriptions: (json['PropertyGroupDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PropertyGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4610,7 +4609,7 @@ class InputDescription {
   factory InputDescription.fromJson(Map<String, dynamic> json) {
     return InputDescription(
       inAppStreamNames: (json['InAppStreamNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inputId: json['InputId'] as String?,
@@ -5495,7 +5494,7 @@ class ListApplicationSnapshotsResponse {
     return ListApplicationSnapshotsResponse(
       nextToken: json['NextToken'] as String?,
       snapshotSummaries: (json['SnapshotSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SnapshotDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5536,7 +5535,7 @@ class ListApplicationVersionsResponse {
     return ListApplicationVersionsResponse(
       applicationVersionSummaries:
           (json['ApplicationVersionSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   ApplicationVersionSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -5575,7 +5574,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationSummaries: (json['ApplicationSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5603,7 +5602,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7056,7 +7055,7 @@ class SourceSchema {
   factory SourceSchema.fromJson(Map<String, dynamic> json) {
     return SourceSchema(
       recordColumns: (json['RecordColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordFormat:
@@ -7136,16 +7135,16 @@ class SqlApplicationConfigurationDescription {
       Map<String, dynamic> json) {
     return SqlApplicationConfigurationDescription(
       inputDescriptions: (json['InputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputDescriptions: (json['OutputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       referenceDataSourceDescriptions:
           (json['ReferenceDataSourceDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ReferenceDataSourceDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7442,13 +7441,11 @@ class VpcConfigurationDescription {
   factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
     return VpcConfigurationDescription(
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcConfigurationId: json['VpcConfigurationId'] as String,
       vpcId: json['VpcId'] as String,
     );
@@ -7587,7 +7584,7 @@ class ZeppelinApplicationConfigurationDescription {
               : null,
       customArtifactsConfigurationDescription:
           (json['CustomArtifactsConfigurationDescription'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CustomArtifactConfigurationDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),

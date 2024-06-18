@@ -2172,7 +2172,7 @@ class ACL {
     return ACL(
       arn: json['ARN'] as String?,
       clusters: (json['Clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       minimumEngineVersion: json['MinimumEngineVersion'] as String?,
@@ -2183,7 +2183,7 @@ class ACL {
           : null,
       status: json['Status'] as String?,
       userNames: (json['UserNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2226,11 +2226,11 @@ class ACLPendingChanges {
   factory ACLPendingChanges.fromJson(Map<String, dynamic> json) {
     return ACLPendingChanges(
       userNamesToAdd: (json['UserNamesToAdd'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userNamesToRemove: (json['UserNamesToRemove'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2394,11 +2394,11 @@ class BatchUpdateClusterResponse {
   factory BatchUpdateClusterResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateClusterResponse(
       processedClusters: (json['ProcessedClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedClusters: (json['UnprocessedClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2565,12 +2565,12 @@ class Cluster {
               json['PendingUpdates'] as Map<String, dynamic>)
           : null,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       shards: (json['Shards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
       snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
@@ -2716,7 +2716,7 @@ class ClusterConfiguration {
       parameterGroupName: json['ParameterGroupName'] as String?,
       port: json['Port'] as int?,
       shards: (json['Shards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ShardDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
@@ -2789,7 +2789,7 @@ class ClusterPendingUpdates {
               json['Resharding'] as Map<String, dynamic>)
           : null,
       serviceUpdates: (json['ServiceUpdates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PendingModifiedServiceUpdate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3156,7 +3156,7 @@ class DescribeACLsResponse {
   factory DescribeACLsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeACLsResponse(
       aCLs: (json['ACLs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ACL.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3192,7 +3192,7 @@ class DescribeClustersResponse {
   factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeClustersResponse(
       clusters: (json['Clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3229,7 +3229,7 @@ class DescribeEngineVersionsResponse {
   factory DescribeEngineVersionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEngineVersionsResponse(
       engineVersions: (json['EngineVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EngineVersionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3266,7 +3266,7 @@ class DescribeEventsResponse {
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventsResponse(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3304,7 +3304,7 @@ class DescribeParameterGroupsResponse {
     return DescribeParameterGroupsResponse(
       nextToken: json['NextToken'] as String?,
       parameterGroups: (json['ParameterGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3341,7 +3341,7 @@ class DescribeParametersResponse {
     return DescribeParametersResponse(
       nextToken: json['NextToken'] as String?,
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3377,7 +3377,7 @@ class DescribeReservedNodesOfferingsResponse {
     return DescribeReservedNodesOfferingsResponse(
       nextToken: json['NextToken'] as String?,
       reservedNodesOfferings: (json['ReservedNodesOfferings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReservedNodesOffering.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3414,7 +3414,7 @@ class DescribeReservedNodesResponse {
     return DescribeReservedNodesResponse(
       nextToken: json['NextToken'] as String?,
       reservedNodes: (json['ReservedNodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReservedNode.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3450,7 +3450,7 @@ class DescribeServiceUpdatesResponse {
     return DescribeServiceUpdatesResponse(
       nextToken: json['NextToken'] as String?,
       serviceUpdates: (json['ServiceUpdates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceUpdate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3487,7 +3487,7 @@ class DescribeSnapshotsResponse {
     return DescribeSnapshotsResponse(
       nextToken: json['NextToken'] as String?,
       snapshots: (json['Snapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3524,7 +3524,7 @@ class DescribeSubnetGroupsResponse {
     return DescribeSubnetGroupsResponse(
       nextToken: json['NextToken'] as String?,
       subnetGroups: (json['SubnetGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubnetGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3560,7 +3560,7 @@ class DescribeUsersResponse {
     return DescribeUsersResponse(
       nextToken: json['NextToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3771,11 +3771,11 @@ class ListAllowedNodeTypeUpdatesResponse {
       Map<String, dynamic> json) {
     return ListAllowedNodeTypeUpdatesResponse(
       scaleDownNodeTypes: (json['ScaleDownNodeTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       scaleUpNodeTypes: (json['ScaleUpNodeTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3802,7 +3802,7 @@ class ListTagsResponse {
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4167,7 +4167,7 @@ class ReservedNode {
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
       recurringCharges: (json['RecurringCharges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
       reservationId: json['ReservationId'] as String?,
@@ -4244,7 +4244,7 @@ class ReservedNodesOffering {
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
       recurringCharges: (json['RecurringCharges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
       reservedNodesOfferingId: json['ReservedNodesOfferingId'] as String?,
@@ -4507,7 +4507,7 @@ class Shard {
     return Shard(
       name: json['Name'] as String?,
       nodes: (json['Nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Node.fromJson(e as Map<String, dynamic>))
           .toList(),
       numberOfNodes: json['NumberOfNodes'] as int?,
@@ -4825,7 +4825,7 @@ class SubnetGroup {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -4895,7 +4895,7 @@ class TagResourceResponse {
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) {
     return TagResourceResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4957,7 +4957,7 @@ class UntagResourceResponse {
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) {
     return UntagResourceResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5131,7 +5131,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       aCLNames: (json['ACLNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       arn: json['ARN'] as String?,

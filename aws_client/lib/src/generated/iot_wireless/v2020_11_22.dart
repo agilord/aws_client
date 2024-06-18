@@ -4206,7 +4206,7 @@ class Beaconing {
     return Beaconing(
       dataRate: json['DataRate'] as int?,
       frequencies: (json['Frequencies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
     );
@@ -5652,7 +5652,7 @@ class FPorts {
   factory FPorts.fromJson(Map<String, dynamic> json) {
     return FPorts(
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       clockSync: json['ClockSync'] as int?,
@@ -6071,12 +6071,12 @@ class GetLogLevelsByResourceTypesResponse {
       defaultLogLevel:
           (json['DefaultLogLevel'] as String?)?.let(LogLevel.fromString),
       wirelessDeviceLogOptions: (json['WirelessDeviceLogOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessDeviceLogOption.fromJson(e as Map<String, dynamic>))
           .toList(),
       wirelessGatewayLogOptions: (json['WirelessGatewayLogOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessGatewayLogOption.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6133,7 +6133,7 @@ class GetMetricsResponse {
   factory GetMetricsResponse.fromJson(Map<String, dynamic> json) {
     return GetMetricsResponse(
       summaryMetricQueryResults: (json['SummaryMetricQueryResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SummaryMetricQueryResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6262,7 +6262,7 @@ class GetNetworkAnalyzerConfigurationResponse {
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
       multicastGroups: (json['MulticastGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -6270,11 +6270,11 @@ class GetNetworkAnalyzerConfigurationResponse {
           ? TraceContent.fromJson(json['TraceContent'] as Map<String, dynamic>)
           : null,
       wirelessDevices: (json['WirelessDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       wirelessGateways: (json['WirelessGateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6428,7 +6428,7 @@ class GetPositionResponse {
           ? Accuracy.fromJson(json['Accuracy'] as Map<String, dynamic>)
           : null,
       position: (json['Position'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       solverProvider: (json['SolverProvider'] as String?)
@@ -7600,7 +7600,7 @@ class ListDestinationsResponse {
   factory ListDestinationsResponse.fromJson(Map<String, dynamic> json) {
     return ListDestinationsResponse(
       destinationList: (json['DestinationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destinations.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7633,7 +7633,7 @@ class ListDeviceProfilesResponse {
   factory ListDeviceProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceProfilesResponse(
       deviceProfileList: (json['DeviceProfileList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7674,7 +7674,7 @@ class ListDevicesForWirelessDeviceImportTaskResponse {
     return ListDevicesForWirelessDeviceImportTaskResponse(
       destinationName: json['DestinationName'] as String?,
       importedWirelessDeviceList: (json['ImportedWirelessDeviceList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ImportedWirelessDevice.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7712,7 +7712,7 @@ class ListEventConfigurationsResponse {
   factory ListEventConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventConfigurationsResponse(
       eventConfigurationsList: (json['EventConfigurationsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EventConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7747,7 +7747,7 @@ class ListFuotaTasksResponse {
   factory ListFuotaTasksResponse.fromJson(Map<String, dynamic> json) {
     return ListFuotaTasksResponse(
       fuotaTaskList: (json['FuotaTaskList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FuotaTask.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7781,7 +7781,7 @@ class ListMulticastGroupsByFuotaTaskResponse {
       Map<String, dynamic> json) {
     return ListMulticastGroupsByFuotaTaskResponse(
       multicastGroupList: (json['MulticastGroupList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MulticastGroupByFuotaTask.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7815,7 +7815,7 @@ class ListMulticastGroupsResponse {
   factory ListMulticastGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListMulticastGroupsResponse(
       multicastGroupList: (json['MulticastGroupList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MulticastGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7850,7 +7850,7 @@ class ListNetworkAnalyzerConfigurationsResponse {
     return ListNetworkAnalyzerConfigurationsResponse(
       networkAnalyzerConfigurationList:
           (json['NetworkAnalyzerConfigurationList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => NetworkAnalyzerConfigurations.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7887,7 +7887,7 @@ class ListPartnerAccountsResponse {
     return ListPartnerAccountsResponse(
       nextToken: json['NextToken'] as String?,
       sidewalk: (json['Sidewalk'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SidewalkAccountInfoWithFingerprint.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7923,7 +7923,7 @@ class ListPositionConfigurationsResponse {
     return ListPositionConfigurationsResponse(
       nextToken: json['NextToken'] as String?,
       positionConfigurationList: (json['PositionConfigurationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PositionConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7958,7 +7958,7 @@ class ListQueuedMessagesResponse {
   factory ListQueuedMessagesResponse.fromJson(Map<String, dynamic> json) {
     return ListQueuedMessagesResponse(
       downlinkQueueMessagesList: (json['DownlinkQueueMessagesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DownlinkQueueMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7993,7 +7993,7 @@ class ListServiceProfilesResponse {
     return ListServiceProfilesResponse(
       nextToken: json['NextToken'] as String?,
       serviceProfileList: (json['ServiceProfileList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8021,7 +8021,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8055,7 +8055,7 @@ class ListWirelessDeviceImportTasksResponse {
       nextToken: json['NextToken'] as String?,
       wirelessDeviceImportTaskList:
           (json['WirelessDeviceImportTaskList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   WirelessDeviceImportTask.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -8090,7 +8090,7 @@ class ListWirelessDevicesResponse {
     return ListWirelessDevicesResponse(
       nextToken: json['NextToken'] as String?,
       wirelessDeviceList: (json['WirelessDeviceList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessDeviceStatistics.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8125,7 +8125,7 @@ class ListWirelessGatewayTaskDefinitionsResponse {
     return ListWirelessGatewayTaskDefinitionsResponse(
       nextToken: json['NextToken'] as String?,
       taskDefinitions: (json['TaskDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateWirelessGatewayTaskEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8159,7 +8159,7 @@ class ListWirelessGatewaysResponse {
     return ListWirelessGatewaysResponse(
       nextToken: json['NextToken'] as String?,
       wirelessGatewayList: (json['WirelessGatewayList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessGatewayStatistics.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8351,12 +8351,12 @@ class LoRaWANDeviceMetadata {
       fPort: json['FPort'] as int?,
       frequency: json['Frequency'] as int?,
       gateways: (json['Gateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => LoRaWANGatewayMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       publicGateways: (json['PublicGateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LoRaWANPublicGatewayMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8471,7 +8471,7 @@ class LoRaWANDeviceProfile {
       classBTimeout: json['ClassBTimeout'] as int?,
       classCTimeout: json['ClassCTimeout'] as int?,
       factoryPresetFreqsList: (json['FactoryPresetFreqsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       macVersion: json['MacVersion'] as String?,
@@ -8616,20 +8616,17 @@ class LoRaWANGateway {
           : null,
       gatewayEui: json['GatewayEui'] as String?,
       joinEuiFilters: (json['JoinEuiFilters'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       maxEirp: json['MaxEirp'] as double?,
       netIdFilters: (json['NetIdFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       rfRegion: json['RfRegion'] as String?,
-      subBands: (json['SubBands'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      subBands:
+          (json['SubBands'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -9982,7 +9979,7 @@ class ParticipatingGateways {
     return ParticipatingGateways(
       downlinkMode: DownlinkMode.fromString((json['DownlinkMode'] as String)),
       gatewayList: (json['GatewayList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GatewayListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       transmissionInterval: json['TransmissionInterval'] as int,
@@ -10705,12 +10702,12 @@ class SidewalkDevice {
       amazonId: json['AmazonId'] as String?,
       certificateId: json['CertificateId'] as String?,
       deviceCertificates: (json['DeviceCertificates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateList.fromJson(e as Map<String, dynamic>))
           .toList(),
       deviceProfileId: json['DeviceProfileId'] as String?,
       privateKeys: (json['PrivateKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateList.fromJson(e as Map<String, dynamic>))
           .toList(),
       sidewalkId: json['SidewalkId'] as String?,
@@ -10838,7 +10835,7 @@ class SidewalkGetDeviceProfile {
     return SidewalkGetDeviceProfile(
       applicationServerPublicKey: json['ApplicationServerPublicKey'] as String?,
       dakCertificateMetadata: (json['DakCertificateMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DakCertificateMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10879,7 +10876,7 @@ class SidewalkGetStartImportInfo {
   factory SidewalkGetStartImportInfo.fromJson(Map<String, dynamic> json) {
     return SidewalkGetStartImportInfo(
       deviceCreationFileList: (json['DeviceCreationFileList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       role: json['Role'] as String?,
@@ -10930,7 +10927,7 @@ class SidewalkListDevice {
     return SidewalkListDevice(
       amazonId: json['AmazonId'] as String?,
       deviceCertificates: (json['DeviceCertificates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateList.fromJson(e as Map<String, dynamic>))
           .toList(),
       deviceProfileId: json['DeviceProfileId'] as String?,
@@ -11363,7 +11360,7 @@ class SummaryMetricQueryResult {
       aggregationPeriod: (json['AggregationPeriod'] as String?)
           ?.let(AggregationPeriod.fromString),
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       endTimestamp: timeStampFromJson(json['EndTimestamp']),
@@ -11374,12 +11371,12 @@ class SummaryMetricQueryResult {
           (json['QueryStatus'] as String?)?.let(MetricQueryStatus.fromString),
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
       timestamps: (json['Timestamps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
       unit: json['Unit'] as String?,
       values: (json['Values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricQueryValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12371,7 +12368,7 @@ class WirelessDeviceLogOption {
       logLevel: LogLevel.fromString((json['LogLevel'] as String)),
       type: WirelessDeviceType.fromString((json['Type'] as String)),
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessDeviceEventLogOption.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12605,7 +12602,7 @@ class WirelessGatewayLogOption {
       logLevel: LogLevel.fromString((json['LogLevel'] as String)),
       type: WirelessGatewayType.fromString((json['Type'] as String)),
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WirelessGatewayEventLogOption.fromJson(e as Map<String, dynamic>))
           .toList(),

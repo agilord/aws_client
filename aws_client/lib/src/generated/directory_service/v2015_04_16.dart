@@ -3652,7 +3652,7 @@ class Computer {
   factory Computer.fromJson(Map<String, dynamic> json) {
     return Computer(
       computerAttributes: (json['ComputerAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       computerId: json['ComputerId'] as String?,
@@ -3699,7 +3699,7 @@ class ConditionalForwarder {
   factory ConditionalForwarder.fromJson(Map<String, dynamic> json) {
     return ConditionalForwarder(
       dnsIpAddrs: (json['DnsIpAddrs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       remoteDomainName: json['RemoteDomainName'] as String?,
@@ -4082,7 +4082,7 @@ class DescribeClientAuthenticationSettingsResult {
     return DescribeClientAuthenticationSettingsResult(
       clientAuthenticationSettingsInfo:
           (json['ClientAuthenticationSettingsInfo'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ClientAuthenticationSettingInfo.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4115,7 +4115,7 @@ class DescribeConditionalForwardersResult {
       Map<String, dynamic> json) {
     return DescribeConditionalForwardersResult(
       conditionalForwarders: (json['ConditionalForwarders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionalForwarder.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4153,7 +4153,7 @@ class DescribeDirectoriesResult {
   factory DescribeDirectoriesResult.fromJson(Map<String, dynamic> json) {
     return DescribeDirectoriesResult(
       directoryDescriptions: (json['DirectoryDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DirectoryDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4188,7 +4188,7 @@ class DescribeDomainControllersResult {
   factory DescribeDomainControllersResult.fromJson(Map<String, dynamic> json) {
     return DescribeDomainControllersResult(
       domainControllers: (json['DomainControllers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainController.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4218,7 +4218,7 @@ class DescribeEventTopicsResult {
   factory DescribeEventTopicsResult.fromJson(Map<String, dynamic> json) {
     return DescribeEventTopicsResult(
       eventTopics: (json['EventTopics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventTopic.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4250,7 +4250,7 @@ class DescribeLDAPSSettingsResult {
   factory DescribeLDAPSSettingsResult.fromJson(Map<String, dynamic> json) {
     return DescribeLDAPSSettingsResult(
       lDAPSSettingsInfo: (json['LDAPSSettingsInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LDAPSSettingInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4286,7 +4286,7 @@ class DescribeRegionsResult {
     return DescribeRegionsResult(
       nextToken: json['NextToken'] as String?,
       regionsDescription: (json['RegionsDescription'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4330,7 +4330,7 @@ class DescribeSettingsResult {
       directoryId: json['DirectoryId'] as String?,
       nextToken: json['NextToken'] as String?,
       settingEntries: (json['SettingEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SettingEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4366,7 +4366,7 @@ class DescribeSharedDirectoriesResult {
     return DescribeSharedDirectoriesResult(
       nextToken: json['NextToken'] as String?,
       sharedDirectories: (json['SharedDirectories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SharedDirectory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4405,7 +4405,7 @@ class DescribeSnapshotsResult {
     return DescribeSnapshotsResult(
       nextToken: json['NextToken'] as String?,
       snapshots: (json['Snapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4445,7 +4445,7 @@ class DescribeTrustsResult {
     return DescribeTrustsResult(
       nextToken: json['NextToken'] as String?,
       trusts: (json['Trusts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Trust.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4478,7 +4478,7 @@ class DescribeUpdateDirectoryResult {
     return DescribeUpdateDirectoryResult(
       nextToken: json['NextToken'] as String?,
       updateActivities: (json['UpdateActivities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateInfoEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4596,17 +4596,17 @@ class DirectoryConnectSettingsDescription {
       Map<String, dynamic> json) {
     return DirectoryConnectSettingsDescription(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       connectIps: (json['ConnectIps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       customerUserName: json['CustomerUserName'] as String?,
       securityGroupId: json['SecurityGroupId'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -4774,7 +4774,7 @@ class DirectoryDescription {
           json['DesiredNumberOfDomainControllers'] as int?,
       directoryId: json['DirectoryId'] as String?,
       dnsIpAddrs: (json['DnsIpAddrs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       edition: (json['Edition'] as String?)?.let(DirectoryEdition.fromString),
@@ -5067,10 +5067,8 @@ class DirectoryVpcSettings {
 
   factory DirectoryVpcSettings.fromJson(Map<String, dynamic> json) {
     return DirectoryVpcSettings(
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcId: json['VpcId'] as String,
     );
   }
@@ -5109,12 +5107,12 @@ class DirectoryVpcSettingsDescription {
   factory DirectoryVpcSettingsDescription.fromJson(Map<String, dynamic> json) {
     return DirectoryVpcSettingsDescription(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupId: json['SecurityGroupId'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -5647,7 +5645,7 @@ class ListCertificatesResult {
   factory ListCertificatesResult.fromJson(Map<String, dynamic> json) {
     return ListCertificatesResult(
       certificatesInfo: (json['CertificatesInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5681,7 +5679,7 @@ class ListIpRoutesResult {
   factory ListIpRoutesResult.fromJson(Map<String, dynamic> json) {
     return ListIpRoutesResult(
       ipRoutesInfo: (json['IpRoutesInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpRouteInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5714,7 +5712,7 @@ class ListLogSubscriptionsResult {
   factory ListLogSubscriptionsResult.fromJson(Map<String, dynamic> json) {
     return ListLogSubscriptionsResult(
       logSubscriptions: (json['LogSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5749,7 +5747,7 @@ class ListSchemaExtensionsResult {
     return ListSchemaExtensionsResult(
       nextToken: json['NextToken'] as String?,
       schemaExtensionsInfo: (json['SchemaExtensionsInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaExtensionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5782,7 +5780,7 @@ class ListTagsForResourceResult {
     return ListTagsForResourceResult(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5914,7 +5912,7 @@ class OwnerDirectoryDescription {
       accountId: json['AccountId'] as String?,
       directoryId: json['DirectoryId'] as String?,
       dnsIpAddrs: (json['DnsIpAddrs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       radiusSettings: json['RadiusSettings'] != null
@@ -6016,7 +6014,7 @@ class RadiusSettings {
       radiusPort: json['RadiusPort'] as int?,
       radiusRetries: json['RadiusRetries'] as int?,
       radiusServers: (json['RadiusServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       radiusTimeout: json['RadiusTimeout'] as int?,
@@ -6184,7 +6182,7 @@ class RegionsInfo {
   factory RegionsInfo.fromJson(Map<String, dynamic> json) {
     return RegionsInfo(
       additionalRegions: (json['AdditionalRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       primaryRegion: json['PrimaryRegion'] as String?,

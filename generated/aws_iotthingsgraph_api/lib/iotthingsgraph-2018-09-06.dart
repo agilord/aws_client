@@ -2298,7 +2298,7 @@ class GetEntitiesResponse {
   factory GetEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return GetEntitiesResponse(
       descriptions: (json['descriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2340,7 +2340,7 @@ class GetFlowTemplateRevisionsResponse {
     return GetFlowTemplateRevisionsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2440,7 +2440,7 @@ class GetSystemTemplateRevisionsResponse {
     return GetSystemTemplateRevisionsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2487,7 +2487,7 @@ class GetUploadStatusResponse {
       uploadId: json['uploadId'] as String,
       uploadStatus: UploadStatus.fromString((json['uploadStatus'] as String)),
       failureReason: (json['failureReason'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       namespaceArn: json['namespaceArn'] as String?,
@@ -2515,7 +2515,7 @@ class ListFlowExecutionMessagesResponse {
       Map<String, dynamic> json) {
     return ListFlowExecutionMessagesResponse(
       messages: (json['messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlowExecutionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2539,7 +2539,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2623,7 +2623,7 @@ class SearchEntitiesResponse {
   factory SearchEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return SearchEntitiesResponse(
       descriptions: (json['descriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2649,7 +2649,7 @@ class SearchFlowExecutionsResponse {
     return SearchFlowExecutionsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlowExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2674,7 +2674,7 @@ class SearchFlowTemplatesResponse {
     return SearchFlowTemplatesResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2699,7 +2699,7 @@ class SearchSystemInstancesResponse {
     return SearchSystemInstancesResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SystemInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2724,7 +2724,7 @@ class SearchSystemTemplatesResponse {
     return SearchSystemTemplatesResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2748,7 +2748,7 @@ class SearchThingsResponse {
     return SearchThingsResponse(
       nextToken: json['nextToken'] as String?,
       things: (json['things'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Thing.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2831,7 +2831,7 @@ class SystemInstanceDescription {
           : null,
       validatedDependencyRevisions: (json['validatedDependencyRevisions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DependencyRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
       validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,

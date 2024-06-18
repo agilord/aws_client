@@ -1989,14 +1989,14 @@ class App {
               json['autoBranchCreationConfig'] as Map<String, dynamic>)
           : null,
       autoBranchCreationPatterns: (json['autoBranchCreationPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       basicAuthCredentials: json['basicAuthCredentials'] as String?,
       buildSpec: json['buildSpec'] as String?,
       customHeaders: json['customHeaders'] as String?,
       customRules: (json['customRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       enableAutoBranchCreation: json['enableAutoBranchCreation'] as bool?,
@@ -2342,7 +2342,7 @@ class Branch {
       branchName: json['branchName'] as String,
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       customDomains: (json['customDomains'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String,
@@ -2360,7 +2360,7 @@ class Branch {
       ttl: json['ttl'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       associatedResources: (json['associatedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       backend: json['backend'] != null
@@ -2833,12 +2833,12 @@ class DomainAssociation {
       enableAutoSubDomain: json['enableAutoSubDomain'] as bool,
       statusReason: json['statusReason'] as String,
       subDomains: (json['subDomains'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubDomain.fromJson(e as Map<String, dynamic>))
           .toList(),
       autoSubDomainCreationPatterns:
           (json['autoSubDomainCreationPatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       autoSubDomainIAMRole: json['autoSubDomainIAMRole'] as String?,
@@ -3022,7 +3022,7 @@ class Job {
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       steps: (json['steps'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: JobSummary.fromJson(json['summary'] as Map<String, dynamic>),
@@ -3143,7 +3143,7 @@ class ListAppsResult {
   factory ListAppsResult.fromJson(Map<String, dynamic> json) {
     return ListAppsResult(
       apps: (json['apps'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => App.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3168,7 +3168,7 @@ class ListArtifactsResult {
   factory ListArtifactsResult.fromJson(Map<String, dynamic> json) {
     return ListArtifactsResult(
       artifacts: (json['artifacts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3193,7 +3193,7 @@ class ListBackendEnvironmentsResult {
   factory ListBackendEnvironmentsResult.fromJson(Map<String, dynamic> json) {
     return ListBackendEnvironmentsResult(
       backendEnvironments: (json['backendEnvironments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BackendEnvironment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3218,7 +3218,7 @@ class ListBranchesResult {
   factory ListBranchesResult.fromJson(Map<String, dynamic> json) {
     return ListBranchesResult(
       branches: (json['branches'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Branch.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3243,7 +3243,7 @@ class ListDomainAssociationsResult {
   factory ListDomainAssociationsResult.fromJson(Map<String, dynamic> json) {
     return ListDomainAssociationsResult(
       domainAssociations: (json['domainAssociations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DomainAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3268,7 +3268,7 @@ class ListJobsResult {
   factory ListJobsResult.fromJson(Map<String, dynamic> json) {
     return ListJobsResult(
       jobSummaries: (json['jobSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3310,7 +3310,7 @@ class ListWebhooksResult {
   factory ListWebhooksResult.fromJson(Map<String, dynamic> json) {
     return ListWebhooksResult(
       webhooks: (json['webhooks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Webhook.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

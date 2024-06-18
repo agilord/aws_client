@@ -1949,7 +1949,7 @@ class GetKeyspaceResponse {
           Rs.fromString((json['replicationStrategy'] as String)),
       resourceArn: json['resourceArn'] as String,
       replicationRegions: (json['replicationRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2005,7 +2005,7 @@ class GetTableAutoScalingSettingsResponse {
               json['autoScalingSpecification'] as Map<String, dynamic>)
           : null,
       replicaSpecifications: (json['replicaSpecifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicaAutoScalingSpecification.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2127,7 +2127,7 @@ class GetTableResponse {
               json['pointInTimeRecovery'] as Map<String, dynamic>)
           : null,
       replicaSpecifications: (json['replicaSpecifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicaSpecificationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2214,7 +2214,7 @@ class KeyspaceSummary {
           Rs.fromString((json['replicationStrategy'] as String)),
       resourceArn: json['resourceArn'] as String,
       replicationRegions: (json['replicationRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2250,7 +2250,7 @@ class ListKeyspacesResponse {
   factory ListKeyspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListKeyspacesResponse(
       keyspaces: (json['keyspaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KeyspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2284,7 +2284,7 @@ class ListTablesResponse {
     return ListTablesResponse(
       nextToken: json['nextToken'] as String?,
       tables: (json['tables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2317,7 +2317,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2659,19 +2659,19 @@ class SchemaDefinition {
   factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
     return SchemaDefinition(
       allColumns: (json['allColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       partitionKeys: (json['partitionKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       clusteringKeys: (json['clusteringKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusteringKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       staticColumns: (json['staticColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StaticColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

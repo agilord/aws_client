@@ -1486,12 +1486,12 @@ class DataModel {
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
       dimensionMappings: (json['DimensionMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       measureNameColumn: json['MeasureNameColumn'] as String?,
       mixedMeasureMappings: (json['MixedMeasureMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MixedMeasureMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       multiMeasureMappings: json['MultiMeasureMappings'] != null
@@ -1781,7 +1781,7 @@ class DescribeEndpointsResponse {
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['Endpoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1948,7 +1948,7 @@ class ListBatchLoadTasksResponse {
   factory ListBatchLoadTasksResponse.fromJson(Map<String, dynamic> json) {
     return ListBatchLoadTasksResponse(
       batchLoadTasks: (json['BatchLoadTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchLoadTask.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1981,7 +1981,7 @@ class ListDatabasesResponse {
   factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) {
     return ListDatabasesResponse(
       databases: (json['Databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Database.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2015,7 +2015,7 @@ class ListTablesResponse {
     return ListTablesResponse(
       nextToken: json['NextToken'] as String?,
       tables: (json['Tables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Table.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2042,7 +2042,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2215,7 +2215,7 @@ class MixedMeasureMapping {
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2299,7 +2299,7 @@ class MultiMeasureMappings {
     return MultiMeasureMappings(
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2743,7 +2743,7 @@ class Schema {
   factory Schema.fromJson(Map<String, dynamic> json) {
     return Schema(
       compositePartitionKey: (json['CompositePartitionKey'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

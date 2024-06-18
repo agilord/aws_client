@@ -2834,7 +2834,7 @@ class GetRotationOverrideResult {
       createTime: timeStampFromJson(json['CreateTime']),
       endTime: timeStampFromJson(json['EndTime']),
       newContactIds: (json['NewContactIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       rotationArn: json['RotationArn'] as String?,
@@ -2895,7 +2895,7 @@ class GetRotationResult {
   factory GetRotationResult.fromJson(Map<String, dynamic> json) {
     return GetRotationResult(
       contactIds: (json['ContactIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String,
@@ -2970,7 +2970,7 @@ class ListContactChannelsResult {
   factory ListContactChannelsResult.fromJson(Map<String, dynamic> json) {
     return ListContactChannelsResult(
       contactChannels: (json['ContactChannels'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ContactChannel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3003,7 +3003,7 @@ class ListContactsResult {
   factory ListContactsResult.fromJson(Map<String, dynamic> json) {
     return ListContactsResult(
       contacts: (json['Contacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Contact.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3036,7 +3036,7 @@ class ListEngagementsResult {
   factory ListEngagementsResult.fromJson(Map<String, dynamic> json) {
     return ListEngagementsResult(
       engagements: (json['Engagements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Engagement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3069,7 +3069,7 @@ class ListPageReceiptsResult {
     return ListPageReceiptsResult(
       nextToken: json['NextToken'] as String?,
       receipts: (json['Receipts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Receipt.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3101,7 +3101,7 @@ class ListPageResolutionsResult {
   factory ListPageResolutionsResult.fromJson(Map<String, dynamic> json) {
     return ListPageResolutionsResult(
       pageResolutions: (json['PageResolutions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResolutionContact.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3133,7 +3133,7 @@ class ListPagesByContactResult {
   factory ListPagesByContactResult.fromJson(Map<String, dynamic> json) {
     return ListPagesByContactResult(
       pages: (json['Pages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Page.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3165,7 +3165,7 @@ class ListPagesByEngagementResult {
   factory ListPagesByEngagementResult.fromJson(Map<String, dynamic> json) {
     return ListPagesByEngagementResult(
       pages: (json['Pages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Page.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3199,7 +3199,7 @@ class ListPreviewRotationShiftsResult {
     return ListPreviewRotationShiftsResult(
       nextToken: json['NextToken'] as String?,
       rotationShifts: (json['RotationShifts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RotationShift.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3232,7 +3232,7 @@ class ListRotationOverridesResult {
     return ListRotationOverridesResult(
       nextToken: json['NextToken'] as String?,
       rotationOverrides: (json['RotationOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RotationOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3265,7 +3265,7 @@ class ListRotationShiftsResult {
     return ListRotationShiftsResult(
       nextToken: json['NextToken'] as String?,
       rotationShifts: (json['RotationShifts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RotationShift.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3297,7 +3297,7 @@ class ListRotationsResult {
   factory ListRotationsResult.fromJson(Map<String, dynamic> json) {
     return ListRotationsResult(
       rotations: (json['Rotations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Rotation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3325,7 +3325,7 @@ class ListTagsForResourceResult {
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3462,11 +3462,11 @@ class Plan {
   factory Plan.fromJson(Map<String, dynamic> json) {
     return Plan(
       rotationIds: (json['RotationIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stages: (json['Stages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Stage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3626,22 +3626,22 @@ class RecurrenceSettings {
       numberOfOnCalls: json['NumberOfOnCalls'] as int,
       recurrenceMultiplier: json['RecurrenceMultiplier'] as int,
       dailySettings: (json['DailySettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HandOffTime.fromJson(e as Map<String, dynamic>))
           .toList(),
       monthlySettings: (json['MonthlySettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MonthlySetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       shiftCoverages: (json['ShiftCoverages'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
               DayOfWeek.fromString(k),
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => CoverageTime.fromJson(e as Map<String, dynamic>))
                   .toList())),
       weeklySettings: (json['WeeklySettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WeeklySetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3748,7 +3748,7 @@ class Rotation {
       name: json['Name'] as String,
       rotationArn: json['RotationArn'] as String,
       contactIds: (json['ContactIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       recurrence: json['Recurrence'] != null
@@ -3809,7 +3809,7 @@ class RotationOverride {
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
       newContactIds: (json['NewContactIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       rotationOverrideId: json['RotationOverrideId'] as String,
@@ -3864,7 +3864,7 @@ class RotationShift {
       endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
       startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
       contactIds: (json['ContactIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       shiftDetails: json['ShiftDetails'] != null
@@ -3916,7 +3916,7 @@ class ShiftDetails {
   factory ShiftDetails.fromJson(Map<String, dynamic> json) {
     return ShiftDetails(
       overriddenContactIds: (json['OverriddenContactIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3964,7 +3964,7 @@ class Stage {
     return Stage(
       durationInMinutes: json['DurationInMinutes'] as int,
       targets: (json['Targets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

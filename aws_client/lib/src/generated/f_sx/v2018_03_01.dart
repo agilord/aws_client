@@ -3917,7 +3917,7 @@ class AggregateConfiguration {
   factory AggregateConfiguration.fromJson(Map<String, dynamic> json) {
     return AggregateConfiguration(
       aggregates: (json['Aggregates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       totalConstituents: json['TotalConstituents'] as int?,
@@ -4048,7 +4048,7 @@ class AssociateFileSystemAliasesResponse {
       Map<String, dynamic> json) {
     return AssociateFileSystemAliasesResponse(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4099,7 +4099,7 @@ class AutoExportPolicy {
   factory AutoExportPolicy.fromJson(Map<String, dynamic> json) {
     return AutoExportPolicy(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
     );
@@ -4149,7 +4149,7 @@ class AutoImportPolicy {
   factory AutoImportPolicy.fromJson(Map<String, dynamic> json) {
     return AutoImportPolicy(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
     );
@@ -4375,7 +4375,7 @@ class Backup {
       sourceBackupId: json['SourceBackupId'] as String?,
       sourceBackupRegion: json['SourceBackupRegion'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volume: json['Volume'] != null
@@ -4683,7 +4683,7 @@ class CopySnapshotAndUpdateVolumeResponse {
       Map<String, dynamic> json) {
     return CopySnapshotAndUpdateVolumeResponse(
       administrativeActions: (json['AdministrativeActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       lifecycle:
@@ -6551,7 +6551,7 @@ class DataRepositoryAssociation {
       dataRepositoryPath: json['DataRepositoryPath'] as String?,
       dataRepositorySubdirectories:
           (json['DataRepositorySubdirectories'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failureDetails: json['FailureDetails'] != null
@@ -6575,7 +6575,7 @@ class DataRepositoryAssociation {
               json['S3'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6960,10 +6960,8 @@ class DataRepositoryTask {
           : null,
       fileCacheId: json['FileCacheId'] as String?,
       fileSystemId: json['FileSystemId'] as String?,
-      paths: (json['Paths'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      paths:
+          (json['Paths'] as List?)?.nonNulls.map((e) => e as String).toList(),
       releaseConfiguration: json['ReleaseConfiguration'] != null
           ? ReleaseConfiguration.fromJson(
               json['ReleaseConfiguration'] as Map<String, dynamic>)
@@ -6978,7 +6976,7 @@ class DataRepositoryTask {
               json['Status'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7359,7 +7357,7 @@ class DeleteFileSystemLustreResponse {
     return DeleteFileSystemLustreResponse(
       finalBackupId: json['FinalBackupId'] as String?,
       finalBackupTags: (json['FinalBackupTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7441,7 +7439,7 @@ class DeleteFileSystemOpenZFSResponse {
     return DeleteFileSystemOpenZFSResponse(
       finalBackupId: json['FinalBackupId'] as String?,
       finalBackupTags: (json['FinalBackupTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7562,7 +7560,7 @@ class DeleteFileSystemWindowsResponse {
     return DeleteFileSystemWindowsResponse(
       finalBackupId: json['FinalBackupId'] as String?,
       finalBackupTags: (json['FinalBackupTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7711,7 +7709,7 @@ class DeleteVolumeOntapResponse {
     return DeleteVolumeOntapResponse(
       finalBackupId: json['FinalBackupId'] as String?,
       finalBackupTags: (json['FinalBackupTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7806,7 +7804,7 @@ class DescribeBackupsResponse {
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBackupsResponse(
       backups: (json['Backups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Backup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7837,7 +7835,7 @@ class DescribeDataRepositoryAssociationsResponse {
       Map<String, dynamic> json) {
     return DescribeDataRepositoryAssociationsResponse(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataRepositoryAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7869,7 +7867,7 @@ class DescribeDataRepositoryTasksResponse {
       Map<String, dynamic> json) {
     return DescribeDataRepositoryTasksResponse(
       dataRepositoryTasks: (json['DataRepositoryTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataRepositoryTask.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7900,7 +7898,7 @@ class DescribeFileCachesResponse {
   factory DescribeFileCachesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFileCachesResponse(
       fileCaches: (json['FileCaches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileCache.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7937,7 +7935,7 @@ class DescribeFileSystemAliasesResponse {
       Map<String, dynamic> json) {
     return DescribeFileSystemAliasesResponse(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7972,7 +7970,7 @@ class DescribeFileSystemsResponse {
   factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFileSystemsResponse(
       fileSystems: (json['FileSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileSystem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8032,7 +8030,7 @@ class DescribeSnapshotsResponse {
     return DescribeSnapshotsResponse(
       nextToken: json['NextToken'] as String?,
       snapshots: (json['Snapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8065,7 +8063,7 @@ class DescribeStorageVirtualMachinesResponse {
     return DescribeStorageVirtualMachinesResponse(
       nextToken: json['NextToken'] as String?,
       storageVirtualMachines: (json['StorageVirtualMachines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorageVirtualMachine.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8098,7 +8096,7 @@ class DescribeVolumesResponse {
     return DescribeVolumesResponse(
       nextToken: json['NextToken'] as String?,
       volumes: (json['Volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Volume.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8131,7 +8129,7 @@ class DisassociateFileSystemAliasesResponse {
       Map<String, dynamic> json) {
     return DisassociateFileSystemAliasesResponse(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8375,7 +8373,7 @@ class FileCache {
       dNSName: json['DNSName'] as String?,
       dataRepositoryAssociationIds:
           (json['DataRepositoryAssociationIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failureDetails: json['FailureDetails'] != null
@@ -8394,14 +8392,14 @@ class FileCache {
               json['LustreConfiguration'] as Map<String, dynamic>)
           : null,
       networkInterfaceIds: (json['NetworkInterfaceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ownerId: json['OwnerId'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       storageCapacity: json['StorageCapacity'] as int?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -8551,7 +8549,7 @@ class FileCacheCreating {
       dNSName: json['DNSName'] as String?,
       dataRepositoryAssociationIds:
           (json['DataRepositoryAssociationIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failureDetails: json['FailureDetails'] != null
@@ -8570,18 +8568,18 @@ class FileCacheCreating {
               json['LustreConfiguration'] as Map<String, dynamic>)
           : null,
       networkInterfaceIds: (json['NetworkInterfaceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ownerId: json['OwnerId'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       storageCapacity: json['StorageCapacity'] as int?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -9104,7 +9102,7 @@ class FileSystem {
   factory FileSystem.fromJson(Map<String, dynamic> json) {
     return FileSystem(
       administrativeActions: (json['AdministrativeActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -9125,7 +9123,7 @@ class FileSystem {
               json['LustreConfiguration'] as Map<String, dynamic>)
           : null,
       networkInterfaceIds: (json['NetworkInterfaceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ontapConfiguration: json['OntapConfiguration'] != null
@@ -9142,11 +9140,11 @@ class FileSystem {
       storageType:
           (json['StorageType'] as String?)?.let(StorageType.fromString),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -9231,7 +9229,7 @@ class FileSystemEndpoint {
     return FileSystemEndpoint(
       dNSName: json['DNSName'] as String?,
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9483,7 +9481,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9904,7 +9902,7 @@ class LustreRootSquashConfiguration {
   factory LustreRootSquashConfiguration.fromJson(Map<String, dynamic> json) {
     return LustreRootSquashConfiguration(
       noSquashNids: (json['NoSquashNids'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       rootSquash: json['RootSquash'] as String?,
@@ -9951,10 +9949,8 @@ class NFSDataRepositoryConfiguration {
           ? AutoExportPolicy.fromJson(
               json['AutoExportPolicy'] as Map<String, dynamic>)
           : null,
-      dnsIps: (json['DnsIps'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      dnsIps:
+          (json['DnsIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10156,7 +10152,7 @@ class OntapFileSystemConfiguration {
       hAPairs: json['HAPairs'] as int?,
       preferredSubnetId: json['PreferredSubnetId'] as String?,
       routeTableIds: (json['RouteTableIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       throughputCapacity: json['ThroughputCapacity'] as int?,
@@ -10484,10 +10480,8 @@ class OpenZFSClientConfiguration {
   factory OpenZFSClientConfiguration.fromJson(Map<String, dynamic> json) {
     return OpenZFSClientConfiguration(
       clients: json['Clients'] as String,
-      options: (json['Options'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      options:
+          (json['Options'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10724,7 +10718,7 @@ class OpenZFSFileSystemConfiguration {
       preferredSubnetId: json['PreferredSubnetId'] as String?,
       rootVolumeId: json['RootVolumeId'] as String?,
       routeTableIds: (json['RouteTableIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       throughputCapacity: json['ThroughputCapacity'] as int?,
@@ -10783,7 +10777,7 @@ class OpenZFSNfsExport {
   factory OpenZFSNfsExport.fromJson(Map<String, dynamic> json) {
     return OpenZFSNfsExport(
       clientConfigurations: (json['ClientConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               OpenZFSClientConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11051,7 +11045,7 @@ class OpenZFSVolumeConfiguration {
       deleteIntermediateSnaphots: json['DeleteIntermediateSnaphots'] as bool?,
       destinationSnapshot: json['DestinationSnapshot'] as String?,
       nfsExports: (json['NfsExports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OpenZFSNfsExport.fromJson(e as Map<String, dynamic>))
           .toList(),
       originSnapshot: json['OriginSnapshot'] != null
@@ -11067,7 +11061,7 @@ class OpenZFSVolumeConfiguration {
       storageCapacityReservationGiB:
           json['StorageCapacityReservationGiB'] as int?,
       userAndGroupQuotas: (json['UserAndGroupQuotas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OpenZFSUserOrGroupQuota.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11290,7 +11284,7 @@ class RestoreVolumeFromSnapshotResponse {
       Map<String, dynamic> json) {
     return RestoreVolumeFromSnapshotResponse(
       administrativeActions: (json['AdministrativeActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       lifecycle:
@@ -11498,10 +11492,8 @@ class SelfManagedActiveDirectoryAttributes {
   factory SelfManagedActiveDirectoryAttributes.fromJson(
       Map<String, dynamic> json) {
     return SelfManagedActiveDirectoryAttributes(
-      dnsIps: (json['DnsIps'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      dnsIps:
+          (json['DnsIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
       domainName: json['DomainName'] as String?,
       fileSystemAdministratorsGroup:
           json['FileSystemAdministratorsGroup'] as String?,
@@ -11910,7 +11902,7 @@ class Snapshot {
   factory Snapshot.fromJson(Map<String, dynamic> json) {
     return Snapshot(
       administrativeActions: (json['AdministrativeActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -11924,7 +11916,7 @@ class Snapshot {
       resourceARN: json['ResourceARN'] as String?,
       snapshotId: json['SnapshotId'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeId: json['VolumeId'] as String?,
@@ -12173,7 +12165,7 @@ class StorageVirtualMachine {
       subtype: (json['Subtype'] as String?)
           ?.let(StorageVirtualMachineSubtype.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       uuid: json['UUID'] as String?,
@@ -12369,7 +12361,7 @@ class SvmEndpoint {
     return SvmEndpoint(
       dNSName: json['DNSName'] as String?,
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -13641,7 +13633,7 @@ class Volume {
   factory Volume.fromJson(Map<String, dynamic> json) {
     return Volume(
       administrativeActions: (json['AdministrativeActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -13663,7 +13655,7 @@ class Volume {
           : null,
       resourceARN: json['ResourceARN'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeId: json['VolumeId'] as String?,
@@ -14153,7 +14145,7 @@ class WindowsFileSystemConfiguration {
     return WindowsFileSystemConfiguration(
       activeDirectoryId: json['ActiveDirectoryId'] as String?,
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
       auditLogConfiguration: json['AuditLogConfiguration'] != null
@@ -14173,7 +14165,7 @@ class WindowsFileSystemConfiguration {
           : null,
       maintenanceOperationsInProgress: (json['MaintenanceOperationsInProgress']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileSystemMaintenanceOperation.fromString((e as String)))
           .toList(),
       preferredFileServerIp: json['PreferredFileServerIp'] as String?,

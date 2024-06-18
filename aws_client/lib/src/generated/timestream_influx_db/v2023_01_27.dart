@@ -662,7 +662,7 @@ class CreateDbInstanceOutput {
       id: json['id'] as String,
       name: json['name'] as String,
       vpcSubnetIds: (json['vpcSubnetIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
@@ -685,7 +685,7 @@ class CreateDbInstanceOutput {
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
       status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1040,7 +1040,7 @@ class DeleteDbInstanceOutput {
       id: json['id'] as String,
       name: json['name'] as String,
       vpcSubnetIds: (json['vpcSubnetIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
@@ -1063,7 +1063,7 @@ class DeleteDbInstanceOutput {
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
       status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1214,7 +1214,7 @@ class GetDbInstanceOutput {
       id: json['id'] as String,
       name: json['name'] as String,
       vpcSubnetIds: (json['vpcSubnetIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
@@ -1237,7 +1237,7 @@ class GetDbInstanceOutput {
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
       status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1446,7 +1446,7 @@ class ListDbInstancesOutput {
   factory ListDbInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListDbInstancesOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DbInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1479,7 +1479,7 @@ class ListDbParameterGroupsOutput {
   factory ListDbParameterGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListDbParameterGroupsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               DbParameterGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1736,7 +1736,7 @@ class UpdateDbInstanceOutput {
       id: json['id'] as String,
       name: json['name'] as String,
       vpcSubnetIds: (json['vpcSubnetIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
@@ -1759,7 +1759,7 @@ class UpdateDbInstanceOutput {
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
       status: (json['status'] as String?)?.let(Status.fromString),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

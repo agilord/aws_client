@@ -125,7 +125,7 @@ class Categories {
   factory Categories.fromJson(Map<String, dynamic> json) {
     return Categories(
       matchedCategories: (json['MatchedCategories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       matchedDetails: (json['MatchedDetails'] as Map<String, dynamic>).map(
@@ -156,7 +156,7 @@ class CategoryDetails {
   factory CategoryDetails.fromJson(Map<String, dynamic> json) {
     return CategoryDetails(
       pointsOfInterest: (json['PointsOfInterest'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PointOfInterest.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -258,7 +258,7 @@ class ListRealtimeContactAnalysisSegmentsResponse {
       Map<String, dynamic> json) {
     return ListRealtimeContactAnalysisSegmentsResponse(
       segments: (json['Segments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RealtimeContactAnalysisSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -403,7 +403,7 @@ class Transcript {
       participantRole: json['ParticipantRole'] as String,
       sentiment: SentimentValue.fromString((json['Sentiment'] as String)),
       issuesDetected: (json['IssuesDetected'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

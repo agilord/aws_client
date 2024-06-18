@@ -1830,7 +1830,7 @@ class DescribeMappedResourceConfigurationOutput {
     return DescribeMappedResourceConfigurationOutput(
       mappedResourceConfigurationList:
           (json['MappedResourceConfigurationList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => MappedResourceConfigurationListItem.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2058,7 +2058,7 @@ class GetSignalingChannelEndpointOutput {
       Map<String, dynamic> json) {
     return GetSignalingChannelEndpointOutput(
       resourceEndpointList: (json['ResourceEndpointList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceEndpointListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2349,7 +2349,7 @@ class ListEdgeAgentConfigurationsOutput {
       Map<String, dynamic> json) {
     return ListEdgeAgentConfigurationsOutput(
       edgeConfigs: (json['EdgeConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListEdgeAgentConfigurationsEdgeConfig.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2374,7 +2374,7 @@ class ListSignalingChannelsOutput {
   factory ListSignalingChannelsOutput.fromJson(Map<String, dynamic> json) {
     return ListSignalingChannelsOutput(
       channelInfoList: (json['ChannelInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2399,7 +2399,7 @@ class ListStreamsOutput {
     return ListStreamsOutput(
       nextToken: json['NextToken'] as String?,
       streamInfoList: (json['StreamInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

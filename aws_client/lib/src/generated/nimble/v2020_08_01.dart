@@ -2363,7 +2363,7 @@ class AcceptEulasResponse {
   factory AcceptEulasResponse.fromJson(Map<String, dynamic> json) {
     return AcceptEulasResponse(
       eulaAcceptances: (json['eulaAcceptances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EulaAcceptance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2431,7 +2431,7 @@ class ActiveDirectoryConfiguration {
   factory ActiveDirectoryConfiguration.fromJson(Map<String, dynamic> json) {
     return ActiveDirectoryConfiguration(
       computerAttributes: (json['computerAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveDirectoryComputerAttribute.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2948,11 +2948,11 @@ class GetLaunchProfileDetailsResponse {
               json['launchProfile'] as Map<String, dynamic>)
           : null,
       streamingImages: (json['streamingImages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamingImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       studioComponentSummaries: (json['studioComponentSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => StudioComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3315,13 +3315,13 @@ class LaunchProfile {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       ec2SubnetIds: (json['ec2SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       launchProfileId: json['launchProfileId'] as String?,
       launchProfileProtocolVersions:
           (json['launchProfileProtocolVersions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       name: json['name'] as String?,
@@ -3334,7 +3334,7 @@ class LaunchProfile {
               json['streamConfiguration'] as Map<String, dynamic>)
           : null,
       studioComponentIds: (json['studioComponentIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3342,7 +3342,7 @@ class LaunchProfile {
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
       validationResults: (json['validationResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3444,7 +3444,7 @@ class LaunchProfileInitialization {
               json['activeDirectory'] as Map<String, dynamic>)
           : null,
       ec2SecurityGroupIds: (json['ec2SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       launchProfileId: json['launchProfileId'] as String?,
@@ -3456,12 +3456,12 @@ class LaunchProfileInitialization {
           (json['platform'] as String?)?.let(LaunchProfilePlatform.fromString),
       systemInitializationScripts:
           (json['systemInitializationScripts'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => LaunchProfileInitializationScript.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       userInitializationScripts: (json['userInitializationScripts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchProfileInitializationScript.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3535,14 +3535,14 @@ class LaunchProfileInitializationActiveDirectory {
       Map<String, dynamic> json) {
     return LaunchProfileInitializationActiveDirectory(
       computerAttributes: (json['computerAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveDirectoryComputerAttribute.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       directoryId: json['directoryId'] as String?,
       directoryName: json['directoryName'] as String?,
       dnsIpAddresses: (json['dnsIpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       organizationalUnitDistinguishedName:
@@ -3891,7 +3891,7 @@ class ListEulaAcceptancesResponse {
   factory ListEulaAcceptancesResponse.fromJson(Map<String, dynamic> json) {
     return ListEulaAcceptancesResponse(
       eulaAcceptances: (json['eulaAcceptances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EulaAcceptance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3923,7 +3923,7 @@ class ListEulasResponse {
   factory ListEulasResponse.fromJson(Map<String, dynamic> json) {
     return ListEulasResponse(
       eulas: (json['eulas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Eula.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3955,7 +3955,7 @@ class ListLaunchProfileMembersResponse {
   factory ListLaunchProfileMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListLaunchProfileMembersResponse(
       members: (json['members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LaunchProfileMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3988,7 +3988,7 @@ class ListLaunchProfilesResponse {
   factory ListLaunchProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListLaunchProfilesResponse(
       launchProfiles: (json['launchProfiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4021,7 +4021,7 @@ class ListStreamingImagesResponse {
     return ListStreamingImagesResponse(
       nextToken: json['nextToken'] as String?,
       streamingImages: (json['streamingImages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamingImage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4054,7 +4054,7 @@ class ListStreamingSessionBackupsResponse {
     return ListStreamingSessionBackupsResponse(
       nextToken: json['nextToken'] as String?,
       streamingSessionBackups: (json['streamingSessionBackups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => StreamingSessionBackup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4088,7 +4088,7 @@ class ListStreamingSessionsResponse {
     return ListStreamingSessionsResponse(
       nextToken: json['nextToken'] as String?,
       sessions: (json['sessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamingSession.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4120,7 +4120,7 @@ class ListStudioComponentsResponse {
     return ListStudioComponentsResponse(
       nextToken: json['nextToken'] as String?,
       studioComponents: (json['studioComponents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StudioComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4151,7 +4151,7 @@ class ListStudioMembersResponse {
   factory ListStudioMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListStudioMembersResponse(
       members: (json['members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StudioMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4183,7 +4183,7 @@ class ListStudiosResponse {
   factory ListStudiosResponse.fromJson(Map<String, dynamic> json) {
     return ListStudiosResponse(
       studios: (json['studios'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Studio.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4575,11 +4575,11 @@ class StreamConfiguration {
       clipboardMode:
           StreamingClipboardMode.fromString((json['clipboardMode'] as String)),
       ec2InstanceTypes: (json['ec2InstanceTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamingInstanceType.fromString((e as String)))
           .toList(),
       streamingImageIds: (json['streamingImageIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       automaticTerminationMode: (json['automaticTerminationMode'] as String?)
@@ -4817,7 +4817,7 @@ class StreamConfigurationSessionStorage {
       Map<String, dynamic> json) {
     return StreamConfigurationSessionStorage(
       mode: (json['mode'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamingSessionStorageMode.fromString((e as String)))
           .toList(),
       root: json['root'] != null
@@ -4933,10 +4933,8 @@ class StreamingImage {
           ? StreamingImageEncryptionConfiguration.fromJson(
               json['encryptionConfiguration'] as Map<String, dynamic>)
           : null,
-      eulaIds: (json['eulaIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      eulaIds:
+          (json['eulaIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       name: json['name'] as String?,
       owner: json['owner'] as String?,
       platform: json['platform'] as String?,
@@ -5931,18 +5929,18 @@ class StudioComponent {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       ec2SecurityGroupIds: (json['ec2SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       initializationScripts: (json['initializationScripts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StudioComponentInitializationScript.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       runtimeRoleArn: json['runtimeRoleArn'] as String?,
       scriptParameters: (json['scriptParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ScriptParameterKeyValue.fromJson(e as Map<String, dynamic>))
           .toList(),

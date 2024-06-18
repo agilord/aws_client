@@ -2140,7 +2140,7 @@ class ListDICOMImportJobsResponse {
   factory ListDICOMImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDICOMImportJobsResponse(
       jobSummaries: (json['jobSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DICOMImportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2173,7 +2173,7 @@ class ListDatastoresResponse {
   factory ListDatastoresResponse.fromJson(Map<String, dynamic> json) {
     return ListDatastoresResponse(
       datastoreSummaries: (json['datastoreSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatastoreSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2206,7 +2206,7 @@ class ListImageSetVersionsResponse {
   factory ListImageSetVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListImageSetVersionsResponse(
       imageSetPropertiesList: (json['imageSetPropertiesList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImageSetProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2407,7 +2407,7 @@ class SearchImageSetsResponse {
   factory SearchImageSetsResponse.fromJson(Map<String, dynamic> json) {
     return SearchImageSetsResponse(
       imageSetsMetadataSummaries: (json['imageSetsMetadataSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ImageSetsMetadataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

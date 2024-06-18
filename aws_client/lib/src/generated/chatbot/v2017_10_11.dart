@@ -1206,14 +1206,14 @@ class ChimeWebhookConfiguration {
       chatConfigurationArn: json['ChatConfigurationArn'] as String,
       iamRoleArn: json['IamRoleArn'] as String,
       snsTopicArns: (json['SnsTopicArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       webhookDescription: json['WebhookDescription'] as String,
       configurationName: json['ConfigurationName'] as String?,
       loggingLevel: json['LoggingLevel'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1470,7 +1470,7 @@ class DescribeChimeWebhookConfigurationsResult {
     return DescribeChimeWebhookConfigurationsResult(
       nextToken: json['NextToken'] as String?,
       webhookConfigurations: (json['WebhookConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChimeWebhookConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1508,7 +1508,7 @@ class DescribeSlackChannelConfigurationsResult {
     return DescribeSlackChannelConfigurationsResult(
       nextToken: json['NextToken'] as String?,
       slackChannelConfigurations: (json['SlackChannelConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SlackChannelConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1546,7 +1546,7 @@ class DescribeSlackUserIdentitiesResult {
     return DescribeSlackUserIdentitiesResult(
       nextToken: json['NextToken'] as String?,
       slackUserIdentities: (json['SlackUserIdentities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlackUserIdentity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1582,7 +1582,7 @@ class DescribeSlackWorkspacesResult {
     return DescribeSlackWorkspacesResult(
       nextToken: json['NextToken'] as String?,
       slackWorkspaces: (json['SlackWorkspaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlackWorkspace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1670,7 +1670,7 @@ class ListMicrosoftTeamsConfiguredTeamsResult {
       Map<String, dynamic> json) {
     return ListMicrosoftTeamsConfiguredTeamsResult(
       configuredTeams: (json['ConfiguredTeams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfiguredTeam.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1707,7 +1707,7 @@ class ListMicrosoftTeamsUserIdentitiesResult {
     return ListMicrosoftTeamsUserIdentitiesResult(
       nextToken: json['NextToken'] as String?,
       teamsUserIdentities: (json['TeamsUserIdentities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TeamsUserIdentity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1735,7 +1735,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1769,7 +1769,7 @@ class ListTeamsChannelConfigurationsResult {
     return ListTeamsChannelConfigurationsResult(
       nextToken: json['NextToken'] as String?,
       teamChannelConfigurations: (json['TeamChannelConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TeamsChannelConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1855,17 +1855,17 @@ class SlackChannelConfiguration {
       slackTeamId: json['SlackTeamId'] as String,
       slackTeamName: json['SlackTeamName'] as String,
       snsTopicArns: (json['SnsTopicArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       configurationName: json['ConfigurationName'] as String?,
       guardrailPolicyArns: (json['GuardrailPolicyArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       loggingLevel: json['LoggingLevel'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       userAuthorizationRequired: json['UserAuthorizationRequired'] as bool?,
@@ -2101,7 +2101,7 @@ class TeamsChannelConfiguration {
       chatConfigurationArn: json['ChatConfigurationArn'] as String,
       iamRoleArn: json['IamRoleArn'] as String,
       snsTopicArns: (json['SnsTopicArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       teamId: json['TeamId'] as String,
@@ -2109,12 +2109,12 @@ class TeamsChannelConfiguration {
       channelName: json['ChannelName'] as String?,
       configurationName: json['ConfigurationName'] as String?,
       guardrailPolicyArns: (json['GuardrailPolicyArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       loggingLevel: json['LoggingLevel'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       teamName: json['TeamName'] as String?,

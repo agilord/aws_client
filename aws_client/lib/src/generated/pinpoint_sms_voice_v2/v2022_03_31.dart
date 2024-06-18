@@ -4766,7 +4766,7 @@ class ConfigurationSetInformation {
       createdTimestamp:
           nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
       eventDestinations: (json['EventDestinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       defaultMessageType:
@@ -4826,7 +4826,7 @@ class CreateConfigurationSetResult {
       configurationSetName: json['ConfigurationSetName'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4917,7 +4917,7 @@ class CreateOptOutListResult {
       optOutListArn: json['OptOutListArn'] as String?,
       optOutListName: json['OptOutListName'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5029,7 +5029,7 @@ class CreatePoolResult {
       sharedRoutesEnabled: json['SharedRoutesEnabled'] as bool?,
       status: (json['Status'] as String?)?.let(PoolStatus.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
@@ -5114,7 +5114,7 @@ class CreateProtectConfigurationResult {
       protectConfigurationArn: json['ProtectConfigurationArn'] as String,
       protectConfigurationId: json['ProtectConfigurationId'] as String,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5265,7 +5265,7 @@ class CreateRegistrationAttachmentResult {
       registrationAttachmentArn: json['RegistrationAttachmentArn'] as String,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5374,7 +5374,7 @@ class CreateRegistrationResult {
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5542,7 +5542,7 @@ class CreateVerifiedDestinationNumberResult {
       verifiedDestinationNumberId:
           json['VerifiedDestinationNumberId'] as String,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5637,7 +5637,7 @@ class DeleteConfigurationSetResult {
           (json['DefaultMessageType'] as String?)?.let(MessageType.fromString),
       defaultSenderId: json['DefaultSenderId'] as String?,
       eventDestinations: (json['EventDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6234,7 +6234,7 @@ class DeleteRegistrationFieldValueResult {
       versionNumber: json['VersionNumber'] as int,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       textValue: json['TextValue'] as String?,
@@ -6493,7 +6493,7 @@ class DescribeAccountAttributesResult {
   factory DescribeAccountAttributesResult.fromJson(Map<String, dynamic> json) {
     return DescribeAccountAttributesResult(
       accountAttributes: (json['AccountAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6526,7 +6526,7 @@ class DescribeAccountLimitsResult {
   factory DescribeAccountLimitsResult.fromJson(Map<String, dynamic> json) {
     return DescribeAccountLimitsResult(
       accountLimits: (json['AccountLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6559,7 +6559,7 @@ class DescribeConfigurationSetsResult {
   factory DescribeConfigurationSetsResult.fromJson(Map<String, dynamic> json) {
     return DescribeConfigurationSetsResult(
       configurationSets: (json['ConfigurationSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurationSetInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6602,7 +6602,7 @@ class DescribeKeywordsResult {
   factory DescribeKeywordsResult.fromJson(Map<String, dynamic> json) {
     return DescribeKeywordsResult(
       keywords: (json['Keywords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeywordInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6645,7 +6645,7 @@ class DescribeOptOutListsResult {
     return DescribeOptOutListsResult(
       nextToken: json['NextToken'] as String?,
       optOutLists: (json['OptOutLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OptOutListInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6689,7 +6689,7 @@ class DescribeOptedOutNumbersResult {
       optOutListArn: json['OptOutListArn'] as String?,
       optOutListName: json['OptOutListName'] as String?,
       optedOutNumbers: (json['OptedOutNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OptedOutNumberInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6728,7 +6728,7 @@ class DescribePhoneNumbersResult {
     return DescribePhoneNumbersResult(
       nextToken: json['NextToken'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PhoneNumberInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6763,7 +6763,7 @@ class DescribePoolsResult {
     return DescribePoolsResult(
       nextToken: json['NextToken'] as String?,
       pools: (json['Pools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PoolInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6798,7 +6798,7 @@ class DescribeProtectConfigurationsResult {
     return DescribeProtectConfigurationsResult(
       nextToken: json['NextToken'] as String?,
       protectConfigurations: (json['ProtectConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProtectConfigurationInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6834,7 +6834,7 @@ class DescribeRegistrationAttachmentsResult {
       Map<String, dynamic> json) {
     return DescribeRegistrationAttachmentsResult(
       registrationAttachments: (json['RegistrationAttachments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RegistrationAttachmentsInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6876,7 +6876,7 @@ class DescribeRegistrationFieldDefinitionsResult {
     return DescribeRegistrationFieldDefinitionsResult(
       registrationFieldDefinitions: (json['RegistrationFieldDefinitions']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RegistrationFieldDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6928,7 +6928,7 @@ class DescribeRegistrationFieldValuesResult {
     return DescribeRegistrationFieldValuesResult(
       registrationArn: json['RegistrationArn'] as String,
       registrationFieldValues: (json['RegistrationFieldValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RegistrationFieldValueInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6977,7 +6977,7 @@ class DescribeRegistrationSectionDefinitionsResult {
     return DescribeRegistrationSectionDefinitionsResult(
       registrationSectionDefinitions: (json['RegistrationSectionDefinitions']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RegistrationSectionDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7016,7 +7016,7 @@ class DescribeRegistrationTypeDefinitionsResult {
       Map<String, dynamic> json) {
     return DescribeRegistrationTypeDefinitionsResult(
       registrationTypeDefinitions: (json['RegistrationTypeDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RegistrationTypeDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7061,7 +7061,7 @@ class DescribeRegistrationVersionsResult {
       registrationArn: json['RegistrationArn'] as String,
       registrationId: json['RegistrationId'] as String,
       registrationVersions: (json['RegistrationVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RegistrationVersionInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7099,7 +7099,7 @@ class DescribeRegistrationsResult {
   factory DescribeRegistrationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeRegistrationsResult(
       registrations: (json['Registrations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RegistrationInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7135,7 +7135,7 @@ class DescribeSenderIdsResult {
     return DescribeSenderIdsResult(
       nextToken: json['NextToken'] as String?,
       senderIds: (json['SenderIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SenderIdInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7169,7 +7169,7 @@ class DescribeSpendLimitsResult {
     return DescribeSpendLimitsResult(
       nextToken: json['NextToken'] as String?,
       spendLimits: (json['SpendLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpendLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7202,7 +7202,7 @@ class DescribeVerifiedDestinationNumbersResult {
       Map<String, dynamic> json) {
     return DescribeVerifiedDestinationNumbersResult(
       verifiedDestinationNumbers: (json['VerifiedDestinationNumbers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VerifiedDestinationNumberInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7464,7 +7464,7 @@ class EventDestination {
       enabled: json['Enabled'] as bool,
       eventDestinationName: json['EventDestinationName'] as String,
       matchingEventTypes: (json['MatchingEventTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
       cloudWatchLogsDestination: json['CloudWatchLogsDestination'] != null
@@ -7822,7 +7822,7 @@ class ListPoolOriginationIdentitiesResult {
     return ListPoolOriginationIdentitiesResult(
       nextToken: json['NextToken'] as String?,
       originationIdentities: (json['OriginationIdentities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OriginationIdentityMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7877,7 +7877,7 @@ class ListRegistrationAssociationsResult {
     return ListRegistrationAssociationsResult(
       registrationArn: json['RegistrationArn'] as String,
       registrationAssociations: (json['RegistrationAssociations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RegistrationAssociationMetadata.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7919,7 +7919,7 @@ class ListTagsForResourceResult {
     return ListTagsForResourceResult(
       resourceArn: json['ResourceArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8146,7 +8146,7 @@ class OriginationIdentityMetadata {
     return OriginationIdentityMetadata(
       isoCountryCode: json['IsoCountryCode'] as String,
       numberCapabilities: (json['NumberCapabilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       originationIdentity: json['OriginationIdentity'] as String,
@@ -8318,7 +8318,7 @@ class PhoneNumberInformation {
       messageType: MessageType.fromString((json['MessageType'] as String)),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
       numberCapabilities: (json['NumberCapabilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       numberType: NumberType.fromString((json['NumberType'] as String)),
@@ -8876,7 +8876,7 @@ class PutRegistrationFieldValueResult {
       versionNumber: json['VersionNumber'] as int,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       textValue: json['TextValue'] as String?,
@@ -9315,7 +9315,7 @@ class RegistrationFieldDisplayHints {
       exampleTextValue: json['ExampleTextValue'] as String?,
       longDescription: json['LongDescription'] as String?,
       selectOptionDescriptions: (json['SelectOptionDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SelectOptionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9380,7 +9380,7 @@ class RegistrationFieldValueInformation {
       deniedReason: json['DeniedReason'] as String?,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       textValue: json['TextValue'] as String?,
@@ -9692,7 +9692,7 @@ class RegistrationTypeDefinition {
           json['DisplayHints'] as Map<String, dynamic>),
       registrationType: json['RegistrationType'] as String,
       supportedAssociations: (json['SupportedAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9902,7 +9902,7 @@ class RegistrationVersionInformation {
               json['RegistrationVersionStatusHistory'] as Map<String, dynamic>),
       versionNumber: json['VersionNumber'] as int,
       deniedReasons: (json['DeniedReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegistrationDeniedReasonInformation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10119,7 +10119,7 @@ class ReleasePhoneNumberResult {
           (json['MessageType'] as String?)?.let(MessageType.fromString),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String?,
       numberCapabilities: (json['NumberCapabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       numberType: (json['NumberType'] as String?)?.let(NumberType.fromString),
@@ -10217,7 +10217,7 @@ class ReleaseSenderIdResult {
     return ReleaseSenderIdResult(
       isoCountryCode: json['IsoCountryCode'] as String,
       messageTypes: (json['MessageTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
@@ -10352,7 +10352,7 @@ class RequestPhoneNumberResult {
           (json['MessageType'] as String?)?.let(MessageType.fromString),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String?,
       numberCapabilities: (json['NumberCapabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       numberType: (json['NumberType'] as String?)
@@ -10366,7 +10366,7 @@ class RequestPhoneNumberResult {
       selfManagedOptOutsEnabled: json['SelfManagedOptOutsEnabled'] as bool?,
       status: (json['Status'] as String?)?.let(NumberStatus.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
@@ -10469,7 +10469,7 @@ class RequestSenderIdResult {
       deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
       isoCountryCode: json['IsoCountryCode'] as String,
       messageTypes: (json['MessageTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
@@ -10477,7 +10477,7 @@ class RequestSenderIdResult {
       senderId: json['SenderId'] as String,
       senderIdArn: json['SenderIdArn'] as String,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10580,10 +10580,8 @@ class SelectValidation {
     return SelectValidation(
       maxChoices: json['MaxChoices'] as int,
       minChoices: json['MinChoices'] as int,
-      options: (json['Options'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      options:
+          (json['Options'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10804,7 +10802,7 @@ class SenderIdInformation {
       deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
       isoCountryCode: json['IsoCountryCode'] as String,
       messageTypes: (json['MessageTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
@@ -11501,7 +11499,7 @@ class UpdatePhoneNumberResult {
           (json['MessageType'] as String?)?.let(MessageType.fromString),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String?,
       numberCapabilities: (json['NumberCapabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       numberType: (json['NumberType'] as String?)?.let(NumberType.fromString),
@@ -11824,7 +11822,7 @@ class UpdateSenderIdResult {
       deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
       isoCountryCode: json['IsoCountryCode'] as String,
       messageTypes: (json['MessageTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
       monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,

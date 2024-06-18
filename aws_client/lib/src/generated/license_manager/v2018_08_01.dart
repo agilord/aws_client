@@ -2907,11 +2907,11 @@ class CheckoutBorrowLicenseResponse {
   factory CheckoutBorrowLicenseResponse.fromJson(Map<String, dynamic> json) {
     return CheckoutBorrowLicenseResponse(
       checkoutMetadata: (json['CheckoutMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       entitlementsAllowed: (json['EntitlementsAllowed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitlementData.fromJson(e as Map<String, dynamic>))
           .toList(),
       expiration: json['Expiration'] as String?,
@@ -2988,7 +2988,7 @@ class CheckoutLicenseResponse {
       checkoutType:
           (json['CheckoutType'] as String?)?.let(CheckoutType.fromString),
       entitlementsAllowed: (json['EntitlementsAllowed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitlementData.fromJson(e as Map<String, dynamic>))
           .toList(),
       expiration: json['Expiration'] as String?,
@@ -3917,7 +3917,7 @@ class GetLicenseConfigurationResponse {
                   json['AutomatedDiscoveryInformation'] as Map<String, dynamic>)
               : null,
       consumedLicenseSummaryList: (json['ConsumedLicenseSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ConsumedLicenseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3931,23 +3931,23 @@ class GetLicenseConfigurationResponse {
       licenseCountingType: (json['LicenseCountingType'] as String?)
           ?.let(LicenseCountingType.fromString),
       licenseRules: (json['LicenseRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       managedResourceSummaryList: (json['ManagedResourceSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       productInformationList: (json['ProductInformationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProductInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['Status'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4283,7 +4283,7 @@ class Grant {
       grantName: json['GrantName'] as String,
       grantStatus: GrantStatus.fromString((json['GrantStatus'] as String)),
       grantedOperations: (json['GrantedOperations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AllowedOperation.fromString((e as String)))
           .toList(),
       granteePrincipalArn: json['GranteePrincipalArn'] as String,
@@ -4422,7 +4422,7 @@ class GrantedLicense {
           : null,
       createTime: json['CreateTime'] as String?,
       entitlements: (json['Entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       homeRegion: json['HomeRegion'] as String?,
@@ -4431,7 +4431,7 @@ class GrantedLicense {
           : null,
       licenseArn: json['LicenseArn'] as String?,
       licenseMetadata: (json['LicenseMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       licenseName: json['LicenseName'] as String?,
@@ -4667,7 +4667,7 @@ class License {
           : null,
       createTime: json['CreateTime'] as String?,
       entitlements: (json['Entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       homeRegion: json['HomeRegion'] as String?,
@@ -4676,7 +4676,7 @@ class License {
           : null,
       licenseArn: json['LicenseArn'] as String?,
       licenseMetadata: (json['LicenseMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       licenseName: json['LicenseName'] as String?,
@@ -4807,7 +4807,7 @@ class LicenseConfiguration {
                   json['AutomatedDiscoveryInformation'] as Map<String, dynamic>)
               : null,
       consumedLicenseSummaryList: (json['ConsumedLicenseSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ConsumedLicenseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4821,18 +4821,18 @@ class LicenseConfiguration {
       licenseCountingType: (json['LicenseCountingType'] as String?)
           ?.let(LicenseCountingType.fromString),
       licenseRules: (json['LicenseRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       managedResourceSummaryList: (json['ManagedResourceSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       productInformationList: (json['ProductInformationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProductInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['Status'] as String?,
@@ -5226,7 +5226,7 @@ class LicenseOperationFailure {
       errorMessage: json['ErrorMessage'] as String?,
       failureTime: timeStampFromJson(json['FailureTime']),
       metadataList: (json['MetadataList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Metadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       operationName: json['OperationName'] as String?,
@@ -5324,7 +5324,7 @@ class LicenseUsage {
   factory LicenseUsage.fromJson(Map<String, dynamic> json) {
     return LicenseUsage(
       entitlementUsages: (json['EntitlementUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitlementUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5355,7 +5355,7 @@ class ListAssociationsForLicenseConfigurationResponse {
     return ListAssociationsForLicenseConfigurationResponse(
       licenseConfigurationAssociations:
           (json['LicenseConfigurationAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => LicenseConfigurationAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5390,7 +5390,7 @@ class ListDistributedGrantsResponse {
   factory ListDistributedGrantsResponse.fromJson(Map<String, dynamic> json) {
     return ListDistributedGrantsResponse(
       grants: (json['Grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Grant.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5424,7 +5424,7 @@ class ListFailuresForLicenseConfigurationOperationsResponse {
     return ListFailuresForLicenseConfigurationOperationsResponse(
       licenseOperationFailureList:
           (json['LicenseOperationFailureList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   LicenseOperationFailure.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -5459,7 +5459,7 @@ class ListLicenseConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListLicenseConfigurationsResponse(
       licenseConfigurations: (json['LicenseConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5493,7 +5493,7 @@ class ListLicenseConversionTasksResponse {
       Map<String, dynamic> json) {
     return ListLicenseConversionTasksResponse(
       licenseConversionTasks: (json['LicenseConversionTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseConversionTask.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5529,7 +5529,7 @@ class ListLicenseManagerReportGeneratorsResponse {
     return ListLicenseManagerReportGeneratorsResponse(
       nextToken: json['NextToken'] as String?,
       reportGenerators: (json['ReportGenerators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportGenerator.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5561,7 +5561,7 @@ class ListLicenseSpecificationsForResourceResponse {
       Map<String, dynamic> json) {
     return ListLicenseSpecificationsForResourceResponse(
       licenseSpecifications: (json['LicenseSpecifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5594,7 +5594,7 @@ class ListLicenseVersionsResponse {
   factory ListLicenseVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListLicenseVersionsResponse(
       licenses: (json['Licenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => License.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5626,7 +5626,7 @@ class ListLicensesResponse {
   factory ListLicensesResponse.fromJson(Map<String, dynamic> json) {
     return ListLicensesResponse(
       licenses: (json['Licenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => License.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5659,7 +5659,7 @@ class ListReceivedGrantsForOrganizationResponse {
       Map<String, dynamic> json) {
     return ListReceivedGrantsForOrganizationResponse(
       grants: (json['Grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Grant.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5691,7 +5691,7 @@ class ListReceivedGrantsResponse {
   factory ListReceivedGrantsResponse.fromJson(Map<String, dynamic> json) {
     return ListReceivedGrantsResponse(
       grants: (json['Grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Grant.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5724,7 +5724,7 @@ class ListReceivedLicensesForOrganizationResponse {
       Map<String, dynamic> json) {
     return ListReceivedLicensesForOrganizationResponse(
       licenses: (json['Licenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantedLicense.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5756,7 +5756,7 @@ class ListReceivedLicensesResponse {
   factory ListReceivedLicensesResponse.fromJson(Map<String, dynamic> json) {
     return ListReceivedLicensesResponse(
       licenses: (json['Licenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantedLicense.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5789,7 +5789,7 @@ class ListResourceInventoryResponse {
     return ListResourceInventoryResponse(
       nextToken: json['NextToken'] as String?,
       resourceInventoryList: (json['ResourceInventoryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceInventory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5817,7 +5817,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5847,7 +5847,7 @@ class ListTokensResponse {
     return ListTokensResponse(
       nextToken: json['NextToken'] as String?,
       tokens: (json['Tokens'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TokenData.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5880,7 +5880,7 @@ class ListUsageForLicenseConfigurationResponse {
     return ListUsageForLicenseConfigurationResponse(
       licenseConfigurationUsageList:
           (json['LicenseConfigurationUsageList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   LicenseConfigurationUsage.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -6129,7 +6129,7 @@ class ProductInformation {
     return ProductInformation(
       productInformationFilterList:
           (json['ProductInformationFilterList'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) =>
                   ProductInformationFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -6172,7 +6172,7 @@ class ProductInformationFilter {
           json['ProductInformationFilterName'] as String,
       productInformationFilterValue:
           (json['ProductInformationFilterValue'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
     );
@@ -6235,7 +6235,7 @@ class ReceivedMetadata {
   factory ReceivedMetadata.fromJson(Map<String, dynamic> json) {
     return ReceivedMetadata(
       allowedOperations: (json['AllowedOperations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AllowedOperation.fromString((e as String)))
           .toList(),
       receivedStatus:
@@ -6343,7 +6343,7 @@ class ReportContext {
   factory ReportContext.fromJson(Map<String, dynamic> json) {
     return ReportContext(
       licenseConfigurationArns: (json['licenseConfigurationArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6482,14 +6482,14 @@ class ReportGenerator {
           : null,
       reportGeneratorName: json['ReportGeneratorName'] as String?,
       reportType: (json['ReportType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportType.fromString((e as String)))
           .toList(),
       s3Location: json['S3Location'] != null
           ? S3Location.fromJson(json['S3Location'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6737,13 +6737,13 @@ class TokenData {
       expirationTime: json['ExpirationTime'] as String?,
       licenseArn: json['LicenseArn'] as String?,
       roleArns: (json['RoleArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: json['Status'] as String?,
       tokenId: json['TokenId'] as String?,
       tokenProperties: (json['TokenProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tokenType: json['TokenType'] as String?,

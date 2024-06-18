@@ -5032,11 +5032,11 @@ class BackupPlan {
     return BackupPlan(
       backupPlanName: json['BackupPlanName'] as String,
       rules: (json['Rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BackupRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5184,7 +5184,7 @@ class BackupPlansListMember {
   factory BackupPlansListMember.fromJson(Map<String, dynamic> json) {
     return BackupPlansListMember(
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       backupPlanArn: json['BackupPlanArn'] as String?,
@@ -5324,7 +5324,7 @@ class BackupRule {
       targetBackupVaultName: json['TargetBackupVaultName'] as String,
       completionWindowMinutes: json['CompletionWindowMinutes'] as int?,
       copyActions: (json['CopyActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CopyAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       enableContinuousBackup: json['EnableContinuousBackup'] as bool?,
@@ -5575,15 +5575,15 @@ class BackupSelection {
           ? Conditions.fromJson(json['Conditions'] as Map<String, dynamic>)
           : null,
       listOfTags: (json['ListOfTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
       notResources: (json['NotResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6034,19 +6034,19 @@ class Conditions {
   factory Conditions.fromJson(Map<String, dynamic> json) {
     return Conditions(
       stringEquals: (json['StringEquals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       stringLike: (json['StringLike'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       stringNotEquals: (json['StringNotEquals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       stringNotLike: (json['StringNotLike'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6136,11 +6136,11 @@ class ControlScope {
   factory ControlScope.fromJson(Map<String, dynamic> json) {
     return ControlScope(
       complianceResourceIds: (json['ComplianceResourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       complianceResourceTypes: (json['ComplianceResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -6583,7 +6583,7 @@ class CreateBackupPlanOutput {
   factory CreateBackupPlanOutput.fromJson(Map<String, dynamic> json) {
     return CreateBackupPlanOutput(
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       backupPlanArn: json['BackupPlanArn'] as String?,
@@ -7577,7 +7577,7 @@ class DescribeFrameworkOutput {
       deploymentStatus: json['DeploymentStatus'] as String?,
       frameworkArn: json['FrameworkArn'] as String?,
       frameworkControls: (json['FrameworkControls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FrameworkControl.fromJson(e as Map<String, dynamic>))
           .toList(),
       frameworkDescription: json['FrameworkDescription'] as String?,
@@ -8433,7 +8433,7 @@ class FrameworkControl {
     return FrameworkControl(
       controlName: json['ControlName'] as String,
       controlInputParameters: (json['ControlInputParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ControlInputParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       controlScope: json['ControlScope'] != null
@@ -8565,7 +8565,7 @@ class GetBackupPlanOutput {
   factory GetBackupPlanOutput.fromJson(Map<String, dynamic> json) {
     return GetBackupPlanOutput(
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       backupPlan: json['BackupPlan'] != null
@@ -8743,7 +8743,7 @@ class GetBackupVaultNotificationsOutput {
     return GetBackupVaultNotificationsOutput(
       backupVaultArn: json['BackupVaultArn'] as String?,
       backupVaultEvents: (json['BackupVaultEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupVaultEvent.fromString((e as String)))
           .toList(),
       backupVaultName: json['BackupVaultName'] as String?,
@@ -9057,7 +9057,7 @@ class GetSupportedResourceTypesOutput {
   factory GetSupportedResourceTypesOutput.fromJson(Map<String, dynamic> json) {
     return GetSupportedResourceTypesOutput(
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9302,7 +9302,7 @@ class ListBackupJobSummariesOutput {
     return ListBackupJobSummariesOutput(
       aggregationPeriod: json['AggregationPeriod'] as String?,
       backupJobSummaries: (json['BackupJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9340,7 +9340,7 @@ class ListBackupJobsOutput {
   factory ListBackupJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupJobsOutput(
       backupJobs: (json['BackupJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9376,7 +9376,7 @@ class ListBackupPlanTemplatesOutput {
   factory ListBackupPlanTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupPlanTemplatesOutput(
       backupPlanTemplatesList: (json['BackupPlanTemplatesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BackupPlanTemplatesListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9413,7 +9413,7 @@ class ListBackupPlanVersionsOutput {
   factory ListBackupPlanVersionsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupPlanVersionsOutput(
       backupPlanVersionsList: (json['BackupPlanVersionsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9450,7 +9450,7 @@ class ListBackupPlansOutput {
   factory ListBackupPlansOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupPlansOutput(
       backupPlansList: (json['BackupPlansList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupPlansListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9486,7 +9486,7 @@ class ListBackupSelectionsOutput {
   factory ListBackupSelectionsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupSelectionsOutput(
       backupSelectionsList: (json['BackupSelectionsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BackupSelectionsListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9526,7 +9526,7 @@ class ListBackupVaultsOutput {
   factory ListBackupVaultsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupVaultsOutput(
       backupVaultList: (json['BackupVaultList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupVaultListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9580,7 +9580,7 @@ class ListCopyJobSummariesOutput {
     return ListCopyJobSummariesOutput(
       aggregationPeriod: json['AggregationPeriod'] as String?,
       copyJobSummaries: (json['CopyJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CopyJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9618,7 +9618,7 @@ class ListCopyJobsOutput {
   factory ListCopyJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListCopyJobsOutput(
       copyJobs: (json['CopyJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CopyJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9653,7 +9653,7 @@ class ListFrameworksOutput {
   factory ListFrameworksOutput.fromJson(Map<String, dynamic> json) {
     return ListFrameworksOutput(
       frameworks: (json['Frameworks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Framework.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9688,7 +9688,7 @@ class ListLegalHoldsOutput {
   factory ListLegalHoldsOutput.fromJson(Map<String, dynamic> json) {
     return ListLegalHoldsOutput(
       legalHolds: (json['LegalHolds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LegalHold.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -9726,7 +9726,7 @@ class ListProtectedResourcesByBackupVaultOutput {
     return ListProtectedResourcesByBackupVaultOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProtectedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9763,7 +9763,7 @@ class ListProtectedResourcesOutput {
     return ListProtectedResourcesOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProtectedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9800,7 +9800,7 @@ class ListRecoveryPointsByBackupVaultOutput {
     return ListRecoveryPointsByBackupVaultOutput(
       nextToken: json['NextToken'] as String?,
       recoveryPoints: (json['RecoveryPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecoveryPointByBackupVault.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9835,7 +9835,7 @@ class ListRecoveryPointsByLegalHoldOutput {
     return ListRecoveryPointsByLegalHoldOutput(
       nextToken: json['NextToken'] as String?,
       recoveryPoints: (json['RecoveryPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryPointMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9875,7 +9875,7 @@ class ListRecoveryPointsByResourceOutput {
     return ListRecoveryPointsByResourceOutput(
       nextToken: json['NextToken'] as String?,
       recoveryPoints: (json['RecoveryPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecoveryPointByResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9909,7 +9909,7 @@ class ListReportJobsOutput {
     return ListReportJobsOutput(
       nextToken: json['NextToken'] as String?,
       reportJobs: (json['ReportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportJob.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9945,7 +9945,7 @@ class ListReportPlansOutput {
     return ListReportPlansOutput(
       nextToken: json['NextToken'] as String?,
       reportPlans: (json['ReportPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportPlan.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9999,7 +9999,7 @@ class ListRestoreJobSummariesOutput {
       aggregationPeriod: json['AggregationPeriod'] as String?,
       nextToken: json['NextToken'] as String?,
       restoreJobSummaries: (json['RestoreJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RestoreJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10039,7 +10039,7 @@ class ListRestoreJobsByProtectedResourceOutput {
     return ListRestoreJobsByProtectedResourceOutput(
       nextToken: json['NextToken'] as String?,
       restoreJobs: (json['RestoreJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10075,7 +10075,7 @@ class ListRestoreJobsOutput {
     return ListRestoreJobsOutput(
       nextToken: json['NextToken'] as String?,
       restoreJobs: (json['RestoreJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RestoreJobsListMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10109,7 +10109,7 @@ class ListRestoreTestingPlansOutput {
   factory ListRestoreTestingPlansOutput.fromJson(Map<String, dynamic> json) {
     return ListRestoreTestingPlansOutput(
       restoreTestingPlans: (json['RestoreTestingPlans'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RestoreTestingPlanForList.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10147,7 +10147,7 @@ class ListRestoreTestingSelectionsOutput {
       Map<String, dynamic> json) {
     return ListRestoreTestingSelectionsOutput(
       restoreTestingSelections: (json['RestoreTestingSelections'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RestoreTestingSelectionForList.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10290,11 +10290,11 @@ class ProtectedResourceConditions {
   factory ProtectedResourceConditions.fromJson(Map<String, dynamic> json) {
     return ProtectedResourceConditions(
       stringEquals: (json['StringEquals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       stringNotEquals: (json['StringNotEquals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10787,11 +10787,11 @@ class RecoveryPointSelection {
           ? DateRange.fromJson(json['DateRange'] as Map<String, dynamic>)
           : null,
       resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vaultNames: (json['VaultNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10853,10 +10853,8 @@ class ReportDeliveryChannel {
   factory ReportDeliveryChannel.fromJson(Map<String, dynamic> json) {
     return ReportDeliveryChannel(
       s3BucketName: json['S3BucketName'] as String,
-      formats: (json['Formats'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      formats:
+          (json['Formats'] as List?)?.nonNulls.map((e) => e as String).toList(),
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
     );
   }
@@ -10889,10 +10887,8 @@ class ReportDestination {
   factory ReportDestination.fromJson(Map<String, dynamic> json) {
     return ReportDestination(
       s3BucketName: json['S3BucketName'] as String?,
-      s3Keys: (json['S3Keys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      s3Keys:
+          (json['S3Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -11162,22 +11158,20 @@ class ReportSetting {
     return ReportSetting(
       reportTemplate: json['ReportTemplate'] as String,
       accounts: (json['Accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       frameworkArns: (json['FrameworkArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       numberOfFrameworks: json['NumberOfFrameworks'] as int?,
       organizationUnits: (json['OrganizationUnits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      regions: (json['Regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['Regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -11892,15 +11886,15 @@ class RestoreTestingRecoveryPointSelection {
       algorithm: (json['Algorithm'] as String?)
           ?.let(RestoreTestingRecoveryPointSelectionAlgorithm.fromString),
       excludeVaults: (json['ExcludeVaults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includeVaults: (json['IncludeVaults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       recoveryPointTypes: (json['RecoveryPointTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RestoreTestingRecoveryPointType.fromString((e as String)))
           .toList(),
       selectionWindowDays: json['SelectionWindowDays'] as int?,
@@ -12170,7 +12164,7 @@ class RestoreTestingSelectionForGet {
           json['RestoreTestingSelectionName'] as String,
       creatorRequestId: json['CreatorRequestId'] as String?,
       protectedResourceArns: (json['ProtectedResourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       protectedResourceConditions: json['ProtectedResourceConditions'] != null
@@ -12557,7 +12551,7 @@ class UpdateBackupPlanOutput {
   factory UpdateBackupPlanOutput.fromJson(Map<String, dynamic> json) {
     return UpdateBackupPlanOutput(
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       backupPlanArn: json['BackupPlanArn'] as String?,

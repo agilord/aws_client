@@ -1289,11 +1289,11 @@ class BatchCheckLayerAvailabilityResponse {
       Map<String, dynamic> json) {
     return BatchCheckLayerAvailabilityResponse(
       failures: (json['failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LayerFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
       layers: (json['layers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Layer.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1324,11 +1324,11 @@ class BatchDeleteImageResponse {
   factory BatchDeleteImageResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteImageResponse(
       failures: (json['failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImageFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageIds: (json['imageIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImageIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1499,7 +1499,7 @@ class DescribeImageTagsResponse {
   factory DescribeImageTagsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeImageTagsResponse(
       imageTagDetails: (json['imageTagDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImageTagDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1535,7 +1535,7 @@ class DescribeImagesResponse {
   factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeImagesResponse(
       imageDetails: (json['imageDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1571,7 +1571,7 @@ class DescribeRegistriesResponse {
   factory DescribeRegistriesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRegistriesResponse(
       registries: (json['registries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Registry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1608,7 +1608,7 @@ class DescribeRepositoriesResponse {
     return DescribeRepositoriesResponse(
       nextToken: json['nextToken'] as String?,
       repositories: (json['repositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Repository.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1848,7 +1848,7 @@ class ImageDetail {
       imagePushedAt: timeStampFromJson(json['imagePushedAt']),
       imageSizeInBytes: json['imageSizeInBytes'] as int?,
       imageTags: (json['imageTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       registryId: json['registryId'] as String?,
@@ -2167,7 +2167,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2350,7 +2350,7 @@ class Registry {
   factory Registry.fromJson(Map<String, dynamic> json) {
     return Registry(
       aliases: (json['aliases'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RegistryAlias.fromJson(e as Map<String, dynamic>))
           .toList(),
       registryArn: json['registryArn'] as String,
@@ -2584,14 +2584,14 @@ class RepositoryCatalogData {
     return RepositoryCatalogData(
       aboutText: json['aboutText'] as String?,
       architectures: (json['architectures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
       logoUrl: json['logoUrl'] as String?,
       marketplaceCertified: json['marketplaceCertified'] as bool?,
       operatingSystems: (json['operatingSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       usageText: json['usageText'] as String?,

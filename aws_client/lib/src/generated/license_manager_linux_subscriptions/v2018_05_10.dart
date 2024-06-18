@@ -309,7 +309,7 @@ class GetServiceSettingsResponse {
   factory GetServiceSettingsResponse.fromJson(Map<String, dynamic> json) {
     return GetServiceSettingsResponse(
       homeRegions: (json['HomeRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       linuxSubscriptionsDiscovery:
@@ -406,7 +406,7 @@ class Instance {
       instanceType: json['InstanceType'] as String?,
       lastUpdatedTime: json['LastUpdatedTime'] as String?,
       productCode: (json['ProductCode'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       region: json['Region'] as String?,
@@ -477,7 +477,7 @@ class LinuxSubscriptionsDiscoverySettings {
       organizationIntegration: OrganizationIntegration.fromString(
           (json['OrganizationIntegration'] as String)),
       sourceRegions: (json['SourceRegions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -509,7 +509,7 @@ class ListLinuxSubscriptionInstancesResponse {
       Map<String, dynamic> json) {
     return ListLinuxSubscriptionInstancesResponse(
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Instance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -542,7 +542,7 @@ class ListLinuxSubscriptionsResponse {
     return ListLinuxSubscriptionsResponse(
       nextToken: json['NextToken'] as String?,
       subscriptions: (json['Subscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -677,7 +677,7 @@ class UpdateServiceSettingsResponse {
   factory UpdateServiceSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateServiceSettingsResponse(
       homeRegions: (json['HomeRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       linuxSubscriptionsDiscovery:

@@ -4508,11 +4508,11 @@ class Contact {
       lastName: json['LastName'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       sipAddresses: (json['SipAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4582,11 +4582,11 @@ class ContactData {
       lastName: json['LastName'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       sipAddresses: (json['SipAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5599,7 +5599,7 @@ class DeviceStatusInfo {
       connectionStatusUpdatedTime:
           timeStampFromJson(json['ConnectionStatusUpdatedTime']),
       deviceStatusDetails: (json['DeviceStatusDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5765,7 +5765,7 @@ class EndOfMeetingReminder {
     return EndOfMeetingReminder(
       enabled: json['Enabled'] as bool?,
       reminderAtMinutes: (json['ReminderAtMinutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       reminderType: (json['ReminderType'] as String?)
@@ -6248,7 +6248,7 @@ class GetInvitationConfigurationResponse {
       contactEmail: json['ContactEmail'] as String?,
       organizationName: json['OrganizationName'] as String?,
       privateSkillIds: (json['PrivateSkillIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6468,7 +6468,7 @@ class ListBusinessReportSchedulesResponse {
       Map<String, dynamic> json) {
     return ListBusinessReportSchedulesResponse(
       businessReportSchedules: (json['BusinessReportSchedules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BusinessReportSchedule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6502,7 +6502,7 @@ class ListConferenceProvidersResponse {
   factory ListConferenceProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListConferenceProvidersResponse(
       conferenceProviders: (json['ConferenceProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConferenceProvider.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6535,7 +6535,7 @@ class ListDeviceEventsResponse {
   factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceEventsResponse(
       deviceEvents: (json['DeviceEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6567,7 +6567,7 @@ class ListGatewayGroupsResponse {
   factory ListGatewayGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewayGroupsResponse(
       gatewayGroups: (json['GatewayGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GatewayGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6599,7 +6599,7 @@ class ListGatewaysResponse {
   factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewaysResponse(
       gateways: (json['Gateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GatewaySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6632,7 +6632,7 @@ class ListSkillsResponse {
     return ListSkillsResponse(
       nextToken: json['NextToken'] as String?,
       skillSummaries: (json['SkillSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SkillSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6664,7 +6664,7 @@ class ListSkillsStoreCategoriesResponse {
       Map<String, dynamic> json) {
     return ListSkillsStoreCategoriesResponse(
       categoryList: (json['CategoryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6698,7 +6698,7 @@ class ListSkillsStoreSkillsByCategoryResponse {
     return ListSkillsStoreSkillsByCategoryResponse(
       nextToken: json['NextToken'] as String?,
       skillsStoreSkills: (json['SkillsStoreSkills'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SkillsStoreSkill.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6730,7 +6730,7 @@ class ListSmartHomeAppliancesResponse {
     return ListSmartHomeAppliancesResponse(
       nextToken: json['NextToken'] as String?,
       smartHomeAppliances: (json['SmartHomeAppliances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SmartHomeAppliance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6763,7 +6763,7 @@ class ListTagsResponse {
     return ListTagsResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6972,7 +6972,7 @@ class NetworkProfile {
           ?.let(NetworkSecurityType.fromString),
       ssid: json['Ssid'] as String?,
       trustAnchors: (json['TrustAnchors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7552,7 +7552,7 @@ class ResolveRoomResponse {
       roomArn: json['RoomArn'] as String?,
       roomName: json['RoomName'] as String?,
       roomSkillParameters: (json['RoomSkillParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RoomSkillParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7743,7 +7743,7 @@ class SearchAddressBooksResponse {
   factory SearchAddressBooksResponse.fromJson(Map<String, dynamic> json) {
     return SearchAddressBooksResponse(
       addressBooks: (json['AddressBooks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddressBookData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7782,7 +7782,7 @@ class SearchContactsResponse {
   factory SearchContactsResponse.fromJson(Map<String, dynamic> json) {
     return SearchContactsResponse(
       contacts: (json['Contacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContactData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7821,7 +7821,7 @@ class SearchDevicesResponse {
   factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) {
     return SearchDevicesResponse(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7864,7 +7864,7 @@ class SearchNetworkProfilesResponse {
   factory SearchNetworkProfilesResponse.fromJson(Map<String, dynamic> json) {
     return SearchNetworkProfilesResponse(
       networkProfiles: (json['NetworkProfiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkProfileData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7904,7 +7904,7 @@ class SearchProfilesResponse {
     return SearchProfilesResponse(
       nextToken: json['NextToken'] as String?,
       profiles: (json['Profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalCount: json['TotalCount'] as int?,
@@ -7943,7 +7943,7 @@ class SearchRoomsResponse {
     return SearchRoomsResponse(
       nextToken: json['NextToken'] as String?,
       rooms: (json['Rooms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RoomData.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalCount: json['TotalCount'] as int?,
@@ -7982,7 +7982,7 @@ class SearchSkillGroupsResponse {
     return SearchSkillGroupsResponse(
       nextToken: json['NextToken'] as String?,
       skillGroups: (json['SkillGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SkillGroupData.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalCount: json['TotalCount'] as int?,
@@ -8022,7 +8022,7 @@ class SearchUsersResponse {
       nextToken: json['NextToken'] as String?,
       totalCount: json['TotalCount'] as int?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserData.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8168,7 +8168,7 @@ class SkillDetails {
   factory SkillDetails.fromJson(Map<String, dynamic> json) {
     return SkillDetails(
       bulletPoints: (json['BulletPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       developerInfo: json['DeveloperInfo'] != null
@@ -8177,13 +8177,13 @@ class SkillDetails {
           : null,
       endUserLicenseAgreement: json['EndUserLicenseAgreement'] as String?,
       genericKeywords: (json['GenericKeywords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       invocationPhrase: json['InvocationPhrase'] as String?,
       newInThisVersionBulletPoints:
           (json['NewInThisVersionBulletPoints'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       productDescription: json['ProductDescription'] as String?,
@@ -8191,7 +8191,7 @@ class SkillDetails {
       reviews: (json['Reviews'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       skillTypes: (json['SkillTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8419,7 +8419,7 @@ class SkillsStoreSkill {
     return SkillsStoreSkill(
       iconUrl: json['IconUrl'] as String?,
       sampleUtterances: (json['SampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       shortDescription: json['ShortDescription'] as String?,

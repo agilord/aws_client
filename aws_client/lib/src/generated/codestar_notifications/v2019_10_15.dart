@@ -743,7 +743,7 @@ class DescribeNotificationRuleResult {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       detailType: (json['DetailType'] as String?)?.let(DetailType.fromString),
       eventTypes: (json['EventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastModifiedTimestamp: timeStampFromJson(json['LastModifiedTimestamp']),
@@ -754,7 +754,7 @@ class DescribeNotificationRuleResult {
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targets: (json['Targets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -908,7 +908,7 @@ class ListEventTypesResult {
   factory ListEventTypesResult.fromJson(Map<String, dynamic> json) {
     return ListEventTypesResult(
       eventTypes: (json['EventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -988,7 +988,7 @@ class ListNotificationRulesResult {
     return ListNotificationRulesResult(
       nextToken: json['NextToken'] as String?,
       notificationRules: (json['NotificationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1091,7 +1091,7 @@ class ListTargetsResult {
     return ListTargetsResult(
       nextToken: json['NextToken'] as String?,
       targets: (json['Targets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -444,7 +444,7 @@ class Page {
     return Page(
       nextPageToken: json['NextPageToken'] as String?,
       values: (json['Values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValueHolder.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -2569,7 +2569,7 @@ class ChildShard {
       hashKeyRange:
           HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
       parentShards: (json['ParentShards'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       shardId: json['ShardId'] as String,
@@ -2899,7 +2899,7 @@ class EnhancedMetrics {
   factory EnhancedMetrics.fromJson(Map<String, dynamic> json) {
     return EnhancedMetrics(
       shardLevelMetrics: (json['ShardLevelMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricsName.fromString((e as String)))
           .toList(),
     );
@@ -2941,11 +2941,11 @@ class EnhancedMonitoringOutput {
   factory EnhancedMonitoringOutput.fromJson(Map<String, dynamic> json) {
     return EnhancedMonitoringOutput(
       currentShardLevelMetrics: (json['CurrentShardLevelMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricsName.fromString((e as String)))
           .toList(),
       desiredShardLevelMetrics: (json['DesiredShardLevelMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricsName.fromString((e as String)))
           .toList(),
       streamARN: json['StreamARN'] as String?,
@@ -3002,11 +3002,11 @@ class GetRecordsOutput {
   factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
     return GetRecordsOutput(
       records: (json['Records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
       childShards: (json['ChildShards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChildShard.fromJson(e as Map<String, dynamic>))
           .toList(),
       millisBehindLatest: json['MillisBehindLatest'] as int?,
@@ -3139,7 +3139,7 @@ class ListShardsOutput {
     return ListShardsOutput(
       nextToken: json['NextToken'] as String?,
       shards: (json['Shards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3186,7 +3186,7 @@ class ListStreamConsumersOutput {
   factory ListStreamConsumersOutput.fromJson(Map<String, dynamic> json) {
     return ListStreamConsumersOutput(
       consumers: (json['Consumers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Consumer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3229,12 +3229,12 @@ class ListStreamsOutput {
     return ListStreamsOutput(
       hasMoreStreams: json['HasMoreStreams'] as bool,
       streamNames: (json['StreamNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
       streamSummaries: (json['StreamSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3275,7 +3275,7 @@ class ListTagsForStreamOutput {
     return ListTagsForStreamOutput(
       hasMoreTags: json['HasMoreTags'] as bool,
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3399,7 +3399,7 @@ class PutRecordsOutput {
   factory PutRecordsOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordsOutput(
       records: (json['Records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PutRecordsResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryptionType:
@@ -3934,13 +3934,13 @@ class StreamDescription {
   factory StreamDescription.fromJson(Map<String, dynamic> json) {
     return StreamDescription(
       enhancedMonitoring: (json['EnhancedMonitoring'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasMoreShards: json['HasMoreShards'] as bool,
       retentionPeriodHours: json['RetentionPeriodHours'] as int,
       shards: (json['Shards'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
       streamARN: json['StreamARN'] as String,
@@ -4099,7 +4099,7 @@ class StreamDescriptionSummary {
   factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
     return StreamDescriptionSummary(
       enhancedMonitoring: (json['EnhancedMonitoring'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
           .toList(),
       openShardCount: json['OpenShardCount'] as int,

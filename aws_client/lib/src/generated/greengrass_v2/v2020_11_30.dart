@@ -1505,7 +1505,7 @@ class BatchAssociateClientDeviceWithCoreDeviceResponse {
       Map<String, dynamic> json) {
     return BatchAssociateClientDeviceWithCoreDeviceResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociateClientDeviceWithCoreDeviceErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1533,7 +1533,7 @@ class BatchDisassociateClientDeviceFromCoreDeviceResponse {
       Map<String, dynamic> json) {
     return BatchDisassociateClientDeviceFromCoreDeviceResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DisassociateClientDeviceFromCoreDeviceErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1780,10 +1780,8 @@ class ComponentConfigurationUpdate {
   factory ComponentConfigurationUpdate.fromJson(Map<String, dynamic> json) {
     return ComponentConfigurationUpdate(
       merge: json['merge'] as String?,
-      reset: (json['reset'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      reset:
+          (json['reset'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1945,7 +1943,7 @@ class ComponentLatestVersion {
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       description: json['description'] as String?,
       platforms: (json['platforms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentPlatform.fromJson(e as Map<String, dynamic>))
           .toList(),
       publisher: json['publisher'] as String?,
@@ -2750,7 +2748,7 @@ class DescribeComponentResponse {
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       description: json['description'] as String?,
       platforms: (json['platforms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentPlatform.fromJson(e as Map<String, dynamic>))
           .toList(),
       publisher: json['publisher'] as String?,
@@ -3060,11 +3058,11 @@ class EffectiveDeploymentStatusDetails {
   factory EffectiveDeploymentStatusDetails.fromJson(Map<String, dynamic> json) {
     return EffectiveDeploymentStatusDetails(
       errorStack: (json['errorStack'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       errorTypes: (json['errorTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3159,7 +3157,7 @@ class GetConnectivityInfoResponse {
   factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectivityInfoResponse(
       connectivityInfo: (json['ConnectivityInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectivityInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       message: json['Message'] as String?,
@@ -3512,7 +3510,7 @@ class InstalledComponent {
           ?.let(InstalledComponentLifecycleState.fromString),
       lifecycleStateDetails: json['lifecycleStateDetails'] as String?,
       lifecycleStatusCodes: (json['lifecycleStatusCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3612,7 +3610,7 @@ class IoTJobAbortConfig {
   factory IoTJobAbortConfig.fromJson(Map<String, dynamic> json) {
     return IoTJobAbortConfig(
       criteriaList: (json['criteriaList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IoTJobAbortCriteria.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4294,7 +4292,7 @@ class ListClientDevicesAssociatedWithCoreDeviceResponse {
       Map<String, dynamic> json) {
     return ListClientDevicesAssociatedWithCoreDeviceResponse(
       associatedClientDevices: (json['associatedClientDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AssociatedClientDevice.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4329,7 +4327,7 @@ class ListComponentVersionsResponse {
   factory ListComponentVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentVersionsResponse(
       componentVersions: (json['componentVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ComponentVersionListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4363,7 +4361,7 @@ class ListComponentsResponse {
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
       components: (json['components'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Component.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4396,7 +4394,7 @@ class ListCoreDevicesResponse {
   factory ListCoreDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListCoreDevicesResponse(
       coreDevices: (json['coreDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CoreDevice.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4429,7 +4427,7 @@ class ListDeploymentsResponse {
   factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsResponse(
       deployments: (json['deployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4462,7 +4460,7 @@ class ListEffectiveDeploymentsResponse {
   factory ListEffectiveDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListEffectiveDeploymentsResponse(
       effectiveDeployments: (json['effectiveDeployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EffectiveDeployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4506,7 +4504,7 @@ class ListInstalledComponentsResponse {
   factory ListInstalledComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListInstalledComponentsResponse(
       installedComponents: (json['installedComponents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstalledComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4579,7 +4577,7 @@ class ResolveComponentCandidatesResponse {
       Map<String, dynamic> json) {
     return ResolveComponentCandidatesResponse(
       resolvedComponentVersions: (json['resolvedComponentVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResolvedComponentVersion.fromJson(e as Map<String, dynamic>))
           .toList(),

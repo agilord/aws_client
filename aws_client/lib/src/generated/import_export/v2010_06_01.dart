@@ -410,9 +410,8 @@ class CreateJobOutput {
       artifactList: _s.extractXmlChild(elem, 'ArtifactList')?.let(
           (elem) => elem.findElements('member').map(Artifact.fromXml).toList()),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s
-          .extractXmlStringValue(elem, 'JobType')
-          ?.let(JobType.fromString) /* Nullability(true, true) */,
+      jobType:
+          _s.extractXmlStringValue(elem, 'JobType')?.let(JobType.fromString),
       signature: _s.extractXmlStringValue(elem, 'Signature'),
       signatureFileContents:
           _s.extractXmlStringValue(elem, 'SignatureFileContents'),
@@ -554,9 +553,8 @@ class GetStatusOutput {
       currentManifest: _s.extractXmlStringValue(elem, 'CurrentManifest'),
       errorCount: _s.extractXmlIntValue(elem, 'ErrorCount'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s
-          .extractXmlStringValue(elem, 'JobType')
-          ?.let(JobType.fromString) /* Nullability(true, true) */,
+      jobType:
+          _s.extractXmlStringValue(elem, 'JobType')?.let(JobType.fromString),
       locationCode: _s.extractXmlStringValue(elem, 'LocationCode'),
       locationMessage: _s.extractXmlStringValue(elem, 'LocationMessage'),
       logBucket: _s.extractXmlStringValue(elem, 'LogBucket'),
@@ -797,9 +795,8 @@ class Job {
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       isCanceled: _s.extractXmlBoolValue(elem, 'IsCanceled'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      jobType: _s
-          .extractXmlStringValue(elem, 'JobType')
-          ?.let(JobType.fromString) /* Nullability(true, true) */,
+      jobType:
+          _s.extractXmlStringValue(elem, 'JobType')?.let(JobType.fromString),
     );
   }
 

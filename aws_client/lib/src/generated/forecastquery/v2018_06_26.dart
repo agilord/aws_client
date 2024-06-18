@@ -258,7 +258,7 @@ class Forecast {
           MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
                   .toList())),
     );

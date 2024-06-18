@@ -1868,7 +1868,7 @@ class DiscoverInstancesResponse {
   factory DiscoverInstancesResponse.fromJson(Map<String, dynamic> json) {
     return DiscoverInstancesResponse(
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       instancesRevision: json['InstancesRevision'] as int?,
@@ -1985,7 +1985,7 @@ class DnsConfig {
   factory DnsConfig.fromJson(Map<String, dynamic> json) {
     return DnsConfig(
       dnsRecords: (json['DnsRecords'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespaceId: json['NamespaceId'] as String?,
@@ -3007,7 +3007,7 @@ class ListInstancesResponse {
   factory ListInstancesResponse.fromJson(Map<String, dynamic> json) {
     return ListInstancesResponse(
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3050,7 +3050,7 @@ class ListNamespacesResponse {
   factory ListNamespacesResponse.fromJson(Map<String, dynamic> json) {
     return ListNamespacesResponse(
       namespaces: (json['Namespaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NamespaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3093,7 +3093,7 @@ class ListOperationsResponse {
     return ListOperationsResponse(
       nextToken: json['NextToken'] as String?,
       operations: (json['Operations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3136,7 +3136,7 @@ class ListServicesResponse {
     return ListServicesResponse(
       nextToken: json['NextToken'] as String?,
       services: (json['Services'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3163,7 +3163,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -6186,7 +6186,7 @@ class ActivatedRule {
           ? WafAction.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
       excludedRules: (json['ExcludedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       overrideAction: json['OverrideAction'] != null
@@ -6281,7 +6281,7 @@ class ByteMatchSet {
     return ByteMatchSet(
       byteMatchSetId: json['ByteMatchSetId'] as String,
       byteMatchTuples: (json['ByteMatchTuples'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ByteMatchTuple.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -8000,7 +8000,7 @@ class GeoMatchSet {
   factory GeoMatchSet.fromJson(Map<String, dynamic> json) {
     return GeoMatchSet(
       geoMatchConstraints: (json['GeoMatchConstraints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
       geoMatchSetId: json['GeoMatchSetId'] as String,
@@ -8322,7 +8322,7 @@ class GetRateBasedRuleManagedKeysResponse {
       Map<String, dynamic> json) {
     return GetRateBasedRuleManagedKeysResponse(
       managedKeys: (json['ManagedKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -8510,7 +8510,7 @@ class GetSampledRequestsResponse {
     return GetSampledRequestsResponse(
       populationSize: json['PopulationSize'] as int?,
       sampledRequests: (json['SampledRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeWindow: json['TimeWindow'] != null
@@ -8850,7 +8850,7 @@ class HTTPRequest {
       country: json['Country'] as String?,
       hTTPVersion: json['HTTPVersion'] as String?,
       headers: (json['Headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       method: json['Method'] as String?,
@@ -8931,7 +8931,7 @@ class IPSet {
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
       iPSetDescriptors: (json['IPSetDescriptors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IPSetDescriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
       iPSetId: json['IPSetId'] as String,
@@ -9140,7 +9140,7 @@ class ListActivatedRulesInRuleGroupResponse {
       Map<String, dynamic> json) {
     return ListActivatedRulesInRuleGroupResponse(
       activatedRules: (json['ActivatedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -9177,7 +9177,7 @@ class ListByteMatchSetsResponse {
   factory ListByteMatchSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListByteMatchSetsResponse(
       byteMatchSets: (json['ByteMatchSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -9214,7 +9214,7 @@ class ListGeoMatchSetsResponse {
   factory ListGeoMatchSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListGeoMatchSetsResponse(
       geoMatchSets: (json['GeoMatchSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -9248,7 +9248,7 @@ class ListIPSetsResponse {
   factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListIPSetsResponse(
       iPSets: (json['IPSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -9287,7 +9287,7 @@ class ListLoggingConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListLoggingConfigurationsResponse(
       loggingConfigurations: (json['LoggingConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -9326,7 +9326,7 @@ class ListRateBasedRulesResponse {
     return ListRateBasedRulesResponse(
       nextMarker: json['NextMarker'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9363,7 +9363,7 @@ class ListRegexMatchSetsResponse {
     return ListRegexMatchSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       regexMatchSets: (json['RegexMatchSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9400,7 +9400,7 @@ class ListRegexPatternSetsResponse {
     return ListRegexPatternSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       regexPatternSets: (json['RegexPatternSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9430,7 +9430,7 @@ class ListResourcesForWebACLResponse {
   factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) {
     return ListResourcesForWebACLResponse(
       resourceArns: (json['ResourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9465,7 +9465,7 @@ class ListRuleGroupsResponse {
     return ListRuleGroupsResponse(
       nextMarker: json['NextMarker'] as String?,
       ruleGroups: (json['RuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9502,7 +9502,7 @@ class ListRulesResponse {
     return ListRulesResponse(
       nextMarker: json['NextMarker'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9539,7 +9539,7 @@ class ListSizeConstraintSetsResponse {
     return ListSizeConstraintSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       sizeConstraintSets: (json['SizeConstraintSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9580,7 +9580,7 @@ class ListSqlInjectionMatchSetsResponse {
     return ListSqlInjectionMatchSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9619,7 +9619,7 @@ class ListSubscribedRuleGroupsResponse {
     return ListSubscribedRuleGroupsResponse(
       nextMarker: json['NextMarker'] as String?,
       ruleGroups: (json['RuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9689,7 +9689,7 @@ class ListWebACLsResponse {
     return ListWebACLsResponse(
       nextMarker: json['NextMarker'] as String?,
       webACLs: (json['WebACLs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9727,7 +9727,7 @@ class ListXssMatchSetsResponse {
     return ListXssMatchSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       xssMatchSets: (json['XssMatchSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9778,12 +9778,12 @@ class LoggingConfiguration {
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
       redactedFields: (json['RedactedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10052,7 +10052,7 @@ class RateBasedRule {
   factory RateBasedRule.fromJson(Map<String, dynamic> json) {
     return RateBasedRule(
       matchPredicates: (json['MatchPredicates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
       rateKey: RateKey.fromString((json['RateKey'] as String)),
@@ -10163,7 +10163,7 @@ class RegexMatchSet {
       name: json['Name'] as String?,
       regexMatchSetId: json['RegexMatchSetId'] as String?,
       regexMatchTuples: (json['RegexMatchTuples'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegexMatchTuple.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10493,7 +10493,7 @@ class RegexPatternSet {
     return RegexPatternSet(
       regexPatternSetId: json['RegexPatternSetId'] as String,
       regexPatternStrings: (json['RegexPatternStrings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -10685,7 +10685,7 @@ class Rule {
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       predicates: (json['Predicates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
       ruleId: json['RuleId'] as String,
@@ -11293,7 +11293,7 @@ class SizeConstraintSet {
     return SizeConstraintSet(
       sizeConstraintSetId: json['SizeConstraintSetId'] as String,
       sizeConstraints: (json['SizeConstraints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SizeConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -11457,7 +11457,7 @@ class SqlInjectionMatchSet {
     return SqlInjectionMatchSet(
       sqlInjectionMatchSetId: json['SqlInjectionMatchSetId'] as String,
       sqlInjectionMatchTuples: (json['SqlInjectionMatchTuples'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11857,7 +11857,7 @@ class TagInfoForResource {
     return TagInfoForResource(
       resourceARN: json['ResourceARN'] as String?,
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12493,7 +12493,7 @@ class WebACL {
       defaultAction:
           WafAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
       rules: (json['Rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       webACLId: json['WebACLId'] as String,
@@ -12658,7 +12658,7 @@ class XssMatchSet {
     return XssMatchSet(
       xssMatchSetId: json['XssMatchSetId'] as String,
       xssMatchTuples: (json['XssMatchTuples'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => XssMatchTuple.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,

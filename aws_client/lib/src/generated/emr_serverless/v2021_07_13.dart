@@ -963,7 +963,7 @@ class Application {
               json['networkConfiguration'] as Map<String, dynamic>)
           : null,
       runtimeConfiguration: (json['runtimeConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       stateDetails: json['stateDetails'] as String?,
@@ -1291,8 +1291,7 @@ class CloudWatchLoggingConfiguration {
       logGroupName: json['logGroupName'] as String?,
       logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
       logTypes: (json['logTypes'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -1338,7 +1337,7 @@ class Configuration {
     return Configuration(
       classification: json['classification'] as String,
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       properties: (json['properties'] as Map<String, dynamic>?)
@@ -1375,7 +1374,7 @@ class ConfigurationOverrides {
   factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) {
     return ConfigurationOverrides(
       applicationConfiguration: (json['applicationConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       monitoringConfiguration: json['monitoringConfiguration'] != null
@@ -2225,7 +2224,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applications: (json['applications'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2259,7 +2258,7 @@ class ListJobRunAttemptsResponse {
   factory ListJobRunAttemptsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunAttemptsResponse(
       jobRunAttempts: (json['jobRunAttempts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobRunAttemptSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2293,7 +2292,7 @@ class ListJobRunsResponse {
   factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunsResponse(
       jobRuns: (json['jobRuns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2490,11 +2489,11 @@ class NetworkConfiguration {
   factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkConfiguration(
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2662,7 +2661,7 @@ class SparkSubmit {
     return SparkSubmit(
       entryPoint: json['entryPoint'] as String,
       entryPointArguments: (json['entryPointArguments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sparkSubmitParameters: json['sparkSubmitParameters'] as String?,

@@ -2881,7 +2881,7 @@ class Action {
     return Action(
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(ActionTypeEnum.fromString) /* Nullability(true, false) */,
+          .let(ActionTypeEnum.fromString),
       authenticateCognitoConfig: _s
           .extractXmlChild(elem, 'AuthenticateCognitoConfig')
           ?.let(AuthenticateCognitoActionConfig.fromXml),
@@ -3054,11 +3054,10 @@ class AnomalyDetection {
     return AnomalyDetection(
       mitigationInEffect: _s
           .extractXmlStringValue(elem, 'MitigationInEffect')
-          ?.let(
-              MitigationInEffectEnum.fromString) /* Nullability(true, true) */,
+          ?.let(MitigationInEffectEnum.fromString),
       result: _s
           .extractXmlStringValue(elem, 'Result')
-          ?.let(AnomalyResultEnum.fromString) /* Nullability(true, true) */,
+          ?.let(AnomalyResultEnum.fromString),
     );
   }
 
@@ -3184,8 +3183,7 @@ class AuthenticateCognitoActionConfig {
       ),
       onUnauthenticatedRequest: _s
           .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.let(AuthenticateCognitoActionConditionalBehaviorEnum
-              .fromString) /* Nullability(true, true) */,
+          ?.let(AuthenticateCognitoActionConditionalBehaviorEnum.fromString),
       scope: _s.extractXmlStringValue(elem, 'Scope'),
       sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
       sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
@@ -3370,8 +3368,7 @@ class AuthenticateOidcActionConfig {
       clientSecret: _s.extractXmlStringValue(elem, 'ClientSecret'),
       onUnauthenticatedRequest: _s
           .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.let(AuthenticateOidcActionConditionalBehaviorEnum
-              .fromString) /* Nullability(true, true) */,
+          ?.let(AuthenticateOidcActionConditionalBehaviorEnum.fromString),
       scope: _s.extractXmlStringValue(elem, 'Scope'),
       sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
       sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
@@ -4150,7 +4147,7 @@ class DescribeTrustStoreRevocation {
       revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
       revocationType: _s
           .extractXmlStringValue(elem, 'RevocationType')
-          ?.let(RevocationType.fromString) /* Nullability(true, true) */,
+          ?.let(RevocationType.fromString),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
   }
@@ -4730,7 +4727,7 @@ class Listener {
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s
           .extractXmlStringValue(elem, 'Protocol')
-          ?.let(ProtocolEnum.fromString) /* Nullability(true, true) */,
+          ?.let(ProtocolEnum.fromString),
       sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
     );
   }
@@ -4858,18 +4855,19 @@ class LoadBalancer {
               elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'),
       ipAddressType: _s
           .extractXmlStringValue(elem, 'IpAddressType')
-          ?.let(IpAddressType.fromString) /* Nullability(true, true) */,
+          ?.let(IpAddressType.fromString),
       loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
-      scheme: _s.extractXmlStringValue(elem, 'Scheme')?.let(
-          LoadBalancerSchemeEnum.fromString) /* Nullability(true, true) */,
+      scheme: _s
+          .extractXmlStringValue(elem, 'Scheme')
+          ?.let(LoadBalancerSchemeEnum.fromString),
       securityGroups: _s
           .extractXmlChild(elem, 'SecurityGroups')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       state: _s.extractXmlChild(elem, 'State')?.let(LoadBalancerState.fromXml),
       type: _s
           .extractXmlStringValue(elem, 'Type')
-          ?.let(LoadBalancerTypeEnum.fromString) /* Nullability(true, true) */,
+          ?.let(LoadBalancerTypeEnum.fromString),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -5191,7 +5189,7 @@ class LoadBalancerState {
     return LoadBalancerState(
       code: _s
           .extractXmlStringValue(elem, 'Code')
-          ?.let(LoadBalancerStateEnum.fromString) /* Nullability(true, true) */,
+          ?.let(LoadBalancerStateEnum.fromString),
       reason: _s.extractXmlStringValue(elem, 'Reason'),
     );
   }
@@ -5714,9 +5712,9 @@ class RedirectActionConfig {
   });
   factory RedirectActionConfig.fromXml(_s.XmlElement elem) {
     return RedirectActionConfig(
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')!.let(
-          RedirectActionStatusCodeEnum
-              .fromString) /* Nullability(true, false) */,
+      statusCode: _s
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .let(RedirectActionStatusCodeEnum.fromString),
       host: _s.extractXmlStringValue(elem, 'Host'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       port: _s.extractXmlStringValue(elem, 'Port'),
@@ -6199,7 +6197,7 @@ class SetIpAddressTypeOutput {
     return SetIpAddressTypeOutput(
       ipAddressType: _s
           .extractXmlStringValue(elem, 'IpAddressType')
-          ?.let(IpAddressType.fromString) /* Nullability(true, true) */,
+          ?.let(IpAddressType.fromString),
     );
   }
 
@@ -6252,7 +6250,7 @@ class SetSecurityGroupsOutput {
           .extractXmlStringValue(
               elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic')
           ?.let(EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum
-              .fromString) /* Nullability(true, true) */,
+              .fromString),
       securityGroupIds: _s
           .extractXmlChild(elem, 'SecurityGroupIds')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -6296,7 +6294,7 @@ class SetSubnetsOutput {
               .toList()),
       ipAddressType: _s
           .extractXmlStringValue(elem, 'IpAddressType')
-          ?.let(IpAddressType.fromString) /* Nullability(true, true) */,
+          ?.let(IpAddressType.fromString),
     );
   }
 
@@ -6705,14 +6703,14 @@ class TargetGroup {
       healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
       healthCheckProtocol: _s
           .extractXmlStringValue(elem, 'HealthCheckProtocol')
-          ?.let(ProtocolEnum.fromString) /* Nullability(true, true) */,
+          ?.let(ProtocolEnum.fromString),
       healthCheckTimeoutSeconds:
           _s.extractXmlIntValue(elem, 'HealthCheckTimeoutSeconds'),
       healthyThresholdCount:
           _s.extractXmlIntValue(elem, 'HealthyThresholdCount'),
-      ipAddressType: _s.extractXmlStringValue(elem, 'IpAddressType')?.let(
-          TargetGroupIpAddressTypeEnum
-              .fromString) /* Nullability(true, true) */,
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(TargetGroupIpAddressTypeEnum.fromString),
       loadBalancerArns: _s
           .extractXmlChild(elem, 'LoadBalancerArns')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -6720,13 +6718,13 @@ class TargetGroup {
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s
           .extractXmlStringValue(elem, 'Protocol')
-          ?.let(ProtocolEnum.fromString) /* Nullability(true, true) */,
+          ?.let(ProtocolEnum.fromString),
       protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
       targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
       targetGroupName: _s.extractXmlStringValue(elem, 'TargetGroupName'),
       targetType: _s
           .extractXmlStringValue(elem, 'TargetType')
-          ?.let(TargetTypeEnum.fromString) /* Nullability(true, true) */,
+          ?.let(TargetTypeEnum.fromString),
       unhealthyThresholdCount:
           _s.extractXmlIntValue(elem, 'UnhealthyThresholdCount'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
@@ -7213,11 +7211,12 @@ class TargetHealth {
   factory TargetHealth.fromXml(_s.XmlElement elem) {
     return TargetHealth(
       description: _s.extractXmlStringValue(elem, 'Description'),
-      reason: _s.extractXmlStringValue(elem, 'Reason')?.let(
-          TargetHealthReasonEnum.fromString) /* Nullability(true, true) */,
+      reason: _s
+          .extractXmlStringValue(elem, 'Reason')
+          ?.let(TargetHealthReasonEnum.fromString),
       state: _s
           .extractXmlStringValue(elem, 'State')
-          ?.let(TargetHealthStateEnum.fromString) /* Nullability(true, true) */,
+          ?.let(TargetHealthStateEnum.fromString),
     );
   }
 
@@ -7377,7 +7376,7 @@ class TrustStore {
           _s.extractXmlIntValue(elem, 'NumberOfCaCertificates'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(TrustStoreStatus.fromString) /* Nullability(true, true) */,
+          ?.let(TrustStoreStatus.fromString),
       totalRevokedEntries: _s.extractXmlIntValue(elem, 'TotalRevokedEntries'),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
@@ -7450,7 +7449,7 @@ class TrustStoreRevocation {
       revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
       revocationType: _s
           .extractXmlStringValue(elem, 'RevocationType')
-          ?.let(RevocationType.fromString) /* Nullability(true, true) */,
+          ?.let(RevocationType.fromString),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
   }

@@ -2290,12 +2290,12 @@ class ArchiveFilters {
   factory ArchiveFilters.fromJson(Map<String, dynamic> json) {
     return ArchiveFilters(
       include: (json['Include'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ArchiveFilterCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       unless: (json['Unless'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ArchiveFilterCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2392,10 +2392,8 @@ class ArchiveStringExpression {
       evaluate: ArchiveStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
       operator: ArchiveStringOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3242,7 +3240,7 @@ class GetArchiveSearchResultsResponse {
   factory GetArchiveSearchResultsResponse.fromJson(Map<String, dynamic> json) {
     return GetArchiveSearchResultsResponse(
       rows: (json['Rows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3471,7 +3469,7 @@ class GetRuleSetResponse {
       ruleSetId: json['RuleSetId'] as String,
       ruleSetName: json['RuleSetName'] as String,
       rules: (json['Rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3542,7 +3540,7 @@ class GetTrafficPolicyResponse {
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       maxMessageSizeBytes: json['MaxMessageSizeBytes'] as int?,
       policyStatements: (json['PolicyStatements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyStatement.fromJson(e as Map<String, dynamic>))
           .toList(),
       trafficPolicyArn: json['TrafficPolicyArn'] as String?,
@@ -3755,10 +3753,8 @@ class IngressIpv4Expression {
       evaluate: IngressIpToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
       operator: IngressIpOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4018,10 +4014,8 @@ class IngressStringExpression {
       evaluate: IngressStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
       operator: IngressStringOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4207,7 +4201,7 @@ class ListAddonInstancesResponse {
   factory ListAddonInstancesResponse.fromJson(Map<String, dynamic> json) {
     return ListAddonInstancesResponse(
       addonInstances: (json['AddonInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddonInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4241,7 +4235,7 @@ class ListAddonSubscriptionsResponse {
   factory ListAddonSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAddonSubscriptionsResponse(
       addonSubscriptions: (json['AddonSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddonSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4274,7 +4268,7 @@ class ListArchiveExportsResponse {
   factory ListArchiveExportsResponse.fromJson(Map<String, dynamic> json) {
     return ListArchiveExportsResponse(
       exports: (json['Exports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4308,7 +4302,7 @@ class ListArchiveSearchesResponse {
     return ListArchiveSearchesResponse(
       nextToken: json['NextToken'] as String?,
       searches: (json['Searches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SearchSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4340,7 +4334,7 @@ class ListArchivesResponse {
   factory ListArchivesResponse.fromJson(Map<String, dynamic> json) {
     return ListArchivesResponse(
       archives: (json['Archives'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Archive.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4374,7 +4368,7 @@ class ListIngressPointsResponse {
   factory ListIngressPointsResponse.fromJson(Map<String, dynamic> json) {
     return ListIngressPointsResponse(
       ingressPoints: (json['IngressPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IngressPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4408,7 +4402,7 @@ class ListRelaysResponse {
   factory ListRelaysResponse.fromJson(Map<String, dynamic> json) {
     return ListRelaysResponse(
       relays: (json['Relays'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Relay.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4442,7 +4436,7 @@ class ListRuleSetsResponse {
   factory ListRuleSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleSetsResponse(
       ruleSets: (json['RuleSets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleSet.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4471,7 +4465,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4503,7 +4497,7 @@ class ListTrafficPoliciesResponse {
     return ListTrafficPoliciesResponse(
       nextToken: json['NextToken'] as String?,
       trafficPolicies: (json['TrafficPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TrafficPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4668,7 +4662,7 @@ class PolicyStatement {
     return PolicyStatement(
       action: AcceptAction.fromString((json['Action'] as String)),
       conditions: (json['Conditions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PolicyCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4819,7 +4813,7 @@ class ReplaceRecipientAction {
   factory ReplaceRecipientAction.fromJson(Map<String, dynamic> json) {
     return ReplaceRecipientAction(
       replaceWith: (json['ReplaceWith'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4933,7 +4927,7 @@ class Row {
       inReplyTo: json['InReplyTo'] as String?,
       messageId: json['MessageId'] as String?,
       receivedHeaders: (json['ReceivedHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       receivedTimestamp: timeStampFromJson(json['ReceivedTimestamp']),
@@ -5015,16 +5009,16 @@ class Rule {
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       actions: (json['Actions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       conditions: (json['Conditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       unless: (json['Unless'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5323,7 +5317,7 @@ class RuleDmarcExpression {
     return RuleDmarcExpression(
       operator: RuleDmarcOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleDmarcPolicy.fromString((e as String)))
           .toList(),
     );
@@ -5412,10 +5406,8 @@ class RuleIpExpression {
       evaluate:
           RuleIpToEvaluate.fromJson(json['Evaluate'] as Map<String, dynamic>),
       operator: RuleIpOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5653,10 +5645,8 @@ class RuleStringExpression {
       evaluate: RuleStringToEvaluate.fromJson(
           json['Evaluate'] as Map<String, dynamic>),
       operator: RuleStringOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5772,7 +5762,7 @@ class RuleVerdictExpression {
           json['Evaluate'] as Map<String, dynamic>),
       operator: RuleVerdictOperator.fromString((json['Operator'] as String)),
       values: (json['Values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleVerdict.fromString((e as String)))
           .toList(),
     );

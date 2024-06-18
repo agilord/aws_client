@@ -1945,7 +1945,7 @@ class DetectAnomalyResult {
   factory DetectAnomalyResult.fromJson(Map<String, dynamic> json) {
     return DetectAnomalyResult(
       anomalies: (json['Anomalies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
       anomalyMask: _s.decodeNullableUint8List(json['AnomalyMask'] as String?),
@@ -2037,7 +2037,7 @@ class GreengrassConfiguration {
       componentDescription: json['ComponentDescription'] as String?,
       componentVersion: json['ComponentVersion'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       targetDevice:
@@ -2180,7 +2180,7 @@ class ListDatasetEntriesResponse {
   factory ListDatasetEntriesResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetEntriesResponse(
       datasetEntries: (json['DatasetEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2216,7 +2216,7 @@ class ListModelPackagingJobsResponse {
   factory ListModelPackagingJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListModelPackagingJobsResponse(
       modelPackagingJobs: (json['ModelPackagingJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ModelPackagingJobMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2251,7 +2251,7 @@ class ListModelsResponse {
   factory ListModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListModelsResponse(
       models: (json['Models'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2286,7 +2286,7 @@ class ListProjectsResponse {
     return ListProjectsResponse(
       nextToken: json['NextToken'] as String?,
       projects: (json['Projects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2313,7 +2313,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2991,7 +2991,7 @@ class ProjectDescription {
     return ProjectDescription(
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       datasets: (json['Datasets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       projectArn: json['ProjectArn'] as String?,

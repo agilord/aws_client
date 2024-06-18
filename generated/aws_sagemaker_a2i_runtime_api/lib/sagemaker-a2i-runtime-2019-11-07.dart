@@ -482,7 +482,7 @@ class ListHumanLoopsResponse {
   factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
     return ListHumanLoopsResponse(
       humanLoopSummaries: (json['HumanLoopSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

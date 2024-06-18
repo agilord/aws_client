@@ -703,7 +703,7 @@ class BatchUpdateRecommendationResourceExclusionResponse {
     return BatchUpdateRecommendationResourceExclusionResponse(
       batchUpdateRecommendationResourceExclusionErrors:
           (json['batchUpdateRecommendationResourceExclusionErrors'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => UpdateRecommendationResourceExclusionError.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -761,7 +761,7 @@ class CheckSummary {
     return CheckSummary(
       arn: json['arn'] as String,
       awsServices: (json['awsServices'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String,
@@ -770,7 +770,7 @@ class CheckSummary {
           .map((k, e) => MapEntry(k, e as String)),
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       source: RecommendationSource.fromString((json['source'] as String)),
@@ -882,7 +882,7 @@ class ListChecksResponse {
   factory ListChecksResponse.fromJson(Map<String, dynamic> json) {
     return ListChecksResponse(
       checkSummaries: (json['checkSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -919,7 +919,7 @@ class ListOrganizationRecommendationAccountsResponse {
     return ListOrganizationRecommendationAccountsResponse(
       accountRecommendationLifecycleSummaries:
           (json['accountRecommendationLifecycleSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AccountRecommendationLifecycleSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -958,7 +958,7 @@ class ListOrganizationRecommendationResourcesResponse {
     return ListOrganizationRecommendationResourcesResponse(
       organizationRecommendationResourceSummaries:
           (json['organizationRecommendationResourceSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OrganizationRecommendationResourceSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -997,7 +997,7 @@ class ListOrganizationRecommendationsResponse {
     return ListOrganizationRecommendationsResponse(
       organizationRecommendationSummaries:
           (json['organizationRecommendationSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OrganizationRecommendationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1035,7 +1035,7 @@ class ListRecommendationResourcesResponse {
     return ListRecommendationResourcesResponse(
       recommendationResourceSummaries: (json['recommendationResourceSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RecommendationResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1070,7 +1070,7 @@ class ListRecommendationsResponse {
   factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecommendationsResponse(
       recommendationSummaries: (json['recommendationSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1191,7 +1191,7 @@ class OrganizationRecommendation {
       id: json['id'] as String,
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
@@ -1200,7 +1200,7 @@ class OrganizationRecommendation {
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       checkArn: json['checkArn'] as String?,
@@ -1432,7 +1432,7 @@ class OrganizationRecommendationSummary {
       id: json['id'] as String,
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
@@ -1441,7 +1441,7 @@ class OrganizationRecommendationSummary {
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       checkArn: json['checkArn'] as String?,
@@ -1595,7 +1595,7 @@ class Recommendation {
       id: json['id'] as String,
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
@@ -1604,7 +1604,7 @@ class Recommendation {
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       checkArn: json['checkArn'] as String?,
@@ -2054,7 +2054,7 @@ class RecommendationSummary {
       id: json['id'] as String,
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
@@ -2063,7 +2063,7 @@ class RecommendationSummary {
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       checkArn: json['checkArn'] as String?,

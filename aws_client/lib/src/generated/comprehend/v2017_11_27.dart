@@ -4671,7 +4671,7 @@ class AugmentedManifestsListItem {
   factory AugmentedManifestsListItem.fromJson(Map<String, dynamic> json) {
     return AugmentedManifestsListItem(
       attributeNames: (json['AttributeNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       s3Uri: json['S3Uri'] as String,
@@ -4723,7 +4723,7 @@ class BatchDetectDominantLanguageItemResult {
     return BatchDetectDominantLanguageItemResult(
       index: json['Index'] as int?,
       languages: (json['Languages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4761,11 +4761,11 @@ class BatchDetectDominantLanguageResponse {
       Map<String, dynamic> json) {
     return BatchDetectDominantLanguageResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDetectDominantLanguageItemResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4800,7 +4800,7 @@ class BatchDetectEntitiesItemResult {
   factory BatchDetectEntitiesItemResult.fromJson(Map<String, dynamic> json) {
     return BatchDetectEntitiesItemResult(
       entities: (json['Entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       index: json['Index'] as int?,
@@ -4838,11 +4838,11 @@ class BatchDetectEntitiesResponse {
   factory BatchDetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectEntitiesResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchDetectEntitiesItemResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4878,7 +4878,7 @@ class BatchDetectKeyPhrasesItemResult {
     return BatchDetectKeyPhrasesItemResult(
       index: json['Index'] as int?,
       keyPhrases: (json['KeyPhrases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4915,11 +4915,11 @@ class BatchDetectKeyPhrasesResponse {
   factory BatchDetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectKeyPhrasesResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDetectKeyPhrasesItemResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4999,11 +4999,11 @@ class BatchDetectSentimentResponse {
   factory BatchDetectSentimentResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectSentimentResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDetectSentimentItemResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5038,7 +5038,7 @@ class BatchDetectSyntaxItemResult {
     return BatchDetectSyntaxItemResult(
       index: json['Index'] as int?,
       syntaxTokens: (json['SyntaxTokens'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5075,11 +5075,11 @@ class BatchDetectSyntaxResponse {
   factory BatchDetectSyntaxResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectSyntaxResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchDetectSyntaxItemResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5113,7 +5113,7 @@ class BatchDetectTargetedSentimentItemResult {
       Map<String, dynamic> json) {
     return BatchDetectTargetedSentimentItemResult(
       entities: (json['Entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetedSentimentEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5150,11 +5150,11 @@ class BatchDetectTargetedSentimentResponse {
       Map<String, dynamic> json) {
     return BatchDetectTargetedSentimentResponse(
       errorList: (json['ErrorList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultList: (json['ResultList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDetectTargetedSentimentItemResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5264,7 +5264,7 @@ class Block {
       id: json['Id'] as String?,
       page: json['Page'] as int?,
       relationships: (json['Relationships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RelationshipsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       text: json['Text'] as String?,
@@ -5315,7 +5315,7 @@ class BlockReference {
       beginOffset: json['BeginOffset'] as int?,
       blockId: json['BlockId'] as String?,
       childBlocks: (json['ChildBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChildBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
       endOffset: json['EndOffset'] as int?,
@@ -5642,7 +5642,7 @@ class ClassifyDocumentResponse {
   factory ClassifyDocumentResponse.fromJson(Map<String, dynamic> json) {
     return ClassifyDocumentResponse(
       classes: (json['Classes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentClass.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentMetadata: json['DocumentMetadata'] != null
@@ -5650,19 +5650,19 @@ class ClassifyDocumentResponse {
               json['DocumentMetadata'] as Map<String, dynamic>)
           : null,
       documentType: (json['DocumentType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentTypeListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentLabel.fromJson(e as Map<String, dynamic>))
           .toList(),
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WarningsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5698,7 +5698,7 @@ class ContainsPiiEntitiesResponse {
   factory ContainsPiiEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return ContainsPiiEntitiesResponse(
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityLabel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6883,7 +6883,7 @@ class DetectDominantLanguageResponse {
   factory DetectDominantLanguageResponse.fromJson(Map<String, dynamic> json) {
     return DetectDominantLanguageResponse(
       languages: (json['Languages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6945,7 +6945,7 @@ class DetectEntitiesResponse {
   factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return DetectEntitiesResponse(
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentMetadata: json['DocumentMetadata'] != null
@@ -6953,15 +6953,15 @@ class DetectEntitiesResponse {
               json['DocumentMetadata'] as Map<String, dynamic>)
           : null,
       documentType: (json['DocumentType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentTypeListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       entities: (json['Entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6997,7 +6997,7 @@ class DetectKeyPhrasesResponse {
   factory DetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) {
     return DetectKeyPhrasesResponse(
       keyPhrases: (json['KeyPhrases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7025,7 +7025,7 @@ class DetectPiiEntitiesResponse {
   factory DetectPiiEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return DetectPiiEntitiesResponse(
       entities: (json['Entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PiiEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7089,7 +7089,7 @@ class DetectSyntaxResponse {
   factory DetectSyntaxResponse.fromJson(Map<String, dynamic> json) {
     return DetectSyntaxResponse(
       syntaxTokens: (json['SyntaxTokens'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7115,7 +7115,7 @@ class DetectTargetedSentimentResponse {
   factory DetectTargetedSentimentResponse.fromJson(Map<String, dynamic> json) {
     return DetectTargetedSentimentResponse(
       entities: (json['Entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetedSentimentEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7144,7 +7144,7 @@ class DetectToxicContentResponse {
   factory DetectToxicContentResponse.fromJson(Map<String, dynamic> json) {
     return DetectToxicContentResponse(
       resultList: (json['ResultList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ToxicLabels.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7214,10 +7214,8 @@ class DocumentClassificationConfig {
   factory DocumentClassificationConfig.fromJson(Map<String, dynamic> json) {
     return DocumentClassificationConfig(
       mode: DocumentClassifierMode.fromString((json['Mode'] as String)),
-      labels: (json['Labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -7629,7 +7627,7 @@ class DocumentClassifierInputDataConfig {
       Map<String, dynamic> json) {
     return DocumentClassifierInputDataConfig(
       augmentedManifests: (json['AugmentedManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8084,7 +8082,7 @@ class DocumentMetadata {
   factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
     return DocumentMetadata(
       extractedCharacters: (json['ExtractedCharacters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ExtractedCharactersListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8236,7 +8234,7 @@ class DocumentReaderConfig {
       documentReadMode: (json['DocumentReadMode'] as String?)
           ?.let(DocumentReadMode.fromString),
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentReadFeatureTypes.fromString((e as String)))
           .toList(),
     );
@@ -8954,7 +8952,7 @@ class Entity {
     return Entity(
       beginOffset: json['BeginOffset'] as int?,
       blockReferences: (json['BlockReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BlockReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       endOffset: json['EndOffset'] as int?,
@@ -9026,7 +9024,7 @@ class EntityRecognitionConfig {
   factory EntityRecognitionConfig.fromJson(Map<String, dynamic> json) {
     return EntityRecognitionConfig(
       entityTypes: (json['EntityTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9325,7 +9323,7 @@ class EntityRecognizerInputDataConfig {
   factory EntityRecognizerInputDataConfig.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerInputDataConfig(
       entityTypes: (json['EntityTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       annotations: json['Annotations'] != null
@@ -9333,7 +9331,7 @@ class EntityRecognizerInputDataConfig {
               json['Annotations'] as Map<String, dynamic>)
           : null,
       augmentedManifests: (json['AugmentedManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9394,7 +9392,7 @@ class EntityRecognizerMetadata {
   factory EntityRecognizerMetadata.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerMetadata(
       entityTypes: (json['EntityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityRecognizerMetadataEntityTypesListItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10028,7 +10026,7 @@ class EventsDetectionJobProperties {
           : null,
       submitTime: timeStampFromJson(json['SubmitTime']),
       targetEventTypes: (json['TargetEventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10551,7 +10549,7 @@ class Geometry {
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
       polygon: (json['Polygon'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10961,7 +10959,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasetPropertiesList: (json['DatasetPropertiesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10997,7 +10995,7 @@ class ListDocumentClassificationJobsResponse {
     return ListDocumentClassificationJobsResponse(
       documentClassificationJobPropertiesList:
           (json['DocumentClassificationJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DocumentClassificationJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11035,7 +11033,7 @@ class ListDocumentClassifierSummariesResponse {
     return ListDocumentClassifierSummariesResponse(
       documentClassifierSummariesList:
           (json['DocumentClassifierSummariesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   DocumentClassifierSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -11071,7 +11069,7 @@ class ListDocumentClassifiersResponse {
     return ListDocumentClassifiersResponse(
       documentClassifierPropertiesList:
           (json['DocumentClassifierPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DocumentClassifierProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11109,7 +11107,7 @@ class ListDominantLanguageDetectionJobsResponse {
     return ListDominantLanguageDetectionJobsResponse(
       dominantLanguageDetectionJobPropertiesList:
           (json['DominantLanguageDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DominantLanguageDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11146,7 +11144,7 @@ class ListEndpointsResponse {
   factory ListEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return ListEndpointsResponse(
       endpointPropertiesList: (json['EndpointPropertiesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11182,7 +11180,7 @@ class ListEntitiesDetectionJobsResponse {
     return ListEntitiesDetectionJobsResponse(
       entitiesDetectionJobPropertiesList:
           (json['EntitiesDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EntitiesDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11220,7 +11218,7 @@ class ListEntityRecognizerSummariesResponse {
     return ListEntityRecognizerSummariesResponse(
       entityRecognizerSummariesList:
           (json['EntityRecognizerSummariesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   EntityRecognizerSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -11255,7 +11253,7 @@ class ListEntityRecognizersResponse {
     return ListEntityRecognizersResponse(
       entityRecognizerPropertiesList: (json['EntityRecognizerPropertiesList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EntityRecognizerProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11290,7 +11288,7 @@ class ListEventsDetectionJobsResponse {
     return ListEventsDetectionJobsResponse(
       eventsDetectionJobPropertiesList:
           (json['EventsDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EventsDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11327,7 +11325,7 @@ class ListFlywheelIterationHistoryResponse {
     return ListFlywheelIterationHistoryResponse(
       flywheelIterationPropertiesList: (json['FlywheelIterationPropertiesList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FlywheelIterationProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11363,7 +11361,7 @@ class ListFlywheelsResponse {
   factory ListFlywheelsResponse.fromJson(Map<String, dynamic> json) {
     return ListFlywheelsResponse(
       flywheelSummaryList: (json['FlywheelSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlywheelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11399,7 +11397,7 @@ class ListKeyPhrasesDetectionJobsResponse {
     return ListKeyPhrasesDetectionJobsResponse(
       keyPhrasesDetectionJobPropertiesList:
           (json['KeyPhrasesDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => KeyPhrasesDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11439,7 +11437,7 @@ class ListPiiEntitiesDetectionJobsResponse {
       nextToken: json['NextToken'] as String?,
       piiEntitiesDetectionJobPropertiesList:
           (json['PiiEntitiesDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => PiiEntitiesDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11478,7 +11476,7 @@ class ListSentimentDetectionJobsResponse {
       nextToken: json['NextToken'] as String?,
       sentimentDetectionJobPropertiesList:
           (json['SentimentDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => SentimentDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11518,7 +11516,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       resourceArn: json['ResourceArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11553,7 +11551,7 @@ class ListTargetedSentimentDetectionJobsResponse {
       nextToken: json['NextToken'] as String?,
       targetedSentimentDetectionJobPropertiesList:
           (json['TargetedSentimentDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TargetedSentimentDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11590,7 +11588,7 @@ class ListTopicsDetectionJobsResponse {
       nextToken: json['NextToken'] as String?,
       topicsDetectionJobPropertiesList:
           (json['TopicsDetectionJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TopicsDetectionJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -12275,7 +12273,7 @@ class RedactionConfig {
       maskMode: (json['MaskMode'] as String?)
           ?.let(PiiEntitiesDetectionMaskMode.fromString),
       piiEntityTypes: (json['PiiEntityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PiiEntityType.fromString((e as String)))
           .toList(),
     );
@@ -12323,10 +12321,7 @@ class RelationshipsListItem {
 
   factory RelationshipsListItem.fromJson(Map<String, dynamic> json) {
     return RelationshipsListItem(
-      ids: (json['Ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['Ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
       type: (json['Type'] as String?)?.let(RelationshipType.fromString),
     );
   }
@@ -13782,11 +13777,11 @@ class TargetedSentimentEntity {
   factory TargetedSentimentEntity.fromJson(Map<String, dynamic> json) {
     return TargetedSentimentEntity(
       descriptiveMentionIndex: (json['DescriptiveMentionIndex'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       mentions: (json['Mentions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetedSentimentMention.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14238,7 +14233,7 @@ class ToxicLabels {
   factory ToxicLabels.fromJson(Map<String, dynamic> json) {
     return ToxicLabels(
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ToxicContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       toxicity: json['Toxicity'] as double?,
@@ -14384,13 +14379,11 @@ class VpcConfig {
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets: (json['Subnets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 

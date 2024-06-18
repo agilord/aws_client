@@ -1160,7 +1160,7 @@ class ApplicationPolicies {
   factory ApplicationPolicies.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicies(
       policies: (json['Policies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ApplicationPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       critical: json['Critical'] as bool?,
@@ -2619,7 +2619,7 @@ class ListConnectorsResponse {
   factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorsResponse(
       connectors: (json['Connectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2654,7 +2654,7 @@ class ListDirectoryRegistrationsResponse {
       Map<String, dynamic> json) {
     return ListDirectoryRegistrationsResponse(
       directoryRegistrations: (json['DirectoryRegistrations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DirectoryRegistrationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2693,7 +2693,7 @@ class ListServicePrincipalNamesResponse {
     return ListServicePrincipalNamesResponse(
       nextToken: json['NextToken'] as String?,
       servicePrincipalNames: (json['ServicePrincipalNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ServicePrincipalNameSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2753,7 +2753,7 @@ class ListTemplateGroupAccessControlEntriesResponse {
       Map<String, dynamic> json) {
     return ListTemplateGroupAccessControlEntriesResponse(
       accessControlEntries: (json['AccessControlEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AccessControlEntrySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2790,7 +2790,7 @@ class ListTemplatesResponse {
     return ListTemplatesResponse(
       nextToken: json['NextToken'] as String?,
       templates: (json['Templates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2846,7 +2846,7 @@ class PrivateKeyAttributesV2 {
       keySpec: KeySpec.fromString((json['KeySpec'] as String)),
       minimalKeyLength: json['MinimalKeyLength'] as int,
       cryptoProviders: (json['CryptoProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2900,7 +2900,7 @@ class PrivateKeyAttributesV3 {
           json['KeyUsageProperty'] as Map<String, dynamic>),
       minimalKeyLength: json['MinimalKeyLength'] as int,
       cryptoProviders: (json['CryptoProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2957,7 +2957,7 @@ class PrivateKeyAttributesV4 {
       algorithm:
           (json['Algorithm'] as String?)?.let(PrivateKeyAlgorithm.fromString),
       cryptoProviders: (json['CryptoProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       keyUsageProperty: json['KeyUsageProperty'] != null
@@ -3975,7 +3975,7 @@ class TemplateV2 {
       subjectNameFlags: SubjectNameFlagsV2.fromJson(
           json['SubjectNameFlags'] as Map<String, dynamic>),
       supersededTemplates: (json['SupersededTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4074,7 +4074,7 @@ class TemplateV3 {
       subjectNameFlags: SubjectNameFlagsV3.fromJson(
           json['SubjectNameFlags'] as Map<String, dynamic>),
       supersededTemplates: (json['SupersededTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4179,7 +4179,7 @@ class TemplateV4 {
       hashAlgorithm:
           (json['HashAlgorithm'] as String?)?.let(HashAlgorithm.fromString),
       supersededTemplates: (json['SupersededTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4279,7 +4279,7 @@ class VpcInformation {
   factory VpcInformation.fromJson(Map<String, dynamic> json) {
     return VpcInformation(
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );

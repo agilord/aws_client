@@ -2494,7 +2494,7 @@ class AggregateColumn {
   factory AggregateColumn.fromJson(Map<String, dynamic> json) {
     return AggregateColumn(
       columnNames: (json['columnNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       function: AggregateFunctionName.fromString((json['function'] as String)),
@@ -2756,27 +2756,27 @@ class AnalysisRuleAggregation {
   factory AnalysisRuleAggregation.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleAggregation(
       aggregateColumns: (json['aggregateColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AggregateColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
       dimensionColumns: (json['dimensionColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       joinColumns: (json['joinColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       outputConstraints: (json['outputConstraints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AggregationConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
       scalarFunctions: (json['scalarFunctions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScalarFunctions.fromString((e as String)))
           .toList(),
       allowedJoinOperators: (json['allowedJoinOperators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JoinOperator.fromString((e as String)))
           .toList(),
       joinRequired:
@@ -2830,11 +2830,11 @@ class AnalysisRuleCustom {
   factory AnalysisRuleCustom.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleCustom(
       allowedAnalyses: (json['allowedAnalyses'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedAnalysisProviders: (json['allowedAnalysisProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       differentialPrivacy: json['differentialPrivacy'] != null
@@ -2880,15 +2880,15 @@ class AnalysisRuleList {
   factory AnalysisRuleList.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleList(
       joinColumns: (json['joinColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       listColumns: (json['listColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedJoinOperators: (json['allowedJoinOperators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JoinOperator.fromString((e as String)))
           .toList(),
     );
@@ -3006,7 +3006,7 @@ class AnalysisSchema {
   factory AnalysisSchema.fromJson(Map<String, dynamic> json) {
     return AnalysisSchema(
       referencedTables: (json['referencedTables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3124,12 +3124,12 @@ class AnalysisTemplate {
       source: AnalysisSource.fromJson(json['source'] as Map<String, dynamic>),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       analysisParameters: (json['analysisParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       validations: (json['validations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisTemplateValidationStatusDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3310,7 +3310,7 @@ class AnalysisTemplateValidationStatusDetail {
           (json['status'] as String)),
       type: AnalysisTemplateValidationType.fromString((json['type'] as String)),
       reasons: (json['reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisTemplateValidationStatusReason.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3425,12 +3425,12 @@ class BatchGetCollaborationAnalysisTemplateOutput {
     return BatchGetCollaborationAnalysisTemplateOutput(
       collaborationAnalysisTemplates: (json['collaborationAnalysisTemplates']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               CollaborationAnalysisTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetCollaborationAnalysisTemplateError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3507,11 +3507,11 @@ class BatchGetSchemaAnalysisRuleOutput {
   factory BatchGetSchemaAnalysisRuleOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaAnalysisRuleOutput(
       analysisRules: (json['analysisRules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnalysisRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetSchemaAnalysisRuleError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3581,11 +3581,11 @@ class BatchGetSchemaOutput {
   factory BatchGetSchemaOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaOutput(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetSchemaError.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemas: (json['schemas'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Schema.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3794,12 +3794,12 @@ class CollaborationAnalysisTemplate {
       source: AnalysisSource.fromJson(json['source'] as Map<String, dynamic>),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       analysisParameters: (json['analysisParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       validations: (json['validations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisTemplateValidationStatusDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4765,13 +4765,13 @@ class ConfiguredTable {
   factory ConfiguredTable.fromJson(Map<String, dynamic> json) {
     return ConfiguredTable(
       allowedColumns: (json['allowedColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       analysisMethod:
           AnalysisMethod.fromString((json['analysisMethod'] as String)),
       analysisRuleTypes: (json['analysisRuleTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConfiguredTableAnalysisRuleType.fromString((e as String)))
           .toList(),
       arn: json['arn'] as String,
@@ -5174,7 +5174,7 @@ class ConfiguredTableSummary {
       analysisMethod:
           AnalysisMethod.fromString((json['analysisMethod'] as String)),
       analysisRuleTypes: (json['analysisRuleTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConfiguredTableAnalysisRuleType.fromString((e as String)))
           .toList(),
       arn: json['arn'] as String,
@@ -5625,7 +5625,7 @@ class DifferentialPrivacyConfiguration {
   factory DifferentialPrivacyConfiguration.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyConfiguration(
       columns: (json['columns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               DifferentialPrivacyColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5653,7 +5653,7 @@ class DifferentialPrivacyParameters {
   factory DifferentialPrivacyParameters.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyParameters(
       sensitivityParameters: (json['sensitivityParameters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DifferentialPrivacySensitivityParameters.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5745,7 +5745,7 @@ class DifferentialPrivacyPrivacyBudget {
   factory DifferentialPrivacyPrivacyBudget.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyPrivacyBudget(
       aggregations: (json['aggregations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DifferentialPrivacyPrivacyBudgetAggregation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5818,7 +5818,7 @@ class DifferentialPrivacyPrivacyImpact {
   factory DifferentialPrivacyPrivacyImpact.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyPrivacyImpact(
       aggregations: (json['aggregations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DifferentialPrivacyPreviewAggregation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6401,7 +6401,7 @@ class ListAnalysisTemplatesOutput {
   factory ListAnalysisTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListAnalysisTemplatesOutput(
       analysisTemplateSummaries: (json['analysisTemplateSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AnalysisTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6438,7 +6438,7 @@ class ListCollaborationAnalysisTemplatesOutput {
     return ListCollaborationAnalysisTemplatesOutput(
       collaborationAnalysisTemplateSummaries:
           (json['collaborationAnalysisTemplateSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => CollaborationAnalysisTemplateSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6479,7 +6479,7 @@ class ListCollaborationConfiguredAudienceModelAssociationsOutput {
       collaborationConfiguredAudienceModelAssociationSummaries:
           (json['collaborationConfiguredAudienceModelAssociationSummaries']
                   as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => CollaborationConfiguredAudienceModelAssociationSummary
                   .fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -6520,7 +6520,7 @@ class ListCollaborationPrivacyBudgetTemplatesOutput {
     return ListCollaborationPrivacyBudgetTemplatesOutput(
       collaborationPrivacyBudgetTemplateSummaries:
           (json['collaborationPrivacyBudgetTemplateSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => CollaborationPrivacyBudgetTemplateSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6559,7 +6559,7 @@ class ListCollaborationPrivacyBudgetsOutput {
     return ListCollaborationPrivacyBudgetsOutput(
       collaborationPrivacyBudgetSummaries:
           (json['collaborationPrivacyBudgetSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => CollaborationPrivacyBudgetSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6595,7 +6595,7 @@ class ListCollaborationsOutput {
   factory ListCollaborationsOutput.fromJson(Map<String, dynamic> json) {
     return ListCollaborationsOutput(
       collaborationList: (json['collaborationList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CollaborationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6630,7 +6630,7 @@ class ListConfiguredAudienceModelAssociationsOutput {
     return ListConfiguredAudienceModelAssociationsOutput(
       configuredAudienceModelAssociationSummaries:
           (json['configuredAudienceModelAssociationSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ConfiguredAudienceModelAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6669,7 +6669,7 @@ class ListConfiguredTableAssociationsOutput {
     return ListConfiguredTableAssociationsOutput(
       configuredTableAssociationSummaries:
           (json['configuredTableAssociationSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ConfiguredTableAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6705,7 +6705,7 @@ class ListConfiguredTablesOutput {
   factory ListConfiguredTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListConfiguredTablesOutput(
       configuredTableSummaries: (json['configuredTableSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => ConfiguredTableSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6739,7 +6739,7 @@ class ListMembersOutput {
   factory ListMembersOutput.fromJson(Map<String, dynamic> json) {
     return ListMembersOutput(
       memberSummaries: (json['memberSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MemberSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6772,7 +6772,7 @@ class ListMembershipsOutput {
   factory ListMembershipsOutput.fromJson(Map<String, dynamic> json) {
     return ListMembershipsOutput(
       membershipSummaries: (json['membershipSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MembershipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6807,7 +6807,7 @@ class ListPrivacyBudgetTemplatesOutput {
     return ListPrivacyBudgetTemplatesOutput(
       privacyBudgetTemplateSummaries: (json['privacyBudgetTemplateSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               PrivacyBudgetTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6843,7 +6843,7 @@ class ListPrivacyBudgetsOutput {
   factory ListPrivacyBudgetsOutput.fromJson(Map<String, dynamic> json) {
     return ListPrivacyBudgetsOutput(
       privacyBudgetSummaries: (json['privacyBudgetSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PrivacyBudgetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6876,7 +6876,7 @@ class ListProtectedQueriesOutput {
   factory ListProtectedQueriesOutput.fromJson(Map<String, dynamic> json) {
     return ListProtectedQueriesOutput(
       protectedQueries: (json['protectedQueries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProtectedQuerySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6909,7 +6909,7 @@ class ListSchemasOutput {
   factory ListSchemasOutput.fromJson(Map<String, dynamic> json) {
     return ListSchemasOutput(
       schemaSummaries: (json['schemaSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7068,7 +7068,7 @@ class MemberSummary {
   factory MemberSummary.fromJson(Map<String, dynamic> json) {
     return MemberSummary(
       abilities: (json['abilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
       accountId: json['accountId'] as String,
@@ -7184,7 +7184,7 @@ class Membership {
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       id: json['id'] as String,
       memberAbilities: (json['memberAbilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
       paymentConfiguration: MembershipPaymentConfiguration.fromJson(
@@ -7463,7 +7463,7 @@ class MembershipSummary {
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
       id: json['id'] as String,
       memberAbilities: (json['memberAbilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
       paymentConfiguration: MembershipPaymentConfiguration.fromJson(
@@ -8204,7 +8204,7 @@ class ProtectedQueryOutput {
   factory ProtectedQueryOutput.fromJson(Map<String, dynamic> json) {
     return ProtectedQueryOutput(
       memberList: (json['memberList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProtectedQuerySingleMemberOutput.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8688,13 +8688,13 @@ class Schema {
   factory Schema.fromJson(Map<String, dynamic> json) {
     return Schema(
       analysisRuleTypes: (json['analysisRuleTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnalysisRuleType.fromString((e as String)))
           .toList(),
       collaborationArn: json['collaborationArn'] as String,
       collaborationId: json['collaborationId'] as String,
       columns: (json['columns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
@@ -8702,11 +8702,11 @@ class Schema {
       description: json['description'] as String,
       name: json['name'] as String,
       partitionKeys: (json['partitionKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaStatusDetails: (json['schemaStatusDetails'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: SchemaType.fromString((json['type'] as String)),
@@ -8833,11 +8833,11 @@ class SchemaStatusDetail {
       analysisRuleType: (json['analysisRuleType'] as String?)
           ?.let(AnalysisRuleType.fromString),
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaConfiguration.fromString((e as String)))
           .toList(),
       reasons: (json['reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaStatusReason.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8952,7 +8952,7 @@ class SchemaSummary {
   factory SchemaSummary.fromJson(Map<String, dynamic> json) {
     return SchemaSummary(
       analysisRuleTypes: (json['analysisRuleTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnalysisRuleType.fromString((e as String)))
           .toList(),
       collaborationArn: json['collaborationArn'] as String,

@@ -1201,7 +1201,7 @@ class CreateRoomResponse {
       id: json['id'] as String?,
       loggingConfigurationIdentifiers:
           (json['loggingConfigurationIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       maximumMessageLength: json['maximumMessageLength'] as int?,
@@ -1517,7 +1517,7 @@ class GetRoomResponse {
       id: json['id'] as String?,
       loggingConfigurationIdentifiers:
           (json['loggingConfigurationIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       maximumMessageLength: json['maximumMessageLength'] as int?,
@@ -1584,7 +1584,7 @@ class ListLoggingConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListLoggingConfigurationsResponse(
       loggingConfigurations: (json['loggingConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               LoggingConfigurationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1618,7 +1618,7 @@ class ListRoomsResponse {
   factory ListRoomsResponse.fromJson(Map<String, dynamic> json) {
     return ListRoomsResponse(
       rooms: (json['rooms'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RoomSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1857,7 +1857,7 @@ class RoomSummary {
       id: json['id'] as String?,
       loggingConfigurationIdentifiers:
           (json['loggingConfigurationIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       messageReviewHandler: json['messageReviewHandler'] != null
@@ -2125,7 +2125,7 @@ class UpdateRoomResponse {
       id: json['id'] as String?,
       loggingConfigurationIdentifiers:
           (json['loggingConfigurationIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       maximumMessageLength: json['maximumMessageLength'] as int?,

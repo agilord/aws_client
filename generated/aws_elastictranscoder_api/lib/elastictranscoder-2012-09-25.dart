@@ -2001,11 +2001,11 @@ class Captions {
   factory Captions.fromJson(Map<String, dynamic> json) {
     return Captions(
       captionFormats: (json['CaptionFormats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionFormat.fromJson(e as Map<String, dynamic>))
           .toList(),
       captionSources: (json['CaptionSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       mergePolicy: json['MergePolicy'] as String?,
@@ -2404,7 +2404,7 @@ class CreatePipelineResponse {
           ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
           : null,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2749,7 +2749,7 @@ class InputCaptions {
   factory InputCaptions.fromJson(Map<String, dynamic> json) {
     return InputCaptions(
       captionSources: (json['CaptionSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       mergePolicy: json['MergePolicy'] as String?,
@@ -2884,7 +2884,7 @@ class Job {
           ? JobInput.fromJson(json['Input'] as Map<String, dynamic>)
           : null,
       inputs: (json['Inputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobInput.fromJson(e as Map<String, dynamic>))
           .toList(),
       output: json['Output'] != null
@@ -2892,12 +2892,12 @@ class Job {
           : null,
       outputKeyPrefix: json['OutputKeyPrefix'] as String?,
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelineId: json['PipelineId'] as String?,
       playlists: (json['Playlists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Playlist.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['Status'] as String?,
@@ -2949,7 +2949,7 @@ class JobAlbumArt {
   factory JobAlbumArt.fromJson(Map<String, dynamic> json) {
     return JobAlbumArt(
       artwork: (json['Artwork'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Artwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       mergePolicy: json['MergePolicy'] as String?,
@@ -3437,7 +3437,7 @@ class JobOutput {
           ? Captions.fromJson(json['Captions'] as Map<String, dynamic>)
           : null,
       composition: (json['Composition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Clip.fromJson(e as Map<String, dynamic>))
           .toList(),
       duration: json['Duration'] as int?,
@@ -3461,7 +3461,7 @@ class JobOutput {
           : null,
       thumbnailPattern: json['ThumbnailPattern'] as String?,
       watermarks: (json['Watermarks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobWatermark.fromJson(e as Map<String, dynamic>))
           .toList(),
       width: json['Width'] as int?,
@@ -3539,7 +3539,7 @@ class ListJobsByPipelineResponse {
   factory ListJobsByPipelineResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsByPipelineResponse(
       jobs: (json['Jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -3566,7 +3566,7 @@ class ListJobsByStatusResponse {
   factory ListJobsByStatusResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsByStatusResponse(
       jobs: (json['Jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -3594,7 +3594,7 @@ class ListPipelinesResponse {
     return ListPipelinesResponse(
       nextPageToken: json['NextPageToken'] as String?,
       pipelines: (json['Pipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Pipeline.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3621,7 +3621,7 @@ class ListPresetsResponse {
     return ListPresetsResponse(
       nextPageToken: json['NextPageToken'] as String?,
       presets: (json['Presets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Preset.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3742,10 +3742,8 @@ class Permission {
 
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
-      access: (json['Access'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      access:
+          (json['Access'] as List?)?.nonNulls.map((e) => e as String).toList(),
       grantee: json['Grantee'] as String?,
       granteeType: json['GranteeType'] as String?,
     );
@@ -4086,7 +4084,7 @@ class PipelineOutputConfig {
     return PipelineOutputConfig(
       bucket: json['Bucket'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromJson(e as Map<String, dynamic>))
           .toList(),
       storageClass: json['StorageClass'] as String?,
@@ -4303,7 +4301,7 @@ class Playlist {
           : null,
       name: json['Name'] as String?,
       outputKeys: (json['OutputKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       playReadyDrm: json['PlayReadyDrm'] != null
@@ -4700,7 +4698,7 @@ class ReadPipelineResponse {
           ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
           : null,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4745,7 +4743,7 @@ class TestRoleResponse {
   factory TestRoleResponse.fromJson(Map<String, dynamic> json) {
     return TestRoleResponse(
       messages: (json['Messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       success: json['Success'] as String?,
@@ -5012,7 +5010,7 @@ class UpdatePipelineResponse {
           ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
           : null,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5637,7 +5635,7 @@ class VideoParameters {
       resolution: json['Resolution'] as String?,
       sizingPolicy: json['SizingPolicy'] as String?,
       watermarks: (json['Watermarks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PresetWatermark.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

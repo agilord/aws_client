@@ -3154,7 +3154,7 @@ class CreateSnapshotScheduleActionParameters {
       snapshotNamePrefix: json['snapshotNamePrefix'] as String,
       retentionPeriod: json['retentionPeriod'] as int?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3434,7 +3434,7 @@ class Endpoint {
       address: json['address'] as String?,
       port: json['port'] as int?,
       vpcEndpoints: (json['vpcEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3508,14 +3508,14 @@ class EndpointAccess {
       endpointStatus: json['endpointStatus'] as String?,
       port: json['port'] as int?,
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcEndpoint: json['vpcEndpoint'] != null
           ? VpcEndpoint.fromJson(json['vpcEndpoint'] as Map<String, dynamic>)
           : null,
       vpcSecurityGroups: (json['vpcSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VpcSecurityGroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3886,7 +3886,7 @@ class ListCustomDomainAssociationsResponse {
       Map<String, dynamic> json) {
     return ListCustomDomainAssociationsResponse(
       associations: (json['associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Association.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3921,7 +3921,7 @@ class ListEndpointAccessResponse {
   factory ListEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
     return ListEndpointAccessResponse(
       endpoints: (json['endpoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EndpointAccess.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3956,7 +3956,7 @@ class ListNamespacesResponse {
   factory ListNamespacesResponse.fromJson(Map<String, dynamic> json) {
     return ListNamespacesResponse(
       namespaces: (json['namespaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Namespace.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3991,7 +3991,7 @@ class ListRecoveryPointsResponse {
     return ListRecoveryPointsResponse(
       nextToken: json['nextToken'] as String?,
       recoveryPoints: (json['recoveryPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4025,7 +4025,7 @@ class ListScheduledActionsResponse {
     return ListScheduledActionsResponse(
       nextToken: json['nextToken'] as String?,
       scheduledActions: (json['scheduledActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ScheduledActionAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4060,7 +4060,7 @@ class ListSnapshotCopyConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListSnapshotCopyConfigurationsResponse(
       snapshotCopyConfigurations: (json['snapshotCopyConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SnapshotCopyConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4096,7 +4096,7 @@ class ListSnapshotsResponse {
     return ListSnapshotsResponse(
       nextToken: json['nextToken'] as String?,
       snapshots: (json['snapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4131,7 +4131,7 @@ class ListTableRestoreStatusResponse {
     return ListTableRestoreStatusResponse(
       nextToken: json['nextToken'] as String?,
       tableRestoreStatuses: (json['tableRestoreStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableRestoreStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4159,7 +4159,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4192,7 +4192,7 @@ class ListUsageLimitsResponse {
     return ListUsageLimitsResponse(
       nextToken: json['nextToken'] as String?,
       usageLimits: (json['usageLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsageLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4225,7 +4225,7 @@ class ListWorkgroupsResponse {
   factory ListWorkgroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkgroupsResponse(
       workgroups: (json['workgroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Workgroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4334,12 +4334,12 @@ class Namespace {
       dbName: json['dbName'] as String?,
       defaultIamRoleArn: json['defaultIamRoleArn'] as String?,
       iamRoles: (json['iamRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       kmsKeyId: json['kmsKeyId'] as String?,
       logExports: (json['logExports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogExport.fromString((e as String)))
           .toList(),
       namespaceArn: json['namespaceArn'] as String?,
@@ -4834,7 +4834,7 @@ class ScheduledActionResponse {
       endTime: timeStampFromJson(json['endTime']),
       namespaceName: json['namespaceName'] as String?,
       nextInvocations: (json['nextInvocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
       roleArn: json['roleArn'] as String?,
@@ -4986,11 +4986,11 @@ class Snapshot {
     return Snapshot(
       accountsWithProvisionedRestoreAccess:
           (json['accountsWithProvisionedRestoreAccess'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       accountsWithRestoreAccess: (json['accountsWithRestoreAccess'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       actualIncrementalBackupSizeInMegaBytes:
@@ -5767,7 +5767,7 @@ class VpcEndpoint {
   factory VpcEndpoint.fromJson(Map<String, dynamic> json) {
     return VpcEndpoint(
       networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcEndpointId: json['vpcEndpointId'] as String?,
@@ -5933,12 +5933,12 @@ class Workgroup {
     return Workgroup(
       baseCapacity: json['baseCapacity'] as int?,
       configParameters: (json['configParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationDate: timeStampFromJson(json['creationDate']),
       crossAccountVpcs: (json['crossAccountVpcs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       customDomainCertificateArn: json['customDomainCertificateArn'] as String?,
@@ -5955,12 +5955,12 @@ class Workgroup {
       port: json['port'] as int?,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(WorkgroupStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       workgroupArn: json['workgroupArn'] as String?,

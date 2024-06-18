@@ -1307,7 +1307,7 @@ class BackendAPIResourceConfig {
   factory BackendAPIResourceConfig.fromJson(Map<String, dynamic> json) {
     return BackendAPIResourceConfig(
       additionalAuthTypes: (json['additionalAuthTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackendAPIAuthType.fromJson(e as Map<String, dynamic>))
           .toList(),
       apiName: json['apiName'] as String?,
@@ -1512,11 +1512,11 @@ class BackendStoragePermissions {
   factory BackendStoragePermissions.fromJson(Map<String, dynamic> json) {
     return BackendStoragePermissions(
       authenticated: (json['authenticated'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AuthenticatedElement.fromString((e as String)))
           .toList(),
       unAuthenticated: (json['unAuthenticated'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnAuthenticatedElement.fromString((e as String)))
           .toList(),
     );
@@ -1801,15 +1801,15 @@ class CreateBackendAuthOAuthConfig {
       oAuthGrantType:
           OAuthGrantType.fromString((json['oAuthGrantType'] as String)),
       oAuthScopes: (json['oAuthScopes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OAuthScopesElement.fromString((e as String)))
           .toList(),
       redirectSignInURIs: (json['redirectSignInURIs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       redirectSignOutURIs: (json['redirectSignOutURIs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       domainPrefix: json['domainPrefix'] as String?,
@@ -1859,7 +1859,7 @@ class CreateBackendAuthPasswordPolicyConfig {
     return CreateBackendAuthPasswordPolicyConfig(
       minimumLength: json['minimumLength'] as double,
       additionalConstraints: (json['additionalConstraints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdditionalConstraintsElement.fromString((e as String)))
           .toList(),
     );
@@ -2038,7 +2038,7 @@ class CreateBackendAuthUserPoolConfig {
   factory CreateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthUserPoolConfig(
       requiredSignUpAttributes: (json['requiredSignUpAttributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RequiredSignUpAttributesElement.fromString((e as String)))
           .toList(),
       signInMethod: SignInMethod.fromString((json['signInMethod'] as String)),
@@ -2956,7 +2956,7 @@ class GetBackendResponse {
       appId: json['appId'] as String?,
       appName: json['appName'] as String?,
       backendEnvironmentList: (json['backendEnvironmentList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       backendEnvironmentName: json['backendEnvironmentName'] as String?,
@@ -3241,7 +3241,7 @@ class ListBackendJobsResponse {
   factory ListBackendJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListBackendJobsResponse(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackendJobRespObj.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3273,7 +3273,7 @@ class ListS3BucketsResponse {
   factory ListS3BucketsResponse.fromJson(Map<String, dynamic> json) {
     return ListS3BucketsResponse(
       buckets: (json['buckets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3BucketInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3556,7 +3556,7 @@ class Settings {
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
       mfaTypes: (json['mfaTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MfaTypesElement.fromString((e as String)))
           .toList(),
       smsMessage: json['smsMessage'] as String?,

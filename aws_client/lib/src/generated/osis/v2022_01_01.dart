@@ -697,7 +697,7 @@ class ChangeProgressStatus {
   factory ChangeProgressStatus.fromJson(Map<String, dynamic> json) {
     return ChangeProgressStatus(
       changeProgressStages: (json['ChangeProgressStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeProgressStage.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
@@ -869,7 +869,7 @@ class GetPipelineChangeProgressResponse {
       Map<String, dynamic> json) {
     return GetPipelineChangeProgressResponse(
       changeProgressStatuses: (json['ChangeProgressStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeProgressStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -919,7 +919,7 @@ class ListPipelineBlueprintsResponse {
   factory ListPipelineBlueprintsResponse.fromJson(Map<String, dynamic> json) {
     return ListPipelineBlueprintsResponse(
       blueprints: (json['Blueprints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PipelineBlueprintSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -953,7 +953,7 @@ class ListPipelinesResponse {
     return ListPipelinesResponse(
       nextToken: json['NextToken'] as String?,
       pipelines: (json['Pipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -980,7 +980,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1111,7 +1111,7 @@ class Pipeline {
           : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
@@ -1119,7 +1119,7 @@ class Pipeline {
               json['EncryptionAtRestOptions'] as Map<String, dynamic>)
           : null,
       ingestEndpointUrls: (json['IngestEndpointUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
@@ -1133,7 +1133,7 @@ class Pipeline {
       pipelineConfigurationBody: json['PipelineConfigurationBody'] as String?,
       pipelineName: json['PipelineName'] as String?,
       serviceVpcEndpoints: (json['ServiceVpcEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceVpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['Status'] as String?)?.let(PipelineStatus.fromString),
@@ -1142,11 +1142,11 @@ class Pipeline {
               json['StatusReason'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcEndpoints: (json['VpcEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1430,7 +1430,7 @@ class PipelineSummary {
     return PipelineSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
@@ -1444,7 +1444,7 @@ class PipelineSummary {
               json['StatusReason'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1652,7 +1652,7 @@ class ValidatePipelineResponse {
   factory ValidatePipelineResponse.fromJson(Map<String, dynamic> json) {
     return ValidatePipelineResponse(
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       isValid: json['isValid'] as bool?,
@@ -1799,12 +1799,10 @@ class VpcOptions {
 
   factory VpcOptions.fromJson(Map<String, dynamic> json) {
     return VpcOptions(
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcAttachmentOptions: json['VpcAttachmentOptions'] != null

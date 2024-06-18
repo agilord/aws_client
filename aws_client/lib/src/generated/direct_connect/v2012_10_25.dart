@@ -3092,7 +3092,7 @@ class AssociateMacSecKeyResponse {
     return AssociateMacSecKeyResponse(
       connectionId: json['connectionId'] as String?,
       macSecKeys: (json['macSecKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3758,7 +3758,7 @@ class Connection {
       location: json['location'] as String?,
       macSecCapable: json['macSecCapable'] as bool?,
       macSecKeys: (json['macSecKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       ownerAccount: json['ownerAccount'] as String?,
@@ -3767,7 +3767,7 @@ class Connection {
       providerName: json['providerName'] as String?,
       region: json['region'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vlan: json['vlan'] as int?,
@@ -3860,7 +3860,7 @@ class Connections {
   factory Connections.fromJson(Map<String, dynamic> json) {
     return Connections(
       connections: (json['connections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4328,7 +4328,7 @@ class DescribeCustomerMetadataResponse {
   factory DescribeCustomerMetadataResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCustomerMetadataResponse(
       agreements: (json['agreements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomerAgreement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nniPartnerType:
@@ -4365,7 +4365,7 @@ class DescribeDirectConnectGatewayAssociationProposalsResult {
     return DescribeDirectConnectGatewayAssociationProposalsResult(
       directConnectGatewayAssociationProposals:
           (json['directConnectGatewayAssociationProposals'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DirectConnectGatewayAssociationProposal.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4403,7 +4403,7 @@ class DescribeDirectConnectGatewayAssociationsResult {
     return DescribeDirectConnectGatewayAssociationsResult(
       directConnectGatewayAssociations:
           (json['directConnectGatewayAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DirectConnectGatewayAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4440,7 +4440,7 @@ class DescribeDirectConnectGatewayAttachmentsResult {
     return DescribeDirectConnectGatewayAttachmentsResult(
       directConnectGatewayAttachments:
           (json['directConnectGatewayAttachments'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DirectConnectGatewayAttachment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4476,7 +4476,7 @@ class DescribeDirectConnectGatewaysResult {
       Map<String, dynamic> json) {
     return DescribeDirectConnectGatewaysResult(
       directConnectGateways: (json['directConnectGateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DirectConnectGateway.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4577,7 +4577,7 @@ class DescribeTagsResponse {
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResponse(
       resourceTags: (json['resourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4753,7 +4753,7 @@ class DirectConnectGatewayAssociation {
     return DirectConnectGatewayAssociation(
       allowedPrefixesToDirectConnectGateway:
           (json['allowedPrefixesToDirectConnectGateway'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
               .toList(),
       associatedGateway: json['associatedGateway'] != null
@@ -4870,7 +4870,7 @@ class DirectConnectGatewayAssociationProposal {
           json['directConnectGatewayOwnerAccount'] as String?,
       existingAllowedPrefixesToDirectConnectGateway:
           (json['existingAllowedPrefixesToDirectConnectGateway'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
               .toList(),
       proposalId: json['proposalId'] as String?,
@@ -4878,7 +4878,7 @@ class DirectConnectGatewayAssociationProposal {
           ?.let(DirectConnectGatewayAssociationProposalState.fromString),
       requestedAllowedPrefixesToDirectConnectGateway:
           (json['requestedAllowedPrefixesToDirectConnectGateway'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
@@ -5107,7 +5107,7 @@ class DisassociateMacSecKeyResponse {
     return DisassociateMacSecKeyResponse(
       connectionId: json['connectionId'] as String?,
       macSecKeys: (json['macSecKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5268,7 +5268,7 @@ class Interconnect {
       providerName: json['providerName'] as String?,
       region: json['region'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5344,7 +5344,7 @@ class Interconnects {
   factory Interconnects.fromJson(Map<String, dynamic> json) {
     return Interconnects(
       interconnects: (json['interconnects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Interconnect.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5489,7 +5489,7 @@ class Lag {
       awsDeviceV2: json['awsDeviceV2'] as String?,
       awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       connections: (json['connections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connection.fromJson(e as Map<String, dynamic>))
           .toList(),
       connectionsBandwidth: json['connectionsBandwidth'] as String?,
@@ -5503,7 +5503,7 @@ class Lag {
       location: json['location'] as String?,
       macSecCapable: json['macSecCapable'] as bool?,
       macSecKeys: (json['macSecKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       minimumLinks: json['minimumLinks'] as int?,
@@ -5512,7 +5512,7 @@ class Lag {
       providerName: json['providerName'] as String?,
       region: json['region'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5600,7 +5600,7 @@ class Lags {
   factory Lags.fromJson(Map<String, dynamic> json) {
     return Lags(
       lags: (json['lags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Lag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5633,7 +5633,7 @@ class ListVirtualInterfaceTestHistoryResponse {
       nextToken: json['nextToken'] as String?,
       virtualInterfaceTestHistory: (json['virtualInterfaceTestHistory']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VirtualInterfaceTestHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5731,15 +5731,15 @@ class Location {
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
       availableMacSecPortSpeeds: (json['availableMacSecPortSpeeds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       availablePortSpeeds: (json['availablePortSpeeds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       availableProviders: (json['availableProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       locationCode: json['locationCode'] as String?,
@@ -5779,7 +5779,7 @@ class Locations {
   factory Locations.fromJson(Map<String, dynamic> json) {
     return Locations(
       locations: (json['locations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Location.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6406,7 +6406,7 @@ class ResourceTag {
     return ResourceTag(
       resourceArn: json['resourceArn'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6730,7 +6730,7 @@ class VirtualGateways {
   factory VirtualGateways.fromJson(Map<String, dynamic> json) {
     return VirtualGateways(
       virtualGateways: (json['virtualGateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VirtualGateway.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6918,7 +6918,7 @@ class VirtualInterface {
       awsDeviceV2: json['awsDeviceV2'] as String?,
       awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bgpPeers: (json['bgpPeers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BGPPeer.fromJson(e as Map<String, dynamic>))
           .toList(),
       connectionId: json['connectionId'] as String?,
@@ -6931,12 +6931,12 @@ class VirtualInterface {
       ownerAccount: json['ownerAccount'] as String?,
       region: json['region'] as String?,
       routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
           .toList(),
       siteLinkEnabled: json['siteLinkEnabled'] as bool?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       virtualGatewayId: json['virtualGatewayId'] as String?,
@@ -7076,7 +7076,7 @@ class VirtualInterfaceTestHistory {
   factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) {
     return VirtualInterfaceTestHistory(
       bgpPeers: (json['bgpPeers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       endTime: timeStampFromJson(json['endTime']),
@@ -7123,7 +7123,7 @@ class VirtualInterfaces {
   factory VirtualInterfaces.fromJson(Map<String, dynamic> json) {
     return VirtualInterfaces(
       virtualInterfaces: (json['virtualInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VirtualInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

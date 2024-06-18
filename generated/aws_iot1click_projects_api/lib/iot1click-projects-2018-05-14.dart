@@ -698,7 +698,7 @@ class ListPlacementsResponse {
   factory ListPlacementsResponse.fromJson(Map<String, dynamic> json) {
     return ListPlacementsResponse(
       placements: (json['placements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PlacementSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -722,7 +722,7 @@ class ListProjectsResponse {
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
       projects: (json['projects'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

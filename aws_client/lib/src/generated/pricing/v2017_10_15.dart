@@ -473,7 +473,7 @@ class DescribeServicesResponse {
       formatVersion: json['FormatVersion'] as String?,
       nextToken: json['NextToken'] as String?,
       services: (json['Services'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Service.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -567,7 +567,7 @@ class GetAttributeValuesResponse {
   factory GetAttributeValuesResponse.fromJson(Map<String, dynamic> json) {
     return GetAttributeValuesResponse(
       attributeValues: (json['AttributeValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -664,7 +664,7 @@ class ListPriceListsResponse {
     return ListPriceListsResponse(
       nextToken: json['NextToken'] as String?,
       priceLists: (json['PriceLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PriceList.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -724,7 +724,7 @@ class PriceList {
     return PriceList(
       currencyCode: json['CurrencyCode'] as String?,
       fileFormats: (json['FileFormats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       priceListArn: json['PriceListArn'] as String?,
@@ -764,7 +764,7 @@ class Service {
     return Service(
       serviceCode: json['ServiceCode'] as String,
       attributeNames: (json['AttributeNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

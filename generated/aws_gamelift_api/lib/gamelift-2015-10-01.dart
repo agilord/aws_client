@@ -9492,10 +9492,7 @@ class AttributeValue {
       s: json['S'] as String?,
       sdm: (json['SDM'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as double)),
-      sl: (json['SL'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      sl: (json['SL'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10029,7 +10026,7 @@ class ContainerAttributes {
   factory ContainerAttributes.fromJson(Map<String, dynamic> json) {
     return ContainerAttributes(
       containerPortMappings: (json['ContainerPortMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContainerPortMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10145,21 +10142,19 @@ class ContainerDefinition {
     return ContainerDefinition(
       containerName: json['ContainerName'] as String,
       imageUri: json['ImageUri'] as String,
-      command: (json['Command'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       cpu: json['Cpu'] as int?,
       dependsOn: (json['DependsOn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContainerDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
       entryPoint: (json['EntryPoint'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       environment: (json['Environment'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContainerEnvironment.fromJson(e as Map<String, dynamic>))
           .toList(),
       essential: json['Essential'] as bool?,
@@ -10642,7 +10637,7 @@ class ContainerGroupDefinition {
   factory ContainerGroupDefinition.fromJson(Map<String, dynamic> json) {
     return ContainerGroupDefinition(
       containerDefinitions: (json['ContainerDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContainerDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       containerGroupDefinitionArn:
@@ -10750,7 +10745,7 @@ class ContainerGroupsAttributes {
           : null,
       containerGroupDefinitionProperties:
           (json['ContainerGroupDefinitionProperties'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ContainerGroupDefinitionProperty.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -10926,10 +10921,8 @@ class ContainerHealthCheck {
 
   factory ContainerHealthCheck.fromJson(Map<String, dynamic> json) {
     return ContainerHealthCheck(
-      command: (json['Command'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List).nonNulls.map((e) => e as String).toList(),
       interval: json['Interval'] as int?,
       retries: json['Retries'] as int?,
       startPeriod: json['StartPeriod'] as int?,
@@ -11025,7 +11018,7 @@ class ContainerPortConfiguration {
   factory ContainerPortConfiguration.fromJson(Map<String, dynamic> json) {
     return ContainerPortConfiguration(
       containerPortRanges: (json['ContainerPortRanges'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ContainerPortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11237,7 +11230,7 @@ class CreateFleetLocationsOutput {
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       locationStates: (json['LocationStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationState.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11269,7 +11262,7 @@ class CreateFleetOutput {
               json['FleetAttributes'] as Map<String, dynamic>)
           : null,
       locationStates: (json['LocationStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationState.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11414,7 +11407,7 @@ class CreatePlayerSessionsOutput {
   factory CreatePlayerSessionsOutput.fromJson(Map<String, dynamic> json) {
     return CreatePlayerSessionsOutput(
       playerSessions: (json['PlayerSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlayerSession.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11498,7 +11491,7 @@ class DeleteFleetLocationsOutput {
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       locationStates: (json['LocationStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationState.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11662,7 +11655,7 @@ class DescribeEC2InstanceLimitsOutput {
   factory DescribeEC2InstanceLimitsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeEC2InstanceLimitsOutput(
       eC2InstanceLimits: (json['EC2InstanceLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EC2InstanceLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11688,7 +11681,7 @@ class DescribeFleetAttributesOutput {
   factory DescribeFleetAttributesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeFleetAttributesOutput(
       fleetAttributes: (json['FleetAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11716,7 +11709,7 @@ class DescribeFleetCapacityOutput {
   factory DescribeFleetCapacityOutput.fromJson(Map<String, dynamic> json) {
     return DescribeFleetCapacityOutput(
       fleetCapacity: (json['FleetCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11742,7 +11735,7 @@ class DescribeFleetEventsOutput {
   factory DescribeFleetEventsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeFleetEventsOutput(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11783,7 +11776,7 @@ class DescribeFleetLocationAttributesOutput {
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       locationAttributes: (json['LocationAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11869,7 +11862,7 @@ class DescribeFleetPortSettingsOutput {
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       inboundPermissions: (json['InboundPermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpPermission.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: json['Location'] as String?,
@@ -11898,7 +11891,7 @@ class DescribeFleetUtilizationOutput {
   factory DescribeFleetUtilizationOutput.fromJson(Map<String, dynamic> json) {
     return DescribeFleetUtilizationOutput(
       fleetUtilization: (json['FleetUtilization'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetUtilization.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11943,7 +11936,7 @@ class DescribeGameServerInstancesOutput {
       Map<String, dynamic> json) {
     return DescribeGameServerInstancesOutput(
       gameServerInstances: (json['GameServerInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameServerInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11985,7 +11978,7 @@ class DescribeGameSessionDetailsOutput {
   factory DescribeGameSessionDetailsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeGameSessionDetailsOutput(
       gameSessionDetails: (json['GameSessionDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameSessionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12029,7 +12022,7 @@ class DescribeGameSessionQueuesOutput {
   factory DescribeGameSessionQueuesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeGameSessionQueuesOutput(
       gameSessionQueues: (json['GameSessionQueues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameSessionQueue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12054,7 +12047,7 @@ class DescribeGameSessionsOutput {
   factory DescribeGameSessionsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeGameSessionsOutput(
       gameSessions: (json['GameSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameSession.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12079,7 +12072,7 @@ class DescribeInstancesOutput {
   factory DescribeInstancesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeInstancesOutput(
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Instance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12105,7 +12098,7 @@ class DescribeMatchmakingConfigurationsOutput {
       Map<String, dynamic> json) {
     return DescribeMatchmakingConfigurationsOutput(
       configurations: (json['Configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MatchmakingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12125,7 +12118,7 @@ class DescribeMatchmakingOutput {
   factory DescribeMatchmakingOutput.fromJson(Map<String, dynamic> json) {
     return DescribeMatchmakingOutput(
       ticketList: (json['TicketList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchmakingTicket.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12150,7 +12143,7 @@ class DescribeMatchmakingRuleSetsOutput {
       Map<String, dynamic> json) {
     return DescribeMatchmakingRuleSetsOutput(
       ruleSets: (json['RuleSets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12177,7 +12170,7 @@ class DescribePlayerSessionsOutput {
     return DescribePlayerSessionsOutput(
       nextToken: json['NextToken'] as String?,
       playerSessions: (json['PlayerSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlayerSession.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12223,7 +12216,7 @@ class DescribeScalingPoliciesOutput {
     return DescribeScalingPoliciesOutput(
       nextToken: json['NextToken'] as String?,
       scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12260,7 +12253,7 @@ class DescribeVpcPeeringAuthorizationsOutput {
       Map<String, dynamic> json) {
     return DescribeVpcPeeringAuthorizationsOutput(
       vpcPeeringAuthorizations: (json['VpcPeeringAuthorizations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VpcPeeringAuthorization.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12280,7 +12273,7 @@ class DescribeVpcPeeringConnectionsOutput {
       Map<String, dynamic> json) {
     return DescribeVpcPeeringConnectionsOutput(
       vpcPeeringConnections: (json['VpcPeeringConnections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcPeeringConnection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12927,7 +12920,7 @@ class FilterConfiguration {
   factory FilterConfiguration.fromJson(Map<String, dynamic> json) {
     return FilterConfiguration(
       allowedLocations: (json['AllowedLocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -13250,11 +13243,11 @@ class FleetAttributes {
       instanceType:
           (json['InstanceType'] as String?)?.let(EC2InstanceType.fromString),
       logPaths: (json['LogPaths'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       metricGroups: (json['MetricGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -13273,7 +13266,7 @@ class FleetAttributes {
       serverLaunchPath: json['ServerLaunchPath'] as String?,
       status: (json['Status'] as String?)?.let(FleetStatus.fromString),
       stoppedActions: (json['StoppedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetAction.fromString((e as String)))
           .toList(),
       terminationTime: timeStampFromJson(json['TerminationTime']),
@@ -13783,7 +13776,7 @@ class GameServerGroup {
           (json['GameServerProtectionPolicy'] as String?)
               ?.let(GameServerProtectionPolicy.fromString),
       instanceDefinitions: (json['InstanceDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
@@ -13792,7 +13785,7 @@ class GameServerGroup {
           (json['Status'] as String?)?.let(GameServerGroupStatus.fromString),
       statusReason: json['StatusReason'] as String?,
       suspendedActions: (json['SuspendedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameServerGroupAction.fromString((e as String)))
           .toList(),
     );
@@ -14246,7 +14239,7 @@ class GameSession {
       fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       gameProperties: (json['GameProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       gameSessionData: json['GameSessionData'] as String?,
@@ -14322,7 +14315,7 @@ class GameSessionConnectionInfo {
       gameSessionArn: json['GameSessionArn'] as String?,
       ipAddress: json['IpAddress'] as String?,
       matchedPlayerSessions: (json['MatchedPlayerSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchedPlayerSession.fromJson(e as Map<String, dynamic>))
           .toList(),
       port: json['Port'] as int?,
@@ -14529,7 +14522,7 @@ class GameSessionPlacement {
       dnsName: json['DnsName'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       gameProperties: (json['GameProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       gameSessionArn: json['GameSessionArn'] as String?,
@@ -14542,12 +14535,12 @@ class GameSessionPlacement {
       matchmakerData: json['MatchmakerData'] as String?,
       maximumPlayerSessionCount: json['MaximumPlayerSessionCount'] as int?,
       placedPlayerSessions: (json['PlacedPlayerSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlacedPlayerSession.fromJson(e as Map<String, dynamic>))
           .toList(),
       placementId: json['PlacementId'] as String?,
       playerLatencies: (json['PlayerLatencies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlayerLatency.fromJson(e as Map<String, dynamic>))
           .toList(),
       port: json['Port'] as int?,
@@ -14651,7 +14644,7 @@ class GameSessionQueue {
     return GameSessionQueue(
       customEventData: json['CustomEventData'] as String?,
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GameSessionQueueDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14663,7 +14656,7 @@ class GameSessionQueue {
       name: json['Name'] as String?,
       notificationTarget: json['NotificationTarget'] as String?,
       playerLatencyPolicies: (json['PlayerLatencyPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlayerLatencyPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       priorityConfiguration: json['PriorityConfiguration'] != null
@@ -15256,7 +15249,7 @@ class ListAliasesOutput {
   factory ListAliasesOutput.fromJson(Map<String, dynamic> json) {
     return ListAliasesOutput(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15281,7 +15274,7 @@ class ListBuildsOutput {
   factory ListBuildsOutput.fromJson(Map<String, dynamic> json) {
     return ListBuildsOutput(
       builds: (json['Builds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Build.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15306,7 +15299,7 @@ class ListComputeOutput {
   factory ListComputeOutput.fromJson(Map<String, dynamic> json) {
     return ListComputeOutput(
       computeList: (json['ComputeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Compute.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15332,7 +15325,7 @@ class ListContainerGroupDefinitionsOutput {
       Map<String, dynamic> json) {
     return ListContainerGroupDefinitionsOutput(
       containerGroupDefinitions: (json['ContainerGroupDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContainerGroupDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15358,7 +15351,7 @@ class ListFleetsOutput {
   factory ListFleetsOutput.fromJson(Map<String, dynamic> json) {
     return ListFleetsOutput(
       fleetIds: (json['FleetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15382,7 +15375,7 @@ class ListGameServerGroupsOutput {
   factory ListGameServerGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListGameServerGroupsOutput(
       gameServerGroups: (json['GameServerGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameServerGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15407,7 +15400,7 @@ class ListGameServersOutput {
   factory ListGameServersOutput.fromJson(Map<String, dynamic> json) {
     return ListGameServersOutput(
       gameServers: (json['GameServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15432,7 +15425,7 @@ class ListLocationsOutput {
   factory ListLocationsOutput.fromJson(Map<String, dynamic> json) {
     return ListLocationsOutput(
       locations: (json['Locations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -15458,7 +15451,7 @@ class ListScriptsOutput {
     return ListScriptsOutput(
       nextToken: json['NextToken'] as String?,
       scripts: (json['Scripts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Script.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15476,7 +15469,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15510,7 +15503,7 @@ class LocationAttributes {
               json['LocationState'] as Map<String, dynamic>)
           : null,
       stoppedActions: (json['StoppedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetAction.fromString((e as String)))
           .toList(),
       updateStatus: (json['UpdateStatus'] as String?)
@@ -15835,12 +15828,12 @@ class MatchmakingConfiguration {
       flexMatchMode:
           (json['FlexMatchMode'] as String?)?.let(FlexMatchMode.fromString),
       gameProperties: (json['GameProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       gameSessionData: json['GameSessionData'] as String?,
       gameSessionQueueArns: (json['GameSessionQueueArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -16075,7 +16068,7 @@ class MatchmakingTicket {
               json['GameSessionConnectionInfo'] as Map<String, dynamic>)
           : null,
       players: (json['Players'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Player.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
@@ -16548,11 +16541,11 @@ class PriorityConfiguration {
   factory PriorityConfiguration.fromJson(Map<String, dynamic> json) {
     return PriorityConfiguration(
       locationOrder: (json['LocationOrder'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       priorityOrder: (json['PriorityOrder'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PriorityType.fromString((e as String)))
           .toList(),
     );
@@ -16930,7 +16923,7 @@ class RuntimeConfiguration {
       maxConcurrentGameSessionActivations:
           json['MaxConcurrentGameSessionActivations'] as int?,
       serverProcesses: (json['ServerProcesses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerProcess.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17334,7 +17327,7 @@ class SearchGameSessionsOutput {
   factory SearchGameSessionsOutput.fromJson(Map<String, dynamic> json) {
     return SearchGameSessionsOutput(
       gameSessions: (json['GameSessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GameSession.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

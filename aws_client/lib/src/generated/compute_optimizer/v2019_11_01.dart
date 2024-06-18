@@ -2396,18 +2396,18 @@ class AutoScalingGroupRecommendation {
               : null,
       finding: (json['finding'] as String?)?.let(Finding.fromString),
       inferredWorkloadTypes: (json['inferredWorkloadTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InferredWorkloadType.fromString((e as String)))
           .toList(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
       recommendationOptions: (json['recommendationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoScalingGroupRecommendationOption.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       utilizationMetrics: (json['utilizationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2550,7 +2550,7 @@ class AutoScalingGroupRecommendationOption {
       performanceRisk: json['performanceRisk'] as double?,
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
               .toList(),
       rank: json['rank'] as int?,
@@ -2946,7 +2946,7 @@ class DescribeRecommendationExportJobsResponse {
     return DescribeRecommendationExportJobsResponse(
       nextToken: json['nextToken'] as String?,
       recommendationExportJobs: (json['recommendationExportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecommendationExportJob.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3530,16 +3530,16 @@ class ECSServiceProjectedMetric {
   factory ECSServiceProjectedMetric.fromJson(Map<String, dynamic> json) {
     return ECSServiceProjectedMetric(
       lowerBoundValues: (json['lowerBoundValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       name: (json['name'] as String?)?.let(ECSServiceMetricName.fromString),
       timestamps: (json['timestamps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
       upperBoundValues: (json['upperBoundValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
     );
@@ -3779,7 +3779,7 @@ class ECSServiceRecommendation {
       finding: (json['finding'] as String?)
           ?.let(ECSServiceRecommendationFinding.fromString),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ECSServiceRecommendationFindingReasonCode.fromString(
               (e as String)))
           .toList(),
@@ -3790,16 +3790,16 @@ class ECSServiceRecommendation {
       serviceArn: json['serviceArn'] as String?,
       serviceRecommendationOptions:
           (json['serviceRecommendationOptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ECSServiceRecommendationOption.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       utilizationMetrics: (json['utilizationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ECSServiceUtilizationMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3996,7 +3996,7 @@ class ECSServiceRecommendationOption {
   factory ECSServiceRecommendationOption.fromJson(Map<String, dynamic> json) {
     return ECSServiceRecommendationOption(
       containerRecommendations: (json['containerRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContainerRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4004,7 +4004,7 @@ class ECSServiceRecommendationOption {
       memory: json['memory'] as int?,
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ECSServiceProjectedUtilizationMetric.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -4069,7 +4069,7 @@ class ECSServiceRecommendedOptionProjectedMetric {
       Map<String, dynamic> json) {
     return ECSServiceRecommendedOptionProjectedMetric(
       projectedMetrics: (json['projectedMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ECSServiceProjectedMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4190,15 +4190,15 @@ class EffectivePreferredResource {
   factory EffectivePreferredResource.fromJson(Map<String, dynamic> json) {
     return EffectivePreferredResource(
       effectiveIncludeList: (json['effectiveIncludeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       excludeList: (json['excludeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includeList: (json['includeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: (json['name'] as String?)?.let(PreferredResourceName.fromString),
@@ -4307,7 +4307,7 @@ class EffectiveRecommendationPreferences {
       Map<String, dynamic> json) {
     return EffectiveRecommendationPreferences(
       cpuVendorArchitectures: (json['cpuVendorArchitectures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CpuVendorArchitecture.fromString((e as String)))
           .toList(),
       enhancedInfrastructureMetrics:
@@ -4322,7 +4322,7 @@ class EffectiveRecommendationPreferences {
       lookBackPeriod: (json['lookBackPeriod'] as String?)
           ?.let(LookBackPeriodPreference.fromString),
       preferredResources: (json['preferredResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EffectivePreferredResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4331,7 +4331,7 @@ class EffectiveRecommendationPreferences {
               json['savingsEstimationMode'] as Map<String, dynamic>)
           : null,
       utilizationPreferences: (json['utilizationPreferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtilizationPreference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5525,12 +5525,12 @@ class GetAutoScalingGroupRecommendationsResponse {
     return GetAutoScalingGroupRecommendationsResponse(
       autoScalingGroupRecommendations:
           (json['autoScalingGroupRecommendations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AutoScalingGroupRecommendation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5578,13 +5578,13 @@ class GetEBSVolumeRecommendationsResponse {
       Map<String, dynamic> json) {
     return GetEBSVolumeRecommendationsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
       volumeRecommendations: (json['volumeRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VolumeRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5629,12 +5629,12 @@ class GetEC2InstanceRecommendationsResponse {
       Map<String, dynamic> json) {
     return GetEC2InstanceRecommendationsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
           .toList(),
       instanceRecommendations: (json['instanceRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => InstanceRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5669,7 +5669,7 @@ class GetEC2RecommendationProjectedMetricsResponse {
     return GetEC2RecommendationProjectedMetricsResponse(
       recommendedOptionProjectedMetrics:
           (json['recommendedOptionProjectedMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => RecommendedOptionProjectedMetric.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5700,7 +5700,7 @@ class GetECSServiceRecommendationProjectedMetricsResponse {
     return GetECSServiceRecommendationProjectedMetricsResponse(
       recommendedOptionProjectedMetrics:
           (json['recommendedOptionProjectedMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ECSServiceRecommendedOptionProjectedMetric.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5737,12 +5737,12 @@ class GetECSServiceRecommendationsResponse {
       Map<String, dynamic> json) {
     return GetECSServiceRecommendationsResponse(
       ecsServiceRecommendations: (json['ecsServiceRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ECSServiceRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5853,12 +5853,12 @@ class GetEffectiveRecommendationPreferencesResponse {
       lookBackPeriod: (json['lookBackPeriod'] as String?)
           ?.let(LookBackPeriodPreference.fromString),
       preferredResources: (json['preferredResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EffectivePreferredResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       utilizationPreferences: (json['utilizationPreferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtilizationPreference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5964,7 +5964,7 @@ class GetEnrollmentStatusesForOrganizationResponse {
       Map<String, dynamic> json) {
     return GetEnrollmentStatusesForOrganizationResponse(
       accountEnrollmentStatuses: (json['accountEnrollmentStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AccountEnrollmentStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6003,7 +6003,7 @@ class GetLambdaFunctionRecommendationsResponse {
     return GetLambdaFunctionRecommendationsResponse(
       lambdaFunctionRecommendations: (json['lambdaFunctionRecommendations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LambdaFunctionRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6042,12 +6042,12 @@ class GetLicenseRecommendationsResponse {
       Map<String, dynamic> json) {
     return GetLicenseRecommendationsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
           .toList(),
       licenseRecommendations: (json['licenseRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6129,7 +6129,7 @@ class GetRecommendationPreferencesResponse {
       nextToken: json['nextToken'] as String?,
       recommendationPreferencesDetails:
           (json['recommendationPreferencesDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => RecommendationPreferencesDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6168,7 +6168,7 @@ class GetRecommendationSummariesResponse {
     return GetRecommendationSummariesResponse(
       nextToken: json['nextToken'] as String?,
       recommendationSummaries: (json['recommendationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6228,7 +6228,7 @@ class GpuInfo {
   factory GpuInfo.fromJson(Map<String, dynamic> json) {
     return GpuInfo(
       gpus: (json['gpus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Gpu.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6308,7 +6308,7 @@ class InferredWorkloadSaving {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       inferredWorkloadTypes: (json['inferredWorkloadTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InferredWorkloadType.fromString((e as String)))
           .toList(),
     );
@@ -6730,13 +6730,13 @@ class InstanceRecommendation {
           : null,
       finding: (json['finding'] as String?)?.let(Finding.fromString),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               InstanceRecommendationFindingReasonCode.fromString((e as String)))
           .toList(),
       idle: (json['idle'] as String?)?.let(InstanceIdle.fromString),
       inferredWorkloadTypes: (json['inferredWorkloadTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InferredWorkloadType.fromString((e as String)))
           .toList(),
       instanceArn: json['instanceArn'] as String?,
@@ -6746,20 +6746,20 @@ class InstanceRecommendation {
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
       recommendationOptions: (json['recommendationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               InstanceRecommendationOption.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationSources: (json['recommendationSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       utilizationMetrics: (json['utilizationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7053,12 +7053,12 @@ class InstanceRecommendationOption {
           (json['migrationEffort'] as String?)?.let(MigrationEffort.fromString),
       performanceRisk: json['performanceRisk'] as double?,
       platformDifferences: (json['platformDifferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlatformDifference.fromString((e as String)))
           .toList(),
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
               .toList(),
       rank: json['rank'] as int?,
@@ -7466,7 +7466,7 @@ class LambdaFunctionMemoryRecommendationOption {
       memorySize: json['memorySize'] as int?,
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => LambdaFunctionMemoryProjectedMetric.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7685,7 +7685,7 @@ class LambdaFunctionRecommendation {
       finding: (json['finding'] as String?)
           ?.let(LambdaFunctionRecommendationFinding.fromString),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LambdaFunctionRecommendationFindingReasonCode.fromString(
               (e as String)))
           .toList(),
@@ -7695,17 +7695,17 @@ class LambdaFunctionRecommendation {
       lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
       memorySizeRecommendationOptions:
           (json['memorySizeRecommendationOptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => LambdaFunctionMemoryRecommendationOption.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       numberOfInvocations: json['numberOfInvocations'] as int?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       utilizationMetrics: (json['utilizationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LambdaFunctionUtilizationMetric.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8079,7 +8079,7 @@ class LicenseConfiguration {
           (json['licenseName'] as String?)?.let(LicenseName.fromString),
       licenseVersion: json['licenseVersion'] as String?,
       metricsSource: (json['metricsSource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       numberOfCores: json['numberOfCores'] as int?,
@@ -8283,20 +8283,20 @@ class LicenseRecommendation {
           : null,
       finding: (json['finding'] as String?)?.let(LicenseFinding.fromString),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseFindingReasonCode.fromString((e as String)))
           .toList(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       licenseRecommendationOptions: (json['licenseRecommendationOptions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LicenseRecommendationOption.fromJson(e as Map<String, dynamic>))
           .toList(),
       lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
       resourceArn: json['resourceArn'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8792,13 +8792,11 @@ class ProjectedMetric {
     return ProjectedMetric(
       name: (json['name'] as String?)?.let(MetricName.fromString),
       timestamps: (json['timestamps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as double).toList(),
     );
   }
 
@@ -9098,7 +9096,7 @@ class RecommendationPreferencesDetail {
       lookBackPeriod: (json['lookBackPeriod'] as String?)
           ?.let(LookBackPeriodPreference.fromString),
       preferredResources: (json['preferredResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EffectivePreferredResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9110,7 +9108,7 @@ class RecommendationPreferencesDetail {
           ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
           : null,
       utilizationPreferences: (json['utilizationPreferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtilizationPreference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9242,7 +9240,7 @@ class RecommendationSummary {
                   json['currentPerformanceRiskRatings'] as Map<String, dynamic>)
               : null,
       inferredWorkloadSavings: (json['inferredWorkloadSavings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => InferredWorkloadSaving.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9254,7 +9252,7 @@ class RecommendationSummary {
               json['savingsOpportunity'] as Map<String, dynamic>)
           : null,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Summary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9317,7 +9315,7 @@ class RecommendedOptionProjectedMetric {
   factory RecommendedOptionProjectedMetric.fromJson(Map<String, dynamic> json) {
     return RecommendedOptionProjectedMetric(
       projectedMetrics: (json['projectedMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectedMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       rank: json['rank'] as int?,
@@ -9664,7 +9662,7 @@ class ServiceConfiguration {
       autoScalingConfiguration: (json['autoScalingConfiguration'] as String?)
           ?.let(AutoScalingConfiguration.fromString),
       containerConfigurations: (json['containerConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ContainerConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9729,7 +9727,7 @@ class Summary {
     return Summary(
       name: (json['name'] as String?)?.let(Finding.fromString),
       reasonCodeSummaries: (json['reasonCodeSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReasonCodeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       value: json['value'] as double?,
@@ -10189,17 +10187,17 @@ class VolumeRecommendation {
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       utilizationMetrics: (json['utilizationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EBSUtilizationMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeArn: json['volumeArn'] as String?,
       volumeRecommendationOptions: (json['volumeRecommendationOptions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VolumeRecommendationOption.fromJson(e as Map<String, dynamic>))
           .toList(),

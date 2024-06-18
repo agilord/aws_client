@@ -6360,12 +6360,12 @@ class AssociateFacesResponse {
   factory AssociateFacesResponse.fromJson(Map<String, dynamic> json) {
     return AssociateFacesResponse(
       associatedFaces: (json['AssociatedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociatedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
       unsuccessfulFaceAssociations: (json['UnsuccessfulFaceAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnsuccessfulFaceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6671,10 +6671,7 @@ class Celebrity {
           : null,
       matchConfidence: json['MatchConfidence'] as double?,
       name: json['Name'] as String?,
-      urls: (json['Urls'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -6727,10 +6724,7 @@ class CelebrityDetail {
           ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      urls: (json['Urls'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -6860,7 +6854,7 @@ class CompareFacesResponse {
   factory CompareFacesResponse.fromJson(Map<String, dynamic> json) {
     return CompareFacesResponse(
       faceMatches: (json['FaceMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CompareFacesMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceImageFace: json['SourceImageFace'] != null
@@ -6874,7 +6868,7 @@ class CompareFacesResponse {
           (json['TargetImageOrientationCorrection'] as String?)
               ?.let(OrientationCorrection.fromString),
       unmatchedFaces: (json['UnmatchedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6925,11 +6919,11 @@ class ComparedFace {
           : null,
       confidence: json['Confidence'] as double?,
       emotions: (json['Emotions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
           .toList(),
       landmarks: (json['Landmarks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
           .toList(),
       pose: json['Pose'] != null
@@ -6998,10 +6992,8 @@ class ConnectedHomeSettings {
 
   factory ConnectedHomeSettings.fromJson(Map<String, dynamic> json) {
     return ConnectedHomeSettings(
-      labels: (json['Labels'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['Labels'] as List).nonNulls.map((e) => e as String).toList(),
       minConfidence: json['MinConfidence'] as double?,
     );
   }
@@ -7114,7 +7106,7 @@ class ContentModerationDetection {
   factory ContentModerationDetection.fromJson(Map<String, dynamic> json) {
     return ContentModerationDetection(
       contentTypes: (json['ContentTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContentType.fromJson(e as Map<String, dynamic>))
           .toList(),
       durationMillis: json['DurationMillis'] as int?,
@@ -7785,11 +7777,11 @@ class DeleteFacesResponse {
   factory DeleteFacesResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFacesResponse(
       deletedFaces: (json['DeletedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       unsuccessfulFaceDeletions: (json['UnsuccessfulFaceDeletions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnsuccessfulFaceDeletion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7930,7 +7922,7 @@ class DescribeProjectVersionsResponse {
     return DescribeProjectVersionsResponse(
       nextToken: json['NextToken'] as String?,
       projectVersionDescriptions: (json['ProjectVersionDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProjectVersionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7957,7 +7949,7 @@ class DescribeProjectsResponse {
     return DescribeProjectsResponse(
       nextToken: json['NextToken'] as String?,
       projectDescriptions: (json['ProjectDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8055,7 +8047,7 @@ class DescribeStreamProcessorResponse {
               json['Output'] as Map<String, dynamic>)
           : null,
       regionsOfInterest: (json['RegionsOfInterest'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegionOfInterest.fromJson(e as Map<String, dynamic>))
           .toList(),
       roleArn: json['RoleArn'] as String?,
@@ -8082,7 +8074,7 @@ class DetectCustomLabelsResponse {
   factory DetectCustomLabelsResponse.fromJson(Map<String, dynamic> json) {
     return DetectCustomLabelsResponse(
       customLabels: (json['CustomLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomLabel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8116,7 +8108,7 @@ class DetectFacesResponse {
   factory DetectFacesResponse.fromJson(Map<String, dynamic> json) {
     return DetectFacesResponse(
       faceDetails: (json['FaceDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       orientationCorrection: (json['OrientationCorrection'] as String?)
@@ -8159,7 +8151,7 @@ class DetectLabelsImageBackground {
   factory DetectLabelsImageBackground.fromJson(Map<String, dynamic> json) {
     return DetectLabelsImageBackground(
       dominantColors: (json['DominantColors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
           .toList(),
       quality: json['Quality'] != null
@@ -8189,7 +8181,7 @@ class DetectLabelsImageForeground {
   factory DetectLabelsImageForeground.fromJson(Map<String, dynamic> json) {
     return DetectLabelsImageForeground(
       dominantColors: (json['DominantColors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
           .toList(),
       quality: json['Quality'] != null
@@ -8238,7 +8230,7 @@ class DetectLabelsImageProperties {
               json['Background'] as Map<String, dynamic>)
           : null,
       dominantColors: (json['DominantColors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
           .toList(),
       foreground: json['Foreground'] != null
@@ -8339,7 +8331,7 @@ class DetectLabelsResponse {
           : null,
       labelModelVersion: json['LabelModelVersion'] as String?,
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
           .toList(),
       orientationCorrection: (json['OrientationCorrection'] as String?)
@@ -8407,7 +8399,7 @@ class DetectModerationLabelsResponse {
   factory DetectModerationLabelsResponse.fromJson(Map<String, dynamic> json) {
     return DetectModerationLabelsResponse(
       contentTypes: (json['ContentTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContentType.fromJson(e as Map<String, dynamic>))
           .toList(),
       humanLoopActivationOutput: json['HumanLoopActivationOutput'] != null
@@ -8415,7 +8407,7 @@ class DetectModerationLabelsResponse {
               json['HumanLoopActivationOutput'] as Map<String, dynamic>)
           : null,
       moderationLabels: (json['ModerationLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModerationLabel.fromJson(e as Map<String, dynamic>))
           .toList(),
       moderationModelVersion: json['ModerationModelVersion'] as String?,
@@ -8447,7 +8439,7 @@ class DetectProtectiveEquipmentResponse {
       Map<String, dynamic> json) {
     return DetectProtectiveEquipmentResponse(
       persons: (json['Persons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProtectiveEquipmentPerson.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8502,7 +8494,7 @@ class DetectTextResponse {
   factory DetectTextResponse.fromJson(Map<String, dynamic> json) {
     return DetectTextResponse(
       textDetections: (json['TextDetections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TextDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       textModelVersion: json['TextModelVersion'] as String?,
@@ -8572,12 +8564,12 @@ class DisassociateFacesResponse {
   factory DisassociateFacesResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateFacesResponse(
       disassociatedFaces: (json['DisassociatedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DisassociatedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
       unsuccessfulFaceDisassociations:
           (json['UnsuccessfulFaceDisassociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UnsuccessfulFaceDisassociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9060,7 +9052,7 @@ class FaceDetail {
           : null,
       confidence: json['Confidence'] as double?,
       emotions: (json['Emotions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
           .toList(),
       eyeDirection: json['EyeDirection'] != null
@@ -9079,7 +9071,7 @@ class FaceDetail {
           ? Gender.fromJson(json['Gender'] as Map<String, dynamic>)
           : null,
       landmarks: (json['Landmarks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
           .toList(),
       mouthOpen: json['MouthOpen'] != null
@@ -9384,7 +9376,7 @@ class Geometry {
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
       polygon: (json['Polygon'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9413,10 +9405,7 @@ class GetCelebrityInfoResponse {
           ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      urls: (json['Urls'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -9467,7 +9456,7 @@ class GetCelebrityRecognitionResponse {
   factory GetCelebrityRecognitionResponse.fromJson(Map<String, dynamic> json) {
     return GetCelebrityRecognitionResponse(
       celebrities: (json['Celebrities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CelebrityRecognition.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
@@ -9575,7 +9564,7 @@ class GetContentModerationResponse {
       jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       moderationLabels: (json['ModerationLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContentModerationDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9640,7 +9629,7 @@ class GetFaceDetectionResponse {
   factory GetFaceDetectionResponse.fromJson(Map<String, dynamic> json) {
     return GetFaceDetectionResponse(
       faces: (json['Faces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
@@ -9701,7 +9690,7 @@ class GetFaceLivenessSessionResultsResponse {
       sessionId: json['SessionId'] as String,
       status: LivenessSessionStatus.fromString((json['Status'] as String)),
       auditImages: (json['AuditImages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AuditImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       confidence: json['Confidence'] as double?,
@@ -9769,7 +9758,7 @@ class GetFaceSearchResponse {
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       persons: (json['Persons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PersonMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['StatusMessage'] as String?,
@@ -9872,7 +9861,7 @@ class GetLabelDetectionResponse {
       jobTag: json['JobTag'] as String?,
       labelModelVersion: json['LabelModelVersion'] as String?,
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10024,7 +10013,7 @@ class GetPersonTrackingResponse {
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       persons: (json['Persons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PersonDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['StatusMessage'] as String?,
@@ -10106,7 +10095,7 @@ class GetSegmentDetectionResponse {
   factory GetSegmentDetectionResponse.fromJson(Map<String, dynamic> json) {
     return GetSegmentDetectionResponse(
       audioMetadata: (json['AudioMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
@@ -10114,11 +10103,11 @@ class GetSegmentDetectionResponse {
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       segments: (json['Segments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SegmentDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       selectedSegmentTypes: (json['SelectedSegmentTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SegmentTypeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['StatusMessage'] as String?,
@@ -10126,7 +10115,7 @@ class GetSegmentDetectionResponse {
           ? Video.fromJson(json['Video'] as Map<String, dynamic>)
           : null,
       videoMetadata: (json['VideoMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VideoMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10185,7 +10174,7 @@ class GetTextDetectionResponse {
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       textDetections: (json['TextDetections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TextDetectionResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       textModelVersion: json['TextModelVersion'] as String?,
@@ -10253,7 +10242,7 @@ class HumanLoopActivationOutput {
                   json['HumanLoopActivationConditionsEvaluationResults']
                       as String),
       humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       humanLoopArn: json['HumanLoopArn'] as String?,
@@ -10448,13 +10437,13 @@ class IndexFacesResponse {
     return IndexFacesResponse(
       faceModelVersion: json['FaceModelVersion'] as String?,
       faceRecords: (json['FaceRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       orientationCorrection: (json['OrientationCorrection'] as String?)
           ?.let(OrientationCorrection.fromString),
       unindexedFaces: (json['UnindexedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnindexedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10488,7 +10477,7 @@ class Instance {
           : null,
       confidence: json['Confidence'] as double?,
       dominantColors: (json['DominantColors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10648,21 +10637,21 @@ class Label {
   factory Label.fromJson(Map<String, dynamic> json) {
     return Label(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelAlias.fromJson(e as Map<String, dynamic>))
           .toList(),
       categories: (json['Categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
       confidence: json['Confidence'] as double?,
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Instance.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       parents: (json['Parents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10905,11 +10894,11 @@ class ListCollectionsResponse {
   factory ListCollectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCollectionsResponse(
       collectionIds: (json['CollectionIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       faceModelVersions: (json['FaceModelVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10935,7 +10924,7 @@ class ListDatasetEntriesResponse {
   factory ListDatasetEntriesResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetEntriesResponse(
       datasetEntries: (json['DatasetEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10961,7 +10950,7 @@ class ListDatasetLabelsResponse {
   factory ListDatasetLabelsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetLabelsResponse(
       datasetLabelDescriptions: (json['DatasetLabelDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DatasetLabelDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10992,7 +10981,7 @@ class ListFacesResponse {
     return ListFacesResponse(
       faceModelVersion: json['FaceModelVersion'] as String?,
       faces: (json['Faces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Face.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11015,7 +11004,7 @@ class ListMediaAnalysisJobsResponse {
   factory ListMediaAnalysisJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMediaAnalysisJobsResponse(
       mediaAnalysisJobs: (json['MediaAnalysisJobs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MediaAnalysisJobDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11042,7 +11031,7 @@ class ListProjectPoliciesResponse {
     return ListProjectPoliciesResponse(
       nextToken: json['NextToken'] as String?,
       projectPolicies: (json['ProjectPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11067,7 +11056,7 @@ class ListStreamProcessorsResponse {
     return ListStreamProcessorsResponse(
       nextToken: json['NextToken'] as String?,
       streamProcessors: (json['StreamProcessors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamProcessor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11107,7 +11096,7 @@ class ListUsersResponse {
     return ListUsersResponse(
       nextToken: json['NextToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11777,7 +11766,7 @@ class PersonMatch {
   factory PersonMatch.fromJson(Map<String, dynamic> json) {
     return PersonMatch(
       faceMatches: (json['FaceMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       person: json['Person'] != null
@@ -11920,7 +11909,7 @@ class ProjectDescription {
           (json['AutoUpdate'] as String?)?.let(ProjectAutoUpdate.fromString),
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       datasets: (json['Datasets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       feature:
@@ -12179,7 +12168,7 @@ class ProtectiveEquipmentBodyPart {
     return ProtectiveEquipmentBodyPart(
       confidence: json['Confidence'] as double?,
       equipmentDetections: (json['EquipmentDetections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: (json['Name'] as String?)?.let(BodyPart.fromString),
@@ -12216,7 +12205,7 @@ class ProtectiveEquipmentPerson {
   factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) {
     return ProtectiveEquipmentPerson(
       bodyParts: (json['BodyParts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProtectiveEquipmentBodyPart.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12318,17 +12307,17 @@ class ProtectiveEquipmentSummary {
   factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) {
     return ProtectiveEquipmentSummary(
       personsIndeterminate: (json['PersonsIndeterminate'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       personsWithRequiredEquipment:
           (json['PersonsWithRequiredEquipment'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as int)
               .toList(),
       personsWithoutRequiredEquipment:
           (json['PersonsWithoutRequiredEquipment'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as int)
               .toList(),
     );
@@ -12446,13 +12435,13 @@ class RecognizeCelebritiesResponse {
   factory RecognizeCelebritiesResponse.fromJson(Map<String, dynamic> json) {
     return RecognizeCelebritiesResponse(
       celebrityFaces: (json['CelebrityFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Celebrity.fromJson(e as Map<String, dynamic>))
           .toList(),
       orientationCorrection: (json['OrientationCorrection'] as String?)
           ?.let(OrientationCorrection.fromString),
       unrecognizedFaces: (json['UnrecognizedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12486,7 +12475,7 @@ class RegionOfInterest {
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
       polygon: (json['Polygon'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12611,7 +12600,7 @@ class SearchFacesByImageResponse {
   factory SearchFacesByImageResponse.fromJson(Map<String, dynamic> json) {
     return SearchFacesByImageResponse(
       faceMatches: (json['FaceMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       faceModelVersion: json['FaceModelVersion'] as String?,
@@ -12645,7 +12634,7 @@ class SearchFacesResponse {
   factory SearchFacesResponse.fromJson(Map<String, dynamic> json) {
     return SearchFacesResponse(
       faceMatches: (json['FaceMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       faceModelVersion: json['FaceModelVersion'] as String?,
@@ -12690,11 +12679,11 @@ class SearchUsersByImageResponse {
               json['SearchedFace'] as Map<String, dynamic>)
           : null,
       unsearchedFaces: (json['UnsearchedFaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnsearchedFace.fromJson(e as Map<String, dynamic>))
           .toList(),
       userMatches: (json['UserMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12735,7 +12724,7 @@ class SearchUsersResponse {
           ? SearchedUser.fromJson(json['SearchedUser'] as Map<String, dynamic>)
           : null,
       userMatches: (json['UserMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13684,7 +13673,7 @@ class TestingData {
   factory TestingData.fromJson(Map<String, dynamic> json) {
     return TestingData(
       assets: (json['Assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
       autoCreate: json['AutoCreate'] as bool?,
@@ -13851,7 +13840,7 @@ class TrainingData {
   factory TrainingData.fromJson(Map<String, dynamic> json) {
     return TrainingData(
       assets: (json['Assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13946,7 +13935,7 @@ class UnindexedFace {
           ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
           : null,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Reason.fromString((e as String)))
           .toList(),
     );
@@ -13972,7 +13961,7 @@ class UnsearchedFace {
           ? FaceDetail.fromJson(json['FaceDetails'] as Map<String, dynamic>)
           : null,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnsearchedFaceReason.fromString((e as String)))
           .toList(),
     );
@@ -14028,7 +14017,7 @@ class UnsuccessfulFaceAssociation {
       confidence: json['Confidence'] as double?,
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnsuccessfulFaceAssociationReason.fromString((e as String)))
           .toList(),
@@ -14075,7 +14064,7 @@ class UnsuccessfulFaceDeletion {
     return UnsuccessfulFaceDeletion(
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnsuccessfulFaceDeletionReason.fromString((e as String)))
           .toList(),
       userId: json['UserId'] as String?,
@@ -14120,7 +14109,7 @@ class UnsuccessfulFaceDisassociation {
     return UnsuccessfulFaceDisassociation(
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnsuccessfulFaceDisassociationReason.fromString((e as String)))
           .toList(),
@@ -14255,7 +14244,7 @@ class ValidationData {
   factory ValidationData.fromJson(Map<String, dynamic> json) {
     return ValidationData(
       assets: (json['Assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

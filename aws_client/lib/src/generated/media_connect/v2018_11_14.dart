@@ -2177,7 +2177,7 @@ class AddBridgeOutputsResponse {
     return AddBridgeOutputsResponse(
       bridgeArn: json['bridgeArn'] as String?,
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BridgeOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2229,7 +2229,7 @@ class AddBridgeSourcesResponse {
     return AddBridgeSourcesResponse(
       bridgeArn: json['bridgeArn'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BridgeSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2277,7 +2277,7 @@ class AddFlowMediaStreamsResponse {
     return AddFlowMediaStreamsResponse(
       flowArn: json['flowArn'] as String?,
       mediaStreams: (json['mediaStreams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaStream.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2309,7 +2309,7 @@ class AddFlowOutputsResponse {
     return AddFlowOutputsResponse(
       flowArn: json['flowArn'] as String?,
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2341,7 +2341,7 @@ class AddFlowSourcesResponse {
     return AddFlowSourcesResponse(
       flowArn: json['flowArn'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Source.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2373,7 +2373,7 @@ class AddFlowVpcInterfacesResponse {
     return AddFlowVpcInterfacesResponse(
       flowArn: json['flowArn'] as String?,
       vpcInterfaces: (json['vpcInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2669,7 +2669,7 @@ class Bridge {
       name: json['name'] as String,
       placementArn: json['placementArn'] as String,
       bridgeMessages: (json['bridgeMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressGatewayBridge: json['egressGatewayBridge'] != null
@@ -2681,7 +2681,7 @@ class Bridge {
               json['ingressGatewayBridge'] as Map<String, dynamic>)
           : null,
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BridgeOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceFailoverConfig: json['sourceFailoverConfig'] != null
@@ -2689,7 +2689,7 @@ class Bridge {
               json['sourceFailoverConfig'] as Map<String, dynamic>)
           : null,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BridgeSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3308,7 +3308,7 @@ class DescribeFlowSourceMetadataResponse {
     return DescribeFlowSourceMetadataResponse(
       flowArn: json['flowArn'] as String?,
       messages: (json['messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       timestamp: timeStampFromJson(json['timestamp']),
@@ -3809,7 +3809,7 @@ class Entitlement {
       entitlementArn: json['entitlementArn'] as String,
       name: json['name'] as String,
       subscribers: (json['subscribers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       dataTransferSubscriberFeePercent:
@@ -3986,13 +3986,13 @@ class Flow {
     return Flow(
       availabilityZone: json['availabilityZone'] as String,
       entitlements: (json['entitlements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       flowArn: json['flowArn'] as String,
       name: json['name'] as String,
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
@@ -4003,7 +4003,7 @@ class Flow {
           ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
           : null,
       mediaStreams: (json['mediaStreams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaStream.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceFailoverConfig: json['sourceFailoverConfig'] != null
@@ -4011,11 +4011,11 @@ class Flow {
               json['sourceFailoverConfig'] as Map<String, dynamic>)
           : null,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Source.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcInterfaces: (json['vpcInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4245,17 +4245,17 @@ class Gateway {
   factory Gateway.fromJson(Map<String, dynamic> json) {
     return Gateway(
       egressCidrBlocks: (json['egressCidrBlocks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       gatewayArn: json['gatewayArn'] as String,
       name: json['name'] as String,
       networks: (json['networks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GatewayNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       gatewayMessages: (json['gatewayMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       gatewayState:
@@ -4367,7 +4367,7 @@ class GatewayInstance {
           InstanceState.fromString((json['instanceState'] as String)),
       runningBridgeCount: json['runningBridgeCount'] as int,
       instanceMessages: (json['instanceMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4521,7 +4521,7 @@ class GrantFlowEntitlementsResponse {
   factory GrantFlowEntitlementsResponse.fromJson(Map<String, dynamic> json) {
     return GrantFlowEntitlementsResponse(
       entitlements: (json['entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       flowArn: json['flowArn'] as String?,
@@ -4731,7 +4731,7 @@ class ListBridgesResponse {
   factory ListBridgesResponse.fromJson(Map<String, dynamic> json) {
     return ListBridgesResponse(
       bridges: (json['bridges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListedBridge.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4768,7 +4768,7 @@ class ListEntitlementsResponse {
   factory ListEntitlementsResponse.fromJson(Map<String, dynamic> json) {
     return ListEntitlementsResponse(
       entitlements: (json['entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListedEntitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4804,7 +4804,7 @@ class ListFlowsResponse {
   factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
     return ListFlowsResponse(
       flows: (json['flows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListedFlow.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4840,7 +4840,7 @@ class ListGatewayInstancesResponse {
   factory ListGatewayInstancesResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewayInstancesResponse(
       instances: (json['instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListedGatewayInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4876,7 +4876,7 @@ class ListGatewaysResponse {
   factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewaysResponse(
       gateways: (json['gateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListedGateway.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4914,7 +4914,7 @@ class ListOfferingsResponse {
     return ListOfferingsResponse(
       nextToken: json['nextToken'] as String?,
       offerings: (json['offerings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Offering.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4951,7 +4951,7 @@ class ListReservationsResponse {
     return ListReservationsResponse(
       nextToken: json['nextToken'] as String?,
       reservations: (json['reservations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Reservation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5471,7 +5471,7 @@ class MediaStreamOutputConfiguration {
       encodingName: EncodingName.fromString((json['encodingName'] as String)),
       mediaStreamName: json['mediaStreamName'] as String,
       destinationConfigurations: (json['destinationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DestinationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5564,7 +5564,7 @@ class MediaStreamSourceConfiguration {
       encodingName: EncodingName.fromString((json['encodingName'] as String)),
       mediaStreamName: json['mediaStreamName'] as String,
       inputConfigurations: (json['inputConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5680,10 +5680,8 @@ class Messages {
 
   factory Messages.fromJson(Map<String, dynamic> json) {
     return Messages(
-      errors: (json['errors'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      errors:
+          (json['errors'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5869,7 +5867,7 @@ class Output {
       outputArn: json['outputArn'] as String,
       bridgeArn: json['bridgeArn'] as String?,
       bridgePorts: (json['bridgePorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       dataTransferSubscriberFeePercent:
@@ -5884,7 +5882,7 @@ class Output {
       mediaLiveInputArn: json['mediaLiveInputArn'] as String?,
       mediaStreamOutputConfigurations:
           (json['mediaStreamOutputConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => MediaStreamOutputConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6175,7 +6173,7 @@ class RemoveFlowVpcInterfaceResponse {
       flowArn: json['flowArn'] as String?,
       nonDeletedNetworkInterfaceIds:
           (json['nonDeletedNetworkInterfaceIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       vpcInterfaceName: json['vpcInterfaceName'] as String?,
@@ -6693,7 +6691,7 @@ class Source {
       ingestPort: json['ingestPort'] as int?,
       mediaStreamSourceConfigurations:
           (json['mediaStreamSourceConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => MediaStreamSourceConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6971,7 +6969,7 @@ class Transport {
     return Transport(
       protocol: Protocol.fromString((json['protocol'] as String)),
       cidrAllowList: (json['cidrAllowList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       maxBitrate: json['maxBitrate'] as int?,
@@ -7033,7 +7031,7 @@ class TransportMediaInfo {
   factory TransportMediaInfo.fromJson(Map<String, dynamic> json) {
     return TransportMediaInfo(
       programs: (json['programs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => TransportStreamProgram.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7155,7 +7153,7 @@ class TransportStreamProgram {
       programNumber: json['programNumber'] as int,
       programPid: json['programPid'] as int,
       streams: (json['streams'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TransportStream.fromJson(e as Map<String, dynamic>))
           .toList(),
       programName: json['programName'] as String?,
@@ -7819,14 +7817,14 @@ class VpcInterface {
     return VpcInterface(
       name: json['name'] as String,
       networkInterfaceIds: (json['networkInterfaceIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       networkInterfaceType: NetworkInterfaceType.fromString(
           (json['networkInterfaceType'] as String)),
       roleArn: json['roleArn'] as String,
       securityGroupIds: (json['securityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       subnetId: json['subnetId'] as String,

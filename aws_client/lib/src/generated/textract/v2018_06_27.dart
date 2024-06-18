@@ -1836,7 +1836,7 @@ class AdapterOverview {
       adapterName: json['AdapterName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureType.fromString((e as String)))
           .toList(),
     );
@@ -1964,7 +1964,7 @@ class AdapterVersionOverview {
       adapterVersion: json['AdapterVersion'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureType.fromString((e as String)))
           .toList(),
       status: (json['Status'] as String?)?.let(AdapterVersionStatus.fromString),
@@ -2053,7 +2053,7 @@ class AnalyzeDocumentResponse {
       analyzeDocumentModelVersion:
           json['AnalyzeDocumentModelVersion'] as String?,
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentMetadata: json['DocumentMetadata'] != null
@@ -2101,7 +2101,7 @@ class AnalyzeExpenseResponse {
               json['DocumentMetadata'] as Map<String, dynamic>)
           : null,
       expenseDocuments: (json['ExpenseDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpenseDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2181,7 +2181,7 @@ class AnalyzeIDResponse {
               json['DocumentMetadata'] as Map<String, dynamic>)
           : null,
       identityDocuments: (json['IdentityDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdentityDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2491,7 +2491,7 @@ class Block {
       columnSpan: json['ColumnSpan'] as int?,
       confidence: json['Confidence'] as double?,
       entityTypes: (json['EntityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityType.fromString((e as String)))
           .toList(),
       geometry: json['Geometry'] != null
@@ -2503,7 +2503,7 @@ class Block {
           ? Query.fromJson(json['Query'] as Map<String, dynamic>)
           : null,
       relationships: (json['Relationships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
           .toList(),
       rowIndex: json['RowIndex'] as int?,
@@ -2763,7 +2763,7 @@ class DetectDocumentTextResponse {
   factory DetectDocumentTextResponse.fromJson(Map<String, dynamic> json) {
     return DetectDocumentTextResponse(
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       detectDocumentTextModelVersion:
@@ -2889,16 +2889,16 @@ class DocumentGroup {
   factory DocumentGroup.fromJson(Map<String, dynamic> json) {
     return DocumentGroup(
       detectedSignatures: (json['DetectedSignatures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetectedSignature.fromJson(e as Map<String, dynamic>))
           .toList(),
       splitDocuments: (json['SplitDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SplitDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['Type'] as String?,
       undetectedSignatures: (json['UndetectedSignatures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UndetectedSignature.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3156,16 +3156,16 @@ class ExpenseDocument {
   factory ExpenseDocument.fromJson(Map<String, dynamic> json) {
     return ExpenseDocument(
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       expenseIndex: json['ExpenseIndex'] as int?,
       lineItemGroups: (json['LineItemGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LineItemGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       summaryFields: (json['SummaryFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3224,7 +3224,7 @@ class ExpenseField {
           ? ExpenseCurrency.fromJson(json['Currency'] as Map<String, dynamic>)
           : null,
       groupProperties: (json['GroupProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpenseGroupProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       labelDetection: json['LabelDetection'] != null
@@ -3278,10 +3278,8 @@ class ExpenseGroupProperty {
   factory ExpenseGroupProperty.fromJson(Map<String, dynamic> json) {
     return ExpenseGroupProperty(
       id: json['Id'] as String?,
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3409,7 +3407,7 @@ class Geometry {
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
       polygon: (json['Polygon'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3467,7 +3465,7 @@ class GetAdapterResponse {
       creationTime: timeStampFromJson(json['CreationTime']),
       description: json['Description'] as String?,
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureType.fromString((e as String)))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -3557,12 +3555,12 @@ class GetAdapterVersionResponse {
               json['DatasetConfig'] as Map<String, dynamic>)
           : null,
       evaluationMetrics: (json['EvaluationMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdapterVersionEvaluationMetric.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureType.fromString((e as String)))
           .toList(),
       kMSKeyId: json['KMSKeyId'] as String?,
@@ -3648,7 +3646,7 @@ class GetDocumentAnalysisResponse {
       analyzeDocumentModelVersion:
           json['AnalyzeDocumentModelVersion'] as String?,
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentMetadata: json['DocumentMetadata'] != null
@@ -3659,7 +3657,7 @@ class GetDocumentAnalysisResponse {
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3727,7 +3725,7 @@ class GetDocumentTextDetectionResponse {
   factory GetDocumentTextDetectionResponse.fromJson(Map<String, dynamic> json) {
     return GetDocumentTextDetectionResponse(
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       detectDocumentTextModelVersion:
@@ -3740,7 +3738,7 @@ class GetDocumentTextDetectionResponse {
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3813,14 +3811,14 @@ class GetExpenseAnalysisResponse {
               json['DocumentMetadata'] as Map<String, dynamic>)
           : null,
       expenseDocuments: (json['ExpenseDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpenseDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3891,12 +3889,12 @@ class GetLendingAnalysisResponse {
       jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LendingResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['StatusMessage'] as String?,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3964,7 +3962,7 @@ class GetLendingAnalysisSummaryResponse {
           ? LendingSummary.fromJson(json['Summary'] as Map<String, dynamic>)
           : null,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4017,7 +4015,7 @@ class HumanLoopActivationOutput {
                   json['HumanLoopActivationConditionsEvaluationResults']
                       as String),
       humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       humanLoopArn: json['HumanLoopArn'] as String?,
@@ -4114,12 +4112,12 @@ class IdentityDocument {
   factory IdentityDocument.fromJson(Map<String, dynamic> json) {
     return IdentityDocument(
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentIndex: json['DocumentIndex'] as int?,
       identityDocumentFields: (json['IdentityDocumentFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdentityDocumentField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4250,11 +4248,11 @@ class LendingDocument {
   factory LendingDocument.fromJson(Map<String, dynamic> json) {
     return LendingDocument(
       lendingFields: (json['LendingFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LendingField.fromJson(e as Map<String, dynamic>))
           .toList(),
       signatureDetections: (json['SignatureDetections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SignatureDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4296,7 +4294,7 @@ class LendingField {
           : null,
       type: json['Type'] as String?,
       valueDetections: (json['ValueDetections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LendingDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4336,7 +4334,7 @@ class LendingResult {
   factory LendingResult.fromJson(Map<String, dynamic> json) {
     return LendingResult(
       extractions: (json['Extractions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Extraction.fromJson(e as Map<String, dynamic>))
           .toList(),
       page: json['Page'] as int?,
@@ -4375,11 +4373,11 @@ class LendingSummary {
   factory LendingSummary.fromJson(Map<String, dynamic> json) {
     return LendingSummary(
       documentGroups: (json['DocumentGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       undetectedDocumentTypes: (json['UndetectedDocumentTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4409,7 +4407,7 @@ class LineItemFields {
   factory LineItemFields.fromJson(Map<String, dynamic> json) {
     return LineItemFields(
       lineItemExpenseFields: (json['LineItemExpenseFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4443,7 +4441,7 @@ class LineItemGroup {
     return LineItemGroup(
       lineItemGroupIndex: json['LineItemGroupIndex'] as int?,
       lineItems: (json['LineItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LineItemFields.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4475,7 +4473,7 @@ class ListAdapterVersionsResponse {
   factory ListAdapterVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAdapterVersionsResponse(
       adapterVersions: (json['AdapterVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AdapterVersionOverview.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4509,7 +4507,7 @@ class ListAdaptersResponse {
   factory ListAdaptersResponse.fromJson(Map<String, dynamic> json) {
     return ListAdaptersResponse(
       adapters: (json['Adapters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdapterOverview.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4681,11 +4679,11 @@ class PageClassification {
   factory PageClassification.fromJson(Map<String, dynamic> json) {
     return PageClassification(
       pageNumber: (json['PageNumber'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
       pageType: (json['PageType'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4834,10 +4832,8 @@ class Query {
     return Query(
       text: json['Text'] as String,
       alias: json['Alias'] as String?,
-      pages: (json['Pages'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      pages:
+          (json['Pages'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4907,10 +4903,7 @@ class Relationship {
 
   factory Relationship.fromJson(Map<String, dynamic> json) {
     return Relationship(
-      ids: (json['Ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['Ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
       type: (json['Type'] as String?)?.let(RelationshipType.fromString),
     );
   }
@@ -5057,10 +5050,7 @@ class SplitDocument {
   factory SplitDocument.fromJson(Map<String, dynamic> json) {
     return SplitDocument(
       index: json['Index'] as int?,
-      pages: (json['Pages'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      pages: (json['Pages'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -5272,7 +5262,7 @@ class UpdateAdapterResponse {
       creationTime: timeStampFromJson(json['CreationTime']),
       description: json['Description'] as String?,
       featureTypes: (json['FeatureTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureType.fromString((e as String)))
           .toList(),
     );
@@ -5329,10 +5319,7 @@ class Warning {
   factory Warning.fromJson(Map<String, dynamic> json) {
     return Warning(
       errorCode: json['ErrorCode'] as String?,
-      pages: (json['Pages'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      pages: (json['Pages'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 

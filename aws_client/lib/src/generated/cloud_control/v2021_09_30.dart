@@ -974,7 +974,7 @@ class ListResourceRequestsOutput {
       nextToken: json['NextToken'] as String?,
       resourceRequestStatusSummaries:
           (json['ResourceRequestStatusSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
@@ -1016,7 +1016,7 @@ class ListResourcesOutput {
     return ListResourcesOutput(
       nextToken: json['NextToken'] as String?,
       resourceDescriptions: (json['ResourceDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       typeName: json['TypeName'] as String?,

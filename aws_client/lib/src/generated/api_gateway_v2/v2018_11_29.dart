@@ -3500,14 +3500,14 @@ class Api {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3734,7 +3734,7 @@ class Authorizer {
       authorizerUri: json['authorizerUri'] as String?,
       enableSimpleResponses: json['enableSimpleResponses'] as bool?,
       identitySource: (json['identitySource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       identityValidationExpression:
@@ -3868,19 +3868,19 @@ class Cors {
     return Cors(
       allowCredentials: json['allowCredentials'] as bool?,
       allowHeaders: (json['allowHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       allowMethods: (json['allowMethods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       allowOrigins: (json['allowOrigins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       exposeHeaders: (json['exposeHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       maxAge: json['maxAge'] as int?,
@@ -4047,7 +4047,7 @@ class CreateApiResponse {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -4058,7 +4058,7 @@ class CreateApiResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4218,7 +4218,7 @@ class CreateAuthorizerResponse {
       authorizerUri: json['authorizerUri'] as String?,
       enableSimpleResponses: json['enableSimpleResponses'] as bool?,
       identitySource: (json['identitySource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       identityValidationExpression:
@@ -4353,7 +4353,7 @@ class CreateDomainNameResponse {
           json['apiMappingSelectionExpression'] as String?,
       domainName: json['domainName'] as String?,
       domainNameConfigurations: (json['domainNameConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4907,7 +4907,7 @@ class CreateRouteResult {
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authorizationType: (json['authorizationType'] as String?)
@@ -5202,11 +5202,11 @@ class CreateVpcLinkResponse {
       createdDate: timeStampFromJson(json['createdDate']),
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -5367,7 +5367,7 @@ class DomainName {
       apiMappingSelectionExpression:
           json['apiMappingSelectionExpression'] as String?,
       domainNameConfigurations: (json['domainNameConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5618,7 +5618,7 @@ class GetApiMappingsResponse {
   factory GetApiMappingsResponse.fromJson(Map<String, dynamic> json) {
     return GetApiMappingsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApiMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5734,7 +5734,7 @@ class GetApiResponse {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -5745,7 +5745,7 @@ class GetApiResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5809,7 +5809,7 @@ class GetApisResponse {
   factory GetApisResponse.fromJson(Map<String, dynamic> json) {
     return GetApisResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Api.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5938,7 +5938,7 @@ class GetAuthorizerResponse {
       authorizerUri: json['authorizerUri'] as String?,
       enableSimpleResponses: json['enableSimpleResponses'] as bool?,
       identitySource: (json['identitySource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       identityValidationExpression:
@@ -6000,7 +6000,7 @@ class GetAuthorizersResponse {
   factory GetAuthorizersResponse.fromJson(Map<String, dynamic> json) {
     return GetAuthorizersResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6092,7 +6092,7 @@ class GetDeploymentsResponse {
   factory GetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6139,7 +6139,7 @@ class GetDomainNameResponse {
           json['apiMappingSelectionExpression'] as String?,
       domainName: json['domainName'] as String?,
       domainNameConfigurations: (json['domainNameConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6187,7 +6187,7 @@ class GetDomainNamesResponse {
   factory GetDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainNamesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainName.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6611,7 +6611,7 @@ class GetIntegrationResponsesResponse {
   factory GetIntegrationResponsesResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationResponsesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IntegrationResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6644,7 +6644,7 @@ class GetIntegrationsResponse {
   factory GetIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Integration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6750,7 +6750,7 @@ class GetModelsResponse {
   factory GetModelsResponse.fromJson(Map<String, dynamic> json) {
     return GetModelsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6846,7 +6846,7 @@ class GetRouteResult {
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authorizationType: (json['authorizationType'] as String?)
@@ -6975,7 +6975,7 @@ class GetRouteResponsesResponse {
   factory GetRouteResponsesResponse.fromJson(Map<String, dynamic> json) {
     return GetRouteResponsesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RouteResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7008,7 +7008,7 @@ class GetRoutesResponse {
   factory GetRoutesResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7178,7 +7178,7 @@ class GetStagesResponse {
   factory GetStagesResponse.fromJson(Map<String, dynamic> json) {
     return GetStagesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Stage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7262,11 +7262,11 @@ class GetVpcLinkResponse {
       createdDate: timeStampFromJson(json['createdDate']),
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -7321,7 +7321,7 @@ class GetVpcLinksResponse {
   factory GetVpcLinksResponse.fromJson(Map<String, dynamic> json) {
     return GetVpcLinksResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7437,7 +7437,7 @@ class ImportApiResponse {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -7448,7 +7448,7 @@ class ImportApiResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7930,7 +7930,7 @@ class JWTConfiguration {
   factory JWTConfiguration.fromJson(Map<String, dynamic> json) {
     return JWTConfiguration(
       audience: (json['audience'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       issuer: json['issuer'] as String?,
@@ -8051,7 +8051,7 @@ class MutualTlsAuthentication {
       truststoreUri: json['truststoreUri'] as String?,
       truststoreVersion: json['truststoreVersion'] as String?,
       truststoreWarnings: (json['truststoreWarnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8255,7 +8255,7 @@ class ReimportApiResponse {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -8266,7 +8266,7 @@ class ReimportApiResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8395,7 +8395,7 @@ class Route {
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authorizationType: (json['authorizationType'] as String?)
@@ -8924,7 +8924,7 @@ class UpdateApiResponse {
       disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
       disableSchemaValidation: json['disableSchemaValidation'] as bool?,
       importInfo: (json['importInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -8935,7 +8935,7 @@ class UpdateApiResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9095,7 +9095,7 @@ class UpdateAuthorizerResponse {
       authorizerUri: json['authorizerUri'] as String?,
       enableSimpleResponses: json['enableSimpleResponses'] as bool?,
       identitySource: (json['identitySource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       identityValidationExpression:
@@ -9230,7 +9230,7 @@ class UpdateDomainNameResponse {
           json['apiMappingSelectionExpression'] as String?,
       domainName: json['domainName'] as String?,
       domainNameConfigurations: (json['domainNameConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9784,7 +9784,7 @@ class UpdateRouteResult {
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authorizationType: (json['authorizationType'] as String?)
@@ -10079,11 +10079,11 @@ class UpdateVpcLinkResponse {
       createdDate: timeStampFromJson(json['createdDate']),
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -10167,13 +10167,11 @@ class VpcLink {
     return VpcLink(
       name: json['name'] as String,
       securityGroupIds: (json['securityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcLinkId: json['vpcLinkId'] as String,
       createdDate: timeStampFromJson(json['createdDate']),
       tags: (json['tags'] as Map<String, dynamic>?)

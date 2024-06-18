@@ -1634,12 +1634,10 @@ class EksConfiguration {
   factory EksConfiguration.fromJson(Map<String, dynamic> json) {
     return EksConfiguration(
       clusterArn: json['clusterArn'] as String,
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1703,7 +1701,7 @@ class ListRuleGroupsNamespacesResponse {
   factory ListRuleGroupsNamespacesResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleGroupsNamespacesResponse(
       ruleGroupsNamespaces: (json['ruleGroupsNamespaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RuleGroupsNamespaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1740,7 +1738,7 @@ class ListScrapersResponse {
   factory ListScrapersResponse.fromJson(Map<String, dynamic> json) {
     return ListScrapersResponse(
       scrapers: (json['scrapers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScraperSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1799,7 +1797,7 @@ class ListWorkspacesResponse {
   factory ListWorkspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkspacesResponse(
       workspaces: (json['workspaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

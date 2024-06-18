@@ -891,7 +891,7 @@ class ListProfileAssociationsResponse {
     return ListProfileAssociationsResponse(
       nextToken: json['NextToken'] as String?,
       profileAssociations: (json['ProfileAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -931,7 +931,7 @@ class ListProfileResourceAssociationsResponse {
       nextToken: json['NextToken'] as String?,
       profileResourceAssociations: (json['ProfileResourceAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProfileResourceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -968,7 +968,7 @@ class ListProfilesResponse {
     return ListProfilesResponse(
       nextToken: json['NextToken'] as String?,
       profileSummaries: (json['ProfileSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

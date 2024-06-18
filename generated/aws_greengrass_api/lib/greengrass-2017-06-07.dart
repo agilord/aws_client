@@ -2866,7 +2866,7 @@ class BulkDeploymentResult {
       deploymentType:
           (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
       errorDetails: (json['ErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['ErrorMessage'] as String?,
@@ -3010,7 +3010,7 @@ class ConnectorDefinitionVersion {
   factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return ConnectorDefinitionVersion(
       connectors: (json['Connectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connector.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3082,7 +3082,7 @@ class CoreDefinitionVersion {
   factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return CoreDefinitionVersion(
       cores: (json['Cores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Core.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4008,7 +4008,7 @@ class DeviceDefinitionVersion {
   factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return DeviceDefinitionVersion(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Device.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4253,7 +4253,7 @@ class FunctionConfigurationEnvironment {
               json['Execution'] as Map<String, dynamic>)
           : null,
       resourceAccessPolicies: (json['ResourceAccessPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceAccessPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       variables: (json['Variables'] as Map<String, dynamic>?)
@@ -4354,7 +4354,7 @@ class FunctionDefinitionVersion {
               json['DefaultConfig'] as Map<String, dynamic>)
           : null,
       functions: (json['Functions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => $Function.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4514,7 +4514,7 @@ class GetBulkDeploymentStatusResponse {
           ?.let(BulkDeploymentStatus.fromString),
       createdAt: json['CreatedAt'] as String?,
       errorDetails: (json['ErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['ErrorMessage'] as String?,
@@ -4539,7 +4539,7 @@ class GetConnectivityInfoResponse {
   factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectivityInfoResponse(
       connectivityInfo: (json['ConnectivityInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectivityInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       message: json['message'] as String?,
@@ -4774,7 +4774,7 @@ class GetDeploymentStatusResponse {
       deploymentType:
           (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
       errorDetails: (json['ErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['ErrorMessage'] as String?,
@@ -5646,7 +5646,7 @@ class ListBulkDeploymentDetailedReportsResponse {
       Map<String, dynamic> json) {
     return ListBulkDeploymentDetailedReportsResponse(
       deployments: (json['Deployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BulkDeploymentResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5670,7 +5670,7 @@ class ListBulkDeploymentsResponse {
   factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListBulkDeploymentsResponse(
       bulkDeployments: (json['BulkDeployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BulkDeployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5696,7 +5696,7 @@ class ListConnectorDefinitionVersionsResponse {
     return ListConnectorDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5719,7 +5719,7 @@ class ListConnectorDefinitionsResponse {
   factory ListConnectorDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5745,7 +5745,7 @@ class ListCoreDefinitionVersionsResponse {
     return ListCoreDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5768,7 +5768,7 @@ class ListCoreDefinitionsResponse {
   factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCoreDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5792,7 +5792,7 @@ class ListDeploymentsResponse {
   factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsResponse(
       deployments: (json['Deployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5818,7 +5818,7 @@ class ListDeviceDefinitionVersionsResponse {
     return ListDeviceDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5841,7 +5841,7 @@ class ListDeviceDefinitionsResponse {
   factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5867,7 +5867,7 @@ class ListFunctionDefinitionVersionsResponse {
     return ListFunctionDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5890,7 +5890,7 @@ class ListFunctionDefinitionsResponse {
   factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5911,7 +5911,7 @@ class ListGroupCertificateAuthoritiesResponse {
     return ListGroupCertificateAuthoritiesResponse(
       groupCertificateAuthorities:
           (json['GroupCertificateAuthorities'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => GroupCertificateAuthorityProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5936,7 +5936,7 @@ class ListGroupVersionsResponse {
     return ListGroupVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5959,7 +5959,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5985,7 +5985,7 @@ class ListLoggerDefinitionVersionsResponse {
     return ListLoggerDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6008,7 +6008,7 @@ class ListLoggerDefinitionsResponse {
   factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListLoggerDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6034,7 +6034,7 @@ class ListResourceDefinitionVersionsResponse {
     return ListResourceDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6057,7 +6057,7 @@ class ListResourceDefinitionsResponse {
   factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6083,7 +6083,7 @@ class ListSubscriptionDefinitionVersionsResponse {
     return ListSubscriptionDefinitionVersionsResponse(
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6107,7 +6107,7 @@ class ListSubscriptionDefinitionsResponse {
       Map<String, dynamic> json) {
     return ListSubscriptionDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6288,7 +6288,7 @@ class LoggerDefinitionVersion {
   factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return LoggerDefinitionVersion(
       loggers: (json['Loggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Logger.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6542,7 +6542,7 @@ class ResourceDefinitionVersion {
   factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return ResourceDefinitionVersion(
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6713,7 +6713,7 @@ class SecretsManagerSecretResourceData {
       arn: json['ARN'] as String?,
       additionalStagingLabelsToDownload:
           (json['AdditionalStagingLabelsToDownload'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
     );
@@ -6837,7 +6837,7 @@ class SubscriptionDefinitionVersion {
   factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return SubscriptionDefinitionVersion(
       subscriptions: (json['Subscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -575,7 +575,7 @@ class Action {
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
       crossRegionCopy: (json['CrossRegionCopy'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CrossRegionCopyAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String,
@@ -736,13 +736,11 @@ class CreateRule {
           (json['IntervalUnit'] as String?)?.let(IntervalUnitValues.fromString),
       location: (json['Location'] as String?)?.let(LocationValues.fromString),
       scripts: (json['Scripts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Script.fromJson(e as Map<String, dynamic>))
           .toList(),
-      times: (json['Times'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      times:
+          (json['Times'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1160,7 +1158,7 @@ class EventParameters {
       descriptionRegex: json['DescriptionRegex'] as String,
       eventType: EventTypeValues.fromString((json['EventType'] as String)),
       snapshotOwner: (json['SnapshotOwner'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1271,11 +1269,11 @@ class Exclusions {
     return Exclusions(
       excludeBootVolumes: json['ExcludeBootVolumes'] as bool?,
       excludeTags: (json['ExcludeTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       excludeVolumeTypes: (json['ExcludeVolumeTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1334,7 +1332,7 @@ class FastRestoreRule {
   factory FastRestoreRule.fromJson(Map<String, dynamic> json) {
     return FastRestoreRule(
       availabilityZones: (json['AvailabilityZones'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       count: json['Count'] as int?,
@@ -1369,7 +1367,7 @@ class GetLifecyclePoliciesResponse {
   factory GetLifecyclePoliciesResponse.fromJson(Map<String, dynamic> json) {
     return GetLifecyclePoliciesResponse(
       policies: (json['Policies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => LifecyclePolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1641,7 +1639,7 @@ class Parameters {
     return Parameters(
       excludeBootVolume: json['ExcludeBootVolume'] as bool?,
       excludeDataVolumeTags: (json['ExcludeDataVolumeTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       noReboot: json['NoReboot'] as bool?,
@@ -1831,13 +1829,13 @@ class PolicyDetails {
   factory PolicyDetails.fromJson(Map<String, dynamic> json) {
     return PolicyDetails(
       actions: (json['Actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       copyTags: json['CopyTags'] as bool?,
       createInterval: json['CreateInterval'] as int?,
       crossRegionCopyTargets: (json['CrossRegionCopyTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CrossRegionCopyTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
       eventSource: json['EventSource'] != null
@@ -1855,22 +1853,22 @@ class PolicyDetails {
       policyType:
           (json['PolicyType'] as String?)?.let(PolicyTypeValues.fromString),
       resourceLocations: (json['ResourceLocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceLocationValues.fromString((e as String)))
           .toList(),
       resourceType:
           (json['ResourceType'] as String?)?.let(ResourceTypeValues.fromString),
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTypeValues.fromString((e as String)))
           .toList(),
       retainInterval: json['RetainInterval'] as int?,
       schedules: (json['Schedules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
           .toList(),
       targetTags: (json['TargetTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2229,7 +2227,7 @@ class Schedule {
           ? CreateRule.fromJson(json['CreateRule'] as Map<String, dynamic>)
           : null,
       crossRegionCopyRules: (json['CrossRegionCopyRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CrossRegionCopyRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       deprecateRule: json['DeprecateRule'] != null
@@ -2245,15 +2243,15 @@ class Schedule {
           ? RetainRule.fromJson(json['RetainRule'] as Map<String, dynamic>)
           : null,
       shareRules: (json['ShareRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ShareRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       tagsToAdd: (json['TagsToAdd'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       variableTags: (json['VariableTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2427,7 +2425,7 @@ class Script {
       executionTimeout: json['ExecutionTimeout'] as int?,
       maximumRetryCount: json['MaximumRetryCount'] as int?,
       stages: (json['Stages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StageValues.fromString((e as String)))
           .toList(),
     );
@@ -2492,7 +2490,7 @@ class ShareRule {
   factory ShareRule.fromJson(Map<String, dynamic> json) {
     return ShareRule(
       targetAccounts: (json['TargetAccounts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       unshareInterval: json['UnshareInterval'] as int?,

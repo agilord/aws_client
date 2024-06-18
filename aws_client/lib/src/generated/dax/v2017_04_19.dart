@@ -1308,12 +1308,12 @@ class Cluster {
       description: json['Description'] as String?,
       iamRoleArn: json['IamRoleArn'] as String?,
       nodeIdsToRemove: (json['NodeIdsToRemove'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nodeType: json['NodeType'] as String?,
       nodes: (json['Nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Node.fromJson(e as Map<String, dynamic>))
           .toList(),
       notificationConfiguration: json['NotificationConfiguration'] != null
@@ -1330,7 +1330,7 @@ class Cluster {
               json['SSEDescription'] as Map<String, dynamic>)
           : null,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1586,7 +1586,7 @@ class DescribeClustersResponse {
   factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeClustersResponse(
       clusters: (json['Clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1620,7 +1620,7 @@ class DescribeDefaultParametersResponse {
     return DescribeDefaultParametersResponse(
       nextToken: json['NextToken'] as String?,
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1651,7 +1651,7 @@ class DescribeEventsResponse {
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventsResponse(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1685,7 +1685,7 @@ class DescribeParameterGroupsResponse {
     return DescribeParameterGroupsResponse(
       nextToken: json['NextToken'] as String?,
       parameterGroups: (json['ParameterGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1718,7 +1718,7 @@ class DescribeParametersResponse {
     return DescribeParametersResponse(
       nextToken: json['NextToken'] as String?,
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1751,7 +1751,7 @@ class DescribeSubnetGroupsResponse {
     return DescribeSubnetGroupsResponse(
       nextToken: json['NextToken'] as String?,
       subnetGroups: (json['SubnetGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubnetGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1913,7 +1913,7 @@ class ListTagsResponse {
     return ListTagsResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2117,7 +2117,7 @@ class Parameter {
       isModifiable:
           (json['IsModifiable'] as String?)?.let(IsModifiable.fromString),
       nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       parameterName: json['ParameterName'] as String?,
@@ -2206,7 +2206,7 @@ class ParameterGroupStatus {
   factory ParameterGroupStatus.fromJson(Map<String, dynamic> json) {
     return ParameterGroupStatus(
       nodeIdsToReboot: (json['NodeIdsToReboot'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       parameterApplyStatus: json['ParameterApplyStatus'] as String?,
@@ -2476,7 +2476,7 @@ class SubnetGroup {
       description: json['Description'] as String?,
       subnetGroupName: json['SubnetGroupName'] as String?,
       subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -2548,7 +2548,7 @@ class TagResourceResponse {
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) {
     return TagResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2573,7 +2573,7 @@ class UntagResourceResponse {
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) {
     return UntagResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

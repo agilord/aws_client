@@ -1634,7 +1634,7 @@ class CreateJobResponse {
           ? ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
@@ -1885,7 +1885,7 @@ class DatabaseLFTagPolicy {
   factory DatabaseLFTagPolicy.fromJson(Map<String, dynamic> json) {
     return DatabaseLFTagPolicy(
       expression: (json['Expression'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1909,11 +1909,11 @@ class DatabaseLFTagPolicyAndPermissions {
       Map<String, dynamic> json) {
     return DatabaseLFTagPolicyAndPermissions(
       expression: (json['Expression'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       permissions: (json['Permissions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DatabaseLFTagPolicyPermission.fromString((e as String)))
           .toList(),
     );
@@ -1984,7 +1984,7 @@ class Details {
               : null,
       importAssetsFromS3JobErrorDetails:
           (json['ImportAssetsFromS3JobErrorDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
@@ -2186,7 +2186,7 @@ class ExportAssetsToS3ResponseDetails {
   factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) {
     return ExportAssetsToS3ResponseDetails(
       assetDestinations: (json['AssetDestinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetDestinationEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       dataSetId: json['DataSetId'] as String,
@@ -2254,7 +2254,7 @@ class ExportRevisionsToS3ResponseDetails {
     return ExportRevisionsToS3ResponseDetails(
       dataSetId: json['DataSetId'] as String,
       revisionDestinations: (json['RevisionDestinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RevisionDestinationEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2535,7 +2535,7 @@ class GetJobResponse {
           ? ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
@@ -3010,7 +3010,7 @@ class ImportAssetsFromRedshiftDataSharesResponseDetails {
       Map<String, dynamic> json) {
     return ImportAssetsFromRedshiftDataSharesResponseDetails(
       assetSources: (json['AssetSources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RedshiftDataShareAssetSourceEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3070,7 +3070,7 @@ class ImportAssetsFromS3ResponseDetails {
       Map<String, dynamic> json) {
     return ImportAssetsFromS3ResponseDetails(
       assetSources: (json['AssetSources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       dataSetId: json['DataSetId'] as String,
@@ -3131,7 +3131,7 @@ class JobEntry {
       type: Type.fromString((json['Type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3328,10 +3328,8 @@ class LFTag {
   factory LFTag.fromJson(Map<String, dynamic> json) {
     return LFTag(
       tagKey: json['TagKey'] as String,
-      tagValues: (json['TagValues'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagValues:
+          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3404,7 +3402,7 @@ class LakeFormationDataPermissionAsset {
           LakeFormationDataPermissionType.fromString(
               (json['LakeFormationDataPermissionType'] as String)),
       permissions: (json['Permissions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFPermission.fromString((e as String)))
           .toList(),
       roleArn: json['RoleArn'] as String?,
@@ -3486,7 +3484,7 @@ class ListDataSetRevisionsResponse {
     return ListDataSetRevisionsResponse(
       nextToken: json['NextToken'] as String?,
       revisions: (json['Revisions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RevisionEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3509,7 +3507,7 @@ class ListDataSetsResponse {
   factory ListDataSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSetsResponse(
       dataSets: (json['DataSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSetEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3533,7 +3531,7 @@ class ListEventActionsResponse {
   factory ListEventActionsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventActionsResponse(
       eventActions: (json['EventActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventActionEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3557,7 +3555,7 @@ class ListJobsResponse {
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobs: (json['Jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3581,7 +3579,7 @@ class ListRevisionAssetsResponse {
   factory ListRevisionAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRevisionAssetsResponse(
       assets: (json['Assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4215,15 +4213,12 @@ class S3DataAccessAsset {
     return S3DataAccessAsset(
       bucket: json['Bucket'] as String,
       keyPrefixes: (json['KeyPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      keys: (json['Keys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
       kmsKeysToGrant: (json['KmsKeysToGrant'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KmsKeyToGrant.fromJson(e as Map<String, dynamic>))
           .toList(),
       s3AccessPointAlias: json['S3AccessPointAlias'] as String?,
@@ -4259,15 +4254,12 @@ class S3DataAccessAssetSourceEntry {
     return S3DataAccessAssetSourceEntry(
       bucket: json['Bucket'] as String,
       keyPrefixes: (json['KeyPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      keys: (json['Keys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
       kmsKeysToGrant: (json['KmsKeysToGrant'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KmsKeyToGrant.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4504,7 +4496,7 @@ class TableLFTagPolicy {
   factory TableLFTagPolicy.fromJson(Map<String, dynamic> json) {
     return TableLFTagPolicy(
       expression: (json['Expression'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4527,11 +4519,11 @@ class TableLFTagPolicyAndPermissions {
   factory TableLFTagPolicyAndPermissions.fromJson(Map<String, dynamic> json) {
     return TableLFTagPolicyAndPermissions(
       expression: (json['Expression'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       permissions: (json['Permissions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TableTagPolicyLFPermission.fromString((e as String)))
           .toList(),
     );

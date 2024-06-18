@@ -630,7 +630,7 @@ class ListSlackChannelConfigurationsResult {
       Map<String, dynamic> json) {
     return ListSlackChannelConfigurationsResult(
       slackChannelConfigurations: (json['slackChannelConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SlackChannelConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -667,7 +667,7 @@ class ListSlackWorkspaceConfigurationsResult {
       nextToken: json['nextToken'] as String?,
       slackWorkspaceConfigurations: (json['slackWorkspaceConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SlackWorkspaceConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),

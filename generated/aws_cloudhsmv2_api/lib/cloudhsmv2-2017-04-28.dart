@@ -856,7 +856,7 @@ class Backup {
       sourceCluster: json['SourceCluster'] as String?,
       sourceRegion: json['SourceRegion'] as String?,
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1060,7 +1060,7 @@ class Cluster {
       createTimestamp: timeStampFromJson(json['CreateTimestamp']),
       hsmType: json['HsmType'] as String?,
       hsms: (json['Hsms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Hsm.fromJson(e as Map<String, dynamic>))
           .toList(),
       preCoPassword: json['PreCoPassword'] as String?,
@@ -1071,7 +1071,7 @@ class Cluster {
       subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -1226,7 +1226,7 @@ class DescribeBackupsResponse {
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBackupsResponse(
       backups: (json['Backups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Backup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1251,7 +1251,7 @@ class DescribeClustersResponse {
   factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeClustersResponse(
       clusters: (json['Clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1400,7 +1400,7 @@ class ListTagsResponse {
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

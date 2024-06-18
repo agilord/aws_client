@@ -1354,7 +1354,7 @@ class AlarmEventActions {
   factory AlarmEventActions.fromJson(Map<String, dynamic> json) {
     return AlarmEventActions(
       alarmActions: (json['alarmActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlarmAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1502,7 +1502,7 @@ class AlarmNotification {
   factory AlarmNotification.fromJson(Map<String, dynamic> json) {
     return AlarmNotification(
       notificationActions: (json['notificationActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotificationAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1626,7 +1626,7 @@ class AnalysisResult {
     return AnalysisResult(
       level: (json['level'] as String?)?.let(AnalysisResultLevel.fromString),
       locations: (json['locations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AnalysisResultLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2465,7 +2465,7 @@ class DetectorModelDefinition {
     return DetectorModelDefinition(
       initialStateName: json['initialStateName'] as String,
       states: (json['states'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => State.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2956,7 +2956,7 @@ class EmailRecipients {
   factory EmailRecipients.fromJson(Map<String, dynamic> json) {
     return EmailRecipients(
       to: (json['to'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecipientDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3010,7 +3010,7 @@ class Event {
     return Event(
       eventName: json['eventName'] as String,
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       condition: json['condition'] as String?,
@@ -3090,7 +3090,7 @@ class GetDetectorModelAnalysisResultsResponse {
       Map<String, dynamic> json) {
     return GetDetectorModelAnalysisResultsResponse(
       analysisResults: (json['analysisResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3211,7 +3211,7 @@ class InputDefinition {
   factory InputDefinition.fromJson(Map<String, dynamic> json) {
     return InputDefinition(
       attributes: (json['attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3585,7 +3585,7 @@ class ListAlarmModelVersionsResponse {
   factory ListAlarmModelVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlarmModelVersionsResponse(
       alarmModelVersionSummaries: (json['alarmModelVersionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AlarmModelVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3610,7 +3610,7 @@ class ListAlarmModelsResponse {
   factory ListAlarmModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlarmModelsResponse(
       alarmModelSummaries: (json['alarmModelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlarmModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3636,7 +3636,7 @@ class ListDetectorModelVersionsResponse {
     return ListDetectorModelVersionsResponse(
       detectorModelVersionSummaries: (json['detectorModelVersionSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DetectorModelVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3661,7 +3661,7 @@ class ListDetectorModelsResponse {
   factory ListDetectorModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListDetectorModelsResponse(
       detectorModelSummaries: (json['detectorModelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetectorModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3686,7 +3686,7 @@ class ListInputRoutingsResponse {
     return ListInputRoutingsResponse(
       nextToken: json['nextToken'] as String?,
       routedResources: (json['routedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RoutedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3709,7 +3709,7 @@ class ListInputsResponse {
   factory ListInputsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputsResponse(
       inputSummaries: (json['inputSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3728,7 +3728,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3780,7 +3780,7 @@ class LoggingOptions {
       level: LoggingLevel.fromString((json['level'] as String)),
       roleArn: json['roleArn'] as String,
       detectorDebugOptions: (json['detectorDebugOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetectorDebugOption.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3827,11 +3827,11 @@ class NotificationAction {
       action: NotificationTargetActions.fromJson(
           json['action'] as Map<String, dynamic>),
       emailConfigurations: (json['emailConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EmailConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       smsConfigurations: (json['smsConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SMSConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3891,7 +3891,7 @@ class OnEnterLifecycle {
   factory OnEnterLifecycle.fromJson(Map<String, dynamic> json) {
     return OnEnterLifecycle(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3919,7 +3919,7 @@ class OnExitLifecycle {
   factory OnExitLifecycle.fromJson(Map<String, dynamic> json) {
     return OnExitLifecycle(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3952,11 +3952,11 @@ class OnInputLifecycle {
   factory OnInputLifecycle.fromJson(Map<String, dynamic> json) {
     return OnInputLifecycle(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       transitionEvents: (json['transitionEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TransitionEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4126,7 +4126,7 @@ class SMSConfiguration {
   factory SMSConfiguration.fromJson(Map<String, dynamic> json) {
     return SMSConfiguration(
       recipients: (json['recipients'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecipientDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       additionalMessage: json['additionalMessage'] as String?,
@@ -4505,7 +4505,7 @@ class TransitionEvent {
       eventName: json['eventName'] as String,
       nextState: json['nextState'] as String,
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

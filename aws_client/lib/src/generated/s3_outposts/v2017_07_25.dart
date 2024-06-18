@@ -414,7 +414,7 @@ class Endpoint {
           ? FailedReason.fromJson(json['FailedReason'] as Map<String, dynamic>)
           : null,
       networkInterfaces: (json['NetworkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       outpostsId: json['OutpostsId'] as String?,
@@ -538,7 +538,7 @@ class ListEndpointsResult {
   factory ListEndpointsResult.fromJson(Map<String, dynamic> json) {
     return ListEndpointsResult(
       endpoints: (json['Endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -585,7 +585,7 @@ class ListOutpostsWithS3Result {
     return ListOutpostsWithS3Result(
       nextToken: json['NextToken'] as String?,
       outposts: (json['Outposts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -619,7 +619,7 @@ class ListSharedEndpointsResult {
   factory ListSharedEndpointsResult.fromJson(Map<String, dynamic> json) {
     return ListSharedEndpointsResult(
       endpoints: (json['Endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

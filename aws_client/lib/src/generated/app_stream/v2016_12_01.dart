@@ -4498,7 +4498,7 @@ class AppBlock {
       arn: json['Arn'] as String,
       name: json['Name'] as String,
       appBlockErrors: (json['AppBlockErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -4627,11 +4627,11 @@ class AppBlockBuilder {
       state: AppBlockBuilderState.fromString((json['State'] as String)),
       vpcConfig: VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
       accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       appBlockBuilderErrors: (json['AppBlockBuilderErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -4913,7 +4913,7 @@ class Application {
           : null,
       iconURL: json['IconURL'] as String?,
       instanceFamilies: (json['InstanceFamilies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       launchParameters: json['LaunchParameters'] as String?,
@@ -4922,7 +4922,7 @@ class Application {
           ?.map((k, e) => MapEntry(k, e as String)),
       name: json['Name'] as String?,
       platforms: (json['Platforms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlatformType.fromString((e as String)))
           .toList(),
       workingDirectory: json['WorkingDirectory'] as String?,
@@ -5192,7 +5192,7 @@ class BatchAssociateUserStackResult {
   factory BatchAssociateUserStackResult.fromJson(Map<String, dynamic> json) {
     return BatchAssociateUserStackResult(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UserStackAssociationError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5218,7 +5218,7 @@ class BatchDisassociateUserStackResult {
   factory BatchDisassociateUserStackResult.fromJson(Map<String, dynamic> json) {
     return BatchDisassociateUserStackResult(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UserStackAssociationError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5982,7 +5982,7 @@ class DescribeAppBlockBuilderAppBlockAssociationsResult {
     return DescribeAppBlockBuilderAppBlockAssociationsResult(
       appBlockBuilderAppBlockAssociations:
           (json['AppBlockBuilderAppBlockAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AppBlockBuilderAppBlockAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6019,7 +6019,7 @@ class DescribeAppBlockBuildersResult {
   factory DescribeAppBlockBuildersResult.fromJson(Map<String, dynamic> json) {
     return DescribeAppBlockBuildersResult(
       appBlockBuilders: (json['AppBlockBuilders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppBlockBuilder.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6052,7 +6052,7 @@ class DescribeAppBlocksResult {
   factory DescribeAppBlocksResult.fromJson(Map<String, dynamic> json) {
     return DescribeAppBlocksResult(
       appBlocks: (json['AppBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6087,7 +6087,7 @@ class DescribeApplicationFleetAssociationsResult {
     return DescribeApplicationFleetAssociationsResult(
       applicationFleetAssociations: (json['ApplicationFleetAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ApplicationFleetAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6122,7 +6122,7 @@ class DescribeApplicationsResult {
   factory DescribeApplicationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationsResult(
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Application.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6157,7 +6157,7 @@ class DescribeDirectoryConfigsResult {
   factory DescribeDirectoryConfigsResult.fromJson(Map<String, dynamic> json) {
     return DescribeDirectoryConfigsResult(
       directoryConfigs: (json['DirectoryConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DirectoryConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6190,7 +6190,7 @@ class DescribeEntitlementsResult {
   factory DescribeEntitlementsResult.fromJson(Map<String, dynamic> json) {
     return DescribeEntitlementsResult(
       entitlements: (json['Entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6223,7 +6223,7 @@ class DescribeFleetsResult {
   factory DescribeFleetsResult.fromJson(Map<String, dynamic> json) {
     return DescribeFleetsResult(
       fleets: (json['Fleets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Fleet.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6256,7 +6256,7 @@ class DescribeImageBuildersResult {
   factory DescribeImageBuildersResult.fromJson(Map<String, dynamic> json) {
     return DescribeImageBuildersResult(
       imageBuilders: (json['ImageBuilders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImageBuilder.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6295,7 +6295,7 @@ class DescribeImagePermissionsResult {
       name: json['Name'] as String?,
       nextToken: json['NextToken'] as String?,
       sharedImagePermissionsList: (json['SharedImagePermissionsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => SharedImagePermissions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6331,7 +6331,7 @@ class DescribeImagesResult {
   factory DescribeImagesResult.fromJson(Map<String, dynamic> json) {
     return DescribeImagesResult(
       images: (json['Images'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6365,7 +6365,7 @@ class DescribeSessionsResult {
     return DescribeSessionsResult(
       nextToken: json['NextToken'] as String?,
       sessions: (json['Sessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Session.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6398,7 +6398,7 @@ class DescribeStacksResult {
     return DescribeStacksResult(
       nextToken: json['NextToken'] as String?,
       stacks: (json['Stacks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Stack.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6432,7 +6432,7 @@ class DescribeUsageReportSubscriptionsResult {
     return DescribeUsageReportSubscriptionsResult(
       nextToken: json['NextToken'] as String?,
       usageReportSubscriptions: (json['UsageReportSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UsageReportSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6468,7 +6468,7 @@ class DescribeUserStackAssociationsResult {
     return DescribeUserStackAssociationsResult(
       nextToken: json['NextToken'] as String?,
       userStackAssociations: (json['UserStackAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserStackAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6502,7 +6502,7 @@ class DescribeUsersResult {
     return DescribeUsersResult(
       nextToken: json['NextToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6564,7 +6564,7 @@ class DirectoryConfig {
       createdTime: timeStampFromJson(json['CreatedTime']),
       organizationalUnitDistinguishedNames:
           (json['OrganizationalUnitDistinguishedNames'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       serviceAccountCredentials: json['ServiceAccountCredentials'] != null
@@ -6772,7 +6772,7 @@ class Entitlement {
       appVisibility:
           AppVisibility.fromString((json['AppVisibility'] as String)),
       attributes: (json['Attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String,
@@ -7197,7 +7197,7 @@ class Fleet {
           : null,
       enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
       fleetErrors: (json['FleetErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetError.fromJson(e as Map<String, dynamic>))
           .toList(),
       fleetType: (json['FleetType'] as String?)?.let(FleetType.fromString),
@@ -7216,7 +7216,7 @@ class Fleet {
           : null,
       streamView: (json['StreamView'] as String?)?.let(StreamView.fromString),
       usbDeviceFilterStrings: (json['UsbDeviceFilterStrings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcConfig: json['VpcConfig'] != null
@@ -7504,7 +7504,7 @@ class Image {
     return Image(
       name: json['Name'] as String,
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Application.fromJson(e as Map<String, dynamic>))
           .toList(),
       appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
@@ -7516,7 +7516,7 @@ class Image {
       imageBuilderName: json['ImageBuilderName'] as String?,
       imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
       imageErrors: (json['ImageErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
           .toList(),
       imagePermissions: json['ImagePermissions'] != null
@@ -7777,7 +7777,7 @@ class ImageBuilder {
     return ImageBuilder(
       name: json['Name'] as String,
       accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
@@ -7793,7 +7793,7 @@ class ImageBuilder {
       iamRoleArn: json['IamRoleArn'] as String?,
       imageArn: json['ImageArn'] as String?,
       imageBuilderErrors: (json['ImageBuilderErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
           .toList(),
       instanceType: json['InstanceType'] as String?,
@@ -8073,10 +8073,8 @@ class ListAssociatedFleetsResult {
 
   factory ListAssociatedFleetsResult.fromJson(Map<String, dynamic> json) {
     return ListAssociatedFleetsResult(
-      names: (json['Names'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      names:
+          (json['Names'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -8106,10 +8104,8 @@ class ListAssociatedStacksResult {
 
   factory ListAssociatedStacksResult.fromJson(Map<String, dynamic> json) {
     return ListAssociatedStacksResult(
-      names: (json['Names'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      names:
+          (json['Names'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -8140,7 +8136,7 @@ class ListEntitledApplicationsResult {
   factory ListEntitledApplicationsResult.fromJson(Map<String, dynamic> json) {
     return ListEntitledApplicationsResult(
       entitledApplications: (json['EntitledApplications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitledApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8710,7 +8706,7 @@ class Stack {
     return Stack(
       name: json['Name'] as String,
       accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       applicationSettings: json['ApplicationSettings'] != null
@@ -8722,17 +8718,17 @@ class Stack {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       embedHostDomains: (json['EmbedHostDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       feedbackURL: json['FeedbackURL'] as String?,
       redirectURL: json['RedirectURL'] as String?,
       stackErrors: (json['StackErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StackError.fromJson(e as Map<String, dynamic>))
           .toList(),
       storageConnectors: (json['StorageConnectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
       streamingExperienceSettings: json['StreamingExperienceSettings'] != null
@@ -8740,7 +8736,7 @@ class Stack {
               json['StreamingExperienceSettings'] as Map<String, dynamic>)
           : null,
       userSettings: (json['UserSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8993,10 +8989,8 @@ class StorageConnector {
     return StorageConnector(
       connectorType:
           StorageConnectorType.fromString((json['ConnectorType'] as String)),
-      domains: (json['Domains'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      domains:
+          (json['Domains'] as List?)?.nonNulls.map((e) => e as String).toList(),
       resourceIdentifier: json['ResourceIdentifier'] as String?,
     );
   }
@@ -9318,7 +9312,7 @@ class UsageReportSubscription {
       schedule:
           (json['Schedule'] as String?)?.let(UsageReportSchedule.fromString),
       subscriptionErrors: (json['SubscriptionErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LastReportGenerationExecutionError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -9634,11 +9628,11 @@ class VpcConfig {
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

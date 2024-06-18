@@ -7169,7 +7169,7 @@ class AccountGateResult {
     return AccountGateResult(
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(AccountGateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AccountGateStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -7518,9 +7518,7 @@ class Change {
       resourceChange: _s
           .extractXmlChild(elem, 'ResourceChange')
           ?.let(ResourceChange.fromXml),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(ChangeType.fromString) /* Nullability(true, true) */,
+      type: _s.extractXmlStringValue(elem, 'Type')?.let(ChangeType.fromString),
     );
   }
 
@@ -7626,10 +7624,10 @@ class ChangeSetHook {
     return ChangeSetHook(
       failureMode: _s
           .extractXmlStringValue(elem, 'FailureMode')
-          ?.let(HookFailureMode.fromString) /* Nullability(true, true) */,
+          ?.let(HookFailureMode.fromString),
       invocationPoint: _s
           .extractXmlStringValue(elem, 'InvocationPoint')
-          ?.let(HookInvocationPoint.fromString) /* Nullability(true, true) */,
+          ?.let(HookInvocationPoint.fromString),
       targetDetails: _s
           .extractXmlChild(elem, 'TargetDetails')
           ?.let(ChangeSetHookTargetDetails.fromXml),
@@ -7680,7 +7678,7 @@ class ChangeSetHookResourceTargetDetails {
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
       resourceAction: _s
           .extractXmlStringValue(elem, 'ResourceAction')
-          ?.let(ChangeAction.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeAction.fromString),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
     );
   }
@@ -7716,7 +7714,7 @@ class ChangeSetHookTargetDetails {
           ?.let(ChangeSetHookResourceTargetDetails.fromXml),
       targetType: _s
           .extractXmlStringValue(elem, 'TargetType')
-          ?.let(HookTargetType.fromString) /* Nullability(true, true) */,
+          ?.let(HookTargetType.fromString),
     );
   }
 
@@ -7840,7 +7838,7 @@ class ChangeSetSummary {
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
-          ?.let(ExecutionStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ExecutionStatus.fromString),
       importExistingResources:
           _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
@@ -7850,7 +7848,7 @@ class ChangeSetSummary {
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ChangeSetStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeSetStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -8231,7 +8229,7 @@ class DeploymentTargets {
     return DeploymentTargets(
       accountFilterType: _s
           .extractXmlStringValue(elem, 'AccountFilterType')
-          ?.let(AccountFilterType.fromString) /* Nullability(true, true) */,
+          ?.let(AccountFilterType.fromString),
       accounts: _s
           .extractXmlChild(elem, 'Accounts')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -8384,7 +8382,7 @@ class DescribeChangeSetHooksOutput {
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ChangeSetHooksStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeSetHooksStatus.fromString),
     );
   }
 
@@ -8564,7 +8562,7 @@ class DescribeChangeSetOutput {
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
-          ?.let(ExecutionStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ExecutionStatus.fromString),
       importExistingResources:
           _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
@@ -8574,7 +8572,7 @@ class DescribeChangeSetOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       onStackFailure: _s
           .extractXmlStringValue(elem, 'OnStackFailure')
-          ?.let(OnStackFailure.fromString) /* Nullability(true, true) */,
+          ?.let(OnStackFailure.fromString),
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
           elem.findElements('member').map(Parameter.fromXml).toList()),
       parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
@@ -8586,7 +8584,7 @@ class DescribeChangeSetOutput {
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ChangeSetStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeSetStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
@@ -8741,8 +8739,9 @@ class DescribeGeneratedTemplateOutput {
       resources: _s.extractXmlChild(elem, 'Resources')?.let((elem) =>
           elem.findElements('member').map(ResourceDetail.fromXml).toList()),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(GeneratedTemplateStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       templateConfiguration: _s
           .extractXmlChild(elem, 'TemplateConfiguration')
@@ -8794,7 +8793,7 @@ class DescribeOrganizationsAccessOutput {
     return DescribeOrganizationsAccessOutput(
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(OrganizationStatus.fromString) /* Nullability(true, true) */,
+          ?.let(OrganizationStatus.fromString),
     );
   }
 
@@ -8831,12 +8830,12 @@ class DescribePublisherOutput {
     return DescribePublisherOutput(
       identityProvider: _s
           .extractXmlStringValue(elem, 'IdentityProvider')
-          ?.let(IdentityProvider.fromString) /* Nullability(true, true) */,
+          ?.let(IdentityProvider.fromString),
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
       publisherProfile: _s.extractXmlStringValue(elem, 'PublisherProfile'),
       publisherStatus: _s
           .extractXmlStringValue(elem, 'PublisherStatus')
-          ?.let(PublisherStatus.fromString) /* Nullability(true, true) */,
+          ?.let(PublisherStatus.fromString),
     );
   }
 
@@ -8931,7 +8930,7 @@ class DescribeResourceScanOutput {
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ResourceScanStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ResourceScanStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -9043,8 +9042,9 @@ class DescribeStackDriftDetectionStatusOutput {
   });
   factory DescribeStackDriftDetectionStatusOutput.fromXml(_s.XmlElement elem) {
     return DescribeStackDriftDetectionStatusOutput(
-      detectionStatus: _s.extractXmlStringValue(elem, 'DetectionStatus')!.let(
-          StackDriftDetectionStatus.fromString) /* Nullability(true, false) */,
+      detectionStatus: _s
+          .extractXmlStringValue(elem, 'DetectionStatus')!
+          .let(StackDriftDetectionStatus.fromString),
       stackDriftDetectionId:
           _s.extractXmlStringValue(elem, 'StackDriftDetectionId')!,
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
@@ -9055,7 +9055,7 @@ class DescribeStackDriftDetectionStatusOutput {
           _s.extractXmlIntValue(elem, 'DriftedStackResourceCount'),
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')
-          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackDriftStatus.fromString),
     );
   }
 
@@ -9611,7 +9611,7 @@ class DescribeTypeOutput {
       defaultVersionId: _s.extractXmlStringValue(elem, 'DefaultVersionId'),
       deprecatedStatus: _s
           .extractXmlStringValue(elem, 'DeprecatedStatus')
-          ?.let(DeprecatedStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DeprecatedStatus.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
       documentationUrl: _s.extractXmlStringValue(elem, 'DocumentationUrl'),
       executionRoleArn: _s.extractXmlStringValue(elem, 'ExecutionRoleArn'),
@@ -9626,7 +9626,7 @@ class DescribeTypeOutput {
       originalTypeName: _s.extractXmlStringValue(elem, 'OriginalTypeName'),
       provisioningType: _s
           .extractXmlStringValue(elem, 'ProvisioningType')
-          ?.let(ProvisioningType.fromString) /* Nullability(true, true) */,
+          ?.let(ProvisioningType.fromString),
       publicVersionNumber:
           _s.extractXmlStringValue(elem, 'PublicVersionNumber'),
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
@@ -9639,18 +9639,17 @@ class DescribeTypeOutput {
       schema: _s.extractXmlStringValue(elem, 'Schema'),
       sourceUrl: _s.extractXmlStringValue(elem, 'SourceUrl'),
       timeCreated: _s.extractXmlDateTimeValue(elem, 'TimeCreated'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
+      type:
+          _s.extractXmlStringValue(elem, 'Type')?.let(RegistryType.fromString),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
       typeTestsStatus: _s
           .extractXmlStringValue(elem, 'TypeTestsStatus')
-          ?.let(TypeTestsStatus.fromString) /* Nullability(true, true) */,
+          ?.let(TypeTestsStatus.fromString),
       typeTestsStatusDescription:
           _s.extractXmlStringValue(elem, 'TypeTestsStatusDescription'),
       visibility: _s
           .extractXmlStringValue(elem, 'Visibility')
-          ?.let(Visibility.fromString) /* Nullability(true, true) */,
+          ?.let(Visibility.fromString),
     );
   }
 
@@ -9750,7 +9749,7 @@ class DescribeTypeRegistrationOutput {
       description: _s.extractXmlStringValue(elem, 'Description'),
       progressStatus: _s
           .extractXmlStringValue(elem, 'ProgressStatus')
-          ?.let(RegistrationStatus.fromString) /* Nullability(true, true) */,
+          ?.let(RegistrationStatus.fromString),
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeVersionArn: _s.extractXmlStringValue(elem, 'TypeVersionArn'),
     );
@@ -10097,8 +10096,9 @@ class GetGeneratedTemplateOutput {
   });
   factory GetGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
     return GetGeneratedTemplateOutput(
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(GeneratedTemplateStatus.fromString),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
   }
@@ -11618,7 +11618,7 @@ class PropertyDifference {
       actualValue: _s.extractXmlStringValue(elem, 'ActualValue')!,
       differenceType: _s
           .extractXmlStringValue(elem, 'DifferenceType')!
-          .let(DifferenceType.fromString) /* Nullability(true, false) */,
+          .let(DifferenceType.fromString),
       expectedValue: _s.extractXmlStringValue(elem, 'ExpectedValue')!,
       propertyPath: _s.extractXmlStringValue(elem, 'PropertyPath')!,
     );
@@ -12021,7 +12021,7 @@ class ResourceChange {
     return ResourceChange(
       action: _s
           .extractXmlStringValue(elem, 'Action')
-          ?.let(ChangeAction.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeAction.fromString),
       afterContext: _s.extractXmlStringValue(elem, 'AfterContext'),
       beforeContext: _s.extractXmlStringValue(elem, 'BeforeContext'),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
@@ -12035,10 +12035,10 @@ class ResourceChange {
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       policyAction: _s
           .extractXmlStringValue(elem, 'PolicyAction')
-          ?.let(PolicyAction.fromString) /* Nullability(true, true) */,
+          ?.let(PolicyAction.fromString),
       replacement: _s
           .extractXmlStringValue(elem, 'Replacement')
-          ?.let(Replacement.fromString) /* Nullability(true, true) */,
+          ?.let(Replacement.fromString),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
       scope: _s.extractXmlChild(elem, 'Scope')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
@@ -12160,10 +12160,10 @@ class ResourceChangeDetail {
       causingEntity: _s.extractXmlStringValue(elem, 'CausingEntity'),
       changeSource: _s
           .extractXmlStringValue(elem, 'ChangeSource')
-          ?.let(ChangeSource.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeSource.fromString),
       evaluation: _s
           .extractXmlStringValue(elem, 'Evaluation')
-          ?.let(EvaluationType.fromString) /* Nullability(true, true) */,
+          ?.let(EvaluationType.fromString),
       target: _s
           .extractXmlChild(elem, 'Target')
           ?.let(ResourceTargetDefinition.fromXml),
@@ -12307,9 +12307,9 @@ class ResourceDetail {
                 ) ??
             {},
       ),
-      resourceStatus: _s.extractXmlStringValue(elem, 'ResourceStatus')?.let(
-          GeneratedTemplateResourceStatus
-              .fromString) /* Nullability(true, true) */,
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')
+          ?.let(GeneratedTemplateResourceStatus.fromString),
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
@@ -12449,7 +12449,7 @@ class ResourceScanSummary {
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ResourceScanStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ResourceScanStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -12584,16 +12584,16 @@ class ResourceTargetDefinition {
       afterValue: _s.extractXmlStringValue(elem, 'AfterValue'),
       attribute: _s
           .extractXmlStringValue(elem, 'Attribute')
-          ?.let(ResourceAttribute.fromString) /* Nullability(true, true) */,
+          ?.let(ResourceAttribute.fromString),
       attributeChangeType: _s
           .extractXmlStringValue(elem, 'AttributeChangeType')
-          ?.let(AttributeChangeType.fromString) /* Nullability(true, true) */,
+          ?.let(AttributeChangeType.fromString),
       beforeValue: _s.extractXmlStringValue(elem, 'BeforeValue'),
       name: _s.extractXmlStringValue(elem, 'Name'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       requiresRecreation: _s
           .extractXmlStringValue(elem, 'RequiresRecreation')
-          ?.let(RequiresRecreation.fromString) /* Nullability(true, true) */,
+          ?.let(RequiresRecreation.fromString),
     );
   }
 
@@ -13155,7 +13155,7 @@ class Stack {
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       stackStatus: _s
           .extractXmlStringValue(elem, 'StackStatus')!
-          .let(StackStatus.fromString) /* Nullability(true, false) */,
+          .let(StackStatus.fromString),
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
           .map(Capability.fromString)
@@ -13163,12 +13163,12 @@ class Stack {
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       deletionMode: _s
           .extractXmlStringValue(elem, 'DeletionMode')
-          ?.let(DeletionMode.fromString) /* Nullability(true, true) */,
+          ?.let(DeletionMode.fromString),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       detailedStatus: _s
           .extractXmlStringValue(elem, 'DetailedStatus')
-          ?.let(DetailedStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DetailedStatus.fromString),
       disableRollback: _s.extractXmlBoolValue(elem, 'DisableRollback'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -13316,7 +13316,7 @@ class StackDriftInformation {
     return StackDriftInformation(
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')!
-          .let(StackDriftStatus.fromString) /* Nullability(true, false) */,
+          .let(StackDriftStatus.fromString),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -13373,7 +13373,7 @@ class StackDriftInformationSummary {
     return StackDriftInformationSummary(
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')!
-          .let(StackDriftStatus.fromString) /* Nullability(true, false) */,
+          .let(StackDriftStatus.fromString),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -13535,16 +13535,16 @@ class StackEvent {
       clientRequestToken: _s.extractXmlStringValue(elem, 'ClientRequestToken'),
       detailedStatus: _s
           .extractXmlStringValue(elem, 'DetailedStatus')
-          ?.let(DetailedStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DetailedStatus.fromString),
       hookFailureMode: _s
           .extractXmlStringValue(elem, 'HookFailureMode')
-          ?.let(HookFailureMode.fromString) /* Nullability(true, true) */,
+          ?.let(HookFailureMode.fromString),
       hookInvocationPoint: _s
           .extractXmlStringValue(elem, 'HookInvocationPoint')
-          ?.let(HookInvocationPoint.fromString) /* Nullability(true, true) */,
+          ?.let(HookInvocationPoint.fromString),
       hookStatus: _s
           .extractXmlStringValue(elem, 'HookStatus')
-          ?.let(HookStatus.fromString) /* Nullability(true, true) */,
+          ?.let(HookStatus.fromString),
       hookStatusReason: _s.extractXmlStringValue(elem, 'HookStatusReason'),
       hookType: _s.extractXmlStringValue(elem, 'HookType'),
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
@@ -13552,7 +13552,7 @@ class StackEvent {
       resourceProperties: _s.extractXmlStringValue(elem, 'ResourceProperties'),
       resourceStatus: _s
           .extractXmlStringValue(elem, 'ResourceStatus')
-          ?.let(ResourceStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ResourceStatus.fromString),
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
@@ -13729,7 +13729,7 @@ class StackInstance {
       account: _s.extractXmlStringValue(elem, 'Account'),
       driftStatus: _s
           .extractXmlStringValue(elem, 'DriftStatus')
-          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackDriftStatus.fromString),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       lastOperationId: _s.extractXmlStringValue(elem, 'LastOperationId'),
@@ -13746,7 +13746,7 @@ class StackInstance {
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(StackInstanceStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackInstanceStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -13840,8 +13840,9 @@ class StackInstanceComprehensiveStatus {
   });
   factory StackInstanceComprehensiveStatus.fromXml(_s.XmlElement elem) {
     return StackInstanceComprehensiveStatus(
-      detailedStatus: _s.extractXmlStringValue(elem, 'DetailedStatus')?.let(
-          StackInstanceDetailedStatus.fromString) /* Nullability(true, true) */,
+      detailedStatus: _s
+          .extractXmlStringValue(elem, 'DetailedStatus')
+          ?.let(StackInstanceDetailedStatus.fromString),
     );
   }
 
@@ -13995,8 +13996,7 @@ class StackInstanceResourceDriftsSummary {
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .let(StackResourceDriftStatus
-              .fromString) /* Nullability(true, false) */,
+          .let(StackResourceDriftStatus.fromString),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       physicalResourceIdContext: _s
@@ -14170,7 +14170,7 @@ class StackInstanceSummary {
       account: _s.extractXmlStringValue(elem, 'Account'),
       driftStatus: _s
           .extractXmlStringValue(elem, 'DriftStatus')
-          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackDriftStatus.fromString),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       lastOperationId: _s.extractXmlStringValue(elem, 'LastOperationId'),
@@ -14184,7 +14184,7 @@ class StackInstanceSummary {
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(StackInstanceStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackInstanceStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -14283,7 +14283,7 @@ class StackResource {
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus: _s
           .extractXmlStringValue(elem, 'ResourceStatus')!
-          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
+          .let(ResourceStatus.fromString),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -14401,7 +14401,7 @@ class StackResourceDetail {
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus: _s
           .extractXmlStringValue(elem, 'ResourceStatus')!
-          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
+          .let(ResourceStatus.fromString),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftInformation: _s
@@ -14558,8 +14558,7 @@ class StackResourceDrift {
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .let(StackResourceDriftStatus
-              .fromString) /* Nullability(true, false) */,
+          .let(StackResourceDriftStatus.fromString),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       actualProperties: _s.extractXmlStringValue(elem, 'ActualProperties'),
       expectedProperties: _s.extractXmlStringValue(elem, 'ExpectedProperties'),
@@ -14652,8 +14651,7 @@ class StackResourceDriftInformation {
     return StackResourceDriftInformation(
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .let(StackResourceDriftStatus
-              .fromString) /* Nullability(true, false) */,
+          .let(StackResourceDriftStatus.fromString),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -14718,8 +14716,7 @@ class StackResourceDriftInformationSummary {
     return StackResourceDriftInformationSummary(
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .let(StackResourceDriftStatus
-              .fromString) /* Nullability(true, false) */,
+          .let(StackResourceDriftStatus.fromString),
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -14806,7 +14803,7 @@ class StackResourceSummary {
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
       resourceStatus: _s
           .extractXmlStringValue(elem, 'ResourceStatus')!
-          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
+          .let(ResourceStatus.fromString),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -14988,7 +14985,7 @@ class StackSet {
           elem.findElements('member').map(Parameter.fromXml).toList()),
       permissionModel: _s
           .extractXmlStringValue(elem, 'PermissionModel')
-          ?.let(PermissionModels.fromString) /* Nullability(true, true) */,
+          ?.let(PermissionModels.fromString),
       regions: _s
           .extractXmlChild(elem, 'Regions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -15000,7 +14997,7 @@ class StackSet {
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(StackSetStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackSetStatus.fromString),
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
@@ -15204,11 +15201,10 @@ class StackSetDriftDetectionDetails {
     return StackSetDriftDetectionDetails(
       driftDetectionStatus: _s
           .extractXmlStringValue(elem, 'DriftDetectionStatus')
-          ?.let(StackSetDriftDetectionStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(StackSetDriftDetectionStatus.fromString),
       driftStatus: _s
           .extractXmlStringValue(elem, 'DriftStatus')
-          ?.let(StackSetDriftStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackSetDriftStatus.fromString),
       driftedStackInstancesCount:
           _s.extractXmlIntValue(elem, 'DriftedStackInstancesCount'),
       failedStackInstancesCount:
@@ -15416,8 +15412,9 @@ class StackSetOperation {
   });
   factory StackSetOperation.fromXml(_s.XmlElement elem) {
     return StackSetOperation(
-      action: _s.extractXmlStringValue(elem, 'Action')?.let(
-          StackSetOperationAction.fromString) /* Nullability(true, true) */,
+      action: _s
+          .extractXmlStringValue(elem, 'Action')
+          ?.let(StackSetOperationAction.fromString),
       administrationRoleARN:
           _s.extractXmlStringValue(elem, 'AdministrationRoleARN'),
       creationTimestamp: _s.extractXmlDateTimeValue(elem, 'CreationTimestamp'),
@@ -15435,8 +15432,9 @@ class StackSetOperation {
           .extractXmlChild(elem, 'StackSetDriftDetectionDetails')
           ?.let(StackSetDriftDetectionDetails.fromXml),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          StackSetOperationStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackSetOperationStatus.fromString),
       statusDetails: _s
           .extractXmlChild(elem, 'StatusDetails')
           ?.let(StackSetOperationStatusDetails.fromXml),
@@ -15617,7 +15615,7 @@ class StackSetOperationPreferences {
     return StackSetOperationPreferences(
       concurrencyMode: _s
           .extractXmlStringValue(elem, 'ConcurrencyMode')
-          ?.let(ConcurrencyMode.fromString) /* Nullability(true, true) */,
+          ?.let(ConcurrencyMode.fromString),
       failureToleranceCount:
           _s.extractXmlIntValue(elem, 'FailureToleranceCount'),
       failureTolerancePercentage:
@@ -15627,7 +15625,7 @@ class StackSetOperationPreferences {
           _s.extractXmlIntValue(elem, 'MaxConcurrentPercentage'),
       regionConcurrencyType: _s
           .extractXmlStringValue(elem, 'RegionConcurrencyType')
-          ?.let(RegionConcurrencyType.fromString) /* Nullability(true, true) */,
+          ?.let(RegionConcurrencyType.fromString),
       regionOrder: _s
           .extractXmlChild(elem, 'RegionOrder')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -15776,9 +15774,9 @@ class StackSetOperationResultSummary {
       organizationalUnitId:
           _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       region: _s.extractXmlStringValue(elem, 'Region'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          StackSetOperationResultStatus
-              .fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackSetOperationResultStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -15933,16 +15931,18 @@ class StackSetOperationSummary {
   });
   factory StackSetOperationSummary.fromXml(_s.XmlElement elem) {
     return StackSetOperationSummary(
-      action: _s.extractXmlStringValue(elem, 'Action')?.let(
-          StackSetOperationAction.fromString) /* Nullability(true, true) */,
+      action: _s
+          .extractXmlStringValue(elem, 'Action')
+          ?.let(StackSetOperationAction.fromString),
       creationTimestamp: _s.extractXmlDateTimeValue(elem, 'CreationTimestamp'),
       endTimestamp: _s.extractXmlDateTimeValue(elem, 'EndTimestamp'),
       operationId: _s.extractXmlStringValue(elem, 'OperationId'),
       operationPreferences: _s
           .extractXmlChild(elem, 'OperationPreferences')
           ?.let(StackSetOperationPreferences.fromXml),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          StackSetOperationStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackSetOperationStatus.fromString),
       statusDetails: _s
           .extractXmlChild(elem, 'StatusDetails')
           ?.let(StackSetOperationStatusDetails.fromXml),
@@ -16084,7 +16084,7 @@ class StackSetSummary {
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftStatus: _s
           .extractXmlStringValue(elem, 'DriftStatus')
-          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackDriftStatus.fromString),
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       managedExecution: _s
@@ -16092,12 +16092,12 @@ class StackSetSummary {
           ?.let(ManagedExecution.fromXml),
       permissionModel: _s
           .extractXmlStringValue(elem, 'PermissionModel')
-          ?.let(PermissionModels.fromString) /* Nullability(true, true) */,
+          ?.let(PermissionModels.fromString),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(StackSetStatus.fromString) /* Nullability(true, true) */,
+          ?.let(StackSetStatus.fromString),
     );
   }
 
@@ -16233,7 +16233,7 @@ class StackSummary {
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       stackStatus: _s
           .extractXmlStringValue(elem, 'StackStatus')!
-          .let(StackStatus.fromString) /* Nullability(true, false) */,
+          .let(StackStatus.fromString),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -16400,13 +16400,12 @@ class TemplateConfiguration {
   });
   factory TemplateConfiguration.fromXml(_s.XmlElement elem) {
     return TemplateConfiguration(
-      deletionPolicy: _s.extractXmlStringValue(elem, 'DeletionPolicy')?.let(
-          GeneratedTemplateDeletionPolicy
-              .fromString) /* Nullability(true, true) */,
+      deletionPolicy: _s
+          .extractXmlStringValue(elem, 'DeletionPolicy')
+          ?.let(GeneratedTemplateDeletionPolicy.fromString),
       updateReplacePolicy: _s
           .extractXmlStringValue(elem, 'UpdateReplacePolicy')
-          ?.let(GeneratedTemplateUpdateReplacePolicy
-              .fromString) /* Nullability(true, true) */,
+          ?.let(GeneratedTemplateUpdateReplacePolicy.fromString),
     );
   }
 
@@ -16623,8 +16622,9 @@ class TemplateSummary {
           _s.extractXmlStringValue(elem, 'GeneratedTemplateName'),
       lastUpdatedTime: _s.extractXmlDateTimeValue(elem, 'LastUpdatedTime'),
       numberOfResources: _s.extractXmlIntValue(elem, 'NumberOfResources'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(GeneratedTemplateStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -16848,7 +16848,7 @@ class TypeConfigurationIdentifier {
     return TypeConfigurationIdentifier(
       type: _s
           .extractXmlStringValue(elem, 'Type')
-          ?.let(ThirdPartyType.fromString) /* Nullability(true, true) */,
+          ?.let(ThirdPartyType.fromString),
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeConfigurationAlias:
           _s.extractXmlStringValue(elem, 'TypeConfigurationAlias'),
@@ -17102,11 +17102,10 @@ class TypeSummary {
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
       publisherIdentity: _s
           .extractXmlStringValue(elem, 'PublisherIdentity')
-          ?.let(IdentityProvider.fromString) /* Nullability(true, true) */,
+          ?.let(IdentityProvider.fromString),
       publisherName: _s.extractXmlStringValue(elem, 'PublisherName'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
+      type:
+          _s.extractXmlStringValue(elem, 'Type')?.let(RegistryType.fromString),
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
     );
@@ -17226,9 +17225,8 @@ class TypeVersionSummary {
       publicVersionNumber:
           _s.extractXmlStringValue(elem, 'PublicVersionNumber'),
       timeCreated: _s.extractXmlDateTimeValue(elem, 'TimeCreated'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
+      type:
+          _s.extractXmlStringValue(elem, 'Type')?.let(RegistryType.fromString),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
@@ -17508,9 +17506,7 @@ class WarningDetail {
     return WarningDetail(
       properties: _s.extractXmlChild(elem, 'Properties')?.let((elem) =>
           elem.findElements('member').map(WarningProperty.fromXml).toList()),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(WarningType.fromString) /* Nullability(true, true) */,
+      type: _s.extractXmlStringValue(elem, 'Type')?.let(WarningType.fromString),
     );
   }
 

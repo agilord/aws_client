@@ -1437,7 +1437,7 @@ class CreateCapabilityResponse {
       name: json['name'] as String,
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1513,7 +1513,7 @@ class CreatePartnershipResponse {
       partnershipId: json['partnershipId'] as String,
       profileId: json['profileId'] as String,
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       email: json['email'] as String?,
@@ -1854,7 +1854,7 @@ class GetCapabilityResponse {
       name: json['name'] as String,
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
           .toList(),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -1938,7 +1938,7 @@ class GetPartnershipResponse {
       partnershipId: json['partnershipId'] as String,
       profileId: json['profileId'] as String,
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       email: json['email'] as String?,
@@ -2086,7 +2086,7 @@ class GetTransformerJobResponse {
       status: TransformerJobStatus.fromString((json['status'] as String)),
       message: json['message'] as String?,
       outputFiles: (json['outputFiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2215,7 +2215,7 @@ class ListCapabilitiesResponse {
   factory ListCapabilitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListCapabilitiesResponse(
       capabilities: (json['capabilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CapabilitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2250,7 +2250,7 @@ class ListPartnershipsResponse {
   factory ListPartnershipsResponse.fromJson(Map<String, dynamic> json) {
     return ListPartnershipsResponse(
       partnerships: (json['partnerships'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PartnershipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2285,7 +2285,7 @@ class ListProfilesResponse {
   factory ListProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilesResponse(
       profiles: (json['profiles'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2315,7 +2315,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2351,7 +2351,7 @@ class ListTransformersResponse {
   factory ListTransformersResponse.fromJson(Map<String, dynamic> json) {
     return ListTransformersResponse(
       transformers: (json['transformers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TransformerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2425,7 +2425,7 @@ class PartnershipSummary {
       partnershipId: json['partnershipId'] as String,
       profileId: json['profileId'] as String,
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -2829,7 +2829,7 @@ class UpdateCapabilityResponse {
       name: json['name'] as String,
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Location.fromJson(e as Map<String, dynamic>))
           .toList(),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -2914,7 +2914,7 @@ class UpdatePartnershipResponse {
       partnershipId: json['partnershipId'] as String,
       profileId: json['profileId'] as String,
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       email: json['email'] as String?,

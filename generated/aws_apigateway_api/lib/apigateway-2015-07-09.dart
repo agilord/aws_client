@@ -4903,7 +4903,7 @@ class Account {
       apiKeyVersion: json['apiKeyVersion'] as String?,
       cloudwatchRoleArn: json['cloudwatchRoleArn'] as String?,
       features: (json['features'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       throttleSettings: json['throttleSettings'] != null
@@ -4974,7 +4974,7 @@ class ApiKey {
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
       name: json['name'] as String?,
       stageKeys: (json['stageKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -4999,12 +4999,9 @@ class ApiKeyIds {
 
   factory ApiKeyIds.fromJson(Map<String, dynamic> json) {
     return ApiKeyIds(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5045,12 +5042,12 @@ class ApiKeys {
   factory ApiKeys.fromJson(Map<String, dynamic> json) {
     return ApiKeys(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5220,7 +5217,7 @@ class Authorizer {
           json['identityValidationExpression'] as String?,
       name: json['name'] as String?,
       providerARNs: (json['providerARNs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       type: (json['type'] as String?)?.let(AuthorizerType.fromString),
@@ -5263,7 +5260,7 @@ class Authorizers {
   factory Authorizers.fromJson(Map<String, dynamic> json) {
     return Authorizers(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -5313,7 +5310,7 @@ class BasePathMappings {
   factory BasePathMappings.fromJson(Map<String, dynamic> json) {
     return BasePathMappings(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BasePathMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -5472,7 +5469,7 @@ class ClientCertificates {
   factory ClientCertificates.fromJson(Map<String, dynamic> json) {
     return ClientCertificates(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClientCertificate.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -5599,7 +5596,7 @@ class Deployments {
   factory Deployments.fromJson(Map<String, dynamic> json) {
     return Deployments(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -5662,12 +5659,9 @@ class DocumentationPartIds {
 
   factory DocumentationPartIds.fromJson(Map<String, dynamic> json) {
     return DocumentationPartIds(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5801,7 +5795,7 @@ class DocumentationParts {
   factory DocumentationParts.fromJson(Map<String, dynamic> json) {
     return DocumentationParts(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentationPart.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -5849,7 +5843,7 @@ class DocumentationVersions {
   factory DocumentationVersions.fromJson(Map<String, dynamic> json) {
     return DocumentationVersions(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentationVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -6030,7 +6024,7 @@ class DomainNames {
   factory DomainNames.fromJson(Map<String, dynamic> json) {
     return DomainNames(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainName.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -6060,11 +6054,11 @@ class EndpointConfiguration {
   factory EndpointConfiguration.fromJson(Map<String, dynamic> json) {
     return EndpointConfiguration(
       types: (json['types'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointType.fromString((e as String)))
           .toList(),
       vpcEndpointIds: (json['vpcEndpointIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6214,7 +6208,7 @@ class GatewayResponses {
   factory GatewayResponses.fromJson(Map<String, dynamic> json) {
     return GatewayResponses(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GatewayResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -6376,7 +6370,7 @@ class Integration {
   factory Integration.fromJson(Map<String, dynamic> json) {
     return Integration(
       cacheKeyParameters: (json['cacheKeyParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cacheNamespace: json['cacheNamespace'] as String?,
@@ -6601,7 +6595,7 @@ class Method {
     return Method(
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authorizationType: json['authorizationType'] as String?,
@@ -6827,7 +6821,7 @@ class Models {
   factory Models.fromJson(Map<String, dynamic> json) {
     return Models(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -6870,7 +6864,7 @@ class MutualTlsAuthentication {
       truststoreUri: json['truststoreUri'] as String?,
       truststoreVersion: json['truststoreVersion'] as String?,
       truststoreWarnings: (json['truststoreWarnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7100,7 +7094,7 @@ class RequestValidators {
   factory RequestValidators.fromJson(Map<String, dynamic> json) {
     return RequestValidators(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RequestValidator.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -7159,7 +7153,7 @@ class Resources {
   factory Resources.fromJson(Map<String, dynamic> json) {
     return Resources(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -7252,7 +7246,7 @@ class RestApi {
       apiKeySource:
           (json['apiKeySource'] as String?)?.let(ApiKeySourceType.fromString),
       binaryMediaTypes: (json['binaryMediaTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdDate: timeStampFromJson(json['createdDate']),
@@ -7271,7 +7265,7 @@ class RestApi {
           ?.map((k, e) => MapEntry(k, e as String)),
       version: json['version'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7293,7 +7287,7 @@ class RestApis {
   factory RestApis.fromJson(Map<String, dynamic> json) {
     return RestApis(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RestApi.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -7381,7 +7375,7 @@ class SdkType {
   factory SdkType.fromJson(Map<String, dynamic> json) {
     return SdkType(
       configurationProperties: (json['configurationProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SdkConfigurationProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7406,7 +7400,7 @@ class SdkTypes {
   factory SdkTypes.fromJson(Map<String, dynamic> json) {
     return SdkTypes(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SdkType.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -7589,7 +7583,7 @@ class Stages {
   factory Stages.fromJson(Map<String, dynamic> json) {
     return Stages(
       item: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Stage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7669,9 +7663,9 @@ class TestInvokeAuthorizerResponse {
 
   factory TestInvokeAuthorizerResponse.fromJson(Map<String, dynamic> json) {
     return TestInvokeAuthorizerResponse(
-      authorization: (json['authorization'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      authorization: (json['authorization'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       claims: (json['claims'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       clientStatus: json['clientStatus'] as int?,
@@ -7721,7 +7715,7 @@ class TestInvokeMethodResponse {
       log: json['log'] as String?,
       multiValueHeaders: (json['multiValueHeaders'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+              k, (e as List).nonNulls.map((e) => e as String).toList())),
       status: json['status'] as int?,
     );
   }
@@ -7845,9 +7839,8 @@ class Usage {
       items: (json['values'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k,
           (e as List)
-              .whereNotNull()
-              .map((e) =>
-                  (e as List).whereNotNull().map((e) => e as int).toList())
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as int).toList())
               .toList())),
       position: json['position'] as String?,
       startDate: json['startDate'] as String?,
@@ -7907,7 +7900,7 @@ class UsagePlan {
   factory UsagePlan.fromJson(Map<String, dynamic> json) {
     return UsagePlan(
       apiStages: (json['apiStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApiStage.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
@@ -7973,7 +7966,7 @@ class UsagePlanKeys {
   factory UsagePlanKeys.fromJson(Map<String, dynamic> json) {
     return UsagePlanKeys(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsagePlanKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -7995,7 +7988,7 @@ class UsagePlans {
   factory UsagePlans.fromJson(Map<String, dynamic> json) {
     return UsagePlans(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsagePlan.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,
@@ -8054,7 +8047,7 @@ class VpcLink {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targetArns: (json['targetArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8092,7 +8085,7 @@ class VpcLinks {
   factory VpcLinks.fromJson(Map<String, dynamic> json) {
     return VpcLinks(
       items: (json['item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
           .toList(),
       position: json['position'] as String?,

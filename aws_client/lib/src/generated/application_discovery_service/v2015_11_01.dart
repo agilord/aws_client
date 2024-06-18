@@ -1473,7 +1473,7 @@ class AgentInfo {
     return AgentInfo(
       agentId: json['agentId'] as String?,
       agentNetworkInfoList: (json['agentNetworkInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgentNetworkInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       agentType: json['agentType'] as String?,
@@ -1626,7 +1626,7 @@ class BatchDeleteAgentsResponse {
   factory BatchDeleteAgentsResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteAgentsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchDeleteAgentError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1692,20 +1692,20 @@ class BatchDeleteConfigurationTask {
       configurationType: (json['configurationType'] as String?)
           ?.let(DeletionConfigurationItemType.fromString),
       deletedConfigurations: (json['deletedConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       deletionWarnings: (json['deletionWarnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeletionWarning.fromJson(e as Map<String, dynamic>))
           .toList(),
       endTime: timeStampFromJson(json['endTime']),
       failedConfigurations: (json['failedConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestedConfigurations: (json['requestedConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
@@ -1828,7 +1828,7 @@ class BatchDeleteImportDataResponse {
   factory BatchDeleteImportDataResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteImportDataResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchDeleteImportDataError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2595,7 +2595,7 @@ class DescribeAgentsResponse {
   factory DescribeAgentsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAgentsResponse(
       agentsInfo: (json['agentsInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgentInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2650,7 +2650,7 @@ class DescribeConfigurationsResponse {
   factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConfigurationsResponse(
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)))
           .toList(),
@@ -2681,7 +2681,7 @@ class DescribeContinuousExportsResponse {
       Map<String, dynamic> json) {
     return DescribeContinuousExportsResponse(
       descriptions: (json['descriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContinuousExportDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2715,7 +2715,7 @@ class DescribeExportConfigurationsResponse {
       Map<String, dynamic> json) {
     return DescribeExportConfigurationsResponse(
       exportsInfo: (json['exportsInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2753,7 +2753,7 @@ class DescribeExportTasksResponse {
   factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
     return DescribeExportTasksResponse(
       exportsInfo: (json['exportsInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2787,7 +2787,7 @@ class DescribeImportTasksResponse {
     return DescribeImportTasksResponse(
       nextToken: json['nextToken'] as String?,
       tasks: (json['tasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportTask.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2820,7 +2820,7 @@ class DescribeTagsResponse {
     return DescribeTagsResponse(
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3517,7 +3517,7 @@ class ListConfigurationsResponse {
   factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationsResponse(
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)))
           .toList(),
@@ -3558,7 +3558,7 @@ class ListServerNeighborsResponse {
   factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) {
     return ListServerNeighborsResponse(
       neighbors: (json['neighbors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               NeighborConnectionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3813,7 +3813,7 @@ class StartDataCollectionByAgentIdsResponse {
       Map<String, dynamic> json) {
     return StartDataCollectionByAgentIdsResponse(
       agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3921,7 +3921,7 @@ class StopDataCollectionByAgentIdsResponse {
       Map<String, dynamic> json) {
     return StopDataCollectionByAgentIdsResponse(
       agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
           .toList(),

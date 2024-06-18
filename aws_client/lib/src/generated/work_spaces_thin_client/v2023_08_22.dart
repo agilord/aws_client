@@ -1571,7 +1571,7 @@ class ListDevicesResponse {
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
       devices: (json['devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1608,7 +1608,7 @@ class ListEnvironmentsResponse {
   factory ListEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsResponse(
       environments: (json['environments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1646,7 +1646,7 @@ class ListSoftwareSetsResponse {
     return ListSoftwareSetsResponse(
       nextToken: json['nextToken'] as String?,
       softwareSets: (json['softwareSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SoftwareSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1727,7 +1727,7 @@ class MaintenanceWindow {
       applyTimeOf:
           (json['applyTimeOf'] as String?)?.let(ApplyTimeOf.fromString),
       daysOfTheWeek: (json['daysOfTheWeek'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DayOfWeek.fromString((e as String)))
           .toList(),
       endTimeHour: json['endTimeHour'] as int?,
@@ -1847,7 +1847,7 @@ class SoftwareSet {
       id: json['id'] as String?,
       releasedAt: timeStampFromJson(json['releasedAt']),
       software: (json['software'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Software.fromJson(e as Map<String, dynamic>))
           .toList(),
       supportedUntil: timeStampFromJson(json['supportedUntil']),

@@ -2694,7 +2694,7 @@ class BrowserSettings {
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       browserPolicy: json['browserPolicy'] as String?,
@@ -2926,11 +2926,11 @@ class CookieSynchronizationConfiguration {
       Map<String, dynamic> json) {
     return CookieSynchronizationConfiguration(
       allowlist: (json['allowlist'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CookieSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
       blocklist: (json['blocklist'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CookieSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3862,7 +3862,7 @@ class IpAccessSettings {
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationDate: timeStampFromJson(json['creationDate']),
@@ -3870,7 +3870,7 @@ class IpAccessSettings {
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       ipRules: (json['ipRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3992,7 +3992,7 @@ class ListBrowserSettingsResponse {
   factory ListBrowserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return ListBrowserSettingsResponse(
       browserSettings: (json['browserSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BrowserSettingsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4026,7 +4026,7 @@ class ListIdentityProvidersResponse {
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityProvidersResponse(
       identityProviders: (json['identityProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdentityProviderSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4060,7 +4060,7 @@ class ListIpAccessSettingsResponse {
   factory ListIpAccessSettingsResponse.fromJson(Map<String, dynamic> json) {
     return ListIpAccessSettingsResponse(
       ipAccessSettings: (json['ipAccessSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IpAccessSettingsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4094,7 +4094,7 @@ class ListNetworkSettingsResponse {
   factory ListNetworkSettingsResponse.fromJson(Map<String, dynamic> json) {
     return ListNetworkSettingsResponse(
       networkSettings: (json['networkSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => NetworkSettingsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4129,7 +4129,7 @@ class ListPortalsResponse {
     return ListPortalsResponse(
       nextToken: json['nextToken'] as String?,
       portals: (json['portals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortalSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4156,7 +4156,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4192,7 +4192,7 @@ class ListTrustStoreCertificatesResponse {
     return ListTrustStoreCertificatesResponse(
       trustStoreArn: json['trustStoreArn'] as String,
       certificateList: (json['certificateList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4228,7 +4228,7 @@ class ListTrustStoresResponse {
     return ListTrustStoresResponse(
       nextToken: json['nextToken'] as String?,
       trustStores: (json['trustStores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TrustStoreSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4262,7 +4262,7 @@ class ListUserAccessLoggingSettingsResponse {
     return ListUserAccessLoggingSettingsResponse(
       nextToken: json['nextToken'] as String?,
       userAccessLoggingSettings: (json['userAccessLoggingSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserAccessLoggingSettingsSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4297,7 +4297,7 @@ class ListUserSettingsResponse {
     return ListUserSettingsResponse(
       nextToken: json['nextToken'] as String?,
       userSettings: (json['userSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserSettingsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4347,15 +4347,15 @@ class NetworkSettings {
     return NetworkSettings(
       networkSettingsArn: json['networkSettingsArn'] as String,
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['vpcId'] as String?,
@@ -4832,7 +4832,7 @@ class TrustStore {
     return TrustStore(
       trustStoreArn: json['trustStoreArn'] as String,
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5093,7 +5093,7 @@ class UserAccessLoggingSettings {
       userAccessLoggingSettingsArn:
           json['userAccessLoggingSettingsArn'] as String,
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       kinesisStreamArn: json['kinesisStreamArn'] as String?,
@@ -5215,7 +5215,7 @@ class UserSettings {
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       associatedPortalArns: (json['associatedPortalArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cookieSynchronizationConfiguration:

@@ -3978,7 +3978,7 @@ class BatchDeleteReadSetResponse {
   factory BatchDeleteReadSetResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteReadSetResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReadSetBatchError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4669,7 +4669,7 @@ class DeleteAnnotationStoreVersionsResponse {
       Map<String, dynamic> json) {
     return DeleteAnnotationStoreVersionsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionDeleteError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5208,7 +5208,7 @@ class GetAnnotationImportResponse {
           FormatOptions.fromJson(json['formatOptions'] as Map<String, dynamic>),
       id: json['id'] as String,
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AnnotationImportItemDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5534,7 +5534,7 @@ class GetReadSetActivationJobResponse {
       status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ActivateReadSetSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5609,7 +5609,7 @@ class GetReadSetExportJobResponse {
       status: ReadSetExportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       readSets: (json['readSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportReadSetDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['statusMessage'] as String?,
@@ -5683,7 +5683,7 @@ class GetReadSetImportJobResponse {
       roleArn: json['roleArn'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
       sources: (json['sources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ImportReadSetSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5915,7 +5915,7 @@ class GetReferenceImportJobResponse {
       referenceStoreId: json['referenceStoreId'] as String,
       roleArn: json['roleArn'] as String,
       sources: (json['sources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ImportReferenceSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6708,7 +6708,7 @@ class GetVariantImportResponse {
       destinationName: json['destinationName'] as String,
       id: json['id'] as String,
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               VariantImportItemDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7383,7 +7383,7 @@ class ListAnnotationImportJobsResponse {
   factory ListAnnotationImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListAnnotationImportJobsResponse(
       annotationImportJobs: (json['annotationImportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnnotationImportJobItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7437,7 +7437,7 @@ class ListAnnotationStoreVersionsResponse {
       Map<String, dynamic> json) {
     return ListAnnotationStoreVersionsResponse(
       annotationStoreVersions: (json['annotationStoreVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnnotationStoreVersionItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7488,7 +7488,7 @@ class ListAnnotationStoresResponse {
   factory ListAnnotationStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListAnnotationStoresResponse(
       annotationStores: (json['annotationStores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnnotationStoreItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7523,7 +7523,7 @@ class ListMultipartReadSetUploadsResponse {
     return ListMultipartReadSetUploadsResponse(
       nextToken: json['nextToken'] as String?,
       uploads: (json['uploads'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultipartReadSetUploadListItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7556,7 +7556,7 @@ class ListReadSetActivationJobsResponse {
       Map<String, dynamic> json) {
     return ListReadSetActivationJobsResponse(
       activationJobs: (json['activationJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ActivateReadSetJobItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7589,7 +7589,7 @@ class ListReadSetExportJobsResponse {
   factory ListReadSetExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListReadSetExportJobsResponse(
       exportJobs: (json['exportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ExportReadSetJobDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7622,7 +7622,7 @@ class ListReadSetImportJobsResponse {
   factory ListReadSetImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListReadSetImportJobsResponse(
       importJobs: (json['importJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportReadSetJobItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7656,7 +7656,7 @@ class ListReadSetUploadPartsResponse {
     return ListReadSetUploadPartsResponse(
       nextToken: json['nextToken'] as String?,
       parts: (json['parts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReadSetUploadPartListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7688,7 +7688,7 @@ class ListReadSetsResponse {
   factory ListReadSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListReadSetsResponse(
       readSets: (json['readSets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ReadSetListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7720,7 +7720,7 @@ class ListReferenceImportJobsResponse {
   factory ListReferenceImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListReferenceImportJobsResponse(
       importJobs: (json['importJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ImportReferenceJobItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7753,7 +7753,7 @@ class ListReferenceStoresResponse {
   factory ListReferenceStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListReferenceStoresResponse(
       referenceStores: (json['referenceStores'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ReferenceStoreDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7785,7 +7785,7 @@ class ListReferencesResponse {
   factory ListReferencesResponse.fromJson(Map<String, dynamic> json) {
     return ListReferencesResponse(
       references: (json['references'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ReferenceListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7817,7 +7817,7 @@ class ListRunGroupsResponse {
   factory ListRunGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListRunGroupsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RunGroupListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7849,7 +7849,7 @@ class ListRunTasksResponse {
   factory ListRunTasksResponse.fromJson(Map<String, dynamic> json) {
     return ListRunTasksResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaskListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7881,7 +7881,7 @@ class ListRunsResponse {
   factory ListRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListRunsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RunListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7913,7 +7913,7 @@ class ListSequenceStoresResponse {
   factory ListSequenceStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListSequenceStoresResponse(
       sequenceStores: (json['sequenceStores'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SequenceStoreDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7946,7 +7946,7 @@ class ListSharesResponse {
   factory ListSharesResponse.fromJson(Map<String, dynamic> json) {
     return ListSharesResponse(
       shares: (json['shares'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ShareDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8025,7 +8025,7 @@ class ListVariantImportJobsResponse {
     return ListVariantImportJobsResponse(
       nextToken: json['nextToken'] as String?,
       variantImportJobs: (json['variantImportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VariantImportJobItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8074,7 +8074,7 @@ class ListVariantStoresResponse {
     return ListVariantStoresResponse(
       nextToken: json['nextToken'] as String?,
       variantStores: (json['variantStores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VariantStoreItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8105,7 +8105,7 @@ class ListWorkflowsResponse {
   factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -10496,7 +10496,7 @@ class TsvStoreOptions {
       formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(FormatToHeaderKey.fromString(k), e as String)),
       schema: (json['schema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(k, SchemaValueType.fromString((e as String)))))
           .toList(),
@@ -10542,7 +10542,7 @@ class TsvVersionOptions {
       formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(FormatToHeaderKey.fromString(k), e as String)),
       schema: (json['schema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(k, SchemaValueType.fromString((e as String)))))
           .toList(),

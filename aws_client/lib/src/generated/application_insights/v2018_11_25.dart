@@ -2212,7 +2212,7 @@ class DescribeComponentResponse {
               json['ApplicationComponent'] as Map<String, dynamic>)
           : null,
       resourceList: (json['ResourceList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2458,7 +2458,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationInfoList: (json['ApplicationInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2491,7 +2491,7 @@ class ListComponentsResponse {
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
       applicationComponentList: (json['ApplicationComponentList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2529,7 +2529,7 @@ class ListConfigurationHistoryResponse {
   factory ListConfigurationHistoryResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationHistoryResponse(
       eventList: (json['EventList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2571,7 +2571,7 @@ class ListLogPatternSetsResponse {
     return ListLogPatternSetsResponse(
       accountId: json['AccountId'] as String?,
       logPatternSets: (json['LogPatternSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2618,7 +2618,7 @@ class ListLogPatternsResponse {
     return ListLogPatternsResponse(
       accountId: json['AccountId'] as String?,
       logPatterns: (json['LogPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogPattern.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2666,7 +2666,7 @@ class ListProblemsResponse {
       accountId: json['AccountId'] as String?,
       nextToken: json['NextToken'] as String?,
       problemList: (json['ProblemList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Problem.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceGroupName: json['ResourceGroupName'] as String?,
@@ -2700,7 +2700,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2730,7 +2730,7 @@ class ListWorkloadsResponse {
     return ListWorkloadsResponse(
       nextToken: json['NextToken'] as String?,
       workloadList: (json['WorkloadList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Workload.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3352,7 +3352,7 @@ class RelatedObservations {
   factory RelatedObservations.fromJson(Map<String, dynamic> json) {
     return RelatedObservations(
       observationList: (json['ObservationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Observation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

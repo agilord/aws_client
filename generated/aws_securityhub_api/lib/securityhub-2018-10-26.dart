@@ -4323,7 +4323,7 @@ class AutomationRulesConfig {
   factory AutomationRulesConfig.fromJson(Map<String, dynamic> json) {
     return AutomationRulesConfig(
       actions: (json['Actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutomationRulesAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: timeStampFromJson(json['CreatedAt']),
@@ -4390,16 +4390,14 @@ class AutomationRulesFindingFieldsUpdate {
           ? NoteUpdate.fromJson(json['Note'] as Map<String, dynamic>)
           : null,
       relatedFindings: (json['RelatedFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RelatedFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       severity: json['Severity'] != null
           ? SeverityUpdate.fromJson(json['Severity'] as Map<String, dynamic>)
           : null,
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
       userDefinedFields: (json['UserDefinedFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       verificationState: (json['VerificationState'] as String?)
@@ -4849,157 +4847,157 @@ class AutomationRulesFindingFilters {
   factory AutomationRulesFindingFilters.fromJson(Map<String, dynamic> json) {
     return AutomationRulesFindingFilters(
       awsAccountId: (json['AwsAccountId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       awsAccountName: (json['AwsAccountName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       companyName: (json['CompanyName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       complianceAssociatedStandardsId:
           (json['ComplianceAssociatedStandardsId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceSecurityControlId:
           (json['ComplianceSecurityControlId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceStatus: (json['ComplianceStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       confidence: (json['Confidence'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: (json['CreatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       criticality: (json['Criticality'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: (json['Description'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstObservedAt: (json['FirstObservedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       generatorId: (json['GeneratorId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: (json['Id'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastObservedAt: (json['LastObservedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteText: (json['NoteText'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteUpdatedAt: (json['NoteUpdatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteUpdatedBy: (json['NoteUpdatedBy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       productArn: (json['ProductArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       productName: (json['ProductName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordState: (json['RecordState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedFindingsId: (json['RelatedFindingsId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedFindingsProductArn: (json['RelatedFindingsProductArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceApplicationArn: (json['ResourceApplicationArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceApplicationName: (json['ResourceApplicationName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceDetailsOther: (json['ResourceDetailsOther'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceId: (json['ResourceId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourcePartition: (json['ResourcePartition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceRegion: (json['ResourceRegion'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType: (json['ResourceType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       severityLabel: (json['SeverityLabel'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceUrl: (json['SourceUrl'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       title: (json['Title'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: (json['UpdatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       userDefinedFields: (json['UserDefinedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       verificationState: (json['VerificationState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowStatus: (json['WorkflowStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5370,16 +5368,16 @@ class AwsAmazonMqBrokerDetails {
           : null,
       publiclyAccessible: json['PubliclyAccessible'] as bool?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       storageType: json['StorageType'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsAmazonMqBrokerUsersDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5523,10 +5521,8 @@ class AwsAmazonMqBrokerLdapServerMetadataDetails {
   factory AwsAmazonMqBrokerLdapServerMetadataDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsAmazonMqBrokerLdapServerMetadataDetails(
-      hosts: (json['Hosts'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      hosts:
+          (json['Hosts'] as List?)?.nonNulls.map((e) => e as String).toList(),
       roleBase: json['RoleBase'] as String?,
       roleName: json['RoleName'] as String?,
       roleSearchMatching: json['RoleSearchMatching'] as String?,
@@ -5993,10 +5989,8 @@ class AwsApiGatewayEndpointConfiguration {
   factory AwsApiGatewayEndpointConfiguration.fromJson(
       Map<String, dynamic> json) {
     return AwsApiGatewayEndpointConfiguration(
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6226,7 +6220,7 @@ class AwsApiGatewayRestApiDetails {
     return AwsApiGatewayRestApiDetails(
       apiKeySource: json['ApiKeySource'] as String?,
       binaryMediaTypes: (json['BinaryMediaTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdDate: json['CreatedDate'] as String?,
@@ -6429,7 +6423,7 @@ class AwsApiGatewayStageDetails {
       documentationVersion: json['DocumentationVersion'] as String?,
       lastUpdatedDate: json['LastUpdatedDate'] as String?,
       methodSettings: (json['MethodSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsApiGatewayMethodSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6998,7 +6992,7 @@ class AwsAppSyncGraphQlApiDetails {
     return AwsAppSyncGraphQlApiDetails(
       additionalAuthenticationProviders:
           (json['AdditionalAuthenticationProviders'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails
                       .fromJson(e as Map<String, dynamic>))
@@ -7513,7 +7507,7 @@ class AwsAutoScalingAutoScalingGroupDetails {
       Map<String, dynamic> json) {
     return AwsAutoScalingAutoScalingGroupDetails(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7527,7 +7521,7 @@ class AwsAutoScalingAutoScalingGroupDetails {
               .fromJson(json['LaunchTemplate'] as Map<String, dynamic>)
           : null,
       loadBalancerNames: (json['LoadBalancerNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       mixedInstancesPolicy: json['MixedInstancesPolicy'] != null
@@ -7758,7 +7752,7 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
                   json['LaunchTemplateSpecification'] as Map<String, dynamic>)
           : null,
       overrides: (json['Overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -8141,7 +8135,7 @@ class AwsAutoScalingLaunchConfigurationDetails {
     return AwsAutoScalingLaunchConfigurationDetails(
       associatePublicIpAddress: json['AssociatePublicIpAddress'] as bool?,
       blockDeviceMappings: (json['BlockDeviceMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -8149,7 +8143,7 @@ class AwsAutoScalingLaunchConfigurationDetails {
       classicLinkVpcId: json['ClassicLinkVpcId'] as String?,
       classicLinkVpcSecurityGroups:
           (json['ClassicLinkVpcSecurityGroups'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdTime: json['CreatedTime'] as String?,
@@ -8171,7 +8165,7 @@ class AwsAutoScalingLaunchConfigurationDetails {
       placementTenancy: json['PlacementTenancy'] as String?,
       ramdiskId: json['RamdiskId'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       spotPrice: json['SpotPrice'] as String?,
@@ -8370,13 +8364,13 @@ class AwsBackupBackupPlanBackupPlanDetails {
       Map<String, dynamic> json) {
     return AwsBackupBackupPlanBackupPlanDetails(
       advancedBackupSettings: (json['AdvancedBackupSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsBackupBackupPlanAdvancedBackupSettingsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       backupPlanName: json['BackupPlanName'] as String?,
       backupPlanRule: (json['BackupPlanRule'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsBackupBackupPlanRuleDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8587,7 +8581,7 @@ class AwsBackupBackupPlanRuleDetails {
     return AwsBackupBackupPlanRuleDetails(
       completionWindowMinutes: json['CompletionWindowMinutes'] as int?,
       copyActions: (json['CopyActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsBackupBackupPlanRuleCopyActionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8728,7 +8722,7 @@ class AwsBackupBackupVaultNotificationsDetails {
       Map<String, dynamic> json) {
     return AwsBackupBackupVaultNotificationsDetails(
       backupVaultEvents: (json['BackupVaultEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       snsTopicArn: json['SnsTopicArn'] as String?,
@@ -9376,27 +9370,25 @@ class AwsCertificateManagerCertificateDetails {
       createdAt: json['CreatedAt'] as String?,
       domainName: json['DomainName'] as String?,
       domainValidationOptions: (json['DomainValidationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsCertificateManagerCertificateDomainValidationOption.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
       extendedKeyUsages: (json['ExtendedKeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCertificateManagerCertificateExtendedKeyUsage.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       failureReason: json['FailureReason'] as String?,
       importedAt: json['ImportedAt'] as String?,
-      inUseBy: (json['InUseBy'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      inUseBy:
+          (json['InUseBy'] as List?)?.nonNulls.map((e) => e as String).toList(),
       issuedAt: json['IssuedAt'] as String?,
       issuer: json['Issuer'] as String?,
       keyAlgorithm: json['KeyAlgorithm'] as String?,
       keyUsages: (json['KeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCertificateManagerCertificateKeyUsage.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -9416,7 +9408,7 @@ class AwsCertificateManagerCertificateDetails {
       status: json['Status'] as String?,
       subject: json['Subject'] as String?,
       subjectAlternativeNames: (json['SubjectAlternativeNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       type: json['Type'] as String?,
@@ -9530,7 +9522,7 @@ class AwsCertificateManagerCertificateDomainValidationOption {
           : null,
       validationDomain: json['ValidationDomain'] as String?,
       validationEmails: (json['ValidationEmails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       validationMethod: json['ValidationMethod'] as String?,
@@ -9716,7 +9708,7 @@ class AwsCertificateManagerCertificateRenewalSummary {
       Map<String, dynamic> json) {
     return AwsCertificateManagerCertificateRenewalSummary(
       domainValidationOptions: (json['DomainValidationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsCertificateManagerCertificateDomainValidationOption.fromJson(
                   e as Map<String, dynamic>))
@@ -9856,7 +9848,7 @@ class AwsCloudFormationStackDetails {
   factory AwsCloudFormationStackDetails.fromJson(Map<String, dynamic> json) {
     return AwsCloudFormationStackDetails(
       capabilities: (json['Capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: json['CreationTime'] as String?,
@@ -9869,11 +9861,11 @@ class AwsCloudFormationStackDetails {
       enableTerminationProtection: json['EnableTerminationProtection'] as bool?,
       lastUpdatedTime: json['LastUpdatedTime'] as String?,
       notificationArns: (json['NotificationArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCloudFormationStackOutputsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10041,7 +10033,7 @@ class AwsCloudFrontDistributionCacheBehaviors {
       Map<String, dynamic> json) {
     return AwsCloudFrontDistributionCacheBehaviors(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCloudFrontDistributionCacheBehavior.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10439,10 +10431,7 @@ class AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
   factory AwsCloudFrontDistributionOriginGroupFailoverStatusCodes.fromJson(
       Map<String, dynamic> json) {
     return AwsCloudFrontDistributionOriginGroupFailoverStatusCodes(
-      items: (json['Items'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      items: (json['Items'] as List?)?.nonNulls.map((e) => e as int).toList(),
       quantity: json['Quantity'] as int?,
     );
   }
@@ -10471,7 +10460,7 @@ class AwsCloudFrontDistributionOriginGroups {
       Map<String, dynamic> json) {
     return AwsCloudFrontDistributionOriginGroups(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCloudFrontDistributionOriginGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10596,10 +10585,8 @@ class AwsCloudFrontDistributionOriginSslProtocols {
   factory AwsCloudFrontDistributionOriginSslProtocols.fromJson(
       Map<String, dynamic> json) {
     return AwsCloudFrontDistributionOriginSslProtocols(
-      items: (json['Items'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      items:
+          (json['Items'] as List?)?.nonNulls.map((e) => e as String).toList(),
       quantity: json['Quantity'] as int?,
     );
   }
@@ -10627,7 +10614,7 @@ class AwsCloudFrontDistributionOrigins {
   factory AwsCloudFrontDistributionOrigins.fromJson(Map<String, dynamic> json) {
     return AwsCloudFrontDistributionOrigins(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCloudFrontDistributionOriginItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10983,7 +10970,7 @@ class AwsCloudWatchAlarmDetails {
     return AwsCloudWatchAlarmDetails(
       actionsEnabled: json['ActionsEnabled'] as bool?,
       alarmActions: (json['AlarmActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       alarmArn: json['AlarmArn'] as String?,
@@ -10994,7 +10981,7 @@ class AwsCloudWatchAlarmDetails {
       comparisonOperator: json['ComparisonOperator'] as String?,
       datapointsToAlarm: json['DatapointsToAlarm'] as int?,
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCloudWatchAlarmDimensionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11003,13 +10990,13 @@ class AwsCloudWatchAlarmDetails {
       evaluationPeriods: json['EvaluationPeriods'] as int?,
       extendedStatistic: json['ExtendedStatistic'] as String?,
       insufficientDataActions: (json['InsufficientDataActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       metricName: json['MetricName'] as String?,
       namespace: json['Namespace'] as String?,
       okActions: (json['OkActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       period: json['Period'] as int?,
@@ -11247,7 +11234,7 @@ class AwsCodeBuildProjectDetails {
   factory AwsCodeBuildProjectDetails.fromJson(Map<String, dynamic> json) {
     return AwsCodeBuildProjectDetails(
       artifacts: (json['Artifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCodeBuildProjectArtifactsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11262,7 +11249,7 @@ class AwsCodeBuildProjectDetails {
           : null,
       name: json['Name'] as String?,
       secondaryArtifacts: (json['SecondaryArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCodeBuildProjectArtifactsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11376,7 +11363,7 @@ class AwsCodeBuildProjectEnvironment {
     return AwsCodeBuildProjectEnvironment(
       certificate: json['Certificate'] as String?,
       environmentVariables: (json['EnvironmentVariables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11730,13 +11717,11 @@ class AwsCodeBuildProjectVpcConfig {
   factory AwsCodeBuildProjectVpcConfig.fromJson(Map<String, dynamic> json) {
     return AwsCodeBuildProjectVpcConfig(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       vpcId: json['VpcId'] as String?,
     );
   }
@@ -11788,19 +11773,19 @@ class AwsCorsConfiguration {
     return AwsCorsConfiguration(
       allowCredentials: json['AllowCredentials'] as bool?,
       allowHeaders: (json['AllowHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       allowMethods: (json['AllowMethods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       allowOrigins: (json['AllowOrigins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       exposeHeaders: (json['ExposeHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       maxAge: json['MaxAge'] as int?,
@@ -12036,7 +12021,7 @@ class AwsDmsReplicationInstanceDetails {
               json['ReplicationSubnetGroup'] as Map<String, dynamic>)
           : null,
       vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsDmsReplicationInstanceVpcSecurityGroupsDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -12490,7 +12475,7 @@ class AwsDynamoDbTableDetails {
   factory AwsDynamoDbTableDetails.fromJson(Map<String, dynamic> json) {
     return AwsDynamoDbTableDetails(
       attributeDefinitions: (json['AttributeDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsDynamoDbTableAttributeDefinition.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -12501,21 +12486,21 @@ class AwsDynamoDbTableDetails {
       creationDateTime: json['CreationDateTime'] as String?,
       deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool?,
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsDynamoDbTableGlobalSecondaryIndex.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       globalTableVersion: json['GlobalTableVersion'] as String?,
       itemCount: json['ItemCount'] as int?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsDynamoDbTableKeySchema.fromJson(e as Map<String, dynamic>))
           .toList(),
       latestStreamArn: json['LatestStreamArn'] as String?,
       latestStreamLabel: json['LatestStreamLabel'] as String?,
       localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsDynamoDbTableLocalSecondaryIndex.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -12524,7 +12509,7 @@ class AwsDynamoDbTableDetails {
               json['ProvisionedThroughput'] as Map<String, dynamic>)
           : null,
       replicas: (json['Replicas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsDynamoDbTableReplica.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12665,7 +12650,7 @@ class AwsDynamoDbTableGlobalSecondaryIndex {
       indexStatus: json['IndexStatus'] as String?,
       itemCount: json['ItemCount'] as int?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsDynamoDbTableKeySchema.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12766,7 +12751,7 @@ class AwsDynamoDbTableLocalSecondaryIndex {
       indexArn: json['IndexArn'] as String?,
       indexName: json['IndexName'] as String?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsDynamoDbTableKeySchema.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12822,7 +12807,7 @@ class AwsDynamoDbTableProjection {
   factory AwsDynamoDbTableProjection.fromJson(Map<String, dynamic> json) {
     return AwsDynamoDbTableProjection(
       nonKeyAttributes: (json['NonKeyAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       projectionType: json['ProjectionType'] as String?,
@@ -13031,7 +13016,7 @@ class AwsDynamoDbTableReplica {
   factory AwsDynamoDbTableReplica.fromJson(Map<String, dynamic> json) {
     return AwsDynamoDbTableReplica(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsDynamoDbTableReplicaGlobalSecondaryIndex.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -13659,7 +13644,7 @@ class AwsEc2ClientVpnEndpointDetails {
   factory AwsEc2ClientVpnEndpointDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2ClientVpnEndpointDetails(
       authenticationOptions: (json['AuthenticationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2ClientVpnEndpointAuthenticationOptionsDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -13680,11 +13665,11 @@ class AwsEc2ClientVpnEndpointDetails {
           : null,
       description: json['Description'] as String?,
       dnsServer: (json['DnsServer'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIdSet: (json['SecurityGroupIdSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       selfServicePortalUrl: json['SelfServicePortalUrl'] as String?,
@@ -13930,11 +13915,11 @@ class AwsEc2InstanceDetails {
       iamInstanceProfileArn: json['IamInstanceProfileArn'] as String?,
       imageId: json['ImageId'] as String?,
       ipV4Addresses: (json['IpV4Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ipV6Addresses: (json['IpV6Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       keyName: json['KeyName'] as String?,
@@ -13948,7 +13933,7 @@ class AwsEc2InstanceDetails {
               json['Monitoring'] as Map<String, dynamic>)
           : null,
       networkInterfaces: (json['NetworkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2InstanceNetworkInterfacesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -14534,7 +14519,7 @@ class AwsEc2LaunchTemplateDataDetails {
   factory AwsEc2LaunchTemplateDataDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2LaunchTemplateDataDetails(
       blockDeviceMappingSet: (json['BlockDeviceMappingSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -14557,13 +14542,13 @@ class AwsEc2LaunchTemplateDataDetails {
       disableApiTermination: json['DisableApiTermination'] as bool?,
       ebsOptimized: json['EbsOptimized'] as bool?,
       elasticGpuSpecificationSet: (json['ElasticGpuSpecificationSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
       elasticInferenceAcceleratorSet:
           (json['ElasticInferenceAcceleratorSet'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails
                       .fromJson(e as Map<String, dynamic>))
@@ -14595,7 +14580,7 @@ class AwsEc2LaunchTemplateDataDetails {
       kernelId: json['KernelId'] as String?,
       keyName: json['KeyName'] as String?,
       licenseSet: (json['LicenseSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2LaunchTemplateDataLicenseSetDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -14612,7 +14597,7 @@ class AwsEc2LaunchTemplateDataDetails {
               json['Monitoring'] as Map<String, dynamic>)
           : null,
       networkInterfaceSet: (json['NetworkInterfaceSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -14627,11 +14612,11 @@ class AwsEc2LaunchTemplateDataDetails {
           : null,
       ramDiskId: json['RamDiskId'] as String?,
       securityGroupIdSet: (json['SecurityGroupIdSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupSet: (json['SecurityGroupSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userData: json['UserData'] as String?,
@@ -15188,11 +15173,11 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
               .fromJson(json['AcceleratorCount'] as Map<String, dynamic>)
           : null,
       acceleratorManufacturers: (json['AcceleratorManufacturers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       acceleratorNames: (json['AcceleratorNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       acceleratorTotalMemoryMiB: json['AcceleratorTotalMemoryMiB'] != null
@@ -15201,7 +15186,7 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
                   json['AcceleratorTotalMemoryMiB'] as Map<String, dynamic>)
           : null,
       acceleratorTypes: (json['AcceleratorTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       bareMetal: json['BareMetal'] as String?,
@@ -15212,20 +15197,20 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
           : null,
       burstablePerformance: json['BurstablePerformance'] as String?,
       cpuManufacturers: (json['CpuManufacturers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       excludedInstanceTypes: (json['ExcludedInstanceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       instanceGenerations: (json['InstanceGenerations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       localStorage: json['LocalStorage'] as String?,
       localStorageTypes: (json['LocalStorageTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       memoryGiBPerVCpu: json['MemoryGiBPerVCpu'] != null
@@ -15735,28 +15720,26 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
       deleteOnTermination: json['DeleteOnTermination'] as bool?,
       description: json['Description'] as String?,
       deviceIndex: json['DeviceIndex'] as int?,
-      groups: (json['Groups'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      groups:
+          (json['Groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
       interfaceType: json['InterfaceType'] as String?,
       ipv4PrefixCount: json['Ipv4PrefixCount'] as int?,
       ipv4Prefixes: (json['Ipv4Prefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       ipv6AddressCount: json['Ipv6AddressCount'] as int?,
       ipv6Addresses: (json['Ipv6Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       ipv6PrefixCount: json['Ipv6PrefixCount'] as int?,
       ipv6Prefixes: (json['Ipv6Prefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -15765,7 +15748,7 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
       networkInterfaceId: json['NetworkInterfaceId'] as String?,
       privateIpAddress: json['PrivateIpAddress'] as String?,
       privateIpAddresses: (json['PrivateIpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -16181,12 +16164,12 @@ class AwsEc2NetworkAclDetails {
   factory AwsEc2NetworkAclDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2NetworkAclDetails(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2NetworkAclAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
       entries: (json['Entries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2NetworkAclEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       isDefault: json['IsDefault'] as bool?,
@@ -16436,20 +16419,20 @@ class AwsEc2NetworkInterfaceDetails {
               json['Attachment'] as Map<String, dynamic>)
           : null,
       ipV6Addresses: (json['IpV6Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2NetworkInterfaceIpV6AddressDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       networkInterfaceId: json['NetworkInterfaceId'] as String?,
       privateIpAddresses: (json['PrivateIpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2NetworkInterfacePrivateIpAddressDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       publicDnsName: json['PublicDnsName'] as String?,
       publicIp: json['PublicIp'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2NetworkInterfaceSecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -16599,17 +16582,17 @@ class AwsEc2RouteTableDetails {
   factory AwsEc2RouteTableDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2RouteTableDetails(
       associationSet: (json['AssociationSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociationSetDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       ownerId: json['OwnerId'] as String?,
       propagatingVgwSet: (json['PropagatingVgwSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PropagatingVgwSetDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       routeSet: (json['RouteSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RouteSetDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       routeTableId: json['RouteTableId'] as String?,
@@ -16669,12 +16652,12 @@ class AwsEc2SecurityGroupDetails {
       groupId: json['GroupId'] as String?,
       groupName: json['GroupName'] as String?,
       ipPermissions: (json['IpPermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2SecurityGroupIpPermission.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       ipPermissionsEgress: (json['IpPermissionsEgress'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2SecurityGroupIpPermission.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -16764,23 +16747,23 @@ class AwsEc2SecurityGroupIpPermission {
       fromPort: json['FromPort'] as int?,
       ipProtocol: json['IpProtocol'] as String?,
       ipRanges: (json['IpRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2SecurityGroupIpRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       ipv6Ranges: (json['Ipv6Ranges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEc2SecurityGroupIpv6Range.fromJson(e as Map<String, dynamic>))
           .toList(),
       prefixListIds: (json['PrefixListIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2SecurityGroupPrefixListId.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       toPort: json['ToPort'] as int?,
       userIdGroupPairs: (json['UserIdGroupPairs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2SecurityGroupUserIdGroupPair.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17017,7 +17000,7 @@ class AwsEc2SubnetDetails {
       defaultForAz: json['DefaultForAz'] as bool?,
       ipv6CidrBlockAssociationSet:
           (json['Ipv6CidrBlockAssociationSet'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   Ipv6CidrBlockAssociation.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -17141,7 +17124,7 @@ class AwsEc2TransitGatewayDetails {
       propagationDefaultRouteTableId:
           json['PropagationDefaultRouteTableId'] as String?,
       transitGatewayCidrBlocks: (json['TransitGatewayCidrBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpnEcmpSupport: json['VpnEcmpSupport'] as String?,
@@ -17349,7 +17332,7 @@ class AwsEc2VolumeDetails {
   factory AwsEc2VolumeDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2VolumeDetails(
       attachments: (json['Attachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AwsEc2VolumeAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17421,13 +17404,13 @@ class AwsEc2VpcDetails {
   factory AwsEc2VpcDetails.fromJson(Map<String, dynamic> json) {
     return AwsEc2VpcDetails(
       cidrBlockAssociationSet: (json['CidrBlockAssociationSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CidrBlockAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
       dhcpOptionsId: json['DhcpOptionsId'] as String?,
       ipv6CidrBlockAssociationSet:
           (json['Ipv6CidrBlockAssociationSet'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   Ipv6CidrBlockAssociation.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -17523,20 +17506,20 @@ class AwsEc2VpcEndpointServiceDetails {
     return AwsEc2VpcEndpointServiceDetails(
       acceptanceRequired: json['AcceptanceRequired'] as bool?,
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       baseEndpointDnsNames: (json['BaseEndpointDnsNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       gatewayLoadBalancerArns: (json['GatewayLoadBalancerArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       managesVpcEndpoints: json['ManagesVpcEndpoints'] as bool?,
       networkLoadBalancerArns: (json['NetworkLoadBalancerArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       privateDnsName: json['PrivateDnsName'] as String?,
@@ -17544,7 +17527,7 @@ class AwsEc2VpcEndpointServiceDetails {
       serviceName: json['ServiceName'] as String?,
       serviceState: json['ServiceState'] as String?,
       serviceType: (json['ServiceType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2VpcEndpointServiceServiceTypeDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17741,12 +17724,12 @@ class AwsEc2VpcPeeringConnectionVpcInfoDetails {
     return AwsEc2VpcPeeringConnectionVpcInfoDetails(
       cidrBlock: json['CidrBlock'] as String?,
       cidrBlockSet: (json['CidrBlockSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VpcInfoCidrBlockSetDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       ipv6CidrBlockSet: (json['Ipv6CidrBlockSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcInfoIpv6CidrBlockSetDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17861,7 +17844,7 @@ class AwsEc2VpnConnectionDetails {
               json['Options'] as Map<String, dynamic>)
           : null,
       routes: (json['Routes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2VpnConnectionRoutesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17869,7 +17852,7 @@ class AwsEc2VpnConnectionDetails {
       transitGatewayId: json['TransitGatewayId'] as String?,
       type: json['Type'] as String?,
       vgwTelemetry: (json['VgwTelemetry'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2VpnConnectionVgwTelemetryDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17925,7 +17908,7 @@ class AwsEc2VpnConnectionOptionsDetails {
     return AwsEc2VpnConnectionOptionsDetails(
       staticRoutesOnly: json['StaticRoutesOnly'] as bool?,
       tunnelOptions: (json['TunnelOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEc2VpnConnectionOptionsTunnelOptionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -18029,33 +18012,33 @@ class AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
     return AwsEc2VpnConnectionOptionsTunnelOptionsDetails(
       dpdTimeoutSeconds: json['DpdTimeoutSeconds'] as int?,
       ikeVersions: (json['IkeVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       outsideIpAddress: json['OutsideIpAddress'] as String?,
       phase1DhGroupNumbers: (json['Phase1DhGroupNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       phase1EncryptionAlgorithms: (json['Phase1EncryptionAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       phase1IntegrityAlgorithms: (json['Phase1IntegrityAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       phase1LifetimeSeconds: json['Phase1LifetimeSeconds'] as int?,
       phase2DhGroupNumbers: (json['Phase2DhGroupNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       phase2EncryptionAlgorithms: (json['Phase2EncryptionAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       phase2IntegrityAlgorithms: (json['Phase2IntegrityAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       phase2LifetimeSeconds: json['Phase2LifetimeSeconds'] as int?,
@@ -18311,7 +18294,7 @@ class AwsEcrContainerImageDetails {
       imageDigest: json['ImageDigest'] as String?,
       imagePublishedAt: json['ImagePublishedAt'] as String?,
       imageTags: (json['ImageTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       registryId: json['RegistryId'] as String?,
@@ -18726,13 +18709,13 @@ class AwsEcsClusterDetails {
     return AwsEcsClusterDetails(
       activeServicesCount: json['ActiveServicesCount'] as int?,
       capacityProviders: (json['CapacityProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       clusterArn: json['ClusterArn'] as String?,
       clusterName: json['ClusterName'] as String?,
       clusterSettings: (json['ClusterSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsClusterClusterSettingsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -18742,7 +18725,7 @@ class AwsEcsClusterDetails {
           : null,
       defaultCapacityProviderStrategy:
           (json['DefaultCapacityProviderStrategy'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   AwsEcsClusterDefaultCapacityProviderStrategyDetails.fromJson(
                       e as Map<String, dynamic>))
@@ -18811,7 +18794,7 @@ class AwsEcsContainerDetails {
     return AwsEcsContainerDetails(
       image: json['Image'] as String?,
       mountPoints: (json['MountPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsMountPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -19151,7 +19134,7 @@ class AwsEcsServiceDetails {
   factory AwsEcsServiceDetails.fromJson(Map<String, dynamic> json) {
     return AwsEcsServiceDetails(
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsServiceCapacityProviderStrategyDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -19171,7 +19154,7 @@ class AwsEcsServiceDetails {
           json['HealthCheckGracePeriodSeconds'] as int?,
       launchType: json['LaunchType'] as String?,
       loadBalancers: (json['LoadBalancers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsServiceLoadBalancersDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -19181,12 +19164,12 @@ class AwsEcsServiceDetails {
               json['NetworkConfiguration'] as Map<String, dynamic>)
           : null,
       placementConstraints: (json['PlacementConstraints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsServicePlacementConstraintsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       placementStrategies: (json['PlacementStrategies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsServicePlacementStrategiesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -19197,7 +19180,7 @@ class AwsEcsServiceDetails {
       serviceArn: json['ServiceArn'] as String?,
       serviceName: json['ServiceName'] as String?,
       serviceRegistries: (json['ServiceRegistries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsServiceServiceRegistriesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -19351,13 +19334,11 @@ class AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
     return AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails(
       assignPublicIp: json['AssignPublicIp'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -19823,50 +19804,48 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
   factory AwsEcsTaskDefinitionContainerDefinitionsDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsEcsTaskDefinitionContainerDefinitionsDetails(
-      command: (json['Command'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       cpu: json['Cpu'] as int?,
       dependsOn: (json['DependsOn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
       disableNetworking: json['DisableNetworking'] as bool?,
       dnsSearchDomains: (json['DnsSearchDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       dnsServers: (json['DnsServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       dockerLabels: (json['DockerLabels'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       dockerSecurityOptions: (json['DockerSecurityOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       entryPoint: (json['EntryPoint'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       environment: (json['Environment'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentFiles: (json['EnvironmentFiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       essential: json['Essential'] as bool?,
       extraHosts: (json['ExtraHosts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19881,10 +19860,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
       hostname: json['Hostname'] as String?,
       image: json['Image'] as String?,
       interactive: json['Interactive'] as bool?,
-      links: (json['Links'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      links:
+          (json['Links'] as List?)?.nonNulls.map((e) => e as String).toList(),
       linuxParameters: json['LinuxParameters'] != null
           ? AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails
               .fromJson(json['LinuxParameters'] as Map<String, dynamic>)
@@ -19896,13 +19873,13 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
       memory: json['Memory'] as int?,
       memoryReservation: json['MemoryReservation'] as int?,
       mountPoints: (json['MountPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       portMappings: (json['PortMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -19915,13 +19892,13 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
               .fromJson(json['RepositoryCredentials'] as Map<String, dynamic>)
           : null,
       resourceRequirements: (json['ResourceRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       secrets: (json['Secrets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -19929,20 +19906,20 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
       startTimeout: json['StartTimeout'] as int?,
       stopTimeout: json['StopTimeout'] as int?,
       systemControls: (json['SystemControls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       ulimits: (json['Ulimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
       user: json['User'] as String?,
       volumesFrom: (json['VolumesFrom'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20218,10 +20195,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails {
   factory AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails(
-      command: (json['Command'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       interval: json['Interval'] as int?,
       retries: json['Retries'] as int?,
       startPeriod: json['StartPeriod'] as int?,
@@ -20298,14 +20273,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails
   factory AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails(
-      add: (json['Add'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      drop: (json['Drop'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      add: (json['Add'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      drop: (json['Drop'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -20370,7 +20339,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
               .fromJson(json['Capabilities'] as Map<String, dynamic>)
           : null,
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -20380,7 +20349,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
       sharedMemorySize: json['SharedMemorySize'] as int?,
       swappiness: json['Swappiness'] as int?,
       tmpfs: (json['Tmpfs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -20433,7 +20402,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails {
       containerPath: json['ContainerPath'] as String?,
       hostPath: json['HostPath'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -20489,7 +20458,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails {
     return AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails(
       containerPath: json['ContainerPath'] as String?,
       mountOptions: (json['MountOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       size: json['Size'] as int?,
@@ -20580,7 +20549,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
       options: (json['Options'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       secretOptions: (json['SecretOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -21089,7 +21058,7 @@ class AwsEcsTaskDefinitionDetails {
   factory AwsEcsTaskDefinitionDetails.fromJson(Map<String, dynamic> json) {
     return AwsEcsTaskDefinitionDetails(
       containerDefinitions: (json['ContainerDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionContainerDefinitionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -21097,7 +21066,7 @@ class AwsEcsTaskDefinitionDetails {
       executionRoleArn: json['ExecutionRoleArn'] as String?,
       family: json['Family'] as String?,
       inferenceAccelerators: (json['InferenceAccelerators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionInferenceAcceleratorsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -21106,7 +21075,7 @@ class AwsEcsTaskDefinitionDetails {
       networkMode: json['NetworkMode'] as String?,
       pidMode: json['PidMode'] as String?,
       placementConstraints: (json['PlacementConstraints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionPlacementConstraintsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -21115,13 +21084,13 @@ class AwsEcsTaskDefinitionDetails {
               json['ProxyConfiguration'] as Map<String, dynamic>)
           : null,
       requiresCompatibilities: (json['RequiresCompatibilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: json['Status'] as String?,
       taskRoleArn: json['TaskRoleArn'] as String?,
       volumes: (json['Volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEcsTaskDefinitionVolumesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -21256,7 +21225,7 @@ class AwsEcsTaskDefinitionProxyConfigurationDetails {
       containerName: json['ContainerName'] as String?,
       proxyConfigurationProperties: (json['ProxyConfigurationProperties']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -21598,7 +21567,7 @@ class AwsEcsTaskDetails {
     return AwsEcsTaskDetails(
       clusterArn: json['ClusterArn'] as String?,
       containers: (json['Containers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AwsEcsContainerDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21609,7 +21578,7 @@ class AwsEcsTaskDetails {
       taskDefinitionArn: json['TaskDefinitionArn'] as String?,
       version: json['Version'] as String?,
       volumes: (json['Volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsEcsTaskVolumeDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21797,7 +21766,7 @@ class AwsEfsAccessPointPosixUserDetails {
     return AwsEfsAccessPointPosixUserDetails(
       gid: json['Gid'] as String?,
       secondaryGids: (json['SecondaryGids'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       uid: json['Uid'] as String?,
@@ -22039,10 +22008,8 @@ class AwsEksClusterLoggingClusterLoggingDetails {
       Map<String, dynamic> json) {
     return AwsEksClusterLoggingClusterLoggingDetails(
       enabled: json['Enabled'] as bool?,
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -22068,7 +22035,7 @@ class AwsEksClusterLoggingDetails {
   factory AwsEksClusterLoggingDetails.fromJson(Map<String, dynamic> json) {
     return AwsEksClusterLoggingDetails(
       clusterLogging: (json['ClusterLogging'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEksClusterLoggingClusterLoggingDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -22110,11 +22077,11 @@ class AwsEksClusterResourcesVpcConfigDetails {
     return AwsEksClusterResourcesVpcConfigDetails(
       endpointPublicAccess: json['EndpointPublicAccess'] as bool?,
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -22243,13 +22210,13 @@ class AwsElasticBeanstalkEnvironmentDetails {
       environmentArn: json['EnvironmentArn'] as String?,
       environmentId: json['EnvironmentId'] as String?,
       environmentLinks: (json['EnvironmentLinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElasticBeanstalkEnvironmentEnvironmentLink.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       environmentName: json['EnvironmentName'] as String?,
       optionSettings: (json['OptionSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElasticBeanstalkEnvironmentOptionSetting.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -22988,15 +22955,15 @@ class AwsElasticsearchDomainVPCOptions {
   factory AwsElasticsearchDomainVPCOptions.fromJson(Map<String, dynamic> json) {
     return AwsElasticsearchDomainVPCOptions(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vPCId: json['VPCId'] as String?,
@@ -23214,7 +23181,7 @@ class AwsElbLoadBalancerAttributes {
               json['AccessLog'] as Map<String, dynamic>)
           : null,
       additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElbLoadBalancerAdditionalAttribute.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -23270,7 +23237,7 @@ class AwsElbLoadBalancerBackendServerDescription {
     return AwsElbLoadBalancerBackendServerDescription(
       instancePort: json['InstancePort'] as int?,
       policyNames: (json['PolicyNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -23482,11 +23449,11 @@ class AwsElbLoadBalancerDetails {
   factory AwsElbLoadBalancerDetails.fromJson(Map<String, dynamic> json) {
     return AwsElbLoadBalancerDetails(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       backendServerDescriptions: (json['BackendServerDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElbLoadBalancerBackendServerDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -23499,12 +23466,12 @@ class AwsElbLoadBalancerDetails {
               json['HealthCheck'] as Map<String, dynamic>)
           : null,
       instances: (json['Instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsElbLoadBalancerInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       listenerDescriptions: (json['ListenerDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElbLoadBalancerListenerDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -23519,17 +23486,15 @@ class AwsElbLoadBalancerDetails {
           : null,
       scheme: json['Scheme'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sourceSecurityGroup: json['SourceSecurityGroup'] != null
           ? AwsElbLoadBalancerSourceSecurityGroup.fromJson(
               json['SourceSecurityGroup'] as Map<String, dynamic>)
           : null,
-      subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       vpcId: json['VpcId'] as String?,
     );
   }
@@ -23756,7 +23721,7 @@ class AwsElbLoadBalancerListenerDescription {
               json['Listener'] as Map<String, dynamic>)
           : null,
       policyNames: (json['PolicyNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -23795,17 +23760,17 @@ class AwsElbLoadBalancerPolicies {
     return AwsElbLoadBalancerPolicies(
       appCookieStickinessPolicies:
           (json['AppCookieStickinessPolicies'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AwsElbAppCookieStickinessPolicy.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       lbCookieStickinessPolicies: (json['LbCookieStickinessPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsElbLbCookieStickinessPolicy.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       otherPolicies: (json['OtherPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -23968,7 +23933,7 @@ class AwsElbv2LoadBalancerDetails {
   factory AwsElbv2LoadBalancerDetails.fromJson(Map<String, dynamic> json) {
     return AwsElbv2LoadBalancerDetails(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AvailabilityZone.fromJson(e as Map<String, dynamic>))
           .toList(),
       canonicalHostedZoneId: json['CanonicalHostedZoneId'] as String?,
@@ -23976,13 +23941,13 @@ class AwsElbv2LoadBalancerDetails {
       dNSName: json['DNSName'] as String?,
       ipAddressType: json['IpAddressType'] as String?,
       loadBalancerAttributes: (json['LoadBalancerAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsElbv2LoadBalancerAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       scheme: json['Scheme'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: json['State'] != null
@@ -24125,7 +24090,7 @@ class AwsEventsEndpointDetails {
       endpointId: json['EndpointId'] as String?,
       endpointUrl: json['EndpointUrl'] as String?,
       eventBuses: (json['EventBuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsEventsEndpointEventBusesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -24762,7 +24727,7 @@ class AwsGuardDutyDetectorDetails {
               json['DataSources'] as Map<String, dynamic>)
           : null,
       features: (json['Features'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsGuardDutyDetectorFeaturesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -25188,7 +25153,7 @@ class AwsIamGroupDetails {
   factory AwsIamGroupDetails.fromJson(Map<String, dynamic> json) {
     return AwsIamGroupDetails(
       attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsIamAttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25196,7 +25161,7 @@ class AwsIamGroupDetails {
       groupId: json['GroupId'] as String?,
       groupName: json['GroupName'] as String?,
       groupPolicyList: (json['GroupPolicyList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsIamGroupPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       path: json['Path'] as String?,
@@ -25310,7 +25275,7 @@ class AwsIamInstanceProfile {
       instanceProfileName: json['InstanceProfileName'] as String?,
       path: json['Path'] as String?,
       roles: (json['Roles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsIamInstanceProfileRole.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25575,7 +25540,7 @@ class AwsIamPolicyDetails {
       policyId: json['PolicyId'] as String?,
       policyName: json['PolicyName'] as String?,
       policyVersionList: (json['PolicyVersionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsIamPolicyVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       updateDate: json['UpdateDate'] as String?,
@@ -25753,13 +25718,13 @@ class AwsIamRoleDetails {
     return AwsIamRoleDetails(
       assumeRolePolicyDocument: json['AssumeRolePolicyDocument'] as String?,
       attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsIamAttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       createDate: json['CreateDate'] as String?,
       instanceProfileList: (json['InstanceProfileList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsIamInstanceProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxSessionDuration: json['MaxSessionDuration'] as int?,
@@ -25771,7 +25736,7 @@ class AwsIamRoleDetails {
       roleId: json['RoleId'] as String?,
       roleName: json['RoleName'] as String?,
       rolePolicyList: (json['RolePolicyList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsIamRolePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -25898,13 +25863,13 @@ class AwsIamUserDetails {
   factory AwsIamUserDetails.fromJson(Map<String, dynamic> json) {
     return AwsIamUserDetails(
       attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsIamAttachedManagedPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       createDate: json['CreateDate'] as String?,
       groupList: (json['GroupList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       path: json['Path'] as String?,
@@ -25915,7 +25880,7 @@ class AwsIamUserDetails {
       userId: json['UserId'] as String?,
       userName: json['UserName'] as String?,
       userPolicyList: (json['UserPolicyList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsIamUserPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -26380,7 +26345,7 @@ class AwsLambdaFunctionDetails {
   factory AwsLambdaFunctionDetails.fromJson(Map<String, dynamic> json) {
     return AwsLambdaFunctionDetails(
       architectures: (json['Architectures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       code: json['Code'] != null
@@ -26400,7 +26365,7 @@ class AwsLambdaFunctionDetails {
       kmsKeyArn: json['KmsKeyArn'] as String?,
       lastModified: json['LastModified'] as String?,
       layers: (json['Layers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AwsLambdaFunctionLayer.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26607,11 +26572,11 @@ class AwsLambdaFunctionVpcConfig {
   factory AwsLambdaFunctionVpcConfig.fromJson(Map<String, dynamic> json) {
     return AwsLambdaFunctionVpcConfig(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -26695,7 +26660,7 @@ class AwsLambdaLayerVersionDetails {
   factory AwsLambdaLayerVersionDetails.fromJson(Map<String, dynamic> json) {
     return AwsLambdaLayerVersionDetails(
       compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdDate: json['CreatedDate'] as String?,
@@ -26900,7 +26865,7 @@ class AwsMskClusterClusterInfoClientAuthenticationTlsDetails {
     return AwsMskClusterClusterInfoClientAuthenticationTlsDetails(
       certificateAuthorityArnList:
           (json['CertificateAuthorityArnList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       enabled: json['Enabled'] as bool?,
@@ -27207,7 +27172,7 @@ class AwsNetworkFirewallFirewallDetails {
           json['FirewallPolicyChangeProtection'] as bool?,
       subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
       subnetMappings: (json['SubnetMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsNetworkFirewallFirewallSubnetMappingsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -28088,11 +28053,11 @@ class AwsOpenSearchServiceDomainVpcOptionsDetails {
       Map<String, dynamic> json) {
     return AwsOpenSearchServiceDomainVpcOptionsDetails(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -28414,13 +28379,13 @@ class AwsRdsDbClusterDetails {
       activityStreamStatus: json['ActivityStreamStatus'] as String?,
       allocatedStorage: json['AllocatedStorage'] as int?,
       associatedRoles: (json['AssociatedRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbClusterAssociatedRole.fromJson(e as Map<String, dynamic>))
           .toList(),
       autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       backupRetentionPeriod: json['BackupRetentionPeriod'] as int?,
@@ -28428,18 +28393,18 @@ class AwsRdsDbClusterDetails {
       copyTagsToSnapshot: json['CopyTagsToSnapshot'] as bool?,
       crossAccountClone: json['CrossAccountClone'] as bool?,
       customEndpoints: (json['CustomEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       databaseName: json['DatabaseName'] as String?,
       dbClusterIdentifier: json['DbClusterIdentifier'] as String?,
       dbClusterMembers: (json['DbClusterMembers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbClusterMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       dbClusterOptionGroupMemberships:
           (json['DbClusterOptionGroupMemberships'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AwsRdsDbClusterOptionGroupMembership.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -28448,13 +28413,13 @@ class AwsRdsDbClusterDetails {
       dbSubnetGroup: json['DbSubnetGroup'] as String?,
       deletionProtection: json['DeletionProtection'] as bool?,
       domainMemberships: (json['DomainMemberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbDomainMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       enabledCloudWatchLogsExports:
           (json['EnabledCloudWatchLogsExports'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       endpoint: json['Endpoint'] as String?,
@@ -28472,14 +28437,14 @@ class AwsRdsDbClusterDetails {
       preferredBackupWindow: json['PreferredBackupWindow'] as String?,
       preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
       readReplicaIdentifiers: (json['ReadReplicaIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       readerEndpoint: json['ReaderEndpoint'] as String?,
       status: json['Status'] as String?,
       storageEncrypted: json['StorageEncrypted'] as bool?,
       vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbInstanceVpcSecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -28690,7 +28655,7 @@ class AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute {
     return AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute(
       attributeName: json['AttributeName'] as String?,
       attributeValues: (json['AttributeValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -28852,14 +28817,14 @@ class AwsRdsDbClusterSnapshotDetails {
     return AwsRdsDbClusterSnapshotDetails(
       allocatedStorage: json['AllocatedStorage'] as int?,
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       clusterCreateTime: json['ClusterCreateTime'] as String?,
       dbClusterIdentifier: json['DbClusterIdentifier'] as String?,
       dbClusterSnapshotAttributes:
           (json['DbClusterSnapshotAttributes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute.fromJson(
                       e as Map<String, dynamic>))
@@ -29395,7 +29360,7 @@ class AwsRdsDbInstanceDetails {
     return AwsRdsDbInstanceDetails(
       allocatedStorage: json['AllocatedStorage'] as int?,
       associatedRoles: (json['AssociatedRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbInstanceAssociatedRole.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -29412,12 +29377,12 @@ class AwsRdsDbInstanceDetails {
       dbInstancePort: json['DbInstancePort'] as int?,
       dbInstanceStatus: json['DbInstanceStatus'] as String?,
       dbParameterGroups: (json['DbParameterGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AwsRdsDbParameterGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       dbSecurityGroups: (json['DbSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       dbSubnetGroup: json['DbSubnetGroup'] != null
@@ -29427,13 +29392,13 @@ class AwsRdsDbInstanceDetails {
       dbiResourceId: json['DbiResourceId'] as String?,
       deletionProtection: json['DeletionProtection'] as bool?,
       domainMemberships: (json['DomainMemberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbDomainMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       enabledCloudWatchLogsExports:
           (json['EnabledCloudWatchLogsExports'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       endpoint: json['Endpoint'] != null
@@ -29461,7 +29426,7 @@ class AwsRdsDbInstanceDetails {
       monitoringRoleArn: json['MonitoringRoleArn'] as String?,
       multiAz: json['MultiAz'] as bool?,
       optionGroupMemberships: (json['OptionGroupMemberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbOptionGroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29477,7 +29442,7 @@ class AwsRdsDbInstanceDetails {
       preferredBackupWindow: json['PreferredBackupWindow'] as String?,
       preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
       processorFeatures: (json['ProcessorFeatures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbProcessorFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29485,19 +29450,19 @@ class AwsRdsDbInstanceDetails {
       publiclyAccessible: json['PubliclyAccessible'] as bool?,
       readReplicaDBClusterIdentifiers:
           (json['ReadReplicaDBClusterIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       readReplicaDBInstanceIdentifiers:
           (json['ReadReplicaDBInstanceIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       readReplicaSourceDBInstanceIdentifier:
           json['ReadReplicaSourceDBInstanceIdentifier'] as String?,
       secondaryAvailabilityZone: json['SecondaryAvailabilityZone'] as String?,
       statusInfos: (json['StatusInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbStatusInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       storageEncrypted: json['StorageEncrypted'] as bool?,
@@ -29505,7 +29470,7 @@ class AwsRdsDbInstanceDetails {
       tdeCredentialArn: json['TdeCredentialArn'] as String?,
       timezone: json['Timezone'] as String?,
       vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbInstanceVpcSecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -29874,7 +29839,7 @@ class AwsRdsDbPendingModifiedValues {
           : null,
       port: json['Port'] as int?,
       processorFeatures: (json['ProcessorFeatures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbProcessorFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29993,12 +29958,12 @@ class AwsRdsDbSecurityGroupDetails {
       dbSecurityGroupDescription: json['DbSecurityGroupDescription'] as String?,
       dbSecurityGroupName: json['DbSecurityGroupName'] as String?,
       ec2SecurityGroups: (json['Ec2SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRdsDbSecurityGroupEc2SecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       ipRanges: (json['IpRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbSecurityGroupIpRange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -30308,7 +30273,7 @@ class AwsRdsDbSnapshotDetails {
       percentProgress: json['PercentProgress'] as int?,
       port: json['Port'] as int?,
       processorFeatures: (json['ProcessorFeatures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbProcessorFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -30470,7 +30435,7 @@ class AwsRdsDbSubnetGroup {
       dbSubnetGroupName: json['DbSubnetGroupName'] as String?,
       subnetGroupStatus: json['SubnetGroupStatus'] as String?,
       subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRdsDbSubnetGroupSubnet.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -30647,13 +30612,13 @@ class AwsRdsEventSubscriptionDetails {
       customerAwsId: json['CustomerAwsId'] as String?,
       enabled: json['Enabled'] as bool?,
       eventCategoriesList: (json['EventCategoriesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       eventSubscriptionArn: json['EventSubscriptionArn'] as String?,
       snsTopicArn: json['SnsTopicArn'] as String?,
       sourceIdsList: (json['SourceIdsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sourceType: json['SourceType'] as String?,
@@ -30708,11 +30673,11 @@ class AwsRdsPendingCloudWatchLogsExports {
       Map<String, dynamic> json) {
     return AwsRdsPendingCloudWatchLogsExports(
       logTypesToDisable: (json['LogTypesToDisable'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       logTypesToEnable: (json['LogTypesToEnable'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -30788,7 +30753,7 @@ class AwsRedshiftClusterClusterParameterGroup {
       Map<String, dynamic> json) {
     return AwsRedshiftClusterClusterParameterGroup(
       clusterParameterStatusList: (json['ClusterParameterStatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRedshiftClusterClusterParameterStatus.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -31394,19 +31359,19 @@ class AwsRedshiftClusterDetails {
       clusterCreateTime: json['ClusterCreateTime'] as String?,
       clusterIdentifier: json['ClusterIdentifier'] as String?,
       clusterNodes: (json['ClusterNodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRedshiftClusterClusterNode.fromJson(e as Map<String, dynamic>))
           .toList(),
       clusterParameterGroups: (json['ClusterParameterGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRedshiftClusterClusterParameterGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       clusterPublicKey: json['ClusterPublicKey'] as String?,
       clusterRevisionNumber: json['ClusterRevisionNumber'] as String?,
       clusterSecurityGroups: (json['ClusterSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRedshiftClusterClusterSecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -31419,7 +31384,7 @@ class AwsRedshiftClusterDetails {
       clusterVersion: json['ClusterVersion'] as String?,
       dBName: json['DBName'] as String?,
       deferredMaintenanceWindows: (json['DeferredMaintenanceWindows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRedshiftClusterDeferredMaintenanceWindow.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -31444,7 +31409,7 @@ class AwsRedshiftClusterDetails {
               json['HsmStatus'] as Map<String, dynamic>)
           : null,
       iamRoles: (json['IamRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsRedshiftClusterIamRole.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -31462,7 +31427,7 @@ class AwsRedshiftClusterDetails {
       nodeType: json['NodeType'] as String?,
       numberOfNodes: json['NumberOfNodes'] as int?,
       pendingActions: (json['PendingActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       pendingModifiedValues: json['PendingModifiedValues'] != null
@@ -31483,7 +31448,7 @@ class AwsRedshiftClusterDetails {
       snapshotScheduleState: json['SnapshotScheduleState'] as String?,
       vpcId: json['VpcId'] as String?,
       vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRedshiftClusterVpcSecurityGroup.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -32179,7 +32144,7 @@ class AwsRoute53HostedZoneDetails {
               json['HostedZone'] as Map<String, dynamic>)
           : null,
       nameServers: (json['NameServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       queryLoggingConfig: json['QueryLoggingConfig'] != null
@@ -32187,7 +32152,7 @@ class AwsRoute53HostedZoneDetails {
               json['QueryLoggingConfig'] as Map<String, dynamic>)
           : null,
       vpcs: (json['Vpcs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsRoute53HostedZoneVpcDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -32483,7 +32448,7 @@ class AwsS3BucketBucketLifecycleConfigurationDetails {
       Map<String, dynamic> json) {
     return AwsS3BucketBucketLifecycleConfigurationDetails(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsS3BucketBucketLifecycleConfigurationRulesDetails.fromJson(
                   e as Map<String, dynamic>))
@@ -32637,7 +32602,7 @@ class AwsS3BucketBucketLifecycleConfigurationRulesDetails {
           json['NoncurrentVersionExpirationInDays'] as int?,
       noncurrentVersionTransitions: (json['NoncurrentVersionTransitions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -32645,7 +32610,7 @@ class AwsS3BucketBucketLifecycleConfigurationRulesDetails {
       prefix: json['Prefix'] as String?,
       status: json['Status'] as String?,
       transitions: (json['Transitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -32744,7 +32709,7 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails {
       Map<String, dynamic> json) {
     return AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails(
       operands: (json['Operands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -33263,7 +33228,7 @@ class AwsS3BucketNotificationConfiguration {
       Map<String, dynamic> json) {
     return AwsS3BucketNotificationConfiguration(
       configurations: (json['Configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsS3BucketNotificationConfigurationDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -33318,10 +33283,8 @@ class AwsS3BucketNotificationConfigurationDetail {
       Map<String, dynamic> json) {
     return AwsS3BucketNotificationConfigurationDetail(
       destination: json['Destination'] as String?,
-      events: (json['Events'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      events:
+          (json['Events'] as List?)?.nonNulls.map((e) => e as String).toList(),
       filter: json['Filter'] != null
           ? AwsS3BucketNotificationConfigurationFilter.fromJson(
               json['Filter'] as Map<String, dynamic>)
@@ -33385,7 +33348,7 @@ class AwsS3BucketNotificationConfigurationS3KeyFilter {
       Map<String, dynamic> json) {
     return AwsS3BucketNotificationConfigurationS3KeyFilter(
       filterRules: (json['FilterRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsS3BucketNotificationConfigurationS3KeyFilterRule.fromJson(
                   e as Map<String, dynamic>))
@@ -33605,7 +33568,7 @@ class AwsS3BucketServerSideEncryptionConfiguration {
       Map<String, dynamic> json) {
     return AwsS3BucketServerSideEncryptionConfiguration(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsS3BucketServerSideEncryptionRule.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -33685,7 +33648,7 @@ class AwsS3BucketWebsiteConfiguration {
               json['RedirectAllRequestsTo'] as Map<String, dynamic>)
           : null,
       routingRules: (json['RoutingRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsS3BucketWebsiteConfigurationRoutingRule.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -34085,11 +34048,11 @@ class AwsSageMakerNotebookInstanceDetails {
       Map<String, dynamic> json) {
     return AwsSageMakerNotebookInstanceDetails(
       acceleratorTypes: (json['AcceleratorTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       additionalCodeRepositories: (json['AdditionalCodeRepositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       defaultCodeRepository: json['DefaultCodeRepository'] as String?,
@@ -34113,7 +34076,7 @@ class AwsSageMakerNotebookInstanceDetails {
       roleArn: json['RoleArn'] as String?,
       rootAccess: json['RootAccess'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetId: json['SubnetId'] as String?,
@@ -34755,7 +34718,7 @@ class AwsSecurityFinding {
       id: json['Id'] as String,
       productArn: json['ProductArn'] as String,
       resources: (json['Resources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaVersion: json['SchemaVersion'] as String,
@@ -34782,14 +34745,14 @@ class AwsSecurityFinding {
           : null,
       lastObservedAt: json['LastObservedAt'] as String?,
       malware: (json['Malware'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Malware.fromJson(e as Map<String, dynamic>))
           .toList(),
       network: json['Network'] != null
           ? Network.fromJson(json['Network'] as Map<String, dynamic>)
           : null,
       networkPath: (json['NetworkPath'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkPathComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       note: json['Note'] != null
@@ -34809,7 +34772,7 @@ class AwsSecurityFinding {
           (json['RecordState'] as String?)?.let(RecordState.fromString),
       region: json['Region'] as String?,
       relatedFindings: (json['RelatedFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RelatedFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       remediation: json['Remediation'] != null
@@ -34821,23 +34784,21 @@ class AwsSecurityFinding {
           : null,
       sourceUrl: json['SourceUrl'] as String?,
       threatIntelIndicators: (json['ThreatIntelIndicators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThreatIntelIndicator.fromJson(e as Map<String, dynamic>))
           .toList(),
       threats: (json['Threats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Threat.fromJson(e as Map<String, dynamic>))
           .toList(),
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
       userDefinedFields: (json['UserDefinedFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       verificationState: (json['VerificationState'] as String?)
           ?.let(VerificationState.fromString),
       vulnerabilities: (json['Vulnerabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Vulnerability.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflow: json['Workflow'] != null
@@ -35702,448 +35663,448 @@ class AwsSecurityFindingFilters {
   factory AwsSecurityFindingFilters.fromJson(Map<String, dynamic> json) {
     return AwsSecurityFindingFilters(
       awsAccountId: (json['AwsAccountId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       awsAccountName: (json['AwsAccountName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       companyName: (json['CompanyName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       complianceAssociatedStandardsId:
           (json['ComplianceAssociatedStandardsId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceSecurityControlId:
           (json['ComplianceSecurityControlId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceSecurityControlParametersName:
           (json['ComplianceSecurityControlParametersName'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceSecurityControlParametersValue:
           (json['ComplianceSecurityControlParametersValue'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       complianceStatus: (json['ComplianceStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       confidence: (json['Confidence'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: (json['CreatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       criticality: (json['Criticality'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: (json['Description'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       findingProviderFieldsConfidence:
           (json['FindingProviderFieldsConfidence'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsCriticality:
           (json['FindingProviderFieldsCriticality'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsRelatedFindingsId:
           (json['FindingProviderFieldsRelatedFindingsId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsRelatedFindingsProductArn:
           (json['FindingProviderFieldsRelatedFindingsProductArn'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsSeverityLabel:
           (json['FindingProviderFieldsSeverityLabel'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsSeverityOriginal:
           (json['FindingProviderFieldsSeverityOriginal'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       findingProviderFieldsTypes: (json['FindingProviderFieldsTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstObservedAt: (json['FirstObservedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       generatorId: (json['GeneratorId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: (json['Id'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       keyword: (json['Keyword'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeywordFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastObservedAt: (json['LastObservedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       malwareName: (json['MalwareName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       malwarePath: (json['MalwarePath'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       malwareState: (json['MalwareState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       malwareType: (json['MalwareType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkDestinationDomain: (json['NetworkDestinationDomain'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkDestinationIpV4: (json['NetworkDestinationIpV4'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkDestinationIpV6: (json['NetworkDestinationIpV6'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkDestinationPort: (json['NetworkDestinationPort'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkDirection: (json['NetworkDirection'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkProtocol: (json['NetworkProtocol'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkSourceDomain: (json['NetworkSourceDomain'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkSourceIpV4: (json['NetworkSourceIpV4'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkSourceIpV6: (json['NetworkSourceIpV6'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkSourceMac: (json['NetworkSourceMac'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkSourcePort: (json['NetworkSourcePort'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteText: (json['NoteText'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteUpdatedAt: (json['NoteUpdatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       noteUpdatedBy: (json['NoteUpdatedBy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processLaunchedAt: (json['ProcessLaunchedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processName: (json['ProcessName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processParentPid: (json['ProcessParentPid'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processPath: (json['ProcessPath'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processPid: (json['ProcessPid'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       processTerminatedAt: (json['ProcessTerminatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       productArn: (json['ProductArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       productFields: (json['ProductFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       productName: (json['ProductName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationText: (json['RecommendationText'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordState: (json['RecordState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       region: (json['Region'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedFindingsId: (json['RelatedFindingsId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedFindingsProductArn: (json['RelatedFindingsProductArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceApplicationArn: (json['ResourceApplicationArn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceApplicationName: (json['ResourceApplicationName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceAwsEc2InstanceIamInstanceProfileArn:
           (json['ResourceAwsEc2InstanceIamInstanceProfileArn'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceImageId:
           (json['ResourceAwsEc2InstanceImageId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceIpV4Addresses:
           (json['ResourceAwsEc2InstanceIpV4Addresses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceIpV6Addresses:
           (json['ResourceAwsEc2InstanceIpV6Addresses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => IpFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceKeyName:
           (json['ResourceAwsEc2InstanceKeyName'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceLaunchedAt:
           (json['ResourceAwsEc2InstanceLaunchedAt'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceSubnetId:
           (json['ResourceAwsEc2InstanceSubnetId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsEc2InstanceType: (json['ResourceAwsEc2InstanceType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceAwsEc2InstanceVpcId:
           (json['ResourceAwsEc2InstanceVpcId'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsIamAccessKeyCreatedAt:
           (json['ResourceAwsIamAccessKeyCreatedAt'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsIamAccessKeyPrincipalName:
           (json['ResourceAwsIamAccessKeyPrincipalName'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsIamAccessKeyStatus:
           (json['ResourceAwsIamAccessKeyStatus'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsIamAccessKeyUserName:
           (json['ResourceAwsIamAccessKeyUserName'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceAwsIamUserUserName: (json['ResourceAwsIamUserUserName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceAwsS3BucketOwnerId: (json['ResourceAwsS3BucketOwnerId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceAwsS3BucketOwnerName:
           (json['ResourceAwsS3BucketOwnerName'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceContainerImageId: (json['ResourceContainerImageId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceContainerImageName: (json['ResourceContainerImageName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceContainerLaunchedAt:
           (json['ResourceContainerLaunchedAt'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       resourceContainerName: (json['ResourceContainerName'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceDetailsOther: (json['ResourceDetailsOther'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceId: (json['ResourceId'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourcePartition: (json['ResourcePartition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceRegion: (json['ResourceRegion'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType: (json['ResourceType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       sample: (json['Sample'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BooleanFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       severityLabel: (json['SeverityLabel'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       severityNormalized: (json['SeverityNormalized'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       severityProduct: (json['SeverityProduct'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceUrl: (json['SourceUrl'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       threatIntelIndicatorCategory:
           (json['ThreatIntelIndicatorCategory'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       threatIntelIndicatorLastObservedAt:
           (json['ThreatIntelIndicatorLastObservedAt'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       threatIntelIndicatorSource: (json['ThreatIntelIndicatorSource'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       threatIntelIndicatorSourceUrl:
           (json['ThreatIntelIndicatorSourceUrl'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       threatIntelIndicatorType: (json['ThreatIntelIndicatorType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       threatIntelIndicatorValue: (json['ThreatIntelIndicatorValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       title: (json['Title'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: (json['UpdatedAt'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       userDefinedFields: (json['UserDefinedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       verificationState: (json['VerificationState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       vulnerabilitiesExploitAvailable:
           (json['VulnerabilitiesExploitAvailable'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       vulnerabilitiesFixAvailable:
           (json['VulnerabilitiesFixAvailable'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
       workflowState: (json['WorkflowState'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowStatus: (json['WorkflowStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -36547,7 +36508,7 @@ class AwsSnsTopicDetails {
       sqsFailureFeedbackRoleArn: json['SqsFailureFeedbackRoleArn'] as String?,
       sqsSuccessFeedbackRoleArn: json['SqsSuccessFeedbackRoleArn'] as String?,
       subscription: (json['Subscription'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsSnsTopicSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -37103,7 +37064,7 @@ class AwsStepFunctionStateMachineLoggingConfigurationDetails {
       Map<String, dynamic> json) {
     return AwsStepFunctionStateMachineLoggingConfigurationDetails(
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails
                   .fromJson(e as Map<String, dynamic>))
@@ -37190,7 +37151,7 @@ class AwsWafRateBasedRuleDetails {
   factory AwsWafRateBasedRuleDetails.fromJson(Map<String, dynamic> json) {
     return AwsWafRateBasedRuleDetails(
       matchPredicates: (json['MatchPredicates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRateBasedRuleMatchPredicate.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37328,7 +37289,7 @@ class AwsWafRegionalRateBasedRuleDetails {
       Map<String, dynamic> json) {
     return AwsWafRegionalRateBasedRuleDetails(
       matchPredicates: (json['MatchPredicates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRegionalRateBasedRuleMatchPredicate.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37456,7 +37417,7 @@ class AwsWafRegionalRuleDetails {
       metricName: json['MetricName'] as String?,
       name: json['Name'] as String?,
       predicateList: (json['PredicateList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRegionalRulePredicateListDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37507,7 +37468,7 @@ class AwsWafRegionalRuleGroupDetails {
       name: json['Name'] as String?,
       ruleGroupId: json['RuleGroupId'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRegionalRuleGroupRulesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37689,7 +37650,7 @@ class AwsWafRegionalWebAclDetails {
       metricName: json['MetricName'] as String?,
       name: json['Name'] as String?,
       rulesList: (json['RulesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRegionalWebAclRulesListDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37857,7 +37818,7 @@ class AwsWafRuleDetails {
       metricName: json['MetricName'] as String?,
       name: json['Name'] as String?,
       predicateList: (json['PredicateList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafRulePredicateListDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -37908,7 +37869,7 @@ class AwsWafRuleGroupDetails {
       name: json['Name'] as String?,
       ruleGroupId: json['RuleGroupId'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsWafRuleGroupRulesDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -38080,7 +38041,7 @@ class AwsWafWebAclDetails {
       defaultAction: json['DefaultAction'] as String?,
       name: json['Name'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafWebAclRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       webAclId: json['WebAclId'] as String?,
@@ -38163,7 +38124,7 @@ class AwsWafWebAclRule {
           ? WafAction.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
       excludedRules: (json['ExcludedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WafExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       overrideAction: json['OverrideAction'] != null
@@ -38299,7 +38260,7 @@ class AwsWafv2CustomRequestHandlingDetails {
       Map<String, dynamic> json) {
     return AwsWafv2CustomRequestHandlingDetails(
       insertHeaders: (json['InsertHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsWafv2CustomHttpHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -38342,7 +38303,7 @@ class AwsWafv2CustomResponseDetails {
       customResponseBodyKey: json['CustomResponseBodyKey'] as String?,
       responseCode: json['ResponseCode'] as int?,
       responseHeaders: (json['ResponseHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsWafv2CustomHttpHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -38415,7 +38376,7 @@ class AwsWafv2RuleGroupDetails {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafv2RulesDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       scope: json['Scope'] as String?,
@@ -38843,7 +38804,7 @@ class AwsWafv2WebAclDetails {
       managedbyFirewallManager: json['ManagedbyFirewallManager'] as bool?,
       name: json['Name'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AwsWafv2RulesDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       visibilityConfig: json['VisibilityConfig'] != null
@@ -38941,11 +38902,11 @@ class BatchDeleteAutomationRulesResponse {
       Map<String, dynamic> json) {
     return BatchDeleteAutomationRulesResponse(
       processedAutomationRules: (json['ProcessedAutomationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       unprocessedAutomationRules: (json['UnprocessedAutomationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedAutomationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -38964,7 +38925,7 @@ class BatchDisableStandardsResponse {
   factory BatchDisableStandardsResponse.fromJson(Map<String, dynamic> json) {
     return BatchDisableStandardsResponse(
       standardsSubscriptions: (json['StandardsSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StandardsSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -38982,7 +38943,7 @@ class BatchEnableStandardsResponse {
   factory BatchEnableStandardsResponse.fromJson(Map<String, dynamic> json) {
     return BatchEnableStandardsResponse(
       standardsSubscriptions: (json['StandardsSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StandardsSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -39006,11 +38967,11 @@ class BatchGetAutomationRulesResponse {
   factory BatchGetAutomationRulesResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetAutomationRulesResponse(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutomationRulesConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedAutomationRules: (json['UnprocessedAutomationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedAutomationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39039,13 +39000,13 @@ class BatchGetConfigurationPolicyAssociationsResponse {
     return BatchGetConfigurationPolicyAssociationsResponse(
       configurationPolicyAssociations:
           (json['ConfigurationPolicyAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ConfigurationPolicyAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       unprocessedConfigurationPolicyAssociations:
           (json['UnprocessedConfigurationPolicyAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UnprocessedConfigurationPolicyAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -39073,11 +39034,11 @@ class BatchGetSecurityControlsResponse {
   factory BatchGetSecurityControlsResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetSecurityControlsResponse(
       securityControls: (json['SecurityControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SecurityControl.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedIds: (json['UnprocessedIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedSecurityControl.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39106,12 +39067,12 @@ class BatchGetStandardsControlAssociationsResponse {
     return BatchGetStandardsControlAssociationsResponse(
       standardsControlAssociationDetails:
           (json['StandardsControlAssociationDetails'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => StandardsControlAssociationDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       unprocessedAssociations: (json['UnprocessedAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedStandardsControlAssociation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -39140,7 +39101,7 @@ class BatchImportFindingsResponse {
       failedCount: json['FailedCount'] as int,
       successCount: json['SuccessCount'] as int,
       failedFindings: (json['FailedFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportFindingsError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -39165,11 +39126,11 @@ class BatchUpdateAutomationRulesResponse {
       Map<String, dynamic> json) {
     return BatchUpdateAutomationRulesResponse(
       processedAutomationRules: (json['ProcessedAutomationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       unprocessedAutomationRules: (json['UnprocessedAutomationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedAutomationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39192,12 +39153,12 @@ class BatchUpdateFindingsResponse {
   factory BatchUpdateFindingsResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateFindingsResponse(
       processedFindings: (json['ProcessedFindings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AwsSecurityFindingIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedFindings: (json['UnprocessedFindings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchUpdateFindingsUnprocessedFinding.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -39305,7 +39266,7 @@ class BatchUpdateStandardsControlAssociationsResponse {
     return BatchUpdateStandardsControlAssociationsResponse(
       unprocessedAssociationUpdates:
           (json['UnprocessedAssociationUpdates'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UnprocessedStandardsControlAssociationUpdate.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -39506,7 +39467,7 @@ class ClassificationResult {
           : null,
       mimeType: json['MimeType'] as String?,
       sensitiveData: (json['SensitiveData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SensitiveDataResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       sizeClassified: json['SizeClassified'] as int?,
@@ -39725,22 +39686,22 @@ class Compliance {
   factory Compliance.fromJson(Map<String, dynamic> json) {
     return Compliance(
       associatedStandards: (json['AssociatedStandards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociatedStandard.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedRequirements: (json['RelatedRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityControlId: json['SecurityControlId'] as String?,
       securityControlParameters: (json['SecurityControlParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SecurityControlParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['Status'] as String?)?.let(ComplianceStatus.fromString),
       statusReasons: (json['StatusReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatusReason.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40082,7 +40043,7 @@ class ContainerDetails {
       name: json['Name'] as String?,
       privileged: json['Privileged'] as bool?,
       volumeMounts: (json['VolumeMounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VolumeMount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40283,10 +40244,8 @@ class CreateFindingAggregatorResponse {
       findingAggregationRegion: json['FindingAggregationRegion'] as String?,
       findingAggregatorArn: json['FindingAggregatorArn'] as String?,
       regionLinkingMode: json['RegionLinkingMode'] as String?,
-      regions: (json['Regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['Regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -40318,7 +40277,7 @@ class CreateMembersResponse {
   factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
     return CreateMembersResponse(
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40388,7 +40347,7 @@ class CustomDataIdentifiersResult {
   factory CustomDataIdentifiersResult.fromJson(Map<String, dynamic> json) {
     return CustomDataIdentifiersResult(
       detections: (json['Detections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomDataIdentifiersDetections.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -40434,7 +40393,7 @@ class Cvss {
   factory Cvss.fromJson(Map<String, dynamic> json) {
     return Cvss(
       adjustments: (json['Adjustments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Adjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
       baseScore: json['BaseScore'] as double?,
@@ -40645,7 +40604,7 @@ class DeclineInvitationsResponse {
   factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return DeclineInvitationsResponse(
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40711,7 +40670,7 @@ class DeleteInvitationsResponse {
   factory DeleteInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return DeleteInvitationsResponse(
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40730,7 +40689,7 @@ class DeleteMembersResponse {
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMembersResponse(
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40754,7 +40713,7 @@ class DescribeActionTargetsResponse {
   factory DescribeActionTargetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeActionTargetsResponse(
       actionTargets: (json['ActionTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -40885,7 +40844,7 @@ class DescribeProductsResponse {
   factory DescribeProductsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProductsResponse(
       products: (json['Products'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -40909,7 +40868,7 @@ class DescribeStandardsControlsResponse {
       Map<String, dynamic> json) {
     return DescribeStandardsControlsResponse(
       controls: (json['Controls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StandardsControl.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -40933,7 +40892,7 @@ class DescribeStandardsResponse {
     return DescribeStandardsResponse(
       nextToken: json['NextToken'] as String?,
       standards: (json['Standards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Standard.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -41109,7 +41068,7 @@ class EnumConfigurationOptions {
   factory EnumConfigurationOptions.fromJson(Map<String, dynamic> json) {
     return EnumConfigurationOptions(
       allowedValues: (json['AllowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       defaultValue: json['DefaultValue'] as String?,
@@ -41140,11 +41099,11 @@ class EnumListConfigurationOptions {
   factory EnumListConfigurationOptions.fromJson(Map<String, dynamic> json) {
     return EnumListConfigurationOptions(
       allowedValues: (json['AllowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       defaultValue: (json['DefaultValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       maxItems: json['MaxItems'] as int?,
@@ -41309,7 +41268,7 @@ class FindingHistoryRecord {
           : null,
       updateTime: timeStampFromJson(json['UpdateTime']),
       updates: (json['Updates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingHistoryUpdate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -41437,17 +41396,15 @@ class FindingProviderFields {
       confidence: json['Confidence'] as int?,
       criticality: json['Criticality'] as int?,
       relatedFindings: (json['RelatedFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RelatedFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       severity: json['Severity'] != null
           ? FindingProviderSeverity.fromJson(
               json['Severity'] as Map<String, dynamic>)
           : null,
-      types: (json['Types'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -41542,27 +41499,27 @@ class FirewallPolicyDetails {
     return FirewallPolicyDetails(
       statefulRuleGroupReferences: (json['StatefulRuleGroupReferences']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FirewallPolicyStatefulRuleGroupReferencesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       statelessCustomActions: (json['StatelessCustomActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FirewallPolicyStatelessCustomActionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       statelessDefaultActions: (json['StatelessDefaultActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statelessFragmentDefaultActions:
           (json['StatelessFragmentDefaultActions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       statelessRuleGroupReferences:
           (json['StatelessRuleGroupReferences'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   FirewallPolicyStatelessRuleGroupReferencesDetails.fromJson(
                       e as Map<String, dynamic>))
@@ -41707,10 +41664,8 @@ class GeneratorDetails {
   factory GeneratorDetails.fromJson(Map<String, dynamic> json) {
     return GeneratorDetails(
       description: json['Description'] as String?,
-      labels: (json['Labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       name: json['Name'] as String?,
     );
   }
@@ -41902,7 +41857,7 @@ class GetEnabledStandardsResponse {
     return GetEnabledStandardsResponse(
       nextToken: json['NextToken'] as String?,
       standardsSubscriptions: (json['StandardsSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StandardsSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -41935,10 +41890,8 @@ class GetFindingAggregatorResponse {
       findingAggregationRegion: json['FindingAggregationRegion'] as String?,
       findingAggregatorArn: json['FindingAggregatorArn'] as String?,
       regionLinkingMode: json['RegionLinkingMode'] as String?,
-      regions: (json['Regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['Regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -41963,7 +41916,7 @@ class GetFindingHistoryResponse {
     return GetFindingHistoryResponse(
       nextToken: json['NextToken'] as String?,
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingHistoryRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -41985,7 +41938,7 @@ class GetFindingsResponse {
   factory GetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsResponse(
       findings: (json['Findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AwsSecurityFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42024,7 +41977,7 @@ class GetInsightsResponse {
   factory GetInsightsResponse.fromJson(Map<String, dynamic> json) {
     return GetInsightsResponse(
       insights: (json['Insights'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Insight.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42082,11 +42035,11 @@ class GetMembersResponse {
   factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
     return GetMembersResponse(
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Member.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -42257,7 +42210,7 @@ class InsightResults {
       groupByAttribute: json['GroupByAttribute'] as String,
       insightArn: json['InsightArn'] as String,
       resultValues: (json['ResultValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InsightResultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -42317,7 +42270,7 @@ class IntegerListConfigurationOptions {
   factory IntegerListConfigurationOptions.fromJson(Map<String, dynamic> json) {
     return IntegerListConfigurationOptions(
       defaultValue: (json['DefaultValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       max: json['Max'] as int?,
@@ -42388,7 +42341,7 @@ class InviteMembersResponse {
   factory InviteMembersResponse.fromJson(Map<String, dynamic> json) {
     return InviteMembersResponse(
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Result.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -42559,7 +42512,7 @@ class ListAutomationRulesResponse {
   factory ListAutomationRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListAutomationRulesResponse(
       automationRulesMetadata: (json['AutomationRulesMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AutomationRulesMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42590,7 +42543,7 @@ class ListConfigurationPoliciesResponse {
     return ListConfigurationPoliciesResponse(
       configurationPolicySummaries: (json['ConfigurationPolicySummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurationPolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42624,7 +42577,7 @@ class ListConfigurationPolicyAssociationsResponse {
     return ListConfigurationPolicyAssociationsResponse(
       configurationPolicyAssociationSummaries:
           (json['ConfigurationPolicyAssociationSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ConfigurationPolicyAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -42651,7 +42604,7 @@ class ListEnabledProductsForImportResponse {
     return ListEnabledProductsForImportResponse(
       nextToken: json['NextToken'] as String?,
       productSubscriptions: (json['ProductSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -42677,7 +42630,7 @@ class ListFindingAggregatorsResponse {
   factory ListFindingAggregatorsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingAggregatorsResponse(
       findingAggregators: (json['FindingAggregators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingAggregator.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42700,7 +42653,7 @@ class ListInvitationsResponse {
   factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return ListInvitationsResponse(
       invitations: (json['Invitations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Invitation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42723,7 +42676,7 @@ class ListMembersResponse {
   factory ListMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListMembersResponse(
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Member.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42747,7 +42700,7 @@ class ListOrganizationAdminAccountsResponse {
       Map<String, dynamic> json) {
     return ListOrganizationAdminAccountsResponse(
       adminAccounts: (json['AdminAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdminAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -42772,7 +42725,7 @@ class ListSecurityControlDefinitionsResponse {
       Map<String, dynamic> json) {
     return ListSecurityControlDefinitionsResponse(
       securityControlDefinitions: (json['SecurityControlDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SecurityControlDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42801,7 +42754,7 @@ class ListStandardsControlAssociationsResponse {
     return ListStandardsControlAssociationsResponse(
       standardsControlAssociationSummaries:
           (json['StandardsControlAssociationSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => StandardsControlAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -43478,12 +43431,10 @@ class NetworkPathComponentDetails {
 
   factory NetworkPathComponentDetails.fromJson(Map<String, dynamic> json) {
     return NetworkPathComponentDetails(
-      address: (json['Address'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      address:
+          (json['Address'] as List?)?.nonNulls.map((e) => e as String).toList(),
       portRanges: (json['PortRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -43685,23 +43636,23 @@ class Occurrences {
   factory Occurrences.fromJson(Map<String, dynamic> json) {
     return Occurrences(
       cells: (json['Cells'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cell.fromJson(e as Map<String, dynamic>))
           .toList(),
       lineRanges: (json['LineRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Range.fromJson(e as Map<String, dynamic>))
           .toList(),
       offsetRanges: (json['OffsetRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Range.fromJson(e as Map<String, dynamic>))
           .toList(),
       pages: (json['Pages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Page.fromJson(e as Map<String, dynamic>))
           .toList(),
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -43970,17 +43921,17 @@ class ParameterValue {
       doubleValue: json['Double'] as double?,
       enumValue: json['Enum'] as String?,
       enumList: (json['EnumList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       integer: json['Integer'] as int?,
       integerList: (json['IntegerList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       string: json['String'] as String?,
       stringList: (json['StringList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -44267,7 +44218,7 @@ class PortProbeAction {
     return PortProbeAction(
       blocked: json['Blocked'] as bool?,
       portProbeDetails: (json['PortProbeDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortProbeDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -44578,13 +44529,13 @@ class Product {
       productArn: json['ProductArn'] as String,
       activationUrl: json['ActivationUrl'] as String?,
       categories: (json['Categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       companyName: json['CompanyName'] as String?,
       description: json['Description'] as String?,
       integrationTypes: (json['IntegrationTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IntegrationType.fromString((e as String)))
           .toList(),
       marketplaceUrl: json['MarketplaceUrl'] as String?,
@@ -46271,7 +46222,7 @@ class RuleGroupSource {
           : null,
       rulesString: json['RulesString'] as String?,
       statefulRules: (json['StatefulRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSourceStatefulRulesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -46360,13 +46311,11 @@ class RuleGroupSourceListDetails {
     return RuleGroupSourceListDetails(
       generatedRulesType: json['GeneratedRulesType'] as String?,
       targetTypes: (json['TargetTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      targets: (json['Targets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targets:
+          (json['Targets'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -46409,7 +46358,7 @@ class RuleGroupSourceStatefulRulesDetails {
               json['Header'] as Map<String, dynamic>)
           : null,
       ruleOptions: (json['RuleOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSourceStatefulRulesOptionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -46516,7 +46465,7 @@ class RuleGroupSourceStatefulRulesOptionsDetails {
     return RuleGroupSourceStatefulRulesOptionsDetails(
       keyword: json['Keyword'] as String?,
       settings: (json['Settings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -46552,10 +46501,8 @@ class RuleGroupSourceStatelessRuleDefinition {
   factory RuleGroupSourceStatelessRuleDefinition.fromJson(
       Map<String, dynamic> json) {
     return RuleGroupSourceStatelessRuleDefinition(
-      actions: (json['Actions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['Actions'] as List?)?.nonNulls.map((e) => e as String).toList(),
       matchAttributes: json['MatchAttributes'] != null
           ? RuleGroupSourceStatelessRuleMatchAttributes.fromJson(
               json['MatchAttributes'] as Map<String, dynamic>)
@@ -46610,35 +46557,33 @@ class RuleGroupSourceStatelessRuleMatchAttributes {
       Map<String, dynamic> json) {
     return RuleGroupSourceStatelessRuleMatchAttributes(
       destinationPorts: (json['DestinationPorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts
                   .fromJson(e as Map<String, dynamic>))
           .toList(),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RuleGroupSourceStatelessRuleMatchAttributesDestinations.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
-      protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      protocols:
+          (json['Protocols'] as List?)?.nonNulls.map((e) => e as int).toList(),
       sourcePorts: (json['SourcePorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RuleGroupSourceStatelessRuleMatchAttributesSourcePorts.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RuleGroupSourceStatelessRuleMatchAttributesSources.fromJson(
                   e as Map<String, dynamic>))
           .toList(),
       tcpFlags: (json['TcpFlags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RuleGroupSourceStatelessRuleMatchAttributesTcpFlags.fromJson(
                   e as Map<String, dynamic>))
@@ -46793,14 +46738,10 @@ class RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
   factory RuleGroupSourceStatelessRuleMatchAttributesTcpFlags.fromJson(
       Map<String, dynamic> json) {
     return RuleGroupSourceStatelessRuleMatchAttributesTcpFlags(
-      flags: (json['Flags'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      masks: (json['Masks'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      flags:
+          (json['Flags'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      masks:
+          (json['Masks'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -46831,12 +46772,12 @@ class RuleGroupSourceStatelessRulesAndCustomActionsDetails {
       Map<String, dynamic> json) {
     return RuleGroupSourceStatelessRulesAndCustomActionsDetails(
       customActions: (json['CustomActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSourceCustomActionsDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       statelessRules: (json['StatelessRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSourceStatelessRulesDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -46936,7 +46877,7 @@ class RuleGroupVariablesIpSetsDetails {
   factory RuleGroupVariablesIpSetsDetails.fromJson(Map<String, dynamic> json) {
     return RuleGroupVariablesIpSetsDetails(
       definition: (json['Definition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -46963,7 +46904,7 @@ class RuleGroupVariablesPortSetsDetails {
       Map<String, dynamic> json) {
     return RuleGroupVariablesPortSetsDetails(
       definition: (json['Definition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -47184,7 +47125,7 @@ class SecurityControlDefinition {
           SeverityRating.fromString((json['SeverityRating'] as String)),
       title: json['Title'] as String,
       customizableProperties: (json['CustomizableProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityControlProperty.fromString((e as String)))
           .toList(),
       parameterDefinitions:
@@ -47211,10 +47152,8 @@ class SecurityControlParameter {
   factory SecurityControlParameter.fromJson(Map<String, dynamic> json) {
     return SecurityControlParameter(
       name: json['Name'] as String?,
-      value: (json['Value'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      value:
+          (json['Value'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -47270,17 +47209,17 @@ class SecurityControlsConfiguration {
     return SecurityControlsConfiguration(
       disabledSecurityControlIdentifiers:
           (json['DisabledSecurityControlIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       enabledSecurityControlIdentifiers:
           (json['EnabledSecurityControlIdentifiers'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       securityControlCustomParameters:
           (json['SecurityControlCustomParameters'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => SecurityControlCustomParameter.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -47337,7 +47276,7 @@ class SecurityHubPolicy {
   factory SecurityHubPolicy.fromJson(Map<String, dynamic> json) {
     return SecurityHubPolicy(
       enabledStandardIdentifiers: (json['EnabledStandardIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityControlsConfiguration:
@@ -47427,7 +47366,7 @@ class SensitiveDataResult {
     return SensitiveDataResult(
       category: json['Category'] as String?,
       detections: (json['Detections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SensitiveDataDetections.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -47924,7 +47863,7 @@ class StandardsControl {
       description: json['Description'] as String?,
       disabledReason: json['DisabledReason'] as String?,
       relatedRequirements: (json['RelatedRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       remediationUrl: json['RemediationUrl'] as String?,
@@ -48003,11 +47942,11 @@ class StandardsControlAssociationDetail {
       securityControlId: json['SecurityControlId'] as String,
       standardsArn: json['StandardsArn'] as String,
       relatedRequirements: (json['RelatedRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       standardsControlArns: (json['StandardsControlArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       standardsControlDescription:
@@ -48115,7 +48054,7 @@ class StandardsControlAssociationSummary {
       securityControlId: json['SecurityControlId'] as String,
       standardsArn: json['StandardsArn'] as String,
       relatedRequirements: (json['RelatedRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       standardsControlDescription:
@@ -48431,7 +48370,7 @@ class StatelessCustomPublishMetricAction {
       Map<String, dynamic> json) {
     return StatelessCustomPublishMetricAction(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatelessCustomPublishMetricActionDimension.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -48727,7 +48666,7 @@ class StringListConfigurationOptions {
   factory StringListConfigurationOptions.fromJson(Map<String, dynamic> json) {
     return StringListConfigurationOptions(
       defaultValue: (json['DefaultValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       expressionDescription: json['ExpressionDescription'] as String?,
@@ -48831,7 +48770,7 @@ class Threat {
   factory Threat.fromJson(Map<String, dynamic> json) {
     return Threat(
       filePaths: (json['FilePaths'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilePaths.fromJson(e as Map<String, dynamic>))
           .toList(),
       itemCount: json['ItemCount'] as int?,
@@ -49353,10 +49292,8 @@ class UpdateFindingAggregatorResponse {
       findingAggregationRegion: json['FindingAggregationRegion'] as String?,
       findingAggregatorArn: json['FindingAggregatorArn'] as String?,
       regionLinkingMode: json['RegionLinkingMode'] as String?,
-      regions: (json['Regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['Regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -49644,12 +49581,12 @@ class Vulnerability {
     return Vulnerability(
       id: json['Id'] as String,
       codeVulnerabilities: (json['CodeVulnerabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VulnerabilityCodeVulnerabilities.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       cvss: (json['Cvss'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cvss.fromJson(e as Map<String, dynamic>))
           .toList(),
       epssScore: json['EpssScore'] as double?,
@@ -49659,18 +49596,18 @@ class Vulnerability {
           ?.let(VulnerabilityFixAvailable.fromString),
       lastKnownExploitAt: json['LastKnownExploitAt'] as String?,
       referenceUrls: (json['ReferenceUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       relatedVulnerabilities: (json['RelatedVulnerabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vendor: json['Vendor'] != null
           ? VulnerabilityVendor.fromJson(json['Vendor'] as Map<String, dynamic>)
           : null,
       vulnerablePackages: (json['VulnerablePackages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SoftwarePackage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -49730,10 +49667,7 @@ class VulnerabilityCodeVulnerabilities {
 
   factory VulnerabilityCodeVulnerabilities.fromJson(Map<String, dynamic> json) {
     return VulnerabilityCodeVulnerabilities(
-      cwes: (json['Cwes'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      cwes: (json['Cwes'] as List?)?.nonNulls.map((e) => e as String).toList(),
       filePath: json['FilePath'] != null
           ? CodeVulnerabilitiesFilePath.fromJson(
               json['FilePath'] as Map<String, dynamic>)

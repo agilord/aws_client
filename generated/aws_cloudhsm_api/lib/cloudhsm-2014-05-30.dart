@@ -1339,21 +1339,21 @@ class DescribeHapgResponse {
       hapgArn: json['HapgArn'] as String?,
       hapgSerial: json['HapgSerial'] as String?,
       hsmsLastActionFailed: (json['HsmsLastActionFailed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       hsmsPendingDeletion: (json['HsmsPendingDeletion'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       hsmsPendingRegistration: (json['HsmsPendingRegistration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       label: json['Label'] as String?,
       lastModifiedTimestamp: json['LastModifiedTimestamp'] as String?,
       partitionSerialList: (json['PartitionSerialList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: (json['State'] as String?)?.let(CloudHsmObjectState.fromString),
@@ -1457,7 +1457,7 @@ class DescribeHsmResponse {
       hsmType: json['HsmType'] as String?,
       iamRoleArn: json['IamRoleArn'] as String?,
       partitions: (json['Partitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serialNumber: json['SerialNumber'] as String?,
@@ -1568,10 +1568,8 @@ class ListAvailableZonesResponse {
 
   factory ListAvailableZonesResponse.fromJson(Map<String, dynamic> json) {
     return ListAvailableZonesResponse(
-      aZList: (json['AZList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      aZList:
+          (json['AZList'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -1591,10 +1589,8 @@ class ListHapgsResponse {
 
   factory ListHapgsResponse.fromJson(Map<String, dynamic> json) {
     return ListHapgsResponse(
-      hapgList: (json['HapgList'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      hapgList:
+          (json['HapgList'] as List).nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1616,10 +1612,8 @@ class ListHsmsResponse {
 
   factory ListHsmsResponse.fromJson(Map<String, dynamic> json) {
     return ListHsmsResponse(
-      hsmList: (json['HsmList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      hsmList:
+          (json['HsmList'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1641,7 +1635,7 @@ class ListLunaClientsResponse {
   factory ListLunaClientsResponse.fromJson(Map<String, dynamic> json) {
     return ListLunaClientsResponse(
       clientList: (json['ClientList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1660,7 +1654,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tagList: (json['TagList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

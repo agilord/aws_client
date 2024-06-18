@@ -2856,7 +2856,7 @@ class BatchChannelMemberships {
           ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
           : null,
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Identity.fromJson(e as Map<String, dynamic>))
           .toList(),
       subChannelId: json['SubChannelId'] as String?,
@@ -2941,7 +2941,7 @@ class BatchCreateChannelMembershipResponse {
               json['BatchChannelMemberships'] as Map<String, dynamic>)
           : null,
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchCreateChannelMembershipError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3229,7 +3229,7 @@ class ChannelFlow {
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       name: json['Name'] as String?,
       processors: (json['Processors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Processor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3304,7 +3304,7 @@ class ChannelFlowSummary {
       channelFlowArn: json['ChannelFlowArn'] as String?,
       name: json['Name'] as String?,
       processors: (json['Processors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Processor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3614,7 +3614,7 @@ class ChannelMessage {
           : null,
       subChannelId: json['SubChannelId'] as String?,
       target: (json['Target'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
@@ -3892,7 +3892,7 @@ class ChannelMessageSummary {
               json['Status'] as Map<String, dynamic>)
           : null,
       target: (json['Target'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
@@ -4719,7 +4719,7 @@ class GetMessagingStreamingConfigurationsResponse {
       Map<String, dynamic> json) {
     return GetMessagingStreamingConfigurationsResponse(
       streamingConfigurations: (json['StreamingConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => StreamingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4831,7 +4831,7 @@ class ListChannelBansResponse {
     return ListChannelBansResponse(
       channelArn: json['ChannelArn'] as String?,
       channelBans: (json['ChannelBans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelBanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4866,7 +4866,7 @@ class ListChannelFlowsResponse {
   factory ListChannelFlowsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelFlowsResponse(
       channelFlows: (json['ChannelFlows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelFlowSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4900,7 +4900,7 @@ class ListChannelMembershipsForAppInstanceUserResponse {
       Map<String, dynamic> json) {
     return ListChannelMembershipsForAppInstanceUserResponse(
       channelMemberships: (json['ChannelMemberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelMembershipForAppInstanceUserSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4939,7 +4939,7 @@ class ListChannelMembershipsResponse {
     return ListChannelMembershipsResponse(
       channelArn: json['ChannelArn'] as String?,
       channelMemberships: (json['ChannelMemberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChannelMembershipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4984,7 +4984,7 @@ class ListChannelMessagesResponse {
     return ListChannelMessagesResponse(
       channelArn: json['ChannelArn'] as String?,
       channelMessages: (json['ChannelMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelMessageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5027,7 +5027,7 @@ class ListChannelModeratorsResponse {
     return ListChannelModeratorsResponse(
       channelArn: json['ChannelArn'] as String?,
       channelModerators: (json['ChannelModerators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChannelModeratorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5064,7 +5064,7 @@ class ListChannelsAssociatedWithChannelFlowResponse {
       Map<String, dynamic> json) {
     return ListChannelsAssociatedWithChannelFlowResponse(
       channels: (json['Channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelAssociatedWithFlowSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5099,7 +5099,7 @@ class ListChannelsModeratedByAppInstanceUserResponse {
       Map<String, dynamic> json) {
     return ListChannelsModeratedByAppInstanceUserResponse(
       channels: (json['Channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelModeratedByAppInstanceUserSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5133,7 +5133,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['Channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5172,7 +5172,7 @@ class ListSubChannelsResponse {
       channelArn: json['ChannelArn'] as String?,
       nextToken: json['NextToken'] as String?,
       subChannels: (json['SubChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5201,7 +5201,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5227,7 +5227,7 @@ class MessageAttributeValue {
   factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
     return MessageAttributeValue(
       stringValues: (json['StringValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5527,7 +5527,7 @@ class PutMessagingStreamingConfigurationsResponse {
       Map<String, dynamic> json) {
     return PutMessagingStreamingConfigurationsResponse(
       streamingConfigurations: (json['StreamingConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => StreamingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5599,7 +5599,7 @@ class SearchChannelsResponse {
   factory SearchChannelsResponse.fromJson(Map<String, dynamic> json) {
     return SearchChannelsResponse(
       channels: (json['Channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

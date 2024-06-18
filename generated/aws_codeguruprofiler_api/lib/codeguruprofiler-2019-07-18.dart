@@ -1528,7 +1528,7 @@ class Anomaly {
   factory Anomaly.fromJson(Map<String, dynamic> json) {
     return Anomaly(
       instances: (json['instances'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnomalyInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       metric: Metric.fromJson(json['metric'] as Map<String, dynamic>),
@@ -1636,11 +1636,11 @@ class BatchGetFrameMetricDataResponse {
     return BatchGetFrameMetricDataResponse(
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
       endTimes: (json['endTimes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TimestampStructure.fromJson(e as Map<String, dynamic>))
           .toList(),
       frameMetricData: (json['frameMetricData'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FrameMetricDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolution: AggregationPeriod.fromString((json['resolution'] as String)),
@@ -1649,7 +1649,7 @@ class BatchGetFrameMetricDataResponse {
           .map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) =>
                       TimestampStructure.fromJson(e as Map<String, dynamic>))
                   .toList())),
@@ -1684,7 +1684,7 @@ class Channel {
   factory Channel.fromJson(Map<String, dynamic> json) {
     return Channel(
       eventPublishers: (json['eventPublishers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EventPublisher.fromString((e as String)))
           .toList(),
       uri: json['uri'] as String,
@@ -1866,7 +1866,7 @@ class FrameMetric {
     return FrameMetric(
       frameName: json['frameName'] as String,
       threadStates: (json['threadStates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       type: MetricType.fromString((json['type'] as String)),
@@ -1901,10 +1901,8 @@ class FrameMetricDatum {
     return FrameMetricDatum(
       frameMetric:
           FrameMetric.fromJson(json['frameMetric'] as Map<String, dynamic>),
-      values: (json['values'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      values:
+          (json['values'] as List).nonNulls.map((e) => e as double).toList(),
     );
   }
 }
@@ -1934,7 +1932,7 @@ class GetFindingsReportAccountSummaryResponse {
       Map<String, dynamic> json) {
     return GetFindingsReportAccountSummaryResponse(
       reportSummaries: (json['reportSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2034,7 +2032,7 @@ class GetRecommendationsResponse {
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
       anomalies: (json['anomalies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
       profileEndTime:
@@ -2043,7 +2041,7 @@ class GetRecommendationsResponse {
           nonNullableTimeStampFromJson(json['profileStartTime'] as Object),
       profilingGroupName: json['profilingGroupName'] as String,
       recommendations: (json['recommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2070,7 +2068,7 @@ class ListFindingsReportsResponse {
   factory ListFindingsReportsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsReportsResponse(
       findingsReportSummaries: (json['findingsReportSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2099,7 +2097,7 @@ class ListProfileTimesResponse {
   factory ListProfileTimesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfileTimesResponse(
       profileTimes: (json['profileTimes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProfileTime.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2141,12 +2139,12 @@ class ListProfilingGroupsResponse {
   factory ListProfilingGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilingGroupsResponse(
       profilingGroupNames: (json['profilingGroupNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
       profilingGroups: (json['profilingGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProfilingGroupDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2250,7 +2248,7 @@ class Metric {
     return Metric(
       frameName: json['frameName'] as String,
       threadStates: (json['threadStates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       type: MetricType.fromString((json['type'] as String)),
@@ -2286,7 +2284,7 @@ class NotificationConfiguration {
   factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
     return NotificationConfiguration(
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2348,7 +2346,7 @@ class Pattern {
   factory Pattern.fromJson(Map<String, dynamic> json) {
     return Pattern(
       countersToAggregate: (json['countersToAggregate'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -2356,9 +2354,8 @@ class Pattern {
       name: json['name'] as String?,
       resolutionSteps: json['resolutionSteps'] as String?,
       targetFrames: (json['targetFrames'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       thresholdPercent: json['thresholdPercent'] as double?,
     );
@@ -2574,7 +2571,7 @@ class Recommendation {
       pattern: Pattern.fromJson(json['pattern'] as Map<String, dynamic>),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
       topMatches: (json['topMatches'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Match.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

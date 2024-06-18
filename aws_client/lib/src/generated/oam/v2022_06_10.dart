@@ -771,7 +771,7 @@ class CreateLinkOutput {
               json['LinkConfiguration'] as Map<String, dynamic>)
           : null,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sinkArn: json['SinkArn'] as String?,
@@ -923,7 +923,7 @@ class GetLinkOutput {
               json['LinkConfiguration'] as Map<String, dynamic>)
           : null,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sinkArn: json['SinkArn'] as String?,
@@ -1102,7 +1102,7 @@ class ListAttachedLinksItem {
       label: json['Label'] as String?,
       linkArn: json['LinkArn'] as String?,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1136,7 +1136,7 @@ class ListAttachedLinksOutput {
   factory ListAttachedLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListAttachedLinksOutput(
       items: (json['Items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListAttachedLinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1187,7 +1187,7 @@ class ListLinksItem {
       id: json['Id'] as String?,
       label: json['Label'] as String?,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sinkArn: json['SinkArn'] as String?,
@@ -1226,7 +1226,7 @@ class ListLinksOutput {
   factory ListLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListLinksOutput(
       items: (json['Items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListLinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1298,7 +1298,7 @@ class ListSinksOutput {
   factory ListSinksOutput.fromJson(Map<String, dynamic> json) {
     return ListSinksOutput(
       items: (json['Items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListSinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1613,7 +1613,7 @@ class UpdateLinkOutput {
               json['LinkConfiguration'] as Map<String, dynamic>)
           : null,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sinkArn: json['SinkArn'] as String?,

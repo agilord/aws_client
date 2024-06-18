@@ -3511,7 +3511,7 @@ class EdgeStructure {
     return EdgeStructure(
       count: json['count'] as int?,
       edgeProperties: (json['edgeProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4077,7 +4077,7 @@ class GetMLModelTrainingJobOutput {
           : null,
       id: json['id'] as String?,
       mlModels: (json['mlModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MlConfigDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelTransformJob: json['modelTransformJob'] != null
@@ -4142,7 +4142,7 @@ class GetMLModelTransformJobOutput {
           : null,
       id: json['id'] as String?,
       models: (json['models'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MlConfigDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       remoteModelTransformJob: json['remoteModelTransformJob'] != null
@@ -4278,7 +4278,7 @@ class GetPropertygraphStreamOutput {
           .map((k, e) => MapEntry(k, e as String)),
       lastTrxTimestampInMillis: json['lastTrxTimestamp'] as int,
       records: (json['records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PropertygraphRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalRecords: json['totalRecords'] as int,
@@ -4440,7 +4440,7 @@ class GetSparqlStreamOutput {
           .map((k, e) => MapEntry(k, e as String)),
       lastTrxTimestampInMillis: json['lastTrxTimestamp'] as int,
       records: (json['records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SparqlRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalRecords: json['totalRecords'] as int,
@@ -4597,7 +4597,7 @@ class ListGremlinQueriesOutput {
     return ListGremlinQueriesOutput(
       acceptedQueryCount: json['acceptedQueryCount'] as int?,
       queries: (json['queries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GremlinQueryStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       runningQueryCount: json['runningQueryCount'] as int?,
@@ -4655,10 +4655,7 @@ class ListMLDataProcessingJobsOutput {
 
   factory ListMLDataProcessingJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListMLDataProcessingJobsOutput(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4680,10 +4677,7 @@ class ListMLEndpointsOutput {
 
   factory ListMLEndpointsOutput.fromJson(Map<String, dynamic> json) {
     return ListMLEndpointsOutput(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4705,10 +4699,7 @@ class ListMLModelTrainingJobsOutput {
 
   factory ListMLModelTrainingJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListMLModelTrainingJobsOutput(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4730,10 +4721,7 @@ class ListMLModelTransformJobsOutput {
 
   factory ListMLModelTransformJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListMLModelTransformJobsOutput(
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4766,7 +4754,7 @@ class ListOpenCypherQueriesOutput {
     return ListOpenCypherQueriesOutput(
       acceptedQueryCount: json['acceptedQueryCount'] as int?,
       queries: (json['queries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GremlinQueryStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       runningQueryCount: json['runningQueryCount'] as int?,
@@ -4796,10 +4784,8 @@ class LoaderIdResult {
 
   factory LoaderIdResult.fromJson(Map<String, dynamic> json) {
     return LoaderIdResult(
-      loadIds: (json['loadIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      loadIds:
+          (json['loadIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5002,11 +4988,11 @@ class NodeStructure {
     return NodeStructure(
       count: json['count'] as int?,
       distinctOutgoingEdgeLabels: (json['distinctOutgoingEdgeLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nodeProperties: (json['nodeProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5263,29 +5249,29 @@ class PropertygraphSummary {
   factory PropertygraphSummary.fromJson(Map<String, dynamic> json) {
     return PropertygraphSummary(
       edgeLabels: (json['edgeLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       edgeProperties: (json['edgeProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
           .toList(),
       edgeStructures: (json['edgeStructures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EdgeStructure.fromJson(e as Map<String, dynamic>))
           .toList(),
       nodeLabels: (json['nodeLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nodeProperties: (json['nodeProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
           .toList(),
       nodeStructures: (json['nodeStructures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NodeStructure.fromJson(e as Map<String, dynamic>))
           .toList(),
       numEdgeLabels: json['numEdgeLabels'] as int?,
@@ -5486,21 +5472,19 @@ class RDFGraphSummary {
 
   factory RDFGraphSummary.fromJson(Map<String, dynamic> json) {
     return RDFGraphSummary(
-      classes: (json['classes'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      classes:
+          (json['classes'] as List?)?.nonNulls.map((e) => e as String).toList(),
       numClasses: json['numClasses'] as int?,
       numDistinctPredicates: json['numDistinctPredicates'] as int?,
       numDistinctSubjects: json['numDistinctSubjects'] as int?,
       numQuads: json['numQuads'] as int?,
       predicates: (json['predicates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
           .toList(),
       subjectStructures: (json['subjectStructures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubjectStructure.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6013,7 +5997,7 @@ class SubjectStructure {
     return SubjectStructure(
       count: json['count'] as int?,
       predicates: (json['predicates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

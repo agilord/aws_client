@@ -1655,12 +1655,12 @@ class BatchGetIncidentFindingsOutput {
   factory BatchGetIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetIncidentFindingsOutput(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchGetIncidentFindingsError.fromJson(e as Map<String, dynamic>))
           .toList(),
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1694,7 +1694,7 @@ class ChatChannel {
   factory ChatChannel.fromJson(Map<String, dynamic> json) {
     return ChatChannel(
       chatbotSns: (json['chatbotSns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       empty: json['empty'] != null
@@ -2097,7 +2097,7 @@ class EventSummary {
           nonNullableTimeStampFromJson(json['eventUpdatedTime'] as Object),
       incidentRecordArn: json['incidentRecordArn'] as String,
       eventReferences: (json['eventReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2328,7 +2328,7 @@ class GetResourcePoliciesOutput {
   factory GetResourcePoliciesOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcePoliciesOutput(
       resourcePolicies: (json['resourcePolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourcePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2390,7 +2390,7 @@ class GetResponsePlanOutput {
           json['incidentTemplate'] as Map<String, dynamic>),
       name: json['name'] as String,
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       chatChannel: json['chatChannel'] != null
@@ -2398,11 +2398,11 @@ class GetResponsePlanOutput {
           : null,
       displayName: json['displayName'] as String?,
       engagements: (json['engagements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       integrations: (json['integrations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Integration.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2552,14 +2552,14 @@ class IncidentRecord {
       status: IncidentRecordStatus.fromString((json['status'] as String)),
       title: json['title'] as String,
       automationExecutions: (json['automationExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutomationExecution.fromJson(e as Map<String, dynamic>))
           .toList(),
       chatChannel: json['chatChannel'] != null
           ? ChatChannel.fromJson(json['chatChannel'] as Map<String, dynamic>)
           : null,
       notificationTargets: (json['notificationTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2812,7 +2812,7 @@ class IncidentTemplate {
       incidentTags: (json['incidentTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       notificationTargets: (json['notificationTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2984,7 +2984,7 @@ class ListIncidentFindingsOutput {
   factory ListIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
     return ListIncidentFindingsOutput(
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3017,7 +3017,7 @@ class ListIncidentRecordsOutput {
   factory ListIncidentRecordsOutput.fromJson(Map<String, dynamic> json) {
     return ListIncidentRecordsOutput(
       incidentRecordSummaries: (json['incidentRecordSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IncidentRecordSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3050,7 +3050,7 @@ class ListRelatedItemsOutput {
   factory ListRelatedItemsOutput.fromJson(Map<String, dynamic> json) {
     return ListRelatedItemsOutput(
       relatedItems: (json['relatedItems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RelatedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3083,7 +3083,7 @@ class ListReplicationSetsOutput {
   factory ListReplicationSetsOutput.fromJson(Map<String, dynamic> json) {
     return ListReplicationSetsOutput(
       replicationSetArns: (json['replicationSetArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3116,7 +3116,7 @@ class ListResponsePlansOutput {
   factory ListResponsePlansOutput.fromJson(Map<String, dynamic> json) {
     return ListResponsePlansOutput(
       responsePlanSummaries: (json['responsePlanSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResponsePlanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3172,7 +3172,7 @@ class ListTimelineEventsOutput {
   factory ListTimelineEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListTimelineEventsOutput(
       eventSummaries: (json['eventSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EventSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3716,8 +3716,7 @@ class SsmAutomation {
           ?.map((k, e) => MapEntry(
               k, DynamicSsmParameterValue.fromJson(e as Map<String, dynamic>))),
       parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       targetAccount:
           (json['targetAccount'] as String?)?.let(SsmTargetAccount.fromString),
     );
@@ -3835,7 +3834,7 @@ class TimelineEvent {
           nonNullableTimeStampFromJson(json['eventUpdatedTime'] as Object),
       incidentRecordArn: json['incidentRecordArn'] as String,
       eventReferences: (json['eventReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

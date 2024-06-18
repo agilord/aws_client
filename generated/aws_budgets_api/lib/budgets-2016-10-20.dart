@@ -1385,7 +1385,7 @@ class Action {
           NotificationType.fromString((json['NotificationType'] as String)),
       status: ActionStatus.fromString((json['Status'] as String)),
       subscribers: (json['Subscribers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1766,8 +1766,7 @@ class Budget {
               json['CalculatedSpend'] as Map<String, dynamic>)
           : null,
       costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       costTypes: json['CostTypes'] != null
           ? CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>)
           : null,
@@ -1825,7 +1824,7 @@ class BudgetNotificationsForAccount {
     return BudgetNotificationsForAccount(
       budgetName: json['BudgetName'] as String?,
       notifications: (json['Notifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Notification.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1865,13 +1864,12 @@ class BudgetPerformanceHistory {
       budgetType: (json['BudgetType'] as String?)?.let(BudgetType.fromString),
       budgetedAndActualAmountsList:
           (json['BudgetedAndActualAmountsList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   BudgetedAndActualAmounts.fromJson(e as Map<String, dynamic>))
               .toList(),
       costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       costTypes: json['CostTypes'] != null
           ? CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>)
           : null,
@@ -2279,7 +2277,7 @@ class DescribeBudgetActionHistoriesResponse {
       Map<String, dynamic> json) {
     return DescribeBudgetActionHistoriesResponse(
       actionHistories: (json['ActionHistories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2323,7 +2321,7 @@ class DescribeBudgetActionsForAccountResponse {
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForAccountResponse(
       actions: (json['Actions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2345,7 +2343,7 @@ class DescribeBudgetActionsForBudgetResponse {
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForBudgetResponse(
       actions: (json['Actions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2368,7 +2366,7 @@ class DescribeBudgetNotificationsForAccountResponse {
     return DescribeBudgetNotificationsForAccountResponse(
       budgetNotificationsForAccount: (json['BudgetNotificationsForAccount']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BudgetNotificationsForAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2441,7 +2439,7 @@ class DescribeBudgetsResponse {
   factory DescribeBudgetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBudgetsResponse(
       budgets: (json['Budgets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Budget.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2468,7 +2466,7 @@ class DescribeNotificationsForBudgetResponse {
     return DescribeNotificationsForBudgetResponse(
       nextToken: json['NextToken'] as String?,
       notifications: (json['Notifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Notification.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2494,7 +2492,7 @@ class DescribeSubscribersForNotificationResponse {
     return DescribeSubscribersForNotificationResponse(
       nextToken: json['NextToken'] as String?,
       subscribers: (json['Subscribers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2654,18 +2652,12 @@ class IamActionDefinition {
   factory IamActionDefinition.fromJson(Map<String, dynamic> json) {
     return IamActionDefinition(
       policyArn: json['PolicyArn'] as String,
-      groups: (json['Groups'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      roles: (json['Roles'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      users: (json['Users'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      groups:
+          (json['Groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      roles:
+          (json['Roles'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      users:
+          (json['Users'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2694,7 +2686,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2896,10 +2888,8 @@ class ScpActionDefinition {
   factory ScpActionDefinition.fromJson(Map<String, dynamic> json) {
     return ScpActionDefinition(
       policyId: json['PolicyId'] as String,
-      targetIds: (json['TargetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targetIds:
+          (json['TargetIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2990,7 +2980,7 @@ class SsmActionDefinition {
       actionSubType:
           ActionSubType.fromString((json['ActionSubType'] as String)),
       instanceIds: (json['InstanceIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       region: json['Region'] as String,

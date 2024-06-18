@@ -2373,7 +2373,7 @@ class BatchAssociateScramSecretResponse {
     return BatchAssociateScramSecretResponse(
       clusterArn: json['clusterArn'] as String?,
       unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2427,11 +2427,11 @@ class BrokerCountUpdateInfo {
   factory BrokerCountUpdateInfo.fromJson(Map<String, dynamic> json) {
     return BrokerCountUpdateInfo(
       createdBrokerIds: (json['createdBrokerIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       deletedBrokerIds: (json['deletedBrokerIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
     );
@@ -2595,7 +2595,7 @@ class BrokerNodeGroupInfo {
   factory BrokerNodeGroupInfo.fromJson(Map<String, dynamic> json) {
     return BrokerNodeGroupInfo(
       clientSubnets: (json['clientSubnets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       instanceType: json['instanceType'] as String,
@@ -2606,16 +2606,14 @@ class BrokerNodeGroupInfo {
               json['connectivityInfo'] as Map<String, dynamic>)
           : null,
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       storageInfo: json['storageInfo'] != null
           ? StorageInfo.fromJson(json['storageInfo'] as Map<String, dynamic>)
           : null,
-      zoneIds: (json['zoneIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      zoneIds:
+          (json['zoneIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2695,7 +2693,7 @@ class BrokerNodeInfo {
               json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
           : null,
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3270,7 +3268,7 @@ class ClusterOperationInfo {
       operationArn: json['operationArn'] as String?,
       operationState: json['operationState'] as String?,
       operationSteps: (json['operationSteps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterOperationStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       operationType: json['operationType'] as String?,
@@ -3616,12 +3614,10 @@ class VpcConfig {
 
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3689,7 +3685,7 @@ class Serverless {
   factory Serverless.fromJson(Map<String, dynamic> json) {
     return Serverless(
       vpcConfigs: (json['vpcConfigs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       clientAuthentication: json['clientAuthentication'] != null
@@ -3827,7 +3823,7 @@ class CompatibleKafkaVersion {
     return CompatibleKafkaVersion(
       sourceVersion: json['sourceVersion'] as String?,
       targetVersions: (json['targetVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3893,7 +3889,7 @@ class Configuration {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       description: json['description'] as String,
       kafkaVersions: (json['kafkaVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       latestRevision: ConfigurationRevision.fromJson(
@@ -4061,11 +4057,11 @@ class ConsumerGroupReplication {
   factory ConsumerGroupReplication.fromJson(Map<String, dynamic> json) {
     return ConsumerGroupReplication(
       consumerGroupsToReplicate: (json['consumerGroupsToReplicate'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       consumerGroupsToExclude: (json['consumerGroupsToExclude'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       detectAndCopyNewConsumerGroups:
@@ -4334,12 +4330,12 @@ class CreateVpcConnectionResponse {
     return CreateVpcConnectionResponse(
       authentication: json['authentication'] as String?,
       clientSubnets: (json['clientSubnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: timeStampFromJson(json['creationTime']),
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
@@ -4462,7 +4458,7 @@ class ClusterOperationV2Provisioned {
   factory ClusterOperationV2Provisioned.fromJson(Map<String, dynamic> json) {
     return ClusterOperationV2Provisioned(
       operationSteps: (json['operationSteps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterOperationStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceClusterInfo: json['sourceClusterInfo'] != null
@@ -4574,7 +4570,7 @@ class ControllerNodeInfo {
   factory ControllerNodeInfo.fromJson(Map<String, dynamic> json) {
     return ControllerNodeInfo(
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4835,7 +4831,7 @@ class DescribeConfigurationResponse {
       creationTime: timeStampFromJson(json['creationTime']),
       description: json['description'] as String?,
       kafkaVersions: (json['kafkaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       latestRevision: json['latestRevision'] != null
@@ -4963,12 +4959,12 @@ class DescribeReplicatorResponse {
       currentVersion: json['currentVersion'] as String?,
       isReplicatorReference: json['isReplicatorReference'] as bool?,
       kafkaClusters: (json['kafkaClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KafkaClusterDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       replicationInfoList: (json['replicationInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicationInfoDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5053,14 +5049,12 @@ class DescribeVpcConnectionResponse {
       authentication: json['authentication'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
-      subnets: (json['subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targetClusterArn: json['targetClusterArn'] as String?,
@@ -5091,7 +5085,7 @@ class BatchDisassociateScramSecretResponse {
     return BatchDisassociateScramSecretResponse(
       clusterArn: json['clusterArn'] as String?,
       unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5457,7 +5451,7 @@ class GetCompatibleKafkaVersionsResponse {
       Map<String, dynamic> json) {
     return GetCompatibleKafkaVersionsResponse(
       compatibleKafkaVersions: (json['compatibleKafkaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CompatibleKafkaVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5530,12 +5524,10 @@ class KafkaClusterClientVpcConfig {
 
   factory KafkaClusterClientVpcConfig.fromJson(Map<String, dynamic> json) {
     return KafkaClusterClientVpcConfig(
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5662,7 +5654,7 @@ class ListClusterOperationsResponse {
   factory ListClusterOperationsResponse.fromJson(Map<String, dynamic> json) {
     return ListClusterOperationsResponse(
       clusterOperationInfoList: (json['clusterOperationInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterOperationInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5689,7 +5681,7 @@ class ListClusterOperationsV2Response {
   factory ListClusterOperationsV2Response.fromJson(Map<String, dynamic> json) {
     return ListClusterOperationsV2Response(
       clusterOperationInfoList: (json['clusterOperationInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ClusterOperationV2Summary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5719,7 +5711,7 @@ class ListClustersResponse {
   factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
     return ListClustersResponse(
       clusterInfoList: (json['clusterInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5748,7 +5740,7 @@ class ListClustersV2Response {
   factory ListClustersV2Response.fromJson(Map<String, dynamic> json) {
     return ListClustersV2Response(
       clusterInfoList: (json['clusterInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5777,7 +5769,7 @@ class ListConfigurationRevisionsResponse {
     return ListConfigurationRevisionsResponse(
       nextToken: json['nextToken'] as String?,
       revisions: (json['revisions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5806,7 +5798,7 @@ class ListConfigurationsResponse {
   factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationsResponse(
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5826,7 +5818,7 @@ class ListKafkaVersionsResponse {
   factory ListKafkaVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListKafkaVersionsResponse(
       kafkaVersions: (json['kafkaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KafkaVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5856,7 +5848,7 @@ class ListNodesResponse {
     return ListNodesResponse(
       nextToken: json['nextToken'] as String?,
       nodeInfoList: (json['nodeInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NodeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5881,7 +5873,7 @@ class ListReplicatorsResponse {
     return ListReplicatorsResponse(
       nextToken: json['nextToken'] as String?,
       replicators: (json['replicators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicatorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5908,7 +5900,7 @@ class ListScramSecretsResponse {
     return ListScramSecretsResponse(
       nextToken: json['nextToken'] as String?,
       secretArnList: (json['secretArnList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5955,7 +5947,7 @@ class ListClientVpcConnectionsResponse {
   factory ListClientVpcConnectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListClientVpcConnectionsResponse(
       clientVpcConnections: (json['clientVpcConnections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClientVpcConnection.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5986,7 +5978,7 @@ class ListVpcConnectionsResponse {
     return ListVpcConnectionsResponse(
       nextToken: json['nextToken'] as String?,
       vpcConnections: (json['vpcConnections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcConnection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6118,7 +6110,7 @@ class MutableClusterInfo {
               json['brokerCountUpdateInfo'] as Map<String, dynamic>)
           : null,
       brokerEBSVolumeInfo: (json['brokerEBSVolumeInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BrokerEBSVolumeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       clientAuthentication: json['clientAuthentication'] != null
@@ -7047,11 +7039,11 @@ class ReplicatorSummary {
       currentVersion: json['currentVersion'] as String?,
       isReplicatorReference: json['isReplicatorReference'] as bool?,
       kafkaClustersSummary: (json['kafkaClustersSummary'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KafkaClusterSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       replicationInfoSummaryList: (json['replicationInfoSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ReplicationInfoSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7168,7 +7160,7 @@ class Tls {
     return Tls(
       certificateAuthorityArnList:
           (json['certificateAuthorityArnList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       enabled: json['enabled'] as bool?,
@@ -7249,7 +7241,7 @@ class TopicReplication {
   factory TopicReplication.fromJson(Map<String, dynamic> json) {
     return TopicReplication(
       topicsToReplicate: (json['topicsToReplicate'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       copyAccessControlListsForTopics:
@@ -7261,7 +7253,7 @@ class TopicReplication {
               json['startingPosition'] as Map<String, dynamic>)
           : null,
       topicsToExclude: (json['topicsToExclude'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7879,7 +7871,7 @@ class ZookeeperNodeInfo {
       attachedENIId: json['attachedENIId'] as String?,
       clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       zookeeperId: json['zookeeperId'] as double?,

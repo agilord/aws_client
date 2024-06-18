@@ -2075,7 +2075,7 @@ class ListAccessorsOutput {
   factory ListAccessorsOutput.fromJson(Map<String, dynamic> json) {
     return ListAccessorsOutput(
       accessors: (json['Accessors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2107,7 +2107,7 @@ class ListInvitationsOutput {
   factory ListInvitationsOutput.fromJson(Map<String, dynamic> json) {
     return ListInvitationsOutput(
       invitations: (json['Invitations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Invitation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2140,7 +2140,7 @@ class ListMembersOutput {
   factory ListMembersOutput.fromJson(Map<String, dynamic> json) {
     return ListMembersOutput(
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2173,7 +2173,7 @@ class ListNetworksOutput {
   factory ListNetworksOutput.fromJson(Map<String, dynamic> json) {
     return ListNetworksOutput(
       networks: (json['Networks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2207,7 +2207,7 @@ class ListNodesOutput {
     return ListNodesOutput(
       nextToken: json['NextToken'] as String?,
       nodes: (json['Nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NodeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2239,7 +2239,7 @@ class ListProposalVotesOutput {
     return ListProposalVotesOutput(
       nextToken: json['NextToken'] as String?,
       proposalVotes: (json['ProposalVotes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoteSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2271,7 +2271,7 @@ class ListProposalsOutput {
     return ListProposalsOutput(
       nextToken: json['NextToken'] as String?,
       proposals: (json['Proposals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProposalSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3968,11 +3968,11 @@ class ProposalActions {
   factory ProposalActions.fromJson(Map<String, dynamic> json) {
     return ProposalActions(
       invitations: (json['Invitations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InviteAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       removals: (json['Removals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RemoveAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

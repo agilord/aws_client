@@ -938,7 +938,7 @@ class BatchCreateTableRowsResult {
           .map((k, e) => MapEntry(k, e as String)),
       workbookCursor: json['workbookCursor'] as int,
       failedBatchItems: (json['failedBatchItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -974,7 +974,7 @@ class BatchDeleteTableRowsResult {
     return BatchDeleteTableRowsResult(
       workbookCursor: json['workbookCursor'] as int,
       failedBatchItems: (json['failedBatchItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1010,7 +1010,7 @@ class BatchUpdateTableRowsResult {
     return BatchUpdateTableRowsResult(
       workbookCursor: json['workbookCursor'] as int,
       failedBatchItems: (json['failedBatchItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1054,7 +1054,7 @@ class BatchUpsertTableRowsResult {
           MapEntry(k, UpsertRowsResult.fromJson(e as Map<String, dynamic>))),
       workbookCursor: json['workbookCursor'] as int,
       failedBatchItems: (json['failedBatchItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1173,7 +1173,7 @@ class Cell {
       format: (json['format'] as String?)?.let(Format.fromString),
       formattedValue: json['formattedValue'] as String?,
       formattedValues: (json['formattedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       formula: json['formula'] as String?,
@@ -1799,7 +1799,7 @@ class ListTableColumnsResult {
   factory ListTableColumnsResult.fromJson(Map<String, dynamic> json) {
     return ListTableColumnsResult(
       tableColumns: (json['tableColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TableColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1851,18 +1851,16 @@ class ListTableRowsResult {
 
   factory ListTableRowsResult.fromJson(Map<String, dynamic> json) {
     return ListTableRowsResult(
-      columnIds: (json['columnIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      columnIds:
+          (json['columnIds'] as List).nonNulls.map((e) => e as String).toList(),
       rows: (json['rows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
           .toList(),
       workbookCursor: json['workbookCursor'] as int,
       nextToken: json['nextToken'] as String?,
       rowIdsNotFound: (json['rowIdsNotFound'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1907,7 +1905,7 @@ class ListTablesResult {
   factory ListTablesResult.fromJson(Map<String, dynamic> json) {
     return ListTablesResult(
       tables: (json['tables'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Table.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1976,12 +1974,10 @@ class QueryTableRowsResult {
 
   factory QueryTableRowsResult.fromJson(Map<String, dynamic> json) {
     return QueryTableRowsResult(
-      columnIds: (json['columnIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      columnIds:
+          (json['columnIds'] as List).nonNulls.map((e) => e as String).toList(),
       rows: (json['rows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
           .toList(),
       workbookCursor: json['workbookCursor'] as int,
@@ -2019,7 +2015,7 @@ class ResultRow {
   factory ResultRow.fromJson(Map<String, dynamic> json) {
     return ResultRow(
       dataItems: (json['dataItems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       rowId: json['rowId'] as String?,
@@ -2067,11 +2063,11 @@ class ResultSet {
   factory ResultSet.fromJson(Map<String, dynamic> json) {
     return ResultSet(
       headers: (json['headers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       rows: (json['rows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultRow.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2292,7 +2288,7 @@ class TableRow {
   factory TableRow.fromJson(Map<String, dynamic> json) {
     return TableRow(
       cells: (json['cells'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Cell.fromJson(e as Map<String, dynamic>))
           .toList(),
       rowId: json['rowId'] as String,
@@ -2438,10 +2434,8 @@ class UpsertRowsResult {
 
   factory UpsertRowsResult.fromJson(Map<String, dynamic> json) {
     return UpsertRowsResult(
-      rowIds: (json['rowIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      rowIds:
+          (json['rowIds'] as List).nonNulls.map((e) => e as String).toList(),
       upsertAction: UpsertAction.fromString((json['upsertAction'] as String)),
     );
   }

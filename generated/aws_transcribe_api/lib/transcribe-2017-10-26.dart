@@ -3705,7 +3705,7 @@ class CallAnalyticsJob {
       callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
           ?.let(CallAnalyticsJobStatus.fromString),
       channelDefinitions: (json['ChannelDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       completionTime: timeStampFromJson(json['CompletionTime']),
@@ -3750,7 +3750,7 @@ class CallAnalyticsJobDetails {
   factory CallAnalyticsJobDetails.fromJson(Map<String, dynamic> json) {
     return CallAnalyticsJobDetails(
       skipped: (json['Skipped'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CallAnalyticsSkippedFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3871,7 +3871,7 @@ class CallAnalyticsJobSettings {
               LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
       languageModelName: json['LanguageModelName'] as String?,
       languageOptions: (json['LanguageOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
       summarization: json['Summarization'] != null
@@ -4112,7 +4112,7 @@ class CategoryProperties {
       inputType: (json['InputType'] as String?)?.let(InputType.fromString),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4198,7 +4198,7 @@ class ContentRedaction {
       redactionType:
           RedactionType.fromString((json['RedactionType'] as String)),
       piiEntityTypes: (json['PiiEntityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PiiEntityType.fromString((e as String)))
           .toList(),
     );
@@ -5292,7 +5292,7 @@ class ListCallAnalyticsCategoriesResponse {
       Map<String, dynamic> json) {
     return ListCallAnalyticsCategoriesResponse(
       categories: (json['Categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CategoryProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5324,7 +5324,7 @@ class ListCallAnalyticsJobsResponse {
   factory ListCallAnalyticsJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListCallAnalyticsJobsResponse(
       callAnalyticsJobSummaries: (json['CallAnalyticsJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CallAnalyticsJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5355,7 +5355,7 @@ class ListLanguageModelsResponse {
   factory ListLanguageModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListLanguageModelsResponse(
       models: (json['Models'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5387,7 +5387,7 @@ class ListMedicalScribeJobsResponse {
   factory ListMedicalScribeJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMedicalScribeJobsResponse(
       medicalScribeJobSummaries: (json['MedicalScribeJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MedicalScribeJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5424,7 +5424,7 @@ class ListMedicalTranscriptionJobsResponse {
     return ListMedicalTranscriptionJobsResponse(
       medicalTranscriptionJobSummaries:
           (json['MedicalTranscriptionJobSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => MedicalTranscriptionJobSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5463,7 +5463,7 @@ class ListMedicalVocabulariesResponse {
       nextToken: json['NextToken'] as String?,
       status: (json['Status'] as String?)?.let(VocabularyState.fromString),
       vocabularies: (json['Vocabularies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5487,7 +5487,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       resourceArn: json['ResourceArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5521,7 +5521,7 @@ class ListTranscriptionJobsResponse {
       status:
           (json['Status'] as String?)?.let(TranscriptionJobStatus.fromString),
       transcriptionJobSummaries: (json['TranscriptionJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TranscriptionJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5557,7 +5557,7 @@ class ListVocabulariesResponse {
       nextToken: json['NextToken'] as String?,
       status: (json['Status'] as String?)?.let(VocabularyState.fromString),
       vocabularies: (json['Vocabularies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5585,7 +5585,7 @@ class ListVocabularyFiltersResponse {
     return ListVocabularyFiltersResponse(
       nextToken: json['NextToken'] as String?,
       vocabularyFilters: (json['VocabularyFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VocabularyFilterInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5854,7 +5854,7 @@ class MedicalScribeJob {
   factory MedicalScribeJob.fromJson(Map<String, dynamic> json) {
     return MedicalScribeJob(
       channelDefinitions: (json['ChannelDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MedicalScribeChannelDefinition.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5880,7 +5880,7 @@ class MedicalScribeJob {
           : null,
       startTime: timeStampFromJson(json['StartTime']),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6335,7 +6335,7 @@ class MedicalTranscriptionJob {
       specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       transcript: json['Transcript'] != null
@@ -6982,7 +6982,7 @@ class SentimentFilter {
   factory SentimentFilter.fromJson(Map<String, dynamic> json) {
     return SentimentFilter(
       sentiments: (json['Sentiments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SentimentValue.fromString((e as String)))
           .toList(),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null
@@ -7356,12 +7356,12 @@ class SubtitlesOutput {
   factory SubtitlesOutput.fromJson(Map<String, dynamic> json) {
     return SubtitlesOutput(
       formats: (json['Formats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubtitleFormat.fromString((e as String)))
           .toList(),
       outputStartIndex: json['OutputStartIndex'] as int?,
       subtitleFileUris: (json['SubtitleFileUris'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7484,7 +7484,7 @@ class ToxicityDetectionSettings {
   factory ToxicityDetectionSettings.fromJson(Map<String, dynamic> json) {
     return ToxicityDetectionSettings(
       toxicityCategories: (json['ToxicityCategories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ToxicityCategory.fromString((e as String)))
           .toList(),
     );
@@ -7618,10 +7618,8 @@ class TranscriptFilter {
 
   factory TranscriptFilter.fromJson(Map<String, dynamic> json) {
     return TranscriptFilter(
-      targets: (json['Targets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targets:
+          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
       transcriptFilterType: TranscriptFilterType.fromString(
           (json['TranscriptFilterType'] as String)),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null
@@ -7894,14 +7892,14 @@ class TranscriptionJob {
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       languageCodes: (json['LanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageCodeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(LanguageCode.fromString(k),
               LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
       languageOptions: (json['LanguageOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
       media: json['Media'] != null
@@ -7922,11 +7920,11 @@ class TranscriptionJob {
           ? SubtitlesOutput.fromJson(json['Subtitles'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       toxicityDetection: (json['ToxicityDetection'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ToxicityDetectionSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8080,7 +8078,7 @@ class TranscriptionJobSummary {
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       languageCodes: (json['LanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LanguageCodeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelSettings: json['ModelSettings'] != null
@@ -8091,7 +8089,7 @@ class TranscriptionJobSummary {
           ?.let(OutputLocationType.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       toxicityDetection: (json['ToxicityDetection'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ToxicityDetectionSettings.fromJson(e as Map<String, dynamic>))
           .toList(),

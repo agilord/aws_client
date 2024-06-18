@@ -1144,10 +1144,8 @@ class BandwidthRateLimitInterval {
 
   factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
     return BandwidthRateLimitInterval(
-      daysOfWeek: (json['DaysOfWeek'] as List)
-          .whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      daysOfWeek:
+          (json['DaysOfWeek'] as List).nonNulls.map((e) => e as int).toList(),
       endHourOfDay: json['EndHourOfDay'] as int,
       endMinuteOfHour: json['EndMinuteOfHour'] as int,
       startHourOfDay: json['StartHourOfDay'] as int,
@@ -1447,7 +1445,7 @@ class GetBandwidthRateLimitScheduleOutput {
     return GetBandwidthRateLimitScheduleOutput(
       bandwidthRateLimitIntervals: (json['BandwidthRateLimitIntervals']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BandwidthRateLimitInterval.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1538,7 +1536,7 @@ class GetHypervisorPropertyMappingsOutput {
       hypervisorArn: json['HypervisorArn'] as String?,
       iamRoleArn: json['IamRoleArn'] as String?,
       vmwareToAwsTagMappings: (json['VmwareToAwsTagMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VmwareToAwsTagMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1791,7 +1789,7 @@ class ListGatewaysOutput {
   factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
     return ListGatewaysOutput(
       gateways: (json['Gateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Gateway.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1827,7 +1825,7 @@ class ListHypervisorsOutput {
   factory ListHypervisorsOutput.fromJson(Map<String, dynamic> json) {
     return ListHypervisorsOutput(
       hypervisors: (json['Hypervisors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Hypervisor.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1860,7 +1858,7 @@ class ListTagsForResourceOutput {
     return ListTagsForResourceOutput(
       resourceArn: json['ResourceArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1896,7 +1894,7 @@ class ListVirtualMachinesOutput {
     return ListVirtualMachinesOutput(
       nextToken: json['NextToken'] as String?,
       virtualMachines: (json['VirtualMachines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VirtualMachine.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2341,7 +2339,7 @@ class VirtualMachineDetails {
       path: json['Path'] as String?,
       resourceArn: json['ResourceArn'] as String?,
       vmwareTags: (json['VmwareTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VmwareTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

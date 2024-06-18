@@ -587,7 +587,7 @@ class DescribeSavingsPlanRatesResponse {
       nextToken: json['nextToken'] as String?,
       savingsPlanId: json['savingsPlanId'] as String?,
       searchResults: (json['searchResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlanRate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -623,7 +623,7 @@ class DescribeSavingsPlansOfferingRatesResponse {
     return DescribeSavingsPlansOfferingRatesResponse(
       nextToken: json['nextToken'] as String?,
       searchResults: (json['searchResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SavingsPlanOfferingRate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -658,7 +658,7 @@ class DescribeSavingsPlansOfferingsResponse {
     return DescribeSavingsPlansOfferingsResponse(
       nextToken: json['nextToken'] as String?,
       searchResults: (json['searchResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlanOffering.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -691,7 +691,7 @@ class DescribeSavingsPlansResponse {
     return DescribeSavingsPlansResponse(
       nextToken: json['nextToken'] as String?,
       savingsPlans: (json['savingsPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlan.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -905,7 +905,7 @@ class SavingsPlan {
       paymentOption: (json['paymentOption'] as String?)
           ?.let(SavingsPlanPaymentOption.fromString),
       productTypes: (json['productTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlanProductType.fromString((e as String)))
           .toList(),
       recurringPaymentAmount: json['recurringPaymentAmount'] as String?,
@@ -1056,11 +1056,11 @@ class SavingsPlanOffering {
           ?.let(SavingsPlanPaymentOption.fromString),
       planType: (json['planType'] as String?)?.let(SavingsPlanType.fromString),
       productTypes: (json['productTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlanProductType.fromString((e as String)))
           .toList(),
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SavingsPlanOfferingProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1226,7 +1226,7 @@ class SavingsPlanOfferingRate {
       productType: (json['productType'] as String?)
           ?.let(SavingsPlanProductType.fromString),
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SavingsPlanOfferingRateProperty.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1396,7 +1396,7 @@ class SavingsPlanRate {
       productType: (json['productType'] as String?)
           ?.let(SavingsPlanProductType.fromString),
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SavingsPlanRateProperty.fromJson(e as Map<String, dynamic>))
           .toList(),

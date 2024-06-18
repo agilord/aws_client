@@ -1314,11 +1314,11 @@ class DescribeCompanyNetworkConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeCompanyNetworkConfigurationResponse(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -1759,7 +1759,7 @@ class ListDevicesResponse {
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1783,7 +1783,7 @@ class ListDomainsResponse {
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
       domains: (json['Domains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1807,7 +1807,7 @@ class ListFleetsResponse {
   factory ListFleetsResponse.fromJson(Map<String, dynamic> json) {
     return ListFleetsResponse(
       fleetSummaryList: (json['FleetSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1851,7 +1851,7 @@ class ListWebsiteAuthorizationProvidersResponse {
       nextToken: json['NextToken'] as String?,
       websiteAuthorizationProviders:
           (json['WebsiteAuthorizationProviders'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => WebsiteAuthorizationProviderSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1878,7 +1878,7 @@ class ListWebsiteCertificateAuthoritiesResponse {
       nextToken: json['NextToken'] as String?,
       websiteCertificateAuthorities:
           (json['WebsiteCertificateAuthorities'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => WebsiteCaSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
     );

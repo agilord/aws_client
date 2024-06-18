@@ -835,7 +835,7 @@ class ListChangedBlocksResponse {
     return ListChangedBlocksResponse(
       blockSize: json['BlockSize'] as int?,
       changedBlocks: (json['ChangedBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangedBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
       expiryTime: timeStampFromJson(json['ExpiryTime']),
@@ -874,7 +874,7 @@ class ListSnapshotBlocksResponse {
     return ListSnapshotBlocksResponse(
       blockSize: json['BlockSize'] as int?,
       blocks: (json['Blocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       expiryTime: timeStampFromJson(json['ExpiryTime']),
@@ -977,7 +977,7 @@ class StartSnapshotResponse {
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.let(Status.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeSize: json['VolumeSize'] as int?,

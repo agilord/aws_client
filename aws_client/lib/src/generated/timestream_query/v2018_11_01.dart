@@ -961,7 +961,7 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) {
     return Datum(
       arrayValue: (json['ArrayValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
       nullValue: json['NullValue'] as bool?,
@@ -970,7 +970,7 @@ class Datum {
           : null,
       scalarValue: json['ScalarValue'] as String?,
       timeSeriesValue: (json['TimeSeriesValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TimeSeriesDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1038,7 +1038,7 @@ class DescribeEndpointsResponse {
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['Endpoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1281,7 +1281,7 @@ class ListScheduledQueriesResponse {
   factory ListScheduledQueriesResponse.fromJson(Map<String, dynamic> json) {
     return ListScheduledQueriesResponse(
       scheduledQueries: (json['ScheduledQueries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScheduledQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1314,7 +1314,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1387,7 +1387,7 @@ class MixedMeasureMapping {
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1477,7 +1477,7 @@ class MultiMeasureMappings {
     return MultiMeasureMappings(
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1569,11 +1569,11 @@ class PrepareQueryResponse {
   factory PrepareQueryResponse.fromJson(Map<String, dynamic> json) {
     return PrepareQueryResponse(
       columns: (json['Columns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SelectColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
       parameters: (json['Parameters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ParameterMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       queryString: json['QueryString'] as String,
@@ -1636,12 +1636,12 @@ class QueryResponse {
   factory QueryResponse.fromJson(Map<String, dynamic> json) {
     return QueryResponse(
       columnInfo: (json['ColumnInfo'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       queryId: json['QueryId'] as String,
       rows: (json['Rows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1725,7 +1725,7 @@ class Row {
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
       data: (json['Data'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2067,7 +2067,7 @@ class ScheduledQueryDescription {
       nextInvocationTime: timeStampFromJson(json['NextInvocationTime']),
       previousInvocationTime: timeStampFromJson(json['PreviousInvocationTime']),
       recentlyFailedRuns: (json['RecentlyFailedRuns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ScheduledQueryRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2472,14 +2472,14 @@ class TimestreamConfiguration {
     return TimestreamConfiguration(
       databaseName: json['DatabaseName'] as String,
       dimensionMappings: (json['DimensionMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       tableName: json['TableName'] as String,
       timeColumn: json['TimeColumn'] as String,
       measureNameColumn: json['MeasureNameColumn'] as String?,
       mixedMeasureMappings: (json['MixedMeasureMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MixedMeasureMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       multiMeasureMappings: json['MultiMeasureMappings'] != null
@@ -2574,7 +2574,7 @@ class Type {
           ? ColumnInfo.fromJson(json['ArrayColumnInfo'] as Map<String, dynamic>)
           : null,
       rowColumnInfo: (json['RowColumnInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       scalarType: (json['ScalarType'] as String?)?.let(ScalarType.fromString),

@@ -304,11 +304,11 @@ class GetPendingJobExecutionsResponse {
   factory GetPendingJobExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return GetPendingJobExecutionsResponse(
       inProgressJobs: (json['inProgressJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       queuedJobs: (json['queuedJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

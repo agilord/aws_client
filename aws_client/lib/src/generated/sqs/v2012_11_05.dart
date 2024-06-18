@@ -2941,11 +2941,11 @@ class ChangeMessageVisibilityBatchResult {
       Map<String, dynamic> json) {
     return ChangeMessageVisibilityBatchResult(
       failed: (json['Failed'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['Successful'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ChangeMessageVisibilityBatchResultEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3059,11 +3059,11 @@ class DeleteMessageBatchResult {
   factory DeleteMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return DeleteMessageBatchResult(
       failed: (json['Failed'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['Successful'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               DeleteMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3172,10 +3172,8 @@ class ListDeadLetterSourceQueuesResult {
 
   factory ListDeadLetterSourceQueuesResult.fromJson(Map<String, dynamic> json) {
     return ListDeadLetterSourceQueuesResult(
-      queueUrls: (json['queueUrls'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      queueUrls:
+          (json['queueUrls'] as List).nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -3201,7 +3199,7 @@ class ListMessageMoveTasksResult {
   factory ListMessageMoveTasksResult.fromJson(Map<String, dynamic> json) {
     return ListMessageMoveTasksResult(
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListMessageMoveTasksResultEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3358,7 +3356,7 @@ class ListQueuesResult {
     return ListQueuesResult(
       nextToken: json['NextToken'] as String?,
       queueUrls: (json['QueueUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3530,12 +3528,12 @@ class MessageAttributeValue {
     return MessageAttributeValue(
       dataType: json['DataType'] as String,
       binaryListValues: (json['BinaryListValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
       binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
       stringListValues: (json['StringListValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stringValue: json['StringValue'] as String?,
@@ -3702,7 +3700,7 @@ class ReceiveMessageResult {
   factory ReceiveMessageResult.fromJson(Map<String, dynamic> json) {
     return ReceiveMessageResult(
       messages: (json['Messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3920,11 +3918,11 @@ class SendMessageBatchResult {
   factory SendMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return SendMessageBatchResult(
       failed: (json['Failed'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['Successful'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SendMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),

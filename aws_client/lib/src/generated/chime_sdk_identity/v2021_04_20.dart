@@ -2450,7 +2450,7 @@ class ListAppInstanceAdminsResponse {
   factory ListAppInstanceAdminsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppInstanceAdminsResponse(
       appInstanceAdmins: (json['AppInstanceAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AppInstanceAdminSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2492,7 +2492,7 @@ class ListAppInstanceBotsResponse {
     return ListAppInstanceBotsResponse(
       appInstanceArn: json['AppInstanceArn'] as String?,
       appInstanceBots: (json['AppInstanceBots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppInstanceBotSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2528,7 +2528,7 @@ class ListAppInstanceUserEndpointsResponse {
       Map<String, dynamic> json) {
     return ListAppInstanceUserEndpointsResponse(
       appInstanceUserEndpoints: (json['AppInstanceUserEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppInstanceUserEndpointSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2568,7 +2568,7 @@ class ListAppInstanceUsersResponse {
     return ListAppInstanceUsersResponse(
       appInstanceArn: json['AppInstanceArn'] as String?,
       appInstanceUsers: (json['AppInstanceUsers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AppInstanceUserSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2604,7 +2604,7 @@ class ListAppInstancesResponse {
   factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppInstancesResponse(
       appInstances: (json['AppInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2632,7 +2632,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -3507,7 +3507,7 @@ class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
       Map<String, dynamic> json) {
     return AssociatePhoneNumbersWithVoiceConnectorGroupResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3535,7 +3535,7 @@ class AssociatePhoneNumbersWithVoiceConnectorResponse {
       Map<String, dynamic> json) {
     return AssociatePhoneNumbersWithVoiceConnectorResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3562,7 +3562,7 @@ class BatchDeletePhoneNumberResponse {
   factory BatchDeletePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeletePhoneNumberResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3587,7 +3587,7 @@ class BatchUpdatePhoneNumberResponse {
   factory BatchUpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdatePhoneNumberResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4058,7 +4058,7 @@ class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
       Map<String, dynamic> json) {
     return DisassociatePhoneNumbersFromVoiceConnectorGroupResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4086,7 +4086,7 @@ class DisassociatePhoneNumbersFromVoiceConnectorResponse {
       Map<String, dynamic> json) {
     return DisassociatePhoneNumbersFromVoiceConnectorResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4114,7 +4114,7 @@ class EmergencyCallingConfiguration {
   factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) {
     return EmergencyCallingConfiguration(
       dnis: (json['DNIS'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DNISEmergencyCallingConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4805,7 +4805,7 @@ class ListAvailableVoiceConnectorRegionsResponse {
       Map<String, dynamic> json) {
     return ListAvailableVoiceConnectorRegionsResponse(
       voiceConnectorRegions: (json['VoiceConnectorRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoiceConnectorAwsRegion.fromString((e as String)))
           .toList(),
     );
@@ -4837,7 +4837,7 @@ class ListPhoneNumberOrdersResponse {
     return ListPhoneNumberOrdersResponse(
       nextToken: json['NextToken'] as String?,
       phoneNumberOrders: (json['PhoneNumberOrders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4869,7 +4869,7 @@ class ListPhoneNumbersResponse {
     return ListPhoneNumbersResponse(
       nextToken: json['NextToken'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4901,7 +4901,7 @@ class ListProxySessionsResponse {
     return ListProxySessionsResponse(
       nextToken: json['NextToken'] as String?,
       proxySessions: (json['ProxySessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProxySession.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4933,7 +4933,7 @@ class ListSipMediaApplicationsResponse {
     return ListSipMediaApplicationsResponse(
       nextToken: json['NextToken'] as String?,
       sipMediaApplications: (json['SipMediaApplications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SipMediaApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4966,7 +4966,7 @@ class ListSipRulesResponse {
     return ListSipRulesResponse(
       nextToken: json['NextToken'] as String?,
       sipRules: (json['SipRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SipRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4994,7 +4994,7 @@ class ListSupportedPhoneNumberCountriesResponse {
       Map<String, dynamic> json) {
     return ListSupportedPhoneNumberCountriesResponse(
       phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberCountry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5020,7 +5020,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5050,7 +5050,7 @@ class ListVoiceConnectorGroupsResponse {
     return ListVoiceConnectorGroupsResponse(
       nextToken: json['NextToken'] as String?,
       voiceConnectorGroups: (json['VoiceConnectorGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoiceConnectorGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5079,7 +5079,7 @@ class ListVoiceConnectorTerminationCredentialsResponse {
       Map<String, dynamic> json) {
     return ListVoiceConnectorTerminationCredentialsResponse(
       usernames: (json['Usernames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5109,7 +5109,7 @@ class ListVoiceConnectorsResponse {
     return ListVoiceConnectorsResponse(
       nextToken: json['NextToken'] as String?,
       voiceConnectors: (json['VoiceConnectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoiceConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5141,7 +5141,7 @@ class ListVoiceProfileDomainsResponse {
     return ListVoiceProfileDomainsResponse(
       nextToken: json['NextToken'] as String?,
       voiceProfileDomains: (json['VoiceProfileDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VoiceProfileDomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5175,7 +5175,7 @@ class ListVoiceProfilesResponse {
     return ListVoiceProfilesResponse(
       nextToken: json['NextToken'] as String?,
       voiceProfiles: (json['VoiceProfiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoiceProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5357,7 +5357,7 @@ class Origination {
     return Origination(
       disabled: json['Disabled'] as bool?,
       routes: (json['Routes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OriginationRoute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5547,7 +5547,7 @@ class PhoneNumber {
   factory PhoneNumber.fromJson(Map<String, dynamic> json) {
     return PhoneNumber(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5746,7 +5746,7 @@ class PhoneNumberCountry {
     return PhoneNumberCountry(
       countryCode: json['CountryCode'] as String?,
       supportedPhoneNumberTypes: (json['SupportedPhoneNumberTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberType.fromString((e as String)))
           .toList(),
     );
@@ -5843,7 +5843,7 @@ class PhoneNumberOrder {
       orderType:
           (json['OrderType'] as String?)?.let(PhoneNumberOrderType.fromString),
       orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
@@ -5999,7 +5999,7 @@ class Proxy {
       disabled: json['Disabled'] as bool?,
       fallBackPhoneNumber: json['FallBackPhoneNumber'] as String?,
       phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6084,7 +6084,7 @@ class ProxySession {
   factory ProxySession.fromJson(Map<String, dynamic> json) {
     return ProxySession(
       capabilities: (json['Capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Capability.fromString((e as String)))
           .toList(),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -6100,7 +6100,7 @@ class ProxySession {
       numberSelectionBehavior: (json['NumberSelectionBehavior'] as String?)
           ?.let(NumberSelectionBehavior.fromString),
       participants: (json['Participants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Participant.fromJson(e as Map<String, dynamic>))
           .toList(),
       proxySessionId: json['ProxySessionId'] as String?,
@@ -6423,7 +6423,7 @@ class SearchAvailablePhoneNumbersResponse {
       Map<String, dynamic> json) {
     return SearchAvailablePhoneNumbersResponse(
       e164PhoneNumbers: (json['E164PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6510,7 +6510,7 @@ class SipMediaApplication {
       awsRegion: json['AwsRegion'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       endpoints: (json['Endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6568,7 +6568,7 @@ class SipMediaApplicationAlexaSkillConfiguration {
       Map<String, dynamic> json) {
     return SipMediaApplicationAlexaSkillConfiguration(
       alexaSkillIds: (json['AlexaSkillIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       alexaSkillStatus:
@@ -6712,7 +6712,7 @@ class SipRule {
       name: json['Name'] as String?,
       sipRuleId: json['SipRuleId'] as String?,
       targetApplications: (json['TargetApplications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6820,7 +6820,7 @@ class SpeakerSearchDetails {
   factory SpeakerSearchDetails.fromJson(Map<String, dynamic> json) {
     return SpeakerSearchDetails(
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpeakerSearchResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       voiceprintGenerationStatus: json['VoiceprintGenerationStatus'] as String?,
@@ -7040,7 +7040,7 @@ class StreamingConfiguration {
           : null,
       streamingNotificationTargets: (json['StreamingNotificationTargets']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7149,11 +7149,11 @@ class Termination {
   factory Termination.fromJson(Map<String, dynamic> json) {
     return Termination(
       callingRegions: (json['CallingRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cidrAllowedList: (json['CidrAllowedList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cpsLimit: json['CpsLimit'] as int?,
@@ -7503,7 +7503,7 @@ class ValidateE911AddressResponse {
           : null,
       addressExternalId: json['AddressExternalId'] as String?,
       candidateAddressList: (json['CandidateAddressList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CandidateAddress.fromJson(e as Map<String, dynamic>))
           .toList(),
       validationResult: json['ValidationResult'] as int?,
@@ -7664,7 +7664,7 @@ class VoiceConnectorGroup {
       voiceConnectorGroupArn: json['VoiceConnectorGroupArn'] as String?,
       voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String?,
       voiceConnectorItems: (json['VoiceConnectorItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VoiceConnectorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

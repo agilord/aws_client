@@ -1520,7 +1520,7 @@ class ListFHIRDatastoresResponse {
   factory ListFHIRDatastoresResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRDatastoresResponse(
       datastorePropertiesList: (json['DatastorePropertiesList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DatastoreProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1554,7 +1554,7 @@ class ListFHIRExportJobsResponse {
   factory ListFHIRExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRExportJobsResponse(
       exportJobPropertiesList: (json['ExportJobPropertiesList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ExportJobProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1588,7 +1588,7 @@ class ListFHIRImportJobsResponse {
   factory ListFHIRImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRImportJobsResponse(
       importJobPropertiesList: (json['ImportJobPropertiesList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImportJobProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1616,7 +1616,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

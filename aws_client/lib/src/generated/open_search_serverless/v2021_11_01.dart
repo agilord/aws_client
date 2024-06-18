@@ -1935,11 +1935,11 @@ class BatchGetCollectionResponse {
   factory BatchGetCollectionResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetCollectionResponse(
       collectionDetails: (json['collectionDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CollectionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       collectionErrorDetails: (json['collectionErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CollectionErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1974,13 +1974,13 @@ class BatchGetEffectiveLifecyclePolicyResponse {
     return BatchGetEffectiveLifecyclePolicyResponse(
       effectiveLifecyclePolicyDetails:
           (json['effectiveLifecyclePolicyDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EffectiveLifecyclePolicyDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       effectiveLifecyclePolicyErrorDetails:
           (json['effectiveLifecyclePolicyErrorDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EffectiveLifecyclePolicyErrorDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2019,12 +2019,12 @@ class BatchGetLifecyclePolicyResponse {
   factory BatchGetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetLifecyclePolicyResponse(
       lifecyclePolicyDetails: (json['lifecyclePolicyDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LifecyclePolicyDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       lifecyclePolicyErrorDetails: (json['lifecyclePolicyErrorDetails']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LifecyclePolicyErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2058,11 +2058,11 @@ class BatchGetVpcEndpointResponse {
   factory BatchGetVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetVpcEndpointResponse(
       vpcEndpointDetails: (json['vpcEndpointDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcEndpointDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcEndpointErrorDetails: (json['vpcEndpointErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => VpcEndpointErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3387,7 +3387,7 @@ class ListAccessPoliciesResponse {
   factory ListAccessPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessPoliciesResponse(
       accessPolicySummaries: (json['accessPolicySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessPolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3423,7 +3423,7 @@ class ListCollectionsResponse {
   factory ListCollectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCollectionsResponse(
       collectionSummaries: (json['collectionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CollectionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3459,7 +3459,7 @@ class ListLifecyclePoliciesResponse {
   factory ListLifecyclePoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListLifecyclePoliciesResponse(
       lifecyclePolicySummaries: (json['lifecyclePolicySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => LifecyclePolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3497,7 +3497,7 @@ class ListSecurityConfigsResponse {
     return ListSecurityConfigsResponse(
       nextToken: json['nextToken'] as String?,
       securityConfigSummaries: (json['securityConfigSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityConfigSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3533,7 +3533,7 @@ class ListSecurityPoliciesResponse {
     return ListSecurityPoliciesResponse(
       nextToken: json['nextToken'] as String?,
       securityPolicySummaries: (json['securityPolicySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityPolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3561,7 +3561,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3594,7 +3594,7 @@ class ListVpcEndpointsResponse {
     return ListVpcEndpointsResponse(
       nextToken: json['nextToken'] as String?,
       vpcEndpointSummaries: (json['vpcEndpointSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4338,12 +4338,12 @@ class UpdateVpcEndpointDetail {
       lastModifiedDate: json['lastModifiedDate'] as int?,
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4434,12 +4434,12 @@ class VpcEndpointDetail {
       id: json['id'] as String?,
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(VpcEndpointStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['vpcId'] as String?,

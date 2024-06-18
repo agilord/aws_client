@@ -2362,7 +2362,7 @@ class AwsCloudMapServiceDiscovery {
       namespaceName: json['namespaceName'] as String,
       serviceName: json['serviceName'] as String,
       attributes: (json['attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AwsCloudMapInstanceAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2495,10 +2495,7 @@ class ClientPolicyTls {
               json['certificate'] as Map<String, dynamic>)
           : null,
       enforce: json['enforce'] as bool?,
-      ports: (json['ports'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      ports: (json['ports'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -3358,7 +3355,7 @@ class GrpcGatewayRouteMatch {
               json['hostname'] as Map<String, dynamic>)
           : null,
       metadata: (json['metadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GrpcGatewayRouteMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3555,15 +3552,15 @@ class GrpcRetryPolicy {
       perRetryTimeout:
           Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
       grpcRetryEvents: (json['grpcRetryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrpcRetryPolicyEvent.fromString((e as String)))
           .toList(),
       httpRetryEvents: (json['httpRetryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tcpRetryEvents: (json['tcpRetryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TcpRetryPolicyEvent.fromString((e as String)))
           .toList(),
     );
@@ -3667,7 +3664,7 @@ class GrpcRouteAction {
   factory GrpcRouteAction.fromJson(Map<String, dynamic> json) {
     return GrpcRouteAction(
       weightedTargets: (json['weightedTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3706,7 +3703,7 @@ class GrpcRouteMatch {
   factory GrpcRouteMatch.fromJson(Map<String, dynamic> json) {
     return GrpcRouteMatch(
       metadata: (json['metadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrpcRouteMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       methodName: json['methodName'] as String?,
@@ -4142,7 +4139,7 @@ class HttpGatewayRouteMatch {
   factory HttpGatewayRouteMatch.fromJson(Map<String, dynamic> json) {
     return HttpGatewayRouteMatch(
       headers: (json['headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => HttpGatewayRouteHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4157,7 +4154,7 @@ class HttpGatewayRouteMatch {
       port: json['port'] as int?,
       prefix: json['prefix'] as String?,
       queryParameters: (json['queryParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpQueryParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4418,11 +4415,11 @@ class HttpRetryPolicy {
       perRetryTimeout:
           Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
       httpRetryEvents: (json['httpRetryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tcpRetryEvents: (json['tcpRetryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TcpRetryPolicyEvent.fromString((e as String)))
           .toList(),
     );
@@ -4505,7 +4502,7 @@ class HttpRouteAction {
   factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
     return HttpRouteAction(
       weightedTargets: (json['weightedTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4603,7 +4600,7 @@ class HttpRouteMatch {
   factory HttpRouteMatch.fromJson(Map<String, dynamic> json) {
     return HttpRouteMatch(
       headers: (json['headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpRouteHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       method: (json['method'] as String?)?.let(HttpMethod.fromString),
@@ -4613,7 +4610,7 @@ class HttpRouteMatch {
       port: json['port'] as int?,
       prefix: json['prefix'] as String?,
       queryParameters: (json['queryParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HttpQueryParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       scheme: (json['scheme'] as String?)?.let(HttpScheme.fromString),
@@ -4761,7 +4758,7 @@ class ListGatewayRoutesOutput {
   factory ListGatewayRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListGatewayRoutesOutput(
       gatewayRoutes: (json['gatewayRoutes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GatewayRouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4789,7 +4786,7 @@ class ListMeshesOutput {
   factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
     return ListMeshesOutput(
       meshes: (json['meshes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4818,7 +4815,7 @@ class ListRoutesOutput {
   factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListRoutesOutput(
       routes: (json['routes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4846,7 +4843,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TagRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4873,7 +4870,7 @@ class ListVirtualGatewaysOutput {
   factory ListVirtualGatewaysOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualGatewaysOutput(
       virtualGateways: (json['virtualGateways'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualGatewayRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4901,7 +4898,7 @@ class ListVirtualNodesOutput {
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualNodesOutput(
       virtualNodes: (json['virtualNodes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4929,7 +4926,7 @@ class ListVirtualRoutersOutput {
   factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualRoutersOutput(
       virtualRouters: (json['virtualRouters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4957,7 +4954,7 @@ class ListVirtualServicesOutput {
   factory ListVirtualServicesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualServicesOutput(
       virtualServices: (json['virtualServices'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualServiceRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5420,7 +5417,7 @@ class LoggingFormat {
   factory LoggingFormat.fromJson(Map<String, dynamic> json) {
     return LoggingFormat(
       json: (json['json'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JsonFormatRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       text: json['text'] as String?,
@@ -6072,10 +6069,7 @@ class SubjectAlternativeNameMatchers {
 
   factory SubjectAlternativeNameMatchers.fromJson(Map<String, dynamic> json) {
     return SubjectAlternativeNameMatchers(
-      exact: (json['exact'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      exact: (json['exact'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6224,7 +6218,7 @@ class TcpRouteAction {
   factory TcpRouteAction.fromJson(Map<String, dynamic> json) {
     return TcpRouteAction(
       weightedTargets: (json['weightedTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6345,7 +6339,7 @@ class TlsValidationContextAcmTrust {
   factory TlsValidationContextAcmTrust.fromJson(Map<String, dynamic> json) {
     return TlsValidationContextAcmTrust(
       certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6651,10 +6645,7 @@ class VirtualGatewayClientPolicyTls {
               json['certificate'] as Map<String, dynamic>)
           : null,
       enforce: json['enforce'] as bool?,
-      ports: (json['ports'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      ports: (json['ports'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -7501,7 +7492,7 @@ class VirtualGatewaySpec {
   factory VirtualGatewaySpec.fromJson(Map<String, dynamic> json) {
     return VirtualGatewaySpec(
       listeners: (json['listeners'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => VirtualGatewayListener.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7613,7 +7604,7 @@ class VirtualGatewayTlsValidationContextAcmTrust {
       Map<String, dynamic> json) {
     return VirtualGatewayTlsValidationContextAcmTrust(
       certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8037,11 +8028,11 @@ class VirtualNodeSpec {
               json['backendDefaults'] as Map<String, dynamic>)
           : null,
       backends: (json['backends'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Backend.fromJson(e as Map<String, dynamic>))
           .toList(),
       listeners: (json['listeners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Listener.fromJson(e as Map<String, dynamic>))
           .toList(),
       logging: json['logging'] != null
@@ -8285,7 +8276,7 @@ class VirtualRouterSpec {
   factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) {
     return VirtualRouterSpec(
       listeners: (json['listeners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VirtualRouterListener.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

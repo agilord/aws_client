@@ -2294,7 +2294,7 @@ class AudioChannelTaggingSettings {
       channelTag:
           (json['channelTag'] as String?)?.let(AudioChannelTag.fromString),
       channelTags: (json['channelTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioChannelTag.fromString((e as String)))
           .toList(),
     );
@@ -2999,8 +2999,7 @@ class AudioSelector {
       languageCode:
           (json['languageCode'] as String?)?.let(LanguageCode.fromString),
       offset: json['offset'] as int?,
-      pids:
-          (json['pids'] as List?)?.whereNotNull().map((e) => e as int).toList(),
+      pids: (json['pids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       programSelection: json['programSelection'] as int?,
       remixSettings: json['remixSettings'] != null
           ? RemixSettings.fromJson(
@@ -3008,10 +3007,7 @@ class AudioSelector {
           : null,
       selectorType:
           (json['selectorType'] as String?)?.let(AudioSelectorType.fromString),
-      tracks: (json['tracks'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      tracks: (json['tracks'] as List?)?.nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -3066,7 +3062,7 @@ class AudioSelectorGroup {
   factory AudioSelectorGroup.fromJson(Map<String, dynamic> json) {
     return AudioSelectorGroup(
       audioSelectorNames: (json['audioSelectorNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3196,11 +3192,11 @@ class AutomatedAbrRule {
   factory AutomatedAbrRule.fromJson(Map<String, dynamic> json) {
     return AutomatedAbrRule(
       allowedRenditions: (json['allowedRenditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AllowedRenditionSize.fromJson(e as Map<String, dynamic>))
           .toList(),
       forceIncludeRenditions: (json['forceIncludeRenditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ForceIncludeRenditionSize.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3282,7 +3278,7 @@ class AutomatedAbrSettings {
       maxRenditions: json['maxRenditions'] as int?,
       minAbrBitrate: json['minAbrBitrate'] as int?,
       rules: (json['rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutomatedAbrRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5379,7 +5375,7 @@ class ChannelMapping {
   factory ChannelMapping.fromJson(Map<String, dynamic> json) {
     return ChannelMapping(
       outputChannels: (json['outputChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputChannelMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5489,7 +5485,7 @@ class CmafAdditionalManifest {
     return CmafAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
       selectedOutputs: (json['selectedOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5851,7 +5847,7 @@ class CmafGroupSettings {
   factory CmafGroupSettings.fromJson(Map<String, dynamic> json) {
     return CmafGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CmafAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7474,7 +7470,7 @@ class DashAdditionalManifest {
     return DashAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
       selectedOutputs: (json['selectedOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7742,7 +7738,7 @@ class DashIsoGroupSettings {
   factory DashIsoGroupSettings.fromJson(Map<String, dynamic> json) {
     return DashIsoGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DashAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8392,7 +8388,7 @@ class DescribeEndpointsResponse {
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13872,7 +13868,7 @@ class HlsAdditionalManifest {
     return HlsAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
       selectedOutputs: (json['selectedOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -14462,18 +14458,18 @@ class HlsGroupSettings {
   factory HlsGroupSettings.fromJson(Map<String, dynamic> json) {
     return HlsGroupSettings(
       adMarkers: (json['adMarkers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HlsAdMarkers.fromString((e as String)))
           .toList(),
       additionalManifests: (json['additionalManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HlsAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       audioOnlyHeader: (json['audioOnlyHeader'] as String?)
           ?.let(HlsAudioOnlyHeader.fromString),
       baseUrl: json['baseUrl'] as String?,
       captionLanguageMappings: (json['captionLanguageMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HlsCaptionLanguageMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15275,7 +15271,7 @@ class ImageInserter {
   factory ImageInserter.fromJson(Map<String, dynamic> json) {
     return ImageInserter(
       insertableImages: (json['insertableImages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InsertableImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       sdrReferenceWhiteLevel: json['sdrReferenceWhiteLevel'] as int?,
@@ -15641,7 +15637,7 @@ class Input {
               json['imageInserter'] as Map<String, dynamic>)
           : null,
       inputClippings: (json['inputClippings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputScanType:
@@ -15653,7 +15649,7 @@ class Input {
       psiControl:
           (json['psiControl'] as String?)?.let(InputPsiControl.fromString),
       supplementalImps: (json['supplementalImps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       timecodeSource: (json['timecodeSource'] as String?)
@@ -15664,7 +15660,7 @@ class Input {
               json['videoGenerator'] as Map<String, dynamic>)
           : null,
       videoOverlays: (json['videoOverlays'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VideoOverlay.fromJson(e as Map<String, dynamic>))
           .toList(),
       videoSelector: json['videoSelector'] != null
@@ -16212,7 +16208,7 @@ class InputTemplate {
               json['imageInserter'] as Map<String, dynamic>)
           : null,
       inputClippings: (json['inputClippings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputScanType:
@@ -16227,7 +16223,7 @@ class InputTemplate {
           ?.let(InputTimecodeSource.fromString),
       timecodeStart: json['timecodeStart'] as String?,
       videoOverlays: (json['videoOverlays'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VideoOverlay.fromJson(e as Map<String, dynamic>))
           .toList(),
       videoSelector: json['videoSelector'] != null
@@ -16641,7 +16637,7 @@ class Job {
       errorCode: json['errorCode'] as int?,
       errorMessage: json['errorMessage'] as String?,
       hopDestinations: (json['hopDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HopDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
@@ -16651,13 +16647,13 @@ class Job {
           ? JobMessages.fromJson(json['messages'] as Map<String, dynamic>)
           : null,
       outputGroupDetails: (json['outputGroupDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputGroupDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       priority: json['priority'] as int?,
       queue: json['queue'] as String?,
       queueTransitions: (json['queueTransitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueueTransition.fromJson(e as Map<String, dynamic>))
           .toList(),
       retryCount: json['retryCount'] as int?,
@@ -16672,7 +16668,7 @@ class Job {
       userMetadata: (json['userMetadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WarningGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -16697,14 +16693,9 @@ class JobMessages {
 
   factory JobMessages.fromJson(Map<String, dynamic> json) {
     return JobMessages(
-      info: (json['info'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      warning: (json['warning'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      info: (json['info'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      warning:
+          (json['warning'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -16842,7 +16833,7 @@ class JobSettings {
           : null,
       colorConversion3DLUTSettings: (json['colorConversion3DLUTSettings']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ColorConversion3DLUTSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -16855,7 +16846,7 @@ class JobSettings {
           : null,
       followSource: json['followSource'] as int?,
       inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Input.fromJson(e as Map<String, dynamic>))
           .toList(),
       kantarWatermark: json['kantarWatermark'] != null
@@ -16875,7 +16866,7 @@ class JobSettings {
               json['nielsenNonLinearWatermark'] as Map<String, dynamic>)
           : null,
       outputGroups: (json['outputGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       timecodeConfig: json['timecodeConfig'] != null
@@ -17028,7 +17019,7 @@ class JobTemplate {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       hopDestinations: (json['hopDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HopDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdated: timeStampFromJson(json['lastUpdated']),
@@ -17178,7 +17169,7 @@ class JobTemplateSettings {
           : null,
       colorConversion3DLUTSettings: (json['colorConversion3DLUTSettings']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ColorConversion3DLUTSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17191,7 +17182,7 @@ class JobTemplateSettings {
           : null,
       followSource: json['followSource'] as int?,
       inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
       kantarWatermark: json['kantarWatermark'] != null
@@ -17211,7 +17202,7 @@ class JobTemplateSettings {
               json['nielsenNonLinearWatermark'] as Map<String, dynamic>)
           : null,
       outputGroups: (json['outputGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       timecodeConfig: json['timecodeConfig'] != null
@@ -17624,7 +17615,7 @@ class ListJobTemplatesResponse {
   factory ListJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListJobTemplatesResponse(
       jobTemplates: (json['jobTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -17647,7 +17638,7 @@ class ListJobsResponse {
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -17671,7 +17662,7 @@ class ListPresetsResponse {
     return ListPresetsResponse(
       nextToken: json['nextToken'] as String?,
       presets: (json['presets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Preset.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17694,7 +17685,7 @@ class ListQueuesResponse {
     return ListQueuesResponse(
       nextToken: json['nextToken'] as String?,
       queues: (json['queues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Queue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18369,10 +18360,8 @@ class M2tsSettings {
       audioDuration:
           (json['audioDuration'] as String?)?.let(M2tsAudioDuration.fromString),
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
-      audioPids: (json['audioPids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      audioPids:
+          (json['audioPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       bitrate: json['bitrate'] as int?,
       bufferModel:
           (json['bufferModel'] as String?)?.let(M2tsBufferModel.fromString),
@@ -18386,10 +18375,8 @@ class M2tsSettings {
           ? DvbSdtSettings.fromJson(
               json['dvbSdtSettings'] as Map<String, dynamic>)
           : null,
-      dvbSubPids: (json['dvbSubPids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      dvbSubPids:
+          (json['dvbSubPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       dvbTdtSettings: json['dvbTdtSettings'] != null
           ? DvbTdtSettings.fromJson(
               json['dvbTdtSettings'] as Map<String, dynamic>)
@@ -18782,10 +18769,8 @@ class M3u8Settings {
       audioDuration:
           (json['audioDuration'] as String?)?.let(M3u8AudioDuration.fromString),
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
-      audioPids: (json['audioPids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      audioPids:
+          (json['audioPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       dataPTSControl: (json['dataPTSControl'] as String?)
           ?.let(M3u8DataPtsControl.fromString),
       maxPcrInterval: json['maxPcrInterval'] as int?,
@@ -20769,7 +20754,7 @@ class MsSmoothAdditionalManifest {
     return MsSmoothAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
       selectedOutputs: (json['selectedOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -20913,7 +20898,7 @@ class MsSmoothGroupSettings {
   factory MsSmoothGroupSettings.fromJson(Map<String, dynamic> json) {
     return MsSmoothGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MsSmoothAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21843,11 +21828,11 @@ class Output {
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
       audioDescriptions: (json['audioDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       captionDescriptions: (json['captionDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       containerSettings: json['containerSettings'] != null
@@ -21910,11 +21895,11 @@ class OutputChannelMapping {
   factory OutputChannelMapping.fromJson(Map<String, dynamic> json) {
     return OutputChannelMapping(
       inputChannels: (json['inputChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       inputChannelsFineTune: (json['inputChannelsFineTune'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
     );
@@ -21997,7 +21982,7 @@ class OutputGroup {
               json['outputGroupSettings'] as Map<String, dynamic>)
           : null,
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -22033,7 +22018,7 @@ class OutputGroupDetail {
   factory OutputGroupDetail.fromJson(Map<String, dynamic> json) {
     return OutputGroupDetail(
       outputDetails: (json['outputDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -22387,11 +22372,11 @@ class PresetSettings {
   factory PresetSettings.fromJson(Map<String, dynamic> json) {
     return PresetSettings(
       audioDescriptions: (json['audioDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       captionDescriptions: (json['captionDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CaptionDescriptionPreset.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23756,7 +23741,7 @@ class SpekeKeyProvider {
       certificateArn: json['certificateArn'] as String?,
       resourceId: json['resourceId'] as String?,
       systemIds: (json['systemIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       url: json['url'] as String?,
@@ -23819,11 +23804,11 @@ class SpekeKeyProviderCmaf {
     return SpekeKeyProviderCmaf(
       certificateArn: json['certificateArn'] as String?,
       dashSignaledSystemIds: (json['dashSignaledSystemIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       hlsSignaledSystemIds: (json['hlsSignaledSystemIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resourceId: json['resourceId'] as String?,
@@ -24017,7 +24002,7 @@ class TeletextDestinationSettings {
     return TeletextDestinationSettings(
       pageNumber: json['pageNumber'] as String?,
       pageTypes: (json['pageTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TeletextPageType.fromString((e as String)))
           .toList(),
     );
@@ -24278,7 +24263,7 @@ class TimedMetadataInsertion {
   factory TimedMetadataInsertion.fromJson(Map<String, dynamic> json) {
     return TimedMetadataInsertion(
       id3Insertions: (json['id3Insertions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Id3Insertion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -25587,7 +25572,7 @@ class VideoOverlayInput {
     return VideoOverlayInput(
       fileInput: json['fileInput'] as String?,
       inputClippings: (json['inputClippings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VideoOverlayInputClipping.fromJson(e as Map<String, dynamic>))
           .toList(),

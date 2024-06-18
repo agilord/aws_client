@@ -5493,7 +5493,7 @@ class AutomaticTapeCreationPolicyInfo {
   factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) {
     return AutomaticTapeCreationPolicyInfo(
       automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5648,10 +5648,8 @@ class BandwidthRateLimitInterval {
 
   factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
     return BandwidthRateLimitInterval(
-      daysOfWeek: (json['DaysOfWeek'] as List)
-          .whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      daysOfWeek:
+          (json['DaysOfWeek'] as List).nonNulls.map((e) => e as int).toList(),
       endHourOfDay: json['EndHourOfDay'] as int,
       endMinuteOfHour: json['EndMinuteOfHour'] as int,
       startHourOfDay: json['StartHourOfDay'] as int,
@@ -6097,7 +6095,7 @@ class CreateTapesOutput {
   factory CreateTapesOutput.fromJson(Map<String, dynamic> json) {
     return CreateTapesOutput(
       tapeARNs: (json['TapeARNs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6340,7 +6338,7 @@ class DescribeBandwidthRateLimitScheduleOutput {
     return DescribeBandwidthRateLimitScheduleOutput(
       bandwidthRateLimitIntervals: (json['BandwidthRateLimitIntervals']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BandwidthRateLimitInterval.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6394,10 +6392,8 @@ class DescribeCacheOutput {
       cacheHitPercentage: json['CacheHitPercentage'] as double?,
       cacheMissPercentage: json['CacheMissPercentage'] as double?,
       cacheUsedPercentage: json['CacheUsedPercentage'] as double?,
-      diskIds: (json['DiskIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      diskIds:
+          (json['DiskIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       gatewayARN: json['GatewayARN'] as String?,
     );
   }
@@ -6416,7 +6412,7 @@ class DescribeCachediSCSIVolumesOutput {
   factory DescribeCachediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCachediSCSIVolumesOutput(
       cachediSCSIVolumes: (json['CachediSCSIVolumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CachediSCSIVolume.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6458,7 +6454,7 @@ class DescribeChapCredentialsOutput {
   factory DescribeChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeChapCredentialsOutput(
       chapCredentials: (json['ChapCredentials'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChapInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6479,7 +6475,7 @@ class DescribeFileSystemAssociationsOutput {
     return DescribeFileSystemAssociationsOutput(
       fileSystemAssociationInfoList:
           (json['FileSystemAssociationInfoList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   FileSystemAssociationInfo.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -6616,7 +6612,7 @@ class DescribeGatewayInformationOutput {
       gatewayId: json['GatewayId'] as String?,
       gatewayName: json['GatewayName'] as String?,
       gatewayNetworkInterfaces: (json['GatewayNetworkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       gatewayState: json['GatewayState'] as String?,
@@ -6630,11 +6626,11 @@ class DescribeGatewayInformationOutput {
       softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String?,
       softwareVersion: json['SoftwareVersion'] as String?,
       supportedGatewayCapacities: (json['SupportedGatewayCapacities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GatewayCapacity.fromString((e as String)))
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vPCEndpoint: json['VPCEndpoint'] as String?,
@@ -6721,7 +6717,7 @@ class DescribeNFSFileSharesOutput {
   factory DescribeNFSFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeNFSFileSharesOutput(
       nFSFileShareInfoList: (json['NFSFileShareInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NFSFileShareInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6740,7 +6736,7 @@ class DescribeSMBFileSharesOutput {
   factory DescribeSMBFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeSMBFileSharesOutput(
       sMBFileShareInfoList: (json['SMBFileShareInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SMBFileShareInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6901,7 +6897,7 @@ class DescribeSnapshotScheduleOutput {
       recurrenceInHours: json['RecurrenceInHours'] as int?,
       startAt: json['StartAt'] as int?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       timezone: json['Timezone'] as String?,
@@ -6988,7 +6984,7 @@ class DescribeStorediSCSIVolumesOutput {
   factory DescribeStorediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStorediSCSIVolumesOutput(
       storediSCSIVolumes: (json['StorediSCSIVolumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorediSCSIVolume.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7020,7 +7016,7 @@ class DescribeTapeArchivesOutput {
     return DescribeTapeArchivesOutput(
       marker: json['Marker'] as String?,
       tapeArchives: (json['TapeArchives'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TapeArchive.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7054,7 +7050,7 @@ class DescribeTapeRecoveryPointsOutput {
       gatewayARN: json['GatewayARN'] as String?,
       marker: json['Marker'] as String?,
       tapeRecoveryPointInfos: (json['TapeRecoveryPointInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TapeRecoveryPointInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7082,7 +7078,7 @@ class DescribeTapesOutput {
     return DescribeTapesOutput(
       marker: json['Marker'] as String?,
       tapes: (json['Tapes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tape.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7112,10 +7108,8 @@ class DescribeUploadBufferOutput {
 
   factory DescribeUploadBufferOutput.fromJson(Map<String, dynamic> json) {
     return DescribeUploadBufferOutput(
-      diskIds: (json['DiskIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      diskIds:
+          (json['DiskIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       gatewayARN: json['GatewayARN'] as String?,
       uploadBufferAllocatedInBytes:
           json['UploadBufferAllocatedInBytes'] as int?,
@@ -7149,7 +7143,7 @@ class DescribeVTLDevicesOutput {
       gatewayARN: json['GatewayARN'] as String?,
       marker: json['Marker'] as String?,
       vTLDevices: (json['VTLDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VTLDevice.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7182,10 +7176,8 @@ class DescribeWorkingStorageOutput {
 
   factory DescribeWorkingStorageOutput.fromJson(Map<String, dynamic> json) {
     return DescribeWorkingStorageOutput(
-      diskIds: (json['DiskIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      diskIds:
+          (json['DiskIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       gatewayARN: json['GatewayARN'] as String?,
       workingStorageAllocatedInBytes:
           json['WorkingStorageAllocatedInBytes'] as int?,
@@ -7316,7 +7308,7 @@ class Disk {
       diskAllocationResource: json['DiskAllocationResource'] as String?,
       diskAllocationType: json['DiskAllocationType'] as String?,
       diskAttributeList: (json['DiskAttributeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       diskId: json['DiskId'] as String?,
@@ -7346,7 +7338,7 @@ class EndpointNetworkConfiguration {
   factory EndpointNetworkConfiguration.fromJson(Map<String, dynamic> json) {
     return EndpointNetworkConfiguration(
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7471,14 +7463,14 @@ class FileSystemAssociationInfo {
           json['FileSystemAssociationStatus'] as String?,
       fileSystemAssociationStatusDetails:
           (json['FileSystemAssociationStatusDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => FileSystemAssociationStatusDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gatewayARN: json['GatewayARN'] as String?,
       locationARN: json['LocationARN'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7717,7 +7709,7 @@ class ListAutomaticTapeCreationPoliciesOutput {
     return ListAutomaticTapeCreationPoliciesOutput(
       automaticTapeCreationPolicyInfos:
           (json['AutomaticTapeCreationPolicyInfos'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AutomaticTapeCreationPolicyInfo.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7748,7 +7740,7 @@ class ListFileSharesOutput {
   factory ListFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return ListFileSharesOutput(
       fileShareInfoList: (json['FileShareInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileShareInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -7781,7 +7773,7 @@ class ListFileSystemAssociationsOutput {
     return ListFileSystemAssociationsOutput(
       fileSystemAssociationSummaryList:
           (json['FileSystemAssociationSummaryList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => FileSystemAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7808,7 +7800,7 @@ class ListGatewaysOutput {
   factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
     return ListGatewaysOutput(
       gateways: (json['Gateways'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GatewayInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -7835,7 +7827,7 @@ class ListLocalDisksOutput {
   factory ListLocalDisksOutput.fromJson(Map<String, dynamic> json) {
     return ListLocalDisksOutput(
       disks: (json['Disks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Disk.fromJson(e as Map<String, dynamic>))
           .toList(),
       gatewayARN: json['GatewayARN'] as String?,
@@ -7867,7 +7859,7 @@ class ListTagsForResourceOutput {
       marker: json['Marker'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7895,7 +7887,7 @@ class ListTapePoolsOutput {
     return ListTapePoolsOutput(
       marker: json['Marker'] as String?,
       poolInfos: (json['PoolInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PoolInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7929,7 +7921,7 @@ class ListTapesOutput {
     return ListTapesOutput(
       marker: json['Marker'] as String?,
       tapeInfos: (json['TapeInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TapeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7949,7 +7941,7 @@ class ListVolumeInitiatorsOutput {
   factory ListVolumeInitiatorsOutput.fromJson(Map<String, dynamic> json) {
     return ListVolumeInitiatorsOutput(
       initiators: (json['Initiators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7971,7 +7963,7 @@ class ListVolumeRecoveryPointsOutput {
     return ListVolumeRecoveryPointsOutput(
       gatewayARN: json['GatewayARN'] as String?,
       volumeRecoveryPointInfos: (json['VolumeRecoveryPointInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VolumeRecoveryPointInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8013,7 +8005,7 @@ class ListVolumesOutput {
       gatewayARN: json['GatewayARN'] as String?,
       marker: json['Marker'] as String?,
       volumeInfos: (json['VolumeInfos'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VolumeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8227,7 +8219,7 @@ class NFSFileShareInfo {
               json['CacheAttributes'] as Map<String, dynamic>)
           : null,
       clientList: (json['ClientList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       defaultStorageClass: json['DefaultStorageClass'] as String?,
@@ -8252,7 +8244,7 @@ class NFSFileShareInfo {
       role: json['Role'] as String?,
       squash: json['Squash'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
@@ -8699,7 +8691,7 @@ class SMBFileShareInfo {
     return SMBFileShareInfo(
       accessBasedEnumeration: json['AccessBasedEnumeration'] as bool?,
       adminUserList: (json['AdminUserList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       auditDestinationARN: json['AuditDestinationARN'] as String?,
@@ -8719,7 +8711,7 @@ class SMBFileShareInfo {
       gatewayARN: json['GatewayARN'] as String?,
       guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
       invalidUserList: (json['InvalidUserList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       kMSEncrypted: json['KMSEncrypted'] as bool?,
@@ -8734,12 +8726,12 @@ class SMBFileShareInfo {
       role: json['Role'] as String?,
       sMBACLEnabled: json['SMBACLEnabled'] as bool?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
       validUserList: (json['ValidUserList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8764,7 +8756,7 @@ class SMBLocalGroups {
   factory SMBLocalGroups.fromJson(Map<String, dynamic> json) {
     return SMBLocalGroups(
       gatewayAdmins: (json['GatewayAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

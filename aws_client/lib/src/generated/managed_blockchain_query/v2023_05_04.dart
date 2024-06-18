@@ -748,12 +748,12 @@ class BatchGetTokenBalanceOutput {
   factory BatchGetTokenBalanceOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetTokenBalanceOutput(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchGetTokenBalanceErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       tokenBalances: (json['tokenBalances'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetTokenBalanceOutputItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1150,7 +1150,7 @@ class ListAssetContractsOutput {
   factory ListAssetContractsOutput.fromJson(Map<String, dynamic> json) {
     return ListAssetContractsOutput(
       contracts: (json['contracts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetContract.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1183,7 +1183,7 @@ class ListFilteredTransactionEventsOutput {
       Map<String, dynamic> json) {
     return ListFilteredTransactionEventsOutput(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TransactionEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1259,7 +1259,7 @@ class ListTokenBalancesOutput {
   factory ListTokenBalancesOutput.fromJson(Map<String, dynamic> json) {
     return ListTokenBalancesOutput(
       tokenBalances: (json['tokenBalances'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TokenBalance.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1292,7 +1292,7 @@ class ListTransactionEventsOutput {
   factory ListTransactionEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListTransactionEventsOutput(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TransactionEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1324,7 +1324,7 @@ class ListTransactionsOutput {
   factory ListTransactionsOutput.fromJson(Map<String, dynamic> json) {
     return ListTransactionsOutput(
       transactions: (json['transactions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TransactionOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

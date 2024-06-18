@@ -1533,7 +1533,7 @@ class FunctionArtifactMeta {
   factory FunctionArtifactMeta.fromJson(Map<String, dynamic> json) {
     return FunctionArtifactMeta(
       overrides: (json['overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2115,7 +2115,7 @@ class GetSolNetworkOperationOutput {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tasks: (json['tasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GetSolNetworkOperationTaskDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2362,10 +2362,8 @@ class GetSolNetworkPackageOutput {
       nsdUsageState:
           NsdUsageState.fromString((json['nsdUsageState'] as String)),
       nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds: (json['vnfPkgIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      vnfPkgIds:
+          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2419,7 +2417,7 @@ class GetSolVnfInfo {
       vnfState:
           (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
       vnfcResourceInfo: (json['vnfcResourceInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GetSolVnfcResourceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2709,7 +2707,7 @@ class ListSolFunctionInstancesOutput {
   factory ListSolFunctionInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionInstancesOutput(
       functionInstances: (json['functionInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListSolFunctionInstanceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2879,7 +2877,7 @@ class ListSolFunctionPackagesOutput {
   factory ListSolFunctionPackagesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionPackagesOutput(
       functionPackages: (json['functionPackages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ListSolFunctionPackageInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3025,7 +3023,7 @@ class ListSolNetworkInstancesOutput {
   factory ListSolNetworkInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkInstancesOutput(
       networkInstances: (json['networkInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListSolNetworkInstanceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3166,7 +3164,7 @@ class ListSolNetworkOperationsOutput {
   factory ListSolNetworkOperationsOutput.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkOperationsOutput(
       networkOperations: (json['networkOperations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListSolNetworkOperationsInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3260,7 +3258,7 @@ class ListSolNetworkPackageInfo {
       nsdName: json['nsdName'] as String?,
       nsdVersion: json['nsdVersion'] as String?,
       vnfPkgIds: (json['vnfPkgIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3349,7 +3347,7 @@ class ListSolNetworkPackagesOutput {
   factory ListSolNetworkPackagesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkPackagesOutput(
       networkPackages: (json['networkPackages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ListSolNetworkPackageInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3407,7 +3405,7 @@ class NetworkArtifactMeta {
   factory NetworkArtifactMeta.fromJson(Map<String, dynamic> json) {
     return NetworkArtifactMeta(
       overrides: (json['overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3740,10 +3738,8 @@ class PutSolNetworkPackageContentOutput {
       nsdId: json['nsdId'] as String,
       nsdName: json['nsdName'] as String,
       nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds: (json['vnfPkgIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      vnfPkgIds:
+          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4170,10 +4166,8 @@ class ValidateSolNetworkPackageContentOutput {
       nsdId: json['nsdId'] as String,
       nsdName: json['nsdName'] as String,
       nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds: (json['vnfPkgIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      vnfPkgIds:
+          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 

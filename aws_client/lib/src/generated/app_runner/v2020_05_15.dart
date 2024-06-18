@@ -2003,7 +2003,7 @@ class AssociateCustomDomainResponse {
       dNSTarget: json['DNSTarget'] as String,
       serviceArn: json['ServiceArn'] as String,
       vpcDNSTargets: (json['VpcDNSTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2910,7 +2910,7 @@ class CustomDomain {
           CustomDomainAssociationStatus.fromString((json['Status'] as String)),
       certificateValidationRecords: (json['CertificateValidationRecords']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CertificateValidationRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3163,13 +3163,13 @@ class DescribeCustomDomainsResponse {
   factory DescribeCustomDomainsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCustomDomainsResponse(
       customDomains: (json['CustomDomains'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CustomDomain.fromJson(e as Map<String, dynamic>))
           .toList(),
       dNSTarget: json['DNSTarget'] as String,
       serviceArn: json['ServiceArn'] as String,
       vpcDNSTargets: (json['VpcDNSTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3318,7 +3318,7 @@ class DisassociateCustomDomainResponse {
       dNSTarget: json['DNSTarget'] as String,
       serviceArn: json['ServiceArn'] as String,
       vpcDNSTargets: (json['VpcDNSTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3788,7 +3788,7 @@ class ListAutoScalingConfigurationsResponse {
     return ListAutoScalingConfigurationsResponse(
       autoScalingConfigurationSummaryList:
           (json['AutoScalingConfigurationSummaryList'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AutoScalingConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3826,7 +3826,7 @@ class ListConnectionsResponse {
   factory ListConnectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectionsResponse(
       connectionSummaryList: (json['ConnectionSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConnectionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3864,7 +3864,7 @@ class ListObservabilityConfigurationsResponse {
     return ListObservabilityConfigurationsResponse(
       observabilityConfigurationSummaryList:
           (json['ObservabilityConfigurationSummaryList'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ObservabilityConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3902,7 +3902,7 @@ class ListOperationsResponse {
     return ListOperationsResponse(
       nextToken: json['NextToken'] as String?,
       operationSummaryList: (json['OperationSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3937,7 +3937,7 @@ class ListServicesForAutoScalingConfigurationResponse {
       Map<String, dynamic> json) {
     return ListServicesForAutoScalingConfigurationResponse(
       serviceArnList: (json['ServiceArnList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3971,7 +3971,7 @@ class ListServicesResponse {
   factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
     return ListServicesResponse(
       serviceSummaryList: (json['ServiceSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3999,7 +3999,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4030,7 +4030,7 @@ class ListVpcConnectorsResponse {
   factory ListVpcConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListVpcConnectorsResponse(
       vpcConnectors: (json['VpcConnectors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4092,7 +4092,7 @@ class ListVpcIngressConnectionsResponse {
     return ListVpcIngressConnectionsResponse(
       vpcIngressConnectionSummaryList: (json['VpcIngressConnectionSummaryList']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               VpcIngressConnectionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5283,14 +5283,12 @@ class VpcConnector {
       createdAt: timeStampFromJson(json['CreatedAt']),
       deletedAt: timeStampFromJson(json['DeletedAt']),
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['Status'] as String?)?.let(VpcConnectorStatus.fromString),
-      subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       vpcConnectorArn: json['VpcConnectorArn'] as String?,
       vpcConnectorName: json['VpcConnectorName'] as String?,
       vpcConnectorRevision: json['VpcConnectorRevision'] as int?,

@@ -1603,7 +1603,7 @@ class GetRecommendationResponse {
       rollbackPossible: json['rollbackPossible'] as bool?,
       source: (json['source'] as String?)?.let(Source.fromString),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1804,7 +1804,7 @@ class ListEnrollmentStatusesResponse {
     return ListEnrollmentStatusesResponse(
       includeMemberAccounts: json['includeMemberAccounts'] as bool?,
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AccountEnrollmentStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1857,7 +1857,7 @@ class ListRecommendationSummariesResponse {
           json['estimatedTotalDedupedSavings'] as double?,
       groupBy: json['groupBy'] as String?,
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1896,7 +1896,7 @@ class ListRecommendationsResponse {
   factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecommendationsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2404,7 +2404,7 @@ class Recommendation {
       rollbackPossible: json['rollbackPossible'] as bool?,
       source: (json['source'] as String?)?.let(Source.fromString),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2761,7 +2761,7 @@ class ResourceCostCalculation {
           ? ResourcePricing.fromJson(json['pricing'] as Map<String, dynamic>)
           : null,
       usages: (json['usages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Usage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

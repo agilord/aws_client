@@ -4174,7 +4174,7 @@ class AudioChannelMapping {
   factory AudioChannelMapping.fromJson(Map<String, dynamic> json) {
     return AudioChannelMapping(
       inputChannelLevels: (json['inputChannelLevels'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InputChannelLevel.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputChannel: json['outputChannel'] as int,
@@ -4342,7 +4342,7 @@ class AudioDescription {
       audioSelectorName: json['audioSelectorName'] as String,
       name: json['name'] as String,
       audioDashRoles: (json['audioDashRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DashRoleAudio.fromString((e as String)))
           .toList(),
       audioNormalizationSettings: json['audioNormalizationSettings'] != null
@@ -4924,7 +4924,7 @@ class AudioTrackSelection {
   factory AudioTrackSelection.fromJson(Map<String, dynamic> json) {
     return AudioTrackSelection(
       tracks: (json['tracks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AudioTrack.fromJson(e as Map<String, dynamic>))
           .toList(),
       dolbyEDecode: json['dolbyEDecode'] != null
@@ -5037,7 +5037,7 @@ class AutomaticInputFailoverSettings {
       secondaryInputId: json['secondaryInputId'] as String,
       errorClearTimeMsec: json['errorClearTimeMsec'] as int?,
       failoverConditions: (json['failoverConditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailoverCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputPreference:
@@ -5215,12 +5215,12 @@ class BatchDeleteResponse {
   factory BatchDeleteResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteResponse(
       failed: (json['failed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5311,7 +5311,7 @@ class BatchScheduleActionCreateResult {
   factory BatchScheduleActionCreateResult.fromJson(Map<String, dynamic> json) {
     return BatchScheduleActionCreateResult(
       scheduleActions: (json['scheduleActions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5354,7 +5354,7 @@ class BatchScheduleActionDeleteResult {
   factory BatchScheduleActionDeleteResult.fromJson(Map<String, dynamic> json) {
     return BatchScheduleActionDeleteResult(
       scheduleActions: (json['scheduleActions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5384,12 +5384,12 @@ class BatchStartResponse {
   factory BatchStartResponse.fromJson(Map<String, dynamic> json) {
     return BatchStartResponse(
       failed: (json['failed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5422,12 +5422,12 @@ class BatchStopResponse {
   factory BatchStopResponse.fromJson(Map<String, dynamic> json) {
     return BatchStopResponse(
       failed: (json['failed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5980,7 +5980,7 @@ class CaptionDescription {
       accessibility:
           (json['accessibility'] as String?)?.let(AccessibilityType.fromString),
       captionDashRoles: (json['captionDashRoles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DashRoleCaption.fromString((e as String)))
           .toList(),
       destinationSettings: json['destinationSettings'] != null
@@ -6534,11 +6534,11 @@ class Channel {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -6547,7 +6547,7 @@ class Channel {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -6561,7 +6561,7 @@ class Channel {
           : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -6765,16 +6765,16 @@ class ChannelSummary {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -6912,7 +6912,7 @@ class ColorCorrectionSettings {
   factory ColorCorrectionSettings.fromJson(Map<String, dynamic> json) {
     return ColorCorrectionSettings(
       globalColorCorrections: (json['globalColorCorrections'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColorCorrection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7191,11 +7191,11 @@ class DeleteChannelResponse {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -7204,7 +7204,7 @@ class DeleteChannelResponse {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -7218,7 +7218,7 @@ class DeleteChannelResponse {
           : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -7344,7 +7344,7 @@ class DeleteMultiplexProgramResponse {
               json['packetIdentifiersMap'] as Map<String, dynamic>)
           : null,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiplexProgramPipelineDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7419,11 +7419,11 @@ class DeleteMultiplexResponse {
     return DeleteMultiplexResponse(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7759,11 +7759,11 @@ class DescribeChannelResponse {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -7772,7 +7772,7 @@ class DescribeChannelResponse {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -7786,7 +7786,7 @@ class DescribeChannelResponse {
           : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -7938,7 +7938,7 @@ class DescribeInputDeviceResponse {
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
       medialiveInputArns: (json['medialiveInputArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -8118,37 +8118,37 @@ class DescribeInputResponse {
     return DescribeInputResponse(
       arn: json['arn'] as String?,
       attachedChannels: (json['attachedChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
       inputClass: (json['inputClass'] as String?)?.let(InputClass.fromString),
       inputDevices: (json['inputDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputPartnerIds: (json['inputPartnerIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inputSourceType:
           (json['inputSourceType'] as String?)?.let(InputSourceType.fromString),
       mediaConnectFlows: (json['mediaConnectFlows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaConnectFlow.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       roleArn: json['roleArn'] as String?,
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['state'] as String?)?.let(InputState.fromString),
@@ -8230,16 +8230,14 @@ class DescribeInputSecurityGroupResponse {
     return DescribeInputSecurityGroupResponse(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
-      inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      inputs:
+          (json['inputs'] as List?)?.nonNulls.map((e) => e as String).toList(),
       state:
           (json['state'] as String?)?.let(InputSecurityGroupState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       whitelistRules: (json['whitelistRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputWhitelistRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8304,7 +8302,7 @@ class DescribeMultiplexProgramResponse {
               json['packetIdentifiersMap'] as Map<String, dynamic>)
           : null,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiplexProgramPipelineDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8379,11 +8377,11 @@ class DescribeMultiplexResponse {
     return DescribeMultiplexResponse(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8713,7 +8711,7 @@ class DescribeScheduleResponse {
     return DescribeScheduleResponse(
       nextToken: json['nextToken'] as String?,
       scheduleActions: (json['scheduleActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8740,7 +8738,7 @@ class DescribeThumbnailsResponse {
   factory DescribeThumbnailsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeThumbnailsResponse(
       thumbnailDetails: (json['thumbnailDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThumbnailDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10148,17 +10146,17 @@ class EncoderSettings {
   factory EncoderSettings.fromJson(Map<String, dynamic> json) {
     return EncoderSettings(
       audioDescriptions: (json['audioDescriptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AudioDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputGroups: (json['outputGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OutputGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       timecodeConfig: TimecodeConfig.fromJson(
           json['timecodeConfig'] as Map<String, dynamic>),
       videoDescriptions: (json['videoDescriptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VideoDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       availBlanking: json['availBlanking'] != null
@@ -10174,7 +10172,7 @@ class EncoderSettings {
               json['blackoutSlate'] as Map<String, dynamic>)
           : null,
       captionDescriptions: (json['captionDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       colorCorrectionSettings: json['colorCorrectionSettings'] != null
@@ -13326,7 +13324,7 @@ class HlsGroupSettings {
       destination: OutputLocationRef.fromJson(
           json['destination'] as Map<String, dynamic>),
       adMarkers: (json['adMarkers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HlsAdMarkers.fromString((e as String)))
           .toList(),
       baseUrlContent: json['baseUrlContent'] as String?,
@@ -13334,7 +13332,7 @@ class HlsGroupSettings {
       baseUrlManifest: json['baseUrlManifest'] as String?,
       baseUrlManifest1: json['baseUrlManifest1'] as String?,
       captionLanguageMappings: (json['captionLanguageMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CaptionLanguageMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14324,37 +14322,37 @@ class Input {
     return Input(
       arn: json['arn'] as String?,
       attachedChannels: (json['attachedChannels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
       inputClass: (json['inputClass'] as String?)?.let(InputClass.fromString),
       inputDevices: (json['inputDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputPartnerIds: (json['inputPartnerIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inputSourceType:
           (json['inputSourceType'] as String?)?.let(InputSourceType.fromString),
       mediaConnectFlows: (json['mediaConnectFlows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaConnectFlow.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       roleArn: json['roleArn'] as String?,
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['state'] as String?)?.let(InputState.fromString),
@@ -15033,7 +15031,7 @@ class InputDeviceNetworkSettings {
   factory InputDeviceNetworkSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceNetworkSettings(
       dnsAddresses: (json['dnsAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       gateway: json['gateway'] as String?,
@@ -15242,7 +15240,7 @@ class InputDeviceSummary {
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
       medialiveInputArns: (json['medialiveInputArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -15405,7 +15403,7 @@ class InputDeviceUhdSettings {
       activeInput: (json['activeInput'] as String?)
           ?.let(InputDeviceActiveInput.fromString),
       audioChannelPairs: (json['audioChannelPairs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDeviceUhdAudioChannelPairConfig.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -15754,10 +15752,8 @@ class InputPrepareScheduleActionSettings {
           ? InputClippingSettings.fromJson(
               json['inputClippingSettings'] as Map<String, dynamic>)
           : null,
-      urlPath: (json['urlPath'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urlPath:
+          (json['urlPath'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -15826,16 +15822,14 @@ class InputSecurityGroup {
     return InputSecurityGroup(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
-      inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      inputs:
+          (json['inputs'] as List?)?.nonNulls.map((e) => e as String).toList(),
       state:
           (json['state'] as String?)?.let(InputSecurityGroupState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       whitelistRules: (json['whitelistRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputWhitelistRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15944,11 +15938,11 @@ class InputSettings {
   factory InputSettings.fromJson(Map<String, dynamic> json) {
     return InputSettings(
       audioSelectors: (json['audioSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       captionSelectors: (json['captionSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaptionSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       deblockFilter: (json['deblockFilter'] as String?)
@@ -16199,10 +16193,8 @@ class InputSwitchScheduleActionSettings {
           ? InputClippingSettings.fromJson(
               json['inputClippingSettings'] as Map<String, dynamic>)
           : null,
-      urlPath: (json['urlPath'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urlPath:
+          (json['urlPath'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -16385,7 +16377,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16419,7 +16411,7 @@ class ListInputDeviceTransfersResponse {
   factory ListInputDeviceTransfersResponse.fromJson(Map<String, dynamic> json) {
     return ListInputDeviceTransfersResponse(
       inputDeviceTransfers: (json['inputDeviceTransfers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TransferringInputDeviceSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -16454,7 +16446,7 @@ class ListInputDevicesResponse {
   factory ListInputDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListInputDevicesResponse(
       inputDevices: (json['inputDevices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16485,7 +16477,7 @@ class ListInputSecurityGroupsResponse {
   factory ListInputSecurityGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputSecurityGroupsResponse(
       inputSecurityGroups: (json['inputSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputSecurityGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16516,7 +16508,7 @@ class ListInputsResponse {
   factory ListInputsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputsResponse(
       inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Input.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16549,7 +16541,7 @@ class ListMultiplexProgramsResponse {
   factory ListMultiplexProgramsResponse.fromJson(Map<String, dynamic> json) {
     return ListMultiplexProgramsResponse(
       multiplexPrograms: (json['multiplexPrograms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexProgramSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -16583,7 +16575,7 @@ class ListMultiplexesResponse {
   factory ListMultiplexesResponse.fromJson(Map<String, dynamic> json) {
     return ListMultiplexesResponse(
       multiplexes: (json['multiplexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiplexSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16617,7 +16609,7 @@ class ListOfferingsResponse {
     return ListOfferingsResponse(
       nextToken: json['nextToken'] as String?,
       offerings: (json['offerings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Offering.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -16650,7 +16642,7 @@ class ListReservationsResponse {
     return ListReservationsResponse(
       nextToken: json['nextToken'] as String?,
       reservations: (json['reservations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Reservation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18840,11 +18832,11 @@ class Multiplex {
     return Multiplex(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19018,7 +19010,7 @@ class MultiplexProgram {
               json['packetIdentifiersMap'] as Map<String, dynamic>)
           : null,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiplexProgramPipelineDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -19116,28 +19108,22 @@ class MultiplexProgramPacketIdentifiersMap {
   factory MultiplexProgramPacketIdentifiersMap.fromJson(
       Map<String, dynamic> json) {
     return MultiplexProgramPacketIdentifiersMap(
-      audioPids: (json['audioPids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
-      dvbSubPids: (json['dvbSubPids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      audioPids:
+          (json['audioPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
+      dvbSubPids:
+          (json['dvbSubPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       dvbTeletextPid: json['dvbTeletextPid'] as int?,
       etvPlatformPid: json['etvPlatformPid'] as int?,
       etvSignalPid: json['etvSignalPid'] as int?,
       klvDataPids: (json['klvDataPids'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       pcrPid: json['pcrPid'] as int?,
       pmtPid: json['pmtPid'] as int?,
       privateMetadataPid: json['privateMetadataPid'] as int?,
-      scte27Pids: (json['scte27Pids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      scte27Pids:
+          (json['scte27Pids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       scte35Pid: json['scte35Pid'] as int?,
       timedMetadataPid: json['timedMetadataPid'] as int?,
       videoPid: json['videoPid'] as int?,
@@ -19504,7 +19490,7 @@ class MultiplexSummary {
     return MultiplexSummary(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       id: json['id'] as String?,
@@ -20034,11 +20020,11 @@ class Output {
       outputSettings: OutputSettings.fromJson(
           json['outputSettings'] as Map<String, dynamic>),
       audioDescriptionNames: (json['audioDescriptionNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       captionDescriptionNames: (json['captionDescriptionNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       outputName: json['outputName'] as String?,
@@ -20093,7 +20079,7 @@ class OutputDestination {
     return OutputDestination(
       id: json['id'] as String?,
       mediaPackageSettings: (json['mediaPackageSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaPackageOutputDestinationSettings.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -20102,7 +20088,7 @@ class OutputDestination {
               json['multiplexSettings'] as Map<String, dynamic>)
           : null,
       settings: (json['settings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OutputDestinationSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20189,7 +20175,7 @@ class OutputGroup {
       outputGroupSettings: OutputGroupSettings.fromJson(
           json['outputGroupSettings'] as Map<String, dynamic>),
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -20479,7 +20465,7 @@ class PauseStateScheduleActionSettings {
   factory PauseStateScheduleActionSettings.fromJson(Map<String, dynamic> json) {
     return PauseStateScheduleActionSettings(
       pipelines: (json['pipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PipelinePauseStateSettings.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20757,7 +20743,7 @@ class RemixSettings {
   factory RemixSettings.fromJson(Map<String, dynamic> json) {
     return RemixSettings(
       channelMappings: (json['channelMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AudioChannelMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelsIn: json['channelsIn'] as int?,
@@ -21334,7 +21320,7 @@ class RtmpGroupSettings {
   factory RtmpGroupSettings.fromJson(Map<String, dynamic> json) {
     return RtmpGroupSettings(
       adMarkers: (json['adMarkers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RtmpAdMarkers.fromString((e as String)))
           .toList(),
       authenticationScheme: (json['authenticationScheme'] as String?)
@@ -22497,7 +22483,7 @@ class Scte35TimeSignalScheduleActionSettings {
       Map<String, dynamic> json) {
     return Scte35TimeSignalScheduleActionSettings(
       scte35Descriptors: (json['scte35Descriptors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Scte35Descriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -22806,11 +22792,11 @@ class StartChannelResponse {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -22819,7 +22805,7 @@ class StartChannelResponse {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -22833,7 +22819,7 @@ class StartChannelResponse {
           : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -22968,11 +22954,11 @@ class StartMultiplexResponse {
     return StartMultiplexResponse(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23257,7 +23243,7 @@ class StaticImageOutputActivateScheduleActionSettings {
     return StaticImageOutputActivateScheduleActionSettings(
       image: InputLocation.fromJson(json['image'] as Map<String, dynamic>),
       outputNames: (json['outputNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       duration: json['duration'] as int?,
@@ -23322,7 +23308,7 @@ class StaticImageOutputDeactivateScheduleActionSettings {
       Map<String, dynamic> json) {
     return StaticImageOutputDeactivateScheduleActionSettings(
       outputNames: (json['outputNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       fadeOut: json['fadeOut'] as int?,
@@ -23461,11 +23447,11 @@ class StopChannelResponse {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -23474,7 +23460,7 @@ class StopChannelResponse {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -23488,7 +23474,7 @@ class StopChannelResponse {
           : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -23609,11 +23595,11 @@ class StopMultiplexResponse {
     return StopMultiplexResponse(
       arn: json['arn'] as String?,
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23917,7 +23903,7 @@ class ThumbnailDetail {
     return ThumbnailDetail(
       pipelineId: json['pipelineId'] as String?,
       thumbnails: (json['thumbnails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -24508,7 +24494,7 @@ class UpdateInputDeviceResponse {
       id: json['id'] as String?,
       macAddress: json['macAddress'] as String?,
       medialiveInputArns: (json['medialiveInputArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -25181,19 +25167,19 @@ class VpcOutputSettingsDescription {
   factory VpcOutputSettingsDescription.fromJson(Map<String, dynamic> json) {
     return VpcOutputSettingsDescription(
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       networkInterfaceIds: (json['networkInterfaceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -25562,11 +25548,11 @@ class RestartChannelPipelinesResponse {
       channelClass:
           (json['channelClass'] as String?)?.let(ChannelClass.fromString),
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       encoderSettings: json['encoderSettings'] != null
@@ -25575,7 +25561,7 @@ class RestartChannelPipelinesResponse {
           : null,
       id: json['id'] as String?,
       inputAttachments: (json['inputAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       inputSpecification: json['inputSpecification'] != null
@@ -25590,7 +25576,7 @@ class RestartChannelPipelinesResponse {
       maintenanceStatus: json['maintenanceStatus'] as String?,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
@@ -26513,7 +26499,7 @@ class CreateEventBridgeRuleTemplateResponse {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       eventTargets: (json['eventTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26617,7 +26603,7 @@ class CreateSignalMapResponse {
       arn: json['arn'] as String?,
       cloudWatchAlarmTemplateGroupIds:
           (json['cloudWatchAlarmTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -26626,7 +26612,7 @@ class CreateSignalMapResponse {
       errorMessage: json['errorMessage'] as String?,
       eventBridgeRuleTemplateGroupIds:
           (json['eventBridgeRuleTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failedMediaResourceMap: (json['failedMediaResourceMap']
@@ -27220,7 +27206,7 @@ class GetEventBridgeRuleTemplateResponse {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       eventTargets: (json['eventTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -27324,7 +27310,7 @@ class GetSignalMapResponse {
       arn: json['arn'] as String?,
       cloudWatchAlarmTemplateGroupIds:
           (json['cloudWatchAlarmTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -27333,7 +27319,7 @@ class GetSignalMapResponse {
       errorMessage: json['errorMessage'] as String?,
       eventBridgeRuleTemplateGroupIds:
           (json['eventBridgeRuleTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failedMediaResourceMap: (json['failedMediaResourceMap']
@@ -27437,7 +27423,7 @@ class ListCloudWatchAlarmTemplateGroupsResponse {
     return ListCloudWatchAlarmTemplateGroupsResponse(
       cloudWatchAlarmTemplateGroups:
           (json['cloudWatchAlarmTemplateGroups'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CloudWatchAlarmTemplateGroupSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -27473,7 +27459,7 @@ class ListCloudWatchAlarmTemplatesResponse {
       Map<String, dynamic> json) {
     return ListCloudWatchAlarmTemplatesResponse(
       cloudWatchAlarmTemplates: (json['cloudWatchAlarmTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CloudWatchAlarmTemplateSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -27511,7 +27497,7 @@ class ListEventBridgeRuleTemplateGroupsResponse {
     return ListEventBridgeRuleTemplateGroupsResponse(
       eventBridgeRuleTemplateGroups:
           (json['eventBridgeRuleTemplateGroups'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EventBridgeRuleTemplateGroupSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -27547,7 +27533,7 @@ class ListEventBridgeRuleTemplatesResponse {
       Map<String, dynamic> json) {
     return ListEventBridgeRuleTemplatesResponse(
       eventBridgeRuleTemplates: (json['eventBridgeRuleTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventBridgeRuleTemplateSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -27582,7 +27568,7 @@ class ListSignalMapsResponse {
     return ListSignalMapsResponse(
       nextToken: json['nextToken'] as String?,
       signalMaps: (json['signalMaps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SignalMapSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -27615,12 +27601,12 @@ class MediaResource {
   factory MediaResource.fromJson(Map<String, dynamic> json) {
     return MediaResource(
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaResourceNeighbor.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaResourceNeighbor.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -27889,7 +27875,7 @@ class StartDeleteMonitorDeploymentResponse {
       arn: json['arn'] as String?,
       cloudWatchAlarmTemplateGroupIds:
           (json['cloudWatchAlarmTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -27898,7 +27884,7 @@ class StartDeleteMonitorDeploymentResponse {
       errorMessage: json['errorMessage'] as String?,
       eventBridgeRuleTemplateGroupIds:
           (json['eventBridgeRuleTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failedMediaResourceMap: (json['failedMediaResourceMap']
@@ -28046,7 +28032,7 @@ class StartMonitorDeploymentResponse {
       arn: json['arn'] as String?,
       cloudWatchAlarmTemplateGroupIds:
           (json['cloudWatchAlarmTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -28055,7 +28041,7 @@ class StartMonitorDeploymentResponse {
       errorMessage: json['errorMessage'] as String?,
       eventBridgeRuleTemplateGroupIds:
           (json['eventBridgeRuleTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failedMediaResourceMap: (json['failedMediaResourceMap']
@@ -28203,7 +28189,7 @@ class StartUpdateSignalMapResponse {
       arn: json['arn'] as String?,
       cloudWatchAlarmTemplateGroupIds:
           (json['cloudWatchAlarmTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -28212,7 +28198,7 @@ class StartUpdateSignalMapResponse {
       errorMessage: json['errorMessage'] as String?,
       eventBridgeRuleTemplateGroupIds:
           (json['eventBridgeRuleTemplateGroupIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       failedMediaResourceMap: (json['failedMediaResourceMap']
@@ -28632,7 +28618,7 @@ class UpdateEventBridgeRuleTemplateResponse {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       eventTargets: (json['eventTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EventBridgeRuleTemplateTarget.fromJson(e as Map<String, dynamic>))
           .toList(),

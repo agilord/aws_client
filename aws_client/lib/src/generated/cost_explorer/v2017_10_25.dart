@@ -3644,7 +3644,7 @@ class Anomaly {
       feedback:
           (json['Feedback'] as String?)?.let(AnomalyFeedbackType.fromString),
       rootCauses: (json['RootCauses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RootCause.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3948,11 +3948,11 @@ class AnomalySubscription {
       frequency: AnomalySubscriptionFrequency.fromString(
           (json['Frequency'] as String)),
       monitorArnList: (json['MonitorArnList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       subscribers: (json['Subscribers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionName: json['SubscriptionName'] as String,
@@ -4262,18 +4262,18 @@ class CostCategory {
       ruleVersion:
           CostCategoryRuleVersion.fromString((json['RuleVersion'] as String)),
       rules: (json['Rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       defaultValue: json['DefaultValue'] as String?,
       effectiveEnd: json['EffectiveEnd'] as String?,
       processingStatus: (json['ProcessingStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       splitChargeRules: (json['SplitChargeRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CostCategorySplitChargeRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4441,14 +4441,12 @@ class CostCategoryReference {
       name: json['Name'] as String?,
       numberOfRules: json['NumberOfRules'] as int?,
       processingStatus: (json['ProcessingStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4631,12 +4629,10 @@ class CostCategorySplitChargeRule {
       method:
           CostCategorySplitChargeMethod.fromString((json['Method'] as String)),
       source: json['Source'] as String,
-      targets: (json['Targets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targets:
+          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CostCategorySplitChargeRuleParameter.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4675,10 +4671,8 @@ class CostCategorySplitChargeRuleParameter {
     return CostCategorySplitChargeRuleParameter(
       type: CostCategorySplitChargeRuleParameterType.fromString(
           (json['Type'] as String)),
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4768,13 +4762,11 @@ class CostCategoryValues {
     return CostCategoryValues(
       key: json['Key'] as String?,
       matchOptions: (json['MatchOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchOption.fromString((e as String)))
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4858,7 +4850,7 @@ class CoverageByTime {
   factory CoverageByTime.fromJson(Map<String, dynamic> json) {
     return CoverageByTime(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5167,7 +5159,7 @@ class CurrentInstance {
       savingsPlansCoveredHoursInLookbackPeriod:
           json['SavingsPlansCoveredHoursInLookbackPeriod'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagValues.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalRunningHoursInLookbackPeriod:
@@ -5417,13 +5409,11 @@ class DimensionValues {
     return DimensionValues(
       key: (json['Key'] as String?)?.let(Dimension.fromString),
       matchOptions: (json['MatchOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchOption.fromString((e as String)))
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6088,7 +6078,7 @@ class Expression {
   factory Expression.fromJson(Map<String, dynamic> json) {
     return Expression(
       and: (json['And'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Expression.fromJson(e as Map<String, dynamic>))
           .toList(),
       costCategories: json['CostCategories'] != null
@@ -6102,7 +6092,7 @@ class Expression {
           ? Expression.fromJson(json['Not'] as Map<String, dynamic>)
           : null,
       or: (json['Or'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Expression.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: json['Tags'] != null
@@ -6298,7 +6288,7 @@ class GetAnomaliesResponse {
   factory GetAnomaliesResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomaliesResponse(
       anomalies: (json['Anomalies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -6333,7 +6323,7 @@ class GetAnomalyMonitorsResponse {
   factory GetAnomalyMonitorsResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomalyMonitorsResponse(
       anomalyMonitors: (json['AnomalyMonitors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnomalyMonitor.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -6368,7 +6358,7 @@ class GetAnomalySubscriptionsResponse {
   factory GetAnomalySubscriptionsResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomalySubscriptionsResponse(
       anomalySubscriptions: (json['AnomalySubscriptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnomalySubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -6453,17 +6443,17 @@ class GetCostAndUsageResponse {
   factory GetCostAndUsageResponse.fromJson(Map<String, dynamic> json) {
     return GetCostAndUsageResponse(
       dimensionValueAttributes: (json['DimensionValueAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupDefinitions: (json['GroupDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
       resultsByTime: (json['ResultsByTime'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6512,17 +6502,17 @@ class GetCostAndUsageWithResourcesResponse {
       Map<String, dynamic> json) {
     return GetCostAndUsageWithResourcesResponse(
       dimensionValueAttributes: (json['DimensionValueAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupDefinitions: (json['GroupDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
       resultsByTime: (json['ResultsByTime'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6578,11 +6568,11 @@ class GetCostCategoriesResponse {
       returnSize: json['ReturnSize'] as int,
       totalSize: json['TotalSize'] as int,
       costCategoryNames: (json['CostCategoryNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       costCategoryValues: (json['CostCategoryValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -6623,7 +6613,7 @@ class GetCostForecastResponse {
   factory GetCostForecastResponse.fromJson(Map<String, dynamic> json) {
     return GetCostForecastResponse(
       forecastResultsByTime: (json['ForecastResultsByTime'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: json['Total'] != null
@@ -6803,7 +6793,7 @@ class GetDimensionValuesResponse {
   factory GetDimensionValuesResponse.fromJson(Map<String, dynamic> json) {
     return GetDimensionValuesResponse(
       dimensionValues: (json['DimensionValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6848,7 +6838,7 @@ class GetReservationCoverageResponse {
   factory GetReservationCoverageResponse.fromJson(Map<String, dynamic> json) {
     return GetReservationCoverageResponse(
       coveragesByTime: (json['CoveragesByTime'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CoverageByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -6896,7 +6886,7 @@ class GetReservationPurchaseRecommendationResponse {
           : null,
       nextPageToken: json['NextPageToken'] as String?,
       recommendations: (json['Recommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReservationPurchaseRecommendation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6937,7 +6927,7 @@ class GetReservationUtilizationResponse {
       Map<String, dynamic> json) {
     return GetReservationUtilizationResponse(
       utilizationsByTime: (json['UtilizationsByTime'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => UtilizationByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7002,7 +6992,7 @@ class GetRightsizingRecommendationResponse {
           : null,
       nextPageToken: json['NextPageToken'] as String?,
       rightsizingRecommendations: (json['RightsizingRecommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RightsizingRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7082,7 +7072,7 @@ class GetSavingsPlansCoverageResponse {
   factory GetSavingsPlansCoverageResponse.fromJson(Map<String, dynamic> json) {
     return GetSavingsPlansCoverageResponse(
       savingsPlansCoverages: (json['SavingsPlansCoverages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SavingsPlansCoverage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7176,7 +7166,7 @@ class GetSavingsPlansUtilizationDetailsResponse {
     return GetSavingsPlansUtilizationDetailsResponse(
       savingsPlansUtilizationDetails: (json['SavingsPlansUtilizationDetails']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SavingsPlansUtilizationDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7225,7 +7215,7 @@ class GetSavingsPlansUtilizationResponse {
           json['Total'] as Map<String, dynamic>),
       savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7268,10 +7258,7 @@ class GetTagsResponse {
   factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
     return GetTagsResponse(
       returnSize: json['ReturnSize'] as int,
-      tags: (json['Tags'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tags: (json['Tags'] as List).nonNulls.map((e) => e as String).toList(),
       totalSize: json['TotalSize'] as int,
       nextPageToken: json['NextPageToken'] as String?,
     );
@@ -7308,7 +7295,7 @@ class GetUsageForecastResponse {
   factory GetUsageForecastResponse.fromJson(Map<String, dynamic> json) {
     return GetUsageForecastResponse(
       forecastResultsByTime: (json['ForecastResultsByTime'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: json['Total'] != null
@@ -7358,10 +7345,7 @@ class Group {
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
-      keys: (json['Keys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
       metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>))),
     );
@@ -7589,7 +7573,7 @@ class ListCostAllocationTagBackfillHistoryResponse {
       Map<String, dynamic> json) {
     return ListCostAllocationTagBackfillHistoryResponse(
       backfillRequests: (json['BackfillRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CostAllocationTagBackfillRequest.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7625,7 +7609,7 @@ class ListCostAllocationTagsResponse {
   factory ListCostAllocationTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListCostAllocationTagsResponse(
       costAllocationTags: (json['CostAllocationTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CostAllocationTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7661,7 +7645,7 @@ class ListCostCategoryDefinitionsResponse {
       Map<String, dynamic> json) {
     return ListCostCategoryDefinitionsResponse(
       costCategoryReferences: (json['CostCategoryReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CostCategoryReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7695,7 +7679,7 @@ class ListSavingsPlansPurchaseRecommendationGenerationResponse {
       Map<String, dynamic> json) {
     return ListSavingsPlansPurchaseRecommendationGenerationResponse(
       generationSummaryList: (json['GenerationSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GenerationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7724,7 +7708,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7888,7 +7872,7 @@ class ModifyRecommendationDetail {
   factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) {
     return ModifyRecommendationDetail(
       targetInstances: (json['TargetInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8326,7 +8310,7 @@ class RecommendationDetailData {
       lookbackPeriodInDays: (json['LookbackPeriodInDays'] as String?)
           ?.let(LookbackPeriodInDays.fromString),
       metricsOverLookbackPeriod: (json['MetricsOverLookbackPeriod'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationDetailHourlyMetrics.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8788,7 +8772,7 @@ class ReservationPurchaseRecommendation {
       paymentOption:
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       recommendationDetails: (json['RecommendationDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReservationPurchaseRecommendationDetail.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -9302,7 +9286,7 @@ class ResultByTime {
     return ResultByTime(
       estimated: json['Estimated'] as bool?,
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
       timePeriod: json['TimePeriod'] != null
@@ -9366,7 +9350,7 @@ class RightsizingRecommendation {
               json['CurrentInstance'] as Map<String, dynamic>)
           : null,
       findingReasonCodes: (json['FindingReasonCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingReasonCode.fromString((e as String)))
           .toList(),
       modifyRecommendationDetail: json['ModifyRecommendationDetail'] != null
@@ -9858,7 +9842,7 @@ class SavingsPlansPurchaseRecommendation {
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       savingsPlansPurchaseRecommendationDetails:
           (json['SavingsPlansPurchaseRecommendationDetails'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => SavingsPlansPurchaseRecommendationDetail.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -10755,13 +10739,11 @@ class TagValues {
     return TagValues(
       key: json['Key'] as String?,
       matchOptions: (json['MatchOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchOption.fromString((e as String)))
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10826,7 +10808,7 @@ class TargetInstance {
               json['ExpectedResourceUtilization'] as Map<String, dynamic>)
           : null,
       platformDifferences: (json['PlatformDifferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlatformDifference.fromString((e as String)))
           .toList(),
       resourceDetails: json['ResourceDetails'] != null
@@ -11046,7 +11028,7 @@ class UpdateCostAllocationTagsStatusResponse {
       Map<String, dynamic> json) {
     return UpdateCostAllocationTagsStatusResponse(
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateCostAllocationTagsStatusError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11112,7 +11094,7 @@ class UtilizationByTime {
   factory UtilizationByTime.fromJson(Map<String, dynamic> json) {
     return UtilizationByTime(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
           .toList(),

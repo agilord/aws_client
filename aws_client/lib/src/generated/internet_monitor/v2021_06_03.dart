@@ -1354,7 +1354,7 @@ class GetHealthEventOutput {
       impactType:
           HealthEventImpactType.fromString((json['ImpactType'] as String)),
       impactedLocations: (json['ImpactedLocations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt:
@@ -1557,10 +1557,8 @@ class GetMonitorOutput {
       modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
       monitorArn: json['MonitorArn'] as String,
       monitorName: json['MonitorName'] as String,
-      resources: (json['Resources'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      resources:
+          (json['Resources'] as List).nonNulls.map((e) => e as String).toList(),
       status: MonitorConfigState.fromString((json['Status'] as String)),
       healthEventsConfig: json['HealthEventsConfig'] != null
           ? HealthEventsConfig.fromJson(
@@ -1644,12 +1642,11 @@ class GetQueryResultsOutput {
   factory GetQueryResultsOutput.fromJson(Map<String, dynamic> json) {
     return GetQueryResultsOutput(
       data: (json['Data'] as List)
-          .whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          .nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       fields: (json['Fields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => QueryField.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1755,7 +1752,7 @@ class HealthEvent {
       impactType:
           HealthEventImpactType.fromString((json['ImpactType'] as String)),
       impactedLocations: (json['ImpactedLocations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt:
@@ -2022,7 +2019,7 @@ class ImpactedLocation {
               json['InternetHealth'] as Map<String, dynamic>)
           : null,
       ipv4Prefixes: (json['Ipv4Prefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       latitude: json['Latitude'] as double?,
@@ -2285,7 +2282,7 @@ class ListHealthEventsOutput {
   factory ListHealthEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListHealthEventsOutput(
       healthEvents: (json['HealthEvents'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HealthEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2318,7 +2315,7 @@ class ListInternetEventsOutput {
   factory ListInternetEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListInternetEventsOutput(
       internetEvents: (json['InternetEvents'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InternetEventSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2351,7 +2348,7 @@ class ListMonitorsOutput {
   factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
     return ListMonitorsOutput(
       monitors: (json['Monitors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2619,13 +2616,13 @@ class NetworkImpairment {
   factory NetworkImpairment.fromJson(Map<String, dynamic> json) {
     return NetworkImpairment(
       asPath: (json['AsPath'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkEventType: TriangulationEventType.fromString(
           (json['NetworkEventType'] as String)),
       networks: (json['Networks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

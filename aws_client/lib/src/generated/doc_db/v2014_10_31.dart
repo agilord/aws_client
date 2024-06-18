@@ -6731,7 +6731,7 @@ class Event {
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString) /* Nullability(true, true) */,
+          ?.let(SourceType.fromString),
     );
   }
 
@@ -7509,7 +7509,7 @@ class Parameter {
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
       applyMethod: _s
           .extractXmlStringValue(elem, 'ApplyMethod')
-          ?.let(ApplyMethod.fromString) /* Nullability(true, true) */,
+          ?.let(ApplyMethod.fromString),
       applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),

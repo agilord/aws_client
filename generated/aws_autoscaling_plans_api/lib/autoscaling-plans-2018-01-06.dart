@@ -426,7 +426,7 @@ class ApplicationSource {
     return ApplicationSource(
       cloudFormationStackARN: json['CloudFormationStackARN'] as String?,
       tagFilters: (json['TagFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -529,7 +529,7 @@ class CustomizedLoadMetricSpecification {
       namespace: json['Namespace'] as String,
       statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       unit: json['Unit'] as String?,
@@ -611,7 +611,7 @@ class CustomizedScalingMetricSpecification {
       namespace: json['Namespace'] as String,
       statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       unit: json['Unit'] as String?,
@@ -681,7 +681,7 @@ class DescribeScalingPlanResourcesResponse {
     return DescribeScalingPlanResourcesResponse(
       nextToken: json['NextToken'] as String?,
       scalingPlanResources: (json['ScalingPlanResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingPlanResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -705,7 +705,7 @@ class DescribeScalingPlansResponse {
     return DescribeScalingPlansResponse(
       nextToken: json['NextToken'] as String?,
       scalingPlans: (json['ScalingPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingPlan.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -741,7 +741,7 @@ class GetScalingPlanResourceForecastDataResponse {
       Map<String, dynamic> json) {
     return GetScalingPlanResourceForecastDataResponse(
       datapoints: (json['Datapoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Datapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1246,7 +1246,7 @@ class ScalingInstruction {
           ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       targetTrackingConfigurations: (json['TargetTrackingConfigurations']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TargetTrackingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1423,7 +1423,7 @@ class ScalingPlan {
       applicationSource: ApplicationSource.fromJson(
           json['ApplicationSource'] as Map<String, dynamic>),
       scalingInstructions: (json['ScalingInstructions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScalingInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
       scalingPlanName: json['ScalingPlanName'] as String,
@@ -1571,7 +1571,7 @@ class ScalingPlanResource {
       serviceNamespace:
           ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       scalingStatusMessage: json['ScalingStatusMessage'] as String?,
@@ -1695,10 +1695,8 @@ class TagFilter {
   factory TagFilter.fromJson(Map<String, dynamic> json) {
     return TagFilter(
       key: json['Key'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 

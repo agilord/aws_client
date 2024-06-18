@@ -531,7 +531,7 @@ class ListItemsResponse {
   factory ListItemsResponse.fromJson(Map<String, dynamic> json) {
     return ListItemsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

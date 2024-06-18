@@ -1379,13 +1379,13 @@ class GroupConfiguration {
   factory GroupConfiguration.fromJson(Map<String, dynamic> json) {
     return GroupConfiguration(
       configuration: (json['Configuration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureReason: json['FailureReason'] as String?,
       proposedConfiguration: (json['ProposedConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1422,7 +1422,7 @@ class GroupConfigurationItem {
     return GroupConfigurationItem(
       type: json['Type'] as String,
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GroupConfigurationParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1464,10 +1464,8 @@ class GroupConfigurationParameter {
   factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
     return GroupConfigurationParameter(
       name: json['Name'] as String,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1641,15 +1639,15 @@ class GroupResourcesOutput {
   factory GroupResourcesOutput.fromJson(Map<String, dynamic> json) {
     return GroupResourcesOutput(
       failed: (json['Failed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       pending: (json['Pending'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       succeeded: (json['Succeeded'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1725,15 +1723,15 @@ class ListGroupResourcesOutput {
     return ListGroupResourcesOutput(
       nextToken: json['NextToken'] as String?,
       queryErrors: (json['QueryErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ListGroupResourcesItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1768,11 +1766,11 @@ class ListGroupsOutput {
   factory ListGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListGroupsOutput(
       groupIdentifiers: (json['GroupIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2155,11 +2153,11 @@ class SearchResourcesOutput {
     return SearchResourcesOutput(
       nextToken: json['NextToken'] as String?,
       queryErrors: (json['QueryErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2212,15 +2210,15 @@ class UngroupResourcesOutput {
   factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) {
     return UngroupResourcesOutput(
       failed: (json['Failed'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       pending: (json['Pending'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       succeeded: (json['Succeeded'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2242,10 +2240,7 @@ class UntagOutput {
   factory UntagOutput.fromJson(Map<String, dynamic> json) {
     return UntagOutput(
       arn: json['Arn'] as String?,
-      keys: (json['Keys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }

@@ -3953,7 +3953,7 @@ class BulkEmailDestinationStatus {
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(BulkEmailStatus.fromString) /* Nullability(true, true) */,
+          ?.let(BulkEmailStatus.fromString),
     );
   }
 
@@ -4114,7 +4114,7 @@ class CloudWatchDimensionConfiguration {
       dimensionName: _s.extractXmlStringValue(elem, 'DimensionName')!,
       dimensionValueSource: _s
           .extractXmlStringValue(elem, 'DimensionValueSource')!
-          .let(DimensionValueSource.fromString) /* Nullability(true, false) */,
+          .let(DimensionValueSource.fromString),
     );
   }
 
@@ -4554,7 +4554,7 @@ class DeliveryOptions {
     return DeliveryOptions(
       tlsPolicy: _s
           .extractXmlStringValue(elem, 'TlsPolicy')
-          ?.let(TlsPolicy.fromString) /* Nullability(true, true) */,
+          ?.let(TlsPolicy.fromString),
     );
   }
 
@@ -5422,7 +5422,7 @@ class IdentityDkimAttributes {
       dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled')!,
       dkimVerificationStatus: _s
           .extractXmlStringValue(elem, 'DkimVerificationStatus')!
-          .let(VerificationStatus.fromString) /* Nullability(true, false) */,
+          .let(VerificationStatus.fromString),
       dkimTokens: _s
           .extractXmlChild(elem, 'DkimTokens')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -5476,11 +5476,11 @@ class IdentityMailFromDomainAttributes {
     return IdentityMailFromDomainAttributes(
       behaviorOnMXFailure: _s
           .extractXmlStringValue(elem, 'BehaviorOnMXFailure')!
-          .let(BehaviorOnMXFailure.fromString) /* Nullability(true, false) */,
+          .let(BehaviorOnMXFailure.fromString),
       mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain')!,
       mailFromDomainStatus: _s
           .extractXmlStringValue(elem, 'MailFromDomainStatus')!
-          .let(CustomMailFromStatus.fromString) /* Nullability(true, false) */,
+          .let(CustomMailFromStatus.fromString),
     );
   }
 
@@ -5627,7 +5627,7 @@ class IdentityVerificationAttributes {
     return IdentityVerificationAttributes(
       verificationStatus: _s
           .extractXmlStringValue(elem, 'VerificationStatus')!
-          .let(VerificationStatus.fromString) /* Nullability(true, false) */,
+          .let(VerificationStatus.fromString),
       verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
     );
   }
@@ -5764,7 +5764,7 @@ class LambdaAction {
       functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
       invocationType: _s
           .extractXmlStringValue(elem, 'InvocationType')
-          ?.let(InvocationType.fromString) /* Nullability(true, true) */,
+          ?.let(InvocationType.fromString),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
@@ -6503,7 +6503,7 @@ class ReceiptIpFilter {
       cidr: _s.extractXmlStringValue(elem, 'Cidr')!,
       policy: _s
           .extractXmlStringValue(elem, 'Policy')!
-          .let(ReceiptFilterPolicy.fromString) /* Nullability(true, false) */,
+          .let(ReceiptFilterPolicy.fromString),
     );
   }
 
@@ -6598,7 +6598,7 @@ class ReceiptRule {
       scanEnabled: _s.extractXmlBoolValue(elem, 'ScanEnabled'),
       tlsPolicy: _s
           .extractXmlStringValue(elem, 'TlsPolicy')
-          ?.let(TlsPolicy.fromString) /* Nullability(true, true) */,
+          ?.let(TlsPolicy.fromString),
     );
   }
 
@@ -7049,7 +7049,7 @@ class SNSAction {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn')!,
       encoding: _s
           .extractXmlStringValue(elem, 'Encoding')
-          ?.let(SNSActionEncoding.fromString) /* Nullability(true, true) */,
+          ?.let(SNSActionEncoding.fromString),
     );
   }
 
@@ -7448,9 +7448,7 @@ class StopAction {
   });
   factory StopAction.fromXml(_s.XmlElement elem) {
     return StopAction(
-      scope: _s
-          .extractXmlStringValue(elem, 'Scope')!
-          .let(StopScope.fromString) /* Nullability(true, false) */,
+      scope: _s.extractXmlStringValue(elem, 'Scope')!.let(StopScope.fromString),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }

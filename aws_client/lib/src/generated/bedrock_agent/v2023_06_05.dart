@@ -2341,7 +2341,7 @@ class Agent {
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       foundationModel: json['foundationModel'] as String?,
@@ -2356,7 +2356,7 @@ class Agent {
               json['promptOverrideConfiguration'] as Map<String, dynamic>)
           : null,
       recommendedActions: (json['recommendedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2641,20 +2641,20 @@ class AgentAlias {
       agentId: json['agentId'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       routingConfiguration: (json['routingConfiguration'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AgentAliasRoutingConfigurationListItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       agentAliasHistoryEvents: (json['agentAliasHistoryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AgentAliasHistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       clientToken: json['clientToken'] as String?,
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2715,7 +2715,7 @@ class AgentAliasHistoryEvent {
     return AgentAliasHistoryEvent(
       endDate: timeStampFromJson(json['endDate']),
       routingConfiguration: (json['routingConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgentAliasRoutingConfigurationListItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2830,7 +2830,7 @@ class AgentAliasSummary {
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       routingConfiguration: (json['routingConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgentAliasRoutingConfigurationListItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3165,7 +3165,7 @@ class AgentVersion {
       customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       foundationModel: json['foundationModel'] as String?,
@@ -3179,7 +3179,7 @@ class AgentVersion {
               json['promptOverrideConfiguration'] as Map<String, dynamic>)
           : null,
       recommendedActions: (json['recommendedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3655,7 +3655,7 @@ class DataSource {
           ?.let(DataDeletionPolicy.fromString),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serverSideEncryptionConfiguration:
@@ -4196,7 +4196,7 @@ class FunctionSchema {
   factory FunctionSchema.fromJson(Map<String, dynamic> json) {
     return FunctionSchema(
       functions: (json['functions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => $Function.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4471,7 +4471,7 @@ class InferenceConfiguration {
     return InferenceConfiguration(
       maximumLength: json['maximumLength'] as int?,
       stopSequences: (json['stopSequences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       temperature: json['temperature'] as double?,
@@ -4569,7 +4569,7 @@ class IngestionJob {
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statistics: json['statistics'] != null
@@ -4956,7 +4956,7 @@ class KnowledgeBase {
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5163,7 +5163,7 @@ class ListAgentActionGroupsResponse {
   factory ListAgentActionGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentActionGroupsResponse(
       actionGroupSummaries: (json['actionGroupSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5198,7 +5198,7 @@ class ListAgentAliasesResponse {
   factory ListAgentAliasesResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentAliasesResponse(
       agentAliasSummaries: (json['agentAliasSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AgentAliasSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5233,7 +5233,7 @@ class ListAgentKnowledgeBasesResponse {
   factory ListAgentKnowledgeBasesResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentKnowledgeBasesResponse(
       agentKnowledgeBaseSummaries: (json['agentKnowledgeBaseSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AgentKnowledgeBaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5269,7 +5269,7 @@ class ListAgentVersionsResponse {
   factory ListAgentVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentVersionsResponse(
       agentVersionSummaries: (json['agentVersionSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AgentVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5303,7 +5303,7 @@ class ListAgentsResponse {
   factory ListAgentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentsResponse(
       agentSummaries: (json['agentSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AgentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5337,7 +5337,7 @@ class ListDataSourcesResponse {
   factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSourcesResponse(
       dataSourceSummaries: (json['dataSourceSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5372,7 +5372,7 @@ class ListIngestionJobsResponse {
   factory ListIngestionJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListIngestionJobsResponse(
       ingestionJobSummaries: (json['ingestionJobSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IngestionJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5407,7 +5407,7 @@ class ListKnowledgeBasesResponse {
   factory ListKnowledgeBasesResponse.fromJson(Map<String, dynamic> json) {
     return ListKnowledgeBasesResponse(
       knowledgeBaseSummaries: (json['knowledgeBaseSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KnowledgeBaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5973,7 +5973,7 @@ class PromptOverrideConfiguration {
   factory PromptOverrideConfiguration.fromJson(Map<String, dynamic> json) {
     return PromptOverrideConfiguration(
       promptConfigurations: (json['promptConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PromptConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       overrideLambda: json['overrideLambda'] as String?,
@@ -6242,7 +6242,7 @@ class S3DataSourceConfiguration {
       bucketArn: json['bucketArn'] as String,
       bucketOwnerAccountId: json['bucketOwnerAccountId'] as String?,
       inclusionPrefixes: (json['inclusionPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

@@ -1777,23 +1777,23 @@ class AttackDetail {
   factory AttackDetail.fromJson(Map<String, dynamic> json) {
     return AttackDetail(
       attackCounters: (json['AttackCounters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
           .toList(),
       attackId: json['AttackId'] as String?,
       attackProperties: (json['AttackProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttackProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       endTime: timeStampFromJson(json['EndTime']),
       mitigations: (json['Mitigations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Mitigation.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceArn: json['ResourceArn'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       subResources: (json['SubResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1880,7 +1880,7 @@ class AttackProperty {
       attackPropertyIdentifier: (json['AttackPropertyIdentifier'] as String?)
           ?.let(AttackPropertyIdentifier.fromString),
       topContributors: (json['TopContributors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Contributor.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: json['Total'] as int?,
@@ -1991,7 +1991,7 @@ class AttackSummary {
     return AttackSummary(
       attackId: json['AttackId'] as String?,
       attackVectors: (json['AttackVectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AttackVectorDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2380,7 +2380,7 @@ class DescribeAttackStatisticsResponse {
   factory DescribeAttackStatisticsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAttackStatisticsResponse(
       dataItems: (json['DataItems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AttackStatisticsDataItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2414,7 +2414,7 @@ class DescribeDRTAccessResponse {
   factory DescribeDRTAccessResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDRTAccessResponse(
       logBucketList: (json['LogBucketList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       roleArn: json['RoleArn'] as String?,
@@ -2445,7 +2445,7 @@ class DescribeEmergencyContactSettingsResponse {
       Map<String, dynamic> json) {
     return DescribeEmergencyContactSettingsResponse(
       emergencyContactList: (json['EmergencyContactList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EmergencyContact.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2821,7 +2821,7 @@ class ListAttacksResponse {
   factory ListAttacksResponse.fromJson(Map<String, dynamic> json) {
     return ListAttacksResponse(
       attackSummaries: (json['AttackSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttackSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2865,7 +2865,7 @@ class ListProtectionGroupsResponse {
   factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProtectionGroupsResponse(
       protectionGroups: (json['ProtectionGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProtectionGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2910,7 +2910,7 @@ class ListProtectionsResponse {
     return ListProtectionsResponse(
       nextToken: json['NextToken'] as String?,
       protections: (json['Protections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Protection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2955,7 +2955,7 @@ class ListResourcesInProtectionGroupResponse {
       Map<String, dynamic> json) {
     return ListResourcesInProtectionGroupResponse(
       resourceArns: (json['ResourceArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2983,7 +2983,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3100,7 +3100,7 @@ class Protection {
                       as Map<String, dynamic>)
               : null,
       healthCheckIds: (json['HealthCheckIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       id: json['Id'] as String?,
@@ -3197,10 +3197,8 @@ class ProtectionGroup {
     return ProtectionGroup(
       aggregation: ProtectionGroupAggregation.fromString(
           (json['Aggregation'] as String)),
-      members: (json['Members'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      members:
+          (json['Members'] as List).nonNulls.map((e) => e as String).toList(),
       pattern: ProtectionGroupPattern.fromString((json['Pattern'] as String)),
       protectionGroupId: json['ProtectionGroupId'] as String,
       protectionGroupArn: json['ProtectionGroupArn'] as String?,
@@ -3353,7 +3351,7 @@ class ProtectionLimits {
   factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionLimits(
       protectedResourceTypeLimits: (json['ProtectedResourceTypeLimits'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Limit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3439,12 +3437,12 @@ class SubResourceSummary {
   factory SubResourceSummary.fromJson(Map<String, dynamic> json) {
     return SubResourceSummary(
       attackVectors: (json['AttackVectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => SummarizedAttackVector.fromJson(e as Map<String, dynamic>))
           .toList(),
       counters: (json['Counters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
@@ -3542,7 +3540,7 @@ class Subscription {
       autoRenew: (json['AutoRenew'] as String?)?.let(AutoRenew.fromString),
       endTime: timeStampFromJson(json['EndTime']),
       limits: (json['Limits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Limit.fromJson(e as Map<String, dynamic>))
           .toList(),
       proactiveEngagementStatus: (json['ProactiveEngagementStatus'] as String?)
@@ -3641,7 +3639,7 @@ class SummarizedAttackVector {
     return SummarizedAttackVector(
       vectorType: json['VectorType'] as String,
       vectorCounters: (json['VectorCounters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

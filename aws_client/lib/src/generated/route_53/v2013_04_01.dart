@@ -4544,7 +4544,7 @@ class AccountLimit {
     return AccountLimit(
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(AccountLimitType.fromString) /* Nullability(true, false) */,
+          .let(AccountLimitType.fromString),
       value: _s.extractXmlIntValue(elem, 'Value')!,
     );
   }
@@ -4639,7 +4639,7 @@ class AlarmIdentifier {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       region: _s
           .extractXmlStringValue(elem, 'Region')!
-          .let(CloudWatchRegion.fromString) /* Nullability(true, false) */,
+          .let(CloudWatchRegion.fromString),
     );
   }
 
@@ -5399,7 +5399,7 @@ class ChangeInfo {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(ChangeStatus.fromString) /* Nullability(true, false) */,
+          .let(ChangeStatus.fromString),
       submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
@@ -5831,14 +5831,14 @@ class CloudWatchAlarmConfiguration {
     return CloudWatchAlarmConfiguration(
       comparisonOperator: _s
           .extractXmlStringValue(elem, 'ComparisonOperator')!
-          .let(ComparisonOperator.fromString) /* Nullability(true, false) */,
+          .let(ComparisonOperator.fromString),
       evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods')!,
       metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
       namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
       period: _s.extractXmlIntValue(elem, 'Period')!,
       statistic: _s
           .extractXmlStringValue(elem, 'Statistic')!
-          .let(Statistic.fromString) /* Nullability(true, false) */,
+          .let(Statistic.fromString),
       threshold: _s.extractXmlDoubleValue(elem, 'Threshold')!,
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
           elem.findElements('Dimension').map(Dimension.fromXml).toList()),
@@ -8617,7 +8617,7 @@ class HealthCheckConfig {
     return HealthCheckConfig(
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(HealthCheckType.fromString) /* Nullability(true, false) */,
+          .let(HealthCheckType.fromString),
       alarmIdentifier: _s
           .extractXmlChild(elem, 'AlarmIdentifier')
           ?.let(AlarmIdentifier.fromXml),
@@ -8632,8 +8632,7 @@ class HealthCheckConfig {
       iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
       insufficientDataHealthStatus: _s
           .extractXmlStringValue(elem, 'InsufficientDataHealthStatus')
-          ?.let(InsufficientDataHealthStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(InsufficientDataHealthStatus.fromString),
       inverted: _s.extractXmlBoolValue(elem, 'Inverted'),
       measureLatency: _s.extractXmlBoolValue(elem, 'MeasureLatency'),
       port: _s.extractXmlIntValue(elem, 'Port'),
@@ -8784,7 +8783,7 @@ class HealthCheckObservation {
       iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
       region: _s
           .extractXmlStringValue(elem, 'Region')
-          ?.let(HealthCheckRegion.fromString) /* Nullability(true, true) */,
+          ?.let(HealthCheckRegion.fromString),
       statusReport:
           _s.extractXmlChild(elem, 'StatusReport')?.let(StatusReport.fromXml),
     );
@@ -8994,7 +8993,7 @@ class HostedZoneLimit {
     return HostedZoneLimit(
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(HostedZoneLimitType.fromString) /* Nullability(true, false) */,
+          .let(HostedZoneLimitType.fromString),
       value: _s.extractXmlIntValue(elem, 'Value')!,
     );
   }
@@ -9941,7 +9940,7 @@ class ListResourceRecordSetsResponse {
       nextRecordName: _s.extractXmlStringValue(elem, 'NextRecordName'),
       nextRecordType: _s
           .extractXmlStringValue(elem, 'NextRecordType')
-          ?.let(RRType.fromString) /* Nullability(true, true) */,
+          ?.let(RRType.fromString),
     );
   }
 
@@ -10242,7 +10241,7 @@ class ListTrafficPolicyInstancesByHostedZoneResponse {
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
       trafficPolicyInstanceTypeMarker: _s
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString) /* Nullability(true, true) */,
+          ?.let(RRType.fromString),
     );
   }
 
@@ -10327,7 +10326,7 @@ class ListTrafficPolicyInstancesByPolicyResponse {
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
       trafficPolicyInstanceTypeMarker: _s
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString) /* Nullability(true, true) */,
+          ?.let(RRType.fromString),
     );
   }
 
@@ -10415,7 +10414,7 @@ class ListTrafficPolicyInstancesResponse {
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
       trafficPolicyInstanceTypeMarker: _s
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString) /* Nullability(true, true) */,
+          ?.let(RRType.fromString),
     );
   }
 
@@ -11301,16 +11300,15 @@ class ResourceRecordSet {
   factory ResourceRecordSet.fromXml(_s.XmlElement elem) {
     return ResourceRecordSet(
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(RRType.fromString) /* Nullability(true, false) */,
+      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
       aliasTarget:
           _s.extractXmlChild(elem, 'AliasTarget')?.let(AliasTarget.fromXml),
       cidrRoutingConfig: _s
           .extractXmlChild(elem, 'CidrRoutingConfig')
           ?.let(CidrRoutingConfig.fromXml),
-      failover: _s.extractXmlStringValue(elem, 'Failover')?.let(
-          ResourceRecordSetFailover.fromString) /* Nullability(true, true) */,
+      failover: _s
+          .extractXmlStringValue(elem, 'Failover')
+          ?.let(ResourceRecordSetFailover.fromString),
       geoLocation:
           _s.extractXmlChild(elem, 'GeoLocation')?.let(GeoLocation.fromXml),
       geoProximityLocation: _s
@@ -11318,8 +11316,9 @@ class ResourceRecordSet {
           ?.let(GeoProximityLocation.fromXml),
       healthCheckId: _s.extractXmlStringValue(elem, 'HealthCheckId'),
       multiValueAnswer: _s.extractXmlBoolValue(elem, 'MultiValueAnswer'),
-      region: _s.extractXmlStringValue(elem, 'Region')?.let(
-          ResourceRecordSetRegion.fromString) /* Nullability(true, true) */,
+      region: _s
+          .extractXmlStringValue(elem, 'Region')
+          ?.let(ResourceRecordSetRegion.fromString),
       resourceRecords: _s.extractXmlChild(elem, 'ResourceRecords')?.let(
           (elem) => elem
               .findElements('ResourceRecord')
@@ -11512,7 +11511,7 @@ class ResourceTagSet {
       resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
       resourceType: _s
           .extractXmlStringValue(elem, 'ResourceType')
-          ?.let(TagResourceType.fromString) /* Nullability(true, true) */,
+          ?.let(TagResourceType.fromString),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -11550,9 +11549,9 @@ class ReusableDelegationSetLimit {
   });
   factory ReusableDelegationSetLimit.fromXml(_s.XmlElement elem) {
     return ReusableDelegationSetLimit(
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(
-          ReusableDelegationSetLimitType
-              .fromString) /* Nullability(true, false) */,
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(ReusableDelegationSetLimitType.fromString),
       value: _s.extractXmlIntValue(elem, 'Value')!,
     );
   }
@@ -11772,9 +11771,8 @@ class TestDNSAnswerResponse {
       recordData: _s.extractXmlStringListValues(
           _s.extractXmlChild(elem, 'RecordData')!, 'RecordDataEntry'),
       recordName: _s.extractXmlStringValue(elem, 'RecordName')!,
-      recordType: _s
-          .extractXmlStringValue(elem, 'RecordType')!
-          .let(RRType.fromString) /* Nullability(true, false) */,
+      recordType:
+          _s.extractXmlStringValue(elem, 'RecordType')!.let(RRType.fromString),
       responseCode: _s.extractXmlStringValue(elem, 'ResponseCode')!,
     );
   }
@@ -11839,9 +11837,7 @@ class TrafficPolicy {
       document: _s.extractXmlStringValue(elem, 'Document')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(RRType.fromString) /* Nullability(true, false) */,
+      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
       version: _s.extractXmlIntValue(elem, 'Version')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
@@ -11937,7 +11933,7 @@ class TrafficPolicyInstance {
       trafficPolicyId: _s.extractXmlStringValue(elem, 'TrafficPolicyId')!,
       trafficPolicyType: _s
           .extractXmlStringValue(elem, 'TrafficPolicyType')!
-          .let(RRType.fromString) /* Nullability(true, false) */,
+          .let(RRType.fromString),
       trafficPolicyVersion:
           _s.extractXmlIntValue(elem, 'TrafficPolicyVersion')!,
     );
@@ -12002,9 +11998,7 @@ class TrafficPolicySummary {
       latestVersion: _s.extractXmlIntValue(elem, 'LatestVersion')!,
       name: _s.extractXmlStringValue(elem, 'Name')!,
       trafficPolicyCount: _s.extractXmlIntValue(elem, 'TrafficPolicyCount')!,
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(RRType.fromString) /* Nullability(true, false) */,
+      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
     );
   }
 
@@ -12784,7 +12778,7 @@ class VPC {
       vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
       vPCRegion: _s
           .extractXmlStringValue(elem, 'VPCRegion')
-          ?.let(VPCRegion.fromString) /* Nullability(true, true) */,
+          ?.let(VPCRegion.fromString),
     );
   }
 

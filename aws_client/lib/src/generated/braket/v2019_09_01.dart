@@ -1046,7 +1046,7 @@ class GetDeviceResponse {
       deviceType: DeviceType.fromString((json['deviceType'] as String)),
       providerName: json['providerName'] as String,
       deviceQueueInfo: (json['deviceQueueInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceQueueInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1190,7 +1190,7 @@ class GetJobResponse {
       roleArn: json['roleArn'] as String,
       status: JobPrimaryStatus.fromString((json['status'] as String)),
       associations: (json['associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Association.fromJson(e as Map<String, dynamic>))
           .toList(),
       billableDuration: json['billableDuration'] as int?,
@@ -1203,14 +1203,14 @@ class GetJobResponse {
           : null,
       endedAt: timeStampFromJson(json['endedAt']),
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobEventDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureReason: json['failureReason'] as String?,
       hyperParameters: (json['hyperParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       inputDataConfig: (json['inputDataConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputFileConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       queueInfo: json['queueInfo'] != null
@@ -1350,7 +1350,7 @@ class GetQuantumTaskResponse {
       shots: json['shots'] as int,
       status: QuantumTaskStatus.fromString((json['status'] as String)),
       associations: (json['associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Association.fromJson(e as Map<String, dynamic>))
           .toList(),
       endedAt: timeStampFromJson(json['endedAt']),
@@ -2152,7 +2152,7 @@ class SearchDevicesResponse {
   factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) {
     return SearchDevicesResponse(
       devices: (json['devices'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2236,7 +2236,7 @@ class SearchJobsResponse {
   factory SearchJobsResponse.fromJson(Map<String, dynamic> json) {
     return SearchJobsResponse(
       jobs: (json['jobs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2319,7 +2319,7 @@ class SearchQuantumTasksResponse {
   factory SearchQuantumTasksResponse.fromJson(Map<String, dynamic> json) {
     return SearchQuantumTasksResponse(
       quantumTasks: (json['quantumTasks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => QuantumTaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

@@ -2426,11 +2426,11 @@ class DataViewSummary {
           : null,
       lastModifiedTime: json['lastModifiedTime'] as int?,
       partitionColumns: (json['partitionColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sortColumns: (json['sortColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(DataViewStatus.fromString),
@@ -3033,11 +3033,11 @@ class GetDataViewResponse {
           : null,
       lastModifiedTime: json['lastModifiedTime'] as int?,
       partitionColumns: (json['partitionColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sortColumns: (json['sortColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(DataViewStatus.fromString),
@@ -3507,7 +3507,7 @@ class ListChangesetsResponse {
   factory ListChangesetsResponse.fromJson(Map<String, dynamic> json) {
     return ListChangesetsResponse(
       changesets: (json['changesets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangesetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3539,7 +3539,7 @@ class ListDataViewsResponse {
   factory ListDataViewsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataViewsResponse(
       dataViews: (json['dataViews'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataViewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3572,7 +3572,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasets: (json['datasets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3606,7 +3606,7 @@ class ListPermissionGroupsByUserResponse {
     return ListPermissionGroupsByUserResponse(
       nextToken: json['nextToken'] as String?,
       permissionGroups: (json['permissionGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PermissionGroupByUser.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3638,7 +3638,7 @@ class ListPermissionGroupsResponse {
     return ListPermissionGroupsResponse(
       nextToken: json['nextToken'] as String?,
       permissionGroups: (json['permissionGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PermissionGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3671,7 +3671,7 @@ class ListUsersByPermissionGroupResponse {
     return ListUsersByPermissionGroupResponse(
       nextToken: json['nextToken'] as String?,
       users: (json['users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserByPermissionGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3703,7 +3703,7 @@ class ListUsersResponse {
     return ListUsersResponse(
       nextToken: json['nextToken'] as String?,
       users: (json['users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3808,7 +3808,7 @@ class PermissionGroup {
   factory PermissionGroup.fromJson(Map<String, dynamic> json) {
     return PermissionGroup(
       applicationPermissions: (json['applicationPermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationPermission.fromString((e as String)))
           .toList(),
       createTime: json['createTime'] as int?,
@@ -4065,11 +4065,11 @@ class SchemaDefinition {
   factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
     return SchemaDefinition(
       columns: (json['columns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       primaryKeyColumns: (json['primaryKeyColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

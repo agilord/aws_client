@@ -2088,7 +2088,7 @@ class EnrollmentJobFraudDetectionConfig {
           ?.let(FraudDetectionAction.fromString),
       riskThreshold: json['RiskThreshold'] as int?,
       watchlistIds: (json['WatchlistIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2368,7 +2368,7 @@ class FraudDetectionResult {
           (json['Decision'] as String?)?.let(FraudDetectionDecision.fromString),
       fraudDetectionResultId: json['FraudDetectionResultId'] as String?,
       reasons: (json['Reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FraudDetectionReason.fromString((e as String)))
           .toList(),
       riskDetails: json['RiskDetails'] != null
@@ -2462,7 +2462,7 @@ class Fraudster {
       domainId: json['DomainId'] as String?,
       generatedFraudsterId: json['GeneratedFraudsterId'] as String?,
       watchlistIds: (json['WatchlistIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2738,7 +2738,7 @@ class FraudsterSummary {
       domainId: json['DomainId'] as String?,
       generatedFraudsterId: json['GeneratedFraudsterId'] as String?,
       watchlistIds: (json['WatchlistIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2860,7 +2860,7 @@ class ListDomainsResponse {
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
       domainSummaries: (json['DomainSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2896,7 +2896,7 @@ class ListFraudsterRegistrationJobsResponse {
       Map<String, dynamic> json) {
     return ListFraudsterRegistrationJobsResponse(
       jobSummaries: (json['JobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FraudsterRegistrationJobSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2933,7 +2933,7 @@ class ListFraudstersResponse {
   factory ListFraudstersResponse.fromJson(Map<String, dynamic> json) {
     return ListFraudstersResponse(
       fraudsterSummaries: (json['FraudsterSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FraudsterSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2969,7 +2969,7 @@ class ListSpeakerEnrollmentJobsResponse {
       Map<String, dynamic> json) {
     return ListSpeakerEnrollmentJobsResponse(
       jobSummaries: (json['JobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SpeakerEnrollmentJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3007,7 +3007,7 @@ class ListSpeakersResponse {
     return ListSpeakersResponse(
       nextToken: json['NextToken'] as String?,
       speakerSummaries: (json['SpeakerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpeakerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3034,7 +3034,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3068,7 +3068,7 @@ class ListWatchlistsResponse {
     return ListWatchlistsResponse(
       nextToken: json['NextToken'] as String?,
       watchlistSummaries: (json['WatchlistSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WatchlistSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3175,7 +3175,7 @@ class RegistrationConfig {
       fraudsterSimilarityThreshold:
           json['FraudsterSimilarityThreshold'] as int?,
       watchlistIds: (json['WatchlistIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

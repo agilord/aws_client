@@ -5332,11 +5332,11 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
       Map<String, dynamic> json) {
     return BatchAssociateApprovalRuleTemplateWithRepositoriesOutput(
       associatedRepositoryNames: (json['associatedRepositoryNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
                   e as Map<String, dynamic>))
@@ -5428,14 +5428,14 @@ class BatchDescribeMergeConflictsOutput {
       Map<String, dynamic> json) {
     return BatchDescribeMergeConflictsOutput(
       conflicts: (json['conflicts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Conflict.fromJson(e as Map<String, dynamic>))
           .toList(),
       destinationCommitId: json['destinationCommitId'] as String,
       sourceCommitId: json['sourceCommitId'] as String,
       baseCommitId: json['baseCommitId'] as String?,
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchDescribeMergeConflictsError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5522,11 +5522,11 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
     return BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput(
       disassociatedRepositoryNames:
           (json['disassociatedRepositoryNames'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => e as String)
               .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDisassociateApprovalRuleTemplateFromRepositoriesError
               .fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5601,11 +5601,11 @@ class BatchGetCommitsOutput {
   factory BatchGetCommitsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetCommitsOutput(
       commits: (json['commits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Commit.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchGetCommitsError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5710,16 +5710,16 @@ class BatchGetRepositoriesOutput {
   factory BatchGetRepositoriesOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetRepositoriesOutput(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchGetRepositoriesError.fromJson(e as Map<String, dynamic>))
           .toList(),
       repositories: (json['repositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositoryMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       repositoriesNotFound: (json['repositoriesNotFound'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5891,7 +5891,7 @@ class Comment {
     return Comment(
       authorArn: json['authorArn'] as String?,
       callerReactions: (json['callerReactions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       clientRequestToken: json['clientRequestToken'] as String?,
@@ -5981,7 +5981,7 @@ class CommentsForComparedCommit {
       beforeBlobId: json['beforeBlobId'] as String?,
       beforeCommitId: json['beforeCommitId'] as String?,
       comments: (json['comments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: json['location'] != null
@@ -6064,7 +6064,7 @@ class CommentsForPullRequest {
       beforeBlobId: json['beforeBlobId'] as String?,
       beforeCommitId: json['beforeCommitId'] as String?,
       comments: (json['comments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: json['location'] != null
@@ -6151,10 +6151,8 @@ class Commit {
           ? UserInfo.fromJson(json['committer'] as Map<String, dynamic>)
           : null,
       message: json['message'] as String?,
-      parents: (json['parents'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      parents:
+          (json['parents'] as List?)?.nonNulls.map((e) => e as String).toList(),
       treeId: json['treeId'] as String?,
     );
   }
@@ -6200,7 +6198,7 @@ class Conflict {
               json['conflictMetadata'] as Map<String, dynamic>)
           : null,
       mergeHunks: (json['mergeHunks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6435,15 +6433,15 @@ class CreateCommitOutput {
     return CreateCommitOutput(
       commitId: json['commitId'] as String?,
       filesAdded: (json['filesAdded'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       filesDeleted: (json['filesDeleted'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       filesUpdated: (json['filesUpdated'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       treeId: json['treeId'] as String?,
@@ -6793,7 +6791,7 @@ class DescribeMergeConflictsOutput {
           json['conflictMetadata'] as Map<String, dynamic>),
       destinationCommitId: json['destinationCommitId'] as String,
       mergeHunks: (json['mergeHunks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceCommitId: json['sourceCommitId'] as String,
@@ -6836,7 +6834,7 @@ class DescribePullRequestEventsOutput {
   factory DescribePullRequestEventsOutput.fromJson(Map<String, dynamic> json) {
     return DescribePullRequestEventsOutput(
       pullRequestEvents: (json['pullRequestEvents'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PullRequestEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6952,11 +6950,11 @@ class Evaluation {
   factory Evaluation.fromJson(Map<String, dynamic> json) {
     return Evaluation(
       approvalRulesNotSatisfied: (json['approvalRulesNotSatisfied'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       approvalRulesSatisfied: (json['approvalRulesSatisfied'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       approved: json['approved'] as bool?,
@@ -7186,7 +7184,7 @@ class FileVersion {
           : null,
       path: json['path'] as String?,
       revisionChildren: (json['revisionChildren'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7356,7 +7354,7 @@ class GetCommentReactionsOutput {
   factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentReactionsOutput(
       reactionsForComment: (json['reactionsForComment'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ReactionForComment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7391,7 +7389,7 @@ class GetCommentsForComparedCommitOutput {
     return GetCommentsForComparedCommitOutput(
       commentsForComparedCommitData:
           (json['commentsForComparedCommitData'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   CommentsForComparedCommit.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -7426,7 +7424,7 @@ class GetCommentsForPullRequestOutput {
   factory GetCommentsForPullRequestOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentsForPullRequestOutput(
       commentsForPullRequestData: (json['commentsForPullRequestData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CommentsForPullRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7487,7 +7485,7 @@ class GetDifferencesOutput {
     return GetDifferencesOutput(
       nextToken: json['NextToken'] as String?,
       differences: (json['differences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Difference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7609,19 +7607,19 @@ class GetFolderOutput {
       commitId: json['commitId'] as String,
       folderPath: json['folderPath'] as String,
       files: (json['files'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
       subFolders: (json['subFolders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Folder.fromJson(e as Map<String, dynamic>))
           .toList(),
       subModules: (json['subModules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubModule.fromJson(e as Map<String, dynamic>))
           .toList(),
       symbolicLinks: (json['symbolicLinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SymbolicLink.fromJson(e as Map<String, dynamic>))
           .toList(),
       treeId: json['treeId'] as String?,
@@ -7732,7 +7730,7 @@ class GetMergeConflictsOutput {
   factory GetMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeConflictsOutput(
       conflictMetadataList: (json['conflictMetadataList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConflictMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       destinationCommitId: json['destinationCommitId'] as String,
@@ -7788,7 +7786,7 @@ class GetMergeOptionsOutput {
       baseCommitId: json['baseCommitId'] as String,
       destinationCommitId: json['destinationCommitId'] as String,
       mergeOptions: (json['mergeOptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MergeOptionTypeEnum.fromString((e as String)))
           .toList(),
       sourceCommitId: json['sourceCommitId'] as String,
@@ -7821,7 +7819,7 @@ class GetPullRequestApprovalStatesOutput {
       Map<String, dynamic> json) {
     return GetPullRequestApprovalStatesOutput(
       approvals: (json['approvals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Approval.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7933,7 +7931,7 @@ class GetRepositoryTriggersOutput {
     return GetRepositoryTriggersOutput(
       configurationId: json['configurationId'] as String?,
       triggers: (json['triggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositoryTrigger.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8007,7 +8005,7 @@ class ListApprovalRuleTemplatesOutput {
   factory ListApprovalRuleTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListApprovalRuleTemplatesOutput(
       approvalRuleTemplateNames: (json['approvalRuleTemplateNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8042,7 +8040,7 @@ class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
       Map<String, dynamic> json) {
     return ListAssociatedApprovalRuleTemplatesForRepositoryOutput(
       approvalRuleTemplateNames: (json['approvalRuleTemplateNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8076,7 +8074,7 @@ class ListBranchesOutput {
   factory ListBranchesOutput.fromJson(Map<String, dynamic> json) {
     return ListBranchesOutput(
       branches: (json['branches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8109,7 +8107,7 @@ class ListFileCommitHistoryResponse {
   factory ListFileCommitHistoryResponse.fromJson(Map<String, dynamic> json) {
     return ListFileCommitHistoryResponse(
       revisionDag: (json['revisionDag'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FileVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8142,7 +8140,7 @@ class ListPullRequestsOutput {
   factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) {
     return ListPullRequestsOutput(
       pullRequestIds: (json['pullRequestIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8178,7 +8176,7 @@ class ListRepositoriesForApprovalRuleTemplateOutput {
     return ListRepositoriesForApprovalRuleTemplateOutput(
       nextToken: json['nextToken'] as String?,
       repositoryNames: (json['repositoryNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8214,7 +8212,7 @@ class ListRepositoriesOutput {
     return ListRepositoriesOutput(
       nextToken: json['nextToken'] as String?,
       repositories: (json['repositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositoryNameIdPair.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9003,7 +9001,7 @@ class PullRequest {
   factory PullRequest.fromJson(Map<String, dynamic> json) {
     return PullRequest(
       approvalRules: (json['approvalRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApprovalRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       authorArn: json['authorArn'] as String?,
@@ -9015,7 +9013,7 @@ class PullRequest {
       pullRequestStatus: (json['pullRequestStatus'] as String?)
           ?.let(PullRequestStatusEnum.fromString),
       pullRequestTargets: (json['pullRequestTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PullRequestTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
       revisionId: json['revisionId'] as String?,
@@ -9613,7 +9611,7 @@ class ReactionForComment {
               json['reaction'] as Map<String, dynamic>)
           : null,
       reactionUsers: (json['reactionUsers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       reactionsFromDeletedUsersCount:
@@ -9916,12 +9914,12 @@ class RepositoryTrigger {
     return RepositoryTrigger(
       destinationArn: json['destinationArn'] as String,
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RepositoryTriggerEventEnum.fromString((e as String)))
           .toList(),
       name: json['name'] as String,
       branches: (json['branches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       customData: json['customData'] as String?,
@@ -10187,12 +10185,12 @@ class TestRepositoryTriggersOutput {
   factory TestRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
     return TestRepositoryTriggersOutput(
       failedExecutions: (json['failedExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositoryTriggerExecutionFailure.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successfulExecutions: (json['successfulExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

@@ -409,7 +409,7 @@ class EdgeDeployment {
   factory EdgeDeployment.fromJson(Map<String, dynamic> json) {
     return EdgeDeployment(
       definitions: (json['Definitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Definition.fromJson(e as Map<String, dynamic>))
           .toList(),
       deploymentName: json['DeploymentName'] as String?,
@@ -496,7 +496,7 @@ class GetDeploymentsResult {
   factory GetDeploymentsResult.fromJson(Map<String, dynamic> json) {
     return GetDeploymentsResult(
       deployments: (json['Deployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EdgeDeployment.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

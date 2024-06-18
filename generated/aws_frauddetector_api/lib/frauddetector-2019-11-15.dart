@@ -3676,7 +3676,7 @@ class ATITrainingMetricsValue {
   factory ATITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
     return ATITrainingMetricsValue(
       metricDataPoints: (json['metricDataPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ATIMetricDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelPerformance: json['modelPerformance'] != null
@@ -3713,7 +3713,7 @@ class AggregatedLogOddsMetric {
       aggregatedVariablesImportance:
           json['aggregatedVariablesImportance'] as double,
       variableNames: (json['variableNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3761,7 +3761,7 @@ class AggregatedVariablesImpactExplanation {
       Map<String, dynamic> json) {
     return AggregatedVariablesImpactExplanation(
       eventVariableNames: (json['eventVariableNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       logOddsImpact: json['logOddsImpact'] as double?,
@@ -3790,7 +3790,7 @@ class AggregatedVariablesImportanceMetrics {
       Map<String, dynamic> json) {
     return AggregatedVariablesImportanceMetrics(
       logOddsMetrics: (json['logOddsMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregatedLogOddsMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3895,7 +3895,7 @@ class BatchCreateVariableResult {
   factory BatchCreateVariableResult.fromJson(Map<String, dynamic> json) {
     return BatchCreateVariableResult(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchCreateVariableError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3944,11 +3944,11 @@ class BatchGetVariableResult {
   factory BatchGetVariableResult.fromJson(Map<String, dynamic> json) {
     return BatchGetVariableResult(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchGetVariableError.fromJson(e as Map<String, dynamic>))
           .toList(),
       variables: (json['variables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4295,12 +4295,12 @@ class DataValidationMetrics {
   factory DataValidationMetrics.fromJson(Map<String, dynamic> json) {
     return DataValidationMetrics(
       fieldLevelMessages: (json['fieldLevelMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => FieldValidationMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       fileLevelMessages: (json['fileLevelMessages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileValidationMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4472,7 +4472,7 @@ class DescribeDetectorResult {
       arn: json['arn'] as String?,
       detectorId: json['detectorId'] as String?,
       detectorVersionSummaries: (json['detectorVersionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DetectorVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4496,7 +4496,7 @@ class DescribeModelVersionsResult {
   factory DescribeModelVersionsResult.fromJson(Map<String, dynamic> json) {
     return DescribeModelVersionsResult(
       modelVersionDetails: (json['modelVersionDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelVersionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4721,7 +4721,7 @@ class EvaluatedModelVersion {
   factory EvaluatedModelVersion.fromJson(Map<String, dynamic> json) {
     return EvaluatedModelVersion(
       evaluations: (json['evaluations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ModelVersionEvaluation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4772,7 +4772,7 @@ class EvaluatedRule {
       expressionWithValues: json['expressionWithValues'] as String?,
       matched: json['matched'] as bool?,
       outcomes: (json['outcomes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ruleId: json['ruleId'] as String?,
@@ -4822,7 +4822,7 @@ class Event {
     return Event(
       currentLabel: json['currentLabel'] as String?,
       entities: (json['entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       eventId: json['eventId'] as String?,
@@ -4973,7 +4973,7 @@ class EventType {
       createdTime: json['createdTime'] as String?,
       description: json['description'] as String?,
       entityTypes: (json['entityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       eventIngestion:
@@ -4983,17 +4983,15 @@ class EventType {
               json['eventOrchestration'] as Map<String, dynamic>)
           : null,
       eventVariables: (json['eventVariables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ingestedEventStatistics: json['ingestedEventStatistics'] != null
           ? IngestedEventStatistics.fromJson(
               json['ingestedEventStatistics'] as Map<String, dynamic>)
           : null,
-      labels: (json['labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       name: json['name'] as String?,
     );
@@ -5264,7 +5262,7 @@ class GetBatchImportJobsResult {
   factory GetBatchImportJobsResult.fromJson(Map<String, dynamic> json) {
     return GetBatchImportJobsResult(
       batchImports: (json['batchImports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchImport.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5287,7 +5285,7 @@ class GetBatchPredictionJobsResult {
   factory GetBatchPredictionJobsResult.fromJson(Map<String, dynamic> json) {
     return GetBatchPredictionJobsResult(
       batchPredictions: (json['batchPredictions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchPrediction.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5382,18 +5380,18 @@ class GetDetectorVersionResult {
       detectorId: json['detectorId'] as String?,
       detectorVersionId: json['detectorVersionId'] as String?,
       externalModelEndpoints: (json['externalModelEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelVersions: (json['modelVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       ruleExecutionMode: (json['ruleExecutionMode'] as String?)
           ?.let(RuleExecutionMode.fromString),
       rules: (json['rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
       status:
@@ -5417,7 +5415,7 @@ class GetDetectorsResult {
   factory GetDetectorsResult.fromJson(Map<String, dynamic> json) {
     return GetDetectorsResult(
       detectors: (json['detectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Detector.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5440,7 +5438,7 @@ class GetEntityTypesResult {
   factory GetEntityTypesResult.fromJson(Map<String, dynamic> json) {
     return GetEntityTypesResult(
       entityTypes: (json['entityTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5523,30 +5521,30 @@ class GetEventPredictionMetadataResult {
       entityId: json['entityId'] as String?,
       entityType: json['entityType'] as String?,
       evaluatedExternalModels: (json['evaluatedExternalModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EvaluatedExternalModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       evaluatedModelVersions: (json['evaluatedModelVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EvaluatedModelVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       eventId: json['eventId'] as String?,
       eventTimestamp: json['eventTimestamp'] as String?,
       eventTypeName: json['eventTypeName'] as String?,
       eventVariables: (json['eventVariables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventVariableSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       outcomes: (json['outcomes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       predictionTimestamp: json['predictionTimestamp'] as String?,
       ruleExecutionMode: (json['ruleExecutionMode'] as String?)
           ?.let(RuleExecutionMode.fromString),
       rules: (json['rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EvaluatedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5576,15 +5574,15 @@ class GetEventPredictionResult {
   factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) {
     return GetEventPredictionResult(
       externalModelOutputs: (json['externalModelOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalModelOutputs.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelScores: (json['modelScores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelScores.fromJson(e as Map<String, dynamic>))
           .toList(),
       ruleResults: (json['ruleResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5623,7 +5621,7 @@ class GetEventTypesResult {
   factory GetEventTypesResult.fromJson(Map<String, dynamic> json) {
     return GetEventTypesResult(
       eventTypes: (json['eventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5646,7 +5644,7 @@ class GetExternalModelsResult {
   factory GetExternalModelsResult.fromJson(Map<String, dynamic> json) {
     return GetExternalModelsResult(
       externalModels: (json['externalModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5686,7 +5684,7 @@ class GetLabelsResult {
   factory GetLabelsResult.fromJson(Map<String, dynamic> json) {
     return GetLabelsResult(
       labels: (json['labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5709,7 +5707,7 @@ class GetListElementsResult {
   factory GetListElementsResult.fromJson(Map<String, dynamic> json) {
     return GetListElementsResult(
       elements: (json['elements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5732,7 +5730,7 @@ class GetListsMetadataResult {
   factory GetListsMetadataResult.fromJson(Map<String, dynamic> json) {
     return GetListsMetadataResult(
       lists: (json['lists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AllowDenyList.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5856,7 +5854,7 @@ class GetModelsResult {
   factory GetModelsResult.fromJson(Map<String, dynamic> json) {
     return GetModelsResult(
       models: (json['models'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5880,7 +5878,7 @@ class GetOutcomesResult {
     return GetOutcomesResult(
       nextToken: json['nextToken'] as String?,
       outcomes: (json['outcomes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Outcome.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5903,7 +5901,7 @@ class GetRulesResult {
     return GetRulesResult(
       nextToken: json['nextToken'] as String?,
       ruleDetails: (json['ruleDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5926,7 +5924,7 @@ class GetVariablesResult {
     return GetVariablesResult(
       nextToken: json['nextToken'] as String?,
       variables: (json['variables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6123,8 +6121,7 @@ class LabelSchema {
   factory LabelSchema.fromJson(Map<String, dynamic> json) {
     return LabelSchema(
       labelMapper: (json['labelMapper'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       unlabeledEventsTreatment: (json['unlabeledEventsTreatment'] as String?)
           ?.let(UnlabeledEventsTreatment.fromString),
     );
@@ -6171,7 +6168,7 @@ class ListEventPredictionsResult {
   factory ListEventPredictionsResult.fromJson(Map<String, dynamic> json) {
     return ListEventPredictionsResult(
       eventPredictionSummaries: (json['eventPredictionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EventPredictionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6196,7 +6193,7 @@ class ListTagsForResourceResult {
     return ListTagsForResourceResult(
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6819,7 +6816,7 @@ class OFITrainingMetricsValue {
   factory OFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
     return OFITrainingMetricsValue(
       metricDataPoints: (json['metricDataPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelPerformance: json['modelPerformance'] != null
@@ -6892,12 +6889,12 @@ class PredictionExplanations {
     return PredictionExplanations(
       aggregatedVariablesImpactExplanations:
           (json['aggregatedVariablesImpactExplanations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AggregatedVariablesImpactExplanation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       variableImpactExplanations: (json['variableImpactExplanations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               VariableImpactExplanation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7076,7 +7073,7 @@ class RuleDetail {
       language: (json['language'] as String?)?.let(Language.fromString),
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       outcomes: (json['outcomes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ruleId: json['ruleId'] as String?,
@@ -7116,7 +7113,7 @@ class RuleResult {
   factory RuleResult.fromJson(Map<String, dynamic> json) {
     return RuleResult(
       outcomes: (json['outcomes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ruleId: json['ruleId'] as String?,
@@ -7212,7 +7209,7 @@ class TFITrainingMetricsValue {
   factory TFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
     return TFITrainingMetricsValue(
       metricDataPoints: (json['metricDataPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelPerformance: json['modelPerformance'] != null
@@ -7275,7 +7272,7 @@ class TrainingDataSchema {
   factory TrainingDataSchema.fromJson(Map<String, dynamic> json) {
     return TrainingDataSchema(
       modelVariables: (json['modelVariables'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       labelSchema: json['labelSchema'] != null
@@ -7329,7 +7326,7 @@ class TrainingMetrics {
     return TrainingMetrics(
       auc: json['auc'] as double?,
       metricDataPoints: (json['metricDataPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7799,7 +7796,7 @@ class VariableImportanceMetrics {
   factory VariableImportanceMetrics.fromJson(Map<String, dynamic> json) {
     return VariableImportanceMetrics(
       logOddsMetrics: (json['logOddsMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogOddsMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

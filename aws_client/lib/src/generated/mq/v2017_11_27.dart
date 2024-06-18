@@ -1190,7 +1190,7 @@ class BrokerEngineType {
     return BrokerEngineType(
       engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
       engineVersions: (json['engineVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EngineVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1228,7 +1228,7 @@ class BrokerInstance {
     return BrokerInstance(
       consoleURL: json['consoleURL'] as String?,
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ipAddress: json['ipAddress'] as String?,
@@ -1279,7 +1279,7 @@ class BrokerInstanceOption {
   factory BrokerInstanceOption.fromJson(Map<String, dynamic> json) {
     return BrokerInstanceOption(
       availabilityZones: (json['availabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AvailabilityZone.fromJson(e as Map<String, dynamic>))
           .toList(),
       engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
@@ -1287,11 +1287,11 @@ class BrokerInstanceOption {
       storageType:
           (json['storageType'] as String?)?.let(BrokerStorageType.fromString),
       supportedDeploymentModes: (json['supportedDeploymentModes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeploymentMode.fromString((e as String)))
           .toList(),
       supportedEngineVersions: (json['supportedEngineVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1636,7 +1636,7 @@ class Configurations {
           ? ConfigurationId.fromJson(json['current'] as Map<String, dynamic>)
           : null,
       history: (json['history'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationId.fromJson(e as Map<String, dynamic>))
           .toList(),
       pending: json['pending'] != null
@@ -1940,7 +1940,7 @@ class DescribeBrokerEngineTypesResponse {
       Map<String, dynamic> json) {
     return DescribeBrokerEngineTypesResponse(
       brokerEngineTypes: (json['brokerEngineTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BrokerEngineType.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxResults: json['maxResults'] as int?,
@@ -1982,7 +1982,7 @@ class DescribeBrokerInstanceOptionsResponse {
       Map<String, dynamic> json) {
     return DescribeBrokerInstanceOptionsResponse(
       brokerInstanceOptions: (json['brokerInstanceOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BrokerInstanceOption.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxResults: json['maxResults'] as int?,
@@ -2168,7 +2168,7 @@ class DescribeBrokerResponse {
   factory DescribeBrokerResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBrokerResponse(
       actionsRequired: (json['actionsRequired'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionRequired.fromJson(e as Map<String, dynamic>))
           .toList(),
       authenticationStrategy: (json['authenticationStrategy'] as String?)
@@ -2177,7 +2177,7 @@ class DescribeBrokerResponse {
       brokerArn: json['brokerArn'] as String?,
       brokerId: json['brokerId'] as String?,
       brokerInstances: (json['brokerInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BrokerInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       brokerName: json['brokerName'] as String?,
@@ -2232,24 +2232,24 @@ class DescribeBrokerResponse {
               json['pendingLdapServerMetadata'] as Map<String, dynamic>)
           : null,
       pendingSecurityGroups: (json['pendingSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       storageType:
           (json['storageType'] as String?)?.let(BrokerStorageType.fromString),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       users: (json['users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2518,10 +2518,8 @@ class DescribeUserResponse {
     return DescribeUserResponse(
       brokerId: json['brokerId'] as String?,
       consoleAccess: json['consoleAccess'] as bool?,
-      groups: (json['groups'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      groups:
+          (json['groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
       pending: json['pending'] != null
           ? UserPendingChanges.fromJson(json['pending'] as Map<String, dynamic>)
           : null,
@@ -2805,10 +2803,7 @@ class LdapServerMetadataOutput {
 
   factory LdapServerMetadataOutput.fromJson(Map<String, dynamic> json) {
     return LdapServerMetadataOutput(
-      hosts: (json['hosts'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      hosts: (json['hosts'] as List).nonNulls.map((e) => e as String).toList(),
       roleBase: json['roleBase'] as String,
       roleSearchMatching: json['roleSearchMatching'] as String,
       serviceAccountUsername: json['serviceAccountUsername'] as String,
@@ -2863,7 +2858,7 @@ class ListBrokersResponse {
   factory ListBrokersResponse.fromJson(Map<String, dynamic> json) {
     return ListBrokersResponse(
       brokerSummaries: (json['brokerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BrokerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2909,7 +2904,7 @@ class ListConfigurationRevisionsResponse {
       maxResults: json['maxResults'] as int?,
       nextToken: json['nextToken'] as String?,
       revisions: (json['revisions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurationRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2950,7 +2945,7 @@ class ListConfigurationsResponse {
   factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationsResponse(
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxResults: json['maxResults'] as int?,
@@ -3022,7 +3017,7 @@ class ListUsersResponse {
       maxResults: json['maxResults'] as int?,
       nextToken: json['nextToken'] as String?,
       users: (json['users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3378,7 +3373,7 @@ class UpdateBrokerResponse {
           (json['pendingDataReplicationMode'] as String?)
               ?.let(DataReplicationMode.fromString),
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3467,7 +3462,7 @@ class UpdateConfigurationResponse {
           : null,
       name: json['name'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SanitizationWarning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3597,10 +3592,8 @@ class UserPendingChanges {
     return UserPendingChanges(
       pendingChange: ChangeType.fromString((json['pendingChange'] as String)),
       consoleAccess: json['consoleAccess'] as bool?,
-      groups: (json['groups'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      groups:
+          (json['groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 

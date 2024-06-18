@@ -2740,7 +2740,7 @@ class Actuator {
       dataType: NodeDataType.fromString((json['dataType'] as String)),
       fullyQualifiedName: json['fullyQualifiedName'] as String,
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       assignedValue: json['assignedValue'] as String?,
@@ -2852,7 +2852,7 @@ class Attribute {
       dataType: NodeDataType.fromString((json['dataType'] as String)),
       fullyQualifiedName: json['fullyQualifiedName'] as String,
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       assignedValue: json['assignedValue'] as String?,
@@ -2911,11 +2911,11 @@ class BatchCreateVehicleResponse {
   factory BatchCreateVehicleResponse.fromJson(Map<String, dynamic> json) {
     return BatchCreateVehicleResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CreateVehicleError.fromJson(e as Map<String, dynamic>))
           .toList(),
       vehicles: (json['vehicles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CreateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2951,11 +2951,11 @@ class BatchUpdateVehicleResponse {
   factory BatchUpdateVehicleResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateVehicleResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateVehicleError.fromJson(e as Map<String, dynamic>))
           .toList(),
       vehicles: (json['vehicles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UpdateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4417,11 +4417,11 @@ class GetCampaignResponse {
           (json['compression'] as String?)?.let(Compression.fromString),
       creationTime: timeStampFromJson(json['creationTime']),
       dataDestinationConfigs: (json['dataDestinationConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataDestinationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       dataExtraDimensions: (json['dataExtraDimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -4435,7 +4435,7 @@ class GetCampaignResponse {
       priority: json['priority'] as int?,
       signalCatalogArn: json['signalCatalogArn'] as String?,
       signalsToCollect: (json['signalsToCollect'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SignalInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       spoolingMode:
@@ -5033,7 +5033,7 @@ class GetVehicleStatusResponse {
   factory GetVehicleStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetVehicleStatusResponse(
       campaigns: (json['campaigns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VehicleStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5196,7 +5196,7 @@ class ListCampaignsResponse {
   factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
     return ListCampaignsResponse(
       campaignSummaries: (json['campaignSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5230,7 +5230,7 @@ class ListDecoderManifestNetworkInterfacesResponse {
       Map<String, dynamic> json) {
     return ListDecoderManifestNetworkInterfacesResponse(
       networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5265,7 +5265,7 @@ class ListDecoderManifestSignalsResponse {
     return ListDecoderManifestSignalsResponse(
       nextToken: json['nextToken'] as String?,
       signalDecoders: (json['signalDecoders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SignalDecoder.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5298,7 +5298,7 @@ class ListDecoderManifestsResponse {
     return ListDecoderManifestsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DecoderManifestSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5330,10 +5330,8 @@ class ListFleetsForVehicleResponse {
 
   factory ListFleetsForVehicleResponse.fromJson(Map<String, dynamic> json) {
     return ListFleetsForVehicleResponse(
-      fleets: (json['fleets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      fleets:
+          (json['fleets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -5364,7 +5362,7 @@ class ListFleetsResponse {
   factory ListFleetsResponse.fromJson(Map<String, dynamic> json) {
     return ListFleetsResponse(
       fleetSummaries: (json['fleetSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FleetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5398,7 +5396,7 @@ class ListModelManifestNodesResponse {
     return ListModelManifestNodesResponse(
       nextToken: json['nextToken'] as String?,
       nodes: (json['nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Node.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5431,7 +5429,7 @@ class ListModelManifestsResponse {
     return ListModelManifestsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelManifestSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5464,7 +5462,7 @@ class ListSignalCatalogNodesResponse {
     return ListSignalCatalogNodesResponse(
       nextToken: json['nextToken'] as String?,
       nodes: (json['nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Node.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5497,7 +5495,7 @@ class ListSignalCatalogsResponse {
     return ListSignalCatalogsResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SignalCatalogSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5524,7 +5522,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5555,7 +5553,7 @@ class ListVehiclesInFleetResponse {
     return ListVehiclesInFleetResponse(
       nextToken: json['nextToken'] as String?,
       vehicles: (json['vehicles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5588,7 +5586,7 @@ class ListVehiclesResponse {
     return ListVehiclesResponse(
       nextToken: json['nextToken'] as String?,
       vehicleSummaries: (json['vehicleSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VehicleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6566,7 +6564,7 @@ class Sensor {
       dataType: NodeDataType.fromString((json['dataType'] as String)),
       fullyQualifiedName: json['fullyQualifiedName'] as String,
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       comment: json['comment'] as String?,
@@ -6863,7 +6861,7 @@ class StructuredMessage {
           : null,
       structuredMessageDefinition:
           (json['structuredMessageDefinition'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => StructuredMessageFieldNameAndDataTypePair.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
