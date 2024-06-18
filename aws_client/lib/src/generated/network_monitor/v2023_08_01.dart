@@ -896,7 +896,7 @@ class GetMonitorOutput {
       monitorName: json['monitorName'] as String,
       state: MonitorState.fromString((json['state'] as String)),
       probes: (json['probes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Probe.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1055,7 +1055,7 @@ class ListMonitorsOutput {
   factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
     return ListMonitorsOutput(
       monitors: (json['monitors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MonitorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

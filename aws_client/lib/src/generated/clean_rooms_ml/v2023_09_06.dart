@@ -1548,7 +1548,7 @@ class AudienceQualityMetrics {
   factory AudienceQualityMetrics.fromJson(Map<String, dynamic> json) {
     return AudienceQualityMetrics(
       relevanceMetrics: (json['relevanceMetrics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RelevanceMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       recallMetric: json['recallMetric'] as double?,
@@ -1623,7 +1623,7 @@ class AudienceSizeConfig {
   factory AudienceSizeConfig.fromJson(Map<String, dynamic> json) {
     return AudienceSizeConfig(
       audienceSizeBins: (json['audienceSizeBins'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as int)
           .toList(),
       audienceSizeType:
@@ -1673,7 +1673,7 @@ class ColumnSchema {
     return ColumnSchema(
       columnName: json['columnName'] as String,
       columnTypes: (json['columnTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnType.fromString((e as String)))
           .toList(),
     );
@@ -1971,7 +1971,7 @@ class DatasetInputConfig {
       dataSource:
           DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
       schema: (json['schema'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnSchema.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2356,7 +2356,7 @@ class GetConfiguredAudienceModelResponse {
       outputConfig: ConfiguredAudienceModelOutputConfig.fromJson(
           json['outputConfig'] as Map<String, dynamic>),
       sharedAudienceMetrics: (json['sharedAudienceMetrics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SharedAudienceMetrics.fromString((e as String)))
           .toList(),
       status:
@@ -2458,7 +2458,7 @@ class GetTrainingDatasetResponse {
       roleArn: json['roleArn'] as String,
       status: TrainingDatasetStatus.fromString((json['status'] as String)),
       trainingData: (json['trainingData'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
       trainingDatasetArn: json['trainingDatasetArn'] as String,
@@ -2546,7 +2546,7 @@ class ListAudienceExportJobsResponse {
   factory ListAudienceExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListAudienceExportJobsResponse(
       audienceExportJobs: (json['audienceExportJobs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AudienceExportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2581,7 +2581,7 @@ class ListAudienceGenerationJobsResponse {
       Map<String, dynamic> json) {
     return ListAudienceGenerationJobsResponse(
       audienceGenerationJobs: (json['audienceGenerationJobs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AudienceGenerationJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2615,7 +2615,7 @@ class ListAudienceModelsResponse {
   factory ListAudienceModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListAudienceModelsResponse(
       audienceModels: (json['audienceModels'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AudienceModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2649,7 +2649,7 @@ class ListConfiguredAudienceModelsResponse {
       Map<String, dynamic> json) {
     return ListConfiguredAudienceModelsResponse(
       configuredAudienceModels: (json['configuredAudienceModels'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConfiguredAudienceModelSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2706,7 +2706,7 @@ class ListTrainingDatasetsResponse {
   factory ListTrainingDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListTrainingDatasetsResponse(
       trainingDatasets: (json['trainingDatasets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => TrainingDatasetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

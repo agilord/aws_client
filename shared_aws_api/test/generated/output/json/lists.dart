@@ -95,16 +95,16 @@ class OutputShape {
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       listMember: (json['ListMember'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       listMemberMap: (json['ListMemberMap'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)))
           .toList(),
       listMemberStruct: (json['ListMemberStruct'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StructType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -1640,7 +1640,7 @@ class ListEnvironmentsOutput {
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
       environments: (json['Environments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1957,11 +1957,11 @@ class NetworkConfiguration {
   factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkConfiguration(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

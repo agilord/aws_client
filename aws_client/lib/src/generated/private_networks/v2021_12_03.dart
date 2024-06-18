@@ -1919,7 +1919,7 @@ class ListDeviceIdentifiersResponse {
   factory ListDeviceIdentifiersResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceIdentifiersResponse(
       deviceIdentifiers: (json['deviceIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1951,7 +1951,7 @@ class ListNetworkResourcesResponse {
   factory ListNetworkResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListNetworkResourcesResponse(
       networkResources: (json['networkResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1983,7 +1983,7 @@ class ListNetworkSitesResponse {
   factory ListNetworkSitesResponse.fromJson(Map<String, dynamic> json) {
     return ListNetworkSitesResponse(
       networkSites: (json['networkSites'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkSite.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2015,7 +2015,7 @@ class ListNetworksResponse {
   factory ListNetworksResponse.fromJson(Map<String, dynamic> json) {
     return ListNetworksResponse(
       networks: (json['networks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2048,7 +2048,7 @@ class ListOrdersResponse {
     return ListOrdersResponse(
       nextToken: json['nextToken'] as String?,
       orders: (json['orders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Order.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2270,7 +2270,7 @@ class NetworkResource {
   factory NetworkResource.fromJson(Map<String, dynamic> json) {
     return NetworkResource(
       attributes: (json['attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
       commitmentInformation: json['commitmentInformation'] != null
@@ -2364,7 +2364,7 @@ class NetworkResourceDefinition {
       count: json['count'] as int,
       type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
       options: (json['options'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2643,7 +2643,7 @@ class Order {
       networkSiteArn: json['networkSiteArn'] as String?,
       orderArn: json['orderArn'] as String?,
       orderedResources: (json['orderedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OrderedResourceDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2651,7 +2651,7 @@ class Order {
           ? Address.fromJson(json['shippingAddress'] as Map<String, dynamic>)
           : null,
       trackingInformation: (json['trackingInformation'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TrackingInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2883,11 +2883,11 @@ class SitePlan {
   factory SitePlan.fromJson(Map<String, dynamic> json) {
     return SitePlan(
       options: (json['options'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceDefinitions: (json['resourceDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               NetworkResourceDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),

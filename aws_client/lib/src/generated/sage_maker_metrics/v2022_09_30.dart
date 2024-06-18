@@ -143,7 +143,7 @@ class BatchPutMetricsResponse {
   factory BatchPutMetricsResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutMetricsResponse(
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchPutMetricsError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

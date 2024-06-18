@@ -8289,7 +8289,7 @@ class ListComponentOutputsOutput {
   factory ListComponentOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListComponentOutputsOutput(
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8324,7 +8324,7 @@ class ListComponentProvisionedResourcesOutput {
       Map<String, dynamic> json) {
     return ListComponentProvisionedResourcesOutput(
       provisionedResources: (json['provisionedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8357,7 +8357,7 @@ class ListComponentsOutput {
   factory ListComponentsOutput.fromJson(Map<String, dynamic> json) {
     return ListComponentsOutput(
       components: (json['components'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8390,7 +8390,7 @@ class ListDeploymentsOutput {
   factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsOutput(
       deployments: (json['deployments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8427,7 +8427,7 @@ class ListEnvironmentAccountConnectionsOutput {
     return ListEnvironmentAccountConnectionsOutput(
       environmentAccountConnections:
           (json['environmentAccountConnections'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => EnvironmentAccountConnectionSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -8462,7 +8462,7 @@ class ListEnvironmentOutputsOutput {
   factory ListEnvironmentOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentOutputsOutput(
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8497,7 +8497,7 @@ class ListEnvironmentProvisionedResourcesOutput {
       Map<String, dynamic> json) {
     return ListEnvironmentProvisionedResourcesOutput(
       provisionedResources: (json['provisionedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8532,7 +8532,7 @@ class ListEnvironmentTemplateVersionsOutput {
       Map<String, dynamic> json) {
     return ListEnvironmentTemplateVersionsOutput(
       templateVersions: (json['templateVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnvironmentTemplateVersionSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8567,7 +8567,7 @@ class ListEnvironmentTemplatesOutput {
   factory ListEnvironmentTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentTemplatesOutput(
       templates: (json['templates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               EnvironmentTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8601,7 +8601,7 @@ class ListEnvironmentsOutput {
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
       environments: (json['environments'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8634,7 +8634,7 @@ class ListRepositoriesOutput {
   factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) {
     return ListRepositoriesOutput(
       repositories: (json['repositories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8669,7 +8669,7 @@ class ListRepositorySyncDefinitionsOutput {
       Map<String, dynamic> json) {
     return ListRepositorySyncDefinitionsOutput(
       syncDefinitions: (json['syncDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RepositorySyncDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8703,7 +8703,7 @@ class ListServiceInstanceOutputsOutput {
   factory ListServiceInstanceOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceInstanceOutputsOutput(
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8738,7 +8738,7 @@ class ListServiceInstanceProvisionedResourcesOutput {
       Map<String, dynamic> json) {
     return ListServiceInstanceProvisionedResourcesOutput(
       provisionedResources: (json['provisionedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8824,7 +8824,7 @@ class ListServiceInstancesOutput {
   factory ListServiceInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceInstancesOutput(
       serviceInstances: (json['serviceInstances'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => ServiceInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8878,7 +8878,7 @@ class ListServicePipelineOutputsOutput {
   factory ListServicePipelineOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListServicePipelineOutputsOutput(
       outputs: (json['outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8913,7 +8913,7 @@ class ListServicePipelineProvisionedResourcesOutput {
       Map<String, dynamic> json) {
     return ListServicePipelineProvisionedResourcesOutput(
       provisionedResources: (json['provisionedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -8948,7 +8948,7 @@ class ListServiceTemplateVersionsOutput {
       Map<String, dynamic> json) {
     return ListServiceTemplateVersionsOutput(
       templateVersions: (json['templateVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ServiceTemplateVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8983,7 +8983,7 @@ class ListServiceTemplatesOutput {
   factory ListServiceTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceTemplatesOutput(
       templates: (json['templates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => ServiceTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9017,7 +9017,7 @@ class ListServicesOutput {
   factory ListServicesOutput.fromJson(Map<String, dynamic> json) {
     return ListServicesOutput(
       services: (json['services'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -9050,7 +9050,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -9418,7 +9418,7 @@ class RepositorySyncAttempt {
   factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
     return RepositorySyncAttempt(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
@@ -9649,7 +9649,7 @@ class ResourceSyncAttempt {
   factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
     return ResourceSyncAttempt(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       initialRevision:
@@ -10119,7 +10119,7 @@ class ServiceInstanceState {
       templateName: json['templateName'] as String,
       lastSuccessfulComponentDeploymentIds:
           (json['lastSuccessfulComponentDeploymentIds'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       lastSuccessfulEnvironmentDeploymentId:
@@ -10572,7 +10572,7 @@ class ServiceSyncBlockerSummary {
     return ServiceSyncBlockerSummary(
       serviceName: json['serviceName'] as String,
       latestBlockers: (json['latestBlockers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
           .toList(),
       serviceInstanceName: json['serviceInstanceName'] as String?,
@@ -10893,7 +10893,7 @@ class ServiceTemplateVersion {
       arn: json['arn'] as String,
       compatibleEnvironmentTemplates: (json['compatibleEnvironmentTemplates']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               CompatibleEnvironmentTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10909,7 +10909,7 @@ class ServiceTemplateVersion {
       schema: json['schema'] as String?,
       statusMessage: json['statusMessage'] as String?,
       supportedComponentSources: (json['supportedComponentSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceTemplateSupportedComponentSourceType.fromString(
               (e as String)))
           .toList(),
@@ -11099,7 +11099,7 @@ class SyncBlocker {
       status: BlockerStatus.fromString((json['status'] as String)),
       type: BlockerType.fromString((json['type'] as String)),
       contexts: (json['contexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolvedAt: timeStampFromJson(json['resolvedAt']),

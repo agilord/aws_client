@@ -2737,10 +2737,8 @@ class AddProfileKeyResponse {
   factory AddProfileKeyResponse.fromJson(Map<String, dynamic> json) {
     return AddProfileKeyResponse(
       keyName: json['KeyName'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3074,7 +3072,7 @@ class AttributeDetails {
   factory AttributeDetails.fromJson(Map<String, dynamic> json) {
     return AttributeDetails(
       attributes: (json['Attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AttributeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       expression: json['Expression'] as String,
@@ -3227,16 +3225,14 @@ class AttributeTypesSelector {
     return AttributeTypesSelector(
       attributeMatchingModel: AttributeMatchingModel.fromString(
           (json['AttributeMatchingModel'] as String)),
-      address: (json['Address'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      address:
+          (json['Address'] as List?)?.nonNulls.map((e) => e as String).toList(),
       emailAddress: (json['EmailAddress'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       phoneNumber: (json['PhoneNumber'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3500,9 +3496,8 @@ class Consolidation {
   factory Consolidation.fromJson(Map<String, dynamic> json) {
     return Consolidation(
       matchingAttributesList: (json['MatchingAttributesList'] as List)
-          .whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          .nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
     );
   }
@@ -4029,7 +4024,7 @@ class DetectProfileObjectTypeResponse {
   factory DetectProfileObjectTypeResponse.fromJson(Map<String, dynamic> json) {
     return DetectProfileObjectTypeResponse(
       detectedProfileObjectTypes: (json['DetectedProfileObjectTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DetectedProfileObjectType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4070,7 +4065,7 @@ class DetectedProfileObjectType {
       keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k,
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       sourceLastUpdatedTimestampFormat:
@@ -4581,10 +4576,8 @@ class FoundByKeyValue {
   factory FoundByKeyValue.fromJson(Map<String, dynamic> json) {
     return FoundByKeyValue(
       keyName: json['KeyName'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5232,7 +5225,7 @@ class GetMatchesResponse {
     return GetMatchesResponse(
       matchGenerationDate: timeStampFromJson(json['MatchGenerationDate']),
       matches: (json['Matches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5327,7 +5320,7 @@ class GetProfileObjectTypeResponse {
       keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k,
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
@@ -5420,7 +5413,7 @@ class GetProfileObjectTypeTemplateResponse {
       keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k,
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       sourceLastUpdatedTimestampFormat:
@@ -5499,7 +5492,7 @@ class GetSimilarProfilesResponse {
       matchType: (json['MatchType'] as String?)?.let(MatchType.fromString),
       nextToken: json['NextToken'] as String?,
       profileIds: (json['ProfileIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ruleLevel: json['RuleLevel'] as int?,
@@ -5626,7 +5619,7 @@ class GetWorkflowStepsResponse {
   factory GetWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkflowStepsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowStepItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5924,7 +5917,7 @@ class ListAccountIntegrationsResponse {
   factory ListAccountIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountIntegrationsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListIntegrationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6021,7 +6014,7 @@ class ListCalculatedAttributeDefinitionsResponse {
       Map<String, dynamic> json) {
     return ListCalculatedAttributeDefinitionsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListCalculatedAttributeDefinitionItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6103,7 +6096,7 @@ class ListCalculatedAttributesForProfileResponse {
       Map<String, dynamic> json) {
     return ListCalculatedAttributesForProfileResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListCalculatedAttributeForProfileItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6182,7 +6175,7 @@ class ListDomainsResponse {
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListDomainItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6214,7 +6207,7 @@ class ListEventStreamsResponse {
   factory ListEventStreamsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventStreamsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventStreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6248,7 +6241,7 @@ class ListIdentityResolutionJobsResponse {
       Map<String, dynamic> json) {
     return ListIdentityResolutionJobsResponse(
       identityResolutionJobsList: (json['IdentityResolutionJobsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdentityResolutionJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6371,7 +6364,7 @@ class ListIntegrationsResponse {
   factory ListIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListIntegrationsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListIntegrationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6495,7 +6488,7 @@ class ListProfileObjectTypeTemplatesResponse {
       Map<String, dynamic> json) {
     return ListProfileObjectTypeTemplatesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListProfileObjectTypeTemplateItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6528,7 +6521,7 @@ class ListProfileObjectTypesResponse {
   factory ListProfileObjectTypesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfileObjectTypesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListProfileObjectTypeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6600,7 +6593,7 @@ class ListProfileObjectsResponse {
   factory ListProfileObjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProfileObjectsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ListProfileObjectsItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6634,7 +6627,7 @@ class ListRuleBasedMatchesResponse {
   factory ListRuleBasedMatchesResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleBasedMatchesResponse(
       matchIds: (json['MatchIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6749,7 +6742,7 @@ class ListWorkflowsResponse {
   factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListWorkflowsItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6841,7 +6834,7 @@ class MatchItem {
       confidenceScore: json['ConfidenceScore'] as double?,
       matchId: json['MatchId'] as String?,
       profileIds: (json['ProfileIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7031,10 +7024,7 @@ class MatchingRule {
 
   factory MatchingRule.fromJson(Map<String, dynamic> json) {
     return MatchingRule(
-      rule: (json['Rule'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      rule: (json['Rule'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -7164,11 +7154,11 @@ class ObjectTypeKey {
   factory ObjectTypeKey.fromJson(Map<String, dynamic> json) {
     return ObjectTypeKey(
       fieldNames: (json['FieldNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       standardIdentifiers: (json['StandardIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StandardIdentifier.fromString((e as String)))
           .toList(),
     );
@@ -7398,7 +7388,7 @@ class Profile {
       emailAddress: json['EmailAddress'] as String?,
       firstName: json['FirstName'] as String?,
       foundByItems: (json['FoundByItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FoundByKeyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       gender: (json['Gender'] as String?)?.let(Gender.fromString),
@@ -7668,7 +7658,7 @@ class PutProfileObjectTypeResponse {
       keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k,
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
@@ -7879,7 +7869,7 @@ class RuleBasedMatchingResponse {
               json['ExportingConfig'] as Map<String, dynamic>)
           : null,
       matchingRules: (json['MatchingRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MatchingRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxAllowedRuleLevelForMatching:
@@ -8197,7 +8187,7 @@ class SearchProfilesResponse {
   factory SearchProfilesResponse.fromJson(Map<String, dynamic> json) {
     return SearchProfilesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Profile.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

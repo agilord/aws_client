@@ -1890,7 +1890,7 @@ class Connector {
     return Connector(
       associatedOn: timeStampFromJson(json['associatedOn']),
       capabilityList: (json['capabilityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorCapability.fromString((e as String)))
           .toList(),
       connectorId: json['connectorId'] as String?,
@@ -1988,11 +1988,11 @@ class CreateAppResponse {
           ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
           : null,
       serverGroups: (json['serverGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2197,7 +2197,7 @@ class GetAppLaunchConfigurationResponse {
       roleName: json['roleName'] as String?,
       serverGroupLaunchConfigurations:
           (json['serverGroupLaunchConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServerGroupLaunchConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2235,7 +2235,7 @@ class GetAppReplicationConfigurationResponse {
     return GetAppReplicationConfigurationResponse(
       serverGroupReplicationConfigurations:
           (json['serverGroupReplicationConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServerGroupReplicationConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2275,11 +2275,11 @@ class GetAppResponse {
           ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
           : null,
       serverGroups: (json['serverGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2315,13 +2315,13 @@ class GetAppValidationConfigurationResponse {
     return GetAppValidationConfigurationResponse(
       appValidationConfigurations: (json['appValidationConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AppValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       serverGroupValidationConfigurations:
           (json['serverGroupValidationConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServerGroupValidationConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2353,7 +2353,7 @@ class GetAppValidationOutputResponse {
   factory GetAppValidationOutputResponse.fromJson(Map<String, dynamic> json) {
     return GetAppValidationOutputResponse(
       validationOutputList: (json['validationOutputList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2384,7 +2384,7 @@ class GetConnectorsResponse {
   factory GetConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectorsResponse(
       connectorList: (json['connectorList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connector.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2418,7 +2418,7 @@ class GetReplicationJobsResponse {
     return GetReplicationJobsResponse(
       nextToken: json['nextToken'] as String?,
       replicationJobList: (json['replicationJobList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationJob.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2459,7 +2459,7 @@ class GetReplicationRunsResponse {
               json['replicationJob'] as Map<String, dynamic>)
           : null,
       replicationRunList: (json['replicationRunList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2505,7 +2505,7 @@ class GetServersResponse {
       serverCatalogStatus: (json['serverCatalogStatus'] as String?)
           ?.let(ServerCatalogStatus.fromString),
       serverList: (json['serverList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Server.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2631,7 +2631,7 @@ class ListAppsResponse {
   factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsResponse(
       apps: (json['apps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2854,7 +2854,7 @@ class ReplicationJob {
       numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int?,
       replicationJobId: json['replicationJobId'] as String?,
       replicationRunList: (json['replicationRunList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       roleName: json['roleName'] as String?,
@@ -3342,7 +3342,7 @@ class ServerGroup {
       name: json['name'] as String?,
       serverGroupId: json['serverGroupId'] as String?,
       serverList: (json['serverList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Server.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3383,7 +3383,7 @@ class ServerGroupLaunchConfiguration {
       launchOrder: json['launchOrder'] as int?,
       serverGroupId: json['serverGroupId'] as String?,
       serverLaunchConfigurations: (json['serverLaunchConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ServerLaunchConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3423,7 +3423,7 @@ class ServerGroupReplicationConfiguration {
       serverGroupId: json['serverGroupId'] as String?,
       serverReplicationConfigurations:
           (json['serverReplicationConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServerReplicationConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3461,7 +3461,7 @@ class ServerGroupValidationConfiguration {
       serverGroupId: json['serverGroupId'] as String?,
       serverValidationConfigurations: (json['serverValidationConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ServerValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3967,11 +3967,11 @@ class UpdateAppResponse {
           ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
           : null,
       serverGroups: (json['serverGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

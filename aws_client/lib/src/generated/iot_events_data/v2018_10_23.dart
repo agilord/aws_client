@@ -773,7 +773,7 @@ class BatchAcknowledgeAlarmResponse {
   factory BatchAcknowledgeAlarmResponse.fromJson(Map<String, dynamic> json) {
     return BatchAcknowledgeAlarmResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchAlarmActionErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -902,7 +902,7 @@ class BatchDeleteDetectorResponse {
     return BatchDeleteDetectorResponse(
       batchDeleteDetectorErrorEntries: (json['batchDeleteDetectorErrorEntries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchDeleteDetectorErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -932,7 +932,7 @@ class BatchDisableAlarmResponse {
   factory BatchDisableAlarmResponse.fromJson(Map<String, dynamic> json) {
     return BatchDisableAlarmResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchAlarmActionErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -960,7 +960,7 @@ class BatchEnableAlarmResponse {
   factory BatchEnableAlarmResponse.fromJson(Map<String, dynamic> json) {
     return BatchEnableAlarmResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchAlarmActionErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1025,7 +1025,7 @@ class BatchPutMessageResponse {
     return BatchPutMessageResponse(
       batchPutMessageErrorEntries:
           (json['BatchPutMessageErrorEntries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -1054,7 +1054,7 @@ class BatchResetAlarmResponse {
   factory BatchResetAlarmResponse.fromJson(Map<String, dynamic> json) {
     return BatchResetAlarmResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchAlarmActionErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1082,7 +1082,7 @@ class BatchSnoozeAlarmResponse {
   factory BatchSnoozeAlarmResponse.fromJson(Map<String, dynamic> json) {
     return BatchSnoozeAlarmResponse(
       errorEntries: (json['errorEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchAlarmActionErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1150,7 +1150,7 @@ class BatchUpdateDetectorResponse {
     return BatchUpdateDetectorResponse(
       batchUpdateDetectorErrorEntries: (json['batchUpdateDetectorErrorEntries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchUpdateDetectorErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1477,11 +1477,11 @@ class DetectorState {
     return DetectorState(
       stateName: json['stateName'] as String,
       timers: (json['timers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Timer.fromJson(e as Map<String, dynamic>))
           .toList(),
       variables: (json['variables'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1784,7 +1784,7 @@ class ListAlarmsResponse {
   factory ListAlarmsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlarmsResponse(
       alarmSummaries: (json['alarmSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlarmSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1817,7 +1817,7 @@ class ListDetectorsResponse {
   factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListDetectorsResponse(
       detectorSummaries: (json['detectorSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetectorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

@@ -360,7 +360,7 @@ class GetFreeTierUsageResponse {
   factory GetFreeTierUsageResponse.fromJson(Map<String, dynamic> json) {
     return GetFreeTierUsageResponse(
       freeTierUsages: (json['freeTierUsages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FreeTierUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

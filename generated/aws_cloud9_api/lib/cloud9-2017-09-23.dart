@@ -850,7 +850,7 @@ class DescribeEnvironmentMembershipsResult {
       Map<String, dynamic> json) {
     return DescribeEnvironmentMembershipsResult(
       memberships: (json['memberships'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnvironmentMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -913,7 +913,7 @@ class DescribeEnvironmentsResult {
   factory DescribeEnvironmentsResult.fromJson(Map<String, dynamic> json) {
     return DescribeEnvironmentsResult(
       environments: (json['environments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Environment.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1196,7 +1196,7 @@ class ListEnvironmentsResult {
   factory ListEnvironmentsResult.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsResult(
       environmentIds: (json['environmentIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1215,7 +1215,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

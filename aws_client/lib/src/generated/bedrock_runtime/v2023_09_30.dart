@@ -1349,7 +1349,7 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       content: (json['content'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
       role: ConversationRole.fromString((json['role'] as String)),
@@ -1820,7 +1820,7 @@ class ToolResultBlock {
   factory ToolResultBlock.fromJson(Map<String, dynamic> json) {
     return ToolResultBlock(
       content: (json['content'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => ToolResultContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),

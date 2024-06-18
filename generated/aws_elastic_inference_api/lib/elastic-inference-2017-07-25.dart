@@ -311,7 +311,7 @@ class AcceleratorType {
           ? MemoryInfo.fromJson(json['memoryInfo'] as Map<String, dynamic>)
           : null,
       throughputInfo: (json['throughputInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -363,7 +363,7 @@ class DescribeAcceleratorOfferingsResponse {
       Map<String, dynamic> json) {
     return DescribeAcceleratorOfferingsResponse(
       acceleratorTypeOfferings: (json['acceleratorTypeOfferings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AcceleratorTypeOffering.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -382,7 +382,7 @@ class DescribeAcceleratorTypesResponse {
   factory DescribeAcceleratorTypesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAcceleratorTypesResponse(
       acceleratorTypes: (json['acceleratorTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AcceleratorType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -405,7 +405,7 @@ class DescribeAcceleratorsResponse {
   factory DescribeAcceleratorsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAcceleratorsResponse(
       acceleratorSet: (json['acceleratorSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ElasticInferenceAccelerator.fromJson(e as Map<String, dynamic>))
           .toList(),

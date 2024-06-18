@@ -1114,7 +1114,7 @@ class GetTableResponse {
     return GetTableResponse(
       description: json['Description'] as String?,
       schema: (json['Schema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       tableName: json['TableName'] as String?,
@@ -1152,7 +1152,7 @@ class ListExecutionsResponse {
   factory ListExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return ListExecutionsResponse(
       executions: (json['Executions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1184,7 +1184,7 @@ class ListExportsResponse {
   factory ListExportsResponse.fromJson(Map<String, dynamic> json) {
     return ListExportsResponse(
       exports: (json['Exports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1217,7 +1217,7 @@ class ListTablesResponse {
     return ListTablesResponse(
       nextToken: json['NextToken'] as String?,
       tables: (json['Tables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Table.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1250,7 +1250,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1469,7 +1469,7 @@ class Table {
       description: json['Description'] as String?,
       tableName: json['TableName'] as String?,
       tableProperties: (json['TableProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TablePropertyDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1515,7 +1515,7 @@ class TablePropertyDescription {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       validValues: (json['ValidValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

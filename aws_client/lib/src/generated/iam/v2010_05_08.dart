@@ -10960,9 +10960,8 @@ class AccessKey {
     return AccessKey(
       accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
       secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
     );
@@ -11100,9 +11099,8 @@ class AccessKeyMetadata {
     return AccessKeyMetadata(
       accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(StatusType.fromString) /* Nullability(true, true) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
   }
@@ -11149,8 +11147,7 @@ class AttachedPermissionsBoundary {
           _s.extractXmlStringValue(elem, 'PermissionsBoundaryArn'),
       permissionsBoundaryType: _s
           .extractXmlStringValue(elem, 'PermissionsBoundaryType')
-          ?.let(PermissionsBoundaryAttachmentType
-              .fromString) /* Nullability(true, true) */,
+          ?.let(PermissionsBoundaryAttachmentType.fromString),
     );
   }
 
@@ -11767,7 +11764,7 @@ class EntityInfo {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(PolicyOwnerEntityType.fromString) /* Nullability(true, false) */,
+          .let(PolicyOwnerEntityType.fromString),
       path: _s.extractXmlStringValue(elem, 'Path'),
     );
   }
@@ -11919,16 +11916,16 @@ class EvaluationResult {
   factory EvaluationResult.fromXml(_s.XmlElement elem) {
     return EvaluationResult(
       evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
-      evalDecision: _s.extractXmlStringValue(elem, 'EvalDecision')!.let(
-          PolicyEvaluationDecisionType
-              .fromString) /* Nullability(true, false) */,
+      evalDecision: _s
+          .extractXmlStringValue(elem, 'EvalDecision')!
+          .let(PolicyEvaluationDecisionType.fromString),
       evalDecisionDetails: Map.fromEntries(
         elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
                   (c) => MapEntry(
                     _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!.let(
-                        PolicyEvaluationDecisionType
-                            .fromString) /* Nullability(false, false) */,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .let(PolicyEvaluationDecisionType.fromString),
                   ),
                 ) ??
             {},
@@ -12004,7 +12001,7 @@ class GenerateCredentialReportResponse {
       description: _s.extractXmlStringValue(elem, 'Description'),
       state: _s
           .extractXmlStringValue(elem, 'State')
-          ?.let(ReportStateType.fromString) /* Nullability(true, true) */,
+          ?.let(ReportStateType.fromString),
     );
   }
 
@@ -12214,8 +12211,9 @@ class GetAccountSummaryResponse {
       summaryMap: Map.fromEntries(
         elem.getElement('SummaryMap')?.findElements('entry').map(
                   (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!.let(SummaryKeyType
-                        .fromString) /* Nullability(false, false) */,
+                    _s
+                        .extractXmlStringValue(c, 'key')!
+                        .let(SummaryKeyType.fromString),
                     _s.extractXmlIntValue(c, 'value')!,
                   ),
                 ) ??
@@ -12282,7 +12280,7 @@ class GetCredentialReportResponse {
       generatedTime: _s.extractXmlDateTimeValue(elem, 'GeneratedTime'),
       reportFormat: _s
           .extractXmlStringValue(elem, 'ReportFormat')
-          ?.let(ReportFormatType.fromString) /* Nullability(true, true) */,
+          ?.let(ReportFormatType.fromString),
     );
   }
 
@@ -12619,7 +12617,7 @@ class GetOrganizationsAccessReportResponse {
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
       jobStatus: _s
           .extractXmlStringValue(elem, 'JobStatus')!
-          .let(JobStatusType.fromString) /* Nullability(true, false) */,
+          .let(JobStatusType.fromString),
       accessDetails: _s.extractXmlChild(elem, 'AccessDetails')?.let((elem) =>
           elem.findElements('member').map(AccessDetail.fromXml).toList()),
       errorDetails:
@@ -12922,7 +12920,7 @@ class GetServiceLastAccessedDetailsResponse {
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
       jobStatus: _s
           .extractXmlStringValue(elem, 'JobStatus')!
-          .let(JobStatusType.fromString) /* Nullability(true, false) */,
+          .let(JobStatusType.fromString),
       servicesLastAccessed: _s
           .extractXmlChild(elem, 'ServicesLastAccessed')!
           .findElements('member')
@@ -12930,9 +12928,9 @@ class GetServiceLastAccessedDetailsResponse {
           .toList(),
       error: _s.extractXmlChild(elem, 'Error')?.let(ErrorDetails.fromXml),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      jobType: _s.extractXmlStringValue(elem, 'JobType')?.let(
-          AccessAdvisorUsageGranularityType
-              .fromString) /* Nullability(true, true) */,
+      jobType: _s
+          .extractXmlStringValue(elem, 'JobType')
+          ?.let(AccessAdvisorUsageGranularityType.fromString),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -13017,7 +13015,7 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
       jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
       jobStatus: _s
           .extractXmlStringValue(elem, 'JobStatus')!
-          .let(JobStatusType.fromString) /* Nullability(true, false) */,
+          .let(JobStatusType.fromString),
       error: _s.extractXmlChild(elem, 'Error')?.let(ErrorDetails.fromXml),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
@@ -13058,8 +13056,9 @@ class GetServiceLinkedRoleDeletionStatusResponse {
   factory GetServiceLinkedRoleDeletionStatusResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLinkedRoleDeletionStatusResponse(
-      status: _s.extractXmlStringValue(elem, 'Status')!.let(
-          DeletionTaskStatusType.fromString) /* Nullability(true, false) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(DeletionTaskStatusType.fromString),
       reason: _s
           .extractXmlChild(elem, 'Reason')
           ?.let(DeletionTaskFailureReasonType.fromXml),
@@ -15705,11 +15704,11 @@ class PolicyGrantingServiceAccess {
       policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
       policyType: _s
           .extractXmlStringValue(elem, 'PolicyType')!
-          .let(PolicyType.fromString) /* Nullability(true, false) */,
+          .let(PolicyType.fromString),
       entityName: _s.extractXmlStringValue(elem, 'EntityName'),
       entityType: _s
           .extractXmlStringValue(elem, 'EntityType')
-          ?.let(PolicyOwnerEntityType.fromString) /* Nullability(true, true) */,
+          ?.let(PolicyOwnerEntityType.fromString),
       policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
     );
   }
@@ -16102,16 +16101,15 @@ class ResourceSpecificResult {
     return ResourceSpecificResult(
       evalResourceDecision: _s
           .extractXmlStringValue(elem, 'EvalResourceDecision')!
-          .let(PolicyEvaluationDecisionType
-              .fromString) /* Nullability(true, false) */,
+          .let(PolicyEvaluationDecisionType.fromString),
       evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
       evalDecisionDetails: Map.fromEntries(
         elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
                   (c) => MapEntry(
                     _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!.let(
-                        PolicyEvaluationDecisionType
-                            .fromString) /* Nullability(false, false) */,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .let(PolicyEvaluationDecisionType.fromString),
                   ),
                 ) ??
             {},
@@ -16573,9 +16571,8 @@ class SSHPublicKey {
       fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
       sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
       sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
@@ -16629,9 +16626,8 @@ class SSHPublicKeyMetadata {
   factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
     return SSHPublicKeyMetadata(
       sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
@@ -16947,9 +16943,8 @@ class ServiceSpecificCredential {
       serviceSpecificCredentialId:
           _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
       serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
@@ -17012,9 +17007,8 @@ class ServiceSpecificCredentialMetadata {
       serviceSpecificCredentialId:
           _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
       serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
   }
@@ -17070,9 +17064,8 @@ class SigningCertificate {
     return SigningCertificate(
       certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
       certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(StatusType.fromString) /* Nullability(true, false) */,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
       userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
@@ -17175,7 +17168,7 @@ class Statement {
       sourcePolicyId: _s.extractXmlStringValue(elem, 'SourcePolicyId'),
       sourcePolicyType: _s
           .extractXmlStringValue(elem, 'SourcePolicyType')
-          ?.let(PolicySourceType.fromString) /* Nullability(true, true) */,
+          ?.let(PolicySourceType.fromString),
       startPosition:
           _s.extractXmlChild(elem, 'StartPosition')?.let(Position.fromXml),
     );

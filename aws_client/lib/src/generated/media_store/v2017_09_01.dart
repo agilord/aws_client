@@ -986,19 +986,19 @@ class CorsRule {
   factory CorsRule.fromJson(Map<String, dynamic> json) {
     return CorsRule(
       allowedHeaders: (json['AllowedHeaders'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedOrigins: (json['AllowedOrigins'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedMethods: (json['AllowedMethods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MethodName.fromString((e as String)))
           .toList(),
       exposeHeaders: (json['ExposeHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       maxAgeSeconds: json['MaxAgeSeconds'] as int?,
@@ -1178,7 +1178,7 @@ class GetCorsPolicyOutput {
   factory GetCorsPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetCorsPolicyOutput(
       corsPolicy: (json['CorsPolicy'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CorsRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1255,7 +1255,7 @@ class ListContainersOutput {
   factory ListContainersOutput.fromJson(Map<String, dynamic> json) {
     return ListContainersOutput(
       containers: (json['Containers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Container.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1283,7 +1283,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1345,7 +1345,7 @@ class MetricPolicy {
       containerLevelMetrics: ContainerLevelMetrics.fromString(
           (json['ContainerLevelMetrics'] as String)),
       metricPolicyRules: (json['MetricPolicyRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

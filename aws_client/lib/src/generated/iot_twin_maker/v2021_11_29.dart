@@ -1875,7 +1875,7 @@ class BatchPutPropertyErrorEntry {
   factory BatchPutPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
     return BatchPutPropertyErrorEntry(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchPutPropertyError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1900,7 +1900,7 @@ class BatchPutPropertyValuesResponse {
   factory BatchPutPropertyValuesResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutPropertyValuesResponse(
       errorEntries: (json['errorEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchPutPropertyErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1931,7 +1931,7 @@ class BundleInformation {
   factory BundleInformation.fromJson(Map<String, dynamic> json) {
     return BundleInformation(
       bundleNames: (json['bundleNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       pricingTier:
@@ -2102,7 +2102,7 @@ class ComponentPropertyGroupResponse {
       groupType: GroupType.fromString((json['groupType'] as String)),
       isInherited: json['isInherited'] as bool,
       propertyNames: (json['propertyNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2883,7 +2883,7 @@ class DataType {
     return DataType(
       type: Type.fromString((json['type'] as String)),
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nestedType: json['nestedType'] != null
@@ -2960,7 +2960,7 @@ class DataValue {
       expression: json['expression'] as String?,
       integerValue: json['integerValue'] as int?,
       listValue: (json['listValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       longValue: json['longValue'] as int?,
@@ -3363,12 +3363,12 @@ class ExecuteQueryResponse {
   factory ExecuteQueryResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteQueryResponse(
       columnDescriptions: (json['columnDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
       rows: (json['rows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3579,7 +3579,7 @@ class FunctionResponse {
           : null,
       isInherited: json['isInherited'] as bool?,
       requiredProperties: (json['requiredProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       scope: (json['scope'] as String?)?.let(Scope.fromString),
@@ -3698,7 +3698,7 @@ class GetComponentTypeResponse {
                       e as Map<String, dynamic>))),
       description: json['description'] as String?,
       extendsFrom: (json['extendsFrom'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       functions: (json['functions'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -3934,7 +3934,7 @@ class GetMetadataTransferJobResponse {
       metadataTransferJobId: json['metadataTransferJobId'] as String,
       metadataTransferJobRole: json['metadataTransferJobRole'] as String,
       sources: (json['sources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SourceConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: MetadataTransferJobStatus.fromJson(
@@ -4027,7 +4027,7 @@ class GetPropertyValueHistoryResponse {
   factory GetPropertyValueHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetPropertyValueHistoryResponse(
       propertyValues: (json['propertyValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PropertyValueHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4068,9 +4068,9 @@ class GetPropertyValueResponse {
               e) =>
           MapEntry(k, PropertyLatestValue.fromJson(e as Map<String, dynamic>))),
       tabularPropertyValues: (json['tabularPropertyValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => (e as Map<String, dynamic>).map((k, e) =>
                   MapEntry(k, DataValue.fromJson(e as Map<String, dynamic>))))
               .toList())
@@ -4151,7 +4151,7 @@ class GetSceneResponse {
           nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
       workspaceId: json['workspaceId'] as String,
       capabilities: (json['capabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -4311,7 +4311,7 @@ class GetWorkspaceResponse {
       workspaceId: json['workspaceId'] as String,
       description: json['description'] as String?,
       linkedServices: (json['linkedServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       role: json['role'] as String?,
@@ -4404,7 +4404,7 @@ class IotSiteWiseSourceConfiguration {
   factory IotSiteWiseSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return IotSiteWiseSourceConfiguration(
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IotSiteWiseSourceConfigurationFilter.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4497,7 +4497,7 @@ class IotTwinMakerSourceConfiguration {
     return IotTwinMakerSourceConfiguration(
       workspace: json['workspace'] as String,
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IotTwinMakerSourceConfigurationFilter.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4631,7 +4631,7 @@ class ListComponentTypesResponse {
   factory ListComponentTypesResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentTypesResponse(
       componentTypeSummaries: (json['componentTypeSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComponentTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       workspaceId: json['workspaceId'] as String,
@@ -4669,7 +4669,7 @@ class ListComponentsResponse {
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
       componentSummaries: (json['componentSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4731,7 +4731,7 @@ class ListEntitiesResponse {
   factory ListEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListEntitiesResponse(
       entitySummaries: (json['entitySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4787,7 +4787,7 @@ class ListMetadataTransferJobsResponse {
     return ListMetadataTransferJobsResponse(
       metadataTransferJobSummaries: (json['metadataTransferJobSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MetadataTransferJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4820,7 +4820,7 @@ class ListPropertiesResponse {
   factory ListPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListPropertiesResponse(
       propertySummaries: (json['propertySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4853,7 +4853,7 @@ class ListScenesResponse {
     return ListScenesResponse(
       nextToken: json['nextToken'] as String?,
       sceneSummaries: (json['sceneSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SceneSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4885,7 +4885,7 @@ class ListSyncJobsResponse {
     return ListSyncJobsResponse(
       nextToken: json['nextToken'] as String?,
       syncJobSummaries: (json['syncJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4917,7 +4917,7 @@ class ListSyncResourcesResponse {
     return ListSyncResourcesResponse(
       nextToken: json['nextToken'] as String?,
       syncResources: (json['syncResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4979,7 +4979,7 @@ class ListWorkspacesResponse {
     return ListWorkspacesResponse(
       nextToken: json['nextToken'] as String?,
       workspaceSummaries: (json['workspaceSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5588,7 +5588,7 @@ class PropertyGroupResponse {
       groupType: GroupType.fromString((json['groupType'] as String)),
       isInherited: json['isInherited'] as bool,
       propertyNames: (json['propertyNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5894,7 +5894,7 @@ class PropertyValueEntry {
       entityPropertyReference: EntityPropertyReference.fromJson(
           json['entityPropertyReference'] as Map<String, dynamic>),
       propertyValues: (json['propertyValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5929,7 +5929,7 @@ class PropertyValueHistory {
       entityPropertyReference: EntityPropertyReference.fromJson(
           json['entityPropertyReference'] as Map<String, dynamic>),
       values: (json['values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6031,7 +6031,7 @@ class Row {
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
       rowData: (json['rowData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryResultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6877,7 +6877,7 @@ class WorkspaceSummary {
       workspaceId: json['workspaceId'] as String,
       description: json['description'] as String?,
       linkedServices: (json['linkedServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

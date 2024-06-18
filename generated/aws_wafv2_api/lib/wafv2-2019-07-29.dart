@@ -4497,7 +4497,7 @@ class APIKeySummary {
       aPIKey: json['APIKey'] as String?,
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       tokenDomains: (json['TokenDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       version: json['Version'] as int?,
@@ -4913,7 +4913,7 @@ class AndStatement {
   factory AndStatement.fromJson(Map<String, dynamic> json) {
     return AndStatement(
       statements: (json['Statements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Statement.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5265,7 +5265,7 @@ class ByteMatchStatement {
           (json['PositionalConstraint'] as String)),
       searchString: _s.decodeUint8List(json['SearchString']! as String),
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5665,11 +5665,11 @@ class CookieMatchPattern {
           ? All.fromJson(json['All'] as Map<String, dynamic>)
           : null,
       excludedCookies: (json['ExcludedCookies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includedCookies: (json['IncludedCookies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6227,7 +6227,7 @@ class CustomRequestHandling {
   factory CustomRequestHandling.fromJson(Map<String, dynamic> json) {
     return CustomRequestHandling(
       insertHeaders: (json['InsertHeaders'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CustomHTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6286,7 +6286,7 @@ class CustomResponse {
       responseCode: json['ResponseCode'] as int,
       customResponseBodyKey: json['CustomResponseBodyKey'] as String?,
       responseHeaders: (json['ResponseHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomHTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6476,7 +6476,7 @@ class DescribeAllManagedProductsResponse {
       Map<String, dynamic> json) {
     return DescribeAllManagedProductsResponse(
       managedProducts: (json['ManagedProducts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ManagedProductDescriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6497,7 +6497,7 @@ class DescribeManagedProductsByVendorResponse {
       Map<String, dynamic> json) {
     return DescribeManagedProductsByVendorResponse(
       managedProducts: (json['ManagedProducts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ManagedProductDescriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6579,17 +6579,17 @@ class DescribeManagedRuleGroupResponse {
   factory DescribeManagedRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeManagedRuleGroupResponse(
       availableLabels: (json['AvailableLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       capacity: json['Capacity'] as int?,
       consumedLabels: (json['ConsumedLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       labelNamespace: json['LabelNamespace'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       snsTopicArn: json['SnsTopicArn'] as String?,
@@ -7010,7 +7010,7 @@ class Filter {
     return Filter(
       behavior: FilterBehavior.fromString((json['Behavior'] as String)),
       conditions: (json['Conditions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
       requirement:
@@ -7318,7 +7318,7 @@ class GeoMatchStatement {
   factory GeoMatchStatement.fromJson(Map<String, dynamic> json) {
     return GeoMatchStatement(
       countryCodes: (json['CountryCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CountryCode.fromString((e as String)))
           .toList(),
       forwardedIPConfig: json['ForwardedIPConfig'] != null
@@ -7355,7 +7355,7 @@ class GetDecryptedAPIKeyResponse {
     return GetDecryptedAPIKeyResponse(
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       tokenDomains: (json['TokenDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7591,7 +7591,7 @@ class GetSampledRequestsResponse {
     return GetSampledRequestsResponse(
       populationSize: json['PopulationSize'] as int?,
       sampledRequests: (json['SampledRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeWindow: json['TimeWindow'] != null
@@ -7743,7 +7743,7 @@ class HTTPRequest {
       country: json['Country'] as String?,
       hTTPVersion: json['HTTPVersion'] as String?,
       headers: (json['Headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       method: json['Method'] as String?,
@@ -7784,11 +7784,11 @@ class HeaderMatchPattern {
           ? All.fromJson(json['All'] as Map<String, dynamic>)
           : null,
       excludedHeaders: (json['ExcludedHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includedHeaders: (json['IncludedHeaders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8050,10 +8050,8 @@ class IPSet {
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
       arn: json['ARN'] as String,
-      addresses: (json['Addresses'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      addresses:
+          (json['Addresses'] as List).nonNulls.map((e) => e as String).toList(),
       iPAddressVersion:
           IPAddressVersion.fromString((json['IPAddressVersion'] as String)),
       id: json['Id'] as String,
@@ -8538,7 +8536,7 @@ class JsonMatchPattern {
           ? All.fromJson(json['All'] as Map<String, dynamic>)
           : null,
       includedPaths: (json['IncludedPaths'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8749,7 +8747,7 @@ class ListAPIKeysResponse {
   factory ListAPIKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListAPIKeysResponse(
       aPIKeySummaries: (json['APIKeySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => APIKeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       applicationIntegrationURL: json['ApplicationIntegrationURL'] as String?,
@@ -8786,7 +8784,7 @@ class ListAvailableManagedRuleGroupVersionsResponse {
       currentDefaultVersion: json['CurrentDefaultVersion'] as String?,
       nextMarker: json['NextMarker'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ManagedRuleGroupVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8815,7 +8813,7 @@ class ListAvailableManagedRuleGroupsResponse {
       Map<String, dynamic> json) {
     return ListAvailableManagedRuleGroupsResponse(
       managedRuleGroups: (json['ManagedRuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ManagedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8844,7 +8842,7 @@ class ListIPSetsResponse {
   factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListIPSetsResponse(
       iPSets: (json['IPSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -8873,7 +8871,7 @@ class ListLoggingConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListLoggingConfigurationsResponse(
       loggingConfigurations: (json['LoggingConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -8901,7 +8899,7 @@ class ListManagedRuleSetsResponse {
   factory ListManagedRuleSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedRuleSetsResponse(
       managedRuleSets: (json['ManagedRuleSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ManagedRuleSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -8930,7 +8928,7 @@ class ListMobileSdkReleasesResponse {
     return ListMobileSdkReleasesResponse(
       nextMarker: json['NextMarker'] as String?,
       releaseSummaries: (json['ReleaseSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReleaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8958,7 +8956,7 @@ class ListRegexPatternSetsResponse {
     return ListRegexPatternSetsResponse(
       nextMarker: json['NextMarker'] as String?,
       regexPatternSets: (json['RegexPatternSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8977,7 +8975,7 @@ class ListResourcesForWebACLResponse {
   factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) {
     return ListResourcesForWebACLResponse(
       resourceArns: (json['ResourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9005,7 +9003,7 @@ class ListRuleGroupsResponse {
     return ListRuleGroupsResponse(
       nextMarker: json['NextMarker'] as String?,
       ruleGroups: (json['RuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9061,7 +9059,7 @@ class ListWebACLsResponse {
     return ListWebACLsResponse(
       nextMarker: json['NextMarker'] as String?,
       webACLs: (json['WebACLs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9210,7 +9208,7 @@ class LoggingConfiguration {
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
@@ -9222,7 +9220,7 @@ class LoggingConfiguration {
           : null,
       managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
       redactedFields: (json['RedactedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9272,7 +9270,7 @@ class LoggingFilter {
       defaultBehavior:
           FilterBehavior.fromString((json['DefaultBehavior'] as String)),
       filters: (json['Filters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9626,16 +9624,16 @@ class ManagedRuleGroupStatement {
       name: json['Name'] as String,
       vendorName: json['VendorName'] as String,
       excludedRules: (json['ExcludedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       managedRuleGroupConfigs: (json['ManagedRuleGroupConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ManagedRuleGroupConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       ruleActionOverrides: (json['RuleActionOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleActionOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
       scopeDownStatement: json['ScopeDownStatement'] != null
@@ -10043,7 +10041,7 @@ class MobileSdkRelease {
       releaseNotes: json['ReleaseNotes'] as String?,
       releaseVersion: json['ReleaseVersion'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       timestamp: timeStampFromJson(json['Timestamp']),
@@ -10111,7 +10109,7 @@ class OrStatement {
   factory OrStatement.fromJson(Map<String, dynamic> json) {
     return OrStatement(
       statements: (json['Statements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Statement.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10655,7 +10653,7 @@ class RateBasedStatement {
           (json['AggregateKeyType'] as String)),
       limit: json['Limit'] as int,
       customKeys: (json['CustomKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RateBasedStatementCustomKey.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10886,7 +10884,7 @@ class RateBasedStatementManagedKeysIPSet {
       Map<String, dynamic> json) {
     return RateBasedStatementManagedKeysIPSet(
       addresses: (json['Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       iPAddressVersion: (json['IPAddressVersion'] as String?)
@@ -10923,7 +10921,7 @@ class RateLimitCookie {
     return RateLimitCookie(
       name: json['Name'] as String,
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11017,7 +11015,7 @@ class RateLimitHeader {
     return RateLimitHeader(
       name: json['Name'] as String,
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11118,7 +11116,7 @@ class RateLimitQueryArgument {
     return RateLimitQueryArgument(
       name: json['Name'] as String,
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11157,7 +11155,7 @@ class RateLimitQueryString {
   factory RateLimitQueryString.fromJson(Map<String, dynamic> json) {
     return RateLimitQueryString(
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11194,7 +11192,7 @@ class RateLimitUriPath {
   factory RateLimitUriPath.fromJson(Map<String, dynamic> json) {
     return RateLimitUriPath(
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11263,7 +11261,7 @@ class RegexMatchStatement {
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       regexString: json['RegexString'] as String,
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11319,7 +11317,7 @@ class RegexPatternSet {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       regularExpressionList: (json['RegularExpressionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Regex.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11369,7 +11367,7 @@ class RegexPatternSetReferenceStatement {
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11777,7 +11775,7 @@ class RequestInspectionACFP {
     return RequestInspectionACFP(
       payloadType: PayloadType.fromString((json['PayloadType'] as String)),
       addressFields: (json['AddressFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddressField.fromJson(e as Map<String, dynamic>))
           .toList(),
       emailField: json['EmailField'] != null
@@ -11788,7 +11786,7 @@ class RequestInspectionACFP {
               json['PasswordField'] as Map<String, dynamic>)
           : null,
       phoneNumberFields: (json['PhoneNumberFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumberField.fromJson(e as Map<String, dynamic>))
           .toList(),
       usernameField: json['UsernameField'] != null
@@ -11971,11 +11969,11 @@ class ResponseInspectionBodyContains {
   factory ResponseInspectionBodyContains.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionBodyContains(
       failureStrings: (json['FailureStrings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       successStrings: (json['SuccessStrings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -12034,12 +12032,12 @@ class ResponseInspectionHeader {
   factory ResponseInspectionHeader.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionHeader(
       failureValues: (json['FailureValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String,
       successValues: (json['SuccessValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -12099,12 +12097,12 @@ class ResponseInspectionJson {
   factory ResponseInspectionJson.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionJson(
       failureValues: (json['FailureValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       identifier: json['Identifier'] as String,
       successValues: (json['SuccessValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -12154,14 +12152,10 @@ class ResponseInspectionStatusCode {
 
   factory ResponseInspectionStatusCode.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionStatusCode(
-      failureCodes: (json['FailureCodes'] as List)
-          .whereNotNull()
-          .map((e) => e as int)
-          .toList(),
-      successCodes: (json['SuccessCodes'] as List)
-          .whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      failureCodes:
+          (json['FailureCodes'] as List).nonNulls.map((e) => e as int).toList(),
+      successCodes:
+          (json['SuccessCodes'] as List).nonNulls.map((e) => e as int).toList(),
     );
   }
 
@@ -12324,7 +12318,7 @@ class Rule {
               json['OverrideAction'] as Map<String, dynamic>)
           : null,
       ruleLabels: (json['RuleLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12577,11 +12571,11 @@ class RuleGroup {
       visibilityConfig: VisibilityConfig.fromJson(
           json['VisibilityConfig'] as Map<String, dynamic>),
       availableLabels: (json['AvailableLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       consumedLabels: (json['ConsumedLabels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       customResponseBodies:
@@ -12591,7 +12585,7 @@ class RuleGroup {
       description: json['Description'] as String?,
       labelNamespace: json['LabelNamespace'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12640,11 +12634,11 @@ class RuleGroupReferenceStatement {
     return RuleGroupReferenceStatement(
       arn: json['ARN'] as String,
       excludedRules: (json['ExcludedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       ruleActionOverrides: (json['RuleActionOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleActionOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12829,12 +12823,12 @@ class SampledHTTPRequest {
               json['ChallengeResponse'] as Map<String, dynamic>)
           : null,
       labels: (json['Labels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
           .toList(),
       overriddenAction: json['OverriddenAction'] as String?,
       requestHeadersInserted: (json['RequestHeadersInserted'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       responseCodeSent: json['ResponseCodeSent'] as int?,
@@ -12989,7 +12983,7 @@ class SizeConstraintStatement {
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       size: json['Size'] as int,
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13072,7 +13066,7 @@ class SqliMatchStatement {
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       sensitivityLevel: (json['SensitivityLevel'] as String?)
@@ -13583,7 +13577,7 @@ class TagInfoForResource {
     return TagInfoForResource(
       resourceARN: json['ResourceARN'] as String?,
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -14206,22 +14200,22 @@ class WebACL {
       managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
       postProcessFirewallManagerRuleGroups:
           (json['PostProcessFirewallManagerRuleGroups'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
               .toList(),
       preProcessFirewallManagerRuleGroups:
           (json['PreProcessFirewallManagerRuleGroups'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   FirewallManagerRuleGroup.fromJson(e as Map<String, dynamic>))
               .toList(),
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
       tokenDomains: (json['TokenDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -14307,7 +14301,7 @@ class XssMatchStatement {
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       textTransformations: (json['TextTransformations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

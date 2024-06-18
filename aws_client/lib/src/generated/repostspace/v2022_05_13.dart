@@ -569,11 +569,11 @@ class GetSpaceOutput {
       deleteDateTime: timeStampFromJson(json['deleteDateTime']),
       description: json['description'] as String?,
       groupAdmins: (json['groupAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userAdmins: (json['userAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userCount: json['userCount'] as int?,
@@ -644,7 +644,7 @@ class ListSpacesOutput {
   factory ListSpacesOutput.fromJson(Map<String, dynamic> json) {
     return ListSpacesOutput(
       spaces: (json['spaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SpaceData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

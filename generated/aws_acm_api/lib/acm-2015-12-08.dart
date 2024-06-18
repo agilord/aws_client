@@ -1179,26 +1179,24 @@ class CertificateDetail {
       createdAt: timeStampFromJson(json['CreatedAt']),
       domainName: json['DomainName'] as String?,
       domainValidationOptions: (json['DomainValidationOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
           .toList(),
       extendedKeyUsages: (json['ExtendedKeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExtendedKeyUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureReason:
           (json['FailureReason'] as String?)?.let(FailureReason.fromString),
       importedAt: timeStampFromJson(json['ImportedAt']),
-      inUseBy: (json['InUseBy'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      inUseBy:
+          (json['InUseBy'] as List?)?.nonNulls.map((e) => e as String).toList(),
       issuedAt: timeStampFromJson(json['IssuedAt']),
       issuer: json['Issuer'] as String?,
       keyAlgorithm:
           (json['KeyAlgorithm'] as String?)?.let(KeyAlgorithm.fromString),
       keyUsages: (json['KeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
       notAfter: timeStampFromJson(json['NotAfter']),
@@ -1220,7 +1218,7 @@ class CertificateDetail {
       status: (json['Status'] as String?)?.let(CertificateStatus.fromString),
       subject: json['Subject'] as String?,
       subjectAlternativeNames: (json['SubjectAlternativeNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       type: (json['Type'] as String?)?.let(CertificateType.fromString),
@@ -1429,7 +1427,7 @@ class CertificateSummary {
       domainName: json['DomainName'] as String?,
       exported: json['Exported'] as bool?,
       extendedKeyUsages: (json['ExtendedKeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExtendedKeyUsageName.fromString((e as String)))
           .toList(),
       hasAdditionalSubjectAlternativeNames:
@@ -1440,7 +1438,7 @@ class CertificateSummary {
       keyAlgorithm:
           (json['KeyAlgorithm'] as String?)?.let(KeyAlgorithm.fromString),
       keyUsages: (json['KeyUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyUsageName.fromString((e as String)))
           .toList(),
       notAfter: timeStampFromJson(json['NotAfter']),
@@ -1451,7 +1449,7 @@ class CertificateSummary {
       status: (json['Status'] as String?)?.let(CertificateStatus.fromString),
       subjectAlternativeNameSummaries:
           (json['SubjectAlternativeNameSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       type: (json['Type'] as String?)?.let(CertificateType.fromString),
@@ -1586,7 +1584,7 @@ class DomainValidation {
           : null,
       validationDomain: json['ValidationDomain'] as String?,
       validationEmails: (json['ValidationEmails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       validationMethod: (json['ValidationMethod'] as String?)
@@ -1983,7 +1981,7 @@ class ListCertificatesResponse {
   factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) {
     return ListCertificatesResponse(
       certificateSummaryList: (json['CertificateSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2002,7 +2000,7 @@ class ListTagsForCertificateResponse {
   factory ListTagsForCertificateResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForCertificateResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2088,7 +2086,7 @@ class RenewalSummary {
   factory RenewalSummary.fromJson(Map<String, dynamic> json) {
     return RenewalSummary(
       domainValidationOptions: (json['DomainValidationOptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
           .toList(),
       renewalStatus:

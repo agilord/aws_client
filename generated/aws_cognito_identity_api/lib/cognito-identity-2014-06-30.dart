@@ -1432,7 +1432,7 @@ class DeleteIdentitiesResponse {
   factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return DeleteIdentitiesResponse(
       unprocessedIdentityIds: (json['UnprocessedIdentityIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedIdentityId.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1634,10 +1634,8 @@ class IdentityDescription {
       creationDate: timeStampFromJson(json['CreationDate']),
       identityId: json['IdentityId'] as String?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      logins: (json['Logins'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      logins:
+          (json['Logins'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -1702,7 +1700,7 @@ class IdentityPool {
       identityPoolName: json['IdentityPoolName'] as String,
       allowClassicFlow: json['AllowClassicFlow'] as bool?,
       cognitoIdentityProviders: (json['CognitoIdentityProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CognitoIdentityProvider.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1710,11 +1708,11 @@ class IdentityPool {
       identityPoolTags: (json['IdentityPoolTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       openIdConnectProviderARNs: (json['OpenIdConnectProviderARNs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       samlProviderARNs: (json['SamlProviderARNs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       supportedLoginProviders:
@@ -1765,7 +1763,7 @@ class ListIdentitiesResponse {
   factory ListIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentitiesResponse(
       identities: (json['Identities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdentityDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       identityPoolId: json['IdentityPoolId'] as String?,
@@ -1790,7 +1788,7 @@ class ListIdentityPoolsResponse {
   factory ListIdentityPoolsResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityPoolsResponse(
       identityPools: (json['IdentityPools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdentityPoolShortDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1845,7 +1843,7 @@ class LookupDeveloperIdentityResponse {
     return LookupDeveloperIdentityResponse(
       developerUserIdentifierList:
           (json['DeveloperUserIdentifierList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       identityId: json['IdentityId'] as String?,
@@ -2018,7 +2016,7 @@ class RulesConfigurationType {
   factory RulesConfigurationType.fromJson(Map<String, dynamic> json) {
     return RulesConfigurationType(
       rules: (json['Rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

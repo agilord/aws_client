@@ -1965,7 +1965,7 @@ class AppIntegrationsConfiguration {
     return AppIntegrationsConfiguration(
       appIntegrationArn: json['appIntegrationArn'] as String,
       objectFields: (json['objectFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3059,7 +3059,7 @@ class DocumentText {
   factory DocumentText.fromJson(Map<String, dynamic> json) {
     return DocumentText(
       highlights: (json['highlights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Highlight.fromJson(e as Map<String, dynamic>))
           .toList(),
       text: json['text'] as String?,
@@ -3365,11 +3365,11 @@ class GetRecommendationsResponse {
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
       recommendations: (json['recommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommendationData.fromJson(e as Map<String, dynamic>))
           .toList(),
       triggers: (json['triggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationTrigger.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3448,10 +3448,8 @@ class GroupingConfiguration {
   factory GroupingConfiguration.fromJson(Map<String, dynamic> json) {
     return GroupingConfiguration(
       criteria: json['criteria'] as String?,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4066,7 +4064,7 @@ class ListAssistantAssociationsResponse {
     return ListAssistantAssociationsResponse(
       assistantAssociationSummaries: (json['assistantAssociationSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AssistantAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4100,7 +4098,7 @@ class ListAssistantsResponse {
   factory ListAssistantsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssistantsResponse(
       assistantSummaries: (json['assistantSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssistantSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4133,7 +4131,7 @@ class ListContentsResponse {
   factory ListContentsResponse.fromJson(Map<String, dynamic> json) {
     return ListContentsResponse(
       contentSummaries: (json['contentSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ContentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4166,7 +4164,7 @@ class ListImportJobsResponse {
   factory ListImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListImportJobsResponse(
       importJobSummaries: (json['importJobSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4199,7 +4197,7 @@ class ListKnowledgeBasesResponse {
   factory ListKnowledgeBasesResponse.fromJson(Map<String, dynamic> json) {
     return ListKnowledgeBasesResponse(
       knowledgeBaseSummaries: (json['knowledgeBaseSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KnowledgeBaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4232,7 +4230,7 @@ class ListQuickResponsesResponse {
   factory ListQuickResponsesResponse.fromJson(Map<String, dynamic> json) {
     return ListQuickResponsesResponse(
       quickResponseSummaries: (json['quickResponseSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => QuickResponseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4319,12 +4317,12 @@ class NotifyRecommendationsReceivedResponse {
       Map<String, dynamic> json) {
     return NotifyRecommendationsReceivedResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotifyRecommendationsReceivedError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       recommendationIds: (json['recommendationIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4385,7 +4383,7 @@ class QueryAssistantResponse {
   factory QueryAssistantResponse.fromJson(Map<String, dynamic> json) {
     return QueryAssistantResponse(
       results: (json['results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4589,7 +4587,7 @@ class QuickResponseData {
       quickResponseId: json['quickResponseId'] as String,
       status: QuickResponseStatus.fromString((json['status'] as String)),
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       contents: json['contents'] != null
@@ -5053,15 +5051,15 @@ class QuickResponseSearchResultData {
       quickResponseId: json['quickResponseId'] as String,
       status: QuickResponseStatus.fromString((json['status'] as String)),
       attributesInterpolated: (json['attributesInterpolated'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       attributesNotInterpolated: (json['attributesNotInterpolated'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -5235,7 +5233,7 @@ class QuickResponseSummary {
       quickResponseId: json['quickResponseId'] as String,
       status: QuickResponseStatus.fromString((json['status'] as String)),
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -5392,7 +5390,7 @@ class RecommendationTrigger {
           json['data'] as Map<String, dynamic>),
       id: json['id'] as String,
       recommendationIds: (json['recommendationIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       source: RecommendationSourceType.fromString((json['source'] as String)),
@@ -5598,7 +5596,7 @@ class SearchContentResponse {
   factory SearchContentResponse.fromJson(Map<String, dynamic> json) {
     return SearchContentResponse(
       contentSummaries: (json['contentSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ContentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5648,7 +5646,7 @@ class SearchQuickResponsesResponse {
   factory SearchQuickResponsesResponse.fromJson(Map<String, dynamic> json) {
     return SearchQuickResponsesResponse(
       results: (json['results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               QuickResponseSearchResultData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5682,7 +5680,7 @@ class SearchSessionsResponse {
   factory SearchSessionsResponse.fromJson(Map<String, dynamic> json) {
     return SearchSessionsResponse(
       sessionSummaries: (json['sessionSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

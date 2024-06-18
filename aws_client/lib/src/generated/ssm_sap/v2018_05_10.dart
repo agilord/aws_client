@@ -882,7 +882,7 @@ class Application {
       appRegistryArn: json['AppRegistryArn'] as String?,
       arn: json['Arn'] as String?,
       components: (json['Components'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       discoveryStatus: (json['DiscoveryStatus'] as String?)
@@ -1092,7 +1092,7 @@ class AssociatedHost {
       ec2InstanceId: json['Ec2InstanceId'] as String?,
       hostname: json['Hostname'] as String?,
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpAddressMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       osVersion: json['OsVersion'] as String?,
@@ -1294,7 +1294,7 @@ class Component {
               json['AssociatedHost'] as Map<String, dynamic>)
           : null,
       childComponents: (json['ChildComponents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       componentId: json['ComponentId'] as String?,
@@ -1305,12 +1305,12 @@ class Component {
               json['DatabaseConnection'] as Map<String, dynamic>)
           : null,
       databases: (json['Databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       hdbVersion: json['HdbVersion'] as String?,
       hosts: (json['Hosts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Host.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
@@ -1552,7 +1552,7 @@ class Database {
       arn: json['Arn'] as String?,
       componentId: json['ComponentId'] as String?,
       credentials: (json['Credentials'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationCredential.fromJson(e as Map<String, dynamic>))
           .toList(),
       databaseId: json['DatabaseId'] as String?,
@@ -2095,7 +2095,7 @@ class ListApplicationsOutput {
   factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) {
     return ListApplicationsOutput(
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2128,7 +2128,7 @@ class ListComponentsOutput {
   factory ListComponentsOutput.fromJson(Map<String, dynamic> json) {
     return ListComponentsOutput(
       components: (json['Components'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2161,7 +2161,7 @@ class ListDatabasesOutput {
   factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) {
     return ListDatabasesOutput(
       databases: (json['Databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatabaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2195,7 +2195,7 @@ class ListOperationEventsOutput {
     return ListOperationEventsOutput(
       nextToken: json['NextToken'] as String?,
       operationEvents: (json['OperationEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OperationEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2228,7 +2228,7 @@ class ListOperationsOutput {
     return ListOperationsOutput(
       nextToken: json['NextToken'] as String?,
       operations: (json['Operations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Operation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2775,7 +2775,7 @@ class UpdateApplicationSettingsOutput {
     return UpdateApplicationSettingsOutput(
       message: json['Message'] as String?,
       operationIds: (json['OperationIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

@@ -918,7 +918,7 @@ class ListRegionsResponse {
     return ListRegionsResponse(
       nextToken: json['NextToken'] as String?,
       regions: (json['Regions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Region.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -3575,7 +3575,7 @@ class AdvancedEventSelector {
   factory AdvancedEventSelector.fromJson(Map<String, dynamic> json) {
     return AdvancedEventSelector(
       fieldSelectors: (json['FieldSelectors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AdvancedFieldSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -4496,27 +4496,25 @@ class AdvancedFieldSelector {
     return AdvancedFieldSelector(
       field: json['Field'] as String,
       endsWith: (json['EndsWith'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      equals: (json['Equals'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      equals:
+          (json['Equals'] as List?)?.nonNulls.map((e) => e as String).toList(),
       notEndsWith: (json['NotEndsWith'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notEquals: (json['NotEquals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notStartsWith: (json['NotStartsWith'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       startsWith: (json['StartsWith'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4629,13 +4627,13 @@ class CreateChannelResponse {
     return CreateChannelResponse(
       channelArn: json['ChannelArn'] as String?,
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
       source: json['Source'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4708,7 +4706,7 @@ class CreateEventDataStoreResponse {
   factory CreateEventDataStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateEventDataStoreResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       billingMode:
@@ -4722,7 +4720,7 @@ class CreateEventDataStoreResponse {
       retentionPeriod: json['RetentionPeriod'] as int?,
       status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       tagsList: (json['TagsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       terminationProtectionEnabled:
@@ -4975,10 +4973,8 @@ class DataResource {
   factory DataResource.fromJson(Map<String, dynamic> json) {
     return DataResource(
       type: json['Type'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5131,7 +5127,7 @@ class DescribeTrailsResponse {
   factory DescribeTrailsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTrailsResponse(
       trailList: (json['trailList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Trail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5292,7 +5288,7 @@ class Event {
       eventTime: timeStampFromJson(json['EventTime']),
       readOnly: json['ReadOnly'] as String?,
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       username: json['Username'] as String?,
@@ -5371,7 +5367,7 @@ class EventDataStore {
   factory EventDataStore.fromJson(Map<String, dynamic> json) {
     return EventDataStore(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -5476,12 +5472,12 @@ class EventSelector {
   factory EventSelector.fromJson(Map<String, dynamic> json) {
     return EventSelector(
       dataResources: (json['DataResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       excludeManagementEventSources:
           (json['ExcludeManagementEventSources'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       includeManagementEvents: json['IncludeManagementEvents'] as bool?,
@@ -5564,7 +5560,7 @@ class GetChannelResponse {
     return GetChannelResponse(
       channelArn: json['ChannelArn'] as String?,
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       ingestionStatus: json['IngestionStatus'] != null
@@ -5662,7 +5658,7 @@ class GetEventDataStoreResponse {
   factory GetEventDataStoreResponse.fromJson(Map<String, dynamic> json) {
     return GetEventDataStoreResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       billingMode:
@@ -5677,7 +5673,7 @@ class GetEventDataStoreResponse {
       name: json['Name'] as String?,
       organizationEnabled: json['OrganizationEnabled'] as bool?,
       partitionKeys: (json['PartitionKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       retentionPeriod: json['RetentionPeriod'] as int?,
@@ -5708,11 +5704,11 @@ class GetEventSelectorsResponse {
   factory GetEventSelectorsResponse.fromJson(Map<String, dynamic> json) {
     return GetEventSelectorsResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       eventSelectors: (json['EventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       trailARN: json['TrailARN'] as String?,
@@ -5771,7 +5767,7 @@ class GetImportResponse {
     return GetImportResponse(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       endEventTime: timeStampFromJson(json['EndEventTime']),
@@ -5818,7 +5814,7 @@ class GetInsightSelectorsResponse {
     return GetInsightSelectorsResponse(
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       insightSelectors: (json['InsightSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InsightSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       insightsDestination: json['InsightsDestination'] as String?,
@@ -5858,9 +5854,9 @@ class GetQueryResultsResponse {
       errorMessage: json['ErrorMessage'] as String?,
       nextToken: json['NextToken'] as String?,
       queryResultRows: (json['QueryResultRows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => (e as Map<String, dynamic>)
                   .map((k, e) => MapEntry(k, e as String)))
               .toList())
@@ -6211,7 +6207,7 @@ class ImportsListItem {
     return ImportsListItem(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       importId: json['ImportId'] as String?,
@@ -6343,7 +6339,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['Channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6367,7 +6363,7 @@ class ListEventDataStoresResponse {
   factory ListEventDataStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListEventDataStoresResponse(
       eventDataStores: (json['EventDataStores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventDataStore.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6390,7 +6386,7 @@ class ListImportFailuresResponse {
   factory ListImportFailuresResponse.fromJson(Map<String, dynamic> json) {
     return ListImportFailuresResponse(
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportFailureListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6413,7 +6409,7 @@ class ListImportsResponse {
   factory ListImportsResponse.fromJson(Map<String, dynamic> json) {
     return ListImportsResponse(
       imports: (json['Imports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6477,13 +6473,11 @@ class ListInsightsMetricDataResponse {
           (json['InsightType'] as String?)?.let(InsightType.fromString),
       nextToken: json['NextToken'] as String?,
       timestamps: (json['Timestamps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as double).toList(),
     );
   }
 }
@@ -6509,7 +6503,7 @@ class ListPublicKeysResponse {
     return ListPublicKeysResponse(
       nextToken: json['NextToken'] as String?,
       publicKeyList: (json['PublicKeyList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PublicKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6533,7 +6527,7 @@ class ListQueriesResponse {
     return ListQueriesResponse(
       nextToken: json['NextToken'] as String?,
       queries: (json['Queries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Query.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6558,7 +6552,7 @@ class ListTagsResponse {
     return ListTagsResponse(
       nextToken: json['NextToken'] as String?,
       resourceTagList: (json['ResourceTagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6586,7 +6580,7 @@ class ListTrailsResponse {
     return ListTrailsResponse(
       nextToken: json['NextToken'] as String?,
       trails: (json['Trails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TrailInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6665,7 +6659,7 @@ class LookupEventsResponse {
   factory LookupEventsResponse.fromJson(Map<String, dynamic> json) {
     return LookupEventsResponse(
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6748,11 +6742,11 @@ class PutEventSelectorsResponse {
   factory PutEventSelectorsResponse.fromJson(Map<String, dynamic> json) {
     return PutEventSelectorsResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       eventSelectors: (json['EventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       trailARN: json['TrailARN'] as String?,
@@ -6788,7 +6782,7 @@ class PutInsightSelectorsResponse {
     return PutInsightSelectorsResponse(
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       insightSelectors: (json['InsightSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InsightSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       insightsDestination: json['InsightsDestination'] as String?,
@@ -7019,7 +7013,7 @@ class ResourceTag {
     return ResourceTag(
       resourceId: json['ResourceId'] as String?,
       tagsList: (json['TagsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7089,7 +7083,7 @@ class RestoreEventDataStoreResponse {
   factory RestoreEventDataStoreResponse.fromJson(Map<String, dynamic> json) {
     return RestoreEventDataStoreResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       billingMode:
@@ -7162,7 +7156,7 @@ class SourceConfig {
   factory SourceConfig.fromJson(Map<String, dynamic> json) {
     return SourceConfig(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       applyToAllRegions: json['ApplyToAllRegions'] as bool?,
@@ -7225,7 +7219,7 @@ class StartImportResponse {
     return StartImportResponse(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       endEventTime: timeStampFromJson(json['EndEventTime']),
@@ -7322,7 +7316,7 @@ class StopImportResponse {
     return StopImportResponse(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       endEventTime: timeStampFromJson(json['EndEventTime']),
@@ -7549,7 +7543,7 @@ class UpdateChannelResponse {
     return UpdateChannelResponse(
       channelArn: json['ChannelArn'] as String?,
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -7635,7 +7629,7 @@ class UpdateEventDataStoreResponse {
   factory UpdateEventDataStoreResponse.fromJson(Map<String, dynamic> json) {
     return UpdateEventDataStoreResponse(
       advancedEventSelectors: (json['AdvancedEventSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       billingMode:

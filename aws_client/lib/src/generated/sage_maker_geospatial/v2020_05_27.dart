@@ -953,7 +953,7 @@ class BandMathConfigInput {
               json['CustomIndices'] as Map<String, dynamic>)
           : null,
       predefinedIndices: (json['PredefinedIndices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1005,7 +1005,7 @@ class CloudRemovalConfigInput {
           ?.let(AlgorithmNameCloudRemoval.fromString),
       interpolationValue: json['InterpolationValue'] as String?,
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1051,7 +1051,7 @@ class CustomIndicesInput {
   factory CustomIndicesInput.fromJson(Map<String, dynamic> json) {
     return CustomIndicesInput(
       operations: (json['Operations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Operation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1539,7 +1539,7 @@ class GeoMosaicConfigInput {
       algorithmName: (json['AlgorithmName'] as String?)
           ?.let(AlgorithmNameGeoMosaic.fromString),
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1572,11 +1572,10 @@ class Geometry {
   factory Geometry.fromJson(Map<String, dynamic> json) {
     return Geometry(
       coordinates: (json['Coordinates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
-              .map((e) =>
-                  (e as List).whereNotNull().map((e) => e as double).toList())
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
               .toList())
           .toList(),
       type: json['Type'] as String,
@@ -1679,7 +1678,7 @@ class GetEarthObservationJobOutput {
           ?.let(EarthObservationJobExportStatus.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       outputBands: (json['OutputBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputBand.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1763,12 +1762,12 @@ class GetRasterDataCollectionOutput {
       description: json['Description'] as String,
       descriptionPageUrl: json['DescriptionPageUrl'] as String,
       imageSourceBands: (json['ImageSourceBands'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String,
       supportedFilters: (json['SupportedFilters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: DataCollectionType.fromString((json['Type'] as String)),
@@ -2252,7 +2251,7 @@ class ListEarthObservationJobOutput {
     return ListEarthObservationJobOutput(
       earthObservationJobSummaries:
           (json['EarthObservationJobSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ListEarthObservationJobOutputConfig.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2355,7 +2354,7 @@ class ListRasterDataCollectionsOutput {
     return ListRasterDataCollectionsOutput(
       rasterDataCollectionSummaries: (json['RasterDataCollectionSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RasterDataCollectionMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2413,7 +2412,7 @@ class ListVectorEnrichmentJobOutput {
     return ListVectorEnrichmentJobOutput(
       vectorEnrichmentJobSummaries:
           (json['VectorEnrichmentJobSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ListVectorEnrichmentJobOutputConfig.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2572,15 +2571,13 @@ class MultiPolygonGeometryInput {
   factory MultiPolygonGeometryInput.fromJson(Map<String, dynamic> json) {
     return MultiPolygonGeometryInput(
       coordinates: (json['Coordinates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => (e as List)
-                  .whereNotNull()
-                  .map((e) => (e as List)
-                      .whereNotNull()
-                      .map((e) => e as double)
-                      .toList())
+                  .nonNulls
+                  .map((e) =>
+                      (e as List).nonNulls.map((e) => e as double).toList())
                   .toList())
               .toList())
           .toList(),
@@ -2817,11 +2814,10 @@ class PolygonGeometryInput {
   factory PolygonGeometryInput.fromJson(Map<String, dynamic> json) {
     return PolygonGeometryInput(
       coordinates: (json['Coordinates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
-              .map((e) =>
-                  (e as List).whereNotNull().map((e) => e as double).toList())
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
               .toList())
           .toList(),
     );
@@ -3044,7 +3040,7 @@ class PropertyFilters {
       logicalOperator:
           (json['LogicalOperator'] as String?)?.let(LogicalOperator.fromString),
       properties: (json['Properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PropertyFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3099,7 +3095,7 @@ class RasterDataCollectionMetadata {
       description: json['Description'] as String,
       name: json['Name'] as String,
       supportedFilters: (json['SupportedFilters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: DataCollectionType.fromString((json['Type'] as String)),
@@ -3286,7 +3282,7 @@ class ResamplingConfigInput {
       algorithmName: (json['AlgorithmName'] as String?)
           ?.let(AlgorithmNameResampling.fromString),
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3357,7 +3353,7 @@ class SearchRasterDataCollectionOutput {
     return SearchRasterDataCollectionOutput(
       approximateResultCount: json['ApproximateResultCount'] as int,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ItemSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3413,7 +3409,7 @@ class StackConfigInput {
               json['OutputResolution'] as Map<String, dynamic>)
           : null,
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3706,12 +3702,12 @@ class TemporalStatisticsConfigInput {
   factory TemporalStatisticsConfigInput.fromJson(Map<String, dynamic> json) {
     return TemporalStatisticsConfigInput(
       statistics: (json['Statistics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TemporalStatistics.fromString((e as String)))
           .toList(),
       groupBy: (json['GroupBy'] as String?)?.let(GroupBy.fromString),
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4295,12 +4291,12 @@ class ZonalStatisticsConfigInput {
   factory ZonalStatisticsConfigInput.fromJson(Map<String, dynamic> json) {
     return ZonalStatisticsConfigInput(
       statistics: (json['Statistics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ZonalStatistics.fromString((e as String)))
           .toList(),
       zoneS3Path: json['ZoneS3Path'] as String,
       targetBands: (json['TargetBands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       zoneS3PathKmsKeyId: json['ZoneS3PathKmsKeyId'] as String?,

@@ -505,7 +505,7 @@ class ListRoutingControlsResponse {
   factory ListRoutingControlsResponse.fromJson(Map<String, dynamic> json) {
     return ListRoutingControlsResponse(
       routingControls: (json['RoutingControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RoutingControl.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

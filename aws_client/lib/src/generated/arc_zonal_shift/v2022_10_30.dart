@@ -1075,12 +1075,12 @@ class GetManagedResourceResponse {
       appliedWeights: (json['appliedWeights'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(k, e as double)),
       zonalShifts: (json['zonalShifts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['arn'] as String?,
       autoshifts: (json['autoshifts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoshiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -1134,7 +1134,7 @@ class ListAutoshiftsResponse {
   factory ListAutoshiftsResponse.fromJson(Map<String, dynamic> json) {
     return ListAutoshiftsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoshiftSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1170,7 +1170,7 @@ class ListManagedResourcesResponse {
   factory ListManagedResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedResourcesResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1207,7 +1207,7 @@ class ListZonalShiftsResponse {
   factory ListZonalShiftsResponse.fromJson(Map<String, dynamic> json) {
     return ListZonalShiftsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ZonalShiftSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1287,14 +1287,14 @@ class ManagedResourceSummary {
   factory ManagedResourceSummary.fromJson(Map<String, dynamic> json) {
     return ManagedResourceSummary(
       availabilityZones: (json['availabilityZones'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       appliedWeights: (json['appliedWeights'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as double)),
       arn: json['arn'] as String?,
       autoshifts: (json['autoshifts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoshiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -1303,7 +1303,7 @@ class ManagedResourceSummary {
       zonalAutoshiftStatus: (json['zonalAutoshiftStatus'] as String?)
           ?.let(ZonalAutoshiftStatus.fromString),
       zonalShifts: (json['zonalShifts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1376,19 +1376,19 @@ class PracticeRunConfiguration {
   factory PracticeRunConfiguration.fromJson(Map<String, dynamic> json) {
     return PracticeRunConfiguration(
       outcomeAlarms: (json['outcomeAlarms'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ControlCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       blockedDates: (json['blockedDates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       blockedWindows: (json['blockedWindows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       blockingAlarms: (json['blockingAlarms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ControlCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

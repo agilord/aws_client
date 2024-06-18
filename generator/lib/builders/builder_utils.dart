@@ -44,7 +44,7 @@ String extractJsonCode(Shape shape, String variable,
     var closureCode = extractJsonCode(shape.member!.shapeClass!, 'e',
         nullability: Nullability.none);
     closureCode = _createClosure('e', closureCode);
-    return '($variable as List$nullAware)$nullAware.whereNotNull().map($closureCode).toList()';
+    return '($variable as List$nullAware)$nullAware.nonNulls.map($closureCode).toList()';
   } else if (shape.type == 'structure') {
     final code =
         '${shape.className}.fromJson($variable as Map<String, dynamic>)';

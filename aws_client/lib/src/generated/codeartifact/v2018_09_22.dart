@@ -4962,7 +4962,7 @@ class ListAllowedRepositoriesForGroupResult {
       Map<String, dynamic> json) {
     return ListAllowedRepositoriesForGroupResult(
       allowedRepositories: (json['allowedRepositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4997,7 +4997,7 @@ class ListAssociatedPackagesResult {
     return ListAssociatedPackagesResult(
       nextToken: json['nextToken'] as String?,
       packages: (json['packages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociatedPackage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5031,7 +5031,7 @@ class ListDomainsResult {
   factory ListDomainsResult.fromJson(Map<String, dynamic> json) {
     return ListDomainsResult(
       domains: (json['domains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5065,7 +5065,7 @@ class ListPackageGroupsResult {
     return ListPackageGroupsResult(
       nextToken: json['nextToken'] as String?,
       packageGroups: (json['packageGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5138,7 +5138,7 @@ class ListPackageVersionAssetsResult {
   factory ListPackageVersionAssetsResult.fromJson(Map<String, dynamic> json) {
     return ListPackageVersionAssetsResult(
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       format: (json['format'] as String?)?.let(PackageFormat.fromString),
@@ -5229,7 +5229,7 @@ class ListPackageVersionDependenciesResult {
       Map<String, dynamic> json) {
     return ListPackageVersionDependenciesResult(
       dependencies: (json['dependencies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
       format: (json['format'] as String?)?.let(PackageFormat.fromString),
@@ -5330,7 +5330,7 @@ class ListPackageVersionsResult {
       nextToken: json['nextToken'] as String?,
       package: json['package'] as String?,
       versions: (json['versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5374,7 +5374,7 @@ class ListPackagesResult {
     return ListPackagesResult(
       nextToken: json['nextToken'] as String?,
       packages: (json['packages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5407,7 +5407,7 @@ class ListRepositoriesInDomainResult {
     return ListRepositoriesInDomainResult(
       nextToken: json['nextToken'] as String?,
       repositories: (json['repositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5442,7 +5442,7 @@ class ListRepositoriesResult {
     return ListRepositoriesResult(
       nextToken: json['nextToken'] as String?,
       repositories: (json['repositories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5475,7 +5475,7 @@ class ListSubPackageGroupsResult {
     return ListSubPackageGroupsResult(
       nextToken: json['nextToken'] as String?,
       packageGroups: (json['packageGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5502,7 +5502,7 @@ class ListTagsForResourceResult {
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6303,7 +6303,7 @@ class PackageVersionDescription {
       format: (json['format'] as String?)?.let(PackageFormat.fromString),
       homePage: json['homePage'] as String?,
       licenses: (json['licenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LicenseInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespace: json['namespace'] as String?,
@@ -6785,13 +6785,13 @@ class RepositoryDescription {
       domainName: json['domainName'] as String?,
       domainOwner: json['domainOwner'] as String?,
       externalConnections: (json['externalConnections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RepositoryExternalConnectionInfo.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       upstreams: (json['upstreams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UpstreamRepositoryInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7099,10 +7099,7 @@ class UpdatePackageGroupOriginConfigurationResult {
                   PackageGroupOriginRestrictionType.fromString(k),
                   (e as Map<String, dynamic>).map((k, e) => MapEntry(
                       PackageGroupAllowedRepositoryUpdateType.fromString(k),
-                      (e as List)
-                          .whereNotNull()
-                          .map((e) => e as String)
-                          .toList())))),
+                      (e as List).nonNulls.map((e) => e as String).toList())))),
       packageGroup: json['packageGroup'] != null
           ? PackageGroupDescription.fromJson(
               json['packageGroup'] as Map<String, dynamic>)

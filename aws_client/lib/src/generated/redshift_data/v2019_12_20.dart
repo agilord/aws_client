@@ -1456,7 +1456,7 @@ class DescribeStatementResponse {
       error: json['Error'] as String?,
       hasResultSet: json['HasResultSet'] as bool?,
       queryParameters: (json['QueryParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SqlParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       queryString: json['QueryString'] as String?,
@@ -1467,7 +1467,7 @@ class DescribeStatementResponse {
       secretArn: json['SecretArn'] as String?,
       status: (json['Status'] as String?)?.let(StatusString.fromString),
       subStatements: (json['SubStatements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubStatementData.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
@@ -1543,7 +1543,7 @@ class DescribeTableResponse {
   factory DescribeTableResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTableResponse(
       columnList: (json['ColumnList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1720,14 +1720,14 @@ class GetStatementResultResponse {
   factory GetStatementResultResponse.fromJson(Map<String, dynamic> json) {
     return GetStatementResultResponse(
       records: (json['Records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => Field.fromJson(e as Map<String, dynamic>))
               .toList())
           .toList(),
       columnMetadata: (json['ColumnMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1769,7 +1769,7 @@ class ListDatabasesResponse {
   factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) {
     return ListDatabasesResponse(
       databases: (json['Databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1806,10 +1806,8 @@ class ListSchemasResponse {
   factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
     return ListSchemasResponse(
       nextToken: json['NextToken'] as String?,
-      schemas: (json['Schemas'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      schemas:
+          (json['Schemas'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1843,7 +1841,7 @@ class ListStatementsResponse {
   factory ListStatementsResponse.fromJson(Map<String, dynamic> json) {
     return ListStatementsResponse(
       statements: (json['Statements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StatementData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1881,7 +1879,7 @@ class ListTablesResponse {
     return ListTablesResponse(
       nextToken: json['NextToken'] as String?,
       tables: (json['Tables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1985,12 +1983,12 @@ class StatementData {
       createdAt: timeStampFromJson(json['CreatedAt']),
       isBatchStatement: json['IsBatchStatement'] as bool?,
       queryParameters: (json['QueryParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SqlParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       queryString: json['QueryString'] as String?,
       queryStrings: (json['QueryStrings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       secretArn: json['SecretArn'] as String?,

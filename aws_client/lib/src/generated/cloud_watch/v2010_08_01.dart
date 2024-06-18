@@ -3813,11 +3813,11 @@ class AlarmHistoryItem {
       alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
       alarmType: _s
           .extractXmlStringValue(elem, 'AlarmType')
-          ?.let(AlarmType.fromString) /* Nullability(true, true) */,
+          ?.let(AlarmType.fromString),
       historyData: _s.extractXmlStringValue(elem, 'HistoryData'),
       historyItemType: _s
           .extractXmlStringValue(elem, 'HistoryItemType')
-          ?.let(HistoryItemType.fromString) /* Nullability(true, true) */,
+          ?.let(HistoryItemType.fromString),
       historySummary: _s.extractXmlStringValue(elem, 'HistorySummary'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
     );
@@ -3925,8 +3925,9 @@ class AnomalyDetector {
           .extractXmlChild(elem, 'SingleMetricAnomalyDetector')
           ?.let(SingleMetricAnomalyDetector.fromXml),
       stat: _s.extractXmlStringValue(elem, 'Stat'),
-      stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.let(
-          AnomalyDetectorStateValue.fromString) /* Nullability(true, true) */,
+      stateValue: _s
+          .extractXmlStringValue(elem, 'StateValue')
+          ?.let(AnomalyDetectorStateValue.fromString),
     );
   }
 
@@ -4181,7 +4182,7 @@ class CompositeAlarm {
       actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
       actionsSuppressedBy: _s
           .extractXmlStringValue(elem, 'ActionsSuppressedBy')
-          ?.let(ActionsSuppressedBy.fromString) /* Nullability(true, true) */,
+          ?.let(ActionsSuppressedBy.fromString),
       actionsSuppressedReason:
           _s.extractXmlStringValue(elem, 'ActionsSuppressedReason'),
       actionsSuppressor: _s.extractXmlStringValue(elem, 'ActionsSuppressor'),
@@ -4212,7 +4213,7 @@ class CompositeAlarm {
           _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
       stateValue: _s
           .extractXmlStringValue(elem, 'StateValue')
-          ?.let(StateValue.fromString) /* Nullability(true, true) */,
+          ?.let(StateValue.fromString),
     );
   }
 
@@ -4399,9 +4400,8 @@ class Datapoint {
       sampleCount: _s.extractXmlDoubleValue(elem, 'SampleCount'),
       sum: _s.extractXmlDoubleValue(elem, 'Sum'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
-      unit: _s
-          .extractXmlStringValue(elem, 'Unit')
-          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
+      unit:
+          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
     );
   }
 
@@ -5059,8 +5059,9 @@ class GetMetricStreamOutput {
           _s.extractXmlBoolValue(elem, 'IncludeLinkedAccountsMetrics'),
       lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s.extractXmlStringValue(elem, 'OutputFormat')?.let(
-          MetricStreamOutputFormat.fromString) /* Nullability(true, true) */,
+      outputFormat: _s
+          .extractXmlStringValue(elem, 'OutputFormat')
+          ?.let(MetricStreamOutputFormat.fromString),
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       state: _s.extractXmlStringValue(elem, 'State'),
       statisticsConfigurations: _s
@@ -5978,7 +5979,7 @@ class MetricAlarm {
       alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
       comparisonOperator: _s
           .extractXmlStringValue(elem, 'ComparisonOperator')
-          ?.let(ComparisonOperator.fromString) /* Nullability(true, true) */,
+          ?.let(ComparisonOperator.fromString),
       datapointsToAlarm: _s.extractXmlIntValue(elem, 'DatapointsToAlarm'),
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
           elem.findElements('member').map(Dimension.fromXml).toList()),
@@ -5987,7 +5988,7 @@ class MetricAlarm {
       evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods'),
       evaluationState: _s
           .extractXmlStringValue(elem, 'EvaluationState')
-          ?.let(EvaluationState.fromString) /* Nullability(true, true) */,
+          ?.let(EvaluationState.fromString),
       extendedStatistic: _s.extractXmlStringValue(elem, 'ExtendedStatistic'),
       insufficientDataActions: _s
           .extractXmlChild(elem, 'InsufficientDataActions')
@@ -6008,16 +6009,15 @@ class MetricAlarm {
           _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
       stateValue: _s
           .extractXmlStringValue(elem, 'StateValue')
-          ?.let(StateValue.fromString) /* Nullability(true, true) */,
+          ?.let(StateValue.fromString),
       statistic: _s
           .extractXmlStringValue(elem, 'Statistic')
-          ?.let(Statistic.fromString) /* Nullability(true, true) */,
+          ?.let(Statistic.fromString),
       threshold: _s.extractXmlDoubleValue(elem, 'Threshold'),
       thresholdMetricId: _s.extractXmlStringValue(elem, 'ThresholdMetricId'),
       treatMissingData: _s.extractXmlStringValue(elem, 'TreatMissingData'),
-      unit: _s
-          .extractXmlStringValue(elem, 'Unit')
-          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
+      unit:
+          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
     );
   }
 
@@ -6348,7 +6348,7 @@ class MetricDataResult {
           elem.findElements('member').map(MessageData.fromXml).toList()),
       statusCode: _s
           .extractXmlStringValue(elem, 'StatusCode')
-          ?.let(StatusCode.fromString) /* Nullability(true, true) */,
+          ?.let(StatusCode.fromString),
       timestamps: _s
           .extractXmlChild(elem, 'Timestamps')
           ?.let((elem) => _s.extractXmlDateTimeListValues(elem, 'member')),
@@ -6631,9 +6631,8 @@ class MetricStat {
       metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
       period: _s.extractXmlIntValue(elem, 'Period')!,
       stat: _s.extractXmlStringValue(elem, 'Stat')!,
-      unit: _s
-          .extractXmlStringValue(elem, 'Unit')
-          ?.let(StandardUnit.fromString) /* Nullability(true, true) */,
+      unit:
+          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
     );
   }
 
@@ -6708,8 +6707,9 @@ class MetricStreamEntry {
       firehoseArn: _s.extractXmlStringValue(elem, 'FirehoseArn'),
       lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s.extractXmlStringValue(elem, 'OutputFormat')?.let(
-          MetricStreamOutputFormat.fromString) /* Nullability(true, true) */,
+      outputFormat: _s
+          .extractXmlStringValue(elem, 'OutputFormat')
+          ?.let(MetricStreamOutputFormat.fromString),
       state: _s.extractXmlStringValue(elem, 'State'),
     );
   }

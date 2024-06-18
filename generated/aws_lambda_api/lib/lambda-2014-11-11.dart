@@ -819,7 +819,7 @@ class ListEventSourcesResponse {
   factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListEventSourcesResponse(
       eventSources: (json['EventSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EventSourceConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -845,7 +845,7 @@ class ListFunctionsResponse {
   factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionsResponse(
       functions: (json['Functions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,

@@ -1525,23 +1525,23 @@ class ApplicationDetail {
       applicationDescription: json['ApplicationDescription'] as String?,
       cloudWatchLoggingOptionDescriptions:
           (json['CloudWatchLoggingOptionDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       createTimestamp: timeStampFromJson(json['CreateTimestamp']),
       inputDescriptions: (json['InputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
       outputDescriptions: (json['OutputDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       referenceDataSourceDescriptions:
           (json['ReferenceDataSourceDescriptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ReferenceDataSourceDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2008,16 +2008,15 @@ class DiscoverInputSchemaResponse {
           ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
           : null,
       parsedInputRecords: (json['ParsedInputRecords'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       processedInputRecords: (json['ProcessedInputRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       rawInputRecords: (json['RawInputRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2208,7 +2207,7 @@ class InputDescription {
   factory InputDescription.fromJson(Map<String, dynamic> json) {
     return InputDescription(
       inAppStreamNames: (json['InAppStreamNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inputId: json['InputId'] as String?,
@@ -3153,7 +3152,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationSummaries: (json['ApplicationSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasMoreApplications: json['HasMoreApplications'] as bool,
@@ -3181,7 +3180,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3839,7 +3838,7 @@ class SourceSchema {
   factory SourceSchema.fromJson(Map<String, dynamic> json) {
     return SourceSchema(
       recordColumns: (json['RecordColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordFormat:

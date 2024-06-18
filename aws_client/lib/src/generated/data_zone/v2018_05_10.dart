@@ -5451,11 +5451,11 @@ class AcceptSubscriptionRequestOutput {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -5578,7 +5578,7 @@ class AssetItem {
       firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
       firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5644,17 +5644,17 @@ class AssetItemAdditionalAttributes {
   factory AssetItemAdditionalAttributes.fromJson(Map<String, dynamic> json) {
     return AssetItemAdditionalAttributes(
       formsOutput: (json['formsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       latestTimeSeriesDataPointFormsOutput:
           (json['latestTimeSeriesDataPointFormsOutput'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       readOnlyFormsOutput: (json['readOnlyFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5727,12 +5727,12 @@ class AssetListing {
       createdAt: timeStampFromJson(json['createdAt']),
       forms: json['forms'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
           .toList(),
       latestTimeSeriesDataPointForms:
           (json['latestTimeSeriesDataPointForms'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5865,7 +5865,7 @@ class AssetListingItem {
       entityRevision: json['entityRevision'] as String?,
       entityType: json['entityType'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
           .toList(),
       listingCreatedBy: json['listingCreatedBy'] as String?,
@@ -5931,7 +5931,7 @@ class AssetListingItemAdditionalAttributes {
       forms: json['forms'] as String?,
       latestTimeSeriesDataPointForms:
           (json['latestTimeSeriesDataPointForms'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6380,7 +6380,7 @@ class ConfigurableEnvironmentAction {
   factory ConfigurableEnvironmentAction.fromJson(Map<String, dynamic> json) {
     return ConfigurableEnvironmentAction(
       parameters: (json['parameters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ConfigurableActionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6489,7 +6489,7 @@ class CreateAssetOutput {
     return CreateAssetOutput(
       domainId: json['domainId'] as String,
       formsOutput: (json['formsOutput'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -6505,12 +6505,12 @@ class CreateAssetOutput {
       firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
       firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       latestTimeSeriesDataPointFormsOutput:
           (json['latestTimeSeriesDataPointFormsOutput'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6523,7 +6523,7 @@ class CreateAssetOutput {
               json['predictionConfiguration'] as Map<String, dynamic>)
           : null,
       readOnlyFormsOutput: (json['readOnlyFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6671,7 +6671,7 @@ class CreateAssetRevisionOutput {
     return CreateAssetRevisionOutput(
       domainId: json['domainId'] as String,
       formsOutput: (json['formsOutput'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -6687,12 +6687,12 @@ class CreateAssetRevisionOutput {
       firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
       firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       latestTimeSeriesDataPointFormsOutput:
           (json['latestTimeSeriesDataPointFormsOutput'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6705,7 +6705,7 @@ class CreateAssetRevisionOutput {
               json['predictionConfiguration'] as Map<String, dynamic>)
           : null,
       readOnlyFormsOutput: (json['readOnlyFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6962,7 +6962,7 @@ class CreateDataSourceOutput {
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       assetFormsOutput: (json['assetFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       configuration: json['configuration'] != null
@@ -7249,13 +7249,13 @@ class CreateEnvironmentOutput {
           : null,
       description: json['description'] as String?,
       environmentActions: (json['environmentActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       id: json['id'] as String?,
@@ -7263,7 +7263,7 @@ class CreateEnvironmentOutput {
           ? Deployment.fromJson(json['lastDeployment'] as Map<String, dynamic>)
           : null,
       provisionedResources: (json['provisionedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningProperties: json['provisioningProperties'] != null
@@ -7273,7 +7273,7 @@ class CreateEnvironmentOutput {
       status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7401,7 +7401,7 @@ class CreateEnvironmentProfileOutput {
       projectId: json['projectId'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7784,11 +7784,11 @@ class CreateProjectOutput {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
           .toList(),
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -7886,7 +7886,7 @@ class CreateSubscriptionGrantOutput {
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionId: json['subscriptionId'] as String?,
@@ -7984,11 +7984,11 @@ class CreateSubscriptionRequestOutput {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -8096,11 +8096,11 @@ class CreateSubscriptionTargetOutput {
   factory CreateSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return CreateSubscriptionTargetOutput(
       applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
@@ -8113,7 +8113,7 @@ class CreateSubscriptionTargetOutput {
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
       subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8378,12 +8378,12 @@ class DataProductSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       dataProductItems: (json['dataProductItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataProductItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -9010,7 +9010,7 @@ class DeleteDataSourceOutput {
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       assetFormsOutput: (json['assetFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       configuration: json['configuration'] != null
@@ -9259,7 +9259,7 @@ class DeleteSubscriptionGrantOutput {
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionId: json['subscriptionId'] as String?,
@@ -9349,7 +9349,7 @@ class Deployment {
           : null,
       isDeploymentComplete: json['isDeploymentComplete'] as bool?,
       messages: (json['messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9643,7 +9643,7 @@ class EnvironmentBlueprintConfigurationItem {
       environmentBlueprintId: json['environmentBlueprintId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
@@ -10360,7 +10360,7 @@ class FormTypeData {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       imports: (json['imports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Import.fromJson(e as Map<String, dynamic>))
           .toList(),
       model: json['model'] != null
@@ -10500,7 +10500,7 @@ class GetAssetOutput {
     return GetAssetOutput(
       domainId: json['domainId'] as String,
       formsOutput: (json['formsOutput'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -10516,12 +10516,12 @@ class GetAssetOutput {
       firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
       firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       latestTimeSeriesDataPointFormsOutput:
           (json['latestTimeSeriesDataPointFormsOutput'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -10530,7 +10530,7 @@ class GetAssetOutput {
               json['listing'] as Map<String, dynamic>)
           : null,
       readOnlyFormsOutput: (json['readOnlyFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10786,7 +10786,7 @@ class GetDataSourceOutput {
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       assetFormsOutput: (json['assetFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       configuration: json['configuration'] != null
@@ -11138,7 +11138,7 @@ class GetEnvironmentBlueprintConfigurationOutput {
       environmentBlueprintId: json['environmentBlueprintId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
@@ -11234,12 +11234,12 @@ class GetEnvironmentBlueprintOutput {
           : null,
       description: json['description'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11377,13 +11377,13 @@ class GetEnvironmentOutput {
           : null,
       description: json['description'] as String?,
       environmentActions: (json['environmentActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       id: json['id'] as String?,
@@ -11391,7 +11391,7 @@ class GetEnvironmentOutput {
           ? Deployment.fromJson(json['lastDeployment'] as Map<String, dynamic>)
           : null,
       provisionedResources: (json['provisionedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningProperties: json['provisioningProperties'] != null
@@ -11401,7 +11401,7 @@ class GetEnvironmentOutput {
       status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11528,7 +11528,7 @@ class GetEnvironmentProfileOutput {
       projectId: json['projectId'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11629,7 +11629,7 @@ class GetFormTypeOutput {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       imports: (json['imports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Import.fromJson(e as Map<String, dynamic>))
           .toList(),
       originDomainId: json['originDomainId'] as String?,
@@ -12156,11 +12156,11 @@ class GetProjectOutput {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
           .toList(),
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -12256,7 +12256,7 @@ class GetSubscriptionGrantOutput {
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionId: json['subscriptionId'] as String?,
@@ -12451,11 +12451,11 @@ class GetSubscriptionRequestDetailsOutput {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -12563,11 +12563,11 @@ class GetSubscriptionTargetOutput {
   factory GetSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionTargetOutput(
       applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
@@ -12580,7 +12580,7 @@ class GetSubscriptionTargetOutput {
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
       subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13022,7 +13022,7 @@ class GlueRunConfigurationOutput {
     return GlueRunConfigurationOutput(
       relationalFilterConfigurations: (json['relationalFilterConfigurations']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RelationalFilterConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13278,7 +13278,7 @@ class ListAssetRevisionsOutput {
   factory ListAssetRevisionsOutput.fromJson(Map<String, dynamic> json) {
     return ListAssetRevisionsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13316,7 +13316,7 @@ class ListDataSourceRunActivitiesOutput {
       Map<String, dynamic> json) {
     return ListDataSourceRunActivitiesOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataSourceRunActivity.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13353,7 +13353,7 @@ class ListDataSourceRunsOutput {
   factory ListDataSourceRunsOutput.fromJson(Map<String, dynamic> json) {
     return ListDataSourceRunsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataSourceRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13390,7 +13390,7 @@ class ListDataSourcesOutput {
   factory ListDataSourcesOutput.fromJson(Map<String, dynamic> json) {
     return ListDataSourcesOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13427,7 +13427,7 @@ class ListDomainsOutput {
   factory ListDomainsOutput.fromJson(Map<String, dynamic> json) {
     return ListDomainsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13467,7 +13467,7 @@ class ListEnvironmentBlueprintConfigurationsOutput {
       Map<String, dynamic> json) {
     return ListEnvironmentBlueprintConfigurationsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnvironmentBlueprintConfigurationItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -13506,7 +13506,7 @@ class ListEnvironmentBlueprintsOutput {
   factory ListEnvironmentBlueprintsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentBlueprintsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               EnvironmentBlueprintSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13545,7 +13545,7 @@ class ListEnvironmentProfilesOutput {
   factory ListEnvironmentProfilesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentProfilesOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               EnvironmentProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13583,7 +13583,7 @@ class ListEnvironmentsOutput {
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13620,7 +13620,7 @@ class ListMetadataGenerationRunsOutput {
   factory ListMetadataGenerationRunsOutput.fromJson(Map<String, dynamic> json) {
     return ListMetadataGenerationRunsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetadataGenerationRunItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13659,7 +13659,7 @@ class ListNotificationsOutput {
     return ListNotificationsOutput(
       nextToken: json['nextToken'] as String?,
       notifications: (json['notifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotificationOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13695,7 +13695,7 @@ class ListProjectMembershipsOutput {
   factory ListProjectMembershipsOutput.fromJson(Map<String, dynamic> json) {
     return ListProjectMembershipsOutput(
       members: (json['members'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProjectMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13732,7 +13732,7 @@ class ListProjectsOutput {
   factory ListProjectsOutput.fromJson(Map<String, dynamic> json) {
     return ListProjectsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13770,7 +13770,7 @@ class ListSubscriptionGrantsOutput {
   factory ListSubscriptionGrantsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionGrantsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SubscriptionGrantSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13809,7 +13809,7 @@ class ListSubscriptionRequestsOutput {
   factory ListSubscriptionRequestsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionRequestsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SubscriptionRequestSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13848,7 +13848,7 @@ class ListSubscriptionTargetsOutput {
   factory ListSubscriptionTargetsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionTargetsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SubscriptionTargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13886,7 +13886,7 @@ class ListSubscriptionsOutput {
   factory ListSubscriptionsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionsOutput(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscriptionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -13946,7 +13946,7 @@ class ListTimeSeriesDataPointsOutput {
   factory ListTimeSeriesDataPointsOutput.fromJson(Map<String, dynamic> json) {
     return ListTimeSeriesDataPointsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TimeSeriesDataPointSummaryFormOutput.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -14512,7 +14512,7 @@ class PostTimeSeriesDataPointsOutput {
       entityType:
           (json['entityType'] as String?)?.let(TimeSeriesEntityType.fromString),
       forms: (json['forms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TimeSeriesDataPointFormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14689,7 +14689,7 @@ class ProjectSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
           .toList(),
       projectStatus:
@@ -14792,7 +14792,7 @@ class PutEnvironmentBlueprintConfigurationOutput {
       environmentBlueprintId: json['environmentBlueprintId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
@@ -14977,7 +14977,7 @@ class RedshiftRunConfigurationOutput {
           json['redshiftStorage'] as Map<String, dynamic>),
       relationalFilterConfigurations: (json['relationalFilterConfigurations']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RelationalFilterConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15233,11 +15233,11 @@ class RejectSubscriptionRequestOutput {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -15301,7 +15301,7 @@ class RelationalFilterConfiguration {
     return RelationalFilterConfiguration(
       databaseName: json['databaseName'] as String,
       filterExpressions: (json['filterExpressions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterExpression.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaName: json['schemaName'] as String?,
@@ -15561,7 +15561,7 @@ class SearchGroupProfilesOutput {
   factory SearchGroupProfilesOutput.fromJson(Map<String, dynamic> json) {
     return SearchGroupProfilesOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -15673,7 +15673,7 @@ class SearchListingsOutput {
   factory SearchListingsOutput.fromJson(Map<String, dynamic> json) {
     return SearchListingsOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SearchResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -15717,7 +15717,7 @@ class SearchOutput {
   factory SearchOutput.fromJson(Map<String, dynamic> json) {
     return SearchOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SearchInventoryResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15827,7 +15827,7 @@ class SearchTypesOutput {
   factory SearchTypesOutput.fromJson(Map<String, dynamic> json) {
     return SearchTypesOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SearchTypesResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -15904,7 +15904,7 @@ class SearchUserProfilesOutput {
   factory SearchUserProfilesOutput.fromJson(Map<String, dynamic> json) {
     return SearchUserProfilesOutput(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -16325,7 +16325,7 @@ class SubscribedAssetListing {
       entityType: json['entityType'] as String?,
       forms: json['forms'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -16656,7 +16656,7 @@ class SubscriptionGrantSummary {
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionId: json['subscriptionId'] as String?,
@@ -16772,11 +16772,11 @@ class SubscriptionRequestSummary {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -17027,11 +17027,11 @@ class SubscriptionTargetSummary {
   factory SubscriptionTargetSummary.fromJson(Map<String, dynamic> json) {
     return SubscriptionTargetSummary(
       applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
@@ -17044,7 +17044,7 @@ class SubscriptionTargetSummary {
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
       subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17132,13 +17132,10 @@ class TermRelations {
   factory TermRelations.fromJson(Map<String, dynamic> json) {
     return TermRelations(
       classifies: (json['classifies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      isA: (json['isA'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      isA: (json['isA'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -17567,7 +17564,7 @@ class UpdateDataSourceOutput {
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       assetFormsOutput: (json['assetFormsOutput'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       configuration: json['configuration'] != null
@@ -17828,13 +17825,13 @@ class UpdateEnvironmentOutput {
           : null,
       description: json['description'] as String?,
       environmentActions: (json['environmentActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       id: json['id'] as String?,
@@ -17842,7 +17839,7 @@ class UpdateEnvironmentOutput {
           ? Deployment.fromJson(json['lastDeployment'] as Map<String, dynamic>)
           : null,
       provisionedResources: (json['provisionedResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningProperties: json['provisioningProperties'] != null
@@ -17852,7 +17849,7 @@ class UpdateEnvironmentOutput {
       status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17984,7 +17981,7 @@ class UpdateEnvironmentProfileOutput {
       projectId: json['projectId'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18257,11 +18254,11 @@ class UpdateProjectOutput {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
           .toList(),
       glossaryTerms: (json['glossaryTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -18362,7 +18359,7 @@ class UpdateSubscriptionGrantStatusOutput {
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptionId: json['subscriptionId'] as String?,
@@ -18461,11 +18458,11 @@ class UpdateSubscriptionRequestOutput {
       requestReason: json['requestReason'] as String,
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscribedPrincipals: (json['subscribedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
@@ -18582,11 +18579,11 @@ class UpdateSubscriptionTargetOutput {
   factory UpdateSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSubscriptionTargetOutput(
       applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
@@ -18599,7 +18596,7 @@ class UpdateSubscriptionTargetOutput {
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
       subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -1860,7 +1860,7 @@ class EnabledBaselineDetails {
       targetIdentifier: json['targetIdentifier'] as String,
       baselineVersion: json['baselineVersion'] as String?,
       parameters: (json['parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnabledBaselineParameterSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2080,7 +2080,7 @@ class EnabledControlDetails {
               json['driftStatusSummary'] as Map<String, dynamic>)
           : null,
       parameters: (json['parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EnabledControlParameterSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2090,7 +2090,7 @@ class EnabledControlDetails {
           : null,
       targetIdentifier: json['targetIdentifier'] as String?,
       targetRegions: (json['targetRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Region.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2791,7 +2791,7 @@ class ListBaselinesOutput {
   factory ListBaselinesOutput.fromJson(Map<String, dynamic> json) {
     return ListBaselinesOutput(
       baselines: (json['baselines'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BaselineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2823,7 +2823,7 @@ class ListControlOperationsOutput {
   factory ListControlOperationsOutput.fromJson(Map<String, dynamic> json) {
     return ListControlOperationsOutput(
       controlOperations: (json['controlOperations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ControlOperationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2856,7 +2856,7 @@ class ListEnabledBaselinesOutput {
   factory ListEnabledBaselinesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnabledBaselinesOutput(
       enabledBaselines: (json['enabledBaselines'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => EnabledBaselineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2891,7 +2891,7 @@ class ListEnabledControlsOutput {
   factory ListEnabledControlsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnabledControlsOutput(
       enabledControls: (json['enabledControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EnabledControlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2924,7 +2924,7 @@ class ListLandingZonesOutput {
   factory ListLandingZonesOutput.fromJson(Map<String, dynamic> json) {
     return ListLandingZonesOutput(
       landingZones: (json['landingZones'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LandingZoneSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

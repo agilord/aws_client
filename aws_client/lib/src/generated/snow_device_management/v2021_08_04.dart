@@ -675,7 +675,7 @@ class DescribeDeviceEc2Output {
   factory DescribeDeviceEc2Output.fromJson(Map<String, dynamic> json) {
     return DescribeDeviceEc2Output(
       instances: (json['instances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -745,7 +745,7 @@ class DescribeDeviceOutput {
     return DescribeDeviceOutput(
       associatedWithJob: json['associatedWithJob'] as String?,
       deviceCapacities: (json['deviceCapacities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Capacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       deviceState:
@@ -756,7 +756,7 @@ class DescribeDeviceOutput {
       managedDeviceArn: json['managedDeviceArn'] as String?,
       managedDeviceId: json['managedDeviceId'] as String?,
       physicalNetworkInterfaces: (json['physicalNetworkInterfaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PhysicalNetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -909,10 +909,8 @@ class DescribeTaskOutput {
       state: (json['state'] as String?)?.let(TaskState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      targets: (json['targets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targets:
+          (json['targets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       taskArn: json['taskArn'] as String?,
       taskId: json['taskId'] as String?,
     );
@@ -1163,7 +1161,7 @@ class Instance {
     return Instance(
       amiLaunchIndex: json['amiLaunchIndex'] as int?,
       blockDeviceMappings: (json['blockDeviceMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               InstanceBlockDeviceMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1178,7 +1176,7 @@ class Instance {
       publicIpAddress: json['publicIpAddress'] as String?,
       rootDeviceName: json['rootDeviceName'] as String?,
       securityGroups: (json['securityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SecurityGroupIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1402,7 +1400,7 @@ class ListDeviceResourcesOutput {
     return ListDeviceResourcesOutput(
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1433,7 +1431,7 @@ class ListDevicesOutput {
   factory ListDevicesOutput.fromJson(Map<String, dynamic> json) {
     return ListDevicesOutput(
       devices: (json['devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1466,7 +1464,7 @@ class ListExecutionsOutput {
   factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListExecutionsOutput(
       executions: (json['executions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1522,7 +1520,7 @@ class ListTasksOutput {
     return ListTasksOutput(
       nextToken: json['nextToken'] as String?,
       tasks: (json['tasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

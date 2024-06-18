@@ -9625,7 +9625,7 @@ class DescribeCustomKeyStoresResponse {
   factory DescribeCustomKeyStoresResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCustomKeyStoresResponse(
       customKeyStores: (json['CustomKeyStores'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CustomKeyStoresListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10138,7 +10138,7 @@ class GetPublicKeyResponse {
       customerMasterKeySpec: (json['CustomerMasterKeySpec'] as String?)
           ?.let(CustomerMasterKeySpec.fromString),
       encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EncryptionAlgorithmSpec.fromString((e as String)))
           .toList(),
       keyId: json['KeyId'] as String?,
@@ -10146,7 +10146,7 @@ class GetPublicKeyResponse {
       keyUsage: (json['KeyUsage'] as String?)?.let(KeyUsageType.fromString),
       publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
       signingAlgorithms: (json['SigningAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SigningAlgorithmSpec.fromString((e as String)))
           .toList(),
     );
@@ -10295,7 +10295,7 @@ class GrantListEntry {
       keyId: json['KeyId'] as String?,
       name: json['Name'] as String?,
       operations: (json['Operations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantOperation.fromString((e as String)))
           .toList(),
       retiringPrincipal: json['RetiringPrincipal'] as String?,
@@ -10613,7 +10613,7 @@ class KeyMetadata {
       description: json['Description'] as String?,
       enabled: json['Enabled'] as bool?,
       encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EncryptionAlgorithmSpec.fromString((e as String)))
           .toList(),
       expirationModel: (json['ExpirationModel'] as String?)
@@ -10624,7 +10624,7 @@ class KeyMetadata {
       keyState: (json['KeyState'] as String?)?.let(KeyState.fromString),
       keyUsage: (json['KeyUsage'] as String?)?.let(KeyUsageType.fromString),
       macAlgorithms: (json['MacAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MacAlgorithmSpec.fromString((e as String)))
           .toList(),
       multiRegion: json['MultiRegion'] as bool?,
@@ -10635,7 +10635,7 @@ class KeyMetadata {
       origin: (json['Origin'] as String?)?.let(OriginType.fromString),
       pendingDeletionWindowInDays: json['PendingDeletionWindowInDays'] as int?,
       signingAlgorithms: (json['SigningAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SigningAlgorithmSpec.fromString((e as String)))
           .toList(),
       validTo: timeStampFromJson(json['ValidTo']),
@@ -10732,7 +10732,7 @@ class ListAliasesResponse {
   factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
     return ListAliasesResponse(
       aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AliasListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -10765,7 +10765,7 @@ class ListGrantsResponse {
   factory ListGrantsResponse.fromJson(Map<String, dynamic> json) {
     return ListGrantsResponse(
       grants: (json['Grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -10799,7 +10799,7 @@ class ListKeyPoliciesResponse {
     return ListKeyPoliciesResponse(
       nextMarker: json['NextMarker'] as String?,
       policyNames: (json['PolicyNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       truncated: json['Truncated'] as bool?,
@@ -10832,7 +10832,7 @@ class ListKeyRotationsResponse {
     return ListKeyRotationsResponse(
       nextMarker: json['NextMarker'] as String?,
       rotations: (json['Rotations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RotationsListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       truncated: json['Truncated'] as bool?,
@@ -10864,7 +10864,7 @@ class ListKeysResponse {
   factory ListKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListKeysResponse(
       keys: (json['Keys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
@@ -10906,7 +10906,7 @@ class ListResourceTagsResponse {
     return ListResourceTagsResponse(
       nextMarker: json['NextMarker'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       truncated: json['Truncated'] as bool?,
@@ -10977,7 +10977,7 @@ class MultiRegionConfiguration {
           ? MultiRegionKey.fromJson(json['PrimaryKey'] as Map<String, dynamic>)
           : null,
       replicaKeys: (json['ReplicaKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiRegionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11149,7 +11149,7 @@ class ReplicateKeyResponse {
           : null,
       replicaPolicy: json['ReplicaPolicy'] as String?,
       replicaTags: (json['ReplicaTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

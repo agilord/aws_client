@@ -4673,44 +4673,40 @@ class AccessControlRule {
 
   factory AccessControlRule.fromJson(Map<String, dynamic> json) {
     return AccessControlRule(
-      actions: (json['Actions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['Actions'] as List?)?.nonNulls.map((e) => e as String).toList(),
       dateCreated: timeStampFromJson(json['DateCreated']),
       dateModified: timeStampFromJson(json['DateModified']),
       description: json['Description'] as String?,
       effect:
           (json['Effect'] as String?)?.let(AccessControlRuleEffect.fromString),
       impersonationRoleIds: (json['ImpersonationRoleIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ipRanges: (json['IpRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
       notActions: (json['NotActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notImpersonationRoleIds: (json['NotImpersonationRoleIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notIpRanges: (json['NotIpRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notUserIds: (json['NotUserIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      userIds: (json['UserIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      userIds:
+          (json['UserIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -5841,7 +5837,7 @@ class GetAccessControlEffectResponse {
       effect:
           (json['Effect'] as String?)?.let(AccessControlRuleEffect.fromString),
       matchedRules: (json['MatchedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5873,7 +5869,7 @@ class GetDefaultRetentionPolicyResponse {
     return GetDefaultRetentionPolicyResponse(
       description: json['Description'] as String?,
       folderConfigurations: (json['FolderConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FolderConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
@@ -5904,7 +5900,7 @@ class GetImpersonationRoleEffectResponse {
     return GetImpersonationRoleEffectResponse(
       effect: (json['Effect'] as String?)?.let(AccessEffect.fromString),
       matchedRules: (json['MatchedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ImpersonationMatchedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5953,7 +5949,7 @@ class GetImpersonationRoleResponse {
       impersonationRoleId: json['ImpersonationRoleId'] as String?,
       name: json['Name'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImpersonationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(ImpersonationRoleType.fromString),
@@ -5999,7 +5995,7 @@ class GetMailDomainResponse {
           (json['OwnershipVerificationStatus'] as String?)
               ?.let(DnsRecordVerificationStatus.fromString),
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6047,7 +6043,7 @@ class GetMobileDeviceAccessEffectResponse {
       effect: (json['Effect'] as String?)
           ?.let(MobileDeviceAccessRuleEffect.fromString),
       matchedRules: (json['MatchedRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MobileDeviceAccessMatchedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6268,11 +6264,11 @@ class ImpersonationRule {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       notTargetUsers: (json['NotTargetUsers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       targetUsers: (json['TargetUsers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6331,7 +6327,7 @@ class ListAccessControlRulesResponse {
   factory ListAccessControlRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessControlRulesResponse(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessControlRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6353,10 +6349,8 @@ class ListAliasesResponse {
 
   factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
     return ListAliasesResponse(
-      aliases: (json['Aliases'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      aliases:
+          (json['Aliases'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -6380,7 +6374,7 @@ class ListAvailabilityConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListAvailabilityConfigurationsResponse(
       availabilityConfigurations: (json['AvailabilityConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AvailabilityConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6405,7 +6399,7 @@ class ListGroupMembersResponse {
   factory ListGroupMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupMembersResponse(
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Member.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6477,7 +6471,7 @@ class ListGroupsForEntityResponse {
   factory ListGroupsForEntityResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsForEntityResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6501,7 +6495,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6526,7 +6520,7 @@ class ListImpersonationRolesResponse {
     return ListImpersonationRolesResponse(
       nextToken: json['NextToken'] as String?,
       roles: (json['Roles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImpersonationRole.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6551,7 +6545,7 @@ class ListMailDomainsResponse {
   factory ListMailDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListMailDomainsResponse(
       mailDomains: (json['MailDomains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MailDomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6574,7 +6568,7 @@ class ListMailboxExportJobsResponse {
   factory ListMailboxExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMailboxExportJobsResponse(
       jobs: (json['Jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MailboxExportJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6599,7 +6593,7 @@ class ListMailboxPermissionsResponse {
     return ListMailboxPermissionsResponse(
       nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6625,7 +6619,7 @@ class ListMobileDeviceAccessOverridesResponse {
     return ListMobileDeviceAccessOverridesResponse(
       nextToken: json['NextToken'] as String?,
       overrides: (json['Overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MobileDeviceAccessOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6646,7 +6640,7 @@ class ListMobileDeviceAccessRulesResponse {
       Map<String, dynamic> json) {
     return ListMobileDeviceAccessRulesResponse(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => MobileDeviceAccessRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6672,7 +6666,7 @@ class ListOrganizationsResponse {
     return ListOrganizationsResponse(
       nextToken: json['NextToken'] as String?,
       organizationSummaries: (json['OrganizationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6696,7 +6690,7 @@ class ListResourceDelegatesResponse {
   factory ListResourceDelegatesResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceDelegatesResponse(
       delegates: (json['Delegates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Delegate.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6752,7 +6746,7 @@ class ListResourcesResponse {
     return ListResourcesResponse(
       nextToken: json['NextToken'] as String?,
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6770,7 +6764,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6830,7 +6824,7 @@ class ListUsersResponse {
     return ListUsersResponse(
       nextToken: json['NextToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7123,19 +7117,19 @@ class MobileDeviceAccessRule {
       dateModified: timeStampFromJson(json['DateModified']),
       description: json['Description'] as String?,
       deviceModels: (json['DeviceModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       deviceOperatingSystems: (json['DeviceOperatingSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       deviceTypes: (json['DeviceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       deviceUserAgents: (json['DeviceUserAgents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       effect: (json['Effect'] as String?)
@@ -7143,19 +7137,19 @@ class MobileDeviceAccessRule {
       mobileDeviceAccessRuleId: json['MobileDeviceAccessRuleId'] as String?,
       name: json['Name'] as String?,
       notDeviceModels: (json['NotDeviceModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notDeviceOperatingSystems: (json['NotDeviceOperatingSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notDeviceTypes: (json['NotDeviceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notDeviceUserAgents: (json['NotDeviceUserAgents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7244,7 +7238,7 @@ class Permission {
       granteeId: json['GranteeId'] as String,
       granteeType: MemberType.fromString((json['GranteeType'] as String)),
       permissionValues: (json['PermissionValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PermissionType.fromString((e as String)))
           .toList(),
     );

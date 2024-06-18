@@ -1165,7 +1165,7 @@ class EncryptionAlgorithmOptions {
   factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAlgorithmOptions(
       allowedValues: (json['allowedValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EncryptionAlgorithm.fromString((e as String)))
           .toList(),
       defaultValue:
@@ -1186,7 +1186,7 @@ class GetRevocationStatusResponse {
   factory GetRevocationStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetRevocationStatusResponse(
       revokedEntities: (json['revokedEntities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1381,7 +1381,7 @@ class HashAlgorithmOptions {
   factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return HashAlgorithmOptions(
       allowedValues: (json['allowedValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HashAlgorithm.fromString((e as String)))
           .toList(),
       defaultValue: HashAlgorithm.fromString((json['defaultValue'] as String)),
@@ -1428,7 +1428,7 @@ class ListProfilePermissionsResponse {
     return ListProfilePermissionsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromJson(e as Map<String, dynamic>))
           .toList(),
       policySizeBytes: json['policySizeBytes'] as int?,
@@ -1452,7 +1452,7 @@ class ListSigningJobsResponse {
   factory ListSigningJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListSigningJobsResponse(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SigningJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1476,7 +1476,7 @@ class ListSigningPlatformsResponse {
     return ListSigningPlatformsResponse(
       nextToken: json['nextToken'] as String?,
       platforms: (json['platforms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SigningPlatform.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1501,7 +1501,7 @@ class ListSigningProfilesResponse {
     return ListSigningProfilesResponse(
       nextToken: json['nextToken'] as String?,
       profiles: (json['profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SigningProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1834,7 +1834,7 @@ class SigningImageFormat {
     return SigningImageFormat(
       defaultFormat: ImageFormat.fromString((json['defaultFormat'] as String)),
       supportedFormats: (json['supportedFormats'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImageFormat.fromString((e as String)))
           .toList(),
     );

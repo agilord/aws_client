@@ -2849,7 +2849,7 @@ class CreateKxChangesetResponse {
   factory CreateKxChangesetResponse.fromJson(Map<String, dynamic> json) {
     return CreateKxChangesetResponse(
       changeRequests: (json['changeRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       changesetId: json['changesetId'] as String?,
@@ -3089,7 +3089,7 @@ class CreateKxClusterResponse {
       availabilityZoneId: json['availabilityZoneId'] as String?,
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       cacheStorageConfigurations: (json['cacheStorageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxCacheStorageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3105,12 +3105,12 @@ class CreateKxClusterResponse {
           ? CodeConfiguration.fromJson(json['code'] as Map<String, dynamic>)
           : null,
       commandLineArguments: (json['commandLineArguments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxCommandLineArgument.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databases: (json['databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDatabaseConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3134,7 +3134,7 @@ class CreateKxClusterResponse {
               json['tickerplantLogConfiguration'] as Map<String, dynamic>)
           : null,
       volumes: (json['volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Volume.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcConfiguration: json['vpcConfiguration'] != null
@@ -3366,7 +3366,7 @@ class CreateKxDataviewResponse {
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       readWrite: json['readWrite'] as bool?,
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3707,7 +3707,7 @@ class CreateKxVolumeResponse {
   factory CreateKxVolumeResponse.fromJson(Map<String, dynamic> json) {
     return CreateKxVolumeResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
@@ -4260,7 +4260,7 @@ class GetKxChangesetResponse {
     return GetKxChangesetResponse(
       activeFromTimestamp: timeStampFromJson(json['activeFromTimestamp']),
       changeRequests: (json['changeRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       changesetId: json['changesetId'] as String?,
@@ -4497,7 +4497,7 @@ class GetKxClusterResponse {
       availabilityZoneId: json['availabilityZoneId'] as String?,
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       cacheStorageConfigurations: (json['cacheStorageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxCacheStorageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4513,12 +4513,12 @@ class GetKxClusterResponse {
           ? CodeConfiguration.fromJson(json['code'] as Map<String, dynamic>)
           : null,
       commandLineArguments: (json['commandLineArguments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxCommandLineArgument.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databases: (json['databases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDatabaseConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4541,7 +4541,7 @@ class GetKxClusterResponse {
               json['tickerplantLogConfiguration'] as Map<String, dynamic>)
           : null,
       volumes: (json['volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Volume.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcConfiguration: json['vpcConfiguration'] != null
@@ -4820,7 +4820,7 @@ class GetKxDataviewResponse {
   factory GetKxDataviewResponse.fromJson(Map<String, dynamic> json) {
     return GetKxDataviewResponse(
       activeVersions: (json['activeVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDataviewActiveVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4836,7 +4836,7 @@ class GetKxDataviewResponse {
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       readWrite: json['readWrite'] as bool?,
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4961,14 +4961,14 @@ class GetKxEnvironmentResponse {
   factory GetKxEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return GetKxEnvironmentResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       awsAccountId: json['awsAccountId'] as String?,
       certificateAuthorityArn: json['certificateAuthorityArn'] as String?,
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       customDNSConfiguration: (json['customDNSConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
@@ -5142,7 +5142,7 @@ class GetKxScalingGroupResponse {
     return GetKxScalingGroupResponse(
       availabilityZoneId: json['availabilityZoneId'] as String?,
       clusters: (json['clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
@@ -5325,11 +5325,11 @@ class GetKxVolumeResponse {
   factory GetKxVolumeResponse.fromJson(Map<String, dynamic> json) {
     return GetKxVolumeResponse(
       attachedClusters: (json['attachedClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxAttachedCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
@@ -5788,7 +5788,7 @@ class KxCluster {
       status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumes: (json['volumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Volume.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5984,10 +5984,8 @@ class KxDatabaseCacheConfiguration {
   factory KxDatabaseCacheConfiguration.fromJson(Map<String, dynamic> json) {
     return KxDatabaseCacheConfiguration(
       cacheType: json['cacheType'] as String,
-      dbPaths: (json['dbPaths'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      dbPaths:
+          (json['dbPaths'] as List).nonNulls.map((e) => e as String).toList(),
       dataviewName: json['dataviewName'] as String?,
     );
   }
@@ -6035,7 +6033,7 @@ class KxDatabaseConfiguration {
     return KxDatabaseConfiguration(
       databaseName: json['databaseName'] as String,
       cacheConfigurations: (json['cacheConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDatabaseCacheConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6143,13 +6141,13 @@ class KxDataviewActiveVersion {
   factory KxDataviewActiveVersion.fromJson(Map<String, dynamic> json) {
     return KxDataviewActiveVersion(
       attachedClusters: (json['attachedClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6202,7 +6200,7 @@ class KxDataviewConfiguration {
       dataviewName: json['dataviewName'] as String?,
       dataviewVersionId: json['dataviewVersionId'] as String?,
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6304,7 +6302,7 @@ class KxDataviewListEntry {
   factory KxDataviewListEntry.fromJson(Map<String, dynamic> json) {
     return KxDataviewListEntry(
       activeVersions: (json['activeVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDataviewActiveVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6320,7 +6318,7 @@ class KxDataviewListEntry {
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       readWrite: json['readWrite'] as bool?,
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6397,10 +6395,8 @@ class KxDataviewSegmentConfiguration {
 
   factory KxDataviewSegmentConfiguration.fromJson(Map<String, dynamic> json) {
     return KxDataviewSegmentConfiguration(
-      dbPaths: (json['dbPaths'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      dbPaths:
+          (json['dbPaths'] as List).nonNulls.map((e) => e as String).toList(),
       volumeName: json['volumeName'] as String,
       onDemand: json['onDemand'] as bool?,
     );
@@ -6602,14 +6598,14 @@ class KxEnvironment {
   factory KxEnvironment.fromJson(Map<String, dynamic> json) {
     return KxEnvironment(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       awsAccountId: json['awsAccountId'] as String?,
       certificateAuthorityArn: json['certificateAuthorityArn'] as String?,
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       customDNSConfiguration: (json['customDNSConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
@@ -6934,7 +6930,7 @@ class KxScalingGroup {
     return KxScalingGroup(
       availabilityZoneId: json['availabilityZoneId'] as String?,
       clusters: (json['clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
@@ -7181,7 +7177,7 @@ class KxVolume {
   factory KxVolume.fromJson(Map<String, dynamic> json) {
     return KxVolume(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
@@ -7274,7 +7270,7 @@ class ListEnvironmentsResponse {
   factory ListEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsResponse(
       environments: (json['environments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Environment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7306,7 +7302,7 @@ class ListKxChangesetsResponse {
   factory ListKxChangesetsResponse.fromJson(Map<String, dynamic> json) {
     return ListKxChangesetsResponse(
       kxChangesets: (json['kxChangesets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxChangesetListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7339,7 +7335,7 @@ class ListKxClusterNodesResponse {
     return ListKxClusterNodesResponse(
       nextToken: json['nextToken'] as String?,
       nodes: (json['nodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxNode.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7370,7 +7366,7 @@ class ListKxClustersResponse {
   factory ListKxClustersResponse.fromJson(Map<String, dynamic> json) {
     return ListKxClustersResponse(
       kxClusterSummaries: (json['kxClusterSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7402,7 +7398,7 @@ class ListKxDatabasesResponse {
   factory ListKxDatabasesResponse.fromJson(Map<String, dynamic> json) {
     return ListKxDatabasesResponse(
       kxDatabases: (json['kxDatabases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDatabaseListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7434,7 +7430,7 @@ class ListKxDataviewsResponse {
   factory ListKxDataviewsResponse.fromJson(Map<String, dynamic> json) {
     return ListKxDataviewsResponse(
       kxDataviews: (json['kxDataviews'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7466,7 +7462,7 @@ class ListKxEnvironmentsResponse {
   factory ListKxEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListKxEnvironmentsResponse(
       environments: (json['environments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxEnvironment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7499,7 +7495,7 @@ class ListKxScalingGroupsResponse {
     return ListKxScalingGroupsResponse(
       nextToken: json['nextToken'] as String?,
       scalingGroups: (json['scalingGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxScalingGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7531,7 +7527,7 @@ class ListKxUsersResponse {
     return ListKxUsersResponse(
       nextToken: json['nextToken'] as String?,
       users: (json['users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxUser.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7562,7 +7558,7 @@ class ListKxVolumesResponse {
   factory ListKxVolumesResponse.fromJson(Map<String, dynamic> json) {
     return ListKxVolumesResponse(
       kxVolumeSummaries: (json['kxVolumeSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxVolume.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7773,7 +7769,7 @@ class TickerplantLogConfiguration {
   factory TickerplantLogConfiguration.fromJson(Map<String, dynamic> json) {
     return TickerplantLogConfiguration(
       tickerplantLogVolumes: (json['tickerplantLogVolumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7817,7 +7813,7 @@ class TransitGatewayConfiguration {
       transitGatewayID: json['transitGatewayID'] as String,
       attachmentNetworkAclConfiguration:
           (json['attachmentNetworkAclConfiguration'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => NetworkACLEntry.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
@@ -8032,7 +8028,7 @@ class UpdateKxDataviewResponse {
   factory UpdateKxDataviewResponse.fromJson(Map<String, dynamic> json) {
     return UpdateKxDataviewResponse(
       activeVersions: (json['activeVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KxDataviewActiveVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8048,7 +8044,7 @@ class UpdateKxDataviewResponse {
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       readWrite: json['readWrite'] as bool?,
       segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8166,13 +8162,13 @@ class UpdateKxEnvironmentNetworkResponse {
       Map<String, dynamic> json) {
     return UpdateKxEnvironmentNetworkResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       awsAccountId: json['awsAccountId'] as String?,
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       customDNSConfiguration: (json['customDNSConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
@@ -8309,13 +8305,13 @@ class UpdateKxEnvironmentResponse {
   factory UpdateKxEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateKxEnvironmentResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       awsAccountId: json['awsAccountId'] as String?,
       creationTimestamp: timeStampFromJson(json['creationTimestamp']),
       customDNSConfiguration: (json['customDNSConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
@@ -8524,11 +8520,11 @@ class UpdateKxVolumeResponse {
   factory UpdateKxVolumeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateKxVolumeResponse(
       attachedClusters: (json['attachedClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KxAttachedCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
@@ -8663,11 +8659,11 @@ class VpcConfiguration {
       ipAddressType:
           (json['ipAddressType'] as String?)?.let(IPAddressType.fromString),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['vpcId'] as String?,

@@ -733,7 +733,7 @@ class CmafPackage {
   factory CmafPackage.fromJson(Map<String, dynamic> json) {
     return CmafPackage(
       hlsManifests: (json['hlsManifests'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryption: json['encryption'] != null
@@ -871,7 +871,7 @@ class CreateAssetResponse {
       arn: json['arn'] as String?,
       createdAt: json['createdAt'] as String?,
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
@@ -1194,7 +1194,7 @@ class DashPackage {
   factory DashPackage.fromJson(Map<String, dynamic> json) {
     return DashPackage(
       dashManifests: (json['dashManifests'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryption: json['encryption'] != null
@@ -1204,7 +1204,7 @@ class DashPackage {
           json['includeEncoderConfigurationInSegments'] as bool?,
       includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
       periodTriggers: (json['periodTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PeriodTriggersElement.fromString((e as String)))
           .toList(),
       segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
@@ -1320,7 +1320,7 @@ class DescribeAssetResponse {
       arn: json['arn'] as String?,
       createdAt: json['createdAt'] as String?,
       egressEndpoints: (json['egressEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
@@ -1778,7 +1778,7 @@ class HlsPackage {
   factory HlsPackage.fromJson(Map<String, dynamic> json) {
     return HlsPackage(
       hlsManifests: (json['hlsManifests'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryption: json['encryption'] != null
@@ -1825,7 +1825,7 @@ class ListAssetsResponse {
   factory ListAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetsResponse(
       assets: (json['assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetShallow.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1860,7 +1860,7 @@ class ListPackagingConfigurationsResponse {
     return ListPackagingConfigurationsResponse(
       nextToken: json['nextToken'] as String?,
       packagingConfigurations: (json['packagingConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PackagingConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1895,7 +1895,7 @@ class ListPackagingGroupsResponse {
     return ListPackagingGroupsResponse(
       nextToken: json['nextToken'] as String?,
       packagingGroups: (json['packagingGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackagingGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2021,7 +2021,7 @@ class MssPackage {
   factory MssPackage.fromJson(Map<String, dynamic> json) {
     return MssPackage(
       mssManifests: (json['mssManifests'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       encryption: json['encryption'] != null
@@ -2306,10 +2306,8 @@ class SpekeKeyProvider {
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
       roleArn: json['roleArn'] as String,
-      systemIds: (json['systemIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      systemIds:
+          (json['systemIds'] as List).nonNulls.map((e) => e as String).toList(),
       url: json['url'] as String,
       encryptionContractConfiguration:
           json['encryptionContractConfiguration'] != null

@@ -2161,12 +2161,12 @@ class ActionDeclaration {
       configuration: (json['configuration'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       inputArtifacts: (json['inputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespace: json['namespace'] as String?,
       outputArtifacts: (json['outputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       region: json['region'] as String?,
@@ -2426,7 +2426,7 @@ class ActionExecutionInput {
       configuration: (json['configuration'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       inputArtifacts: (json['inputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespace: json['namespace'] as String?,
@@ -2467,7 +2467,7 @@ class ActionExecutionOutput {
               json['executionResult'] as Map<String, dynamic>)
           : null,
       outputArtifacts: (json['outputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputVariables: (json['outputVariables'] as Map<String, dynamic>?)
@@ -2659,7 +2659,7 @@ class ActionType {
           json['outputArtifactDetails'] as Map<String, dynamic>),
       actionConfigurationProperties: (json['actionConfigurationProperties']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ActionConfigurationProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2765,7 +2765,7 @@ class ActionTypeDeclaration {
               json['permissions'] as Map<String, dynamic>)
           : null,
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionTypeProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       urls: json['urls'] != null
@@ -3013,7 +3013,7 @@ class ActionTypePermissions {
   factory ActionTypePermissions.fromJson(Map<String, dynamic> json) {
     return ActionTypePermissions(
       allowedAccounts: (json['allowedAccounts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3540,7 +3540,7 @@ class CreateCustomActionTypeOutput {
       actionType:
           ActionType.fromJson(json['actionType'] as Map<String, dynamic>),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3568,7 +3568,7 @@ class CreatePipelineOutput {
               json['pipeline'] as Map<String, dynamic>)
           : null,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4047,7 +4047,7 @@ class GetPipelineStateOutput {
       pipelineName: json['pipelineName'] as String?,
       pipelineVersion: json['pipelineVersion'] as int?,
       stageStates: (json['stageStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StageState.fromJson(e as Map<String, dynamic>))
           .toList(),
       updated: timeStampFromJson(json['updated']),
@@ -4093,11 +4093,11 @@ class GitBranchFilterCriteria {
   factory GitBranchFilterCriteria.fromJson(Map<String, dynamic> json) {
     return GitBranchFilterCriteria(
       excludes: (json['excludes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includes: (json['includes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4146,11 +4146,11 @@ class GitConfiguration {
     return GitConfiguration(
       sourceActionName: json['sourceActionName'] as String,
       pullRequest: (json['pullRequest'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GitPullRequestFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       push: (json['push'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GitPushFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4187,11 +4187,11 @@ class GitFilePathFilterCriteria {
   factory GitFilePathFilterCriteria.fromJson(Map<String, dynamic> json) {
     return GitFilePathFilterCriteria(
       excludes: (json['excludes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includes: (json['includes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4251,7 +4251,7 @@ class GitPullRequestFilter {
               json['branches'] as Map<String, dynamic>)
           : null,
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GitPullRequestEventType.fromString((e as String)))
           .toList(),
       filePaths: json['filePaths'] != null
@@ -4341,11 +4341,11 @@ class GitTagFilterCriteria {
   factory GitTagFilterCriteria.fromJson(Map<String, dynamic> json) {
     return GitTagFilterCriteria(
       excludes: (json['excludes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includes: (json['includes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4499,11 +4499,11 @@ class JobData {
               json['encryptionKey'] as Map<String, dynamic>)
           : null,
       inputArtifacts: (json['inputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputArtifacts: (json['outputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelineContext: json['pipelineContext'] != null
@@ -4581,11 +4581,11 @@ class JobWorkerExecutorConfiguration {
   factory JobWorkerExecutorConfiguration.fromJson(Map<String, dynamic> json) {
     return JobWorkerExecutorConfiguration(
       pollingAccounts: (json['pollingAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       pollingServicePrincipals: (json['pollingServicePrincipals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4681,7 +4681,7 @@ class ListActionExecutionsOutput {
   factory ListActionExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListActionExecutionsOutput(
       actionExecutionDetails: (json['actionExecutionDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionExecutionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4707,7 +4707,7 @@ class ListActionTypesOutput {
   factory ListActionTypesOutput.fromJson(Map<String, dynamic> json) {
     return ListActionTypesOutput(
       actionTypes: (json['actionTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4734,7 +4734,7 @@ class ListPipelineExecutionsOutput {
     return ListPipelineExecutionsOutput(
       nextToken: json['nextToken'] as String?,
       pipelineExecutionSummaries: (json['pipelineExecutionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PipelineExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4761,7 +4761,7 @@ class ListPipelinesOutput {
     return ListPipelinesOutput(
       nextToken: json['nextToken'] as String?,
       pipelines: (json['pipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4787,7 +4787,7 @@ class ListTagsForResourceOutput {
     return ListTagsForResourceOutput(
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4843,7 +4843,7 @@ class ListWebhookItem {
       errorMessage: json['errorMessage'] as String?,
       lastTriggered: timeStampFromJson(json['lastTriggered']),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4869,7 +4869,7 @@ class ListWebhooksOutput {
     return ListWebhooksOutput(
       nextToken: json['NextToken'] as String?,
       webhooks: (json['webhooks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ListWebhookItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5055,7 +5055,7 @@ class PipelineDeclaration {
       name: json['name'] as String,
       roleArn: json['roleArn'] as String,
       stages: (json['stages'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StageDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       artifactStore: json['artifactStore'] != null
@@ -5070,12 +5070,12 @@ class PipelineDeclaration {
       pipelineType:
           (json['pipelineType'] as String?)?.let(PipelineType.fromString),
       triggers: (json['triggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PipelineTriggerDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       variables: (json['variables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PipelineVariableDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5197,7 +5197,7 @@ class PipelineExecution {
   factory PipelineExecution.fromJson(Map<String, dynamic> json) {
     return PipelineExecution(
       artifactRevisions: (json['artifactRevisions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ArtifactRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
       executionMode:
@@ -5218,7 +5218,7 @@ class PipelineExecution {
           ? ExecutionTrigger.fromJson(json['trigger'] as Map<String, dynamic>)
           : null,
       variables: (json['variables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResolvedPipelineVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5362,7 +5362,7 @@ class PipelineExecutionSummary {
               json['rollbackMetadata'] as Map<String, dynamic>)
           : null,
       sourceRevisions: (json['sourceRevisions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
@@ -5648,7 +5648,7 @@ class PollForJobsOutput {
   factory PollForJobsOutput.fromJson(Map<String, dynamic> json) {
     return PollForJobsOutput(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5667,7 +5667,7 @@ class PollForThirdPartyJobsOutput {
   factory PollForThirdPartyJobsOutput.fromJson(Map<String, dynamic> json) {
     return PollForThirdPartyJobsOutput(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThirdPartyJob.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5977,12 +5977,12 @@ class StageDeclaration {
   factory StageDeclaration.fromJson(Map<String, dynamic> json) {
     return StageDeclaration(
       actions: (json['actions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String,
       blockers: (json['blockers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BlockerDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       onFailure: json['onFailure'] != null
@@ -6103,7 +6103,7 @@ class StageState {
   factory StageState.fromJson(Map<String, dynamic> json) {
     return StageState(
       actionStates: (json['actionStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionState.fromJson(e as Map<String, dynamic>))
           .toList(),
       inboundExecution: json['inboundExecution'] != null
@@ -6111,7 +6111,7 @@ class StageState {
               json['inboundExecution'] as Map<String, dynamic>)
           : null,
       inboundExecutions: (json['inboundExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StageExecution.fromJson(e as Map<String, dynamic>))
           .toList(),
       inboundTransitionState: json['inboundTransitionState'] != null
@@ -6358,11 +6358,11 @@ class ThirdPartyJobData {
               json['encryptionKey'] as Map<String, dynamic>)
           : null,
       inputArtifacts: (json['inputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputArtifacts: (json['outputArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelineContext: json['pipelineContext'] != null
@@ -6592,7 +6592,7 @@ class WebhookDefinition {
       authenticationConfiguration: WebhookAuthConfiguration.fromJson(
           json['authenticationConfiguration'] as Map<String, dynamic>),
       filters: (json['filters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WebhookFilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String,

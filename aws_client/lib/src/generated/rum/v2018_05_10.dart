@@ -1198,22 +1198,22 @@ class AppMonitorConfiguration {
       allowCookies: json['AllowCookies'] as bool?,
       enableXRay: json['EnableXRay'] as bool?,
       excludedPages: (json['ExcludedPages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       favoritePages: (json['FavoritePages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       guestRoleArn: json['GuestRoleArn'] as String?,
       identityPoolId: json['IdentityPoolId'] as String?,
       includedPages: (json['IncludedPages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sessionSampleRate: json['SessionSampleRate'] as double?,
       telemetries: (json['Telemetries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Telemetry.fromString((e as String)))
           .toList(),
     );
@@ -1382,12 +1382,12 @@ class BatchCreateRumMetricDefinitionsResponse {
       Map<String, dynamic> json) {
     return BatchCreateRumMetricDefinitionsResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchCreateRumMetricDefinitionsError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       metricDefinitions: (json['MetricDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1459,12 +1459,12 @@ class BatchDeleteRumMetricDefinitionsResponse {
       Map<String, dynamic> json) {
     return BatchDeleteRumMetricDefinitionsResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDeleteRumMetricDefinitionsError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       metricDefinitionIds: (json['MetricDefinitionIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1499,7 +1499,7 @@ class BatchGetRumMetricDefinitionsResponse {
       Map<String, dynamic> json) {
     return BatchGetRumMetricDefinitionsResponse(
       metricDefinitions: (json['MetricDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1678,10 +1678,8 @@ class GetAppMonitorDataResponse {
 
   factory GetAppMonitorDataResponse.fromJson(Map<String, dynamic> json) {
     return GetAppMonitorDataResponse(
-      events: (json['Events'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      events:
+          (json['Events'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1738,7 +1736,7 @@ class ListAppMonitorsResponse {
   factory ListAppMonitorsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppMonitorsResponse(
       appMonitorSummaries: (json['AppMonitorSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppMonitorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1774,7 +1772,7 @@ class ListRumMetricsDestinationsResponse {
       Map<String, dynamic> json) {
     return ListRumMetricsDestinationsResponse(
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetricDestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

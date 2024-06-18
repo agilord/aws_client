@@ -404,7 +404,7 @@ class ListReportDefinitionsResult {
     return ListReportDefinitionsResult(
       nextToken: json['nextToken'] as String?,
       reportDefinitions: (json['reportDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReportDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

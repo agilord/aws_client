@@ -2176,11 +2176,11 @@ class BatchUpdateRuleResponse {
   factory BatchUpdateRuleResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateRuleResponse(
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleUpdateSuccess.fromJson(e as Map<String, dynamic>))
           .toList(),
       unsuccessful: (json['unsuccessful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleUpdateFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2519,7 +2519,7 @@ class CreateServiceNetworkVpcAssociationResponse {
       createdBy: json['createdBy'] as String?,
       id: json['id'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)
@@ -2928,11 +2928,11 @@ class DeregisterTargetsResponse {
   factory DeregisterTargetsResponse.fromJson(Map<String, dynamic> json) {
     return DeregisterTargetsResponse(
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
       unsuccessful: (json['unsuccessful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3023,7 +3023,7 @@ class ForwardAction {
   factory ForwardAction.fromJson(Map<String, dynamic> json) {
     return ForwardAction(
       targetGroups: (json['targetGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WeightedTargetGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3618,7 +3618,7 @@ class GetServiceNetworkVpcAssociationResponse {
       id: json['id'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serviceNetworkArn: json['serviceNetworkArn'] as String?,
@@ -3828,7 +3828,7 @@ class GetTargetGroupResponse {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
       serviceArns: (json['serviceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(TargetGroupStatus.fromString),
@@ -4085,7 +4085,7 @@ class HttpMatch {
   factory HttpMatch.fromJson(Map<String, dynamic> json) {
     return HttpMatch(
       headerMatches: (json['headerMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HeaderMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       method: json['method'] as String?,
@@ -4153,7 +4153,7 @@ class ListAccessLogSubscriptionsResponse {
       Map<String, dynamic> json) {
     return ListAccessLogSubscriptionsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AccessLogSubscriptionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4187,7 +4187,7 @@ class ListListenersResponse {
   factory ListListenersResponse.fromJson(Map<String, dynamic> json) {
     return ListListenersResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListenerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4220,7 +4220,7 @@ class ListRulesResponse {
   factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListRulesResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4254,7 +4254,7 @@ class ListServiceNetworkServiceAssociationsResponse {
       Map<String, dynamic> json) {
     return ListServiceNetworkServiceAssociationsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceNetworkServiceAssociationSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4289,7 +4289,7 @@ class ListServiceNetworkVpcAssociationsResponse {
       Map<String, dynamic> json) {
     return ListServiceNetworkVpcAssociationsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceNetworkVpcAssociationSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4323,7 +4323,7 @@ class ListServiceNetworksResponse {
   factory ListServiceNetworksResponse.fromJson(Map<String, dynamic> json) {
     return ListServiceNetworksResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceNetworkSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4356,7 +4356,7 @@ class ListServicesResponse {
   factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
     return ListServicesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4412,7 +4412,7 @@ class ListTargetGroupsResponse {
   factory ListTargetGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListTargetGroupsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4445,7 +4445,7 @@ class ListTargetsResponse {
   factory ListTargetsResponse.fromJson(Map<String, dynamic> json) {
     return ListTargetsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4694,11 +4694,11 @@ class RegisterTargetsResponse {
   factory RegisterTargetsResponse.fromJson(Map<String, dynamic> json) {
     return RegisterTargetsResponse(
       successful: (json['successful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
       unsuccessful: (json['unsuccessful'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5704,7 +5704,7 @@ class TargetGroupSummary {
       protocol:
           (json['protocol'] as String?)?.let(TargetGroupProtocol.fromString),
       serviceArns: (json['serviceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(TargetGroupStatus.fromString),
@@ -6135,7 +6135,7 @@ class UpdateServiceNetworkVpcAssociationResponse {
       createdBy: json['createdBy'] as String?,
       id: json['id'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)

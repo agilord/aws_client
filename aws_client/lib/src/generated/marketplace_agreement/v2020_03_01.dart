@@ -700,7 +700,7 @@ class ConfigurableUpfrontPricingTerm {
           : null,
       currencyCode: json['currencyCode'] as String?,
       rateCards: (json['rateCards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigurableUpfrontRateCardItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -742,7 +742,7 @@ class ConfigurableUpfrontPricingTermConfiguration {
       Map<String, dynamic> json) {
     return ConfigurableUpfrontPricingTermConfiguration(
       dimensions: (json['dimensions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       selectorValue: json['selectorValue'] as String,
@@ -786,7 +786,7 @@ class ConfigurableUpfrontRateCardItem {
           ? Constraints.fromJson(json['constraints'] as Map<String, dynamic>)
           : null,
       rateCard: (json['rateCard'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RateCardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       selector: json['selector'] != null
@@ -1202,7 +1202,7 @@ class FixedUpfrontPricingTerm {
       currencyCode: json['currencyCode'] as String?,
       duration: json['duration'] as String?,
       grants: (json['grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       price: json['price'] as String?,
@@ -1249,7 +1249,7 @@ class FreeTrialPricingTerm {
     return FreeTrialPricingTerm(
       duration: json['duration'] as String?,
       grants: (json['grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GrantItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
@@ -1284,7 +1284,7 @@ class GetAgreementTermsOutput {
   factory GetAgreementTermsOutput.fromJson(Map<String, dynamic> json) {
     return GetAgreementTermsOutput(
       acceptedTerms: (json['acceptedTerms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AcceptedTerm.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1354,7 +1354,7 @@ class LegalTerm {
   factory LegalTerm.fromJson(Map<String, dynamic> json) {
     return LegalTerm(
       documents: (json['documents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
@@ -1395,7 +1395,7 @@ class PaymentScheduleTerm {
     return PaymentScheduleTerm(
       currencyCode: json['currencyCode'] as String?,
       schedule: (json['schedule'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScheduleItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
@@ -1431,7 +1431,7 @@ class ProposalSummary {
     return ProposalSummary(
       offerId: json['offerId'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1698,7 +1698,7 @@ class SearchAgreementsOutput {
   factory SearchAgreementsOutput.fromJson(Map<String, dynamic> json) {
     return SearchAgreementsOutput(
       agreementViewSummaries: (json['agreementViewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgreementViewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1842,7 +1842,7 @@ class UsageBasedPricingTerm {
     return UsageBasedPricingTerm(
       currencyCode: json['currencyCode'] as String?,
       rateCards: (json['rateCards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UsageBasedRateCardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1876,7 +1876,7 @@ class UsageBasedRateCardItem {
   factory UsageBasedRateCardItem.fromJson(Map<String, dynamic> json) {
     return UsageBasedRateCardItem(
       rateCard: (json['rateCard'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RateCardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

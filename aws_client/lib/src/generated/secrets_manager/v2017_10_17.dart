@@ -2253,12 +2253,12 @@ class BatchGetSecretValueResponse {
   factory BatchGetSecretValueResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetSecretValueResponse(
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => APIErrorType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
       secretValues: (json['SecretValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecretValueEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2358,7 +2358,7 @@ class CreateSecretResponse {
       arn: json['ARN'] as String?,
       name: json['Name'] as String?,
       replicationStatus: (json['ReplicationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationStatusType.fromJson(e as Map<String, dynamic>))
           .toList(),
       versionId: json['VersionId'] as String?,
@@ -2613,7 +2613,7 @@ class DescribeSecretResponse {
       owningService: json['OwningService'] as String?,
       primaryRegion: json['PrimaryRegion'] as String?,
       replicationStatus: (json['ReplicationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationStatusType.fromJson(e as Map<String, dynamic>))
           .toList(),
       rotationEnabled: json['RotationEnabled'] as bool?,
@@ -2623,12 +2623,12 @@ class DescribeSecretResponse {
               json['RotationRules'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       versionIdsToStages: (json['VersionIdsToStages'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+              k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -2869,7 +2869,7 @@ class GetSecretValueResponse {
       secretString: json['SecretString'] as String?,
       versionId: json['VersionId'] as String?,
       versionStages: (json['VersionStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2925,7 +2925,7 @@ class ListSecretVersionIdsResponse {
       name: json['Name'] as String?,
       nextToken: json['NextToken'] as String?,
       versions: (json['Versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SecretVersionsListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2966,7 +2966,7 @@ class ListSecretsResponse {
     return ListSecretsResponse(
       nextToken: json['NextToken'] as String?,
       secretList: (json['SecretList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecretListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3039,7 +3039,7 @@ class PutSecretValueResponse {
       name: json['Name'] as String?,
       versionId: json['VersionId'] as String?,
       versionStages: (json['VersionStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3076,7 +3076,7 @@ class RemoveRegionsFromReplicationResponse {
     return RemoveRegionsFromReplicationResponse(
       arn: json['ARN'] as String?,
       replicationStatus: (json['ReplicationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationStatusType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3135,7 +3135,7 @@ class ReplicateSecretToRegionsResponse {
     return ReplicateSecretToRegionsResponse(
       arn: json['ARN'] as String?,
       replicationStatus: (json['ReplicationStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationStatusType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3485,12 +3485,12 @@ class SecretListEntry {
           ? RotationRulesType.fromJson(
               json['RotationRules'] as Map<String, dynamic>)
           : null,
-      secretVersionsToStages: (json['SecretVersionsToStages']
-              as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      secretVersionsToStages:
+          (json['SecretVersionsToStages'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3589,7 +3589,7 @@ class SecretValueEntry {
       secretString: json['SecretString'] as String?,
       versionId: json['VersionId'] as String?,
       versionStages: (json['VersionStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3646,13 +3646,13 @@ class SecretVersionsListEntry {
     return SecretVersionsListEntry(
       createdDate: timeStampFromJson(json['CreatedDate']),
       kmsKeyIds: (json['KmsKeyIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
       versionId: json['VersionId'] as String?,
       versionStages: (json['VersionStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3841,7 +3841,7 @@ class ValidateResourcePolicyResponse {
     return ValidateResourcePolicyResponse(
       policyValidationPassed: json['PolicyValidationPassed'] as bool?,
       validationErrors: (json['ValidationErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationErrorsEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

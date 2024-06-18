@@ -59,7 +59,7 @@ class Enum {
     return OutputShape(
       fooEnum: ($json['FooEnum'] as String?)?.let(RESTJSONEnumType.fromString),
       listEnums: ($json['ListEnums'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RESTJSONEnumType.fromString((e as String)))
           .toList(),
       headerEnum: _s

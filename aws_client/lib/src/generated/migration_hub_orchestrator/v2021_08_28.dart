@@ -1290,7 +1290,7 @@ class CreateMigrationWorkflowResponse {
       status: (json['status'] as String?)
           ?.let(MigrationWorkflowStatusEnum.fromString),
       stepTargets: (json['stepTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1415,16 +1415,13 @@ class CreateWorkflowStepGroupResponse {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowId: json['workflowId'] as String?,
@@ -1693,7 +1690,7 @@ class GetMigrationWorkflowResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       templateId: json['templateId'] as String?,
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalSteps: json['totalSteps'] as int?,
@@ -1840,7 +1837,7 @@ class GetMigrationWorkflowTemplateResponse {
       description: json['description'] as String?,
       id: json['id'] as String?,
       inputs: (json['inputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TemplateInput.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -1852,7 +1849,7 @@ class GetMigrationWorkflowTemplateResponse {
       templateArn: json['templateArn'] as String?,
       templateClass: json['templateClass'] as String?,
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1940,18 +1937,15 @@ class GetTemplateStepGroupResponse {
       id: json['id'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
       templateId: json['templateId'] as String?,
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2040,16 +2034,13 @@ class GetTemplateStepResponse {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StepOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stepActionType:
@@ -2152,18 +2143,15 @@ class GetWorkflowStepGroupResponse {
       id: json['id'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowId: json['workflowId'] as String?,
@@ -2299,19 +2287,16 @@ class GetWorkflowStepResponse {
       endTime: timeStampFromJson(json['endTime']),
       lastStartTime: timeStampFromJson(json['lastStartTime']),
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       noOfSrvCompleted: json['noOfSrvCompleted'] as int?,
       noOfSrvFailed: json['noOfSrvFailed'] as int?,
       outputs: (json['outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowStepOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       scriptOutputLocation: json['scriptOutputLocation'] as String?,
@@ -2322,7 +2307,7 @@ class GetWorkflowStepResponse {
       stepGroupId: json['stepGroupId'] as String?,
       stepId: json['stepId'] as String?,
       stepTarget: (json['stepTarget'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       totalNoOfSrv: json['totalNoOfSrv'] as int?,
@@ -2406,7 +2391,7 @@ class ListMigrationWorkflowTemplatesResponse {
       Map<String, dynamic> json) {
     return ListMigrationWorkflowTemplatesResponse(
       templateSummary: (json['templateSummary'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2438,7 +2423,7 @@ class ListMigrationWorkflowsResponse {
   factory ListMigrationWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListMigrationWorkflowsResponse(
       migrationWorkflowSummary: (json['migrationWorkflowSummary'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MigrationWorkflowSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2472,7 +2457,7 @@ class ListPluginsResponse {
     return ListPluginsResponse(
       nextToken: json['nextToken'] as String?,
       plugins: (json['plugins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PluginSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2526,7 +2511,7 @@ class ListTemplateStepGroupsResponse {
   factory ListTemplateStepGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListTemplateStepGroupsResponse(
       templateStepGroupSummary: (json['templateStepGroupSummary'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TemplateStepGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2560,7 +2545,7 @@ class ListTemplateStepsResponse {
     return ListTemplateStepsResponse(
       nextToken: json['nextToken'] as String?,
       templateStepSummaryList: (json['templateStepSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TemplateStepSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2592,7 +2577,7 @@ class ListWorkflowStepGroupsResponse {
   factory ListWorkflowStepGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowStepGroupsResponse(
       workflowStepGroupsSummary: (json['workflowStepGroupsSummary'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               WorkflowStepGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2625,7 +2610,7 @@ class ListWorkflowStepsResponse {
   factory ListWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowStepsResponse(
       workflowStepsSummary: (json['workflowStepsSummary'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkflowStepSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3139,7 +3124,7 @@ class StepInput {
     return StepInput(
       integerValue: json['integerValue'] as int?,
       listOfStringsValue: (json['listOfStringsValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       mapOfStringValue: (json['mapOfStringValue'] as Map<String, dynamic>?)
@@ -3395,12 +3380,9 @@ class TemplateStepGroupSummary {
     return TemplateStepGroupSummary(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3466,13 +3448,10 @@ class TemplateStepSummary {
     return TemplateStepSummary(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stepActionType:
@@ -3658,7 +3637,7 @@ class UpdateMigrationWorkflowResponse {
       status: (json['status'] as String?)
           ?.let(MigrationWorkflowStatusEnum.fromString),
       stepTargets: (json['stepTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3786,16 +3765,13 @@ class UpdateWorkflowStepGroupResponse {
       id: json['id'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tools: (json['tools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowId: json['workflowId'] as String?,
@@ -3961,13 +3937,10 @@ class WorkflowStepGroupSummary {
     return WorkflowStepGroupSummary(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
@@ -4060,7 +4033,7 @@ class WorkflowStepOutputUnion {
     return WorkflowStepOutputUnion(
       integerValue: json['integerValue'] as int?,
       listOfStringValue: (json['listOfStringValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stringValue: json['stringValue'] as String?,
@@ -4141,15 +4114,12 @@ class WorkflowStepSummary {
     return WorkflowStepSummary(
       description: json['description'] as String?,
       name: json['name'] as String?,
-      next: (json['next'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
       noOfSrvCompleted: json['noOfSrvCompleted'] as int?,
       noOfSrvFailed: json['noOfSrvFailed'] as int?,
       owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       scriptLocation: json['scriptLocation'] as String?,

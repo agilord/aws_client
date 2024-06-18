@@ -439,7 +439,7 @@ class EventDestination {
               json['KinesisFirehoseDestination'] as Map<String, dynamic>)
           : null,
       matchingEventTypes: (json['MatchingEventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
       name: json['Name'] as String?,
@@ -542,7 +542,7 @@ class GetConfigurationSetEventDestinationsResponse {
       Map<String, dynamic> json) {
     return GetConfigurationSetEventDestinationsResponse(
       eventDestinations: (json['EventDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -608,7 +608,7 @@ class ListConfigurationSetsResponse {
   factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationSetsResponse(
       configurationSets: (json['ConfigurationSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,

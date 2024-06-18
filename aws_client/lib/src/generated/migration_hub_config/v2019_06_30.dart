@@ -301,7 +301,7 @@ class DescribeHomeRegionControlsResult {
   factory DescribeHomeRegionControlsResult.fromJson(Map<String, dynamic> json) {
     return DescribeHomeRegionControlsResult(
       homeRegionControls: (json['HomeRegionControls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HomeRegionControl.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

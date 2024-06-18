@@ -445,10 +445,8 @@ class DestinationConfig {
 
   factory DestinationConfig.fromJson(Map<String, dynamic> json) {
     return DestinationConfig(
-      services: (json['services'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      services:
+          (json['services'] as List).nonNulls.map((e) => e as String).toList(),
       thingName: json['thingName'] as String?,
     );
   }
@@ -474,7 +472,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -498,7 +496,7 @@ class ListTunnelsResponse {
     return ListTunnelsResponse(
       nextToken: json['nextToken'] as String?,
       tunnelSummaries: (json['tunnelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TunnelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -699,7 +697,7 @@ class Tunnel {
           : null,
       status: (json['status'] as String?)?.let(TunnelStatus.fromString),
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeoutConfig: json['timeoutConfig'] != null

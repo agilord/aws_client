@@ -1810,7 +1810,7 @@ class AllowedStatistics {
   factory AllowedStatistics.fromJson(Map<String, dynamic> json) {
     return AllowedStatistics(
       statistics: (json['Statistics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1856,7 +1856,7 @@ class BatchDeleteRecipeVersionResponse {
     return BatchDeleteRecipeVersionResponse(
       name: json['Name'] as String,
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecipeVersionErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1927,7 +1927,7 @@ class ColumnStatisticsConfiguration {
       statistics: StatisticsConfiguration.fromJson(
           json['Statistics'] as Map<String, dynamic>),
       selectors: (json['Selectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3083,11 +3083,11 @@ class DescribeJobResponse {
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCatalogOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       databaseOutputs: (json['DatabaseOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatabaseOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       datasetName: json['DatasetName'] as String?,
@@ -3104,7 +3104,7 @@ class DescribeJobResponse {
       maxCapacity: json['MaxCapacity'] as int?,
       maxRetries: json['MaxRetries'] as int?,
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       profileConfiguration: json['ProfileConfiguration'] != null
@@ -3123,7 +3123,7 @@ class DescribeJobResponse {
       timeout: json['Timeout'] as int?,
       type: (json['Type'] as String?)?.let(JobType.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3280,11 +3280,11 @@ class DescribeJobRunResponse {
       attempt: json['Attempt'] as int?,
       completedOn: timeStampFromJson(json['CompletedOn']),
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCatalogOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       databaseOutputs: (json['DatabaseOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatabaseOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       datasetName: json['DatasetName'] as String?,
@@ -3297,7 +3297,7 @@ class DescribeJobRunResponse {
       logSubscription:
           (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       profileConfiguration: json['ProfileConfiguration'] != null
@@ -3313,7 +3313,7 @@ class DescribeJobRunResponse {
       startedOn: timeStampFromJson(json['StartedOn']),
       state: (json['State'] as String?)?.let(JobRunState.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3566,7 +3566,7 @@ class DescribeRecipeResponse {
       recipeVersion: json['RecipeVersion'] as String?,
       resourceArn: json['ResourceArn'] as String?,
       steps: (json['Steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -3664,7 +3664,7 @@ class DescribeRulesetResponse {
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       resourceArn: json['ResourceArn'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -3750,7 +3750,7 @@ class DescribeScheduleResponse {
       createdBy: json['CreatedBy'] as String?,
       cronExpression: json['CronExpression'] as String?,
       jobNames: (json['JobNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastModifiedBy: json['LastModifiedBy'] as String?,
@@ -3882,11 +3882,11 @@ class EntityDetectorConfiguration {
   factory EntityDetectorConfiguration.fromJson(Map<String, dynamic> json) {
     return EntityDetectorConfiguration(
       entityTypes: (json['EntityTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedStatistics: (json['AllowedStatistics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AllowedStatistics.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3927,11 +3927,11 @@ class ExcelOptions {
     return ExcelOptions(
       headerRow: json['HeaderRow'] as bool?,
       sheetIndexes: (json['SheetIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       sheetNames: (json['SheetNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4287,11 +4287,11 @@ class Job {
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCatalogOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       databaseOutputs: (json['DatabaseOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatabaseOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       datasetName: json['DatasetName'] as String?,
@@ -4308,7 +4308,7 @@ class Job {
       maxCapacity: json['MaxCapacity'] as int?,
       maxRetries: json['MaxRetries'] as int?,
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       projectName: json['ProjectName'] as String?,
@@ -4323,7 +4323,7 @@ class Job {
       timeout: json['Timeout'] as int?,
       type: (json['Type'] as String?)?.let(JobType.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4475,11 +4475,11 @@ class JobRun {
       attempt: json['Attempt'] as int?,
       completedOn: timeStampFromJson(json['CompletedOn']),
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCatalogOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       databaseOutputs: (json['DatabaseOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatabaseOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       datasetName: json['DatasetName'] as String?,
@@ -4493,7 +4493,7 @@ class JobRun {
       logSubscription:
           (json['LogSubscription'] as String?)?.let(LogSubscription.fromString),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       recipeReference: json['RecipeReference'] != null
@@ -4505,7 +4505,7 @@ class JobRun {
       startedOn: timeStampFromJson(json['StartedOn']),
       state: (json['State'] as String?)?.let(JobRunState.fromString),
       validationConfigurations: (json['ValidationConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4677,7 +4677,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasets: (json['Datasets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4710,7 +4710,7 @@ class ListJobRunsResponse {
   factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunsResponse(
       jobRuns: (json['JobRuns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4743,7 +4743,7 @@ class ListJobsResponse {
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobs: (json['Jobs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4776,7 +4776,7 @@ class ListProjectsResponse {
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
       projects: (json['Projects'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Project.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4809,7 +4809,7 @@ class ListRecipeVersionsResponse {
   factory ListRecipeVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecipeVersionsResponse(
       recipes: (json['Recipes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4842,7 +4842,7 @@ class ListRecipesResponse {
   factory ListRecipesResponse.fromJson(Map<String, dynamic> json) {
     return ListRecipesResponse(
       recipes: (json['Recipes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4875,7 +4875,7 @@ class ListRulesetsResponse {
   factory ListRulesetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRulesetsResponse(
       rulesets: (json['Rulesets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RulesetItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4908,7 +4908,7 @@ class ListSchedulesResponse {
   factory ListSchedulesResponse.fromJson(Map<String, dynamic> json) {
     return ListSchedulesResponse(
       schedules: (json['Schedules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5064,7 +5064,7 @@ class Output {
       maxOutputFiles: json['MaxOutputFiles'] as int?,
       overwrite: json['Overwrite'] as bool?,
       partitionColumns: (json['PartitionColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5241,7 +5241,7 @@ class ProfileConfiguration {
     return ProfileConfiguration(
       columnStatisticsConfigurations: (json['ColumnStatisticsConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ColumnStatisticsConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5255,7 +5255,7 @@ class ProfileConfiguration {
               json['EntityDetectorConfiguration'] as Map<String, dynamic>)
           : null,
       profileColumns: (json['ProfileColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5508,7 +5508,7 @@ class Recipe {
       recipeVersion: json['RecipeVersion'] as String?,
       resourceArn: json['ResourceArn'] as String?,
       steps: (json['Steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -5635,7 +5635,7 @@ class RecipeStep {
     return RecipeStep(
       action: RecipeAction.fromJson(json['Action'] as Map<String, dynamic>),
       conditionExpressions: (json['ConditionExpressions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5750,7 +5750,7 @@ class Rule {
       checkExpression: json['CheckExpression'] as String,
       name: json['Name'] as String,
       columnSelectors: (json['ColumnSelectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       disabled: json['Disabled'] as bool?,
@@ -6054,7 +6054,7 @@ class Schedule {
       createdBy: json['CreatedBy'] as String?,
       cronExpression: json['CronExpression'] as String?,
       jobNames: (json['JobNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastModifiedBy: json['LastModifiedBy'] as String?,
@@ -6267,11 +6267,11 @@ class StatisticsConfiguration {
   factory StatisticsConfiguration.fromJson(Map<String, dynamic> json) {
     return StatisticsConfiguration(
       includedStatistics: (json['IncludedStatistics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       overrides: (json['Overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatisticOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

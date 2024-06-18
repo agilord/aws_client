@@ -2388,7 +2388,7 @@ class Applications {
   factory Applications.fromJson(Map<String, dynamic> json) {
     return Applications(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Application.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2525,7 +2525,7 @@ class ConfigurationProfile {
       retrievalRoleArn: json['RetrievalRoleArn'] as String?,
       type: json['Type'] as String?,
       validators: (json['Validators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Validator.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2578,7 +2578,7 @@ class ConfigurationProfileSummary {
       name: json['Name'] as String?,
       type: json['Type'] as String?,
       validatorTypes: (json['ValidatorTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidatorType.fromString((e as String)))
           .toList(),
     );
@@ -2601,7 +2601,7 @@ class ConfigurationProfiles {
   factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) {
     return ConfigurationProfiles(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConfigurationProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2717,7 +2717,7 @@ class Deployment {
     return Deployment(
       applicationId: json['ApplicationId'] as String?,
       appliedExtensions: (json['AppliedExtensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppliedExtension.fromJson(e as Map<String, dynamic>))
           .toList(),
       completedAt: timeStampFromJson(json['CompletedAt']),
@@ -2731,7 +2731,7 @@ class Deployment {
       description: json['Description'] as String?,
       environmentId: json['EnvironmentId'] as String?,
       eventLog: (json['EventLog'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeploymentEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
@@ -2793,7 +2793,7 @@ class DeploymentEvent {
   factory DeploymentEvent.fromJson(Map<String, dynamic> json) {
     return DeploymentEvent(
       actionInvocations: (json['ActionInvocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionInvocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
@@ -2860,7 +2860,7 @@ class DeploymentStrategies {
   factory DeploymentStrategies.fromJson(Map<String, dynamic> json) {
     return DeploymentStrategies(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeploymentStrategy.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3010,7 +3010,7 @@ class Deployments {
   factory Deployments.fromJson(Map<String, dynamic> json) {
     return Deployments(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3054,7 +3054,7 @@ class Environment {
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       monitors: (json['Monitors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -3096,7 +3096,7 @@ class Environments {
   factory Environments.fromJson(Map<String, dynamic> json) {
     return Environments(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Environment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3145,7 +3145,7 @@ class Extension {
           MapEntry(
               ActionPoint.fromString(k),
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => Action.fromJson(e as Map<String, dynamic>))
                   .toList())),
       arn: json['Arn'] as String?,
@@ -3251,7 +3251,7 @@ class ExtensionAssociations {
   factory ExtensionAssociations.fromJson(Map<String, dynamic> json) {
     return ExtensionAssociations(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ExtensionAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3314,7 +3314,7 @@ class Extensions {
   factory Extensions.fromJson(Map<String, dynamic> json) {
     return Extensions(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExtensionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3444,7 +3444,7 @@ class HostedConfigurationVersions {
   factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) {
     return HostedConfigurationVersions(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HostedConfigurationVersionSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),

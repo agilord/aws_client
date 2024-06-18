@@ -560,10 +560,8 @@ class CreateTokenWithIAMResponse {
       idToken: json['idToken'] as String?,
       issuedTokenType: json['issuedTokenType'] as String?,
       refreshToken: json['refreshToken'] as String?,
-      scope: (json['scope'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      scope:
+          (json['scope'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tokenType: json['tokenType'] as String?,
     );
   }

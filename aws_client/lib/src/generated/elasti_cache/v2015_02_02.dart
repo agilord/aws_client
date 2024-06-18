@@ -6845,7 +6845,7 @@ class Authentication {
       passwordCount: _s.extractXmlIntValue(elem, 'PasswordCount'),
       type: _s
           .extractXmlStringValue(elem, 'Type')
-          ?.let(AuthenticationType.fromString) /* Nullability(true, true) */,
+          ?.let(AuthenticationType.fromString),
     );
   }
 
@@ -7372,7 +7372,7 @@ class CacheCluster {
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       ipDiscovery: _s
           .extractXmlStringValue(elem, 'IpDiscovery')
-          ?.let(IpDiscovery.fromString) /* Nullability(true, true) */,
+          ?.let(IpDiscovery.fromString),
       logDeliveryConfigurations: _s
           .extractXmlChild(elem, 'LogDeliveryConfigurations')
           ?.let((elem) => elem
@@ -7381,7 +7381,7 @@ class CacheCluster {
               .toList()),
       networkType: _s
           .extractXmlStringValue(elem, 'NetworkType')
-          ?.let(NetworkType.fromString) /* Nullability(true, true) */,
+          ?.let(NetworkType.fromString),
       notificationConfiguration: _s
           .extractXmlChild(elem, 'NotificationConfiguration')
           ?.let(NotificationConfiguration.fromXml),
@@ -7410,7 +7410,7 @@ class CacheCluster {
           _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
       transitEncryptionMode: _s
           .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString) /* Nullability(true, true) */,
+          ?.let(TransitEncryptionMode.fromString),
     );
   }
 
@@ -7920,7 +7920,7 @@ class CacheNodeTypeSpecificParameter {
               .toList()),
       changeType: _s
           .extractXmlStringValue(elem, 'ChangeType')
-          ?.let(ChangeType.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeType.fromString),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
@@ -8030,14 +8030,14 @@ class CacheNodeUpdateStatus {
       nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
       nodeUpdateInitiatedBy: _s
           .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
-          ?.let(NodeUpdateInitiatedBy.fromString) /* Nullability(true, true) */,
+          ?.let(NodeUpdateInitiatedBy.fromString),
       nodeUpdateInitiatedDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
       nodeUpdateStartDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
       nodeUpdateStatus: _s
           .extractXmlStringValue(elem, 'NodeUpdateStatus')
-          ?.let(NodeUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(NodeUpdateStatus.fromString),
       nodeUpdateStatusModifiedDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
     );
@@ -9061,7 +9061,7 @@ class DataStorage {
     return DataStorage(
       unit: _s
           .extractXmlStringValue(elem, 'Unit')!
-          .let(DataStorageUnit.fromString) /* Nullability(true, false) */,
+          .let(DataStorageUnit.fromString),
       maximum: _s.extractXmlIntValue(elem, 'Maximum'),
       minimum: _s.extractXmlIntValue(elem, 'Minimum'),
     );
@@ -9820,7 +9820,7 @@ class Event {
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString) /* Nullability(true, true) */,
+          ?.let(SourceType.fromString),
     );
   }
 
@@ -10195,8 +10195,7 @@ class GlobalReplicationGroupMember {
     return GlobalReplicationGroupMember(
       automaticFailover: _s
           .extractXmlStringValue(elem, 'AutomaticFailover')
-          ?.let(
-              AutomaticFailoverStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AutomaticFailoverStatus.fromString),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
       replicationGroupRegion:
           _s.extractXmlStringValue(elem, 'ReplicationGroupRegion'),
@@ -10368,17 +10367,16 @@ class LogDeliveryConfiguration {
           ?.let(DestinationDetails.fromXml),
       destinationType: _s
           .extractXmlStringValue(elem, 'DestinationType')
-          ?.let(DestinationType.fromString) /* Nullability(true, true) */,
+          ?.let(DestinationType.fromString),
       logFormat: _s
           .extractXmlStringValue(elem, 'LogFormat')
-          ?.let(LogFormat.fromString) /* Nullability(true, true) */,
-      logType: _s
-          .extractXmlStringValue(elem, 'LogType')
-          ?.let(LogType.fromString) /* Nullability(true, true) */,
+          ?.let(LogFormat.fromString),
+      logType:
+          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
       message: _s.extractXmlStringValue(elem, 'Message'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          LogDeliveryConfigurationStatus
-              .fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(LogDeliveryConfigurationStatus.fromString),
     );
   }
 
@@ -10974,14 +10972,14 @@ class NodeGroupMemberUpdateStatus {
       nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
       nodeUpdateInitiatedBy: _s
           .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
-          ?.let(NodeUpdateInitiatedBy.fromString) /* Nullability(true, true) */,
+          ?.let(NodeUpdateInitiatedBy.fromString),
       nodeUpdateInitiatedDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
       nodeUpdateStartDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
       nodeUpdateStatus: _s
           .extractXmlStringValue(elem, 'NodeUpdateStatus')
-          ?.let(NodeUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(NodeUpdateStatus.fromString),
       nodeUpdateStatusModifiedDate:
           _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
     );
@@ -11257,7 +11255,7 @@ class Parameter {
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
       changeType: _s
           .extractXmlStringValue(elem, 'ChangeType')
-          ?.let(ChangeType.fromString) /* Nullability(true, true) */,
+          ?.let(ChangeType.fromString),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
@@ -11371,13 +11369,12 @@ class PendingLogDeliveryConfiguration {
           ?.let(DestinationDetails.fromXml),
       destinationType: _s
           .extractXmlStringValue(elem, 'DestinationType')
-          ?.let(DestinationType.fromString) /* Nullability(true, true) */,
+          ?.let(DestinationType.fromString),
       logFormat: _s
           .extractXmlStringValue(elem, 'LogFormat')
-          ?.let(LogFormat.fromString) /* Nullability(true, true) */,
-      logType: _s
-          .extractXmlStringValue(elem, 'LogType')
-          ?.let(LogType.fromString) /* Nullability(true, true) */,
+          ?.let(LogFormat.fromString),
+      logType:
+          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
     );
   }
 
@@ -11441,7 +11438,7 @@ class PendingModifiedValues {
     return PendingModifiedValues(
       authTokenStatus: _s
           .extractXmlStringValue(elem, 'AuthTokenStatus')
-          ?.let(AuthTokenUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AuthTokenUpdateStatus.fromString),
       cacheNodeIdsToRemove: _s
           .extractXmlChild(elem, 'CacheNodeIdsToRemove')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'CacheNodeId')),
@@ -11458,7 +11455,7 @@ class PendingModifiedValues {
           _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
       transitEncryptionMode: _s
           .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString) /* Nullability(true, true) */,
+          ?.let(TransitEncryptionMode.fromString),
     );
   }
 
@@ -11516,7 +11513,7 @@ class ProcessedUpdateAction {
       serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
       updateActionStatus: _s
           .extractXmlStringValue(elem, 'UpdateActionStatus')
-          ?.let(UpdateActionStatus.fromString) /* Nullability(true, true) */,
+          ?.let(UpdateActionStatus.fromString),
     );
   }
 
@@ -11896,26 +11893,25 @@ class ReplicationGroup {
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
       automaticFailover: _s
           .extractXmlStringValue(elem, 'AutomaticFailover')
-          ?.let(
-              AutomaticFailoverStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AutomaticFailoverStatus.fromString),
       cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
       clusterEnabled: _s.extractXmlBoolValue(elem, 'ClusterEnabled'),
       clusterMode: _s
           .extractXmlStringValue(elem, 'ClusterMode')
-          ?.let(ClusterMode.fromString) /* Nullability(true, true) */,
+          ?.let(ClusterMode.fromString),
       configurationEndpoint: _s
           .extractXmlChild(elem, 'ConfigurationEndpoint')
           ?.let(Endpoint.fromXml),
       dataTiering: _s
           .extractXmlStringValue(elem, 'DataTiering')
-          ?.let(DataTieringStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DataTieringStatus.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
       globalReplicationGroupInfo: _s
           .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
           ?.let(GlobalReplicationGroupInfo.fromXml),
       ipDiscovery: _s
           .extractXmlStringValue(elem, 'IpDiscovery')
-          ?.let(IpDiscovery.fromString) /* Nullability(true, true) */,
+          ?.let(IpDiscovery.fromString),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       logDeliveryConfigurations: _s
           .extractXmlChild(elem, 'LogDeliveryConfigurations')
@@ -11932,10 +11928,10 @@ class ReplicationGroup {
               elem, 'ReplicationGroupOutpostArn')),
       multiAZ: _s
           .extractXmlStringValue(elem, 'MultiAZ')
-          ?.let(MultiAZStatus.fromString) /* Nullability(true, true) */,
+          ?.let(MultiAZStatus.fromString),
       networkType: _s
           .extractXmlStringValue(elem, 'NetworkType')
-          ?.let(NetworkType.fromString) /* Nullability(true, true) */,
+          ?.let(NetworkType.fromString),
       nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) =>
           elem.findElements('NodeGroup').map(NodeGroup.fromXml).toList()),
       pendingModifiedValues: _s
@@ -11954,7 +11950,7 @@ class ReplicationGroup {
           _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
       transitEncryptionMode: _s
           .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString) /* Nullability(true, true) */,
+          ?.let(TransitEncryptionMode.fromString),
       userGroupIds: _s
           .extractXmlChild(elem, 'UserGroupIds')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -12130,14 +12126,13 @@ class ReplicationGroupPendingModifiedValues {
     return ReplicationGroupPendingModifiedValues(
       authTokenStatus: _s
           .extractXmlStringValue(elem, 'AuthTokenStatus')
-          ?.let(AuthTokenUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AuthTokenUpdateStatus.fromString),
       automaticFailoverStatus: _s
           .extractXmlStringValue(elem, 'AutomaticFailoverStatus')
-          ?.let(PendingAutomaticFailoverStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(PendingAutomaticFailoverStatus.fromString),
       clusterMode: _s
           .extractXmlStringValue(elem, 'ClusterMode')
-          ?.let(ClusterMode.fromString) /* Nullability(true, true) */,
+          ?.let(ClusterMode.fromString),
       logDeliveryConfigurations: _s
           .extractXmlChild(elem, 'PendingLogDeliveryConfiguration')
           ?.let((elem) => elem
@@ -12151,7 +12146,7 @@ class ReplicationGroupPendingModifiedValues {
           _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
       transitEncryptionMode: _s
           .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString) /* Nullability(true, true) */,
+          ?.let(TransitEncryptionMode.fromString),
       userGroups: _s
           .extractXmlChild(elem, 'UserGroups')
           ?.let(UserGroupsUpdateStatus.fromXml),
@@ -13203,13 +13198,13 @@ class ServiceUpdate {
           _s.extractXmlDateTimeValue(elem, 'ServiceUpdateReleaseDate'),
       serviceUpdateSeverity: _s
           .extractXmlStringValue(elem, 'ServiceUpdateSeverity')
-          ?.let(ServiceUpdateSeverity.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateSeverity.fromString),
       serviceUpdateStatus: _s
           .extractXmlStringValue(elem, 'ServiceUpdateStatus')
-          ?.let(ServiceUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateStatus.fromString),
       serviceUpdateType: _s
           .extractXmlStringValue(elem, 'ServiceUpdateType')
-          ?.let(ServiceUpdateType.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateType.fromString),
     );
   }
 
@@ -13698,8 +13693,7 @@ class Snapshot {
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
       automaticFailover: _s
           .extractXmlStringValue(elem, 'AutomaticFailover')
-          ?.let(
-              AutomaticFailoverStatus.fromString) /* Nullability(true, true) */,
+          ?.let(AutomaticFailoverStatus.fromString),
       cacheClusterCreateTime:
           _s.extractXmlDateTimeValue(elem, 'CacheClusterCreateTime'),
       cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
@@ -13710,7 +13704,7 @@ class Snapshot {
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
       dataTiering: _s
           .extractXmlStringValue(elem, 'DataTiering')
-          ?.let(DataTieringStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DataTieringStatus.fromString),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
@@ -14253,21 +14247,19 @@ class UpdateAction {
           _s.extractXmlDateTimeValue(elem, 'ServiceUpdateReleaseDate'),
       serviceUpdateSeverity: _s
           .extractXmlStringValue(elem, 'ServiceUpdateSeverity')
-          ?.let(ServiceUpdateSeverity.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateSeverity.fromString),
       serviceUpdateStatus: _s
           .extractXmlStringValue(elem, 'ServiceUpdateStatus')
-          ?.let(ServiceUpdateStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateStatus.fromString),
       serviceUpdateType: _s
           .extractXmlStringValue(elem, 'ServiceUpdateType')
-          ?.let(ServiceUpdateType.fromString) /* Nullability(true, true) */,
-      slaMet: _s
-          .extractXmlStringValue(elem, 'SlaMet')
-          ?.let(SlaMet.fromString) /* Nullability(true, true) */,
+          ?.let(ServiceUpdateType.fromString),
+      slaMet: _s.extractXmlStringValue(elem, 'SlaMet')?.let(SlaMet.fromString),
       updateActionAvailableDate:
           _s.extractXmlDateTimeValue(elem, 'UpdateActionAvailableDate'),
       updateActionStatus: _s
           .extractXmlStringValue(elem, 'UpdateActionStatus')
-          ?.let(UpdateActionStatus.fromString) /* Nullability(true, true) */,
+          ?.let(UpdateActionStatus.fromString),
       updateActionStatusModifiedDate:
           _s.extractXmlDateTimeValue(elem, 'UpdateActionStatusModifiedDate'),
     );

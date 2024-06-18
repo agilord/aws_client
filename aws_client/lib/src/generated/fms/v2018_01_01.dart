@@ -1990,7 +1990,7 @@ class AccountScope {
   factory AccountScope.fromJson(Map<String, dynamic> json) {
     return AccountScope(
       accounts: (json['Accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       allAccountsEnabled: json['AllAccountsEnabled'] as bool?,
@@ -2255,7 +2255,7 @@ class AppsListData {
   factory AppsListData.fromJson(Map<String, dynamic> json) {
     return AppsListData(
       appsList: (json['AppsList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => App.fromJson(e as Map<String, dynamic>))
           .toList(),
       listName: json['ListName'] as String,
@@ -2267,7 +2267,7 @@ class AppsListData {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => App.fromJson(e as Map<String, dynamic>))
                   .toList())),
     );
@@ -2319,7 +2319,7 @@ class AppsListDataSummary {
   factory AppsListDataSummary.fromJson(Map<String, dynamic> json) {
     return AppsListDataSummary(
       appsList: (json['AppsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => App.fromJson(e as Map<String, dynamic>))
           .toList(),
       listArn: json['ListArn'] as String?,
@@ -2408,7 +2408,7 @@ class AwsEc2InstanceViolation {
     return AwsEc2InstanceViolation(
       awsEc2NetworkInterfaceViolations:
           (json['AwsEc2NetworkInterfaceViolations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AwsEc2NetworkInterfaceViolation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2445,7 +2445,7 @@ class AwsEc2NetworkInterfaceViolation {
   factory AwsEc2NetworkInterfaceViolation.fromJson(Map<String, dynamic> json) {
     return AwsEc2NetworkInterfaceViolation(
       violatingSecurityGroups: (json['ViolatingSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       violationTarget: json['ViolationTarget'] as String?,
@@ -2491,12 +2491,12 @@ class AwsVPCSecurityGroupViolation {
   factory AwsVPCSecurityGroupViolation.fromJson(Map<String, dynamic> json) {
     return AwsVPCSecurityGroupViolation(
       partialMatches: (json['PartialMatches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PartialMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
       possibleSecurityGroupRemediationActions:
           (json['PossibleSecurityGroupRemediationActions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => SecurityGroupRemediationAction.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2539,7 +2539,7 @@ class BatchAssociateResourceResponse {
   factory BatchAssociateResourceResponse.fromJson(Map<String, dynamic> json) {
     return BatchAssociateResourceResponse(
       failedItems: (json['FailedItems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
@@ -2573,7 +2573,7 @@ class BatchDisassociateResourceResponse {
       Map<String, dynamic> json) {
     return BatchDisassociateResourceResponse(
       failedItems: (json['FailedItems'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
@@ -2715,7 +2715,7 @@ class CreateNetworkAclEntriesAction {
       fMSCanRemediate: json['FMSCanRemediate'] as bool?,
       networkAclEntriesToBeCreated:
           (json['NetworkAclEntriesToBeCreated'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
               .toList(),
       networkAclId: json['NetworkAclId'] != null
@@ -2800,7 +2800,7 @@ class DeleteNetworkAclEntriesAction {
       fMSCanRemediate: json['FMSCanRemediate'] as bool?,
       networkAclEntriesToBeDeleted:
           (json['NetworkAclEntriesToBeDeleted'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
               .toList(),
       networkAclId: json['NetworkAclId'] != null
@@ -3042,7 +3042,7 @@ class DnsRuleGroupPriorityConflictViolation {
       conflictingPolicyId: json['ConflictingPolicyId'] as String?,
       conflictingPriority: json['ConflictingPriority'] as int?,
       unavailablePriorities: (json['UnavailablePriorities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       violationTarget: json['ViolationTarget'] as String?,
@@ -3551,7 +3551,7 @@ class EntryViolation {
     return EntryViolation(
       actualEvaluationOrder: json['ActualEvaluationOrder'] as String?,
       entriesWithConflicts: (json['EntriesWithConflicts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntryDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       entryAtExpectedEvaluationOrder: json['EntryAtExpectedEvaluationOrder'] !=
@@ -3560,7 +3560,7 @@ class EntryViolation {
               json['EntryAtExpectedEvaluationOrder'] as Map<String, dynamic>)
           : null,
       entryViolationReasons: (json['EntryViolationReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntryViolationReason.fromString((e as String)))
           .toList(),
       expectedEntry: json['ExpectedEntry'] != null
@@ -3690,11 +3690,11 @@ class ExpectedRoute {
   factory ExpectedRoute.fromJson(Map<String, dynamic> json) {
     return ExpectedRoute(
       allowedTargets: (json['AllowedTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       contributingSubnets: (json['ContributingSubnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ipV4Cidr: json['IpV4Cidr'] as String?,
@@ -4402,7 +4402,7 @@ class InvalidNetworkAclEntriesViolation {
       currentAssociatedNetworkAcl:
           json['CurrentAssociatedNetworkAcl'] as String?,
       entryViolations: (json['EntryViolations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntryViolation.fromJson(e as Map<String, dynamic>))
           .toList(),
       subnet: json['Subnet'] as String?,
@@ -4451,7 +4451,7 @@ class ListAdminAccountsForOrganizationResponse {
       Map<String, dynamic> json) {
     return ListAdminAccountsForOrganizationResponse(
       adminAccounts: (json['AdminAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdminAccountSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4489,7 +4489,7 @@ class ListAdminsManagingAccountResponse {
       Map<String, dynamic> json) {
     return ListAdminsManagingAccountResponse(
       adminAccounts: (json['AdminAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4524,7 +4524,7 @@ class ListAppsListsResponse {
   factory ListAppsListsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsListsResponse(
       appsLists: (json['AppsLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppsListDataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4563,7 +4563,7 @@ class ListComplianceStatusResponse {
     return ListComplianceStatusResponse(
       nextToken: json['NextToken'] as String?,
       policyComplianceStatusList: (json['PolicyComplianceStatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => PolicyComplianceStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4600,7 +4600,7 @@ class ListDiscoveredResourcesResponse {
   factory ListDiscoveredResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListDiscoveredResourcesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DiscoveredResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4637,7 +4637,7 @@ class ListMemberAccountsResponse {
   factory ListMemberAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListMemberAccountsResponse(
       memberAccounts: (json['MemberAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4675,7 +4675,7 @@ class ListPoliciesResponse {
     return ListPoliciesResponse(
       nextToken: json['NextToken'] as String?,
       policyList: (json['PolicyList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4710,7 +4710,7 @@ class ListProtocolsListsResponse {
     return ListProtocolsListsResponse(
       nextToken: json['NextToken'] as String?,
       protocolsLists: (json['ProtocolsLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProtocolsListDataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4746,7 +4746,7 @@ class ListResourceSetResourcesResponse {
   factory ListResourceSetResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceSetResourcesResponse(
       items: (json['Items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4783,7 +4783,7 @@ class ListResourceSetsResponse {
     return ListResourceSetsResponse(
       nextToken: json['NextToken'] as String?,
       resourceSets: (json['ResourceSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4810,7 +4810,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4848,7 +4848,7 @@ class ListThirdPartyFirewallFirewallPoliciesResponse {
       nextToken: json['NextToken'] as String?,
       thirdPartyFirewallFirewallPolicies:
           (json['ThirdPartyFirewallFirewallPolicies'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ThirdPartyFirewallFirewallPolicy.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5064,11 +5064,11 @@ class NetworkAclEntrySet {
       forceRemediateForLastEntries:
           json['ForceRemediateForLastEntries'] as bool,
       firstEntries: (json['FirstEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkAclEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastEntries: (json['LastEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetworkAclEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5190,7 +5190,7 @@ class NetworkFirewallBlackHoleRouteDetectedViolation {
     return NetworkFirewallBlackHoleRouteDetectedViolation(
       routeTableId: json['RouteTableId'] as String?,
       violatingRoutes: (json['ViolatingRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       violationTarget: json['ViolationTarget'] as String?,
@@ -5283,12 +5283,12 @@ class NetworkFirewallInternetTrafficNotInspectedViolation {
       Map<String, dynamic> json) {
     return NetworkFirewallInternetTrafficNotInspectedViolation(
       actualFirewallSubnetRoutes: (json['ActualFirewallSubnetRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       actualInternetGatewayRoutes:
           (json['ActualInternetGatewayRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => Route.fromJson(e as Map<String, dynamic>))
               .toList(),
       currentFirewallSubnetRouteTable:
@@ -5298,12 +5298,12 @@ class NetworkFirewallInternetTrafficNotInspectedViolation {
       expectedFirewallEndpoint: json['ExpectedFirewallEndpoint'] as String?,
       expectedFirewallSubnetRoutes:
           (json['ExpectedFirewallSubnetRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
               .toList(),
       expectedInternetGatewayRoutes:
           (json['ExpectedInternetGatewayRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
               .toList(),
       firewallSubnetId: json['FirewallSubnetId'] as String?,
@@ -5314,7 +5314,7 @@ class NetworkFirewallInternetTrafficNotInspectedViolation {
       subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
       subnetId: json['SubnetId'] as String?,
       violatingRoutes: (json['ViolatingRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -5446,16 +5446,16 @@ class NetworkFirewallInvalidRouteConfigurationViolation {
       actualFirewallEndpoint: json['ActualFirewallEndpoint'] as String?,
       actualFirewallSubnetId: json['ActualFirewallSubnetId'] as String?,
       actualFirewallSubnetRoutes: (json['ActualFirewallSubnetRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       actualInternetGatewayRoutes:
           (json['ActualInternetGatewayRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => Route.fromJson(e as Map<String, dynamic>))
               .toList(),
       affectedSubnets: (json['AffectedSubnets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       currentFirewallSubnetRouteTable:
@@ -5466,12 +5466,12 @@ class NetworkFirewallInvalidRouteConfigurationViolation {
       expectedFirewallSubnetId: json['ExpectedFirewallSubnetId'] as String?,
       expectedFirewallSubnetRoutes:
           (json['ExpectedFirewallSubnetRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
               .toList(),
       expectedInternetGatewayRoutes:
           (json['ExpectedInternetGatewayRoutes'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
               .toList(),
       internetGatewayId: json['InternetGatewayId'] as String?,
@@ -5612,7 +5612,7 @@ class NetworkFirewallMissingExpectedRoutesViolation {
       Map<String, dynamic> json) {
     return NetworkFirewallMissingExpectedRoutesViolation(
       expectedRoutes: (json['ExpectedRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
           .toList(),
       violationTarget: json['ViolationTarget'] as String?,
@@ -5834,7 +5834,7 @@ class NetworkFirewallPolicyDescription {
   factory NetworkFirewallPolicyDescription.fromJson(Map<String, dynamic> json) {
     return NetworkFirewallPolicyDescription(
       statefulDefaultActions: (json['StatefulDefaultActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statefulEngineOptions: json['StatefulEngineOptions'] != null
@@ -5842,24 +5842,24 @@ class NetworkFirewallPolicyDescription {
               json['StatefulEngineOptions'] as Map<String, dynamic>)
           : null,
       statefulRuleGroups: (json['StatefulRuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatefulRuleGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       statelessCustomActions: (json['StatelessCustomActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statelessDefaultActions: (json['StatelessDefaultActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statelessFragmentDefaultActions:
           (json['StatelessFragmentDefaultActions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       statelessRuleGroups: (json['StatelessRuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatelessRuleGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6000,7 +6000,7 @@ class NetworkFirewallUnexpectedFirewallRoutesViolation {
       firewallSubnetId: json['FirewallSubnetId'] as String?,
       routeTableId: json['RouteTableId'] as String?,
       violatingRoutes: (json['ViolatingRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -6051,7 +6051,7 @@ class NetworkFirewallUnexpectedGatewayRoutesViolation {
       gatewayId: json['GatewayId'] as String?,
       routeTableId: json['RouteTableId'] as String?,
       violatingRoutes: (json['ViolatingRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -6139,7 +6139,7 @@ class OrganizationalUnitScope {
       excludeSpecifiedOrganizationalUnits:
           json['ExcludeSpecifiedOrganizationalUnits'] as bool?,
       organizationalUnits: (json['OrganizationalUnits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6181,7 +6181,7 @@ class PartialMatch {
     return PartialMatch(
       reference: json['Reference'] as String?,
       targetViolationReasons: (json['TargetViolationReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6409,25 +6409,25 @@ class Policy {
           json['DeleteUnusedFMManagedResources'] as bool?,
       excludeMap: (json['ExcludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(CustomerPolicyScopeIdType.fromString(k),
-              (e as List).whereNotNull().map((e) => e as String).toList())),
+              (e as List).nonNulls.map((e) => e as String).toList())),
       includeMap: (json['IncludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(CustomerPolicyScopeIdType.fromString(k),
-              (e as List).whereNotNull().map((e) => e as String).toList())),
+              (e as List).nonNulls.map((e) => e as String).toList())),
       policyDescription: json['PolicyDescription'] as String?,
       policyId: json['PolicyId'] as String?,
       policyStatus: (json['PolicyStatus'] as String?)
           ?.let(CustomerPolicyStatus.fromString),
       policyUpdateToken: json['PolicyUpdateToken'] as String?,
       resourceSetIds: (json['ResourceSetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceTypeList: (json['ResourceTypeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6522,7 +6522,7 @@ class PolicyComplianceDetail {
       policyId: json['PolicyId'] as String?,
       policyOwner: json['PolicyOwner'] as String?,
       violators: (json['Violators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComplianceViolator.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6590,7 +6590,7 @@ class PolicyComplianceStatus {
   factory PolicyComplianceStatus.fromJson(Map<String, dynamic> json) {
     return PolicyComplianceStatus(
       evaluationResults: (json['EvaluationResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)?.map(
@@ -6816,7 +6816,7 @@ class PolicyTypeScope {
     return PolicyTypeScope(
       allPolicyTypesEnabled: json['AllPolicyTypesEnabled'] as bool?,
       policyTypes: (json['PolicyTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityServiceType.fromString((e as String)))
           .toList(),
     );
@@ -6854,7 +6854,7 @@ class PossibleRemediationAction {
   factory PossibleRemediationAction.fromJson(Map<String, dynamic> json) {
     return PossibleRemediationAction(
       orderedRemediationActions: (json['OrderedRemediationActions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RemediationActionWithOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6892,7 +6892,7 @@ class PossibleRemediationActions {
   factory PossibleRemediationActions.fromJson(Map<String, dynamic> json) {
     return PossibleRemediationActions(
       actions: (json['Actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PossibleRemediationAction.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6949,17 +6949,17 @@ class ProtocolsListData {
     return ProtocolsListData(
       listName: json['ListName'] as String,
       protocolsList: (json['ProtocolsList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       createTime: timeStampFromJson(json['CreateTime']),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       listId: json['ListId'] as String?,
       listUpdateToken: json['ListUpdateToken'] as String?,
-      previousProtocolsList: (json['PreviousProtocolsList']
-              as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      previousProtocolsList:
+          (json['PreviousProtocolsList'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -7012,7 +7012,7 @@ class ProtocolsListDataSummary {
       listId: json['ListId'] as String?,
       listName: json['ListName'] as String?,
       protocolsList: (json['ProtocolsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7175,10 +7175,8 @@ class RegionScope {
   factory RegionScope.fromJson(Map<String, dynamic> json) {
     return RegionScope(
       allRegionsEnabled: json['AllRegionsEnabled'] as bool?,
-      regions: (json['Regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['Regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -7571,7 +7569,7 @@ class ResourceSet {
     return ResourceSet(
       name: json['Name'] as String,
       resourceTypeList: (json['ResourceTypeList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['Description'] as String?,
@@ -8238,12 +8236,12 @@ class RouteHasOutOfScopeEndpointViolation {
           json['CurrentInternetGatewayRouteTable'] as String?,
       firewallSubnetId: json['FirewallSubnetId'] as String?,
       firewallSubnetRoutes: (json['FirewallSubnetRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       internetGatewayId: json['InternetGatewayId'] as String?,
       internetGatewayRoutes: (json['InternetGatewayRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       routeTableId: json['RouteTableId'] as String?,
@@ -8251,7 +8249,7 @@ class RouteHasOutOfScopeEndpointViolation {
       subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
       subnetId: json['SubnetId'] as String?,
       violatingRoutes: (json['ViolatingRoutes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Route.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String?,
@@ -9400,12 +9398,12 @@ class ViolationDetail {
       resourceId: json['ResourceId'] as String,
       resourceType: json['ResourceType'] as String,
       resourceViolations: (json['ResourceViolations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceViolation.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceDescription: json['ResourceDescription'] as String?,
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

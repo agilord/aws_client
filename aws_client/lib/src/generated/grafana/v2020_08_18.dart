@@ -1492,7 +1492,7 @@ class AuthenticationDescription {
   factory AuthenticationDescription.fromJson(Map<String, dynamic> json) {
     return AuthenticationDescription(
       providers: (json['providers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
       awsSso: json['awsSso'] != null
@@ -1552,7 +1552,7 @@ class AuthenticationSummary {
   factory AuthenticationSummary.fromJson(Map<String, dynamic> json) {
     return AuthenticationSummary(
       providers: (json['providers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
       samlConfigurationStatus: (json['samlConfigurationStatus'] as String?)
@@ -2048,7 +2048,7 @@ class ListPermissionsResponse {
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListPermissionsResponse(
       permissions: (json['permissions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PermissionEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2105,7 +2105,7 @@ class ListVersionsResponse {
   factory ListVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListVersionsResponse(
       grafanaVersions: (json['grafanaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2147,7 +2147,7 @@ class ListWorkspaceServiceAccountTokensResponse {
     return ListWorkspaceServiceAccountTokensResponse(
       serviceAccountId: json['serviceAccountId'] as String,
       serviceAccountTokens: (json['serviceAccountTokens'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ServiceAccountTokenSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2190,7 +2190,7 @@ class ListWorkspaceServiceAccountsResponse {
       Map<String, dynamic> json) {
     return ListWorkspaceServiceAccountsResponse(
       serviceAccounts: (json['serviceAccounts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceAccountSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       workspaceId: json['workspaceId'] as String,
@@ -2226,7 +2226,7 @@ class ListWorkspacesResponse {
   factory ListWorkspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkspacesResponse(
       workspaces: (json['workspaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2305,13 +2305,11 @@ class NetworkAccessConfiguration {
   factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkAccessConfiguration(
       prefixListIds: (json['prefixListIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      vpceIds: (json['vpceIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      vpceIds:
+          (json['vpceIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2423,14 +2421,10 @@ class RoleValues {
 
   factory RoleValues.fromJson(Map<String, dynamic> json) {
     return RoleValues(
-      admin: (json['admin'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      editor: (json['editor'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      admin:
+          (json['admin'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      editor:
+          (json['editor'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2515,7 +2509,7 @@ class SamlConfiguration {
       idpMetadata:
           IdpMetadata.fromJson(json['idpMetadata'] as Map<String, dynamic>),
       allowedOrganizations: (json['allowedOrganizations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       assertionAttributes: json['assertionAttributes'] != null
@@ -2811,7 +2805,7 @@ class UpdateInstruction {
       action: UpdateAction.fromString((json['action'] as String)),
       role: Role.fromString((json['role'] as String)),
       users: (json['users'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2840,7 +2834,7 @@ class UpdatePermissionsResponse {
   factory UpdatePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePermissionsResponse(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => UpdateError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2988,13 +2982,11 @@ class VpcConfiguration {
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
       securityGroupIds: (json['securityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3183,7 +3175,7 @@ class WorkspaceDescription {
           json['authentication'] as Map<String, dynamic>),
       created: nonNullableTimeStampFromJson(json['created'] as Object),
       dataSources: (json['dataSources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DataSourceType.fromString((e as String)))
           .toList(),
       endpoint: json['endpoint'] as String,
@@ -3206,12 +3198,12 @@ class WorkspaceDescription {
               json['networkAccessControl'] as Map<String, dynamic>)
           : null,
       notificationDestinations: (json['notificationDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotificationDestinationType.fromString((e as String)))
           .toList(),
       organizationRoleName: json['organizationRoleName'] as String?,
       organizationalUnits: (json['organizationalUnits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       permissionType:
@@ -3401,7 +3393,7 @@ class WorkspaceSummary {
           (json['licenseType'] as String?)?.let(LicenseType.fromString),
       name: json['name'] as String?,
       notificationDestinations: (json['notificationDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotificationDestinationType.fromString((e as String)))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)

@@ -1439,7 +1439,7 @@ class AmazonTranscribeCallAnalyticsProcessorConfiguration {
           (json['LanguageCode'] as String)),
       callAnalyticsStreamCategories:
           (json['CallAnalyticsStreamCategories'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       contentIdentificationType: (json['ContentIdentificationType'] as String?)
@@ -3149,10 +3149,8 @@ class KeywordMatchConfiguration {
 
   factory KeywordMatchConfiguration.fromJson(Map<String, dynamic> json) {
     return KeywordMatchConfiguration(
-      keywords: (json['Keywords'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      keywords:
+          (json['Keywords'] as List).nonNulls.map((e) => e as String).toList(),
       ruleName: json['RuleName'] as String,
       negate: json['Negate'] as bool?,
     );
@@ -3400,7 +3398,7 @@ class KinesisVideoStreamRecordingSourceRuntimeConfiguration {
       fragmentSelector: FragmentSelector.fromJson(
           json['FragmentSelector'] as Map<String, dynamic>),
       streams: (json['Streams'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RecordingStreamConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3451,7 +3449,7 @@ class KinesisVideoStreamSourceRuntimeConfiguration {
           MediaEncoding.fromString((json['MediaEncoding'] as String)),
       mediaSampleRate: json['MediaSampleRate'] as int,
       streams: (json['Streams'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3552,7 +3550,7 @@ class ListMediaCapturePipelinesResponse {
       Map<String, dynamic> json) {
     return ListMediaCapturePipelinesResponse(
       mediaCapturePipelines: (json['MediaCapturePipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MediaCapturePipelineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3589,7 +3587,7 @@ class ListMediaInsightsPipelineConfigurationsResponse {
     return ListMediaInsightsPipelineConfigurationsResponse(
       mediaInsightsPipelineConfigurations:
           (json['MediaInsightsPipelineConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => MediaInsightsPipelineConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3626,7 +3624,7 @@ class ListMediaPipelineKinesisVideoStreamPoolsResponse {
       Map<String, dynamic> json) {
     return ListMediaPipelineKinesisVideoStreamPoolsResponse(
       kinesisVideoStreamPools: (json['KinesisVideoStreamPools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KinesisVideoStreamPoolSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3660,7 +3658,7 @@ class ListMediaPipelinesResponse {
   factory ListMediaPipelinesResponse.fromJson(Map<String, dynamic> json) {
     return ListMediaPipelinesResponse(
       mediaPipelines: (json['MediaPipelines'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaPipelineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3688,7 +3686,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4054,11 +4052,11 @@ class MediaConcatenationPipeline {
       mediaPipelineArn: json['MediaPipelineArn'] as String?,
       mediaPipelineId: json['MediaPipelineId'] as String?,
       sinks: (json['Sinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConcatenationSink.fromJson(e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConcatenationSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['Status'] as String?)?.let(MediaPipelineStatus.fromString),
@@ -4158,7 +4156,7 @@ class MediaInsightsPipeline {
     return MediaInsightsPipeline(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       elementStatuses: (json['ElementStatuses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaInsightsPipelineElementStatus.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4275,7 +4273,7 @@ class MediaInsightsPipelineConfiguration {
     return MediaInsightsPipelineConfiguration(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       elements: (json['Elements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaInsightsPipelineConfigurationElement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4633,12 +4631,12 @@ class MediaLiveConnectorPipeline {
       mediaPipelineArn: json['MediaPipelineArn'] as String?,
       mediaPipelineId: json['MediaPipelineId'] as String?,
       sinks: (json['Sinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LiveConnectorSinkConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LiveConnectorSourceConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4913,11 +4911,11 @@ class MediaStreamPipeline {
       mediaPipelineArn: json['MediaPipelineArn'] as String?,
       mediaPipelineId: json['MediaPipelineId'] as String?,
       sinks: (json['Sinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaStreamSink.fromJson(e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MediaStreamSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['Status'] as String?)?.let(MediaPipelineStatus.fromString),
@@ -5231,7 +5229,7 @@ class RealTimeAlertConfiguration {
     return RealTimeAlertConfiguration(
       disabled: json['Disabled'] as bool?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RealTimeAlertRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5480,11 +5478,11 @@ class SelectedVideoStreams {
   factory SelectedVideoStreams.fromJson(Map<String, dynamic> json) {
     return SelectedVideoStreams(
       attendeeIds: (json['AttendeeIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       externalUserIds: (json['ExternalUserIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5747,7 +5745,7 @@ class StreamChannelDefinition {
     return StreamChannelDefinition(
       numberOfChannels: json['NumberOfChannels'] as int,
       channelDefinitions: (json['ChannelDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

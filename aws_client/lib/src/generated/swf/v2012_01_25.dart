@@ -4554,7 +4554,7 @@ class ActivityTypeInfos {
   factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
     return ActivityTypeInfos(
       typeInfos: (json['typeInfos'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
@@ -5971,7 +5971,7 @@ class DecisionTask {
   factory DecisionTask.fromJson(Map<String, dynamic> json) {
     return DecisionTask(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedEventId: json['startedEventId'] as int,
@@ -6387,7 +6387,7 @@ class DomainInfos {
   factory DomainInfos.fromJson(Map<String, dynamic> json) {
     return DomainInfos(
       domainInfos: (json['domainInfos'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
@@ -6725,7 +6725,7 @@ class History {
   factory History.fromJson(Map<String, dynamic> json) {
     return History(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
@@ -8184,7 +8184,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9840,10 +9840,8 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
           json['executionStartToCloseTimeout'] as String?,
       input: json['input'] as String?,
       lambdaRole: json['lambdaRole'] as String?,
-      tagList: (json['tagList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
       taskPriority: json['taskPriority'] as String?,
       taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
     );
@@ -10604,10 +10602,8 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
           json['executionStartToCloseTimeout'] as String?,
       input: json['input'] as String?,
       lambdaRole: json['lambdaRole'] as String?,
-      tagList: (json['tagList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
       taskPriority: json['taskPriority'] as String?,
       taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
     );
@@ -10888,10 +10884,8 @@ class WorkflowExecutionInfo {
       parent: json['parent'] != null
           ? WorkflowExecution.fromJson(json['parent'] as Map<String, dynamic>)
           : null,
-      tagList: (json['tagList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -10942,7 +10936,7 @@ class WorkflowExecutionInfos {
   factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionInfos(
       executionInfos: (json['executionInfos'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,
@@ -11180,10 +11174,8 @@ class WorkflowExecutionStartedEventAttributes {
           ? WorkflowExecution.fromJson(
               json['parentWorkflowExecution'] as Map<String, dynamic>)
           : null,
-      tagList: (json['tagList'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
       taskPriority: json['taskPriority'] as String?,
       taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
     );
@@ -11693,7 +11685,7 @@ class WorkflowTypeInfos {
   factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfos(
       typeInfos: (json['typeInfos'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['nextPageToken'] as String?,

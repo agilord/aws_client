@@ -5435,7 +5435,7 @@ class DescribedAccess {
       externalId: json['ExternalId'] as String?,
       homeDirectory: json['HomeDirectory'] as String?,
       homeDirectoryMappings: (json['HomeDirectoryMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HomeDirectoryMapEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       homeDirectoryType: (json['HomeDirectoryType'] as String?)
@@ -5562,7 +5562,7 @@ class DescribedAgreement {
       serverId: json['ServerId'] as String?,
       status: (json['Status'] as String?)?.let(AgreementStatusType.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5689,7 +5689,7 @@ class DescribedCertificate {
       status:
           (json['Status'] as String?)?.let(CertificateStatusType.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(CertificateType.fromString),
@@ -5827,7 +5827,7 @@ class DescribedConnector {
       securityPolicyName: json['SecurityPolicyName'] as String?,
       serviceManagedEgressIpAddresses:
           (json['ServiceManagedEgressIpAddresses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       sftpConfig: json['SftpConfig'] != null
@@ -5835,7 +5835,7 @@ class DescribedConnector {
               json['SftpConfig'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       url: json['Url'] as String?,
@@ -6023,7 +6023,7 @@ class DescribedHostKey {
       hostKeyFingerprint: json['HostKeyFingerprint'] as String?,
       hostKeyId: json['HostKeyId'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['Type'] as String?,
@@ -6094,14 +6094,14 @@ class DescribedProfile {
       arn: json['Arn'] as String,
       as2Id: json['As2Id'] as String?,
       certificateIds: (json['CertificateIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       profileId: json['ProfileId'] as String?,
       profileType:
           (json['ProfileType'] as String?)?.let(ProfileType.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6193,27 +6193,23 @@ class DescribedSecurityPolicy {
       securityPolicyName: json['SecurityPolicyName'] as String,
       fips: json['Fips'] as bool?,
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityPolicyProtocol.fromString((e as String)))
           .toList(),
       sshCiphers: (json['SshCiphers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sshHostKeyAlgorithms: (json['SshHostKeyAlgorithms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      sshKexs: (json['SshKexs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
-      sshMacs: (json['SshMacs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      sshKexs:
+          (json['SshKexs'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      sshMacs:
+          (json['SshMacs'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tlsCiphers: (json['TlsCiphers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       type:
@@ -6516,7 +6512,7 @@ class DescribedServer {
       arn: json['Arn'] as String,
       as2ServiceManagedEgressIpAddresses:
           (json['As2ServiceManagedEgressIpAddresses'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       certificate: json['Certificate'] as String?,
@@ -6544,7 +6540,7 @@ class DescribedServer {
               json['ProtocolDetails'] as Map<String, dynamic>)
           : null,
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Protocol.fromString((e as String)))
           .toList(),
       s3StorageOptions: json['S3StorageOptions'] != null
@@ -6555,11 +6551,11 @@ class DescribedServer {
       serverId: json['ServerId'] as String?,
       state: (json['State'] as String?)?.let(State.fromString),
       structuredLogDestinations: (json['StructuredLogDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       userCount: json['UserCount'] as int?,
@@ -6736,7 +6732,7 @@ class DescribedUser {
       arn: json['Arn'] as String,
       homeDirectory: json['HomeDirectory'] as String?,
       homeDirectoryMappings: (json['HomeDirectoryMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HomeDirectoryMapEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       homeDirectoryType: (json['HomeDirectoryType'] as String?)
@@ -6747,11 +6743,11 @@ class DescribedUser {
           : null,
       role: json['Role'] as String?,
       sshPublicKeys: (json['SshPublicKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SshPublicKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       userName: json['UserName'] as String?,
@@ -6822,15 +6818,15 @@ class DescribedWorkflow {
       arn: json['Arn'] as String,
       description: json['Description'] as String?,
       onExceptionSteps: (json['OnExceptionSteps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       steps: (json['Steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowId: json['WorkflowId'] as String?,
@@ -7067,15 +7063,15 @@ class EndpointDetails {
   factory EndpointDetails.fromJson(Map<String, dynamic> json) {
     return EndpointDetails(
       addressAllocationIds: (json['AddressAllocationIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcEndpointId: json['VpcEndpointId'] as String?,
@@ -7226,11 +7222,11 @@ class ExecutionResults {
   factory ExecutionResults.fromJson(Map<String, dynamic> json) {
     return ExecutionResults(
       onExceptionSteps: (json['OnExceptionSteps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionStepResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       steps: (json['Steps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionStepResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7696,7 +7692,7 @@ class ListAccessesResponse {
   factory ListAccessesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessesResponse(
       accesses: (json['Accesses'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedAccess.fromJson(e as Map<String, dynamic>))
           .toList(),
       serverId: json['ServerId'] as String,
@@ -7732,7 +7728,7 @@ class ListAgreementsResponse {
   factory ListAgreementsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgreementsResponse(
       agreements: (json['Agreements'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedAgreement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7765,7 +7761,7 @@ class ListCertificatesResponse {
   factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) {
     return ListCertificatesResponse(
       certificates: (json['Certificates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedCertificate.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7798,7 +7794,7 @@ class ListConnectorsResponse {
   factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorsResponse(
       connectors: (json['Connectors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7837,7 +7833,7 @@ class ListExecutionsResponse {
   factory ListExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return ListExecutionsResponse(
       executions: (json['Executions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedExecution.fromJson(e as Map<String, dynamic>))
           .toList(),
       workflowId: json['WorkflowId'] as String,
@@ -7877,7 +7873,7 @@ class ListHostKeysResponse {
   factory ListHostKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListHostKeysResponse(
       hostKeys: (json['HostKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedHostKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       serverId: json['ServerId'] as String,
@@ -7913,7 +7909,7 @@ class ListProfilesResponse {
   factory ListProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilesResponse(
       profiles: (json['Profiles'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7948,7 +7944,7 @@ class ListSecurityPoliciesResponse {
   factory ListSecurityPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListSecurityPoliciesResponse(
       securityPolicyNames: (json['SecurityPolicyNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7983,7 +7979,7 @@ class ListServersResponse {
   factory ListServersResponse.fromJson(Map<String, dynamic> json) {
     return ListServersResponse(
       servers: (json['Servers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedServer.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8025,7 +8021,7 @@ class ListTagsForResourceResponse {
       arn: json['Arn'] as String?,
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8068,7 +8064,7 @@ class ListUsersResponse {
     return ListUsersResponse(
       serverId: json['ServerId'] as String,
       users: (json['Users'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedUser.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8105,7 +8101,7 @@ class ListWorkflowsResponse {
   factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsResponse(
       workflows: (json['Workflows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListedWorkflow.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -8968,7 +8964,7 @@ class PosixProfile {
       gid: json['Gid'] as int,
       uid: json['Uid'] as int,
       secondaryGids: (json['SecondaryGids'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
     );
@@ -9127,7 +9123,7 @@ class ProtocolDetails {
   factory ProtocolDetails.fromJson(Map<String, dynamic> json) {
     return ProtocolDetails(
       as2Transports: (json['As2Transports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => As2Transport.fromString((e as String)))
           .toList(),
       passiveIp: json['PassiveIp'] as String?,
@@ -9474,7 +9470,7 @@ class SftpConnectorConfig {
   factory SftpConnectorConfig.fromJson(Map<String, dynamic> json) {
     return SftpConnectorConfig(
       trustedHostKeys: (json['TrustedHostKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userSecretId: json['UserSecretId'] as String?,
@@ -9713,7 +9709,7 @@ class TagStepDetails {
       name: json['Name'] as String?,
       sourceFileLocation: json['SourceFileLocation'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10165,11 +10161,11 @@ class WorkflowDetails {
   factory WorkflowDetails.fromJson(Map<String, dynamic> json) {
     return WorkflowDetails(
       onPartialUpload: (json['OnPartialUpload'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       onUpload: (json['OnUpload'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -1606,7 +1606,7 @@ class CaseDetails {
       caseId: json['caseId'] as String?,
       categoryCode: json['categoryCode'] as String?,
       ccEmailAddresses: (json['ccEmailAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       displayId: json['displayId'] as String?,
@@ -1724,7 +1724,7 @@ class Communication {
   factory Communication.fromJson(Map<String, dynamic> json) {
     return Communication(
       attachmentSet: (json['attachmentSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttachmentDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       body: json['body'] as String?,
@@ -1793,11 +1793,11 @@ class CommunicationTypeOptions {
   factory CommunicationTypeOptions.fromJson(Map<String, dynamic> json) {
     return CommunicationTypeOptions(
       datesWithoutSupport: (json['datesWithoutSupport'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DateInterval.fromJson(e as Map<String, dynamic>))
           .toList(),
       supportedHours: (json['supportedHours'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedHour.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
@@ -1924,7 +1924,7 @@ class DescribeCasesResponse {
   factory DescribeCasesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCasesResponse(
       cases: (json['cases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CaseDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1957,7 +1957,7 @@ class DescribeCommunicationsResponse {
   factory DescribeCommunicationsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCommunicationsResponse(
       communications: (json['communications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Communication.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2003,7 +2003,7 @@ class DescribeCreateCaseOptionsResponse {
       Map<String, dynamic> json) {
     return DescribeCreateCaseOptionsResponse(
       communicationTypes: (json['communicationTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CommunicationTypeOptions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2035,7 +2035,7 @@ class DescribeServicesResponse {
   factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeServicesResponse(
       services: (json['services'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Service.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2063,7 +2063,7 @@ class DescribeSeverityLevelsResponse {
   factory DescribeSeverityLevelsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSeverityLevelsResponse(
       severityLevels: (json['severityLevels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SeverityLevel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2089,7 +2089,7 @@ class DescribeSupportedLanguagesResponse {
       Map<String, dynamic> json) {
     return DescribeSupportedLanguagesResponse(
       supportedLanguages: (json['supportedLanguages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedLanguage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2117,7 +2117,7 @@ class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorCheckRefreshStatusesResponse(
       statuses: (json['statuses'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TrustedAdvisorCheckRefreshStatus.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2174,7 +2174,7 @@ class DescribeTrustedAdvisorCheckSummariesResponse {
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorCheckSummariesResponse(
       summaries: (json['summaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2203,7 +2203,7 @@ class DescribeTrustedAdvisorChecksResponse {
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorChecksResponse(
       checks: (json['checks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TrustedAdvisorCheckDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2234,7 +2234,7 @@ class RecentCaseCommunications {
   factory RecentCaseCommunications.fromJson(Map<String, dynamic> json) {
     return RecentCaseCommunications(
       communications: (json['communications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Communication.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2334,7 +2334,7 @@ class Service {
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
       categories: (json['categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       code: json['code'] as String?,
@@ -2554,10 +2554,8 @@ class TrustedAdvisorCheckDescription {
       category: json['category'] as String,
       description: json['description'] as String,
       id: json['id'] as String,
-      metadata: (json['metadata'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      metadata:
+          (json['metadata'] as List).nonNulls.map((e) => e as String).toList(),
       name: json['name'] as String,
     );
   }
@@ -2674,7 +2672,7 @@ class TrustedAdvisorCheckResult {
           json['categorySpecificSummary'] as Map<String, dynamic>),
       checkId: json['checkId'] as String,
       flaggedResources: (json['flaggedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TrustedAdvisorResourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2833,10 +2831,8 @@ class TrustedAdvisorResourceDetail {
 
   factory TrustedAdvisorResourceDetail.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorResourceDetail(
-      metadata: (json['metadata'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      metadata:
+          (json['metadata'] as List).nonNulls.map((e) => e as String).toList(),
       resourceId: json['resourceId'] as String,
       status: json['status'] as String,
       isSuppressed: json['isSuppressed'] as bool?,

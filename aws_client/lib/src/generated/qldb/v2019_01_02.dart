@@ -1915,7 +1915,7 @@ class ListJournalKinesisStreamsForLedgerResponse {
     return ListJournalKinesisStreamsForLedgerResponse(
       nextToken: json['NextToken'] as String?,
       streams: (json['Streams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JournalKinesisStreamDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1960,7 +1960,7 @@ class ListJournalS3ExportsForLedgerResponse {
       Map<String, dynamic> json) {
     return ListJournalS3ExportsForLedgerResponse(
       journalS3Exports: (json['JournalS3Exports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               JournalS3ExportDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2005,7 +2005,7 @@ class ListJournalS3ExportsResponse {
   factory ListJournalS3ExportsResponse.fromJson(Map<String, dynamic> json) {
     return ListJournalS3ExportsResponse(
       journalS3Exports: (json['JournalS3Exports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               JournalS3ExportDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2051,7 +2051,7 @@ class ListLedgersResponse {
   factory ListLedgersResponse.fromJson(Map<String, dynamic> json) {
     return ListLedgersResponse(
       ledgers: (json['Ledgers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LedgerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

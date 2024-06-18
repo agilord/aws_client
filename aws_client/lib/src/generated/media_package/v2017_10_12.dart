@@ -947,7 +947,7 @@ class CmafPackage {
           ? CmafEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
       hlsManifests: (json['hlsManifests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
       segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
@@ -1348,7 +1348,7 @@ class CreateOriginEndpointResponse {
       timeDelaySeconds: json['timeDelaySeconds'] as int?,
       url: json['url'] as String?,
       whitelist: (json['whitelist'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1514,7 +1514,7 @@ class DashPackage {
   factory DashPackage.fromJson(Map<String, dynamic> json) {
     return DashPackage(
       adTriggers: (json['adTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
@@ -1529,7 +1529,7 @@ class DashPackage {
       minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
       minUpdatePeriodSeconds: json['minUpdatePeriodSeconds'] as int?,
       periodTriggers: (json['periodTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PeriodTriggersElement.fromString((e as String)))
           .toList(),
       profile: (json['profile'] as String?)?.let(Profile.fromString),
@@ -1879,7 +1879,7 @@ class DescribeOriginEndpointResponse {
       timeDelaySeconds: json['timeDelaySeconds'] as int?,
       url: json['url'] as String?,
       whitelist: (json['whitelist'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2161,7 +2161,7 @@ class HlsIngest {
   factory HlsIngest.fromJson(Map<String, dynamic> json) {
     return HlsIngest(
       ingestEndpoints: (json['ingestEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IngestEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2247,7 +2247,7 @@ class HlsManifest {
       id: json['id'] as String,
       adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
       adTriggers: (json['adTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
@@ -2462,7 +2462,7 @@ class HlsPackage {
     return HlsPackage(
       adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
       adTriggers: (json['adTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdTriggersElement.fromString((e as String)))
           .toList(),
       adsOnDeliveryRestrictions: (json['adsOnDeliveryRestrictions'] as String?)
@@ -2607,7 +2607,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2640,7 +2640,7 @@ class ListHarvestJobsResponse {
   factory ListHarvestJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListHarvestJobsResponse(
       harvestJobs: (json['harvestJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HarvestJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2674,7 +2674,7 @@ class ListOriginEndpointsResponse {
     return ListOriginEndpointsResponse(
       nextToken: json['nextToken'] as String?,
       originEndpoints: (json['originEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OriginEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2902,7 +2902,7 @@ class OriginEndpoint {
       timeDelaySeconds: json['timeDelaySeconds'] as int?,
       url: json['url'] as String?,
       whitelist: (json['whitelist'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3272,10 +3272,8 @@ class SpekeKeyProvider {
     return SpekeKeyProvider(
       resourceId: json['resourceId'] as String,
       roleArn: json['roleArn'] as String,
-      systemIds: (json['systemIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      systemIds:
+          (json['systemIds'] as List).nonNulls.map((e) => e as String).toList(),
       url: json['url'] as String,
       certificateArn: json['certificateArn'] as String?,
       encryptionContractConfiguration:
@@ -3551,7 +3549,7 @@ class UpdateOriginEndpointResponse {
       timeDelaySeconds: json['timeDelaySeconds'] as int?,
       url: json['url'] as String?,
       whitelist: (json['whitelist'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

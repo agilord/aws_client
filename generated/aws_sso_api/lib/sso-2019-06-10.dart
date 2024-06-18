@@ -327,7 +327,7 @@ class ListAccountRolesResponse {
     return ListAccountRolesResponse(
       nextToken: json['nextToken'] as String?,
       roleList: (json['roleList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RoleInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -350,7 +350,7 @@ class ListAccountsResponse {
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsResponse(
       accountList: (json['accountList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

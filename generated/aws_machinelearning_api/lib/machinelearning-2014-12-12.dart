@@ -2810,7 +2810,7 @@ class DescribeBatchPredictionsOutput {
     return DescribeBatchPredictionsOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchPrediction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2836,7 +2836,7 @@ class DescribeDataSourcesOutput {
     return DescribeDataSourcesOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2862,7 +2862,7 @@ class DescribeEvaluationsOutput {
     return DescribeEvaluationsOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Evaluation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2888,7 +2888,7 @@ class DescribeMLModelsOutput {
     return DescribeMLModelsOutput(
       nextToken: json['NextToken'] as String?,
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MLModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2918,7 +2918,7 @@ class DescribeTagsOutput {
       resourceType: (json['ResourceType'] as String?)
           ?.let(TaggableResourceType.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

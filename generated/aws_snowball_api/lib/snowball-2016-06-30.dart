@@ -2103,7 +2103,7 @@ class CreateClusterResult {
     return CreateClusterResult(
       clusterId: json['ClusterId'] as String?,
       jobListEntries: (json['JobListEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2265,7 +2265,7 @@ class DescribeAddressesResult {
   factory DescribeAddressesResult.fromJson(Map<String, dynamic> json) {
     return DescribeAddressesResult(
       addresses: (json['Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2312,7 +2312,7 @@ class DescribeJobResult {
           ? JobMetadata.fromJson(json['JobMetadata'] as Map<String, dynamic>)
           : null,
       subJobMetadata: (json['SubJobMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2913,15 +2913,15 @@ class JobResource {
   factory JobResource.fromJson(Map<String, dynamic> json) {
     return JobResource(
       ec2AmiResources: (json['Ec2AmiResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Ec2AmiResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       lambdaResources: (json['LambdaResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LambdaResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       s3Resources: (json['S3Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3033,7 +3033,7 @@ class LambdaResource {
   factory LambdaResource.fromJson(Map<String, dynamic> json) {
     return LambdaResource(
       eventTriggers: (json['EventTriggers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3070,7 +3070,7 @@ class ListClusterJobsResult {
   factory ListClusterJobsResult.fromJson(Map<String, dynamic> json) {
     return ListClusterJobsResult(
       jobListEntries: (json['JobListEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3097,7 +3097,7 @@ class ListClustersResult {
   factory ListClustersResult.fromJson(Map<String, dynamic> json) {
     return ListClustersResult(
       clusterListEntries: (json['ClusterListEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3122,7 +3122,7 @@ class ListCompatibleImagesResult {
   factory ListCompatibleImagesResult.fromJson(Map<String, dynamic> json) {
     return ListCompatibleImagesResult(
       compatibleImages: (json['CompatibleImages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CompatibleImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3150,7 +3150,7 @@ class ListJobsResult {
   factory ListJobsResult.fromJson(Map<String, dynamic> json) {
     return ListJobsResult(
       jobListEntries: (json['JobListEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3175,7 +3175,7 @@ class ListLongTermPricingResult {
   factory ListLongTermPricingResult.fromJson(Map<String, dynamic> json) {
     return ListLongTermPricingResult(
       longTermPricingEntries: (json['LongTermPricingEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LongTermPricingListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3202,7 +3202,7 @@ class ListPickupLocationsResult {
   factory ListPickupLocationsResult.fromJson(Map<String, dynamic> json) {
     return ListPickupLocationsResult(
       addresses: (json['Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3236,11 +3236,11 @@ class ListServiceVersionsResult {
     return ListServiceVersionsResult(
       serviceName: ServiceName.fromString((json['ServiceName'] as String)),
       serviceVersions: (json['ServiceVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ServiceVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       dependentServices: (json['DependentServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DependentService.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3300,10 +3300,8 @@ class LongTermPricingListEntry {
     return LongTermPricingListEntry(
       currentActiveJob: json['CurrentActiveJob'] as String?,
       isLongTermPricingAutoRenew: json['IsLongTermPricingAutoRenew'] as bool?,
-      jobIds: (json['JobIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      jobIds:
+          (json['JobIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       longTermPricingEndDate: timeStampFromJson(json['LongTermPricingEndDate']),
       longTermPricingId: json['LongTermPricingId'] as String?,
       longTermPricingStartDate:
@@ -3412,7 +3410,7 @@ class Notification {
     return Notification(
       devicePickupSnsTopicARN: json['DevicePickupSnsTopicARN'] as String?,
       jobStatesToNotify: (json['JobStatesToNotify'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobState.fromString((e as String)))
           .toList(),
       notifyAll: json['NotifyAll'] as bool?,
@@ -3671,7 +3669,7 @@ class S3Resource {
           ? KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>)
           : null,
       targetOnDeviceServices: (json['TargetOnDeviceServices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetOnDeviceService.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

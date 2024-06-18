@@ -964,19 +964,17 @@ class Cluster {
       shardCapacity: json['shardCapacity'] as int,
       shardCount: json['shardCount'] as int,
       status: Status.fromString((json['status'] as String)),
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       backupRetentionPeriod: json['backupRetentionPeriod'] as int?,
       preferredBackupWindow: json['preferredBackupWindow'] as String?,
       shardInstanceCount: json['shardInstanceCount'] as int?,
       shards: (json['shards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1140,12 +1138,10 @@ class ClusterSnapshot {
       snapshotCreationTime: json['snapshotCreationTime'] as String,
       snapshotName: json['snapshotName'] as String,
       status: Status.fromString((json['status'] as String)),
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       snapshotType:
@@ -1411,7 +1407,7 @@ class ListClusterSnapshotsOutput {
     return ListClusterSnapshotsOutput(
       nextToken: json['nextToken'] as String?,
       snapshots: (json['snapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterSnapshotInList.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1447,7 +1443,7 @@ class ListClustersOutput {
   factory ListClustersOutput.fromJson(Map<String, dynamic> json) {
     return ListClustersOutput(
       clusters: (json['clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterInList.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

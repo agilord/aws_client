@@ -1005,12 +1005,12 @@ class GetCampaignStateBatchResponse {
   factory GetCampaignStateBatchResponse.fromJson(Map<String, dynamic> json) {
     return GetCampaignStateBatchResponse(
       failedRequests: (json['failedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedCampaignStateResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       successfulRequests: (json['successfulRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuccessfulCampaignStateResponse.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1259,7 +1259,7 @@ class ListCampaignsResponse {
   factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
     return ListCampaignsResponse(
       campaignSummaryList: (json['campaignSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1409,11 +1409,11 @@ class PutDialRequestBatchResponse {
   factory PutDialRequestBatchResponse.fromJson(Map<String, dynamic> json) {
     return PutDialRequestBatchResponse(
       failedRequests: (json['failedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       successfulRequests: (json['successfulRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuccessfulRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

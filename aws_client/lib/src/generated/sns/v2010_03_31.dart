@@ -3989,7 +3989,7 @@ class PhoneNumberInformation {
       phoneNumber: _s.extractXmlStringValue(elem, 'PhoneNumber'),
       routeType: _s
           .extractXmlStringValue(elem, 'RouteType')
-          ?.let(RouteType.fromString) /* Nullability(true, true) */,
+          ?.let(RouteType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -4393,9 +4393,9 @@ class SMSSandboxPhoneNumber {
   factory SMSSandboxPhoneNumber.fromXml(_s.XmlElement elem) {
     return SMSSandboxPhoneNumber(
       phoneNumber: _s.extractXmlStringValue(elem, 'PhoneNumber'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          SMSSandboxPhoneNumberVerificationStatus
-              .fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(SMSSandboxPhoneNumberVerificationStatus.fromString),
     );
   }
 

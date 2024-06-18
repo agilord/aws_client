@@ -1136,7 +1136,7 @@ class AnalysisReport {
       endTime: timeStampFromJson(json['EndTime']),
       identifier: json['Identifier'] as String?,
       insights: (json['Insights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Insight.fromJson(e as Map<String, dynamic>))
           .toList(),
       serviceType:
@@ -1184,7 +1184,7 @@ class AnalysisReportSummary {
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1332,13 +1332,13 @@ class DescribeDimensionKeysResponse {
       alignedEndTime: timeStampFromJson(json['AlignedEndTime']),
       alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
       keys: (json['Keys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DimensionKeyDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
       partitionKeys: (json['PartitionKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResponsePartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1670,7 +1670,7 @@ class DimensionGroupDetail {
   factory DimensionGroupDetail.fromJson(Map<String, dynamic> json) {
     return DimensionGroupDetail(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DimensionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       group: json['Group'] as String?,
@@ -1709,7 +1709,7 @@ class DimensionKeyDescription {
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitions: (json['Partitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       total: json['Total'] as double?,
@@ -1868,7 +1868,7 @@ class GetDimensionKeyDetailsResponse {
   factory GetDimensionKeyDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetDimensionKeyDetailsResponse(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DimensionKeyDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1963,7 +1963,7 @@ class GetResourceMetricsResponse {
       alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
       identifier: json['Identifier'] as String?,
       metricList: (json['MetricList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricKeyDataPoints.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2034,25 +2034,25 @@ class Insight {
     return Insight(
       insightId: json['InsightId'] as String,
       baselineData: (json['BaselineData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
       context: (json['Context'] as String?)?.let(ContextType.fromString),
       description: json['Description'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       insightData: (json['InsightData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
       insightType: json['InsightType'] as String?,
       recommendations: (json['Recommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       severity: (json['Severity'] as String?)?.let(Severity.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       supportingInsights: (json['SupportingInsights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Insight.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2077,7 +2077,7 @@ class ListAvailableResourceDimensionsResponse {
       Map<String, dynamic> json) {
     return ListAvailableResourceDimensionsResponse(
       metricDimensions: (json['MetricDimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDimensionGroups.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2105,7 +2105,7 @@ class ListAvailableResourceMetricsResponse {
       Map<String, dynamic> json) {
     return ListAvailableResourceMetricsResponse(
       metrics: (json['Metrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ResponseResourceMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2133,7 +2133,7 @@ class ListPerformanceAnalysisReportsResponse {
       Map<String, dynamic> json) {
     return ListPerformanceAnalysisReportsResponse(
       analysisReports: (json['AnalysisReports'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2153,7 +2153,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2176,7 +2176,7 @@ class MetricDimensionGroups {
   factory MetricDimensionGroups.fromJson(Map<String, dynamic> json) {
     return MetricDimensionGroups(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DimensionGroupDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       metric: json['Metric'] as String?,
@@ -2202,7 +2202,7 @@ class MetricKeyDataPoints {
   factory MetricKeyDataPoints.fromJson(Map<String, dynamic> json) {
     return MetricKeyDataPoints(
       dataPoints: (json['DataPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       key: json['Key'] != null

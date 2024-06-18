@@ -949,11 +949,11 @@ class GetSessionResponse {
   factory GetSessionResponse.fromJson(Map<String, dynamic> json) {
     return GetSessionResponse(
       interpretations: (json['interpretations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Interpretation.fromJson(e as Map<String, dynamic>))
           .toList(),
       messages: (json['messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
       sessionId: json['sessionId'] as String?,
@@ -1012,7 +1012,7 @@ class ImageResponseCard {
     return ImageResponseCard(
       title: json['title'] as String,
       buttons: (json['buttons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Button.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUrl: json['imageUrl'] as String?,
@@ -1356,11 +1356,11 @@ class RecognizeTextResponse {
   factory RecognizeTextResponse.fromJson(Map<String, dynamic> json) {
     return RecognizeTextResponse(
       interpretations: (json['interpretations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Interpretation.fromJson(e as Map<String, dynamic>))
           .toList(),
       messages: (json['messages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
       recognizedBotMember: json['recognizedBotMember'] != null
@@ -1559,7 +1559,7 @@ class RuntimeHintDetails {
   factory RuntimeHintDetails.fromJson(Map<String, dynamic> json) {
     return RuntimeHintDetails(
       runtimeHintValues: (json['runtimeHintValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuntimeHintValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       subSlotHints: (json['subSlotHints'] as Map<String, dynamic>?)?.map((k,
@@ -1791,7 +1791,7 @@ class SessionState {
   factory SessionState.fromJson(Map<String, dynamic> json) {
     return SessionState(
       activeContexts: (json['activeContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       dialogAction: json['dialogAction'] != null
@@ -1878,7 +1878,7 @@ class Slot {
           ? Value.fromJson(json['value'] as Map<String, dynamic>)
           : null,
       values: (json['values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Slot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1942,7 +1942,7 @@ class Value {
       interpretedValue: json['interpretedValue'] as String,
       originalValue: json['originalValue'] as String?,
       resolvedValues: (json['resolvedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

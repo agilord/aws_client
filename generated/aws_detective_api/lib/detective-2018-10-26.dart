@@ -1355,11 +1355,11 @@ class BatchGetGraphMemberDatasourcesResponse {
       Map<String, dynamic> json) {
     return BatchGetGraphMemberDatasourcesResponse(
       memberDatasources: (json['MemberDatasources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1383,11 +1383,11 @@ class BatchGetMembershipDatasourcesResponse {
       Map<String, dynamic> json) {
     return BatchGetMembershipDatasourcesResponse(
       membershipDatasources: (json['MembershipDatasources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedGraphs: (json['UnprocessedGraphs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedGraph.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1430,11 +1430,11 @@ class CreateMembersResponse {
   factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
     return CreateMembersResponse(
       members: (json['Members'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1567,11 +1567,11 @@ class DeleteMembersResponse {
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMembersResponse(
       accountIds: (json['AccountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1777,11 +1777,11 @@ class GetMembersResponse {
   factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
     return GetMembersResponse(
       memberDetails: (json['MemberDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2095,7 +2095,7 @@ class ListGraphsResponse {
   factory ListGraphsResponse.fromJson(Map<String, dynamic> json) {
     return ListGraphsResponse(
       graphList: (json['GraphList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Graph.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2132,7 +2132,7 @@ class ListIndicatorsResponse {
     return ListIndicatorsResponse(
       graphArn: json['GraphArn'] as String?,
       indicators: (json['Indicators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Indicator.fromJson(e as Map<String, dynamic>))
           .toList(),
       investigationId: json['InvestigationId'] as String?,
@@ -2161,7 +2161,7 @@ class ListInvestigationsResponse {
   factory ListInvestigationsResponse.fromJson(Map<String, dynamic> json) {
     return ListInvestigationsResponse(
       investigationDetails: (json['InvestigationDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InvestigationDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2186,7 +2186,7 @@ class ListInvitationsResponse {
   factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return ListInvitationsResponse(
       invitations: (json['Invitations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2219,7 +2219,7 @@ class ListMembersResponse {
   factory ListMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListMembersResponse(
       memberDetails: (json['MemberDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2244,7 +2244,7 @@ class ListOrganizationAdminAccountsResponse {
       Map<String, dynamic> json) {
     return ListOrganizationAdminAccountsResponse(
       administrators: (json['Administrators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Administrator.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

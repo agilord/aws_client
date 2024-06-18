@@ -1040,7 +1040,7 @@ class AttributeMapping {
       certificateField: (json['certificateField'] as String?)
           ?.let(CertificateField.fromString),
       mappingRules: (json['mappingRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1312,7 +1312,7 @@ class ListCrlsResponse {
   factory ListCrlsResponse.fromJson(Map<String, dynamic> json) {
     return ListCrlsResponse(
       crls: (json['crls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CrlDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1347,7 +1347,7 @@ class ListProfilesResponse {
     return ListProfilesResponse(
       nextToken: json['nextToken'] as String?,
       profiles: (json['profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1381,7 +1381,7 @@ class ListSubjectsResponse {
     return ListSubjectsResponse(
       nextToken: json['nextToken'] as String?,
       subjects: (json['subjects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1408,7 +1408,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1440,7 +1440,7 @@ class ListTrustAnchorsResponse {
     return ListTrustAnchorsResponse(
       nextToken: json['nextToken'] as String?,
       trustAnchors: (json['trustAnchors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TrustAnchorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1706,7 +1706,7 @@ class ProfileDetail {
   factory ProfileDetail.fromJson(Map<String, dynamic> json) {
     return ProfileDetail(
       attributeMappings: (json['attributeMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1714,7 +1714,7 @@ class ProfileDetail {
       durationSeconds: json['durationSeconds'] as int?,
       enabled: json['enabled'] as bool?,
       managedPolicyArns: (json['managedPolicyArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -1722,7 +1722,7 @@ class ProfileDetail {
       profileId: json['profileId'] as String?,
       requireInstanceProperties: json['requireInstanceProperties'] as bool?,
       roleArns: (json['roleArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sessionPolicy: json['sessionPolicy'] as String?,
@@ -1968,12 +1968,12 @@ class SubjectDetail {
     return SubjectDetail(
       createdAt: timeStampFromJson(json['createdAt']),
       credentials: (json['credentials'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CredentialSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       enabled: json['enabled'] as bool?,
       instanceProperties: (json['instanceProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastSeenAt: timeStampFromJson(json['lastSeenAt']),
@@ -2184,7 +2184,7 @@ class TrustAnchorDetail {
       enabled: json['enabled'] as bool?,
       name: json['name'] as String?,
       notificationSettings: (json['notificationSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               NotificationSettingDetail.fromJson(e as Map<String, dynamic>))
           .toList(),

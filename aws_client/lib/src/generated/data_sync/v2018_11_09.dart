@@ -4354,7 +4354,7 @@ class DescribeLocationAzureBlobResponse {
       accessTier:
           (json['AccessTier'] as String?)?.let(AzureAccessTier.fromString),
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authenticationType: (json['AuthenticationType'] as String?)
@@ -4489,7 +4489,7 @@ class DescribeLocationFsxLustreResponse {
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4553,7 +4553,7 @@ class DescribeLocationFsxOntapResponse {
           ? FsxProtocol.fromJson(json['Protocol'] as Map<String, dynamic>)
           : null,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       storageVirtualMachineArn: json['StorageVirtualMachineArn'] as String?,
@@ -4621,7 +4621,7 @@ class DescribeLocationFsxOpenZfsResponse {
           ? FsxProtocol.fromJson(json['Protocol'] as Map<String, dynamic>)
           : null,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4684,7 +4684,7 @@ class DescribeLocationFsxWindowsResponse {
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       user: json['User'] as String?,
@@ -4772,7 +4772,7 @@ class DescribeLocationHdfsResponse {
   factory DescribeLocationHdfsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLocationHdfsResponse(
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       authenticationType: (json['AuthenticationType'] as String?)
@@ -4784,7 +4784,7 @@ class DescribeLocationHdfsResponse {
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
       nameNodes: (json['NameNodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HdfsNameNode.fromJson(e as Map<String, dynamic>))
           .toList(),
       qopConfiguration: json['QopConfiguration'] != null
@@ -4930,7 +4930,7 @@ class DescribeLocationObjectStorageResponse {
     return DescribeLocationObjectStorageResponse(
       accessKey: json['AccessKey'] as String?,
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -5009,7 +5009,7 @@ class DescribeLocationS3Response {
   factory DescribeLocationS3Response.fromJson(Map<String, dynamic> json) {
     return DescribeLocationS3Response(
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -5080,7 +5080,7 @@ class DescribeLocationSmbResponse {
   factory DescribeLocationSmbResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLocationSmbResponse(
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -5134,7 +5134,7 @@ class DescribeStorageSystemResourceMetricsResponse {
       Map<String, dynamic> json) {
     return DescribeStorageSystemResourceMetricsResponse(
       metrics: (json['Metrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceMetrics.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5253,7 +5253,7 @@ class DescribeStorageSystemResponse {
   factory DescribeStorageSystemResponse.fromJson(Map<String, dynamic> json) {
     return DescribeStorageSystemResponse(
       agentArns: (json['AgentArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
@@ -5449,7 +5449,7 @@ class DescribeTaskExecutionResponse {
       estimatedFilesToDelete: json['EstimatedFilesToDelete'] as int?,
       estimatedFilesToTransfer: json['EstimatedFilesToTransfer'] as int?,
       excludes: (json['Excludes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       filesDeleted: json['FilesDeleted'] as int?,
@@ -5457,7 +5457,7 @@ class DescribeTaskExecutionResponse {
       filesTransferred: json['FilesTransferred'] as int?,
       filesVerified: json['FilesVerified'] as int?,
       includes: (json['Includes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       manifestConfig: json['ManifestConfig'] != null
@@ -5661,17 +5661,17 @@ class DescribeTaskResponse {
       destinationLocationArn: json['DestinationLocationArn'] as String?,
       destinationNetworkInterfaceArns:
           (json['DestinationNetworkInterfaceArns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       errorCode: json['ErrorCode'] as String?,
       errorDetail: json['ErrorDetail'] as String?,
       excludes: (json['Excludes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       includes: (json['Includes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       manifestConfig: json['ManifestConfig'] != null
@@ -5691,7 +5691,7 @@ class DescribeTaskResponse {
           : null,
       sourceLocationArn: json['SourceLocationArn'] as String?,
       sourceNetworkInterfaceArns: (json['SourceNetworkInterfaceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['Status'] as String?)?.let(TaskStatus.fromString),
@@ -5915,7 +5915,7 @@ class Ec2Config {
   factory Ec2Config.fromJson(Map<String, dynamic> json) {
     return Ec2Config(
       securityGroupArns: (json['SecurityGroupArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       subnetArn: json['SubnetArn'] as String,
@@ -6351,7 +6351,7 @@ class ListAgentsResponse {
   factory ListAgentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgentsResponse(
       agents: (json['Agents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AgentListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6384,7 +6384,7 @@ class ListDiscoveryJobsResponse {
   factory ListDiscoveryJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDiscoveryJobsResponse(
       discoveryJobs: (json['DiscoveryJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DiscoveryJobListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6418,7 +6418,7 @@ class ListLocationsResponse {
   factory ListLocationsResponse.fromJson(Map<String, dynamic> json) {
     return ListLocationsResponse(
       locations: (json['Locations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocationListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6453,7 +6453,7 @@ class ListStorageSystemsResponse {
     return ListStorageSystemsResponse(
       nextToken: json['NextToken'] as String?,
       storageSystems: (json['StorageSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => StorageSystemListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6488,7 +6488,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6522,7 +6522,7 @@ class ListTaskExecutionsResponse {
     return ListTaskExecutionsResponse(
       nextToken: json['NextToken'] as String?,
       taskExecutions: (json['TaskExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => TaskExecutionListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6557,7 +6557,7 @@ class ListTasksResponse {
     return ListTasksResponse(
       nextToken: json['NextToken'] as String?,
       tasks: (json['Tasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaskListEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6976,7 +6976,7 @@ class NetAppONTAPCluster {
       recommendationStatus: (json['RecommendationStatus'] as String?)
           ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceId: json['ResourceId'] as String?,
@@ -7095,7 +7095,7 @@ class NetAppONTAPSVM {
       cifsShareCount: json['CifsShareCount'] as int?,
       clusterUuid: json['ClusterUuid'] as String?,
       enabledProtocols: (json['EnabledProtocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lunCount: json['LunCount'] as int?,
@@ -7107,7 +7107,7 @@ class NetAppONTAPSVM {
       recommendationStatus: (json['RecommendationStatus'] as String?)
           ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceId: json['ResourceId'] as String?,
@@ -7247,7 +7247,7 @@ class NetAppONTAPVolume {
       recommendationStatus: (json['RecommendationStatus'] as String?)
           ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceId: json['ResourceId'] as String?,
@@ -7421,10 +7421,8 @@ class OnPremConfig {
 
   factory OnPremConfig.fromJson(Map<String, dynamic> json) {
     return OnPremConfig(
-      agentArns: (json['AgentArns'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      agentArns:
+          (json['AgentArns'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -8050,11 +8048,11 @@ class PrivateLinkConfig {
     return PrivateLinkConfig(
       privateLinkEndpoint: json['PrivateLinkEndpoint'] as String?,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetArns: (json['SubnetArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcEndpointId: json['VpcEndpointId'] as String?,
@@ -8455,15 +8453,15 @@ class ResourceDetails {
   factory ResourceDetails.fromJson(Map<String, dynamic> json) {
     return ResourceDetails(
       netAppONTAPClusters: (json['NetAppONTAPClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetAppONTAPCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       netAppONTAPSVMs: (json['NetAppONTAPSVMs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetAppONTAPSVM.fromJson(e as Map<String, dynamic>))
           .toList(),
       netAppONTAPVolumes: (json['NetAppONTAPVolumes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NetAppONTAPVolume.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

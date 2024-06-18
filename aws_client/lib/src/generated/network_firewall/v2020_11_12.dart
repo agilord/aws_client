@@ -2757,7 +2757,7 @@ class AnalysisResult {
     return AnalysisResult(
       analysisDetail: json['AnalysisDetail'] as String?,
       identifiedRuleIds: (json['IdentifiedRuleIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       identifiedType:
@@ -2873,7 +2873,7 @@ class AssociateSubnetsResponse {
       firewallArn: json['FirewallArn'] as String?,
       firewallName: json['FirewallName'] as String?,
       subnetMappings: (json['SubnetMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       updateToken: json['UpdateToken'] as String?,
@@ -3945,7 +3945,7 @@ class DisassociateSubnetsResponse {
       firewallArn: json['FirewallArn'] as String?,
       firewallName: json['FirewallName'] as String?,
       subnetMappings: (json['SubnetMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       updateToken: json['UpdateToken'] as String?,
@@ -4110,7 +4110,7 @@ class Firewall {
       firewallId: json['FirewallId'] as String,
       firewallPolicyArn: json['FirewallPolicyArn'] as String,
       subnetMappings: (json['SubnetMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcId: json['VpcId'] as String,
@@ -4126,7 +4126,7 @@ class Firewall {
           json['FirewallPolicyChangeProtection'] as bool?,
       subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4302,12 +4302,12 @@ class FirewallPolicy {
   factory FirewallPolicy.fromJson(Map<String, dynamic> json) {
     return FirewallPolicy(
       statelessDefaultActions: (json['StatelessDefaultActions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       statelessFragmentDefaultActions:
           (json['StatelessFragmentDefaultActions'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => e as String)
               .toList(),
       policyVariables: json['PolicyVariables'] != null
@@ -4315,7 +4315,7 @@ class FirewallPolicy {
               json['PolicyVariables'] as Map<String, dynamic>)
           : null,
       statefulDefaultActions: (json['StatefulDefaultActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statefulEngineOptions: json['StatefulEngineOptions'] != null
@@ -4324,17 +4324,17 @@ class FirewallPolicy {
           : null,
       statefulRuleGroupReferences: (json['StatefulRuleGroupReferences']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               StatefulRuleGroupReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       statelessCustomActions: (json['StatelessCustomActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       statelessRuleGroupReferences: (json['StatelessRuleGroupReferences']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               StatelessRuleGroupReference.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4489,7 +4489,7 @@ class FirewallPolicyResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       numberOfAssociations: json['NumberOfAssociations'] as int?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4799,7 +4799,7 @@ class IPSet {
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
       definition: (json['Definition'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4915,7 +4915,7 @@ class ListFirewallPoliciesResponse {
   factory ListFirewallPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallPoliciesResponse(
       firewallPolicies: (json['FirewallPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => FirewallPolicyMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4954,7 +4954,7 @@ class ListFirewallsResponse {
   factory ListFirewallsResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallsResponse(
       firewalls: (json['Firewalls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FirewallMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4993,7 +4993,7 @@ class ListRuleGroupsResponse {
     return ListRuleGroupsResponse(
       nextToken: json['NextToken'] as String?,
       ruleGroups: (json['RuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleGroupMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5033,7 +5033,7 @@ class ListTLSInspectionConfigurationsResponse {
       nextToken: json['NextToken'] as String?,
       tLSInspectionConfigurations:
           (json['TLSInspectionConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TLSInspectionConfigurationMetadata.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -5071,7 +5071,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5209,7 +5209,7 @@ class LoggingConfiguration {
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LogDestinationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5271,27 +5271,25 @@ class MatchAttributes {
   factory MatchAttributes.fromJson(Map<String, dynamic> json) {
     return MatchAttributes(
       destinationPorts: (json['DestinationPorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
-      protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      protocols:
+          (json['Protocols'] as List?)?.nonNulls.map((e) => e as int).toList(),
       sourcePorts: (json['SourcePorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
       tCPFlags: (json['TCPFlags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TCPFlagField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5458,7 +5456,7 @@ class PortSet {
   factory PortSet.fromJson(Map<String, dynamic> json) {
     return PortSet(
       definition: (json['Definition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5486,7 +5484,7 @@ class PublishMetricAction {
   factory PublishMetricAction.fromJson(Map<String, dynamic> json) {
     return PublishMetricAction(
       dimensions: (json['Dimensions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5655,10 +5653,8 @@ class RuleDefinition {
 
   factory RuleDefinition.fromJson(Map<String, dynamic> json) {
     return RuleDefinition(
-      actions: (json['Actions'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['Actions'] as List).nonNulls.map((e) => e as String).toList(),
       matchAttributes: MatchAttributes.fromJson(
           json['MatchAttributes'] as Map<String, dynamic>),
     );
@@ -5884,7 +5880,7 @@ class RuleGroupResponse {
       ruleGroupId: json['RuleGroupId'] as String,
       ruleGroupName: json['RuleGroupName'] as String,
       analysisResults: (json['AnalysisResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       capacity: json['Capacity'] as int?,
@@ -5904,7 +5900,7 @@ class RuleGroupResponse {
               json['SourceMetadata'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(RuleGroupType.fromString),
@@ -5992,7 +5988,7 @@ class RuleOption {
     return RuleOption(
       keyword: json['Keyword'] as String,
       settings: (json['Settings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6103,7 +6099,7 @@ class RulesSource {
           : null,
       rulesString: json['RulesString'] as String?,
       statefulRules: (json['StatefulRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StatefulRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       statelessRulesAndCustomActions: json['StatelessRulesAndCustomActions'] !=
@@ -6181,13 +6177,11 @@ class RulesSourceList {
       generatedRulesType:
           GeneratedRulesType.fromString((json['GeneratedRulesType'] as String)),
       targetTypes: (json['TargetTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TargetType.fromString((e as String)))
           .toList(),
-      targets: (json['Targets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      targets:
+          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6314,12 +6308,12 @@ class ServerCertificateConfiguration {
                       as Map<String, dynamic>)
               : null,
       scopes: (json['Scopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ServerCertificateScope.fromJson(e as Map<String, dynamic>))
           .toList(),
       serverCertificates: (json['ServerCertificates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerCertificate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6386,23 +6380,21 @@ class ServerCertificateScope {
   factory ServerCertificateScope.fromJson(Map<String, dynamic> json) {
     return ServerCertificateScope(
       destinationPorts: (json['DestinationPorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
-      protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      protocols:
+          (json['Protocols'] as List?)?.nonNulls.map((e) => e as int).toList(),
       sourcePorts: (json['SourcePorts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       sources: (json['Sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6605,7 +6597,7 @@ class StatefulRule {
       action: StatefulAction.fromString((json['Action'] as String)),
       header: Header.fromJson(json['Header'] as Map<String, dynamic>),
       ruleOptions: (json['RuleOptions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RuleOption.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6881,11 +6873,11 @@ class StatelessRulesAndCustomActions {
   factory StatelessRulesAndCustomActions.fromJson(Map<String, dynamic> json) {
     return StatelessRulesAndCustomActions(
       statelessRules: (json['StatelessRules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StatelessRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       customActions: (json['CustomActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7064,11 +7056,11 @@ class TCPFlagField {
   factory TCPFlagField.fromJson(Map<String, dynamic> json) {
     return TCPFlagField(
       flags: (json['Flags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TCPFlag.fromString((e as String)))
           .toList(),
       masks: (json['Masks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TCPFlag.fromString((e as String)))
           .toList(),
     );
@@ -7116,7 +7108,7 @@ class TLSInspectionConfiguration {
     return TLSInspectionConfiguration(
       serverCertificateConfigurations:
           (json['ServerCertificateConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServerCertificateConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7239,7 +7231,7 @@ class TLSInspectionConfigurationResponse {
               json['CertificateAuthority'] as Map<String, dynamic>)
           : null,
       certificates: (json['Certificates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TlsCertificateData.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
@@ -7253,7 +7245,7 @@ class TLSInspectionConfigurationResponse {
           (json['TLSInspectionConfigurationStatus'] as String?)
               ?.let(ResourceStatus.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

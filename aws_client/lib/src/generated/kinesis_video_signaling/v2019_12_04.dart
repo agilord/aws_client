@@ -165,7 +165,7 @@ class GetIceServerConfigResponse {
   factory GetIceServerConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetIceServerConfigResponse(
       iceServerList: (json['IceServerList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IceServer.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -208,10 +208,7 @@ class IceServer {
     return IceServer(
       password: json['Password'] as String?,
       ttl: json['Ttl'] as int?,
-      uris: (json['Uris'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      uris: (json['Uris'] as List?)?.nonNulls.map((e) => e as String).toList(),
       username: json['Username'] as String?,
     );
   }

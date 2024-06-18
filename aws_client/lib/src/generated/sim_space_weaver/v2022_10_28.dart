@@ -1123,7 +1123,7 @@ class LaunchOverrides {
   factory LaunchOverrides.fromJson(Map<String, dynamic> json) {
     return LaunchOverrides(
       launchCommands: (json['LaunchCommands'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1176,7 +1176,7 @@ class ListAppsOutput {
   factory ListAppsOutput.fromJson(Map<String, dynamic> json) {
     return ListAppsOutput(
       apps: (json['Apps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SimulationAppMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1216,7 +1216,7 @@ class ListSimulationsOutput {
     return ListSimulationsOutput(
       nextToken: json['NextToken'] as String?,
       simulations: (json['Simulations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SimulationMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1278,11 +1278,11 @@ class LiveSimulationState {
   factory LiveSimulationState.fromJson(Map<String, dynamic> json) {
     return LiveSimulationState(
       clocks: (json['Clocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SimulationClock.fromJson(e as Map<String, dynamic>))
           .toList(),
       domains: (json['Domains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Domain.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1341,7 +1341,7 @@ class LoggingConfiguration {
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       destinations: (json['Destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1450,7 +1450,7 @@ class SimulationAppEndpointInfo {
     return SimulationAppEndpointInfo(
       address: json['Address'] as String?,
       ingressPortMappings: (json['IngressPortMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SimulationAppPortMapping.fromJson(e as Map<String, dynamic>))
           .toList(),

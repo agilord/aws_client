@@ -1405,7 +1405,7 @@ class DescribeGroupResponse {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       externalIds: (json['ExternalIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalId.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1504,16 +1504,16 @@ class DescribeUserResponse {
       identityStoreId: json['IdentityStoreId'] as String,
       userId: json['UserId'] as String,
       addresses: (json['Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
       displayName: json['DisplayName'] as String?,
       emails: (json['Emails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Email.fromJson(e as Map<String, dynamic>))
           .toList(),
       externalIds: (json['ExternalIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalId.fromJson(e as Map<String, dynamic>))
           .toList(),
       locale: json['Locale'] as String?,
@@ -1522,7 +1522,7 @@ class DescribeUserResponse {
           : null,
       nickName: json['NickName'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       preferredLanguage: json['PreferredLanguage'] as String?,
@@ -1795,7 +1795,7 @@ class Group {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       externalIds: (json['ExternalIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalId.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1919,7 +1919,7 @@ class IsMemberInGroupsResponse {
   factory IsMemberInGroupsResponse.fromJson(Map<String, dynamic> json) {
     return IsMemberInGroupsResponse(
       results: (json['Results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GroupMembershipExistenceResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1956,7 +1956,7 @@ class ListGroupMembershipsForMemberResponse {
       Map<String, dynamic> json) {
     return ListGroupMembershipsForMemberResponse(
       groupMemberships: (json['GroupMemberships'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1993,7 +1993,7 @@ class ListGroupMembershipsResponse {
   factory ListGroupMembershipsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupMembershipsResponse(
       groupMemberships: (json['GroupMemberships'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2029,7 +2029,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2065,7 +2065,7 @@ class ListUsersResponse {
   factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
     return ListUsersResponse(
       users: (json['Users'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2337,16 +2337,16 @@ class User {
       identityStoreId: json['IdentityStoreId'] as String,
       userId: json['UserId'] as String,
       addresses: (json['Addresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
           .toList(),
       displayName: json['DisplayName'] as String?,
       emails: (json['Emails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Email.fromJson(e as Map<String, dynamic>))
           .toList(),
       externalIds: (json['ExternalIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExternalId.fromJson(e as Map<String, dynamic>))
           .toList(),
       locale: json['Locale'] as String?,
@@ -2355,7 +2355,7 @@ class User {
           : null,
       nickName: json['NickName'] as String?,
       phoneNumbers: (json['PhoneNumbers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
           .toList(),
       preferredLanguage: json['PreferredLanguage'] as String?,

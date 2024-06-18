@@ -3459,7 +3459,7 @@ class AccessEntry {
       clusterName: json['clusterName'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       kubernetesGroups: (json['kubernetesGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -3523,7 +3523,7 @@ class AccessScope {
   factory AccessScope.fromJson(Map<String, dynamic> json) {
     return AccessScope(
       namespaces: (json['namespaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       type: (json['type'] as String?)?.let(AccessScopeType.fromString),
@@ -3651,7 +3651,7 @@ class Addon {
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       owner: json['owner'] as String?,
       podIdentityAssociations: (json['podIdentityAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       publisher: json['publisher'] as String?,
@@ -3675,7 +3675,7 @@ class AddonHealth {
   factory AddonHealth.fromJson(Map<String, dynamic> json) {
     return AddonHealth(
       issues: (json['issues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddonIssue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3716,7 +3716,7 @@ class AddonInfo {
     return AddonInfo(
       addonName: json['addonName'] as String?,
       addonVersions: (json['addonVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddonVersionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       marketplaceInformation: json['marketplaceInformation'] != null
@@ -3752,7 +3752,7 @@ class AddonIssue {
       code: (json['code'] as String?)?.let(AddonIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3829,7 +3829,7 @@ class AddonPodIdentityConfiguration {
   factory AddonPodIdentityConfiguration.fromJson(Map<String, dynamic> json) {
     return AddonPodIdentityConfiguration(
       recommendedManagedPolicies: (json['recommendedManagedPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serviceAccount: json['serviceAccount'] as String?,
@@ -3887,11 +3887,11 @@ class AddonVersionInfo {
     return AddonVersionInfo(
       addonVersion: json['addonVersion'] as String?,
       architecture: (json['architecture'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       compatibilities: (json['compatibilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Compatibility.fromJson(e as Map<String, dynamic>))
           .toList(),
       requiresConfiguration: json['requiresConfiguration'] as bool?,
@@ -4239,7 +4239,7 @@ class Cluster {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       encryptionConfig: (json['encryptionConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EncryptionConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       endpoint: json['endpoint'] as String?,
@@ -4288,7 +4288,7 @@ class ClusterHealth {
   factory ClusterHealth.fromJson(Map<String, dynamic> json) {
     return ClusterHealth(
       issues: (json['issues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterIssue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4317,7 +4317,7 @@ class ClusterIssue {
       code: (json['code'] as String?)?.let(ClusterIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4397,7 +4397,7 @@ class Compatibility {
       clusterVersion: json['clusterVersion'] as String?,
       defaultVersion: json['defaultVersion'] as bool?,
       platformVersions: (json['platformVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4833,7 +4833,7 @@ class DeprecationDetail {
   factory DeprecationDetail.fromJson(Map<String, dynamic> json) {
     return DeprecationDetail(
       clientStats: (json['clientStats'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClientStat.fromJson(e as Map<String, dynamic>))
           .toList(),
       replacedWith: json['replacedWith'] as String?,
@@ -4910,7 +4910,7 @@ class DescribeAddonConfigurationResponse {
       addonVersion: json['addonVersion'] as String?,
       configurationSchema: json['configurationSchema'] as String?,
       podIdentityConfiguration: (json['podIdentityConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AddonPodIdentityConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4958,7 +4958,7 @@ class DescribeAddonVersionsResponse {
   factory DescribeAddonVersionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAddonVersionsResponse(
       addons: (json['addons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AddonInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5206,7 +5206,7 @@ class EksAnywhereSubscription {
       expirationDate: timeStampFromJson(json['expirationDate']),
       id: json['id'] as String?,
       licenseArns: (json['licenseArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       licenseQuantity: json['licenseQuantity'] as int?,
@@ -5325,7 +5325,7 @@ class EncryptionConfig {
           ? Provider.fromJson(json['provider'] as Map<String, dynamic>)
           : null,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5422,7 +5422,7 @@ class ErrorDetail {
       errorCode: (json['errorCode'] as String?)?.let(ErrorCode.fromString),
       errorMessage: json['errorMessage'] as String?,
       resourceIds: (json['resourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5484,15 +5484,13 @@ class FargateProfile {
       fargateProfileName: json['fargateProfileName'] as String?,
       podExecutionRoleArn: json['podExecutionRoleArn'] as String?,
       selectors: (json['selectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => FargateProfileSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['status'] as String?)?.let(FargateProfileStatus.fromString),
-      subnets: (json['subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5699,7 +5697,7 @@ class Insight {
       name: json['name'] as String?,
       recommendation: json['recommendation'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InsightResourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5721,7 +5719,7 @@ class InsightCategorySpecificSummary {
   factory InsightCategorySpecificSummary.fromJson(Map<String, dynamic> json) {
     return InsightCategorySpecificSummary(
       deprecationDetails: (json['deprecationDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeprecationDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6001,7 +5999,7 @@ class Issue {
       code: (json['code'] as String?)?.let(NodegroupIssueCode.fromString),
       message: json['message'] as String?,
       resourceIds: (json['resourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6202,7 +6200,7 @@ class ListAccessEntriesResponse {
   factory ListAccessEntriesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessEntriesResponse(
       accessEntries: (json['accessEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6236,7 +6234,7 @@ class ListAccessPoliciesResponse {
   factory ListAccessPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessPoliciesResponse(
       accessPolicies: (json['accessPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6266,10 +6264,8 @@ class ListAddonsResponse {
 
   factory ListAddonsResponse.fromJson(Map<String, dynamic> json) {
     return ListAddonsResponse(
-      addons: (json['addons'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      addons:
+          (json['addons'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -6307,7 +6303,7 @@ class ListAssociatedAccessPoliciesResponse {
       Map<String, dynamic> json) {
     return ListAssociatedAccessPoliciesResponse(
       associatedAccessPolicies: (json['associatedAccessPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AssociatedAccessPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6342,7 +6338,7 @@ class ListClustersResponse {
   factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
     return ListClustersResponse(
       clusters: (json['clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6371,7 +6367,7 @@ class ListEksAnywhereSubscriptionsResponse {
     return ListEksAnywhereSubscriptionsResponse(
       nextToken: json['nextToken'] as String?,
       subscriptions: (json['subscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EksAnywhereSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6402,7 +6398,7 @@ class ListFargateProfilesResponse {
   factory ListFargateProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListFargateProfilesResponse(
       fargateProfileNames: (json['fargateProfileNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6435,7 +6431,7 @@ class ListIdentityProviderConfigsResponse {
       Map<String, dynamic> json) {
     return ListIdentityProviderConfigsResponse(
       identityProviderConfigs: (json['identityProviderConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => IdentityProviderConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6463,7 +6459,7 @@ class ListInsightsResponse {
   factory ListInsightsResponse.fromJson(Map<String, dynamic> json) {
     return ListInsightsResponse(
       insights: (json['insights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InsightSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6495,7 +6491,7 @@ class ListNodegroupsResponse {
     return ListNodegroupsResponse(
       nextToken: json['nextToken'] as String?,
       nodegroups: (json['nodegroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6547,7 +6543,7 @@ class ListPodIdentityAssociationsResponse {
       Map<String, dynamic> json) {
     return ListPodIdentityAssociationsResponse(
       associations: (json['associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PodIdentityAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6596,7 +6592,7 @@ class ListUpdatesResponse {
     return ListUpdatesResponse(
       nextToken: json['nextToken'] as String?,
       updateIds: (json['updateIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6624,7 +6620,7 @@ class LogSetup {
     return LogSetup(
       enabled: json['enabled'] as bool?,
       types: (json['types'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogType.fromString((e as String)))
           .toList(),
     );
@@ -6670,7 +6666,7 @@ class Logging {
   factory Logging.fromJson(Map<String, dynamic> json) {
     return Logging(
       clusterLogging: (json['clusterLogging'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogSetup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6849,7 +6845,7 @@ class Nodegroup {
           ? NodegroupHealth.fromJson(json['health'] as Map<String, dynamic>)
           : null,
       instanceTypes: (json['instanceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       labels: (json['labels'] as Map<String, dynamic>?)
@@ -6876,14 +6872,12 @@ class Nodegroup {
               json['scalingConfig'] as Map<String, dynamic>)
           : null,
       status: (json['status'] as String?)?.let(NodegroupStatus.fromString),
-      subnets: (json['subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       taints: (json['taints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Taint.fromJson(e as Map<String, dynamic>))
           .toList(),
       updateConfig: json['updateConfig'] != null
@@ -6907,7 +6901,7 @@ class NodegroupHealth {
   factory NodegroupHealth.fromJson(Map<String, dynamic> json) {
     return NodegroupHealth(
       issues: (json['issues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Issue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6983,7 +6977,7 @@ class NodegroupResources {
   factory NodegroupResources.fromJson(Map<String, dynamic> json) {
     return NodegroupResources(
       autoScalingGroups: (json['autoScalingGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       remoteAccessSecurityGroup: json['remoteAccessSecurityGroup'] as String?,
@@ -7382,7 +7376,7 @@ class OutpostConfigResponse {
     return OutpostConfigResponse(
       controlPlaneInstanceType: json['controlPlaneInstanceType'] as String,
       outpostArns: (json['outpostArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       controlPlanePlacement: json['controlPlanePlacement'] != null
@@ -7641,7 +7635,7 @@ class RemoteAccessConfig {
     return RemoteAccessConfig(
       ec2SshKey: json['ec2SshKey'] as String?,
       sourceSecurityGroups: (json['sourceSecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7778,12 +7772,12 @@ class Update {
     return Update(
       createdAt: timeStampFromJson(json['createdAt']),
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
       params: (json['params'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateParam.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: (json['status'] as String?)?.let(UpdateStatus.fromString),
@@ -8231,15 +8225,15 @@ class VpcConfigResponse {
       endpointPrivateAccess: json['endpointPrivateAccess'] as bool?,
       endpointPublicAccess: json['endpointPublicAccess'] as bool?,
       publicAccessCidrs: (json['publicAccessCidrs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['vpcId'] as String?,

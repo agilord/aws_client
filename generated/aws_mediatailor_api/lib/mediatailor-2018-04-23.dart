@@ -1735,7 +1735,7 @@ class AdBreak {
     return AdBreak(
       offsetMillis: json['OffsetMillis'] as int,
       adBreakMetadata: (json['AdBreakMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
       messageType:
@@ -1874,7 +1874,7 @@ class Alert {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       relatedResourceArns: (json['RelatedResourceArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
@@ -1935,7 +1935,7 @@ class AlternateMedia {
   factory AlternateMedia.fromJson(Map<String, dynamic> json) {
     return AlternateMedia(
       adBreaks: (json['AdBreaks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       clipRange: json['ClipRange'] != null
@@ -1986,7 +1986,7 @@ class AudienceMedia {
   factory AudienceMedia.fromJson(Map<String, dynamic> json) {
     return AudienceMedia(
       alternateMedia: (json['AlternateMedia'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlternateMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
       audience: json['Audience'] as String?,
@@ -2268,13 +2268,13 @@ class Channel {
       logConfiguration: LogConfigurationForChannel.fromJson(
           json['LogConfiguration'] as Map<String, dynamic>),
       outputs: (json['Outputs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       playbackMode: json['PlaybackMode'] as String,
       tier: json['Tier'] as String,
       audiences: (json['Audiences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -2351,7 +2351,7 @@ class ConfigureLogsForChannelResponse {
     return ConfigureLogsForChannelResponse(
       channelName: json['ChannelName'] as String?,
       logTypes: (json['LogTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogType.fromString((e as String)))
           .toList(),
     );
@@ -2441,7 +2441,7 @@ class CreateChannelResponse {
     return CreateChannelResponse(
       arn: json['Arn'] as String?,
       audiences: (json['Audiences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -2453,7 +2453,7 @@ class CreateChannelResponse {
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       playbackMode: json['PlaybackMode'] as String?,
@@ -2509,7 +2509,7 @@ class CreateLiveSourceResponse {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2634,12 +2634,12 @@ class CreateProgramResponse {
   factory CreateProgramResponse.fromJson(Map<String, dynamic> json) {
     return CreateProgramResponse(
       adBreaks: (json['AdBreaks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
       audienceMedia: (json['AudienceMedia'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -2727,7 +2727,7 @@ class CreateSourceLocationResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2779,7 +2779,7 @@ class CreateVodSourceResponse {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3089,7 +3089,7 @@ class DescribeChannelResponse {
           json['LogConfiguration'] as Map<String, dynamic>),
       arn: json['Arn'] as String?,
       audiences: (json['Audiences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -3101,7 +3101,7 @@ class DescribeChannelResponse {
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       playbackMode: json['PlaybackMode'] as String?,
@@ -3157,7 +3157,7 @@ class DescribeLiveSourceResponse {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3227,12 +3227,12 @@ class DescribeProgramResponse {
   factory DescribeProgramResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProgramResponse(
       adBreaks: (json['AdBreaks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
       audienceMedia: (json['AudienceMedia'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -3316,7 +3316,7 @@ class DescribeSourceLocationResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3370,13 +3370,13 @@ class DescribeVodSourceResponse {
   factory DescribeVodSourceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeVodSourceResponse(
       adBreakOpportunities: (json['AdBreakOpportunities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdBreakOpportunity.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3435,7 +3435,7 @@ class GetChannelScheduleResponse {
   factory GetChannelScheduleResponse.fromJson(Map<String, dynamic> json) {
     return GetChannelScheduleResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScheduleEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3720,7 +3720,7 @@ class HlsPlaylistSettings {
   factory HlsPlaylistSettings.fromJson(Map<String, dynamic> json) {
     return HlsPlaylistSettings(
       adMarkupType: (json['AdMarkupType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdMarkupType.fromString((e as String)))
           .toList(),
       manifestWindowSeconds: json['ManifestWindowSeconds'] as int?,
@@ -3874,7 +3874,7 @@ class ListAlertsResponse {
   factory ListAlertsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlertsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alert.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3898,7 +3898,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3922,7 +3922,7 @@ class ListLiveSourcesResponse {
   factory ListLiveSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListLiveSourcesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LiveSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3949,7 +3949,7 @@ class ListPlaybackConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListPlaybackConfigurationsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlaybackConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3974,7 +3974,7 @@ class ListPrefetchSchedulesResponse {
   factory ListPrefetchSchedulesResponse.fromJson(Map<String, dynamic> json) {
     return ListPrefetchSchedulesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PrefetchSchedule.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3998,7 +3998,7 @@ class ListSourceLocationsResponse {
   factory ListSourceLocationsResponse.fromJson(Map<String, dynamic> json) {
     return ListSourceLocationsResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4042,7 +4042,7 @@ class ListVodSourcesResponse {
   factory ListVodSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListVodSourcesResponse(
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VodSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4128,7 +4128,7 @@ class LiveSource {
     return LiveSource(
       arn: json['Arn'] as String,
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4179,7 +4179,7 @@ class LogConfigurationForChannel {
   factory LogConfigurationForChannel.fromJson(Map<String, dynamic> json) {
     return LogConfigurationForChannel(
       logTypes: (json['LogTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogType.fromString((e as String)))
           .toList(),
     );
@@ -4525,7 +4525,7 @@ class PrefetchConsumption {
     return PrefetchConsumption(
       endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
       availMatchingCriteria: (json['AvailMatchingCriteria'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AvailMatchingCriteria.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
@@ -5055,12 +5055,12 @@ class ScheduleEntry {
       approximateDurationSeconds: json['ApproximateDurationSeconds'] as int?,
       approximateStartTime: timeStampFromJson(json['ApproximateStartTime']),
       audiences: (json['Audiences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       liveSourceName: json['LiveSourceName'] as String?,
       scheduleAdBreaks: (json['ScheduleAdBreaks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScheduleAdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       scheduleEntryType: (json['ScheduleEntryType'] as String?)
@@ -5377,7 +5377,7 @@ class SourceLocation {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5522,7 +5522,7 @@ class TimeSignalMessage {
   factory TimeSignalMessage.fromJson(Map<String, dynamic> json) {
     return TimeSignalMessage(
       segmentationDescriptors: (json['SegmentationDescriptors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => SegmentationDescriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5685,7 +5685,7 @@ class UpdateChannelResponse {
     return UpdateChannelResponse(
       arn: json['Arn'] as String?,
       audiences: (json['Audiences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -5697,7 +5697,7 @@ class UpdateChannelResponse {
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       playbackMode: json['PlaybackMode'] as String?,
@@ -5753,7 +5753,7 @@ class UpdateLiveSourceResponse {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5821,12 +5821,12 @@ class UpdateProgramResponse {
   factory UpdateProgramResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProgramResponse(
       adBreaks: (json['AdBreaks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       arn: json['Arn'] as String?,
       audienceMedia: (json['AudienceMedia'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudienceMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelName: json['ChannelName'] as String?,
@@ -5962,7 +5962,7 @@ class UpdateSourceLocationResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6014,7 +6014,7 @@ class UpdateVodSourceResponse {
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6068,7 +6068,7 @@ class VodSource {
     return VodSource(
       arn: json['Arn'] as String,
       httpPackageConfigurations: (json['HttpPackageConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),

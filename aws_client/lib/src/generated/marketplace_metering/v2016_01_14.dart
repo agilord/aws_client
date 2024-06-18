@@ -390,11 +390,11 @@ class BatchMeterUsageResult {
   factory BatchMeterUsageResult.fromJson(Map<String, dynamic> json) {
     return BatchMeterUsageResult(
       results: (json['Results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsageRecordResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedRecords: (json['UnprocessedRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsageRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -565,7 +565,7 @@ class UsageAllocation {
     return UsageAllocation(
       allocatedUsageQuantity: json['AllocatedUsageQuantity'] as int,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -627,7 +627,7 @@ class UsageRecord {
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
       quantity: json['Quantity'] as int?,
       usageAllocations: (json['UsageAllocations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsageAllocation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

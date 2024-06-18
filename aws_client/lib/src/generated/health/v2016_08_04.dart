@@ -1109,7 +1109,7 @@ class DescribeAffectedAccountsForOrganizationResponse {
       Map<String, dynamic> json) {
     return DescribeAffectedAccountsForOrganizationResponse(
       affectedAccounts: (json['affectedAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       eventScopeCode:
@@ -1159,11 +1159,11 @@ class DescribeAffectedEntitiesForOrganizationResponse {
       Map<String, dynamic> json) {
     return DescribeAffectedEntitiesForOrganizationResponse(
       entities: (json['entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AffectedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       failedSet: (json['failedSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationAffectedEntitiesErrorItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1202,7 +1202,7 @@ class DescribeAffectedEntitiesResponse {
   factory DescribeAffectedEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAffectedEntitiesResponse(
       entities: (json['entities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AffectedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1233,7 +1233,7 @@ class DescribeEntityAggregatesForOrganizationResponse {
     return DescribeEntityAggregatesForOrganizationResponse(
       organizationEntityAggregates: (json['organizationEntityAggregates']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OrganizationEntityAggregate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1260,7 +1260,7 @@ class DescribeEntityAggregatesResponse {
   factory DescribeEntityAggregatesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEntityAggregatesResponse(
       entityAggregates: (json['entityAggregates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntityAggregate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1294,7 +1294,7 @@ class DescribeEventAggregatesResponse {
   factory DescribeEventAggregatesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventAggregatesResponse(
       eventAggregates: (json['eventAggregates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventAggregate.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1327,12 +1327,12 @@ class DescribeEventDetailsForOrganizationResponse {
       Map<String, dynamic> json) {
     return DescribeEventDetailsForOrganizationResponse(
       failedSet: (json['failedSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationEventDetailsErrorItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successfulSet: (json['successfulSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               OrganizationEventDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1364,11 +1364,11 @@ class DescribeEventDetailsResponse {
   factory DescribeEventDetailsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventDetailsResponse(
       failedSet: (json['failedSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventDetailsErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       successfulSet: (json['successfulSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1408,7 +1408,7 @@ class DescribeEventTypesResponse {
   factory DescribeEventTypesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventTypesResponse(
       eventTypes: (json['eventTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1445,7 +1445,7 @@ class DescribeEventsForOrganizationResponse {
       Map<String, dynamic> json) {
     return DescribeEventsForOrganizationResponse(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1481,7 +1481,7 @@ class DescribeEventsResponse {
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventsResponse(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2304,7 +2304,7 @@ class OrganizationEntityAggregate {
   factory OrganizationEntityAggregate.fromJson(Map<String, dynamic> json) {
     return OrganizationEntityAggregate(
       accounts: (json['accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AccountEntityAggregate.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -6143,7 +6143,7 @@ class ActivitiesResponse {
   factory ActivitiesResponse.fromJson(Map<String, dynamic> json) {
     return ActivitiesResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6799,7 +6799,7 @@ class ApplicationsResponse {
   factory ApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ApplicationsResponse(
       item: (json['Item'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6840,10 +6840,8 @@ class AttributeDimension {
 
   factory AttributeDimension.fromJson(Map<String, dynamic> json) {
     return AttributeDimension(
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
       attributeType:
           (json['AttributeType'] as String?)?.let(AttributeType.fromString),
     );
@@ -6917,7 +6915,7 @@ class AttributesResource {
       applicationId: json['ApplicationId'] as String,
       attributeType: json['AttributeType'] as String,
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7170,7 +7168,7 @@ class BaseKpiResult {
   factory BaseKpiResult.fromJson(Map<String, dynamic> json) {
     return BaseKpiResult(
       rows: (json['Rows'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultRow.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7314,7 +7312,7 @@ class CampaignEmailMessage {
       body: json['Body'] as String?,
       fromAddress: json['FromAddress'] as String?,
       headers: (json['Headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       htmlBody: json['HtmlBody'] as String?,
@@ -7452,7 +7450,7 @@ class CampaignInAppMessage {
     return CampaignInAppMessage(
       body: json['Body'] as String?,
       content: (json['Content'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InAppMessageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
@@ -7668,7 +7666,7 @@ class CampaignResponse {
       segmentId: json['SegmentId'] as String,
       segmentVersion: json['SegmentVersion'] as int,
       additionalTreatments: (json['AdditionalTreatments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TreatmentResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       customDeliveryConfiguration: json['CustomDeliveryConfiguration'] != null
@@ -7844,7 +7842,7 @@ class CampaignsResponse {
   factory CampaignsResponse.fromJson(Map<String, dynamic> json) {
     return CampaignsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CampaignResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7974,7 +7972,7 @@ class Condition {
   factory Condition.fromJson(Map<String, dynamic> json) {
     return Condition(
       conditions: (json['Conditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SimpleCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       operator: (json['Operator'] as String?)?.let(Operator.fromString),
@@ -8406,7 +8404,7 @@ class CustomDeliveryConfiguration {
     return CustomDeliveryConfiguration(
       deliveryUri: json['DeliveryUri'] as String,
       endpointTypes: (json['EndpointTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointTypesElement.fromString((e as String)))
           .toList(),
     );
@@ -8485,7 +8483,7 @@ class CustomMessageActivity {
     return CustomMessageActivity(
       deliveryUri: json['DeliveryUri'] as String?,
       endpointTypes: (json['EndpointTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointTypesElement.fromString((e as String)))
           .toList(),
       messageConfig: json['MessageConfig'] != null
@@ -9536,7 +9534,7 @@ class EmailTemplateResponse {
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
       headers: (json['Headers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MessageHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
       htmlPart: json['HtmlPart'] as String?,
@@ -10136,8 +10134,7 @@ class EndpointResponse {
       address: json['Address'] as String?,
       applicationId: json['ApplicationId'] as String?,
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       channelType:
           (json['ChannelType'] as String?)?.let(ChannelType.fromString),
       cohortId: json['CohortId'] as String?,
@@ -10242,9 +10239,9 @@ class EndpointUser {
 
   factory EndpointUser.fromJson(Map<String, dynamic> json) {
     return EndpointUser(
-      userAttributes: (json['UserAttributes'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      userAttributes: (json['UserAttributes'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       userId: json['UserId'] as String?,
     );
   }
@@ -10273,7 +10270,7 @@ class EndpointsResponse {
   factory EndpointsResponse.fromJson(Map<String, dynamic> json) {
     return EndpointsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EndpointResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10816,7 +10813,7 @@ class ExportJobResponse {
       completionDate: json['CompletionDate'] as String?,
       failedPieces: json['FailedPieces'] as int?,
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       totalFailures: json['TotalFailures'] as int?,
@@ -10847,7 +10844,7 @@ class ExportJobsResponse {
   factory ExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ExportJobsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ExportJobResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11954,7 +11951,7 @@ class ImportJobResponse {
       completionDate: json['CompletionDate'] as String?,
       failedPieces: json['FailedPieces'] as int?,
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       totalFailures: json['TotalFailures'] as int?,
@@ -11985,7 +11982,7 @@ class ImportJobsResponse {
   factory ImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ImportJobsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ImportJobResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -12046,7 +12043,7 @@ class InAppMessage {
   factory InAppMessage.fromJson(Map<String, dynamic> json) {
     return InAppMessage(
       content: (json['Content'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InAppMessageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
@@ -12328,7 +12325,7 @@ class InAppMessagesResponse {
   factory InAppMessagesResponse.fromJson(Map<String, dynamic> json) {
     return InAppMessagesResponse(
       inAppMessageCampaigns: (json['InAppMessageCampaigns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InAppMessageCampaign.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12453,7 +12450,7 @@ class InAppTemplateResponse {
       templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       content: (json['Content'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InAppMessageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
@@ -13107,7 +13104,7 @@ class JourneyResponse {
           : null,
       state: (json['State'] as String?)?.let(State.fromString),
       timezoneEstimationMethods: (json['TimezoneEstimationMethods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => TimezoneEstimationMethodsElement.fromString((e as String)))
           .toList(),
@@ -13297,7 +13294,7 @@ class JourneyRunsResponse {
   factory JourneyRunsResponse.fromJson(Map<String, dynamic> json) {
     return JourneyRunsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JourneyRunResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -13521,7 +13518,7 @@ class JourneysResponse {
   factory JourneysResponse.fromJson(Map<String, dynamic> json) {
     return JourneysResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JourneyResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -13575,7 +13572,7 @@ class ListRecommenderConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListRecommenderConfigurationsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RecommenderConfigurationResponse.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -14183,7 +14180,7 @@ class MultiConditionalSplitActivity {
   factory MultiConditionalSplitActivity.fromJson(Map<String, dynamic> json) {
     return MultiConditionalSplitActivity(
       branches: (json['Branches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => MultiConditionalBranch.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14827,7 +14824,7 @@ class RandomSplitActivity {
   factory RandomSplitActivity.fromJson(Map<String, dynamic> json) {
     return RandomSplitActivity(
       branches: (json['Branches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RandomSplitEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15095,11 +15092,11 @@ class ResultRow {
   factory ResultRow.fromJson(Map<String, dynamic> json) {
     return ResultRow(
       groupedBys: (json['GroupedBys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultRowValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       values: (json['Values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultRowValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15874,11 +15871,11 @@ class SegmentGroup {
   factory SegmentGroup.fromJson(Map<String, dynamic> json) {
     return SegmentGroup(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SegmentDimensions.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceSegments: (json['SourceSegments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SegmentReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
@@ -15921,7 +15918,7 @@ class SegmentGroupList {
   factory SegmentGroupList.fromJson(Map<String, dynamic> json) {
     return SegmentGroupList(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SegmentGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       include: (json['Include'] as String?)?.let(Include.fromString),
@@ -16190,7 +16187,7 @@ class SegmentsResponse {
   factory SegmentsResponse.fromJson(Map<String, dynamic> json) {
     return SegmentsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SegmentResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -16441,10 +16438,8 @@ class SetDimension {
 
   factory SetDimension.fromJson(Map<String, dynamic> json) {
     return SetDimension(
-      values: (json['Values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
       dimensionType:
           (json['DimensionType'] as String?)?.let(DimensionType.fromString),
     );
@@ -17050,7 +17045,7 @@ class TemplateVersionsResponse {
   factory TemplateVersionsResponse.fromJson(Map<String, dynamic> json) {
     return TemplateVersionsResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TemplateVersionResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17081,7 +17076,7 @@ class TemplatesResponse {
   factory TemplatesResponse.fromJson(Map<String, dynamic> json) {
     return TemplatesResponse(
       item: (json['Item'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TemplateResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -18662,31 +18657,31 @@ class OpenHours {
       custom: (json['CUSTOM'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           DayOfWeek.fromString(k),
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       email: (json['EMAIL'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           DayOfWeek.fromString(k),
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       push: (json['PUSH'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           DayOfWeek.fromString(k),
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       sms: (json['SMS'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           DayOfWeek.fromString(k),
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       voice: (json['VOICE'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           DayOfWeek.fromString(k),
           (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
     );
@@ -18774,23 +18769,23 @@ class ClosedDays {
   factory ClosedDays.fromJson(Map<String, dynamic> json) {
     return ClosedDays(
       custom: (json['CUSTOM'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClosedDaysRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       email: (json['EMAIL'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClosedDaysRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       push: (json['PUSH'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClosedDaysRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       sms: (json['SMS'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClosedDaysRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       voice: (json['VOICE'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClosedDaysRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

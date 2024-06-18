@@ -2927,7 +2927,7 @@ class AdditionalResources {
   factory AdditionalResources.fromJson(Map<String, dynamic> json) {
     return AdditionalResources(
       content: (json['Content'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(AdditionalResourceType.fromString),
@@ -2992,11 +2992,11 @@ class Answer {
   factory Answer.fromJson(Map<String, dynamic> json) {
     return Answer(
       choiceAnswers: (json['ChoiceAnswers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
           .toList(),
       choices: (json['Choices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
       helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
@@ -3015,7 +3015,7 @@ class Answer {
       reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
       risk: (json['Risk'] as String?)?.let(Risk.fromString),
       selectedChoices: (json['SelectedChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3115,11 +3115,11 @@ class AnswerSummary {
   factory AnswerSummary.fromJson(Map<String, dynamic> json) {
     return AnswerSummary(
       choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       choices: (json['Choices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
       isApplicable: json['IsApplicable'] as bool?,
@@ -3135,7 +3135,7 @@ class AnswerSummary {
       reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
       risk: (json['Risk'] as String?)?.let(Risk.fromString),
       selectedChoices: (json['SelectedChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3468,7 +3468,7 @@ class Choice {
   factory Choice.fromJson(Map<String, dynamic> json) {
     return Choice(
       additionalResources: (json['AdditionalResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdditionalResources.fromJson(e as Map<String, dynamic>))
           .toList(),
       choiceId: json['ChoiceId'] as String?,
@@ -3741,7 +3741,7 @@ class ConsolidatedReportMetric {
   factory ConsolidatedReportMetric.fromJson(Map<String, dynamic> json) {
     return ConsolidatedReportMetric(
       lenses: (json['Lenses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LensMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       lensesAppliedCount: json['LensesAppliedCount'] as int?,
@@ -4148,7 +4148,7 @@ class GetConsolidatedReportOutput {
     return GetConsolidatedReportOutput(
       base64String: json['Base64String'] as String?,
       metrics: (json['Metrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConsolidatedReportMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4631,7 +4631,7 @@ class ImprovementSummary {
     return ImprovementSummary(
       improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
       improvementPlans: (json['ImprovementPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceImprovementPlan.fromJson(e as Map<String, dynamic>))
           .toList(),
       jiraConfiguration: json['JiraConfiguration'] != null
@@ -4765,7 +4765,7 @@ class JiraSelectedQuestionConfiguration {
       Map<String, dynamic> json) {
     return JiraSelectedQuestionConfiguration(
       selectedPillars: (json['SelectedPillars'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SelectedPillar.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4861,7 +4861,7 @@ class LensMetric {
     return LensMetric(
       lensArn: json['LensArn'] as String?,
       pillars: (json['Pillars'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PillarMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
@@ -4937,14 +4937,14 @@ class LensReview {
       nextToken: json['NextToken'] as String?,
       notes: json['Notes'] as String?,
       pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PillarReviewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       prioritizedRiskCounts:
           (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
       profiles: (json['Profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
@@ -5066,7 +5066,7 @@ class LensReviewSummary {
           (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
       profiles: (json['Profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
@@ -5351,7 +5351,7 @@ class ListAnswersOutput {
   factory ListAnswersOutput.fromJson(Map<String, dynamic> json) {
     return ListAnswersOutput(
       answerSummaries: (json['AnswerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnswerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       lensAlias: json['LensAlias'] as String?,
@@ -5394,7 +5394,7 @@ class ListCheckDetailsOutput {
   factory ListCheckDetailsOutput.fromJson(Map<String, dynamic> json) {
     return ListCheckDetailsOutput(
       checkDetails: (json['CheckDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CheckDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5425,7 +5425,7 @@ class ListCheckSummariesOutput {
   factory ListCheckSummariesOutput.fromJson(Map<String, dynamic> json) {
     return ListCheckSummariesOutput(
       checkSummaries: (json['CheckSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5465,7 +5465,7 @@ class ListLensReviewImprovementsOutput {
   factory ListLensReviewImprovementsOutput.fromJson(Map<String, dynamic> json) {
     return ListLensReviewImprovementsOutput(
       improvementSummaries: (json['ImprovementSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImprovementSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       lensAlias: json['LensAlias'] as String?,
@@ -5512,7 +5512,7 @@ class ListLensReviewsOutput {
   factory ListLensReviewsOutput.fromJson(Map<String, dynamic> json) {
     return ListLensReviewsOutput(
       lensReviewSummaries: (json['LensReviewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LensReviewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       milestoneNumber: json['MilestoneNumber'] as int?,
@@ -5549,7 +5549,7 @@ class ListLensSharesOutput {
   factory ListLensSharesOutput.fromJson(Map<String, dynamic> json) {
     return ListLensSharesOutput(
       lensShareSummaries: (json['LensShareSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LensShareSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5579,7 +5579,7 @@ class ListLensesOutput {
   factory ListLensesOutput.fromJson(Map<String, dynamic> json) {
     return ListLensesOutput(
       lensSummaries: (json['LensSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LensSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5611,7 +5611,7 @@ class ListMilestonesOutput {
   factory ListMilestonesOutput.fromJson(Map<String, dynamic> json) {
     return ListMilestonesOutput(
       milestoneSummaries: (json['MilestoneSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MilestoneSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5646,7 +5646,7 @@ class ListNotificationsOutput {
     return ListNotificationsOutput(
       nextToken: json['NextToken'] as String?,
       notificationSummaries: (json['NotificationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotificationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5678,7 +5678,7 @@ class ListProfileNotificationsOutput {
     return ListProfileNotificationsOutput(
       nextToken: json['NextToken'] as String?,
       notificationSummaries: (json['NotificationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProfileNotificationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5711,7 +5711,7 @@ class ListProfileSharesOutput {
     return ListProfileSharesOutput(
       nextToken: json['NextToken'] as String?,
       profileShareSummaries: (json['ProfileShareSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileShareSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5743,7 +5743,7 @@ class ListProfilesOutput {
     return ListProfilesOutput(
       nextToken: json['NextToken'] as String?,
       profileSummaries: (json['ProfileSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5778,7 +5778,7 @@ class ListReviewTemplateAnswersOutput {
   factory ListReviewTemplateAnswersOutput.fromJson(Map<String, dynamic> json) {
     return ListReviewTemplateAnswersOutput(
       answerSummaries: (json['AnswerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReviewTemplateAnswerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5817,7 +5817,7 @@ class ListReviewTemplatesOutput {
     return ListReviewTemplatesOutput(
       nextToken: json['NextToken'] as String?,
       reviewTemplates: (json['ReviewTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReviewTemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5849,7 +5849,7 @@ class ListShareInvitationsOutput {
     return ListShareInvitationsOutput(
       nextToken: json['NextToken'] as String?,
       shareInvitationSummaries: (json['ShareInvitationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ShareInvitationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5910,7 +5910,7 @@ class ListTemplateSharesOutput {
       nextToken: json['NextToken'] as String?,
       templateArn: json['TemplateArn'] as String?,
       templateShareSummaries: (json['TemplateShareSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TemplateShareSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5946,7 +5946,7 @@ class ListWorkloadSharesOutput {
       nextToken: json['NextToken'] as String?,
       workloadId: json['WorkloadId'] as String?,
       workloadShareSummaries: (json['WorkloadShareSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadShareSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5979,7 +5979,7 @@ class ListWorkloadsOutput {
     return ListWorkloadsOutput(
       nextToken: json['NextToken'] as String?,
       workloadSummaries: (json['WorkloadSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6190,7 +6190,7 @@ class PillarDifference {
       pillarId: json['PillarId'] as String?,
       pillarName: json['PillarName'] as String?,
       questionDifferences: (json['QuestionDifferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QuestionDifference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6229,7 +6229,7 @@ class PillarMetric {
     return PillarMetric(
       pillarId: json['PillarId'] as String?,
       questions: (json['Questions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QuestionMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
@@ -6346,7 +6346,7 @@ class Profile {
       profileDescription: json['ProfileDescription'] as String?,
       profileName: json['ProfileName'] as String?,
       profileQuestions: (json['ProfileQuestions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileQuestion.fromJson(e as Map<String, dynamic>))
           .toList(),
       profileVersion: json['ProfileVersion'] as String?,
@@ -6540,14 +6540,14 @@ class ProfileQuestion {
       maxSelectedChoices: json['MaxSelectedChoices'] as int?,
       minSelectedChoices: json['MinSelectedChoices'] as int?,
       questionChoices: (json['QuestionChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileChoice.fromJson(e as Map<String, dynamic>))
           .toList(),
       questionDescription: json['QuestionDescription'] as String?,
       questionId: json['QuestionId'] as String?,
       questionTitle: json['QuestionTitle'] as String?,
       selectedChoiceIds: (json['SelectedChoiceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6718,7 +6718,7 @@ class ProfileTemplate {
       createdAt: timeStampFromJson(json['CreatedAt']),
       templateName: json['TemplateName'] as String?,
       templateQuestions: (json['TemplateQuestions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProfileTemplateQuestion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6800,7 +6800,7 @@ class ProfileTemplateQuestion {
       maxSelectedChoices: json['MaxSelectedChoices'] as int?,
       minSelectedChoices: json['MinSelectedChoices'] as int?,
       questionChoices: (json['QuestionChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProfileTemplateChoice.fromJson(e as Map<String, dynamic>))
           .toList(),
       questionDescription: json['QuestionDescription'] as String?,
@@ -6893,7 +6893,7 @@ class QuestionMetric {
   factory QuestionMetric.fromJson(Map<String, dynamic> json) {
     return QuestionMetric(
       bestPractices: (json['BestPractices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BestPractice.fromJson(e as Map<String, dynamic>))
           .toList(),
       questionId: json['QuestionId'] as String?,
@@ -7005,10 +7005,8 @@ class ReviewTemplate {
   factory ReviewTemplate.fromJson(Map<String, dynamic> json) {
     return ReviewTemplate(
       description: json['Description'] as String?,
-      lenses: (json['Lenses'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
       notes: json['Notes'] as String?,
       owner: json['Owner'] as String?,
       questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
@@ -7102,11 +7100,11 @@ class ReviewTemplateAnswer {
       answerStatus: (json['AnswerStatus'] as String?)
           ?.let(ReviewTemplateAnswerStatus.fromString),
       choiceAnswers: (json['ChoiceAnswers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
           .toList(),
       choices: (json['Choices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
       helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
@@ -7120,7 +7118,7 @@ class ReviewTemplateAnswer {
       questionTitle: json['QuestionTitle'] as String?,
       reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
       selectedChoices: (json['SelectedChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7216,11 +7214,11 @@ class ReviewTemplateAnswerSummary {
       answerStatus: (json['AnswerStatus'] as String?)
           ?.let(ReviewTemplateAnswerStatus.fromString),
       choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       choices: (json['Choices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
       isApplicable: json['IsApplicable'] as bool?,
@@ -7231,7 +7229,7 @@ class ReviewTemplateAnswerSummary {
           (json['QuestionType'] as String?)?.let(QuestionType.fromString),
       reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
       selectedChoices: (json['SelectedChoices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7311,7 +7309,7 @@ class ReviewTemplateLensReview {
       nextToken: json['NextToken'] as String?,
       notes: json['Notes'] as String?,
       pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReviewTemplatePillarReviewSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7424,10 +7422,8 @@ class ReviewTemplateSummary {
   factory ReviewTemplateSummary.fromJson(Map<String, dynamic> json) {
     return ReviewTemplateSummary(
       description: json['Description'] as String?,
-      lenses: (json['Lenses'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
       owner: json['Owner'] as String?,
       templateArn: json['TemplateArn'] as String?,
       templateName: json['TemplateName'] as String?,
@@ -7506,7 +7502,7 @@ class SelectedPillar {
     return SelectedPillar(
       pillarId: json['PillarId'] as String?,
       selectedQuestionIds: (json['SelectedQuestionIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8097,7 +8093,7 @@ class VersionDifferences {
   factory VersionDifferences.fromJson(Map<String, dynamic> json) {
     return VersionDifferences(
       pillarDifferences: (json['PillarDifferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PillarDifference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8195,16 +8191,16 @@ class Workload {
   factory Workload.fromJson(Map<String, dynamic> json) {
     return Workload(
       accountIds: (json['AccountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       architecturalDesign: json['ArchitecturalDesign'] as String?,
       awsRegions: (json['AwsRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['Description'] as String?,
@@ -8224,25 +8220,23 @@ class Workload {
           ? WorkloadJiraConfigurationOutput.fromJson(
               json['JiraConfiguration'] as Map<String, dynamic>)
           : null,
-      lenses: (json['Lenses'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nonAwsRegions: (json['NonAwsRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       notes: json['Notes'] as String?,
       owner: json['Owner'] as String?,
       pillarPriorities: (json['PillarPriorities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       prioritizedRiskCounts:
           (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
       profiles: (json['Profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       reviewOwner: json['ReviewOwner'] as String?,
@@ -8351,7 +8345,7 @@ class WorkloadDiscoveryConfig {
           (json['TrustedAdvisorIntegrationStatus'] as String?)
               ?.let(TrustedAdvisorIntegrationStatus.fromString),
       workloadResourceDefinition: (json['WorkloadResourceDefinition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DefinitionType.fromString((e as String)))
           .toList(),
     );
@@ -8662,16 +8656,14 @@ class WorkloadSummary {
     return WorkloadSummary(
       improvementStatus: (json['ImprovementStatus'] as String?)
           ?.let(WorkloadImprovementStatus.fromString),
-      lenses: (json['Lenses'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
       owner: json['Owner'] as String?,
       prioritizedRiskCounts:
           (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
       profiles: (json['Profiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)

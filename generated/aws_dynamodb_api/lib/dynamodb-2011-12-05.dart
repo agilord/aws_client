@@ -744,19 +744,13 @@ class AttributeValue {
     return AttributeValue(
       b: _s.decodeNullableUint8List(json['B'] as String?),
       bs: (json['BS'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
       n: json['N'] as String?,
-      ns: (json['NS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
       s: json['S'] as String?,
-      ss: (json['SS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -841,7 +835,7 @@ class BatchResponse {
     return BatchResponse(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
@@ -873,7 +867,7 @@ class BatchWriteItemOutput {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => WriteRequest.fromJson(e as Map<String, dynamic>))
                   .toList())),
     );
@@ -1236,11 +1230,11 @@ class KeysAndAttributes {
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
       keys: (json['Keys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Key.fromJson(e as Map<String, dynamic>))
           .toList(),
       attributesToGet: (json['AttributesToGet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       consistentRead: json['ConsistentRead'] as bool?,
@@ -1276,7 +1270,7 @@ class ListTablesOutput {
     return ListTablesOutput(
       lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
       tableNames: (json['TableNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1415,7 +1409,7 @@ class QueryOutput {
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
       count: json['Count'] as int?,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
@@ -1508,7 +1502,7 @@ class ScanOutput {
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
       count: json['Count'] as int?,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),

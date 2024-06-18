@@ -735,14 +735,12 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets: (json['Subnets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
       assignPublicIp:
           (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -991,7 +989,7 @@ class EcsParameters {
     return EcsParameters(
       taskDefinitionArn: json['TaskDefinitionArn'] as String,
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1004,11 +1002,11 @@ class EcsParameters {
               json['NetworkConfiguration'] as Map<String, dynamic>)
           : null,
       placementConstraints: (json['PlacementConstraints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlacementConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
       placementStrategy: (json['PlacementStrategy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlacementStrategy.fromJson(e as Map<String, dynamic>))
           .toList(),
       platformVersion: json['PlatformVersion'] as String?,
@@ -1016,7 +1014,7 @@ class EcsParameters {
           (json['PropagateTags'] as String?)?.let(PropagateTags.fromString),
       referenceId: json['ReferenceId'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)))
           .toList(),
@@ -1428,7 +1426,7 @@ class ListScheduleGroupsOutput {
   factory ListScheduleGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListScheduleGroupsOutput(
       scheduleGroups: (json['ScheduleGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScheduleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1461,7 +1459,7 @@ class ListSchedulesOutput {
   factory ListSchedulesOutput.fromJson(Map<String, dynamic> json) {
     return ListSchedulesOutput(
       schedules: (json['Schedules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ScheduleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1489,7 +1487,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1742,7 +1740,7 @@ class SageMakerPipelineParameters {
   factory SageMakerPipelineParameters.fromJson(Map<String, dynamic> json) {
     return SageMakerPipelineParameters(
       pipelineParameterList: (json['PipelineParameterList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SageMakerPipelineParameter.fromJson(e as Map<String, dynamic>))
           .toList(),

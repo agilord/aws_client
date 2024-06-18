@@ -5170,17 +5170,17 @@ class Anomaly {
           .map((k, e) => MapEntry(k, e as int)),
       lastSeen: json['lastSeen'] as int,
       logGroupArnList: (json['logGroupArnList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       logSamples: (json['logSamples'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LogEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       patternId: json['patternId'] as String,
       patternString: json['patternString'] as String,
       patternTokens: (json['patternTokens'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PatternToken.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: State.fromString((json['state'] as String)),
@@ -5300,7 +5300,7 @@ class AnomalyDetector {
       kmsKeyId: json['kmsKeyId'] as String?,
       lastModifiedTimeStamp: json['lastModifiedTimeStamp'] as int?,
       logGroupArnList: (json['logGroupArnList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5763,7 +5763,7 @@ class DeliverySource {
       logType: json['logType'] as String?,
       name: json['name'] as String?,
       resourceArns: (json['resourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       service: json['service'] as String?,
@@ -5802,7 +5802,7 @@ class DescribeAccountPoliciesResponse {
   factory DescribeAccountPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountPoliciesResponse(
       accountPolicies: (json['accountPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5830,7 +5830,7 @@ class DescribeDeliveriesResponse {
   factory DescribeDeliveriesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDeliveriesResponse(
       deliveries: (json['deliveries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Delivery.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5862,7 +5862,7 @@ class DescribeDeliveryDestinationsResponse {
       Map<String, dynamic> json) {
     return DescribeDeliveryDestinationsResponse(
       deliveryDestinations: (json['deliveryDestinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeliveryDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5894,7 +5894,7 @@ class DescribeDeliverySourcesResponse {
   factory DescribeDeliverySourcesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDeliverySourcesResponse(
       deliverySources: (json['deliverySources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeliverySource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5924,7 +5924,7 @@ class DescribeDestinationsResponse {
   factory DescribeDestinationsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDestinationsResponse(
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5954,7 +5954,7 @@ class DescribeExportTasksResponse {
   factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
     return DescribeExportTasksResponse(
       exportTasks: (json['exportTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportTask.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5987,7 +5987,7 @@ class DescribeLogGroupsResponse {
   factory DescribeLogGroupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLogGroupsResponse(
       logGroups: (json['logGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6017,7 +6017,7 @@ class DescribeLogStreamsResponse {
   factory DescribeLogStreamsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLogStreamsResponse(
       logStreams: (json['logStreams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogStream.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6047,7 +6047,7 @@ class DescribeMetricFiltersResponse {
   factory DescribeMetricFiltersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMetricFiltersResponse(
       metricFilters: (json['metricFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6079,7 +6079,7 @@ class DescribeQueriesResponse {
     return DescribeQueriesResponse(
       nextToken: json['nextToken'] as String?,
       queries: (json['queries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6110,7 +6110,7 @@ class DescribeQueryDefinitionsResponse {
     return DescribeQueryDefinitionsResponse(
       nextToken: json['nextToken'] as String?,
       queryDefinitions: (json['queryDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6141,7 +6141,7 @@ class DescribeResourcePoliciesResponse {
     return DescribeResourcePoliciesResponse(
       nextToken: json['nextToken'] as String?,
       resourcePolicies: (json['resourcePolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourcePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6173,7 +6173,7 @@ class DescribeSubscriptionFiltersResponse {
     return DescribeSubscriptionFiltersResponse(
       nextToken: json['nextToken'] as String?,
       subscriptionFilters: (json['subscriptionFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SubscriptionFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6482,12 +6482,12 @@ class FilterLogEventsResponse {
   factory FilterLogEventsResponse.fromJson(Map<String, dynamic> json) {
     return FilterLogEventsResponse(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilteredLogEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
       searchedLogStreams: (json['searchedLogStreams'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SearchedLogStream.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6755,7 +6755,7 @@ class GetLogAnomalyDetectorResponse {
       kmsKeyId: json['kmsKeyId'] as String?,
       lastModifiedTimeStamp: json['lastModifiedTimeStamp'] as int?,
       logGroupArnList: (json['logGroupArnList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6812,7 +6812,7 @@ class GetLogEventsResponse {
   factory GetLogEventsResponse.fromJson(Map<String, dynamic> json) {
     return GetLogEventsResponse(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputLogEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextBackwardToken: json['nextBackwardToken'] as String?,
@@ -6845,7 +6845,7 @@ class GetLogGroupFieldsResponse {
   factory GetLogGroupFieldsResponse.fromJson(Map<String, dynamic> json) {
     return GetLogGroupFieldsResponse(
       logGroupFields: (json['logGroupFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogGroupField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6924,9 +6924,9 @@ class GetQueryResultsResponse {
     return GetQueryResultsResponse(
       encryptionKey: json['encryptionKey'] as String?,
       results: (json['results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => ResultField.fromJson(e as Map<String, dynamic>))
               .toList())
           .toList(),
@@ -7004,7 +7004,7 @@ class ListAnomaliesResponse {
   factory ListAnomaliesResponse.fromJson(Map<String, dynamic> json) {
     return ListAnomaliesResponse(
       anomalies: (json['anomalies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7035,7 +7035,7 @@ class ListLogAnomalyDetectorsResponse {
   factory ListLogAnomalyDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListLogAnomalyDetectorsResponse(
       anomalyDetectors: (json['anomalyDetectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnomalyDetector.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7235,15 +7235,15 @@ class LiveTailSessionStart {
     return LiveTailSessionStart(
       logEventFilterPattern: json['logEventFilterPattern'] as String?,
       logGroupIdentifiers: (json['logGroupIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       logStreamNamePrefixes: (json['logStreamNamePrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       logStreamNames: (json['logStreamNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       requestId: json['requestId'] as String?,
@@ -7298,7 +7298,7 @@ class LiveTailSessionUpdate {
               json['sessionMetadata'] as Map<String, dynamic>)
           : null,
       sessionResults: (json['sessionResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LiveTailSessionLogEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7452,7 +7452,7 @@ class LogGroup {
       dataProtectionStatus: (json['dataProtectionStatus'] as String?)
           ?.let(DataProtectionStatus.fromString),
       inheritedProperties: (json['inheritedProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InheritedProperty.fromString((e as String)))
           .toList(),
       kmsKeyId: json['kmsKeyId'] as String?,
@@ -7671,7 +7671,7 @@ class MetricFilter {
       filterPattern: json['filterPattern'] as String?,
       logGroupName: json['logGroupName'] as String?,
       metricTransformations: (json['metricTransformations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8265,7 +8265,7 @@ class QueryDefinition {
     return QueryDefinition(
       lastModified: json['lastModified'] as int?,
       logGroupNames: (json['logGroupNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String?,
@@ -8940,7 +8940,7 @@ class TestMetricFilterResponse {
   factory TestMetricFilterResponse.fromJson(Map<String, dynamic> json) {
     return TestMetricFilterResponse(
       matches: (json['matches'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetricFilterMatchRecord.fromJson(e as Map<String, dynamic>))
           .toList(),

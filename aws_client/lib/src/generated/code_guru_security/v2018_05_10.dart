@@ -700,11 +700,11 @@ class BatchGetFindingsResponse {
   factory BatchGetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetFindingsResponse(
       failedFindings: (json['failedFindings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetFindingsError.fromJson(e as Map<String, dynamic>))
           .toList(),
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -948,7 +948,7 @@ class FilePath {
   factory FilePath.fromJson(Map<String, dynamic> json) {
     return FilePath(
       codeSnippet: (json['codeSnippet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CodeLine.fromJson(e as Map<String, dynamic>))
           .toList(),
       endLine: json['endLine'] as int?,
@@ -1060,7 +1060,7 @@ class Finding {
       detectorId: json['detectorId'] as String?,
       detectorName: json['detectorName'] as String?,
       detectorTags: (json['detectorTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       generatorId: json['generatorId'] as String?,
@@ -1242,7 +1242,7 @@ class GetFindingsResponse {
   factory GetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsResponse(
       findings: (json['findings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1385,7 +1385,7 @@ class ListFindingsMetricsResponse {
   factory ListFindingsMetricsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsMetricsResponse(
       findingsMetrics: (json['findingsMetrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountFindingsMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1420,7 +1420,7 @@ class ListScansResponse {
     return ListScansResponse(
       nextToken: json['nextToken'] as String?,
       summaries: (json['summaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1503,7 +1503,7 @@ class MetricsSummary {
   factory MetricsSummary.fromJson(Map<String, dynamic> json) {
     return MetricsSummary(
       categoriesWithMostFindings: (json['categoriesWithMostFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => CategoryWithFindingNum.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1514,12 +1514,12 @@ class MetricsSummary {
           : null,
       scansWithMostOpenCriticalFindings:
           (json['scansWithMostOpenCriticalFindings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   ScanNameWithFindingNum.fromJson(e as Map<String, dynamic>))
               .toList(),
       scansWithMostOpenFindings: (json['scansWithMostOpenFindings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ScanNameWithFindingNum.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1598,7 +1598,7 @@ class Remediation {
               json['recommendation'] as Map<String, dynamic>)
           : null,
       suggestedFixes: (json['suggestedFixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuggestedFix.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1936,11 +1936,11 @@ class Vulnerability {
       id: json['id'] as String?,
       itemCount: json['itemCount'] as int?,
       referenceUrls: (json['referenceUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       relatedVulnerabilities: (json['relatedVulnerabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

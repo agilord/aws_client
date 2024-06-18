@@ -3277,12 +3277,12 @@ class CustomizedMetricSpecification {
   factory CustomizedMetricSpecification.fromJson(Map<String, dynamic> json) {
     return CustomizedMetricSpecification(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricName: json['MetricName'] as String?,
       metrics: (json['Metrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetTrackingMetricDataQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3364,7 +3364,7 @@ class DescribeScalableTargetsResponse {
     return DescribeScalableTargetsResponse(
       nextToken: json['NextToken'] as String?,
       scalableTargets: (json['ScalableTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalableTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3398,7 +3398,7 @@ class DescribeScalingActivitiesResponse {
     return DescribeScalingActivitiesResponse(
       nextToken: json['NextToken'] as String?,
       scalingActivities: (json['ScalingActivities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingActivity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3431,7 +3431,7 @@ class DescribeScalingPoliciesResponse {
     return DescribeScalingPoliciesResponse(
       nextToken: json['NextToken'] as String?,
       scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScalingPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3464,7 +3464,7 @@ class DescribeScheduledActionsResponse {
     return DescribeScheduledActionsResponse(
       nextToken: json['NextToken'] as String?,
       scheduledActions: (json['ScheduledActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ScheduledAction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3779,7 +3779,7 @@ class PutScalingPolicyResponse {
     return PutScalingPolicyResponse(
       policyARN: json['PolicyARN'] as String,
       alarms: (json['Alarms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4458,7 +4458,7 @@ class ScalingActivity {
       details: json['Details'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       notScaledReasons: (json['NotScaledReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotScaledReason.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusMessage: json['StatusMessage'] as String?,
@@ -4777,7 +4777,7 @@ class ScalingPolicy {
       serviceNamespace:
           ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
       alarms: (json['Alarms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
           .toList(),
       stepScalingPolicyConfiguration: json['StepScalingPolicyConfiguration'] !=
@@ -5335,7 +5335,7 @@ class StepScalingPolicyConfiguration {
           ?.let(MetricAggregationType.fromString),
       minAdjustmentMagnitude: json['MinAdjustmentMagnitude'] as int?,
       stepAdjustments: (json['StepAdjustments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StepAdjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5452,7 +5452,7 @@ class TargetTrackingMetric {
   factory TargetTrackingMetric.fromJson(Map<String, dynamic> json) {
     return TargetTrackingMetric(
       dimensions: (json['Dimensions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TargetTrackingMetricDimension.fromJson(e as Map<String, dynamic>))
           .toList(),

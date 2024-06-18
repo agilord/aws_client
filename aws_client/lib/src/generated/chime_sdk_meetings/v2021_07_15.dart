@@ -1276,11 +1276,11 @@ class BatchCreateAttendeeResponse {
   factory BatchCreateAttendeeResponse.fromJson(Map<String, dynamic> json) {
     return BatchCreateAttendeeResponse(
       attendees: (json['Attendees'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1495,11 +1495,11 @@ class CreateMeetingWithAttendeesResponse {
       Map<String, dynamic> json) {
     return CreateMeetingWithAttendeesResponse(
       attendees: (json['Attendees'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
           .toList(),
       meeting: json['Meeting'] != null
@@ -1883,7 +1883,7 @@ class ListAttendeesResponse {
   factory ListAttendeesResponse.fromJson(Map<String, dynamic> json) {
     return ListAttendeesResponse(
       attendees: (json['Attendees'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1911,7 +1911,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2106,7 +2106,7 @@ class Meeting {
       meetingId: json['MeetingId'] as String?,
       primaryMeetingId: json['PrimaryMeetingId'] as String?,
       tenantIds: (json['TenantIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

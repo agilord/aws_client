@@ -2541,7 +2541,7 @@ class DescribeContactResponse {
       contactStatus:
           (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
       dataflowList: (json['dataflowList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataflowDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       endTime: timeStampFromJson(json['endTime']),
@@ -2895,7 +2895,7 @@ class EndpointDetails {
           ? DataflowEndpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
           : null,
       healthReasons: (json['healthReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CapabilityHealthReason.fromString((e as String)))
           .toList(),
       healthStatus:
@@ -3454,7 +3454,7 @@ class GetDataflowEndpointGroupResponse {
       dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
       dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
       endpointsDetails: (json['endpointsDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3611,9 +3611,8 @@ class GetMissionProfileResponse {
       contactPrePassDurationSeconds:
           json['contactPrePassDurationSeconds'] as int?,
       dataflowEdges: (json['dataflowEdges'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       minimumViableContactDurationSeconds:
           json['minimumViableContactDurationSeconds'] as int?,
@@ -3698,7 +3697,7 @@ class GetSatelliteResponse {
               json['currentEphemeris'] as Map<String, dynamic>)
           : null,
       groundStations: (json['groundStations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       noradSatelliteID: json['noradSatelliteID'] as int?,
@@ -3844,7 +3843,7 @@ class ListConfigsResponse {
   factory ListConfigsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigsResponse(
       configList: (json['configList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfigListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3878,7 +3877,7 @@ class ListContactsResponse {
   factory ListContactsResponse.fromJson(Map<String, dynamic> json) {
     return ListContactsResponse(
       contactList: (json['contactList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ContactData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3914,7 +3913,7 @@ class ListDataflowEndpointGroupsResponse {
       Map<String, dynamic> json) {
     return ListDataflowEndpointGroupsResponse(
       dataflowEndpointGroupList: (json['dataflowEndpointGroupList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3948,7 +3947,7 @@ class ListEphemeridesResponse {
   factory ListEphemeridesResponse.fromJson(Map<String, dynamic> json) {
     return ListEphemeridesResponse(
       ephemerides: (json['ephemerides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EphemerisItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3982,7 +3981,7 @@ class ListGroundStationsResponse {
   factory ListGroundStationsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroundStationsResponse(
       groundStationList: (json['groundStationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroundStationData.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4016,7 +4015,7 @@ class ListMissionProfilesResponse {
   factory ListMissionProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListMissionProfilesResponse(
       missionProfileList: (json['missionProfileList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => MissionProfileListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4052,7 +4051,7 @@ class ListSatellitesResponse {
     return ListSatellitesResponse(
       nextToken: json['nextToken'] as String?,
       satellites: (json['satellites'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SatelliteListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4419,7 +4418,7 @@ class SatelliteListItem {
               json['currentEphemeris'] as Map<String, dynamic>)
           : null,
       groundStations: (json['groundStations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       noradSatelliteID: json['noradSatelliteID'] as int?,
@@ -4466,13 +4465,11 @@ class SecurityDetails {
     return SecurityDetails(
       roleArn: json['roleArn'] as String,
       securityGroupIds: (json['securityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['subnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 

@@ -407,11 +407,11 @@ class BatchGetRecordIdentifier {
       featureGroupName: json['FeatureGroupName'] as String,
       recordIdentifiersValueAsString:
           (json['RecordIdentifiersValueAsString'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => e as String)
               .toList(),
       featureNames: (json['FeatureNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -449,16 +449,16 @@ class BatchGetRecordResponse {
   factory BatchGetRecordResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetRecordResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetRecordError.fromJson(e as Map<String, dynamic>))
           .toList(),
       records: (json['Records'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchGetRecordResultDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedIdentifiers: (json['UnprocessedIdentifiers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchGetRecordIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -503,7 +503,7 @@ class BatchGetRecordResultDetail {
     return BatchGetRecordResultDetail(
       featureGroupName: json['FeatureGroupName'] as String,
       record: (json['Record'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordIdentifierValueAsString:
@@ -585,7 +585,7 @@ class FeatureValue {
       featureName: json['FeatureName'] as String,
       valueAsString: json['ValueAsString'] as String?,
       valueAsStringList: (json['ValueAsStringList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -619,7 +619,7 @@ class GetRecordResponse {
     return GetRecordResponse(
       expiresAt: json['ExpiresAt'] as String?,
       record: (json['Record'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

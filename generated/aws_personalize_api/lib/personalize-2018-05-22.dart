@@ -4079,7 +4079,7 @@ class AutoMLConfig {
     return AutoMLConfig(
       metricName: json['metricName'] as String?,
       recipeList: (json['recipeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4935,10 +4935,8 @@ class CategoricalHyperParameterRange {
   factory CategoricalHyperParameterRange.fromJson(Map<String, dynamic> json) {
     return CategoricalHyperParameterRange(
       name: json['name'] as String?,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6166,10 +6164,8 @@ class DefaultCategoricalHyperParameterRange {
     return DefaultCategoricalHyperParameterRange(
       isTunable: json['isTunable'] as bool?,
       name: json['name'] as String?,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -6232,19 +6228,19 @@ class DefaultHyperParameterRanges {
     return DefaultHyperParameterRanges(
       categoricalHyperParameterRanges:
           (json['categoricalHyperParameterRanges'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DefaultCategoricalHyperParameterRange.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       continuousHyperParameterRanges:
           (json['continuousHyperParameterRanges'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DefaultContinuousHyperParameterRange.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       integerHyperParameterRanges:
           (json['integerHyperParameterRanges'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DefaultIntegerHyperParameterRange.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -7134,19 +7130,19 @@ class HyperParameterRanges {
     return HyperParameterRanges(
       categoricalHyperParameterRanges:
           (json['categoricalHyperParameterRanges'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => CategoricalHyperParameterRange.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       continuousHyperParameterRanges: (json['continuousHyperParameterRanges']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       integerHyperParameterRanges: (json['integerHyperParameterRanges']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7252,7 +7248,7 @@ class ListBatchInferenceJobsResponse {
   factory ListBatchInferenceJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListBatchInferenceJobsResponse(
       batchInferenceJobs: (json['batchInferenceJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchInferenceJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7277,7 +7273,7 @@ class ListBatchSegmentJobsResponse {
   factory ListBatchSegmentJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListBatchSegmentJobsResponse(
       batchSegmentJobs: (json['batchSegmentJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BatchSegmentJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7301,7 +7297,7 @@ class ListCampaignsResponse {
   factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
     return ListCampaignsResponse(
       campaigns: (json['campaigns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7324,7 +7320,7 @@ class ListDataDeletionJobsResponse {
   factory ListDataDeletionJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataDeletionJobsResponse(
       dataDeletionJobs: (json['dataDeletionJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DataDeletionJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7348,7 +7344,7 @@ class ListDatasetExportJobsResponse {
   factory ListDatasetExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetExportJobsResponse(
       datasetExportJobs: (json['datasetExportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DatasetExportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7372,7 +7368,7 @@ class ListDatasetGroupsResponse {
   factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetGroupsResponse(
       datasetGroups: (json['datasetGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7395,7 +7391,7 @@ class ListDatasetImportJobsResponse {
   factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetImportJobsResponse(
       datasetImportJobs: (json['datasetImportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DatasetImportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7420,7 +7416,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasets: (json['datasets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7443,7 +7439,7 @@ class ListEventTrackersResponse {
   factory ListEventTrackersResponse.fromJson(Map<String, dynamic> json) {
     return ListEventTrackersResponse(
       eventTrackers: (json['eventTrackers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventTrackerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7466,7 +7462,7 @@ class ListFiltersResponse {
   factory ListFiltersResponse.fromJson(Map<String, dynamic> json) {
     return ListFiltersResponse(
       filters: (json['Filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FilterSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7492,7 +7488,7 @@ class ListMetricAttributionMetricsResponse {
       Map<String, dynamic> json) {
     return ListMetricAttributionMetricsResponse(
       metrics: (json['metrics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7516,7 +7512,7 @@ class ListMetricAttributionsResponse {
   factory ListMetricAttributionsResponse.fromJson(Map<String, dynamic> json) {
     return ListMetricAttributionsResponse(
       metricAttributions: (json['metricAttributions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetricAttributionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7541,7 +7537,7 @@ class ListRecipesResponse {
     return ListRecipesResponse(
       nextToken: json['nextToken'] as String?,
       recipes: (json['recipes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecipeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7564,7 +7560,7 @@ class ListRecommendersResponse {
     return ListRecommendersResponse(
       nextToken: json['nextToken'] as String?,
       recommenders: (json['recommenders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommenderSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7587,7 +7583,7 @@ class ListSchemasResponse {
     return ListSchemasResponse(
       nextToken: json['nextToken'] as String?,
       schemas: (json['schemas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetSchemaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7610,7 +7606,7 @@ class ListSolutionVersionsResponse {
     return ListSolutionVersionsResponse(
       nextToken: json['nextToken'] as String?,
       solutionVersions: (json['solutionVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => SolutionVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7634,7 +7630,7 @@ class ListSolutionsResponse {
     return ListSolutionsResponse(
       nextToken: json['nextToken'] as String?,
       solutions: (json['solutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SolutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7652,7 +7648,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8978,10 +8974,10 @@ class TrainingDataConfig {
 
   factory TrainingDataConfig.fromJson(Map<String, dynamic> json) {
     return TrainingDataConfig(
-      excludedDatasetColumns: (json['excludedDatasetColumns']
-              as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      excludedDatasetColumns:
+          (json['excludedDatasetColumns'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 

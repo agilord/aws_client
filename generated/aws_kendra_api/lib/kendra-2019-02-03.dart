@@ -4591,7 +4591,7 @@ class AlfrescoConfiguration {
       sslCertificateS3Path:
           S3Path.fromJson(json['SslCertificateS3Path'] as Map<String, dynamic>),
       blogFieldMappings: (json['BlogFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4599,20 +4599,20 @@ class AlfrescoConfiguration {
       crawlSystemFolders: json['CrawlSystemFolders'] as bool?,
       documentLibraryFieldMappings: (json['DocumentLibraryFieldMappings']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       entityFilter: (json['EntityFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlfrescoEntity.fromString((e as String)))
           .toList(),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcConfiguration: json['VpcConfiguration'] != null
@@ -4620,7 +4620,7 @@ class AlfrescoConfiguration {
               json['VpcConfiguration'] as Map<String, dynamic>)
           : null,
       wikiFieldMappings: (json['WikiFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4690,7 +4690,7 @@ class AssociateEntitiesToExperienceResponse {
       Map<String, dynamic> json) {
     return AssociateEntitiesToExperienceResponse(
       failedEntityList: (json['FailedEntityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4710,7 +4710,7 @@ class AssociatePersonasToEntitiesResponse {
       Map<String, dynamic> json) {
     return AssociatePersonasToEntitiesResponse(
       failedEntityList: (json['FailedEntityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4880,7 +4880,7 @@ class AttributeSuggestionsDescribeConfig {
       attributeSuggestionsMode: (json['AttributeSuggestionsMode'] as String?)
           ?.let(AttributeSuggestionsMode.fromString),
       suggestableConfigList: (json['SuggestableConfigList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuggestableConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5009,7 +5009,7 @@ class AuthenticationConfiguration {
   factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfiguration(
       basicAuthentication: (json['BasicAuthentication'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BasicAuthenticationConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5089,7 +5089,7 @@ class BatchDeleteDocumentResponse {
   factory BatchDeleteDocumentResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteDocumentResponse(
       failedDocuments: (json['FailedDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchDeleteDocumentResponseFailedDocument.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5171,7 +5171,7 @@ class BatchDeleteFeaturedResultsSetResponse {
       Map<String, dynamic> json) {
     return BatchDeleteFeaturedResultsSetResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDeleteFeaturedResultsSetError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5198,11 +5198,11 @@ class BatchGetDocumentStatusResponse {
   factory BatchGetDocumentStatusResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetDocumentStatusResponse(
       documentStatusList: (json['DocumentStatusList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Status.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchGetDocumentStatusResponseError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5256,7 +5256,7 @@ class BatchPutDocumentResponse {
   factory BatchPutDocumentResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutDocumentResponse(
       failedDocuments: (json['FailedDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchPutDocumentResponseFailedDocument.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5423,7 +5423,7 @@ class BoxConfiguration {
       enterpriseId: json['EnterpriseId'] as String,
       secretArn: json['SecretArn'] as String,
       commentFieldMappings: (json['CommentFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5431,20 +5431,20 @@ class BoxConfiguration {
       crawlTasks: json['CrawlTasks'] as bool?,
       crawlWebLinks: json['CrawlWebLinks'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fileFieldMappings: (json['FileFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       taskFieldMappings: (json['TaskFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5454,7 +5454,7 @@ class BoxConfiguration {
               json['VpcConfiguration'] as Map<String, dynamic>)
           : null,
       webLinkFieldMappings: (json['WebLinkFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5655,7 +5655,7 @@ class CollapsedResultDetail {
       documentAttribute: DocumentAttribute.fromJson(
           json['DocumentAttribute'] as Map<String, dynamic>),
       expandedResults: (json['ExpandedResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExpandedResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5694,14 +5694,14 @@ class ColumnConfiguration {
   factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
     return ColumnConfiguration(
       changeDetectingColumns: (json['ChangeDetectingColumns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       documentDataColumnName: json['DocumentDataColumnName'] as String,
       documentIdColumnName: json['DocumentIdColumnName'] as String,
       documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5776,7 +5776,7 @@ class ConfluenceAttachmentConfiguration {
       Map<String, dynamic> json) {
     return ConfluenceAttachmentConfiguration(
       attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfluenceAttachmentToIndexFieldMapping.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5908,7 +5908,7 @@ class ConfluenceBlogConfiguration {
   factory ConfluenceBlogConfiguration.fromJson(Map<String, dynamic> json) {
     return ConfluenceBlogConfiguration(
       blogFieldMappings: (json['BlogFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfluenceBlogToIndexFieldMapping.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6104,11 +6104,11 @@ class ConfluenceConfiguration {
               json['BlogConfiguration'] as Map<String, dynamic>)
           : null,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       pageConfiguration: json['PageConfiguration'] != null
@@ -6182,7 +6182,7 @@ class ConfluencePageConfiguration {
   factory ConfluencePageConfiguration.fromJson(Map<String, dynamic> json) {
     return ConfluencePageConfiguration(
       pageFieldMappings: (json['PageFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfluencePageToIndexFieldMapping.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6321,15 +6321,15 @@ class ConfluenceSpaceConfiguration {
       crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool?,
       crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool?,
       excludeSpaces: (json['ExcludeSpaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       includeSpaces: (json['IncludeSpaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       spaceFieldMappings: (json['SpaceFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConfluenceSpaceToIndexFieldMapping.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6518,14 +6518,12 @@ class ContentSourceConfiguration {
   factory ContentSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return ContentSourceConfiguration(
       dataSourceIds: (json['DataSourceIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       directPutContent: json['DirectPutContent'] as bool?,
-      faqIds: (json['FaqIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      faqIds:
+          (json['FaqIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6773,7 +6771,7 @@ class CustomDocumentEnrichmentConfiguration {
       Map<String, dynamic> json) {
     return CustomDocumentEnrichmentConfiguration(
       inlineConfigurations: (json['InlineConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InlineCustomDocumentEnrichmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7466,13 +7464,11 @@ class DataSourceVpcConfiguration {
   factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceVpcConfiguration(
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -7629,14 +7625,14 @@ class DescribeAccessControlConfigurationResponse {
     return DescribeAccessControlConfigurationResponse(
       name: json['Name'] as String,
       accessControlList: (json['AccessControlList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       hierarchicalAccessControlList: (json['HierarchicalAccessControlList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HierarchicalPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7830,7 +7826,7 @@ class DescribeExperienceResponse {
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       endpoints: (json['Endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperienceEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['ErrorMessage'] as String?,
@@ -7986,13 +7982,13 @@ class DescribeFeaturedResultsSetResponse {
       creationTimestamp: json['CreationTimestamp'] as int?,
       description: json['Description'] as String?,
       featuredDocumentsMissing: (json['FeaturedDocumentsMissing'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FeaturedDocumentMissing.fromJson(e as Map<String, dynamic>))
           .toList(),
       featuredDocumentsWithMetadata: (json['FeaturedDocumentsWithMetadata']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FeaturedDocumentWithMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8000,7 +7996,7 @@ class DescribeFeaturedResultsSetResponse {
       featuredResultsSetName: json['FeaturedResultsSetName'] as String?,
       lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as int?,
       queryTexts: (json['QueryTexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status:
@@ -8105,7 +8101,7 @@ class DescribeIndexResponse {
       description: json['Description'] as String?,
       documentMetadataConfigurations: (json['DocumentMetadataConfigurations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DocumentMetadataConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8135,7 +8131,7 @@ class DescribeIndexResponse {
                       as Map<String, dynamic>)
               : null,
       userTokenConfigurations: (json['UserTokenConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UserTokenConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8196,7 +8192,7 @@ class DescribePrincipalMappingResponse {
       dataSourceId: json['DataSourceId'] as String?,
       groupId: json['GroupId'] as String?,
       groupOrderingIdSummaries: (json['GroupOrderingIdSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GroupOrderingIdSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8492,7 +8488,7 @@ class DisassociateEntitiesFromExperienceResponse {
       Map<String, dynamic> json) {
     return DisassociateEntitiesFromExperienceResponse(
       failedEntityList: (json['FailedEntityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8512,7 +8508,7 @@ class DisassociatePersonasFromEntitiesResponse {
       Map<String, dynamic> json) {
     return DisassociatePersonasFromEntitiesResponse(
       failedEntityList: (json['FailedEntityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8820,7 +8816,7 @@ class DocumentAttributeValue {
       dateValue: timeStampFromJson(json['DateValue']),
       longValue: json['LongValue'] as int?,
       stringListValue: (json['StringListValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stringValue: json['StringValue'] as String?,
@@ -8879,7 +8875,7 @@ class DocumentAttributeValueCountPair {
               json['DocumentAttributeValue'] as Map<String, dynamic>)
           : null,
       facetResults: (json['FacetResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9279,7 +9275,7 @@ class ExpandedResultItem {
   factory ExpandedResultItem.fromJson(Map<String, dynamic> json) {
     return ExpandedResultItem(
       documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentExcerpt: json['DocumentExcerpt'] != null
@@ -9451,7 +9447,7 @@ class ExperiencesSummary {
     return ExperiencesSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
       endpoints: (json['Endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperienceEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
@@ -9539,7 +9535,7 @@ class FacetResult {
       documentAttributeKey: json['DocumentAttributeKey'] as String?,
       documentAttributeValueCountPairs:
           (json['DocumentAttributeValueCountPairs'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DocumentAttributeValueCountPair.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9813,12 +9809,12 @@ class FeaturedResultsItem {
   factory FeaturedResultsItem.fromJson(Map<String, dynamic> json) {
     return FeaturedResultsItem(
       additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentExcerpt: json['DocumentExcerpt'] != null
@@ -9914,14 +9910,14 @@ class FeaturedResultsSet {
       creationTimestamp: json['CreationTimestamp'] as int?,
       description: json['Description'] as String?,
       featuredDocuments: (json['FeaturedDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeaturedDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
       featuredResultsSetId: json['FeaturedResultsSetId'] as String?,
       featuredResultsSetName: json['FeaturedResultsSetName'] as String?,
       lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as int?,
       queryTexts: (json['QueryTexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status:
@@ -10090,16 +10086,16 @@ class FsxConfiguration {
       vpcConfiguration: DataSourceVpcConfiguration.fromJson(
           json['VpcConfiguration'] as Map<String, dynamic>),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       secretArn: json['SecretArn'] as String?,
@@ -10156,7 +10152,7 @@ class GetQuerySuggestionsResponse {
     return GetQuerySuggestionsResponse(
       querySuggestionsId: json['QuerySuggestionsId'] as String?,
       suggestions: (json['Suggestions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Suggestion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10194,12 +10190,11 @@ class GetSnapshotsResponse {
               json['SnapShotTimeFilter'] as Map<String, dynamic>)
           : null,
       snapshotsData: (json['SnapshotsData'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       snapshotsDataHeader: (json['SnapshotsDataHeader'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10429,21 +10424,21 @@ class GitHubConfiguration {
     return GitHubConfiguration(
       secretArn: json['SecretArn'] as String,
       exclusionFileNamePatterns: (json['ExclusionFileNamePatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       exclusionFileTypePatterns: (json['ExclusionFileTypePatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       exclusionFolderNamePatterns:
           (json['ExclusionFolderNamePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       gitHubCommitConfigurationFieldMappings:
           (json['GitHubCommitConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -10454,58 +10449,58 @@ class GitHubConfiguration {
               : null,
       gitHubIssueAttachmentConfigurationFieldMappings:
           (json['GitHubIssueAttachmentConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubIssueCommentConfigurationFieldMappings:
           (json['GitHubIssueCommentConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubIssueDocumentConfigurationFieldMappings:
           (json['GitHubIssueDocumentConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubPullRequestCommentConfigurationFieldMappings:
           (json['GitHubPullRequestCommentConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubPullRequestDocumentAttachmentConfigurationFieldMappings:
           (json['GitHubPullRequestDocumentAttachmentConfigurationFieldMappings']
                   as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubPullRequestDocumentConfigurationFieldMappings:
           (json['GitHubPullRequestDocumentConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       gitHubRepositoryConfigurationFieldMappings:
           (json['GitHubRepositoryConfigurationFieldMappings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataSourceToIndexFieldMapping.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       inclusionFileNamePatterns: (json['InclusionFileNamePatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionFileTypePatterns: (json['InclusionFileTypePatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionFolderNamePatterns:
           (json['InclusionFolderNamePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       onPremiseConfiguration: json['OnPremiseConfiguration'] != null
@@ -10513,7 +10508,7 @@ class GitHubConfiguration {
               json['OnPremiseConfiguration'] as Map<String, dynamic>)
           : null,
       repositoryFilter: (json['RepositoryFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       saaSConfiguration: json['SaaSConfiguration'] != null
@@ -10749,28 +10744,28 @@ class GoogleDriveConfiguration {
     return GoogleDriveConfiguration(
       secretArn: json['SecretArn'] as String,
       excludeMimeTypes: (json['ExcludeMimeTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       excludeSharedDrives: (json['ExcludeSharedDrives'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       excludeUserAccounts: (json['ExcludeUserAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10931,7 +10926,7 @@ class HierarchicalPrincipal {
   factory HierarchicalPrincipal.fromJson(Map<String, dynamic> json) {
     return HierarchicalPrincipal(
       principalList: (json['PrincipalList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11383,56 +11378,52 @@ class JiraConfiguration {
       jiraAccountUrl: json['JiraAccountUrl'] as String,
       secretArn: json['SecretArn'] as String,
       attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       commentFieldMappings: (json['CommentFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       issueFieldMappings: (json['IssueFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       issueSubEntityFilter: (json['IssueSubEntityFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IssueSubEntity.fromString((e as String)))
           .toList(),
       issueType: (json['IssueType'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      project: (json['Project'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      project:
+          (json['Project'] as List?)?.nonNulls.map((e) => e as String).toList(),
       projectFieldMappings: (json['ProjectFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      status:
+          (json['Status'] as List?)?.nonNulls.map((e) => e as String).toList(),
       useChangeLog: json['UseChangeLog'] as bool?,
       vpcConfiguration: json['VpcConfiguration'] != null
           ? DataSourceVpcConfiguration.fromJson(
               json['VpcConfiguration'] as Map<String, dynamic>)
           : null,
       workLogFieldMappings: (json['WorkLogFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11610,7 +11601,7 @@ class ListAccessControlConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListAccessControlConfigurationsResponse(
       accessControlConfigurations: (json['AccessControlConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccessControlConfigurationSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11635,7 +11626,7 @@ class ListDataSourceSyncJobsResponse {
   factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSourceSyncJobsResponse(
       history: (json['History'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11661,7 +11652,7 @@ class ListDataSourcesResponse {
     return ListDataSourcesResponse(
       nextToken: json['NextToken'] as String?,
       summaryItems: (json['SummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11685,7 +11676,7 @@ class ListEntityPersonasResponse {
     return ListEntityPersonasResponse(
       nextToken: json['NextToken'] as String?,
       summaryItems: (json['SummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PersonasSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11709,7 +11700,7 @@ class ListExperienceEntitiesResponse {
     return ListExperienceEntitiesResponse(
       nextToken: json['NextToken'] as String?,
       summaryItems: (json['SummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ExperienceEntitiesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11735,7 +11726,7 @@ class ListExperiencesResponse {
     return ListExperiencesResponse(
       nextToken: json['NextToken'] as String?,
       summaryItems: (json['SummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExperiencesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11758,7 +11749,7 @@ class ListFaqsResponse {
   factory ListFaqsResponse.fromJson(Map<String, dynamic> json) {
     return ListFaqsResponse(
       faqSummaryItems: (json['FaqSummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FaqSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11783,7 +11774,7 @@ class ListFeaturedResultsSetsResponse {
     return ListFeaturedResultsSetsResponse(
       featuredResultsSetSummaryItems:
           (json['FeaturedResultsSetSummaryItems'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   FeaturedResultsSetSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -11811,7 +11802,7 @@ class ListGroupsOlderThanOrderingIdResponse {
       Map<String, dynamic> json) {
     return ListGroupsOlderThanOrderingIdResponse(
       groupsSummaries: (json['GroupsSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11836,7 +11827,7 @@ class ListIndicesResponse {
     return ListIndicesResponse(
       indexConfigurationSummaryItems:
           (json['IndexConfigurationSummaryItems'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -11870,7 +11861,7 @@ class ListQuerySuggestionsBlockListsResponse {
       Map<String, dynamic> json) {
     return ListQuerySuggestionsBlockListsResponse(
       blockListSummaryItems: (json['BlockListSummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QuerySuggestionsBlockListSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -11890,7 +11881,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11914,7 +11905,7 @@ class ListThesauriResponse {
     return ListThesauriResponse(
       nextToken: json['NextToken'] as String?,
       thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThesaurusSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12123,16 +12114,16 @@ class OneDriveConfiguration {
       tenantDomain: json['TenantDomain'] as String,
       disableLocalGroups: json['DisableLocalGroups'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -12179,7 +12170,7 @@ class OneDriveUsers {
   factory OneDriveUsers.fromJson(Map<String, dynamic> json) {
     return OneDriveUsers(
       oneDriveUserList: (json['OneDriveUserList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       oneDriveUserS3Path: json['OneDriveUserS3Path'] != null
@@ -12467,25 +12458,25 @@ class QueryResult {
   factory QueryResult.fromJson(Map<String, dynamic> json) {
     return QueryResult(
       facetResults: (json['FacetResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       featuredResultsItems: (json['FeaturedResultsItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FeaturedResultsItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       queryId: json['QueryId'] as String?,
       resultItems: (json['ResultItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       spellCorrectedQueries: (json['SpellCorrectedQueries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpellCorrectedQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalNumberOfResults: json['TotalNumberOfResults'] as int?,
       warnings: (json['Warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Warning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12596,7 +12587,7 @@ class QueryResultItem {
   factory QueryResultItem.fromJson(Map<String, dynamic> json) {
     return QueryResultItem(
       additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12605,7 +12596,7 @@ class QueryResultItem {
               json['CollapsedResultDetail'] as Map<String, dynamic>)
           : null,
       documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentExcerpt: json['DocumentExcerpt'] != null
@@ -12837,7 +12828,7 @@ class QuipConfiguration {
       domain: json['Domain'] as String,
       secretArn: json['SecretArn'] as String,
       attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12845,24 +12836,24 @@ class QuipConfiguration {
       crawlChatRooms: json['CrawlChatRooms'] as bool?,
       crawlFileComments: json['CrawlFileComments'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       folderIds: (json['FolderIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       messageFieldMappings: (json['MessageFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       threadFieldMappings: (json['ThreadFieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13067,7 +13058,7 @@ class RetrieveResult {
     return RetrieveResult(
       queryId: json['QueryId'] as String?,
       resultItems: (json['ResultItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RetrieveResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13115,7 +13106,7 @@ class RetrieveResultItem {
     return RetrieveResultItem(
       content: json['Content'] as String?,
       documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentId: json['DocumentId'] as String?,
@@ -13271,15 +13262,15 @@ class S3DataSourceConfiguration {
               json['DocumentsMetadataConfiguration'] as Map<String, dynamic>)
           : null,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       inclusionPrefixes: (json['InclusionPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -13404,12 +13395,12 @@ class SalesforceChatterFeedConfiguration {
       documentDataFieldName: json['DocumentDataFieldName'] as String,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       includeFilterTypes: (json['IncludeFilterTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SalesforceChatterFeedIncludeFilterType.fromString((e as String)))
           .toList(),
@@ -13547,12 +13538,12 @@ class SalesforceConfiguration {
       crawlAttachments: json['CrawlAttachments'] as bool?,
       excludeAttachmentFilePatterns:
           (json['ExcludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       includeAttachmentFilePatterns:
           (json['IncludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       knowledgeArticleConfiguration:
@@ -13568,7 +13559,7 @@ class SalesforceConfiguration {
               : null,
       standardObjectConfigurations:
           (json['StandardObjectConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => SalesforceStandardObjectConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -13644,7 +13635,7 @@ class SalesforceCustomKnowledgeArticleTypeConfiguration {
       name: json['Name'] as String,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13693,12 +13684,12 @@ class SalesforceKnowledgeArticleConfiguration {
       Map<String, dynamic> json) {
     return SalesforceKnowledgeArticleConfiguration(
       includedStates: (json['IncludedStates'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SalesforceKnowledgeArticleState.fromString((e as String)))
           .toList(),
       customKnowledgeArticleTypeConfigurations:
           (json['CustomKnowledgeArticleTypeConfigurations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
                       e as Map<String, dynamic>))
@@ -13775,7 +13766,7 @@ class SalesforceStandardKnowledgeArticleTypeConfiguration {
       documentDataFieldName: json['DocumentDataFieldName'] as String,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13815,7 +13806,7 @@ class SalesforceStandardObjectAttachmentConfiguration {
     return SalesforceStandardObjectAttachmentConfiguration(
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13869,7 +13860,7 @@ class SalesforceStandardObjectConfiguration {
       name: SalesforceStandardObjectName.fromString((json['Name'] as String)),
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14053,10 +14044,8 @@ class SeedUrlConfiguration {
 
   factory SeedUrlConfiguration.fromJson(Map<String, dynamic> json) {
     return SeedUrlConfiguration(
-      seedUrls: (json['SeedUrls'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      seedUrls:
+          (json['SeedUrls'] as List).nonNulls.map((e) => e as String).toList(),
       webCrawlerMode:
           (json['WebCrawlerMode'] as String?)?.let(WebCrawlerMode.fromString),
     );
@@ -14284,18 +14273,18 @@ class ServiceNowKnowledgeArticleConfiguration {
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       excludeAttachmentFilePatterns:
           (json['ExcludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       filterQuery: json['FilterQuery'] as String?,
       includeAttachmentFilePatterns:
           (json['IncludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
     );
@@ -14381,17 +14370,17 @@ class ServiceNowServiceCatalogConfiguration {
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       excludeAttachmentFilePatterns:
           (json['ExcludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       includeAttachmentFilePatterns:
           (json['IncludeAttachmentFilePatterns'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
     );
@@ -14540,26 +14529,23 @@ class SharePointConfiguration {
       secretArn: json['SecretArn'] as String,
       sharePointVersion:
           SharePointVersion.fromString((json['SharePointVersion'] as String)),
-      urls: (json['Urls'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      urls: (json['Urls'] as List).nonNulls.map((e) => e as String).toList(),
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(SharePointOnlineAuthenticationType.fromString),
       crawlAttachments: json['CrawlAttachments'] as bool?,
       disableLocalGroups: json['DisableLocalGroups'] as bool?,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       proxyConfiguration: json['ProxyConfiguration'] != null
@@ -14666,10 +14652,8 @@ class SiteMapsConfiguration {
 
   factory SiteMapsConfiguration.fromJson(Map<String, dynamic> json) {
     return SiteMapsConfiguration(
-      siteMaps: (json['SiteMaps'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      siteMaps:
+          (json['SiteMaps'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -14818,32 +14802,32 @@ class SlackConfiguration {
       secretArn: json['SecretArn'] as String,
       sinceCrawlDate: json['SinceCrawlDate'] as String,
       slackEntityList: (json['SlackEntityList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SlackEntity.fromString((e as String)))
           .toList(),
       teamId: json['TeamId'] as String,
       crawlBotMessage: json['CrawlBotMessage'] as bool?,
       excludeArchived: json['ExcludeArchived'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lookBackPeriod: json['LookBackPeriod'] as int?,
       privateChannelFilter: (json['PrivateChannelFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       publicChannelFilter: (json['PublicChannelFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       useChangeLog: json['UseChangeLog'] as bool?,
@@ -15013,12 +14997,12 @@ class SourceDocument {
   factory SourceDocument.fromJson(Map<String, dynamic> json) {
     return SourceDocument(
       additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       documentId: json['DocumentId'] as String?,
       suggestionAttributes: (json['SuggestionAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -15041,7 +15025,7 @@ class SpellCorrectedQuery {
   factory SpellCorrectedQuery.fromJson(Map<String, dynamic> json) {
     return SpellCorrectedQuery(
       corrections: (json['Corrections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Correction.fromJson(e as Map<String, dynamic>))
           .toList(),
       suggestedQueryText: json['SuggestedQueryText'] as String?,
@@ -15228,7 +15212,7 @@ class Suggestion {
     return Suggestion(
       id: json['Id'] as String?,
       sourceDocuments: (json['SourceDocuments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SourceDocument.fromJson(e as Map<String, dynamic>))
           .toList(),
       value: json['Value'] != null
@@ -15277,7 +15261,7 @@ class SuggestionTextWithHighlights {
   factory SuggestionTextWithHighlights.fromJson(Map<String, dynamic> json) {
     return SuggestionTextWithHighlights(
       highlights: (json['Highlights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SuggestionHighlight.fromJson(e as Map<String, dynamic>))
           .toList(),
       text: json['Text'] as String?,
@@ -15375,7 +15359,7 @@ class TableExcerpt {
   factory TableExcerpt.fromJson(Map<String, dynamic> json) {
     return TableExcerpt(
       rows: (json['Rows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalNumberOfRows: json['TotalNumberOfRows'] as int?,
@@ -15395,7 +15379,7 @@ class TableRow {
   factory TableRow.fromJson(Map<String, dynamic> json) {
     return TableRow(
       cells: (json['Cells'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableCell.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -15530,7 +15514,7 @@ class TextWithHighlights {
   factory TextWithHighlights.fromJson(Map<String, dynamic> json) {
     return TextWithHighlights(
       highlights: (json['Highlights'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Highlight.fromJson(e as Map<String, dynamic>))
           .toList(),
       text: json['Text'] as String?,
@@ -16092,11 +16076,11 @@ class WebCrawlerConfiguration {
               json['ProxyConfiguration'] as Map<String, dynamic>)
           : null,
       urlExclusionPatterns: (json['UrlExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       urlInclusionPatterns: (json['UrlInclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -16216,16 +16200,16 @@ class WorkDocsConfiguration {
       organizationId: json['OrganizationId'] as String,
       crawlComments: json['CrawlComments'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fieldMappings: (json['FieldMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       useChangeLog: json['UseChangeLog'] as bool?,

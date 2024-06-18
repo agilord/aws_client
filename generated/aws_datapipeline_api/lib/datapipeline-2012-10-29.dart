@@ -1044,7 +1044,7 @@ class DescribeObjectsOutput {
   factory DescribeObjectsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeObjectsOutput(
       pipelineObjects: (json['pipelineObjects'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PipelineObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasMoreResults: json['hasMoreResults'] as bool?,
@@ -1065,7 +1065,7 @@ class DescribePipelinesOutput {
   factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) {
     return DescribePipelinesOutput(
       pipelineDescriptionList: (json['pipelineDescriptionList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PipelineDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1147,15 +1147,15 @@ class GetPipelineDefinitionOutput {
   factory GetPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return GetPipelineDefinitionOutput(
       parameterObjects: (json['parameterObjects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       parameterValues: (json['parameterValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       pipelineObjects: (json['pipelineObjects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PipelineObject.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1222,7 +1222,7 @@ class ListPipelinesOutput {
   factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) {
     return ListPipelinesOutput(
       pipelineIdList: (json['pipelineIdList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PipelineIdName.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasMoreResults: json['hasMoreResults'] as bool?,
@@ -1354,7 +1354,7 @@ class ParameterObject {
   factory ParameterObject.fromJson(Map<String, dynamic> json) {
     return ParameterObject(
       attributes: (json['attributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ParameterAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -1435,14 +1435,14 @@ class PipelineDescription {
   factory PipelineDescription.fromJson(Map<String, dynamic> json) {
     return PipelineDescription(
       fields: (json['fields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String,
       pipelineId: json['pipelineId'] as String,
       description: json['description'] as String?,
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1493,7 +1493,7 @@ class PipelineObject {
   factory PipelineObject.fromJson(Map<String, dynamic> json) {
     return PipelineObject(
       fields: (json['fields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -1560,11 +1560,11 @@ class PutPipelineDefinitionOutput {
     return PutPipelineDefinitionOutput(
       errored: json['errored'] as bool,
       validationErrors: (json['validationErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
           .toList(),
       validationWarnings: (json['validationWarnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1612,10 +1612,7 @@ class QueryObjectsOutput {
   factory QueryObjectsOutput.fromJson(Map<String, dynamic> json) {
     return QueryObjectsOutput(
       hasMoreResults: json['hasMoreResults'] as bool?,
-      ids: (json['ids'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
       marker: json['marker'] as String?,
     );
   }
@@ -1811,11 +1808,11 @@ class ValidatePipelineDefinitionOutput {
     return ValidatePipelineDefinitionOutput(
       errored: json['errored'] as bool,
       validationErrors: (json['validationErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
           .toList(),
       validationWarnings: (json['validationWarnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1839,10 +1836,8 @@ class ValidationError {
 
   factory ValidationError.fromJson(Map<String, dynamic> json) {
     return ValidationError(
-      errors: (json['errors'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      errors:
+          (json['errors'] as List?)?.nonNulls.map((e) => e as String).toList(),
       id: json['id'] as String?,
     );
   }
@@ -1867,7 +1862,7 @@ class ValidationWarning {
     return ValidationWarning(
       id: json['id'] as String?,
       warnings: (json['warnings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

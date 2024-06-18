@@ -665,7 +665,7 @@ class GetDeviceMethodsResponse {
   factory GetDeviceMethodsResponse.fromJson(Map<String, dynamic> json) {
     return GetDeviceMethodsResponse(
       deviceMethods: (json['deviceMethods'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceMethod.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -719,7 +719,7 @@ class ListDeviceEventsResponse {
   factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceEventsResponse(
       events: (json['events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -742,7 +742,7 @@ class ListDevicesResponse {
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
       devices: (json['devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

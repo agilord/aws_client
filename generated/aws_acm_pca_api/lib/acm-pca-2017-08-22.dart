@@ -2038,7 +2038,7 @@ class ASN1Subject {
       commonName: json['CommonName'] as String?,
       country: json['Country'] as String?,
       customAttributes: (json['CustomAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       distinguishedNameQualifier: json['DistinguishedNameQualifier'] as String?,
@@ -2820,7 +2820,7 @@ class CsrExtensions {
           ? KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>)
           : null,
       subjectInformationAccess: (json['SubjectInformationAccess'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccessDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3429,7 +3429,7 @@ class ListCertificateAuthoritiesResponse {
       Map<String, dynamic> json) {
     return ListCertificateAuthoritiesResponse(
       certificateAuthorities: (json['CertificateAuthorities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CertificateAuthority.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3456,7 +3456,7 @@ class ListPermissionsResponse {
     return ListPermissionsResponse(
       nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3480,7 +3480,7 @@ class ListTagsResponse {
     return ListTagsResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3614,7 +3614,7 @@ class Permission {
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       actions: (json['Actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionType.fromString((e as String)))
           .toList(),
       certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,

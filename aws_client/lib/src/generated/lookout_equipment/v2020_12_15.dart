@@ -3623,7 +3623,7 @@ class DescribeLabelGroupResponse {
     return DescribeLabelGroupResponse(
       createdAt: timeStampFromJson(json['CreatedAt']),
       faultCodes: (json['FaultCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       labelGroupArn: json['LabelGroupArn'] as String?,
@@ -5357,7 +5357,7 @@ class IngestedFilesSummary {
       ingestedNumberOfFiles: json['IngestedNumberOfFiles'] as int,
       totalNumberOfFiles: json['TotalNumberOfFiles'] as int,
       discardedFiles: (json['DiscardedFiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => S3Object.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5811,7 +5811,7 @@ class ListDataIngestionJobsResponse {
   factory ListDataIngestionJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataIngestionJobsResponse(
       dataIngestionJobSummaries: (json['DataIngestionJobSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataIngestionJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5847,7 +5847,7 @@ class ListDatasetsResponse {
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       datasetSummaries: (json['DatasetSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5882,7 +5882,7 @@ class ListInferenceEventsResponse {
   factory ListInferenceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListInferenceEventsResponse(
       inferenceEventSummaries: (json['InferenceEventSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InferenceEventSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5925,7 +5925,7 @@ class ListInferenceExecutionsResponse {
     return ListInferenceExecutionsResponse(
       inferenceExecutionSummaries:
           (json['InferenceExecutionSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   InferenceExecutionSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -5962,7 +5962,7 @@ class ListInferenceSchedulersResponse {
     return ListInferenceSchedulersResponse(
       inferenceSchedulerSummaries:
           (json['InferenceSchedulerSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   InferenceSchedulerSummary.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -5997,7 +5997,7 @@ class ListLabelGroupsResponse {
   factory ListLabelGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListLabelGroupsResponse(
       labelGroupSummaries: (json['LabelGroupSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6037,7 +6037,7 @@ class ListLabelsResponse {
   factory ListLabelsResponse.fromJson(Map<String, dynamic> json) {
     return ListLabelsResponse(
       labelSummaries: (json['LabelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6080,7 +6080,7 @@ class ListModelVersionsResponse {
   factory ListModelVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListModelVersionsResponse(
       modelVersionSummaries: (json['ModelVersionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6115,7 +6115,7 @@ class ListModelsResponse {
   factory ListModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListModelsResponse(
       modelSummaries: (json['ModelSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6152,7 +6152,7 @@ class ListRetrainingSchedulersResponse {
       nextToken: json['NextToken'] as String?,
       retrainingSchedulerSummaries: (json['RetrainingSchedulerSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RetrainingSchedulerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6190,7 +6190,7 @@ class ListSensorStatisticsResponse {
     return ListSensorStatisticsResponse(
       nextToken: json['NextToken'] as String?,
       sensorStatisticsSummaries: (json['SensorStatisticsSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SensorStatisticsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6219,7 +6219,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

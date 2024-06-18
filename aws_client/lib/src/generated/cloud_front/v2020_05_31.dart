@@ -5136,7 +5136,7 @@ class AliasICPRecordal {
       cname: _s.extractXmlStringValue(elem, 'CNAME'),
       iCPRecordalStatus: _s
           .extractXmlStringValue(elem, 'ICPRecordalStatus')
-          ?.let(ICPRecordalStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ICPRecordalStatus.fromString),
     );
   }
 
@@ -5587,7 +5587,7 @@ class CacheBehavior {
       targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId')!,
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(ViewerProtocolPolicy.fromString),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -6046,8 +6046,9 @@ class CachePolicyCookiesConfig {
   });
   factory CachePolicyCookiesConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyCookiesConfig(
-      cookieBehavior: _s.extractXmlStringValue(elem, 'CookieBehavior')!.let(
-          CachePolicyCookieBehavior.fromString) /* Nullability(true, false) */,
+      cookieBehavior: _s
+          .extractXmlStringValue(elem, 'CookieBehavior')!
+          .let(CachePolicyCookieBehavior.fromString),
       cookies: _s.extractXmlChild(elem, 'Cookies')?.let(CookieNames.fromXml),
     );
   }
@@ -6123,8 +6124,9 @@ class CachePolicyHeadersConfig {
   });
   factory CachePolicyHeadersConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyHeadersConfig(
-      headerBehavior: _s.extractXmlStringValue(elem, 'HeaderBehavior')!.let(
-          CachePolicyHeaderBehavior.fromString) /* Nullability(true, false) */,
+      headerBehavior: _s
+          .extractXmlStringValue(elem, 'HeaderBehavior')!
+          .let(CachePolicyHeaderBehavior.fromString),
       headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
     );
   }
@@ -6273,8 +6275,7 @@ class CachePolicyQueryStringsConfig {
     return CachePolicyQueryStringsConfig(
       queryStringBehavior: _s
           .extractXmlStringValue(elem, 'QueryStringBehavior')!
-          .let(CachePolicyQueryStringBehavior
-              .fromString) /* Nullability(true, false) */,
+          .let(CachePolicyQueryStringBehavior.fromString),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
           ?.let(QueryStringNames.fromXml),
@@ -6328,7 +6329,7 @@ class CachePolicySummary {
           CachePolicy.fromXml(_s.extractXmlChild(elem, 'CachePolicy')!),
       type: _s
           .extractXmlStringValue(elem, 'Type')!
-          .let(CachePolicyType.fromString) /* Nullability(true, false) */,
+          .let(CachePolicyType.fromString),
     );
   }
 
@@ -6789,9 +6790,7 @@ class ContentTypeProfile {
   factory ContentTypeProfile.fromXml(_s.XmlElement elem) {
     return ContentTypeProfile(
       contentType: _s.extractXmlStringValue(elem, 'ContentType')!,
-      format: _s
-          .extractXmlStringValue(elem, 'Format')!
-          .let(Format.fromString) /* Nullability(true, false) */,
+      format: _s.extractXmlStringValue(elem, 'Format')!.let(Format.fromString),
       profileId: _s.extractXmlStringValue(elem, 'ProfileId'),
     );
   }
@@ -7352,7 +7351,7 @@ class CookiePreference {
     return CookiePreference(
       forward: _s
           .extractXmlStringValue(elem, 'Forward')!
-          .let(ItemSelection.fromString) /* Nullability(true, false) */,
+          .let(ItemSelection.fromString),
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
           ?.let(CookieNames.fromXml),
@@ -8483,7 +8482,7 @@ class CustomOriginConfig {
       hTTPSPort: _s.extractXmlIntValue(elem, 'HTTPSPort')!,
       originProtocolPolicy: _s
           .extractXmlStringValue(elem, 'OriginProtocolPolicy')!
-          .let(OriginProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(OriginProtocolPolicy.fromString),
       originKeepaliveTimeout:
           _s.extractXmlIntValue(elem, 'OriginKeepaliveTimeout'),
       originReadTimeout: _s.extractXmlIntValue(elem, 'OriginReadTimeout'),
@@ -8792,7 +8791,7 @@ class DefaultCacheBehavior {
       targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId')!,
       viewerProtocolPolicy: _s
           .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
-          .let(ViewerProtocolPolicy.fromString) /* Nullability(true, false) */,
+          .let(ViewerProtocolPolicy.fromString),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let(AllowedMethods.fromXml),
@@ -9400,14 +9399,14 @@ class DistributionConfig {
       defaultRootObject: _s.extractXmlStringValue(elem, 'DefaultRootObject'),
       httpVersion: _s
           .extractXmlStringValue(elem, 'HttpVersion')
-          ?.let(HttpVersion.fromString) /* Nullability(true, true) */,
+          ?.let(HttpVersion.fromString),
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
       logging: _s.extractXmlChild(elem, 'Logging')?.let(LoggingConfig.fromXml),
       originGroups:
           _s.extractXmlChild(elem, 'OriginGroups')?.let(OriginGroups.fromXml),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')
-          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
+          ?.let(PriceClass.fromString),
       restrictions:
           _s.extractXmlChild(elem, 'Restrictions')?.let(Restrictions.fromXml),
       staging: _s.extractXmlBoolValue(elem, 'Staging'),
@@ -9829,14 +9828,14 @@ class DistributionSummary {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       httpVersion: _s
           .extractXmlStringValue(elem, 'HttpVersion')!
-          .let(HttpVersion.fromString) /* Nullability(true, false) */,
+          .let(HttpVersion.fromString),
       id: _s.extractXmlStringValue(elem, 'Id')!,
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled')!,
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')!
-          .let(PriceClass.fromString) /* Nullability(true, false) */,
+          .let(PriceClass.fromString),
       restrictions:
           Restrictions.fromXml(_s.extractXmlChild(elem, 'Restrictions')!),
       staging: _s.extractXmlBoolValue(elem, 'Staging')!,
@@ -10799,7 +10798,7 @@ class FunctionAssociation {
     return FunctionAssociation(
       eventType: _s
           .extractXmlStringValue(elem, 'EventType')!
-          .let(EventType.fromString) /* Nullability(true, false) */,
+          .let(EventType.fromString),
       functionARN: _s.extractXmlStringValue(elem, 'FunctionARN')!,
     );
   }
@@ -10907,7 +10906,7 @@ class FunctionConfig {
       comment: _s.extractXmlStringValue(elem, 'Comment')!,
       runtime: _s
           .extractXmlStringValue(elem, 'Runtime')!
-          .let(FunctionRuntime.fromString) /* Nullability(true, false) */,
+          .let(FunctionRuntime.fromString),
       keyValueStoreAssociations: _s
           .extractXmlChild(elem, 'KeyValueStoreAssociations')
           ?.let(KeyValueStoreAssociations.fromXml),
@@ -11032,7 +11031,7 @@ class FunctionMetadata {
       createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
       stage: _s
           .extractXmlStringValue(elem, 'Stage')
-          ?.let(FunctionStage.fromString) /* Nullability(true, true) */,
+          ?.let(FunctionStage.fromString),
     );
   }
 
@@ -11181,7 +11180,7 @@ class GeoRestriction {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       restrictionType: _s
           .extractXmlStringValue(elem, 'RestrictionType')!
-          .let(GeoRestrictionType.fromString) /* Nullability(true, false) */,
+          .let(GeoRestrictionType.fromString),
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Location')),
@@ -12815,7 +12814,7 @@ class LambdaFunctionAssociation {
     return LambdaFunctionAssociation(
       eventType: _s
           .extractXmlStringValue(elem, 'EventType')!
-          .let(EventType.fromString) /* Nullability(true, false) */,
+          .let(EventType.fromString),
       lambdaFunctionARN: _s.extractXmlStringValue(elem, 'LambdaFunctionARN')!,
       includeBody: _s.extractXmlBoolValue(elem, 'IncludeBody'),
     );
@@ -13870,14 +13869,13 @@ class OriginAccessControlConfig {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       originAccessControlOriginType: _s
           .extractXmlStringValue(elem, 'OriginAccessControlOriginType')!
-          .let(OriginAccessControlOriginTypes
-              .fromString) /* Nullability(true, false) */,
-      signingBehavior: _s.extractXmlStringValue(elem, 'SigningBehavior')!.let(
-          OriginAccessControlSigningBehaviors
-              .fromString) /* Nullability(true, false) */,
-      signingProtocol: _s.extractXmlStringValue(elem, 'SigningProtocol')!.let(
-          OriginAccessControlSigningProtocols
-              .fromString) /* Nullability(true, false) */,
+          .let(OriginAccessControlOriginTypes.fromString),
+      signingBehavior: _s
+          .extractXmlStringValue(elem, 'SigningBehavior')!
+          .let(OriginAccessControlSigningBehaviors.fromString),
+      signingProtocol: _s
+          .extractXmlStringValue(elem, 'SigningProtocol')!
+          .let(OriginAccessControlSigningProtocols.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
     );
   }
@@ -14088,14 +14086,13 @@ class OriginAccessControlSummary {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       originAccessControlOriginType: _s
           .extractXmlStringValue(elem, 'OriginAccessControlOriginType')!
-          .let(OriginAccessControlOriginTypes
-              .fromString) /* Nullability(true, false) */,
-      signingBehavior: _s.extractXmlStringValue(elem, 'SigningBehavior')!.let(
-          OriginAccessControlSigningBehaviors
-              .fromString) /* Nullability(true, false) */,
-      signingProtocol: _s.extractXmlStringValue(elem, 'SigningProtocol')!.let(
-          OriginAccessControlSigningProtocols
-              .fromString) /* Nullability(true, false) */,
+          .let(OriginAccessControlOriginTypes.fromString),
+      signingBehavior: _s
+          .extractXmlStringValue(elem, 'SigningBehavior')!
+          .let(OriginAccessControlSigningBehaviors.fromString),
+      signingProtocol: _s
+          .extractXmlStringValue(elem, 'SigningProtocol')!
+          .let(OriginAccessControlSigningProtocols.fromString),
     );
   }
 
@@ -14645,9 +14642,9 @@ class OriginRequestPolicyCookiesConfig {
   });
   factory OriginRequestPolicyCookiesConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyCookiesConfig(
-      cookieBehavior: _s.extractXmlStringValue(elem, 'CookieBehavior')!.let(
-          OriginRequestPolicyCookieBehavior
-              .fromString) /* Nullability(true, false) */,
+      cookieBehavior: _s
+          .extractXmlStringValue(elem, 'CookieBehavior')!
+          .let(OriginRequestPolicyCookieBehavior.fromString),
       cookies: _s.extractXmlChild(elem, 'Cookies')?.let(CookieNames.fromXml),
     );
   }
@@ -14740,9 +14737,9 @@ class OriginRequestPolicyHeadersConfig {
   });
   factory OriginRequestPolicyHeadersConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyHeadersConfig(
-      headerBehavior: _s.extractXmlStringValue(elem, 'HeaderBehavior')!.let(
-          OriginRequestPolicyHeaderBehavior
-              .fromString) /* Nullability(true, false) */,
+      headerBehavior: _s
+          .extractXmlStringValue(elem, 'HeaderBehavior')!
+          .let(OriginRequestPolicyHeaderBehavior.fromString),
       headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
     );
   }
@@ -14890,8 +14887,7 @@ class OriginRequestPolicyQueryStringsConfig {
     return OriginRequestPolicyQueryStringsConfig(
       queryStringBehavior: _s
           .extractXmlStringValue(elem, 'QueryStringBehavior')!
-          .let(OriginRequestPolicyQueryStringBehavior
-              .fromString) /* Nullability(true, false) */,
+          .let(OriginRequestPolicyQueryStringBehavior.fromString),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
           ?.let(QueryStringNames.fromXml),
@@ -14943,8 +14939,9 @@ class OriginRequestPolicySummary {
     return OriginRequestPolicySummary(
       originRequestPolicy: OriginRequestPolicy.fromXml(
           _s.extractXmlChild(elem, 'OriginRequestPolicy')!),
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(
-          OriginRequestPolicyType.fromString) /* Nullability(true, false) */,
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(OriginRequestPolicyType.fromString),
     );
   }
 
@@ -16034,8 +16031,7 @@ class RealtimeMetricsSubscriptionConfig {
     return RealtimeMetricsSubscriptionConfig(
       realtimeMetricsSubscriptionStatus: _s
           .extractXmlStringValue(elem, 'RealtimeMetricsSubscriptionStatus')!
-          .let(RealtimeMetricsSubscriptionStatus
-              .fromString) /* Nullability(true, false) */,
+          .let(RealtimeMetricsSubscriptionStatus.fromString),
     );
   }
 
@@ -16951,7 +16947,7 @@ class ResponseHeadersPolicyFrameOptions {
     return ResponseHeadersPolicyFrameOptions(
       frameOption: _s
           .extractXmlStringValue(elem, 'FrameOption')!
-          .let(FrameOptionsList.fromString) /* Nullability(true, false) */,
+          .let(FrameOptionsList.fromString),
       override: _s.extractXmlBoolValue(elem, 'Override')!,
     );
   }
@@ -17088,7 +17084,7 @@ class ResponseHeadersPolicyReferrerPolicy {
       override: _s.extractXmlBoolValue(elem, 'Override')!,
       referrerPolicy: _s
           .extractXmlStringValue(elem, 'ReferrerPolicy')!
-          .let(ReferrerPolicyList.fromString) /* Nullability(true, false) */,
+          .let(ReferrerPolicyList.fromString),
     );
   }
 
@@ -17523,8 +17519,9 @@ class ResponseHeadersPolicySummary {
     return ResponseHeadersPolicySummary(
       responseHeadersPolicy: ResponseHeadersPolicy.fromXml(
           _s.extractXmlChild(elem, 'ResponseHeadersPolicy')!),
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(
-          ResponseHeadersPolicyType.fromString) /* Nullability(true, false) */,
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(ResponseHeadersPolicyType.fromString),
     );
   }
 
@@ -18214,7 +18211,7 @@ class StreamingDistributionConfig {
           ?.let(StreamingLoggingConfig.fromXml),
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')
-          ?.let(PriceClass.fromString) /* Nullability(true, true) */,
+          ?.let(PriceClass.fromString),
     );
   }
 
@@ -18465,7 +18462,7 @@ class StreamingDistributionSummary {
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       priceClass: _s
           .extractXmlStringValue(elem, 'PriceClass')!
-          .let(PriceClass.fromString) /* Nullability(true, false) */,
+          .let(PriceClass.fromString),
       s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
       status: _s.extractXmlStringValue(elem, 'Status')!,
       trustedSigners:
@@ -18856,9 +18853,9 @@ class TrafficConfig {
   });
   factory TrafficConfig.fromXml(_s.XmlElement elem) {
     return TrafficConfig(
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(
-          ContinuousDeploymentPolicyType
-              .fromString) /* Nullability(true, false) */,
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(ContinuousDeploymentPolicyType.fromString),
       singleHeaderConfig: _s
           .extractXmlChild(elem, 'SingleHeaderConfig')
           ?.let(ContinuousDeploymentSingleHeaderConfig.fromXml),
@@ -19775,17 +19772,16 @@ class ViewerCertificate {
       certificate: _s.extractXmlStringValue(elem, 'Certificate'),
       certificateSource: _s
           .extractXmlStringValue(elem, 'CertificateSource')
-          ?.let(CertificateSource.fromString) /* Nullability(true, true) */,
+          ?.let(CertificateSource.fromString),
       cloudFrontDefaultCertificate:
           _s.extractXmlBoolValue(elem, 'CloudFrontDefaultCertificate'),
       iAMCertificateId: _s.extractXmlStringValue(elem, 'IAMCertificateId'),
       minimumProtocolVersion: _s
           .extractXmlStringValue(elem, 'MinimumProtocolVersion')
-          ?.let(
-              MinimumProtocolVersion.fromString) /* Nullability(true, true) */,
+          ?.let(MinimumProtocolVersion.fromString),
       sSLSupportMethod: _s
           .extractXmlStringValue(elem, 'SSLSupportMethod')
-          ?.let(SSLSupportMethod.fromString) /* Nullability(true, true) */,
+          ?.let(SSLSupportMethod.fromString),
     );
   }
 

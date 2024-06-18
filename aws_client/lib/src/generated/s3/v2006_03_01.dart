@@ -4454,8 +4454,9 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return GetBucketAccelerateConfigurationOutput(
-      status: _s.extractXmlStringValue($elem, 'Status')?.let(
-          BucketAccelerateStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue($elem, 'Status')
+          ?.let(BucketAccelerateStatus.fromString),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.let(RequestCharged.fromString),
@@ -6934,7 +6935,7 @@ class S3 {
       objectSize: _s.extractXmlIntValue($elem, 'ObjectSize'),
       storageClass: _s
           .extractXmlStringValue($elem, 'StorageClass')
-          ?.let(StorageClass.fromString) /* Nullability(true, true) */,
+          ?.let(StorageClass.fromString),
       deleteMarker:
           _s.extractHeaderBoolValue($result.headers, 'x-amz-delete-marker'),
       lastModified:
@@ -8684,7 +8685,7 @@ class S3 {
       delimiter: _s.extractXmlStringValue($elem, 'Delimiter'),
       encodingType: _s
           .extractXmlStringValue($elem, 'EncodingType')
-          ?.let(EncodingType.fromString) /* Nullability(true, true) */,
+          ?.let(EncodingType.fromString),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       keyMarker: _s.extractXmlStringValue($elem, 'KeyMarker'),
       maxUploads: _s.extractXmlIntValue($elem, 'MaxUploads'),
@@ -8828,7 +8829,7 @@ class S3 {
       delimiter: _s.extractXmlStringValue($elem, 'Delimiter'),
       encodingType: _s
           .extractXmlStringValue($elem, 'EncodingType')
-          ?.let(EncodingType.fromString) /* Nullability(true, true) */,
+          ?.let(EncodingType.fromString),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       keyMarker: _s.extractXmlStringValue($elem, 'KeyMarker'),
       maxKeys: _s.extractXmlIntValue($elem, 'MaxKeys'),
@@ -8997,7 +8998,7 @@ class S3 {
       delimiter: _s.extractXmlStringValue($elem, 'Delimiter'),
       encodingType: _s
           .extractXmlStringValue($elem, 'EncodingType')
-          ?.let(EncodingType.fromString) /* Nullability(true, true) */,
+          ?.let(EncodingType.fromString),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue($elem, 'Marker'),
       maxKeys: _s.extractXmlIntValue($elem, 'MaxKeys'),
@@ -9266,7 +9267,7 @@ class S3 {
       delimiter: _s.extractXmlStringValue($elem, 'Delimiter'),
       encodingType: _s
           .extractXmlStringValue($elem, 'EncodingType')
-          ?.let(EncodingType.fromString) /* Nullability(true, true) */,
+          ?.let(EncodingType.fromString),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       keyCount: _s.extractXmlIntValue($elem, 'KeyCount'),
       maxKeys: _s.extractXmlIntValue($elem, 'MaxKeys'),
@@ -9507,7 +9508,7 @@ class S3 {
       bucket: _s.extractXmlStringValue($elem, 'Bucket'),
       checksumAlgorithm: _s
           .extractXmlStringValue($elem, 'ChecksumAlgorithm')
-          ?.let(ChecksumAlgorithm.fromString) /* Nullability(true, true) */,
+          ?.let(ChecksumAlgorithm.fromString),
       initiator: _s.extractXmlChild($elem, 'Initiator')?.let(Initiator.fromXml),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       key: _s.extractXmlStringValue($elem, 'Key'),
@@ -9519,7 +9520,7 @@ class S3 {
       parts: $elem.findElements('Part').map(Part.fromXml).toList(),
       storageClass: _s
           .extractXmlStringValue($elem, 'StorageClass')
-          ?.let(StorageClass.fromString) /* Nullability(true, true) */,
+          ?.let(StorageClass.fromString),
       uploadId: _s.extractXmlStringValue($elem, 'UploadId'),
       abortDate:
           _s.extractHeaderDateTimeValue($result.headers, 'x-amz-abort-date'),
@@ -15719,7 +15720,7 @@ class AccessControlTranslation {
     return AccessControlTranslation(
       owner: _s
           .extractXmlStringValue(elem, 'Owner')!
-          .let(OwnerOverride.fromString) /* Nullability(true, false) */,
+          .let(OwnerOverride.fromString),
     );
   }
 
@@ -15981,9 +15982,9 @@ class AnalyticsS3BucketDestination {
   factory AnalyticsS3BucketDestination.fromXml(_s.XmlElement elem) {
     return AnalyticsS3BucketDestination(
       bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
-      format: _s.extractXmlStringValue(elem, 'Format')!.let(
-          AnalyticsS3ExportFileFormat
-              .fromString) /* Nullability(true, false) */,
+      format: _s
+          .extractXmlStringValue(elem, 'Format')!
+          .let(AnalyticsS3ExportFileFormat.fromString),
       bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
@@ -16781,9 +16782,7 @@ class CloudFunctionConfiguration {
   factory CloudFunctionConfiguration.fromXml(_s.XmlElement elem) {
     return CloudFunctionConfiguration(
       cloudFunction: _s.extractXmlStringValue(elem, 'CloudFunction'),
-      event: _s
-          .extractXmlStringValue(elem, 'Event')
-          ?.let(Event.fromString) /* Nullability(true, true) */,
+      event: _s.extractXmlStringValue(elem, 'Event')?.let(Event.fromString),
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map(Event.fromString)
@@ -17808,8 +17807,9 @@ class DefaultRetention {
   factory DefaultRetention.fromXml(_s.XmlElement elem) {
     return DefaultRetention(
       days: _s.extractXmlIntValue(elem, 'Days'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.let(
-          ObjectLockRetentionMode.fromString) /* Nullability(true, true) */,
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(ObjectLockRetentionMode.fromString),
       years: _s.extractXmlIntValue(elem, 'Years'),
     );
   }
@@ -17976,9 +17976,9 @@ class DeleteMarkerReplication {
   });
   factory DeleteMarkerReplication.fromXml(_s.XmlElement elem) {
     return DeleteMarkerReplication(
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          DeleteMarkerReplicationStatus
-              .fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(DeleteMarkerReplicationStatus.fromString),
     );
   }
 
@@ -18225,7 +18225,7 @@ class Destination {
           ?.let(ReplicationTime.fromXml),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(StorageClass.fromString) /* Nullability(true, true) */,
+          ?.let(StorageClass.fromString),
     );
   }
 
@@ -19996,9 +19996,9 @@ class ExistingObjectReplication {
   });
   factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
     return ExistingObjectReplication(
-      status: _s.extractXmlStringValue(elem, 'Status')!.let(
-          ExistingObjectReplicationStatus
-              .fromString) /* Nullability(true, false) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ExistingObjectReplicationStatus.fromString),
     );
   }
 
@@ -20115,7 +20115,7 @@ class FilterRule {
     return FilterRule(
       name: _s
           .extractXmlStringValue(elem, 'Name')
-          ?.let(FilterRuleName.fromString) /* Nullability(true, true) */,
+          ?.let(FilterRuleName.fromString),
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
@@ -20359,8 +20359,7 @@ class GetBucketLocationOutput {
     return GetBucketLocationOutput(
       locationConstraint: _s
           .extractXmlStringValue(elem, 'LocationConstraint')
-          ?.let(BucketLocationConstraint
-              .fromString) /* Nullability(true, true) */,
+          ?.let(BucketLocationConstraint.fromString),
     );
   }
 
@@ -20487,9 +20486,7 @@ class GetBucketRequestPaymentOutput {
   });
   factory GetBucketRequestPaymentOutput.fromXml(_s.XmlElement elem) {
     return GetBucketRequestPaymentOutput(
-      payer: _s
-          .extractXmlStringValue(elem, 'Payer')
-          ?.let(Payer.fromString) /* Nullability(true, true) */,
+      payer: _s.extractXmlStringValue(elem, 'Payer')?.let(Payer.fromString),
     );
   }
 
@@ -20544,9 +20541,10 @@ class GetBucketVersioningOutput {
     return GetBucketVersioningOutput(
       mFADelete: _s
           .extractXmlStringValue(elem, 'MfaDelete')
-          ?.let(MFADeleteStatus.fromString) /* Nullability(true, true) */,
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          BucketVersioningStatus.fromString) /* Nullability(true, true) */,
+          ?.let(MFADeleteStatus.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(BucketVersioningStatus.fromString),
     );
   }
 
@@ -21258,7 +21256,7 @@ class Grant {
       grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
       permission: _s
           .extractXmlStringValue(elem, 'Permission')
-          ?.let(Permission.fromString) /* Nullability(true, true) */,
+          ?.let(Permission.fromString),
     );
   }
 
@@ -21350,9 +21348,8 @@ class Grantee {
   });
   factory Grantee.fromXml(_s.XmlElement elem) {
     return Grantee(
-      type: _s
-          .extractXmlStringAttribute(elem, 'xsi:type')!
-          .let(Type.fromString) /* Nullability(true, false) */,
+      type:
+          _s.extractXmlStringAttribute(elem, 'xsi:type')!.let(Type.fromString),
       displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
       emailAddress: _s.extractXmlStringValue(elem, 'EmailAddress'),
       id: _s.extractXmlStringValue(elem, 'ID'),
@@ -22050,8 +22047,9 @@ class IntelligentTieringConfiguration {
   factory IntelligentTieringConfiguration.fromXml(_s.XmlElement elem) {
     return IntelligentTieringConfiguration(
       id: _s.extractXmlStringValue(elem, 'Id')!,
-      status: _s.extractXmlStringValue(elem, 'Status')!.let(
-          IntelligentTieringStatus.fromString) /* Nullability(true, false) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(IntelligentTieringStatus.fromString),
       tierings: elem.findElements('Tiering').map(Tiering.fromXml).toList(),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -22223,8 +22221,7 @@ class InventoryConfiguration {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       includedObjectVersions: _s
           .extractXmlStringValue(elem, 'IncludedObjectVersions')!
-          .let(InventoryIncludedObjectVersions
-              .fromString) /* Nullability(true, false) */,
+          .let(InventoryIncludedObjectVersions.fromString),
       isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
       schedule:
           InventorySchedule.fromXml(_s.extractXmlChild(elem, 'Schedule')!),
@@ -22526,7 +22523,7 @@ class InventoryS3BucketDestination {
       bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
       format: _s
           .extractXmlStringValue(elem, 'Format')!
-          .let(InventoryFormat.fromString) /* Nullability(true, false) */,
+          .let(InventoryFormat.fromString),
       accountId: _s.extractXmlStringValue(elem, 'AccountId'),
       encryption: _s
           .extractXmlChild(elem, 'Encryption')
@@ -22586,7 +22583,7 @@ class InventorySchedule {
     return InventorySchedule(
       frequency: _s
           .extractXmlStringValue(elem, 'Frequency')!
-          .let(InventoryFrequency.fromString) /* Nullability(true, false) */,
+          .let(InventoryFrequency.fromString),
     );
   }
 
@@ -22930,7 +22927,7 @@ class LifecycleRule {
     return LifecycleRule(
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(ExpirationStatus.fromString) /* Nullability(true, false) */,
+          .let(ExpirationStatus.fromString),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
           ?.let(AbortIncompleteMultipartUpload.fromXml),
@@ -24355,7 +24352,7 @@ class Metrics {
     return Metrics(
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(MetricsStatus.fromString) /* Nullability(true, false) */,
+          .let(MetricsStatus.fromString),
       eventThreshold: _s
           .extractXmlChild(elem, 'EventThreshold')
           ?.let(ReplicationTimeValue.fromXml),
@@ -24633,14 +24630,14 @@ class MultipartUpload {
     return MultipartUpload(
       checksumAlgorithm: _s
           .extractXmlStringValue(elem, 'ChecksumAlgorithm')
-          ?.let(ChecksumAlgorithm.fromString) /* Nullability(true, true) */,
+          ?.let(ChecksumAlgorithm.fromString),
       initiated: _s.extractXmlDateTimeValue(elem, 'Initiated'),
       initiator: _s.extractXmlChild(elem, 'Initiator')?.let(Initiator.fromXml),
       key: _s.extractXmlStringValue(elem, 'Key'),
       owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(StorageClass.fromString) /* Nullability(true, true) */,
+          ?.let(StorageClass.fromString),
       uploadId: _s.extractXmlStringValue(elem, 'UploadId'),
     );
   }
@@ -24771,8 +24768,9 @@ class NoncurrentVersionTransition {
       newerNoncurrentVersions:
           _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
-      storageClass: _s.extractXmlStringValue(elem, 'StorageClass')?.let(
-          TransitionStorageClass.fromString) /* Nullability(true, true) */,
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(TransitionStorageClass.fromString),
     );
   }
 
@@ -25102,7 +25100,7 @@ class Object {
       size: _s.extractXmlIntValue(elem, 'Size'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(ObjectStorageClass.fromString) /* Nullability(true, true) */,
+          ?.let(ObjectStorageClass.fromString),
     );
   }
 
@@ -25238,7 +25236,7 @@ class ObjectLockConfiguration {
     return ObjectLockConfiguration(
       objectLockEnabled: _s
           .extractXmlStringValue(elem, 'ObjectLockEnabled')
-          ?.let(ObjectLockEnabled.fromString) /* Nullability(true, true) */,
+          ?.let(ObjectLockEnabled.fromString),
       rule: _s.extractXmlChild(elem, 'Rule')?.let(ObjectLockRule.fromXml),
     );
   }
@@ -25296,8 +25294,9 @@ class ObjectLockLegalHold {
   });
   factory ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
     return ObjectLockLegalHold(
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          ObjectLockLegalHoldStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ObjectLockLegalHoldStatus.fromString),
     );
   }
 
@@ -25368,8 +25367,9 @@ class ObjectLockRetention {
   });
   factory ObjectLockRetention.fromXml(_s.XmlElement elem) {
     return ObjectLockRetention(
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.let(
-          ObjectLockRetentionMode.fromString) /* Nullability(true, true) */,
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(ObjectLockRetentionMode.fromString),
       retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate',
           parser: _s.timeStampFromJson),
     );
@@ -25680,8 +25680,9 @@ class ObjectVersion {
       restoreStatus:
           _s.extractXmlChild(elem, 'RestoreStatus')?.let(RestoreStatus.fromXml),
       size: _s.extractXmlIntValue(elem, 'Size'),
-      storageClass: _s.extractXmlStringValue(elem, 'StorageClass')?.let(
-          ObjectVersionStorageClass.fromString) /* Nullability(true, true) */,
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(ObjectVersionStorageClass.fromString),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
   }
@@ -25954,7 +25955,7 @@ class OwnershipControlsRule {
     return OwnershipControlsRule(
       objectOwnership: _s
           .extractXmlStringValue(elem, 'ObjectOwnership')!
-          .let(ObjectOwnership.fromString) /* Nullability(true, false) */,
+          .let(ObjectOwnership.fromString),
     );
   }
 
@@ -26131,7 +26132,7 @@ class PartitionedPrefix {
     return PartitionedPrefix(
       partitionDateSource: _s
           .extractXmlStringValue(elem, 'PartitionDateSource')
-          ?.let(PartitionDateSource.fromString) /* Nullability(true, true) */,
+          ?.let(PartitionDateSource.fromString),
     );
   }
 
@@ -26723,9 +26724,7 @@ class QueueConfigurationDeprecated {
   });
   factory QueueConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return QueueConfigurationDeprecated(
-      event: _s
-          .extractXmlStringValue(elem, 'Event')
-          ?.let(Event.fromString) /* Nullability(true, true) */,
+      event: _s.extractXmlStringValue(elem, 'Event')?.let(Event.fromString),
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map(Event.fromString)
@@ -26859,9 +26858,8 @@ class Redirect {
     return Redirect(
       hostName: _s.extractXmlStringValue(elem, 'HostName'),
       httpRedirectCode: _s.extractXmlStringValue(elem, 'HttpRedirectCode'),
-      protocol: _s
-          .extractXmlStringValue(elem, 'Protocol')
-          ?.let(Protocol.fromString) /* Nullability(true, true) */,
+      protocol:
+          _s.extractXmlStringValue(elem, 'Protocol')?.let(Protocol.fromString),
       replaceKeyPrefixWith:
           _s.extractXmlStringValue(elem, 'ReplaceKeyPrefixWith'),
       replaceKeyWith: _s.extractXmlStringValue(elem, 'ReplaceKeyWith'),
@@ -26928,9 +26926,8 @@ class RedirectAllRequestsTo {
   factory RedirectAllRequestsTo.fromXml(_s.XmlElement elem) {
     return RedirectAllRequestsTo(
       hostName: _s.extractXmlStringValue(elem, 'HostName')!,
-      protocol: _s
-          .extractXmlStringValue(elem, 'Protocol')
-          ?.let(Protocol.fromString) /* Nullability(true, true) */,
+      protocol:
+          _s.extractXmlStringValue(elem, 'Protocol')?.let(Protocol.fromString),
     );
   }
 
@@ -26980,8 +26977,9 @@ class ReplicaModifications {
   });
   factory ReplicaModifications.fromXml(_s.XmlElement elem) {
     return ReplicaModifications(
-      status: _s.extractXmlStringValue(elem, 'Status')!.let(
-          ReplicaModificationsStatus.fromString) /* Nullability(true, false) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ReplicaModificationsStatus.fromString),
     );
   }
 
@@ -27144,7 +27142,7 @@ class ReplicationRule {
           Destination.fromXml(_s.extractXmlChild(elem, 'Destination')!),
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(ReplicationRuleStatus.fromString) /* Nullability(true, false) */,
+          .let(ReplicationRuleStatus.fromString),
       deleteMarkerReplication: _s
           .extractXmlChild(elem, 'DeleteMarkerReplication')
           ?.let(DeleteMarkerReplication.fromXml),
@@ -27420,7 +27418,7 @@ class ReplicationTime {
     return ReplicationTime(
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(ReplicationTimeStatus.fromString) /* Nullability(true, false) */,
+          .let(ReplicationTimeStatus.fromString),
       time: ReplicationTimeValue.fromXml(_s.extractXmlChild(elem, 'Time')!),
     );
   }
@@ -27901,7 +27899,7 @@ class Rule {
       prefix: _s.extractXmlStringValue(elem, 'Prefix')!,
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(ExpirationStatus.fromString) /* Nullability(true, false) */,
+          .let(ExpirationStatus.fromString),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
           ?.let(AbortIncompleteMultipartUpload.fromXml),
@@ -28573,7 +28571,7 @@ class ServerSideEncryptionByDefault {
     return ServerSideEncryptionByDefault(
       sSEAlgorithm: _s
           .extractXmlStringValue(elem, 'SSEAlgorithm')!
-          .let(ServerSideEncryption.fromString) /* Nullability(true, false) */,
+          .let(ServerSideEncryption.fromString),
       kMSMasterKeyID: _s.extractXmlStringValue(elem, 'KMSMasterKeyID'),
     );
   }
@@ -28896,9 +28894,9 @@ class SseKmsEncryptedObjects {
   });
   factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
     return SseKmsEncryptedObjects(
-      status: _s.extractXmlStringValue(elem, 'Status')!.let(
-          SseKmsEncryptedObjectsStatus
-              .fromString) /* Nullability(true, false) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(SseKmsEncryptedObjectsStatus.fromString),
     );
   }
 
@@ -29084,8 +29082,7 @@ class StorageClassAnalysisDataExport {
           _s.extractXmlChild(elem, 'Destination')!),
       outputSchemaVersion: _s
           .extractXmlStringValue(elem, 'OutputSchemaVersion')!
-          .let(StorageClassAnalysisSchemaVersion
-              .fromString) /* Nullability(true, false) */,
+          .let(StorageClassAnalysisSchemaVersion.fromString),
     );
   }
 
@@ -29246,7 +29243,7 @@ class TargetGrant {
       grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
       permission: _s
           .extractXmlStringValue(elem, 'Permission')
-          ?.let(BucketLogsPermission.fromString) /* Nullability(true, true) */,
+          ?.let(BucketLogsPermission.fromString),
     );
   }
 
@@ -29369,9 +29366,9 @@ class Tiering {
   });
   factory Tiering.fromXml(_s.XmlElement elem) {
     return Tiering(
-      accessTier: _s.extractXmlStringValue(elem, 'AccessTier')!.let(
-          IntelligentTieringAccessTier
-              .fromString) /* Nullability(true, false) */,
+      accessTier: _s
+          .extractXmlStringValue(elem, 'AccessTier')!
+          .let(IntelligentTieringAccessTier.fromString),
       days: _s.extractXmlIntValue(elem, 'Days')!,
     );
   }
@@ -29499,9 +29496,7 @@ class TopicConfigurationDeprecated {
   });
   factory TopicConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return TopicConfigurationDeprecated(
-      event: _s
-          .extractXmlStringValue(elem, 'Event')
-          ?.let(Event.fromString) /* Nullability(true, true) */,
+      event: _s.extractXmlStringValue(elem, 'Event')?.let(Event.fromString),
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map(Event.fromString)
@@ -29573,8 +29568,9 @@ class Transition {
       date: _s.extractXmlDateTimeValue(elem, 'Date',
           parser: _s.timeStampFromJson),
       days: _s.extractXmlIntValue(elem, 'Days'),
-      storageClass: _s.extractXmlStringValue(elem, 'StorageClass')?.let(
-          TransitionStorageClass.fromString) /* Nullability(true, true) */,
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(TransitionStorageClass.fromString),
     );
   }
 

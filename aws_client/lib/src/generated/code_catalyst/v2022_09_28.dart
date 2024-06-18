@@ -2528,14 +2528,14 @@ class DevEnvironmentSummary {
       persistentStorage: PersistentStorage.fromJson(
           json['persistentStorage'] as Map<String, dynamic>),
       repositories: (json['repositories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DevEnvironmentRepositorySummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       status: DevEnvironmentStatus.fromString((json['status'] as String)),
       alias: json['alias'] as String?,
       ides: (json['ides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Ide.fromJson(e as Map<String, dynamic>))
           .toList(),
       projectName: json['projectName'] as String?,
@@ -2921,7 +2921,7 @@ class GetDevEnvironmentResponse {
           json['persistentStorage'] as Map<String, dynamic>),
       projectName: json['projectName'] as String,
       repositories: (json['repositories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DevEnvironmentRepositorySummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2929,7 +2929,7 @@ class GetDevEnvironmentResponse {
       status: DevEnvironmentStatus.fromString((json['status'] as String)),
       alias: json['alias'] as String?,
       ides: (json['ides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Ide.fromJson(e as Map<String, dynamic>))
           .toList(),
       statusReason: json['statusReason'] as String?,
@@ -3408,7 +3408,7 @@ class GetWorkflowRunResponse {
       workflowId: json['workflowId'] as String,
       endTime: timeStampFromJson(json['endTime']),
       statusReasons: (json['statusReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3540,7 +3540,7 @@ class ListAccessTokensResponse {
   factory ListAccessTokensResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessTokensResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccessTokenSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3574,7 +3574,7 @@ class ListDevEnvironmentSessionsResponse {
       Map<String, dynamic> json) {
     return ListDevEnvironmentSessionsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               DevEnvironmentSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3608,7 +3608,7 @@ class ListDevEnvironmentsResponse {
   factory ListDevEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDevEnvironmentsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DevEnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3641,7 +3641,7 @@ class ListEventLogsResponse {
   factory ListEventLogsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventLogsResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => EventLogEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3674,7 +3674,7 @@ class ListProjectsResponse {
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3764,7 +3764,7 @@ class ListSourceRepositoriesResponse {
   factory ListSourceRepositoriesResponse.fromJson(Map<String, dynamic> json) {
     return ListSourceRepositoriesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ListSourceRepositoriesItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3848,7 +3848,7 @@ class ListSourceRepositoryBranchesResponse {
       Map<String, dynamic> json) {
     return ListSourceRepositoryBranchesResponse(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListSourceRepositoryBranchesItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3882,7 +3882,7 @@ class ListSpacesResponse {
   factory ListSpacesResponse.fromJson(Map<String, dynamic> json) {
     return ListSpacesResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SpaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3915,7 +3915,7 @@ class ListWorkflowRunsResponse {
   factory ListWorkflowRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowRunsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3948,7 +3948,7 @@ class ListWorkflowsResponse {
   factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsResponse(
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkflowSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4467,7 +4467,7 @@ class UpdateDevEnvironmentResponse {
       alias: json['alias'] as String?,
       clientToken: json['clientToken'] as String?,
       ides: (json['ides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdeConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       inactivityTimeoutMinutes: json['inactivityTimeoutMinutes'] as int?,
@@ -4825,7 +4825,7 @@ class WorkflowRunSummary {
       workflowName: json['workflowName'] as String,
       endTime: timeStampFromJson(json['endTime']),
       statusReasons: (json['statusReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
           .toList(),

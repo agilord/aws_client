@@ -263,7 +263,7 @@ class GetEntitlementsResult {
   factory GetEntitlementsResult.fromJson(Map<String, dynamic> json) {
     return GetEntitlementsResult(
       entitlements: (json['Entitlements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

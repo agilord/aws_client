@@ -1599,7 +1599,7 @@ class Backup {
       s3DataUrl: json['S3DataUrl'] as String?,
       s3LogUrl: json['S3LogUrl'] as String?,
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serverName: json['ServerName'] as String?,
@@ -1607,7 +1607,7 @@ class Backup {
       status: (json['Status'] as String?)?.let(BackupStatus.fromString),
       statusDescription: json['StatusDescription'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       toolsVersion: json['ToolsVersion'] as String?,
@@ -1709,7 +1709,7 @@ class DescribeAccountAttributesResponse {
       Map<String, dynamic> json) {
     return DescribeAccountAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1731,7 +1731,7 @@ class DescribeBackupsResponse {
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBackupsResponse(
       backups: (json['Backups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Backup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1763,7 +1763,7 @@ class DescribeEventsResponse {
     return DescribeEventsResponse(
       nextToken: json['NextToken'] as String?,
       serverEvents: (json['ServerEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServerEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1801,7 +1801,7 @@ class DescribeNodeAssociationStatusResponse {
       Map<String, dynamic> json) {
     return DescribeNodeAssociationStatusResponse(
       engineAttributes: (json['EngineAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EngineAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       nodeAssociationStatus: (json['NodeAssociationStatus'] as String?)
@@ -1852,7 +1852,7 @@ class DescribeServersResponse {
     return DescribeServersResponse(
       nextToken: json['NextToken'] as String?,
       servers: (json['Servers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Server.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1947,7 +1947,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2181,7 +2181,7 @@ class Server {
       endpoint: json['Endpoint'] as String?,
       engine: json['Engine'] as String?,
       engineAttributes: (json['EngineAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EngineAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       engineModel: json['EngineModel'] as String?,
@@ -2194,7 +2194,7 @@ class Server {
       preferredBackupWindow: json['PreferredBackupWindow'] as String?,
       preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       serverArn: json['ServerArn'] as String?,
@@ -2203,7 +2203,7 @@ class Server {
       status: (json['Status'] as String?)?.let(ServerStatus.fromString),
       statusReason: json['StatusReason'] as String?,
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

@@ -1713,18 +1713,18 @@ class CatalogItem {
     return CatalogItem(
       catalogItemId: json['CatalogItemId'] as String?,
       eC2Capacities: (json['EC2Capacities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EC2Capacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       itemStatus:
           (json['ItemStatus'] as String?)?.let(CatalogItemStatus.fromString),
       powerKva: json['PowerKva'] as double?,
       supportedStorage: (json['SupportedStorage'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedStorageEnum.fromString((e as String)))
           .toList(),
       supportedUplinkGbps: (json['SupportedUplinkGbps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       weightLbs: json['WeightLbs'] as int?,
@@ -1838,7 +1838,7 @@ class ComputeAttributes {
     return ComputeAttributes(
       hostId: json['HostId'] as String?,
       instanceFamilies: (json['InstanceFamilies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: (json['State'] as String?)?.let(ComputeAssetState.fromString),
@@ -1889,7 +1889,7 @@ class ConnectionDetails {
   factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
     return ConnectionDetails(
       allowedIps: (json['AllowedIps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       clientPublicKey: json['ClientPublicKey'] as String?,
@@ -2144,7 +2144,7 @@ class GetCapacityTaskOutput {
       orderId: json['OrderId'] as String?,
       outpostId: json['OutpostId'] as String?,
       requestedInstancePools: (json['RequestedInstancePools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceTypeCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2278,7 +2278,7 @@ class GetOutpostInstanceTypesOutput {
   factory GetOutpostInstanceTypesOutput.fromJson(Map<String, dynamic> json) {
     return GetOutpostInstanceTypesOutput(
       instanceTypes: (json['InstanceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2337,7 +2337,7 @@ class GetOutpostSupportedInstanceTypesOutput {
       Map<String, dynamic> json) {
     return GetOutpostSupportedInstanceTypesOutput(
       instanceTypes: (json['InstanceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2507,7 +2507,7 @@ class LineItem {
   factory LineItem.fromJson(Map<String, dynamic> json) {
     return LineItem(
       assetInformationList: (json['AssetInformationList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LineItemAssetInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2565,7 +2565,7 @@ class LineItemAssetInformation {
     return LineItemAssetInformation(
       assetId: json['AssetId'] as String?,
       macAddressList: (json['MacAddressList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2639,7 +2639,7 @@ class ListAssetsOutput {
   factory ListAssetsOutput.fromJson(Map<String, dynamic> json) {
     return ListAssetsOutput(
       assets: (json['Assets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2669,7 +2669,7 @@ class ListCapacityTasksOutput {
   factory ListCapacityTasksOutput.fromJson(Map<String, dynamic> json) {
     return ListCapacityTasksOutput(
       capacityTasks: (json['CapacityTasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CapacityTaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2699,7 +2699,7 @@ class ListCatalogItemsOutput {
   factory ListCatalogItemsOutput.fromJson(Map<String, dynamic> json) {
     return ListCatalogItemsOutput(
       catalogItems: (json['CatalogItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CatalogItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2731,7 +2731,7 @@ class ListOrdersOutput {
     return ListOrdersOutput(
       nextToken: json['NextToken'] as String?,
       orders: (json['Orders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrderSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2760,7 +2760,7 @@ class ListOutpostsOutput {
     return ListOutpostsOutput(
       nextToken: json['NextToken'] as String?,
       outposts: (json['Outposts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2789,7 +2789,7 @@ class ListSitesOutput {
     return ListSitesOutput(
       nextToken: json['NextToken'] as String?,
       sites: (json['Sites'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Site.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2939,7 +2939,7 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
       lineItems: (json['LineItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LineItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       orderFulfilledDate: timeStampFromJson(json['OrderFulfilledDate']),
@@ -3593,7 +3593,7 @@ class StartCapacityTaskOutput {
       orderId: json['OrderId'] as String?,
       outpostId: json['OutpostId'] as String?,
       requestedInstancePools: (json['RequestedInstancePools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InstanceTypeCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

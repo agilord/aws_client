@@ -1015,7 +1015,7 @@ class ChangeSetSummaryListItem {
       changeSetName: json['ChangeSetName'] as String?,
       endTime: json['EndTime'] as String?,
       entityIdList: (json['EntityIdList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       failureCode:
@@ -1089,7 +1089,7 @@ class ChangeSummary {
           ? Entity.fromJson(json['Entity'] as Map<String, dynamic>)
           : null,
       errorDetailList: (json['ErrorDetailList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1606,7 +1606,7 @@ class DescribeChangeSetResponse {
   factory DescribeChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeChangeSetResponse(
       changeSet: (json['ChangeSet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       changeSetArn: json['ChangeSetArn'] as String?,
@@ -2114,7 +2114,7 @@ class ListChangeSetsResponse {
   factory ListChangeSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListChangeSetsResponse(
       changeSetSummaryList: (json['ChangeSetSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ChangeSetSummaryListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2138,7 +2138,7 @@ class ListEntitiesResponse {
   factory ListEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListEntitiesResponse(
       entitySummaryList: (json['EntitySummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EntitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2163,7 +2163,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       resourceArn: json['ResourceArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2595,7 +2595,7 @@ class OfferSummary {
     return OfferSummary(
       availabilityEndDate: json['AvailabilityEndDate'] as String?,
       buyerAccounts: (json['BuyerAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -2604,7 +2604,7 @@ class OfferSummary {
       resaleAuthorizationId: json['ResaleAuthorizationId'] as String?,
       state: (json['State'] as String?)?.let(OfferStateString.fromString),
       targeting: (json['Targeting'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OfferTargetingString.fromString((e as String)))
           .toList(),
     );

@@ -1114,7 +1114,7 @@ class AnalysisOptions {
     return AnalysisOptions(
       algorithmicStemming: _s
           .extractXmlStringValue(elem, 'AlgorithmicStemming')
-          ?.let(AlgorithmicStemming.fromString) /* Nullability(true, true) */,
+          ?.let(AlgorithmicStemming.fromString),
       japaneseTokenizationDictionary:
           _s.extractXmlStringValue(elem, 'JapaneseTokenizationDictionary'),
       stemmingDictionary: _s.extractXmlStringValue(elem, 'StemmingDictionary'),
@@ -1178,8 +1178,7 @@ class AnalysisScheme {
     return AnalysisScheme(
       analysisSchemeLanguage: _s
           .extractXmlStringValue(elem, 'AnalysisSchemeLanguage')!
-          .let(
-              AnalysisSchemeLanguage.fromString) /* Nullability(true, false) */,
+          .let(AnalysisSchemeLanguage.fromString),
       analysisSchemeName: _s.extractXmlStringValue(elem, 'AnalysisSchemeName')!,
       analysisOptions: _s
           .extractXmlChild(elem, 'AnalysisOptions')
@@ -1978,8 +1977,9 @@ class DocumentSuggesterOptions {
   factory DocumentSuggesterOptions.fromXml(_s.XmlElement elem) {
     return DocumentSuggesterOptions(
       sourceField: _s.extractXmlStringValue(elem, 'SourceField')!,
-      fuzzyMatching: _s.extractXmlStringValue(elem, 'FuzzyMatching')?.let(
-          SuggesterFuzzyMatching.fromString) /* Nullability(true, true) */,
+      fuzzyMatching: _s
+          .extractXmlStringValue(elem, 'FuzzyMatching')
+          ?.let(SuggesterFuzzyMatching.fromString),
       sortExpression: _s.extractXmlStringValue(elem, 'SortExpression'),
     );
   }
@@ -2024,7 +2024,7 @@ class DomainEndpointOptions {
       enforceHTTPS: _s.extractXmlBoolValue(elem, 'EnforceHTTPS'),
       tLSSecurityPolicy: _s
           .extractXmlStringValue(elem, 'TLSSecurityPolicy')
-          ?.let(TLSSecurityPolicy.fromString) /* Nullability(true, true) */,
+          ?.let(TLSSecurityPolicy.fromString),
     );
   }
 
@@ -2482,7 +2482,7 @@ class IndexField {
       indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName')!,
       indexFieldType: _s
           .extractXmlStringValue(elem, 'IndexFieldType')!
-          .let(IndexFieldType.fromString) /* Nullability(true, false) */,
+          .let(IndexFieldType.fromString),
       dateArrayOptions: _s
           .extractXmlChild(elem, 'DateArrayOptions')
           ?.let(DateArrayOptions.fromXml),
@@ -3142,9 +3142,8 @@ class OptionStatus {
   factory OptionStatus.fromXml(_s.XmlElement elem) {
     return OptionStatus(
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
-      state: _s
-          .extractXmlStringValue(elem, 'State')!
-          .let(OptionState.fromString) /* Nullability(true, false) */,
+      state:
+          _s.extractXmlStringValue(elem, 'State')!.let(OptionState.fromString),
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate')!,
       pendingDeletion: _s.extractXmlBoolValue(elem, 'PendingDeletion'),
       updateVersion: _s.extractXmlIntValue(elem, 'UpdateVersion'),
@@ -3222,7 +3221,7 @@ class ScalingParameters {
     return ScalingParameters(
       desiredInstanceType: _s
           .extractXmlStringValue(elem, 'DesiredInstanceType')
-          ?.let(PartitionInstanceType.fromString) /* Nullability(true, true) */,
+          ?.let(PartitionInstanceType.fromString),
       desiredPartitionCount:
           _s.extractXmlIntValue(elem, 'DesiredPartitionCount'),
       desiredReplicationCount:

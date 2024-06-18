@@ -1278,11 +1278,11 @@ class VirtualNodeSpec {
   factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) {
     return VirtualNodeSpec(
       backends: (json['backends'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       listeners: (json['listeners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Listener.fromJson(e as Map<String, dynamic>))
           .toList(),
       serviceDiscovery: json['serviceDiscovery'] != null
@@ -1383,7 +1383,7 @@ class HttpRouteAction {
   factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
     return HttpRouteAction(
       weightedTargets: (json['weightedTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1480,7 +1480,7 @@ class ListMeshesOutput {
   factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
     return ListMeshesOutput(
       meshes: (json['meshes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1648,7 +1648,7 @@ class ListRoutesOutput {
   factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListRoutesOutput(
       routes: (json['routes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1763,7 +1763,7 @@ class ListVirtualNodesOutput {
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualNodesOutput(
       virtualNodes: (json['virtualNodes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1817,7 +1817,7 @@ class ListVirtualRoutersOutput {
   factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualRoutersOutput(
       virtualRouters: (json['virtualRouters'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2013,7 +2013,7 @@ class VirtualRouterSpec {
   factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) {
     return VirtualRouterSpec(
       serviceNames: (json['serviceNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

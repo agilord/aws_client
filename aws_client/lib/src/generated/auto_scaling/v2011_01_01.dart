@@ -4958,8 +4958,9 @@ class Activity {
           _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
       cause: _s.extractXmlStringValue(elem, 'Cause')!,
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')!.let(
-          ScalingActivityStatusCode.fromString) /* Nullability(true, false) */,
+      statusCode: _s
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .let(ScalingActivityStatusCode.fromString),
       autoScalingGroupARN:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
       autoScalingGroupState:
@@ -6024,7 +6025,7 @@ class CustomizedMetricSpecification {
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       statistic: _s
           .extractXmlStringValue(elem, 'Statistic')
-          ?.let(MetricStatistic.fromString) /* Nullability(true, true) */,
+          ?.let(MetricStatistic.fromString),
       unit: _s.extractXmlStringValue(elem, 'Unit'),
     );
   }
@@ -7185,7 +7186,7 @@ class Instance {
       instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
       lifecycleState: _s
           .extractXmlStringValue(elem, 'LifecycleState')!
-          .let(LifecycleState.fromString) /* Nullability(true, false) */,
+          .let(LifecycleState.fromString),
       protectedFromScaleIn:
           _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
@@ -7371,14 +7372,14 @@ class InstanceMetadataOptions {
   });
   factory InstanceMetadataOptions.fromXml(_s.XmlElement elem) {
     return InstanceMetadataOptions(
-      httpEndpoint: _s.extractXmlStringValue(elem, 'HttpEndpoint')?.let(
-          InstanceMetadataEndpointState
-              .fromString) /* Nullability(true, true) */,
+      httpEndpoint: _s
+          .extractXmlStringValue(elem, 'HttpEndpoint')
+          ?.let(InstanceMetadataEndpointState.fromString),
       httpPutResponseHopLimit:
           _s.extractXmlIntValue(elem, 'HttpPutResponseHopLimit'),
-      httpTokens: _s.extractXmlStringValue(elem, 'HttpTokens')?.let(
-          InstanceMetadataHttpTokensState
-              .fromString) /* Nullability(true, true) */,
+      httpTokens: _s
+          .extractXmlStringValue(elem, 'HttpTokens')
+          ?.let(InstanceMetadataHttpTokensState.fromString),
     );
   }
 
@@ -7562,7 +7563,7 @@ class InstanceRefresh {
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(InstanceRefreshStatus.fromString) /* Nullability(true, true) */,
+          ?.let(InstanceRefreshStatus.fromString),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -8143,13 +8144,13 @@ class InstanceRequirements {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       bareMetal: _s
           .extractXmlStringValue(elem, 'BareMetal')
-          ?.let(BareMetal.fromString) /* Nullability(true, true) */,
+          ?.let(BareMetal.fromString),
       baselineEbsBandwidthMbps: _s
           .extractXmlChild(elem, 'BaselineEbsBandwidthMbps')
           ?.let(BaselineEbsBandwidthMbpsRequest.fromXml),
       burstablePerformance: _s
           .extractXmlStringValue(elem, 'BurstablePerformance')
-          ?.let(BurstablePerformance.fromString) /* Nullability(true, true) */,
+          ?.let(BurstablePerformance.fromString),
       cpuManufacturers: _s.extractXmlChild(elem, 'CpuManufacturers')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
@@ -8165,7 +8166,7 @@ class InstanceRequirements {
               .toList()),
       localStorage: _s
           .extractXmlStringValue(elem, 'LocalStorage')
-          ?.let(LocalStorage.fromString) /* Nullability(true, true) */,
+          ?.let(LocalStorage.fromString),
       localStorageTypes: _s.extractXmlChild(elem, 'LocalStorageTypes')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
@@ -10436,7 +10437,7 @@ class PredefinedMetricSpecification {
     return PredefinedMetricSpecification(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(MetricType.fromString) /* Nullability(true, false) */,
+          .let(MetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -10554,12 +10555,11 @@ class PredictiveScalingConfiguration {
           .toList(),
       maxCapacityBreachBehavior: _s
           .extractXmlStringValue(elem, 'MaxCapacityBreachBehavior')
-          ?.let(PredictiveScalingMaxCapacityBreachBehavior
-              .fromString) /* Nullability(true, true) */,
+          ?.let(PredictiveScalingMaxCapacityBreachBehavior.fromString),
       maxCapacityBuffer: _s.extractXmlIntValue(elem, 'MaxCapacityBuffer'),
       mode: _s
           .extractXmlStringValue(elem, 'Mode')
-          ?.let(PredictiveScalingMode.fromString) /* Nullability(true, true) */,
+          ?.let(PredictiveScalingMode.fromString),
       schedulingBufferTime: _s.extractXmlIntValue(elem, 'SchedulingBufferTime'),
     );
   }
@@ -10997,8 +10997,7 @@ class PredictiveScalingPredefinedLoadMetric {
     return PredictiveScalingPredefinedLoadMetric(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(PredefinedLoadMetricType
-              .fromString) /* Nullability(true, false) */,
+          .let(PredefinedLoadMetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -11070,8 +11069,7 @@ class PredictiveScalingPredefinedMetricPair {
     return PredictiveScalingPredefinedMetricPair(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(PredefinedMetricPairType
-              .fromString) /* Nullability(true, false) */,
+          .let(PredefinedMetricPairType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -11143,8 +11141,7 @@ class PredictiveScalingPredefinedScalingMetric {
     return PredictiveScalingPredefinedScalingMetric(
       predefinedMetricType: _s
           .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(PredefinedScalingMetricType
-              .fromString) /* Nullability(true, false) */,
+          .let(PredefinedScalingMetricType.fromString),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
@@ -11448,12 +11445,11 @@ class RefreshPreferences {
       minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
       scaleInProtectedInstances: _s
           .extractXmlStringValue(elem, 'ScaleInProtectedInstances')
-          ?.let(ScaleInProtectedInstances
-              .fromString) /* Nullability(true, true) */,
+          ?.let(ScaleInProtectedInstances.fromString),
       skipMatching: _s.extractXmlBoolValue(elem, 'SkipMatching'),
       standbyInstances: _s
           .extractXmlStringValue(elem, 'StandbyInstances')
-          ?.let(StandbyInstances.fromString) /* Nullability(true, true) */,
+          ?.let(StandbyInstances.fromString),
     );
   }
 
@@ -12956,10 +12952,10 @@ class WarmPoolConfiguration {
       minSize: _s.extractXmlIntValue(elem, 'MinSize'),
       poolState: _s
           .extractXmlStringValue(elem, 'PoolState')
-          ?.let(WarmPoolState.fromString) /* Nullability(true, true) */,
+          ?.let(WarmPoolState.fromString),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(WarmPoolStatus.fromString) /* Nullability(true, true) */,
+          ?.let(WarmPoolStatus.fromString),
     );
   }
 

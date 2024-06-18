@@ -347,7 +347,7 @@ class AssociateS3ResourcesResult {
   factory AssociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return AssociateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -431,7 +431,7 @@ class DisassociateS3ResourcesResult {
   factory DisassociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return DisassociateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -487,7 +487,7 @@ class ListMemberAccountsResult {
   factory ListMemberAccountsResult.fromJson(Map<String, dynamic> json) {
     return ListMemberAccountsResult(
       memberAccounts: (json['memberAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -515,7 +515,7 @@ class ListS3ResourcesResult {
     return ListS3ResourcesResult(
       nextToken: json['nextToken'] as String?,
       s3Resources: (json['s3Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               S3ResourceClassification.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -694,7 +694,7 @@ class UpdateS3ResourcesResult {
   factory UpdateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return UpdateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

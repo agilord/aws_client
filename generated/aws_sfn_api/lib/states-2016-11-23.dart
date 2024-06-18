@@ -3465,7 +3465,7 @@ class DescribeStateMachineAliasOutput {
       description: json['description'] as String?,
       name: json['name'] as String?,
       routingConfiguration: (json['routingConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RoutingConfigurationListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4034,7 +4034,7 @@ class GetExecutionHistoryOutput {
   factory GetExecutionHistoryOutput.fromJson(Map<String, dynamic> json) {
     return GetExecutionHistoryOutput(
       events: (json['events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4795,7 +4795,7 @@ class ListActivitiesOutput {
   factory ListActivitiesOutput.fromJson(Map<String, dynamic> json) {
     return ListActivitiesOutput(
       activities: (json['activities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActivityListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4823,7 +4823,7 @@ class ListExecutionsOutput {
   factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListExecutionsOutput(
       executions: (json['executions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ExecutionListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4853,7 +4853,7 @@ class ListMapRunsOutput {
   factory ListMapRunsOutput.fromJson(Map<String, dynamic> json) {
     return ListMapRunsOutput(
       mapRuns: (json['mapRuns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MapRunListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4881,7 +4881,7 @@ class ListStateMachineAliasesOutput {
   factory ListStateMachineAliasesOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachineAliasesOutput(
       stateMachineAliases: (json['stateMachineAliases'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               StateMachineAliasListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4910,7 +4910,7 @@ class ListStateMachineVersionsOutput {
   factory ListStateMachineVersionsOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachineVersionsOutput(
       stateMachineVersions: (json['stateMachineVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               StateMachineVersionListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4938,7 +4938,7 @@ class ListStateMachinesOutput {
   factory ListStateMachinesOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachinesOutput(
       stateMachines: (json['stateMachines'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StateMachineListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4957,7 +4957,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5033,7 +5033,7 @@ class LoggingConfiguration {
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       includeExecutionData: json['includeExecutionData'] as bool?,
@@ -6366,7 +6366,7 @@ class ValidateStateMachineDefinitionOutput {
       Map<String, dynamic> json) {
     return ValidateStateMachineDefinitionOutput(
       diagnostics: (json['diagnostics'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
               e as Map<String, dynamic>))
           .toList(),

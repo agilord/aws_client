@@ -3101,8 +3101,9 @@ class ApplicationVersionDescription {
           ?.let(SourceBuildInformation.fromXml),
       sourceBundle:
           _s.extractXmlChild(elem, 'SourceBundle')?.let(S3Location.fromXml),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          ApplicationVersionStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ApplicationVersionStatus.fromString),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
@@ -3291,7 +3292,7 @@ class ApplyEnvironmentManagedActionResult {
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
       actionType: _s
           .extractXmlStringValue(elem, 'ActionType')
-          ?.let(ActionType.fromString) /* Nullability(true, true) */,
+          ?.let(ActionType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -3721,9 +3722,9 @@ class ConfigurationOptionDescription {
       valueOptions: _s
           .extractXmlChild(elem, 'ValueOptions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      valueType: _s.extractXmlStringValue(elem, 'ValueType')?.let(
-          ConfigurationOptionValueType
-              .fromString) /* Nullability(true, true) */,
+      valueType: _s
+          .extractXmlStringValue(elem, 'ValueType')
+          ?.let(ConfigurationOptionValueType.fromString),
     );
   }
 
@@ -3943,9 +3944,9 @@ class ConfigurationSettingsDescription {
       applicationName: _s.extractXmlStringValue(elem, 'ApplicationName'),
       dateCreated: _s.extractXmlDateTimeValue(elem, 'DateCreated'),
       dateUpdated: _s.extractXmlDateTimeValue(elem, 'DateUpdated'),
-      deploymentStatus: _s.extractXmlStringValue(elem, 'DeploymentStatus')?.let(
-          ConfigurationDeploymentStatus
-              .fromString) /* Nullability(true, true) */,
+      deploymentStatus: _s
+          .extractXmlStringValue(elem, 'DeploymentStatus')
+          ?.let(ConfigurationDeploymentStatus.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
       optionSettings: _s.extractXmlChild(elem, 'OptionSettings')?.let((elem) =>
@@ -4284,7 +4285,7 @@ class DescribeEnvironmentHealthResult {
       refreshedAt: _s.extractXmlDateTimeValue(elem, 'RefreshedAt'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(EnvironmentHealth.fromString) /* Nullability(true, true) */,
+          ?.let(EnvironmentHealth.fromString),
     );
   }
 
@@ -4605,9 +4606,10 @@ class EnvironmentDescription {
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
       health: _s
           .extractXmlStringValue(elem, 'Health')
-          ?.let(EnvironmentHealth.fromString) /* Nullability(true, true) */,
-      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')?.let(
-          EnvironmentHealthStatus.fromString) /* Nullability(true, true) */,
+          ?.let(EnvironmentHealth.fromString),
+      healthStatus: _s
+          .extractXmlStringValue(elem, 'HealthStatus')
+          ?.let(EnvironmentHealthStatus.fromString),
       operationsRole: _s.extractXmlStringValue(elem, 'OperationsRole'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       resources: _s
@@ -4616,7 +4618,7 @@ class EnvironmentDescription {
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(EnvironmentStatus.fromString) /* Nullability(true, true) */,
+          ?.let(EnvironmentStatus.fromString),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
       tier: _s.extractXmlChild(elem, 'Tier')?.let(EnvironmentTier.fromXml),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
@@ -4794,7 +4796,7 @@ class EnvironmentInfoDescription {
       ec2InstanceId: _s.extractXmlStringValue(elem, 'Ec2InstanceId'),
       infoType: _s
           .extractXmlStringValue(elem, 'InfoType')
-          ?.let(EnvironmentInfoType.fromString) /* Nullability(true, true) */,
+          ?.let(EnvironmentInfoType.fromString),
       message: _s.extractXmlStringValue(elem, 'Message'),
       sampleTimestamp: _s.extractXmlDateTimeValue(elem, 'SampleTimestamp'),
     );
@@ -5145,7 +5147,7 @@ class EventDescription {
       requestId: _s.extractXmlStringValue(elem, 'RequestId'),
       severity: _s
           .extractXmlStringValue(elem, 'Severity')
-          ?.let(EventSeverity.fromString) /* Nullability(true, true) */,
+          ?.let(EventSeverity.fromString),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
@@ -5725,10 +5727,10 @@ class ManagedAction {
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
       actionType: _s
           .extractXmlStringValue(elem, 'ActionType')
-          ?.let(ActionType.fromString) /* Nullability(true, true) */,
+          ?.let(ActionType.fromString),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ActionStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActionStatus.fromString),
       windowStartTime: _s.extractXmlDateTimeValue(elem, 'WindowStartTime'),
     );
   }
@@ -5792,16 +5794,16 @@ class ManagedActionHistoryItem {
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
       actionType: _s
           .extractXmlStringValue(elem, 'ActionType')
-          ?.let(ActionType.fromString) /* Nullability(true, true) */,
+          ?.let(ActionType.fromString),
       executedTime: _s.extractXmlDateTimeValue(elem, 'ExecutedTime'),
       failureDescription: _s.extractXmlStringValue(elem, 'FailureDescription'),
       failureType: _s
           .extractXmlStringValue(elem, 'FailureType')
-          ?.let(FailureType.fromString) /* Nullability(true, true) */,
+          ?.let(FailureType.fromString),
       finishedTime: _s.extractXmlDateTimeValue(elem, 'FinishedTime'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ActionHistoryStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActionHistoryStatus.fromString),
     );
   }
 
@@ -6186,7 +6188,7 @@ class PlatformDescription {
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
       platformStatus: _s
           .extractXmlStringValue(elem, 'PlatformStatus')
-          ?.let(PlatformStatus.fromString) /* Nullability(true, true) */,
+          ?.let(PlatformStatus.fromString),
       platformVersion: _s.extractXmlStringValue(elem, 'PlatformVersion'),
       programmingLanguages: _s
           .extractXmlChild(elem, 'ProgrammingLanguages')
@@ -6489,7 +6491,7 @@ class PlatformSummary {
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
       platformStatus: _s
           .extractXmlStringValue(elem, 'PlatformStatus')
-          ?.let(PlatformStatus.fromString) /* Nullability(true, true) */,
+          ?.let(PlatformStatus.fromString),
       platformVersion: _s.extractXmlStringValue(elem, 'PlatformVersion'),
       supportedAddonList: _s
           .extractXmlChild(elem, 'SupportedAddonList')
@@ -6988,10 +6990,10 @@ class SourceBuildInformation {
       sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation')!,
       sourceRepository: _s
           .extractXmlStringValue(elem, 'SourceRepository')!
-          .let(SourceRepository.fromString) /* Nullability(true, false) */,
+          .let(SourceRepository.fromString),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')!
-          .let(SourceType.fromString) /* Nullability(true, false) */,
+          .let(SourceType.fromString),
     );
   }
 
@@ -7263,7 +7265,7 @@ class ValidationMessage {
       optionName: _s.extractXmlStringValue(elem, 'OptionName'),
       severity: _s
           .extractXmlStringValue(elem, 'Severity')
-          ?.let(ValidationSeverity.fromString) /* Nullability(true, true) */,
+          ?.let(ValidationSeverity.fromString),
     );
   }
 

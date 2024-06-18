@@ -188,11 +188,11 @@ class PutAuditEventsResponse {
   factory PutAuditEventsResponse.fromJson(Map<String, dynamic> json) {
     return PutAuditEventsResponse(
       failed: (json['failed'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       successful: (json['successful'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AuditEventResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

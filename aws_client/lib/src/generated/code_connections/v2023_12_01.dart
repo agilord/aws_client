@@ -1379,7 +1379,7 @@ class CreateConnectionOutput {
     return CreateConnectionOutput(
       connectionArn: json['ConnectionArn'] as String,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1411,7 +1411,7 @@ class CreateHostOutput {
     return CreateHostOutput(
       hostArn: json['HostArn'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1837,7 +1837,7 @@ class ListConnectionsOutput {
   factory ListConnectionsOutput.fromJson(Map<String, dynamic> json) {
     return ListConnectionsOutput(
       connections: (json['Connections'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Connection.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1872,7 +1872,7 @@ class ListHostsOutput {
   factory ListHostsOutput.fromJson(Map<String, dynamic> json) {
     return ListHostsOutput(
       hosts: (json['Hosts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Host.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1905,7 +1905,7 @@ class ListRepositoryLinksOutput {
   factory ListRepositoryLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListRepositoryLinksOutput(
       repositoryLinks: (json['RepositoryLinks'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RepositoryLinkInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1942,7 +1942,7 @@ class ListRepositorySyncDefinitionsOutput {
       Map<String, dynamic> json) {
     return ListRepositorySyncDefinitionsOutput(
       repositorySyncDefinitions: (json['RepositorySyncDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RepositorySyncDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1976,7 +1976,7 @@ class ListSyncConfigurationsOutput {
   factory ListSyncConfigurationsOutput.fromJson(Map<String, dynamic> json) {
     return ListSyncConfigurationsOutput(
       syncConfigurations: (json['SyncConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SyncConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2004,7 +2004,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2161,7 +2161,7 @@ class RepositorySyncAttempt {
   factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
     return RepositorySyncAttempt(
       events: (json['Events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
@@ -2342,7 +2342,7 @@ class ResourceSyncAttempt {
   factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
     return ResourceSyncAttempt(
       events: (json['Events'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       initialRevision:
@@ -2540,7 +2540,7 @@ class SyncBlocker {
       status: BlockerStatus.fromString((json['Status'] as String)),
       type: BlockerType.fromString((json['Type'] as String)),
       contexts: (json['Contexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolvedAt: timeStampFromJson(json['ResolvedAt']),
@@ -2621,7 +2621,7 @@ class SyncBlockerSummary {
     return SyncBlockerSummary(
       resourceName: json['ResourceName'] as String,
       latestBlockers: (json['LatestBlockers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
           .toList(),
       parentResourceName: json['ParentResourceName'] as String?,
@@ -2954,13 +2954,11 @@ class VpcConfiguration {
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
       securityGroupIds: (json['SecurityGroupIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds: (json['SubnetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnetIds:
+          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
       vpcId: json['VpcId'] as String,
       tlsCertificate: json['TlsCertificate'] as String?,
     );

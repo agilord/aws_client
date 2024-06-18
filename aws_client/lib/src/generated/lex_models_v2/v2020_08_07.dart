@@ -6647,16 +6647,16 @@ class AnalyticsIntentResult {
   factory AnalyticsIntentResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentResult(
       binKeys: (json['binKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsBinKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupByKeys: (json['groupByKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsIntentGroupByKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricsResults: (json['metricsResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsIntentMetricResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7107,16 +7107,16 @@ class AnalyticsIntentStageResult {
   factory AnalyticsIntentStageResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsIntentStageResult(
       binKeys: (json['binKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsBinKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupByKeys: (json['groupByKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsIntentStageGroupByKey.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       metricsResults: (json['metricsResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsIntentStageMetricResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7766,16 +7766,16 @@ class AnalyticsSessionResult {
   factory AnalyticsSessionResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsSessionResult(
       binKeys: (json['binKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsBinKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupByKeys: (json['groupByKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsSessionGroupByKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricsResults: (json['metricsResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsSessionMetricResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8307,21 +8307,21 @@ class AnalyticsUtteranceResult {
   factory AnalyticsUtteranceResult.fromJson(Map<String, dynamic> json) {
     return AnalyticsUtteranceResult(
       attributeResults: (json['attributeResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsUtteranceAttributeResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       binKeys: (json['binKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsBinKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       groupByKeys: (json['groupByKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsUtteranceGroupByKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricsResults: (json['metricsResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsUtteranceMetricResult.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -8617,13 +8617,13 @@ class BatchCreateCustomVocabularyItemResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedCustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8681,13 +8681,13 @@ class BatchDeleteCustomVocabularyItemResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedCustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8746,13 +8746,13 @@ class BatchUpdateCustomVocabularyItemResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedCustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8934,7 +8934,7 @@ class BotAliasReplicaSummary {
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
@@ -9870,7 +9870,7 @@ class BotReplicaSummary {
           ?.let(BotReplicaStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       replicaRegion: json['replicaRegion'] as String?,
@@ -10127,7 +10127,7 @@ class BotVersionReplicaSummary {
               ?.let(BotVersionReplicationStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10602,7 +10602,7 @@ class CompositeSlotTypeSetting {
   factory CompositeSlotTypeSetting.fromJson(Map<String, dynamic> json) {
     return CompositeSlotTypeSetting(
       subSlots: (json['subSlots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => SubSlotTypeComposition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10716,7 +10716,7 @@ class ConditionalSpecification {
     return ConditionalSpecification(
       active: json['active'] as bool,
       conditionalBranches: (json['conditionalBranches'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConditionalBranch.fromJson(e as Map<String, dynamic>))
           .toList(),
       defaultBranch: DefaultConditionalBranch.fromJson(
@@ -10891,12 +10891,12 @@ class ConversationLevelTestResultItem {
       endToEndResult:
           TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
       intentClassificationResults: (json['intentClassificationResults'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConversationLevelIntentClassificationResultItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       slotResolutionResults: (json['slotResolutionResults'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConversationLevelSlotResolutionResultItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10934,7 +10934,7 @@ class ConversationLevelTestResults {
   factory ConversationLevelTestResults.fromJson(Map<String, dynamic> json) {
     return ConversationLevelTestResults(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConversationLevelTestResultItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -10984,11 +10984,11 @@ class ConversationLogSettings {
   factory ConversationLogSettings.fromJson(Map<String, dynamic> json) {
     return ConversationLogSettings(
       audioLogSettings: (json['audioLogSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AudioLogSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
       textLogSettings: (json['textLogSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TextLogSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11434,7 +11434,7 @@ class CreateBotResponse {
     return CreateBotResponse(
       botId: json['botId'] as String?,
       botMembers: (json['botMembers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
@@ -11710,7 +11710,7 @@ class CreateIntentResponse {
               json['initialResponseSetting'] as Map<String, dynamic>)
           : null,
       inputContexts: (json['inputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       intentClosingSetting: json['intentClosingSetting'] != null
@@ -11729,7 +11729,7 @@ class CreateIntentResponse {
           : null,
       localeId: json['localeId'] as String?,
       outputContexts: (json['outputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       parentIntentSignature: json['parentIntentSignature'] as String?,
@@ -11738,7 +11738,7 @@ class CreateIntentResponse {
               json['qnAIntentConfiguration'] as Map<String, dynamic>)
           : null,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12059,7 +12059,7 @@ class CreateSlotTypeResponse {
       slotTypeId: json['slotTypeId'] as String?,
       slotTypeName: json['slotTypeName'] as String?,
       slotTypeValues: (json['slotTypeValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotTypeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionSetting: json['valueSelectionSetting'] != null
@@ -13041,7 +13041,7 @@ class DescribeBotAliasResponse {
   factory DescribeBotAliasResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBotAliasResponse(
       botAliasHistoryEvents: (json['botAliasHistoryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotAliasHistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       botAliasId: json['botAliasId'] as String?,
@@ -13062,7 +13062,7 @@ class DescribeBotAliasResponse {
       description: json['description'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       parentBotNetworks: (json['parentBotNetworks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParentBotNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       sentimentAnalysisSettings: json['sentimentAnalysisSettings'] != null
@@ -13194,7 +13194,7 @@ class DescribeBotLocaleResponse {
     return DescribeBotLocaleResponse(
       botId: json['botId'] as String?,
       botLocaleHistoryEvents: (json['botLocaleHistoryEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotLocaleHistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       botLocaleStatus:
@@ -13203,7 +13203,7 @@ class DescribeBotLocaleResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       generativeAISettings: json['generativeAISettings'] != null
@@ -13219,7 +13219,7 @@ class DescribeBotLocaleResponse {
       nluIntentConfidenceThreshold:
           json['nluIntentConfidenceThreshold'] as double?,
       recommendedActions: (json['recommendedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       slotTypesCount: json['slotTypesCount'] as int?,
@@ -13350,7 +13350,7 @@ class DescribeBotRecommendationResponse {
               json['encryptionSetting'] as Map<String, dynamic>)
           : null,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
@@ -13431,7 +13431,7 @@ class DescribeBotReplicaResponse {
           ?.let(BotReplicaStatus.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       replicaRegion: json['replicaRegion'] as String?,
@@ -13514,7 +13514,7 @@ class DescribeBotResourceGenerationResponse {
       botVersion: json['botVersion'] as String?,
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       generatedBotLocaleUrl: json['generatedBotLocaleUrl'] as String?,
@@ -13621,7 +13621,7 @@ class DescribeBotResponse {
     return DescribeBotResponse(
       botId: json['botId'] as String?,
       botMembers: (json['botMembers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
@@ -13633,7 +13633,7 @@ class DescribeBotResponse {
           : null,
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int?,
@@ -13739,7 +13739,7 @@ class DescribeBotVersionResponse {
     return DescribeBotVersionResponse(
       botId: json['botId'] as String?,
       botMembers: (json['botMembers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
@@ -13752,12 +13752,12 @@ class DescribeBotVersionResponse {
           : null,
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int?,
       parentBotNetworks: (json['parentBotNetworks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParentBotNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
       roleArn: json['roleArn'] as String?,
@@ -13909,7 +13909,7 @@ class DescribeExportResponse {
       exportStatus:
           (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       fileFormat: (json['fileFormat'] as String?)
@@ -13997,7 +13997,7 @@ class DescribeImportResponse {
     return DescribeImportResponse(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       importId: json['importId'] as String?,
@@ -14155,7 +14155,7 @@ class DescribeIntentResponse {
               json['initialResponseSetting'] as Map<String, dynamic>)
           : null,
       inputContexts: (json['inputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       intentClosingSetting: json['intentClosingSetting'] != null
@@ -14175,7 +14175,7 @@ class DescribeIntentResponse {
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       localeId: json['localeId'] as String?,
       outputContexts: (json['outputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       parentIntentSignature: json['parentIntentSignature'] as String?,
@@ -14184,11 +14184,11 @@ class DescribeIntentResponse {
               json['qnAIntentConfiguration'] as Map<String, dynamic>)
           : null,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
       slotPriorities: (json['slotPriorities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotPriority.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -14503,7 +14503,7 @@ class DescribeSlotTypeResponse {
       slotTypeId: json['slotTypeId'] as String?,
       slotTypeName: json['slotTypeName'] as String?,
       slotTypeValues: (json['slotTypeValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotTypeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionSetting: json['valueSelectionSetting'] != null
@@ -14605,7 +14605,7 @@ class DescribeTestExecutionResponse {
           (json['apiMode'] as String?)?.let(TestExecutionApiMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
@@ -14697,7 +14697,7 @@ class DescribeTestSetDiscrepancyReportResponse {
     return DescribeTestSetDiscrepancyReportResponse(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastUpdatedDataTime: timeStampFromJson(json['lastUpdatedDataTime']),
@@ -14803,7 +14803,7 @@ class DescribeTestSetGenerationResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       generationDataSource: json['generationDataSource'] != null
@@ -15740,7 +15740,7 @@ class FulfillmentStartResponseSpecification {
     return FulfillmentStartResponseSpecification(
       delayInSeconds: json['delayInSeconds'] as int,
       messageGroups: (json['messageGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       allowInterrupt: json['allowInterrupt'] as bool?,
@@ -15787,7 +15787,7 @@ class FulfillmentUpdateResponseSpecification {
     return FulfillmentUpdateResponseSpecification(
       frequencyInSeconds: json['frequencyInSeconds'] as int,
       messageGroups: (json['messageGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       allowInterrupt: json['allowInterrupt'] as bool?,
@@ -15896,7 +15896,7 @@ class GenerateBotElementResponse {
       intentId: json['intentId'] as String?,
       localeId: json['localeId'] as String?,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -16196,7 +16196,7 @@ class ImageResponseCard {
     return ImageResponseCard(
       title: json['title'] as String,
       buttons: (json['buttons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Button.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUrl: json['imageUrl'] as String?,
@@ -16614,7 +16614,7 @@ class InputSessionStateSpecification {
   factory InputSessionStateSpecification.fromJson(Map<String, dynamic> json) {
     return InputSessionStateSpecification(
       activeContexts: (json['activeContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       runtimeHints: json['runtimeHints'] != null
@@ -16738,7 +16738,7 @@ class IntentClassificationTestResults {
   factory IntentClassificationTestResults.fromJson(Map<String, dynamic> json) {
     return IntentClassificationTestResults(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IntentClassificationTestResultItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17056,7 +17056,7 @@ class IntentLevelSlotResolutionTestResultItem {
       intentName: json['intentName'] as String,
       multiTurnConversation: json['multiTurnConversation'] as bool,
       slotResolutionResults: (json['slotResolutionResults'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SlotResolutionTestResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17088,7 +17088,7 @@ class IntentLevelSlotResolutionTestResults {
       Map<String, dynamic> json) {
     return IntentLevelSlotResolutionTestResults(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IntentLevelSlotResolutionTestResultItem.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -17258,14 +17258,14 @@ class IntentSummary {
     return IntentSummary(
       description: json['description'] as String?,
       inputContexts: (json['inputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       intentId: json['intentId'] as String?,
       intentName: json['intentName'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       outputContexts: (json['outputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       parentIntentSignature: json['parentIntentSignature'] as String?,
@@ -17500,7 +17500,7 @@ class ListAggregatedUtterancesResponse {
     return ListAggregatedUtterancesResponse(
       aggregatedUtterancesSummaries: (json['aggregatedUtterancesSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AggregatedUtterancesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17586,7 +17586,7 @@ class ListBotAliasReplicasResponse {
   factory ListBotAliasReplicasResponse.fromJson(Map<String, dynamic> json) {
     return ListBotAliasReplicasResponse(
       botAliasReplicaSummaries: (json['botAliasReplicaSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BotAliasReplicaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17641,7 +17641,7 @@ class ListBotAliasesResponse {
   factory ListBotAliasesResponse.fromJson(Map<String, dynamic> json) {
     return ListBotAliasesResponse(
       botAliasSummaries: (json['botAliasSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotAliasSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       botId: json['botId'] as String?,
@@ -17693,7 +17693,7 @@ class ListBotLocalesResponse {
     return ListBotLocalesResponse(
       botId: json['botId'] as String?,
       botLocaleSummaries: (json['botLocaleSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotLocaleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       botVersion: json['botVersion'] as String?,
@@ -17750,7 +17750,7 @@ class ListBotRecommendationsResponse {
     return ListBotRecommendationsResponse(
       botId: json['botId'] as String?,
       botRecommendationSummaries: (json['botRecommendationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BotRecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17797,7 +17797,7 @@ class ListBotReplicasResponse {
     return ListBotReplicasResponse(
       botId: json['botId'] as String?,
       botReplicaSummaries: (json['botReplicaSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotReplicaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceRegion: json['sourceRegion'] as String?,
@@ -17852,7 +17852,7 @@ class ListBotResourceGenerationsResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       generationSummaries: (json['generationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GenerationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -17906,7 +17906,7 @@ class ListBotVersionReplicasResponse {
     return ListBotVersionReplicasResponse(
       botId: json['botId'] as String?,
       botVersionReplicaSummaries: (json['botVersionReplicaSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BotVersionReplicaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17961,7 +17961,7 @@ class ListBotVersionsResponse {
     return ListBotVersionsResponse(
       botId: json['botId'] as String?,
       botVersionSummaries: (json['botVersionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -18004,7 +18004,7 @@ class ListBotsResponse {
   factory ListBotsResponse.fromJson(Map<String, dynamic> json) {
     return ListBotsResponse(
       botSummaries: (json['botSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -18048,7 +18048,7 @@ class ListBuiltInIntentsResponse {
   factory ListBuiltInIntentsResponse.fromJson(Map<String, dynamic> json) {
     return ListBuiltInIntentsResponse(
       builtInIntentSummaries: (json['builtInIntentSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BuiltInIntentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -18096,7 +18096,7 @@ class ListBuiltInSlotTypesResponse {
   factory ListBuiltInSlotTypesResponse.fromJson(Map<String, dynamic> json) {
     return ListBuiltInSlotTypesResponse(
       builtInSlotTypeSummaries: (json['builtInSlotTypeSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BuiltInSlotTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18153,7 +18153,7 @@ class ListCustomVocabularyItemsResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       customVocabularyItems: (json['customVocabularyItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomVocabularyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -18215,7 +18215,7 @@ class ListExportsResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       exportSummaries: (json['exportSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -18277,7 +18277,7 @@ class ListImportsResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       importSummaries: (json['importSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -18329,7 +18329,7 @@ class ListIntentMetricsResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       results: (json['results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalyticsIntentResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18359,7 +18359,7 @@ class ListIntentPathsResponse {
   factory ListIntentPathsResponse.fromJson(Map<String, dynamic> json) {
     return ListIntentPathsResponse(
       nodeSummaries: (json['nodeSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsIntentNodeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18402,7 +18402,7 @@ class ListIntentStageMetricsResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       results: (json['results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsIntentStageResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18458,7 +18458,7 @@ class ListIntentsResponse {
       botId: json['botId'] as String?,
       botVersion: json['botVersion'] as String?,
       intentSummaries: (json['intentSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IntentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -18528,7 +18528,7 @@ class ListRecommendedIntentsResponse {
       localeId: json['localeId'] as String?,
       nextToken: json['nextToken'] as String?,
       summaryList: (json['summaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecommendedIntentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18583,7 +18583,7 @@ class ListSessionAnalyticsDataResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       sessions: (json['sessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SessionSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18629,7 +18629,7 @@ class ListSessionMetricsResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       results: (json['results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AnalyticsSessionResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18687,7 +18687,7 @@ class ListSlotTypesResponse {
       localeId: json['localeId'] as String?,
       nextToken: json['nextToken'] as String?,
       slotTypeSummaries: (json['slotTypeSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18753,7 +18753,7 @@ class ListSlotsResponse {
       localeId: json['localeId'] as String?,
       nextToken: json['nextToken'] as String?,
       slotSummaries: (json['slotSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18858,7 +18858,7 @@ class ListTestExecutionsResponse {
     return ListTestExecutionsResponse(
       nextToken: json['nextToken'] as String?,
       testExecutions: (json['testExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TestExecutionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18893,7 +18893,7 @@ class ListTestSetRecordsResponse {
     return ListTestSetRecordsResponse(
       nextToken: json['nextToken'] as String?,
       testSetRecords: (json['testSetRecords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TestSetTurnRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18928,7 +18928,7 @@ class ListTestSetsResponse {
     return ListTestSetsResponse(
       nextToken: json['nextToken'] as String?,
       testSets: (json['testSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TestSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -18974,7 +18974,7 @@ class ListUtteranceAnalyticsDataResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       utterances: (json['utterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => UtteranceSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19021,7 +19021,7 @@ class ListUtteranceMetricsResponse {
       botId: json['botId'] as String?,
       nextToken: json['nextToken'] as String?,
       results: (json['results'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AnalyticsUtteranceResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19131,7 +19131,7 @@ class MessageGroup {
     return MessageGroup(
       message: Message.fromJson(json['message'] as Map<String, dynamic>),
       variations: (json['variations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -19305,7 +19305,7 @@ class OpensearchConfiguration {
               json['exactResponseFields'] as Map<String, dynamic>)
           : null,
       includeFields: (json['includeFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -19434,7 +19434,7 @@ class OverallTestResults {
   factory OverallTestResults.fromJson(Map<String, dynamic> json) {
     return OverallTestResults(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OverallTestResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -19494,7 +19494,7 @@ class PathFormat {
   factory PathFormat.fromJson(Map<String, dynamic> json) {
     return PathFormat(
       objectPrefixes: (json['objectPrefixes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -19885,7 +19885,7 @@ class PromptSpecification {
     return PromptSpecification(
       maxRetries: json['maxRetries'] as int,
       messageGroups: (json['messageGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       allowInterrupt: json['allowInterrupt'] as bool?,
@@ -20136,7 +20136,7 @@ class ResponseSpecification {
   factory ResponseSpecification.fromJson(Map<String, dynamic> json) {
     return ResponseSpecification(
       messageGroups: (json['messageGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       allowInterrupt: json['allowInterrupt'] as bool?,
@@ -20176,7 +20176,7 @@ class RuntimeHintDetails {
   factory RuntimeHintDetails.fromJson(Map<String, dynamic> json) {
     return RuntimeHintDetails(
       runtimeHintValues: (json['runtimeHintValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuntimeHintValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       subSlotHints: (json['subSlotHints'] as Map<String, dynamic>?)?.map((k,
@@ -20550,7 +20550,7 @@ class SearchAssociatedTranscriptsResponse {
       Map<String, dynamic> json) {
     return SearchAssociatedTranscriptsResponse(
       associatedTranscripts: (json['associatedTranscripts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociatedTranscript.fromJson(e as Map<String, dynamic>))
           .toList(),
       botId: json['botId'] as String?,
@@ -20754,7 +20754,7 @@ class SessionSpecification {
       conversationEndTime: timeStampFromJson(json['conversationEndTime']),
       conversationStartTime: timeStampFromJson(json['conversationStartTime']),
       invokedIntentSamples: (json['invokedIntentSamples'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InvokedIntentSample.fromJson(e as Map<String, dynamic>))
           .toList(),
       localeId: json['localeId'] as String?,
@@ -20953,7 +20953,7 @@ class SlotDefaultValueSpecification {
   factory SlotDefaultValueSpecification.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValueSpecification(
       defaultValueList: (json['defaultValueList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SlotDefaultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -21598,7 +21598,7 @@ class SlotTypeValue {
           ? SampleValue.fromJson(json['sampleValue'] as Map<String, dynamic>)
           : null,
       synonyms: (json['synonyms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -21691,7 +21691,7 @@ class SlotValueElicitationSetting {
               json['promptSpecification'] as Map<String, dynamic>)
           : null,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
       slotCaptureSetting: json['slotCaptureSetting'] != null
@@ -21763,7 +21763,7 @@ class SlotValueOverride {
           ? SlotValue.fromJson(json['value'] as Map<String, dynamic>)
           : null,
       values: (json['values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotValueOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -22365,7 +22365,7 @@ class StillWaitingResponseSpecification {
     return StillWaitingResponseSpecification(
       frequencyInSeconds: json['frequencyInSeconds'] as int,
       messageGroups: (json['messageGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeoutInSeconds: json['timeoutInSeconds'] as int,
@@ -22549,7 +22549,7 @@ class SubSlotValueElicitationSetting {
               json['defaultValueSpecification'] as Map<String, dynamic>)
           : null,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
       waitAndContinueSpecification: json['waitAndContinueSpecification'] != null
@@ -22964,12 +22964,12 @@ class TestSetDiscrepancyErrors {
   factory TestSetDiscrepancyErrors.fromJson(Map<String, dynamic> json) {
     return TestSetDiscrepancyErrors(
       intentDiscrepancies: (json['intentDiscrepancies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TestSetIntentDiscrepancyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       slotDiscrepancies: (json['slotDiscrepancies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               TestSetSlotDiscrepancyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24002,7 +24002,7 @@ class UpdateBotLocaleResponse {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       description: json['description'] as String?,
       failureReasons: (json['failureReasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       generativeAISettings: json['generativeAISettings'] != null
@@ -24015,7 +24015,7 @@ class UpdateBotLocaleResponse {
       nluIntentConfidenceThreshold:
           json['nluIntentConfidenceThreshold'] as double?,
       recommendedActions: (json['recommendedActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       voiceSettings: json['voiceSettings'] != null
@@ -24220,7 +24220,7 @@ class UpdateBotResponse {
     return UpdateBotResponse(
       botId: json['botId'] as String?,
       botMembers: (json['botMembers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BotMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       botName: json['botName'] as String?,
@@ -24450,7 +24450,7 @@ class UpdateIntentResponse {
               json['initialResponseSetting'] as Map<String, dynamic>)
           : null,
       inputContexts: (json['inputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       intentClosingSetting: json['intentClosingSetting'] != null
@@ -24470,7 +24470,7 @@ class UpdateIntentResponse {
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       localeId: json['localeId'] as String?,
       outputContexts: (json['outputContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutputContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       parentIntentSignature: json['parentIntentSignature'] as String?,
@@ -24479,11 +24479,11 @@ class UpdateIntentResponse {
               json['qnAIntentConfiguration'] as Map<String, dynamic>)
           : null,
       sampleUtterances: (json['sampleUtterances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SampleUtterance.fromJson(e as Map<String, dynamic>))
           .toList(),
       slotPriorities: (json['slotPriorities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotPriority.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -24787,7 +24787,7 @@ class UpdateSlotTypeResponse {
       slotTypeId: json['slotTypeId'] as String?,
       slotTypeName: json['slotTypeName'] as String?,
       slotTypeValues: (json['slotTypeValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SlotTypeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionSetting: json['valueSelectionSetting'] != null
@@ -25022,7 +25022,7 @@ class UserTurnOutputSpecification {
       intent:
           UserTurnIntentOutput.fromJson(json['intent'] as Map<String, dynamic>),
       activeContexts: (json['activeContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       transcript: json['transcript'] as String?,
@@ -25163,7 +25163,7 @@ class UserTurnSlotOutput {
           MapEntry(k, UserTurnSlotOutput.fromJson(e as Map<String, dynamic>))),
       value: json['value'] as String?,
       values: (json['values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserTurnSlotOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -25457,7 +25457,7 @@ class UtteranceLevelTestResults {
   factory UtteranceLevelTestResults.fromJson(Map<String, dynamic> json) {
     return UtteranceLevelTestResults(
       items: (json['items'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               UtteranceLevelTestResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25649,7 +25649,7 @@ class UtteranceSpecification {
       botAliasId: json['botAliasId'] as String?,
       botResponseAudioVoiceId: json['botResponseAudioVoiceId'] as String?,
       botResponses: (json['botResponses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UtteranceBotResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       botVersion: json['botVersion'] as String?,

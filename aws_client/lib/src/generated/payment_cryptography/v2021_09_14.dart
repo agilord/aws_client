@@ -3215,7 +3215,7 @@ class ListAliasesOutput {
   factory ListAliasesOutput.fromJson(Map<String, dynamic> json) {
     return ListAliasesOutput(
       aliases: (json['Aliases'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3249,7 +3249,7 @@ class ListKeysOutput {
   factory ListKeysOutput.fromJson(Map<String, dynamic> json) {
     return ListKeysOutput(
       keys: (json['Keys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3283,7 +3283,7 @@ class ListTagsForResourceOutput {
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

@@ -686,7 +686,7 @@ class ListRescoreExecutionPlansResponse {
     return ListRescoreExecutionPlansResponse(
       nextToken: json['NextToken'] as String?,
       summaryItems: (json['SummaryItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RescoreExecutionPlanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -715,7 +715,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -821,7 +821,7 @@ class RescoreResult {
     return RescoreResult(
       rescoreId: json['RescoreId'] as String?,
       resultItems: (json['ResultItems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RescoreResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

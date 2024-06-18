@@ -894,7 +894,7 @@ class AssertionRule {
   factory AssertionRule.fromJson(Map<String, dynamic> json) {
     return AssertionRule(
       assertedControls: (json['AssertedControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       controlPanelArn: json['ControlPanelArn'] as String,
@@ -1001,7 +1001,7 @@ class Cluster {
     return Cluster(
       clusterArn: json['ClusterArn'] as String?,
       clusterEndpoints: (json['ClusterEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ClusterEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -1467,7 +1467,7 @@ class GatingRule {
     return GatingRule(
       controlPanelArn: json['ControlPanelArn'] as String,
       gatingControls: (json['GatingControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String,
@@ -1476,7 +1476,7 @@ class GatingRule {
       safetyRuleArn: json['SafetyRuleArn'] as String,
       status: Status.fromString((json['Status'] as String)),
       targetControls: (json['TargetControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       waitPeriodMs: json['WaitPeriodMs'] as int,
@@ -1581,7 +1581,7 @@ class ListAssociatedRoute53HealthChecksResponse {
       Map<String, dynamic> json) {
     return ListAssociatedRoute53HealthChecksResponse(
       healthCheckIds: (json['HealthCheckIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1613,7 +1613,7 @@ class ListClustersResponse {
   factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
     return ListClustersResponse(
       clusters: (json['Clusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1645,7 +1645,7 @@ class ListControlPanelsResponse {
   factory ListControlPanelsResponse.fromJson(Map<String, dynamic> json) {
     return ListControlPanelsResponse(
       controlPanels: (json['ControlPanels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ControlPanel.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1678,7 +1678,7 @@ class ListRoutingControlsResponse {
     return ListRoutingControlsResponse(
       nextToken: json['NextToken'] as String?,
       routingControls: (json['RoutingControls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RoutingControl.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1710,7 +1710,7 @@ class ListSafetyRulesResponse {
     return ListSafetyRulesResponse(
       nextToken: json['NextToken'] as String?,
       safetyRules: (json['SafetyRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -1208,7 +1208,7 @@ class GenericAttachment {
     return GenericAttachment(
       attachmentLinkUrl: json['attachmentLinkUrl'] as String?,
       buttons: (json['buttons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Button.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUrl: json['imageUrl'] as String?,
@@ -1273,14 +1273,14 @@ class GetSessionResponse {
   factory GetSessionResponse.fromJson(Map<String, dynamic> json) {
     return GetSessionResponse(
       activeContexts: (json['activeContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       dialogAction: json['dialogAction'] != null
           ? DialogAction.fromJson(json['dialogAction'] as Map<String, dynamic>)
           : null,
       recentIntentSummaryView: (json['recentIntentSummaryView'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IntentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       sessionAttributes: (json['sessionAttributes'] as Map<String, dynamic>?)
@@ -1946,11 +1946,11 @@ class PostTextResponse {
   factory PostTextResponse.fromJson(Map<String, dynamic> json) {
     return PostTextResponse(
       activeContexts: (json['activeContexts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
           .toList(),
       alternativeIntents: (json['alternativeIntents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PredictedIntent.fromJson(e as Map<String, dynamic>))
           .toList(),
       botVersion: json['botVersion'] as String?,
@@ -2224,7 +2224,7 @@ class ResponseCard {
       contentType:
           (json['contentType'] as String?)?.let(ContentType.fromString),
       genericAttachments: (json['genericAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GenericAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       version: json['version'] as String?,

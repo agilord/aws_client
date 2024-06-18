@@ -3167,7 +3167,7 @@ class ApplicationDPUSizes {
     return ApplicationDPUSizes(
       applicationRuntimeId: json['ApplicationRuntimeId'] as String?,
       supportedDPUSizes: (json['SupportedDPUSizes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
     );
@@ -3249,11 +3249,11 @@ class BatchGetNamedQueryOutput {
   factory BatchGetNamedQueryOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetNamedQueryOutput(
       namedQueries: (json['NamedQueries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NamedQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedNamedQueryIds: (json['UnprocessedNamedQueryIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedNamedQueryId.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3278,12 +3278,12 @@ class BatchGetPreparedStatementOutput {
   factory BatchGetPreparedStatementOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetPreparedStatementOutput(
       preparedStatements: (json['PreparedStatements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PreparedStatement.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedPreparedStatementNames:
           (json['UnprocessedPreparedStatementNames'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => UnprocessedPreparedStatementName.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3306,12 +3306,12 @@ class BatchGetQueryExecutionOutput {
   factory BatchGetQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetQueryExecutionOutput(
       queryExecutions: (json['QueryExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryExecution.fromJson(e as Map<String, dynamic>))
           .toList(),
       unprocessedQueryExecutionIds: (json['UnprocessedQueryExecutionIds']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UnprocessedQueryExecutionId.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3557,7 +3557,7 @@ class CapacityAssignment {
   factory CapacityAssignment.fromJson(Map<String, dynamic> json) {
     return CapacityAssignment(
       workGroupNames: (json['WorkGroupNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3593,7 +3593,7 @@ class CapacityAssignmentConfiguration {
   factory CapacityAssignmentConfiguration.fromJson(Map<String, dynamic> json) {
     return CapacityAssignmentConfiguration(
       capacityAssignments: (json['CapacityAssignments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CapacityAssignment.fromJson(e as Map<String, dynamic>))
           .toList(),
       capacityReservationName: json['CapacityReservationName'] as String?,
@@ -4885,7 +4885,7 @@ class ListApplicationDPUSizesOutput {
   factory ListApplicationDPUSizesOutput.fromJson(Map<String, dynamic> json) {
     return ListApplicationDPUSizesOutput(
       applicationDPUSizes: (json['ApplicationDPUSizes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationDPUSizes.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4912,7 +4912,7 @@ class ListCalculationExecutionsResponse {
       Map<String, dynamic> json) {
     return ListCalculationExecutionsResponse(
       calculations: (json['Calculations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CalculationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4938,7 +4938,7 @@ class ListCapacityReservationsOutput {
   factory ListCapacityReservationsOutput.fromJson(Map<String, dynamic> json) {
     return ListCapacityReservationsOutput(
       capacityReservations: (json['CapacityReservations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CapacityReservation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4964,7 +4964,7 @@ class ListDataCatalogsOutput {
   factory ListDataCatalogsOutput.fromJson(Map<String, dynamic> json) {
     return ListDataCatalogsOutput(
       dataCatalogsSummary: (json['DataCatalogsSummary'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCatalogSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4990,7 +4990,7 @@ class ListDatabasesOutput {
   factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) {
     return ListDatabasesOutput(
       databaseList: (json['DatabaseList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Database.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5016,7 +5016,7 @@ class ListEngineVersionsOutput {
   factory ListEngineVersionsOutput.fromJson(Map<String, dynamic> json) {
     return ListEngineVersionsOutput(
       engineVersions: (json['EngineVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EngineVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5047,7 +5047,7 @@ class ListExecutorsResponse {
     return ListExecutorsResponse(
       sessionId: json['SessionId'] as String,
       executorsSummary: (json['ExecutorsSummary'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutorsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5073,7 +5073,7 @@ class ListNamedQueriesOutput {
   factory ListNamedQueriesOutput.fromJson(Map<String, dynamic> json) {
     return ListNamedQueriesOutput(
       namedQueryIds: (json['NamedQueryIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5100,7 +5100,7 @@ class ListNotebookMetadataOutput {
     return ListNotebookMetadataOutput(
       nextToken: json['NextToken'] as String?,
       notebookMetadataList: (json['NotebookMetadataList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => NotebookMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5125,7 +5125,7 @@ class ListNotebookSessionsResponse {
   factory ListNotebookSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListNotebookSessionsResponse(
       notebookSessionsList: (json['NotebookSessionsList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => NotebookSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5153,7 +5153,7 @@ class ListPreparedStatementsOutput {
     return ListPreparedStatementsOutput(
       nextToken: json['NextToken'] as String?,
       preparedStatements: (json['PreparedStatements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PreparedStatementSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5177,7 +5177,7 @@ class ListQueryExecutionsOutput {
     return ListQueryExecutionsOutput(
       nextToken: json['NextToken'] as String?,
       queryExecutionIds: (json['QueryExecutionIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5203,7 +5203,7 @@ class ListSessionsResponse {
     return ListSessionsResponse(
       nextToken: json['NextToken'] as String?,
       sessions: (json['Sessions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5229,7 +5229,7 @@ class ListTableMetadataOutput {
     return ListTableMetadataOutput(
       nextToken: json['NextToken'] as String?,
       tableMetadataList: (json['TableMetadataList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5252,7 +5252,7 @@ class ListTagsForResourceOutput {
     return ListTagsForResourceOutput(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5279,7 +5279,7 @@ class ListWorkGroupsOutput {
     return ListWorkGroupsOutput(
       nextToken: json['NextToken'] as String?,
       workGroups: (json['WorkGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5549,7 +5549,7 @@ class QueryExecution {
               json['EngineVersion'] as Map<String, dynamic>)
           : null,
       executionParameters: (json['ExecutionParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       query: json['Query'] as String?,
@@ -5981,7 +5981,7 @@ class QueryStage {
       stageId: json['StageId'] as int?,
       state: json['State'] as String?,
       subStages: (json['SubStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryStage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6015,13 +6015,13 @@ class QueryStagePlanNode {
   factory QueryStagePlanNode.fromJson(Map<String, dynamic> json) {
     return QueryStagePlanNode(
       children: (json['Children'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QueryStagePlanNode.fromJson(e as Map<String, dynamic>))
           .toList(),
       identifier: json['Identifier'] as String?,
       name: json['Name'] as String?,
       remoteSources: (json['RemoteSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6346,7 +6346,7 @@ class ResultSet {
               json['ResultSetMetadata'] as Map<String, dynamic>)
           : null,
       rows: (json['Rows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6367,7 +6367,7 @@ class ResultSetMetadata {
   factory ResultSetMetadata.fromJson(Map<String, dynamic> json) {
     return ResultSetMetadata(
       columnInfo: (json['ColumnInfo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6386,7 +6386,7 @@ class Row {
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
       data: (json['Data'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6769,7 +6769,7 @@ class TableMetadata {
     return TableMetadata(
       name: json['Name'] as String,
       columns: (json['Columns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       createTime: timeStampFromJson(json['CreateTime']),
@@ -6777,7 +6777,7 @@ class TableMetadata {
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitionKeys: (json['PartitionKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       tableType: json['TableType'] as String?,

@@ -6242,7 +6242,7 @@ class ListFirewallConfigsResponse {
   factory ListFirewallConfigsResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallConfigsResponse(
       firewallConfigs: (json['FirewallConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FirewallConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6270,7 +6270,7 @@ class ListFirewallDomainListsResponse {
   factory ListFirewallDomainListsResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallDomainListsResponse(
       firewallDomainLists: (json['FirewallDomainLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FirewallDomainListMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6298,10 +6298,8 @@ class ListFirewallDomainsResponse {
 
   factory ListFirewallDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallDomainsResponse(
-      domains: (json['Domains'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      domains:
+          (json['Domains'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -6329,7 +6327,7 @@ class ListFirewallRuleGroupAssociationsResponse {
     return ListFirewallRuleGroupAssociationsResponse(
       firewallRuleGroupAssociations: (json['FirewallRuleGroupAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FirewallRuleGroupAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6358,7 +6356,7 @@ class ListFirewallRuleGroupsResponse {
   factory ListFirewallRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallRuleGroupsResponse(
       firewallRuleGroups: (json['FirewallRuleGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FirewallRuleGroupMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6387,7 +6385,7 @@ class ListFirewallRulesResponse {
   factory ListFirewallRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListFirewallRulesResponse(
       firewallRules: (json['FirewallRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FirewallRule.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6415,7 +6413,7 @@ class ListOutpostResolversResponse {
     return ListOutpostResolversResponse(
       nextToken: json['NextToken'] as String?,
       outpostResolvers: (json['OutpostResolvers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OutpostResolver.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6448,7 +6446,7 @@ class ListResolverConfigsResponse {
     return ListResolverConfigsResponse(
       nextToken: json['NextToken'] as String?,
       resolverConfigs: (json['ResolverConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResolverConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6485,7 +6483,7 @@ class ListResolverDnssecConfigsResponse {
     return ListResolverDnssecConfigsResponse(
       nextToken: json['NextToken'] as String?,
       resolverDnssecConfigs: (json['ResolverDnssecConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResolverDnssecConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6518,7 +6516,7 @@ class ListResolverEndpointIpAddressesResponse {
       Map<String, dynamic> json) {
     return ListResolverEndpointIpAddressesResponse(
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpAddressResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxResults: json['MaxResults'] as int?,
@@ -6552,7 +6550,7 @@ class ListResolverEndpointsResponse {
       maxResults: json['MaxResults'] as int?,
       nextToken: json['NextToken'] as String?,
       resolverEndpoints: (json['ResolverEndpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResolverEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6599,7 +6597,7 @@ class ListResolverQueryLogConfigAssociationsResponse {
       nextToken: json['NextToken'] as String?,
       resolverQueryLogConfigAssociations:
           (json['ResolverQueryLogConfigAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ResolverQueryLogConfigAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6647,7 +6645,7 @@ class ListResolverQueryLogConfigsResponse {
     return ListResolverQueryLogConfigsResponse(
       nextToken: json['NextToken'] as String?,
       resolverQueryLogConfigs: (json['ResolverQueryLogConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ResolverQueryLogConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6684,7 +6682,7 @@ class ListResolverRuleAssociationsResponse {
       maxResults: json['MaxResults'] as int?,
       nextToken: json['NextToken'] as String?,
       resolverRuleAssociations: (json['ResolverRuleAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResolverRuleAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6717,7 +6715,7 @@ class ListResolverRulesResponse {
       maxResults: json['MaxResults'] as int?,
       nextToken: json['NextToken'] as String?,
       resolverRules: (json['ResolverRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResolverRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6744,7 +6742,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7269,13 +7267,13 @@ class ResolverEndpoint {
       outpostArn: json['OutpostArn'] as String?,
       preferredInstanceType: json['PreferredInstanceType'] as String?,
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Protocol.fromString((e as String)))
           .toList(),
       resolverEndpointType: (json['ResolverEndpointType'] as String?)
           ?.let(ResolverEndpointType.fromString),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status:
@@ -7709,7 +7707,7 @@ class ResolverRule {
       status: (json['Status'] as String?)?.let(ResolverRuleStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       targetIps: (json['TargetIps'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TargetAddress.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

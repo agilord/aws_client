@@ -1125,7 +1125,7 @@ class AppliedTerminology {
     return AppliedTerminology(
       name: json['Name'] as String?,
       terms: (json['Terms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Term.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1750,7 +1750,7 @@ class ListLanguagesResponse {
       displayLanguageCode: (json['DisplayLanguageCode'] as String?)
           ?.let(DisplayLanguageCode.fromString),
       languages: (json['Languages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Language.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1787,7 +1787,7 @@ class ListParallelDataResponse {
     return ListParallelDataResponse(
       nextToken: json['NextToken'] as String?,
       parallelDataPropertiesList: (json['ParallelDataPropertiesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ParallelDataProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1819,7 +1819,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1851,7 +1851,7 @@ class ListTerminologiesResponse {
     return ListTerminologiesResponse(
       nextToken: json['NextToken'] as String?,
       terminologyPropertiesList: (json['TerminologyPropertiesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TerminologyProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1886,7 +1886,7 @@ class ListTextTranslationJobsResponse {
       nextToken: json['NextToken'] as String?,
       textTranslationJobPropertiesList:
           (json['TextTranslationJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => TextTranslationJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2150,7 +2150,7 @@ class ParallelDataProperties {
       sourceLanguageCode: json['SourceLanguageCode'] as String?,
       status: (json['Status'] as String?)?.let(ParallelDataStatus.fromString),
       targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2597,7 +2597,7 @@ class TerminologyProperties {
       skippedTermCount: json['SkippedTermCount'] as int?,
       sourceLanguageCode: json['SourceLanguageCode'] as String?,
       targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       termCount: json['TermCount'] as int?,
@@ -2778,7 +2778,7 @@ class TextTranslationJobProperties {
               json['OutputDataConfig'] as Map<String, dynamic>)
           : null,
       parallelDataNames: (json['ParallelDataNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       settings: json['Settings'] != null
@@ -2788,11 +2788,11 @@ class TextTranslationJobProperties {
       sourceLanguageCode: json['SourceLanguageCode'] as String?,
       submittedTime: timeStampFromJson(json['SubmittedTime']),
       targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       terminologyNames: (json['TerminologyNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2871,7 +2871,7 @@ class TranslateDocumentResponse {
               json['AppliedSettings'] as Map<String, dynamic>)
           : null,
       appliedTerminologies: (json['AppliedTerminologies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2929,7 +2929,7 @@ class TranslateTextResponse {
               json['AppliedSettings'] as Map<String, dynamic>)
           : null,
       appliedTerminologies: (json['AppliedTerminologies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

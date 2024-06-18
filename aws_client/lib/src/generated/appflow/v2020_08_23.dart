@@ -1532,7 +1532,7 @@ class AuthParameter {
   factory AuthParameter.fromJson(Map<String, dynamic> json) {
     return AuthParameter(
       connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -1595,7 +1595,7 @@ class AuthenticationConfig {
   factory AuthenticationConfig.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfig(
       customAuthConfigs: (json['customAuthConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomAuthConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       isApiKeyAuthSupported: json['isApiKeyAuthSupported'] as bool?,
@@ -1683,7 +1683,7 @@ class CancelFlowExecutionsResponse {
   factory CancelFlowExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return CancelFlowExecutionsResponse(
       invalidExecutions: (json['invalidExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1866,7 +1866,7 @@ class ConnectorConfiguration {
               json['connectorMetadata'] as Map<String, dynamic>)
           : null,
       connectorModes: (json['connectorModes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       connectorName: json['connectorName'] as String?,
@@ -1878,7 +1878,7 @@ class ConnectorConfiguration {
       connectorProvisioningType: (json['connectorProvisioningType'] as String?)
           ?.let(ConnectorProvisioningType.fromString),
       connectorRuntimeSettings: (json['connectorRuntimeSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConnectorRuntimeSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1892,37 +1892,37 @@ class ConnectorConfiguration {
       registeredAt: timeStampFromJson(json['registeredAt']),
       registeredBy: json['registeredBy'] as String?,
       supportedApiVersions: (json['supportedApiVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       supportedDataTransferApis: (json['supportedDataTransferApis'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataTransferApi.fromJson(e as Map<String, dynamic>))
           .toList(),
       supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedDataTransferType.fromString((e as String)))
           .toList(),
       supportedDestinationConnectors:
           (json['supportedDestinationConnectors'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ConnectorType.fromString((e as String)))
               .toList(),
       supportedOperators: (json['supportedOperators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Operators.fromString((e as String)))
           .toList(),
       supportedSchedulingFrequencies:
           (json['supportedSchedulingFrequencies'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ScheduleFrequencyType.fromString((e as String)))
               .toList(),
       supportedTriggerTypes: (json['supportedTriggerTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TriggerType.fromString((e as String)))
           .toList(),
       supportedWriteOperations: (json['supportedWriteOperations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WriteOperationType.fromString((e as String)))
           .toList(),
     );
@@ -2077,7 +2077,7 @@ class ConnectorDetail {
       connectorDescription: json['connectorDescription'] as String?,
       connectorLabel: json['connectorLabel'] as String?,
       connectorModes: (json['connectorModes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       connectorName: json['connectorName'] as String?,
@@ -2090,7 +2090,7 @@ class ConnectorDetail {
       registeredAt: timeStampFromJson(json['registeredAt']),
       registeredBy: json['registeredBy'] as String?,
       supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedDataTransferType.fromString((e as String)))
           .toList(),
     );
@@ -3230,7 +3230,7 @@ class ConnectorRuntimeSetting {
     return ConnectorRuntimeSetting(
       connectorSuppliedValueOptions:
           (json['connectorSuppliedValueOptions'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       dataType: json['dataType'] as String?,
@@ -3368,7 +3368,7 @@ class CustomAuthConfig {
   factory CustomAuthConfig.fromJson(Map<String, dynamic> json) {
     return CustomAuthConfig(
       authParameters: (json['authParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AuthParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       customAuthenticationType: json['customAuthenticationType'] as String?,
@@ -3450,7 +3450,7 @@ class CustomConnectorDestinationProperties {
               json['errorHandlingConfig'] as Map<String, dynamic>)
           : null,
       idFieldNames: (json['idFieldNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       writeOperationType: (json['writeOperationType'] as String?)
@@ -3867,7 +3867,7 @@ class DescribeConnectorEntityResponse {
   factory DescribeConnectorEntityResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConnectorEntityResponse(
       connectorEntityFields: (json['connectorEntityFields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConnectorEntityField.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3898,7 +3898,7 @@ class DescribeConnectorProfilesResponse {
       Map<String, dynamic> json) {
     return DescribeConnectorProfilesResponse(
       connectorProfileDetails: (json['connectorProfileDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3965,7 +3965,7 @@ class DescribeConnectorsResponse {
               (k, e) => MapEntry(ConnectorType.fromString(k),
                   ConnectorConfiguration.fromJson(e as Map<String, dynamic>))),
       connectors: (json['connectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4002,7 +4002,7 @@ class DescribeFlowExecutionRecordsResponse {
       Map<String, dynamic> json) {
     return DescribeFlowExecutionRecordsResponse(
       flowExecutions: (json['flowExecutions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4131,7 +4131,7 @@ class DescribeFlowResponse {
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
       destinationFlowConfigList: (json['destinationFlowConfigList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DestinationFlowConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       flowArn: json['flowArn'] as String?,
@@ -4145,7 +4145,7 @@ class DescribeFlowResponse {
           : null,
       lastRunMetadataCatalogDetails: (json['lastRunMetadataCatalogDetails']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -4162,7 +4162,7 @@ class DescribeFlowResponse {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       tasks: (json['tasks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Task.fromJson(e as Map<String, dynamic>))
           .toList(),
       triggerConfig: json['triggerConfig'] != null
@@ -4410,7 +4410,7 @@ class DestinationFieldProperties {
       isUpdatable: json['isUpdatable'] as bool?,
       isUpsertable: json['isUpsertable'] as bool?,
       supportedWriteOperations: (json['supportedWriteOperations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WriteOperationType.fromString((e as String)))
           .toList(),
     );
@@ -4810,7 +4810,7 @@ class ExecutionRecord {
           (json['executionStatus'] as String?)?.let(ExecutionStatus.fromString),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       metadataCatalogDetails: (json['metadataCatalogDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: timeStampFromJson(json['startedAt']),
@@ -4963,7 +4963,7 @@ class FieldTypeDetails {
     return FieldTypeDetails(
       fieldType: json['fieldType'] as String,
       filterOperators: (json['filterOperators'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Operator.fromString((e as String)))
           .toList(),
       fieldLengthRange: json['fieldLengthRange'] != null
@@ -4974,7 +4974,7 @@ class FieldTypeDetails {
           : null,
       supportedDateFormat: json['supportedDateFormat'] as String?,
       supportedValues: (json['supportedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       valueRegexPattern: json['valueRegexPattern'] as String?,
@@ -5318,7 +5318,7 @@ class GoogleAnalyticsMetadata {
   factory GoogleAnalyticsMetadata.fromJson(Map<String, dynamic> json) {
     return GoogleAnalyticsMetadata(
       oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5441,7 +5441,7 @@ class HoneycodeMetadata {
   factory HoneycodeMetadata.fromJson(Map<String, dynamic> json) {
     return HoneycodeMetadata(
       oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5652,7 +5652,7 @@ class ListConnectorEntitiesResponse {
           .map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) =>
                       ConnectorEntity.fromJson(e as Map<String, dynamic>))
                   .toList())),
@@ -5686,7 +5686,7 @@ class ListConnectorsResponse {
   factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorsResponse(
       connectors: (json['connectors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -5718,7 +5718,7 @@ class ListFlowsResponse {
   factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
     return ListFlowsResponse(
       flows: (json['flows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FlowDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6105,7 +6105,7 @@ class OAuth2CustomParameter {
   factory OAuth2CustomParameter.fromJson(Map<String, dynamic> json) {
     return OAuth2CustomParameter(
       connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
@@ -6181,23 +6181,23 @@ class OAuth2Defaults {
   factory OAuth2Defaults.fromJson(Map<String, dynamic> json) {
     return OAuth2Defaults(
       authCodeUrls: (json['authCodeUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       oauth2CustomProperties: (json['oauth2CustomProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OAuth2CustomParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OAuth2GrantType.fromString((e as String)))
           .toList(),
       oauthScopes: (json['oauthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tokenUrls: (json['tokenUrls'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6347,7 +6347,7 @@ class OAuthProperties {
     return OAuthProperties(
       authCodeUrl: json['authCodeUrl'] as String,
       oAuthScopes: (json['oAuthScopes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       tokenUrl: json['tokenUrl'] as String,
@@ -6658,7 +6658,7 @@ class PrefixConfig {
   factory PrefixConfig.fromJson(Map<String, dynamic> json) {
     return PrefixConfig(
       pathPrefixHierarchy: (json['pathPrefixHierarchy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PathPrefix.fromString((e as String)))
           .toList(),
       prefixFormat:
@@ -7494,7 +7494,7 @@ class SAPODataDestinationProperties {
               json['errorHandlingConfig'] as Map<String, dynamic>)
           : null,
       idFieldNames: (json['idFieldNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       successResponseHandlingConfig:
@@ -7929,7 +7929,7 @@ class SalesforceDestinationProperties {
               json['errorHandlingConfig'] as Map<String, dynamic>)
           : null,
       idFieldNames: (json['idFieldNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       writeOperationType: (json['writeOperationType'] as String?)
@@ -7995,15 +7995,15 @@ class SalesforceMetadata {
   factory SalesforceMetadata.fromJson(Map<String, dynamic> json) {
     return SalesforceMetadata(
       dataTransferApis: (json['dataTransferApis'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SalesforceDataTransferApi.fromString((e as String)))
           .toList(),
       oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OAuth2GrantType.fromString((e as String)))
           .toList(),
     );
@@ -8544,7 +8544,7 @@ class SlackMetadata {
   factory SlackMetadata.fromJson(Map<String, dynamic> json) {
     return SlackMetadata(
       oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8743,7 +8743,7 @@ class SnowflakeMetadata {
   factory SnowflakeMetadata.fromJson(Map<String, dynamic> json) {
     return SnowflakeMetadata(
       supportedRegions: (json['supportedRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9227,7 +9227,7 @@ class Task {
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       sourceFields: (json['sourceFields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       taskType: TaskType.fromString((json['taskType'] as String)),
@@ -9917,7 +9917,7 @@ class ZendeskDestinationProperties {
               json['errorHandlingConfig'] as Map<String, dynamic>)
           : null,
       idFieldNames: (json['idFieldNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       writeOperationType: (json['writeOperationType'] as String?)
@@ -9953,7 +9953,7 @@ class ZendeskMetadata {
   factory ZendeskMetadata.fromJson(Map<String, dynamic> json) {
     return ZendeskMetadata(
       oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

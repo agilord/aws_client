@@ -3886,7 +3886,7 @@ class CachingConfig {
     return CachingConfig(
       ttl: json['ttl'] as int,
       cachingKeys: (json['cachingKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4459,12 +4459,12 @@ class DataSourceIntrospectionModel {
   factory DataSourceIntrospectionModel.fromJson(Map<String, dynamic> json) {
     return DataSourceIntrospectionModel(
       fields: (json['fields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSourceIntrospectionModelField.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       indexes: (json['indexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSourceIntrospectionModelIndex.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4592,10 +4592,8 @@ class DataSourceIntrospectionModelFieldType {
           ? DataSourceIntrospectionModelFieldType.fromJson(
               json['type'] as Map<String, dynamic>)
           : null,
-      values: (json['values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4629,10 +4627,8 @@ class DataSourceIntrospectionModelIndex {
   factory DataSourceIntrospectionModelIndex.fromJson(
       Map<String, dynamic> json) {
     return DataSourceIntrospectionModelIndex(
-      fields: (json['fields'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      fields:
+          (json['fields'] as List?)?.nonNulls.map((e) => e as String).toList(),
       name: json['name'] as String?,
     );
   }
@@ -4667,7 +4663,7 @@ class DataSourceIntrospectionResult {
   factory DataSourceIntrospectionResult.fromJson(Map<String, dynamic> json) {
     return DataSourceIntrospectionResult(
       models: (json['models'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DataSourceIntrospectionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5359,7 +5355,7 @@ class EvaluateCodeErrorDetail {
   factory EvaluateCodeErrorDetail.fromJson(Map<String, dynamic> json) {
     return EvaluateCodeErrorDetail(
       codeErrors: (json['codeErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CodeError.fromJson(e as Map<String, dynamic>))
           .toList(),
       message: json['message'] as String?,
@@ -5400,10 +5396,7 @@ class EvaluateCodeResponse {
               json['error'] as Map<String, dynamic>)
           : null,
       evaluationResult: json['evaluationResult'] as String?,
-      logs: (json['logs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      logs: (json['logs'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5442,10 +5435,7 @@ class EvaluateMappingTemplateResponse {
           ? ErrorDetail.fromJson(json['error'] as Map<String, dynamic>)
           : null,
       evaluationResult: json['evaluationResult'] as String?,
-      logs: (json['logs'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      logs: (json['logs'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6160,7 +6150,7 @@ class GraphqlApi {
     return GraphqlApi(
       additionalAuthenticationProviders:
           (json['additionalAuthenticationProviders'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AdditionalAuthenticationProvider.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6432,7 +6422,7 @@ class ListApiKeysResponse {
   factory ListApiKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListApiKeysResponse(
       apiKeys: (json['apiKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6465,7 +6455,7 @@ class ListDataSourcesResponse {
   factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSourcesResponse(
       dataSources: (json['dataSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6498,7 +6488,7 @@ class ListDomainNamesResponse {
   factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainNamesResponse(
       domainNameConfigs: (json['domainNameConfigs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainNameConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6531,7 +6521,7 @@ class ListFunctionsResponse {
   factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionsResponse(
       functions: (json['functions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6564,7 +6554,7 @@ class ListGraphqlApisResponse {
   factory ListGraphqlApisResponse.fromJson(Map<String, dynamic> json) {
     return ListGraphqlApisResponse(
       graphqlApis: (json['graphqlApis'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GraphqlApi.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6597,7 +6587,7 @@ class ListResolversByFunctionResponse {
     return ListResolversByFunctionResponse(
       nextToken: json['nextToken'] as String?,
       resolvers: (json['resolvers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resolver.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6630,7 +6620,7 @@ class ListResolversResponse {
     return ListResolversResponse(
       nextToken: json['nextToken'] as String?,
       resolvers: (json['resolvers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resolver.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6665,7 +6655,7 @@ class ListSourceApiAssociationsResponse {
       nextToken: json['nextToken'] as String?,
       sourceApiAssociationSummaries: (json['sourceApiAssociationSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SourceApiAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6723,7 +6713,7 @@ class ListTypesByAssociationResponse {
     return ListTypesByAssociationResponse(
       nextToken: json['nextToken'] as String?,
       types: (json['types'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Type.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6756,7 +6746,7 @@ class ListTypesResponse {
     return ListTypesResponse(
       nextToken: json['nextToken'] as String?,
       types: (json['types'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Type.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6994,7 +6984,7 @@ class PipelineConfig {
   factory PipelineConfig.fromJson(Map<String, dynamic> json) {
     return PipelineConfig(
       functions: (json['functions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );

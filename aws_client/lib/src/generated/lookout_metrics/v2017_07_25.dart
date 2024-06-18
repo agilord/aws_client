@@ -1456,11 +1456,11 @@ class AlertFilters {
   factory AlertFilters.fromJson(Map<String, dynamic> json) {
     return AlertFilters(
       dimensionFilterList: (json['DimensionFilterList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DimensionFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricList: (json['MetricList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1671,7 +1671,7 @@ class AnomalyDetectorDataQualityMetric {
     return AnomalyDetectorDataQualityMetric(
       metricSetDataQualityMetricList: (json['MetricSetDataQualityMetricList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetricSetDataQualityMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1839,7 +1839,7 @@ class AnomalyGroup {
       anomalyGroupScore: json['AnomalyGroupScore'] as double?,
       endTime: json['EndTime'] as String?,
       metricLevelImpactList: (json['MetricLevelImpactList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricLevelImpact.fromJson(e as Map<String, dynamic>))
           .toList(),
       primaryMetricName: json['PrimaryMetricName'] as String?,
@@ -1887,7 +1887,7 @@ class AnomalyGroupStatistics {
     return AnomalyGroupStatistics(
       evaluationStartDate: json['EvaluationStartDate'] as String?,
       itemizedMetricStatsList: (json['ItemizedMetricStatsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ItemizedMetricStats.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalCount: json['TotalCount'] as int?,
@@ -2144,20 +2144,11 @@ class AttributeValue {
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
       b: json['B'] as String?,
-      bs: (json['BS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      bs: (json['BS'] as List?)?.nonNulls.map((e) => e as String).toList(),
       n: json['N'] as String?,
-      ns: (json['NS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
       s: json['S'] as String?,
-      ss: (json['SS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2332,7 +2323,7 @@ class ContributionMatrix {
   factory ContributionMatrix.fromJson(Map<String, dynamic> json) {
     return ContributionMatrix(
       dimensionContributionList: (json['DimensionContributionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DimensionContribution.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2450,7 +2441,7 @@ class CsvFormatDescriptor {
       fileCompression: (json['FileCompression'] as String?)
           ?.let(CSVFileCompression.fromString),
       headerList: (json['HeaderList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       quoteSymbol: json['QuoteSymbol'] as String?,
@@ -2622,7 +2613,7 @@ class DescribeAnomalyDetectionExecutionsResponse {
       Map<String, dynamic> json) {
     return DescribeAnomalyDetectionExecutionsResponse(
       executionList: (json['ExecutionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2802,17 +2793,17 @@ class DescribeMetricSetResponse {
       anomalyDetectorArn: json['AnomalyDetectorArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       dimensionFilterList: (json['DimensionFilterList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MetricSetDimensionFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       dimensionList: (json['DimensionList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       metricList: (json['MetricList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Metric.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricSetArn: json['MetricSetArn'] as String?,
@@ -3197,7 +3188,7 @@ class DimensionContribution {
       dimensionName: json['DimensionName'] as String?,
       dimensionValueContributionList: (json['DimensionValueContributionList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DimensionValueContribution.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3233,7 +3224,7 @@ class DimensionFilter {
     return DimensionFilter(
       dimensionName: json['DimensionName'] as String?,
       dimensionValueList: (json['DimensionValueList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3487,7 +3478,7 @@ class GetDataQualityMetricsResponse {
     return GetDataQualityMetricsResponse(
       anomalyDetectorDataQualityMetricList:
           (json['AnomalyDetectorDataQualityMetricList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AnomalyDetectorDataQualityMetric.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3521,7 +3512,7 @@ class GetFeedbackResponse {
     return GetFeedbackResponse(
       anomalyGroupTimeSeriesFeedback: (json['AnomalyGroupTimeSeriesFeedback']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TimeSeriesFeedback.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3554,13 +3545,12 @@ class GetSampleDataResponse {
   factory GetSampleDataResponse.fromJson(Map<String, dynamic> json) {
     return GetSampleDataResponse(
       headerValues: (json['HeaderValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sampleRows: (json['SampleRows'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
     );
   }
@@ -3748,7 +3738,7 @@ class ListAlertsResponse {
   factory ListAlertsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlertsResponse(
       alertSummaryList: (json['AlertSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AlertSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3781,7 +3771,7 @@ class ListAnomalyDetectorsResponse {
   factory ListAnomalyDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListAnomalyDetectorsResponse(
       anomalyDetectorSummaryList: (json['AnomalyDetectorSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AnomalyDetectorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3817,7 +3807,7 @@ class ListAnomalyGroupRelatedMetricsResponse {
       Map<String, dynamic> json) {
     return ListAnomalyGroupRelatedMetricsResponse(
       interMetricImpactList: (json['InterMetricImpactList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               InterMetricImpactDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3860,7 +3850,7 @@ class ListAnomalyGroupSummariesResponse {
               json['AnomalyGroupStatistics'] as Map<String, dynamic>)
           : null,
       anomalyGroupSummaryList: (json['AnomalyGroupSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnomalyGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3912,11 +3902,11 @@ class ListAnomalyGroupTimeSeriesResponse {
       metricName: json['MetricName'] as String?,
       nextToken: json['NextToken'] as String?,
       timeSeriesList: (json['TimeSeriesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TimeSeries.fromJson(e as Map<String, dynamic>))
           .toList(),
       timestampList: (json['TimestampList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3955,7 +3945,7 @@ class ListMetricSetsResponse {
   factory ListMetricSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListMetricSetsResponse(
       metricSetSummaryList: (json['MetricSetSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MetricSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4092,7 +4082,7 @@ class MetricSetDataQualityMetric {
   factory MetricSetDataQualityMetric.fromJson(Map<String, dynamic> json) {
     return MetricSetDataQualityMetric(
       dataQualityMetricList: (json['DataQualityMetricList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataQualityMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricSetArn: json['MetricSetArn'] as String?,
@@ -4130,7 +4120,7 @@ class MetricSetDimensionFilter {
   factory MetricSetDimensionFilter.fromJson(Map<String, dynamic> json) {
     return MetricSetDimensionFilter(
       filterList: (json['FilterList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -4503,12 +4493,12 @@ class S3SourceConfig {
               json['FileFormatDescriptor'] as Map<String, dynamic>)
           : null,
       historicalDataPathList: (json['HistoricalDataPathList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       roleArn: json['RoleArn'] as String?,
       templatedPathList: (json['TemplatedPathList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4668,11 +4658,11 @@ class TimeSeries {
   factory TimeSeries.fromJson(Map<String, dynamic> json) {
     return TimeSeries(
       dimensionList: (json['DimensionList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DimensionNameValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricValueList: (json['MetricValueList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as double)
           .toList(),
       timeSeriesId: json['TimeSeriesId'] as String,
@@ -4848,11 +4838,11 @@ class VpcConfiguration {
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
       securityGroupIdList: (json['SecurityGroupIdList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIdList: (json['SubnetIdList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );

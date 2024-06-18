@@ -1252,7 +1252,7 @@ class BaseScreenshot {
     return BaseScreenshot(
       screenshotName: json['ScreenshotName'] as String,
       ignoreCoordinates: (json['IgnoreCoordinates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2142,7 +2142,7 @@ class DescribeCanariesLastRunResponse {
   factory DescribeCanariesLastRunResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCanariesLastRunResponse(
       canariesLastRun: (json['CanariesLastRun'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CanaryLastRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2177,7 +2177,7 @@ class DescribeCanariesResponse {
   factory DescribeCanariesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCanariesResponse(
       canaries: (json['Canaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Canary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2213,7 +2213,7 @@ class DescribeRuntimeVersionsResponse {
     return DescribeRuntimeVersionsResponse(
       nextToken: json['NextToken'] as String?,
       runtimeVersions: (json['RuntimeVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuntimeVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2298,7 +2298,7 @@ class GetCanaryRunsResponse {
   factory GetCanaryRunsResponse.fromJson(Map<String, dynamic> json) {
     return GetCanaryRunsResponse(
       canaryRuns: (json['CanaryRuns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CanaryRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2454,7 +2454,7 @@ class ListAssociatedGroupsResponse {
   factory ListAssociatedGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssociatedGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2490,7 +2490,7 @@ class ListGroupResourcesResponse {
     return ListGroupResourcesResponse(
       nextToken: json['NextToken'] as String?,
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2523,7 +2523,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2784,7 +2784,7 @@ class VisualReferenceOutput {
     return VisualReferenceOutput(
       baseCanaryRunId: json['BaseCanaryRunId'] as String?,
       baseScreenshots: (json['BaseScreenshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BaseScreenshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2851,11 +2851,11 @@ class VpcConfigOutput {
   factory VpcConfigOutput.fromJson(Map<String, dynamic> json) {
     return VpcConfigOutput(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,

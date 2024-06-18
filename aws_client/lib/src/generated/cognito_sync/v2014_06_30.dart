@@ -1290,7 +1290,7 @@ class ListDatasetsResponse {
     return ListDatasetsResponse(
       count: json['Count'] as int?,
       datasets: (json['Datasets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1334,7 +1334,7 @@ class ListIdentityPoolUsageResponse {
     return ListIdentityPoolUsageResponse(
       count: json['Count'] as int?,
       identityPoolUsages: (json['IdentityPoolUsages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdentityPoolUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
       maxResults: json['MaxResults'] as int?,
@@ -1406,12 +1406,12 @@ class ListRecordsResponse {
       datasetSyncCount: json['DatasetSyncCount'] as int?,
       lastModifiedBy: json['LastModifiedBy'] as String?,
       mergedDatasetNames: (json['MergedDatasetNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
       syncSessionToken: json['SyncSessionToken'] as String?,
@@ -1491,7 +1491,7 @@ class PushSync {
   factory PushSync.fromJson(Map<String, dynamic> json) {
     return PushSync(
       applicationArns: (json['ApplicationArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       roleArn: json['RoleArn'] as String?,
@@ -1730,7 +1730,7 @@ class UpdateRecordsResponse {
   factory UpdateRecordsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRecordsResponse(
       records: (json['Records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

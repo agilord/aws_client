@@ -1209,11 +1209,11 @@ class BatchGetViewOutput {
   factory BatchGetViewOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetViewOutput(
       errors: (json['Errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchGetViewError.fromJson(e as Map<String, dynamic>))
           .toList(),
       views: (json['Views'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => View.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1486,11 +1486,11 @@ class GetIndexOutput {
       createdAt: timeStampFromJson(json['CreatedAt']),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       replicatingFrom: (json['ReplicatingFrom'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       replicatingTo: (json['ReplicatingTo'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       state: (json['State'] as String?)?.let(IndexState.fromString),
@@ -1703,7 +1703,7 @@ class ListIndexesForMembersOutput {
   factory ListIndexesForMembersOutput.fromJson(Map<String, dynamic> json) {
     return ListIndexesForMembersOutput(
       indexes: (json['Indexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MemberIndex.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1740,7 +1740,7 @@ class ListIndexesOutput {
   factory ListIndexesOutput.fromJson(Map<String, dynamic> json) {
     return ListIndexesOutput(
       indexes: (json['Indexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Index.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1778,7 +1778,7 @@ class ListSupportedResourceTypesOutput {
     return ListSupportedResourceTypesOutput(
       nextToken: json['NextToken'] as String?,
       resourceTypes: (json['ResourceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SupportedResourceType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1839,10 +1839,8 @@ class ListViewsOutput {
   factory ListViewsOutput.fromJson(Map<String, dynamic> json) {
     return ListViewsOutput(
       nextToken: json['NextToken'] as String?,
-      views: (json['Views'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      views:
+          (json['Views'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2000,7 +1998,7 @@ class Resource {
       lastReportedAt: timeStampFromJson(json['LastReportedAt']),
       owningAccountId: json['OwningAccountId'] as String?,
       properties: (json['Properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       region: json['Region'] as String?,
@@ -2186,7 +2184,7 @@ class SearchOutput {
           : null,
       nextToken: json['NextToken'] as String?,
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       viewArn: json['ViewArn'] as String?,
@@ -2386,7 +2384,7 @@ class View {
           ? SearchFilter.fromJson(json['Filters'] as Map<String, dynamic>)
           : null,
       includedProperties: (json['IncludedProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IncludedProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),

@@ -1727,7 +1727,7 @@ class ListDiscoverersResponse {
   factory ListDiscoverersResponse.fromJson(Map<String, dynamic> json) {
     return ListDiscoverersResponse(
       discoverers: (json['Discoverers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DiscovererSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1762,7 +1762,7 @@ class ListRegistriesResponse {
     return ListRegistriesResponse(
       nextToken: json['NextToken'] as String?,
       registries: (json['Registries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RegistrySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1796,7 +1796,7 @@ class ListSchemaVersionsResponse {
     return ListSchemaVersionsResponse(
       nextToken: json['NextToken'] as String?,
       schemaVersions: (json['SchemaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1830,7 +1830,7 @@ class ListSchemasResponse {
     return ListSchemasResponse(
       nextToken: json['NextToken'] as String?,
       schemas: (json['Schemas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2099,7 +2099,7 @@ class SearchSchemaSummary {
       schemaArn: json['SchemaArn'] as String?,
       schemaName: json['SchemaName'] as String?,
       schemaVersions: (json['SchemaVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SearchSchemaVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2174,7 +2174,7 @@ class SearchSchemasResponse {
     return SearchSchemasResponse(
       nextToken: json['NextToken'] as String?,
       schemas: (json['Schemas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SearchSchemaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

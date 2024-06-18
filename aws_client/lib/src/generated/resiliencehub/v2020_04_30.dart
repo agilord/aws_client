@@ -3336,7 +3336,7 @@ class AddDraftAppVersionResourceMappingsResponse {
       appArn: json['appArn'] as String,
       appVersion: json['appVersion'] as String,
       resourceMappings: (json['resourceMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3408,12 +3408,12 @@ class AlarmRecommendation {
       type: AlarmType.fromString((json['type'] as String)),
       appComponentName: json['appComponentName'] as String?,
       appComponentNames: (json['appComponentNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       prerequisite: json['prerequisite'] as String?,
@@ -3575,7 +3575,7 @@ class App {
       driftStatus:
           (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
       eventSubscriptions: (json['eventSubscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastAppComplianceEvaluationTime:
@@ -4023,9 +4023,9 @@ class AppComponent {
     return AppComponent(
       name: json['name'] as String,
       type: json['type'] as String,
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       id: json['id'] as String?,
     );
   }
@@ -4470,12 +4470,12 @@ class BatchUpdateRecommendationStatusResponse {
     return BatchUpdateRecommendationStatusResponse(
       appArn: json['appArn'] as String,
       failedEntries: (json['failedEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchUpdateRecommendationStatusFailedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successfulEntries: (json['successfulEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchUpdateRecommendationStatusSuccessfulEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4695,7 +4695,7 @@ class ComponentRecommendation {
     return ComponentRecommendation(
       appComponentName: json['appComponentName'] as String,
       configRecommendations: (json['configRecommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ConfigRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       recommendationStatus: RecommendationComplianceStatus.fromString(
@@ -4786,7 +4786,7 @@ class ConfigRecommendation {
                   RecommendationDisruptionCompliance.fromJson(
                       e as Map<String, dynamic>))),
       suggestedChanges: (json['suggestedChanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5562,9 +5562,9 @@ class DescribeAppVersionResponse {
     return DescribeAppVersionResponse(
       appArn: json['appArn'] as String,
       appVersion: json['appVersion'] as String,
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -6140,7 +6140,7 @@ class EksSource {
     return EksSource(
       eksClusterArn: json['eksClusterArn'] as String,
       namespaces: (json['namespaces'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6379,15 +6379,15 @@ class ImportResourcesToDraftAppVersionResponse {
       appVersion: json['appVersion'] as String,
       status: ResourceImportStatusType.fromString((json['status'] as String)),
       eksSources: (json['eksSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EksSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceArns: (json['sourceArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       terraformSources: (json['terraformSources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TerraformSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6429,7 +6429,7 @@ class ListAlarmRecommendationsResponse {
   factory ListAlarmRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlarmRecommendationsResponse(
       alarmRecommendations: (json['alarmRecommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AlarmRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6464,7 +6464,7 @@ class ListAppAssessmentComplianceDriftsResponse {
       Map<String, dynamic> json) {
     return ListAppAssessmentComplianceDriftsResponse(
       complianceDrifts: (json['complianceDrifts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComplianceDrift.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6497,7 +6497,7 @@ class ListAppAssessmentResourceDriftsResponse {
       Map<String, dynamic> json) {
     return ListAppAssessmentResourceDriftsResponse(
       resourceDrifts: (json['resourceDrifts'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceDrift.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6531,7 +6531,7 @@ class ListAppAssessmentsResponse {
   factory ListAppAssessmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppAssessmentsResponse(
       assessmentSummaries: (json['assessmentSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AppAssessmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6566,7 +6566,7 @@ class ListAppComponentCompliancesResponse {
       Map<String, dynamic> json) {
     return ListAppComponentCompliancesResponse(
       componentCompliances: (json['componentCompliances'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => AppComponentCompliance.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6602,7 +6602,7 @@ class ListAppComponentRecommendationsResponse {
       Map<String, dynamic> json) {
     return ListAppComponentRecommendationsResponse(
       componentRecommendations: (json['componentRecommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ComponentRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6635,7 +6635,7 @@ class ListAppInputSourcesResponse {
   factory ListAppInputSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppInputSourcesResponse(
       appInputSources: (json['appInputSources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AppInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6684,7 +6684,7 @@ class ListAppVersionAppComponentsResponse {
       appArn: json['appArn'] as String,
       appVersion: json['appVersion'] as String,
       appComponents: (json['appComponents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6726,7 +6726,7 @@ class ListAppVersionResourceMappingsResponse {
       Map<String, dynamic> json) {
     return ListAppVersionResourceMappingsResponse(
       resourceMappings: (json['resourceMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6762,7 +6762,7 @@ class ListAppVersionResourcesResponse {
   factory ListAppVersionResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppVersionResourcesResponse(
       physicalResources: (json['physicalResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PhysicalResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionId: json['resolutionId'] as String,
@@ -6797,7 +6797,7 @@ class ListAppVersionsResponse {
   factory ListAppVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppVersionsResponse(
       appVersions: (json['appVersions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AppVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6829,7 +6829,7 @@ class ListAppsResponse {
   factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsResponse(
       appSummaries: (json['appSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6863,7 +6863,7 @@ class ListRecommendationTemplatesResponse {
     return ListRecommendationTemplatesResponse(
       nextToken: json['nextToken'] as String?,
       recommendationTemplates: (json['recommendationTemplates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => RecommendationTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6896,7 +6896,7 @@ class ListResiliencyPoliciesResponse {
   factory ListResiliencyPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListResiliencyPoliciesResponse(
       resiliencyPolicies: (json['resiliencyPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResiliencyPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6929,7 +6929,7 @@ class ListSopRecommendationsResponse {
   factory ListSopRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListSopRecommendationsResponse(
       sopRecommendations: (json['sopRecommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SopRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -6962,7 +6962,7 @@ class ListSuggestedResiliencyPoliciesResponse {
       Map<String, dynamic> json) {
     return ListSuggestedResiliencyPoliciesResponse(
       resiliencyPolicies: (json['resiliencyPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResiliencyPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7018,7 +7018,7 @@ class ListTestRecommendationsResponse {
   factory ListTestRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListTestRecommendationsResponse(
       testRecommendations: (json['testRecommendations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TestRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7056,7 +7056,7 @@ class ListUnsupportedAppVersionResourcesResponse {
     return ListUnsupportedAppVersionResourcesResponse(
       resolutionId: json['resolutionId'] as String,
       unsupportedResources: (json['unsupportedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => UnsupportedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -7184,7 +7184,7 @@ class PermissionModel {
     return PermissionModel(
       type: PermissionModelType.fromString((json['type'] as String)),
       crossAccountRoleArns: (json['crossAccountRoleArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       invokerRoleName: json['invokerRoleName'] as String?,
@@ -7297,11 +7297,11 @@ class PhysicalResource {
       physicalResourceId: PhysicalResourceId.fromJson(
           json['physicalResourceId'] as Map<String, dynamic>),
       resourceType: json['resourceType'] as String,
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
       appComponents: (json['appComponents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AppComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       excluded: json['excluded'] as bool?,
@@ -7791,7 +7791,7 @@ class RecommendationTemplate {
       name: json['name'] as String,
       recommendationTemplateArn: json['recommendationTemplateArn'] as String,
       recommendationTypes: (json['recommendationTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RenderRecommendationType.fromString((e as String)))
           .toList(),
       status:
@@ -7801,7 +7801,7 @@ class RecommendationTemplate {
       message: json['message'] as String?,
       needsReplacements: json['needsReplacements'] as bool?,
       recommendationIds: (json['recommendationIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['startTime']),
@@ -8275,7 +8275,7 @@ class ResourceErrorsDetails {
     return ResourceErrorsDetails(
       hasMoreErrors: json['hasMoreErrors'] as bool?,
       resourceErrors: (json['resourceErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8636,7 +8636,7 @@ class SopRecommendation {
       appComponentName: json['appComponentName'] as String?,
       description: json['description'] as String?,
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -8817,13 +8817,13 @@ class TestRecommendation {
       referenceId: json['referenceId'] as String,
       appComponentName: json['appComponentName'] as String?,
       dependsOnAlarms: (json['dependsOnAlarms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String?,
       intent: json['intent'] as String?,
       items: (json['items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
@@ -9105,9 +9105,9 @@ class UpdateAppVersionResponse {
     return UpdateAppVersionResponse(
       appArn: json['appArn'] as String,
       appVersion: json['appVersion'] as String,
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 

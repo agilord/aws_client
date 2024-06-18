@@ -1280,10 +1280,8 @@ class CodegenGenericDataEnum {
 
   factory CodegenGenericDataEnum.fromJson(Map<String, dynamic> json) {
     return CodegenGenericDataEnum(
-      values: (json['values'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -1409,7 +1407,7 @@ class CodegenGenericDataModel {
       fields: (json['fields'] as Map<String, dynamic>).map((k, e) => MapEntry(
           k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
       primaryKeys: (json['primaryKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       isJoinTable: json['isJoinTable'] as bool?,
@@ -1500,7 +1498,7 @@ class CodegenGenericDataRelationshipType {
       relatedModelName: json['relatedModelName'] as String,
       type: GenericDataRelationshipType.fromString((json['type'] as String)),
       associatedFields: (json['associatedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       belongsToFieldOnRelatedModel:
@@ -1510,7 +1508,7 @@ class CodegenGenericDataRelationshipType {
       relatedJoinFieldName: json['relatedJoinFieldName'] as String?,
       relatedJoinTableName: json['relatedJoinTableName'] as String?,
       relatedModelFields: (json['relatedModelFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1612,7 +1610,7 @@ class CodegenJob {
       autoGenerateForms: json['autoGenerateForms'] as bool?,
       createdAt: timeStampFromJson(json['createdAt']),
       dependencies: (json['dependencies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CodegenDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
       features: json['features'] != null
@@ -1960,11 +1958,11 @@ class Component {
       properties: (json['properties'] as Map<String, dynamic>).map((k, e) =>
           MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
       variants: (json['variants'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComponentVariant.fromJson(e as Map<String, dynamic>))
           .toList(),
       children: (json['children'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
           .toList(),
       collectionProperties: (json['collectionProperties']
@@ -2114,7 +2112,7 @@ class ComponentBindingPropertiesValueProperties {
       key: json['key'] as String?,
       model: json['model'] as String?,
       predicates: (json['predicates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
       slotName: json['slotName'] as String?,
@@ -2184,7 +2182,7 @@ class ComponentChild {
       properties: (json['properties'] as Map<String, dynamic>).map((k, e) =>
           MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
       children: (json['children'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
           .toList(),
       events: (json['events'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -2310,14 +2308,14 @@ class ComponentDataConfiguration {
     return ComponentDataConfiguration(
       model: json['model'] as String,
       identifiers: (json['identifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       predicate: json['predicate'] != null
           ? Predicate.fromJson(json['predicate'] as Map<String, dynamic>)
           : null,
       sort: (json['sort'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SortProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2467,7 +2465,7 @@ class ComponentProperty {
           : null,
       componentName: json['componentName'] as String?,
       concat: (json['concat'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ComponentProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       condition: json['condition'] != null
@@ -2986,7 +2984,7 @@ class ExportComponentsResponse {
   factory ExportComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ExportComponentsResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Component.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3018,7 +3016,7 @@ class ExportFormsResponse {
   factory ExportFormsResponse.fromJson(Map<String, dynamic> json) {
     return ExportFormsResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Form.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3050,7 +3048,7 @@ class ExportThemesResponse {
   factory ExportThemesResponse.fromJson(Map<String, dynamic> json) {
     return ExportThemesResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Theme.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3104,7 +3102,7 @@ class FieldConfig {
           ? FieldPosition.fromJson(json['position'] as Map<String, dynamic>)
           : null,
       validations: (json['validations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FieldValidationConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3324,12 +3322,10 @@ class FieldValidationConfiguration {
   factory FieldValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return FieldValidationConfiguration(
       type: json['type'] as String,
-      numValues: (json['numValues'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      numValues:
+          (json['numValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
       strValues: (json['strValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       validationMessage: json['validationMessage'] as String?,
@@ -3400,7 +3396,7 @@ class FileUploaderFieldConfig {
   factory FileUploaderFieldConfig.fromJson(Map<String, dynamic> json) {
     return FileUploaderFieldConfig(
       acceptedFileTypes: (json['acceptedFileTypes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       accessLevel:
@@ -3854,7 +3850,7 @@ class FormInputValueProperty {
               json['bindingProperties'] as Map<String, dynamic>)
           : null,
       concat: (json['concat'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => FormInputValueProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4277,7 +4273,7 @@ class ListCodegenJobsResponse {
   factory ListCodegenJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListCodegenJobsResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CodegenJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4309,7 +4305,7 @@ class ListComponentsResponse {
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4341,7 +4337,7 @@ class ListFormsResponse {
   factory ListFormsResponse.fromJson(Map<String, dynamic> json) {
     return ListFormsResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FormSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4396,7 +4392,7 @@ class ListThemesResponse {
   factory ListThemesResponse.fromJson(Map<String, dynamic> json) {
     return ListThemesResponse(
       entities: (json['entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ThemeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4497,7 +4493,7 @@ class Predicate {
   factory Predicate.fromJson(Map<String, dynamic> json) {
     return Predicate(
       and: (json['and'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
       field: json['field'] as String?,
@@ -4505,7 +4501,7 @@ class Predicate {
       operandType: json['operandType'] as String?,
       operator: json['operator'] as String?,
       or: (json['or'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4920,12 +4916,12 @@ class Theme {
       id: json['id'] as String,
       name: json['name'] as String,
       values: (json['values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
           .toList(),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       overrides: (json['overrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -5017,7 +5013,7 @@ class ThemeValue {
   factory ThemeValue.fromJson(Map<String, dynamic> json) {
     return ThemeValue(
       children: (json['children'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
           .toList(),
       value: json['value'] as String?,
@@ -5382,7 +5378,7 @@ class ValueMappings {
   factory ValueMappings.fromJson(Map<String, dynamic> json) {
     return ValueMappings(
       values: (json['values'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ValueMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       bindingProperties: (json['bindingProperties'] as Map<String, dynamic>?)

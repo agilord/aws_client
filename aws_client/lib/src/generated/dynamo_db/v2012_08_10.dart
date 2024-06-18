@@ -5919,26 +5919,20 @@ class AttributeValue {
       b: _s.decodeNullableUint8List(json['B'] as String?),
       boolValue: json['BOOL'] as bool?,
       bs: (json['BS'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
           .toList(),
       l: (json['L'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       n: json['N'] as String?,
-      ns: (json['NS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
       nullValue: json['NULL'] as bool?,
       s: json['S'] as String?,
-      ss: (json['SS'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -6192,7 +6186,7 @@ class AutoScalingSettingsDescription {
       maximumUnits: json['MaximumUnits'] as int?,
       minimumUnits: json['MinimumUnits'] as int?,
       scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6687,11 +6681,11 @@ class BatchExecuteStatementOutput {
   factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
     return BatchExecuteStatementOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       responses: (json['Responses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => BatchStatementResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6767,14 +6761,14 @@ class BatchGetItemOutput {
   factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetItemOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => (e as Map<String, dynamic>).map((k, e) =>
                       MapEntry(k,
                           AttributeValue.fromJson(e as Map<String, dynamic>))))
@@ -7043,7 +7037,7 @@ class BatchWriteItemOutput {
   factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchWriteItemOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       itemCollectionMetrics: (json['ItemCollectionMetrics']
@@ -7051,7 +7045,7 @@ class BatchWriteItemOutput {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) =>
                       ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
                   .toList())),
@@ -7059,7 +7053,7 @@ class BatchWriteItemOutput {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => WriteRequest.fromJson(e as Map<String, dynamic>))
                   .toList())),
     );
@@ -7957,7 +7951,7 @@ class CsvOptions {
     return CsvOptions(
       delimiter: json['Delimiter'] as String?,
       headerList: (json['HeaderList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8375,7 +8369,7 @@ class DescribeContributorInsightsOutput {
     return DescribeContributorInsightsOutput(
       contributorInsightsRuleList:
           (json['ContributorInsightsRuleList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
@@ -8422,7 +8416,7 @@ class DescribeEndpointsResponse {
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['Endpoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8504,7 +8498,7 @@ class DescribeGlobalTableSettingsOutput {
     return DescribeGlobalTableSettingsOutput(
       globalTableName: json['GlobalTableName'] as String?,
       replicaSettings: (json['ReplicaSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8563,7 +8557,7 @@ class DescribeKinesisStreamingDestinationOutput {
     return DescribeKinesisStreamingDestinationOutput(
       kinesisDataStreamDestinations: (json['KinesisDataStreamDestinations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               KinesisDataStreamDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8832,7 +8826,7 @@ class ExecuteStatementOutput {
               json['ConsumedCapacity'] as Map<String, dynamic>)
           : null,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
@@ -8873,11 +8867,11 @@ class ExecuteTransactionOutput {
   factory ExecuteTransactionOutput.fromJson(Map<String, dynamic> json) {
     return ExecuteTransactionOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       responses: (json['Responses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -9704,7 +9698,7 @@ class GlobalSecondaryIndex {
     return GlobalSecondaryIndex(
       indexName: json['IndexName'] as String,
       keySchema: (json['KeySchema'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       projection:
@@ -9882,7 +9876,7 @@ class GlobalSecondaryIndexDescription {
           (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
       itemCount: json['ItemCount'] as int?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       onDemandThroughput: json['OnDemandThroughput'] != null
@@ -9977,7 +9971,7 @@ class GlobalSecondaryIndexInfo {
     return GlobalSecondaryIndexInfo(
       indexName: json['IndexName'] as String?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       onDemandThroughput: json['OnDemandThroughput'] != null
@@ -10090,7 +10084,7 @@ class GlobalTable {
     return GlobalTable(
       globalTableName: json['GlobalTableName'] as String?,
       replicationGroup: (json['ReplicationGroup'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Replica.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10154,7 +10148,7 @@ class GlobalTableDescription {
       globalTableStatus: (json['GlobalTableStatus'] as String?)
           ?.let(GlobalTableStatus.fromString),
       replicationGroup: (json['ReplicationGroup'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10687,7 +10681,7 @@ class ItemCollectionMetrics {
           ?.map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
     );
@@ -10904,12 +10898,12 @@ class KeysAndAttributes {
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
       keys: (json['Keys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
       attributesToGet: (json['AttributesToGet'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       consistentRead: json['ConsistentRead'] as bool?,
@@ -11075,7 +11069,7 @@ class ListBackupsOutput {
   factory ListBackupsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupsOutput(
       backupSummaries: (json['BackupSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BackupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastEvaluatedBackupArn: json['LastEvaluatedBackupArn'] as String?,
@@ -11109,7 +11103,7 @@ class ListContributorInsightsOutput {
     return ListContributorInsightsOutput(
       contributorInsightsSummaries: (json['ContributorInsightsSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ContributorInsightsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11145,7 +11139,7 @@ class ListExportsOutput {
   factory ListExportsOutput.fromJson(Map<String, dynamic> json) {
     return ListExportsOutput(
       exportSummaries: (json['ExportSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11177,7 +11171,7 @@ class ListGlobalTablesOutput {
   factory ListGlobalTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListGlobalTablesOutput(
       globalTables: (json['GlobalTables'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GlobalTable.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastEvaluatedGlobalTableName:
@@ -11213,7 +11207,7 @@ class ListImportsOutput {
   factory ListImportsOutput.fromJson(Map<String, dynamic> json) {
     return ListImportsOutput(
       importSummaryList: (json['ImportSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -11258,7 +11252,7 @@ class ListTablesOutput {
     return ListTablesOutput(
       lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
       tableNames: (json['TableNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -11293,7 +11287,7 @@ class ListTagsOfResourceOutput {
     return ListTagsOfResourceOutput(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -11423,7 +11417,7 @@ class LocalSecondaryIndexDescription {
       indexSizeBytes: json['IndexSizeBytes'] as int?,
       itemCount: json['ItemCount'] as int?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       projection: json['Projection'] != null
@@ -11494,7 +11488,7 @@ class LocalSecondaryIndexInfo {
     return LocalSecondaryIndexInfo(
       indexName: json['IndexName'] as String?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       projection: json['Projection'] != null
@@ -11754,7 +11748,7 @@ class Projection {
   factory Projection.fromJson(Map<String, dynamic> json) {
     return Projection(
       nonKeyAttributes: (json['NonKeyAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       projectionType:
@@ -12195,7 +12189,7 @@ class QueryOutput {
           : null,
       count: json['Count'] as int?,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
@@ -12287,7 +12281,7 @@ class ReplicaAutoScalingDescription {
   factory ReplicaAutoScalingDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaAutoScalingDescription(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
                   e as Map<String, dynamic>))
@@ -12452,7 +12446,7 @@ class ReplicaDescription {
   factory ReplicaDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaDescription(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicaGlobalSecondaryIndexDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -12913,7 +12907,7 @@ class ReplicaSettingsDescription {
           : null,
       replicaGlobalSecondaryIndexSettings:
           (json['ReplicaGlobalSecondaryIndexSettings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
                       e as Map<String, dynamic>))
@@ -13621,7 +13615,7 @@ class ScanOutput {
           : null,
       count: json['Count'] as int?,
       items: (json['Items'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
@@ -13724,7 +13718,7 @@ class SourceTableDetails {
   factory SourceTableDetails.fromJson(Map<String, dynamic> json) {
     return SourceTableDetails(
       keySchema: (json['KeySchema'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisionedThroughput: ProvisionedThroughput.fromJson(
@@ -13805,12 +13799,12 @@ class SourceTableFeatureDetails {
   factory SourceTableFeatureDetails.fromJson(Map<String, dynamic> json) {
     return SourceTableFeatureDetails(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GlobalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               LocalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13953,7 +13947,7 @@ class TableAutoScalingDescription {
   factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) {
     return TableAutoScalingDescription(
       replicas: (json['Replicas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14058,18 +14052,18 @@ class TableCreationParameters {
   factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
     return TableCreationParameters(
       attributeDefinitions: (json['AttributeDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       keySchema: (json['KeySchema'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       tableName: json['TableName'] as String,
       billingMode:
           (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
           .toList(),
       onDemandThroughput: json['OnDemandThroughput'] != null
@@ -14479,7 +14473,7 @@ class TableDescription {
               json['ArchivalSummary'] as Map<String, dynamic>)
           : null,
       attributeDefinitions: (json['AttributeDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       billingModeSummary: json['BillingModeSummary'] != null
@@ -14489,20 +14483,20 @@ class TableDescription {
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool?,
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GlobalSecondaryIndexDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       globalTableVersion: json['GlobalTableVersion'] as String?,
       itemCount: json['ItemCount'] as int?,
       keySchema: (json['KeySchema'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       latestStreamArn: json['LatestStreamArn'] as String?,
       latestStreamLabel: json['LatestStreamLabel'] as String?,
       localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LocalSecondaryIndexDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -14515,7 +14509,7 @@ class TableDescription {
               json['ProvisionedThroughput'] as Map<String, dynamic>)
           : null,
       replicas: (json['Replicas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       restoreSummary: json['RestoreSummary'] != null
@@ -14795,11 +14789,11 @@ class TransactGetItemsOutput {
   factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) {
     return TransactGetItemsOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       responses: (json['Responses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -14871,7 +14865,7 @@ class TransactWriteItemsOutput {
   factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) {
     return TransactWriteItemsOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
           .toList(),
       itemCollectionMetrics: (json['ItemCollectionMetrics']
@@ -14879,7 +14873,7 @@ class TransactWriteItemsOutput {
           ?.map((k, e) => MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) =>
                       ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
                   .toList())),
@@ -15110,7 +15104,7 @@ class UpdateGlobalTableSettingsOutput {
     return UpdateGlobalTableSettingsOutput(
       globalTableName: json['GlobalTableName'] as String?,
       replicaSettings: (json['ReplicaSettings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
           .toList(),

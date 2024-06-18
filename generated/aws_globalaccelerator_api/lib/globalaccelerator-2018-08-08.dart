@@ -3168,13 +3168,13 @@ class Accelerator {
       dualStackDnsName: json['DualStackDnsName'] as String?,
       enabled: json['Enabled'] as bool?,
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AcceleratorEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       ipAddressType:
           (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
       ipSets: (json['IpSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -3285,7 +3285,7 @@ class AddCustomRoutingEndpointsResponse {
       Map<String, dynamic> json) {
     return AddCustomRoutingEndpointsResponse(
       endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRoutingEndpointDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3309,7 +3309,7 @@ class AddEndpointsResponse {
   factory AddEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return AddEndpointsResponse(
       endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       endpointGroupArn: json['EndpointGroupArn'] as String?,
@@ -3372,11 +3372,11 @@ class Attachment {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       principals: (json['Principals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3470,7 +3470,7 @@ class ByoipCidr {
     return ByoipCidr(
       cidr: json['Cidr'] as String?,
       events: (json['Events'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ByoipCidrEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: (json['State'] as String?)?.let(ByoipCidrState.fromString),
@@ -3821,7 +3821,7 @@ class CustomRoutingAccelerator {
       ipAddressType:
           (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
       ipSets: (json['IpSets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -3952,7 +3952,7 @@ class CustomRoutingDestinationDescription {
     return CustomRoutingDestinationDescription(
       fromPort: json['FromPort'] as int?,
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Protocol.fromString((e as String)))
           .toList(),
       toPort: json['ToPort'] as int?,
@@ -4050,12 +4050,12 @@ class CustomRoutingEndpointGroup {
   factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) {
     return CustomRoutingEndpointGroup(
       destinationDescriptions: (json['DestinationDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRoutingDestinationDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRoutingEndpointDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4086,7 +4086,7 @@ class CustomRoutingListener {
     return CustomRoutingListener(
       listenerArn: json['ListenerArn'] as String?,
       portRanges: (json['PortRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4338,7 +4338,7 @@ class DestinationPortMapping {
     return DestinationPortMapping(
       acceleratorArn: json['AcceleratorArn'] as String?,
       acceleratorSocketAddresses: (json['AcceleratorSocketAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SocketAddress.fromJson(e as Map<String, dynamic>))
           .toList(),
       destinationSocketAddress: json['DestinationSocketAddress'] != null
@@ -4566,7 +4566,7 @@ class EndpointGroup {
   factory EndpointGroup.fromJson(Map<String, dynamic> json) {
     return EndpointGroup(
       endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       endpointGroupArn: json['EndpointGroupArn'] as String?,
@@ -4577,7 +4577,7 @@ class EndpointGroup {
       healthCheckProtocol: (json['HealthCheckProtocol'] as String?)
           ?.let(HealthCheckProtocol.fromString),
       portOverrides: (json['PortOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
       thresholdCount: json['ThresholdCount'] as int?,
@@ -4706,7 +4706,7 @@ class IpSet {
       ipAddressFamily:
           (json['IpAddressFamily'] as String?)?.let(IpAddressFamily.fromString),
       ipAddresses: (json['IpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       ipFamily: json['IpFamily'] as String?,
@@ -4730,7 +4730,7 @@ class ListAcceleratorsResponse {
   factory ListAcceleratorsResponse.fromJson(Map<String, dynamic> json) {
     return ListAcceleratorsResponse(
       accelerators: (json['Accelerators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Accelerator.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4753,7 +4753,7 @@ class ListByoipCidrsResponse {
   factory ListByoipCidrsResponse.fromJson(Map<String, dynamic> json) {
     return ListByoipCidrsResponse(
       byoipCidrs: (json['ByoipCidrs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ByoipCidr.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4778,7 +4778,7 @@ class ListCrossAccountAttachmentsResponse {
       Map<String, dynamic> json) {
     return ListCrossAccountAttachmentsResponse(
       crossAccountAttachments: (json['CrossAccountAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4799,7 +4799,7 @@ class ListCrossAccountResourceAccountsResponse {
       Map<String, dynamic> json) {
     return ListCrossAccountResourceAccountsResponse(
       resourceOwnerAwsAccountIds: (json['ResourceOwnerAwsAccountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4823,7 +4823,7 @@ class ListCrossAccountResourcesResponse {
       Map<String, dynamic> json) {
     return ListCrossAccountResourcesResponse(
       crossAccountResources: (json['CrossAccountResources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CrossAccountResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4848,7 +4848,7 @@ class ListCustomRoutingAcceleratorsResponse {
       Map<String, dynamic> json) {
     return ListCustomRoutingAcceleratorsResponse(
       accelerators: (json['Accelerators'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CustomRoutingAccelerator.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4875,7 +4875,7 @@ class ListCustomRoutingEndpointGroupsResponse {
       Map<String, dynamic> json) {
     return ListCustomRoutingEndpointGroupsResponse(
       endpointGroups: (json['EndpointGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CustomRoutingEndpointGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4901,7 +4901,7 @@ class ListCustomRoutingListenersResponse {
       Map<String, dynamic> json) {
     return ListCustomRoutingListenersResponse(
       listeners: (json['Listeners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRoutingListener.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4927,7 +4927,7 @@ class ListCustomRoutingPortMappingsByDestinationResponse {
       Map<String, dynamic> json) {
     return ListCustomRoutingPortMappingsByDestinationResponse(
       destinationPortMappings: (json['DestinationPortMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DestinationPortMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4954,7 +4954,7 @@ class ListCustomRoutingPortMappingsResponse {
     return ListCustomRoutingPortMappingsResponse(
       nextToken: json['NextToken'] as String?,
       portMappings: (json['PortMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4977,7 +4977,7 @@ class ListEndpointGroupsResponse {
   factory ListEndpointGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListEndpointGroupsResponse(
       endpointGroups: (json['EndpointGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EndpointGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5001,7 +5001,7 @@ class ListListenersResponse {
   factory ListListenersResponse.fromJson(Map<String, dynamic> json) {
     return ListListenersResponse(
       listeners: (json['Listeners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Listener.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5020,7 +5020,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5074,7 +5074,7 @@ class Listener {
           (json['ClientAffinity'] as String?)?.let(ClientAffinity.fromString),
       listenerArn: json['ListenerArn'] as String?,
       portRanges: (json['PortRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
@@ -5130,7 +5130,7 @@ class PortMapping {
       endpointGroupArn: json['EndpointGroupArn'] as String?,
       endpointId: json['EndpointId'] as String?,
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CustomRoutingProtocol.fromString((e as String)))
           .toList(),
     );

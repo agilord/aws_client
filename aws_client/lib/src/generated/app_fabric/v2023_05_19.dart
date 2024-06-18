@@ -1585,7 +1585,7 @@ class BatchGetUserAccessTasksResponse {
   factory BatchGetUserAccessTasksResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetUserAccessTasksResponse(
       userAccessResultsList: (json['userAccessResultsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserAccessResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2269,7 +2269,7 @@ class ListAppAuthorizationsResponse {
   factory ListAppAuthorizationsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppAuthorizationsResponse(
       appAuthorizationSummaryList: (json['appAuthorizationSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AppAuthorizationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2307,7 +2307,7 @@ class ListAppBundlesResponse {
   factory ListAppBundlesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppBundlesResponse(
       appBundleSummaryList: (json['appBundleSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AppBundleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2345,7 +2345,7 @@ class ListIngestionDestinationsResponse {
       Map<String, dynamic> json) {
     return ListIngestionDestinationsResponse(
       ingestionDestinations: (json['ingestionDestinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               IngestionDestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2383,7 +2383,7 @@ class ListIngestionsResponse {
   factory ListIngestionsResponse.fromJson(Map<String, dynamic> json) {
     return ListIngestionsResponse(
       ingestions: (json['ingestions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => IngestionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2412,7 +2412,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2573,7 +2573,7 @@ class StartUserAccessTasksResponse {
   factory StartUserAccessTasksResponse.fromJson(Map<String, dynamic> json) {
     return StartUserAccessTasksResponse(
       userAccessTasksList: (json['userAccessTasksList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserAccessTaskItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

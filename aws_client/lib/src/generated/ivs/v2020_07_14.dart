@@ -1824,11 +1824,11 @@ class BatchGetChannelResponse {
   factory BatchGetChannelResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetChannelResponse(
       channels: (json['channels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1859,11 +1859,11 @@ class BatchGetStreamKeyResponse {
   factory BatchGetStreamKeyResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetStreamKeyResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchError.fromJson(e as Map<String, dynamic>))
           .toList(),
       streamKeys: (json['streamKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1938,7 +1938,7 @@ class BatchStartViewerSessionRevocationResponse {
       Map<String, dynamic> json) {
     return BatchStartViewerSessionRevocationResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchStartViewerSessionRevocationError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2675,7 +2675,7 @@ class ListChannelsResponse {
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['channels'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2708,7 +2708,7 @@ class ListPlaybackKeyPairsResponse {
   factory ListPlaybackKeyPairsResponse.fromJson(Map<String, dynamic> json) {
     return ListPlaybackKeyPairsResponse(
       keyPairs: (json['keyPairs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map(
               (e) => PlaybackKeyPairSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2743,7 +2743,7 @@ class ListPlaybackRestrictionPoliciesResponse {
       Map<String, dynamic> json) {
     return ListPlaybackRestrictionPoliciesResponse(
       playbackRestrictionPolicies: (json['playbackRestrictionPolicies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PlaybackRestrictionPolicySummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2778,7 +2778,7 @@ class ListRecordingConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListRecordingConfigurationsResponse(
       recordingConfigurations: (json['recordingConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               RecordingConfigurationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2812,7 +2812,7 @@ class ListStreamKeysResponse {
   factory ListStreamKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamKeysResponse(
       streamKeys: (json['streamKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamKeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2845,7 +2845,7 @@ class ListStreamSessionsResponse {
   factory ListStreamSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamSessionsResponse(
       streamSessions: (json['streamSessions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2878,7 +2878,7 @@ class ListStreamsResponse {
   factory ListStreamsResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamsResponse(
       streams: (json['streams'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => StreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3060,11 +3060,11 @@ class PlaybackRestrictionPolicy {
   factory PlaybackRestrictionPolicy.fromJson(Map<String, dynamic> json) {
     return PlaybackRestrictionPolicy(
       allowedCountries: (json['allowedCountries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedOrigins: (json['allowedOrigins'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       arn: json['arn'] as String,
@@ -3140,11 +3140,11 @@ class PlaybackRestrictionPolicySummary {
   factory PlaybackRestrictionPolicySummary.fromJson(Map<String, dynamic> json) {
     return PlaybackRestrictionPolicySummary(
       allowedCountries: (json['allowedCountries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedOrigins: (json['allowedOrigins'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       arn: json['arn'] as String,
@@ -3394,7 +3394,7 @@ class RenditionConfiguration {
       renditionSelection: (json['renditionSelection'] as String?)
           ?.let(RenditionConfigurationRenditionSelection.fromString),
       renditions: (json['renditions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RenditionConfigurationRendition.fromString((e as String)))
           .toList(),
     );
@@ -3828,7 +3828,7 @@ class StreamSession {
       startTime: timeStampFromJson(json['startTime']),
       streamId: json['streamId'] as String?,
       truncatedEvents: (json['truncatedEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StreamEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4049,7 +4049,7 @@ class ThumbnailConfiguration {
       resolution: (json['resolution'] as String?)
           ?.let(ThumbnailConfigurationResolution.fromString),
       storage: (json['storage'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ThumbnailConfigurationStorage.fromString((e as String)))
           .toList(),
       targetIntervalSeconds: json['targetIntervalSeconds'] as int?,

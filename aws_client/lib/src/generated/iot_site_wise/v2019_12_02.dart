@@ -4985,7 +4985,7 @@ class AssetCompositeModel {
     return AssetCompositeModel(
       name: json['name'] as String,
       properties: (json['properties'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String,
@@ -5095,7 +5095,7 @@ class AssetCompositeModelSummary {
       id: json['id'] as String,
       name: json['name'] as String,
       path: (json['path'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetCompositeModelPathSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5293,7 +5293,7 @@ class AssetModelCompositeModel {
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5458,7 +5458,7 @@ class AssetModelCompositeModelSummary {
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetModelCompositeModelPathSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5702,7 +5702,7 @@ class AssetModelProperty {
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5887,7 +5887,7 @@ class AssetModelPropertySummary {
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6154,7 +6154,7 @@ class AssetProperty {
               json['notification'] as Map<String, dynamic>)
           : null,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6265,7 +6265,7 @@ class AssetPropertySummary {
               json['notification'] as Map<String, dynamic>)
           : null,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6503,7 +6503,7 @@ class AssetSummary {
       creationDate:
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       hierarchies: (json['hierarchies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -6601,7 +6601,7 @@ class AssociatedAssetsSummary {
       creationDate:
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       hierarchies: (json['hierarchies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -6695,7 +6695,7 @@ class BatchAssociateProjectAssetsResponse {
       Map<String, dynamic> json) {
     return BatchAssociateProjectAssetsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetErrorDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6721,7 +6721,7 @@ class BatchDisassociateProjectAssetsResponse {
       Map<String, dynamic> json) {
     return BatchDisassociateProjectAssetsResponse(
       errors: (json['errors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetErrorDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6973,17 +6973,17 @@ class BatchGetAssetPropertyAggregatesResponse {
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyAggregatesResponse(
       errorEntries: (json['errorEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       skippedEntries: (json['skippedEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successEntries: (json['successEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7071,7 +7071,7 @@ class BatchGetAssetPropertyAggregatesSuccessEntry {
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyAggregatesSuccessEntry(
       aggregatedValues: (json['aggregatedValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       entryId: json['entryId'] as String,
@@ -7442,17 +7442,17 @@ class BatchGetAssetPropertyValueHistoryResponse {
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueHistoryResponse(
       errorEntries: (json['errorEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       skippedEntries: (json['skippedEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successEntries: (json['successEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7539,7 +7539,7 @@ class BatchGetAssetPropertyValueHistorySuccessEntry {
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueHistorySuccessEntry(
       assetPropertyValueHistory: (json['assetPropertyValueHistory'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       entryId: json['entryId'] as String,
@@ -7587,17 +7587,17 @@ class BatchGetAssetPropertyValueResponse {
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueResponse(
       errorEntries: (json['errorEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       skippedEntries: (json['skippedEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueSkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       successEntries: (json['successEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchGetAssetPropertyValueSuccessEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7722,7 +7722,7 @@ class BatchPutAssetPropertyError {
           (json['errorCode'] as String)),
       errorMessage: json['errorMessage'] as String,
       timestamps: (json['timestamps'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TimeInNanos.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7760,7 +7760,7 @@ class BatchPutAssetPropertyErrorEntry {
     return BatchPutAssetPropertyErrorEntry(
       entryId: json['entryId'] as String,
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchPutAssetPropertyError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7812,7 +7812,7 @@ class BatchPutAssetPropertyValueResponse {
       Map<String, dynamic> json) {
     return BatchPutAssetPropertyValueResponse(
       errorEntries: (json['errorEntries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchPutAssetPropertyErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7988,7 +7988,7 @@ class CompositionDetails {
   factory CompositionDetails.fromJson(Map<String, dynamic> json) {
     return CompositionDetails(
       compositionRelationship: (json['compositionRelationship'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CompositionRelationshipItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8215,7 +8215,7 @@ class CreateAssetModelCompositeModelResponse {
       assetModelCompositeModelId: json['assetModelCompositeModelId'] as String,
       assetModelCompositeModelPath:
           (json['assetModelCompositeModelPath'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -8558,7 +8558,7 @@ class Csv {
   factory Csv.fromJson(Map<String, dynamic> json) {
     return Csv(
       columnNames: (json['columnNames'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ColumnName.fromString((e as String)))
           .toList(),
     );
@@ -8688,7 +8688,7 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) {
     return Datum(
       arrayValue: (json['arrayValue'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
       nullValue: json['nullValue'] as bool?,
@@ -9034,25 +9034,25 @@ class DescribeAssetCompositeModelResponse {
       assetCompositeModelId: json['assetCompositeModelId'] as String,
       assetCompositeModelName: json['assetCompositeModelName'] as String,
       assetCompositeModelPath: (json['assetCompositeModelPath'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetCompositeModelPathSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       assetCompositeModelProperties:
           (json['assetCompositeModelProperties'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
               .toList(),
       assetCompositeModelSummaries: (json['assetCompositeModelSummaries']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AssetCompositeModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetCompositeModelType: json['assetCompositeModelType'] as String,
       assetId: json['assetId'] as String,
       actionDefinitions: (json['actionDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetCompositeModelExternalId:
@@ -9150,19 +9150,19 @@ class DescribeAssetModelCompositeModelResponse {
           json['assetModelCompositeModelName'] as String,
       assetModelCompositeModelPath:
           (json['assetModelCompositeModelPath'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModelProperties:
           (json['assetModelCompositeModelProperties'] as List)
-              .whereNotNull()
+              .nonNulls
               .map(
                   (e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModelSummaries:
           (json['assetModelCompositeModelSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetModelCompositeModelSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -9170,7 +9170,7 @@ class DescribeAssetModelCompositeModelResponse {
           json['assetModelCompositeModelType'] as String,
       assetModelId: json['assetModelId'] as String,
       actionDefinitions: (json['actionDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetModelCompositeModelExternalId:
@@ -9307,7 +9307,7 @@ class DescribeAssetModelResponse {
           json['assetModelCreationDate'] as Object),
       assetModelDescription: json['assetModelDescription'] as String,
       assetModelHierarchies: (json['assetModelHierarchies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetModelHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetModelId: json['assetModelId'] as String,
@@ -9315,19 +9315,19 @@ class DescribeAssetModelResponse {
           json['assetModelLastUpdateDate'] as Object),
       assetModelName: json['assetModelName'] as String,
       assetModelProperties: (json['assetModelProperties'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetModelStatus: AssetModelStatus.fromJson(
           json['assetModelStatus'] as Map<String, dynamic>),
       assetModelCompositeModelSummaries:
           (json['assetModelCompositeModelSummaries'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => AssetModelCompositeModelSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModels: (json['assetModelCompositeModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetModelCompositeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9515,7 +9515,7 @@ class DescribeAssetResponse {
       assetCreationDate:
           nonNullableTimeStampFromJson(json['assetCreationDate'] as Object),
       assetHierarchies: (json['assetHierarchies'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetId: json['assetId'] as String,
@@ -9524,19 +9524,19 @@ class DescribeAssetResponse {
       assetModelId: json['assetModelId'] as String,
       assetName: json['assetName'] as String,
       assetProperties: (json['assetProperties'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetStatus:
           AssetStatus.fromJson(json['assetStatus'] as Map<String, dynamic>),
       assetCompositeModelSummaries: (json['assetCompositeModelSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetCompositeModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetCompositeModels: (json['assetCompositeModels'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssetCompositeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetDescription: json['assetDescription'] as String?,
@@ -9666,7 +9666,7 @@ class DescribeBulkImportJobResponse {
       errorReportLocation: ErrorReportLocation.fromJson(
           json['errorReportLocation'] as Map<String, dynamic>),
       files: (json['files'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobConfiguration: JobConfiguration.fromJson(
@@ -9943,7 +9943,7 @@ class DescribeGatewayResponse {
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       gatewayArn: json['gatewayArn'] as String,
       gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10546,7 +10546,7 @@ class ErrorDetails {
       code: ErrorCode.fromString((json['code'] as String)),
       message: json['message'] as String,
       details: (json['details'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DetailedError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10643,12 +10643,12 @@ class ExecuteQueryResponse {
   factory ExecuteQueryResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteQueryResponse(
       columns: (json['columns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
       rows: (json['rows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10930,7 +10930,7 @@ class GatewaySummary {
       lastUpdateDate:
           nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
       gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10977,7 +10977,7 @@ class GetAssetPropertyAggregatesResponse {
       Map<String, dynamic> json) {
     return GetAssetPropertyAggregatesResponse(
       aggregatedValues: (json['aggregatedValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11011,7 +11011,7 @@ class GetAssetPropertyValueHistoryResponse {
       Map<String, dynamic> json) {
     return GetAssetPropertyValueHistoryResponse(
       assetPropertyValueHistory: (json['assetPropertyValueHistory'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11071,7 +11071,7 @@ class GetInterpolatedAssetPropertyValuesResponse {
     return GetInterpolatedAssetPropertyValuesResponse(
       interpolatedAssetPropertyValues:
           (json['interpolatedAssetPropertyValues'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => InterpolatedAssetPropertyValue.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11564,7 +11564,7 @@ class ListAccessPoliciesResponse {
   factory ListAccessPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessPoliciesResponse(
       accessPolicySummaries: (json['accessPolicySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccessPolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11597,7 +11597,7 @@ class ListActionsResponse {
   factory ListActionsResponse.fromJson(Map<String, dynamic> json) {
     return ListActionsResponse(
       actionSummaries: (json['actionSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String,
@@ -11632,7 +11632,7 @@ class ListAssetModelCompositeModelsResponse {
     return ListAssetModelCompositeModelsResponse(
       assetModelCompositeModelSummaries:
           (json['assetModelCompositeModelSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetModelCompositeModelSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -11683,7 +11683,7 @@ class ListAssetModelPropertiesResponse {
   factory ListAssetModelPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetModelPropertiesResponse(
       assetModelPropertySummaries: (json['assetModelPropertySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AssetModelPropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11717,7 +11717,7 @@ class ListAssetModelsResponse {
   factory ListAssetModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetModelsResponse(
       assetModelSummaries: (json['assetModelSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11765,7 +11765,7 @@ class ListAssetPropertiesResponse {
   factory ListAssetPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetPropertiesResponse(
       assetPropertySummaries: (json['assetPropertySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetPropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11798,7 +11798,7 @@ class ListAssetRelationshipsResponse {
   factory ListAssetRelationshipsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetRelationshipsResponse(
       assetRelationshipSummaries: (json['assetRelationshipSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AssetRelationshipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11847,7 +11847,7 @@ class ListAssetsResponse {
   factory ListAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetsResponse(
       assetSummaries: (json['assetSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AssetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11880,7 +11880,7 @@ class ListAssociatedAssetsResponse {
   factory ListAssociatedAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssociatedAssetsResponse(
       assetSummaries: (json['assetSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AssociatedAssetsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11934,7 +11934,7 @@ class ListBulkImportJobsResponse {
   factory ListBulkImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListBulkImportJobsResponse(
       jobSummaries: (json['jobSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -11969,7 +11969,7 @@ class ListCompositionRelationshipsResponse {
     return ListCompositionRelationshipsResponse(
       compositionRelationshipSummaries:
           (json['compositionRelationshipSummaries'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => CompositionRelationshipSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -12004,7 +12004,7 @@ class ListDashboardsResponse {
   factory ListDashboardsResponse.fromJson(Map<String, dynamic> json) {
     return ListDashboardsResponse(
       dashboardSummaries: (json['dashboardSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DashboardSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -12037,7 +12037,7 @@ class ListGatewaysResponse {
   factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewaysResponse(
       gatewaySummaries: (json['gatewaySummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => GatewaySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -12071,7 +12071,7 @@ class ListPortalsResponse {
     return ListPortalsResponse(
       nextToken: json['nextToken'] as String?,
       portalSummaries: (json['portalSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortalSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -12102,10 +12102,8 @@ class ListProjectAssetsResponse {
 
   factory ListProjectAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectAssetsResponse(
-      assetIds: (json['assetIds'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      assetIds:
+          (json['assetIds'] as List).nonNulls.map((e) => e as String).toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -12136,7 +12134,7 @@ class ListProjectsResponse {
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
       projectSummaries: (json['projectSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -12195,7 +12193,7 @@ class ListTimeSeriesResponse {
   factory ListTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
     return ListTimeSeriesResponse(
       timeSeriesSummaries: (json['TimeSeriesSummaries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TimeSeriesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -12369,7 +12367,7 @@ class Metric {
     return Metric(
       expression: json['expression'] as String,
       variables: (json['variables'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
       window: MetricWindow.fromJson(json['window'] as Map<String, dynamic>),
@@ -12836,7 +12834,7 @@ class Property {
               json['notification'] as Map<String, dynamic>)
           : null,
       path: (json['path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13331,7 +13329,7 @@ class Row {
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
       data: (json['data'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13605,7 +13603,7 @@ class Transform {
     return Transform(
       expression: json['expression'] as String,
       variables: (json['variables'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
       processingConfig: json['processingConfig'] != null
@@ -13846,7 +13844,7 @@ class UpdateAssetModelCompositeModelResponse {
     return UpdateAssetModelCompositeModelResponse(
       assetModelCompositeModelPath:
           (json['assetModelCompositeModelPath'] as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -14072,7 +14070,7 @@ class VariableValue {
       hierarchyId: json['hierarchyId'] as String?,
       propertyId: json['propertyId'] as String?,
       propertyPath: (json['propertyPath'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
           .toList(),

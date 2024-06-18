@@ -4244,7 +4244,7 @@ class ConnectionAlias {
     return ConnectionAlias(
       aliasId: json['AliasId'] as String?,
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConnectionAliasAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4453,12 +4453,12 @@ class CreateStandbyWorkspacesResult {
   factory CreateStandbyWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return CreateStandbyWorkspacesResult(
       failedStandbyRequests: (json['FailedStandbyRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FailedCreateStandbyWorkspacesRequest.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       pendingStandbyRequests: (json['PendingStandbyRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PendingCreateStandbyWorkspacesRequest.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4585,12 +4585,12 @@ class CreateWorkspacesResult {
   factory CreateWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return CreateWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedCreateWorkspaceRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       pendingRequests: (json['PendingRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Workspace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5055,7 +5055,7 @@ class DescribeAccountModificationsResult {
       Map<String, dynamic> json) {
     return DescribeAccountModificationsResult(
       accountModifications: (json['AccountModifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountModification.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5115,7 +5115,7 @@ class DescribeApplicationAssociationsResult {
       Map<String, dynamic> json) {
     return DescribeApplicationAssociationsResult(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationResourceAssociation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -5140,7 +5140,7 @@ class DescribeApplicationsResult {
   factory DescribeApplicationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationsResult(
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkSpaceApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5159,7 +5159,7 @@ class DescribeBundleAssociationsResult {
   factory DescribeBundleAssociationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeBundleAssociationsResult(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BundleResourceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5236,7 +5236,7 @@ class DescribeClientPropertiesResult {
   factory DescribeClientPropertiesResult.fromJson(Map<String, dynamic> json) {
     return DescribeClientPropertiesResult(
       clientPropertiesList: (json['ClientPropertiesList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ClientPropertiesResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5261,7 +5261,7 @@ class DescribeConnectClientAddInsResult {
       Map<String, dynamic> json) {
     return DescribeConnectClientAddInsResult(
       addIns: (json['AddIns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectClientAddIn.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5291,7 +5291,7 @@ class DescribeConnectionAliasPermissionsResult {
     return DescribeConnectionAliasPermissionsResult(
       aliasId: json['AliasId'] as String?,
       connectionAliasPermissions: (json['ConnectionAliasPermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ConnectionAliasPermission.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5316,7 +5316,7 @@ class DescribeConnectionAliasesResult {
   factory DescribeConnectionAliasesResult.fromJson(Map<String, dynamic> json) {
     return DescribeConnectionAliasesResult(
       connectionAliases: (json['ConnectionAliases'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConnectionAlias.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5335,7 +5335,7 @@ class DescribeImageAssociationsResult {
   factory DescribeImageAssociationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeImageAssociationsResult(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ImageResourceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5360,7 +5360,7 @@ class DescribeIpGroupsResult {
     return DescribeIpGroupsResult(
       nextToken: json['NextToken'] as String?,
       result: (json['Result'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkspacesIpGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5378,7 +5378,7 @@ class DescribeTagsResult {
   factory DescribeTagsResult.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResult(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5397,7 +5397,7 @@ class DescribeWorkspaceAssociationsResult {
       Map<String, dynamic> json) {
     return DescribeWorkspaceAssociationsResult(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkspaceResourceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5422,7 +5422,7 @@ class DescribeWorkspaceBundlesResult {
   factory DescribeWorkspaceBundlesResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceBundlesResult(
       bundles: (json['Bundles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkspaceBundle.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5447,7 +5447,7 @@ class DescribeWorkspaceDirectoriesResult {
       Map<String, dynamic> json) {
     return DescribeWorkspaceDirectoriesResult(
       directories: (json['Directories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkspaceDirectory.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5478,7 +5478,7 @@ class DescribeWorkspaceImagePermissionsResult {
     return DescribeWorkspaceImagePermissionsResult(
       imageId: json['ImageId'] as String?,
       imagePermissions: (json['ImagePermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ImagePermission.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5502,7 +5502,7 @@ class DescribeWorkspaceImagesResult {
   factory DescribeWorkspaceImagesResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceImagesResult(
       images: (json['Images'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkspaceImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5527,11 +5527,11 @@ class DescribeWorkspaceSnapshotsResult {
   factory DescribeWorkspaceSnapshotsResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceSnapshotsResult(
       rebuildSnapshots: (json['RebuildSnapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
       restoreSnapshots: (json['RestoreSnapshots'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5556,7 +5556,7 @@ class DescribeWorkspacesConnectionStatusResult {
     return DescribeWorkspacesConnectionStatusResult(
       nextToken: json['NextToken'] as String?,
       workspacesConnectionStatus: (json['WorkspacesConnectionStatus'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkspaceConnectionStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5584,7 +5584,7 @@ class DescribeWorkspacesResult {
     return DescribeWorkspacesResult(
       nextToken: json['NextToken'] as String?,
       workspaces: (json['Workspaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Workspace.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6175,7 +6175,7 @@ class ListAccountLinksResult {
   factory ListAccountLinksResult.fromJson(Map<String, dynamic> json) {
     return ListAccountLinksResult(
       accountLinks: (json['AccountLinks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AccountLink.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6200,7 +6200,7 @@ class ListAvailableManagementCidrRangesResult {
       Map<String, dynamic> json) {
     return ListAvailableManagementCidrRangesResult(
       managementCidrRanges: (json['ManagementCidrRanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6509,7 +6509,7 @@ class RebootWorkspacesResult {
   factory RebootWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return RebootWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6545,7 +6545,7 @@ class RebuildWorkspacesResult {
   factory RebuildWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return RebuildWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6882,7 +6882,7 @@ class StandbyWorkspace {
       dataReplication:
           (json['DataReplication'] as String?)?.let(DataReplication.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
@@ -6978,7 +6978,7 @@ class StartWorkspacesResult {
   factory StartWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return StartWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7014,7 +7014,7 @@ class StopWorkspacesResult {
   factory StopWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return StopWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7109,7 +7109,7 @@ class TerminateWorkspacesResult {
   factory TerminateWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return TerminateWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7263,12 +7263,12 @@ class WorkSpaceApplication {
       state:
           (json['State'] as String?)?.let(WorkSpaceApplicationState.fromString),
       supportedComputeTypeNames: (json['SupportedComputeTypeNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Compute.fromString((e as String)))
           .toList(),
       supportedOperatingSystemNames:
           (json['SupportedOperatingSystemNames'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => OperatingSystemName.fromString((e as String)))
               .toList(),
     );
@@ -7287,7 +7287,7 @@ class WorkSpaceApplicationDeployment {
   factory WorkSpaceApplicationDeployment.fromJson(Map<String, dynamic> json) {
     return WorkSpaceApplicationDeployment(
       associations: (json['Associations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               WorkspaceResourceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7510,18 +7510,18 @@ class Workspace {
       errorMessage: json['ErrorMessage'] as String?,
       ipAddress: json['IpAddress'] as String?,
       modificationStates: (json['ModificationStates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModificationState.fromJson(e as Map<String, dynamic>))
           .toList(),
       relatedWorkspaces: (json['RelatedWorkspaces'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RelatedWorkspaceProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
       standbyWorkspacesProperties: (json['StandbyWorkspacesProperties']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               StandbyWorkspacesProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7962,7 +7962,7 @@ class WorkspaceDirectory {
       directoryType: (json['DirectoryType'] as String?)
           ?.let(WorkspaceDirectoryType.fromString),
       dnsIpAddresses: (json['DnsIpAddresses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       iamRoleId: json['IamRoleId'] as String?,
@@ -7978,7 +7978,7 @@ class WorkspaceDirectory {
       state:
           (json['State'] as String?)?.let(WorkspaceDirectoryState.fromString),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tenancy: (json['Tenancy'] as String?)?.let(Tenancy.fromString),
@@ -7992,7 +7992,7 @@ class WorkspaceDirectory {
           : null,
       workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
       ipGroupIds: (json['ipGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8098,7 +8098,7 @@ class WorkspaceImage {
       description: json['Description'] as String?,
       errorCode: json['ErrorCode'] as String?,
       errorDetails: (json['ErrorDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['ErrorMessage'] as String?,
@@ -8282,7 +8282,7 @@ class WorkspaceProperties {
       operatingSystemName: (json['OperatingSystemName'] as String?)
           ?.let(OperatingSystemName.fromString),
       protocols: (json['Protocols'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Protocol.fromString((e as String)))
           .toList(),
       rootVolumeSizeGib: json['RootVolumeSizeGib'] as int?,
@@ -8374,7 +8374,7 @@ class WorkspaceRequest {
       userName: json['UserName'] as String,
       rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
@@ -8522,7 +8522,7 @@ class WorkspacesIpGroup {
       groupId: json['groupId'] as String?,
       groupName: json['groupName'] as String?,
       userRules: (json['userRules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IpRuleItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

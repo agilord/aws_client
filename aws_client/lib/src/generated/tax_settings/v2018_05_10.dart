@@ -1240,7 +1240,7 @@ class BatchDeleteTaxRegistrationResponse {
       Map<String, dynamic> json) {
     return BatchDeleteTaxRegistrationResponse(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDeleteTaxRegistrationError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1315,7 +1315,7 @@ class BatchPutTaxRegistrationResponse {
   factory BatchPutTaxRegistrationResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutTaxRegistrationResponse(
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchPutTaxRegistrationError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1801,7 +1801,7 @@ class ListTaxRegistrationsResponse {
   factory ListTaxRegistrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListTaxRegistrationsResponse(
       accountDetails: (json['accountDetails'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccountDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1830,7 +1830,7 @@ class MalaysiaAdditionalInfo {
   factory MalaysiaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return MalaysiaAdditionalInfo(
       serviceTaxCodes: (json['serviceTaxCodes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => MalaysiaServiceTaxCode.fromString((e as String)))
           .toList(),
     );
@@ -2250,7 +2250,7 @@ class TaxRegistration {
       certifiedEmailId: json['certifiedEmailId'] as String?,
       sector: (json['sector'] as String?)?.let(Sector.fromString),
       taxDocumentMetadatas: (json['taxDocumentMetadatas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaxDocumentMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2498,7 +2498,7 @@ class TaxRegistrationWithJurisdiction {
       certifiedEmailId: json['certifiedEmailId'] as String?,
       sector: (json['sector'] as String?)?.let(Sector.fromString),
       taxDocumentMetadatas: (json['taxDocumentMetadatas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaxDocumentMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

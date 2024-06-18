@@ -3952,15 +3952,15 @@ class ApiKeyRestrictions {
   factory ApiKeyRestrictions.fromJson(Map<String, dynamic> json) {
     return ApiKeyRestrictions(
       allowActions: (json['AllowActions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowResources: (json['AllowResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowReferers: (json['AllowReferers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4031,7 +4031,7 @@ class BatchDeleteDevicePositionHistoryResponse {
       Map<String, dynamic> json) {
     return BatchDeleteDevicePositionHistoryResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchDeleteDevicePositionHistoryError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4088,7 +4088,7 @@ class BatchDeleteGeofenceResponse {
   factory BatchDeleteGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteGeofenceResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchDeleteGeofenceError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4155,7 +4155,7 @@ class BatchEvaluateGeofencesResponse {
   factory BatchEvaluateGeofencesResponse.fromJson(Map<String, dynamic> json) {
     return BatchEvaluateGeofencesResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchEvaluateGeofencesError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4217,11 +4217,11 @@ class BatchGetDevicePositionResponse {
   factory BatchGetDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetDevicePositionResponse(
       devicePositions: (json['DevicePositions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DevicePosition.fromJson(e as Map<String, dynamic>))
           .toList(),
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchGetDevicePositionError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4374,11 +4374,11 @@ class BatchPutGeofenceResponse {
   factory BatchPutGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutGeofenceResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchPutGeofenceError.fromJson(e as Map<String, dynamic>))
           .toList(),
       successes: (json['Successes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               BatchPutGeofenceSuccess.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4489,7 +4489,7 @@ class BatchUpdateDevicePositionResponse {
       Map<String, dynamic> json) {
     return BatchUpdateDevicePositionResponse(
       errors: (json['Errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BatchUpdateDevicePositionError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -4571,24 +4571,22 @@ class CalculateRouteMatrixResponse {
   factory CalculateRouteMatrixResponse.fromJson(Map<String, dynamic> json) {
     return CalculateRouteMatrixResponse(
       routeMatrix: (json['RouteMatrix'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => RouteMatrixEntry.fromJson(e as Map<String, dynamic>))
               .toList())
           .toList(),
       summary: CalculateRouteMatrixSummary.fromJson(
           json['Summary'] as Map<String, dynamic>),
       snappedDeparturePositions: (json['SnappedDeparturePositions'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as double).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
           .toList(),
       snappedDestinationPositions:
           (json['SnappedDestinationPositions'] as List?)
-              ?.whereNotNull()
-              .map((e) =>
-                  (e as List).whereNotNull().map((e) => e as double).toList())
+              ?.nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
               .toList(),
     );
   }
@@ -4722,7 +4720,7 @@ class CalculateRouteResponse {
   factory CalculateRouteResponse.fromJson(Map<String, dynamic> json) {
     return CalculateRouteResponse(
       legs: (json['Legs'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Leg.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: CalculateRouteSummary.fromJson(
@@ -4822,10 +4820,8 @@ class CalculateRouteSummary {
       distance: json['Distance'] as double,
       distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
       durationSeconds: json['DurationSeconds'] as double,
-      routeBBox: (json['RouteBBox'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      routeBBox:
+          (json['RouteBBox'] as List).nonNulls.map((e) => e as double).toList(),
     );
   }
 
@@ -4910,10 +4906,8 @@ class Circle {
 
   factory Circle.fromJson(Map<String, dynamic> json) {
     return Circle(
-      center: (json['Center'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      center:
+          (json['Center'] as List).nonNulls.map((e) => e as double).toList(),
       radius: json['Radius'] as double,
     );
   }
@@ -6033,10 +6027,8 @@ class DevicePosition {
 
   factory DevicePosition.fromJson(Map<String, dynamic> json) {
     return DevicePosition(
-      position: (json['Position'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      position:
+          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
       receivedTime:
           nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
@@ -6205,11 +6197,10 @@ class GeofenceGeometry {
           ? Circle.fromJson(json['Circle'] as Map<String, dynamic>)
           : null,
       polygon: (json['Polygon'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
-              .map((e) =>
-                  (e as List).whereNotNull().map((e) => e as double).toList())
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
               .toList())
           .toList(),
     );
@@ -6241,7 +6232,7 @@ class GetDevicePositionHistoryResponse {
   factory GetDevicePositionHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicePositionHistoryResponse(
       devicePositions: (json['DevicePositions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DevicePosition.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6292,10 +6283,8 @@ class GetDevicePositionResponse {
 
   factory GetDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicePositionResponse(
-      position: (json['Position'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      position:
+          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
       receivedTime:
           nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
@@ -6646,15 +6635,15 @@ class Leg {
       distance: json['Distance'] as double,
       durationSeconds: json['DurationSeconds'] as double,
       endPosition: (json['EndPosition'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as double)
           .toList(),
       startPosition: (json['StartPosition'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as double)
           .toList(),
       steps: (json['Steps'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
       geometry: json['Geometry'] != null
@@ -6704,9 +6693,8 @@ class LegGeometry {
   factory LegGeometry.fromJson(Map<String, dynamic> json) {
     return LegGeometry(
       lineString: (json['LineString'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as double).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
           .toList(),
     );
   }
@@ -6735,7 +6723,7 @@ class ListDevicePositionsResponse {
   factory ListDevicePositionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicePositionsResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListDevicePositionsResponseEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -6783,10 +6771,8 @@ class ListDevicePositionsResponseEntry {
   factory ListDevicePositionsResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListDevicePositionsResponseEntry(
       deviceId: json['DeviceId'] as String,
-      position: (json['Position'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      position:
+          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
       accuracy: json['Accuracy'] != null
           ? PositionalAccuracy.fromJson(
@@ -6830,7 +6816,7 @@ class ListGeofenceCollectionsResponse {
   factory ListGeofenceCollectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListGeofenceCollectionsResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListGeofenceCollectionsResponseEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7016,7 +7002,7 @@ class ListGeofencesResponse {
   factory ListGeofencesResponse.fromJson(Map<String, dynamic> json) {
     return ListGeofencesResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ListGeofenceResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7052,7 +7038,7 @@ class ListKeysResponse {
   factory ListKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListKeysResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListKeysResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7148,7 +7134,7 @@ class ListMapsResponse {
   factory ListMapsResponse.fromJson(Map<String, dynamic> json) {
     return ListMapsResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListMapsResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7246,7 +7232,7 @@ class ListPlaceIndexesResponse {
   factory ListPlaceIndexesResponse.fromJson(Map<String, dynamic> json) {
     return ListPlaceIndexesResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ListPlaceIndexesResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7359,7 +7345,7 @@ class ListRouteCalculatorsResponse {
   factory ListRouteCalculatorsResponse.fromJson(Map<String, dynamic> json) {
     return ListRouteCalculatorsResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ListRouteCalculatorsResponseEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -7516,7 +7502,7 @@ class ListTrackerConsumersResponse {
   factory ListTrackerConsumersResponse.fromJson(Map<String, dynamic> json) {
     return ListTrackerConsumersResponse(
       consumerArns: (json['ConsumerArns'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7551,7 +7537,7 @@ class ListTrackersResponse {
   factory ListTrackersResponse.fromJson(Map<String, dynamic> json) {
     return ListTrackersResponse(
       entries: (json['Entries'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ListTrackersResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7806,7 +7792,7 @@ class MapConfiguration {
     return MapConfiguration(
       style: json['Style'] as String,
       customLayers: (json['CustomLayers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       politicalView: json['PoliticalView'] as String?,
@@ -8005,7 +7991,7 @@ class Place {
           PlaceGeometry.fromJson(json['Geometry'] as Map<String, dynamic>),
       addressNumber: json['AddressNumber'] as String?,
       categories: (json['Categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       country: json['Country'] as String?,
@@ -8019,7 +8005,7 @@ class Place {
       subMunicipality: json['SubMunicipality'] as String?,
       subRegion: json['SubRegion'] as String?,
       supplementalCategories: (json['SupplementalCategories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       timeZone: json['TimeZone'] != null
@@ -8093,10 +8079,8 @@ class PlaceGeometry {
 
   factory PlaceGeometry.fromJson(Map<String, dynamic> json) {
     return PlaceGeometry(
-      point: (json['Point'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      point:
+          (json['Point'] as List?)?.nonNulls.map((e) => e as double).toList(),
     );
   }
 
@@ -8464,12 +8448,12 @@ class SearchForSuggestionsResult {
     return SearchForSuggestionsResult(
       text: json['Text'] as String,
       categories: (json['Categories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       placeId: json['PlaceId'] as String?,
       supplementalCategories: (json['SupplementalCategories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -8571,7 +8555,7 @@ class SearchPlaceIndexForPositionResponse {
       Map<String, dynamic> json) {
     return SearchPlaceIndexForPositionResponse(
       results: (json['Results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SearchForPositionResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8637,10 +8621,8 @@ class SearchPlaceIndexForPositionSummary {
       Map<String, dynamic> json) {
     return SearchPlaceIndexForPositionSummary(
       dataSource: json['DataSource'] as String,
-      position: (json['Position'] as List)
-          .whereNotNull()
-          .map((e) => e as double)
-          .toList(),
+      position:
+          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
       language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
     );
@@ -8680,7 +8662,7 @@ class SearchPlaceIndexForSuggestionsResponse {
       Map<String, dynamic> json) {
     return SearchPlaceIndexForSuggestionsResponse(
       results: (json['Results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               SearchForSuggestionsResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8771,19 +8753,19 @@ class SearchPlaceIndexForSuggestionsSummary {
       dataSource: json['DataSource'] as String,
       text: json['Text'] as String,
       biasPosition: (json['BiasPosition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       filterBBox: (json['FilterBBox'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       filterCategories: (json['FilterCategories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       filterCountries: (json['FilterCountries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       language: json['Language'] as String?,
@@ -8837,7 +8819,7 @@ class SearchPlaceIndexForTextResponse {
   factory SearchPlaceIndexForTextResponse.fromJson(Map<String, dynamic> json) {
     return SearchPlaceIndexForTextResponse(
       results: (json['Results'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SearchForTextResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: SearchPlaceIndexForTextSummary.fromJson(
@@ -8934,25 +8916,25 @@ class SearchPlaceIndexForTextSummary {
       dataSource: json['DataSource'] as String,
       text: json['Text'] as String,
       biasPosition: (json['BiasPosition'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       filterBBox: (json['FilterBBox'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
       filterCategories: (json['FilterCategories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       filterCountries: (json['FilterCountries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
       resultBBox: (json['ResultBBox'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
     );
@@ -9038,11 +9020,11 @@ class Step {
       distance: json['Distance'] as double,
       durationSeconds: json['DurationSeconds'] as double,
       endPosition: (json['EndPosition'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as double)
           .toList(),
       startPosition: (json['StartPosition'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as double)
           .toList(),
       geometryOffset: json['GeometryOffset'] as int?,

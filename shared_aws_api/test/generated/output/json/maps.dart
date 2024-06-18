@@ -75,8 +75,7 @@ class OutputShape {
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       mapMember: (json['MapMember'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as int).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as int).toList())),
     );
   }
 }

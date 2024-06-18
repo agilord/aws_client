@@ -1193,7 +1193,7 @@ class ListDestinationsResponse {
   factory ListDestinationsResponse.fromJson(Map<String, dynamic> json) {
     return ListDestinationsResponse(
       destinations: (json['destinations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1223,7 +1223,7 @@ class ListSitesResponse {
     return ListSitesResponse(
       nextToken: json['nextToken'] as String?,
       sites: (json['sites'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Site.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1252,7 +1252,7 @@ class ListWorkerFleetsResponse {
     return ListWorkerFleetsResponse(
       nextToken: json['nextToken'] as String?,
       workerFleets: (json['workerFleets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkerFleet.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1281,7 +1281,7 @@ class ListWorkersResponse {
     return ListWorkersResponse(
       nextToken: json['nextToken'] as String?,
       workers: (json['workers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Worker.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

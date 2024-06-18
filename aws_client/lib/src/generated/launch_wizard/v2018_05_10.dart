@@ -848,11 +848,11 @@ class DeploymentSpecificationsField {
   factory DeploymentSpecificationsField.fromJson(Map<String, dynamic> json) {
     return DeploymentSpecificationsField(
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       conditionals: (json['conditionals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DeploymentConditionalField.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1011,7 +1011,7 @@ class ListDeploymentEventsOutput {
   factory ListDeploymentEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeploymentEventsOutput(
       deploymentEvents: (json['deploymentEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DeploymentEventDataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1045,7 +1045,7 @@ class ListDeploymentsOutput {
   factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsOutput(
       deployments: (json['deployments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeploymentDataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1103,7 +1103,7 @@ class ListWorkloadDeploymentPatternsOutput {
     return ListWorkloadDeploymentPatternsOutput(
       nextToken: json['nextToken'] as String?,
       workloadDeploymentPatterns: (json['workloadDeploymentPatterns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadDeploymentPatternDataSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -1138,7 +1138,7 @@ class ListWorkloadsOutput {
     return ListWorkloadsOutput(
       nextToken: json['nextToken'] as String?,
       workloads: (json['workloads'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkloadDataSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1324,7 +1324,7 @@ class WorkloadDeploymentPatternData {
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       specifications: (json['specifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               DeploymentSpecificationsField.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -506,7 +506,7 @@ class CreateRuleResponse {
           : null,
       lockState: (json['LockState'] as String?)?.let(LockState.fromString),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType:
@@ -518,7 +518,7 @@ class CreateRuleResponse {
       ruleArn: json['RuleArn'] as String?,
       status: (json['Status'] as String?)?.let(RuleStatus.fromString),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -644,7 +644,7 @@ class GetRuleResponse {
       lockEndTime: timeStampFromJson(json['LockEndTime']),
       lockState: (json['LockState'] as String?)?.let(LockState.fromString),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType:
@@ -701,7 +701,7 @@ class ListRulesResponse {
     return ListRulesResponse(
       nextToken: json['NextToken'] as String?,
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -728,7 +728,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -838,7 +838,7 @@ class LockRuleResponse {
           : null,
       lockState: (json['LockState'] as String?)?.let(LockState.fromString),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType:
@@ -1247,7 +1247,7 @@ class UnlockRuleResponse {
       lockEndTime: timeStampFromJson(json['LockEndTime']),
       lockState: (json['LockState'] as String?)?.let(LockState.fromString),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType:
@@ -1370,7 +1370,7 @@ class UpdateRuleResponse {
       lockEndTime: timeStampFromJson(json['LockEndTime']),
       lockState: (json['LockState'] as String?)?.let(LockState.fromString),
       resourceTags: (json['ResourceTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType:

@@ -1173,7 +1173,7 @@ class Configuration {
     return Configuration(
       classification: json['classification'] as String,
       configurations: (json['configurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       properties: (json['properties'] as Map<String, dynamic>?)
@@ -1210,7 +1210,7 @@ class ConfigurationOverrides {
   factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) {
     return ConfigurationOverrides(
       applicationConfiguration: (json['applicationConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       monitoringConfiguration: json['monitoringConfiguration'] != null
@@ -1879,7 +1879,7 @@ class Endpoint {
       state: (json['state'] as String?)?.let(EndpointState.fromString),
       stateDetails: json['stateDetails'] as String?,
       subnetIds: (json['subnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2464,7 +2464,7 @@ class ListJobRunsResponse {
   factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunsResponse(
       jobRuns: (json['jobRuns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2497,7 +2497,7 @@ class ListJobTemplatesResponse {
     return ListJobTemplatesResponse(
       nextToken: json['nextToken'] as String?,
       templates: (json['templates'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2528,7 +2528,7 @@ class ListManagedEndpointsResponse {
   factory ListManagedEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedEndpointsResponse(
       endpoints: (json['endpoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2562,7 +2562,7 @@ class ListSecurityConfigurationsResponse {
     return ListSecurityConfigurationsResponse(
       nextToken: json['nextToken'] as String?,
       securityConfigurations: (json['securityConfigurations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SecurityConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2618,7 +2618,7 @@ class ListVirtualClustersResponse {
     return ListVirtualClustersResponse(
       nextToken: json['nextToken'] as String?,
       virtualClusters: (json['virtualClusters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VirtualCluster.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2749,7 +2749,7 @@ class ParametricConfigurationOverrides {
   factory ParametricConfigurationOverrides.fromJson(Map<String, dynamic> json) {
     return ParametricConfigurationOverrides(
       applicationConfiguration: (json['applicationConfiguration'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       monitoringConfiguration: json['monitoringConfiguration'] != null
@@ -3115,7 +3115,7 @@ class SparkSubmitJobDriver {
     return SparkSubmitJobDriver(
       entryPoint: json['entryPoint'] as String,
       entryPointArguments: (json['entryPointArguments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sparkSubmitParameters: json['sparkSubmitParameters'] as String?,

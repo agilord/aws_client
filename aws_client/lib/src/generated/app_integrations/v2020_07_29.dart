@@ -1101,16 +1101,12 @@ class CreateDataIntegrationResponse {
       id: json['Id'] as String?,
       kmsKey: json['KmsKey'] as String?,
       name: json['Name'] as String?,
-      objectConfiguration:
-          (json['ObjectConfiguration'] as Map<String, dynamic>?)?.map((k, e) =>
-              MapEntry(
-                  k,
-                  (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                      k,
-                      (e as List)
-                          .whereNotNull()
-                          .map((e) => e as String)
-                          .toList())))),
+      objectConfiguration: (json['ObjectConfiguration']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())))),
       scheduleConfiguration: json['ScheduleConfiguration'] != null
           ? ScheduleConfiguration.fromJson(
               json['ScheduleConfiguration'] as Map<String, dynamic>)
@@ -1458,7 +1454,7 @@ class ExternalUrlConfig {
     return ExternalUrlConfig(
       accessUrl: json['AccessUrl'] as String,
       approvedOrigins: (json['ApprovedOrigins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1489,13 +1485,10 @@ class FileConfiguration {
 
   factory FileConfiguration.fromJson(Map<String, dynamic> json) {
     return FileConfiguration(
-      folders: (json['Folders'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      folders:
+          (json['Folders'] as List).nonNulls.map((e) => e as String).toList(),
       filters: (json['Filters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -1576,15 +1569,15 @@ class GetApplicationResponse {
       name: json['Name'] as String?,
       namespace: json['Namespace'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       publications: (json['Publications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Publication.fromJson(e as Map<String, dynamic>))
           .toList(),
       subscriptions: (json['Subscriptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1680,16 +1673,12 @@ class GetDataIntegrationResponse {
       id: json['Id'] as String?,
       kmsKey: json['KmsKey'] as String?,
       name: json['Name'] as String?,
-      objectConfiguration:
-          (json['ObjectConfiguration'] as Map<String, dynamic>?)?.map((k, e) =>
-              MapEntry(
-                  k,
-                  (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                      k,
-                      (e as List)
-                          .whereNotNull()
-                          .map((e) => e as String)
-                          .toList())))),
+      objectConfiguration: (json['ObjectConfiguration']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())))),
       scheduleConfiguration: json['ScheduleConfiguration'] != null
           ? ScheduleConfiguration.fromJson(
               json['ScheduleConfiguration'] as Map<String, dynamic>)
@@ -1807,7 +1796,7 @@ class ListApplicationAssociationsResponse {
       Map<String, dynamic> json) {
     return ListApplicationAssociationsResponse(
       applicationAssociations: (json['ApplicationAssociations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ApplicationAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1842,7 +1831,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applications: (json['Applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1878,7 +1867,7 @@ class ListDataIntegrationAssociationsResponse {
     return ListDataIntegrationAssociationsResponse(
       dataIntegrationAssociations:
           (json['DataIntegrationAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataIntegrationAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1913,7 +1902,7 @@ class ListDataIntegrationsResponse {
   factory ListDataIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataIntegrationsResponse(
       dataIntegrations: (json['DataIntegrations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => DataIntegrationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1949,7 +1938,7 @@ class ListEventIntegrationAssociationsResponse {
     return ListEventIntegrationAssociationsResponse(
       eventIntegrationAssociations: (json['EventIntegrationAssociations']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               EventIntegrationAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1984,7 +1973,7 @@ class ListEventIntegrationsResponse {
   factory ListEventIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventIntegrationsResponse(
       eventIntegrations: (json['EventIntegrations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventIntegration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

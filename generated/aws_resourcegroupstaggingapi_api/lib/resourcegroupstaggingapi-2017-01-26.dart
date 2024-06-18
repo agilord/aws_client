@@ -734,11 +734,11 @@ class ComplianceDetails {
     return ComplianceDetails(
       complianceStatus: json['ComplianceStatus'] as bool?,
       keysWithNoncompliantValues: (json['KeysWithNoncompliantValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       noncompliantKeys: (json['NoncompliantKeys'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -884,7 +884,7 @@ class GetComplianceSummaryOutput {
     return GetComplianceSummaryOutput(
       paginationToken: json['PaginationToken'] as String?,
       summaryList: (json['SummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Summary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -910,7 +910,7 @@ class GetResourcesOutput {
     return GetResourcesOutput(
       paginationToken: json['PaginationToken'] as String?,
       resourceTagMappingList: (json['ResourceTagMappingList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceTagMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -935,10 +935,8 @@ class GetTagKeysOutput {
   factory GetTagKeysOutput.fromJson(Map<String, dynamic> json) {
     return GetTagKeysOutput(
       paginationToken: json['PaginationToken'] as String?,
-      tagKeys: (json['TagKeys'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagKeys:
+          (json['TagKeys'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -963,7 +961,7 @@ class GetTagValuesOutput {
     return GetTagValuesOutput(
       paginationToken: json['PaginationToken'] as String?,
       tagValues: (json['TagValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -1014,7 +1012,7 @@ class ResourceTagMapping {
           : null,
       resourceARN: json['ResourceARN'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

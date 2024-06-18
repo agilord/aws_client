@@ -2340,7 +2340,7 @@ class DataRetrievalPolicy {
   factory DataRetrievalPolicy.fromJson(Map<String, dynamic> json) {
     return DataRetrievalPolicy(
       rules: (json['Rules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataRetrievalRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3204,7 +3204,7 @@ class ListJobsOutput {
   factory ListJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListJobsOutput(
       jobList: (json['JobList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GlacierJobDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -3232,7 +3232,7 @@ class ListMultipartUploadsOutput {
     return ListMultipartUploadsOutput(
       marker: json['Marker'] as String?,
       uploadsList: (json['UploadsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UploadListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3287,7 +3287,7 @@ class ListPartsOutput {
       multipartUploadId: json['MultipartUploadId'] as String?,
       partSizeInBytes: json['PartSizeInBytes'] as int?,
       parts: (json['Parts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PartListElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       vaultARN: json['VaultARN'] as String?,
@@ -3306,7 +3306,7 @@ class ListProvisionedCapacityOutput {
   factory ListProvisionedCapacityOutput.fromJson(Map<String, dynamic> json) {
     return ListProvisionedCapacityOutput(
       provisionedCapacityList: (json['ProvisionedCapacityList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProvisionedCapacityDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -3349,7 +3349,7 @@ class ListVaultsOutput {
     return ListVaultsOutput(
       marker: json['Marker'] as String?,
       vaultList: (json['VaultList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DescribeVaultOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3539,7 +3539,7 @@ class S3Location {
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
       accessControlList: (json['AccessControlList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Grant.fromJson(e as Map<String, dynamic>))
           .toList(),
       bucketName: json['BucketName'] as String?,
@@ -3783,10 +3783,8 @@ class VaultNotificationConfig {
 
   factory VaultNotificationConfig.fromJson(Map<String, dynamic> json) {
     return VaultNotificationConfig(
-      events: (json['Events'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      events:
+          (json['Events'] as List?)?.nonNulls.map((e) => e as String).toList(),
       sNSTopic: json['SNSTopic'] as String?,
     );
   }

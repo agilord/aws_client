@@ -1273,7 +1273,7 @@ class ListAWSDefaultServiceQuotasResponse {
     return ListAWSDefaultServiceQuotasResponse(
       nextToken: json['NextToken'] as String?,
       quotas: (json['Quotas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1301,7 +1301,7 @@ class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
     return ListRequestedServiceQuotaChangeHistoryByQuotaResponse(
       nextToken: json['NextToken'] as String?,
       requestedQuotas: (json['RequestedQuotas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1330,7 +1330,7 @@ class ListRequestedServiceQuotaChangeHistoryResponse {
     return ListRequestedServiceQuotaChangeHistoryResponse(
       nextToken: json['NextToken'] as String?,
       requestedQuotas: (json['RequestedQuotas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1361,7 +1361,7 @@ class ListServiceQuotaIncreaseRequestsInTemplateResponse {
       nextToken: json['NextToken'] as String?,
       serviceQuotaIncreaseRequestInTemplateList:
           (json['ServiceQuotaIncreaseRequestInTemplateList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ServiceQuotaIncreaseRequestInTemplate.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1389,7 +1389,7 @@ class ListServiceQuotasResponse {
     return ListServiceQuotasResponse(
       nextToken: json['NextToken'] as String?,
       quotas: (json['Quotas'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1416,7 +1416,7 @@ class ListServicesResponse {
     return ListServicesResponse(
       nextToken: json['NextToken'] as String?,
       services: (json['Services'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1434,7 +1434,7 @@ class ListTagsForResourceResponse {
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

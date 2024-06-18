@@ -6030,7 +6030,7 @@ class BatchAssociateServiceActionWithProvisioningArtifactOutput {
     return BatchAssociateServiceActionWithProvisioningArtifactOutput(
       failedServiceActionAssociations:
           (json['FailedServiceActionAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => FailedServiceActionAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6052,7 +6052,7 @@ class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
     return BatchDisassociateServiceActionFromProvisioningArtifactOutput(
       failedServiceActionAssociations:
           (json['FailedServiceActionAssociations'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => FailedServiceActionAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -6343,7 +6343,7 @@ class CreatePortfolioOutput {
               json['PortfolioDetail'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6393,7 +6393,7 @@ class CreateProductOutput {
               json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6665,7 +6665,7 @@ class DescribePortfolioOutput {
   factory DescribePortfolioOutput.fromJson(Map<String, dynamic> json) {
     return DescribePortfolioOutput(
       budgets: (json['Budgets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       portfolioDetail: json['PortfolioDetail'] != null
@@ -6673,11 +6673,11 @@ class DescribePortfolioOutput {
               json['PortfolioDetail'] as Map<String, dynamic>)
           : null,
       tagOptions: (json['TagOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6758,7 +6758,7 @@ class DescribePortfolioSharesOutput {
     return DescribePortfolioSharesOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioShareDetails: (json['PortfolioShareDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6793,7 +6793,7 @@ class DescribeProductAsAdminOutput {
   factory DescribeProductAsAdminOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProductAsAdminOutput(
       budgets: (json['Budgets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       productViewDetail: json['ProductViewDetail'] != null
@@ -6802,16 +6802,16 @@ class DescribeProductAsAdminOutput {
           : null,
       provisioningArtifactSummaries: (json['ProvisioningArtifactSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       tagOptions: (json['TagOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6841,11 +6841,11 @@ class DescribeProductOutput {
   factory DescribeProductOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProductOutput(
       budgets: (json['Budgets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       launchPaths: (json['LaunchPaths'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchPath.fromJson(e as Map<String, dynamic>))
           .toList(),
       productViewSummary: json['ProductViewSummary'] != null
@@ -6853,7 +6853,7 @@ class DescribeProductOutput {
               json['ProductViewSummary'] as Map<String, dynamic>)
           : null,
       provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6879,7 +6879,7 @@ class DescribeProductViewOutput {
               json['ProductViewSummary'] as Map<String, dynamic>)
           : null,
       provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6901,7 +6901,7 @@ class DescribeProvisionedProductOutput {
   factory DescribeProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProvisionedProductOutput(
       cloudWatchDashboards: (json['CloudWatchDashboards'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CloudWatchDashboard.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisionedProductDetail: json['ProvisionedProductDetail'] != null
@@ -6940,7 +6940,7 @@ class DescribeProvisionedProductPlanOutput {
                   json['ProvisionedProductPlanDetails'] as Map<String, dynamic>)
               : null,
       resourceChanges: (json['ResourceChanges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceChange.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6979,7 +6979,7 @@ class DescribeProvisioningArtifactOutput {
           : null,
       provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7029,24 +7029,24 @@ class DescribeProvisioningParametersOutput {
       Map<String, dynamic> json) {
     return DescribeProvisioningParametersOutput(
       constraintSummaries: (json['ConstraintSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningArtifactOutputKeys: (json['ProvisioningArtifactOutputKeys']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningArtifactOutputs: (json['ProvisioningArtifactOutputs']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7057,11 +7057,11 @@ class DescribeProvisioningParametersOutput {
                       as Map<String, dynamic>)
               : null,
       tagOptions: (json['TagOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagOptionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       usageInstructions: (json['UsageInstructions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsageInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7094,7 +7094,7 @@ class DescribeRecordOutput {
           ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
           : null,
       recordOutputs: (json['RecordOutputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7113,7 +7113,7 @@ class DescribeServiceActionExecutionParametersOutput {
       Map<String, dynamic> json) {
     return DescribeServiceActionExecutionParametersOutput(
       serviceActionParameters: (json['ServiceActionParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExecutionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7324,7 +7324,7 @@ class ExecutionParameter {
   factory ExecutionParameter.fromJson(Map<String, dynamic> json) {
     return ExecutionParameter(
       defaultValues: (json['DefaultValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
@@ -7410,7 +7410,7 @@ class GetProvisionedProductOutputsOutput {
     return GetProvisionedProductOutputsOutput(
       nextPageToken: json['NextPageToken'] as String?,
       outputs: (json['Outputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7554,13 +7554,13 @@ class LaunchPathSummary {
   factory LaunchPathSummary.fromJson(Map<String, dynamic> json) {
     return LaunchPathSummary(
       constraintSummaries: (json['ConstraintSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7585,7 +7585,7 @@ class ListAcceptedPortfolioSharesOutput {
     return ListAcceptedPortfolioSharesOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioDetails: (json['PortfolioDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7608,7 +7608,7 @@ class ListBudgetsForResourceOutput {
   factory ListBudgetsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListBudgetsForResourceOutput(
       budgets: (json['Budgets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7633,7 +7633,7 @@ class ListConstraintsForPortfolioOutput {
       Map<String, dynamic> json) {
     return ListConstraintsForPortfolioOutput(
       constraintDetails: (json['ConstraintDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ConstraintDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7657,7 +7657,7 @@ class ListLaunchPathsOutput {
   factory ListLaunchPathsOutput.fromJson(Map<String, dynamic> json) {
     return ListLaunchPathsOutput(
       launchPathSummaries: (json['LaunchPathSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LaunchPathSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7683,7 +7683,7 @@ class ListOrganizationPortfolioAccessOutput {
     return ListOrganizationPortfolioAccessOutput(
       nextPageToken: json['NextPageToken'] as String?,
       organizationNodes: (json['OrganizationNodes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OrganizationNode.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7707,7 +7707,7 @@ class ListPortfolioAccessOutput {
   factory ListPortfolioAccessOutput.fromJson(Map<String, dynamic> json) {
     return ListPortfolioAccessOutput(
       accountIds: (json['AccountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextPageToken: json['NextPageToken'] as String?,
@@ -7732,7 +7732,7 @@ class ListPortfoliosForProductOutput {
     return ListPortfoliosForProductOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioDetails: (json['PortfolioDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7756,7 +7756,7 @@ class ListPortfoliosOutput {
     return ListPortfoliosOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioDetails: (json['PortfolioDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7781,7 +7781,7 @@ class ListPrincipalsForPortfolioOutput {
     return ListPrincipalsForPortfolioOutput(
       nextPageToken: json['NextPageToken'] as String?,
       principals: (json['Principals'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7806,7 +7806,7 @@ class ListProvisionedProductPlansOutput {
     return ListProvisionedProductPlansOutput(
       nextPageToken: json['NextPageToken'] as String?,
       provisionedProductPlans: (json['ProvisionedProductPlans'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisionedProductPlanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7833,7 +7833,7 @@ class ListProvisioningArtifactsForServiceActionOutput {
     return ListProvisioningArtifactsForServiceActionOutput(
       nextPageToken: json['NextPageToken'] as String?,
       provisioningArtifactViews: (json['ProvisioningArtifactViews'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactView.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7859,7 +7859,7 @@ class ListProvisioningArtifactsOutput {
       nextPageToken: json['NextPageToken'] as String?,
       provisioningArtifactDetails: (json['ProvisioningArtifactDetails']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7884,7 +7884,7 @@ class ListRecordHistoryOutput {
     return ListRecordHistoryOutput(
       nextPageToken: json['NextPageToken'] as String?,
       recordDetails: (json['RecordDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7942,7 +7942,7 @@ class ListResourcesForTagOptionOutput {
     return ListResourcesForTagOptionOutput(
       pageToken: json['PageToken'] as String?,
       resourceDetails: (json['ResourceDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7968,7 +7968,7 @@ class ListServiceActionsForProvisioningArtifactOutput {
     return ListServiceActionsForProvisioningArtifactOutput(
       nextPageToken: json['NextPageToken'] as String?,
       serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7993,7 +7993,7 @@ class ListServiceActionsOutput {
     return ListServiceActionsOutput(
       nextPageToken: json['NextPageToken'] as String?,
       serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8018,7 +8018,7 @@ class ListStackInstancesForProvisionedProductOutput {
     return ListStackInstancesForProvisionedProductOutput(
       nextPageToken: json['NextPageToken'] as String?,
       stackInstances: (json['StackInstances'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StackInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8071,7 +8071,7 @@ class ListTagOptionsOutput {
     return ListTagOptionsOutput(
       pageToken: json['PageToken'] as String?,
       tagOptionDetails: (json['TagOptionDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -8207,7 +8207,7 @@ class ParameterConstraints {
     return ParameterConstraints(
       allowedPattern: json['AllowedPattern'] as String?,
       allowedValues: (json['AllowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       constraintDescription: json['ConstraintDescription'] as String?,
@@ -8794,7 +8794,7 @@ class ProvisionedProductAttribute {
           (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['Type'] as String?,
@@ -9029,7 +9029,7 @@ class ProvisionedProductPlanDetails {
     return ProvisionedProductPlanDetails(
       createdTime: timeStampFromJson(json['CreatedTime']),
       notificationArns: (json['NotificationArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       pathId: json['PathId'] as String?,
@@ -9042,7 +9042,7 @@ class ProvisionedProductPlanDetails {
       provisionProductName: json['ProvisionProductName'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
       provisioningParameters: (json['ProvisioningParameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9050,7 +9050,7 @@ class ProvisionedProductPlanDetails {
           ?.let(ProvisionedProductPlanStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedTime: timeStampFromJson(json['UpdatedTime']),
@@ -9399,11 +9399,11 @@ class ProvisioningArtifactPreferences {
   factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactPreferences(
       stackSetAccounts: (json['StackSetAccounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       stackSetRegions: (json['StackSetRegions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -9865,12 +9865,12 @@ class RecordDetail {
       provisionedProductType: json['ProvisionedProductType'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
       recordErrors: (json['RecordErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordError.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordId: json['RecordId'] as String?,
       recordTags: (json['RecordTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordType: json['RecordType'] as String?,
@@ -10075,7 +10075,7 @@ class ResourceChange {
     return ResourceChange(
       action: (json['Action'] as String?)?.let(ChangeAction.fromString),
       details: (json['Details'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       logicalResourceId: json['LogicalResourceId'] as String?,
@@ -10084,7 +10084,7 @@ class ResourceChange {
           (json['Replacement'] as String?)?.let(Replacement.fromString),
       resourceType: json['ResourceType'] as String?,
       scope: (json['Scope'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceAttribute.fromString((e as String)))
           .toList(),
     );
@@ -10206,7 +10206,7 @@ class ScanProvisionedProductsOutput {
     return ScanProvisionedProductsOutput(
       nextPageToken: json['NextPageToken'] as String?,
       provisionedProducts: (json['ProvisionedProducts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisionedProductDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10231,7 +10231,7 @@ class SearchProductsAsAdminOutput {
     return SearchProductsAsAdminOutput(
       nextPageToken: json['NextPageToken'] as String?,
       productViewDetails: (json['ProductViewDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProductViewDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10263,12 +10263,12 @@ class SearchProductsOutput {
               (k, e) => MapEntry(
                   k,
                   (e as List)
-                      .whereNotNull()
+                      .nonNulls
                       .map((e) => ProductViewAggregationValue.fromJson(
                           e as Map<String, dynamic>))
                       .toList())),
       productViewSummaries: (json['ProductViewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ProductViewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10296,7 +10296,7 @@ class SearchProvisionedProductsOutput {
     return SearchProvisionedProductsOutput(
       nextPageToken: json['NextPageToken'] as String?,
       provisionedProducts: (json['ProvisionedProducts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProvisionedProductAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10461,11 +10461,11 @@ class ShareDetails {
   factory ShareDetails.fromJson(Map<String, dynamic> json) {
     return ShareDetails(
       shareErrors: (json['ShareErrors'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ShareError.fromJson(e as Map<String, dynamic>))
           .toList(),
       successfulShares: (json['SuccessfulShares'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -10492,7 +10492,7 @@ class ShareError {
   factory ShareError.fromJson(Map<String, dynamic> json) {
     return ShareError(
       accounts: (json['Accounts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       error: json['Error'] as String?,
@@ -10839,10 +10839,8 @@ class TagOptionSummary {
   factory TagOptionSummary.fromJson(Map<String, dynamic> json) {
     return TagOptionSummary(
       key: json['Key'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 }
@@ -10936,7 +10934,7 @@ class UpdatePortfolioOutput {
               json['PortfolioDetail'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10985,7 +10983,7 @@ class UpdateProductOutput {
               json['ProductViewDetail'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

@@ -24377,10 +24377,10 @@ class DBCluster {
           _s.extractXmlStringValue(elem, 'ActivityStreamKmsKeyId'),
       activityStreamMode: _s
           .extractXmlStringValue(elem, 'ActivityStreamMode')
-          ?.let(ActivityStreamMode.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamMode.fromString),
       activityStreamStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamStatus')
-          ?.let(ActivityStreamStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamStatus.fromString),
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
@@ -24458,7 +24458,7 @@ class DBCluster {
           _s.extractXmlBoolValue(elem, 'GlobalWriteForwardingRequested'),
       globalWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
-          ?.let(WriteForwardingStatus.fromString) /* Nullability(true, true) */,
+          ?.let(WriteForwardingStatus.fromString),
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       httpEndpointEnabled: _s.extractXmlBoolValue(elem, 'HttpEndpointEnabled'),
       iAMDatabaseAuthenticationEnabled:
@@ -24474,8 +24474,7 @@ class DBCluster {
           ?.let(LimitlessDatabase.fromXml),
       localWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'LocalWriteForwardingStatus')
-          ?.let(LocalWriteForwardingStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(LocalWriteForwardingStatus.fromString),
       masterUserSecret: _s
           .extractXmlChild(elem, 'MasterUserSecret')
           ?.let(MasterUserSecret.fromXml),
@@ -27116,14 +27115,13 @@ class DBInstance {
           _s.extractXmlStringValue(elem, 'ActivityStreamKmsKeyId'),
       activityStreamMode: _s
           .extractXmlStringValue(elem, 'ActivityStreamMode')
-          ?.let(ActivityStreamMode.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamMode.fromString),
       activityStreamPolicyStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamPolicyStatus')
-          ?.let(ActivityStreamPolicyStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamPolicyStatus.fromString),
       activityStreamStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamStatus')
-          ?.let(ActivityStreamStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamStatus.fromString),
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
@@ -27136,7 +27134,7 @@ class DBInstance {
           _s.extractXmlDateTimeValue(elem, 'AutomaticRestartTime'),
       automationMode: _s
           .extractXmlStringValue(elem, 'AutomationMode')
-          ?.let(AutomationMode.fromString) /* Nullability(true, true) */,
+          ?.let(AutomationMode.fromString),
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
       awsBackupRecoveryPointArn:
           _s.extractXmlStringValue(elem, 'AwsBackupRecoveryPointArn'),
@@ -27266,7 +27264,7 @@ class DBInstance {
           elem, 'ReadReplicaSourceDBInstanceIdentifier'),
       replicaMode: _s
           .extractXmlStringValue(elem, 'ReplicaMode')
-          ?.let(ReplicaMode.fromString) /* Nullability(true, true) */,
+          ?.let(ReplicaMode.fromString),
       resumeFullAutomationModeTime:
           _s.extractXmlDateTimeValue(elem, 'ResumeFullAutomationModeTime'),
       secondaryAvailabilityZone:
@@ -28329,7 +28327,7 @@ class DBProxy {
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(DBProxyStatus.fromString) /* Nullability(true, true) */,
+          ?.let(DBProxyStatus.fromString),
       updatedDate: _s.extractXmlDateTimeValue(elem, 'UpdatedDate'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
       vpcSecurityGroupIds: _s
@@ -28456,9 +28454,10 @@ class DBProxyEndpoint {
       isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(DBProxyEndpointStatus.fromString) /* Nullability(true, true) */,
-      targetRole: _s.extractXmlStringValue(elem, 'TargetRole')?.let(
-          DBProxyEndpointTargetRole.fromString) /* Nullability(true, true) */,
+          ?.let(DBProxyEndpointStatus.fromString),
+      targetRole: _s
+          .extractXmlStringValue(elem, 'TargetRole')
+          ?.let(DBProxyEndpointTargetRole.fromString),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
       vpcSecurityGroupIds: _s
           .extractXmlChild(elem, 'VpcSecurityGroupIds')
@@ -28606,16 +28605,12 @@ class DBProxyTarget {
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       port: _s.extractXmlIntValue(elem, 'Port'),
       rdsResourceId: _s.extractXmlStringValue(elem, 'RdsResourceId'),
-      role: _s
-          .extractXmlStringValue(elem, 'Role')
-          ?.let(TargetRole.fromString) /* Nullability(true, true) */,
+      role: _s.extractXmlStringValue(elem, 'Role')?.let(TargetRole.fromString),
       targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
       targetHealth:
           _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
       trackedClusterId: _s.extractXmlStringValue(elem, 'TrackedClusterId'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(TargetType.fromString) /* Nullability(true, true) */,
+      type: _s.extractXmlStringValue(elem, 'Type')?.let(TargetType.fromString),
     );
   }
 
@@ -31151,7 +31146,7 @@ class Event {
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString) /* Nullability(true, true) */,
+          ?.let(SourceType.fromString),
     );
   }
 
@@ -31566,7 +31561,7 @@ class ExportTask {
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
       sourceType: _s
           .extractXmlStringValue(elem, 'SourceType')
-          ?.let(ExportSourceType.fromString) /* Nullability(true, true) */,
+          ?.let(ExportSourceType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
       taskEndTime: _s.extractXmlDateTimeValue(elem, 'TaskEndTime'),
       taskStartTime: _s.extractXmlDateTimeValue(elem, 'TaskStartTime'),
@@ -31747,7 +31742,7 @@ class FailoverState {
       isDataLossAllowed: _s.extractXmlBoolValue(elem, 'IsDataLossAllowed'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(FailoverStatus.fromString) /* Nullability(true, true) */,
+          ?.let(FailoverStatus.fromString),
       toDbClusterArn: _s.extractXmlStringValue(elem, 'ToDbClusterArn'),
     );
   }
@@ -32007,15 +32002,14 @@ class GlobalClusterMember {
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
       globalWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
-          ?.let(WriteForwardingStatus.fromString) /* Nullability(true, true) */,
+          ?.let(WriteForwardingStatus.fromString),
       isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
       readers: _s
           .extractXmlChild(elem, 'Readers')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       synchronizationStatus: _s
           .extractXmlStringValue(elem, 'SynchronizationStatus')
-          ?.let(GlobalClusterMemberSynchronizationStatus
-              .fromString) /* Nullability(true, true) */,
+          ?.let(GlobalClusterMemberSynchronizationStatus.fromString),
     );
   }
 
@@ -32217,7 +32211,7 @@ class Integration {
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(IntegrationStatus.fromString) /* Nullability(true, true) */,
+          ?.let(IntegrationStatus.fromString),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -32348,8 +32342,9 @@ class LimitlessDatabase {
   factory LimitlessDatabase.fromXml(_s.XmlElement elem) {
     return LimitlessDatabase(
       minRequiredACU: _s.extractXmlDoubleValue(elem, 'MinRequiredACU'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.let(
-          LimitlessDatabaseStatus.fromString) /* Nullability(true, true) */,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(LimitlessDatabaseStatus.fromString),
     );
   }
 
@@ -32647,12 +32642,13 @@ class ModifyActivityStreamResponse {
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       mode: _s
           .extractXmlStringValue(elem, 'Mode')
-          ?.let(ActivityStreamMode.fromString) /* Nullability(true, true) */,
-      policyStatus: _s.extractXmlStringValue(elem, 'PolicyStatus')?.let(
-          ActivityStreamPolicyStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamMode.fromString),
+      policyStatus: _s
+          .extractXmlStringValue(elem, 'PolicyStatus')
+          ?.let(ActivityStreamPolicyStatus.fromString),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ActivityStreamStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 
@@ -34235,7 +34231,7 @@ class Parameter {
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
       applyMethod: _s
           .extractXmlStringValue(elem, 'ApplyMethod')
-          ?.let(ApplyMethod.fromString) /* Nullability(true, true) */,
+          ?.let(ApplyMethod.fromString),
       applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -34589,7 +34585,7 @@ class PendingModifiedValues {
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       automationMode: _s
           .extractXmlStringValue(elem, 'AutomationMode')
-          ?.let(AutomationMode.fromString) /* Nullability(true, true) */,
+          ?.let(AutomationMode.fromString),
       backupRetentionPeriod:
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       cACertificateIdentifier:
@@ -35095,7 +35091,7 @@ class RdsCustomClusterConfiguration {
           _s.extractXmlStringValue(elem, 'InterconnectSubnetId'),
       replicaMode: _s
           .extractXmlStringValue(elem, 'ReplicaMode')
-          ?.let(ReplicaMode.fromString) /* Nullability(true, true) */,
+          ?.let(ReplicaMode.fromString),
       transitGatewayMulticastDomainId:
           _s.extractXmlStringValue(elem, 'TransitGatewayMulticastDomainId'),
     );
@@ -36485,10 +36481,10 @@ class StartActivityStreamResponse {
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       mode: _s
           .extractXmlStringValue(elem, 'Mode')
-          ?.let(ActivityStreamMode.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamMode.fromString),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ActivityStreamStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 
@@ -36603,7 +36599,7 @@ class StopActivityStreamResponse {
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.let(ActivityStreamStatus.fromString) /* Nullability(true, true) */,
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 
@@ -36978,10 +36974,9 @@ class TargetHealth {
       description: _s.extractXmlStringValue(elem, 'Description'),
       reason: _s
           .extractXmlStringValue(elem, 'Reason')
-          ?.let(TargetHealthReason.fromString) /* Nullability(true, true) */,
-      state: _s
-          .extractXmlStringValue(elem, 'State')
-          ?.let(TargetState.fromString) /* Nullability(true, true) */,
+          ?.let(TargetHealthReason.fromString),
+      state:
+          _s.extractXmlStringValue(elem, 'State')?.let(TargetState.fromString),
     );
   }
 
@@ -37512,15 +37507,14 @@ class UserAuthConfigInfo {
     return UserAuthConfigInfo(
       authScheme: _s
           .extractXmlStringValue(elem, 'AuthScheme')
-          ?.let(AuthScheme.fromString) /* Nullability(true, true) */,
+          ?.let(AuthScheme.fromString),
       clientPasswordAuthType: _s
           .extractXmlStringValue(elem, 'ClientPasswordAuthType')
-          ?.let(
-              ClientPasswordAuthType.fromString) /* Nullability(true, true) */,
+          ?.let(ClientPasswordAuthType.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
       iAMAuth: _s
           .extractXmlStringValue(elem, 'IAMAuth')
-          ?.let(IAMAuthMode.fromString) /* Nullability(true, true) */,
+          ?.let(IAMAuthMode.fromString),
       secretArn: _s.extractXmlStringValue(elem, 'SecretArn'),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );

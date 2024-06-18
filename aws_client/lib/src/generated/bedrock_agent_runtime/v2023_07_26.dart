@@ -344,7 +344,7 @@ class ActionGroupInvocationInput {
       apiPath: json['apiPath'] as String?,
       function: json['function'] as String?,
       parameters: (json['parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestBody: json['requestBody'] != null
@@ -448,7 +448,7 @@ class ApiInvocationInput {
       apiPath: json['apiPath'] as String?,
       httpMethod: json['httpMethod'] as String?,
       parameters: (json['parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApiParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestBody: json['requestBody'] != null
@@ -631,7 +631,7 @@ class Attribution {
   factory Attribution.fromJson(Map<String, dynamic> json) {
     return Attribution(
       citations: (json['citations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Citation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -741,7 +741,7 @@ class Citation {
               json['generatedResponsePart'] as Map<String, dynamic>)
           : null,
       retrievedReferences: (json['retrievedReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RetrievedReference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1106,7 +1106,7 @@ class FunctionInvocationInput {
       actionGroup: json['actionGroup'] as String,
       function: json['function'] as String?,
       parameters: (json['parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FunctionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1532,7 +1532,7 @@ class GuardrailContentPolicyAssessment {
   factory GuardrailContentPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailContentPolicyAssessment(
       filters: (json['filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => GuardrailContentFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1793,12 +1793,12 @@ class GuardrailSensitiveInformationPolicyAssessment {
       Map<String, dynamic> json) {
     return GuardrailSensitiveInformationPolicyAssessment(
       piiEntities: (json['piiEntities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               GuardrailPiiEntityFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       regexes: (json['regexes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailRegexFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1878,7 +1878,7 @@ class GuardrailTopicPolicyAssessment {
   factory GuardrailTopicPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailTopicPolicyAssessment(
       topics: (json['topics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailTopic.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1931,11 +1931,11 @@ class GuardrailTrace {
     return GuardrailTrace(
       action: (json['action'] as String?)?.let(GuardrailAction.fromString),
       inputAssessments: (json['inputAssessments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputAssessments: (json['outputAssessments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
           .toList(),
       traceId: json['traceId'] as String?,
@@ -1986,11 +1986,11 @@ class GuardrailWordPolicyAssessment {
   factory GuardrailWordPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailWordPolicyAssessment(
       customWords: (json['customWords'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailCustomWord.fromJson(e as Map<String, dynamic>))
           .toList(),
       managedWordLists: (json['managedWordLists'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GuardrailManagedWord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2075,7 +2075,7 @@ class InferenceConfiguration {
     return InferenceConfiguration(
       maximumLength: json['maximumLength'] as int?,
       stopSequences: (json['stopSequences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       temperature: json['temperature'] as double?,
@@ -2350,7 +2350,7 @@ class KnowledgeBaseLookupOutput {
   factory KnowledgeBaseLookupOutput.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseLookupOutput(
       retrievedReferences: (json['retrievedReferences'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RetrievedReference.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3259,7 +3259,7 @@ class PropertyParameters {
   factory PropertyParameters.fromJson(Map<String, dynamic> json) {
     return PropertyParameters(
       properties: (json['properties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3349,7 +3349,7 @@ class RequestBody {
           MapEntry(
               k,
               (e as List)
-                  .whereNotNull()
+                  .nonNulls
                   .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
                   .toList())),
     );
@@ -4060,7 +4060,7 @@ class RetrieveAndGenerateResponse {
           json['output'] as Map<String, dynamic>),
       sessionId: json['sessionId'] as String,
       citations: (json['citations'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Citation.fromJson(e as Map<String, dynamic>))
           .toList(),
       guardrailAction:
@@ -4141,7 +4141,7 @@ class RetrieveResponse {
   factory RetrieveResponse.fromJson(Map<String, dynamic> json) {
     return RetrieveResponse(
       retrievalResults: (json['retrievalResults'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               KnowledgeBaseRetrievalResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4254,7 +4254,7 @@ class ReturnControlPayload {
     return ReturnControlPayload(
       invocationId: json['invocationId'] as String?,
       invocationInputs: (json['invocationInputs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => InvocationInputMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

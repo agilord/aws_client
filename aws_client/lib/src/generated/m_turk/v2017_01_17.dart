@@ -2995,7 +2995,7 @@ class HIT {
           json['NumberOfAssignmentsCompleted'] as int?,
       numberOfAssignmentsPending: json['NumberOfAssignmentsPending'] as int?,
       qualificationRequirements: (json['QualificationRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               QualificationRequirement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3155,7 +3155,7 @@ class ListAssignmentsForHITResponse {
   factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) {
     return ListAssignmentsForHITResponse(
       assignments: (json['Assignments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Assignment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3194,7 +3194,7 @@ class ListBonusPaymentsResponse {
   factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListBonusPaymentsResponse(
       bonusPayments: (json['BonusPayments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BonusPayment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3233,7 +3233,7 @@ class ListHITsForQualificationTypeResponse {
       Map<String, dynamic> json) {
     return ListHITsForQualificationTypeResponse(
       hITs: (json['HITs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HIT.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3271,7 +3271,7 @@ class ListHITsResponse {
   factory ListHITsResponse.fromJson(Map<String, dynamic> json) {
     return ListHITsResponse(
       hITs: (json['HITs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HIT.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3315,7 +3315,7 @@ class ListQualificationRequestsResponse {
       nextToken: json['NextToken'] as String?,
       numResults: json['NumResults'] as int?,
       qualificationRequests: (json['QualificationRequests'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QualificationRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3355,7 +3355,7 @@ class ListQualificationTypesResponse {
       nextToken: json['NextToken'] as String?,
       numResults: json['NumResults'] as int?,
       qualificationTypes: (json['QualificationTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => QualificationType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3463,7 +3463,7 @@ class ListReviewableHITsResponse {
   factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) {
     return ListReviewableHITsResponse(
       hITs: (json['HITs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => HIT.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3505,7 +3505,7 @@ class ListWorkerBlocksResponse {
       nextToken: json['NextToken'] as String?,
       numResults: json['NumResults'] as int?,
       workerBlocks: (json['WorkerBlocks'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => WorkerBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3545,7 +3545,7 @@ class ListWorkersWithQualificationTypeResponse {
       nextToken: json['NextToken'] as String?,
       numResults: json['NumResults'] as int?,
       qualifications: (json['Qualifications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Qualification.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3735,7 +3735,7 @@ class NotifyWorkersResponse {
     return NotifyWorkersResponse(
       notifyWorkersFailureStatuses: (json['NotifyWorkersFailureStatuses']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               NotifyWorkersFailureStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3772,10 +3772,8 @@ class ParameterMapEntry {
   factory ParameterMapEntry.fromJson(Map<String, dynamic> json) {
     return ParameterMapEntry(
       key: json['Key'] as String?,
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -3810,13 +3808,11 @@ class PolicyParameter {
     return PolicyParameter(
       key: json['Key'] as String?,
       mapEntries: (json['MapEntries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterMapEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      values: (json['Values'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4053,11 +4049,11 @@ class QualificationRequirement {
       actionsGuarded:
           (json['ActionsGuarded'] as String?)?.let(HITAccessActions.fromString),
       integerValues: (json['IntegerValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
       localeValues: (json['LocaleValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Locale.fromJson(e as Map<String, dynamic>))
           .toList(),
       requiredToPreview: json['RequiredToPreview'] as bool?,
@@ -4391,7 +4387,7 @@ class ReviewPolicy {
     return ReviewPolicy(
       policyName: json['PolicyName'] as String,
       parameters: (json['Parameters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4440,11 +4436,11 @@ class ReviewReport {
   factory ReviewReport.fromJson(Map<String, dynamic> json) {
     return ReviewReport(
       reviewActions: (json['ReviewActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReviewActionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       reviewResults: (json['ReviewResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReviewResultDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

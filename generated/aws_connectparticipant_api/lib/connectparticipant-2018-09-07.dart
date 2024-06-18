@@ -855,7 +855,7 @@ class GetTranscriptResponse {
       initialContactId: json['InitialContactId'] as String?,
       nextToken: json['NextToken'] as String?,
       transcript: (json['Transcript'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -928,7 +928,7 @@ class Item {
     return Item(
       absoluteTime: json['AbsoluteTime'] as String?,
       attachments: (json['Attachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttachmentItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       contactId: json['ContactId'] as String?,
@@ -966,7 +966,7 @@ class MessageMetadata {
     return MessageMetadata(
       messageId: json['MessageId'] as String?,
       receipts: (json['Receipts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Receipt.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1239,10 +1239,8 @@ class ViewContent {
 
   factory ViewContent.fromJson(Map<String, dynamic> json) {
     return ViewContent(
-      actions: (json['Actions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['Actions'] as List?)?.nonNulls.map((e) => e as String).toList(),
       inputSchema: json['InputSchema'] as String?,
       template: json['Template'] as String?,
     );

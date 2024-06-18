@@ -1294,7 +1294,7 @@ class ListApplicationStatesResult {
   factory ListApplicationStatesResult.fromJson(Map<String, dynamic> json) {
     return ListApplicationStatesResult(
       applicationStateList: (json['ApplicationStateList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationState.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1319,7 +1319,7 @@ class ListCreatedArtifactsResult {
   factory ListCreatedArtifactsResult.fromJson(Map<String, dynamic> json) {
     return ListCreatedArtifactsResult(
       createdArtifactList: (json['CreatedArtifactList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CreatedArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1344,7 +1344,7 @@ class ListDiscoveredResourcesResult {
   factory ListDiscoveredResourcesResult.fromJson(Map<String, dynamic> json) {
     return ListDiscoveredResourcesResult(
       discoveredResourceList: (json['DiscoveredResourceList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DiscoveredResource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1371,7 +1371,7 @@ class ListMigrationTasksResult {
   factory ListMigrationTasksResult.fromJson(Map<String, dynamic> json) {
     return ListMigrationTasksResult(
       migrationTaskSummaryList: (json['MigrationTaskSummaryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MigrationTaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1398,7 +1398,7 @@ class ListProgressUpdateStreamsResult {
       nextToken: json['NextToken'] as String?,
       progressUpdateStreamSummaryList: (json['ProgressUpdateStreamSummaryList']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProgressUpdateStreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1439,7 +1439,7 @@ class MigrationTask {
       migrationTaskName: json['MigrationTaskName'] as String?,
       progressUpdateStream: json['ProgressUpdateStream'] as String?,
       resourceAttributeList: (json['ResourceAttributeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       task: json['Task'] != null

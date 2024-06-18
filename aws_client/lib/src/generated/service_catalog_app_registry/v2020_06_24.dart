@@ -1145,7 +1145,7 @@ class ApplicationTagResult {
       errorMessage: json['errorMessage'] as String?,
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourcesListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1234,7 +1234,7 @@ class AssociateResourceResponse {
     return AssociateResourceResponse(
       applicationArn: json['applicationArn'] as String?,
       options: (json['options'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resourceArn: json['resourceArn'] as String?,
@@ -1737,7 +1737,7 @@ class GetAssociatedResourceResponse {
               json['applicationTagResult'] as Map<String, dynamic>)
           : null,
       options: (json['options'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resource: json['resource'] != null
@@ -1920,7 +1920,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applications: (json['applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1953,7 +1953,7 @@ class ListAssociatedAttributeGroupsResponse {
       Map<String, dynamic> json) {
     return ListAssociatedAttributeGroupsResponse(
       attributeGroups: (json['attributeGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1986,7 +1986,7 @@ class ListAssociatedResourcesResponse {
     return ListAssociatedResourcesResponse(
       nextToken: json['nextToken'] as String?,
       resources: (json['resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2018,7 +2018,7 @@ class ListAttributeGroupsForApplicationResponse {
       Map<String, dynamic> json) {
     return ListAttributeGroupsForApplicationResponse(
       attributeGroupsDetails: (json['attributeGroupsDetails'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeGroupDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2051,7 +2051,7 @@ class ListAttributeGroupsResponse {
   factory ListAttributeGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListAttributeGroupsResponse(
       attributeGroups: (json['attributeGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -2265,7 +2265,7 @@ class ResourceInfo {
       arn: json['arn'] as String?,
       name: json['name'] as String?,
       options: (json['options'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AssociationOption.fromString((e as String)))
           .toList(),
       resourceDetails: json['resourceDetails'] != null

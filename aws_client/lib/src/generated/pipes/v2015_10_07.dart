@@ -524,14 +524,12 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets: (json['Subnets'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
       assignPublicIp:
           (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -612,18 +610,16 @@ class BatchContainerOverrides {
 
   factory BatchContainerOverrides.fromJson(Map<String, dynamic> json) {
     return BatchContainerOverrides(
-      command: (json['Command'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       environment: (json['Environment'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchEnvironmentVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
       instanceType: json['InstanceType'] as String?,
       resourceRequirements: (json['ResourceRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchResourceRequirement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1446,25 +1442,23 @@ class EcsContainerOverride {
 
   factory EcsContainerOverride.fromJson(Map<String, dynamic> json) {
     return EcsContainerOverride(
-      command: (json['Command'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      command:
+          (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       cpu: json['Cpu'] as int?,
       environment: (json['Environment'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EcsEnvironmentVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentFiles: (json['EnvironmentFiles'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EcsEnvironmentFile.fromJson(e as Map<String, dynamic>))
           .toList(),
       memory: json['Memory'] as int?,
       memoryReservation: json['MemoryReservation'] as int?,
       name: json['Name'] as String?,
       resourceRequirements: (json['ResourceRequirements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => EcsResourceRequirement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1794,7 +1788,7 @@ class EcsTaskOverride {
   factory EcsTaskOverride.fromJson(Map<String, dynamic> json) {
     return EcsTaskOverride(
       containerOverrides: (json['ContainerOverrides'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EcsContainerOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
       cpu: json['Cpu'] as String?,
@@ -1805,7 +1799,7 @@ class EcsTaskOverride {
       executionRoleArn: json['ExecutionRoleArn'] as String?,
       inferenceAcceleratorOverrides:
           (json['InferenceAcceleratorOverrides'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => EcsInferenceAcceleratorOverride.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -1896,7 +1890,7 @@ class FilterCriteria {
   factory FilterCriteria.fromJson(Map<String, dynamic> json) {
     return FilterCriteria(
       filters: (json['Filters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2018,7 +2012,7 @@ class ListPipesResponse {
     return ListPipesResponse(
       nextToken: json['NextToken'] as String?,
       pipes: (json['Pipes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Pipe.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2222,7 +2216,7 @@ class MultiMeasureMapping {
     return MultiMeasureMapping(
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2405,7 +2399,7 @@ class PipeEnrichmentHttpParameters {
       headerParameters: (json['HeaderParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       pathParameterValues: (json['PathParameterValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       queryStringParameters:
@@ -2519,7 +2513,7 @@ class PipeLogConfiguration {
               json['FirehoseLogDestination'] as Map<String, dynamic>)
           : null,
       includeExecutionData: (json['IncludeExecutionData'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IncludeExecutionDataOption.fromString((e as String)))
           .toList(),
       level: (json['Level'] as String?)?.let(LogLevel.fromString),
@@ -3174,7 +3168,7 @@ class PipeSourceSelfManagedKafkaParameters {
     return PipeSourceSelfManagedKafkaParameters(
       topicName: json['TopicName'] as String,
       additionalBootstrapServers: (json['AdditionalBootstrapServers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       batchSize: json['BatchSize'] as int?,
@@ -3346,7 +3340,7 @@ class PipeTargetBatchJobParameters {
               json['ContainerOverrides'] as Map<String, dynamic>)
           : null,
       dependsOn: (json['DependsOn'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => BatchJobDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
       parameters: (json['Parameters'] as Map<String, dynamic>?)
@@ -3526,7 +3520,7 @@ class PipeTargetEcsTaskParameters {
     return PipeTargetEcsTaskParameters(
       taskDefinitionArn: json['TaskDefinitionArn'] as String,
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3542,11 +3536,11 @@ class PipeTargetEcsTaskParameters {
           ? EcsTaskOverride.fromJson(json['Overrides'] as Map<String, dynamic>)
           : null,
       placementConstraints: (json['PlacementConstraints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlacementConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
       placementStrategy: (json['PlacementStrategy'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PlacementStrategy.fromJson(e as Map<String, dynamic>))
           .toList(),
       platformVersion: json['PlatformVersion'] as String?,
@@ -3554,7 +3548,7 @@ class PipeTargetEcsTaskParameters {
           (json['PropagateTags'] as String?)?.let(PropagateTags.fromString),
       referenceId: json['ReferenceId'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       taskCount: json['TaskCount'] as int?,
@@ -3642,7 +3636,7 @@ class PipeTargetEventBridgeEventBusParameters {
       detailType: json['DetailType'] as String?,
       endpointId: json['EndpointId'] as String?,
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       source: json['Source'] as String?,
@@ -3692,7 +3686,7 @@ class PipeTargetHttpParameters {
       headerParameters: (json['HeaderParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       pathParameterValues: (json['PathParameterValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       queryStringParameters:
@@ -4012,10 +4006,7 @@ class PipeTargetRedshiftDataParameters {
   factory PipeTargetRedshiftDataParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetRedshiftDataParameters(
       database: json['Database'] as String,
-      sqls: (json['Sqls'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      sqls: (json['Sqls'] as List).nonNulls.map((e) => e as String).toList(),
       dbUser: json['DbUser'] as String?,
       secretManagerArn: json['SecretManagerArn'] as String?,
       statementName: json['StatementName'] as String?,
@@ -4055,7 +4046,7 @@ class PipeTargetSageMakerPipelineParameters {
       Map<String, dynamic> json) {
     return PipeTargetSageMakerPipelineParameters(
       pipelineParameterList: (json['PipelineParameterList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               SageMakerPipelineParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4226,7 +4217,7 @@ class PipeTargetTimestreamParameters {
   factory PipeTargetTimestreamParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetTimestreamParameters(
       dimensionMappings: (json['DimensionMappings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeValue: json['TimeValue'] as String,
@@ -4234,11 +4225,11 @@ class PipeTargetTimestreamParameters {
       epochTimeUnit:
           (json['EpochTimeUnit'] as String?)?.let(EpochTimeUnit.fromString),
       multiMeasureMappings: (json['MultiMeasureMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MultiMeasureMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       singleMeasureMappings: (json['SingleMeasureMappings'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SingleMeasureMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeFieldType:
@@ -4670,13 +4661,11 @@ class SelfManagedKafkaAccessConfigurationVpc {
       Map<String, dynamic> json) {
     return SelfManagedKafkaAccessConfigurationVpc(
       securityGroup: (json['SecurityGroup'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets: (json['Subnets'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      subnets:
+          (json['Subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 

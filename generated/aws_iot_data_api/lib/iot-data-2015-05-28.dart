@@ -544,10 +544,8 @@ class ListNamedShadowsForThingResponse {
   factory ListNamedShadowsForThingResponse.fromJson(Map<String, dynamic> json) {
     return ListNamedShadowsForThingResponse(
       nextToken: json['nextToken'] as String?,
-      results: (json['results'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      results:
+          (json['results'] as List?)?.nonNulls.map((e) => e as String).toList(),
       timestamp: json['timestamp'] as int?,
     );
   }
@@ -571,7 +569,7 @@ class ListRetainedMessagesResponse {
     return ListRetainedMessagesResponse(
       nextToken: json['nextToken'] as String?,
       retainedTopics: (json['retainedTopics'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => RetainedMessageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

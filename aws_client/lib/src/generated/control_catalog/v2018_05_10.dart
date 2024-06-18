@@ -458,7 +458,7 @@ class ListCommonControlsResponse {
   factory ListCommonControlsResponse.fromJson(Map<String, dynamic> json) {
     return ListCommonControlsResponse(
       commonControls: (json['CommonControls'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => CommonControlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -490,7 +490,7 @@ class ListDomainsResponse {
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
       domains: (json['Domains'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -522,7 +522,7 @@ class ListObjectivesResponse {
   factory ListObjectivesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectivesResponse(
       objectives: (json['Objectives'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ObjectiveSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

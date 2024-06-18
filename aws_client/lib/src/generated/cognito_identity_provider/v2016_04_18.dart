@@ -9758,7 +9758,7 @@ class AccountRecoverySettingType {
   factory AccountRecoverySettingType.fromJson(Map<String, dynamic> json) {
     return AccountRecoverySettingType(
       recoveryMechanisms: (json['RecoveryMechanisms'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecoveryOptionType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -10185,18 +10185,18 @@ class AdminGetUserResponse {
       username: json['Username'] as String,
       enabled: json['Enabled'] as bool?,
       mFAOptions: (json['MFAOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
           .toList(),
       preferredMfaSetting: json['PreferredMfaSetting'] as String?,
       userAttributes: (json['UserAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
       userCreateDate: timeStampFromJson(json['UserCreateDate']),
       userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
       userMFASettingList: (json['UserMFASettingList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userStatus:
@@ -10410,7 +10410,7 @@ class AdminListDevicesResponse {
   factory AdminListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return AdminListDevicesResponse(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
           .toList(),
       paginationToken: json['PaginationToken'] as String?,
@@ -10443,7 +10443,7 @@ class AdminListGroupsForUserResponse {
   factory AdminListGroupsForUserResponse.fromJson(Map<String, dynamic> json) {
     return AdminListGroupsForUserResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10477,7 +10477,7 @@ class AdminListUserAuthEventsResponse {
   factory AdminListUserAuthEventsResponse.fromJson(Map<String, dynamic> json) {
     return AdminListUserAuthEventsResponse(
       authEvents: (json['AuthEvents'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AuthEventType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -10902,7 +10902,7 @@ class AuthEventType {
   factory AuthEventType.fromJson(Map<String, dynamic> json) {
     return AuthEventType(
       challengeResponses: (json['ChallengeResponses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChallengeResponseType.fromJson(e as Map<String, dynamic>))
           .toList(),
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -11261,7 +11261,7 @@ class CompromisedCredentialsRiskConfigurationType {
       actions: CompromisedCredentialsActionsType.fromJson(
           json['Actions'] as Map<String, dynamic>),
       eventFilter: (json['EventFilter'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => EventFilterType.fromString((e as String)))
           .toList(),
     );
@@ -12069,7 +12069,7 @@ class DeviceType {
   factory DeviceType.fromJson(Map<String, dynamic> json) {
     return DeviceType(
       deviceAttributes: (json['DeviceAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
       deviceCreateDate: timeStampFromJson(json['DeviceCreateDate']),
@@ -12640,7 +12640,7 @@ class GetCSVHeaderResponse {
   factory GetCSVHeaderResponse.fromJson(Map<String, dynamic> json) {
     return GetCSVHeaderResponse(
       cSVHeader: (json['CSVHeader'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       userPoolId: json['UserPoolId'] as String?,
@@ -12927,17 +12927,17 @@ class GetUserResponse {
   factory GetUserResponse.fromJson(Map<String, dynamic> json) {
     return GetUserResponse(
       userAttributes: (json['UserAttributes'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
       username: json['Username'] as String,
       mFAOptions: (json['MFAOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
           .toList(),
       preferredMfaSetting: json['PreferredMfaSetting'] as String?,
       userMFASettingList: (json['UserMFASettingList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -13228,7 +13228,7 @@ class IdentityProviderType {
           ?.map((k, e) => MapEntry(k, e as String)),
       creationDate: timeStampFromJson(json['CreationDate']),
       idpIdentifiers: (json['IdpIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
@@ -13576,7 +13576,7 @@ class ListDevicesResponse {
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
       devices: (json['Devices'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
           .toList(),
       paginationToken: json['PaginationToken'] as String?,
@@ -13609,7 +13609,7 @@ class ListGroupsResponse {
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GroupType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -13641,7 +13641,7 @@ class ListIdentityProvidersResponse {
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityProvidersResponse(
       providers: (json['Providers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ProviderDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -13673,7 +13673,7 @@ class ListResourceServersResponse {
   factory ListResourceServersResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceServersResponse(
       resourceServers: (json['ResourceServers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ResourceServerType.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -13734,7 +13734,7 @@ class ListUserImportJobsResponse {
     return ListUserImportJobsResponse(
       paginationToken: json['PaginationToken'] as String?,
       userImportJobs: (json['UserImportJobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserImportJobType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13768,7 +13768,7 @@ class ListUserPoolClientsResponse {
     return ListUserPoolClientsResponse(
       nextToken: json['NextToken'] as String?,
       userPoolClients: (json['UserPoolClients'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UserPoolClientDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13803,7 +13803,7 @@ class ListUserPoolsResponse {
     return ListUserPoolsResponse(
       nextToken: json['NextToken'] as String?,
       userPools: (json['UserPools'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               UserPoolDescriptionType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13837,7 +13837,7 @@ class ListUsersInGroupResponse {
     return ListUsersInGroupResponse(
       nextToken: json['NextToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13883,7 +13883,7 @@ class ListUsersResponse {
     return ListUsersResponse(
       paginationToken: json['PaginationToken'] as String?,
       users: (json['Users'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UserType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -13958,7 +13958,7 @@ class LogDeliveryConfigurationType {
   factory LogDeliveryConfigurationType.fromJson(Map<String, dynamic> json) {
     return LogDeliveryConfigurationType(
       logConfigurations: (json['LogConfigurations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LogConfigurationType.fromJson(e as Map<String, dynamic>))
           .toList(),
       userPoolId: json['UserPoolId'] as String,
@@ -14628,7 +14628,7 @@ class ResourceServerType {
       identifier: json['Identifier'] as String?,
       name: json['Name'] as String?,
       scopes: (json['Scopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ResourceServerScopeType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14839,11 +14839,11 @@ class RiskExceptionConfigurationType {
   factory RiskExceptionConfigurationType.fromJson(Map<String, dynamic> json) {
     return RiskExceptionConfigurationType(
       blockedIPRangeList: (json['BlockedIPRangeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       skippedIPRangeList: (json['SkippedIPRangeList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -15769,7 +15769,7 @@ class UpdateUserAttributesResponse {
   factory UpdateUserAttributesResponse.fromJson(Map<String, dynamic> json) {
     return UpdateUserAttributesResponse(
       codeDeliveryDetailsList: (json['CodeDeliveryDetailsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CodeDeliveryDetailsType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15889,7 +15889,7 @@ class UserAttributeUpdateSettingsType {
     return UserAttributeUpdateSettingsType(
       attributesRequireVerificationBeforeUpdate:
           (json['AttributesRequireVerificationBeforeUpdate'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => VerifiedAttributeType.fromString((e as String)))
               .toList(),
     );
@@ -16548,13 +16548,13 @@ class UserPoolClientType {
     return UserPoolClientType(
       accessTokenValidity: json['AccessTokenValidity'] as int?,
       allowedOAuthFlows: (json['AllowedOAuthFlows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => OAuthFlowType.fromString((e as String)))
           .toList(),
       allowedOAuthFlowsUserPoolClient:
           json['AllowedOAuthFlowsUserPoolClient'] as bool?,
       allowedOAuthScopes: (json['AllowedOAuthScopes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       analyticsConfiguration: json['AnalyticsConfiguration'] != null
@@ -16563,7 +16563,7 @@ class UserPoolClientType {
           : null,
       authSessionValidity: json['AuthSessionValidity'] as int?,
       callbackURLs: (json['CallbackURLs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       clientId: json['ClientId'] as String?,
@@ -16575,25 +16575,25 @@ class UserPoolClientType {
           json['EnablePropagateAdditionalUserContextData'] as bool?,
       enableTokenRevocation: json['EnableTokenRevocation'] as bool?,
       explicitAuthFlows: (json['ExplicitAuthFlows'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ExplicitAuthFlowsType.fromString((e as String)))
           .toList(),
       idTokenValidity: json['IdTokenValidity'] as int?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
       logoutURLs: (json['LogoutURLs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       preventUserExistenceErrors:
           (json['PreventUserExistenceErrors'] as String?)
               ?.let(PreventUserExistenceErrorTypes.fromString),
       readAttributes: (json['ReadAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       refreshTokenValidity: json['RefreshTokenValidity'] as int?,
       supportedIdentityProviders: (json['SupportedIdentityProviders'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tokenValidityUnits: json['TokenValidityUnits'] != null
@@ -16602,7 +16602,7 @@ class UserPoolClientType {
           : null,
       userPoolId: json['UserPoolId'] as String?,
       writeAttributes: (json['WriteAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -17040,12 +17040,12 @@ class UserPoolType {
               json['AdminCreateUserConfig'] as Map<String, dynamic>)
           : null,
       aliasAttributes: (json['AliasAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AliasAttributeType.fromString((e as String)))
           .toList(),
       arn: json['Arn'] as String?,
       autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VerifiedAttributeType.fromString((e as String)))
           .toList(),
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -17079,7 +17079,7 @@ class UserPoolType {
               json['Policies'] as Map<String, dynamic>)
           : null,
       schemaAttributes: (json['SchemaAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaAttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
       smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String?,
@@ -17101,7 +17101,7 @@ class UserPoolType {
       userPoolTags: (json['UserPoolTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       usernameAttributes: (json['UsernameAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UsernameAttributeType.fromString((e as String)))
           .toList(),
       usernameConfiguration: json['UsernameConfiguration'] != null
@@ -17290,12 +17290,12 @@ class UserType {
   factory UserType.fromJson(Map<String, dynamic> json) {
     return UserType(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
       enabled: json['Enabled'] as bool?,
       mFAOptions: (json['MFAOptions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
           .toList(),
       userCreateDate: timeStampFromJson(json['UserCreateDate']),

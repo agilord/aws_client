@@ -1526,15 +1526,15 @@ class BatchDeleteUniqueIdOutput {
   factory BatchDeleteUniqueIdOutput.fromJson(Map<String, dynamic> json) {
     return BatchDeleteUniqueIdOutput(
       deleted: (json['deleted'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeletedUniqueId.fromJson(e as Map<String, dynamic>))
           .toList(),
       disconnectedUniqueIds: (json['disconnectedUniqueIds'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       errors: (json['errors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => DeleteUniqueIdError.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: DeleteUniqueIdStatus.fromString((json['status'] as String)),
@@ -1597,7 +1597,7 @@ class CreateIdMappingWorkflowOutput {
       idMappingTechniques: IdMappingTechniques.fromJson(
           json['idMappingTechniques'] as Map<String, dynamic>),
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1606,7 +1606,7 @@ class CreateIdMappingWorkflowOutput {
       workflowName: json['workflowName'] as String,
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingWorkflowOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1700,12 +1700,12 @@ class CreateIdNamespaceOutput {
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => IdNamespaceIdMappingWorkflowProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       inputSourceConfig: (json['inputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => IdNamespaceInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1788,11 +1788,11 @@ class CreateMatchingWorkflowOutput {
   factory CreateMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return CreateMatchingWorkflowOutput(
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputSourceConfig: (json['outputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
@@ -1858,7 +1858,7 @@ class CreateSchemaMappingOutput {
     return CreateSchemaMappingOutput(
       description: json['description'] as String,
       mappedInputFields: (json['mappedInputFields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaArn: json['schemaArn'] as String,
@@ -2168,7 +2168,7 @@ class GetIdMappingJobOutput {
               json['metrics'] as Map<String, dynamic>)
           : null,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingJobOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2250,7 +2250,7 @@ class GetIdMappingWorkflowOutput {
       idMappingTechniques: IdMappingTechniques.fromJson(
           json['idMappingTechniques'] as Map<String, dynamic>),
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2260,7 +2260,7 @@ class GetIdMappingWorkflowOutput {
       workflowName: json['workflowName'] as String,
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingWorkflowOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2362,12 +2362,12 @@ class GetIdNamespaceOutput {
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => IdNamespaceIdMappingWorkflowProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       inputSourceConfig: (json['inputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => IdNamespaceInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2479,7 +2479,7 @@ class GetMatchingJobOutput {
           ? JobMetrics.fromJson(json['metrics'] as Map<String, dynamic>)
           : null,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2564,11 +2564,11 @@ class GetMatchingWorkflowOutput {
     return GetMatchingWorkflowOutput(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputSourceConfig: (json['outputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
@@ -2841,7 +2841,7 @@ class GetSchemaMappingOutput {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       hasWorkflows: json['hasWorkflows'] as bool,
       mappedInputFields: (json['mappedInputFields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaArn: json['schemaArn'] as String,
@@ -3551,7 +3551,7 @@ class ListIdMappingJobsOutput {
   factory ListIdMappingJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListIdMappingJobsOutput(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3584,7 +3584,7 @@ class ListIdMappingWorkflowsOutput {
     return ListIdMappingWorkflowsOutput(
       nextToken: json['nextToken'] as String?,
       workflowSummaries: (json['workflowSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingWorkflowSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3616,7 +3616,7 @@ class ListIdNamespacesOutput {
   factory ListIdNamespacesOutput.fromJson(Map<String, dynamic> json) {
     return ListIdNamespacesOutput(
       idNamespaceSummaries: (json['idNamespaceSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IdNamespaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3650,7 +3650,7 @@ class ListMatchingJobsOutput {
   factory ListMatchingJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListMatchingJobsOutput(
       jobs: (json['jobs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -3685,7 +3685,7 @@ class ListMatchingWorkflowsOutput {
     return ListMatchingWorkflowsOutput(
       nextToken: json['nextToken'] as String?,
       workflowSummaries: (json['workflowSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               MatchingWorkflowSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3718,7 +3718,7 @@ class ListProviderServicesOutput {
     return ListProviderServicesOutput(
       nextToken: json['nextToken'] as String?,
       providerServiceSummaries: (json['providerServiceSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => ProviderServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3754,7 +3754,7 @@ class ListSchemaMappingsOutput {
     return ListSchemaMappingsOutput(
       nextToken: json['nextToken'] as String?,
       schemaList: (json['schemaList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaMappingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3954,7 +3954,7 @@ class OutputSource {
   factory OutputSource.fromJson(Map<String, dynamic> json) {
     return OutputSource(
       output: (json['output'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OutputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputS3Path: json['outputS3Path'] as String,
@@ -3993,14 +3993,13 @@ class ProviderComponentSchema {
   factory ProviderComponentSchema.fromJson(Map<String, dynamic> json) {
     return ProviderComponentSchema(
       providerSchemaAttributes: (json['providerSchemaAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ProviderSchemaAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemas: (json['schemas'] as List?)
-          ?.whereNotNull()
-          .map((e) =>
-              (e as List).whereNotNull().map((e) => e as String).toList())
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
     );
   }
@@ -4113,11 +4112,11 @@ class ProviderIntermediateDataAccessConfiguration {
       Map<String, dynamic> json) {
     return ProviderIntermediateDataAccessConfiguration(
       awsAccountIds: (json['awsAccountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       requiredBucketActions: (json['requiredBucketActions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4448,7 +4447,7 @@ class Rule {
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       matchingKeys: (json['matchingKeys'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       ruleName: json['ruleName'] as String,
@@ -4495,7 +4494,7 @@ class RuleBasedProperties {
       attributeMatchingModel: AttributeMatchingModel.fromString(
           (json['attributeMatchingModel'] as String)),
       rules: (json['rules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4692,7 +4691,7 @@ class StartIdMappingJobOutput {
     return StartIdMappingJobOutput(
       jobId: json['jobId'] as String,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingJobOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4812,7 +4811,7 @@ class UpdateIdMappingWorkflowOutput {
       idMappingTechniques: IdMappingTechniques.fromJson(
           json['idMappingTechniques'] as Map<String, dynamic>),
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4821,7 +4820,7 @@ class UpdateIdMappingWorkflowOutput {
       workflowName: json['workflowName'] as String,
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               IdMappingWorkflowOutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4911,12 +4910,12 @@ class UpdateIdNamespaceOutput {
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => IdNamespaceIdMappingWorkflowProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       inputSourceConfig: (json['inputSourceConfig'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => IdNamespaceInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4990,11 +4989,11 @@ class UpdateMatchingWorkflowOutput {
   factory UpdateMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMatchingWorkflowOutput(
       inputSourceConfig: (json['inputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       outputSourceConfig: (json['outputSourceConfig'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
@@ -5056,7 +5055,7 @@ class UpdateSchemaMappingOutput {
   factory UpdateSchemaMappingOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSchemaMappingOutput(
       mappedInputFields: (json['mappedInputFields'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       schemaArn: json['schemaArn'] as String,

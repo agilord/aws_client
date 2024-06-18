@@ -1092,7 +1092,7 @@ class CodeReview {
   factory CodeReview.fromJson(Map<String, dynamic> json) {
     return CodeReview(
       analysisTypes: (json['AnalysisTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AnalysisType.fromString((e as String)))
           .toList(),
       associationArn: json['AssociationArn'] as String?,
@@ -1694,7 +1694,7 @@ class ListCodeReviewsResponse {
   factory ListCodeReviewsResponse.fromJson(Map<String, dynamic> json) {
     return ListCodeReviewsResponse(
       codeReviewSummaries: (json['CodeReviewSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CodeReviewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -1733,7 +1733,7 @@ class ListRecommendationFeedbackResponse {
       nextToken: json['NextToken'] as String?,
       recommendationFeedbackSummaries: (json['RecommendationFeedbackSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RecommendationFeedbackSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1768,7 +1768,7 @@ class ListRecommendationsResponse {
     return ListRecommendationsResponse(
       nextToken: json['NextToken'] as String?,
       recommendationSummaries: (json['RecommendationSummaries'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1807,7 +1807,7 @@ class ListRepositoryAssociationsResponse {
       nextToken: json['NextToken'] as String?,
       repositoryAssociationSummaries: (json['RepositoryAssociationSummaries']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               RepositoryAssociationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2087,7 +2087,7 @@ class RecommendationFeedback {
       createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       reactions: (json['Reactions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Reaction.fromString((e as String)))
           .toList(),
       recommendationId: json['RecommendationId'] as String?,
@@ -2144,7 +2144,7 @@ class RecommendationFeedbackSummary {
   factory RecommendationFeedbackSummary.fromJson(Map<String, dynamic> json) {
     return RecommendationFeedbackSummary(
       reactions: (json['Reactions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Reaction.fromString((e as String)))
           .toList(),
       recommendationId: json['RecommendationId'] as String?,
@@ -2761,7 +2761,7 @@ class RuleMetadata {
       ruleId: json['RuleId'] as String?,
       ruleName: json['RuleName'] as String?,
       ruleTags: (json['RuleTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       shortDescription: json['ShortDescription'] as String?,

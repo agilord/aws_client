@@ -2013,7 +2013,7 @@ class AdditionalLimit {
     return AdditionalLimit(
       limitName: json['LimitName'] as String?,
       limitValues: (json['LimitValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2462,7 +2462,7 @@ class AutoTuneOptions {
       desiredState: (json['DesiredState'] as String?)
           ?.let(AutoTuneDesiredState.fromString),
       maintenanceSchedules: (json['MaintenanceSchedules'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               AutoTuneMaintenanceSchedule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2701,11 +2701,11 @@ class CancelDomainConfigChangeResponse {
   factory CancelDomainConfigChangeResponse.fromJson(Map<String, dynamic> json) {
     return CancelDomainConfigChangeResponse(
       cancelledChangeIds: (json['CancelledChangeIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       cancelledChangeProperties: (json['CancelledChangeProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               CancelledChangeProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2958,11 +2958,11 @@ class ChangeProgressStatusDetails {
     return ChangeProgressStatusDetails(
       changeId: json['ChangeId'] as String?,
       changeProgressStages: (json['ChangeProgressStages'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ChangeProgressStage.fromJson(e as Map<String, dynamic>))
           .toList(),
       completedProperties: (json['CompletedProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       configChangeStatus: (json['ConfigChangeStatus'] as String?)
@@ -2971,7 +2971,7 @@ class ChangeProgressStatusDetails {
           (json['InitiatedBy'] as String?)?.let(InitiatedBy.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       pendingProperties: (json['PendingProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
@@ -3130,7 +3130,7 @@ class CompatibleVersionsMap {
     return CompatibleVersionsMap(
       sourceVersion: json['SourceVersion'] as String?,
       targetVersions: (json['TargetVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3503,7 +3503,7 @@ class DescribeDomainAutoTunesResponse {
   factory DescribeDomainAutoTunesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainAutoTunesResponse(
       autoTunes: (json['AutoTunes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AutoTune.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -3618,7 +3618,7 @@ class DescribeElasticsearchDomainsResponse {
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainsResponse(
       domainStatusList: (json['DomainStatusList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               ElasticsearchDomainStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3682,7 +3682,7 @@ class DescribeInboundCrossClusterSearchConnectionsResponse {
     return DescribeInboundCrossClusterSearchConnectionsResponse(
       crossClusterSearchConnections:
           (json['CrossClusterSearchConnections'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => InboundCrossClusterSearchConnection.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3725,7 +3725,7 @@ class DescribeOutboundCrossClusterSearchConnectionsResponse {
     return DescribeOutboundCrossClusterSearchConnectionsResponse(
       crossClusterSearchConnections:
           (json['CrossClusterSearchConnections'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => OutboundCrossClusterSearchConnection.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3800,7 +3800,7 @@ class DescribePackagesResponse {
     return DescribePackagesResponse(
       nextToken: json['NextToken'] as String?,
       packageDetailsList: (json['PackageDetailsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3837,7 +3837,7 @@ class DescribeReservedElasticsearchInstanceOfferingsResponse {
       nextToken: json['NextToken'] as String?,
       reservedElasticsearchInstanceOfferings:
           (json['ReservedElasticsearchInstanceOfferings'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ReservedElasticsearchInstanceOffering.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -3877,7 +3877,7 @@ class DescribeReservedElasticsearchInstancesResponse {
       nextToken: json['NextToken'] as String?,
       reservedElasticsearchInstances: (json['ReservedElasticsearchInstances']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ReservedElasticsearchInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3915,11 +3915,11 @@ class DescribeVpcEndpointsResponse {
   factory DescribeVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeVpcEndpointsResponse(
       vpcEndpointErrors: (json['VpcEndpointErrors'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcEndpointError.fromJson(e as Map<String, dynamic>))
           .toList(),
       vpcEndpoints: (json['VpcEndpoints'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4771,7 +4771,7 @@ class ElasticsearchDomainConfig {
               json['LogPublishingOptions'] as Map<String, dynamic>)
           : null,
       modifyingProperties: (json['ModifyingProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
@@ -5023,7 +5023,7 @@ class ElasticsearchDomainStatus {
               MapEntry(LogType.fromString(k),
                   LogPublishingOption.fromJson(e as Map<String, dynamic>))),
       modifyingProperties: (json['ModifyingProperties'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ModifyingProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
@@ -5295,7 +5295,7 @@ class GetCompatibleElasticsearchVersionsResponse {
     return GetCompatibleElasticsearchVersionsResponse(
       compatibleElasticsearchVersions: (json['CompatibleElasticsearchVersions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => CompatibleVersionsMap.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5331,7 +5331,7 @@ class GetPackageVersionHistoryResponse {
       nextToken: json['NextToken'] as String?,
       packageID: json['PackageID'] as String?,
       packageVersionHistoryList: (json['PackageVersionHistoryList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PackageVersionHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5371,7 +5371,7 @@ class GetUpgradeHistoryResponse {
     return GetUpgradeHistoryResponse(
       nextToken: json['NextToken'] as String?,
       upgradeHistories: (json['UpgradeHistories'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpgradeHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5658,7 +5658,7 @@ class Limits {
   factory Limits.fromJson(Map<String, dynamic> json) {
     return Limits(
       additionalLimits: (json['AdditionalLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AdditionalLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
       instanceLimits: json['InstanceLimits'] != null
@@ -5666,7 +5666,7 @@ class Limits {
               json['InstanceLimits'] as Map<String, dynamic>)
           : null,
       storageTypes: (json['StorageTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorageType.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5697,7 +5697,7 @@ class ListDomainNamesResponse {
   factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainNamesResponse(
       domainNames: (json['DomainNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5726,7 +5726,7 @@ class ListDomainsForPackageResponse {
   factory ListDomainsForPackageResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsForPackageResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5765,7 +5765,7 @@ class ListElasticsearchInstanceTypesResponse {
       Map<String, dynamic> json) {
     return ListElasticsearchInstanceTypesResponse(
       elasticsearchInstanceTypes: (json['ElasticsearchInstanceTypes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ESPartitionInstanceType.fromString((e as String)))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5799,7 +5799,7 @@ class ListElasticsearchVersionsResponse {
       Map<String, dynamic> json) {
     return ListElasticsearchVersionsResponse(
       elasticsearchVersions: (json['ElasticsearchVersions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5835,7 +5835,7 @@ class ListPackagesForDomainResponse {
   factory ListPackagesForDomainResponse.fromJson(Map<String, dynamic> json) {
     return ListPackagesForDomainResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DomainPackageDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5866,7 +5866,7 @@ class ListTagsResponse {
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5899,7 +5899,7 @@ class ListVpcEndpointAccessResponse {
   factory ListVpcEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
     return ListVpcEndpointAccessResponse(
       authorizedPrincipalList: (json['AuthorizedPrincipalList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AuthorizedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String,
@@ -5937,7 +5937,7 @@ class ListVpcEndpointsForDomainResponse {
     return ListVpcEndpointsForDomainResponse(
       nextToken: json['NextToken'] as String,
       vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5972,7 +5972,7 @@ class ListVpcEndpointsResponse {
     return ListVpcEndpointsResponse(
       nextToken: json['NextToken'] as String,
       vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6847,7 +6847,7 @@ class ReservedElasticsearchInstance {
       paymentOption: (json['PaymentOption'] as String?)
           ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
       reservationName: json['ReservationName'] as String?,
@@ -6952,7 +6952,7 @@ class ReservedElasticsearchInstanceOffering {
       paymentOption: (json['PaymentOption'] as String?)
           ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
       reservedElasticsearchInstanceOfferingId:
@@ -7450,7 +7450,7 @@ class StorageType {
     return StorageType(
       storageSubTypeName: json['StorageSubTypeName'] as String?,
       storageTypeLimits: (json['StorageTypeLimits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorageTypeLimit.fromJson(e as Map<String, dynamic>))
           .toList(),
       storageTypeName: json['StorageTypeName'] as String?,
@@ -7500,7 +7500,7 @@ class StorageTypeLimit {
     return StorageTypeLimit(
       limitName: json['LimitName'] as String?,
       limitValues: (json['LimitValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -7753,7 +7753,7 @@ class UpgradeHistory {
     return UpgradeHistory(
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
       stepsList: (json['StepsList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpgradeStepItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       upgradeName: json['UpgradeName'] as String?,
@@ -7848,10 +7848,8 @@ class UpgradeStepItem {
 
   factory UpgradeStepItem.fromJson(Map<String, dynamic> json) {
     return UpgradeStepItem(
-      issues: (json['Issues'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      issues:
+          (json['Issues'] as List?)?.nonNulls.map((e) => e as String).toList(),
       progressPercent: json['ProgressPercent'] as double?,
       upgradeStep:
           (json['UpgradeStep'] as String?)?.let(UpgradeStep.fromString),
@@ -7904,15 +7902,15 @@ class VPCDerivedInfo {
   factory VPCDerivedInfo.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfo(
       availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       subnetIds: (json['SubnetIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       vPCId: json['VPCId'] as String?,

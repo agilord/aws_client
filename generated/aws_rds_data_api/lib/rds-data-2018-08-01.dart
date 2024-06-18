@@ -534,23 +534,21 @@ class ArrayValue {
   factory ArrayValue.fromJson(Map<String, dynamic> json) {
     return ArrayValue(
       arrayValues: (json['arrayValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ArrayValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       booleanValues: (json['booleanValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as bool)
           .toList(),
       doubleValues: (json['doubleValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as double)
           .toList(),
-      longValues: (json['longValues'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as int)
-          .toList(),
+      longValues:
+          (json['longValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
       stringValues: (json['stringValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -585,7 +583,7 @@ class BatchExecuteStatementResponse {
   factory BatchExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
     return BatchExecuteStatementResponse(
       updateResults: (json['updateResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UpdateResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -734,7 +732,7 @@ class ExecuteSqlResponse {
   factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteSqlResponse(
       sqlStatementResults: (json['sqlStatementResults'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SqlStatementResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -785,19 +783,19 @@ class ExecuteStatementResponse {
   factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteStatementResponse(
       columnMetadata: (json['columnMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       formattedRecords: json['formattedRecords'] as String?,
       generatedFields: (json['generatedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
       numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
       records: (json['records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => (e as List)
-              .whereNotNull()
+              .nonNulls
               .map((e) => Field.fromJson(e as Map<String, dynamic>))
               .toList())
           .toList(),
@@ -904,7 +902,7 @@ class Record {
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
       values: (json['values'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Value.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -947,7 +945,7 @@ class ResultFrame {
   factory ResultFrame.fromJson(Map<String, dynamic> json) {
     return ResultFrame(
       records: (json['records'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultSetMetadata: json['resultSetMetadata'] != null
@@ -975,7 +973,7 @@ class ResultSetMetadata {
     return ResultSetMetadata(
       columnCount: json['columnCount'] as int?,
       columnMetadata: (json['columnMetadata'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1140,7 +1138,7 @@ class StructValue {
   factory StructValue.fromJson(Map<String, dynamic> json) {
     return StructValue(
       attributes: (json['attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Value.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1177,7 +1175,7 @@ class UpdateResult {
   factory UpdateResult.fromJson(Map<String, dynamic> json) {
     return UpdateResult(
       generatedFields: (json['generatedFields'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1237,7 +1235,7 @@ class Value {
   factory Value.fromJson(Map<String, dynamic> json) {
     return Value(
       arrayValues: (json['arrayValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Value.fromJson(e as Map<String, dynamic>))
           .toList(),
       bigIntValue: json['bigIntValue'] as int?,

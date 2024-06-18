@@ -1609,10 +1609,8 @@ class AccessPreviewFinding {
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
       resourceType: ResourceType.fromString((json['resourceType'] as String)),
       status: FindingStatus.fromString((json['status'] as String)),
-      action: (json['action'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      action:
+          (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
       condition: (json['condition'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       error: json['error'] as String?,
@@ -1624,7 +1622,7 @@ class AccessPreviewFinding {
           ?.map((k, e) => MapEntry(k, e as String)),
       resource: json['resource'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1901,13 +1899,11 @@ class AnalyzedResource {
       resourceOwnerAccount: json['resourceOwnerAccount'] as String,
       resourceType: ResourceType.fromString((json['resourceType'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      actions: (json['actions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['actions'] as List?)?.nonNulls.map((e) => e as String).toList(),
       error: json['error'] as String?,
       sharedVia: (json['sharedVia'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(FindingStatus.fromString),
@@ -2213,7 +2209,7 @@ class CheckAccessNotGrantedResponse {
     return CheckAccessNotGrantedResponse(
       message: json['message'] as String?,
       reasons: (json['reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       result: (json['result'] as String?)
@@ -2270,7 +2266,7 @@ class CheckNoNewAccessResponse {
     return CheckNoNewAccessResponse(
       message: json['message'] as String?,
       reasons: (json['reasons'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       result:
@@ -2374,7 +2370,7 @@ class CloudTrailProperties {
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
       trailProperties: (json['trailProperties'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => TrailProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2624,18 +2620,12 @@ class Criterion {
   factory Criterion.fromJson(Map<String, dynamic> json) {
     return Criterion(
       contains: (json['contains'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      eq: (json['eq'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      eq: (json['eq'] as List?)?.nonNulls.map((e) => e as String).toList(),
       exists: json['exists'] as bool?,
-      neq: (json['neq'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      neq: (json['neq'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2817,15 +2807,11 @@ class EbsSnapshotConfiguration {
 
   factory EbsSnapshotConfiguration.fromJson(Map<String, dynamic> json) {
     return EbsSnapshotConfiguration(
-      groups: (json['groups'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      groups:
+          (json['groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
       kmsKeyId: json['kmsKeyId'] as String?,
-      userIds: (json['userIds'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      userIds:
+          (json['userIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -2970,15 +2956,13 @@ class ExternalAccessDetails {
     return ExternalAccessDetails(
       condition: (json['condition'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(k, e as String)),
-      action: (json['action'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      action:
+          (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
       isPublic: json['isPublic'] as bool?,
       principal: (json['principal'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3076,17 +3060,15 @@ class Finding {
       resourceType: ResourceType.fromString((json['resourceType'] as String)),
       status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      action: (json['action'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      action:
+          (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
       error: json['error'] as String?,
       isPublic: json['isPublic'] as bool?,
       principal: (json['principal'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       resource: json['resource'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3411,17 +3393,15 @@ class FindingSummary {
       resourceType: ResourceType.fromString((json['resourceType'] as String)),
       status: FindingStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      action: (json['action'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      action:
+          (json['action'] as List?)?.nonNulls.map((e) => e as String).toList(),
       error: json['error'] as String?,
       isPublic: json['isPublic'] as bool?,
       principal: (json['principal'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       resource: json['resource'] as String?,
       sources: (json['sources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FindingSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3658,7 +3638,7 @@ class GeneratedPolicyResult {
       properties: GeneratedPolicyProperties.fromJson(
           json['properties'] as Map<String, dynamic>),
       generatedPolicies: (json['generatedPolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => GeneratedPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3858,7 +3838,7 @@ class GetFindingV2Response {
       analyzedAt: nonNullableTimeStampFromJson(json['analyzedAt'] as Object),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       findingDetails: (json['findingDetails'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
@@ -4169,7 +4149,7 @@ class KmsGrantConfiguration {
       granteePrincipal: json['granteePrincipal'] as String,
       issuingAccount: json['issuingAccount'] as String,
       operations: (json['operations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => KmsGrantOperation.fromString((e as String)))
           .toList(),
       constraints: json['constraints'] != null
@@ -4310,7 +4290,7 @@ class KmsKeyConfiguration {
   factory KmsKeyConfiguration.fromJson(Map<String, dynamic> json) {
     return KmsKeyConfiguration(
       grants: (json['grants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => KmsGrantConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       keyPolicies: (json['keyPolicies'] as Map<String, dynamic>?)
@@ -4344,7 +4324,7 @@ class ListAccessPreviewFindingsResponse {
       Map<String, dynamic> json) {
     return ListAccessPreviewFindingsResponse(
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccessPreviewFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4376,7 +4356,7 @@ class ListAccessPreviewsResponse {
   factory ListAccessPreviewsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessPreviewsResponse(
       accessPreviews: (json['accessPreviews'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AccessPreviewSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4409,7 +4389,7 @@ class ListAnalyzedResourcesResponse {
   factory ListAnalyzedResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListAnalyzedResourcesResponse(
       analyzedResources: (json['analyzedResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) =>
               AnalyzedResourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4443,7 +4423,7 @@ class ListAnalyzersResponse {
   factory ListAnalyzersResponse.fromJson(Map<String, dynamic> json) {
     return ListAnalyzersResponse(
       analyzers: (json['analyzers'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AnalyzerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4476,7 +4456,7 @@ class ListArchiveRulesResponse {
   factory ListArchiveRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListArchiveRulesResponse(
       archiveRules: (json['archiveRules'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ArchiveRuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4510,7 +4490,7 @@ class ListFindingsResponse {
   factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsResponse(
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4543,7 +4523,7 @@ class ListFindingsV2Response {
   factory ListFindingsV2Response.fromJson(Map<String, dynamic> json) {
     return ListFindingsV2Response(
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => FindingSummaryV2.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4576,7 +4556,7 @@ class ListPolicyGenerationsResponse {
   factory ListPolicyGenerationsResponse.fromJson(Map<String, dynamic> json) {
     return ListPolicyGenerationsResponse(
       policyGenerations: (json['policyGenerations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PolicyGeneration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -4656,7 +4636,7 @@ class Location {
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
       path: (json['path'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => PathElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       span: Span.fromJson(json['span'] as Map<String, dynamic>),
@@ -4941,7 +4921,7 @@ class RdsDbClusterSnapshotAttributeValue {
       Map<String, dynamic> json) {
     return RdsDbClusterSnapshotAttributeValue(
       accountIds: (json['accountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5051,7 +5031,7 @@ class RdsDbSnapshotAttributeValue {
   factory RdsDbSnapshotAttributeValue.fromJson(Map<String, dynamic> json) {
     return RdsDbSnapshotAttributeValue(
       accountIds: (json['accountIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -5340,7 +5320,7 @@ class S3BucketConfiguration {
           (k, e) => MapEntry(k,
               S3AccessPointConfiguration.fromJson(e as Map<String, dynamic>))),
       bucketAclGrants: (json['bucketAclGrants'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               S3BucketAclGrantConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5771,10 +5751,8 @@ class TrailProperties {
     return TrailProperties(
       cloudTrailArn: json['cloudTrailArn'] as String,
       allRegions: json['allRegions'] as bool?,
-      regions: (json['regions'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      regions:
+          (json['regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -5996,7 +5974,7 @@ class UnusedPermissionDetails {
     return UnusedPermissionDetails(
       serviceNamespace: json['serviceNamespace'] as String,
       actions: (json['actions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnusedAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastAccessed: timeStampFromJson(json['lastAccessed']),
@@ -6064,7 +6042,7 @@ class ValidatePolicyFinding {
       issueCode: json['issueCode'] as String,
       learnMoreLink: json['learnMoreLink'] as String,
       locations: (json['locations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Location.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6138,7 +6116,7 @@ class ValidatePolicyResponse {
   factory ValidatePolicyResponse.fromJson(Map<String, dynamic> json) {
     return ValidatePolicyResponse(
       findings: (json['findings'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ValidatePolicyFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,

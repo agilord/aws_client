@@ -724,7 +724,7 @@ class ListChunksOutput {
   factory ListChunksOutput.fromJson(Map<String, dynamic> json) {
     return ListChunksOutput(
       chunkList: (json['ChunkList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Chunk.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -756,7 +756,7 @@ class ListObjectsOutput {
   factory ListObjectsOutput.fromJson(Map<String, dynamic> json) {
     return ListObjectsOutput(
       objectList: (json['ObjectList'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => BackupObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,

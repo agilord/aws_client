@@ -2084,7 +2084,7 @@ class AccessPointDescription {
               json['RootDirectory'] as Map<String, dynamic>)
           : null,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2228,7 +2228,7 @@ class DescribeAccessPointsResponse {
   factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccessPointsResponse(
       accessPoints: (json['AccessPoints'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => AccessPointDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2286,7 +2286,7 @@ class DescribeFileSystemsResponse {
   factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFileSystemsResponse(
       fileSystems: (json['FileSystems'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FileSystemDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -2307,7 +2307,7 @@ class DescribeMountTargetSecurityGroupsResponse {
       Map<String, dynamic> json) {
     return DescribeMountTargetSecurityGroupsResponse(
       securityGroups: (json['SecurityGroups'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2339,7 +2339,7 @@ class DescribeMountTargetsResponse {
     return DescribeMountTargetsResponse(
       marker: json['Marker'] as String?,
       mountTargets: (json['MountTargets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => MountTargetDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2366,7 +2366,7 @@ class DescribeReplicationConfigurationsResponse {
     return DescribeReplicationConfigurationsResponse(
       nextToken: json['NextToken'] as String?,
       replications: (json['Replications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ReplicationConfigurationDescription.fromJson(
               e as Map<String, dynamic>))
           .toList(),
@@ -2399,7 +2399,7 @@ class DescribeTagsResponse {
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResponse(
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       marker: json['Marker'] as String?,
@@ -2652,7 +2652,7 @@ class FileSystemDescription {
       sizeInBytes:
           FileSystemSize.fromJson(json['SizeInBytes'] as Map<String, dynamic>),
       tags: (json['Tags'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       availabilityZoneId: json['AvailabilityZoneId'] as String?,
@@ -2812,7 +2812,7 @@ class LifecycleConfigurationDescription {
       Map<String, dynamic> json) {
     return LifecycleConfigurationDescription(
       lifecyclePolicies: (json['LifecyclePolicies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LifecyclePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2903,7 +2903,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3022,7 +3022,7 @@ class PosixUser {
       gid: json['Gid'] as int,
       uid: json['Uid'] as int,
       secondaryGids: (json['SecondaryGids'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as int)
           .toList(),
     );
@@ -3095,7 +3095,7 @@ class ReplicationConfigurationDescription {
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       destinations: (json['Destinations'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       originalSourceFileSystemArn:
@@ -3178,7 +3178,7 @@ class ResourceIdPreference {
       resourceIdType:
           (json['ResourceIdType'] as String?)?.let(ResourceIdType.fromString),
       resources: (json['Resources'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Resource.fromString((e as String)))
           .toList(),
     );

@@ -2422,7 +2422,7 @@ class AddLFTagsToResourceResponse {
   factory AddLFTagsToResourceResponse.fromJson(Map<String, dynamic> json) {
     return AddLFTagsToResourceResponse(
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -2582,7 +2582,7 @@ class BatchGrantPermissionsResponse {
   factory BatchGrantPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return BatchGrantPermissionsResponse(
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2661,11 +2661,11 @@ class BatchPermissionsRequestEntry {
     return BatchPermissionsRequestEntry(
       id: json['Id'] as String,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
           .toList(),
       permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
@@ -2708,7 +2708,7 @@ class BatchRevokePermissionsResponse {
   factory BatchRevokePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return BatchRevokePermissionsResponse(
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchPermissionsFailureEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2765,7 +2765,7 @@ class ColumnLFTag {
   factory ColumnLFTag.fromJson(Map<String, dynamic> json) {
     return ColumnLFTag(
       lFTags: (json['LFTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
@@ -2795,7 +2795,7 @@ class ColumnWildcard {
   factory ColumnWildcard.fromJson(Map<String, dynamic> json) {
     return ColumnWildcard(
       excludedColumnNames: (json['ExcludedColumnNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -2968,7 +2968,7 @@ class DataCellsFilter {
       tableCatalogId: json['TableCatalogId'] as String,
       tableName: json['TableName'] as String,
       columnNames: (json['ColumnNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       columnWildcard: json['ColumnWildcard'] != null
@@ -3205,36 +3205,36 @@ class DataLakeSettings {
           json['AllowFullTableExternalDataAccess'] as bool?,
       authorizedSessionTagValueList:
           (json['AuthorizedSessionTagValueList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => e as String)
               .toList(),
       createDatabaseDefaultPermissions: (json[
               'CreateDatabaseDefaultPermissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PrincipalPermissions.fromJson(e as Map<String, dynamic>))
           .toList(),
       createTableDefaultPermissions: (json['CreateTableDefaultPermissions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PrincipalPermissions.fromJson(e as Map<String, dynamic>))
           .toList(),
       dataLakeAdmins: (json['DataLakeAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       externalDataFilteringAllowList:
           (json['ExternalDataFilteringAllowList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
               .toList(),
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       readOnlyAdmins: (json['ReadOnlyAdmins'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
       trustedResourceOwners: (json['TrustedResourceOwners'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3496,7 +3496,7 @@ class DescribeLakeFormationIdentityCenterConfigurationResponse {
       instanceArn: json['InstanceArn'] as String?,
       resourceShare: json['ResourceShare'] as String?,
       shareRecipients: (json['ShareRecipients'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -3588,7 +3588,7 @@ class DetailsMap {
   factory DetailsMap.fromJson(Map<String, dynamic> json) {
     return DetailsMap(
       resourceShare: (json['ResourceShare'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -3717,7 +3717,7 @@ class ExternalFilteringConfiguration {
   factory ExternalFilteringConfiguration.fromJson(Map<String, dynamic> json) {
     return ExternalFilteringConfiguration(
       authorizedTargets: (json['AuthorizedTargets'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       status: EnableStatus.fromString((json['Status'] as String)),
@@ -3872,7 +3872,7 @@ class GetEffectivePermissionsForPathResponse {
     return GetEffectivePermissionsForPathResponse(
       nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3913,7 +3913,7 @@ class GetLFTagResponse {
       catalogId: json['CatalogId'] as String?,
       tagKey: json['TagKey'] as String?,
       tagValues: (json['TagValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4043,15 +4043,15 @@ class GetResourceLFTagsResponse {
   factory GetResourceLFTagsResponse.fromJson(Map<String, dynamic> json) {
     return GetResourceLFTagsResponse(
       lFTagOnDatabase: (json['LFTagOnDatabase'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
       lFTagsOnColumns: (json['LFTagsOnColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnLFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       lFTagsOnTable: (json['LFTagsOnTable'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4085,7 +4085,7 @@ class GetTableObjectsResponse {
     return GetTableObjectsResponse(
       nextToken: json['NextToken'] as String?,
       objects: (json['Objects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PartitionObjects.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4177,7 +4177,7 @@ class GetTemporaryGlueTableCredentialsResponse {
       secretAccessKey: json['SecretAccessKey'] as String?,
       sessionToken: json['SessionToken'] as String?,
       vendedS3Path: (json['VendedS3Path'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4240,7 +4240,7 @@ class GetWorkUnitsResponse {
     return GetWorkUnitsResponse(
       queryId: json['QueryId'] as String,
       workUnitRanges: (json['WorkUnitRanges'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => WorkUnitRange.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4293,10 +4293,8 @@ class LFTag {
   factory LFTag.fromJson(Map<String, dynamic> json) {
     return LFTag(
       tagKey: json['TagKey'] as String,
-      tagValues: (json['TagValues'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagValues:
+          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
     );
   }
 
@@ -4368,10 +4366,8 @@ class LFTagKeyResource {
   factory LFTagKeyResource.fromJson(Map<String, dynamic> json) {
     return LFTagKeyResource(
       tagKey: json['TagKey'] as String,
-      tagValues: (json['TagValues'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagValues:
+          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4411,10 +4407,8 @@ class LFTagPair {
   factory LFTagPair.fromJson(Map<String, dynamic> json) {
     return LFTagPair(
       tagKey: json['TagKey'] as String,
-      tagValues: (json['TagValues'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      tagValues:
+          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4455,7 +4449,7 @@ class LFTagPolicyResource {
   factory LFTagPolicyResource.fromJson(Map<String, dynamic> json) {
     return LFTagPolicyResource(
       expression: (json['Expression'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceType: ResourceType.fromString((json['ResourceType'] as String)),
@@ -4538,7 +4532,7 @@ class ListDataCellsFilterResponse {
   factory ListDataCellsFilterResponse.fromJson(Map<String, dynamic> json) {
     return ListDataCellsFilterResponse(
       dataCellsFilters: (json['DataCellsFilters'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => DataCellsFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4570,7 +4564,7 @@ class ListLFTagsResponse {
   factory ListLFTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListLFTagsResponse(
       lFTags: (json['LFTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4604,7 +4598,7 @@ class ListLakeFormationOptInsResponse {
     return ListLakeFormationOptInsResponse(
       lakeFormationOptInsInfoList:
           (json['LakeFormationOptInsInfoList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   LakeFormationOptInsInfo.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -4641,7 +4635,7 @@ class ListPermissionsResponse {
       nextToken: json['NextToken'] as String?,
       principalResourcePermissions: (json['PrincipalResourcePermissions']
               as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4676,7 +4670,7 @@ class ListResourcesResponse {
     return ListResourcesResponse(
       nextToken: json['NextToken'] as String?,
       resourceInfoList: (json['ResourceInfoList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ResourceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4710,7 +4704,7 @@ class ListTableStorageOptimizersResponse {
     return ListTableStorageOptimizersResponse(
       nextToken: json['NextToken'] as String?,
       storageOptimizerList: (json['StorageOptimizerList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => StorageOptimizer.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4744,7 +4738,7 @@ class ListTransactionsResponse {
     return ListTransactionsResponse(
       nextToken: json['NextToken'] as String?,
       transactions: (json['Transactions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map(
               (e) => TransactionDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4793,11 +4787,11 @@ class PartitionObjects {
   factory PartitionObjects.fromJson(Map<String, dynamic> json) {
     return PartitionObjects(
       objects: (json['Objects'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TableObject.fromJson(e as Map<String, dynamic>))
           .toList(),
       partitionValues: (json['PartitionValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4934,7 +4928,7 @@ class PrincipalPermissions {
   factory PrincipalPermissions.fromJson(Map<String, dynamic> json) {
     return PrincipalPermissions(
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
@@ -5000,11 +4994,11 @@ class PrincipalResourcePermissions {
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       lastUpdatedBy: json['LastUpdatedBy'] as String?,
       permissions: (json['Permissions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
           .toList(),
       permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
@@ -5188,7 +5182,7 @@ class RemoveLFTagsFromResourceResponse {
   factory RemoveLFTagsFromResourceResponse.fromJson(Map<String, dynamic> json) {
     return RemoveLFTagsFromResourceResponse(
       failures: (json['Failures'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5447,7 +5441,7 @@ class SearchDatabasesByLFTagsResponse {
   factory SearchDatabasesByLFTagsResponse.fromJson(Map<String, dynamic> json) {
     return SearchDatabasesByLFTagsResponse(
       databaseList: (json['DatabaseList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaggedDatabase.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -5482,7 +5476,7 @@ class SearchTablesByLFTagsResponse {
     return SearchTablesByLFTagsResponse(
       nextToken: json['NextToken'] as String?,
       tableList: (json['TableList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TaggedTable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5759,7 +5753,7 @@ class TableWithColumnsResource {
       name: json['Name'] as String,
       catalogId: json['CatalogId'] as String?,
       columnNames: (json['ColumnNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       columnWildcard: json['ColumnWildcard'] != null
@@ -5804,7 +5798,7 @@ class TaggedDatabase {
           ? DatabaseResource.fromJson(json['Database'] as Map<String, dynamic>)
           : null,
       lFTags: (json['LFTags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -5844,15 +5838,15 @@ class TaggedTable {
   factory TaggedTable.fromJson(Map<String, dynamic> json) {
     return TaggedTable(
       lFTagOnDatabase: (json['LFTagOnDatabase'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
       lFTagsOnColumns: (json['LFTagsOnColumns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ColumnLFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       lFTagsOnTable: (json['LFTagsOnTable'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => LFTagPair.fromJson(e as Map<String, dynamic>))
           .toList(),
       table: json['Table'] != null

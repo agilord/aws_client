@@ -3984,7 +3984,7 @@ class BatchGetLinkAttributesResponse {
   factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetLinkAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4035,7 +4035,7 @@ class BatchGetObjectAttributesResponse {
   factory BatchGetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4079,7 +4079,7 @@ class BatchGetObjectInformationResponse {
     return BatchGetObjectInformationResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
       schemaFacets: (json['SchemaFacets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4133,7 +4133,7 @@ class BatchListAttachedIndicesResponse {
   factory BatchListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
     return BatchListAttachedIndicesResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4207,7 +4207,7 @@ class BatchListIncomingTypedLinksResponse {
       Map<String, dynamic> json) {
     return BatchListIncomingTypedLinksResponse(
       linkSpecifiers: (json['LinkSpecifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4269,7 +4269,7 @@ class BatchListIndexResponse {
   factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) {
     return BatchListIndexResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4332,7 +4332,7 @@ class BatchListObjectAttributesResponse {
       Map<String, dynamic> json) {
     return BatchListObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4445,7 +4445,7 @@ class BatchListObjectParentPathsResponse {
       nextToken: json['NextToken'] as String?,
       pathToObjectIdentifiersList:
           (json['PathToObjectIdentifiersList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -4501,7 +4501,7 @@ class BatchListObjectPoliciesResponse {
   factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return BatchListObjectPoliciesResponse(
       attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -4576,7 +4576,7 @@ class BatchListOutgoingTypedLinksResponse {
     return BatchListOutgoingTypedLinksResponse(
       nextToken: json['NextToken'] as String?,
       typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4632,7 +4632,7 @@ class BatchListPolicyAttachmentsResponse {
     return BatchListPolicyAttachmentsResponse(
       nextToken: json['NextToken'] as String?,
       objectIdentifiers: (json['ObjectIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -4690,7 +4690,7 @@ class BatchLookupPolicyResponse {
     return BatchLookupPolicyResponse(
       nextToken: json['NextToken'] as String?,
       policyToPathList: (json['PolicyToPathList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -4901,7 +4901,7 @@ class BatchReadResponse {
   factory BatchReadResponse.fromJson(Map<String, dynamic> json) {
     return BatchReadResponse(
       responses: (json['Responses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchReadOperationResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5469,7 +5469,7 @@ class BatchWriteResponse {
   factory BatchWriteResponse.fromJson(Map<String, dynamic> json) {
     return BatchWriteResponse(
       responses: (json['Responses'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               BatchWriteOperationResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6168,7 +6168,7 @@ class GetLinkAttributesResponse {
   factory GetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
     return GetLinkAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6186,7 +6186,7 @@ class GetObjectAttributesResponse {
   factory GetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return GetObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6211,7 +6211,7 @@ class GetObjectInformationResponse {
     return GetObjectInformationResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
       schemaFacets: (json['SchemaFacets'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6259,7 +6259,7 @@ class GetTypedLinkFacetInformationResponse {
       Map<String, dynamic> json) {
     return GetTypedLinkFacetInformationResponse(
       identityAttributeOrder: (json['IdentityAttributeOrder'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6303,7 +6303,7 @@ class IndexAttachment {
   factory IndexAttachment.fromJson(Map<String, dynamic> json) {
     return IndexAttachment(
       indexedAttributes: (json['IndexedAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -6554,7 +6554,7 @@ class ListAppliedSchemaArnsResponse {
     return ListAppliedSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
       schemaArns: (json['SchemaArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6576,7 +6576,7 @@ class ListAttachedIndicesResponse {
   factory ListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
     return ListAttachedIndicesResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6601,7 +6601,7 @@ class ListDevelopmentSchemaArnsResponse {
     return ListDevelopmentSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
       schemaArns: (json['SchemaArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6624,7 +6624,7 @@ class ListDirectoriesResponse {
   factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) {
     return ListDirectoriesResponse(
       directories: (json['Directories'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Directory.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6647,7 +6647,7 @@ class ListFacetAttributesResponse {
   factory ListFacetAttributesResponse.fromJson(Map<String, dynamic> json) {
     return ListFacetAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => FacetAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6670,7 +6670,7 @@ class ListFacetNamesResponse {
   factory ListFacetNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListFacetNamesResponse(
       facetNames: (json['FacetNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6693,7 +6693,7 @@ class ListIncomingTypedLinksResponse {
   factory ListIncomingTypedLinksResponse.fromJson(Map<String, dynamic> json) {
     return ListIncomingTypedLinksResponse(
       linkSpecifiers: (json['LinkSpecifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6716,7 +6716,7 @@ class ListIndexResponse {
   factory ListIndexResponse.fromJson(Map<String, dynamic> json) {
     return ListIndexResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6740,7 +6740,7 @@ class ListObjectAttributesResponse {
   factory ListObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6788,7 +6788,7 @@ class ListObjectParentPathsResponse {
       nextToken: json['NextToken'] as String?,
       pathToObjectIdentifiersList:
           (json['PathToObjectIdentifiersList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) =>
                   PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
               .toList(),
@@ -6834,7 +6834,7 @@ class ListObjectPoliciesResponse {
   factory ListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectPoliciesResponse(
       attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -6858,7 +6858,7 @@ class ListOutgoingTypedLinksResponse {
     return ListOutgoingTypedLinksResponse(
       nextToken: json['NextToken'] as String?,
       typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6881,7 +6881,7 @@ class ListPolicyAttachmentsResponse {
     return ListPolicyAttachmentsResponse(
       nextToken: json['NextToken'] as String?,
       objectIdentifiers: (json['ObjectIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6904,7 +6904,7 @@ class ListPublishedSchemaArnsResponse {
     return ListPublishedSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
       schemaArns: (json['SchemaArns'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
     );
@@ -6928,7 +6928,7 @@ class ListTagsForResourceResponse {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -6951,7 +6951,7 @@ class ListTypedLinkFacetAttributesResponse {
       Map<String, dynamic> json) {
     return ListTypedLinkFacetAttributesResponse(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               TypedLinkAttributeDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6975,7 +6975,7 @@ class ListTypedLinkFacetNamesResponse {
   factory ListTypedLinkFacetNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListTypedLinkFacetNamesResponse(
       facetNames: (json['FacetNames'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -7002,7 +7002,7 @@ class LookupPolicyResponse {
     return LookupPolicyResponse(
       nextToken: json['NextToken'] as String?,
       policyToPathList: (json['PolicyToPathList'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7237,7 +7237,7 @@ class PathToObjectIdentifiers {
   factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) {
     return PathToObjectIdentifiers(
       objectIdentifiers: (json['ObjectIdentifiers'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       path: json['Path'] as String?,
@@ -7295,7 +7295,7 @@ class PolicyToPath {
     return PolicyToPath(
       path: json['Path'] as String?,
       policies: (json['Policies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => PolicyAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -7873,7 +7873,7 @@ class TypedLinkSpecifier {
   factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
     return TypedLinkSpecifier(
       identityAttributeValues: (json['IdentityAttributeValues'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceObjectReference: ObjectReference.fromJson(

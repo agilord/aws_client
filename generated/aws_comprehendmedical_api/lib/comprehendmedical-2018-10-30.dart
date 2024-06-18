@@ -1241,7 +1241,7 @@ class Attribute {
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Trait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(EntitySubType.fromString),
@@ -1571,13 +1571,13 @@ class DetectEntitiesResponse {
   factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return DetectEntitiesResponse(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelVersion: json['ModelVersion'] as String,
       paginationToken: json['PaginationToken'] as String?,
       unmappedAttributes: (json['UnmappedAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1615,13 +1615,13 @@ class DetectEntitiesV2Response {
   factory DetectEntitiesV2Response.fromJson(Map<String, dynamic> json) {
     return DetectEntitiesV2Response(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelVersion: json['ModelVersion'] as String,
       paginationToken: json['PaginationToken'] as String?,
       unmappedAttributes: (json['UnmappedAttributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => UnmappedAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1654,7 +1654,7 @@ class DetectPHIResponse {
   factory DetectPHIResponse.fromJson(Map<String, dynamic> json) {
     return DetectPHIResponse(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelVersion: json['ModelVersion'] as String,
@@ -1711,7 +1711,7 @@ class Entity {
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
@@ -1721,7 +1721,7 @@ class Entity {
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Trait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(EntitySubType.fromString),
@@ -1880,7 +1880,7 @@ class ICD10CMAttribute {
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(ICD10CMAttributeType.fromString),
@@ -2001,7 +2001,7 @@ class ICD10CMEntity {
   factory ICD10CMEntity.fromJson(Map<String, dynamic> json) {
     return ICD10CMEntity(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
@@ -2009,14 +2009,14 @@ class ICD10CMEntity {
           (json['Category'] as String?)?.let(ICD10CMEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       iCD10CMConcepts: (json['ICD10CMConcepts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as int?,
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(ICD10CMEntityType.fromString),
@@ -2138,7 +2138,7 @@ class InferICD10CMResponse {
   factory InferICD10CMResponse.fromJson(Map<String, dynamic> json) {
     return InferICD10CMResponse(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ICD10CMEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelVersion: json['ModelVersion'] as String?,
@@ -2172,7 +2172,7 @@ class InferRxNormResponse {
   factory InferRxNormResponse.fromJson(Map<String, dynamic> json) {
     return InferRxNormResponse(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => RxNormEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       modelVersion: json['ModelVersion'] as String?,
@@ -2216,7 +2216,7 @@ class InferSNOMEDCTResponse {
   factory InferSNOMEDCTResponse.fromJson(Map<String, dynamic> json) {
     return InferSNOMEDCTResponse(
       entities: (json['Entities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => SNOMEDCTEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       characters: json['Characters'] != null
@@ -2315,7 +2315,7 @@ class ListEntitiesDetectionV2JobsResponse {
     return ListEntitiesDetectionV2JobsResponse(
       comprehendMedicalAsyncJobPropertiesList:
           (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2341,7 +2341,7 @@ class ListICD10CMInferenceJobsResponse {
     return ListICD10CMInferenceJobsResponse(
       comprehendMedicalAsyncJobPropertiesList:
           (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2367,7 +2367,7 @@ class ListPHIDetectionJobsResponse {
     return ListPHIDetectionJobsResponse(
       comprehendMedicalAsyncJobPropertiesList:
           (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2393,7 +2393,7 @@ class ListRxNormInferenceJobsResponse {
     return ListRxNormInferenceJobsResponse(
       comprehendMedicalAsyncJobPropertiesList:
           (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2420,7 +2420,7 @@ class ListSNOMEDCTInferenceJobsResponse {
     return ListSNOMEDCTInferenceJobsResponse(
       comprehendMedicalAsyncJobPropertiesList:
           (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
-              ?.whereNotNull()
+              ?.nonNulls
               .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
@@ -2558,7 +2558,7 @@ class RxNormAttribute {
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(RxNormAttributeType.fromString),
@@ -2676,7 +2676,7 @@ class RxNormEntity {
   factory RxNormEntity.fromJson(Map<String, dynamic> json) {
     return RxNormEntity(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
@@ -2685,13 +2685,13 @@ class RxNormEntity {
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       rxNormConcepts: (json['RxNormConcepts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(RxNormEntityType.fromString),
@@ -2841,13 +2841,13 @@ class SNOMEDCTAttribute {
       relationshipType: (json['RelationshipType'] as String?)
           ?.let(SNOMEDCTRelationshipType.fromString),
       sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(SNOMEDCTAttributeType.fromString),
@@ -2993,7 +2993,7 @@ class SNOMEDCTEntity {
   factory SNOMEDCTEntity.fromJson(Map<String, dynamic> json) {
     return SNOMEDCTEntity(
       attributes: (json['Attributes'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SNOMEDCTAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       beginOffset: json['BeginOffset'] as int?,
@@ -3002,13 +3002,13 @@ class SNOMEDCTEntity {
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
       sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
       score: json['Score'] as double?,
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: (json['Type'] as String?)?.let(SNOMEDCTEntityType.fromString),

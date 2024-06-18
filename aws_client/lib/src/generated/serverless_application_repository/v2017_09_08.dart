@@ -932,16 +932,14 @@ class ApplicationPolicyStatement {
 
   factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicyStatement(
-      actions: (json['actions'] as List)
-          .whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      actions:
+          (json['actions'] as List).nonNulls.map((e) => e as String).toList(),
       principals: (json['principals'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       principalOrgIDs: (json['principalOrgIDs'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       statementId: json['statementId'] as String?,
@@ -1023,10 +1021,8 @@ class ApplicationSummary {
       name: json['name'] as String,
       creationTime: json['creationTime'] as String?,
       homePageUrl: json['homePageUrl'] as String?,
-      labels: (json['labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       spdxLicenseId: json['spdxLicenseId'] as String?,
     );
   }
@@ -1159,10 +1155,8 @@ class CreateApplicationResponse {
       description: json['description'] as String?,
       homePageUrl: json['homePageUrl'] as String?,
       isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
-      labels: (json['labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       licenseUrl: json['licenseUrl'] as String?,
       name: json['name'] as String?,
       readmeUrl: json['readmeUrl'] as String?,
@@ -1314,11 +1308,11 @@ class CreateApplicationVersionResponse {
       applicationId: json['applicationId'] as String?,
       creationTime: json['creationTime'] as String?,
       parameterDefinitions: (json['parameterDefinitions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ParameterDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       requiredCapabilities: (json['requiredCapabilities'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Capability.fromString((e as String)))
           .toList(),
       resourcesSupported: json['resourcesSupported'] as bool?,
@@ -1497,7 +1491,7 @@ class GetApplicationPolicyResponse {
   factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationPolicyResponse(
       statements: (json['statements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1601,10 +1595,8 @@ class GetApplicationResponse {
       description: json['description'] as String?,
       homePageUrl: json['homePageUrl'] as String?,
       isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
-      labels: (json['labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       licenseUrl: json['licenseUrl'] as String?,
       name: json['name'] as String?,
       readmeUrl: json['readmeUrl'] as String?,
@@ -1741,7 +1733,7 @@ class ListApplicationDependenciesResponse {
       Map<String, dynamic> json) {
     return ListApplicationDependenciesResponse(
       dependencies: (json['dependencies'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ApplicationDependencySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1775,7 +1767,7 @@ class ListApplicationVersionsResponse {
     return ListApplicationVersionsResponse(
       nextToken: json['nextToken'] as String?,
       versions: (json['versions'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => VersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -1806,7 +1798,7 @@ class ListApplicationsResponse {
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applications: (json['applications'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
@@ -1945,12 +1937,12 @@ class ParameterDefinition {
     return ParameterDefinition(
       name: json['name'] as String,
       referencedByResources: (json['referencedByResources'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => e as String)
           .toList(),
       allowedPattern: json['allowedPattern'] as String?,
       allowedValues: (json['allowedValues'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => e as String)
           .toList(),
       constraintDescription: json['constraintDescription'] as String?,
@@ -2034,7 +2026,7 @@ class PutApplicationPolicyResponse {
   factory PutApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
     return PutApplicationPolicyResponse(
       statements: (json['statements'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) =>
               ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2249,10 +2241,8 @@ class UpdateApplicationResponse {
       description: json['description'] as String?,
       homePageUrl: json['homePageUrl'] as String?,
       isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
-      labels: (json['labels'] as List?)
-          ?.whereNotNull()
-          .map((e) => e as String)
-          .toList(),
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
       licenseUrl: json['licenseUrl'] as String?,
       name: json['name'] as String?,
       readmeUrl: json['readmeUrl'] as String?,
@@ -2405,11 +2395,11 @@ class Version {
       applicationId: json['applicationId'] as String,
       creationTime: json['creationTime'] as String,
       parameterDefinitions: (json['parameterDefinitions'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => ParameterDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       requiredCapabilities: (json['requiredCapabilities'] as List)
-          .whereNotNull()
+          .nonNulls
           .map((e) => Capability.fromString((e as String)))
           .toList(),
       resourcesSupported: json['resourcesSupported'] as bool,

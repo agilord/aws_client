@@ -1754,7 +1754,7 @@ class GetImagesOutput {
   factory GetImagesOutput.fromJson(Map<String, dynamic> json) {
     return GetImagesOutput(
       images: (json['Images'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
@@ -2072,7 +2072,7 @@ class ListFragmentsOutput {
   factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListFragmentsOutput(
       fragments: (json['Fragments'] as List?)
-          ?.whereNotNull()
+          ?.nonNulls
           .map((e) => Fragment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
