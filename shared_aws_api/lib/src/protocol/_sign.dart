@@ -34,7 +34,7 @@ void signAws4HmacSha256({
   final payloadHash = sha256.convert(rq.bodyBytes).toString();
   final canonical = [
     rq.method.toUpperCase(),
-    Uri.encodeFull(rq.url.path),
+    rq.url.path,
     canonicalQueryParametersAll(rq.url.queryParametersAll),
     ...canonicalHeaders,
     '',
