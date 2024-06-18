@@ -3,6 +3,7 @@
 ## 0.6.0
 
 - Expose `package:aws_client/credential_providers.dart` for advanced options to resolve the `AwsClientCredentials`
+- Remove double-encode of request URI when generating signature for S3
 - Internal refactoring of the query protocol
 - Internal refactor of enums serialization
 
