@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Allow `package:intl` version 0.20.x
+
 ## 0.6.0
 
 - Expose `package:aws_client/credential_providers.dart` for advanced options to resolve the `AwsClientCredentials`
