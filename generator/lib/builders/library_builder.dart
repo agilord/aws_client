@@ -39,6 +39,7 @@ String buildService(Api api,
 
   final buf = StringBuffer()..writeln("""
 // ignore_for_file: deprecated_member_use_from_same_package
+// ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import

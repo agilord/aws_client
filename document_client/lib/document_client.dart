@@ -21,16 +21,16 @@ export 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 ///
 /// | Dart Type                                    | DynamoDB AttributeValue |
 /// |:--------------------------------------------:|-------------------------|
-/// | String                                       | S                       |
-/// | int, double                                  | N                       |
-/// | bool                                         | BOOL                    |
-/// | null                                         | NULL                    |
-/// | List<num>                                    | NS                      |
-/// | List<Uint8List>                              | BS                      |
-/// | Set<String>                                  | SS                      |
-/// | List                                         | L                       |
-/// | Map                                          | M                       |
-/// | Uint8List                                    | B                       |
+/// | `String`                                     | S                       |
+/// | `int`, `double`                              | N                       |
+/// | `bool`                                       | BOOL                    |
+/// | `null`                                       | NULL                    |
+/// | `List<num>`                                  | NS                      |
+/// | `List<Uint8List>`                            | BS                      |
+/// | `Set<String>`                                | SS                      |
+/// | `List`                                       | L                       |
+/// | `Map`                                        | M                       |
+/// | `Uint8List`                                  | B                       |
 ///
 /// ## Support for Sets
 ///
